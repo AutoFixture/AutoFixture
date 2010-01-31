@@ -74,6 +74,8 @@
     <Compile Include="CustomizedObjectFactory.cs" />
     <Compile Include="GuidGenerator.cs" />
     <Compile Include="IBuilder.cs" />
+    <Compile Include="IInstanceGenerator.cs" />
+    <Compile Include="InstanceGenerator.cs" />
     <Compile Include="MemberAnnotatedAction.cs" />
     <Compile Include="BooleanSwitch.cs" />
     <Compile Include="ByteSequenceGenerator.cs" />
@@ -100,6 +102,7 @@
     <Compile Include="GuidStringGenerator.cs" />
     <Compile Include="PropertyAccessor.cs" />
     <Compile Include="PropertyAccessorFactory.cs" />
+    <Compile Include="PropertyBasedInstanceGenerator.cs" />
     <Compile Include="SByteSequenceGenerator.cs" />
     <Compile Include="SingleSequenceGenerator.cs" />
     <Compile Include="UInt16SequenceGenerator.cs" />

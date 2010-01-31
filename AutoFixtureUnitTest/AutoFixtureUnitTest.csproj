@@ -58,6 +58,9 @@
     <Compile Include="ByteSequenceGeneratorTest.cs" />
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
     <Compile Include="DoubleSequenceGeneratorTest.cs" />
+    <Compile Include="InstanceGeneratorTest.cs" />
+    <Compile Include="MockInstanceGenerator.cs" />
+    <Compile Include="PropertyBasedInstanceGeneratorTest.cs" />
     <Compile Include="TemplatedLikenessTest.cs" />
     <Compile Include="GuidGeneratorTest.cs" />
     <Compile Include="GuidStringGeneratorTest.cs" />
