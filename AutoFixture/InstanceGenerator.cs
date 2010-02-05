@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture
     /// <summary>
     /// Default reusable implementation of <see cref="IInstanceGenerator" />
     /// </summary>
-    public abstract class InstanceGenerator : IInstanceGenerator
+    public class InstanceGenerator : IInstanceGenerator
     {
         private readonly IInstanceGenerator parent;
 
@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture
         /// parent.
         /// </summary>
         /// <param name="parent">The parent.</param>
-        protected InstanceGenerator(IInstanceGenerator parent)
+        public InstanceGenerator(IInstanceGenerator parent)
         {
             if (parent == null)
             {
@@ -84,7 +84,10 @@ namespace Ploeh.AutoFixture
         /// A <see cref="InstanceGenerator.GeneratorStrategy"/> that implements the behavior of the
         /// derived type.
         /// </returns>
-        protected abstract GeneratorStrategy CreateStrategy(ICustomAttributeProvider attributeProvider);
+        protected virtual GeneratorStrategy CreateStrategy(ICustomAttributeProvider attributeProvider)
+        {
+            return new ParentGeneratorStrategy(this.Parent, attributeProvider);
+        }
 
         /// <summary>
         /// A strategy that implements the behavior for a type deriving from
@@ -143,5 +146,24 @@ namespace Ploeh.AutoFixture
                 get { return this.parent; }
             }
         }
+
+        private class ParentGeneratorStrategy : GeneratorStrategy
+        {
+            internal ParentGeneratorStrategy(IInstanceGenerator parent, ICustomAttributeProvider attributeProvider)
+                : base(parent, attributeProvider)
+            {
+            }
+
+            public override bool CanGenerate()
+            {
+                return this.Parent.CanGenerate(this.AttributeProvider);
+            }
+
+            public override object Generate()
+            {
+                return this.Parent.Generate(this.AttributeProvider);
+            }
+        }
+
     }
 }

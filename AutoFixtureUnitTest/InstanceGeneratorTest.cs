@@ -90,6 +90,56 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [TestMethod]
+        public void ByDefaultCanGenerateWillReturnFalseIfParentCannotGenerate()
+        {
+            // Fixture setup
+            var parent = new MockInstanceGenerator { CanGenerateCallback = ap => false };
+            var dummyMemberInfo = typeof(object);
+
+            var sut = new InstanceGenerator(parent);
+            // Exercise system
+            var result = sut.CanGenerate(dummyMemberInfo);
+            // Verify outcome
+            Assert.IsFalse(result, "CanGenerate");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void ByDefaultCanGenerateWillReturnTrueIfParentCanGenerate()
+        {
+            // Fixture setup
+            var parent = new MockInstanceGenerator { CanGenerateCallback = ap => true };
+            var dummyMemberInfo = typeof(object);
+
+            var sut = new InstanceGenerator(parent);
+            // Exercise system
+            var result = sut.CanGenerate(dummyMemberInfo);
+            // Verify outcome
+            Assert.IsTrue(result, "CanGenerate");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void ByDefaultGenerateWillReturnResultFromParent()
+        {
+            // Fixture setup
+            var expectedResult = new object();
+            var parent = new MockInstanceGenerator
+            {
+                CanGenerateCallback = ap => true,
+                GenerateCallback = ap => expectedResult
+            };
+            var dummyMemberInfo = typeof(object);
+
+            var sut = new InstanceGenerator(parent);
+            // Exercise system
+            var result = sut.Generate(dummyMemberInfo);
+            // Verify outcome
+            Assert.AreEqual(expectedResult, result, "Generate");
+            // Teardown
+        }
+
         private class TestableInstanceGenerator : InstanceGenerator
         {
             internal TestableInstanceGenerator(IInstanceGenerator parent)
@@ -98,16 +148,6 @@ namespace Ploeh.AutoFixtureUnitTest
                 this.CanGenerateCallback = ap => false;
                 this.GenerateCallback = ap => new object();
             }
-
-            //public override bool CanGenerate(ICustomAttributeProvider attributeProvider)
-            //{
-            //    return this.CanGenerateCallback(attributeProvider);
-            //}
-
-            //protected override object GenerateCore(ICustomAttributeProvider attributeProvider)
-            //{
-            //    return this.GenerateCallback(attributeProvider);
-            //}
 
             protected override InstanceGenerator.GeneratorStrategy CreateStrategy(ICustomAttributeProvider attributeProvider)
             {
