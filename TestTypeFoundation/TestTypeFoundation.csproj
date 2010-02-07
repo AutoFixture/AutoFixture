@@ -52,6 +52,7 @@
     <Compile Include="AbstractType.cs" />
     <Compile Include="CollectionHolder.cs" />
     <Compile Include="ConcreteType.cs" />
+    <Compile Include="DataErrorInfo.cs" />
     <Compile Include="DoubleFieldHolder.cs" />
     <Compile Include="DoubleParameterType.cs" />
     <Compile Include="DoublePropertyHolder.cs" />

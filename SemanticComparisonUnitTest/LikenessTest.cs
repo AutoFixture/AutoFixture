@@ -417,7 +417,29 @@ namespace Ploeh.SemanticComparison.UnitTest
             var comparee = new TypeWithIndexer();
 
             // The rest of the test
-            LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
+            LikenessTest.CompareLikenessToObject(likenObject, comparee, true);
+        }
+
+        /// <summary>
+        /// This test reproduces a bug.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This test reproduces a bug where comparing these two instances causes the following
+        /// exception to be thrown: "System.Security.VerificationException: Operation could
+        /// destabilize the runtime."
+        /// </para>
+        /// </remarks>
+        [TestMethod]
+        public void LikenessAgainstDataErrorInfoWillNotThrow()
+        {
+            // Fixture setup
+            var likenObject = new DataErrorInfo();
+
+            var comparee = new DataErrorInfo();
+
+            // The rest of the test
+            LikenessTest.CompareLikenessToObject(likenObject, comparee, true);
         }
 
         [TestMethod]

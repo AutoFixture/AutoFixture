@@ -13,6 +13,12 @@ namespace Ploeh.SemanticComparison
 
         internal static Func<TSource, TDestination, bool> ToEvaluator<TSource, TDestination>(this MemberInfo member)
         {
+            var property = member as PropertyInfo;
+            if ((property != null) && (property.GetIndexParameters().Length > 0))
+            {
+                return (TSource s, TDestination d) => true;
+            }
+
             var srcParam = Expression.Parameter(typeof(TSource), "x");
             var destParam = Expression.Parameter(typeof(TDestination), "y");
 
