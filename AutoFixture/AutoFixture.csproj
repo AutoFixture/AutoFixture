@@ -75,7 +75,7 @@
     <Compile Include="GuidGenerator.cs" />
     <Compile Include="IBuilder.cs" />
     <Compile Include="IInstanceGenerator.cs" />
-    <Compile Include="InstanceGenerator.cs" />
+    <Compile Include="InstanceGeneratorNode.cs" />
     <Compile Include="MemberAnnotatedAction.cs" />
     <Compile Include="BooleanSwitch.cs" />
     <Compile Include="ByteSequenceGenerator.cs" />

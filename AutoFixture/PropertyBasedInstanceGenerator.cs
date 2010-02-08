@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture
     /// <summary>
     /// Generates instances based on <see cref="PropertyInfo"/> instances.
     /// </summary>
-    public class PropertyBasedInstanceGenerator : InstanceGenerator
+    public class PropertyBasedInstanceGenerator : InstanceGeneratorNode
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyBasedInstanceGenerator" /> class
@@ -22,17 +22,17 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Creates a new <see cref="InstanceGenerator.GeneratorStrategy" /> instance that
+        /// Creates a new <see cref="InstanceGeneratorNode.GeneratorStrategy" /> instance that
         /// implements the behavior of <see cref="PropertyBasedInstanceGenerator" />.
         /// </summary>
         /// <param name="attributeProvider">
         /// A <see cref="ICustomAttributeProvider" /> instance.
         /// </param>
         /// <returns>
-        /// A <see cref="InstanceGenerator.GeneratorStrategy"/> that implements the behavior of 
+        /// A <see cref="InstanceGeneratorNode.GeneratorStrategy"/> that implements the behavior of 
         /// <see cref="PropertyBasedInstanceGenerator" />.
         /// </returns>
-        protected override InstanceGenerator.GeneratorStrategy CreateStrategy(ICustomAttributeProvider attributeProvider)
+        protected override InstanceGeneratorNode.GeneratorStrategy CreateStrategy(ICustomAttributeProvider attributeProvider)
         {
             return new PropertyGeneratorStrategy(this.Parent, attributeProvider);
         }

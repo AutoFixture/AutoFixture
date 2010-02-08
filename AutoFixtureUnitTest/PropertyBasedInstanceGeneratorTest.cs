@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var sut = new PropertyBasedInstanceGenerator(new MockInstanceGenerator());
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(InstanceGenerator));
+            Assert.IsInstanceOfType(sut, typeof(InstanceGeneratorNode));
             // Teardown
         }
 
