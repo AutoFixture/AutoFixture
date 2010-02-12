@@ -61,6 +61,7 @@
     <Compile Include="InstanceGeneratorNodeTest.cs" />
     <Compile Include="MockInstanceGenerator.cs" />
     <Compile Include="PropertyBasedInstanceGeneratorTest.cs" />
+    <Compile Include="SeedTest.cs" />
     <Compile Include="TemplatedLikenessTest.cs" />
     <Compile Include="GuidGeneratorTest.cs" />
     <Compile Include="GuidStringGeneratorTest.cs" />

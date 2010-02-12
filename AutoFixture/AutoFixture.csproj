@@ -104,6 +104,7 @@
     <Compile Include="PropertyAccessorFactory.cs" />
     <Compile Include="PropertyBasedInstanceGenerator.cs" />
     <Compile Include="SByteSequenceGenerator.cs" />
+    <Compile Include="Seed.cs" />
     <Compile Include="SingleSequenceGenerator.cs" />
     <Compile Include="UInt16SequenceGenerator.cs" />
     <Compile Include="UInt32SequenceGenerator.cs" />
