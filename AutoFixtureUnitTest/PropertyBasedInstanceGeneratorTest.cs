@@ -1,9 +1,5 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ploeh.AutoFixture;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixtureUnitTest
