@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixtureUnitTest
     public class PropertyBasedInstanceGeneratorTest
     {
         [TestMethod]
-        public void SutIsInstanceGenerator()
+        public void SutIsInstanceGeneratorNode()
         {
             // Fixture setup
             // Exercise system
