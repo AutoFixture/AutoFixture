@@ -139,8 +139,9 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public ObjectBuilder<T> Do(Action<T> action)
         {
-            this.actions.Add(new MemberAnnotatedAction<T>(action));
-            return this;
+            var clone = this.Clone();
+            clone.actions.Add(new MemberAnnotatedAction<T>(action));
+            return clone;
         }
 
         /// <summary>
@@ -153,8 +154,9 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public ObjectBuilder<T> OmitAutoProperties()
         {
-            this.omitAutoProperties = true;
-            return this;
+            var clone = this.Clone();
+            clone.omitAutoProperties = true;
+            return clone;
         }
 
         /// <summary>
@@ -213,9 +215,11 @@ namespace Ploeh.AutoFixture
         public ObjectBuilder<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
             MemberExpression me = (MemberExpression)propertyPicker.Body;
-            this.actions.Add(AccessorFactory.Create(me.Member).CreateAssignment((t, s) => value).ToAnnotatedAction<T>());
+            var action = AccessorFactory.Create(me.Member).CreateAssignment((t, s) => value).ToAnnotatedAction<T>();
 
-            return this;
+            var clone = this.Clone();
+            clone.actions.Add(action);
+            return clone;
         }
 
         /// <summary>
@@ -238,9 +242,11 @@ namespace Ploeh.AutoFixture
         public ObjectBuilder<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
             MemberExpression me = (MemberExpression)propertyPicker.Body;
-            this.actions.Add(new NullAccessor(me.Member).ToAnnotatedAction<T>());
+            var action = new NullAccessor(me.Member).ToAnnotatedAction<T>();
 
-            return this;
+            var clone = this.Clone();
+            clone.actions.Add(action);
+            return clone;
         }
 
         #region IBuilder Members
@@ -257,6 +263,12 @@ namespace Ploeh.AutoFixture
         #endregion
 
         /// <summary>
+        /// Returns a new instance with the same properties as the current instance.
+        /// </summary>
+        /// <returns>A clone of the current instance.</returns>
+        protected abstract ObjectBuilder<T> CloneCore();
+
+        /// <summary>
         /// Creates an anonymous object.
         /// </summary>
         /// <returns>An anonymous object.</returns>
@@ -265,6 +277,13 @@ namespace Ploeh.AutoFixture
         internal CustomizedObjectFactory CustomizedFactory
         {
             get { return this.customizedFactory; }
+        }
+
+        private ObjectBuilder<T> Clone()
+        {
+            var clone = this.CloneCore();
+            clone.actions.AddRange(this.actions);
+            return clone;
         }
 
         private static Func<Type, object> EnsureResolveCallback(Func<Type, object> resolveCallback)

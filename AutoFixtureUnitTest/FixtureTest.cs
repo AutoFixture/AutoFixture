@@ -1601,5 +1601,18 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.AreEqual(frozen.Property2, result.Property2, "Freeze");
             // Teardown
         }
+
+        [TestMethod]
+        public void CreateManyWithDoCustomizationWillReturnCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Customize<List<string>>(ob => ob.Do(sut.AddManyTo).OmitAutoProperties());
+            // Exercise system
+            var result = sut.CreateMany<List<string>>();
+            // Verify outcome
+            Assert.IsTrue(result.All(l => l.Count == sut.RepeatCount), "Customize/Do/CreateMany");
+            // Teardown
+        }
     }
 }

@@ -37,6 +37,15 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
+        /// Returns a new instance with the same properties as the current instance.
+        /// </summary>
+        /// <returns>A clone of the current instance.</returns>
+        protected override ObjectBuilder<T> CloneCore()
+        {
+            return this.CustomizedFactory.CreateConstructingBuilder<T>(this.creator);
+        }
+
+        /// <summary>
         /// Returns an object created by the function supplied through the instance's constructor.
         /// </summary>
         /// <returns>

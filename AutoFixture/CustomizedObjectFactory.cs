@@ -58,6 +58,11 @@ namespace Ploeh.AutoFixture
             return new ConstructingObjectBuilder<T>(this.typeMappings, this.repeatCount, this.resolve, creator);
         }
 
+        internal LatentObjectBuilder<T> CreateLatentBuilder<T>()
+        {
+            return new LatentObjectBuilder<T>(this.typeMappings, this.repeatCount, this.resolve);
+        }
+
         internal object CreateNamedObject(Type t, string name)
         {
             object seed = null;

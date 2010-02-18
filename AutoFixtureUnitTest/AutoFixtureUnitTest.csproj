@@ -60,6 +60,7 @@
     <Compile Include="DoubleSequenceGeneratorTest.cs" />
     <Compile Include="InstanceGeneratorNodeTest.cs" />
     <Compile Include="MockInstanceGenerator.cs" />
+    <Compile Include="ModestConstructorInvokerTest.cs" />
     <Compile Include="ParameterBasedInstanceGeneratorTest.cs" />
     <Compile Include="PropertyBasedInstanceGeneratorTest.cs" />
     <Compile Include="StringSeedUnwrapperTest.cs" />

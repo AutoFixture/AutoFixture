@@ -267,6 +267,59 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [TestMethod]
+        public void OmitAutoPropetiesWillNotMutateSut()
+        {
+            // Fixture setup
+            var sut = ObjectBuilderTest.CreateSut(new PropertyHolder<string>());
+            // Exercise system
+            sut.OmitAutoProperties();
+            // Verify outcome
+            var instance = sut.CreateAnonymous();
+            Assert.IsNotNull(instance.Property, "OmitAutoProperties");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void AnonymousWithWillNotMutateSut()
+        {
+            // Fixture setup
+            var sut = ObjectBuilderTest.CreateSut(new PropertyHolder<string>()).OmitAutoProperties();
+            // Exercise system
+            sut.With(s => s.Property);
+            // Verify outcome
+            var instance = sut.CreateAnonymous();
+            Assert.IsNull(instance.Property, "With");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void WithWillNotMutateSut()
+        {
+            // Fixture setup
+            var unexpectedProperty = "Anonymous value";
+            var sut = ObjectBuilderTest.CreateSut(new PropertyHolder<string>());
+            // Exercise system
+            sut.With(s => s.Property, unexpectedProperty);
+            // Verify outcome
+            var instance = sut.CreateAnonymous();
+            Assert.AreNotEqual(unexpectedProperty, instance.Property, "Wtih");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void WithoutWillNotMutateSut()
+        {
+            // Fixture setup
+            var sut = ObjectBuilderTest.CreateSut(new PropertyHolder<string>());
+            // Exercise system
+            sut.Without(s => s.Property);
+            // Verify outcome
+            var instance = sut.CreateAnonymous();
+            Assert.IsNotNull(instance.Property, "Without");
+            // Teardown
+        }
+
         private static TestableObjectBuilder<T> CreateSut<T>(T obj)
         {
             Fixture f = new Fixture();
@@ -290,13 +343,25 @@ namespace Ploeh.AutoFixtureUnitTest
 
         private class TestableObjectBuilder<T> : ObjectBuilder<T>
         {
+            private readonly IDictionary<Type, Func<object, object>> typeMappings;
+            private readonly int repeatCount;
+            private readonly Func<Type, object> resolve;
+
             internal TestableObjectBuilder(IDictionary<Type, Func<object, object>> typeMappings, int repeatCount, Func<Type, object> resolve, T obj)
                 : base(typeMappings, repeatCount, resolve)
             {
+                this.typeMappings = typeMappings;
+                this.repeatCount = repeatCount;
+                this.resolve = resolve;
                 this.CreatedObject = obj;
             }
 
             internal T CreatedObject { get; private set; }
+
+            protected override ObjectBuilder<T> CloneCore()
+            {
+                return new TestableObjectBuilder<T>(this.typeMappings, this.repeatCount, this.resolve, this.CreatedObject);
+            }
 
             protected override T Create(T seed)
             {

@@ -76,6 +76,7 @@
     <Compile Include="IBuilder.cs" />
     <Compile Include="Kernel\IInstanceGenerator.cs" />
     <Compile Include="Kernel\InstanceGeneratorNode.cs" />
+    <Compile Include="Kernel\ModestConstructorInvoker.cs" />
     <Compile Include="Kernel\ParameterBasedInstanceGenerator.cs" />
     <Compile Include="Kernel\StringSeedUnwrapper.cs" />
     <Compile Include="Kernel\ValueIgnoringSeedUnwrapper.cs" />

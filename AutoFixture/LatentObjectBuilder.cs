@@ -180,6 +180,15 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
+        /// Returns a new instance with the same properties as the current instance.
+        /// </summary>
+        /// <returns>A clone of the current instance.</returns>
+        protected override ObjectBuilder<T> CloneCore()
+        {
+            return this.CustomizedFactory.CreateLatentBuilder<T>();
+        }
+
+        /// <summary>
         /// Creates an anonymous object.
         /// </summary>
         /// <returns>An anonymous object.</returns>
