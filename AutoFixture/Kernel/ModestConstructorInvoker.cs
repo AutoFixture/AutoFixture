@@ -25,26 +25,26 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates a new <see cref="InstanceGeneratorNode.GeneratorStrategy" /> instance that
         /// implements the behavior of <see cref="ModestConstructorGeneratorStrategy" />.
         /// </summary>
-        /// <param name="attributeProvider">
+        /// <param name="request">
         /// A <see cref="ICustomAttributeProvider" /> instance.
         /// </param>
         /// <returns>
         /// A <see cref="InstanceGeneratorNode.GeneratorStrategy"/> that implements the behavior of 
         /// <see cref="ModestConstructorGeneratorStrategy" />.
         /// </returns>
-        protected override InstanceGeneratorNode.GeneratorStrategy CreateStrategy(ICustomAttributeProvider attributeProvider)
+        protected override InstanceGeneratorNode.GeneratorStrategy CreateStrategy(ICustomAttributeProvider request)
         {
-            return new ModestConstructorGeneratorStrategy(this.Parent, attributeProvider);
+            return new ModestConstructorGeneratorStrategy(this.Parent, request);
         }
 
         private class ModestConstructorGeneratorStrategy : GeneratorStrategy
         {
             private readonly ConstructorInfo ctor;
 
-            internal ModestConstructorGeneratorStrategy(IInstanceGenerator parent, ICustomAttributeProvider attributeProvider)
-                : base(parent, attributeProvider)
+            internal ModestConstructorGeneratorStrategy(IInstanceGenerator parent, ICustomAttributeProvider request)
+                : base(parent, request)
             {
-                this.ctor = ModestConstructorGeneratorStrategy.GetModestConstructor(attributeProvider);
+                this.ctor = ModestConstructorGeneratorStrategy.GetModestConstructor(request);
             }
 
             public override bool CanGenerate()
@@ -65,9 +65,9 @@ namespace Ploeh.AutoFixture.Kernel
                 return this.ctor.Invoke(paramValues.ToArray());
             }
 
-            private static ConstructorInfo GetModestConstructor(ICustomAttributeProvider attributeProvider)
+            private static ConstructorInfo GetModestConstructor(ICustomAttributeProvider request)
             {
-                var requestedType = attributeProvider as Type;
+                var requestedType = request as Type;
                 if (requestedType == null)
                 {
                     return null;

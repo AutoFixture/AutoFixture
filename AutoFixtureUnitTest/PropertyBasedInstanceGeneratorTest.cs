@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var propertyInfo = typeof(PropertyHolder<string>).GetProperty("Property");
-            var parent = new MockInstanceGenerator { CanGenerateCallback = ap => false };
+            var parent = new MockInstanceGenerator { CanGenerateCallback = r => false };
             var sut = new PropertyBasedInstanceGenerator(parent);
             // Exercise system
             var result = sut.CanGenerate(propertyInfo);
@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var propertyInfo = typeof(PropertyHolder<string>).GetProperty("Property");
-            var parent = new MockInstanceGenerator { CanGenerateCallback = ap => true };
+            var parent = new MockInstanceGenerator { CanGenerateCallback = r => true };
             var sut = new PropertyBasedInstanceGenerator(parent);
             // Exercise system
             var result = sut.CanGenerate(propertyInfo);
@@ -79,8 +79,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var expectedInstance = new object();
             var parent = new MockInstanceGenerator
             {
-                CanGenerateCallback = ap => true,
-                GenerateCallback = ap => expectedInstance
+                CanGenerateCallback = r => true,
+                GenerateCallback = r => expectedInstance
             };
 
             var sut = new PropertyBasedInstanceGenerator(parent);
@@ -102,9 +102,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var parent = new MockInstanceGenerator
             {
                 CanGenerateCallback = expectedSeed.Equals,
-                GenerateCallback = ap =>
+                GenerateCallback = r =>
                     {
-                        Assert.AreEqual(expectedSeed, ap, "Generate");
+                        Assert.AreEqual(expectedSeed, r, "Generate");
                         return new object();
                     }
             };

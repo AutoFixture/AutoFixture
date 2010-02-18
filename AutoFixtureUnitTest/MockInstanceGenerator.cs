@@ -8,18 +8,18 @@ namespace Ploeh.AutoFixtureUnitTest
     {
         public MockInstanceGenerator()
         {
-            this.CanGenerateCallback = ap => false;
-            this.GenerateCallback = ap => new object();
+            this.CanGenerateCallback = r => false;
+            this.GenerateCallback = r => new object();
         }
 
-        public bool CanGenerate(ICustomAttributeProvider attributeProvider)
+        public bool CanGenerate(ICustomAttributeProvider request)
         {
-            return this.CanGenerateCallback(attributeProvider);
+            return this.CanGenerateCallback(request);
         }
 
-        public object Generate(ICustomAttributeProvider attributeProvider)
+        public object Generate(ICustomAttributeProvider request)
         {
-            return this.GenerateCallback(attributeProvider);
+            return this.GenerateCallback(request);
         }
 
         internal Func<ICustomAttributeProvider, bool> CanGenerateCallback { get; set; }

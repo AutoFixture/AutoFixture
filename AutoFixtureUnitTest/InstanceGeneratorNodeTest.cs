@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var parent = new MockInstanceGenerator();
             var dummyMemberInfo = typeof(object);
             var sut = new TestableInstanceGenerator(parent);
-            sut.CanGenerateCallback = ap => false;
+            sut.CanGenerateCallback = r => false;
             // Exercise system
             sut.Generate(dummyMemberInfo);
             // Verify outcome (expected exception)
@@ -78,8 +78,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyMemberInfo = typeof(object);
 
             var sut = new TestableInstanceGenerator(parent);
-            sut.CanGenerateCallback = ap => true;
-            sut.GenerateCallback = ap => expectedInstance;
+            sut.CanGenerateCallback = r => true;
+            sut.GenerateCallback = r => expectedInstance;
             // Exercise system
             var result = sut.Generate(dummyMemberInfo);
             // Verify outcome
@@ -91,7 +91,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void ByDefaultCanGenerateWillReturnFalseIfParentCannotGenerate()
         {
             // Fixture setup
-            var parent = new MockInstanceGenerator { CanGenerateCallback = ap => false };
+            var parent = new MockInstanceGenerator { CanGenerateCallback = r => false };
             var dummyMemberInfo = typeof(object);
 
             var sut = new InstanceGeneratorNode(parent);
@@ -106,7 +106,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void ByDefaultCanGenerateWillReturnTrueIfParentCanGenerate()
         {
             // Fixture setup
-            var parent = new MockInstanceGenerator { CanGenerateCallback = ap => true };
+            var parent = new MockInstanceGenerator { CanGenerateCallback = r => true };
             var dummyMemberInfo = typeof(object);
 
             var sut = new InstanceGeneratorNode(parent);
@@ -124,8 +124,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var expectedResult = new object();
             var parent = new MockInstanceGenerator
             {
-                CanGenerateCallback = ap => true,
-                GenerateCallback = ap => expectedResult
+                CanGenerateCallback = r => true,
+                GenerateCallback = r => expectedResult
             };
             var dummyMemberInfo = typeof(object);
 
@@ -142,13 +142,13 @@ namespace Ploeh.AutoFixtureUnitTest
             internal TestableInstanceGenerator(IInstanceGenerator parent)
                 : base(parent)
             {
-                this.CanGenerateCallback = ap => false;
-                this.GenerateCallback = ap => new object();
+                this.CanGenerateCallback = r => false;
+                this.GenerateCallback = r => new object();
             }
 
-            protected override InstanceGeneratorNode.GeneratorStrategy CreateStrategy(ICustomAttributeProvider attributeProvider)
+            protected override InstanceGeneratorNode.GeneratorStrategy CreateStrategy(ICustomAttributeProvider request)
             {
-                return new TestableGeneratorStrategy(this.Parent, attributeProvider, this.CanGenerateCallback, this.GenerateCallback);
+                return new TestableGeneratorStrategy(this.Parent, request, this.CanGenerateCallback, this.GenerateCallback);
             }
 
             internal Func<ICustomAttributeProvider, bool> CanGenerateCallback { get; set; }
@@ -160,8 +160,8 @@ namespace Ploeh.AutoFixtureUnitTest
                 private readonly Func<ICustomAttributeProvider, bool> canGenerateCallback;
                 private readonly Func<ICustomAttributeProvider, object> generateCallback;
 
-                internal TestableGeneratorStrategy(IInstanceGenerator parent, ICustomAttributeProvider attributeProvider, Func<ICustomAttributeProvider, bool> canGenerateCallback, Func<ICustomAttributeProvider, object> generateCallback)
-                    : base(parent, attributeProvider)
+                internal TestableGeneratorStrategy(IInstanceGenerator parent, ICustomAttributeProvider request, Func<ICustomAttributeProvider, bool> canGenerateCallback, Func<ICustomAttributeProvider, object> generateCallback)
+                    : base(parent, request)
                 {
                     if (canGenerateCallback == null)
                     {

@@ -79,7 +79,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var seed = new Seed(typeof(string), "Anonymous value");
-            var sut = new StringSeedUnwrapper(new MockInstanceGenerator { CanGenerateCallback = ap => false });
+            var sut = new StringSeedUnwrapper(new MockInstanceGenerator { CanGenerateCallback = r => false });
             // Exercise system
             var result = sut.CanGenerate(seed);
             // Verify outcome
@@ -110,8 +110,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var expectedInstance = seed.Value + parentString;
 
             var parentStub = new MockInstanceGenerator();
-            parentStub.CanGenerateCallback = ap => true;
-            parentStub.GenerateCallback = ap => parentString;
+            parentStub.CanGenerateCallback = r => true;
+            parentStub.GenerateCallback = r => parentString;
 
             var sut = new StringSeedUnwrapper(parentStub);
             // Exercise system
@@ -129,9 +129,9 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var parentMock = new MockInstanceGenerator();
             parentMock.CanGenerateCallback = seed.TargetType.Equals;
-            parentMock.GenerateCallback = ap =>
+            parentMock.GenerateCallback = r =>
                 {
-                    Assert.AreEqual(seed.TargetType, ap, "Generate");
+                    Assert.AreEqual(seed.TargetType, r, "Generate");
                     return "Anonymous result";
                 };
 

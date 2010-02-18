@@ -25,26 +25,26 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates a new <see cref="InstanceGeneratorNode.GeneratorStrategy" /> instance that
         /// implements the behavior of <see cref="ParameterBasedInstanceGenerator" />.
         /// </summary>
-        /// <param name="attributeProvider">
+        /// <param name="request">
         /// A <see cref="ICustomAttributeProvider" /> instance.
         /// </param>
         /// <returns>
         /// A <see cref="InstanceGeneratorNode.GeneratorStrategy"/> that implements the behavior of 
         /// <see cref="ParameterBasedInstanceGenerator" />.
         /// </returns>
-        protected override InstanceGeneratorNode.GeneratorStrategy CreateStrategy(ICustomAttributeProvider attributeProvider)
+        protected override InstanceGeneratorNode.GeneratorStrategy CreateStrategy(ICustomAttributeProvider request)
         {
-            return new ParameterGeneratorStrategy(this.Parent, attributeProvider);
+            return new ParameterGeneratorStrategy(this.Parent, request);
         }
 
         private class ParameterGeneratorStrategy : GeneratorStrategy
         {
             private readonly ParameterInfo parameterInfo;
 
-            internal ParameterGeneratorStrategy(IInstanceGenerator parent, ICustomAttributeProvider attributeProvider)
-                : base(parent, attributeProvider)
+            internal ParameterGeneratorStrategy(IInstanceGenerator parent, ICustomAttributeProvider request)
+                : base(parent, request)
             {
-                this.parameterInfo = attributeProvider as ParameterInfo;
+                this.parameterInfo = request as ParameterInfo;
             }
 
             public override bool CanGenerate()

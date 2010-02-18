@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
-            var parent = new MockInstanceGenerator { CanGenerateCallback = ap => false };
+            var parent = new MockInstanceGenerator { CanGenerateCallback = r => false };
             var sut = new ParameterBasedInstanceGenerator(parent);
             // Exercise system
             var result = sut.CanGenerate(parameterInfo);
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
-            var parent = new MockInstanceGenerator { CanGenerateCallback = ap => true };
+            var parent = new MockInstanceGenerator { CanGenerateCallback = r => true };
             var sut = new ParameterBasedInstanceGenerator(parent);
             // Exercise system
             var result = sut.CanGenerate(parameterInfo);
@@ -84,8 +84,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var expectedInstance = new object();
 
             var parent = new MockInstanceGenerator();
-            parent.CanGenerateCallback = ap => true;
-            parent.GenerateCallback = ap => expectedInstance;
+            parent.CanGenerateCallback = r => true;
+            parent.GenerateCallback = r => expectedInstance;
 
             var sut = new ParameterBasedInstanceGenerator(parent);
             // Exercise system
@@ -104,9 +104,9 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var parentMock = new MockInstanceGenerator();
             parentMock.CanGenerateCallback = expectedSeed.Equals;
-            parentMock.GenerateCallback = ap =>
+            parentMock.GenerateCallback = r =>
                 {
-                    Assert.AreEqual(expectedSeed, ap, "Generate");
+                    Assert.AreEqual(expectedSeed, r, "Generate");
                     return new object();
                 };
 

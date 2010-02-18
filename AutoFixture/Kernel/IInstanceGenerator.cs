@@ -16,22 +16,22 @@ namespace Ploeh.AutoFixture.Kernel
         /// Indicates whether the current instance can generate object instances based on the given
         /// <see cref="ICustomAttributeProvider"/>.
         /// </summary>
-        /// <param name="attributeProvider">
+        /// <param name="request">
         /// Provides a description upon which the current instance can base its decision.
         /// </param>
         /// <returns>
         /// <see langword="true"/> if the current instance can generate object instances based on
-        /// <paramref name="attributeProvider"/>; otherwise, <see langword="false"/>.
+        /// <paramref name="request"/>; otherwise, <see langword="false"/>.
         /// </returns>
-        bool CanGenerate(ICustomAttributeProvider attributeProvider);
+        bool CanGenerate(ICustomAttributeProvider request);
 
         /// <summary>
         /// Generates object instances based on the given <see cref="ICustomAttributeProvider"/>.
         /// </summary>
-        /// <param name="attributeProvider">
+        /// <param name="request">
         /// Provides a description that guides the current instance in generating object instances.
         /// </param>
-        /// <returns>A new object based on <paramref name="attributeProvider"/>.</returns>
-        object Generate(ICustomAttributeProvider attributeProvider);
+        /// <returns>A new object based on <paramref name="request"/>.</returns>
+        object Generate(ICustomAttributeProvider request);
     }
 }

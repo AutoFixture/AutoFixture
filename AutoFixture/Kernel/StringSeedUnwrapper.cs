@@ -26,26 +26,26 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates a new <see cref="InstanceGeneratorNode.GeneratorStrategy" /> instance that
         /// implements the behavior of <see cref="StringSeedUnwrapper" />.
         /// </summary>
-        /// <param name="attributeProvider">
+        /// <param name="request">
         /// A <see cref="ICustomAttributeProvider" /> instance.
         /// </param>
         /// <returns>
         /// A <see cref="InstanceGeneratorNode.GeneratorStrategy"/> that implements the behavior of 
         /// <see cref="StringSeedUnwrapper" />.
         /// </returns>
-        protected override InstanceGeneratorNode.GeneratorStrategy CreateStrategy(ICustomAttributeProvider attributeProvider)
+        protected override InstanceGeneratorNode.GeneratorStrategy CreateStrategy(ICustomAttributeProvider request)
         {
-            return new StringSeedUnwrapStrategy(this.Parent, attributeProvider);
+            return new StringSeedUnwrapStrategy(this.Parent, request);
         }
 
         private class StringSeedUnwrapStrategy : GeneratorStrategy
         {
             private readonly Seed seed;
 
-            internal StringSeedUnwrapStrategy(IInstanceGenerator parent, ICustomAttributeProvider attributeProvider)
-                : base(parent, attributeProvider)
+            internal StringSeedUnwrapStrategy(IInstanceGenerator parent, ICustomAttributeProvider request)
+                : base(parent, request)
             {
-                this.seed = attributeProvider as Seed;
+                this.seed = request as Seed;
             }
 
             public override bool CanGenerate()
