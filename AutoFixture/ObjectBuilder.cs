@@ -283,6 +283,7 @@ namespace Ploeh.AutoFixture
         {
             var clone = this.CloneCore();
             clone.actions.AddRange(this.actions);
+            clone.omitAutoProperties = this.omitAutoProperties;
             return clone;
         }
 

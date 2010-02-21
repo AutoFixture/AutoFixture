@@ -1614,5 +1614,20 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.IsTrue(result.All(l => l.Count == sut.RepeatCount), "Customize/Do/CreateMany");
             // Teardown
         }
+
+        [TestMethod]
+        public void OmitAutoPropertiesFollowedByOptInWillNotSetOtherProperties()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Build<DoublePropertyHolder<object, object>>()
+                .OmitAutoProperties()
+                .With(x => x.Property1)
+                .CreateAnonymous();
+            // Verify outcome
+            Assert.IsNull(result.Property2, "OmitAutoProperties/With");
+            // Teardown
+        }
     }
 }
