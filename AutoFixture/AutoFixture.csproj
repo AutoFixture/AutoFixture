@@ -74,6 +74,7 @@
     <Compile Include="CustomizedObjectFactory.cs" />
     <Compile Include="GuidGenerator.cs" />
     <Compile Include="IBuilder.cs" />
+    <Compile Include="Kernel\CoalescingInstanceGenerator.cs" />
     <Compile Include="Kernel\IInstanceGenerator.cs" />
     <Compile Include="Kernel\InstanceGeneratorNode.cs" />
     <Compile Include="Kernel\ModestConstructorInvoker.cs" />

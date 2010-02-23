@@ -66,7 +66,7 @@ namespace Ploeh.AutoFixture.Kernel
             var strategy = this.CreateStrategy(request);
             if (!strategy.CanGenerate())
             {
-                throw new ArgumentException("Cannot generate a an instance for the requested attribute provider.", "request");
+                throw new ArgumentException("Cannot generate an instance for the request.", "request");
             }
             return strategy.Generate();
         }
