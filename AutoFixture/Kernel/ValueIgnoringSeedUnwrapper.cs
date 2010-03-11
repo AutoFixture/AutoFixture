@@ -12,13 +12,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class ValueIgnoringSeedUnwrapper : ISpecimenBuilder
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ValueIgnoringSeedUnwrapper"/> type.
-        /// </summary>
-        public ValueIgnoringSeedUnwrapper()
-        {
-        }
-
         #region ISpecimenBuilder Members
 
         /// <summary>

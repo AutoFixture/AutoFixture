@@ -12,13 +12,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class StringSeedUnwrapper : ISpecimenBuilder
     {
-        /// <summary>
-        /// Initializes a new instance of <see cref="StringSeedUnwrapper"/>.
-        /// </summary>
-        public StringSeedUnwrapper()
-        {
-        }
-
         #region ISpecimenBuilder Members
 
         /// <summary>
