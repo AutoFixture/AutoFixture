@@ -81,7 +81,6 @@
     <Compile Include="Kernel\ISpecimenBuilder.cs" />
     <Compile Include="Kernel\ISpecimenContainer.cs" />
     <Compile Include="Kernel\ModestConstructorInvoker.cs" />
-    <Compile Include="Kernel\ParameterBasedInstanceGenerator.cs" />
     <Compile Include="Kernel\ParameterRequestTranslator.cs" />
     <Compile Include="Kernel\StringSeedUnwrapper.cs" />
     <Compile Include="Kernel\ValueIgnoringSeedUnwrapper.cs" />
@@ -111,7 +110,6 @@
     <Compile Include="GuidStringGenerator.cs" />
     <Compile Include="PropertyAccessor.cs" />
     <Compile Include="PropertyAccessorFactory.cs" />
-    <Compile Include="Kernel\PropertyBasedInstanceGenerator.cs" />
     <Compile Include="SByteSequenceGenerator.cs" />
     <Compile Include="Kernel\SeededRequest.cs" />
     <Compile Include="SingleSequenceGenerator.cs" />

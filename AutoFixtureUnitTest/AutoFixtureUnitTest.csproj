@@ -65,9 +65,7 @@
     <Compile Include="InstanceGeneratorNodeTest.cs" />
     <Compile Include="MockInstanceGenerator.cs" />
     <Compile Include="ModestConstructorInvokerTest.cs" />
-    <Compile Include="ParameterBasedInstanceGeneratorTest.cs" />
     <Compile Include="ParameterRequestTranslatorTest.cs" />
-    <Compile Include="PropertyBasedInstanceGeneratorTest.cs" />
     <Compile Include="StringSeedUnwrapperTest.cs" />
     <Compile Include="ValueIgnoringSeedUnwrapperTest.cs" />
     <Compile Include="SeededRequestTest.cs" />

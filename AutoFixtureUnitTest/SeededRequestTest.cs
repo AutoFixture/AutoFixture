@@ -9,53 +9,6 @@ namespace Ploeh.AutoFixtureUnitTest
     public class SeededRequestTest
     {
         [TestMethod]
-        public void SutIsCustomAttributeProvider()
-        {
-            // Fixture setup
-            // Exercise system
-            var sut = new SeededRequest(typeof(object), new object());
-            // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(ICustomAttributeProvider));
-            // Teardown
-        }
-
-        [TestMethod]
-        public void GetCustomAttributesWillReturnInstance()
-        {
-            // Fixture setup
-            var sut = new SeededRequest(typeof(string), string.Empty);
-            // Exercise system
-            var result = sut.GetCustomAttributes(true);
-            // Verify outcome
-            Assert.IsNotNull(result, "GetCustomAttributes");
-            // Teardown
-        }
-
-        [TestMethod]
-        public void GetSpecificCustomAttributesWillReturnInstance()
-        {
-            // Fixture setup
-            var sut = new SeededRequest(typeof(int), 1);
-            // Exercise system
-            var result = sut.GetCustomAttributes(typeof(DescriptionAttribute), false);
-            // Verify outcome
-            Assert.IsNotNull(result, "GetCustomAttributes");
-            // Teardown
-        }
-
-        [TestMethod]
-        public void IsDefinedWillReturnCorrectResult()
-        {
-            // Fixture setup
-            var sut = new SeededRequest(typeof(decimal), -1);
-            // Exercise system
-            var result = sut.IsDefined(typeof(FlagsAttribute), true);
-            // Verify outcome
-            Assert.IsFalse(result, "IsDefined");
-            // Teardown
-        }
-
-        [TestMethod]
         public void SeedIsCorrect()
         {
             // Fixture setup
