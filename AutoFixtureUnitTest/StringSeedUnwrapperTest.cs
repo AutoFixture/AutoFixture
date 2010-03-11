@@ -132,7 +132,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var containerMock = new DelegatingSpecimenContainer();
             containerMock.OnCreate = r =>
                 {
-                    Assert.AreEqual(r, typeof(string), "Create");
+                    Assert.AreEqual(typeof(string), r, "Create");
                     mockVerified = true;
                     return null;
                 };

@@ -10,55 +10,54 @@ namespace Ploeh.AutoFixture.Kernel
     /// Unwraps a request for a <see cref="Seed"/> to a request for its
     /// <see cref="Seed.TargetType"/> while ignoring the <see cref="Seed.Value"/>.
     /// </summary>
-    public class ValueIgnoringSeedUnwrapper : InstanceGeneratorNode
+    public class ValueIgnoringSeedUnwrapper : ISpecimenBuilder
     {
         /// <summary>
-        /// Initialized a new instance of the <see cref="ValueIgnoringSeedUnwrapper"/> class with
-        /// the supplied parent.
+        /// Initializes a new instance of the <see cref="ValueIgnoringSeedUnwrapper"/> type.
         /// </summary>
-        /// <param name="parent">The parent generator.</param>
-        public ValueIgnoringSeedUnwrapper(IInstanceGenerator parent)
-            : base(parent)
+        public ValueIgnoringSeedUnwrapper()
         {
         }
+
+        #region ISpecimenBuilder Members
 
         /// <summary>
-        /// Creates a new <see cref="InstanceGeneratorNode.GeneratorStrategy" /> instance that
-        /// implements the behavior of <see cref="ValueIgnoringSeedUnwrapper" />.
+        /// Creates an anonymous value by unwrapping a seeded request and ignoring the seed.
         /// </summary>
-        /// <param name="request">
-        /// A <see cref="ICustomAttributeProvider" /> instance.
-        /// </param>
+        /// <param name="request">The request that describes what to create.</param>
+        /// <param name="container">A container that can be used to create other specimens.</param>
         /// <returns>
-        /// A <see cref="InstanceGeneratorNode.GeneratorStrategy"/> that implements the behavior of 
-        /// <see cref="ValueIgnoringSeedUnwrapper" />.
+        /// A specimen based on <paramref name="request"/> if possible; otherwise,
+        /// <see langword="null"/>.
         /// </returns>
-        protected override InstanceGeneratorNode.GeneratorStrategy CreateStrategy(ICustomAttributeProvider request)
+        /// <remarks>
+        /// <para>
+        /// If <paramref name="request"/> is a seeded request, the Create method unwraps the inner
+        /// request and forwards it to <paramref name="container"/>. The seed value is ignored.
+        /// </para>
+        /// <para>
+        /// The purpose of this class is to provide a fallback to handle seeded requests that no
+        /// other <see cref="ISpecimenBuilder"/> instances have been able to handle. By ignoring
+        /// the seed value, it handles those scenarios where the seed value and the inner request
+        /// don't match and can't be combined, ensuring that at least some value is returned.
+        /// </para>
+        /// </remarks>
+        public object Create(object request, ISpecimenContainer container)
         {
-            return new TargetTypeForwardingGeneratorStrategy(this.Parent, request);
+            if (container == null)
+            {
+                throw new ArgumentNullException("container");
+            }
+
+            var seededRequest = request as Seed;
+            if (seededRequest == null)
+            {
+                return null;
+            }
+
+            return container.Create(seededRequest.TargetType);
         }
 
-        private class TargetTypeForwardingGeneratorStrategy : GeneratorStrategy
-        {
-            private readonly Seed seed;
-
-            internal TargetTypeForwardingGeneratorStrategy(IInstanceGenerator parent, ICustomAttributeProvider request)
-                : base(parent, request)
-            {
-                this.seed = request as Seed;
-            }
-
-            public override bool CanGenerate()
-            {
-                return this.seed != null
-                    && this.Parent.CanGenerate(this.seed.TargetType);
-            }
-
-            public override object Generate()
-            {
-                return this.Parent.Generate(this.seed.TargetType);
-            }
-        }
-
+        #endregion
     }
 }

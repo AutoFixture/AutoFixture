@@ -12,109 +12,92 @@ namespace Ploeh.AutoFixtureUnitTest
     public class ValueIgnoringSeedUnwrapperTest
     {
         [TestMethod]
-        public void SutIsInstanceGeneratorNode()
+        public void SutIsSpecimenBuilder()
         {
             // Fixture setup
-            var dummyParent = new MockInstanceGenerator();
             // Exercise system
-            var sut = new ValueIgnoringSeedUnwrapper(dummyParent);
+            var sut = new ValueIgnoringSeedUnwrapper();
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(InstanceGeneratorNode));
+            Assert.IsInstanceOfType(sut, typeof(ISpecimenBuilder));
             // Teardown
         }
 
         [TestMethod]
-        public void CanGeneratorForNullProviderWillReturnFalse()
+        public void CreateWithNullRequestWillReturnNull()
         {
             // Fixture setup
-            var sut = new ValueIgnoringSeedUnwrapper(new MockInstanceGenerator());
+            var sut = new ValueIgnoringSeedUnwrapper();
             // Exercise system
-            var result = sut.CanGenerate(null);
+            var dummyContainer = new DelegatingSpecimenContainer();
+            var result = sut.Create(null, dummyContainer);
             // Verify outcome
-            Assert.IsFalse(result, "CanGenerate");
+            Assert.IsNull(result, "Create");
+            // Teardown
+        }
+
+        [ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        public void CreateWithNullContainerWillThrow()
+        {
+            // Fixture setup
+            var sut = new ValueIgnoringSeedUnwrapper();
+            // Exercise system
+            var dummyRequest = new object();
+            sut.Create(dummyRequest, null);
+            // Verify outcome (expected exception)
             // Teardown
         }
 
         [TestMethod]
-        public void CanGenerateForAnonymousProviderWillReturnFalse()
+        public void CreateFromSeedWhenContainerCannotSatisfyWrappedRequestWillReturnNull()
         {
             // Fixture setup
-            var anonymousProvider = typeof(PropertyHolder<string>).GetProperty("Property");
-            var sut = new ValueIgnoringSeedUnwrapper(new MockInstanceGenerator());
+            var anonymousSeed = new Seed(typeof(object), new object());
+            var unableContainer = new DelegatingSpecimenContainer { OnCreate = r => null };
+            var sut = new ValueIgnoringSeedUnwrapper();
             // Exercise system
-            var result = sut.CanGenerate(anonymousProvider);
+            var result = sut.Create(anonymousSeed, unableContainer);
             // Verify outcome
-            Assert.IsFalse(result, "CanGenerate");
+            Assert.IsNull(result, "Create");
             // Teardown
         }
 
         [TestMethod]
-        public void CanGenerateForSeedWhenParentCannotGenerateSeedTypeWillReturnFalse()
+        public void CreateFromSeedWhenContainerCanSatisfyWrappedRequestWillReturnCorrectResult()
         {
             // Fixture setup
-            var seed = new Seed(typeof(ASCIIEncoding), new object());
-            var sut = new ValueIgnoringSeedUnwrapper(new MockInstanceGenerator { CanGenerateCallback = r => false });
+            var anonymousSeed = new Seed(typeof(object), new object());
+
+            var expectedResult = new object();
+            var container = new DelegatingSpecimenContainer { OnCreate = r => expectedResult };
+
+            var sut = new ValueIgnoringSeedUnwrapper();
             // Exercise system
-            var result = sut.CanGenerate(seed);
+            var result = sut.Create(anonymousSeed, container);
             // Verify outcome
-            Assert.IsFalse(result, "CanGenerate");
+            Assert.AreEqual(expectedResult, result, "Create");
             // Teardown
         }
 
         [TestMethod]
-        public void CanGenerateWhenParentCanGenerateTargetTypeWillReturnFalse()
+        public void CreateFromSeedWillCorrectlyInvokeContainer()
         {
             // Fixture setup
-            var seed = new Seed(typeof(ConcreteType), new ConcreteType());
+            var sut = new ValueIgnoringSeedUnwrapper();
+            var seededRequest = new Seed(typeof(int), 1);
 
-            var parentMock = new MockInstanceGenerator();
-            parentMock.CanGenerateCallback = seed.TargetType.Equals;
-
-            var sut = new ValueIgnoringSeedUnwrapper(parentMock);
+            var mockVerified = false;
+            var containerMock = new DelegatingSpecimenContainer();
+            containerMock.OnCreate = r =>
+            {
+                Assert.AreEqual(typeof(int), r, "Create");
+                mockVerified = true;
+                return null;
+            };
             // Exercise system
-            var result = sut.CanGenerate(seed);
+            sut.Create(seededRequest, containerMock);
             // Verify outcome
-            Assert.IsTrue(result, "CanGenerate");
-            // Teardown
-        }
-
-        [TestMethod]
-        public void GenerateWillReturnCorrectResult()
-        {
-            // Fixture setup
-            var seed = new Seed(typeof(ConcreteType), null);
-            var expectedInstance = new object();
-
-            var parentMock = new MockInstanceGenerator();
-            parentMock.CanGenerateCallback = r => true;
-            parentMock.GenerateCallback = r => expectedInstance;
-
-            var sut = new ValueIgnoringSeedUnwrapper(parentMock);
-            // Exercise system
-            var result = sut.Generate(seed);
-            // Verify outcome
-            Assert.AreEqual(expectedInstance, result, "Generate");
-            // Teardown
-        }
-
-        [TestMethod]
-        public void GenerateWillInvokeParentCorrectly()
-        {
-            // Fixture setup
-            var seed = new Seed(typeof(FtpStyleUriParser), TimeSpan.FromDays(1));
-
-            var parentMock = new MockInstanceGenerator();
-            parentMock.CanGenerateCallback = seed.TargetType.Equals;
-            parentMock.GenerateCallback = r =>
-                {
-                    Assert.AreEqual(seed.TargetType, r, "Generate");
-                    return new object();
-                };
-
-            var sut = new ValueIgnoringSeedUnwrapper(parentMock);
-            // Exercise system
-            sut.Generate(seed);
-            // Verify outcome (done by mock)
+            Assert.IsTrue(mockVerified, "Mock verification");
             // Teardown
         }
     }
