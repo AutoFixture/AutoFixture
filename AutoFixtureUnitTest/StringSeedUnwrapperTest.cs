@@ -11,134 +11,135 @@ namespace Ploeh.AutoFixtureUnitTest
     public class StringSeedUnwrapperTest
     {
         [TestMethod]
-        public void SutIsInstanceGneeratorNode()
+        public void SutIsSpecimenBuilder()
         {
             // Fixture setup
-            var dummyParent = new MockInstanceGenerator();
             // Exercise system
-            var sut = new StringSeedUnwrapper(dummyParent);
+            var sut = new StringSeedUnwrapper();
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(InstanceGeneratorNode));
+            Assert.IsInstanceOfType(sut, typeof(ISpecimenBuilder));
             // Teardown
         }
 
         [TestMethod]
-        public void CanGenerateForNullProviderWillReturnCorrectResult()
+        public void CreateWithNullRequestWillReturnNull()
         {
             // Fixture setup
-            var dummyParent = new MockInstanceGenerator();
-            var sut = new StringSeedUnwrapper(dummyParent);
+            var sut = new StringSeedUnwrapper();
             // Exercise system
-            var result = sut.CanGenerate(null);
+            var dummyContainer = new DelegatingSpecimenContainer();
+            var result = sut.Create(null, dummyContainer);
             // Verify outcome
-            Assert.IsFalse(result, "CanGenerate");
+            Assert.IsNull(result, "Create");
+            // Teardown
+        }
+
+        [ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        public void CreateWithNullContainerWillThrow()
+        {
+            // Fixture setup
+            var sut = new StringSeedUnwrapper();
+            // Exercise system
+            var dummyRequest = new object();
+            sut.Create(dummyRequest, null);
+            // Verify outcome (expected exception)
             // Teardown
         }
 
         [TestMethod]
-        public void CanGenerateForAnonymousProviderWillReturnCorrectResult()
+        public void CreateWithNonSeedWillReturnNull()
         {
             // Fixture setup
-            var anonymousProvider = typeof(GenericUriParser);
-            var sut = new StringSeedUnwrapper(new MockInstanceGenerator());
+            var sut = new StringSeedUnwrapper();
+            var nonSeed = new object();
             // Exercise system
-            var result = sut.CanGenerate(anonymousProvider);
+            var dummyContainer = new DelegatingSpecimenContainer();
+            var result = sut.Create(nonSeed, dummyContainer);
             // Verify outcome
-            Assert.IsFalse(result, "CanGenerate");
+            Assert.IsNull(result, "Create");
             // Teardown
         }
 
         [TestMethod]
-        public void CanGenerateForSeedWithWrongTypeWillReturnCorrectResult()
+        public void CreateWithNonStringRequestSeedWillReturnNull()
         {
             // Fixture setup
-            var seed = new Seed(typeof(HttpStyleUriParser), new object());
-            var sut = new StringSeedUnwrapper(new MockInstanceGenerator());
+            var sut = new StringSeedUnwrapper();
+            var nonStringRequestSeed = new Seed(typeof(object), "Anonymous value");
             // Exercise system
-            var result = sut.CanGenerate(seed);
+            var dummyContainer = new DelegatingSpecimenContainer();
+            var result = sut.Create(nonStringRequestSeed, dummyContainer);
             // Verify outcome
-            Assert.IsFalse(result, "CanGenerate");
+            Assert.IsNull(result, "Create");
             // Teardown
         }
 
         [TestMethod]
-        public void CanGenereateForSeedWithWrongValueTypeWillReturnCorrectResult()
+        public void CreateWithNonStringSeedWillReturnNull()
         {
             // Fixture setup
-            var seed = new Seed(typeof(string), new ModuleHandle());
-            var sut = new StringSeedUnwrapper(new MockInstanceGenerator());
+            var sut = new StringSeedUnwrapper();
+            var nonStringSeed = new Seed(typeof(string), new object());
             // Exercise system
-            var result = sut.CanGenerate(seed);
+            var dummyContainer = new DelegatingSpecimenContainer();
+            var result = sut.Create(nonStringSeed, dummyContainer);
             // Verify outcome
-            Assert.IsFalse(result, "CanGenerate");
+            Assert.IsNull(result, "Create");
             // Teardown
         }
 
         [TestMethod]
-        public void CanGenerateForCorrectSeedWhenParentCannotGenerateStringsWillReturnCorrectResult()
+        public void CreateWithStringSeedWhenContainerCannotCreateStringsWillReturnNull()
         {
             // Fixture setup
-            var seed = new Seed(typeof(string), "Anonymous value");
-            var sut = new StringSeedUnwrapper(new MockInstanceGenerator { CanGenerateCallback = r => false });
+            var sut = new StringSeedUnwrapper();
+            var stringSeed = new Seed(typeof(string), "Anonymous value");
+            var unableContainer = new DelegatingSpecimenContainer { OnCreate = r => null };
             // Exercise system
-            var result = sut.CanGenerate(seed);
+            var result = sut.Create(stringSeed, unableContainer);
             // Verify outcome
-            Assert.IsFalse(result, "CanGenerate");
+            Assert.IsNull(result, "Create");
             // Teardown
         }
 
         [TestMethod]
-        public void CanGenerateForCorrectSeedWhenParentCanGenerateStringsWillReturnCorrectResult()
+        public void CreateWithStringSeedWhenContainerCanCreateStringsWillReturnCorrectResult()
         {
             // Fixture setup
-            var correctType = typeof(string);
-            var seed = new Seed(correctType, "Anonymous value");
-            var sut = new StringSeedUnwrapper(new MockInstanceGenerator { CanGenerateCallback = correctType.Equals });
+            var seedString = Guid.NewGuid().ToString();
+            var containerString = Guid.NewGuid().ToString();
+
+            var sut = new StringSeedUnwrapper();
+            var stringSeed = new Seed(typeof(string), seedString);
+            var container = new DelegatingSpecimenContainer { OnCreate = r => containerString };
             // Exercise system
-            var result = sut.CanGenerate(seed);
+            var result = sut.Create(stringSeed, container);
             // Verify outcome
-            Assert.IsTrue(result, "CanGenerate");
+            var expectedString = seedString + containerString;
+            Assert.AreEqual(expectedString, result, "Create");
             // Teardown
         }
 
         [TestMethod]
-        public void GenerateWillReturnCorrectResult()
+        public void CreateWithStringSeedWillCorrectlyInvokeContainer()
         {
             // Fixture setup
-            var seed = new Seed(typeof(string), "Anonymous seed");
-            var parentString = "Anonymous parent-generated text";
-            var expectedInstance = seed.Value + parentString;
+            var sut = new StringSeedUnwrapper();
+            var stringSeed = new Seed(typeof(string), "Anonymous value");
 
-            var parentStub = new MockInstanceGenerator();
-            parentStub.CanGenerateCallback = r => true;
-            parentStub.GenerateCallback = r => parentString;
-
-            var sut = new StringSeedUnwrapper(parentStub);
-            // Exercise system
-            var result = sut.Generate(seed);
-            // Verify outcome
-            Assert.AreEqual(expectedInstance, result, "Generate");
-            // Teardown
-        }
-
-        [TestMethod]
-        public void GenerateWillInvokeParentCorectly()
-        {
-            // Fixture setup
-            var seed = new Seed(typeof(string), "Anonymous seed");
-
-            var parentMock = new MockInstanceGenerator();
-            parentMock.CanGenerateCallback = seed.TargetType.Equals;
-            parentMock.GenerateCallback = r =>
+            var mockVerified = false;
+            var containerMock = new DelegatingSpecimenContainer();
+            containerMock.OnCreate = r =>
                 {
-                    Assert.AreEqual(seed.TargetType, r, "Generate");
-                    return "Anonymous result";
+                    Assert.AreEqual(r, typeof(string), "Create");
+                    mockVerified = true;
+                    return null;
                 };
-
-            var sut = new StringSeedUnwrapper(parentMock);
             // Exercise system
-            sut.Generate(seed);
-            // Verify outcome (done by mock)
+            sut.Create(stringSeed, containerMock);
+            // Verify outcome
+            Assert.IsTrue(mockVerified, "Mock verification");
             // Teardown
         }
     }

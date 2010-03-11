@@ -7,60 +7,65 @@ using System.Reflection;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// Unwraps a request for a string <see cref="Seed"/> to a request for a string and appends the
-    /// seed to the result.
+    /// Unwraps a request for a string <see cref="Seed"/> to a request for a string and prefixes
+    /// the seed to the result.
     /// </summary>
-    public class StringSeedUnwrapper : InstanceGeneratorNode
+    public class StringSeedUnwrapper : ISpecimenBuilder
     {
         /// <summary>
-        /// Initialized a new instance of the the <see cref="StringSeedUnwrapper"/> class with the
-        /// supplied parent.
+        /// Initializes a new instance of <see cref="StringSeedUnwrapper"/>.
         /// </summary>
-        /// <param name="parent"></param>
-        public StringSeedUnwrapper(IInstanceGenerator parent)
-            : base(parent)
+        public StringSeedUnwrapper()
         {
         }
+
+        #region ISpecimenBuilder Members
 
         /// <summary>
-        /// Creates a new <see cref="InstanceGeneratorNode.GeneratorStrategy" /> instance that
-        /// implements the behavior of <see cref="StringSeedUnwrapper" />.
+        /// Creates an anonymous string based on a seed.
         /// </summary>
-        /// <param name="request">
-        /// A <see cref="ICustomAttributeProvider" /> instance.
-        /// </param>
+        /// <param name="request">The request that describes what to create.</param>
+        /// <param name="container">A container that can be used to create other specimens.</param>
         /// <returns>
-        /// A <see cref="InstanceGeneratorNode.GeneratorStrategy"/> that implements the behavior of 
-        /// <see cref="StringSeedUnwrapper" />.
+        /// A string with the seed prefixed to a string created by <paramref name="container"/> if
+        /// possible; otherwise, <see langword="null"/>.
         /// </returns>
-        protected override InstanceGeneratorNode.GeneratorStrategy CreateStrategy(ICustomAttributeProvider request)
+        /// <remarks>
+        /// <para>
+        /// This method only returns an instance if a number of conditions are satisfied.
+        /// <paramref name="request"/> must represent a request for a seed string, and
+        /// <paramref name="container"/> must be able to create a string.
+        /// </para>
+        /// </remarks>
+        public object Create(object request, ISpecimenContainer container)
         {
-            return new StringSeedUnwrapStrategy(this.Parent, request);
+            if (container == null)
+            {
+                throw new ArgumentNullException("container");
+            }
+
+            var seededRequest = request as Seed;
+            if (seededRequest == null ||
+                seededRequest.TargetType != typeof(string))
+            {
+                return null;
+            }
+
+            var seed = seededRequest.Value as string;
+            if (seed == null)
+            {
+                return null;
+            }
+
+            var containerResult = container.Create(typeof(string));
+            if (containerResult == null)
+            {
+                return null;
+            }
+
+            return seed + containerResult;
         }
 
-        private class StringSeedUnwrapStrategy : GeneratorStrategy
-        {
-            private readonly Seed seed;
-
-            internal StringSeedUnwrapStrategy(IInstanceGenerator parent, ICustomAttributeProvider request)
-                : base(parent, request)
-            {
-                this.seed = request as Seed;
-            }
-
-            public override bool CanGenerate()
-            {
-                return this.seed != null
-                    && this.seed.TargetType == typeof(string)
-                    && this.seed.Value is string
-                    && this.Parent.CanGenerate(typeof(string));
-            }
-
-            public override object Generate()
-            {
-                return (string)this.seed.Value + this.Parent.Generate(typeof(string));
-            }
-        }
-
+        #endregion
     }
 }

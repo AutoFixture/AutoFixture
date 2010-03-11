@@ -139,10 +139,13 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var expectedRequest = new object();
+
+            var mockVerified = false;
             var builderMock = new DelegatingSpecimenBuilder();
             builderMock.OnCreate = (r, c) =>
                 {
                     Assert.AreEqual(expectedRequest, r, "Create");
+                    mockVerified = true;
                     return new object();
                 };
 
@@ -150,7 +153,8 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContainer();
             sut.Create(expectedRequest, dummyContainer);
-            // Verify outcome (done by mock)
+            // Verify outcome
+            Assert.IsTrue(mockVerified, "Mock verification");
             // Teardown
         }
 
@@ -159,10 +163,13 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var expectedContainer = new DelegatingSpecimenContainer();
+
+            var mockVerified = false;
             var builderMock = new DelegatingSpecimenBuilder();
             builderMock.OnCreate = (r, c) =>
                 {
                     Assert.AreEqual(expectedContainer, c, "Create");
+                    mockVerified = true;
                     return new object();
                 };
 
@@ -170,7 +177,8 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var dummyRequest = new object();
             sut.Create(dummyRequest, expectedContainer);
-            // Verify outcome (done by mock)
+            // Verify outcome
+            Assert.IsTrue(mockVerified, "Mock verification");
             // Teardown
         }
     }
