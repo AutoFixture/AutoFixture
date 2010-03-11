@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
+using System.Reflection;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -12,150 +13,159 @@ namespace Ploeh.AutoFixtureUnitTest
     public class ModestConstructorInvokerTest
     {
         [TestMethod]
-        public void SutIsInstanceGeneratorNode()
+        public void SutIsSpecimenBuilder()
         {
             // Fixture setup
-            var dummyParent = new MockInstanceGenerator();
             // Exercise system
-            var sut = new ModestConstructorInvoker(dummyParent);
+            var sut = new ModestConstructorInvoker();
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(InstanceGeneratorNode));
+            Assert.IsInstanceOfType(sut, typeof(ISpecimenBuilder));
             // Teardown
         }
 
         [TestMethod]
-        public void CanGenerateForNullRequestWillReturnCorrectResult()
+        public void CreateWithNullRequestWillReturnNull()
         {
             // Fixture setup
-            var dummyParent = new MockInstanceGenerator();
-            var sut = new ModestConstructorInvoker(dummyParent);
+            var sut = new ModestConstructorInvoker();
             // Exercise system
-            var result = sut.CanGenerate(null);
+            var dummyContainer = new DelegatingSpecimenContainer();
+            var result = sut.Create(null, dummyContainer);
             // Verify outcome
-            Assert.IsFalse(result, "CanGenerate");
+            Assert.IsNull(result, "Create");
+            // Teardown
+        }
+
+        [ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        public void CreateWithNullContainerWillThrow()
+        {
+            // Fixture setup
+            var sut = new ModestConstructorInvoker();
+            // Exercise system
+            var dummyRequest = new object();
+            sut.Create(dummyRequest, null);
+            // Verify outcome (expected exception)
             // Teardown
         }
 
         [TestMethod]
-        public void CanGenerateForNonTypeWillReturnCorrectResult()
+        public void CreateFromNonTypeRequestWillReturnNull()
         {
             // Fixture setup
-            var anonymousPropertyInfo = typeof(PropertyHolder<string>).GetProperty("Property");
-            var dummyParent = new MockInstanceGenerator();
-            var sut = new ModestConstructorInvoker(dummyParent);
+            var nonTypeRequest = new object();
+            var dummyContainer = new DelegatingSpecimenContainer();
+            var sut = new ModestConstructorInvoker();
             // Exercise system
-            var result = sut.CanGenerate(anonymousPropertyInfo);
+            var result = sut.Create(nonTypeRequest, dummyContainer);
             // Verify outcome
-            Assert.IsFalse(result, "CanGenerate");
+            Assert.IsNull(result, "Create");
             // Teardown
         }
 
         [TestMethod]
-        public void CanGenerateForTypeWhenParentCannotGenerateWillReturnCorrectResult()
+        public void CreateFromTypeRequestWhenContainerCannotSatisfyParameterRequestWillReturnNull()
         {
             // Fixture setup
-            var parent = new MockInstanceGenerator();
-            parent.CanGenerateCallback = r => false;
-            var sut = new ModestConstructorInvoker(parent);
+            var type = typeof(string);
+            var container = new DelegatingSpecimenContainer { OnCreate = r => null };
+            var sut = new ModestConstructorInvoker();
             // Exercise system
-            var result = sut.CanGenerate(typeof(SingleParameterType<object>));
+            var result = sut.Create(type, container);
             // Verify outcome
-            Assert.IsFalse(result, "CanGenerate");
+            Assert.IsNull(result, "Create");
             // Teardown
         }
 
         [TestMethod]
-        public void CanGenerateForTypeWithNoPuplicConstructorWillReturnCorrectResult()
+        public void CreateFromTypeWithNoPublicConstructorWhenContainerCanSatisfyRequestWillReturnNull()
         {
             // Fixture setup
-            var parent = new MockInstanceGenerator();
-            parent.GenerateCallback = r => true;
-            var sut = new ModestConstructorInvoker(parent);
+            var container = new DelegatingSpecimenContainer { OnCreate = r => new object() };
+            var sut = new ModestConstructorInvoker();
             // Exercise system
-            var result = sut.CanGenerate(typeof(AbstractType));
+            var result = sut.Create(typeof(AbstractType), container);
             // Verify outcome
-            Assert.IsFalse(result, "CanGenerate");
+            Assert.IsNull(result, "Create");
             // Teardown
         }
 
         [TestMethod]
-        public void CanGenerateForTypeWhenParentCanGenerateOneParameterButNotTheOtherWillReturnCorrectResult()
+        public void CreateFromTypeWhenParentCanGenerateOneParameterButNotTheOtherWillReturnCorrectNull()
         {
             // Fixture setup
             var requestedType = typeof(DoubleParameterType<string, int>);
-
-            var parent = new MockInstanceGenerator();
-            parent.CanGenerateCallback = r => typeof(string) == r;
-
-            var sut = new ModestConstructorInvoker(parent);
+            var container = new DelegatingSpecimenContainer { OnCreate = r => typeof(string) == r ? new object() : null };
+            var sut = new ModestConstructorInvoker();
             // Exercise system
-            var result = sut.CanGenerate(requestedType);
+            var result = sut.Create(requestedType, container);
             // Verify outcome
-            Assert.IsFalse(result, "CanGenerate");
+            Assert.IsNull(result, "Create");
             // Teardown
         }
 
         [TestMethod]
-        public void CanGenerateWhenParentCanGenerateBothParametersWillReturnCorrectResult()
+        public void CreateFromTypeWhenParentCanGenerateBothParametersWillReturnCorrectResult()
         {
             // Fixture setup
+            var expectedParameterValues = new object[] { 1, 2m };
+            var parameterQueue = new Queue<object>(expectedParameterValues);
+
             var requestedType = typeof(DoubleParameterType<int, decimal>);
+            var parameters = requestedType.GetConstructors().Single().GetParameters();
 
-            var parent = new MockInstanceGenerator();
-            parent.CanGenerateCallback = r => typeof(int) == r || typeof(decimal) == r;
+            var container = new DelegatingSpecimenContainer();
+            container.OnCreate = r =>
+            {
+                if (parameters.Any(r.Equals))
+                {
+                    return parameterQueue.Dequeue();
+                }
+                return null;
+            };
 
-            var sut = new ModestConstructorInvoker(parent);
+            var sut = new ModestConstructorInvoker();
             // Exercise system
-            var result = sut.CanGenerate(requestedType);
+            var result = sut.Create(requestedType, container);
             // Verify outcome
-            Assert.IsTrue(result, "CanGenerate");
+            var actual = (DoubleParameterType<int, decimal>)result;
+            Assert.AreEqual(expectedParameterValues[0], actual.Parameter1, "Create");
+            Assert.AreEqual(expectedParameterValues[1], actual.Parameter2, "Create");
             // Teardown
         }
 
         [TestMethod]
-        public void GenerateWillReturnCorrectResult()
-        {
-            // Fixture setup
-            var requestedType = typeof(SingleParameterType<ConcreteType>);
-            var expectedParameter = new ConcreteType();
-
-            var parent = new MockInstanceGenerator();
-            parent.CanGenerateCallback = r => true;
-            parent.GenerateCallback = r => expectedParameter;
-
-            var sut = new ModestConstructorInvoker(parent);
-            // Exercise system
-            var result = sut.Generate(requestedType);
-            // Verify outcome
-            Assert.AreEqual(expectedParameter, ((SingleParameterType<ConcreteType>)result).Parameter, "Generate");
-            // Teardown
-        }
-
-        [TestMethod]
-        public void GenerateWillInvokeParentCorrectly()
+        public void CreateFromTypeWillInvokeContainerCorrectly()
         {
             // Fixture setup
             var requestedType = typeof(DoubleParameterType<long, short>);
+            var parameters = requestedType.GetConstructors().Single().GetParameters();
 
-            var parentMock = new MockInstanceGenerator();
-            parentMock.CanGenerateCallback = r => typeof(long) == r || typeof(short) == r;
-            parentMock.GenerateCallback = r =>
+            var mockVerified = false;
+            var containerMock = new DelegatingSpecimenContainer();
+            containerMock.OnCreate = r =>
                 {
-                    if (typeof(long) == r)
+                    if (parameters.Any(r.Equals))
                     {
-                        return new long();
+                        mockVerified = true;
+                        var pType = ((ParameterInfo)r).ParameterType;
+                        if (typeof(long) == pType)
+                        {
+                            return new long();
+                        }
+                        if (typeof(short) == pType)
+                        {
+                            return new short();
+                        }
                     }
-                    if (typeof(short) == r)
-                    {
-                        return new short();
-                    }
-                    throw new AssertFailedException("Unexpected parent request.");
+                    throw new AssertFailedException("Unexpected container request.");
                 };
 
-            var sut = new ModestConstructorInvoker(parentMock);
+            var sut = new ModestConstructorInvoker();
             // Exercise system
-            sut.Generate(requestedType);
-            // Verify outcome (done by mock)
+            sut.Create(requestedType, containerMock);
+            // Verify outcome
+            Assert.IsTrue(mockVerified, "Mock verification");
             // Teardown
         }
     }

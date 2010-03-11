@@ -9,75 +9,57 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// Creates a new instance of the requested type by invoking its most modest constructor.
     /// </summary>
-    public class ModestConstructorInvoker : InstanceGeneratorNode
+    public class ModestConstructorInvoker : ISpecimenBuilder
     {
-        /// <summary>
-        /// Initialized a new instance of the <see cref="ModestConstructorInvoker"/> class with the
-        /// supplied parent.
-        /// </summary>
-        /// <param name="parent">The parent generator</param>
-        public ModestConstructorInvoker(IInstanceGenerator parent)
-            : base(parent)
-        {
-        }
+        #region ISpecimenBuilder Members
 
         /// <summary>
-        /// Creates a new <see cref="InstanceGeneratorNode.GeneratorStrategy" /> instance that
-        /// implements the behavior of <see cref="ModestConstructorGeneratorStrategy" />.
+        /// Creates a specimen of the requested type by invoking its most modest constructor.
         /// </summary>
-        /// <param name="request">
-        /// A <see cref="ICustomAttributeProvider" /> instance.
-        /// </param>
+        /// <param name="request">The request that describes what to create.</param>
+        /// <param name="container">A container that can be used to create other specimens.</param>
         /// <returns>
-        /// A <see cref="InstanceGeneratorNode.GeneratorStrategy"/> that implements the behavior of 
-        /// <see cref="ModestConstructorGeneratorStrategy" />.
+        /// A specimen generated from the requested type's most modest constructor, if possible;
+        /// otherwise, <see langword="null"/>.
         /// </returns>
-        protected override InstanceGeneratorNode.GeneratorStrategy CreateStrategy(ICustomAttributeProvider request)
+        public object Create(object request, ISpecimenContainer container)
         {
-            return new ModestConstructorGeneratorStrategy(this.Parent, request);
+            if (container == null)
+            {
+                throw new ArgumentNullException("container");
+            }
+
+            var ctor = ModestConstructorInvoker.GetModestConstructor(request);
+            if (ctor == null)
+            {
+                return null;
+            }
+
+            var paramValues = (from pi in ctor.GetParameters()
+                               select container.Create(pi)).ToList();
+
+            if (paramValues.Any(pv => pv == null))
+            {
+                return null;
+            }
+
+            return ctor.Invoke(paramValues.ToArray());
         }
 
-        private class ModestConstructorGeneratorStrategy : GeneratorStrategy
+        #endregion
+
+        private static ConstructorInfo GetModestConstructor(object request)
         {
-            private readonly ConstructorInfo ctor;
-
-            internal ModestConstructorGeneratorStrategy(IInstanceGenerator parent, ICustomAttributeProvider request)
-                : base(parent, request)
+            var requestedType = request as Type;
+            if (requestedType == null)
             {
-                this.ctor = ModestConstructorGeneratorStrategy.GetModestConstructor(request);
+                return null;
             }
 
-            public override bool CanGenerate()
-            {
-                if (this.ctor == null)
-                {
-                    return false;
-                }
-
-                return (from pi in this.ctor.GetParameters()
-                        select this.Parent.CanGenerate(pi.ParameterType)).All(canGenerate => canGenerate);
-            }
-
-            public override object Generate()
-            {
-                var paramValues = from pi in this.ctor.GetParameters()
-                                  select this.Parent.Generate(pi.ParameterType);
-                return this.ctor.Invoke(paramValues.ToArray());
-            }
-
-            private static ConstructorInfo GetModestConstructor(ICustomAttributeProvider request)
-            {
-                var requestedType = request as Type;
-                if (requestedType == null)
-                {
-                    return null;
-                }
-
-                return (from ci in requestedType.GetConstructors()
-                        let ps = ci.GetParameters()
-                        orderby ps.Length ascending
-                        select ci).FirstOrDefault();
-            }
+            return (from ci in requestedType.GetConstructors()
+                    let ps = ci.GetParameters()
+                    orderby ps.Length ascending
+                    select ci).FirstOrDefault();
         }
     }
 }
