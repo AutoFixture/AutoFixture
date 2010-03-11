@@ -57,7 +57,10 @@
     <Compile Include="BooleanSwitchTest.cs" />
     <Compile Include="ByteSequenceGeneratorTest.cs" />
     <Compile Include="CoalescingInstanceGeneratorTest.cs" />
+    <Compile Include="CompositeSpecimenBuilderTest.cs" />
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
+    <Compile Include="DelegatingSpecimenBuilder.cs" />
+    <Compile Include="DelegatingSpecimenContainer.cs" />
     <Compile Include="DoubleSequenceGeneratorTest.cs" />
     <Compile Include="InstanceGeneratorNodeTest.cs" />
     <Compile Include="MockInstanceGenerator.cs" />
