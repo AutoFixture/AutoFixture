@@ -112,7 +112,7 @@
     <Compile Include="PropertyAccessorFactory.cs" />
     <Compile Include="Kernel\PropertyBasedInstanceGenerator.cs" />
     <Compile Include="SByteSequenceGenerator.cs" />
-    <Compile Include="Kernel\Seed.cs" />
+    <Compile Include="Kernel\SeededRequest.cs" />
     <Compile Include="SingleSequenceGenerator.cs" />
     <Compile Include="UInt16SequenceGenerator.cs" />
     <Compile Include="UInt32SequenceGenerator.cs" />

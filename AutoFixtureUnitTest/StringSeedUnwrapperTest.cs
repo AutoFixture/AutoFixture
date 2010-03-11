@@ -66,7 +66,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new StringSeedUnwrapper();
-            var nonStringRequestSeed = new Seed(typeof(object), "Anonymous value");
+            var nonStringRequestSeed = new SeededRequest(typeof(object), "Anonymous value");
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(nonStringRequestSeed, dummyContainer);
@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new StringSeedUnwrapper();
-            var nonStringSeed = new Seed(typeof(string), new object());
+            var nonStringSeed = new SeededRequest(typeof(string), new object());
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(nonStringSeed, dummyContainer);
@@ -94,7 +94,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new StringSeedUnwrapper();
-            var stringSeed = new Seed(typeof(string), "Anonymous value");
+            var stringSeed = new SeededRequest(typeof(string), "Anonymous value");
             var unableContainer = new DelegatingSpecimenContainer { OnCreate = r => null };
             // Exercise system
             var result = sut.Create(stringSeed, unableContainer);
@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var containerString = Guid.NewGuid().ToString();
 
             var sut = new StringSeedUnwrapper();
-            var stringSeed = new Seed(typeof(string), seedString);
+            var stringSeed = new SeededRequest(typeof(string), seedString);
             var container = new DelegatingSpecimenContainer { OnCreate = r => containerString };
             // Exercise system
             var result = sut.Create(stringSeed, container);
@@ -126,7 +126,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new StringSeedUnwrapper();
-            var stringSeed = new Seed(typeof(string), "Anonymous value");
+            var stringSeed = new SeededRequest(typeof(string), "Anonymous value");
 
             var mockVerified = false;
             var containerMock = new DelegatingSpecimenContainer();

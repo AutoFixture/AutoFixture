@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var propertyName = "Property";
             var propertyInfo = typeof(PropertyHolder<string>).GetProperty(propertyName);
-            var expectedSeed = new Seed(propertyInfo.PropertyType, propertyName);
+            var expectedSeed = new SeededRequest(propertyInfo.PropertyType, propertyName);
 
             var parent = new MockInstanceGenerator
             {

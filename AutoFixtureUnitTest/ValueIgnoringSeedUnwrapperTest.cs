@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateFromSeedWhenContainerCannotSatisfyWrappedRequestWillReturnNull()
         {
             // Fixture setup
-            var anonymousSeed = new Seed(typeof(object), new object());
+            var anonymousSeed = new SeededRequest(typeof(object), new object());
             var unableContainer = new DelegatingSpecimenContainer { OnCreate = r => null };
             var sut = new ValueIgnoringSeedUnwrapper();
             // Exercise system
@@ -66,7 +66,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateFromSeedWhenContainerCanSatisfyWrappedRequestWillReturnCorrectResult()
         {
             // Fixture setup
-            var anonymousSeed = new Seed(typeof(object), new object());
+            var anonymousSeed = new SeededRequest(typeof(object), new object());
 
             var expectedResult = new object();
             var container = new DelegatingSpecimenContainer { OnCreate = r => expectedResult };
@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new ValueIgnoringSeedUnwrapper();
-            var seededRequest = new Seed(typeof(int), 1);
+            var seededRequest = new SeededRequest(typeof(int), 1);
 
             var mockVerified = false;
             var containerMock = new DelegatingSpecimenContainer();

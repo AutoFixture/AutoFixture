@@ -7,8 +7,8 @@ using System.Reflection;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// Unwraps a request for a string <see cref="Seed"/> to a request for a string and prefixes
-    /// the seed to the result.
+    /// Unwraps a request for a string <see cref="SeededRequest"/> to a request for a string and
+    /// prefixes the seed to the result.
     /// </summary>
     public class StringSeedUnwrapper : ISpecimenBuilder
     {
@@ -44,14 +44,14 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("container");
             }
 
-            var seededRequest = request as Seed;
+            var seededRequest = request as SeededRequest;
             if (seededRequest == null ||
-                seededRequest.TargetType != typeof(string))
+                seededRequest.Request != typeof(string))
             {
                 return null;
             }
 
-            var seed = seededRequest.Value as string;
+            var seed = seededRequest.Seed as string;
             if (seed == null)
             {
                 return null;

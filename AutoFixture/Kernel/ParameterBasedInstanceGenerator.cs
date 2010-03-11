@@ -50,12 +50,12 @@ namespace Ploeh.AutoFixture.Kernel
             public override bool CanGenerate()
             {
                 return this.parameterInfo != null
-                    && this.Parent.CanGenerate(new Seed(this.parameterInfo.ParameterType, this.parameterInfo.Name));
+                    && this.Parent.CanGenerate(new SeededRequest(this.parameterInfo.ParameterType, this.parameterInfo.Name));
             }
 
             public override object Generate()
             {
-                return this.Parent.Generate(new Seed(this.parameterInfo.ParameterType, this.parameterInfo.Name));
+                return this.Parent.Generate(new SeededRequest(this.parameterInfo.ParameterType, this.parameterInfo.Name));
             }
         }
 

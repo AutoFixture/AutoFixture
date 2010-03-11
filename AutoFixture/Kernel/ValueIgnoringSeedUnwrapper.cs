@@ -7,8 +7,8 @@ using System.Reflection;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// Unwraps a request for a <see cref="Seed"/> to a request for its
-    /// <see cref="Seed.TargetType"/> while ignoring the <see cref="Seed.Value"/>.
+    /// Unwraps a request for a <see cref="SeededRequest"/> to a request for its
+    /// <see cref="SeededRequest.Request"/> while ignoring the <see cref="SeededRequest.Seed"/>.
     /// </summary>
     public class ValueIgnoringSeedUnwrapper : ISpecimenBuilder
     {
@@ -49,13 +49,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("container");
             }
 
-            var seededRequest = request as Seed;
+            var seededRequest = request as SeededRequest;
             if (seededRequest == null)
             {
                 return null;
             }
 
-            return container.Create(seededRequest.TargetType);
+            return container.Create(seededRequest.Request);
         }
 
         #endregion

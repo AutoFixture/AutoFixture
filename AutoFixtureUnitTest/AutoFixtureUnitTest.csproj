@@ -69,7 +69,7 @@
     <Compile Include="PropertyBasedInstanceGeneratorTest.cs" />
     <Compile Include="StringSeedUnwrapperTest.cs" />
     <Compile Include="ValueIgnoringSeedUnwrapperTest.cs" />
-    <Compile Include="SeedTest.cs" />
+    <Compile Include="SeededRequestTest.cs" />
     <Compile Include="TemplatedLikenessTest.cs" />
     <Compile Include="GuidGeneratorTest.cs" />
     <Compile Include="GuidStringGeneratorTest.cs" />

@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
-            var expectedSeed = new Seed(parameterInfo.ParameterType, parameterInfo.Name);
+            var expectedSeed = new SeededRequest(parameterInfo.ParameterType, parameterInfo.Name);
 
             var parentMock = new MockInstanceGenerator();
             parentMock.CanGenerateCallback = expectedSeed.Equals;
