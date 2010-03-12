@@ -58,6 +58,7 @@
     <Compile Include="ByteSequenceGeneratorTest.cs" />
     <Compile Include="CompositeSpecimenBuilderTest.cs" />
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
+    <Compile Include="DefaultSpecimenContainerTest.cs" />
     <Compile Include="DelegatingSpecimenBuilder.cs" />
     <Compile Include="DelegatingSpecimenContainer.cs" />
     <Compile Include="DoubleSequenceGeneratorTest.cs" />
