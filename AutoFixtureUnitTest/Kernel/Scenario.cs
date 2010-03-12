@@ -54,17 +54,38 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        private static DefaultSpecimenContainer CreateContainer()
+        [TestMethod]
+        public void CreateDoubleMixedParameterizedTypeWithNumberBasedStringGenerator()
         {
+            // Fixture setup
+            var intGenerator = new Int32SequenceGenerator();
             var builder = new CompositeSpecimenBuilder(
-                new Int32SequenceGenerator(),
-                new GuidStringGenerator(),
+                intGenerator,
+                new StringGenerator(() => intGenerator.CreateAnonymous()),
                 new ModestConstructorInvoker(),
                 new ParameterRequestTranslator(),
                 new StringSeedUnwrapper(),
                 new ValueIgnoringSeedUnwrapper());
             var container = new DefaultSpecimenContainer(builder);
-            return container;
+            // Exercise system
+            var result = (TripleParameterType<int, string, int>)container.Create(typeof(TripleParameterType<int, string, int>));
+            // Verify outcome
+            Assert.AreEqual(1, result.Parameter1, "Parameter1");
+            Assert.AreEqual("parameter22", result.Parameter2, "Parameter2");
+            Assert.AreEqual(3, result.Parameter3, "Parameter3");
+            // Teardown
+        }
+
+        private static DefaultSpecimenContainer CreateContainer()
+        {
+            var builder = new CompositeSpecimenBuilder(
+                new Int32SequenceGenerator(),
+                new StringGenerator(() => Guid.NewGuid()),
+                new ModestConstructorInvoker(),
+                new ParameterRequestTranslator(),
+                new StringSeedUnwrapper(),
+                new ValueIgnoringSeedUnwrapper());
+            return new DefaultSpecimenContainer(builder);
         }
     }
 }

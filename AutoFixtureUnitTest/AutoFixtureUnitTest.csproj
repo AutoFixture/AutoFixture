@@ -69,6 +69,7 @@
     <Compile Include="Kernel\StringSeedUnwrapperTest.cs" />
     <Compile Include="Kernel\ValueIgnoringSeedUnwrapperTest.cs" />
     <Compile Include="Kernel\SeededRequestTest.cs" />
+    <Compile Include="StringGeneratorTest.cs" />
     <Compile Include="TemplatedLikenessTest.cs" />
     <Compile Include="GuidGeneratorTest.cs" />
     <Compile Include="GuidStringGeneratorTest.cs" />
