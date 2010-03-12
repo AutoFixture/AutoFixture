@@ -79,6 +79,7 @@
     <Compile Include="Kernel\ISpecimenBuilder.cs" />
     <Compile Include="Kernel\ISpecimenContainer.cs" />
     <Compile Include="Kernel\ModestConstructorInvoker.cs" />
+    <Compile Include="Kernel\NoSpecimen.cs" />
     <Compile Include="Kernel\ParameterRequestTranslator.cs" />
     <Compile Include="Kernel\StringSeedUnwrapper.cs" />
     <Compile Include="Kernel\ValueIgnoringSeedUnwrapper.cs" />
