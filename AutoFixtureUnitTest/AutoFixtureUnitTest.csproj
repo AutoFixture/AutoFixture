@@ -56,17 +56,17 @@
   <ItemGroup>
     <Compile Include="BooleanSwitchTest.cs" />
     <Compile Include="ByteSequenceGeneratorTest.cs" />
-    <Compile Include="CompositeSpecimenBuilderTest.cs" />
+    <Compile Include="Kernel\CompositeSpecimenBuilderTest.cs" />
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
-    <Compile Include="DefaultSpecimenContainerTest.cs" />
+    <Compile Include="Kernel\DefaultSpecimenContainerTest.cs" />
     <Compile Include="DelegatingSpecimenBuilder.cs" />
     <Compile Include="DelegatingSpecimenContainer.cs" />
     <Compile Include="DoubleSequenceGeneratorTest.cs" />
-    <Compile Include="ModestConstructorInvokerTest.cs" />
-    <Compile Include="ParameterRequestTranslatorTest.cs" />
-    <Compile Include="StringSeedUnwrapperTest.cs" />
-    <Compile Include="ValueIgnoringSeedUnwrapperTest.cs" />
-    <Compile Include="SeededRequestTest.cs" />
+    <Compile Include="Kernel\ModestConstructorInvokerTest.cs" />
+    <Compile Include="Kernel\ParameterRequestTranslatorTest.cs" />
+    <Compile Include="Kernel\StringSeedUnwrapperTest.cs" />
+    <Compile Include="Kernel\ValueIgnoringSeedUnwrapperTest.cs" />
+    <Compile Include="Kernel\SeededRequestTest.cs" />
     <Compile Include="TemplatedLikenessTest.cs" />
     <Compile Include="GuidGeneratorTest.cs" />
     <Compile Include="GuidStringGeneratorTest.cs" />
