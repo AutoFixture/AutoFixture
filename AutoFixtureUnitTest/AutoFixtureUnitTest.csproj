@@ -59,8 +59,8 @@
     <Compile Include="Kernel\CompositeSpecimenBuilderTest.cs" />
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
     <Compile Include="Kernel\DefaultSpecimenContainerTest.cs" />
-    <Compile Include="DelegatingSpecimenBuilder.cs" />
-    <Compile Include="DelegatingSpecimenContainer.cs" />
+    <Compile Include="Kernel\DelegatingSpecimenBuilder.cs" />
+    <Compile Include="Kernel\DelegatingSpecimenContainer.cs" />
     <Compile Include="DoubleSequenceGeneratorTest.cs" />
     <Compile Include="Kernel\ModestConstructorInvokerTest.cs" />
     <Compile Include="Kernel\NoSpecimenTest.cs" />
