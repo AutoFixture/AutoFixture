@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Threading;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
     /// <summary>
     /// Creates a sequence of consecutive numbers, starting at 1.
     /// </summary>
-    public class Int32SequenceGenerator
+    public class Int32SequenceGenerator : ISpecimenBuilder
     {
         private int i;
 
@@ -35,5 +36,25 @@ namespace Ploeh.AutoFixture
         {
             return this.CreateAnonymous();
         }
+
+        #region ISpecimenBuilder Members
+
+        /// <summary>
+        /// Creates an anonymous number.
+        /// </summary>
+        /// <param name="request">The request that describes what to create.</param>
+        /// <param name="container">Not used.</param>
+        /// <returns>The next number in a consequtive sequence.</returns>
+        public object Create(object request, ISpecimenContainer container)
+        {
+            if (request != typeof(int))
+            {
+                return new NoSpecimen(request);
+            }
+
+            return this.CreateAnonymous();
+        }
+
+        #endregion
     }
 }

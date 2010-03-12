@@ -41,9 +41,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [TestMethod]
+        public void CreateSingleAndStringParameterizedType()
+        {
+            // Fixture setup
+            var container = Scenario.CreateContainer();
+            // Exercise system
+            var result = (DoubleParameterType<string, int>)container.Create(typeof(DoubleParameterType<string, int>));
+            // Verify outcome
+            Assert.IsFalse(string.IsNullOrEmpty(result.Parameter1), "Parameter11");
+            Assert.AreNotEqual(0, result.Parameter2, "Parameter2");
+            // Teardown
+        }
+
         private static DefaultSpecimenContainer CreateContainer()
         {
             var builder = new CompositeSpecimenBuilder(
+                new Int32SequenceGenerator(),
                 new GuidStringGenerator(),
                 new ModestConstructorInvoker(),
                 new ParameterRequestTranslator(),
