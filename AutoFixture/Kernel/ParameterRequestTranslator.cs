@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixture.Kernel
             var paramInfo = request as ParameterInfo;
             if (paramInfo == null)
             {
-                return null;
+                return new NoSpecimen(request);
             }
 
             return container.Create(new SeededRequest(paramInfo.ParameterType, paramInfo.Name));

@@ -30,7 +30,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen();
+            Assert.AreEqual(expectedResult, result, "Create");
             // Teardown
         }
 
@@ -57,7 +58,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(nonSeed, dummyContainer);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen(nonSeed);
+            Assert.AreEqual(expectedResult, result, "Create");
             // Teardown
         }
 
@@ -71,12 +73,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(nonStringRequestSeed, dummyContainer);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen(nonStringRequestSeed);
+            Assert.AreEqual(expectedResult, result, "Create");
             // Teardown
         }
 
         [TestMethod]
-        public void CreateWithNonStringSeedWillReturnNull()
+        public void CreateWithNonStringSeedWillReturnCorrectResult()
         {
             // Fixture setup
             var sut = new StringSeedUnwrapper();
@@ -85,21 +88,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(nonStringSeed, dummyContainer);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen(nonStringSeed);
+            Assert.AreEqual(expectedResult, result, "Create");
             // Teardown
         }
 
         [TestMethod]
-        public void CreateWithStringSeedWhenContainerCannotCreateStringsWillReturnNull()
+        public void CreateWithStringSeedWhenContainerCannotCreateStringsWillReturnCorrectResult()
         {
             // Fixture setup
             var sut = new StringSeedUnwrapper();
             var stringSeed = new SeededRequest(typeof(string), "Anonymous value");
-            var unableContainer = new DelegatingSpecimenContainer { OnCreate = r => null };
+            var unableContainer = new DelegatingSpecimenContainer { OnCreate = r => new NoSpecimen(stringSeed) };
             // Exercise system
             var result = sut.Create(stringSeed, unableContainer);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen(stringSeed);
+            Assert.AreEqual(expectedResult, result, "Create");
             // Teardown
         }
 

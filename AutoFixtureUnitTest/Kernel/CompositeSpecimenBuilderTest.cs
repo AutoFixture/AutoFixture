@@ -94,13 +94,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [TestMethod]
-        public void CreateWillReturnFirstNonNullResultFromBuilders()
+        public void CreateWillReturnFirstSpecimenResultFromBuilders()
         {
             // Fixture setup
             var expectedResult = new object();
             var builders = new ISpecimenBuilder[]
             {
-                new DelegatingSpecimenBuilder { OnCreate = (r, c) => null },
+                new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() },
                 new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedResult },
                 new DelegatingSpecimenBuilder { OnCreate = (r, c) => new object() }
             };
@@ -115,14 +115,14 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [TestMethod]
-        public void CreateWillReturnNullIfAllBuildersReturnNull()
+        public void CreateWillReturnNoSpecimenfAllBuildersReturnNoSpecimen()
         {
             // Fixture setup
             var builders = new ISpecimenBuilder[]
             {
-                new DelegatingSpecimenBuilder { OnCreate = (r, c) => null },
-                new DelegatingSpecimenBuilder { OnCreate = (r, c) => null },
-                new DelegatingSpecimenBuilder { OnCreate = (r, c) => null }
+                new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() },
+                new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() },
+                new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() }
             };
             var sut = new CompositeSpecimenBuilder(builders);
             // Exercise system
@@ -130,7 +130,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(anonymousRequest, dummyContainer);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            Assert.IsInstanceOfType(result, typeof(NoSpecimen), "Create");
             // Teardown
         }
 

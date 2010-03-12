@@ -41,19 +41,19 @@ namespace Ploeh.AutoFixture.Kernel
             if (seededRequest == null ||
                 seededRequest.Request != typeof(string))
             {
-                return null;
+                return new NoSpecimen(request);
             }
 
             var seed = seededRequest.Seed as string;
             if (seed == null)
             {
-                return null;
+                return new NoSpecimen(request);
             }
 
             var containerResult = container.Create(typeof(string));
-            if (containerResult == null)
+            if (containerResult is NoSpecimen)
             {
-                return null;
+                return containerResult;
             }
 
             return seed + containerResult;

@@ -60,7 +60,7 @@ namespace Ploeh.AutoFixture
         {
             if (request != typeof(string))
             {
-                return null;
+                return new NoSpecimen(request);
             }
 
             return Guid.NewGuid().ToString();

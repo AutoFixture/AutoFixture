@@ -32,7 +32,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen();
+            Assert.AreEqual(expectedResult, result, "Create");
             // Teardown
         }
 
@@ -50,7 +51,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [TestMethod]
-        public void CreateFromNonTypeRequestWillReturnNull()
+        public void CreateFromNonTypeRequestWillReturnCorrectResult()
         {
             // Fixture setup
             var nonTypeRequest = new object();
@@ -59,21 +60,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = sut.Create(nonTypeRequest, dummyContainer);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen(nonTypeRequest);
+            Assert.AreEqual(expectedResult, result, "Create");
             // Teardown
         }
 
         [TestMethod]
-        public void CreateFromTypeRequestWhenContainerCannotSatisfyParameterRequestWillReturnNull()
+        public void CreateFromTypeRequestWhenContainerCannotSatisfyParameterRequestWillReturnCorrectResult()
         {
             // Fixture setup
             var type = typeof(string);
-            var container = new DelegatingSpecimenContainer { OnCreate = r => null };
+            var container = new DelegatingSpecimenContainer { OnCreate = r => new NoSpecimen(type) };
             var sut = new ModestConstructorInvoker();
             // Exercise system
             var result = sut.Create(type, container);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen(type);
+            Assert.AreEqual(expectedResult, result, "Create");
             // Teardown
         }
 
@@ -86,7 +89,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = sut.Create(typeof(AbstractType), container);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen(typeof(AbstractType));
+            Assert.AreEqual(expectedResult, result, "Create");
             // Teardown
         }
 
@@ -95,12 +99,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var requestedType = typeof(DoubleParameterType<string, int>);
-            var container = new DelegatingSpecimenContainer { OnCreate = r => typeof(string) == r ? new object() : null };
+            var parameters = requestedType.GetConstructors().Single().GetParameters();
+            var container = new DelegatingSpecimenContainer { OnCreate = r => parameters[0] == r ? new object() : new NoSpecimen(r) };
             var sut = new ModestConstructorInvoker();
             // Exercise system
             var result = sut.Create(requestedType, container);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            Assert.IsInstanceOfType(result, typeof(NoSpecimen), "Create");
             // Teardown
         }
 

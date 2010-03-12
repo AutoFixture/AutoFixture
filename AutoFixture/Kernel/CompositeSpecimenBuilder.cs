@@ -65,8 +65,8 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return (from b in this.Builders
                     let result = b.Create(request, container)
-                    where result != null
-                    select result).FirstOrDefault();
+                    where !(result is NoSpecimen)
+                    select result).DefaultIfEmpty(new NoSpecimen()).FirstOrDefault();
         }
 
         #endregion

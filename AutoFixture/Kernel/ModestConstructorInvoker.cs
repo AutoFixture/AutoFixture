@@ -32,15 +32,15 @@ namespace Ploeh.AutoFixture.Kernel
             var ctor = ModestConstructorInvoker.GetModestConstructor(request);
             if (ctor == null)
             {
-                return null;
+                return new NoSpecimen(request);
             }
 
             var paramValues = (from pi in ctor.GetParameters()
                                select container.Create(pi)).ToList();
 
-            if (paramValues.Any(pv => pv == null))
+            if (paramValues.Any(pv => pv is NoSpecimen))
             {
-                return null;
+                return new NoSpecimen(request);
             }
 
             return ctor.Invoke(paramValues.ToArray());

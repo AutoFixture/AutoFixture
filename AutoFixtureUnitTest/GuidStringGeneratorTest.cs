@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [TestMethod]
-        public void CreateFromNullRequestWillReturnNull()
+        public void CreateFromNullRequestWillReturnCorrectResult()
         {
             // Fixture setup
             var sut = new GuidStringGenerator();
@@ -92,7 +92,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen();
+            Assert.AreEqual(expectedResult, result, "Create");
             // Teardown
         }
 
@@ -118,7 +119,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(nonStringRequest, dummyContainer);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen(nonStringRequest);
+            Assert.AreEqual(expectedResult, result, "Create");
             // Teardown
         }
 
