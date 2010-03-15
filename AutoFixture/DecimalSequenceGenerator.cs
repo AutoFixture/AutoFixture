@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
     /// <summary>
     /// Creates a sequence of consecutive numbers, starting at 1.
     /// </summary>
-    public class DecimalSequenceGenerator
+    public class DecimalSequenceGenerator : ISpecimenBuilder
     {
         private decimal d;
         private readonly object syncRoot;
@@ -39,5 +40,25 @@ namespace Ploeh.AutoFixture
         {
             return this.CreateAnonymous();
         }
+
+        #region ISpecimenBuilder Members
+
+        /// <summary>
+        /// Creates an anonymous number.
+        /// </summary>
+        /// <param name="request">The request that describes what to create.</param>
+        /// <param name="container">Not used.</param>
+        /// <returns>The next number in a consequtive sequence.</returns>
+        public object Create(object request, ISpecimenContainer container)
+        {
+            if (request != typeof(decimal))
+            {
+                return new NoSpecimen(request);
+            }
+
+            return this.CreateAnonymous();
+        }
+
+        #endregion
     }
 }
