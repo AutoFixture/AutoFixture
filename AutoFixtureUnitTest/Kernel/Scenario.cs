@@ -68,6 +68,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [TestMethod]
+        public void CreateNestedType()
+        {
+            // Fixture setup
+            var container = Scenario.CreateContainer();
+            // Exercise system
+            var result = (DoubleParameterType<DoubleParameterType<int, Guid>, DoubleParameterType<decimal, bool>>)container.Create(
+                typeof(DoubleParameterType<DoubleParameterType<int, Guid>, DoubleParameterType<decimal, bool>>));
+            // Verify outcome
+            Assert.AreEqual(1, result.Parameter1.Parameter1, "Parameter1.Parameter1");
+            Assert.AreNotEqual(default(Guid), result.Parameter1.Parameter2, "Parameter1.Parameter2");
+            Assert.AreEqual(1m, result.Parameter2.Parameter1, "Parameter2.Parameter1");
+            Assert.AreEqual(true, result.Parameter2.Parameter2, "Parameter2.Parameter2");
+            // Teardown
+        }
+
+        [TestMethod]
         public void CreateDoubleMixedParameterizedTypeWithNumberBasedStringGenerator()
         {
             // Fixture setup
@@ -77,6 +93,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new StringGenerator(() => intGenerator.CreateAnonymous()),
                 new DecimalSequenceGenerator(),
                 new BooleanSwitch(),
+                new GuidGenerator(),
                 new ModestConstructorInvoker(),
                 new ParameterRequestTranslator(),
                 new StringSeedUnwrapper(),
@@ -98,6 +115,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new StringGenerator(() => Guid.NewGuid()),
                 new DecimalSequenceGenerator(),
                 new BooleanSwitch(),
+                new GuidGenerator(),
                 new ModestConstructorInvoker(),
                 new ParameterRequestTranslator(),
                 new StringSeedUnwrapper(),
