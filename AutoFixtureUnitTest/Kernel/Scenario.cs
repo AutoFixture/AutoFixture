@@ -91,6 +91,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var builder = new CompositeSpecimenBuilder(
                 intGenerator,
                 new StringGenerator(() => intGenerator.CreateAnonymous()),
+                new Int64SequenceGenerator(),
                 new DecimalSequenceGenerator(),
                 new BooleanSwitch(),
                 new GuidGenerator(),
@@ -112,6 +113,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             var builder = new CompositeSpecimenBuilder(
                 new Int32SequenceGenerator(),
+                new Int64SequenceGenerator(),
                 new StringGenerator(() => Guid.NewGuid()),
                 new DecimalSequenceGenerator(),
                 new BooleanSwitch(),
