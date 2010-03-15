@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [TestMethod]
-        public void CreateDoubleStringParamterizedType()
+        public void CreateDoubleStringParameterizedType()
         {
             // Fixture setup
             var container = Scenario.CreateContainer();
@@ -42,7 +42,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [TestMethod]
-        public void CreateSingleAndStringParameterizedType()
+        public void CreateStringAndIntegerParameterizedType()
         {
             // Fixture setup
             var container = Scenario.CreateContainer();
@@ -55,6 +55,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [TestMethod]
+        public void CreateDecimalAndBooleanParameterizedType()
+        {
+            // Fixture setup
+            var container = Scenario.CreateContainer();
+            // Exercise system
+            var result = (DoubleParameterType<decimal, bool>)container.Create(typeof(DoubleParameterType<decimal, bool>));
+            // Verify outcome
+            Assert.AreEqual(1m, result.Parameter1, "Parameter1");
+            Assert.IsTrue(result.Parameter2, "Parameter2");
+            // Teardown
+        }
+
+        [TestMethod]
         public void CreateDoubleMixedParameterizedTypeWithNumberBasedStringGenerator()
         {
             // Fixture setup
@@ -62,6 +75,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var builder = new CompositeSpecimenBuilder(
                 intGenerator,
                 new StringGenerator(() => intGenerator.CreateAnonymous()),
+                new DecimalSequenceGenerator(),
+                new BooleanSwitch(),
                 new ModestConstructorInvoker(),
                 new ParameterRequestTranslator(),
                 new StringSeedUnwrapper(),
@@ -81,6 +96,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var builder = new CompositeSpecimenBuilder(
                 new Int32SequenceGenerator(),
                 new StringGenerator(() => Guid.NewGuid()),
+                new DecimalSequenceGenerator(),
+                new BooleanSwitch(),
                 new ModestConstructorInvoker(),
                 new ParameterRequestTranslator(),
                 new StringSeedUnwrapper(),

@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
     /// <summary>
     /// Creates an alternating sequence of <see langword="true"/> and <see langword="false"/>,
     /// </summary>
-    public class BooleanSwitch
+    public class BooleanSwitch : ISpecimenBuilder
     {
         private bool b;
         private readonly object syncRoot;
@@ -48,5 +49,30 @@ namespace Ploeh.AutoFixture
         {
             return this.CreateAnonymous();
         }
+
+        #region ISpecimenBuilder Members
+
+        /// <summary>
+        /// Returns an alternating sequence of <see langword="true"/> and <see langword="false"/>
+        /// every other time it is invoked.
+        /// </summary>
+        /// <param name="request">The request that describes what to create.</param>
+        /// <param name="container">Not used.</param>
+        /// <returns>
+        /// <see langword="true"/>, followed by <see langword="false"/> at the next invocation, and
+        /// so on, if <paramref name="request"/> is a request for a boolean; otherwise, a
+        /// <see cref="NoSpecimen"/> instance.
+        /// </returns>
+        public object Create(object request, ISpecimenContainer container)
+        {
+            if (request != typeof(bool))
+            {
+                return new NoSpecimen(request);
+            }
+
+            return this.CreateAnonymous();
+        }
+
+        #endregion
     }
 }

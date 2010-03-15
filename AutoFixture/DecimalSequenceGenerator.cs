@@ -48,7 +48,10 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
         /// <param name="container">Not used.</param>
-        /// <returns>The next number in a consequtive sequence.</returns>
+        /// <returns>
+        /// The next number in a consequtive sequence, if <paramref name="request"/> is a request
+        /// for a decimal number; otherwise, a <see cref="NoSpecimen"/> instance.
+        /// </returns>
         public object Create(object request, ISpecimenContainer container)
         {
             if (request != typeof(decimal))
