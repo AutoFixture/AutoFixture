@@ -1629,5 +1629,281 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.IsNull(result.Property2, "OmitAutoProperties/With");
             // Teardown
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ObjectCreationException))]
+        public void CreateAnonymousWillThrowOnReferenceRecursionPoint()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            sut.CreateAnonymous<RecursionTestObjectWithReferenceOutA>();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ObjectCreationException))]
+        public void CreateAnonymousWillThrowOnConstructorRecursionPoint()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            sut.CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ObjectCreationException))]
+        public void BuildWithThrowingRecursionHandlerWillThrowOnReferenceRecursionPoint()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            sut.Build<RecursionTestObjectWithReferenceOutA>()
+    .UsingRecursionHandler(new ThrowingRecursionHandler())
+    .CreateAnonymous();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ObjectCreationException))]
+        public void BuildWithThrowingRecursionHandlerWillThrowOnConstructorRecursionPoint()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
+                .UsingRecursionHandler(new ThrowingRecursionHandler())
+                .CreateAnonymous();
+        }
+
+        [TestMethod]
+        public void BuildWithNullRecursionHandlerWillCreateNullOnRecursionPoint()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
+                .UsingRecursionHandler(new NullRecursionHandler())
+                .CreateAnonymous();
+            // Verify outcome
+            Assert.IsNull(result.ReferenceToB.ReferenceToA.ReferenceToB);
+        }
+
+        [TestMethod]
+        public void BuildWithNullRecursionHandlerWillCreateNullOnConstructorRecursionPoint()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
+                .UsingRecursionHandler(new NullRecursionHandler())
+                .CreateAnonymous();
+            // Verify outcome
+            Assert.IsNull(result.ReferenceToB.ReferenceToA.ReferenceToB);
+        }
+
+        [TestMethod]
+        public void CreateAnonymousOnRegisteredInstanceWillReturnInstanceWithoutAutoProperties()
+        {
+            // Fixture setup
+            var item = new PropertyHolder<string>();
+            var sut = new Fixture();
+            // Exercise system
+            sut.Register(item);
+            // Verify outcome
+            var result = sut.CreateAnonymous<PropertyHolder<string>>();
+            Assert.IsNull(result.Property, "Register");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void CreateAnonymousOnReqisteredParameterlessFuncWillReturnInstanceWithoutAutoProperties()
+        {
+            // Fixture setup
+            var item = new PropertyHolder<string>();
+            var sut = new Fixture();
+            // Exercise system
+            sut.Register(() => item);
+            // Verify outcome
+            var result = sut.CreateAnonymous<PropertyHolder<string>>();
+            Assert.IsNull(result.Property, "Register");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void CreateAnonymousOnReqisteredSingleParameterFuncWillReturnInstanceWithoutAutoProperties()
+        {
+            // Fixture setup
+            var item = new PropertyHolder<string>();
+            var sut = new Fixture();
+            // Exercise system
+            sut.Register((object obj) => item);
+            // Verify outcome
+            var result = sut.CreateAnonymous<PropertyHolder<string>>();
+            Assert.IsNull(result.Property, "Register");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void CreateAnonymousOnReqisteredDoubleParameterFuncWillReturnInstanceWithoutAutoProperties()
+        {
+            // Fixture setup
+            var item = new PropertyHolder<string>();
+            var sut = new Fixture();
+            // Exercise system
+            sut.Register((object obj1, object obj2) => item);
+            // Verify outcome
+            var result = sut.CreateAnonymous<PropertyHolder<string>>();
+            Assert.IsNull(result.Property, "Register");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void CreateAnonymousOnReqisteredTripleParameterFuncWillReturnInstanceWithoutAutoProperties()
+        {
+            // Fixture setup
+            var item = new PropertyHolder<string>();
+            var sut = new Fixture();
+            // Exercise system
+            sut.Register((object obj1, object obj2, object obj3) => item);
+            // Verify outcome
+            var result = sut.CreateAnonymous<PropertyHolder<string>>();
+            Assert.IsNull(result.Property, "Register");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void CreateAnonymousOnReqisteredQuadrupleParameterFuncWillReturnInstanceWithoutAutoProperties()
+        {
+            // Fixture setup
+            var item = new PropertyHolder<string>();
+            var sut = new Fixture();
+            // Exercise system
+            sut.Register((object obj1, object obj2, object obj3, object obj4) => item);
+            // Verify outcome
+            var result = sut.CreateAnonymous<PropertyHolder<string>>();
+            Assert.IsNull(result.Property, "Register");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void CreateAnonymousWithOmitAutoPropertiesWillNotAssignProperty()
+        {
+            // Fixture setup
+            Fixture sut = new Fixture() { OmitAutoProperties = true };
+            // Exercise system
+            PropertyHolder<string> result = sut.CreateAnonymous<PropertyHolder<string>>();
+            // Verify outcome
+            Assert.IsNull(result.Property, "Property should not be assigned");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void CustomizeInstanceWithOmitAutoPropertiesWillReturnFactoryWithOmitAutoProperties()
+        {
+            // Fixture setup
+            var sut = new Fixture() { OmitAutoProperties = true };
+            // Exercise system
+            ObjectBuilder<PropertyHolder<object>> builder = sut.Build<PropertyHolder<object>>();
+            PropertyHolder<object> result = builder.CreateAnonymous();
+            // Verify outcome
+            Assert.IsNull(result.Property, "Should not be assigned");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void FreezedFirstCallToCreateAnonymousWithOmitAutoPropertiesWillNotAssignProperty()
+        {
+            // Fixture setup
+            var sut = new Fixture() { OmitAutoProperties = true };
+            // Exercise system
+            var expectedResult = sut.Freeze<PropertyHolder<string>>();
+            // Verify outcome
+            Assert.IsNull(expectedResult.Property, "Property should not be assigned");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void CustomizedBuilderCreateAnonymousWithOmitAutoPropertiesWillNotAssignProperty()
+        {
+            // Fixture setup
+            var sut = new Fixture() { OmitAutoProperties = true };
+            // Exercise system
+            sut.Customize<PropertyHolder<string>>(x => x);
+            var expectedResult = sut.CreateAnonymous<PropertyHolder<string>>();
+            // Verify outcome
+            Assert.IsNull(expectedResult.Property, "Property should not be assigned");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void CustomizedOverrideOfOmitAutoPropertiesWillAssignProperty()
+        {
+            // Fixture setup
+            var sut = new Fixture() { OmitAutoProperties = true };
+            // Exercise system
+            sut.Customize<PropertyHolder<string>>(x => x.WithAutoProperties());
+            var expectedResult = sut.CreateAnonymous<PropertyHolder<string>>();
+            // Verify outcome
+            Assert.IsNotNull(expectedResult.Property, "Property should be assigned");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void DefaultOmitAutoPropertiesIsFalse()
+        {
+            // Fixture setup
+            Fixture sut = new Fixture();
+            // Exercise system
+            bool result = sut.OmitAutoProperties;
+            // Verify outcome
+            Assert.IsFalse(result, "OmitAutoProperties");
+            // Teardown
+        }
+    }
+
+    public class RecursionTestObjectWithReferenceOutA
+    {
+        public RecursionTestObjectWithReferenceOutB ReferenceToB
+        {
+            get;
+            set;
+        }
+    }
+
+    public class RecursionTestObjectWithReferenceOutB
+    {
+        public RecursionTestObjectWithReferenceOutA ReferenceToA
+        {
+            get;
+            set;
+        }
+    }
+
+    public class RecursionTestObjectWithConstructorReferenceOutA
+    {
+        public RecursionTestObjectWithConstructorReferenceOutB ReferenceToB
+        {
+            get;
+            private set;
+        }
+
+        public RecursionTestObjectWithConstructorReferenceOutA(RecursionTestObjectWithConstructorReferenceOutB b)
+        {
+            this.ReferenceToB = b;
+        }
+    }
+
+    public class RecursionTestObjectWithConstructorReferenceOutB
+    {
+        public RecursionTestObjectWithConstructorReferenceOutA ReferenceToA
+        {
+            get;
+            private set;
+        }
+
+        public RecursionTestObjectWithConstructorReferenceOutB(RecursionTestObjectWithConstructorReferenceOutA a)
+        {
+            this.ReferenceToA = a;
+        }
     }
 }
+

@@ -105,7 +105,7 @@ namespace Ploeh.AutoFixtureUnitTest
         private static ConstructingObjectBuilder<T> CreateSut<T>(Fixture f, Func<T, T> creator)
         {
 #pragma warning disable 618
-            return new ConstructingObjectBuilder<T>(f.TypeMappings, f.RepeatCount, null, creator);
+            return new ConstructingObjectBuilder<T>(f.TypeMappings, new ThrowingRecursionHandler(), f.RepeatCount, f.OmitAutoProperties, null, creator);
 #pragma warning restore 618
         }
     }

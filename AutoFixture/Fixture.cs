@@ -55,6 +55,17 @@ namespace Ploeh.AutoFixture
         public int RepeatCount { get; set; }
 
         /// <summary>
+        /// Gets or sets if writable properties should generally be assigned a value when 
+        /// generating an anonymous object.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The default value is false.
+        /// </para>
+        /// </remarks>
+        public bool OmitAutoProperties { get; set; }
+
+        /// <summary>
         /// Gets or sets a callback that can be invoked to resolve unresolved types.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -166,7 +177,7 @@ namespace Ploeh.AutoFixture
         /// <returns>An anonymous object.</returns>
         public virtual T CreateAnonymous<T>(T seed)
         {
-            return new CustomizedObjectFactory(this.typeMappings, this.RepeatCount, this.Resolver).CreateAnonymous(seed);
+            return new CustomizedObjectFactory(this.typeMappings, new ThrowingRecursionHandler(), this.RepeatCount, this.OmitAutoProperties, this.Resolver).CreateAnonymous(seed);
         }
 
         /// <summary>
@@ -494,7 +505,7 @@ namespace Ploeh.AutoFixture
         /// </param>
         public void Register<T>(Func<T> creator)
         {
-            this.Customize<T>(ob => ob.WithConstructor(creator));
+            this.Customize<T>(ob => ob.WithConstructor(creator).OmitAutoProperties());
         }
 
         /// <summary>
@@ -513,7 +524,7 @@ namespace Ploeh.AutoFixture
         /// </param>
         public void Register<TInput, T>(Func<TInput, T> creator)
         {
-            this.Customize<T>(ob => ob.WithConstructor<TInput>(creator));
+            this.Customize<T>(ob => ob.WithConstructor<TInput>(creator).OmitAutoProperties());
         }
 
         /// <summary>
@@ -535,7 +546,7 @@ namespace Ploeh.AutoFixture
         /// </param>
         public void Register<TInput1, TInput2, T>(Func<TInput1, TInput2, T> creator)
         {
-            this.Customize<T>(ob => ob.WithConstructor<TInput1, TInput2>(creator));
+            this.Customize<T>(ob => ob.WithConstructor<TInput1, TInput2>(creator).OmitAutoProperties());
         }
 
         /// <summary>
@@ -560,7 +571,7 @@ namespace Ploeh.AutoFixture
         /// </param>
         public void Register<TInput1, TInput2, TInput3, T>(Func<TInput1, TInput2, TInput3, T> creator)
         {
-            this.Customize<T>(ob => ob.WithConstructor<TInput1, TInput2, TInput3>(creator));
+            this.Customize<T>(ob => ob.WithConstructor<TInput1, TInput2, TInput3>(creator).OmitAutoProperties());
         }
 
         /// <summary>
@@ -588,7 +599,7 @@ namespace Ploeh.AutoFixture
         /// </param>
         public void Register<TInput1, TInput2, TInput3, TInput4, T>(Func<TInput1, TInput2, TInput3, TInput4, T> creator)
         {
-            this.Customize<T>(ob => ob.WithConstructor<TInput1, TInput2, TInput3, TInput4>(creator));
+            this.Customize<T>(ob => ob.WithConstructor<TInput1, TInput2, TInput3, TInput4>(creator).OmitAutoProperties());
         }
 
         /// <summary>
@@ -614,7 +625,7 @@ namespace Ploeh.AutoFixture
 
         private LatentObjectBuilder<T> CreateLatentObjectBuilder<T>()
         {
-            return new LatentObjectBuilder<T>(this.typeMappings, this.RepeatCount, this.Resolver);
+            return new LatentObjectBuilder<T>(this.typeMappings, new ThrowingRecursionHandler(), this.RepeatCount, this.OmitAutoProperties, this.Resolver);
         }
 
         private T FreezeValue<T>(T value)

@@ -10,18 +10,27 @@ namespace Ploeh.AutoFixture
     {
         private readonly IDictionary<Type, Func<object, object>> typeMappings;
         private readonly int repeatCount;
+        private readonly bool omitAutoProperties;
         private readonly Func<Type, object> resolve;
+        private RecursionHandler recursionHandler;
 
-        internal CustomizedObjectFactory(IDictionary<Type, Func<object, object>> typeMappings, int repeatCount, Func<Type, object> resolvCallback)
+        internal CustomizedObjectFactory(IDictionary<Type, Func<object, object>> typeMappings, RecursionHandler recursionHandler, int repeatCount, bool omitAutoProperties, Func<Type, object> resolvCallback)
         {
             this.typeMappings = typeMappings;
             this.repeatCount = repeatCount;
+            this.omitAutoProperties = omitAutoProperties;
             this.resolve = resolvCallback;
+            this.recursionHandler = recursionHandler;
         }
 
         internal int RepeatCount
         {
             get { return this.repeatCount; }
+        }
+
+        internal void SetRecursionHandler(RecursionHandler newRecursionHandler)
+        {
+            this.recursionHandler = newRecursionHandler;
         }
 
         internal T CreateAnonymous<T>(T seed)
@@ -32,7 +41,12 @@ namespace Ploeh.AutoFixture
                 return (T)overridingCreate(seed);
             }
 
-            return new LatentObjectBuilder<T>(this.typeMappings, this.repeatCount, this.resolve).CreateAnonymous(seed);
+            if (this.recursionHandler.Check(typeof(T)))
+                return (T)(this.recursionHandler.GetRecursionBreakInstance(typeof(T)));
+
+            var anonymous = new LatentObjectBuilder<T>(this.typeMappings, this.recursionHandler, this.repeatCount, this.omitAutoProperties, this.resolve).CreateAnonymous(seed);
+            this.recursionHandler.Uncheck(typeof(T));
+            return anonymous;
         }
 
         internal object CreateAnonymous(Type t, object seed)
@@ -43,9 +57,14 @@ namespace Ploeh.AutoFixture
                 return overridingCreate(seed);
             }
 
+            if (this.recursionHandler.Check(t))
+                return this.recursionHandler.GetRecursionBreakInstance(t);
+
             Type builderType = typeof(LatentObjectBuilder<>).MakeGenericType(new[] { t });
-            IBuilder builder = (IBuilder)Activator.CreateInstance(builderType, this.typeMappings, this.repeatCount, this.resolve);
-            return builder.Create(seed);
+            IBuilder builder = (IBuilder)Activator.CreateInstance(builderType, this.typeMappings, this.recursionHandler, this.repeatCount, this.omitAutoProperties, this.resolve);
+            var anonymous = builder.Create(seed);
+            this.recursionHandler.Uncheck(t);
+            return anonymous;
         }
 
         internal Accessor CreateAssigment(MemberInfo m)
@@ -55,12 +74,12 @@ namespace Ploeh.AutoFixture
 
         internal ConstructingObjectBuilder<T> CreateConstructingBuilder<T>(Func<T, T> creator)
         {
-            return new ConstructingObjectBuilder<T>(this.typeMappings, this.repeatCount, this.resolve, creator);
+            return new ConstructingObjectBuilder<T>(this.typeMappings, this.recursionHandler, this.repeatCount, this.omitAutoProperties, this.resolve, creator);
         }
 
         internal LatentObjectBuilder<T> CreateLatentBuilder<T>()
         {
-            return new LatentObjectBuilder<T>(this.typeMappings, this.repeatCount, this.resolve);
+            return new LatentObjectBuilder<T>(this.typeMappings, this.recursionHandler, this.repeatCount, this.omitAutoProperties, this.resolve);
         }
 
         internal object CreateNamedObject(Type t, string name)

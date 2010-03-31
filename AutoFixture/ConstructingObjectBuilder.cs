@@ -18,6 +18,10 @@ namespace Ploeh.AutoFixture
         /// A dictionary of type mappings that defines how objects of specific types will be
         /// created.
         /// </param>
+        /// <param name="recursionHandler">
+        /// A special recursion monitor that will keep track of created objects and prevent
+        /// endless recursion loops when generating objects.
+        /// </param>
         /// <param name="creator">
         /// The function that defines how <see cref="Create"/> will create an object of the
         /// requested type.
@@ -26,12 +30,17 @@ namespace Ploeh.AutoFixture
         /// A number that controls how many objects are created when an
         /// <see cref="ObjectBuilder{T}"/> creates more than one anonymous object.
         /// </param>
+        /// <param name="omitAutoProperties">
+        /// Indicates whether writable properties should be assigned a value or not. 
+        /// The setting can be overridden by <see cref="ObjectBuilder{T}.OmitAutoProperties"/> and 
+        /// <see cref="ObjectBuilder{T}.WithAutoProperties"/>.
+        /// </param>
         /// <param name="resolveCallback">
         /// A callback that can be invoked to resolve unresolved types.
         /// </param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "The alternative design is to define an interface that mimics Func<object, object>, and expose a dictionary of Type and this interface. That would be a more heavy-weight solution that doesn't add a lot of clarity or value.")]
-        public ConstructingObjectBuilder(IDictionary<Type, Func<object, object>> typeMappings, int repeatCount, Func<Type, object> resolveCallback, Func<T, T> creator)
-            : base(typeMappings, repeatCount, resolveCallback)
+        public ConstructingObjectBuilder(IDictionary<Type, Func<object, object>> typeMappings, RecursionHandler recursionHandler, int repeatCount, bool omitAutoProperties, Func<Type, object> resolveCallback, Func<T, T> creator)
+            : base(typeMappings, recursionHandler, repeatCount, omitAutoProperties, resolveCallback)
         {
             this.creator = creator;
         }

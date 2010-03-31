@@ -21,7 +21,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             IDictionary<Type, Func<object, object>> nullTypeMappings = null;
             // Exercise system
-            new TestableObjectBuilder<object>(nullTypeMappings, 7, t => null, new object());
+            new TestableObjectBuilder<object>(nullTypeMappings, new ThrowingRecursionHandler(), 7, false, t => null, new object());
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -143,6 +143,19 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [TestMethod]
+        public void WithoutWillIgnorePropertyOnCreatedObjectEvenInCombinationWithWithAutoProperties()
+        {
+            // Fixture setup
+            var fixture = new Fixture() { OmitAutoProperties = true };
+            var sut = ObjectBuilderTest.CreateSut(fixture, new DoublePropertyHolder<string, string>());
+            // Exercise system
+            var result = sut.WithAutoProperties().Without(ph => ph.Property1).CreateAnonymous();
+            // Verify outcome
+            Assert.IsNull(result.Property1, "Property should be ignored");
+            // Teardown
+        }
+
+        [TestMethod]
         public void WithoutWillIgnoreFieldOnCreatedObject()
         {
             // Fixture setup
@@ -187,6 +200,19 @@ namespace Ploeh.AutoFixtureUnitTest
             PropertyHolder<object> result = sut.OmitAutoProperties().CreateAnonymous();
             // Verify outcome
             Assert.IsNull(result.Property, "OmitProperties");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void WithAutoPropertiesWillAutoPopulateProperty()
+        {
+            // Fixture setup
+            var fixture = new Fixture() { OmitAutoProperties = true };
+            TestableObjectBuilder<PropertyHolder<object>> sut = ObjectBuilderTest.CreateSut(fixture, new PropertyHolder<object>());
+            // Exercise system
+            PropertyHolder<object> result = sut.WithAutoProperties().CreateAnonymous();
+            // Verify outcome
+            Assert.IsNotNull(result.Property, "WithProperties");
             // Teardown
         }
 
@@ -259,7 +285,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var expectedValue = new ConcreteType();
             Func<Type, object> resolve = t => expectedValue;
-            var sut = ObjectBuilderTest.CreateSut(new PropertyHolder<AbstractType>(), resolve);            
+            var sut = ObjectBuilderTest.CreateSut(new PropertyHolder<AbstractType>(), resolve);
             // Exercise system
             var result = sut.CreateAnonymous().Property;
             // Verify outcome
@@ -277,6 +303,20 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             var instance = sut.CreateAnonymous();
             Assert.IsNotNull(instance.Property, "OmitAutoProperties");
+            // Teardown
+        }
+
+        [TestMethod]
+        public void WithAutoPropetiesWillNotMutateSut()
+        {
+            // Fixture setup
+            var fixture = new Fixture() { OmitAutoProperties = true };
+            var sut = ObjectBuilderTest.CreateSut(fixture, new PropertyHolder<string>());
+            // Exercise system
+            sut.WithAutoProperties();
+            // Verify outcome
+            var instance = sut.CreateAnonymous();
+            Assert.IsNull(instance.Property, "WithAutoProperties");
             // Teardown
         }
 
@@ -330,14 +370,14 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             var f = new Fixture();
 #pragma warning disable 618
-            return new TestableObjectBuilder<T>(f.TypeMappings, f.RepeatCount, resolve, obj);
+            return new TestableObjectBuilder<T>(f.TypeMappings, new ThrowingRecursionHandler(), f.RepeatCount, f.OmitAutoProperties, resolve, obj);
 #pragma warning restore 618
         }
 
         private static TestableObjectBuilder<T> CreateSut<T>(Fixture fixture, T obj)
         {
 #pragma warning disable 618
-            return new TestableObjectBuilder<T>(fixture.TypeMappings, fixture.RepeatCount, t => null, obj);
+            return new TestableObjectBuilder<T>(fixture.TypeMappings, new ThrowingRecursionHandler(), fixture.RepeatCount, fixture.OmitAutoProperties, t => null, obj);
 #pragma warning restore 618
         }
 
@@ -345,13 +385,15 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             private readonly IDictionary<Type, Func<object, object>> typeMappings;
             private readonly int repeatCount;
+            private readonly bool omitAutoProperties;
             private readonly Func<Type, object> resolve;
 
-            internal TestableObjectBuilder(IDictionary<Type, Func<object, object>> typeMappings, int repeatCount, Func<Type, object> resolve, T obj)
-                : base(typeMappings, repeatCount, resolve)
+            internal TestableObjectBuilder(IDictionary<Type, Func<object, object>> typeMappings, RecursionHandler recursionHandler, int repeatCount, bool omitAutoProperties, Func<Type, object> resolve, T obj)
+                : base(typeMappings, recursionHandler, repeatCount, omitAutoProperties, resolve)
             {
                 this.typeMappings = typeMappings;
                 this.repeatCount = repeatCount;
+                this.omitAutoProperties = omitAutoProperties;
                 this.resolve = resolve;
                 this.CreatedObject = obj;
             }
@@ -360,7 +402,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
             protected override ObjectBuilder<T> CloneCore()
             {
-                return new TestableObjectBuilder<T>(this.typeMappings, this.repeatCount, this.resolve, this.CreatedObject);
+                return new TestableObjectBuilder<T>(this.typeMappings, new ThrowingRecursionHandler(), this.repeatCount, this.omitAutoProperties, this.resolve, this.CreatedObject);
             }
 
             protected override T Create(T seed)

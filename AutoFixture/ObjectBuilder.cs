@@ -24,22 +24,32 @@ namespace Ploeh.AutoFixture
         /// A dictionary of type mappings that defines how objects of specific types will be
         /// created.
         /// </param>
+        /// <param name="recursionHandler">
+        /// A special recursion monitor that will keep track of created objects and prevent
+        /// endless recursion loops when generating objects.
+        /// </param>
         /// <param name="repeatCount">
         /// A number that controls how many objects are created when an
         /// <see cref="ObjectBuilder{T}"/> creates more than one anonymous object.
+        /// </param>
+        /// <param name="omitAutoProperties">
+        /// Indicates whether writable properties should be assigned a value or not. 
+        /// The setting can be overridden by <see cref="OmitAutoProperties"/> and 
+        /// <see cref="WithAutoProperties"/>.
         /// </param>
         /// <param name="resolveCallback">
         /// A callback that can be invoked to resolve unresolved types.
         /// </param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "The alternative design is to define an interface that mimics Func<object, object>, and expose a dictionary of Type and this interface. That would be a more heavy-weight solution that doesn't add a lot of clarity or value.")]
-        protected ObjectBuilder(IDictionary<Type, Func<object, object>> typeMappings, int repeatCount, Func<Type, object> resolveCallback)
+        protected ObjectBuilder(IDictionary<Type, Func<object, object>> typeMappings, RecursionHandler recursionHandler, int repeatCount, bool omitAutoProperties, Func<Type, object> resolveCallback)
         {
             if (typeMappings == null)
             {
                 throw new ArgumentNullException("typeMappings");
             }
 
-            this.customizedFactory = new CustomizedObjectFactory(typeMappings, repeatCount, ObjectBuilder<T>.EnsureResolveCallback(resolveCallback));
+            this.omitAutoProperties = omitAutoProperties;
+            this.customizedFactory = new CustomizedObjectFactory(typeMappings, recursionHandler, repeatCount, omitAutoProperties, ObjectBuilder<T>.EnsureResolveCallback(resolveCallback));
             this.actions = new List<MemberAnnotatedAction<T>>();
         }
 
@@ -160,6 +170,21 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
+        /// Instructs the <see cref="ObjectBuilder{T}"/> to assign values to writable properties
+        /// when subsequently creating an anonymous object. This is the default behavior.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="ObjectBuilder{T}"/> that can be used to create anonymous objects, or
+        /// further customize the creation algorithm.
+        /// </returns>
+        public ObjectBuilder<T> WithAutoProperties()
+        {
+            var clone = this.Clone();
+            clone.omitAutoProperties = false;
+            return clone;
+        }
+
+        /// <summary>
         /// Registers that a writable property or field should be assigned a value when an object
         /// is subsequently created.
         /// </summary>
@@ -246,6 +271,21 @@ namespace Ploeh.AutoFixture
 
             var clone = this.Clone();
             clone.actions.Add(action);
+            return clone;
+        }
+
+        /// <summary>
+        /// Registers a specific recursion handler to use when creating subsequent instances.
+        /// </summary>
+        /// <param name="recursionHandler">The recursion handler.</param>
+        /// <returns>
+        /// An <see cref="ObjectBuilder{T}"/> that can be used to create anonymous objects, or
+        /// further customize the creation algorithm.
+        /// </returns>
+        public ObjectBuilder<T> UsingRecursionHandler(RecursionHandler recursionHandler)
+        {
+            var clone = this.Clone();
+            clone.CustomizedFactory.SetRecursionHandler(recursionHandler);
             return clone;
         }
 

@@ -5,6 +5,8 @@ using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
+    using System.Collections.Generic;
+
     [TestClass]
     public class LatentObjectBuilderTest
     {
@@ -93,7 +95,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             Fixture f = new Fixture();
 #pragma warning disable 618
-            return new LatentObjectBuilder<T>(f.TypeMappings, f.RepeatCount, t => null);
+            return new LatentObjectBuilder<T>(f.TypeMappings, new ThrowingRecursionHandler(), f.RepeatCount, f.OmitAutoProperties, t => null);
 #pragma warning restore 618
         }
     }

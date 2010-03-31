@@ -100,8 +100,10 @@
     <Compile Include="ConstructingObjectBuilder.cs" />
     <Compile Include="AccessorFactory.cs" />
     <Compile Include="MemberInfoNameComparer.cs" />
+    <Compile Include="NoneRecursionHandler.cs" />
     <Compile Include="NullAccessor.cs" />
     <Compile Include="NullAccessorFactory.cs" />
+    <Compile Include="NullRecursionHandler.cs" />
     <Compile Include="ObjectBuilder.cs" />
     <Compile Include="ObjectCreationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -109,10 +111,12 @@
     <Compile Include="GuidStringGenerator.cs" />
     <Compile Include="PropertyAccessor.cs" />
     <Compile Include="PropertyAccessorFactory.cs" />
+    <Compile Include="RecursionHandler.cs" />
     <Compile Include="SByteSequenceGenerator.cs" />
     <Compile Include="Kernel\SeededRequest.cs" />
     <Compile Include="SingleSequenceGenerator.cs" />
     <Compile Include="StringGenerator.cs" />
+    <Compile Include="ThrowingRecursionHandler.cs" />
     <Compile Include="UInt16SequenceGenerator.cs" />
     <Compile Include="UInt32SequenceGenerator.cs" />
     <Compile Include="UInt64SequenceGenerator.cs" />
