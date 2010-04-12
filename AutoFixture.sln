@@ -20,30 +20,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTypeFoundation", "TestTypeFoundation\TestTypeFoundation.csproj", "{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs10.codeplex.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = AutoFixture\\AutoFixture.csproj
-		SccProjectName1 = AutoFixture
-		SccLocalPath1 = AutoFixture
-		SccProjectUniqueName2 = AutoFixtureUnitTest\\AutoFixtureUnitTest.csproj
-		SccProjectName2 = AutoFixtureUnitTest
-		SccLocalPath2 = AutoFixtureUnitTest
-		SccProjectUniqueName3 = AutoFixtureDocumentationTest\\AutoFixtureDocumentationTest.csproj
-		SccProjectName3 = AutoFixtureDocumentationTest
-		SccLocalPath3 = AutoFixtureDocumentationTest
-		SccProjectUniqueName4 = SemanticComparisonUnitTest\\SemanticComparisonUnitTest.csproj
-		SccProjectName4 = SemanticComparisonUnitTest
-		SccLocalPath4 = SemanticComparisonUnitTest
-		SccProjectUniqueName5 = SemanticComparison\\SemanticComparison.csproj
-		SccProjectName5 = SemanticComparison
-		SccLocalPath5 = SemanticComparison
-		SccProjectUniqueName6 = TestTypeFoundation\\TestTypeFoundation.csproj
-		SccProjectName6 = TestTypeFoundation
-		SccLocalPath6 = TestTypeFoundation
-	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = AutoFixture.vsmdi
 	EndGlobalSection
