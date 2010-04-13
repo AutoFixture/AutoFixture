@@ -20,6 +20,7 @@ namespace Ploeh.AutoFixture.Kernel
 
 		public object Create(object request, ISpecimenContainer container)
 		{
+			// Avoid tracking self
 			if (skip)
 			{
 				skip = false;
