@@ -125,6 +125,44 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 			// Teardown
 		}
 
+		[TestMethod]
+		public void IgnoredTypeWillNotTrackRequest()
+		{
+			// Fixture setup
+			object tracked = null;
+			object requestedObject = Guid.NewGuid();
+			var container = new DelegatingSpecimenContainer();
+			var sut = new DelegatingRequestTracker { OnTrackRequest = r => tracked = r };
+			sut.IgnoredTypes.Add(typeof (Guid));
+
+			// Exercise system
+			sut.Create(requestedObject, container);
+
+			// Verify outcome
+			Assert.IsNull(tracked, "Expected ingoing request to be ignored.");
+
+			// Teardown
+		}
+
+		[TestMethod]
+		public void IgnoredTypeWillNotTrackCreatedSpecimen()
+		{
+			// Fixture setup
+			object tracked = null;
+			object requestedObject = Guid.NewGuid();
+			var container = new DelegatingSpecimenContainer();
+			var sut = new DelegatingRequestTracker { OnTrackCreatedSpecimen = r => tracked = r };
+			sut.IgnoredTypes.Add(typeof(Guid));
+
+			// Exercise system
+			object res = sut.Create(requestedObject, container);
+
+			// Verify outcome
+			Assert.IsNull(tracked, "Expected created specimen to be ignored.");
+
+			// Teardown
+		}
+
 		private class DelegatingRequestTracker : RequestTracker
 		{
 			public DelegatingRequestTracker()
