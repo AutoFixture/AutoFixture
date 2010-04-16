@@ -2,19 +2,18 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
+using Xunit;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Contact.ValueObject
 {
-    [TestClass]
     public class ContactTest
     {
         public ContactTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillNotThrow()
         {
             // Fixture setup
@@ -25,7 +24,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.ValueObject
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillPopulatePhoneNumber()
         {
             // Fixture setup
@@ -34,7 +33,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.ValueObject
             // Exercise system
             int result = sut.PhoneNumber.RawNumber;
             // Verify outcome
-            Assert.AreNotEqual<int>(default(int), result, "PhoneNumber.RawNumber");
+            Assert.NotEqual<int>(default(int), result);
             // Teardown
         }
     }

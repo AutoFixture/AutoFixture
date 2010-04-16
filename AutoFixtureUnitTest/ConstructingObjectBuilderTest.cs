@@ -1,20 +1,19 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ploeh.AutoFixture;
+﻿using Ploeh.AutoFixture;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
     public class ConstructingObjectBuilderTest
     {
         public ConstructingObjectBuilderTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillReturnCreatedObject()
         {
             // Fixture setup
@@ -23,11 +22,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             object result = sut.CreateAnonymous();
             // Verify outcome
-            Assert.AreEqual<object>(expectedObject, result, "Created object");
+            Assert.Equal<object>(expectedObject, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateManyWillCreateManyAnonymousItems()
         {
             // Fixture setup
@@ -39,11 +38,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             var uniqueItemCount = (from ph in result
                                    select ph.Property).Distinct().Count();
-            Assert.AreEqual<int>(expectedItemCount, uniqueItemCount, "CreateMany");
+            Assert.Equal<int>(expectedItemCount, uniqueItemCount);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateManyWillCreateCorrectNumberOfItems()
         {
             // Fixture setup
@@ -55,11 +54,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             var uniqueItemCount = (from ph in result
                                    select ph.Property).Distinct().Count();
-            Assert.AreEqual<int>(expectedCount, uniqueItemCount, "CreateMany");
+            Assert.Equal<int>(expectedCount, uniqueItemCount);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateManyWithSeedWillCreateManyCorrectItems()
         {
             // Fixture setup
@@ -73,11 +72,11 @@ namespace Ploeh.AutoFixtureUnitTest
             int actualCount = (from s in result
                                where s.StartsWith(anonymousPrefix)
                                select s).Count();
-            Assert.AreEqual<int>(expectedItemCount, actualCount, "CreateMany");
+            Assert.Equal<int>(expectedItemCount, actualCount);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateManyWithSeedWillCreateCorrectNumberOfItems()
         {
             // Fixture setup
@@ -92,7 +91,7 @@ namespace Ploeh.AutoFixtureUnitTest
             int actualCount = (from s in result
                                where s.StartsWith(anonymousPrefix)
                                select s).Count();
-            Assert.AreEqual<int>(expectedItemCount, actualCount, "CreateMany");
+            Assert.Equal<int>(expectedItemCount, actualCount);
             // Teardown
         }
 

@@ -2,16 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
 	public class ThrowingRecursionHandlerTest
 	{
-		[TestMethod]
+		[Fact]
 		public void CheckReturnsFalseOnUniqueType()
 		{
 			// Fixture setup
@@ -21,12 +20,12 @@ namespace Ploeh.AutoFixtureUnitTest
 			bool res = sut.Check(typeof(object));
 
 			// Verify outcome
-			Assert.IsFalse(res, "Should return false on unique type.");
+			Assert.False(res, "Should return false on unique type.");
 
 			// Teardown
 		}
 
-		[TestMethod]
+		[Fact]
 		public void CheckReturnsTrueOnFirstRecurrence()
 		{
 			// Fixture setup
@@ -37,13 +36,12 @@ namespace Ploeh.AutoFixtureUnitTest
 			bool res = sut.Check(typeof(object));
 
 			// Verify outcome
-			Assert.IsTrue(res, "Should return true on first recurrence.");
+			Assert.True(res, "Should return true on first recurrence.");
 
 			// Teardown
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ObjectCreationException))]
+		[Fact]
 		public void GetRecursionBreakInstanceThrowsOnFirstRecurrence()
 		{
 			// Fixture setup
@@ -52,12 +50,13 @@ namespace Ploeh.AutoFixtureUnitTest
 			sut.Check(typeof(object));
 
 			// Exercise system
-			sut.GetRecursionBreakInstance(typeof(object));
+            Assert.Throws<ObjectCreationException>(() =>
+                sut.GetRecursionBreakInstance(typeof(object)));
 
 			// Teardown
 		}
 
-		[TestMethod]
+		[Fact]
 		public void UnCheckRemovesTypeFromCheck()
 		{
 			// Fixture setup
@@ -69,7 +68,7 @@ namespace Ploeh.AutoFixtureUnitTest
 			bool res = sut.Check(typeof(object));
 
 			// Verify outcome
-			Assert.IsFalse(res, "Should return false on check of type that has been unchecked.");
+			Assert.False(res, "Should return false on check of type that has been unchecked.");
 
 			// Teardown
 		}

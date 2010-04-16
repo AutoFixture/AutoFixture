@@ -2,20 +2,19 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 using Ploeh.AutoFixture;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
     public class MemberInfoNameComparerTest
     {
         public MemberInfoNameComparerTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void ComparingIdenticalMembersWillReturnTrue()
         {
             // Fixture setup
@@ -25,11 +24,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             bool result = sut.Equals(mi1, mi2);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ComparingDifferentMembersWillReturnFalse()
         {
             // Fixture setup
@@ -39,11 +38,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             bool result = sut.Equals(mi1, mi2);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ComparingNullToMemberWillReturnFalse()
         {
             // Fixture setup
@@ -53,11 +52,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             bool result = sut.Equals(mi, nullMemberInfo);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ComparingMemberToNullWillReturnFalse()
         {
             // Fixture setup
@@ -67,11 +66,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             bool result = sut.Equals(nullMemberInfo, mi);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ComparingNullToNullWillReturnTrue()
         {
             // Fixture setup
@@ -79,7 +78,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             bool result = sut.Equals(null, null);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
     }

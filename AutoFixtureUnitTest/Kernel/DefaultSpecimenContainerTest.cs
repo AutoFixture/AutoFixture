@@ -2,15 +2,14 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture.Kernel;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    [TestClass]
     public class DefaultSpecimenContainerTest
     {
-        [TestMethod]
+        [Fact]
         public void SutIsSpecimenContainer()
         {
             // Fixture setup
@@ -18,22 +17,21 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var sut = new DefaultSpecimenContainer(dummyBuilder);
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(ISpecimenContainer));
+            Assert.IsAssignableFrom<ISpecimenContainer>(sut);
             // Teardown
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void CreateWithNullBuilderWillThrow()
         {
             // Fixture setup
-            // Exercise system
-            new DefaultSpecimenContainer(null);
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new DefaultSpecimenContainer(null));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void BuilderIsCorrect()
         {
             // Fixture setup
@@ -42,11 +40,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             ISpecimenBuilder result = sut.Builder;
             // Verify outcome
-            Assert.AreEqual(expectedBuilder, result, "Builder");
+            Assert.Equal(expectedBuilder, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillReturnCorrectResult()
         {
             // Fixture setup
@@ -57,11 +55,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyRequest = new object();
             var result = sut.Create(dummyRequest);
             // Verify outcome
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillInvokeBuilderWithCorrectRequest()
         {
             // Fixture setup
@@ -71,7 +69,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var builderMock = new DelegatingSpecimenBuilder();
             builderMock.OnCreate = (r, c) =>
                 {
-                    Assert.AreEqual(expectedRequest, r, "Create");
+                    Assert.Equal(expectedRequest, r);
                     mockVerified = true;
                     return new object();
                 };
@@ -80,11 +78,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             sut.Create(expectedRequest);
             // Verify outcome
-            Assert.IsTrue(mockVerified, "Mock verification");
+            Assert.True(mockVerified, "Mock verification");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillInvokeBuilderWithCorrectContainer()
         {
             // Fixture setup
@@ -95,7 +93,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             builderMock.OnCreate = (r, c) =>
             {
-                Assert.AreEqual(sut, c, "Create");
+                Assert.Equal(sut, c);
                 mockVerified = true;
                 return new object();
             };
@@ -103,7 +101,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyRequest = new object();
             sut.Create(dummyRequest);
             // Verify outcome
-            Assert.IsTrue(mockVerified, "Mock verification");
+            Assert.True(mockVerified, "Mock verification");
             // Teardown
         }
     }

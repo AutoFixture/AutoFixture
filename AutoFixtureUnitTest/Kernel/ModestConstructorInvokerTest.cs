@@ -2,28 +2,27 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using System.Reflection;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    [TestClass]
     public class ModestConstructorInvokerTest
     {
-        [TestMethod]
+        [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
             var sut = new ModestConstructorInvoker();
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(ISpecimenBuilder));
+            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNullRequestWillReturnNull()
         {
             // Fixture setup
@@ -33,24 +32,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen();
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void CreateWithNullContainerWillThrow()
         {
             // Fixture setup
             var sut = new ModestConstructorInvoker();
-            // Exercise system
             var dummyRequest = new object();
-            sut.Create(dummyRequest, null);
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Create(dummyRequest, null));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateFromNonTypeRequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -61,11 +59,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Create(nonTypeRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonTypeRequest);
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateFromTypeRequestWhenContainerCannotSatisfyParameterRequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -76,11 +74,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Create(type, container);
             // Verify outcome
             var expectedResult = new NoSpecimen(type);
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateFromTypeWithNoPublicConstructorWhenContainerCanSatisfyRequestWillReturnNull()
         {
             // Fixture setup
@@ -90,11 +88,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Create(typeof(AbstractType), container);
             // Verify outcome
             var expectedResult = new NoSpecimen(typeof(AbstractType));
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateFromTypeWhenParentCanGenerateOneParameterButNotTheOtherWillReturnCorrectNull()
         {
             // Fixture setup
@@ -105,11 +103,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = sut.Create(requestedType, container);
             // Verify outcome
-            Assert.IsInstanceOfType(result, typeof(NoSpecimen), "Create");
+            Assert.IsAssignableFrom<NoSpecimen>(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateFromTypeWhenParentCanGenerateBothParametersWillReturnCorrectResult()
         {
             // Fixture setup
@@ -134,12 +132,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Create(requestedType, container);
             // Verify outcome
             var actual = (DoubleParameterType<int, decimal>)result;
-            Assert.AreEqual(expectedParameterValues[0], actual.Parameter1, "Create");
-            Assert.AreEqual(expectedParameterValues[1], actual.Parameter2, "Create");
+            Assert.Equal(expectedParameterValues[0], actual.Parameter1);
+            Assert.Equal(expectedParameterValues[1], actual.Parameter2);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateFromTypeWillInvokeContainerCorrectly()
         {
             // Fixture setup
@@ -163,14 +161,14 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                             return new short();
                         }
                     }
-                    throw new AssertFailedException("Unexpected container request.");
+                    throw new ArgumentException("Unexpected container request.", "r");
                 };
 
             var sut = new ModestConstructorInvoker();
             // Exercise system
             sut.Create(requestedType, containerMock);
             // Verify outcome
-            Assert.IsTrue(mockVerified, "Mock verification");
+            Assert.True(mockVerified, "Mock verification");
             // Teardown
         }
     }

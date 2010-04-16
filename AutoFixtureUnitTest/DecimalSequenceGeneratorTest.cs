@@ -2,50 +2,49 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Ploeh.AutoFixture.Kernel;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
     public class DecimalSequenceGeneratorTest
     {
         public DecimalSequenceGeneratorTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillReturnOneOnFirstCall()
         {
             new LoopTest<DecimalSequenceGenerator, decimal>(sut => sut.CreateAnonymous()).Execute(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillReturnTwoOnSecondCall()
         {
             new LoopTest<DecimalSequenceGenerator, decimal>(sut => sut.CreateAnonymous()).Execute(2);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillReturnTenOnTenthCall()
         {
             new LoopTest<DecimalSequenceGenerator, decimal>(sut => sut.CreateAnonymous()).Execute(10);
         }
 
-        [TestMethod]
+        [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
             var sut = new DecimalSequenceGenerator();
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(ISpecimenBuilder));
+            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -54,11 +53,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
-            Assert.AreEqual(new NoSpecimen(), result, "Create");
+            Assert.Equal(new NoSpecimen(), result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNullContainerDoesNotThrow()
         {
             // Fixture setup
@@ -70,7 +69,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNonDecimalRequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -81,11 +80,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Create(nonDecimalRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonDecimalRequest);
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithDecimalRequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -95,11 +94,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(decimalRequest, dummyContainer);
             // Verify outcome
-            Assert.AreEqual(1m, result, "Create");
+            Assert.Equal(1m, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateDecimalRequestWillReturnCorrectResultOnSecondCall()
         {
             // Fixture setup
@@ -111,7 +110,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithDecimalRequestWillReturnCorrectResultOnTenthCall()
         {
             // Fixture setup

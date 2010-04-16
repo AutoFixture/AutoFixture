@@ -1,38 +1,37 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
     public class StringGeneratorTest
     {
-        [TestMethod]
+        [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
             var sut = new StringGenerator(() => new object());
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(ISpecimenBuilder));
+            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void CreateWithNullFactoryWillThrow()
         {
             // Fixture setup
             Func<object> nullFactory = null;
             // Exercise system
-            new StringGenerator(nullFactory);
             // Verify outcome (expected exception)
+            Assert.Throws<ArgumentNullException>(() =>
+                new StringGenerator(nullFactory));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateFromNullRequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -42,11 +41,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen();
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNullContainerWillNotThrow()
         {
             // Fixture setup
@@ -58,7 +57,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateFromNonStringRequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -69,11 +68,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Create(nonStringRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonStringRequest);
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateFromStringRequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -86,11 +85,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(stringRequest, dummyContainer);
             // Verify outcome
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateFromStringRequestWhenFactoryReturnsNullWillReturnCorrectResult()
         {
             // Fixture setup
@@ -101,11 +100,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Create(stringRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(stringRequest);
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateFromStringRequestWhenFactoryReturnsNoSpecimenWillReturnCorrectResult()
         {
             // Fixture setup
@@ -116,7 +115,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(stringRequest, dummyContainer);
             // Verify outcome
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
     }

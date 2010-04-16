@@ -2,19 +2,18 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
+using Xunit;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
 {
-    [TestClass]
     public class PersonTest
     {
         public PersonTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillThrow()
         {
             var fixture = new Fixture();
@@ -26,7 +25,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
              * reproduce this behavior, uncomment the line that creates a new anonymous Person. */
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildWithoutSpouseWillSucceed()
         {
             var fixture = new Fixture();
@@ -34,10 +33,10 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
                 .Without(p => p.Spouse)
                 .CreateAnonymous();
 
-            Assert.IsNotNull(person, "Anonymous person");
+            Assert.NotNull(person);
         }
 
-        [TestMethod]
+        [Fact]
         public void SettingSpouseIsPossible()
         {
             // Fixture setup
@@ -47,7 +46,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
             // Exercise system
             sut.Spouse = person;
             // Verify outcome
-            Assert.AreEqual<Person>(sut, person.Spouse, "Spouse");
+            Assert.Equal<Person>(sut, person.Spouse);
             // Teardown
         }
     }

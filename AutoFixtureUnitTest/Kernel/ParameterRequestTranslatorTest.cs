@@ -2,27 +2,26 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    [TestClass]
     public class ParameterRequestTranslatorTest
     {
-        [TestMethod]
+        [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
             var sut = new ParameterRequestTranslator();
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(ISpecimenBuilder));
+            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNullRequestWillReturnNull()
         {
             // Fixture setup
@@ -32,24 +31,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen();
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void CreateWithNullContainerWillThrow()
         {
             // Fixture setup
             var sut = new ParameterRequestTranslator();
-            // Exercise system
             var dummyRequest = new object();
-            sut.Create(dummyRequest, null);
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Create(dummyRequest, null));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateFromNonParameterRequestWillReturnNull()
         {
             // Fixture setup
@@ -60,11 +58,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Create(nonParameterRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonParameterRequest);
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateFromParameterRequestWillReturnNullWhenContainerCannotSatisfyRequest()
         {
             // Fixture setup
@@ -75,11 +73,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Create(parameterInfo, container);
             // Verify outcome
             var expectedResult = new NoSpecimen(parameterInfo);
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateFromParameterRequestWillReturnCorrectResultWhenContainerCanSatisfyRequest()
         {
             // Fixture setup
@@ -90,11 +88,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = sut.Create(parameterInfo, container);
             // Verify outcome
-            Assert.AreEqual(expectedSpecimen, result, "Create");
+            Assert.Equal(expectedSpecimen, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateFromParameterRequestWillCorrectlyInvokeContainer()
         {
             // Fixture setup
@@ -106,14 +104,14 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var containerMock = new DelegatingSpecimenContainer();
             containerMock.OnCreate = r =>
             {
-                Assert.AreEqual(expectedRequest, r, "Create");
+                Assert.Equal(expectedRequest, r);
                 mockVerified = true;
                 return null;
             };
             // Exercise system
             sut.Create(parameterInfo, containerMock);
             // Verify outcome
-            Assert.IsTrue(mockVerified, "Mock verification");
+            Assert.True(mockVerified, "Mock verification");
             // Teardown
         }
     }

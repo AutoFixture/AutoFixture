@@ -1,17 +1,16 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.SemanticComparison.Fluent;
+using Xunit;
 
 namespace Ploeh.SemanticComparison.UnitTest
 {
-    [TestClass]
     public class LikenessSourceTest
     {
         public LikenessSourceTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void ToLikenessOfNullSourceWillReturnCorrectResult()
         {
             // Fixture setup
@@ -19,11 +18,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             Likeness<string, DateTime> result = sut.OfLikeness<DateTime>();
             // Verify outcome
-            Assert.IsNull(result.Value, "ToLikeness");
+            Assert.Null(result.Value);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ToLikenessWillReturnCorrectResult()
         {
             // Fixture setup
@@ -32,7 +31,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.OfLikeness<string>();
             // Verify outcome
-            Assert.AreEqual(expectedTimeSpan, result.Value, "ToLikeness");
+            Assert.Equal(expectedTimeSpan, result.Value);
             // Teardown
         }
     }

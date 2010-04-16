@@ -2,50 +2,49 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Ploeh.AutoFixture.Kernel;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
     public class Int16SequenceGeneratorTest
     {
         public Int16SequenceGeneratorTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillReturnOneOnFirstCall()
         {
             new LoopTest<Int16SequenceGenerator, short>(sut => sut.CreateAnonymous()).Execute(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillReturnTwoOnSecondCall()
         {
             new LoopTest<Int16SequenceGenerator, short>(sut => sut.CreateAnonymous()).Execute(2);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillReturnTenOnTenthCall()
         {
             new LoopTest<Int16SequenceGenerator, short>(sut => sut.CreateAnonymous()).Execute(10);
         }
 
-        [TestMethod]
+        [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
             var sut = new Int16SequenceGenerator();
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(ISpecimenBuilder));
+            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -54,11 +53,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
-            Assert.AreEqual(new NoSpecimen(), result, "Create");
+            Assert.Equal(new NoSpecimen(), result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNullContainerDoesNotThrow()
         {
             // Fixture setup
@@ -70,7 +69,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNonInt16RequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -81,11 +80,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Create(nonInt16Request, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonInt16Request);
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithInt16RequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -95,11 +94,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(int16Request, dummyContainer);
             // Verify outcome
-            Assert.AreEqual((short)1, result, "Create");
+            Assert.Equal((short)1, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithInt16RequestWillReturnCorrectResultOnSecondCall()
         {
             // Fixture setup
@@ -111,7 +110,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithInt16RequestWillReturnCorrectResultOnTenthCall()
         {
             // Fixture setup

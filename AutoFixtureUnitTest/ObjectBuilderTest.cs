@@ -1,32 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
     public class ObjectBuilderTest
     {
         public ObjectBuilderTest()
         {
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void CreateWithNullTypeMappingsWillThrow()
         {
             // Fixture setup
             IDictionary<Type, Func<object, object>> nullTypeMappings = null;
-            // Exercise system
-            new TestableObjectBuilder<object>(nullTypeMappings, new ThrowingRecursionHandler(), 7, false, t => null, new object());
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new TestableObjectBuilder<object>(nullTypeMappings, new ThrowingRecursionHandler(), 7, false, t => null, new object()));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillSetInt32Property()
         {
             // Fixture setup
@@ -35,11 +33,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<int> result = sut.CreateAnonymous();
             // Verify outcome
-            Assert.AreNotEqual<int>(unexpectedNumber, result.Property, "Property");
+            Assert.NotEqual<int>(unexpectedNumber, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillSetInt32Field()
         {
             // Fixture setup
@@ -48,11 +46,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             FieldHolder<int> result = sut.CreateAnonymous();
             // Verify outcome
-            Assert.AreNotEqual<int>(unexpectedNumber, result.Field, "Field");
+            Assert.NotEqual<int>(unexpectedNumber, result.Field);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillNotAttemptToSetReadOnlyProperty()
         {
             // Fixture setup
@@ -61,11 +59,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             ReadOnlyPropertyHolder<int> result = sut.CreateAnonymous();
             // Verify outcome
-            Assert.AreEqual<int>(expectedNumber, result.Property, "Property");
+            Assert.Equal<int>(expectedNumber, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillNotAttemptToSetReadOnlyField()
         {
             // Fixture setup
@@ -74,11 +72,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             ReadOnlyFieldHolder<int> result = sut.CreateAnonymous();
             // Verify outcome
-            Assert.AreEqual<int>(expectedNumber, result.Field, "Field");
+            Assert.Equal<int>(expectedNumber, result.Field);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void WithWillSetPropertyOnCreatedObject()
         {
             // Fixture setup
@@ -87,11 +85,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<string> result = sut.With(ph => ph.Property, expectedText).CreateAnonymous();
             // Verify outcome
-            Assert.AreEqual<string>(expectedText, result.Property, "Property was correctly set");
+            Assert.Equal<string>(expectedText, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void WithWillSetFieldOnCreatedObject()
         {
             // Fixture setup
@@ -100,11 +98,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             FieldHolder<string> result = sut.With(fh => fh.Field, expectedText).CreateAnonymous();
             // Verify outcome
-            Assert.AreEqual<string>(expectedText, result.Field, "Field was correctly set");
+            Assert.Equal<string>(expectedText, result.Field);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void AnonymousWithWillAssignPropertyEvenInCombinationWithOmitAutoProperties()
         {
             // Fixture setup
@@ -113,11 +111,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.With(ph => ph.Property1).OmitAutoProperties().CreateAnonymous();
             // Verify outcome
-            Assert.AreNotEqual<long>(unexpectedNumber, result.Property1, "Property should be assigned anonymous value");
+            Assert.NotEqual<long>(unexpectedNumber, result.Property1);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void AnonymousWithWillAssignFieldEvenInCombinationWithOmitAutoProperties()
         {
             // Fixture setup
@@ -126,11 +124,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.With(fh => fh.Field1).OmitAutoProperties().CreateAnonymous();
             // Verify outcome
-            Assert.AreNotEqual<int>(unexpectedNumber, result.Field1, "Field should be assigned anonymous value");
+            Assert.NotEqual<int>(unexpectedNumber, result.Field1);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void WithoutWillIgnorePropertyOnCreatedObject()
         {
             // Fixture setup
@@ -138,11 +136,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Without(ph => ph.Property1).CreateAnonymous();
             // Verify outcome
-            Assert.IsNull(result.Property1, "Property should be ignored");
+            Assert.Null(result.Property1);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void WithoutWillIgnorePropertyOnCreatedObjectEvenInCombinationWithWithAutoProperties()
         {
             // Fixture setup
@@ -151,11 +149,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.WithAutoProperties().Without(ph => ph.Property1).CreateAnonymous();
             // Verify outcome
-            Assert.IsNull(result.Property1, "Property should be ignored");
+            Assert.Null(result.Property1);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void WithoutWillIgnoreFieldOnCreatedObject()
         {
             // Fixture setup
@@ -163,11 +161,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Without(fh => fh.Field1).CreateAnonymous();
             // Verify outcome
-            Assert.IsNull(result.Field1, "Field should be ignored");
+            Assert.Null(result.Field1);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void WithoutWillNotIgnoreOtherPropertyOnCreatedObject()
         {
             // Fixture setup
@@ -175,11 +173,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Without(ph => ph.Property1).CreateAnonymous();
             // Verify outcome
-            Assert.IsNotNull(result.Property2, "Other property should not be ignored");
+            Assert.NotNull(result.Property2);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void WithoutWillNotIgnoreOtherFieldOnCreatedObject()
         {
             // Fixture setup
@@ -187,11 +185,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Without(fh => fh.Field1).CreateAnonymous();
             // Verify outcome
-            Assert.IsNotNull(result.Field2, "Other field should not be ignored");
+            Assert.NotNull(result.Field2);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void OmitAutoPropertiesWillNotAutoPopulateProperty()
         {
             // Fixture setup
@@ -199,11 +197,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<object> result = sut.OmitAutoProperties().CreateAnonymous();
             // Verify outcome
-            Assert.IsNull(result.Property, "OmitProperties");
+            Assert.Null(result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void WithAutoPropertiesWillAutoPopulateProperty()
         {
             // Fixture setup
@@ -212,11 +210,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<object> result = sut.WithAutoProperties().CreateAnonymous();
             // Verify outcome
-            Assert.IsNotNull(result.Property, "WithProperties");
+            Assert.NotNull(result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DoWillPerformOperationOnCreatedObject()
         {
             // Fixture setup
@@ -225,11 +223,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Do(x => x.Collection.Add(expectedObject)).CreateAnonymous().Collection.First();
             // Verify outcome
-            Assert.AreEqual<object>(expectedObject, result, "Do");
+            Assert.Equal<object>(expectedObject, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void BuilderSequenceWillBePreserved()
         {
             // Fixture setup
@@ -241,11 +239,11 @@ namespace Ploeh.AutoFixtureUnitTest
                 .With(x => x.Property, expectedValue)
                 .CreateAnonymous();
             // Verify outcome
-            Assert.AreEqual<int>(expectedValue, result.Property, "With/Do/With sequence");
+            Assert.Equal<int>(expectedValue, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillInvokeResolve()
         {
             // Fixture setup
@@ -259,17 +257,17 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.CreateAnonymous();
             // Verify outcome
-            Assert.IsTrue(resolveWasInvoked, "Resolve");
+            Assert.True(resolveWasInvoked, "Resolve");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousOnUnregisteredAbstractionWillInvokeResolveCallbackWithCorrectType()
         {
             // Fixture setup
             Func<Type, object> resolve = t =>
                 {
-                    Assert.AreEqual<Type>(typeof(AbstractType), t, "Resolve");
+                    Assert.Equal<Type>(typeof(AbstractType), t);
                     return new ConcreteType();
                 };
             var sut = ObjectBuilderTest.CreateSut(new PropertyHolder<AbstractType>(), resolve);
@@ -279,7 +277,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousOnUnregisteredAbstractionWillReturnInstanceFromResolveCallback()
         {
             // Fixture setup
@@ -289,11 +287,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.CreateAnonymous().Property;
             // Verify outcome
-            Assert.AreEqual<AbstractType>(expectedValue, result, "Resolve");
+            Assert.Equal<AbstractType>(expectedValue, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void OmitAutoPropetiesWillNotMutateSut()
         {
             // Fixture setup
@@ -302,11 +300,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.OmitAutoProperties();
             // Verify outcome
             var instance = sut.CreateAnonymous();
-            Assert.IsNotNull(instance.Property, "OmitAutoProperties");
+            Assert.NotNull(instance.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void WithAutoPropetiesWillNotMutateSut()
         {
             // Fixture setup
@@ -316,11 +314,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.WithAutoProperties();
             // Verify outcome
             var instance = sut.CreateAnonymous();
-            Assert.IsNull(instance.Property, "WithAutoProperties");
+            Assert.Null(instance.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void AnonymousWithWillNotMutateSut()
         {
             // Fixture setup
@@ -329,11 +327,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.With(s => s.Property);
             // Verify outcome
             var instance = sut.CreateAnonymous();
-            Assert.IsNull(instance.Property, "With");
+            Assert.Null(instance.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void WithWillNotMutateSut()
         {
             // Fixture setup
@@ -343,11 +341,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.With(s => s.Property, unexpectedProperty);
             // Verify outcome
             var instance = sut.CreateAnonymous();
-            Assert.AreNotEqual(unexpectedProperty, instance.Property, "Wtih");
+            Assert.NotEqual(unexpectedProperty, instance.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void WithoutWillNotMutateSut()
         {
             // Fixture setup
@@ -356,7 +354,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Without(s => s.Property);
             // Verify outcome
             var instance = sut.CreateAnonymous();
-            Assert.IsNotNull(instance.Property, "Without");
+            Assert.NotNull(instance.Property);
             // Teardown
         }
 

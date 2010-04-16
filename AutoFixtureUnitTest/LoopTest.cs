@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 result = this.create(sut);
             }
             // Verify outcome
-            Assert.AreEqual<TResult>((TResult)Convert.ChangeType(loopCount, typeof(TResult)), result, "Created value");
+            Assert.Equal<TResult>((TResult)Convert.ChangeType(loopCount, typeof(TResult)), result);
             // Teardown
         }
     }

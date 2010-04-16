@@ -2,16 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
     public class NullRecursionHandlerTest
     {
-		[TestMethod]
+		[Fact]
 		public void CheckReturnsFalseOnUniqueType()
 		{
 			// Fixture setup
@@ -21,12 +20,12 @@ namespace Ploeh.AutoFixtureUnitTest
 			bool res = sut.Check(typeof(object));
 
 			// Verify outcome
-			Assert.IsFalse(res, "Should return false on unique type.");
+			Assert.False(res, "Should return false on unique type.");
 
 			// Teardown
 		}
 
-        [TestMethod]
+        [Fact]
         public void CheckWithNullModeReturnsTrueOnFirstRecurrence()
         {
             // Fixture setup
@@ -37,12 +36,12 @@ namespace Ploeh.AutoFixtureUnitTest
             bool res = sut.Check(typeof(object));
 
             // Verify outcome
-            Assert.IsTrue(res, "Should return true on first recurrence");
+            Assert.True(res, "Should return true on first recurrence");
 
             // Teardown
         }
 
-		[TestMethod]
+		[Fact]
 		public void GetRecursionBreakInstanceReturnsNullOnFirstRecurrence()
 		{
 			// Fixture setup
@@ -53,11 +52,11 @@ namespace Ploeh.AutoFixtureUnitTest
 			// Exercise system
 			var res = sut.GetRecursionBreakInstance(typeof(object));
 
-            Assert.IsNull(res, "Should return null on first recurrence.");
+            Assert.Null(res);
 			// Teardown
 		}
 
-        [TestMethod]
+        [Fact]
         public void UnCheckRemovesTypeFromCheck()
         {
             // Fixture setup
@@ -69,7 +68,7 @@ namespace Ploeh.AutoFixtureUnitTest
             bool res = sut.Check(typeof(object));
 
             // Verify outcome
-            Assert.IsFalse(res, "Should return false on check of type that has been unchecked.");
+            Assert.False(res, "Should return false on check of type that has been unchecked.");
 
             // Teardown
         }

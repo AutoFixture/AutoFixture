@@ -2,21 +2,20 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Ploeh.AutoFixture.Kernel;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
     public class GuidGeneratorTest
     {
         public GuidGeneratorTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillReturnNonDefaultGuid()
         {
             // Fixture setup
@@ -24,11 +23,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = GuidGenerator.CreateAnonymous();
             // Verify outcome
-            Assert.AreNotEqual<Guid>(unexpectedGuid, result, "CreateAnonymous");
+            Assert.NotEqual<Guid>(unexpectedGuid, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousTwiceWillReturnDifferentValues()
         {
             // Fixture setup
@@ -36,22 +35,22 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = GuidGenerator.CreateAnonymous();
             // Verify outcome
-            Assert.AreNotEqual<Guid>(unexpectedGuid, result, "CreateAnonymous");
+            Assert.NotEqual<Guid>(unexpectedGuid, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
             var sut = new GuidGenerator();
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(ISpecimenBuilder));
+            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -60,11 +59,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
-            Assert.AreEqual(new NoSpecimen(), result, "Create");
+            Assert.Equal(new NoSpecimen(), result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNullContainerDoesNotThrow()
         {
             // Fixture setup
@@ -76,7 +75,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNonGuidRequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -87,11 +86,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Create(nonGuidRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonGuidRequest);
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithGuidRequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -101,11 +100,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(guidRequest, dummyContainer);
             // Verify outcome
-            Assert.AreNotEqual(default(Guid), result, "Create");
+            Assert.NotEqual(default(Guid), result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithGuidRequestTwiceWillReturnDifferentResults()
         {
             // Fixture setup
@@ -117,7 +116,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(guidRequest, dummyContainer);
             // Verify outcome
-            Assert.AreNotEqual(unexpectedResult, result, "Create");
+            Assert.NotEqual(unexpectedResult, result);
             // Teardown
         }
     }

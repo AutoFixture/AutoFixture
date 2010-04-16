@@ -2,23 +2,22 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
     // Regression tests of obsolete API until it is removed completely
 #pragma warning disable 618
 
-    [TestClass]
     public class LikenessTest
     {
         public LikenessTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void SutEncapsulatingNullEqualsNull()
         {
             // Fixture setup
@@ -26,11 +25,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(null);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutEncapsulatingNullDoesNotEqualsSomeObject()
         {
             // Fixture setup
@@ -38,11 +37,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(new object());
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutWithValueDoesNotEqualNull()
         {
             // Fixture setup
@@ -50,11 +49,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(null);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetHashCodeShouldReturnHashCodeOfContainedObject()
         {
             // Fixture setup
@@ -65,11 +64,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             int result = sut.GetHashCode();
             // Verify outcome
-            Assert.AreEqual<int>(expectedHashCode, result, "GetHashCode");
+            Assert.Equal<int>(expectedHashCode, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ToStringReturnsCorrectResult()
         {
             // Fixture setup
@@ -80,11 +79,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.ToString();
             // Verify outcome
-            Assert.AreEqual<string>(expectedText, result, "ToString");
+            Assert.Equal<string>(expectedText, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ComparingStringPropertyHolderLikenessToRealStringPropertyHolderWillIndicateEquality()
         {
             // Fixture setup
@@ -100,7 +99,7 @@ namespace Ploeh.AutoFixtureUnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, true);
         }
 
-        [TestMethod]
+        [Fact]
         public void ComparingStringPropertyHoldersWithDifferentValuesWillIndicateDifference()
         {
             // Fixture setup
@@ -117,7 +116,7 @@ namespace Ploeh.AutoFixtureUnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void ComparingStringFieldHolderLikenessToRealStringFieldHolderWillIndicateEquality()
         {
             // Fixture setup
@@ -133,7 +132,7 @@ namespace Ploeh.AutoFixtureUnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, true);
         }
 
-        [TestMethod]
+        [Fact]
         public void ComparingStringFieldHoldersWithDifferentValuesWillIndicateDifference()
         {
             // Fixture setup
@@ -150,7 +149,7 @@ namespace Ploeh.AutoFixtureUnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void CompareAnonymousTypeLikenessToStringFieldHolderWillIndicateEqualityWhenValuesAreEqual()
         {
             // Fixture setup
@@ -168,7 +167,7 @@ namespace Ploeh.AutoFixtureUnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, true);
         }
 
-        [TestMethod]
+        [Fact]
         public void CompareAnonymousTypeLikenessToStringPropertyHolderWillIndicateDifferenceWhenValuesAreDifferent()
         {
             // Fixture setup
@@ -187,7 +186,7 @@ namespace Ploeh.AutoFixtureUnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void ObjectsWithNullPropertiesWillHaveLikeness()
         {
             // Fixture setup
@@ -201,7 +200,7 @@ namespace Ploeh.AutoFixtureUnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, true);
         }
 
-        [TestMethod]
+        [Fact]
         public void LikenessOfObjectWithNullPropertyWillNotBeEqualToObjectWithValuedProperty()
         {
             // Fixture setup
@@ -215,7 +214,7 @@ namespace Ploeh.AutoFixtureUnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void LikenessOfObjectWithValuePropertyWillNotBeEqualToObjectWithNullProperty()
         {
             // Fixture setup
@@ -229,7 +228,7 @@ namespace Ploeh.AutoFixtureUnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void LikenessOfObjectWithPropertyWillNotBeEqualToPropertyWithDifferentProperty()
         {
             // Fixture setup
@@ -242,7 +241,7 @@ namespace Ploeh.AutoFixtureUnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void LikenessAgainstObjectWithOverloadedMembersWillNotThrow()
         {
             // Fixture setup
@@ -254,7 +253,7 @@ namespace Ploeh.AutoFixtureUnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, true);
         }
 
-        [TestMethod]
+        [Fact]
         public void LikenessAgainstObjectWithIndexerWillNotThrow()
         {
             // Fixture setup
@@ -266,7 +265,7 @@ namespace Ploeh.AutoFixtureUnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, true);
         }
 
-        [TestMethod]
+        [Fact]
         public void LikenessAgainstObjectWithHidingPropertyWillNotThrow()
         {
             // Fixture setup
@@ -278,7 +277,7 @@ namespace Ploeh.AutoFixtureUnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void LikenessOfObjectWithHidingPropertyWillNotThrow()
         {
             // Fixture setup
@@ -297,7 +296,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             bool result = sut.Equals(comparee);
             // Verify outcome
-            Assert.AreEqual<bool>(expectedResult, result, "If all public properties and fields are equal, Likeness should indicate equality.");
+            Assert.Equal<bool>(expectedResult, result);
             // Teardown
         }
 

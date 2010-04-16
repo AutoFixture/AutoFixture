@@ -2,45 +2,44 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
     // Regression tests of obsolete API until it is removed completely
 #pragma warning disable 618
 
-    [TestClass]
     public class TemplatedLikenessTest
     {
         public TemplatedLikenessTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void SutIsLikeness()
         {
             // Fixture setup
             // Exercise system
             var sut = new Likeness<object>(new object());
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(Likeness));
+            Assert.IsAssignableFrom<Likeness>(sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutIsEquatable()
         {
             // Fixture setup
             // Exercise system
             var sut = new Likeness<PropertyHolder<float>>(new PropertyHolder<float>());
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(IEquatable<PropertyHolder<float>>));
+            Assert.IsAssignableFrom<IEquatable<PropertyHolder<float>>>(sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualNullObject()
         {
             // Fixture setup
@@ -49,11 +48,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(nullObject);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualNullValue()
         {
             // Fixture setup
@@ -62,11 +61,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(nullValue);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualAnonymousObject()
         {
             // Fixture setup
@@ -75,11 +74,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(anonymousObject);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutEqualsIdenticalStrongType()
         {
             // Fixture setup
@@ -90,11 +89,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutEqualsIdenticalWeakType()
         {
             // Fixture setup
@@ -105,11 +104,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutOfAbstractTypeEqualsConcreteInstancesThatDifferOnlyOnMemberNotDefinedByAbstraction()
         {
             // Fixture setup
@@ -126,11 +125,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutWithoutPropertyEqualsInstanceEvenIfItDiffersOnThatProperty()
         {
             // Fixture setup
@@ -147,11 +146,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutWithoutTwoPropertiesEqualsInstanceEvenThoughThosePropertyValuesDiffer()
         {
             // Fixture setup
@@ -168,11 +167,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutWithSemanticEqualityWillReturnTrue()
         {
             // Fixture setup
@@ -185,11 +184,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutWithValueThatDoesNotMatchTypeParameterWillReturnFalseEvenWhenComparedWithIdenticalValue()
         {
             // Fixture setup
@@ -200,11 +199,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutWithAnonymousValueWillEqualSemanticallyIdenticalValue()
         {
             // Fixture setup
@@ -215,7 +214,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
     }

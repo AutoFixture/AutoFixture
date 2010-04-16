@@ -2,17 +2,16 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixture;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    [TestClass]
     public class Scenario
     {
-        [TestMethod]
+        [Fact]
         public void CreateSingleStringParameterizedType()
         {
             // Fixture setup
@@ -23,12 +22,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var name = new TextGuidRegex().GetText(result.Parameter);
             string guidString = new TextGuidRegex().GetGuid(result.Parameter);
             Guid g = new Guid(guidString);
-            Assert.AreEqual("parameter", name, "Create");
-            Assert.AreNotEqual<Guid>(Guid.Empty, g, "Guid part");
+            Assert.Equal("parameter", name);
+            Assert.NotEqual<Guid>(Guid.Empty, g);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateDoubleStringParameterizedType()
         {
             // Fixture setup
@@ -36,12 +35,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = (DoubleParameterType<string, string>)container.Create(typeof(DoubleParameterType<string, string>));
             // Verify outcome
-            Assert.IsFalse(string.IsNullOrEmpty(result.Parameter1), "Parameter1");
-            Assert.IsFalse(string.IsNullOrEmpty(result.Parameter2), "Parameter2");
+            Assert.False(string.IsNullOrEmpty(result.Parameter1), "Parameter1");
+            Assert.False(string.IsNullOrEmpty(result.Parameter2), "Parameter2");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateStringAndIntegerParameterizedType()
         {
             // Fixture setup
@@ -49,12 +48,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = (DoubleParameterType<string, int>)container.Create(typeof(DoubleParameterType<string, int>));
             // Verify outcome
-            Assert.IsFalse(string.IsNullOrEmpty(result.Parameter1), "Parameter11");
-            Assert.AreNotEqual(0, result.Parameter2, "Parameter2");
+            Assert.False(string.IsNullOrEmpty(result.Parameter1), "Parameter11");
+            Assert.NotEqual(0, result.Parameter2);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateDecimalAndBooleanParameterizedType()
         {
             // Fixture setup
@@ -62,12 +61,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = (DoubleParameterType<decimal, bool>)container.Create(typeof(DoubleParameterType<decimal, bool>));
             // Verify outcome
-            Assert.AreEqual(1m, result.Parameter1, "Parameter1");
-            Assert.IsTrue(result.Parameter2, "Parameter2");
+            Assert.Equal(1m, result.Parameter1);
+            Assert.True(result.Parameter2, "Parameter2");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateNestedType()
         {
             // Fixture setup
@@ -76,14 +75,14 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = (DoubleParameterType<DoubleParameterType<int, Guid>, DoubleParameterType<decimal, bool>>)container.Create(
                 typeof(DoubleParameterType<DoubleParameterType<int, Guid>, DoubleParameterType<decimal, bool>>));
             // Verify outcome
-            Assert.AreEqual(1, result.Parameter1.Parameter1, "Parameter1.Parameter1");
-            Assert.AreNotEqual(default(Guid), result.Parameter1.Parameter2, "Parameter1.Parameter2");
-            Assert.AreEqual(1m, result.Parameter2.Parameter1, "Parameter2.Parameter1");
-            Assert.AreEqual(true, result.Parameter2.Parameter2, "Parameter2.Parameter2");
+            Assert.Equal(1, result.Parameter1.Parameter1);
+            Assert.NotEqual(default(Guid), result.Parameter1.Parameter2);
+            Assert.Equal(1m, result.Parameter2.Parameter1);
+            Assert.Equal(true, result.Parameter2.Parameter2);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateDoubleMixedParameterizedTypeWithNumberBasedStringGenerator()
         {
             // Fixture setup
@@ -103,9 +102,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = (TripleParameterType<int, string, int>)container.Create(typeof(TripleParameterType<int, string, int>));
             // Verify outcome
-            Assert.AreEqual(1, result.Parameter1, "Parameter1");
-            Assert.AreEqual("parameter22", result.Parameter2, "Parameter2");
-            Assert.AreEqual(3, result.Parameter3, "Parameter3");
+            Assert.Equal(1, result.Parameter1);
+            Assert.Equal("parameter22", result.Parameter2);
+            Assert.Equal(3, result.Parameter3);
             // Teardown
         }
 

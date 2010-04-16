@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
+using Xunit;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
 {
-    [TestClass]
     public class MyClassTest
     {
         public MyClassTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void NumberSumIsCorrect_AutoFixture()
         {
             // Fixture setup
@@ -30,12 +29,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
             // Exercise system
             int result = sut.CalculateSumOfThings();
             // Verify outcome
-            Assert.AreEqual<int>(expectedSum, result,
-                "Sum of things");
+            Assert.Equal<int>(expectedSum, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void NumberSumIsCorrect_DerivedFixture()
         {
             // Fixture setup
@@ -48,8 +46,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
             // Exercise system
             int result = sut.CalculateSumOfThings();
             // Verify outcome
-            Assert.AreEqual<int>(expectedSum, result,
-                "Sum of things");
+            Assert.Equal<int>(expectedSum, result);
             // Teardown
         }
     }

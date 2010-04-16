@@ -2,21 +2,20 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using System.Text.RegularExpressions;
 using Ploeh.AutoFixture.Kernel;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
     public class GuidStringGeneratorTest
     {
         public GuidStringGeneratorTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNullNameWillReturnGuidString()
         {
             // Fixture setup
@@ -26,11 +25,11 @@ namespace Ploeh.AutoFixtureUnitTest
             string result = GuidStringGenerator.CreateAnonymous(nullName);
             // Verify outcome
             Guid g = new Guid(result);
-            Assert.AreNotEqual<Guid>(unexpectedGuid, g, "Created string");
+            Assert.NotEqual<Guid>(unexpectedGuid, g);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithEmptyNameWillReturnGuidString()
         {
             // Fixture setup
@@ -40,11 +39,11 @@ namespace Ploeh.AutoFixtureUnitTest
             string result = GuidStringGenerator.CreateAnonymous(emptyName);
             // Verify outcome
             Guid g = new Guid(result);
-            Assert.AreNotEqual<Guid>(unexpectedGuid, g, "Created string");
+            Assert.NotEqual<Guid>(unexpectedGuid, g);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNameWillReturnStringThatBeginsWithName()
         {
             // Fixture setup
@@ -53,11 +52,11 @@ namespace Ploeh.AutoFixtureUnitTest
             string result = GuidStringGenerator.CreateAnonymous(expectedName);
             // Verify outcome
             string name = new TextGuidRegex().GetText(result);
-            Assert.AreEqual<string>(expectedName, name, "Name part");
+            Assert.Equal<string>(expectedName, name);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNameWillReturnStringThatEndsInGuid()
         {
             // Fixture setup
@@ -68,7 +67,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             string guidString = new TextGuidRegex().GetGuid(result);
             Guid g = new Guid(guidString);
-            Assert.AreNotEqual<Guid>(unexpectedGuid, g, "Guid part");
+            Assert.NotEqual<Guid>(unexpectedGuid, g);
             // Teardown
         }
     }

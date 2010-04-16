@@ -2,26 +2,25 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture.Kernel;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    [TestClass]
     public class StringSeedUnwrapperTest
     {
-        [TestMethod]
+        [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
             var sut = new StringSeedUnwrapper();
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(ISpecimenBuilder));
+            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNullRequestWillReturnNull()
         {
             // Fixture setup
@@ -31,24 +30,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen();
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void CreateWithNullContainerWillThrow()
         {
             // Fixture setup
             var sut = new StringSeedUnwrapper();
-            // Exercise system
             var dummyRequest = new object();
-            sut.Create(dummyRequest, null);
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Create(dummyRequest, null));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNonSeedWillReturnNull()
         {
             // Fixture setup
@@ -59,11 +57,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Create(nonSeed, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonSeed);
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNonStringRequestSeedWillReturnNull()
         {
             // Fixture setup
@@ -74,11 +72,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Create(nonStringRequestSeed, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonStringRequestSeed);
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNonStringSeedWillReturnCorrectResult()
         {
             // Fixture setup
@@ -89,11 +87,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Create(nonStringSeed, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonStringSeed);
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithStringSeedWhenContainerCannotCreateStringsWillReturnCorrectResult()
         {
             // Fixture setup
@@ -104,11 +102,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Create(stringSeed, unableContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(stringSeed);
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithStringSeedWhenContainerCanCreateStringsWillReturnCorrectResult()
         {
             // Fixture setup
@@ -122,11 +120,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Create(stringSeed, container);
             // Verify outcome
             var expectedString = seedString + containerString;
-            Assert.AreEqual(expectedString, result, "Create");
+            Assert.Equal(expectedString, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithStringSeedWillCorrectlyInvokeContainer()
         {
             // Fixture setup
@@ -137,14 +135,14 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var containerMock = new DelegatingSpecimenContainer();
             containerMock.OnCreate = r =>
                 {
-                    Assert.AreEqual(typeof(string), r, "Create");
+                    Assert.Equal(typeof(string), r);
                     mockVerified = true;
                     return null;
                 };
             // Exercise system
             sut.Create(stringSeed, containerMock);
             // Verify outcome
-            Assert.IsTrue(mockVerified, "Mock verification");
+            Assert.True(mockVerified, "Mock verification");
             // Teardown
         }
     }

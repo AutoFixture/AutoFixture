@@ -1,20 +1,19 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
     using System.Collections.Generic;
+    using Xunit;
 
-    [TestClass]
     public class LatentObjectBuilderTest
     {
         public LatentObjectBuilderTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillCreateObject()
         {
             // Fixture setup
@@ -22,11 +21,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             object result = sut.CreateAnonymous();
             // Verify outcome
-            Assert.IsNotNull(result, "Created object");
+            Assert.NotNull(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousAfterDefiningConstructorWithZeroParametersWillReturnDefinedObject()
         {
             // Fixture setup
@@ -35,11 +34,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             ConstructingObjectBuilder<object> result = sut.WithConstructor(() => expectedObject);
             // Verify outcome
-            Assert.AreEqual<object>(expectedObject, result.CreateAnonymous(), "Created object");
+            Assert.Equal<object>(expectedObject, result.CreateAnonymous());
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousAfterDefiningConstructorWithOneParameterWillReturnDefinedObject()
         {
             // Fixture setup
@@ -48,11 +47,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             ConstructingObjectBuilder<SingleParameterType<object>> result = sut.WithConstructor<object>(obj => expectedObject);
             // Verify outcome
-            Assert.AreEqual<SingleParameterType<object>>(expectedObject, result.CreateAnonymous(), "Created object");
+            Assert.Equal<SingleParameterType<object>>(expectedObject, result.CreateAnonymous());
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousAfterDefiningConstructorWithTwoParametersWillReturnDefinedObject()
         {
             // Fixture setup
@@ -61,11 +60,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             ConstructingObjectBuilder<DoubleParameterType<object, object>> result = sut.WithConstructor<object, object>((o1, o2) => expectedObject);
             // Verify outcome
-            Assert.AreEqual<DoubleParameterType<object, object>>(expectedObject, result.CreateAnonymous(), "Created object");
+            Assert.Equal<DoubleParameterType<object, object>>(expectedObject, result.CreateAnonymous());
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousAfterDefiningConstructorWithThreeParametersWillReturnDefinedObject()
         {
             // Fixture setup
@@ -74,11 +73,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             ConstructingObjectBuilder<TripleParameterType<object, object, object>> result = sut.WithConstructor<object, object, object>((o1, o2, o3) => expectedObject);
             // Verify outcome
-            Assert.AreEqual<TripleParameterType<object, object, object>>(expectedObject, result.CreateAnonymous(), "Created object");
+            Assert.Equal<TripleParameterType<object, object, object>>(expectedObject, result.CreateAnonymous());
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousAfterDefiningConstructorWithFourParametersWillReturnDefinedObject()
         {
             // Fixture setup
@@ -87,7 +86,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             ConstructingObjectBuilder<QuadrupleParameterType<object, object, object, object>> result = sut.WithConstructor<object, object, object, object>((o1, o2, o3, o4) => expectedObject);
             // Verify outcome
-            Assert.AreEqual<QuadrupleParameterType<object, object, object, object>>(expectedObject, result.CreateAnonymous(), "Created object");
+            Assert.Equal<QuadrupleParameterType<object, object, object, object>>(expectedObject, result.CreateAnonymous());
             // Teardown
         }
 

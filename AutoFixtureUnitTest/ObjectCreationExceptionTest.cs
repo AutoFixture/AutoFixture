@@ -2,19 +2,18 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
     public class ObjectCreationExceptionTest
     {
         public ObjectCreationExceptionTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void SutIsException()
         {
             // Fixture setup
@@ -22,11 +21,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var sut = new ObjectCreationException();
             // Verify outcome
-            Assert.IsInstanceOfType(sut, expectedBase);
+            Assert.IsAssignableFrom(expectedBase, sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void MessageWillBeDefineWhenDefaultConstructorIsUsed()
         {
             // Fixture setup
@@ -34,11 +33,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Message;
             // Verify outcome
-            Assert.IsNotNull(result, "Message");
+            Assert.NotNull(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void MessageWillMatchConstructorArgument()
         {
             // Fixture setup
@@ -47,11 +46,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Message;
             // Verify outcome
-            Assert.AreEqual<string>(expectedMessage, result, "Message");
+            Assert.Equal<string>(expectedMessage, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void InnerExceptionWillMatchConstructorArgument()
         {
             // Fixture setup
@@ -60,7 +59,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.InnerException;
             // Verify outcome
-            Assert.AreEqual<Exception>(expectedException, result, "InnerException");
+            Assert.Equal<Exception>(expectedException, result);
             // Teardown
         }
     }

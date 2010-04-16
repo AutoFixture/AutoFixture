@@ -2,19 +2,18 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
     public class ListGeneratorTest
     {
         public ListGeneratorTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void RepeatWillCreateTheCorrectNumberOfObjects()
         {
             // Fixture setup
@@ -23,11 +22,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             IEnumerable<object> result = function.Repeat(expectedCount);
             // Verify outcome
-            Assert.AreEqual<int>(expectedCount, result.Count(), "Repeat");
+            Assert.Equal<int>(expectedCount, result.Count());
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void RepeatWillInvokeFunctionTheCorrectNumberOfTimes()
         {
             // Fixture setup
@@ -37,11 +36,11 @@ namespace Ploeh.AutoFixtureUnitTest
             Func<int> function = () => result++;
             function.Repeat(expectedCount);
             // Verify outcome
-            Assert.AreEqual<int>(expectedCount, result, "Repeat");
+            Assert.Equal<int>(expectedCount, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void AddManyWillAddItemsToList()
         {
             // Fixture setup
@@ -52,11 +51,11 @@ namespace Ploeh.AutoFixtureUnitTest
             int i = 0;
             list.AddMany(() => ++i, anonymousCount);
             // Verify outcome
-            CollectionAssert.AreEqual(expectedList.ToList(), list, "AddMany");
+            Assert.True(expectedList.SequenceEqual(list));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void AddManyWillAddItemsToCollection()
         {
             // Fixture setup
@@ -67,7 +66,7 @@ namespace Ploeh.AutoFixtureUnitTest
             int i = 0;
             collection.AddMany(() => ++i, anonymousCount);
             // Verify outcome
-            CollectionAssert.AreEqual(expectedSequence.ToList(), collection.ToList(), "AddMany");
+            Assert.True(expectedSequence.SequenceEqual(collection));
             // Teardown
         }
     }

@@ -2,32 +2,30 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using System.Reflection;
+using Xunit;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Contact.Parsing
 {
-    [TestClass]
     public class ContactTest
     {
         public ContactTest()
         {
         }
 
-        [ExpectedException(typeof(TargetInvocationException))]
-        [TestMethod]
+        [Fact]
         public void CreateWithDefaultStringWillThrow()
         {
             // Fixture setup
             Fixture fixture = new Fixture();
-            // Exercise system
-            fixture.CreateAnonymous<Contact>();
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<TargetInvocationException>(() =>
+                fixture.CreateAnonymous<Contact>());
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithExplicitNumberStringWillSucceed()
         {
             // Fixture setup
@@ -37,11 +35,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.Parsing
             // Exercise system
             int result = sut.PhoneNumber;
             // Verify outcome
-            Assert.AreNotEqual<int>(default(int), result, "PhoneNumber");
+            Assert.NotEqual<int>(default(int), result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithAnonymousNumberStringWillSucceed()
         {
             // Fixture setup
@@ -51,7 +49,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.Parsing
             // Exercise system
             int result = sut.PhoneNumber;
             // Verify outcome
-            Assert.AreNotEqual<int>(default(int), result, "PhoneNumber");
+            Assert.NotEqual<int>(default(int), result);
             // Teardown
         }
     }

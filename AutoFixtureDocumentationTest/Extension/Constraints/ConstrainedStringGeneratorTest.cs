@@ -2,40 +2,38 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
 {
-    [TestClass]
     public class ConstrainedStringGeneratorTest
     {
         public ConstrainedStringGeneratorTest()
         {
         }
 
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [TestMethod]
+        [Fact]
         public void CreateWithMaxLessThanZeroWillThrow()
         {
             // Fixture setup
-            // Exercise system
-            new ConstrainedStringGenerator(-187, -1);
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                new ConstrainedStringGenerator(-187, -1));
             // Teardown
         }
 
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [TestMethod]
+        [Fact]
         public void CreateWithMinLargerThanMaxWillThrow()
         {
             // Fixture setup
             // Exercise system
-            new ConstrainedStringGenerator(9, 8);
             // Verify outcome (expected exception)
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                new ConstrainedStringGenerator(9, 8));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillPrefixWithSeed()
         {
             // Fixture setup
@@ -44,11 +42,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
             // Exercise system
             var result = sut.CreateaAnonymous(seed);
             // Verify outcome
-            StringAssert.StartsWith(result, seed, "Result should start with seed.");
+            Assert.True(result.StartsWith(seed));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillSatisfyMinimumWhenLow()
         {
             // Fixture setup
@@ -57,11 +55,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
             // Exercise system
             string result = sut.CreateaAnonymous(string.Empty);
             // Verify outcome
-            Assert.IsTrue(result.Length >= minimum, "Length greater than minimum");
+            Assert.True(result.Length >= minimum, "Length greater than minimum");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillSatisfyMinimumWhenHigh()
         {
             // Fixture setup
@@ -70,11 +68,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
             // Exercise system
             string result = sut.CreateaAnonymous(string.Empty);
             // Verify outcome
-            Assert.IsTrue(result.Length >= minimum, "Length greater than minimum");
+            Assert.True(result.Length >= minimum, "Length greater than minimum");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillSatisfyMaximumWhenLow()
         {
             // Fixture setup
@@ -83,11 +81,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
             // Exercise system
             var result = sut.CreateaAnonymous(string.Empty);
             // Verify outcome
-            Assert.IsTrue(result.Length <= maximum, "Length less than maximum");
+            Assert.True(result.Length <= maximum, "Length less than maximum");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillSatisfyMaxiumWhenHigh()
         {
             // Fixture setup
@@ -96,7 +94,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
             // Exercise system
             var result = sut.CreateaAnonymous(string.Empty);
             // Verify outcome
-            Assert.IsTrue(result.Length <= maximum, "Length less than maximum");
+            Assert.True(result.Length <= maximum, "Length less than maximum");
             // Teardown
         }
     }

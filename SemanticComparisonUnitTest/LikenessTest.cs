@@ -2,20 +2,19 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.TestTypeFoundation;
 using Ploeh.SemanticComparison.Fluent;
+using Xunit;
 
 namespace Ploeh.SemanticComparison.UnitTest
 {
-    [TestClass]
     public class LikenessTest
     {
         public LikenessTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNullValueWillHoldCorrectValue()
         {
             // Fixture setup
@@ -23,11 +22,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             PropertyHolder<string> result = sut.Value;
             // Verify outcome
-            Assert.IsNull(result, "Value");
+            Assert.Null(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ValueIsCorrect()
         {
             // Fixture setup
@@ -36,22 +35,22 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             ConcreteType result = sut.Value;
             // Verify outcome
-            Assert.AreEqual(expectedValue, result, "Value");
+            Assert.Equal(expectedValue, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutIsEquatable()
         {
             // Fixture setup
             // Exercise system
             var sut = new Likeness<int, string>(1);
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(IEquatable<string>));
+            Assert.IsAssignableFrom<IEquatable<string>>(sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualNullObject()
         {
             // Fixture setup
@@ -60,11 +59,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(nullObject);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualNullValue()
         {
             // Fixture setup
@@ -73,11 +72,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(nullValue);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutEqualsNullValueWhenSourceIsNull()
         {
             // Fixture setup
@@ -86,11 +85,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(nullValue);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutEqualsNullObjectWhenSourceIsNull()
         {
             // Fixture setup
@@ -99,11 +98,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(nullValue);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutWithValueDoesNotEqualNullValue()
         {
             // Fixture setup
@@ -112,11 +111,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(nullValue);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutWithValueDoesNotEqualNullObject()
         {
             // Fixture setup
@@ -125,11 +124,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(nullObject);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutEqualsItself()
         {
             // Fixture setup
@@ -137,11 +136,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(sut);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetHashCodeShouldReturnHashCodeOfContainedObject()
         {
             // Fixture setup
@@ -152,11 +151,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.GetHashCode();
             // Verify outcome
-            Assert.AreEqual(expectedHashCode, result, "GetHashCode");
+            Assert.Equal(expectedHashCode, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetHashCodeWhenNullIsContainedWillReturnCorrectResult()
         {
             // Fixture setup
@@ -164,11 +163,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.GetHashCode();
             // Verify outcome
-            Assert.AreEqual(0, result, "GetHashCode");
+            Assert.Equal(0, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ToStringReturnsCorrectResult()
         {
             // Fixture setup
@@ -179,11 +178,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.ToString();
             // Verify outcome
-            Assert.AreEqual(expectedText, result, "ToString");
+            Assert.Equal(expectedText, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ToStringOfContainedNullWillReturnCorrectResult()
         {
             // Fixture setup
@@ -191,11 +190,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.ToString();
             // Verify outcome
-            Assert.AreEqual("Likeness of null", result, "ToString");
+            Assert.Equal("Likeness of null", result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualAnonymousObject()
         {
             // Fixture setup
@@ -204,11 +203,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(anonymousObject);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutEqualsIdenticalStrongType()
         {
             // Fixture setup
@@ -219,11 +218,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutEqualsIdenticalWeakType()
         {
             // Fixture setup
@@ -234,11 +233,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ComparingStringPropertyHolderLikenessToRealStringPropertyHolderWillIndicateEquality()
         {
             // Fixture setup
@@ -254,7 +253,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, true);
         }
 
-        [TestMethod]
+        [Fact]
         public void ComparingStringPropertyHoldersWithDifferentValuesWillIndicateDifference()
         {
             // Fixture setup
@@ -271,7 +270,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void ComparingStringFieldHolderLikenessToRealStringFieldHolderWillIndicateEquality()
         {
             // Fixture setup
@@ -287,7 +286,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, true);
         }
 
-        [TestMethod]
+        [Fact]
         public void ComparingStringFieldHoldersWithDifferentValuesWillIndicateDifference()
         {
             // Fixture setup
@@ -304,7 +303,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void CompareAnonymousTypeLikenessToStringFieldHolderWillIndicateEqualityWhenValuesAreEqual()
         {
             // Fixture setup
@@ -322,7 +321,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, true);
         }
 
-        [TestMethod]
+        [Fact]
         public void CompareAnonymousTypeLikenessToStringPropertyHolderWillIndicateDifferenceWhenValuesAreDifferent()
         {
             // Fixture setup
@@ -341,7 +340,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void ObjectsWithNullPropertiesWillHaveLikeness()
         {
             // Fixture setup
@@ -355,7 +354,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, true);
         }
 
-        [TestMethod]
+        [Fact]
         public void LikenessOfObjectWithNullPropertyWillNotBeEqualToObjectWithValuedProperty()
         {
             // Fixture setup
@@ -369,7 +368,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void LikenessOfObjectWithValuePropertyWillNotBeEqualToObjectWithNullProperty()
         {
             // Fixture setup
@@ -383,7 +382,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void LikenessOfObjectWithPropertyWillNotBeEqualToPropertyWithDifferentProperty()
         {
             // Fixture setup
@@ -396,7 +395,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void LikenessAgainstObjectWithOverloadedMembersWillNotThrow()
         {
             // Fixture setup
@@ -408,7 +407,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void LikenessAgainstObjectWithIndexerWillNotThrow()
         {
             // Fixture setup
@@ -430,7 +429,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         /// destabilize the runtime."
         /// </para>
         /// </remarks>
-        [TestMethod]
+        [Fact]
         public void LikenessAgainstDataErrorInfoWillNotThrow()
         {
             // Fixture setup
@@ -442,7 +441,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, true);
         }
 
-        [TestMethod]
+        [Fact]
         public void LikenessAgainstObjectWithHidingPropertyWillNotThrow()
         {
             // Fixture setup
@@ -454,7 +453,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void LikenessOfObjectWithHidingPropertyWillNotThrow()
         {
             // Fixture setup
@@ -466,7 +465,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void SutOfAbstractTypeEqualsConcreteInstancesThatDifferOnlyOnMemberNotDefinedByAbstraction()
         {
             // Fixture setup
@@ -483,11 +482,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutOfAbstractTypeDoesNotEqualConcreteInstanceWhenPropertyDiffers()
         {
             // Fixture setup
@@ -503,11 +502,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsIsTrueWhenCorrectMappingHasBeenDefined()
         {
             // Fixture setup
@@ -521,11 +520,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutWithoutPropertyEqualsInstanceEvenIfItDiffersOnThatProperty()
         {
             // Fixture setup
@@ -542,11 +541,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutWithoutTwoPropertiesEqualsInstanceEvenThoughThosePropertyValuesDiffer()
         {
             // Fixture setup
@@ -563,11 +562,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutWithSemanticEqualityWillReturnTrue()
         {
             // Fixture setup
@@ -580,11 +579,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutWithValueThatDoesNotMatchTypeParameterWillReturnFalseEvenWhenComparedWithIdenticalValue()
         {
             // Fixture setup
@@ -595,11 +594,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutWithAnonymousValueWillEqualSemanticallyIdenticalValue()
         {
             // Fixture setup
@@ -610,11 +609,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutWithAnonymousSourceAndMemberMappingWillEqualMappedIdenticalValue()
         {
             // Fixture setup
@@ -627,11 +626,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsWhenOverriddenSourcePropertyEqualsReturnsTrueWillReturnTrue()
         {
             // Fixture setup
@@ -645,11 +644,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.AreEqual(equalityResponse, result, "Equals");
+            Assert.Equal(equalityResponse, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsWhenOverriddenSourcePropertyEqualsReturnsFalseWillReturnFalse()
         {
             // Fixture setup
@@ -663,11 +662,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.AreEqual(equalityResponse, result, "Equals");
+            Assert.Equal(equalityResponse, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsOfIdenticalObjectsReturnsTrue()
         {
             // Fixture setup
@@ -677,7 +676,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(value, other, true);
         }
 
-        [TestMethod]
+        [Fact]
         public void EqualsOfDifferentObjectsReturnFalse()
         {
             // Fixture setup
@@ -687,7 +686,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(value, other, false);
         }
 
-        [TestMethod]
+        [Fact]
         public void OmitAutoComparisonWillCauseDifferentObjectsToLookEqual()
         {
             // Fixture setup
@@ -699,11 +698,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             bool result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "OmitAutoComparison");
+            Assert.True(result, "OmitAutoComparison");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void OmitAutoComparisonFollowedByWithDefaultEqualityWillOptInOnThosePropertiesOnlyAndReturnTrueWhenTheyMatch()
         {
             // Fixture setup
@@ -717,11 +716,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             bool result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "DefaultEquality");
+            Assert.True(result, "DefaultEquality");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void OmitAutoComparisonFollowedByWithDefaultEqualityWillOptInOnThosePropertiesOnlyAndReturnFalseWhenTheyDoNotMatch()
         {
             // Fixture setup
@@ -735,11 +734,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             bool result = sut.Equals(other);
             // Verify outcome
-            Assert.IsFalse(result, "DefaultEquality");
+            Assert.False(result, "DefaultEquality");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void OmitAutoComparisonFollowedByCorrectComboOfDefaultEqualityAndExplictyWithReturnsTrue()
         {
             // Fixture setup
@@ -753,7 +752,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             bool result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "OmitAutoComparison...explicit With");
+            Assert.True(result, "OmitAutoComparison...explicit With");
             // Teardown
         }
 
@@ -764,7 +763,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             bool result = sut.Equals(comparee);
             // Verify outcome
-            Assert.AreEqual<bool>(expectedResult, result, "If all public properties and fields are equal, Likeness should indicate equality.");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 

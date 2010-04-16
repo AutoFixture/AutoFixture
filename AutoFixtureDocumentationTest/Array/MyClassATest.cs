@@ -2,19 +2,18 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
+using Xunit;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Array
 {
-    [TestClass]
     public class MyClassATest
     {
         public MyClassATest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void CreatedSutCanHaveItemsAssignedSubsequently()
         {
             // Fixture setup
@@ -23,12 +22,12 @@ namespace Ploeh.AutoFixtureDocumentationTest.Array
             var mc = fixture.CreateAnonymous<MyClassA>();
             mc.Items = fixture.CreateMany<MyClassB>().ToArray();
             // Verify outcome
-            Assert.IsTrue(mc.Items.Length > 0, "Non-empty array");
-            Assert.IsTrue(mc.Items.All(x => x != null), "No item should be null");
+            Assert.True(mc.Items.Length > 0);
+            Assert.True(mc.Items.All(x => x != null));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void BuiltSutWillHavePopulatedItems()
         {
             // Fixture setup
@@ -39,12 +38,12 @@ namespace Ploeh.AutoFixtureDocumentationTest.Array
                     fixture.CreateMany<MyClassB>().ToArray())
                 .CreateAnonymous();
             // Verify outcome
-            Assert.IsTrue(mc.Items.Length > 0, "Non-empty array");
-            Assert.IsTrue(mc.Items.All(x => x != null), "No item should be null");
+            Assert.True(mc.Items.Length > 0, "Non-empty array");
+            Assert.True(mc.Items.All(x => x != null), "No item should be null");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CustomizedSutWillHavePopulatedItems()
         {
             // Fixture setup
@@ -55,8 +54,8 @@ namespace Ploeh.AutoFixtureDocumentationTest.Array
             // Exercise system
             var mc = fixture.CreateAnonymous<MyClassA>();
             // Verify outcome
-            Assert.IsTrue(mc.Items.Length > 0, "Non-empty array");
-            Assert.IsTrue(mc.Items.All(x => x != null), "No item should be null");
+            Assert.True(mc.Items.Length > 0, "Non-empty array");
+            Assert.True(mc.Items.All(x => x != null), "No item should be null");
             // Teardown
         }
     }

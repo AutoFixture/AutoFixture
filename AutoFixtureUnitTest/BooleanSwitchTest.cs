@@ -2,21 +2,20 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Ploeh.AutoFixture.Kernel;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
     public class BooleanSwitchTest
     {
         public BooleanSwitchTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillReturnTrueOnFirstCall()
         {
             // Fixture setup
@@ -24,11 +23,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             bool result = sut.CreateAnonymous();
             // Verify outcome
-            Assert.IsTrue(result, "CreateAnonymous called an uneven number of times");
+            Assert.True(result, "CreateAnonymous called an uneven number of times");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillReturnFalseOnSecondCall()
         {
             // Fixture setup
@@ -37,11 +36,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             bool result = sut.CreateAnonymous();
             // Verify outcome
-            Assert.IsFalse(result, "CreateAnonymous called an even number of times");
+            Assert.False(result, "CreateAnonymous called an even number of times");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillReturnTrueOnThirdCall()
         {
             // Fixture setup
@@ -51,11 +50,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             bool result = sut.CreateAnonymous();
             // Verify outcome
-            Assert.IsTrue(result, "CreateAnonymous called an uneven number of times");
+            Assert.True(result, "CreateAnonymous called an uneven number of times");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillReturnFalseOnFourthCall()
         {
             // Fixture setup
@@ -66,22 +65,22 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             bool result = sut.CreateAnonymous();
             // Verify outcome
-            Assert.IsFalse(result, "CreateAnonymous called an even number of times");
+            Assert.False(result, "CreateAnonymous called an even number of times");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
             var sut = new BooleanSwitch();
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(ISpecimenBuilder));
+            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -90,11 +89,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
-            Assert.AreEqual(new NoSpecimen(), result, "Create");
+            Assert.Equal(new NoSpecimen(), result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNullContainerDoesNotThrow()
         {
             // Fixture setup
@@ -106,7 +105,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNonBooleanRequestWillReturnCorrectResult()
         {
             // Fixture setup
@@ -117,11 +116,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Create(nonBooleanRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonBooleanRequest);
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithBooleanRequestWillReturnCorrectResultOnFirstCall()
         {
             // Fixture setup
@@ -131,11 +130,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(booleanRequest, dummyContainer);
             // Verify outcome
-            Assert.AreEqual(true, result, "Create");
+            Assert.Equal(true, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithBooleanRequestWillReturnCorrectResultOnSecondCall()
         {
             // Fixture setup
@@ -146,11 +145,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Create(booleanRequest, dummyContainer);
             var result = sut.Create(booleanRequest, dummyContainer);
             // Verify outcome
-            Assert.AreEqual(false, result, "Create");
+            Assert.Equal(false, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithBooleanRequestWillReturnCorrectResultOnThirdCall()
         {
             // Fixture setup
@@ -162,11 +161,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Create(booleanRequest, dummyContainer);
             var result = sut.Create(booleanRequest, dummyContainer);
             // Verify outcome
-            Assert.AreEqual(true, result, "Create");
+            Assert.Equal(true, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithBooleanRequestWillReturnCorrectResultOnFourthCall()
         {
             // Fixture setup
@@ -179,7 +178,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Create(booleanRequest, dummyContainer);
             var result = sut.Create(booleanRequest, dummyContainer);
             // Verify outcome
-            Assert.AreEqual(false, result, "Create");
+            Assert.Equal(false, result);
             // Teardown
         }
     }

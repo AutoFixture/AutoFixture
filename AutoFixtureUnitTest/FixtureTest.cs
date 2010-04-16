@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
     public class FixtureTest
     {
         public FixtureTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillCreateSimpleObject()
         {
             // Fixture setup
@@ -23,23 +22,22 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             object result = sut.CreateAnonymous<object>();
             // Verify outcome
-            Assert.IsNotNull(result, "Creation of object");
+            Assert.NotNull(result);
             // Teardown
         }
 
-        [ExpectedException(typeof(ObjectCreationException))]
-        [TestMethod]
+        [Fact]
         public void CreateUnregisteredAbstractTypeWillThrow()
         {
             // Fixture setup
             Fixture sut = new Fixture();
-            // Exercise system
-            sut.CreateAnonymous<AbstractType>();
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<ObjectCreationException>(() =>
+                sut.CreateAnonymous<AbstractType>());
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillCreateSingleParameterType()
         {
             // Fixture setup
@@ -47,11 +45,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             SingleParameterType<object> result = sut.CreateAnonymous<SingleParameterType<object>>();
             // Verify outcome
-            Assert.IsNotNull(result.Parameter, "Creation of type that takes a single parameter in its constructor");
+            Assert.NotNull(result.Parameter);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillUseRegisteredMapping()
         {
             // Fixture setup
@@ -60,11 +58,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             SingleParameterType<AbstractType> result = sut.CreateAnonymous<SingleParameterType<AbstractType>>();
             // Verify outcome
-            Assert.IsInstanceOfType(result.Parameter, typeof(ConcreteType), "Creation of type that takes abstract type as parameter in its constructor");
+            Assert.IsAssignableFrom<ConcreteType>(result.Parameter);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillUseRegisteredMappingWithSingleParameter()
         {
             // Fixture setup
@@ -73,11 +71,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             AbstractType result = sut.CreateAnonymous<AbstractType>();
             // Verify outcome
-            Assert.IsNotNull(result.Property1, "An anonymous instance was created for Property1.");
+            Assert.NotNull(result.Property1);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillUseRegisteredMappingWithDoubleParameters()
         {
             // Fixture setup
@@ -86,12 +84,12 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             AbstractType result = sut.CreateAnonymous<AbstractType>();
             // Verify outcome
-            Assert.IsNotNull(result.Property1, "An anonymous instance was created for Property1.");
-            Assert.IsNotNull(result.Property2, "An anonymous instance was created for Property2.");
+            Assert.NotNull(result.Property1);
+            Assert.NotNull(result.Property2);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillUseRegisterdMappingWithTripleParameters()
         {
             // Fixture setup
@@ -100,13 +98,13 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             AbstractType result = sut.CreateAnonymous<AbstractType>();
             // Verify outcome
-            Assert.IsNotNull(result.Property1, "An anonymous instance was created for Property1.");
-            Assert.IsNotNull(result.Property2, "An anonymous instance was created for Property2.");
-            Assert.IsNotNull(result.Property3, "An anonymous instance was created for Property3.");
+            Assert.NotNull(result.Property1);
+            Assert.NotNull(result.Property2);
+            Assert.NotNull(result.Property3);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillUseRegisteredMappingWithQuadrupleParameters()
         {
             // Fixture setup
@@ -115,14 +113,14 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             AbstractType result = sut.CreateAnonymous<AbstractType>();
             // Verify outcome
-            Assert.IsNotNull(result.Property1, "An anonymous instance was created for Property1.");
-            Assert.IsNotNull(result.Property2, "An anonymous instance was created for Property2.");
-            Assert.IsNotNull(result.Property3, "An anonymous instance was created for Property3.");
-            Assert.IsNotNull(result.Property4, "An anonymous instance was created for Property4.");
+            Assert.NotNull(result.Property1);
+            Assert.NotNull(result.Property2);
+            Assert.NotNull(result.Property3);
+            Assert.NotNull(result.Property4);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CustomizeInstanceWillReturnFactory()
         {
             // Fixture setup
@@ -130,11 +128,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             ObjectBuilder<object> result = sut.Build<object>();
             // Verify outcome
-            Assert.IsNotNull(result, "Factory for object");
+            Assert.NotNull(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousStringWillPrefixName()
         {
             // Fixture setup
@@ -144,11 +142,11 @@ namespace Ploeh.AutoFixtureUnitTest
             string result = sut.CreateAnonymous(expectedText);
             // Verify outcome
             string actualText = new TextGuidRegex().GetText(result);
-            Assert.AreEqual<string>(expectedText, actualText, "Text part");
+            Assert.Equal<string>(expectedText, actualText);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousStringWillAppendGuid()
         {
             // Fixture setup
@@ -159,11 +157,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             string guidString = new TextGuidRegex().GetGuid(result);
             Guid g = new Guid(guidString);
-            Assert.AreNotEqual<Guid>(Guid.Empty, g, "Guid part");
+            Assert.NotEqual<Guid>(Guid.Empty, g);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithStringPropertyWillAssignNonEmptyString()
         {
             // Fixture setup
@@ -171,11 +169,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<string> result = sut.CreateAnonymous<PropertyHolder<string>>();
             // Verify outcome
-            Assert.IsFalse(string.IsNullOrEmpty(result.Property), "Property should be assigned");
+            Assert.False(string.IsNullOrEmpty(result.Property), "Property should be assigned");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithStringPropertyWillAppendPropertyNameToString()
         {
             // Fixture setup
@@ -186,11 +184,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             string propertyValue = result.Property;
             string text = new TextGuidRegex().GetText(propertyValue);
-            Assert.AreEqual<string>(expectedName, text, "Text part");
+            Assert.Equal<string>(expectedName, text);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithStringPropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setup
@@ -199,11 +197,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<string> result = sut.CreateAnonymous<PropertyHolder<string>>();
             // Verify outcome
-            Assert.AreNotEqual<string>(ph.Property, result.Property, "Property");
+            Assert.NotEqual<string>(ph.Property, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithBooleanPropertyWillAssignTrue()
         {
             // Fixture setup
@@ -212,11 +210,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<bool> result = sut.CreateAnonymous<PropertyHolder<bool>>();
             // Verify outcome
-            Assert.AreNotEqual<bool>(unexpectedBoolean, result.Property, "Property");
+            Assert.NotEqual<bool>(unexpectedBoolean, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithBooleanPropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setup
@@ -225,11 +223,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<bool> result = sut.CreateAnonymous<PropertyHolder<bool>>();
             // Verify outcome
-            Assert.AreNotEqual<bool>(ph.Property, result.Property, "Property");
+            Assert.NotEqual<bool>(ph.Property, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithBytePropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
@@ -238,11 +236,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<byte> result = sut.CreateAnonymous<PropertyHolder<byte>>();
             // Verify outcome
-            Assert.AreNotEqual<byte>(unexpectedByte, result.Property, "Property");
+            Assert.NotEqual<byte>(unexpectedByte, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithBytePropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setup
@@ -251,11 +249,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<byte> result = sut.CreateAnonymous<PropertyHolder<byte>>();
             // Verify outcome
-            Assert.AreNotEqual<byte>(ph.Property, result.Property, "Property");
+            Assert.NotEqual<byte>(ph.Property, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithSignedBytePropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
@@ -264,11 +262,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<sbyte> result = sut.CreateAnonymous<PropertyHolder<sbyte>>();
             // Verify outcome
-            Assert.AreNotEqual<sbyte>(unexpectedSbyte, result.Property, "Property");
+            Assert.NotEqual<sbyte>(unexpectedSbyte, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithSignedBytePropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setpu
@@ -277,11 +275,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<sbyte> result = sut.CreateAnonymous<PropertyHolder<sbyte>>();
             // Verify outcome
-            Assert.AreNotEqual<sbyte>(ph.Property, result.Property, "Property");
+            Assert.NotEqual<sbyte>(ph.Property, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithUnsignedInt16PropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
@@ -290,11 +288,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<ushort> result = sut.CreateAnonymous<PropertyHolder<ushort>>();
             // Verify outcome
-            Assert.AreNotEqual<ushort>(unexpectedNumber, result.Property, "Property");
+            Assert.NotEqual<ushort>(unexpectedNumber, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithUnsignedInt16PropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setup
@@ -303,11 +301,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<ushort> result = sut.CreateAnonymous<PropertyHolder<ushort>>();
             // Verify outcome
-            Assert.AreNotEqual<ushort>(ph.Property, result.Property, "Property");
+            Assert.NotEqual<ushort>(ph.Property, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithInt16PropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
@@ -316,11 +314,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<short> result = sut.CreateAnonymous<PropertyHolder<short>>();
             // Verify outcome
-            Assert.AreNotEqual<short>(unexpectedNumber, result.Property, "Property");
+            Assert.NotEqual<short>(unexpectedNumber, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithInt16PropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setup
@@ -329,11 +327,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<short> result = sut.CreateAnonymous<PropertyHolder<short>>();
             // Verify outcome
-            Assert.AreNotEqual<short>(ph.Property, result.Property, "Property");
+            Assert.NotEqual<short>(ph.Property, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithUnsignedInt32PropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
@@ -342,11 +340,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<uint> result = sut.CreateAnonymous<PropertyHolder<uint>>();
             // Verify outcome
-            Assert.AreNotEqual<uint>(unexpectedNumber, result.Property, "Property");
+            Assert.NotEqual<uint>(unexpectedNumber, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithUnsignedInt32PropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setup
@@ -355,11 +353,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<uint> result = sut.CreateAnonymous<PropertyHolder<uint>>();
             // Verify outcome
-            Assert.AreNotEqual<uint>(ph.Property, result.Property, "Property");
+            Assert.NotEqual<uint>(ph.Property, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithInt32PropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
@@ -368,11 +366,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<int> result = sut.CreateAnonymous<PropertyHolder<int>>();
             // Verify outcome
-            Assert.AreNotEqual<int>(unexpectedNumber, result.Property, "Property");
+            Assert.NotEqual<int>(unexpectedNumber, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithInt32PropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setup
@@ -381,11 +379,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<int> result = sut.CreateAnonymous<PropertyHolder<int>>();
             // Verify outcome
-            Assert.AreNotEqual<int>(ph.Property, result.Property, "Property");
+            Assert.NotEqual<int>(ph.Property, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithUnsignedInt64PropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
@@ -394,11 +392,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<ulong> result = sut.CreateAnonymous<PropertyHolder<ulong>>();
             // Verify outcome
-            Assert.AreNotEqual<ulong>(unexpectedNumber, result.Property, "Property");
+            Assert.NotEqual<ulong>(unexpectedNumber, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithUnsignedInt64PropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setup
@@ -407,11 +405,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<ulong> result = sut.CreateAnonymous<PropertyHolder<ulong>>();
             // Verify outcome
-            Assert.AreNotEqual<ulong>(ph.Property, result.Property, "Property");
+            Assert.NotEqual<ulong>(ph.Property, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithInt64PropertyWillAssignNonDefaulValue()
         {
             // Fixture setup
@@ -420,11 +418,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<long> result = sut.CreateAnonymous<PropertyHolder<long>>();
             // Verify outcome
-            Assert.AreNotEqual<long>(unexpectedNumber, result.Property, "Property");
+            Assert.NotEqual<long>(unexpectedNumber, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithInt64PropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setup
@@ -433,11 +431,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<long> result = sut.CreateAnonymous<PropertyHolder<long>>();
             // Verify outcome
-            Assert.AreNotEqual<long>(ph.Property, result.Property, "Property");
+            Assert.NotEqual<long>(ph.Property, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithDecimalPropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
@@ -446,11 +444,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<decimal> result = sut.CreateAnonymous<PropertyHolder<decimal>>();
             // Verify outcome
-            Assert.AreNotEqual<decimal>(unexpectedNumber, result.Property, "Property");
+            Assert.NotEqual<decimal>(unexpectedNumber, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithDecimalPropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setup
@@ -459,11 +457,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<decimal> result = sut.CreateAnonymous<PropertyHolder<decimal>>();
             // Verify outcome
-            Assert.AreNotEqual<decimal>(ph.Property, result.Property, "Property");
+            Assert.NotEqual<decimal>(ph.Property, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithSinglePropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
@@ -472,11 +470,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<float> result = sut.CreateAnonymous<PropertyHolder<float>>();
             // Verify outcome
-            Assert.AreNotEqual<float>(unexpectedNumber, result.Property, "Property");
+            Assert.NotEqual<float>(unexpectedNumber, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithSinglePropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setup
@@ -485,11 +483,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<float> result = sut.CreateAnonymous<PropertyHolder<float>>();
             // Verify outcome
-            Assert.AreNotEqual<float>(ph.Property, result.Property, "Property");
+            Assert.NotEqual<float>(ph.Property, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithDoublePropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
@@ -498,11 +496,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<double> result = sut.CreateAnonymous<PropertyHolder<double>>();
             // Verify outcome
-            Assert.AreNotEqual<double>(unexpectedNumber, result.Property, "Property");
+            Assert.NotEqual<double>(unexpectedNumber, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithDoublePropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setup
@@ -511,11 +509,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<double> result = sut.CreateAnonymous<PropertyHolder<double>>();
             // Verify outcome
-            Assert.AreNotEqual<double>(ph.Property, result.Property, "Property");
+            Assert.NotEqual<double>(ph.Property, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithGuidProperyWillAssignNonDefaultValue()
         {
             // Fixture setup
@@ -524,11 +522,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.CreateAnonymous<PropertyHolder<Guid>>();
             // Verify outcome
-            Assert.AreNotEqual<Guid>(unexpectedGuid, result.Property, "Property");
+            Assert.NotEqual<Guid>(unexpectedGuid, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithGuidPropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setup
@@ -537,11 +535,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.CreateAnonymous<PropertyHolder<Guid>>();
             // Verify outcome
-            Assert.AreNotEqual<Guid>(ph.Property, result.Property, "Property");
+            Assert.NotEqual<Guid>(ph.Property, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithDateTimePropertyWillAssignValueMatchingCurrentTime()
         {
             // Fixture setup
@@ -551,11 +549,11 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.CreateAnonymous<PropertyHolder<DateTime>>();
             // Verify outcome
             var after = DateTime.Now;
-            Assert.IsTrue(before <= result.Property && result.Property <= after, "Generated DateTime should match current DateTime.");
+            Assert.True(before <= result.Property && result.Property <= after, "Generated DateTime should match current DateTime.");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithDateTimePropertyTwiceWillAssignDifferentValuesIfYouWaitLongEnough()
         {
             // Fixture setup
@@ -565,11 +563,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.CreateAnonymous<PropertyHolder<DateTime>>();
             // Verify outcome
-            Assert.AreNotEqual<DateTime>(ph.Property, result.Property, "Property");
+            Assert.NotEqual<DateTime>(ph.Property, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DefaultRepeatCountIsThree()
         {
             // Fixture setup
@@ -578,11 +576,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             int result = sut.RepeatCount;
             // Verify outcome
-            Assert.AreEqual<int>(expectedRepeatCount, result, "RepeatCount");
+            Assert.Equal<int>(expectedRepeatCount, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void RepeatWillPerformActionTheDefaultNumberOfTimes()
         {
             // Fixture setup
@@ -592,11 +590,11 @@ namespace Ploeh.AutoFixtureUnitTest
             int result = 0;
             sut.Repeat(() => result++);
             // Verify outcome
-            Assert.AreEqual<int>(expectedCount, result, "Repeat");
+            Assert.Equal<int>(expectedCount, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void RepeatWillReturnTheDefaultNumberOfItems()
         {
             // Fixture setup
@@ -605,11 +603,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             IEnumerable<object> result = sut.Repeat(() => new object());
             // Verify outcome
-            Assert.AreEqual<int>(expectedCount, result.Count(), "Repeat");
+            Assert.Equal<int>(expectedCount, result.Count());
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void RepeatWillPerformActionTheSpecifiedNumberOfTimes()
         {
             // Fixture setup
@@ -620,11 +618,11 @@ namespace Ploeh.AutoFixtureUnitTest
             int result = 0;
             sut.Repeat(() => result++);
             // Verify outcome
-            Assert.AreEqual<int>(expectedCount, result, "Repeat");
+            Assert.Equal<int>(expectedCount, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void RepeatWillReturnTheSpecifiedNumberOfItems()
         {
             // Fixture setup
@@ -634,11 +632,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             IEnumerable<object> result = sut.Repeat(() => new object());
             // Verify outcome
-            Assert.AreEqual<int>(expectedCount, result.Count(), "Repeat");
+            Assert.Equal<int>(expectedCount, result.Count());
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ReplacingStringMappingWillUseNewStringCreationAlgorithm()
         {
             // Fixture setup
@@ -648,11 +646,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.TypeMappings[typeof(string)] = s => expectedText;
             // Verify outcome
             string result = sut.CreateAnonymous<string>();
-            Assert.AreEqual<string>(expectedText, result, "The created string uses the user-defined algorithm.");
+            Assert.Equal<string>(expectedText, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void AddManyWillAddItemsToListUsingCreator()
         {
             // Fixture setup
@@ -663,11 +661,11 @@ namespace Ploeh.AutoFixtureUnitTest
             int i = 0;
             sut.AddManyTo(list, () => ++i);
             // Verify outcome
-            CollectionAssert.AreEqual(expectedList.ToList(), list, "AddManyTo");
+            Assert.True(expectedList.SequenceEqual(list));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void AddManyWillAddItemsToListUsingAnonymousCreator()
         {
             // Fixture setup
@@ -680,11 +678,11 @@ namespace Ploeh.AutoFixtureUnitTest
             int result = (from s in list
                           where !string.IsNullOrEmpty(s)
                           select s).Count();
-            Assert.AreEqual<int>(expectedItemCount, result, "AddManyTo");
+            Assert.Equal<int>(expectedItemCount, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void AddManyWillAddItemsToCollection()
         {
             // Fixture setup
@@ -694,11 +692,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.AddManyTo(collection);
             // Verify outcome
-            Assert.AreEqual<int>(expectedCount, collection.Count, "AddManyTo");
+            Assert.Equal<int>(expectedCount, collection.Count);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void AddManyWithRepeatCountWillAddItemsToCollection()
         {
             // Fixture setup
@@ -708,11 +706,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.AddManyTo(collection, expectedCount);
             // Verify outcome
-            Assert.AreEqual<int>(expectedCount, collection.Count, "AddManyTo");
+            Assert.Equal<int>(expectedCount, collection.Count);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void AddManyWithCreatorWillAddItemsToCollection()
         {
             // Fixture setup
@@ -722,11 +720,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.AddManyTo(collection, () => new object());
             // Verify outcome
-            Assert.AreEqual<int>(expectedCount, collection.Count, "AddManyTo");
+            Assert.Equal<int>(expectedCount, collection.Count);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateManyWillCreateManyAnonymousItems()
         {
             // Fixture setup
@@ -738,11 +736,11 @@ namespace Ploeh.AutoFixtureUnitTest
             int nonDefaultCount = (from s in result
                                    where !string.IsNullOrEmpty(s)
                                    select s).Count();
-            Assert.AreEqual<int>(expectedItemCount, nonDefaultCount, "CreateMany");
+            Assert.Equal<int>(expectedItemCount, nonDefaultCount);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateManyWillCreateCorrectNumberOfAnonymousItems()
         {
             // Fixture setup
@@ -754,11 +752,11 @@ namespace Ploeh.AutoFixtureUnitTest
             int nonDefaultCount = (from s in result
                                    where !string.IsNullOrEmpty(s)
                                    select s).Count();
-            Assert.AreEqual<int>(expectedItemCount, nonDefaultCount, "CreateMany");
+            Assert.Equal<int>(expectedItemCount, nonDefaultCount);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateManyWithSeedWillCreateManyCorrectItems()
         {
             // Fixture setup
@@ -771,11 +769,11 @@ namespace Ploeh.AutoFixtureUnitTest
             int actualCount = (from s in result
                                where s.StartsWith(anonymousPrefix)
                                select s).Count();
-            Assert.AreEqual<int>(expectedItemCount, actualCount, "CreateMany");
+            Assert.Equal<int>(expectedItemCount, actualCount);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateManyWithSeedWillCreateCorrectNumberOfItems()
         {
             // Fixture setup
@@ -788,11 +786,11 @@ namespace Ploeh.AutoFixtureUnitTest
             int actualCount = (from s in result
                                where s.StartsWith(anonymousPrefix)
                                select s).Count();
-            Assert.AreEqual<int>(expectedItemCount, actualCount, "CreateMany");
+            Assert.Equal<int>(expectedItemCount, actualCount);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void RegisterTypeWithPropertyOverrideWillSetPropertyValueCorrectly()
         {
             // Fixture setup
@@ -802,11 +800,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize<PropertyHolder<string>>(f => f.With(ph => ph.Property, expectedValue));
             PropertyHolder<string> result = sut.CreateAnonymous<PropertyHolder<string>>();
             // Verify outcome
-            Assert.AreEqual<string>(expectedValue, result.Property, "Register property override");
+            Assert.Equal<string>(expectedValue, result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CustomizeWithEchoInt32GeneratorWillReturnSeed()
         {
             // Fixture setup
@@ -816,11 +814,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             int result = sut.CreateAnonymous(expectedValue);
             // Verify outcome
-            Assert.AreEqual<int>(expectedValue, result, "CreateAnonymous");
+            Assert.Equal<int>(expectedValue, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateNestedTypeWillPopulateNestedProperty()
         {
             // Fixture setup
@@ -828,11 +826,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.CreateAnonymous<PropertyHolder<PropertyHolder<string>>>();
             // Verify outcome
-            Assert.IsFalse(string.IsNullOrEmpty(result.Property.Property), "Nested property string should not be null or empty.");
+            Assert.False(string.IsNullOrEmpty(result.Property.Property), "Nested property string should not be null or empty.");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DoOnCommandWithSingleParameterWillInvokeMethod()
         {
             // Fixture setup
@@ -844,11 +842,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Do((string s) => mock.Command(s));
             // Verify outcome
-            Assert.IsTrue(methodInvoked, "Command method invoked");
+            Assert.True(methodInvoked, "Command method invoked");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DoOnCommandWithSingleParameterWillInvokeMethodWithCorrectParameter()
         {
             // Fixture setup
@@ -858,14 +856,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<int>(() => expectedNumber);
 
             var mock = new CommandMock<int>();
-            mock.OnCommand = x => Assert.AreEqual<int>(expectedNumber, x, "Do");
+            mock.OnCommand = x => Assert.Equal<int>(expectedNumber, x);
             // Exercise system
             sut.Do((int i) => mock.Command(i));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DoOnCommandWithTwoParametersWillInvokeMethod()
         {
             // Fixture setup
@@ -877,11 +875,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Do((string x1, long x2) => mock.Command(x1, x2));
             // Verify outcome
-            Assert.IsTrue(methodInvoked, "Command method invoked");
+            Assert.True(methodInvoked, "Command method invoked");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DoOnCommandWithTwoParametersWillInvokeMethodWithCorrectFirstParameter()
         {
             // Fixture setup
@@ -891,14 +889,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<double>(() => expectedNumber);
 
             var mock = new CommandMock<double, object>();
-            mock.OnCommand = (x1, x2) => Assert.AreEqual<double>(expectedNumber, x1, "Do");
+            mock.OnCommand = (x1, x2) => Assert.Equal<double>(expectedNumber, x1);
             // Exercise system
             sut.Do((double x1, object x2) => mock.Command(x1, x2));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DoOnCommandWithTwoParametersWillInvokeMethodWithCorrectSecondParameter()
         {
             // Fixture setup
@@ -908,14 +906,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<short>(() => expectedNumber);
 
             var mock = new CommandMock<DateTime, short>();
-            mock.OnCommand = (x1, x2) => Assert.AreEqual<short>(expectedNumber, x2, "Do");
+            mock.OnCommand = (x1, x2) => Assert.Equal<short>(expectedNumber, x2);
             // Exercise system
             sut.Do((DateTime x1, short x2) => mock.Command(x1, x2));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DoOnCommandWithThreeParametersWillInvokeMethod()
         {
             // Fixture setup
@@ -927,11 +925,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Do((object x1, object x2, object x3) => mock.Command(x1, x2, x3));
             // Verify outcome
-            Assert.IsTrue(methodInvoked, "Command method invoked");
+            Assert.True(methodInvoked, "Command method invoked");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DoOnCommandWithThreeParametersWillInvokeMethodWithCorrectFirstParameter()
         {
             // Fixture setup
@@ -941,14 +939,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<DateTime>(() => expectedDateTime);
 
             var mock = new CommandMock<DateTime, long, short>();
-            mock.OnCommand = (x1, x2, x3) => Assert.AreEqual<DateTime>(expectedDateTime, x1, "Do");
+            mock.OnCommand = (x1, x2, x3) => Assert.Equal<DateTime>(expectedDateTime, x1);
             // Exercise system
             sut.Do((DateTime x1, long x2, short x3) => mock.Command(x1, x2, x3));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DoOnCommandWithThreeParametersWillInvokeMethodWithCorrectSecondParameter()
         {
             // Fixture setup
@@ -958,14 +956,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<TimeSpan>(() => expectedTimeSpan);
 
             var mock = new CommandMock<uint, TimeSpan, TimeSpan>();
-            mock.OnCommand = (x1, x2, x3) => Assert.AreEqual<TimeSpan>(expectedTimeSpan, x2, "Do");
+            mock.OnCommand = (x1, x2, x3) => Assert.Equal<TimeSpan>(expectedTimeSpan, x2);
             // Exercise system
             sut.Do((uint x1, TimeSpan x2, TimeSpan x3) => mock.Command(x1, x2, x3));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DoOnCommandWithThreeParametersWillInvokeMethodWithCorrectThirdParameter()
         {
             // Fixture setup
@@ -975,14 +973,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<string>(() => expectedText);
 
             var mock = new CommandMock<double, uint, string>();
-            mock.OnCommand = (x1, x2, x3) => Assert.AreEqual<string>(expectedText, x3, "Do");
+            mock.OnCommand = (x1, x2, x3) => Assert.Equal<string>(expectedText, x3);
             // Exercise system
             sut.Do((double x1, uint x2, string x3) => mock.Command(x1, x2, x3));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DoOnCommandWithFourParametersWillInvokeMethod()
         {
             // Fixture setup
@@ -994,11 +992,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Do((uint x1, ushort x2, int x3, bool x4) => mock.Command(x1, x2, x3, x4));
             // Verify outcome
-            Assert.IsTrue(methodInvoked, "Command method invoked");
+            Assert.True(methodInvoked, "Command method invoked");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DoOnCommandWithFourParametersWillInvokeMethodWithCorrectFirstParameter()
         {
             // Fixture setup
@@ -1008,14 +1006,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<uint>(() => expectedNumber);
 
             var mock = new CommandMock<uint, bool, string, Guid>();
-            mock.OnCommand = (x1, x2, x3, x4) => Assert.AreEqual<uint>(expectedNumber, x1, "Do");
+            mock.OnCommand = (x1, x2, x3, x4) => Assert.Equal<uint>(expectedNumber, x1);
             // Exercise system
             sut.Do((uint x1, bool x2, string x3, Guid x4) => mock.Command(x1, x2, x3, x4));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DoOnCommandWithFourParametersWillInvokeMethodWithCorrectSecondParameter()
         {
             // Fixture setup
@@ -1025,14 +1023,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<decimal>(() => expectedNumber);
 
             var mock = new CommandMock<ushort, decimal, Guid, bool>();
-            mock.OnCommand = (x1, x2, x3, x4) => Assert.AreEqual<decimal>(expectedNumber, x2, "Do");
+            mock.OnCommand = (x1, x2, x3, x4) => Assert.Equal<decimal>(expectedNumber, x2);
             // Exercise system
             sut.Do((ushort x1, decimal x2, Guid x3, bool x4) => mock.Command(x1, x2, x3, x4));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DoOnCommandWithFourParametersWillInvokeMethodWithCorrectThirdParameter()
         {
             // Fixture setup
@@ -1042,14 +1040,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<Guid>(() => expectedGuid);
 
             var mock = new CommandMock<bool, string, Guid, string>();
-            mock.OnCommand = (x1, x2, x3, x4) => Assert.AreEqual<Guid>(expectedGuid, x3, "Do");
+            mock.OnCommand = (x1, x2, x3, x4) => Assert.Equal<Guid>(expectedGuid, x3);
             // Exercise system
             sut.Do((bool x1, string x2, Guid x3, string x4) => mock.Command(x1, x2, x3, x4));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DoOnCommandWithFourParametersWillInvokeMethodWithCorrectFourthParameter()
         {
             // Fixture setup
@@ -1059,14 +1057,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<OperatingSystem>(() => expectedOS);
 
             var mock = new CommandMock<int?, DateTime, TimeSpan, OperatingSystem>();
-            mock.OnCommand = (x1, x2, x3, x4) => Assert.AreEqual<OperatingSystem>(expectedOS, x4, "Do");
+            mock.OnCommand = (x1, x2, x3, x4) => Assert.Equal<OperatingSystem>(expectedOS, x4);
             // Exercise system
             sut.Do((int? x1, DateTime x2, TimeSpan x3, OperatingSystem x4) => mock.Command(x1, x2, x3, x4));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithSingleParameterWillInvokeMethod()
         {
             // Fixture setup
@@ -1078,11 +1076,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Get((ulong s) => mock.Query(s));
             // Verify outcome
-            Assert.IsTrue(methodInvoked, "Query method invoked");
+            Assert.True(methodInvoked, "Query method invoked");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithSingleParameterWillInvokeMethodWithCorrectParameter()
         {
             // Fixture setup
@@ -1092,14 +1090,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<double?>(() => expectedNumber);
 
             var mock = new QueryMock<double?, string>();
-            mock.OnQuery = x => { Assert.AreEqual<double?>(expectedNumber, x, "Get"); return "Anonymous text"; };
+            mock.OnQuery = x => { Assert.Equal<double?>(expectedNumber, x); return "Anonymous text"; };
             // Exercise system
             sut.Get((double? x) => mock.Query(x));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithSingleParameterWillReturnCorrectResult()
         {
             // Fixture setup
@@ -1111,11 +1109,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Get((int? x) => mock.Query(x));
             // Verify outcome
-            Assert.AreEqual<Version>(expectedVersion, result, "Get");
+            Assert.Equal<Version>(expectedVersion, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithTwoParametersWillInvokeMethod()
         {
             // Fixture setup
@@ -1127,11 +1125,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Get((string x1, int x2) => mock.Query(x1, x2));
             // Verify outcome
-            Assert.IsTrue(methodInvoked, "Query method invoked");
+            Assert.True(methodInvoked, "Query method invoked");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithTwoParametersWillInvokeMethodWithCorrectFirstParameter()
         {
             // Fixture setup
@@ -1141,14 +1139,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<byte>(() => expectedByte);
 
             var mock = new QueryMock<byte, int, double>();
-            mock.OnQuery = (x1, x2) => { Assert.AreEqual<byte>(expectedByte, x1, "Get"); return 9823829; };
+            mock.OnQuery = (x1, x2) => { Assert.Equal<byte>(expectedByte, x1); return 9823829; };
             // Exercise system
             sut.Get((byte x1, int x2) => mock.Query(x1, x2));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithTwoParametersWillInvokeMethodWithCorrectSecondParameter()
         {
             // Fixture setup
@@ -1158,14 +1156,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<sbyte>(() => expectedByte);
 
             var mock = new QueryMock<DateTime, sbyte, bool>();
-            mock.OnQuery = (x1, x2) => { Assert.AreEqual<sbyte>(expectedByte, x2, "Get"); return false; };
+            mock.OnQuery = (x1, x2) => { Assert.Equal<sbyte>(expectedByte, x2); return false; };
             // Exercise system
             sut.Get((DateTime x1, sbyte x2) => mock.Query(x1, x2));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithTwoParametersWillReturnCorrectResult()
         {
             // Fixture setup
@@ -1177,11 +1175,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Get((DateTime x1, TimeSpan x2) => mock.Query(x1, x2));
             // Verify outcome
-            Assert.AreEqual<byte?>(expectedByte, result, "Get");
+            Assert.Equal<byte?>(expectedByte, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithThreeParametersWillInvokeMethod()
         {
             // Fixture setup
@@ -1193,11 +1191,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Get((object x1, object x2, object x3) => mock.Query(x1, x2, x3));
             // Verify outcome
-            Assert.IsTrue(methodInvoked, "Query method invoked");
+            Assert.True(methodInvoked, "Query method invoked");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithThreeParametersWillInvokeMethodWithCorrectFirstParameter()
         {
             // Fixture setup
@@ -1207,14 +1205,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<sbyte?>(() => expectedByte);
 
             var mock = new QueryMock<sbyte?, bool, string, float>();
-            mock.OnQuery = (x1, x2, x3) => { Assert.AreEqual<sbyte?>(expectedByte, x1, "Get"); return 3646.77f; };
+            mock.OnQuery = (x1, x2, x3) => { Assert.Equal<sbyte?>(expectedByte, x1); return 3646.77f; };
             // Exercise system
             sut.Get((sbyte? x1, bool x2, string x3) => mock.Query(x1, x2, x3));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithThreeParametersWillInvokeMethodWithCorrectSecondParameter()
         {
             // Fixture setup
@@ -1224,14 +1222,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<float>(() => expectedNumber);
 
             var mock = new QueryMock<bool, float, TimeSpan, object>();
-            mock.OnQuery = (x1, x2, x3) => { Assert.AreEqual<float>(expectedNumber, x2, "Get"); return new object(); };
+            mock.OnQuery = (x1, x2, x3) => { Assert.Equal<float>(expectedNumber, x2); return new object(); };
             // Exercise system
             sut.Get((bool x1, float x2, TimeSpan x3) => mock.Query(x1, x2, x3));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithThreeParametersWillInvokeMethodWithCorrectThirdParameter()
         {
             // Fixture setup
@@ -1241,14 +1239,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<string>(() => expectedText);
 
             var mock = new QueryMock<long, short, string, decimal?>();
-            mock.OnQuery = (x1, x2, x3) => { Assert.AreEqual<string>(expectedText, x3, "Get"); return 111.11m; };
+            mock.OnQuery = (x1, x2, x3) => { Assert.Equal<string>(expectedText, x3); return 111.11m; };
             // Exercise system
             sut.Get((long x1, short x2, string x3) => mock.Query(x1, x2, x3));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithThreeParametersWillReturnCorrectResult()
         {
             // Fixture setup
@@ -1260,11 +1258,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Get((short x1, long x2, Guid x3) => mock.Query(x1, x2, x3));
             // Verify outcome
-            Assert.AreEqual<DateTimeOffset>(expectedDateTime, result, "Get");
+            Assert.Equal<DateTimeOffset>(expectedDateTime, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithFourParametersWillInvokeMethod()
         {
             // Fixture setup
@@ -1276,11 +1274,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Get((object x1, object x2, object x3, object x4) => mock.Query(x1, x2, x3, x4));
             // Verify outcome
-            Assert.IsTrue(methodInvoked, "Query method invoked");
+            Assert.True(methodInvoked, "Query method invoked");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithFourParametersWillInvokeMethodWithCorrectFirstParameter()
         {
             // Fixture setup
@@ -1290,14 +1288,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<TimeSpan>(() => expectedTimeSpan);
 
             var mock = new QueryMock<TimeSpan, Version, Random, Guid, EventArgs>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.AreEqual<TimeSpan>(expectedTimeSpan, x1, "Get"); return EventArgs.Empty; };
+            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<TimeSpan>(expectedTimeSpan, x1); return EventArgs.Empty; };
             // Exercise system
             sut.Get((TimeSpan x1, Version x2, Random x3, Guid x4) => mock.Query(x1, x2, x3, x4));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithFourParametersWillInvokeMethodWithCorrectSecondParameter()
         {
             // Fixture setup
@@ -1307,14 +1305,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<DateTimeKind>(() => expectedDateTimeKind);
 
             var mock = new QueryMock<Random, DateTimeKind, DateTime, string, float>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.AreEqual<DateTimeKind>(expectedDateTimeKind, x2, "Get"); return 77f; };
+            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<DateTimeKind>(expectedDateTimeKind, x2); return 77f; };
             // Exercise system
             sut.Get((Random x1, DateTimeKind x2, DateTime x3, string x4) => mock.Query(x1, x2, x3, x4));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithFourParametersWillInvokeMethodWithCorrectThirdParameter()
         {
             // Fixture setup
@@ -1324,14 +1322,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<DayOfWeek>(() => expectedDayOfWeek);
 
             var mock = new QueryMock<int, float, DayOfWeek, string, LoaderOptimization>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.AreEqual<DayOfWeek>(expectedDayOfWeek, x3, "Get"); return LoaderOptimization.MultiDomain; };
+            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<DayOfWeek>(expectedDayOfWeek, x3); return LoaderOptimization.MultiDomain; };
             // Exercise system
             sut.Get((int x1, float x2, DayOfWeek x3, string x4) => mock.Query(x1, x2, x3, x4));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithFourParametersWillInvokeMethodWithCorrectFourthParameter()
         {
             // Fixture setup
@@ -1341,14 +1339,14 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<int>(() => expectedNumber);
 
             var mock = new QueryMock<Version, ushort, string, int, PlatformID>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.AreEqual<int>(expectedNumber, x4, "Get"); return PlatformID.WinCE; };
+            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<int>(expectedNumber, x4); return PlatformID.WinCE; };
             // Exercise system
             sut.Get((Version x1, ushort x2, string x3, int x4) => mock.Query(x1, x2, x3, x4));
             // Verify outcome (done by mock)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetOnQueryWithFourParametersWillReturnCorrectResult()
         {
             // Fixture setup
@@ -1360,11 +1358,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Get((int x1, int x2, int x3, int x4) => mock.Query(x1, x2, x3, x4));
             // Verify outcome
-            Assert.AreEqual<ConsoleColor>(expectedColor, result, "Get");
+            Assert.Equal<ConsoleColor>(expectedColor, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void WithConstructorWithOneParameterWillRespectPreviousCustomizations()
         {
             // Fixture setup
@@ -1376,11 +1374,11 @@ namespace Ploeh.AutoFixtureUnitTest
                 .WithConstructor((PropertyHolder<string> ph) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
-            Assert.AreEqual<string>(expectedText, result.Parameter.Property, "WithConstructor based on customization");
+            Assert.Equal<string>(expectedText, result.Parameter.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void WithConstructorWithTwoParametersWillRespectPreviousCustomizations()
         {
             // Fixture setup
@@ -1392,11 +1390,11 @@ namespace Ploeh.AutoFixtureUnitTest
                 .WithConstructor((PropertyHolder<string> ph, object dummy) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
-            Assert.AreEqual<string>(expectedText, result.Parameter.Property, "WithConstructor based on customization");
+            Assert.Equal<string>(expectedText, result.Parameter.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void WithConstructorWithThreeParametersWillRespectPreviousCustomizations()
         {
             // Fixture setup
@@ -1408,11 +1406,11 @@ namespace Ploeh.AutoFixtureUnitTest
                 .WithConstructor((PropertyHolder<string> ph, object dummy1, object dummy2) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
-            Assert.AreEqual<string>(expectedText, result.Parameter.Property, "WithConstructor based on customization");
+            Assert.Equal<string>(expectedText, result.Parameter.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void WithConstructorWithFourParametersWillRespectPreviousCustomizations()
         {
             // Fixture setup
@@ -1424,11 +1422,11 @@ namespace Ploeh.AutoFixtureUnitTest
                 .WithConstructor((PropertyHolder<string> ph, object dummy1, object dummy2, object dummy3) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
-            Assert.AreEqual<string>(expectedText, result.Parameter.Property, "WithConstructor based on customization");
+            Assert.Equal<string>(expectedText, result.Parameter.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CustomizeCanDefineConstructor()
         {
             // Fixture setup
@@ -1438,11 +1436,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.CreateAnonymous<SingleParameterType<string>>();
             // Verify outcome
-            Assert.AreEqual<string>(expectedText, result.Parameter, "Customize");
+            Assert.Equal<string>(expectedText, result.Parameter);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillNotThrowWhenTypeHasIndexedProperty()
         {
             // Fixture setup
@@ -1450,11 +1448,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.CreateAnonymous<IndexedPropertyHolder<object>>();
             // Verify outcome
-            Assert.IsNotNull(result, "Creating an anonymous instance of a type with an indexed property should simply ignore the indexed property.");
+            Assert.NotNull(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildWillReturnBuilderThatCreatesTheCorrectNumberOfInstances()
         {
             // Fixture setup
@@ -1464,11 +1462,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Build<object>().CreateMany();
             // Verify outcome
-            Assert.AreEqual<int>(expectedRepeatCount, result.Count(), "RepeatCount is passed correctly to builder");
+            Assert.Equal<int>(expectedRepeatCount, result.Count());
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void RegisterInstanceWillCauseSutToReturnInstanceWhenRequested()
         {
             // Fixture setup
@@ -1478,11 +1476,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.CreateAnonymous<PropertyHolder<object>>();
             // Verify outcome
-            Assert.AreEqual<PropertyHolder<object>>(expectedResult, result, "Register instance");
+            Assert.Equal<PropertyHolder<object>>(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void RegisterInstanceWillCauseSutToReturnInstanceWithoutAutoPropertiesWhenRequested()
         {
             // Fixture setup
@@ -1494,11 +1492,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.CreateAnonymous<PropertyHolder<object>>();
             // Verify outcome
-            Assert.IsNull(result.Property, "Register instance");
+            Assert.Null(result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWillInvokeResolver()
         {
             // Fixture setup
@@ -1513,17 +1511,17 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.CreateAnonymous<PropertyHolder<AbstractType>>();
             // Verify outcome
-            Assert.IsTrue(resolveWasInvoked, "Resolver");
+            Assert.True(resolveWasInvoked, "Resolver");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousOnUnregisteredAbstractionWillInvokeResolveCallbackWithCorrectType()
         {
             // Fixture setup
             Func<Type, object> resolver = t =>
             {
-                Assert.AreEqual<Type>(typeof(AbstractType), t, "Resolve");
+                Assert.Equal<Type>(typeof(AbstractType), t);
                 return new ConcreteType();
             };
             var sut = new Fixture();
@@ -1534,7 +1532,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousOnUnregisteredAbstractionWillReturnInstanceFromResolveCallback()
         {
             // Fixture setup
@@ -1545,11 +1543,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.CreateAnonymous<PropertyHolder<AbstractType>>().Property;
             // Verify outcome
-            Assert.AreEqual<AbstractType>(expectedValue, result, "Resolver");
+            Assert.Equal<AbstractType>(expectedValue, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void FreezeWillCauseCreateAnonymousToKeepReturningTheFrozenInstance()
         {
             // Fixture setup
@@ -1558,11 +1556,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.CreateAnonymous<Guid>();
             // Verify outcome
-            Assert.AreEqual<Guid>(expectedResult, result, "Freeze");
+            Assert.Equal<Guid>(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void FreezeWillCauseFixtureToKeepReturningTheFrozenInstanceEvenAsPropertyOfOtherType()
         {
             // Fixture setup
@@ -1571,11 +1569,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.CreateAnonymous<PropertyHolder<DateTime>>().Property;
             // Verify outcome
-            Assert.AreEqual<DateTime>(expectedResult, result, "Freeze");
+            Assert.Equal<DateTime>(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void FreezeWithSeedWillCauseFixtureToKeepReturningTheFrozenInstance()
         {
             // Fixture setup
@@ -1584,11 +1582,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.CreateAnonymous("Something else");
             // Verify outcome
-            Assert.AreEqual<string>(expectedResult, result, "Freeze");
+            Assert.Equal<string>(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void FreezeBuiltInstanceWillCauseFixtureToKeepReturningTheFrozenInstance()
         {
             // Fixture setup
@@ -1597,12 +1595,12 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.CreateAnonymous<DoublePropertyHolder<DateTime, Guid>>();
             // Verify outcome
-            Assert.AreEqual(frozen.Property1, result.Property1, "Freeze");
-            Assert.AreEqual(frozen.Property2, result.Property2, "Freeze");
+            Assert.Equal(frozen.Property1, result.Property1);
+            Assert.Equal(frozen.Property2, result.Property2);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateManyWithDoCustomizationWillReturnCorrectResult()
         {
             // Fixture setup
@@ -1611,11 +1609,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.CreateMany<List<string>>();
             // Verify outcome
-            Assert.IsTrue(result.All(l => l.Count == sut.RepeatCount), "Customize/Do/CreateMany");
+            Assert.True(result.All(l => l.Count == sut.RepeatCount), "Customize/Do/CreateMany");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void OmitAutoPropertiesFollowedByOptInWillNotSetOtherProperties()
         {
             // Fixture setup
@@ -1626,55 +1624,55 @@ namespace Ploeh.AutoFixtureUnitTest
                 .With(x => x.Property1)
                 .CreateAnonymous();
             // Verify outcome
-            Assert.IsNull(result.Property2, "OmitAutoProperties/With");
+            Assert.Null(result.Property2);
             // Teardown
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ObjectCreationException))]
+        [Fact]
         public void CreateAnonymousWillThrowOnReferenceRecursionPoint()
         {
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            sut.CreateAnonymous<RecursionTestObjectWithReferenceOutA>();
+            Assert.Throws<ObjectCreationException>(() =>
+                sut.CreateAnonymous<RecursionTestObjectWithReferenceOutA>());
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ObjectCreationException))]
+        [Fact]
         public void CreateAnonymousWillThrowOnConstructorRecursionPoint()
         {
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            sut.CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>();
+            Assert.Throws<ObjectCreationException>(() =>
+                sut.CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>());
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ObjectCreationException))]
+        [Fact]
         public void BuildWithThrowingRecursionHandlerWillThrowOnReferenceRecursionPoint()
         {
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            sut.Build<RecursionTestObjectWithReferenceOutA>()
-    .UsingRecursionHandler(new ThrowingRecursionHandler())
-    .CreateAnonymous();
+            Assert.Throws<ObjectCreationException>(() =>
+                sut.Build<RecursionTestObjectWithReferenceOutA>()
+                .UsingRecursionHandler(new ThrowingRecursionHandler())
+                .CreateAnonymous());
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ObjectCreationException))]
+        [Fact]
         public void BuildWithThrowingRecursionHandlerWillThrowOnConstructorRecursionPoint()
         {
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
+            Assert.Throws<ObjectCreationException>(() => 
+                sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
                 .UsingRecursionHandler(new ThrowingRecursionHandler())
-                .CreateAnonymous();
+                .CreateAnonymous());
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildWithNullRecursionHandlerWillCreateNullOnRecursionPoint()
         {
             // Fixture setup
@@ -1684,10 +1682,10 @@ namespace Ploeh.AutoFixtureUnitTest
                 .UsingRecursionHandler(new NullRecursionHandler())
                 .CreateAnonymous();
             // Verify outcome
-            Assert.IsNull(result.ReferenceToB.ReferenceToA.ReferenceToB);
+            Assert.Null(result.ReferenceToB.ReferenceToA.ReferenceToB);
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildWithNullRecursionHandlerWillCreateNullOnConstructorRecursionPoint()
         {
             // Fixture setup
@@ -1697,10 +1695,10 @@ namespace Ploeh.AutoFixtureUnitTest
                 .UsingRecursionHandler(new NullRecursionHandler())
                 .CreateAnonymous();
             // Verify outcome
-            Assert.IsNull(result.ReferenceToB.ReferenceToA.ReferenceToB);
+            Assert.Null(result.ReferenceToB.ReferenceToA.ReferenceToB);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousOnRegisteredInstanceWillReturnInstanceWithoutAutoProperties()
         {
             // Fixture setup
@@ -1710,11 +1708,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register(item);
             // Verify outcome
             var result = sut.CreateAnonymous<PropertyHolder<string>>();
-            Assert.IsNull(result.Property, "Register");
+            Assert.Null(result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousOnReqisteredParameterlessFuncWillReturnInstanceWithoutAutoProperties()
         {
             // Fixture setup
@@ -1724,11 +1722,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register(() => item);
             // Verify outcome
             var result = sut.CreateAnonymous<PropertyHolder<string>>();
-            Assert.IsNull(result.Property, "Register");
+            Assert.Null(result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousOnReqisteredSingleParameterFuncWillReturnInstanceWithoutAutoProperties()
         {
             // Fixture setup
@@ -1738,11 +1736,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register((object obj) => item);
             // Verify outcome
             var result = sut.CreateAnonymous<PropertyHolder<string>>();
-            Assert.IsNull(result.Property, "Register");
+            Assert.Null(result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousOnReqisteredDoubleParameterFuncWillReturnInstanceWithoutAutoProperties()
         {
             // Fixture setup
@@ -1752,11 +1750,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register((object obj1, object obj2) => item);
             // Verify outcome
             var result = sut.CreateAnonymous<PropertyHolder<string>>();
-            Assert.IsNull(result.Property, "Register");
+            Assert.Null(result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousOnReqisteredTripleParameterFuncWillReturnInstanceWithoutAutoProperties()
         {
             // Fixture setup
@@ -1766,11 +1764,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register((object obj1, object obj2, object obj3) => item);
             // Verify outcome
             var result = sut.CreateAnonymous<PropertyHolder<string>>();
-            Assert.IsNull(result.Property, "Register");
+            Assert.Null(result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousOnReqisteredQuadrupleParameterFuncWillReturnInstanceWithoutAutoProperties()
         {
             // Fixture setup
@@ -1780,11 +1778,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register((object obj1, object obj2, object obj3, object obj4) => item);
             // Verify outcome
             var result = sut.CreateAnonymous<PropertyHolder<string>>();
-            Assert.IsNull(result.Property, "Register");
+            Assert.Null(result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousWithOmitAutoPropertiesWillNotAssignProperty()
         {
             // Fixture setup
@@ -1792,11 +1790,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<string> result = sut.CreateAnonymous<PropertyHolder<string>>();
             // Verify outcome
-            Assert.IsNull(result.Property, "Property should not be assigned");
+            Assert.Null(result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CustomizeInstanceWithOmitAutoPropertiesWillReturnFactoryWithOmitAutoProperties()
         {
             // Fixture setup
@@ -1805,11 +1803,11 @@ namespace Ploeh.AutoFixtureUnitTest
             ObjectBuilder<PropertyHolder<object>> builder = sut.Build<PropertyHolder<object>>();
             PropertyHolder<object> result = builder.CreateAnonymous();
             // Verify outcome
-            Assert.IsNull(result.Property, "Should not be assigned");
+            Assert.Null(result.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void FreezedFirstCallToCreateAnonymousWithOmitAutoPropertiesWillNotAssignProperty()
         {
             // Fixture setup
@@ -1817,11 +1815,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var expectedResult = sut.Freeze<PropertyHolder<string>>();
             // Verify outcome
-            Assert.IsNull(expectedResult.Property, "Property should not be assigned");
+            Assert.Null(expectedResult.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CustomizedBuilderCreateAnonymousWithOmitAutoPropertiesWillNotAssignProperty()
         {
             // Fixture setup
@@ -1830,11 +1828,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize<PropertyHolder<string>>(x => x);
             var expectedResult = sut.CreateAnonymous<PropertyHolder<string>>();
             // Verify outcome
-            Assert.IsNull(expectedResult.Property, "Property should not be assigned");
+            Assert.Null(expectedResult.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CustomizedOverrideOfOmitAutoPropertiesWillAssignProperty()
         {
             // Fixture setup
@@ -1843,11 +1841,11 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize<PropertyHolder<string>>(x => x.WithAutoProperties());
             var expectedResult = sut.CreateAnonymous<PropertyHolder<string>>();
             // Verify outcome
-            Assert.IsNotNull(expectedResult.Property, "Property should be assigned");
+            Assert.NotNull(expectedResult.Property);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void DefaultOmitAutoPropertiesIsFalse()
         {
             // Fixture setup
@@ -1855,7 +1853,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             bool result = sut.OmitAutoProperties;
             // Verify outcome
-            Assert.IsFalse(result, "OmitAutoProperties");
+            Assert.False(result, "OmitAutoProperties");
             // Teardown
         }
     }

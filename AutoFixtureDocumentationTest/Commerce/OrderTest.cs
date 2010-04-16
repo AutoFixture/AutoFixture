@@ -2,19 +2,18 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
+using Xunit;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Commerce
 {
-    [TestClass]
     public class OrderTest
     {
         public OrderTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildOrderWithShippingAddressInDenmark()
         {
             // Fixture setup
@@ -27,11 +26,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Commerce
                     .CreateAnonymous())
                 .CreateAnonymous();
             // Verify outcome
-            Assert.AreEqual<string>("Denmark", order.ShippingAddress.Country, "ShippingAddress");
+            Assert.Equal<string>("Denmark", order.ShippingAddress.Country);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousOrderAndThenSetShippingAddressInDenmark()
         {
             // Fixture setup
@@ -40,11 +39,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Commerce
             var order = fixture.CreateAnonymous<Order>();
             order.ShippingAddress.Country = "Denmark";
             // Verify outcome
-            Assert.AreEqual<string>("Denmark", order.ShippingAddress.Country, "ShippingAddress");
+            Assert.Equal<string>("Denmark", order.ShippingAddress.Country);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildOrderWithManyOrderLines()
         {
             // Fixture setup
@@ -54,11 +53,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Commerce
                 .Do(o => fixture.AddManyTo(o.OrderLines))
                 .CreateAnonymous();
             // Verify outcome
-            Assert.AreEqual<int>(fixture.RepeatCount, order.OrderLines.Count, "OrderLines count");
+            Assert.Equal<int>(fixture.RepeatCount, order.OrderLines.Count);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousOrderAndThenAddOrderLines()
         {
             // Fixture setup
@@ -66,7 +65,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Commerce
             // Exercise system
             var order = fixture.CreateAnonymous<Order>();
             fixture.AddManyTo(order.OrderLines);
-            Assert.AreEqual<int>(fixture.RepeatCount, order.OrderLines.Count, "OrderLines count");
+            Assert.Equal<int>(fixture.RepeatCount, order.OrderLines.Count);
             // Teardown
         }
     }

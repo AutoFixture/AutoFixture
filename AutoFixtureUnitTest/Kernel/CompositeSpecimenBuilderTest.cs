@@ -2,26 +2,25 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture.Kernel;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    [TestClass]
     public class CompositeSpecimenBuilderTest
     {
-        [TestMethod]
+        [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
             var sut = new CompositeSpecimenBuilder();
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(ISpecimenBuilder));
+            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildersWillNotBeNullWhenSutIsCreatedWithDefaultConstructor()
         {
             // Fixture setup
@@ -29,23 +28,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             IList<ISpecimenBuilder> result = sut.Builders;
             // Verify outcome
-            Assert.IsNotNull(result, "Builders");
+            Assert.NotNull(result);
             // Teardown
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void CreateWithNullEnumerableWillThrow()
         {
             // Fixture setup
             IEnumerable<ISpecimenBuilder> nullEnumerable = null;
-            // Exercise system
-            new CompositeSpecimenBuilder(nullEnumerable);
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new CompositeSpecimenBuilder(nullEnumerable));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildersWillMatchListParameter()
         {
             // Fixture setup
@@ -59,23 +57,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = sut.Builders;
             // Verify outcome
-            Assert.IsTrue(expectedBuilders.SequenceEqual(result), "Builders");
+            Assert.True(expectedBuilders.SequenceEqual(result), "Builders");
             // Teardown
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void CreateWithNullArrayWillThrow()
         {
             // Fixture setup
             ISpecimenBuilder[] nullArray = null;
-            // Exercise system
-            new CompositeSpecimenBuilder(nullArray);
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new CompositeSpecimenBuilder(nullArray));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildersWillMatchParamsArray()
         {
             // Fixture setup
@@ -89,11 +86,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = sut.Builders;
             // Verify outcome
-            Assert.IsTrue(expectedBuilders.SequenceEqual(result), "Builders");
+            Assert.True(expectedBuilders.SequenceEqual(result), "Builders");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillReturnFirstSpecimenResultFromBuilders()
         {
             // Fixture setup
@@ -110,11 +107,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(anonymousRequest, dummyContainer);
             // Verify outcome
-            Assert.AreEqual(expectedResult, result, "Create");
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillReturnNoSpecimenfAllBuildersReturnNoSpecimen()
         {
             // Fixture setup
@@ -130,11 +127,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(anonymousRequest, dummyContainer);
             // Verify outcome
-            Assert.IsInstanceOfType(result, typeof(NoSpecimen), "Create");
+            Assert.IsAssignableFrom<NoSpecimen>(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillInvokeBuilderWithCorrectRequest()
         {
             // Fixture setup
@@ -144,7 +141,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var builderMock = new DelegatingSpecimenBuilder();
             builderMock.OnCreate = (r, c) =>
                 {
-                    Assert.AreEqual(expectedRequest, r, "Create");
+                    Assert.Equal(expectedRequest, r);
                     mockVerified = true;
                     return new object();
                 };
@@ -154,11 +151,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContainer();
             sut.Create(expectedRequest, dummyContainer);
             // Verify outcome
-            Assert.IsTrue(mockVerified, "Mock verification");
+            Assert.True(mockVerified, "Mock verification");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillInvokeBuilderWithCorrectContainer()
         {
             // Fixture setup
@@ -168,7 +165,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var builderMock = new DelegatingSpecimenBuilder();
             builderMock.OnCreate = (r, c) =>
                 {
-                    Assert.AreEqual(expectedContainer, c, "Create");
+                    Assert.Equal(expectedContainer, c);
                     mockVerified = true;
                     return new object();
                 };
@@ -178,7 +175,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyRequest = new object();
             sut.Create(dummyRequest, expectedContainer);
             // Verify outcome
-            Assert.IsTrue(mockVerified, "Mock verification");
+            Assert.True(mockVerified, "Mock verification");
             // Teardown
         }
     }

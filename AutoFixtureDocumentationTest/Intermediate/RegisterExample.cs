@@ -2,19 +2,18 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
+using Xunit;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
 {
-    [TestClass]
     public class RegisterExample
     {
         public RegisterExample()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void CreatingMyClassIsNotPossibleWithoutRegister()
         {
             try
@@ -28,7 +27,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void SimpleRegister()
         {
             Fixture fixture = new Fixture();
@@ -36,10 +35,10 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
                 new FakeMyInterface());
             MyClass sut = fixture.CreateAnonymous<MyClass>();
 
-            Assert.IsNotNull(sut);
+            Assert.NotNull(sut);
         }
 
-        [TestMethod]
+        [Fact]
         public void ManuallyRegisteringWithAnonymousParameter()
         {
             // Fixture setup
@@ -51,11 +50,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
             // Exercise system
             MyClass sut = fixture.CreateAnonymous<MyClass>();
             // Verify outcome
-            Assert.IsNotNull(sut);
+            Assert.NotNull(sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void RegisterWithAnonymousParameter()
         {
             // Fixture setup
@@ -66,7 +65,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
             // Exercise system
             MyClass sut = fixture.CreateAnonymous<MyClass>();
             // Verify outcome
-            Assert.IsNotNull(sut);
+            Assert.NotNull(sut);
             // Teardown
         }
     }

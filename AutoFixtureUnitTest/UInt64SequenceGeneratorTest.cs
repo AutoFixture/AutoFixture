@@ -2,31 +2,30 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
     public class UInt64SequenceGeneratorTest
     {
         public UInt64SequenceGeneratorTest()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillReturnOneOnFirstCall()
         {
             new LoopTest<UInt64SequenceGenerator, ulong>(sut => sut.CreateAnonymous()).Execute(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillReturnTwoOnSecondCall()
         {
             new LoopTest<UInt64SequenceGenerator, ulong>(sut => sut.CreateAnonymous()).Execute(2);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWillReturnTenOnTenthCall()
         {
             new LoopTest<UInt64SequenceGenerator, ulong>(sut => sut.CreateAnonymous()).Execute(10);

@@ -2,20 +2,18 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
+using Xunit;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Simple
 {
-    [TestClass]
     public class VechicleTest
     {
         public VechicleTest()
         {
         }
 
-        [ExpectedException(typeof(AssertFailedException))]
-        [TestMethod]
+        [Fact]
         public void AnonymousVehicleHasWheelsAssignedByFixture()
         {
             // Fixture setup
@@ -24,11 +22,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             var result = sut.Wheels;
             // Verify outcome
-            Assert.AreEqual<int>(4, result, "Wheels");
+            Assert.NotEqual<int>(4, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void VehicleWithoutAutoPropertiesWillHaveFourWheels()
         {
             // Fixture setup
@@ -39,7 +37,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             var result = sut.Wheels;
             // Verify outcome
-            Assert.AreEqual<int>(4, result, "Wheels");
+            Assert.Equal<int>(4, result);
             // Teardown
         }
     }

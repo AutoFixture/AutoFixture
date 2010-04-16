@@ -2,9 +2,9 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using System.Reflection;
+using Xunit;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Simple
 {
@@ -13,14 +13,13 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
     /// purposes. They are implemented as tests to ensure that they
     /// compile and work as intended.
     /// </summary>
-    [TestClass]
     public class DocumentationExample
     {
         public DocumentationExample()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void IntroductoryTest()
         {
             // Fixture setup
@@ -31,11 +30,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             int result = sut.Echo(expectedNumber);
             // Verify outcome
-            Assert.AreEqual<int>(expectedNumber, result, "Echo");
+            Assert.Equal<int>(expectedNumber, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ComplexCreation()
         {
             // Fixture setup
@@ -46,11 +45,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             string result = anonymousParent.Child.Name;
             // Verify outcome
-            Assert.IsNotNull(result, "CreateAnonymous");
+            Assert.NotNull(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousString()
         {
             // Fixture setup
@@ -59,11 +58,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             Console.WriteLine(anonymousText);
             // Verify outcome
-            Assert.IsNotNull(anonymousText);
+            Assert.NotNull(anonymousText);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousSeededString()
         {
             // Fixture setup
@@ -72,11 +71,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             Console.WriteLine(anonymousName);
             // Verify outcome
-            Assert.IsNotNull(anonymousName);
+            Assert.NotNull(anonymousName);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousInt32()
         {
             // Fixture setup
@@ -84,11 +83,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             int anonymousNumber = fixture.CreateAnonymous<int>();
             // Verify outcome
-            Assert.AreNotEqual<int>(default(int), anonymousNumber, "CreateAnonymous");
+            Assert.NotEqual<int>(default(int), anonymousNumber);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousSeededInt32()
         {
             // Fixture setup
@@ -96,11 +95,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             int anonymousNumber = fixture.CreateAnonymous(42);
             // Verify outcome
-            Assert.AreNotEqual<int>(default(int), anonymousNumber, "CreateAnonymous");
+            Assert.NotEqual<int>(default(int), anonymousNumber);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousDecimal()
         {
             // Fixture setup
@@ -109,11 +108,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             decimal anonymousNumber =
                 fixture.CreateAnonymous<decimal>();
             // Verify outcome
-            Assert.AreNotEqual<decimal>(default(decimal), anonymousNumber, "CreateAnonymous");
+            Assert.NotEqual<decimal>(default(decimal), anonymousNumber);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousBooleans()
         {
             // Fixture setup
@@ -125,11 +124,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             result.Add(fixture.CreateAnonymous(true));
             result.Add(fixture.CreateAnonymous(true));
             // Verify outcome
-            CollectionAssert.AreEqual(expectedResult, result, "CreateAnonymous");
+            Assert.True(expectedResult.SequenceEqual(result));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ReplacingStringAlgorithmUsingRegister()
         {
             // Fixture setup
@@ -138,11 +137,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             string result = fixture.CreateAnonymous<string>();
             // Verify outcome
-            Assert.AreEqual<string>("ploeh", result, "CreateAnonymous");
+            Assert.Equal<string>("ploeh", result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ReplacingStringAlgorithmUsingTypeMappings()
         {
             // Fixture setup
@@ -151,11 +150,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             string result = fixture.CreateAnonymous<string>();
             // Verify outcome
-            Assert.AreEqual<string>("fnaah", result, "CreateAnonymous");
+            Assert.Equal<string>("fnaah", result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ReplacingStringAlgorithmWithSeed()
         {
             Fixture fixture = new Fixture();
@@ -167,35 +166,35 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             Console.WriteLine(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateManyStrings()
         {
             Fixture fixture = new Fixture();
             var strings = fixture.CreateMany<string>();
 
-            Assert.IsTrue(strings.Count() > 1, "Multiple strings");
+            Assert.True(strings.Count() > 1, "Multiple strings");
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateManyMyClassInstances()
         {
             Fixture fixture = new Fixture();
             var myInstances = fixture.CreateMany<MyClass>();
 
-            Assert.IsTrue(myInstances.Count() > 1, "Multiple instances");
+            Assert.True(myInstances.Count() > 1, "Multiple instances");
         }
 
-        [TestMethod]
+        [Fact]
         public void AddManyInstancesToList()
         {
             Fixture fixture = new Fixture();
             var list = new List<MyClass>();
             fixture.AddManyTo(list);
 
-            Assert.IsTrue(list.Count > 1, "Multiple instances");
+            Assert.True(list.Count > 1, "Multiple instances");
         }
 
-        [TestMethod]
+        [Fact]
         public void AddManyInstancesUsingCustomCreator()
         {
             Fixture fixture = new Fixture();
@@ -203,20 +202,20 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             var r = new Random();
             fixture.AddManyTo(list, () => r.Next());
 
-            Assert.IsTrue(list.Count > 1, "Multiple instances");
+            Assert.True(list.Count > 1, "Multiple instances");
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnExplicitNumberOfInstances()
         {
             Fixture fixture = new Fixture();
             fixture.RepeatCount = 10;
             var sequence = fixture.CreateMany<MyClass>();
 
-            Assert.AreEqual<int>(fixture.RepeatCount, sequence.Count(), "Exact number of instances");
+            Assert.Equal<int>(fixture.RepeatCount, sequence.Count());
         }
 
-        [TestMethod]
+        [Fact]
         public void AddAnExplicitNumberOfInstancesToList()
         {
             Fixture fixture = new Fixture();
@@ -224,10 +223,10 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             fixture.RepeatCount = 7;
             fixture.AddManyTo(list);
 
-            Assert.AreEqual<int>(fixture.RepeatCount, list.Count, "Exact number of instances");
+            Assert.Equal<int>(fixture.RepeatCount, list.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildAndImmediatelyCreateAnonymous()
         {
             // Fixture setup
@@ -235,11 +234,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             var mc = fixture.Build<MyClass>().CreateAnonymous();
             // Verify outcome
-            Assert.IsNotNull(mc, "Build followed by CreateAnonymous");
+            Assert.NotNull(mc);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousMyClass()
         {
             // Fixture setup
@@ -247,11 +246,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             var mc = fixture.CreateAnonymous<MyClass>();
             // Verify outcome
-            Assert.IsNotNull(mc, "CreataAnonymous");
+            Assert.NotNull(mc);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousMyClassAndAssignProperty()
         {
             // Fixture setup
@@ -261,11 +260,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             mc.MyText = "Ploeh";
             // Verify outcome
             string result = mc.MyText;
-            Assert.AreEqual<string>("Ploeh", result, "MyText");
+            Assert.Equal<string>("Ploeh", result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildAnonymousMyClassAndAssignProperty()
         {
             // Fixture setup
@@ -276,23 +275,22 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
                 .CreateAnonymous();
             // Verify outcome
             string result = mc.MyText;
-            Assert.AreEqual<string>("Ploeh", result, "MyText");
+            Assert.Equal<string>("Ploeh", result);
             // Teardown
         }
 
-        [ExpectedException(typeof(TargetInvocationException))]
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousFilterWillThrow()
         {
             // Fixture setup
             var fixture = new Fixture();
-            // Exercise system
-            var f = fixture.CreateAnonymous<Filter>();
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<TargetInvocationException>(()=>
+                fixture.CreateAnonymous<Filter>());
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildAnonymousFilterWillSucceed()
         {
             // Fixture setup
@@ -305,24 +303,23 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
                 .With(s => s.Min, min)
                 .CreateAnonymous();
             // Verify outcome
-            Assert.AreEqual<int>(min, f.Min, "Min");
-            Assert.AreEqual<int>(max, f.Max, "Max");
+            Assert.Equal<int>(min, f.Min);
+            Assert.Equal<int>(max, f.Max);
             // Teardown
         }
 
-        [ExpectedException(typeof(InvalidOperationException))]
-        [TestMethod]
+        [Fact]
         public void InvalidUseOfSomeImp()
         {
             // Fixture setup
             var something = new SomeImp();
-            // Exercise system
-            something.Message = "Ploeh";
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<InvalidOperationException>(() =>
+                something.Message = "Ploeh");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void ValidUseOfSomeImp()
         {
             // Fixture setup
@@ -331,23 +328,22 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             something.Initialize(new MyClass());
             something.Message = "Ploeh";
             // Verify outcome
-            Assert.AreEqual<string>("Ploeh", something.Message, "Message");
+            Assert.Equal<string>("Ploeh", something.Message);
             // Teardown
         }
 
-        [ExpectedException(typeof(TargetInvocationException))]
-        [TestMethod]
+        [Fact]
         public void CreateAnonymousSomeImpWillThrow()
         {
             // Fixture setup
             var fixture = new Fixture();
-            // Exercise system
-            var imp = fixture.CreateAnonymous<SomeImp>();
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<TargetInvocationException>(() =>
+                fixture.CreateAnonymous<SomeImp>());
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildAnonymousSomeImpWillSucceed()
         {
             // Fixture setup
@@ -357,7 +353,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
                 .Do(s => s.Initialize(new MyClass()))
                 .CreateAnonymous();
             // Verify outcome
-            Assert.IsNotNull(imp.TransformedMessage, "Do");
+            Assert.NotNull(imp.TransformedMessage);
             // Teardown
         }
     }
