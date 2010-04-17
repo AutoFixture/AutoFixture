@@ -117,6 +117,7 @@
     <Compile Include="GuidStringGenerator.cs" />
     <Compile Include="PropertyAccessor.cs" />
     <Compile Include="PropertyAccessorFactory.cs" />
+    <Compile Include="RecursionCatcher.cs" />
     <Compile Include="RecursionHandler.cs" />
     <Compile Include="SByteSequenceGenerator.cs" />
     <Compile Include="Kernel\SeededRequest.cs" />

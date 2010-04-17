@@ -7,27 +7,27 @@ namespace Ploeh.AutoFixture.Kernel
     /// Tracks any request and passes it on to the container.
     /// Tracks any returned object from the container and passes it on.
     /// </summary>
-	public abstract class RequestTracker : ISpecimenBuilder
-	{
-		private bool skip;
+    public abstract class RequestTracker : ISpecimenBuilder
+    {
+        private bool skip;
 
         /// <summary>
         /// Gets the types to ignore when tracking.
         /// </summary>
         /// <value>The ignored types.</value>
-		public Collection<Type> IgnoredTypes
-		{
-			get;
-			private set;
-		}
+        public Collection<Type> IgnoredTypes
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RequestTracker"/> class.
         /// </summary>
-		protected RequestTracker()
-		{
-			IgnoredTypes = new Collection<Type>();
-		}
+        protected RequestTracker()
+        {
+            IgnoredTypes = new Collection<Type>();
+        }
 
         /// <summary>
         /// Tracks the specimen creation request.
@@ -43,34 +43,47 @@ namespace Ploeh.AutoFixture.Kernel
         /// <see cref="Type"/> or other <see cref="System.Reflection.MemberInfo"/> instances.
         /// </para>
         /// </remarks>
-		public object Create(object request, ISpecimenContainer container)
-		{
-			// Avoid tracking self
-			if (skip)
-			{
-				skip = false;
-				return new NoSpecimen(request);
-			}
+        public object Create(object request, ISpecimenContainer container)
+        {
+            // Avoid tracking self
+            if (skip)
+            {
+                skip = false;
+                return new NoSpecimen(request);
+            }
 
-			if (!IgnoredTypes.Contains(request.GetType()))
-				TrackRequest(request);
-			skip = true;
-			object specimen = container.Create(request);
-			if (!IgnoredTypes.Contains(request.GetType()))
-				TrackCreatedSpecimen(specimen);
-			return specimen;
-		}
+            if (!IgnoredTypes.Contains(request.GetType()))
+                TrackRequest(request);
+
+            object interceptCreate = GetCreationInterception();
+            if (interceptCreate is NoSpecimen == false)
+            {
+                TrackCreatedSpecimen(interceptCreate);
+                return interceptCreate;
+            }
+
+            skip = true;
+            object specimen = container.Create(request);
+            if (!IgnoredTypes.Contains(request.GetType()))
+                TrackCreatedSpecimen(specimen);
+            return specimen;
+        }
+
+        protected virtual object GetCreationInterception()
+        {
+            return new NoSpecimen();
+        }
 
         /// <summary>
         /// Invoked when a request is tracked.
         /// </summary>
         /// <param name="request">The request.</param>
-		protected abstract void TrackRequest(object request);
+        protected abstract void TrackRequest(object request);
 
         /// <summary>
         /// Invoked when a created specimen is tracked.
         /// </summary>
         /// <param name="specimen">The specimen.</param>
-		protected abstract void TrackCreatedSpecimen(object specimen);
-	}
+        protected abstract void TrackCreatedSpecimen(object specimen);
+    }
 }
