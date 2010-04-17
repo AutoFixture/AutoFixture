@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildTraceWriter.cs" />
     <Compile Include="CustomizedObjectFactory.cs" />
     <Compile Include="GuidGenerator.cs" />
     <Compile Include="IBuilder.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Kernel\ModestConstructorInvoker.cs" />
     <Compile Include="Kernel\NoSpecimen.cs" />
     <Compile Include="Kernel\ParameterRequestTranslator.cs" />
+    <Compile Include="Kernel\RequestTracker.cs" />
     <Compile Include="Kernel\StringSeedUnwrapper.cs" />
     <Compile Include="Kernel\ValueIgnoringSeedUnwrapper.cs" />
     <Compile Include="MemberAnnotatedAction.cs" />
