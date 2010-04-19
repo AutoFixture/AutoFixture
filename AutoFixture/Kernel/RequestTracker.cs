@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -15,7 +16,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Gets the types to ignore when tracking.
         /// </summary>
         /// <value>The ignored types.</value>
-		public Collection<Type> IgnoredTypes
+		public IList<Type> IgnoredTypes
 		{
 			get;
 			private set;
