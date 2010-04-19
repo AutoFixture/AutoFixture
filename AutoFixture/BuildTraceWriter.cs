@@ -37,14 +37,9 @@ namespace Ploeh.AutoFixture
         /// Gets the current indent level of the trace.
         /// </summary>
         /// <value>The indent level.</value>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage(
-            "Microsoft.Performance",
-            "CA1811:AvoidUncalledPrivateCode",
-            Justification = "This property is currently used by tests, and will probably be used upstream when development progresses.")]
         public int IndentLevel
 		{
-			get;
-			private set;
+            get { return this.indentLevel; }
 		}
 
         /// <summary>

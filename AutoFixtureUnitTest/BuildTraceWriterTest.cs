@@ -8,6 +8,18 @@ namespace Ploeh.AutoFixtureUnitTest
     public class BuildTraceWriterTest
     {
         [Fact]
+        public void DefaultIndentIsCorrect()
+        {
+            // Fixture setup
+            var sut = new BuildTraceWriter(TextWriter.Null);
+            // Exercise system
+            var result = sut.IndentLevel;
+            // Verify outcome
+            Assert.Equal(0, result);
+            // Teardown
+        }
+
+        [Fact]
         public void TrackRequestWritesToOutputStream()
         {
             // Fixture setup
@@ -85,6 +97,19 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             Assert.Equal(someSpecimen, objectToFormatter);
 
+            // Teardown
+        }
+
+        [Fact]
+        public void IndentLevelIsCorrectlyModifiedByTrackRequest()
+        {
+            // Fixture setup
+            var sut = new BuildTraceWriterInTest(TextWriter.Null);
+            // Exercise system
+            var dummyRequest = new object();
+            sut.InvokeTrackRequest(dummyRequest);
+            // Verify outcome
+            Assert.Equal(1, sut.IndentLevel);
             // Teardown
         }
 
