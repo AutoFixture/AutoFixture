@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture
         private readonly TextWriter writer;
         private Action<TextWriter, object, int> writeRequest;
         private Action<TextWriter, object, int> writeSpecimen;
-        private int indentLevel;
+        private int depth;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BuildTraceWriter"/> class.
@@ -65,12 +65,12 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Gets the current indent level of the trace.
+        /// Gets the current depth of the trace.
         /// </summary>
-        /// <value>The indent level.</value>
-        public int IndentLevel
+        /// <value>The depth.</value>
+        public int Depth
         {
-            get { return this.indentLevel; }
+            get { return this.depth; }
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Ploeh.AutoFixture
         /// <param name="request">The request.</param>
         protected override void TrackRequest(object request)
         {
-            this.writeRequest(this.writer, request, this.indentLevel++);
+            this.writeRequest(this.writer, request, this.depth++);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Ploeh.AutoFixture
         /// <param name="specimen">The specimen.</param>
         protected override void TrackCreatedSpecimen(object specimen)
         {
-            this.TraceCreatedSpecimenFormatter(this.writer, specimen, --this.indentLevel);
+            this.TraceCreatedSpecimenFormatter(this.writer, specimen, --this.depth);
         }
     }
 }

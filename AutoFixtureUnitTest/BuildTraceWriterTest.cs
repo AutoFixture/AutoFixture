@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new BuildTraceWriter(TextWriter.Null, new DelegatingSpecimenBuilder());
             // Exercise system
-            var result = sut.IndentLevel;
+            var result = sut.Depth;
             // Verify outcome
             Assert.Equal(0, result);
             // Teardown
@@ -137,7 +137,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyRequest = new object();
             sut.InvokeTrackRequest(dummyRequest);
             // Verify outcome
-            Assert.Equal(1, sut.IndentLevel);
+            Assert.Equal(1, sut.Depth);
             // Teardown
         }
 
@@ -149,7 +149,7 @@ namespace Ploeh.AutoFixtureUnitTest
             int lastRecordedIndent = 0;
             var sut = new BuildTraceWriterInTest(new StringWriter());
             sut.TraceRequestFormatter = (tw, obj, i) => lastRecordedIndent = i;
-            int initialIndent = sut.IndentLevel;
+            int initialIndent = sut.Depth;
 
             // Exercise system
             sut.InvokeTrackRequest(someRequestObject);
@@ -170,7 +170,7 @@ namespace Ploeh.AutoFixtureUnitTest
             int lastRecordedIndent = 0;
             var sut = new BuildTraceWriterInTest(new StringWriter());
             sut.TraceCreatedSpecimenFormatter = (tw, obj, i) => lastRecordedIndent = i;
-            int initialIndent = sut.IndentLevel;
+            int initialIndent = sut.Depth;
 
             // Exercise system
             sut.InvokeTrackCreatedSpecimen(someSpecimen);
