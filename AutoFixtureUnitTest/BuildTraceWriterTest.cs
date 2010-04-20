@@ -4,6 +4,7 @@ namespace Ploeh.AutoFixtureUnitTest
     using System.IO;
     using AutoFixture;
     using Xunit;
+    using Ploeh.AutoFixtureUnitTest.Kernel;
 
     public class BuildTraceWriterTest
     {
@@ -11,7 +12,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void DefaultIndentIsCorrect()
         {
             // Fixture setup
-            var sut = new BuildTraceWriter(TextWriter.Null);
+            var sut = new BuildTraceWriter(TextWriter.Null, new DelegatingSpecimenBuilder());
             // Exercise system
             var result = sut.IndentLevel;
             // Verify outcome
@@ -166,7 +167,7 @@ namespace Ploeh.AutoFixtureUnitTest
         private class BuildTraceWriterInTest : BuildTraceWriter
         {
             public BuildTraceWriterInTest(TextWriter outStream)
-                : base(outStream)
+                : base(outStream, new DelegatingSpecimenBuilder())
             {
             }
 
