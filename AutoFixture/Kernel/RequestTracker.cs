@@ -11,17 +11,7 @@ namespace Ploeh.AutoFixture.Kernel
     public abstract class RequestTracker : ISpecimenBuilder
 	{
         private readonly ISpecimenBuilder builder;
-
-        /// <summary>
-        /// Gets the types to ignore when tracking.
-        /// </summary>
-        /// <value>The ignored types.</value>
-#warning Should be Specification
-        public IList<Type> IgnoredTypes
-		{
-			get;
-			private set;
-		}
+        private Func<object, bool> shouldTrack;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RequestTracker"/> class with a decorated
@@ -36,7 +26,34 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             this.builder = builder;
-            this.IgnoredTypes = new List<Type>();
+            this.TrackSpecification = r => true;
+        }
+
+        /// <summary>
+        /// Gets or sets a filter for tracking
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// By default, <see cref="TrackSpecification"/> tracks all requests and created Specimens,
+        /// but you can provide a custom filter to only allow certain requests to be tracked.
+        /// </para>
+        /// <para>
+        /// As this is a variation of the Specification pattern, the filter must return
+        /// <see langword="true"/> to allow the request to be tracked.
+        /// </para>
+        /// </remarks>
+        public Func<object, bool> TrackSpecification
+        {
+            get { return this.shouldTrack; }
+            set 
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("value");
+                }
+
+                this.shouldTrack = value;
+            }
         }
 
         /// <summary>
@@ -55,11 +72,15 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
 		public object Create(object request, ISpecimenContainer container)
 		{
-			if (!this.IgnoredTypes.Contains(request.GetType()))
-				this.TrackRequest(request);
+            if (this.shouldTrack(request))
+            {
+                this.TrackRequest(request);
+            }
             object specimen = this.builder.Create(request, container);
-			if (!this.IgnoredTypes.Contains(request.GetType()))
-				this.TrackCreatedSpecimen(specimen);
+            if (this.shouldTrack(request))
+            {
+                this.TrackCreatedSpecimen(specimen);
+            }
 			return specimen;
 		}
 
