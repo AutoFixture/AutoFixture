@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class BuildTraceWriter : RequestTracker
     {
-        private TextWriter outputStream;
+        private TextWriter writer;
         private int indentLevel = 0;
 
         /// <summary>
@@ -18,8 +18,7 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <value>The request trace formatter.</value>
 #warning Must handle null input
-#warning Should be Action<TextWriter, object, int>
-        public Func<object, int, string> TraceRequestFormatter
+        public Action<TextWriter, object, int> TraceRequestFormatter
         {
             get;
             set;
@@ -30,8 +29,7 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <value>The created specimen trace formatter.</value>
 #warning Must handle null input
-#warning Should be Action<TextWriter, object, int>
-        public Func<object, int, string> TraceCreatedSpecimenFormatter
+        public Action<TextWriter, object, int> TraceCreatedSpecimenFormatter
         {
             get;
             set;
@@ -51,12 +49,12 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <param name="outStream">The output stream for the trace.</param>
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
-        public BuildTraceWriter(TextWriter outStream, ISpecimenBuilder builder)
+        public BuildTraceWriter(TextWriter writer, ISpecimenBuilder builder)
             : base(builder)
         {
-            outputStream = outStream;
-            TraceRequestFormatter = (obj, i) => new string(' ', i * 2) + obj.ToString();
-            TraceCreatedSpecimenFormatter = (obj, i) => new string(' ', i * 2) + obj.ToString();
+            this.writer = writer;
+            this.TraceRequestFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + r.ToString());
+            this.TraceCreatedSpecimenFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + r.ToString());
         }
 
         /// <summary>
@@ -65,8 +63,8 @@ namespace Ploeh.AutoFixture
         /// <param name="request">The request.</param>
         protected override void TrackRequest(object request)
         {
-            outputStream.WriteLine(TraceRequestFormatter(request, indentLevel));
-            indentLevel++;
+            this.TraceRequestFormatter(this.writer, request, this.indentLevel);
+            this.indentLevel++;
         }
 
         /// <summary>
@@ -75,8 +73,8 @@ namespace Ploeh.AutoFixture
         /// <param name="specimen">The specimen.</param>
         protected override void TrackCreatedSpecimen(object specimen)
         {
-            indentLevel--;
-            outputStream.WriteLine(TraceCreatedSpecimenFormatter(specimen, indentLevel));
+            this.indentLevel--;
+            this.TraceCreatedSpecimenFormatter(this.writer, specimen, this.indentLevel);
         }
     }
 }

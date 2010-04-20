@@ -5,6 +5,7 @@ namespace Ploeh.AutoFixtureUnitTest
     using AutoFixture;
     using Xunit;
     using Ploeh.AutoFixtureUnitTest.Kernel;
+    using Ploeh.AutoFixture.Kernel;
 
     public class BuildTraceWriterTest
     {
@@ -58,17 +59,13 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void FormatterIsGivenRequestedObject()
+        public void RequestFormatterIsGivenRequestedObject()
         {
             // Fixture setup
             object someRequestObject = Guid.NewGuid();
             object objectToFormatter = null;
             var sut = new BuildTraceWriterInTest(new StringWriter());
-            sut.TraceRequestFormatter = (obj, i) =>
-                                            {
-                                                objectToFormatter = obj;
-                                                return null;
-                                            };
+            sut.TraceRequestFormatter = (tw, obj, i) => objectToFormatter = obj;
 
             // Exercise system
             sut.InvokeTrackRequest(someRequestObject);
@@ -80,17 +77,47 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void RequestFormatterIsGivenCorrectTextWriter()
+        {
+            // Fixture setup
+            var expectedWriter = new StringWriter();
+            var sut = new BuildTraceWriterInTest(expectedWriter);
+
+            bool verified = false;
+            sut.TraceRequestFormatter = (tw, r, i) => verified = tw == expectedWriter;
+            // Exercise system
+            var dummyRequest = new object();
+            sut.InvokeTrackRequest(dummyRequest);
+            // Verify outcome
+            Assert.True(verified);
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecimenFormatterIsGivenCorrectTextWriter()
+        {
+            // Fixture setup
+            var expectedWriter = new StringWriter();
+            var sut = new BuildTraceWriterInTest(expectedWriter);
+
+            bool verified = false;
+            sut.TraceCreatedSpecimenFormatter = (tw, r, i) => verified = tw == expectedWriter;
+            // Exercise system
+            var dummyRequest = new object();
+            sut.InvokeTrackCreatedSpecimen(dummyRequest);
+            // Verify outcome
+            Assert.True(verified);
+            // Teardown
+        }
+
+        [Fact]
         public void FormatterDefaultsToToStringAndGetType()
         {
             // Fixture setup
             object someSpecimen = Guid.NewGuid();
             object objectToFormatter = null;
             var sut = new BuildTraceWriterInTest(new StringWriter());
-            sut.TraceCreatedSpecimenFormatter = (obj, i) =>
-            {
-                objectToFormatter = obj;
-                return null;
-            };
+            sut.TraceCreatedSpecimenFormatter = (tw, obj, i) => objectToFormatter = obj;
 
             // Exercise system
             sut.InvokeTrackCreatedSpecimen(someSpecimen);
@@ -121,11 +148,7 @@ namespace Ploeh.AutoFixtureUnitTest
             object someRequestObject = Guid.NewGuid();
             int lastRecordedIndent = 0;
             var sut = new BuildTraceWriterInTest(new StringWriter());
-            sut.TraceRequestFormatter = (obj, i) =>
-                                            {
-                                                lastRecordedIndent = i;
-                                                return null;
-                                            };
+            sut.TraceRequestFormatter = (tw, obj, i) => lastRecordedIndent = i;
             int initialIndent = sut.IndentLevel;
 
             // Exercise system
@@ -146,11 +169,7 @@ namespace Ploeh.AutoFixtureUnitTest
             object someSpecimen = Guid.NewGuid();
             int lastRecordedIndent = 0;
             var sut = new BuildTraceWriterInTest(new StringWriter());
-            sut.TraceCreatedSpecimenFormatter = (obj, i) =>
-            {
-                lastRecordedIndent = i;
-                return null;
-            };
+            sut.TraceCreatedSpecimenFormatter = (tw, obj, i) => lastRecordedIndent = i;
             int initialIndent = sut.IndentLevel;
 
             // Exercise system
@@ -166,8 +185,13 @@ namespace Ploeh.AutoFixtureUnitTest
 
         private class BuildTraceWriterInTest : BuildTraceWriter
         {
-            public BuildTraceWriterInTest(TextWriter outStream)
-                : base(outStream, new DelegatingSpecimenBuilder())
+            public BuildTraceWriterInTest(TextWriter writer)
+                : this(writer, new DelegatingSpecimenBuilder())
+            {
+            }
+
+            public BuildTraceWriterInTest(TextWriter writer, ISpecimenBuilder builder)
+                : base(writer, builder)
             {
             }
 
