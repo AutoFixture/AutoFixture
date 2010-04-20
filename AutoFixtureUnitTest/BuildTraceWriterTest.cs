@@ -183,6 +183,56 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void AssignNullRequestFormatterWillThrow()
+        {
+            // Fixture setup
+            var sut = new BuildTraceWriterInTest(TextWriter.Null);
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.TraceRequestFormatter = null);
+            // Teardown
+        }
+
+        [Fact]
+        public void AssignNullSpecimenFormatterWillThrow()
+        {
+            // Fixture setup
+            var sut = new BuildTraceWriterInTest(TextWriter.Null);
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.TraceCreatedSpecimenFormatter = null);
+            // Teardown
+        }
+
+        [Fact]
+        public void RequestFormatterIsProperWritableProperty()
+        {
+            // Fixture setup
+            Action<TextWriter, object, int> expected = (tw, r, i) => { };
+            var sut = new BuildTraceWriterInTest(TextWriter.Null);
+            // Exercise system
+            sut.TraceRequestFormatter = expected;
+            Action<TextWriter, object, int> result = sut.TraceRequestFormatter;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecimenFormatterIsProperWritableProperty()
+        {
+            // Fixture setup
+            Action<TextWriter, object, int> expected = (tw, r, i) => { };
+            var sut = new BuildTraceWriterInTest(TextWriter.Null);
+            // Exercise system
+            sut.TraceCreatedSpecimenFormatter = expected;
+            Action<TextWriter, object, int> result = sut.TraceCreatedSpecimenFormatter;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
         private class BuildTraceWriterInTest : BuildTraceWriter
         {
             public BuildTraceWriterInTest(TextWriter writer)

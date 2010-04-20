@@ -10,29 +10,58 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class BuildTraceWriter : RequestTracker
     {
-        private TextWriter writer;
-        private int indentLevel = 0;
+        private readonly TextWriter writer;
+        private Action<TextWriter, object, int> writeRequest;
+        private Action<TextWriter, object, int> writeSpecimen;
+        private int indentLevel;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BuildTraceWriter"/> class.
+        /// </summary>
+        /// <param name="writer">The output stream for the trace.</param>
+        /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
+        public BuildTraceWriter(TextWriter writer, ISpecimenBuilder builder)
+            : base(builder)
+        {
+            this.writer = writer;
+            this.TraceRequestFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + r.ToString());
+            this.TraceCreatedSpecimenFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + r.ToString());
+        }
 
         /// <summary>
         /// Gets or sets the formatter for tracing a request.
         /// </summary>
         /// <value>The request trace formatter.</value>
-#warning Must handle null input
         public Action<TextWriter, object, int> TraceRequestFormatter
         {
-            get;
-            set;
+            get { return this.writeRequest; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("value");
+                }
+
+                this.writeRequest = value;
+            }
         }
 
         /// <summary>
         /// Gets or sets the formatter for tracing a created specimen.
         /// </summary>
         /// <value>The created specimen trace formatter.</value>
-#warning Must handle null input
         public Action<TextWriter, object, int> TraceCreatedSpecimenFormatter
         {
-            get;
-            set;
+            get { return this.writeSpecimen; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("value");
+                }
+
+                this.writeSpecimen = value;
+            }
         }
 
         /// <summary>
@@ -45,26 +74,12 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BuildTraceWriter"/> class.
-        /// </summary>
-        /// <param name="outStream">The output stream for the trace.</param>
-        /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
-        public BuildTraceWriter(TextWriter writer, ISpecimenBuilder builder)
-            : base(builder)
-        {
-            this.writer = writer;
-            this.TraceRequestFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + r.ToString());
-            this.TraceCreatedSpecimenFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + r.ToString());
-        }
-
-        /// <summary>
         /// Invoked when a request is tracked. Writes a trace of the request.
         /// </summary>
         /// <param name="request">The request.</param>
         protected override void TrackRequest(object request)
         {
-            this.TraceRequestFormatter(this.writer, request, this.indentLevel);
-            this.indentLevel++;
+            this.writeRequest(this.writer, request, this.indentLevel++);
         }
 
         /// <summary>
@@ -73,8 +88,7 @@ namespace Ploeh.AutoFixture
         /// <param name="specimen">The specimen.</param>
         protected override void TrackCreatedSpecimen(object specimen)
         {
-            this.indentLevel--;
-            this.TraceCreatedSpecimenFormatter(this.writer, specimen, this.indentLevel);
+            this.TraceCreatedSpecimenFormatter(this.writer, specimen, --this.indentLevel);
         }
     }
 }
