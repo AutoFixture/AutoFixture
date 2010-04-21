@@ -258,12 +258,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             protected override void TrackRequest(object request)
             {
-                OnTrackRequest(request);
+                this.OnTrackRequest(request);
             }
 
             protected override void TrackCreatedSpecimen(object specimen)
             {
-                OnTrackCreatedSpecimen(specimen);
+                this.OnTrackCreatedSpecimen(specimen);
             }
 
             internal Action<object> OnTrackRequest { get; set; }
