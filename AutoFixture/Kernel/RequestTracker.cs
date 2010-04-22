@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Tracks any request and passes it on to the container.
     /// Tracks any returned object from the container and passes it on.
     /// </summary>
-    public abstract class RequestTracker : ISpecimenBuilder
+    public class RequestTracker : ISpecimenBuilder
 	{
         private readonly ISpecimenBuilder builder;
         private Func<object, bool> shouldTrack;
@@ -22,7 +22,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <see cref="ISpecimenBuilder"/>.
         /// </summary>
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
-        protected RequestTracker(ISpecimenBuilder builder)
+        public RequestTracker(ISpecimenBuilder builder)
         {
             if (builder == null)
             {
@@ -112,12 +112,16 @@ namespace Ploeh.AutoFixture.Kernel
         /// Invoked when a request is tracked.
         /// </summary>
         /// <param name="request">The request.</param>
-		protected abstract void TrackRequest(object request);
+        protected virtual void TrackRequest(object request)
+        {
+        }
 
         /// <summary>
         /// Invoked when a created specimen is tracked.
         /// </summary>
         /// <param name="specimen">The specimen.</param>
-		protected abstract void TrackCreatedSpecimen(object specimen);
+        protected virtual void TrackCreatedSpecimen(object specimen)
+        {
+        }
 	}
 }
