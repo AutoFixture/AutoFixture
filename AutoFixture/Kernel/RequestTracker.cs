@@ -77,24 +77,13 @@ namespace Ploeh.AutoFixture.Kernel
                 this.TrackRequest(request);
             }
             
-            object interceptCreate = GetCreationInterception();
-            if (interceptCreate is NoSpecimen == false)
-            {
-                this.TrackCreatedSpecimen(interceptCreate);
-                return interceptCreate;
-            }
-            
             object specimen = this.builder.Create(request, container);
             if (this.shouldTrack(request))
-                TrackRequest(request);
-            
+            {
+                this.TrackCreatedSpecimen(specimen);
+            }
 
             return specimen;
-        }
-
-        protected virtual object GetCreationInterception()
-        {
-            return new NoSpecimen();
         }
 
         /// <summary>

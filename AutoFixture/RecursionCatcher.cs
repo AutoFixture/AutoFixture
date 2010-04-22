@@ -1,28 +1,27 @@
 namespace Ploeh.AutoFixture
 {
-	using System;
-	using System.Collections.Generic;
+    using System.Collections.Generic;
 	using Kernel;
 
 	public abstract class RecursionCatcher : RequestTracker
 	{
 		private Stack<object> monitoredRequests;
-		private Stack<object> interception;
+        private InterceptingBuilder interceptor;
 
-		protected RecursionCatcher(ISpecimenBuilder builder) : base(builder)
+		protected RecursionCatcher(InterceptingBuilder interceptBuilder) : base(interceptBuilder)
 		{
 			monitoredRequests = new Stack<object>();
-			interception = new Stack<object>();
+            interceptor = interceptBuilder;
 		}
 
 		protected override void TrackRequest(object request)
 		{
 			if (monitoredRequests.Contains(request))
-			{
-				interception.Push(GetRecursionBreakInstance(request));
-			}
+            {
+                interceptor.SetInterception(request, GetRecursionBreakSpecimen(request));
+            }
 
-			monitoredRequests.Push(request);
+            monitoredRequests.Push(request);
 		}
 
 		protected override void TrackCreatedSpecimen(object specimen)
@@ -30,14 +29,6 @@ namespace Ploeh.AutoFixture
 			monitoredRequests.Pop();
 		}
 
-		protected override object GetCreationInterception()
-		{
-			if (interception.Count > 0)
-				return interception.Pop();
-
-			return new NoSpecimen();
-		}
-
-		protected abstract object GetRecursionBreakInstance(object request);
+		protected abstract object GetRecursionBreakSpecimen(object request);
 	}
 }

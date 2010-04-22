@@ -8,26 +8,72 @@ namespace Ploeh.AutoFixtureUnitTest
 
 	public class RecursionCatcherTest
 	{
+        [Fact]
+        public void TestSpecificSutIsSut()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new DelegatingRecursionCatcher();
+            // Verify outcome
+            Assert.IsAssignableFrom<RecursionCatcher>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutIsRequestTracker()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new DelegatingRecursionCatcher();
+            // Verify outcome
+            Assert.IsAssignableFrom<RequestTracker>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutIsSpecimenBuilder()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new DelegatingRecursionCatcher();
+            // Verify outcome
+            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void TrackRequestWillNotTriggerHandlingOnFirstRequest()
+        {
+            var sut = new DelegatingRecursionCatcher();
+            bool handlingTriggered = false;
+            sut.OnGetRecursionBreakSpecimen = obj => handlingTriggered = true;
+
+            sut.InvokeTrackRequest(Guid.NewGuid());
+
+            Assert.False(handlingTriggered);
+        }
+
 		[Fact]
 		public void TrackRequestWillTriggerHandlingOnFirstRecurrenceOfRequest()
 		{
-			var sut = new RecursionCatcherForTest();
+			var sut = new DelegatingRecursionCatcher();
 		    bool handlingTriggered = false;
-		    sut.OnGetRecursionBreakInstance = obj => handlingTriggered = true;
+            object request = Guid.NewGuid();
+		    sut.OnGetRecursionBreakSpecimen = obj => handlingTriggered = true;
 
-			sut.InvokeTrackRequest("Dip");
-			sut.InvokeTrackRequest("Dip");
+			sut.InvokeTrackRequest(request);
+			sut.InvokeTrackRequest(request);
 
 		    Assert.True(handlingTriggered);
 		}
 
-		private class RecursionCatcherForTest : RecursionCatcher
+		private class DelegatingRecursionCatcher : RecursionCatcher
 		{
-            public RecursionCatcherForTest() : this(new DelegatingSpecimenBuilder())
+            public DelegatingRecursionCatcher() : this(new DelegatingSpecimenBuilder())
 		    {
 		    }
 
-		    public RecursionCatcherForTest(ISpecimenBuilder builder) : base(builder)
+		    public DelegatingRecursionCatcher(ISpecimenBuilder builder) : base(new InterceptingBuilder(builder))
 		    {
 		    }
 
@@ -36,11 +82,11 @@ namespace Ploeh.AutoFixtureUnitTest
 				this.TrackRequest(request);
 			}
 
-			internal Func<object, object> OnGetRecursionBreakInstance;
+			internal Func<object, object> OnGetRecursionBreakSpecimen;
 
-			protected override object GetRecursionBreakInstance(object request)
+			protected override object GetRecursionBreakSpecimen(object request)
 			{
-			    return OnGetRecursionBreakInstance(request);
+			    return OnGetRecursionBreakSpecimen(request);
 			}
 		}
 	}
