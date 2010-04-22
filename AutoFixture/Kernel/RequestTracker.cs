@@ -12,6 +12,10 @@ namespace Ploeh.AutoFixture.Kernel
 	{
         private readonly ISpecimenBuilder builder;
         private Func<object, bool> shouldTrack;
+        private int depth;
+
+        public event EventHandler<SpecimenTraceEventArgs> SpecimenRequested;
+        public event EventHandler<SpecimenCreatedEventArgs> SpecimenCreated;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RequestTracker"/> class with a decorated
@@ -74,15 +78,35 @@ namespace Ploeh.AutoFixture.Kernel
 		{
             if (this.shouldTrack(request))
             {
+                this.OnSpecimenRequested(new SpecimenTraceEventArgs(request, ++this.depth));
                 this.TrackRequest(request);
             }
             object specimen = this.builder.Create(request, container);
             if (this.shouldTrack(request))
             {
+                this.OnSpecimenCreated(new SpecimenCreatedEventArgs(request, specimen, this.depth--));
                 this.TrackCreatedSpecimen(specimen);
             }
 			return specimen;
 		}
+
+        protected virtual void OnSpecimenCreated(SpecimenCreatedEventArgs e)
+        {
+            EventHandler<SpecimenCreatedEventArgs> handler = this.SpecimenCreated;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        protected virtual void OnSpecimenRequested(SpecimenTraceEventArgs e)
+        {
+            EventHandler<SpecimenTraceEventArgs> handler = this.SpecimenRequested;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
 
         /// <summary>
         /// Invoked when a request is tracked.

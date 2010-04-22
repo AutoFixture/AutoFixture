@@ -57,6 +57,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void CreateWillCorrectlyRaiseSpecimenRequested()
+        {
+            // Fixture setup
+            var verified = false;
+            var request = new object();
+            var sut = new DelegatingRequestTracker();
+            sut.SpecimenRequested += (object sender, SpecimenTraceEventArgs e) => verified = e.Request == request && e.Depth == 1;
+            // Exercise system
+            var dummyContainer = new DelegatingSpecimenContainer();
+            sut.Create(request, dummyContainer);
+            // Verify outcome
+            Assert.True(verified, "Event raised");
+            // Teardown
+        }
+
+        [Fact]
         public void CreateWillTrackIngoingRequest()
         {
             // Fixture setup
@@ -71,6 +87,31 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             Assert.Equal(requestedObject, tracked);
 
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWillCorrectlyRaiseSpecimenRequestedInCompositeRequest()
+        {
+            // Fixture setup
+            object requestedObject = "The request";
+            object subRequest = "Some sub request";
+
+            var spy = new List<SpecimenTraceEventArgs>();
+            var builder2 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == requestedObject ? c.Create(subRequest) : new NoSpecimen() };
+            var builder3 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == subRequest ? new object() : new NoSpecimen() };
+            var compBuilder = new CompositeSpecimenBuilder(builder2, builder3);
+
+            var sut = new DelegatingRequestTracker(compBuilder);
+            sut.SpecimenRequested += (object sender, SpecimenTraceEventArgs e) => spy.Add(e);
+
+            var container = new DefaultSpecimenContainer(sut);
+            // Exercise system
+            sut.Create(requestedObject, container);
+            // Verify outcome
+            Assert.Equal(2, spy.Count);
+            Assert.Equal(subRequest, spy[1].Request);
+            Assert.Equal(2, spy[1].Depth);
             // Teardown
         }
 
@@ -98,6 +139,24 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void CreateWillCorrectlyRaiseSpecimenCreated()
+        {
+            // Fixture setup
+            var request = new object();
+            var specimen = new object();
+
+            var verified = false;
+            var sut = new DelegatingRequestTracker(new DelegatingSpecimenBuilder { OnCreate = (r, c) => specimen });
+            sut.SpecimenCreated += (object sender, SpecimenCreatedEventArgs e) => verified = e.Request == request && e.Specimen == specimen && e.Depth == 1;
+            // Exercise system
+            var dummyContainer = new DelegatingSpecimenContainer();
+            sut.Create(request, dummyContainer);
+            // Verify outcome
+            Assert.True(verified, "Event raised");
+            // Teardown
+        }
+
+        [Fact]
         public void CreateWillTrackCreatedSpecimen()
         {
             // Fixture setup
@@ -112,6 +171,34 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             Assert.Equal(res, tracked);
 
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWillCorrectRaiseSpecimenCreatedInCompositeRequest()
+        {
+            // Fixture setup
+            object request = "The request";
+            object subRequest = "Some sub request";
+            var createdSpecimen = new object();
+
+            var spy = new List<SpecimenCreatedEventArgs>();
+            var builder2 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == request ? c.Create(subRequest) : new NoSpecimen() };
+            var builder3 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == subRequest ? createdSpecimen : new NoSpecimen() };
+            var compBuilder = new CompositeSpecimenBuilder(builder2, builder3);
+
+            var sut = new DelegatingRequestTracker(compBuilder);
+            sut.SpecimenCreated += (object sender, SpecimenCreatedEventArgs e) => spy.Add(e);
+
+            var container = new DefaultSpecimenContainer(sut);
+            // Exercise system
+            sut.Create(request, container);
+            // Verify outcome
+            Assert.Equal(2, spy.Count);
+            Assert.Equal(createdSpecimen, spy[0].Specimen);
+            Assert.Equal(2, spy[0].Depth);
+            Assert.Equal(createdSpecimen, spy[1].Specimen);
+            Assert.Equal(1, spy[1].Depth);
             // Teardown
         }
 
@@ -166,6 +253,24 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void CreateWillNotRaiseSpecimenRequestForFilteredRequest()
+        {
+            // Fixture setup
+            var eventRaised = false;
+
+            var request = new object();
+            var sut = new DelegatingRequestTracker();
+            sut.SpecimenRequested += (object sender, SpecimenTraceEventArgs e) => eventRaised = true;
+            sut.TrackSpecification = r => false;
+            // Exercise system
+            var dummyContainer = new DelegatingSpecimenContainer();
+            sut.Create(request, dummyContainer);
+            // Verify outcome
+            Assert.False(eventRaised, "Event raised");
+            // Teardown
+        }
+
+        [Fact]
         public void CreateWillNotTrackFilteredRequest()
         {
             // Fixture setup
@@ -178,6 +283,24 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             sut.Create(requestedObject, dummyContainer);
             // Verify outcome
             Assert.Null(tracked);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWillNotRaiseSpecimeCreatedForFilteredRequest()
+        {
+            // Fixture setup
+            var eventRaised = false;
+
+            var request = new object();
+            var sut = new DelegatingRequestTracker();
+            sut.SpecimenCreated += (object sender, SpecimenCreatedEventArgs e) => eventRaised = true;
+            sut.TrackSpecification = r => false;
+            // Exercise system
+            var dummyContainer = new DelegatingSpecimenContainer();
+            sut.Create(request, dummyContainer);
+            // Verify outcome
+            Assert.False(eventRaised, "Event raised");
             // Teardown
         }
 
@@ -199,6 +322,26 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void CreateWillNotRaiseSpecimenRequestedForIgnoredType()
+        {
+            // Fixture setup
+            var eventRaised = false;
+
+            var request = Guid.NewGuid();
+            var sut = new DelegatingRequestTracker();
+            sut.SpecimenRequested += (object sender, SpecimenTraceEventArgs e) => eventRaised = true;
+
+            var ignoredTypes = new List<Type> { typeof(Guid) };
+            sut.TrackSpecification = r => !ignoredTypes.Contains(r.GetType());
+            // Exercise system
+            var dummyContainer = new DelegatingSpecimenContainer();
+            sut.Create(request, dummyContainer);
+            // Verify outcome
+            Assert.False(eventRaised, "Event raised");
+            // Teardown
+        }
+
+        [Fact]
         public void IgnoredTypeWillNotTrackRequest()
         {
             // Fixture setup
@@ -216,6 +359,26 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             Assert.Null(tracked);
 
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWillNotRaiseSpecimenCreatedForIgnoredType()
+        {
+            // Fixture setup
+            var eventRaised = false;
+
+            var request = Guid.NewGuid();
+            var sut = new DelegatingRequestTracker();
+            sut.SpecimenCreated += (object sender, SpecimenCreatedEventArgs e) => eventRaised = true;
+
+            var ignoredTypes = new List<Type> { typeof(Guid) };
+            sut.TrackSpecification = r => !ignoredTypes.Contains(r.GetType());
+            // Exercise system
+            var dummyContainer = new DelegatingSpecimenContainer();
+            sut.Create(request, dummyContainer);
+            // Verify outcome
+            Assert.False(eventRaised, "Event raised");
             // Teardown
         }
 
