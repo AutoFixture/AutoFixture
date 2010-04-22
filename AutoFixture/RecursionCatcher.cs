@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture
 		private Stack<object> monitoredRequests;
 		private Stack<object> interception;
 
-		protected RecursionCatcher()
+		protected RecursionCatcher(ISpecimenBuilder builder) : base(builder)
 		{
 			monitoredRequests = new Stack<object>();
 			interception = new Stack<object>();

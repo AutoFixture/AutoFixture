@@ -2,3 +2,5 @@ glob:*.suo
 glob:*\bin\*
 glob:*\obj\*
 glob:TestResults\*
+glob:*.sln.cache
+glob:AutoFixture character.design

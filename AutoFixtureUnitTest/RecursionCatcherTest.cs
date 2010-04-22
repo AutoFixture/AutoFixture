@@ -2,6 +2,8 @@ namespace Ploeh.AutoFixtureUnitTest
 {
 	using System;
 	using AutoFixture;
+	using AutoFixture.Kernel;
+	using Kernel;
 	using Xunit;
 
 	public class RecursionCatcherTest
@@ -21,7 +23,15 @@ namespace Ploeh.AutoFixtureUnitTest
 
 		private class RecursionCatcherForTest : RecursionCatcher
 		{
-			public void InvokeTrackRequest(object request)
+            public RecursionCatcherForTest() : this(new DelegatingSpecimenBuilder())
+		    {
+		    }
+
+		    public RecursionCatcherForTest(ISpecimenBuilder builder) : base(builder)
+		    {
+		    }
+
+		    public void InvokeTrackRequest(object request)
 			{
 				this.TrackRequest(request);
 			}

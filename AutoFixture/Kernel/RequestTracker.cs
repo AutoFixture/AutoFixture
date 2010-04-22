@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -9,24 +10,50 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public abstract class RequestTracker : ISpecimenBuilder
     {
-        private bool skip;
+        private readonly ISpecimenBuilder builder;
+        private Func<object, bool> shouldTrack;
 
         /// <summary>
-        /// Gets the types to ignore when tracking.
+        /// Initializes a new instance of the <see cref="RequestTracker"/> class with a decorated
+        /// <see cref="ISpecimenBuilder"/>.
         /// </summary>
-        /// <value>The ignored types.</value>
-        public Collection<Type> IgnoredTypes
+        /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
+        protected RequestTracker(ISpecimenBuilder builder)
         {
-            get;
-            private set;
+            if (builder == null)
+            {
+                throw new ArgumentNullException("builder");
+            }
+
+            this.builder = builder;
+            this.TrackSpecification = r => true;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RequestTracker"/> class.
+        /// Gets or sets a filter for tracking
         /// </summary>
-        protected RequestTracker()
+        /// <remarks>
+        /// <para>
+        /// By default, <see cref="TrackSpecification"/> tracks all requests and created Specimens,
+        /// but you can provide a custom filter to only allow certain requests to be tracked.
+        /// </para>
+        /// <para>
+        /// As this is a variation of the Specification pattern, the filter must return
+        /// <see langword="true"/> to allow the request to be tracked.
+        /// </para>
+        /// </remarks>
+        public Func<object, bool> TrackSpecification
         {
-            IgnoredTypes = new Collection<Type>();
+            get { return this.shouldTrack; }
+            set 
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("value");
+                }
+
+                this.shouldTrack = value;
+            }
         }
 
         /// <summary>
@@ -45,27 +72,23 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContainer container)
         {
-            // Avoid tracking self
-            if (skip)
+            if (this.shouldTrack(request))
             {
-                skip = false;
-                return new NoSpecimen(request);
+                this.TrackRequest(request);
             }
-
-            if (!IgnoredTypes.Contains(request.GetType()))
-                TrackRequest(request);
-
+            
             object interceptCreate = GetCreationInterception();
             if (interceptCreate is NoSpecimen == false)
             {
-                TrackCreatedSpecimen(interceptCreate);
+                this.TrackCreatedSpecimen(interceptCreate);
                 return interceptCreate;
             }
+            
+            object specimen = this.builder.Create(request, container);
+            if (this.shouldTrack(request))
+                TrackRequest(request);
+            
 
-            skip = true;
-            object specimen = container.Create(request);
-            if (!IgnoredTypes.Contains(request.GetType()))
-                TrackCreatedSpecimen(specimen);
             return specimen;
         }
 
