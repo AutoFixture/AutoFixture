@@ -1,16 +1,14 @@
-namespace Ploeh.AutoFixture
-{
-    using System;
-    using System.IO;
-    using Kernel;
+using System;
+using System.IO;
 
+namespace Ploeh.AutoFixture.Kernel
+{
     /// <summary>
     /// Trace writer that will write out a trace of object requests and created objects
     /// in the <see cref="ISpecimenBuilder" /> pipeline.
     /// </summary>
-    public class BuildTraceWriter : ISpecimenBuilder // : RequestTracker
+    public class BuildTraceWriter : ISpecimenBuilder
     {
-        //private readonly TextWriter writer;
         private readonly TracingBuilder tracer;
         private Action<TextWriter, object, int> writeRequest;
         private Action<TextWriter, object, int> writeSpecimen;

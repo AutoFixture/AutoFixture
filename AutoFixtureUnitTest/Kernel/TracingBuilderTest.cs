@@ -1,10 +1,10 @@
+using System;
+using System.Collections.Generic;
+using Ploeh.AutoFixture.Kernel;
+using Xunit;
+
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    using System;
-    using System.Collections.Generic;
-    using AutoFixture.Kernel;
-    using Xunit;
-
     public class TracingBuilderTest
     {
         [Fact]

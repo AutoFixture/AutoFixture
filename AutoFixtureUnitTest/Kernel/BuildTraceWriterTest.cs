@@ -1,12 +1,11 @@
-namespace Ploeh.AutoFixtureUnitTest
-{
-    using System;
-    using System.IO;
-    using AutoFixture;
-    using Xunit;
-    using Ploeh.AutoFixtureUnitTest.Kernel;
-    using Ploeh.AutoFixture.Kernel;
+using System;
+using System.IO;
+using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.Kernel;
+using Xunit;
 
+namespace Ploeh.AutoFixtureUnitTest.Kernel
+{
     public class BuildTraceWriterTest
     {
         [Fact]
