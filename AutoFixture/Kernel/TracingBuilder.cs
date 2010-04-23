@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Tracks any request and passes it on to the container.
     /// Tracks any returned object from the container and passes it on.
     /// </summary>
-    public class RequestTracker : ISpecimenBuilder
+    public class TracingBuilder : ISpecimenBuilder
 	{
         private readonly ISpecimenBuilder builder;
         private Func<object, bool> shouldTrack;
@@ -22,7 +22,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <see cref="ISpecimenBuilder"/>.
         /// </summary>
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
-        public RequestTracker(ISpecimenBuilder builder)
+        public TracingBuilder(ISpecimenBuilder builder)
         {
             if (builder == null)
             {

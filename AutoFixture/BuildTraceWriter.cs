@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture
     public class BuildTraceWriter : ISpecimenBuilder // : RequestTracker
     {
         //private readonly TextWriter writer;
-        private readonly RequestTracker tracer;
+        private readonly TracingBuilder tracer;
         private Action<TextWriter, object, int> writeRequest;
         private Action<TextWriter, object, int> writeSpecimen;
 
@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <param name="writer">The output stream for the trace.</param>
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
-        public BuildTraceWriter(TextWriter writer, RequestTracker tracer)
+        public BuildTraceWriter(TextWriter writer, TracingBuilder tracer)
         {
             if (writer == null)
             {

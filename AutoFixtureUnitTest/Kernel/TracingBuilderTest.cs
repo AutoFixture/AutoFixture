@@ -5,7 +5,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
     using AutoFixture.Kernel;
     using Xunit;
 
-    public class RequestTrackerTest
+    public class TracingBuilderTest
     {
         [Fact]
         public void TestSpecificSutIsSut()
@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var sut = new DelegatingTracingBuilder();
             // Verify outcome
-            Assert.IsAssignableFrom<RequestTracker>(sut);
+            Assert.IsAssignableFrom<TracingBuilder>(sut);
             // Teardown
         }
 

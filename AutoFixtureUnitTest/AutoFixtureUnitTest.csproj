@@ -73,7 +73,7 @@
     <Compile Include="Kernel\ModestConstructorInvokerTest.cs" />
     <Compile Include="Kernel\NoSpecimenTest.cs" />
     <Compile Include="Kernel\ParameterRequestTranslatorTest.cs" />
-    <Compile Include="Kernel\RequestTrackerTest.cs" />
+    <Compile Include="Kernel\TracingBuilderTest.cs" />
     <Compile Include="Kernel\Scenario.cs" />
     <Compile Include="Kernel\SpecimenCreatedEventArgsTest.cs" />
     <Compile Include="Kernel\SpecimenTraceEventArgsTest.cs" />

@@ -86,7 +86,7 @@
     <Compile Include="Kernel\ModestConstructorInvoker.cs" />
     <Compile Include="Kernel\NoSpecimen.cs" />
     <Compile Include="Kernel\ParameterRequestTranslator.cs" />
-    <Compile Include="Kernel\RequestTracker.cs" />
+    <Compile Include="Kernel\TracingBuilder.cs" />
     <Compile Include="Kernel\SpecimenCreatedEventArgs.cs" />
     <Compile Include="Kernel\SpecimenTraceEventArgs.cs" />
     <Compile Include="Kernel\StringSeedUnwrapper.cs" />

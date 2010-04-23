@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var expectedSpecimen = new object();
-            var stubBuilder = new RequestTracker(new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedSpecimen });
+            var stubBuilder = new TracingBuilder(new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedSpecimen });
 
             var dummyWriter = TextWriter.Null;
             var sut = new BuildTraceWriter(dummyWriter, stubBuilder);
@@ -68,7 +68,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var expectedContainer = new DelegatingSpecimenContainer();
 
             var verified = false;
-            var mockBuilder = new RequestTracker(new DelegatingSpecimenBuilder { OnCreate = (r, c) => verified = expectedRequest == r && expectedContainer == c });
+            var mockBuilder = new TracingBuilder(new DelegatingSpecimenBuilder { OnCreate = (r, c) => verified = expectedRequest == r && expectedContainer == c });
 
             var dummyWriter = TextWriter.Null;
             var sut = new BuildTraceWriter(dummyWriter, mockBuilder);

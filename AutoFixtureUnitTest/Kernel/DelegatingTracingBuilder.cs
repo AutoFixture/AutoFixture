@@ -6,7 +6,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    internal class DelegatingTracingBuilder : RequestTracker
+    internal class DelegatingTracingBuilder : TracingBuilder
     {
         public DelegatingTracingBuilder()
             : this(new DelegatingSpecimenBuilder())
