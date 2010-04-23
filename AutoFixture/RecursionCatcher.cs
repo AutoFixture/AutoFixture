@@ -3,6 +3,10 @@ namespace Ploeh.AutoFixture
     using System.Collections.Generic;
 	using Kernel;
 
+    /// <summary>
+    /// Base class for recursion handling. Tracks requests and reacts when a recursion point in the
+    /// specimen creation process is detected.
+    /// </summary>
 	public abstract class RecursionCatcher : RequestTracker
 	{
 		private Stack<object> monitoredRequests;
@@ -18,7 +22,7 @@ namespace Ploeh.AutoFixture
 		{
 			if (monitoredRequests.Contains(request))
             {
-                interceptor.SetInterception(request, GetRecursionBreakSpecimen(request));
+                interceptor.SetOneTimeInterception(request, GetRecursionBreakSpecimen(request));
             }
 
             monitoredRequests.Push(request);
