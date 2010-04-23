@@ -143,7 +143,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new TraceWriter(expectedWriter, new DelegatingTracingBuilder());
 
             bool verified = false;
-            sut.TraceCreatedSpecimenFormatter = (tw, r, i) => verified = tw == expectedWriter;
+            sut.TraceSpecimenFormatter = (tw, r, i) => verified = tw == expectedWriter;
             // Exercise system
             var dummyRequest = new object();
             var dummyContainer = new DelegatingSpecimenContainer();
@@ -171,7 +171,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new TraceWriter(TextWriter.Null, new DelegatingTracingBuilder());
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                sut.TraceCreatedSpecimenFormatter = null);
+                sut.TraceSpecimenFormatter = null);
             // Teardown
         }
 
@@ -196,8 +196,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Action<TextWriter, object, int> expected = (tw, r, i) => { };
             var sut = new TraceWriter(TextWriter.Null, new DelegatingTracingBuilder());
             // Exercise system
-            sut.TraceCreatedSpecimenFormatter = expected;
-            Action<TextWriter, object, int> result = sut.TraceCreatedSpecimenFormatter;
+            sut.TraceSpecimenFormatter = expected;
+            Action<TextWriter, object, int> result = sut.TraceSpecimenFormatter;
             // Verify outcome
             Assert.Equal(expected, result);
             // Teardown

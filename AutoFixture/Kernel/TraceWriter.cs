@@ -30,11 +30,11 @@ namespace Ploeh.AutoFixture.Kernel
             }        
 
             this.tracer = tracer;
-            this.tracer.SpecimenRequested += (sender, e) => this.TraceRequestFormatter(writer, e.Request, e.Depth);
-            this.tracer.SpecimenCreated += (sender, e) => this.TraceCreatedSpecimenFormatter(writer, e.Specimen, e.Depth);
+            this.tracer.SpecimenRequested += (sender, e) => this.writeRequest(writer, e.Request, e.Depth);
+            this.tracer.SpecimenCreated += (sender, e) => this.writeSpecimen(writer, e.Specimen, e.Depth);
 
             this.TraceRequestFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + "Requested: " + r);
-            this.TraceCreatedSpecimenFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + "Created: " + r);
+            this.TraceSpecimenFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + "Created: " + r);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Gets or sets the formatter for tracing a created specimen.
         /// </summary>
         /// <value>The created specimen trace formatter.</value>
-        public Action<TextWriter, object, int> TraceCreatedSpecimenFormatter
+        public Action<TextWriter, object, int> TraceSpecimenFormatter
         {
             get { return this.writeSpecimen; }
             set
