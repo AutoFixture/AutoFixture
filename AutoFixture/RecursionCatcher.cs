@@ -1,5 +1,6 @@
 namespace Ploeh.AutoFixture
 {
+    using System;
     using System.Collections.Generic;
 	using Kernel;
 
@@ -7,32 +8,77 @@ namespace Ploeh.AutoFixture
     /// Base class for recursion handling. Tracks requests and reacts when a recursion point in the
     /// specimen creation process is detected.
     /// </summary>
-	public abstract class RecursionCatcher : RequestTracker
+	public class RecursionCatcher : ISpecimenBuilder
 	{
+        private readonly TracingBuilder tracer;
 		private Stack<object> monitoredRequests;
         private InterceptingBuilder interceptor;
+        private Func<object, object> interceptRecursionRequest;
 
-		protected RecursionCatcher(InterceptingBuilder interceptBuilder) : base(interceptBuilder)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecursionCatcher"/> class.
+        /// </summary>
+        /// <param name="interceptBuilder">The intercepting builder to decorate.</param>
+		public RecursionCatcher(InterceptingBuilder interceptBuilder)
 		{
 			monitoredRequests = new Stack<object>();
+            this.tracer = new TracingBuilder(interceptBuilder);
             interceptor = interceptBuilder;
+            this.tracer.SpecimenRequested += (sender, e) => TrackRequest(e.Request);
+            this.tracer.SpecimenCreated += (sender, e) => TrackSpecimen();
 		}
 
-		protected override void TrackRequest(object request)
-		{
-			if (monitoredRequests.Contains(request))
+        /// <summary>
+        /// Gets or sets the recursion request interceptor.
+        /// The recursion request interceptor is called for any recursion-causing requests.
+        /// </summary>
+        /// <value>The recursion request interceptor.</value>
+        public Func<object, object> RecursionRequestInterceptor
+        {
+            get { return this.interceptRecursionRequest; }
+            set
             {
-                interceptor.SetOneTimeInterception(request, GetRecursionBreakSpecimen(request));
+                if (value == null)
+                {
+                    throw new ArgumentNullException("value");
+                }
+
+                this.interceptRecursionRequest = value;
+            }
+        }
+
+        /// <summary>
+        /// Creates a new specimen based on a request.
+        /// </summary>
+        /// <param name="request">The request that describes what to create.</param>
+        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <returns>
+        /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
+        /// </returns>
+        /// <remarks>
+        /// 	<para>
+        /// The <paramref name="request"/> can be any object, but will often be a
+        /// <see cref="Type"/> or other <see cref="System.Reflection.MemberInfo"/> instances.
+        /// </para>
+        /// </remarks>
+        public object Create(object request, ISpecimenContainer container)
+        {
+            return this.tracer.Create(request, container);
+        }
+
+        private void TrackRequest(object request)
+        {
+            if (monitoredRequests.Contains(request))
+            {
+                interceptor.SetOnetimeInterception(request, interceptRecursionRequest(request));
             }
 
             monitoredRequests.Push(request);
-		}
+        }
 
-		protected override void TrackCreatedSpecimen(object specimen)
-		{
-			monitoredRequests.Pop();
-		}
-
-		protected abstract object GetRecursionBreakSpecimen(object request);
+        private void TrackSpecimen()
+        {
+            monitoredRequests.Pop();
+        }
 	}
 }

@@ -9,33 +9,11 @@ namespace Ploeh.AutoFixtureUnitTest
 	public class RecursionCatcherTest
 	{
         [Fact]
-        public void TestSpecificSutIsSut()
-        {
-            // Fixture setup
-            // Exercise system
-            var sut = new DelegatingRecursionCatcher();
-            // Verify outcome
-            Assert.IsAssignableFrom<RecursionCatcher>(sut);
-            // Teardown
-        }
-
-        [Fact]
-        public void SutIsRequestTracker()
-        {
-            // Fixture setup
-            // Exercise system
-            var sut = new DelegatingRecursionCatcher();
-            // Verify outcome
-            Assert.IsAssignableFrom<RequestTracker>(sut);
-            // Teardown
-        }
-
-        [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-            var sut = new DelegatingRecursionCatcher();
+            var sut = new RecursionCatcher(new InterceptingBuilder(new DelegatingSpecimenBuilder()));
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -44,50 +22,27 @@ namespace Ploeh.AutoFixtureUnitTest
         [Fact]
         public void TrackRequestWillNotTriggerHandlingOnFirstRequest()
         {
-            var sut = new DelegatingRecursionCatcher();
+            var sut = new RecursionCatcher(new InterceptingBuilder(new DelegatingSpecimenBuilder()));
             bool handlingTriggered = false;
-            sut.OnGetRecursionBreakSpecimen = obj => handlingTriggered = true;
+            sut.RecursionRequestInterceptor = obj => handlingTriggered = true;
 
-            sut.InvokeTrackRequest(Guid.NewGuid());
+            sut.Create(Guid.NewGuid(), new DelegatingSpecimenContainer());
 
             Assert.False(handlingTriggered);
         }
 
 		[Fact]
-		public void TrackRequestWillTriggerHandlingOnFirstRecurrenceOfRequest()
+		public void TrackRequestWillNotTriggerHandlingOnSubsequentSimilarRequests()
 		{
-			var sut = new DelegatingRecursionCatcher();
+            var sut = new RecursionCatcher(new InterceptingBuilder(new DelegatingSpecimenBuilder()));
 		    bool handlingTriggered = false;
             object request = Guid.NewGuid();
-		    sut.OnGetRecursionBreakSpecimen = obj => handlingTriggered = true;
+            sut.RecursionRequestInterceptor = obj => handlingTriggered = true;
 
-			sut.InvokeTrackRequest(request);
-			sut.InvokeTrackRequest(request);
+            sut.Create(request, new DelegatingSpecimenContainer());
+            sut.Create(request, new DelegatingSpecimenContainer());
 
-		    Assert.True(handlingTriggered);
-		}
-
-		private class DelegatingRecursionCatcher : RecursionCatcher
-		{
-            public DelegatingRecursionCatcher() : this(new DelegatingSpecimenBuilder())
-		    {
-		    }
-
-		    public DelegatingRecursionCatcher(ISpecimenBuilder builder) : base(new InterceptingBuilder(builder))
-		    {
-		    }
-
-		    public void InvokeTrackRequest(object request)
-			{
-				this.TrackRequest(request);
-			}
-
-			internal Func<object, object> OnGetRecursionBreakSpecimen;
-
-			protected override object GetRecursionBreakSpecimen(object request)
-			{
-			    return OnGetRecursionBreakSpecimen(request);
-			}
+		    Assert.False(handlingTriggered);
 		}
 	}
 }

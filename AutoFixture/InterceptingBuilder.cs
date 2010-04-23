@@ -27,7 +27,7 @@
         /// </summary>
         /// <param name="requestToIntercept">The request to intercept.</param>
         /// <param name="specimen">The specimen to return.</param>
-        public void SetOneTimeInterception(object requestToIntercept, object specimen)
+        public void SetOnetimeInterception(object requestToIntercept, object specimen)
         {
             if (oneTimeInterceptions.Contains(requestToIntercept))
             {
