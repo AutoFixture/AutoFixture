@@ -69,11 +69,14 @@
     <Compile Include="Kernel\DelegatingSpecimenBuilder.cs" />
     <Compile Include="Kernel\DelegatingSpecimenContainer.cs" />
     <Compile Include="DoubleSequenceGeneratorTest.cs" />
+    <Compile Include="Kernel\DelegatingTracingBuilder.cs" />
     <Compile Include="Kernel\ModestConstructorInvokerTest.cs" />
     <Compile Include="Kernel\NoSpecimenTest.cs" />
     <Compile Include="Kernel\ParameterRequestTranslatorTest.cs" />
-    <Compile Include="Kernel\RequestTrackerTest.cs" />
+    <Compile Include="Kernel\TracingBuilderTest.cs" />
     <Compile Include="Kernel\Scenario.cs" />
+    <Compile Include="Kernel\SpecimenCreatedEventArgsTest.cs" />
+    <Compile Include="Kernel\RequestTraceEventArgsTest.cs" />
     <Compile Include="Kernel\StringSeedUnwrapperTest.cs" />
     <Compile Include="Kernel\ValueIgnoringSeedUnwrapperTest.cs" />
     <Compile Include="Kernel\SeededRequestTest.cs" />
@@ -102,7 +105,7 @@
     <Compile Include="ObjectBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThrowingRecursionHandlerTest.cs" />
-    <Compile Include="BuildTraceWriterTest.cs" />
+    <Compile Include="Kernel\TraceWriterTest.cs" />
     <Compile Include="UInt16SequenceGeneratorTest.cs" />
     <Compile Include="UInt32SequenceGeneratorTest.cs" />
     <Compile Include="UInt64SequenceGeneratorTest.cs" />
