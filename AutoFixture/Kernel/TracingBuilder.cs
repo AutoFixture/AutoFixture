@@ -14,11 +14,18 @@ namespace Ploeh.AutoFixture.Kernel
         private Func<object, bool> shouldTrack;
         private int depth;
 
+        /// <summary>
+        /// Raised when a specimen is requested.
+        /// </summary>
         public event EventHandler<RequestTraceEventArgs> SpecimenRequested;
+
+        /// <summary>
+        /// Raised when a specimen was created.
+        /// </summary>
         public event EventHandler<SpecimenCreatedEventArgs> SpecimenCreated;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RequestTracker"/> class with a decorated
+        /// Initializes a new instance of the <see cref="TracingBuilder"/> class with a decorated
         /// <see cref="ISpecimenBuilder"/>.
         /// </summary>
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
@@ -61,7 +68,7 @@ namespace Ploeh.AutoFixture.Kernel
         }
 
         /// <summary>
-        /// Tracks the specimen creation request.
+        /// Creates a new specimen based on a request and raises events tracing the progress.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
         /// <param name="container">A container that can be used to create other specimens.</param>
@@ -69,7 +76,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
         /// </returns>
         /// <remarks>
-        /// 	<para>
+        /// <para>
         /// The <paramref name="request"/> can be any object, but will often be a
         /// <see cref="Type"/> or other <see cref="System.Reflection.MemberInfo"/> instances.
         /// </para>
@@ -88,6 +95,10 @@ namespace Ploeh.AutoFixture.Kernel
 			return specimen;
 		}
 
+        /// <summary>
+        /// Raises the <see cref="SpecimenCreated"/> event.
+        /// </summary>
+        /// <param name="e">The event arguments for the event.</param>
         protected virtual void OnSpecimenCreated(SpecimenCreatedEventArgs e)
         {
             EventHandler<SpecimenCreatedEventArgs> handler = this.SpecimenCreated;
@@ -97,6 +108,10 @@ namespace Ploeh.AutoFixture.Kernel
             }
         }
 
+        /// <summary>
+        /// Raises the <see cref="SpecimenRequested"/> event.
+        /// </summary>
+        /// <param name="e">The event arguments for the event.</param>
         protected virtual void OnSpecimenRequested(RequestTraceEventArgs e)
         {
             EventHandler<RequestTraceEventArgs> handler = this.SpecimenRequested;

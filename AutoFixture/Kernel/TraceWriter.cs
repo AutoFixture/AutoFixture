@@ -14,10 +14,10 @@ namespace Ploeh.AutoFixture.Kernel
         private Action<TextWriter, object, int> writeSpecimen;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BuildTraceWriter"/> class.
+        /// Initializes a new instance of the <see cref="TraceWriter"/> class.
         /// </summary>
         /// <param name="writer">The output stream for the trace.</param>
-        /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
+        /// <param name="tracer">The <see cref="ISpecimenBuilder"/> to decorate.</param>
         public TraceWriter(TextWriter writer, TracingBuilder tracer)
         {
             if (writer == null)
@@ -75,6 +75,14 @@ namespace Ploeh.AutoFixture.Kernel
 
         #region ISpecimenBuilder Members
 
+        /// <summary>
+        /// Creates a new specimen based on a request by delegating to its decorated builder.
+        /// </summary>
+        /// <param name="request">The request that describes what to create.</param>
+        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <returns>
+        /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
+        /// </returns>
         public object Create(object request, ISpecimenContainer container)
         {
             return this.tracer.Create(request, container);
