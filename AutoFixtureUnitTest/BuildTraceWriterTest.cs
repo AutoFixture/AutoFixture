@@ -10,69 +10,111 @@ namespace Ploeh.AutoFixtureUnitTest
     public class BuildTraceWriterTest
     {
         [Fact]
-        public void DefaultIndentIsCorrect()
+        public void SutIsSpecimenBuilder()
         {
             // Fixture setup
-            var sut = new BuildTraceWriter(TextWriter.Null, new DelegatingSpecimenBuilder());
+            var dummyWriter = TextWriter.Null;
+            var dummyBuilder = new DelegatingTracingBuilder();
             // Exercise system
-            var result = sut.Depth;
+            var sut = new BuildTraceWriter(dummyWriter, dummyBuilder);
             // Verify outcome
-            Assert.Equal(0, result);
+            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
         }
 
         [Fact]
-        public void TrackRequestWritesToOutputStream()
+        public void CreateWithNullWriterWillThrow()
         {
             // Fixture setup
-            var traceStream = new StringWriter();
-            object someRequestObject = Guid.NewGuid();
-            var sut = new BuildTraceWriterInTest(traceStream);
-
-            // Exercise system
-            sut.InvokeTrackRequest(someRequestObject);
-            traceStream.Close();
-
-            // Verify outcome
-            Assert.True(traceStream.ToString().Length > 0, "Expected something to be written to the output stream.");
-
+            var dummyBuilder = new DelegatingTracingBuilder();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() => new BuildTraceWriter(null, dummyBuilder));
             // Teardown
         }
 
         [Fact]
-        public void TrackCreatedSpecimenWritesToOutputStream()
+        public void CreateWithNullBuilderWillThrow()
         {
             // Fixture setup
-            var traceStream = new StringWriter();
-            object someSpecimen = Guid.NewGuid();
-            var sut = new BuildTraceWriterInTest(traceStream);
-
-            // Exercise system
-            sut.InvokeTrackRequest(new object());
-            sut.InvokeTrackCreatedSpecimen(someSpecimen);
-            traceStream.Close();
-
-            // Verify outcome
-            Assert.True(traceStream.ToString().Length > 0, "Expected something to be written to the output stream.");
-
+            var dummyWriter = TextWriter.Null;
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() => new BuildTraceWriter(dummyWriter, null));
             // Teardown
         }
 
         [Fact]
-        public void RequestFormatterIsGivenRequestedObject()
+        public void CreateWillReturnCorrectResult()
         {
             // Fixture setup
-            object someRequestObject = Guid.NewGuid();
-            object objectToFormatter = null;
-            var sut = new BuildTraceWriterInTest(new StringWriter());
-            sut.TraceRequestFormatter = (tw, obj, i) => objectToFormatter = obj;
+            var expectedSpecimen = new object();
+            var stubBuilder = new RequestTracker(new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedSpecimen });
 
+            var dummyWriter = TextWriter.Null;
+            var sut = new BuildTraceWriter(dummyWriter, stubBuilder);
             // Exercise system
-            sut.InvokeTrackRequest(someRequestObject);
-
+            var dummyRequest = new object();
+            var dummyContainer = new DelegatingSpecimenContainer();
+            var result = sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
-            Assert.Equal(someRequestObject, objectToFormatter);
+            Assert.Equal(expectedSpecimen, result);
+            // Teardown
+        }
 
+        [Fact]
+        public void CreateWillInvokeDecoratedBuilderWithCorrectParameters()
+        {
+            // Fixture setup
+            var expectedRequest = new object();
+            var expectedContainer = new DelegatingSpecimenContainer();
+
+            var verified = false;
+            var mockBuilder = new RequestTracker(new DelegatingSpecimenBuilder { OnCreate = (r, c) => verified = expectedRequest == r && expectedContainer == c });
+
+            var dummyWriter = TextWriter.Null;
+            var sut = new BuildTraceWriter(dummyWriter, mockBuilder);
+            // Exercise system
+            sut.Create(expectedRequest, expectedContainer);
+            // Verify outcome
+            Assert.True(verified, "Mock verified");
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecimenRequestedWillWriteCorrectMessageToWriter()
+        {
+            // Fixture setup
+            var writer = new StringWriter();
+            var builder = new DelegatingTracingBuilder();
+
+            var depth = new Random().Next(1, 10);
+            var request = new object();
+
+            var sut = new BuildTraceWriter(writer, builder);
+            // Exercise system
+            builder.RaiseSpecimenRequested(new SpecimenTraceEventArgs(request, depth));
+            // Verify outcome
+            var expected = new string(' ', depth * 2) + "Requested: " + request + Environment.NewLine;
+            Assert.Equal(expected, writer.ToString());
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecimenCreatedWillWriteCorrectMessageToWriter()
+        {
+            // Fixture setup
+            var writer = new StringWriter();
+            var builder = new DelegatingTracingBuilder();
+
+            var depth = new Random().Next(1, 10);
+            var specimen = new object();
+
+            var sut = new BuildTraceWriter(writer, builder);
+            // Exercise system
+            var dummyRequest = new object();
+            builder.RaiseSpecimenCreated(new SpecimenCreatedEventArgs(dummyRequest, specimen, depth));
+            // Verify outcome
+            var expected = new string(' ', depth * 2) + "Created: " + specimen + Environment.NewLine;
+            Assert.Equal(expected, writer.ToString());
             // Teardown
         }
 
@@ -81,13 +123,14 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var expectedWriter = new StringWriter();
-            var sut = new BuildTraceWriterInTest(expectedWriter);
+            var sut = new BuildTraceWriter(expectedWriter, new DelegatingTracingBuilder());
 
             bool verified = false;
             sut.TraceRequestFormatter = (tw, r, i) => verified = tw == expectedWriter;
             // Exercise system
             var dummyRequest = new object();
-            sut.InvokeTrackRequest(dummyRequest);
+            var dummyContainer = new DelegatingSpecimenContainer();
+            sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
             Assert.True(verified);
             // Teardown
@@ -98,88 +141,16 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var expectedWriter = new StringWriter();
-            var sut = new BuildTraceWriterInTest(expectedWriter);
+            var sut = new BuildTraceWriter(expectedWriter, new DelegatingTracingBuilder());
 
             bool verified = false;
             sut.TraceCreatedSpecimenFormatter = (tw, r, i) => verified = tw == expectedWriter;
             // Exercise system
             var dummyRequest = new object();
-            sut.InvokeTrackCreatedSpecimen(dummyRequest);
+            var dummyContainer = new DelegatingSpecimenContainer();
+            sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
             Assert.True(verified);
-            // Teardown
-        }
-
-        [Fact]
-        public void FormatterDefaultsToToStringAndGetType()
-        {
-            // Fixture setup
-            object someSpecimen = Guid.NewGuid();
-            object objectToFormatter = null;
-            var sut = new BuildTraceWriterInTest(new StringWriter());
-            sut.TraceCreatedSpecimenFormatter = (tw, obj, i) => objectToFormatter = obj;
-
-            // Exercise system
-            sut.InvokeTrackCreatedSpecimen(someSpecimen);
-
-            // Verify outcome
-            Assert.Equal(someSpecimen, objectToFormatter);
-
-            // Teardown
-        }
-
-        [Fact]
-        public void IndentLevelIsCorrectlyModifiedByTrackRequest()
-        {
-            // Fixture setup
-            var sut = new BuildTraceWriterInTest(TextWriter.Null);
-            // Exercise system
-            var dummyRequest = new object();
-            sut.InvokeTrackRequest(dummyRequest);
-            // Verify outcome
-            Assert.Equal(1, sut.Depth);
-            // Teardown
-        }
-
-        [Fact]
-        public void TrackRequestIncreasesIndentForNestedRequest()
-        {
-            // Fixture setup
-            object someRequestObject = Guid.NewGuid();
-            int lastRecordedIndent = 0;
-            var sut = new BuildTraceWriterInTest(new StringWriter());
-            sut.TraceRequestFormatter = (tw, obj, i) => lastRecordedIndent = i;
-            int initialIndent = sut.Depth;
-
-            // Exercise system
-            sut.InvokeTrackRequest(someRequestObject);
-            sut.InvokeTrackRequest(someRequestObject);
-
-            // Verify outcome
-
-            Assert.Equal(initialIndent + 1, lastRecordedIndent);
-
-            // Teardown
-        }
-
-        [Fact]
-        public void TrackRequestDecreasesIndentForEachCreatedSpecimen()
-        {
-            // Fixture setup
-            object someSpecimen = Guid.NewGuid();
-            int lastRecordedIndent = 0;
-            var sut = new BuildTraceWriterInTest(new StringWriter());
-            sut.TraceCreatedSpecimenFormatter = (tw, obj, i) => lastRecordedIndent = i;
-            int initialIndent = sut.Depth;
-
-            // Exercise system
-            sut.InvokeTrackCreatedSpecimen(someSpecimen);
-            sut.InvokeTrackCreatedSpecimen(someSpecimen);
-
-            // Verify outcome
-
-            Assert.Equal(initialIndent - 2, lastRecordedIndent);
-
             // Teardown
         }
 
@@ -187,7 +158,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void AssignNullRequestFormatterWillThrow()
         {
             // Fixture setup
-            var sut = new BuildTraceWriterInTest(TextWriter.Null);
+            var sut = new BuildTraceWriter(TextWriter.Null, new DelegatingTracingBuilder());
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.TraceRequestFormatter = null);
@@ -198,7 +169,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void AssignNullSpecimenFormatterWillThrow()
         {
             // Fixture setup
-            var sut = new BuildTraceWriterInTest(TextWriter.Null);
+            var sut = new BuildTraceWriter(TextWriter.Null, new DelegatingTracingBuilder());
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.TraceCreatedSpecimenFormatter = null);
@@ -210,7 +181,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             Action<TextWriter, object, int> expected = (tw, r, i) => { };
-            var sut = new BuildTraceWriterInTest(TextWriter.Null);
+            var sut = new BuildTraceWriter(TextWriter.Null, new DelegatingTracingBuilder());
             // Exercise system
             sut.TraceRequestFormatter = expected;
             Action<TextWriter, object, int> result = sut.TraceRequestFormatter;
@@ -224,36 +195,13 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             Action<TextWriter, object, int> expected = (tw, r, i) => { };
-            var sut = new BuildTraceWriterInTest(TextWriter.Null);
+            var sut = new BuildTraceWriter(TextWriter.Null, new DelegatingTracingBuilder());
             // Exercise system
             sut.TraceCreatedSpecimenFormatter = expected;
             Action<TextWriter, object, int> result = sut.TraceCreatedSpecimenFormatter;
             // Verify outcome
             Assert.Equal(expected, result);
             // Teardown
-        }
-
-        private class BuildTraceWriterInTest : BuildTraceWriter
-        {
-            public BuildTraceWriterInTest(TextWriter writer)
-                : this(writer, new DelegatingSpecimenBuilder())
-            {
-            }
-
-            public BuildTraceWriterInTest(TextWriter writer, ISpecimenBuilder builder)
-                : base(writer, builder)
-            {
-            }
-
-            public void InvokeTrackRequest(object request)
-            {
-                this.TrackRequest(request);
-            }
-
-            public void InvokeTrackCreatedSpecimen(object specimen)
-            {
-                this.TrackCreatedSpecimen(specimen);
-            }
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system
-            var sut = new DelegatingRequestTracker();
+            var sut = new DelegatingTracingBuilder();
             // Verify outcome
             Assert.IsAssignableFrom<RequestTracker>(sut);
             // Teardown
@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system
-            var sut = new DelegatingRequestTracker();
+            var sut = new DelegatingTracingBuilder();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -34,7 +34,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new DelegatingRequestTracker(null));
+            Assert.Throws<ArgumentNullException>(() => new DelegatingTracingBuilder(null));
             // Teardown
         }
 
@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             object expectedSpecimen = Guid.NewGuid();
             var decoratedBuilder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r };
-            var sut = new DelegatingRequestTracker(decoratedBuilder);
+            var sut = new DelegatingTracingBuilder(decoratedBuilder);
 
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContainer();
@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var verified = false;
             var request = new object();
-            var sut = new DelegatingRequestTracker();
+            var sut = new DelegatingTracingBuilder();
             sut.SpecimenRequested += (object sender, SpecimenTraceEventArgs e) => verified = e.Request == request && e.Depth == 1;
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContainer();
@@ -79,7 +79,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             object tracked = null;
             object requestedObject = new object();
             var container = new DelegatingSpecimenContainer();
-            var sut = new DelegatingRequestTracker() { OnTrackRequest = r => tracked = r };
+            var sut = new DelegatingTracingBuilder() { OnTrackRequest = r => tracked = r };
 
             // Exercise system
             sut.Create(requestedObject, container);
@@ -102,7 +102,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var builder3 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == subRequest ? new object() : new NoSpecimen() };
             var compBuilder = new CompositeSpecimenBuilder(builder2, builder3);
 
-            var sut = new DelegatingRequestTracker(compBuilder);
+            var sut = new DelegatingTracingBuilder(compBuilder);
             sut.SpecimenRequested += (object sender, SpecimenTraceEventArgs e) => spy.Add(e);
 
             var container = new DefaultSpecimenContainer(sut);
@@ -126,7 +126,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var builder3 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == subRequest ? new object() : new NoSpecimen() };
             var compBuilder = new CompositeSpecimenBuilder(builder2, builder3);
 
-            var sut = new DelegatingRequestTracker(compBuilder) { OnTrackRequest = tracked.Add };
+            var sut = new DelegatingTracingBuilder(compBuilder) { OnTrackRequest = tracked.Add };
             var container = new DefaultSpecimenContainer(sut);
             // Exercise system
             sut.Create(requestedObject, container);
@@ -146,7 +146,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var specimen = new object();
 
             var verified = false;
-            var sut = new DelegatingRequestTracker(new DelegatingSpecimenBuilder { OnCreate = (r, c) => specimen });
+            var sut = new DelegatingTracingBuilder(new DelegatingSpecimenBuilder { OnCreate = (r, c) => specimen });
             sut.SpecimenCreated += (object sender, SpecimenCreatedEventArgs e) => verified = e.Request == request && e.Specimen == specimen && e.Depth == 1;
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContainer();
@@ -163,7 +163,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             object tracked = null;
             object createdSpecimen = Guid.NewGuid();
             var container = new DelegatingSpecimenContainer { OnCreate = r => createdSpecimen };
-            var sut = new DelegatingRequestTracker() { OnTrackCreatedSpecimen = r => tracked = r };
+            var sut = new DelegatingTracingBuilder() { OnTrackCreatedSpecimen = r => tracked = r };
 
             // Exercise system
             object res = sut.Create(new object(), container);
@@ -187,7 +187,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var builder3 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == subRequest ? createdSpecimen : new NoSpecimen() };
             var compBuilder = new CompositeSpecimenBuilder(builder2, builder3);
 
-            var sut = new DelegatingRequestTracker(compBuilder);
+            var sut = new DelegatingTracingBuilder(compBuilder);
             sut.SpecimenCreated += (object sender, SpecimenCreatedEventArgs e) => spy.Add(e);
 
             var container = new DefaultSpecimenContainer(sut);
@@ -214,7 +214,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var builder3 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == subRequest ? createdSpecimen : new NoSpecimen() };
             var compBuilder = new CompositeSpecimenBuilder(builder2, builder3);
 
-            var sut = new DelegatingRequestTracker(compBuilder) { OnTrackCreatedSpecimen = tracked.Add };
+            var sut = new DelegatingTracingBuilder(compBuilder) { OnTrackCreatedSpecimen = tracked.Add };
             var container = new DefaultSpecimenContainer(sut);
             // Exercise system
             sut.Create(requestedObject, container);
@@ -231,7 +231,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void AssignNullFilterWillThrow()
         {
             // Fixture setup
-            var sut = new DelegatingRequestTracker();
+            var sut = new DelegatingTracingBuilder();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.TrackSpecification = null);
@@ -242,7 +242,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void FilterIsProperWritableProperty()
         {
             // Fixture setup
-            var sut = new DelegatingRequestTracker();
+            var sut = new DelegatingTracingBuilder();
             Func<object, bool> expectedFilter = obj => true;
             // Exercise system
             sut.TrackSpecification = expectedFilter;
@@ -259,7 +259,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var eventRaised = false;
 
             var request = new object();
-            var sut = new DelegatingRequestTracker();
+            var sut = new DelegatingTracingBuilder();
             sut.SpecimenRequested += (object sender, SpecimenTraceEventArgs e) => eventRaised = true;
             sut.TrackSpecification = r => false;
             // Exercise system
@@ -276,7 +276,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             object tracked = null;
             object requestedObject = new object();
-            var sut = new DelegatingRequestTracker() { OnTrackRequest = r => tracked = r };
+            var sut = new DelegatingTracingBuilder() { OnTrackRequest = r => tracked = r };
             sut.TrackSpecification = r => false;
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContainer();
@@ -293,7 +293,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var eventRaised = false;
 
             var request = new object();
-            var sut = new DelegatingRequestTracker();
+            var sut = new DelegatingTracingBuilder();
             sut.SpecimenCreated += (object sender, SpecimenCreatedEventArgs e) => eventRaised = true;
             sut.TrackSpecification = r => false;
             // Exercise system
@@ -311,7 +311,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             object tracked = null;
             object requestedObject = new object();
             var decoratedBuilder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r };
-            var sut = new DelegatingRequestTracker(decoratedBuilder) { OnTrackCreatedSpecimen = s => tracked = s };
+            var sut = new DelegatingTracingBuilder(decoratedBuilder) { OnTrackCreatedSpecimen = s => tracked = s };
             sut.TrackSpecification = r => false;
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContainer();
@@ -328,7 +328,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var eventRaised = false;
 
             var request = Guid.NewGuid();
-            var sut = new DelegatingRequestTracker();
+            var sut = new DelegatingTracingBuilder();
             sut.SpecimenRequested += (object sender, SpecimenTraceEventArgs e) => eventRaised = true;
 
             var ignoredTypes = new List<Type> { typeof(Guid) };
@@ -347,7 +347,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             object tracked = null;
             object requestedObject = Guid.NewGuid();
-            var sut = new DelegatingRequestTracker() { OnTrackRequest = r => tracked = r };
+            var sut = new DelegatingTracingBuilder() { OnTrackRequest = r => tracked = r };
 
             var ignoredTypes = new List<Type> { typeof(Guid) };
             sut.TrackSpecification = r => !ignoredTypes.Contains(r.GetType());
@@ -369,7 +369,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var eventRaised = false;
 
             var request = Guid.NewGuid();
-            var sut = new DelegatingRequestTracker();
+            var sut = new DelegatingTracingBuilder();
             sut.SpecimenCreated += (object sender, SpecimenCreatedEventArgs e) => eventRaised = true;
 
             var ignoredTypes = new List<Type> { typeof(Guid) };
@@ -390,7 +390,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             object requestedObject = Guid.NewGuid();
 
             var decoratedBuilder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r };
-            var sut = new DelegatingRequestTracker(decoratedBuilder) { OnTrackCreatedSpecimen = r => tracked = r };
+            var sut = new DelegatingTracingBuilder(decoratedBuilder) { OnTrackCreatedSpecimen = r => tracked = r };
 
             var ignoredTypes = new List<Type> { typeof(Guid) };
             sut.TrackSpecification = r => !ignoredTypes.Contains(r.GetType());
@@ -403,34 +403,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Null(tracked);
 
             // Teardown
-        }
-
-        private class DelegatingRequestTracker : RequestTracker
-        {
-            public DelegatingRequestTracker()
-                : this(new DelegatingSpecimenBuilder())
-            {
-            }
-
-            public DelegatingRequestTracker(ISpecimenBuilder builder)
-                : base(builder)
-            {
-                this.OnTrackRequest = r => { };
-                this.OnTrackCreatedSpecimen = r => { };
-            }
-
-            protected override void TrackRequest(object request)
-            {
-                this.OnTrackRequest(request);
-            }
-
-            protected override void TrackCreatedSpecimen(object specimen)
-            {
-                this.OnTrackCreatedSpecimen(specimen);
-            }
-
-            internal Action<object> OnTrackRequest { get; set; }
-            internal Action<object> OnTrackCreatedSpecimen { get; set; }
         }
     }
 }

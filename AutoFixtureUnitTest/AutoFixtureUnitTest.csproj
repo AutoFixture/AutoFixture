@@ -69,6 +69,7 @@
     <Compile Include="Kernel\DelegatingSpecimenBuilder.cs" />
     <Compile Include="Kernel\DelegatingSpecimenContainer.cs" />
     <Compile Include="DoubleSequenceGeneratorTest.cs" />
+    <Compile Include="Kernel\DelegatingTracingBuilder.cs" />
     <Compile Include="Kernel\ModestConstructorInvokerTest.cs" />
     <Compile Include="Kernel\NoSpecimenTest.cs" />
     <Compile Include="Kernel\ParameterRequestTranslatorTest.cs" />
