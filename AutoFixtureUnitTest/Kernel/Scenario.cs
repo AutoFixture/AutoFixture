@@ -121,7 +121,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new ParameterRequestTranslator(),
                 new StringSeedUnwrapper(),
                 new ValueIgnoringSeedUnwrapper());
-            return new DefaultSpecimenContainer(builder);
+            var tracer = new TraceWriter(Console.Out, new TracingBuilder(builder));
+            return new DefaultSpecimenContainer(tracer);
         }
     }
 }
