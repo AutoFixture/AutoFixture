@@ -7,7 +7,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Trace writer that will write out a trace of object requests and created objects
     /// in the <see cref="ISpecimenBuilder" /> pipeline.
     /// </summary>
-    public class BuildTraceWriter : ISpecimenBuilder
+    public class TraceWriter : ISpecimenBuilder
     {
         private readonly TracingBuilder tracer;
         private Action<TextWriter, object, int> writeRequest;
@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="writer">The output stream for the trace.</param>
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
-        public BuildTraceWriter(TextWriter writer, TracingBuilder tracer)
+        public TraceWriter(TextWriter writer, TracingBuilder tracer)
         {
             if (writer == null)
             {
@@ -30,8 +30,8 @@ namespace Ploeh.AutoFixture.Kernel
             }        
 
             this.tracer = tracer;
-            this.tracer.SpecimenRequested += (object sender, SpecimenTraceEventArgs e) => this.TraceRequestFormatter(writer, e.Request, e.Depth);
-            this.tracer.SpecimenCreated += (object sender, SpecimenCreatedEventArgs e) => this.TraceCreatedSpecimenFormatter(writer, e.Specimen, e.Depth);
+            this.tracer.SpecimenRequested += (sender, e) => this.TraceRequestFormatter(writer, e.Request, e.Depth);
+            this.tracer.SpecimenCreated += (sender, e) => this.TraceCreatedSpecimenFormatter(writer, e.Specimen, e.Depth);
 
             this.TraceRequestFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + "Requested: " + r);
             this.TraceCreatedSpecimenFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + "Created: " + r);
