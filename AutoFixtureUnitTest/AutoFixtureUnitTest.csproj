@@ -76,7 +76,7 @@
     <Compile Include="Kernel\TracingBuilderTest.cs" />
     <Compile Include="Kernel\Scenario.cs" />
     <Compile Include="Kernel\SpecimenCreatedEventArgsTest.cs" />
-    <Compile Include="Kernel\SpecimenTraceEventArgsTest.cs" />
+    <Compile Include="Kernel\RequestTraceEventArgsTest.cs" />
     <Compile Include="Kernel\StringSeedUnwrapperTest.cs" />
     <Compile Include="Kernel\ValueIgnoringSeedUnwrapperTest.cs" />
     <Compile Include="Kernel\SeededRequestTest.cs" />

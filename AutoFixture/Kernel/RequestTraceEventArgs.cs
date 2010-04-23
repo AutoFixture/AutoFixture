@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
-    public class SpecimenTraceEventArgs : EventArgs
+    public class RequestTraceEventArgs : EventArgs
     {
         private readonly object request;
         private readonly int depth;
 
-        public SpecimenTraceEventArgs(object request, int depth)
+        public RequestTraceEventArgs(object request, int depth)
         {        
             this.request = request;
             this.depth = depth;

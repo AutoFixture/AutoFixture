@@ -90,7 +90,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var sut = new TraceWriter(writer, builder);
             // Exercise system
-            builder.RaiseSpecimenRequested(new SpecimenTraceEventArgs(request, depth));
+            builder.RaiseSpecimenRequested(new RequestTraceEventArgs(request, depth));
             // Verify outcome
             var expected = new string(' ', depth * 2) + "Requested: " + request + Environment.NewLine;
             Assert.Equal(expected, writer.ToString());

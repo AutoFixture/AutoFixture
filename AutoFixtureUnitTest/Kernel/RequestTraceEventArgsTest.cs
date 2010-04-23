@@ -7,7 +7,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class SpecimenTraceEventArgsTest
+    public class RequestTraceEventArgsTest
     {
         [Fact]
         public void SutIsEventArgs()
@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyRequest = new object();
             var dummyDepth = 0;
             // Exercise system
-            var sut = new SpecimenTraceEventArgs(dummyRequest, dummyDepth);
+            var sut = new RequestTraceEventArgs(dummyRequest, dummyDepth);
             // Verify outcome
             Assert.IsAssignableFrom<EventArgs>(sut);
             // Teardown
@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var dummyDepth = 0;
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => new SpecimenTraceEventArgs(null, dummyDepth));
+            Assert.DoesNotThrow(() => new RequestTraceEventArgs(null, dummyDepth));
             // Teardown
         }
 
@@ -38,7 +38,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedRequest = new object();
             var dummyDepth = 0;
-            var sut = new SpecimenTraceEventArgs(expectedRequest, dummyDepth);
+            var sut = new RequestTraceEventArgs(expectedRequest, dummyDepth);
             // Exercise system
             var result = sut.Request;
             // Verify outcome
@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var dummyRequest = new object();
             var expectedDepth = 1;
-            var sut = new SpecimenTraceEventArgs(dummyRequest, expectedDepth);
+            var sut = new RequestTraceEventArgs(dummyRequest, expectedDepth);
             // Exercise system
             int result = sut.Depth;
             // Verify outcome

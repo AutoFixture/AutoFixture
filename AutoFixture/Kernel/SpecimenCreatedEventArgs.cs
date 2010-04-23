@@ -5,7 +5,10 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
-    public class SpecimenCreatedEventArgs : SpecimenTraceEventArgs
+    /// <summary>
+    /// Event arguments about a created specimen.
+    /// </summary>
+    public class SpecimenCreatedEventArgs : RequestTraceEventArgs
     {
         private readonly object specimen;
 

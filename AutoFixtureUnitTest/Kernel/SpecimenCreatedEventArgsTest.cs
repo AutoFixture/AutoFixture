@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var sut = new SpecimenCreatedEventArgs(dummyRequest, dummySpecimen, dummyDepth);
             // Verify outcome
-            Assert.IsAssignableFrom<SpecimenTraceEventArgs>(sut);
+            Assert.IsAssignableFrom<RequestTraceEventArgs>(sut);
             // Teardown
         }
 

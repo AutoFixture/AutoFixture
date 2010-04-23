@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             this.OnSpecimenCreated(e);
         }
 
-        internal void RaiseSpecimenRequested(SpecimenTraceEventArgs e)
+        internal void RaiseSpecimenRequested(RequestTraceEventArgs e)
         {
             this.OnSpecimenRequested(e);
         }

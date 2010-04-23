@@ -79,7 +79,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             object requestedObject = "The request";
             object subRequest = "Some sub request";
 
-            var spy = new List<SpecimenTraceEventArgs>();
+            var spy = new List<RequestTraceEventArgs>();
             var builder2 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == requestedObject ? c.Create(subRequest) : new NoSpecimen() };
             var builder3 = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == subRequest ? new object() : new NoSpecimen() };
             var compBuilder = new CompositeSpecimenBuilder(builder2, builder3);
