@@ -79,13 +79,11 @@ namespace Ploeh.AutoFixture.Kernel
             if (this.shouldTrack(request))
             {
                 this.OnSpecimenRequested(new SpecimenTraceEventArgs(request, ++this.depth));
-                this.TrackRequest(request);
             }
             object specimen = this.builder.Create(request, container);
             if (this.shouldTrack(request))
             {
                 this.OnSpecimenCreated(new SpecimenCreatedEventArgs(request, specimen, this.depth--));
-                this.TrackCreatedSpecimen(specimen);
             }
 			return specimen;
 		}
@@ -106,22 +104,6 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 handler(this, e);
             }
-        }
-
-        /// <summary>
-        /// Invoked when a request is tracked.
-        /// </summary>
-        /// <param name="request">The request.</param>
-        protected virtual void TrackRequest(object request)
-        {
-        }
-
-        /// <summary>
-        /// Invoked when a created specimen is tracked.
-        /// </summary>
-        /// <param name="specimen">The specimen.</param>
-        protected virtual void TrackCreatedSpecimen(object specimen)
-        {
         }
 	}
 }
