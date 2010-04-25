@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.Kernel
     public class TracingBuilder : ISpecimenBuilder
 	{
         private readonly ISpecimenBuilder builder;
-        private Func<object, bool> shouldTrack;
+        private IRequestSpecification filter;
         private int depth;
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             this.builder = builder;
-            this.TrackSpecification = r => true;
+            this.filter = new InclusiveRequestSpecification();
         }
 
         /// <summary>
@@ -45,25 +45,25 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <remarks>
         /// <para>
-        /// By default, <see cref="TrackSpecification"/> tracks all requests and created Specimens,
-        /// but you can provide a custom filter to only allow certain requests to be tracked.
+        /// By default, <see cref="Filter"/> tracks all requests and created Specimens, but you can
+        /// provide a custom filter to only allow certain requests to be traced.
         /// </para>
         /// <para>
         /// As this is a variation of the Specification pattern, the filter must return
         /// <see langword="true"/> to allow the request to be tracked.
         /// </para>
         /// </remarks>
-        public Func<object, bool> TrackSpecification
+        public IRequestSpecification Filter
         {
-            get { return this.shouldTrack; }
-            set 
+            get { return this.filter; }
+            set
             {
                 if (value == null)
                 {
                     throw new ArgumentNullException("value");
                 }
 
-                this.shouldTrack = value;
+                this.filter = value;
             }
         }
 
@@ -83,12 +83,12 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
 		public object Create(object request, ISpecimenContainer container)
 		{
-            if (this.shouldTrack(request))
+            if (this.filter.IsSatisfiedBy(request))
             {
                 this.OnSpecimenRequested(new RequestTraceEventArgs(request, ++this.depth));
             }
             object specimen = this.builder.Create(request, container);
-            if (this.shouldTrack(request))
+            if (this.filter.IsSatisfiedBy(request))
             {
                 this.OnSpecimenCreated(new SpecimenCreatedEventArgs(request, specimen, this.depth--));
             }

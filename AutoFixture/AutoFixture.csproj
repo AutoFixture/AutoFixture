@@ -75,6 +75,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Kernel\InclusiveRequestSpecification.cs" />
+    <Compile Include="Kernel\IRequestSpecification.cs" />
     <Compile Include="Kernel\TraceWriter.cs" />
     <Compile Include="CustomizedObjectFactory.cs" />
     <Compile Include="GuidGenerator.cs" />
