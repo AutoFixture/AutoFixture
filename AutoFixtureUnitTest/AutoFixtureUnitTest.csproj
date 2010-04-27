@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="BooleanSwitchTest.cs" />
     <Compile Include="ByteSequenceGeneratorTest.cs" />
+    <Compile Include="Kernel\BindingPostprocessorTest.cs" />
     <Compile Include="Kernel\CompositeSpecimenBuilderTest.cs" />
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
     <Compile Include="Kernel\DefaultSpecimenContainerTest.cs" />

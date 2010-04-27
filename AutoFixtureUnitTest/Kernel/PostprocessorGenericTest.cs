@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Xunit;
 using Ploeh.AutoFixture.Kernel;
+using System.Linq.Expressions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -38,7 +39,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new Postprocessor<Guid>(dummyBuilder, null));
+            Assert.Throws<ArgumentNullException>(() => new Postprocessor<Guid>(dummyBuilder, (Action<Guid>)null));
             // Teardown
         }
 

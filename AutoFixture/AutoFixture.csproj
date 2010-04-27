@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Kernel\BindingPostprocessor.cs" />
     <Compile Include="Kernel\InclusiveRequestSpecification.cs" />
     <Compile Include="Kernel\IRequestSpecification.cs" />
     <Compile Include="Kernel\Postprocessor.cs" />
