@@ -23,6 +23,30 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void SutIsPostProcessor()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            Action<object> dummyAction = s => { };
+            // Exercise system
+            var sut = new Postprocessor(dummyBuilder, dummyAction);
+            // Verify outcome
+            Assert.IsAssignableFrom<Postprocessor<object>>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutCanBeInitializedWithDoubleAction()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            Action<object, ISpecimenContainer> dummyAction = (s, c) => { };
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => new Postprocessor(dummyBuilder, dummyAction));
+            // Teardown
+        }
+
+        [Fact]
         public void InitializeWithNullBuilderThrows()
         {
             // Fixture setup
@@ -38,7 +62,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new Postprocessor(dummyBuilder, null));
+            Assert.Throws<ArgumentNullException>(() => new Postprocessor(dummyBuilder, (Action<object>)null));
             // Teardown
         }
 
