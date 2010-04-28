@@ -116,6 +116,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void CreateReturnsCorrectResultWhenBuilderReturnsNoSpecimen()
+        {
+            // Fixture setup
+            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() };
+
+            Action<int> dummyAction = s => { };
+            var sut = new Postprocessor<int>(builder, dummyAction);
+            // Exercise system
+            var dummyRequest = new object();
+            var dummyContainer = new DelegatingSpecimenContainer();
+            var result = sut.Create(dummyRequest, dummyContainer);
+            // Verify outcome
+            Assert.IsAssignableFrom<NoSpecimen>(result);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateInvokesActionWithCreatedSpecimenOnSutWithSingleAction()
         {
             // Fixture setup

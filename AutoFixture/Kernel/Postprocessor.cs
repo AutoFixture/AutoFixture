@@ -96,6 +96,11 @@ namespace Ploeh.AutoFixture.Kernel
         public object Create(object request, ISpecimenContainer container)
         {
             var specimen = this.builder.Create(request, container);
+            var ns = specimen as NoSpecimen;
+            if (ns != null)
+            {
+                return ns;
+            }
             if (!(specimen is T))
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
