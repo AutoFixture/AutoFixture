@@ -7,21 +7,21 @@ using System.Reflection;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// Translates a request for a parameter into a <see cref="SeededRequest"/> with a seed based
-    /// on the parameter's name.
+    /// Translates a request for a property into a <see cref="SeededRequest"/> with a seed based
+    /// on the property's name.
     /// </summary>
-    public class ParameterRequestTranslator : ISpecimenBuilder
+    public class PropertyRequestTranslator : ISpecimenBuilder
     {
         #region ISpecimenBuilder Members
 
         /// <summary>
-        /// Creates a specimen based on a requested parameter.
+        /// Creates a specimen based on a requested property.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
         /// <param name="container">A container that can be used to create other specimens.</param>
         /// <returns>
-        /// A specimen created from a <see cref="SeededRequest"/> encapsulating the parameter type
-        /// and name of the requested parameter, if possible; otherwise, a <see cref="NoSpecimen"/>
+        /// A specimen created from a <see cref="SeededRequest"/> encapsulating the property type
+        /// and name of the requested property, if possible; otherwise, a <see cref="NoSpecimen"/>
         /// instance.
         /// </returns>
         public object Create(object request, ISpecimenContainer container)
@@ -31,13 +31,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("container");
             }
 
-            var paramInfo = request as ParameterInfo;
-            if (paramInfo == null)
+            var propertyInfo = request as PropertyInfo;
+            if (propertyInfo == null)
             {
                 return new NoSpecimen(request);
             }
 
-            return container.Create(new SeededRequest(paramInfo.ParameterType, paramInfo.Name));
+            return container.Create(new SeededRequest(propertyInfo.PropertyType, propertyInfo.Name));
         }
 
         #endregion

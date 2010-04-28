@@ -108,6 +108,35 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact(Skip = "Waiting for PropertyRequestTranslator")]
+        public void CreateAndAddProperyValues()
+        {
+            // Fixture setup
+            var ctorInvoker = new ModestConstructorInvoker();
+            var strCmd = new BindingCommand<DoublePropertyHolder<string, int>, string>(ph => ph.Property1);
+            var intCmd = new BindingCommand<DoublePropertyHolder<string, int>, int>(ph => ph.Property2);
+            var strPostprocessor = new Postprocessor<DoublePropertyHolder<string, int>>(ctorInvoker, strCmd.Execute);
+            var intPostprocessor = new Postprocessor<DoublePropertyHolder<string, int>>(strPostprocessor, intCmd.Execute);
+
+            var builder = new CompositeSpecimenBuilder(
+                intPostprocessor,
+                new CompositeSpecimenBuilder(
+                    new Int32SequenceGenerator(),
+                    new StringGenerator(() => Guid.NewGuid()),
+                    new ModestConstructorInvoker(),
+                    new ParameterRequestTranslator(),
+                    new StringSeedUnwrapper(),
+                    new ValueIgnoringSeedUnwrapper()));
+            var container = new DefaultSpecimenContainer(builder);
+            // Exercise system
+            var result = container.Create(typeof(DoublePropertyHolder<string, int>));
+            // Verify outcome
+            var actual = Assert.IsAssignableFrom<DoublePropertyHolder<string, int>>(result);
+            Assert.False(string.IsNullOrEmpty(actual.Property1), "Property1");
+            Assert.Equal(1, actual.Property2);
+            // Teardown
+        }
+
         private static DefaultSpecimenContainer CreateContainer()
         {
             var builder = new CompositeSpecimenBuilder(

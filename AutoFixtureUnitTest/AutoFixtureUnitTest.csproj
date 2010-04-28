@@ -79,6 +79,7 @@
     <Compile Include="Kernel\PostprocessorGenericTest.cs" />
     <Compile Include="Kernel\PostprocessorTest.cs" />
     <Compile Include="Kernel\BindingCommandTest.cs" />
+    <Compile Include="Kernel\PropertyRequestTranslatorTest.cs" />
     <Compile Include="Kernel\TracingBuilderTest.cs" />
     <Compile Include="Kernel\Scenario.cs" />
     <Compile Include="Kernel\SpecimenCreatedEventArgsTest.cs" />

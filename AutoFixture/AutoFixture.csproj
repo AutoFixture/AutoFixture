@@ -80,6 +80,7 @@
     <Compile Include="Kernel\IRequestSpecification.cs" />
     <Compile Include="Kernel\Postprocessor.cs" />
     <Compile Include="Kernel\BindingCommand.cs" />
+    <Compile Include="Kernel\PropertyRequestTranslator.cs" />
     <Compile Include="Kernel\TraceWriter.cs" />
     <Compile Include="CustomizedObjectFactory.cs" />
     <Compile Include="GuidGenerator.cs" />

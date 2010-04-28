@@ -1,21 +1,21 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
-using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class ParameterRequestTranslatorTest
+    public class PropertyRequestTranslatorTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-            var sut = new ParameterRequestTranslator();
+            var sut = new PropertyRequestTranslator();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
             // Fixture setup
-            var sut = new ParameterRequestTranslator();
+            var sut = new PropertyRequestTranslator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(null, dummyContainer);
@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithNullContainerWillThrow()
         {
             // Fixture setup
-            var sut = new ParameterRequestTranslator();
+            var sut = new PropertyRequestTranslator();
             var dummyRequest = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
@@ -48,11 +48,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void CreateFromNonParameterRequestWillReturnCorrectResult()
+        public void CreateFromNonPropertyRequestWillReturnCorrectResult()
         {
             // Fixture setup
             var nonParameterRequest = new object();
-            var sut = new ParameterRequestTranslator();
+            var sut = new PropertyRequestTranslator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(nonParameterRequest, dummyContainer);
@@ -66,13 +66,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateFromParameterRequestWillReturnNullWhenContainerCannotSatisfyRequest()
         {
             // Fixture setup
-            var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => new NoSpecimen(parameterInfo) };
-            var sut = new ParameterRequestTranslator();
+            var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
+            var container = new DelegatingSpecimenContainer { OnCreate = r => new NoSpecimen(propertyInfo) };
+            var sut = new PropertyRequestTranslator();
             // Exercise system
-            var result = sut.Create(parameterInfo, container);
+            var result = sut.Create(propertyInfo, container);
             // Verify outcome
-            var expectedResult = new NoSpecimen(parameterInfo);
+            var expectedResult = new NoSpecimen(propertyInfo);
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -82,11 +82,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedSpecimen = new object();
-            var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
+            var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
             var container = new DelegatingSpecimenContainer { OnCreate = r => expectedSpecimen };
-            var sut = new ParameterRequestTranslator();
+            var sut = new PropertyRequestTranslator();
             // Exercise system
-            var result = sut.Create(parameterInfo, container);
+            var result = sut.Create(propertyInfo, container);
             // Verify outcome
             Assert.Equal(expectedSpecimen, result);
             // Teardown
@@ -96,9 +96,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateFromParameterRequestWillCorrectlyInvokeContainer()
         {
             // Fixture setup
-            var sut = new ParameterRequestTranslator();
-            var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
-            var expectedRequest = new SeededRequest(parameterInfo.ParameterType, parameterInfo.Name);
+            var sut = new PropertyRequestTranslator();
+            var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
+            var expectedRequest = new SeededRequest(propertyInfo.PropertyType, propertyInfo.Name);
 
             var mockVerified = false;
             var containerMock = new DelegatingSpecimenContainer();
@@ -109,7 +109,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 return null;
             };
             // Exercise system
-            sut.Create(parameterInfo, containerMock);
+            sut.Create(propertyInfo, containerMock);
             // Verify outcome
             Assert.True(mockVerified, "Mock verification");
             // Teardown
