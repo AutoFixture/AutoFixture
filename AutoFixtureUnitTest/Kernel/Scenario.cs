@@ -108,7 +108,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        [Fact(Skip = "Waiting for PropertyRequestTranslator")]
+        [Fact]
         public void CreateAndAddProperyValues()
         {
             // Fixture setup
@@ -124,7 +124,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     new Int32SequenceGenerator(),
                     new StringGenerator(() => Guid.NewGuid()),
                     new ModestConstructorInvoker(),
-                    new ParameterRequestTranslator(),
+                    new PropertyRequestTranslator(),
                     new StringSeedUnwrapper(),
                     new ValueIgnoringSeedUnwrapper()));
             var container = new DefaultSpecimenContainer(builder);
