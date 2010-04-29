@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// The type of the specimn on which the property or value will be set.
     /// </typeparam>
     /// <typeparam name="TProperty">The type of property or field.</typeparam>
-    public class BindingCommand<T, TProperty>
+    public class BindingCommand<T, TProperty> : ISpecifiedSpecimenCommand<T>
     {
         private readonly MemberInfo member;
         private readonly Func<ISpecimenContainer, TProperty> createBindingValue;
@@ -95,6 +95,9 @@ namespace Ploeh.AutoFixture.Kernel
             this.createBindingValue = valueCreator;
         }
 
+
+        #region ISpecifiedSpecimenCommand<T> Members
+
         /// <summary>
         /// Executes the command on the supplied specimen by assigning the property of field the
         /// correct value.
@@ -138,6 +141,31 @@ namespace Ploeh.AutoFixture.Kernel
                 fi.SetValue(specimen, bindingValue);
             }
         }
+
+        #endregion
+
+        #region IRequestSpecification Members
+
+        /// <summary>
+        /// Evaluates whether a request matches the property or field affected by this command.
+        /// </summary>
+        /// <param name="request">The specimen request.</param>
+        /// <returns>
+        /// <see langword="true"/> if <paramref name="request"/> is is a <see cref="PropertyInfo"/>
+        /// or <see cref="FieldInfo"/> that identifies the property or field affected by this
+        /// <see cref="BindingCommand{T, TProperty}"/>; otherwise, <see langword="false"/>.
+        /// </returns>
+        public bool IsSatisfiedBy(object request)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException("request");
+            }
+
+            return this.member.Equals(request);
+        }
+
+        #endregion
 
         private TProperty CreateAnonymousValue(ISpecimenContainer container)
         {

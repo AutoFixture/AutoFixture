@@ -78,6 +78,7 @@
     <Compile Include="Kernel\ExpressionReflector.cs" />
     <Compile Include="Kernel\InclusiveRequestSpecification.cs" />
     <Compile Include="Kernel\IRequestSpecification.cs" />
+    <Compile Include="Kernel\ISpecifiedSpecimenCommand.cs" />
     <Compile Include="Kernel\Postprocessor.cs" />
     <Compile Include="Kernel\BindingCommand.cs" />
     <Compile Include="Kernel\PropertyRequestTranslator.cs" />
