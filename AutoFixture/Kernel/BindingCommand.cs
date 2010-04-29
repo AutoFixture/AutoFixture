@@ -39,9 +39,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("propertyPicker");
             }
 
-            var me = propertyPicker.GetWritableMember();
-            this.member = me.Member;
-
+            this.member = propertyPicker.GetWritableMember().Member;
             this.createBindingValue = this.CreateAnonymousValue;
         }
 
@@ -67,9 +65,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("propertyValue");
             }
 
-            var me = propertyPicker.GetWritableMember();
-            this.member = me.Member;
-
+            this.member = propertyPicker.GetWritableMember().Member;
             this.createBindingValue = c => propertyValue;
         }
 
@@ -95,9 +91,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("valueCreator");
             }
 
-            var me = propertyPicker.GetWritableMember();
-            this.member = me.Member;
-
+            this.member = propertyPicker.GetWritableMember().Member;
             this.createBindingValue = valueCreator;
         }
 
