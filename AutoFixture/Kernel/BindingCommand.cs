@@ -18,6 +18,7 @@ namespace Ploeh.AutoFixture.Kernel
     public class BindingCommand<T, TProperty>
     {
         private readonly MemberInfo member;
+        private readonly Func<ISpecimenContainer, TProperty> createBindingValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BindingCommand{T, TProperty}"/> class with
@@ -38,19 +39,66 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("propertyPicker");
             }
 
-            var me = propertyPicker.Body as MemberExpression;
-            if (me == null)
-            {
-                throw new ArgumentException("The expression's Body is not a MemberExpression. Most likely this is because it does not represent access to a property or field.", "propertyPicker");
-            }
-
-            var pi = me.Member as PropertyInfo;
-            if (pi != null && pi.GetSetMethod() == null)
-            {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "The property \"{0}\" is read-only.", pi.Name), "propertyPicker");
-            }
-
+            var me = propertyPicker.GetWritableMember();
             this.member = me.Member;
+
+            this.createBindingValue = this.CreateAnonymousValue;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BindingCommand{T, TProperty}"/> class with
+        /// the supplied property picker expression and the value to be assigned to that property
+        /// or field.
+        /// </summary>
+        /// <param name="propertyPicker">An expression that identifies a property or field.</param>
+        /// <param name="propertyValue">
+        /// The value to assign to the property or field identified by
+        /// <paramref name="propertyPicker"/>.
+        /// </param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This follows the same coding idiom as LINQ to SQL and LINQ to Entities. Since Funcs have implicit conversions into Expressions, usage is not as bad as it could have been. In any case, the desired functionality cannot be implemented in any other way while preserving static type checking.")]
+        public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, TProperty propertyValue)
+        {
+            if (propertyPicker == null)
+            {
+                throw new ArgumentNullException("propertyPicker");
+            }
+            if (propertyValue == null)
+            {
+                throw new ArgumentNullException("propertyValue");
+            }
+
+            var me = propertyPicker.GetWritableMember();
+            this.member = me.Member;
+
+            this.createBindingValue = c => propertyValue;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BindingCommand{T, TProperty}"/> class with
+        /// the supplied property picker expression and a function that creates a value to be
+        /// assigned to that property or field.
+        /// </summary>
+        /// <param name="propertyPicker">An expression that identifies a property or field.</param>
+        /// <param name="valueCreator">
+        /// A function that creates a value that will be assigned to the property or field
+        /// identified by <paramref name="propertyPicker"/>.
+        /// </param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This follows the same coding idiom as LINQ to SQL and LINQ to Entities. Since Funcs have implicit conversions into Expressions, usage is not as bad as it could have been. In any case, the desired functionality cannot be implemented in any other way while preserving static type checking.")]
+        public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, Func<ISpecimenContainer, TProperty> valueCreator)
+        {
+            if (propertyPicker == null)
+            {
+                throw new ArgumentNullException("propertyPicker");
+            }
+            if (valueCreator == null)
+            {
+                throw new ArgumentNullException("valueCreator");
+            }
+
+            var me = propertyPicker.GetWritableMember();
+            this.member = me.Member;
+
+            this.createBindingValue = valueCreator;
         }
 
         /// <summary>
@@ -82,12 +130,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("container");
             }
 
-            var bindingValue = container.Create(this.member);
-            if (!(bindingValue is TProperty))
-            {
-                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
-                    "The specimen created for assignment is not compatible with {0}.", typeof(TProperty)));
-            }
+            var bindingValue = this.createBindingValue(container);
 
             var pi = this.member as PropertyInfo;
             if (pi != null)
@@ -100,6 +143,17 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 fi.SetValue(specimen, bindingValue);
             }
+        }
+
+        private TProperty CreateAnonymousValue(ISpecimenContainer container)
+        {
+            var bindingValue = container.Create(this.member);
+            if (!(bindingValue is TProperty))
+            {
+                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
+                    "The specimen created for assignment is not compatible with {0}.", typeof(TProperty)));
+            }
+            return (TProperty)bindingValue;
         }
     }
 }
