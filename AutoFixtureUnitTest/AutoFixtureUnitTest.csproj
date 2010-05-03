@@ -76,6 +76,7 @@
     <Compile Include="Kernel\DelegatingSpecimenContainer.cs" />
     <Compile Include="DoubleSequenceGeneratorTest.cs" />
     <Compile Include="Kernel\DelegatingTracingBuilder.cs" />
+    <Compile Include="Kernel\FilteringSpecimenBuilderTest.cs" />
     <Compile Include="Kernel\InclusiveRequestSpecificationTest.cs" />
     <Compile Include="Kernel\InverseRequestSpecificationTest.cs" />
     <Compile Include="Kernel\ModestConstructorInvokerTest.cs" />
