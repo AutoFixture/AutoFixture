@@ -81,6 +81,7 @@
     <Compile Include="Kernel\ModestConstructorInvokerTest.cs" />
     <Compile Include="Kernel\NoSpecimenTest.cs" />
     <Compile Include="Kernel\NullSpecifiedSpecimenCommandTest.cs" />
+    <Compile Include="Kernel\OrRequestSpecificationTest.cs" />
     <Compile Include="Kernel\ParameterRequestTranslatorTest.cs" />
     <Compile Include="Kernel\PostprocessorGenericTest.cs" />
     <Compile Include="Kernel\PostprocessorTest.cs" />

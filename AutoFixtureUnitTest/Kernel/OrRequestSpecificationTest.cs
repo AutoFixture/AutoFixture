@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
-using Ploeh.AutoFixture.Kernel;
 using Xunit.Extensions;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class AndRequestSpecificationTest
+    public class OrRequestSpecificationTest
     {
         [Fact]
         public void SutIsRequestSpecification()
         {
             // Fixture setup
             // Exercise system
-            var sut = new AndRequestSpecification();
+            var sut = new OrRequestSpecification();
             // Verify outcome
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
             // Teardown
@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new AndRequestSpecification((IEnumerable<IRequestSpecification>)null));
+            Assert.Throws<ArgumentNullException>(() => new OrRequestSpecification((IEnumerable<IRequestSpecification>)null));
             // Teardown
         }
 
@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedSpecifications = new[] { new DelegatingRequestSpecification(), new DelegatingRequestSpecification(), new DelegatingRequestSpecification() };
-            var sut = new AndRequestSpecification(expectedSpecifications);
+            var sut = new OrRequestSpecification(expectedSpecifications);
             // Exercise system
             IEnumerable<IRequestSpecification> result = sut.Specifications;
             // Verify outcome
@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedSpecifications = new[] { new DelegatingRequestSpecification(), new DelegatingRequestSpecification(), new DelegatingRequestSpecification() };
-            var sut = new AndRequestSpecification(expectedSpecifications.Cast<IRequestSpecification>());
+            var sut = new OrRequestSpecification(expectedSpecifications.Cast<IRequestSpecification>());
             // Exercise system
             IEnumerable<IRequestSpecification> result = sut.Specifications;
             // Verify outcome
@@ -57,21 +57,21 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [InlineData(false, new bool[0])]
+        [InlineData(true, new bool[0])]
         [InlineData(false, new[] { false })]
         [InlineData(true, new[] { true })]
         [InlineData(false, new[] { false, false })]
-        [InlineData(false, new[] { true, false })]
-        [InlineData(false, new[] { false, true })]
+        [InlineData(true, new[] { true, false })]
+        [InlineData(true, new[] { false, true })]
         [InlineData(true, new[] { true, true })]
-        [InlineData(false, new[] { true, false, true })]
+        [InlineData(true, new[] { true, false, true })]
         [InlineData(true, new[] { true, true, true })]
         public void IsSatisfiedByReturnsCorrectResult(bool expectedResult, IEnumerable<bool> decoratedResults)
         {
             // Fixture setup
             var decoratedSpecs = from b in decoratedResults
                                  select new DelegatingRequestSpecification { OnIsSatisfiedBy = r => b };
-            var sut = new AndRequestSpecification(decoratedSpecs.Cast<IRequestSpecification>());
+            var sut = new OrRequestSpecification(decoratedSpecs.Cast<IRequestSpecification>());
             // Exercise system
             var dummyRequest = new object();
             var result = sut.IsSatisfiedBy(dummyRequest);
@@ -87,7 +87,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var expectedRequest = new object();
             var verified = false;
             var specMock = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => verified = expectedRequest == r };
-            var sut = new AndRequestSpecification(specMock);
+            var sut = new OrRequestSpecification(specMock);
             // Exercise system
             sut.IsSatisfiedBy(expectedRequest);
             // Verify outcome
