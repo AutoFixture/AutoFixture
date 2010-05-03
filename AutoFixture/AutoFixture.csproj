@@ -103,6 +103,7 @@
     <Compile Include="Kernel\SpecimenCreatedEventArgs.cs" />
     <Compile Include="Kernel\RequestTraceEventArgs.cs" />
     <Compile Include="Kernel\StringSeedUnwrapper.cs" />
+    <Compile Include="Kernel\TypeSpecification.cs" />
     <Compile Include="Kernel\ValueIgnoringSeedUnwrapper.cs" />
     <Compile Include="MemberAnnotatedAction.cs" />
     <Compile Include="BooleanSwitch.cs" />

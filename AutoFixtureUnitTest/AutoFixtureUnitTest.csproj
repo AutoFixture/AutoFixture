@@ -93,6 +93,7 @@
     <Compile Include="Kernel\SpecimenCreatedEventArgsTest.cs" />
     <Compile Include="Kernel\RequestTraceEventArgsTest.cs" />
     <Compile Include="Kernel\StringSeedUnwrapperTest.cs" />
+    <Compile Include="Kernel\TypeSpecificationTest.cs" />
     <Compile Include="Kernel\ValueIgnoringSeedUnwrapperTest.cs" />
     <Compile Include="Kernel\SeededRequestTest.cs" />
     <Compile Include="RecursionCatcherTest.cs" />
