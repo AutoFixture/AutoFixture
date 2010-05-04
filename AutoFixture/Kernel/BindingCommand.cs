@@ -151,7 +151,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="request">The specimen request.</param>
         /// <returns>
-        /// <see langword="true"/> if <paramref name="request"/> is is a <see cref="PropertyInfo"/>
+        /// <see langword="true"/> if <paramref name="request"/> is a <see cref="PropertyInfo"/>
         /// or <see cref="FieldInfo"/> that identifies the property or field affected by this
         /// <see cref="BindingCommand{T, TProperty}"/>; otherwise, <see langword="false"/>.
         /// </returns>

@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Kernel\AndRequestSpecification.cs" />
+    <Compile Include="Kernel\AutoPropertiesCommand.cs" />
     <Compile Include="Kernel\ExpressionReflector.cs" />
     <Compile Include="Kernel\FilteringSpecimenBuilder.cs" />
     <Compile Include="Kernel\InclusiveRequestSpecification.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Kernel\SpecimenCreatedEventArgs.cs" />
     <Compile Include="Kernel\RequestTraceEventArgs.cs" />
     <Compile Include="Kernel\StringSeedUnwrapper.cs" />
+    <Compile Include="Kernel\TrueRequestSpecification.cs" />
     <Compile Include="Kernel\TypeSpecification.cs" />
     <Compile Include="Kernel\ValueIgnoringSeedUnwrapper.cs" />
     <Compile Include="MemberAnnotatedAction.cs" />
