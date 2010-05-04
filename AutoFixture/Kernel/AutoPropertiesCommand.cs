@@ -9,6 +9,57 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// A command that assigns anonymous values to all writable properties and fields of a type.
     /// </summary>
+    public class AutoPropertiesCommand : AutoPropertiesCommand<object>
+    {
+        private readonly Type specimenType;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoPropertiesCommand"/> class with the
+        /// supplied specimen type.
+        /// </summary>
+        /// <param name="specimenType">The specimen type on which properties are assigned.</param>
+        public AutoPropertiesCommand(Type specimenType)
+        {
+            if (specimenType == null)
+            {
+                throw new ArgumentNullException("specimenType");
+            }
+
+            this.specimenType = specimenType;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoPropertiesCommand"/> class with the
+        /// supplied specimen type and specification.
+        /// </summary>
+        /// <param name="specimenType">The specimen type on which properties are assigned.</param>
+        /// <param name="specification">
+        /// A specification that is used as a filter to include properties or fields.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// Only properties or fields satisfied by <paramref name="specification"/> will get
+        /// assigned values.
+        /// </para>
+        /// </remarks>
+        public AutoPropertiesCommand(Type specimenType, IRequestSpecification specification)
+            : base(specification)
+        {
+            this.specimenType = specimenType;
+        }
+
+        /// <summary>
+        /// Gets the type of the specimen.
+        /// </summary>
+        protected override Type SpecimenType
+        {
+            get { return this.specimenType; }
+        }
+    }
+
+    /// <summary>
+    /// A command that assigns anonymous values to all writable properties and fields of a type.
+    /// </summary>
     /// <typeparam name="T">The specimen type on which properties are assigned.</typeparam>
     public class AutoPropertiesCommand<T> : ISpecifiedSpecimenCommand<T>
     {
@@ -113,16 +164,24 @@ namespace Ploeh.AutoFixture.Kernel
             return false;
         }
 
+        /// <summary>
+        /// Gets the type of the specimen.
+        /// </summary>
+        protected virtual Type SpecimenType
+        {
+            get { return typeof(T); }
+        }
+
         private IEnumerable<FieldInfo> GetFields()
         {
-            return from fi in typeof(T).GetFields()
+            return from fi in this.SpecimenType.GetFields()
                    where this.specification.IsSatisfiedBy(fi)
                    select fi;
         }
 
         private IEnumerable<PropertyInfo> GetProperties()
         {
-            return from pi in typeof(T).GetProperties()
+            return from pi in this.SpecimenType.GetProperties()
                    where pi.GetSetMethod() != null
                    && pi.GetIndexParameters().Length == 0
                    && this.specification.IsSatisfiedBy(pi)

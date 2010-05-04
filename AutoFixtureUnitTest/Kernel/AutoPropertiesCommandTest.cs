@@ -310,5 +310,52 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.True(verified, "Mock verified");
             // Teardown
         }
+
+        [Fact]
+        public void NonGenericSutIsCorrectGenericSut()
+        {
+            // Fixture setup
+            var dummyType = typeof(string);
+            // Exercise system
+            var sut = new AutoPropertiesCommand(dummyType);
+            // Verify outcome
+            Assert.IsAssignableFrom<AutoPropertiesCommand<object>>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeNonGenericSutWithNullTypeThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() => new AutoPropertiesCommand((Type)null));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeNonGenericSutWithNullSpecificationThrows()
+        {
+            // Fixture setup
+            var dummyType = typeof(object);
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() => new AutoPropertiesCommand(dummyType, null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ExecuteWillAssignProperty()
+        {
+            // Fixture setup
+            var specimen = new PropertyHolder<object>();
+            var sut = new AutoPropertiesCommand(specimen.GetType());
+
+            var expectedPropertyValue = new object();
+            var container = new DelegatingSpecimenContainer { OnCreate = r => expectedPropertyValue };
+            // Exercise system
+            sut.Execute(specimen, container);
+            // Verify outcome
+            Assert.Equal(expectedPropertyValue, specimen.Property);
+            // Teardown
+        }
     }
 }
