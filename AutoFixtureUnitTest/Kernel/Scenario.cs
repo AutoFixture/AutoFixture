@@ -120,13 +120,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var builder = new CompositeSpecimenBuilder(
                 intPostprocessor,
-                new CompositeSpecimenBuilder(
-                    new Int32SequenceGenerator(),
-                    new StringGenerator(() => Guid.NewGuid()),
-                    new ModestConstructorInvoker(),
-                    new PropertyRequestTranslator(),
-                    new StringSeedUnwrapper(),
-                    new ValueIgnoringSeedUnwrapper()));
+                Scenario.CreateFoundationBuilder());
             var container = new DefaultSpecimenContainer(builder);
             // Exercise system
             var result = container.Create(typeof(DoublePropertyHolder<string, int>));
@@ -139,6 +133,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
         private static DefaultSpecimenContainer CreateContainer()
         {
+            var builder = Scenario.CreateFoundationBuilder();
+            var tracer = new TraceWriter(Console.Out, new TracingBuilder(builder));
+            return new DefaultSpecimenContainer(tracer);
+        }
+
+        private static ISpecimenBuilder CreateFoundationBuilder()
+        {
             var builder = new CompositeSpecimenBuilder(
                 new Int32SequenceGenerator(),
                 new Int64SequenceGenerator(),
@@ -148,10 +149,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new GuidGenerator(),
                 new ModestConstructorInvoker(),
                 new ParameterRequestTranslator(),
+                new PropertyRequestTranslator(),
                 new StringSeedUnwrapper(),
                 new ValueIgnoringSeedUnwrapper());
-            var tracer = new TraceWriter(Console.Out, new TracingBuilder(builder));
-            return new DefaultSpecimenContainer(tracer);
+            return builder;
         }
     }
 }

@@ -343,7 +343,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void ExecuteWillAssignProperty()
+        public void ExecuteOnNonGenericWillAssignProperty()
         {
             // Fixture setup
             var specimen = new PropertyHolder<object>();
@@ -351,6 +351,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var expectedPropertyValue = new object();
             var container = new DelegatingSpecimenContainer { OnCreate = r => expectedPropertyValue };
+            // Exercise system
+            sut.Execute(specimen, container);
+            // Verify outcome
+            Assert.Equal(expectedPropertyValue, specimen.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void ExecuteOnUnTypedNonGenericWillAssignProperty()
+        {
+            // Fixture setup
+            var sut = new AutoPropertiesCommand();
+
+            var expectedPropertyValue = new object();
+            var container = new DelegatingSpecimenContainer { OnCreate = r => expectedPropertyValue };
+
+            var specimen = new PropertyHolder<object>();
             // Exercise system
             sut.Execute(specimen, container);
             // Verify outcome

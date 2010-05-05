@@ -11,7 +11,21 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class AutoPropertiesCommand : AutoPropertiesCommand<object>
     {
-        private readonly Type specimenType;
+        private readonly Func<object, Type> getSpecimenType;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoPropertiesCommand"/> class.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// When created without an explicit specimen type, the <see cref="AutoPropertiesCommand"/>
+        /// will infer the specimen type from the actual specimen instance.
+        /// </para>
+        /// </remarks>
+        public AutoPropertiesCommand()
+        {
+            this.getSpecimenType = s => s.GetType();
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoPropertiesCommand"/> class with the
@@ -25,7 +39,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("specimenType");
             }
 
-            this.specimenType = specimenType;
+            this.getSpecimenType = s => specimenType;
         }
 
         /// <summary>
@@ -45,15 +59,21 @@ namespace Ploeh.AutoFixture.Kernel
         public AutoPropertiesCommand(Type specimenType, IRequestSpecification specification)
             : base(specification)
         {
-            this.specimenType = specimenType;
+            this.getSpecimenType = s => specimenType;
         }
 
         /// <summary>
         /// Gets the type of the specimen.
         /// </summary>
-        protected override Type SpecimenType
+        /// <param name="specimen">The specimen.</param>
+        /// <returns>The type of the specimen.</returns>
+        /// <remarks>
+        /// This implementation may ignore <paramref name="specimen"/> and instead return the type
+        /// passed to the <see cref="AutoPropertiesCommand"/> constructor.
+        /// </remarks>
+        protected override Type GetSpecimenType(object specimen)
         {
-            get { return this.specimenType; }
+            return this.getSpecimenType(specimen);
         }
     }
 
@@ -118,13 +138,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("container");
             }
 
-            foreach (var pi in this.GetProperties())
+            foreach (var pi in this.GetProperties(specimen))
             {
                 var propertyValue = container.Create(pi);
                 pi.SetValue(specimen, propertyValue, null);
             }
 
-            foreach (var fi in this.GetFields())
+            foreach (var fi in this.GetFields(specimen))
             {
                 var fieldValue = container.Create(fi);
                 fi.SetValue(specimen, fieldValue);
@@ -151,12 +171,12 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("request");
             }
 
-            if (this.GetProperties().Any(pi => pi.Equals(request)))
+            if (this.GetProperties(request).Any(pi => pi.Equals(request)))
             {
                 return true;
             }
 
-            if (this.GetFields().Any(fi => fi.Equals(request)))
+            if (this.GetFields(request).Any(fi => fi.Equals(request)))
             {
                 return true;
             }
@@ -167,21 +187,29 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the type of the specimen.
         /// </summary>
-        protected virtual Type SpecimenType
+        /// <param name="specimen">The specimen.</param>
+        /// <returns>The type of the specimen.</returns>
+        /// <remarks>
+        /// <para>
+        /// This implementation ignores <paramref name="specimen"/> and returns the type parameter
+        /// of <see cref="AutoPropertiesCommand{T}"/>.
+        /// </para>
+        /// </remarks>
+        protected virtual Type GetSpecimenType(object specimen)
         {
-            get { return typeof(T); }
+            return typeof(T);
         }
 
-        private IEnumerable<FieldInfo> GetFields()
+        private IEnumerable<FieldInfo> GetFields(object specimen)
         {
-            return from fi in this.SpecimenType.GetFields()
+            return from fi in this.GetSpecimenType(specimen).GetFields()
                    where this.specification.IsSatisfiedBy(fi)
                    select fi;
         }
 
-        private IEnumerable<PropertyInfo> GetProperties()
+        private IEnumerable<PropertyInfo> GetProperties(object specimen)
         {
-            return from pi in this.SpecimenType.GetProperties()
+            return from pi in this.GetSpecimenType(specimen).GetProperties()
                    where pi.GetSetMethod() != null
                    && pi.GetIndexParameters().Length == 0
                    && this.specification.IsSatisfiedBy(pi)
