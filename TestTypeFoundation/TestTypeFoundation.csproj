@@ -69,6 +69,8 @@
     <Compile Include="ReadOnlyFieldHolder.cs" />
     <Compile Include="ReadOnlyPropertyHolder.cs" />
     <Compile Include="SingleParameterType.cs" />
+    <Compile Include="StaticFieldHolder.cs" />
+    <Compile Include="StaticPropertyHolder.cs" />
     <Compile Include="TripleParameterType.cs" />
     <Compile Include="TypeWithIndexer.cs" />
     <Compile Include="TypeWithOverloadedMembers.cs" />

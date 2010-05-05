@@ -150,9 +150,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new ModestConstructorInvoker(),
                 new ParameterRequestTranslator(),
                 new PropertyRequestTranslator(),
+                new FieldRequestTranslator(),
                 new StringSeedUnwrapper(),
                 new ValueIgnoringSeedUnwrapper());
-            return builder;
+            return new Postprocessor(builder, new AutoPropertiesCommand().Execute);
         }
     }
 }

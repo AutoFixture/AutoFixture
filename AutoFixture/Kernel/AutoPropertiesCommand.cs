@@ -202,14 +202,15 @@ namespace Ploeh.AutoFixture.Kernel
 
         private IEnumerable<FieldInfo> GetFields(object specimen)
         {
-            return from fi in this.GetSpecimenType(specimen).GetFields()
-                   where this.specification.IsSatisfiedBy(fi)
+            return from fi in this.GetSpecimenType(specimen).GetFields(BindingFlags.Public | BindingFlags.Instance)
+                   where !fi.IsInitOnly
+                   && this.specification.IsSatisfiedBy(fi)
                    select fi;
         }
 
         private IEnumerable<PropertyInfo> GetProperties(object specimen)
         {
-            return from pi in this.GetSpecimenType(specimen).GetProperties()
+            return from pi in this.GetSpecimenType(specimen).GetProperties(BindingFlags.Public | BindingFlags.Instance)
                    where pi.GetSetMethod() != null
                    && pi.GetIndexParameters().Length == 0
                    && this.specification.IsSatisfiedBy(pi)

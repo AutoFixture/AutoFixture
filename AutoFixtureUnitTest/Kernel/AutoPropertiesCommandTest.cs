@@ -8,7 +8,7 @@ using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class AutoPropertiesCommandTest
+    public class AutoPropertiesCommandTest : IDisposable
     {
         [Fact]
         public void SutIsSpecifiedSpecimenCommand()
@@ -102,6 +102,49 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() =>
                 sut.Execute(specimen, container));
+            // Teardown
+        }
+
+        [Fact]
+        public void ExecuteDoesNotSetStaticProperty()
+        {
+            // Fixture setup
+            var sut = new AutoPropertiesCommand<StaticPropertyHolder<object>>();
+            var specimen = new StaticPropertyHolder<object>();
+            var container = new DelegatingSpecimenContainer { OnCreate = r => new object() };
+            // Exercise system
+            sut.Execute(specimen, container);
+            // Verify outcome
+            Assert.Null(StaticPropertyHolder<object>.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void ExecuteDoesNotSetStaticField()
+        {
+            // Fixture setup
+            var sut = new AutoPropertiesCommand<StaticFieldHolder<object>>();
+            var specimen = new StaticFieldHolder<object>();
+            var container = new DelegatingSpecimenContainer { OnCreate = r => new object() };
+            // Exercise system
+            sut.Execute(specimen, container);
+            // Verify outcome
+            Assert.Null(StaticFieldHolder<object>.Field);
+            // Teardown
+        }
+
+        [Fact]
+        public void ExecuteDoesNotSetReadonlyField()
+        {
+            // Fixture setup
+            var sut = new AutoPropertiesCommand<ReadOnlyFieldHolder<object>>();
+            var specimen = new ReadOnlyFieldHolder<object>();
+            var unexpectedValue = new object();
+            var container = new DelegatingSpecimenContainer { OnCreate = r => unexpectedValue };
+            // Exercise system
+            sut.Execute(specimen, container);
+            // Verify outcome
+            Assert.NotEqual(unexpectedValue, specimen.Field);
             // Teardown
         }
 
@@ -374,5 +417,15 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(expectedPropertyValue, specimen.Property);
             // Teardown
         }
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            StaticPropertyHolder<object>.Property = null;
+            StaticFieldHolder<object>.Field = null;
+        }
+
+        #endregion
     }
 }

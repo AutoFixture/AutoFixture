@@ -31,13 +31,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("container");
             }
 
-            var fi = request as FieldInfo;
-            if (fi == null)
+            var fieldInfo = request as FieldInfo;
+            if (fieldInfo == null)
             {
                 return new NoSpecimen(request);
             }
 
-            return container.Create(new SeededRequest(fi.FieldType, fi.Name));
+            return container.Create(new SeededRequest(fieldInfo.FieldType, fieldInfo.Name));
         }
 
         #endregion
