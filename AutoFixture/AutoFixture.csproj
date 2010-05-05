@@ -79,6 +79,7 @@
     <Compile Include="Kernel\AutoPropertiesCommand.cs" />
     <Compile Include="Kernel\ExpressionReflector.cs" />
     <Compile Include="Kernel\FalseRequestSpecification.cs" />
+    <Compile Include="Kernel\FieldRequestTranslator.cs" />
     <Compile Include="Kernel\FilteringSpecimenBuilder.cs" />
     <Compile Include="Kernel\InclusiveRequestSpecification.cs" />
     <Compile Include="Kernel\InverseRequestSpecification.cs" />

@@ -78,6 +78,7 @@
     <Compile Include="DoubleSequenceGeneratorTest.cs" />
     <Compile Include="Kernel\DelegatingTracingBuilder.cs" />
     <Compile Include="Kernel\FalseRequestSpecificationTest.cs" />
+    <Compile Include="Kernel\FieldRequestTranslatorTest.cs" />
     <Compile Include="Kernel\FilteringSpecimenBuilderTest.cs" />
     <Compile Include="Kernel\InclusiveRequestSpecificationTest.cs" />
     <Compile Include="Kernel\InverseRequestSpecificationTest.cs" />
