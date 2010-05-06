@@ -131,6 +131,36 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void CreateUsingBasicAutoPropertiesFunctionality()
+        {
+            // Fixture setup
+            var container = Scenario.CreateContainer();
+            // Exercise system
+            var result = container.Create(typeof(DoublePropertyHolder<int, int>));
+            // Verify outcome
+            var actual = Assert.IsAssignableFrom<DoublePropertyHolder<int, int>>(result);
+            Assert.Equal(1, actual.Property1);
+            Assert.Equal(2, actual.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateNestedStringTypeWithAutoProperties()
+        {
+            // Fixture setup
+            var container = Scenario.CreateContainer();
+            // Exercise system
+            var result = container.Create(typeof(DoublePropertyHolder<DoublePropertyHolder<string, string>, DoublePropertyHolder<string, string>>));
+            // Verify outcome
+            var actual = Assert.IsAssignableFrom<DoublePropertyHolder<DoublePropertyHolder<string, string>, DoublePropertyHolder<string, string>>>(result);
+            Assert.False(string.IsNullOrEmpty(actual.Property1.Property1));
+            Assert.False(string.IsNullOrEmpty(actual.Property1.Property2));
+            Assert.False(string.IsNullOrEmpty(actual.Property2.Property1));
+            Assert.False(string.IsNullOrEmpty(actual.Property2.Property2));
+            // Teardown
+        }
+
         private static DefaultSpecimenContainer CreateContainer()
         {
             var builder = Scenario.CreateFoundationBuilder();
