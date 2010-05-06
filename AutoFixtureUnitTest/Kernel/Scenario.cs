@@ -161,7 +161,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        [Fact(Skip = "Waiting for PostProcessor to get an optional filter")]
+        [Fact]
         public void CreateNestedIntegerTypeWithAutoProperties()
         {
             // Fixture setup
@@ -171,9 +171,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             var actual = Assert.IsAssignableFrom<DoublePropertyHolder<DoublePropertyHolder<int, int>, DoublePropertyHolder<int, int>>>(result);
             Assert.Equal(1, actual.Property1.Property1);
-            Assert.Equal(1, actual.Property1.Property2);
-            Assert.Equal(1, actual.Property2.Property1);
-            Assert.Equal(1, actual.Property2.Property2);
+            Assert.Equal(2, actual.Property1.Property2);
+            Assert.Equal(3, actual.Property2.Property1);
+            Assert.Equal(4, actual.Property2.Property2);
             // Teardown
         }
 
@@ -199,7 +199,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new FieldRequestTranslator(),
                 new StringSeedUnwrapper(),
                 new ValueIgnoringSeedUnwrapper());
-            return new Postprocessor(builder, new AutoPropertiesCommand().Execute);
+            return new Postprocessor(builder, new AutoPropertiesCommand().Execute, new AnyTypeSpecification());
         }
     }
 }
