@@ -8,15 +8,15 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// A specification that evaluates requests for types against a target type.
     /// </summary>
-    public class TypeSpecification : IRequestSpecification
+    public class ExactTypeSpecification : IRequestSpecification
     {
         private readonly Type specType;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeSpecification"/> class.
+        /// Initializes a new instance of the <see cref="ExactTypeSpecification"/> class.
         /// </summary>
         /// <param name="type">The target type.</param>
-        public TypeSpecification(Type type)
+        public ExactTypeSpecification(Type type)
         {
             if (type == null)
             {

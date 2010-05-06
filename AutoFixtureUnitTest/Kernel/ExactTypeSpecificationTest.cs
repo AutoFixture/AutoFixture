@@ -9,7 +9,7 @@ using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class TypeSpecificationTest
+    public class ExactTypeSpecificationTest
     {
         [Fact]
         public void SutIsRequestSpecification()
@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var dummyType = typeof(object);
             // Exercise system
-            var sut = new TypeSpecification(dummyType);
+            var sut = new ExactTypeSpecification(dummyType);
             // Verify outcome
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
             // Teardown
@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new TypeSpecification(null));
+            Assert.Throws<ArgumentNullException>(() => new ExactTypeSpecification(null));
             // Teardown
         }
 
@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var dummyType = typeof(object);
-            var sut = new TypeSpecification(dummyType);
+            var sut = new ExactTypeSpecification(dummyType);
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() => sut.IsSatisfiedBy(null));
             // Teardown
@@ -51,7 +51,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void IsSatisfiedByReturnsCorrectResult(Type specType, Type requestType, bool expectedResult)
         {
             // Fixture setup
-            var sut = new TypeSpecification(specType);
+            var sut = new ExactTypeSpecification(specType);
             // Exercise system
             var result = sut.IsSatisfiedBy(requestType);
             // Verify outcome
