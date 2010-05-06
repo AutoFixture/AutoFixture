@@ -177,6 +177,35 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void CombineExplictPropertyWithAutoProperties()
+        {
+            // Fixture setup
+            var expectedText = "Fnaah";
+
+            var specifiedCommand = new BindingCommand<DoublePropertyHolder<string, int>, string>(ph => ph.Property1, expectedText);
+            var reservedProperty = new InverseRequestSpecification(specifiedCommand);
+
+            var customizedBuilder = new Postprocessor<DoublePropertyHolder<string, int>>(
+                new Postprocessor<DoublePropertyHolder<string, int>>(
+                    new ModestConstructorInvoker(),
+                    specifiedCommand.Execute),
+                new AutoPropertiesCommand<DoublePropertyHolder<string, int>>(reservedProperty).Execute,
+                new AnyTypeSpecification());
+
+            var builder = new CompositeSpecimenBuilder(
+                customizedBuilder,
+                Scenario.CreateFoundationBuilder());
+            var container = new DefaultSpecimenContainer(builder);
+            // Exercise system
+            var result = container.Create(typeof(DoublePropertyHolder<string, int>));
+            // Verify outcome
+            var actual = Assert.IsAssignableFrom<DoublePropertyHolder<string, int>>(result);
+            Assert.Equal(expectedText, actual.Property1);
+            Assert.Equal(1, actual.Property2);
+            // Teardown
+        }
+
         private static DefaultSpecimenContainer CreateContainer()
         {
             var builder = Scenario.CreateFoundationBuilder();
