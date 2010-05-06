@@ -33,6 +33,21 @@ namespace Ploeh.AutoFixture.Kernel
             : base(builder, action)
         {
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Postprocessor"/> class with the supplied
+        /// parameters.
+        /// </summary>
+        /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
+        /// <param name="action">The action to perform on the created specimen.</param>
+        /// <param name="specification">
+        /// A specification which is used to determine whether postprocessing should be performed
+        /// for a request.
+        /// </param>
+        public Postprocessor(ISpecimenBuilder builder, Action<object, ISpecimenContainer> action, IRequestSpecification specification)
+            : base(builder, action, specification)
+        {
+        }
     }
 
     /// <summary>
@@ -43,10 +58,11 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly ISpecimenBuilder builder;
         private readonly Action<T, ISpecimenContainer> action;
+        private readonly IRequestSpecification specification;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Postprocessor"/> class with the supplied
-        /// parameters.
+        /// Initializes a new instance of the <see cref="Postprocessor{T}"/> class with the
+        /// supplied parameters.
         /// </summary>
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
         /// <param name="action">The action to perform on the created specimen.</param>
@@ -56,12 +72,27 @@ namespace Ploeh.AutoFixture.Kernel
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Postprocessor"/> class with the supplied
-        /// parameters.
+        /// Initializes a new instance of the <see cref="Postprocessor{T}"/> class with the
+        /// supplied parameters.
         /// </summary>
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
         /// <param name="action">The action to perform on the created specimen.</param>
         public Postprocessor(ISpecimenBuilder builder, Action<T, ISpecimenContainer> action)
+            : this(builder, action, new TrueRequestSpecification())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Postprocessor{T}"/> class with the
+        /// supplied parameters.
+        /// </summary>
+        /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
+        /// <param name="action">The action to perform on the created specimen.</param>
+        /// <param name="specification">
+        /// A specification which is used to determine whether postprocessing should be performed
+        /// for a request.
+        /// </param>
+        public Postprocessor(ISpecimenBuilder builder, Action<T, ISpecimenContainer> action, IRequestSpecification specification)
         {
             if (builder == null)
             {
@@ -71,9 +102,14 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 throw new ArgumentNullException("action");
             }
+            if (specification == null)
+            {
+                throw new ArgumentNullException("specification");
+            }
 
             this.builder = builder;
             this.action = action;
+            this.specification = specification;
         }
 
         #region ISpecimenBuilder Members
@@ -96,11 +132,18 @@ namespace Ploeh.AutoFixture.Kernel
         public object Create(object request, ISpecimenContainer container)
         {
             var specimen = this.builder.Create(request, container);
+
             var ns = specimen as NoSpecimen;
             if (ns != null)
             {
                 return ns;
             }
+
+            if (!this.specification.IsSatisfiedBy(request))
+            {
+                return specimen;
+            }
+
             if (!(specimen is T))
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,

@@ -67,6 +67,17 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void InitializeWithNullSpecificationThrows()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            Action<object, ISpecimenContainer> dummyAction = (s, c) => { };
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() => new Postprocessor(dummyBuilder, dummyAction, null));
+            // Teardown
+        }
+
+        [Fact]
         public void CreateInvokesDecoratedBuilderWithCorrectParameters()
         {
             // Fixture setup

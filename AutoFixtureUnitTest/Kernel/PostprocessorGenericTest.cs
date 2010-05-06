@@ -64,6 +64,39 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void InitializeDoubleActionAndSpecificationWithNullBuilderThrows()
+        {
+            // Fixture setup
+            Action<object, ISpecimenContainer> dummyAction = (s, c) => { };
+            var dummySpec = new DelegatingRequestSpecification();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() => new Postprocessor<object>(null, dummyAction, dummySpec));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeDoubleActionAndSpecificationWithNullActionThrows()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummySpec = new DelegatingRequestSpecification();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() => new Postprocessor<object>(dummyBuilder, null, dummySpec));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeDoubleActionAndSpecificationWithNullSpecificationThrows()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            Action<object, ISpecimenContainer> dummyAction = (s, c) => { };
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() => new Postprocessor<object>(dummyBuilder, dummyAction, null));
+            // Teardown
+        }
+
+        [Fact]
         public void CreateInvokesDecoratedBuilderWithCorrectParametersOnSutWithSingleAction()
         {
             // Fixture setup
@@ -222,6 +255,27 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             sut.Create(dummyRequest, expectedContainer);
             // Verify outcome
             Assert.True(verified, "Mock verified");
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateDoesNotInvokeActionWhenSpecificationIsFalse()
+        {
+            // Fixture setup
+            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new object() };
+
+            var mockInvoked = false;
+            Action<object, ISpecimenContainer> mock = (s, c) => mockInvoked = true;
+
+            var spec = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => false };
+
+            var sut = new Postprocessor<object>(builder, mock, spec);
+            // Exercise system
+            var dummyRequest = new object();
+            var dummyContainer = new DelegatingSpecimenContainer();
+            sut.Create(dummyRequest, dummyContainer);
+            // Verify outcome
+            Assert.False(mockInvoked, "Mock invoked");
             // Teardown
         }
     }
