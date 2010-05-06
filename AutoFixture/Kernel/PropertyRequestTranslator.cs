@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return new NoSpecimen(request);
             }
 
-            return container.Create(new SeededRequest(propertyInfo.PropertyType, propertyInfo.Name));
+            return container.Resolve(new SeededRequest(propertyInfo.PropertyType, propertyInfo.Name));
         }
 
         #endregion

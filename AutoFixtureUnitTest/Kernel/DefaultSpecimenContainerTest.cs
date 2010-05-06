@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new DefaultSpecimenContainer(builder);
             // Exercise system
             var dummyRequest = new object();
-            var result = sut.Create(dummyRequest);
+            var result = sut.Resolve(dummyRequest);
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
@@ -76,7 +76,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var sut = new DefaultSpecimenContainer(builderMock);
             // Exercise system
-            sut.Create(expectedRequest);
+            sut.Resolve(expectedRequest);
             // Verify outcome
             Assert.True(mockVerified, "Mock verification");
             // Teardown
@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             };
             // Exercise system
             var dummyRequest = new object();
-            sut.Create(dummyRequest);
+            sut.Resolve(dummyRequest);
             // Verify outcome
             Assert.True(mockVerified, "Mock verification");
             // Teardown

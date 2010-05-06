@@ -169,7 +169,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         private TProperty CreateAnonymousValue(ISpecimenContainer container)
         {
-            var bindingValue = container.Create(this.member);
+            var bindingValue = container.Resolve(this.member);
             if (!(bindingValue is TProperty))
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,

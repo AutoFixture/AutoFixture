@@ -21,6 +21,6 @@ namespace Ploeh.AutoFixture.Kernel
         /// <see cref="Type"/> or other <see cref="System.Reflection.MemberInfo"/> instances.
         /// </para>
         /// </remarks>
-        object Create(object request);
+        object Resolve(object request);
     }
 }

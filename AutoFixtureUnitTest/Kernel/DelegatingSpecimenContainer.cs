@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
         #region ISpecimenContainer Members
 
-        public object Create(object request)
+        public object Resolve(object request)
         {
             return this.OnCreate(request);
         }

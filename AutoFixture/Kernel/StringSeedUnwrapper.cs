@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return new NoSpecimen(request);
             }
 
-            var containerResult = container.Create(typeof(string));
+            var containerResult = container.Resolve(typeof(string));
             if (containerResult is NoSpecimen)
             {
                 return containerResult;

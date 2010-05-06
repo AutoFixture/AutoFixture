@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             var paramValues = (from pi in ctor.GetParameters()
-                               select container.Create(pi)).ToList();
+                               select container.Resolve(pi)).ToList();
 
             if (paramValues.Any(pv => pv is NoSpecimen))
             {

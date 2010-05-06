@@ -140,13 +140,13 @@ namespace Ploeh.AutoFixture.Kernel
 
             foreach (var pi in this.GetProperties(specimen))
             {
-                var propertyValue = container.Create(pi);
+                var propertyValue = container.Resolve(pi);
                 pi.SetValue(specimen, propertyValue, null);
             }
 
             foreach (var fi in this.GetFields(specimen))
             {
-                var fieldValue = container.Create(fi);
+                var fieldValue = container.Resolve(fi);
                 fi.SetValue(specimen, fieldValue);
             }
         }

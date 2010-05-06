@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var container = Scenario.CreateContainer();
             // Exercise system
-            var result = (SingleParameterType<string>)container.Create(typeof(SingleParameterType<string>));
+            var result = (SingleParameterType<string>)container.Resolve(typeof(SingleParameterType<string>));
             // Verify outcome
             var name = new TextGuidRegex().GetText(result.Parameter);
             string guidString = new TextGuidRegex().GetGuid(result.Parameter);
@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var container = Scenario.CreateContainer();
             // Exercise system
-            var result = (DoubleParameterType<string, string>)container.Create(typeof(DoubleParameterType<string, string>));
+            var result = (DoubleParameterType<string, string>)container.Resolve(typeof(DoubleParameterType<string, string>));
             // Verify outcome
             Assert.False(string.IsNullOrEmpty(result.Parameter1), "Parameter1");
             Assert.False(string.IsNullOrEmpty(result.Parameter2), "Parameter2");
@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var container = Scenario.CreateContainer();
             // Exercise system
-            var result = (DoubleParameterType<string, int>)container.Create(typeof(DoubleParameterType<string, int>));
+            var result = (DoubleParameterType<string, int>)container.Resolve(typeof(DoubleParameterType<string, int>));
             // Verify outcome
             Assert.False(string.IsNullOrEmpty(result.Parameter1), "Parameter11");
             Assert.NotEqual(0, result.Parameter2);
@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var container = Scenario.CreateContainer();
             // Exercise system
-            var result = (DoubleParameterType<decimal, bool>)container.Create(typeof(DoubleParameterType<decimal, bool>));
+            var result = (DoubleParameterType<decimal, bool>)container.Resolve(typeof(DoubleParameterType<decimal, bool>));
             // Verify outcome
             Assert.Equal(1m, result.Parameter1);
             Assert.True(result.Parameter2, "Parameter2");
@@ -72,7 +72,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var container = Scenario.CreateContainer();
             // Exercise system
-            var result = (DoubleParameterType<DoubleParameterType<int, Guid>, DoubleParameterType<decimal, bool>>)container.Create(
+            var result = (DoubleParameterType<DoubleParameterType<int, Guid>, DoubleParameterType<decimal, bool>>)container.Resolve(
                 typeof(DoubleParameterType<DoubleParameterType<int, Guid>, DoubleParameterType<decimal, bool>>));
             // Verify outcome
             Assert.Equal(1, result.Parameter1.Parameter1);
@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new ValueIgnoringSeedUnwrapper());
             var container = new DefaultSpecimenContainer(builder);
             // Exercise system
-            var result = (TripleParameterType<int, string, int>)container.Create(typeof(TripleParameterType<int, string, int>));
+            var result = (TripleParameterType<int, string, int>)container.Resolve(typeof(TripleParameterType<int, string, int>));
             // Verify outcome
             Assert.Equal(1, result.Parameter1);
             Assert.Equal("parameter22", result.Parameter2);
@@ -123,7 +123,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 Scenario.CreateFoundationBuilder());
             var container = new DefaultSpecimenContainer(builder);
             // Exercise system
-            var result = container.Create(typeof(DoublePropertyHolder<string, int>));
+            var result = container.Resolve(typeof(DoublePropertyHolder<string, int>));
             // Verify outcome
             var actual = Assert.IsAssignableFrom<DoublePropertyHolder<string, int>>(result);
             Assert.False(string.IsNullOrEmpty(actual.Property1), "Property1");
@@ -137,7 +137,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var container = Scenario.CreateContainer();
             // Exercise system
-            var result = container.Create(typeof(DoublePropertyHolder<int, int>));
+            var result = container.Resolve(typeof(DoublePropertyHolder<int, int>));
             // Verify outcome
             var actual = Assert.IsAssignableFrom<DoublePropertyHolder<int, int>>(result);
             Assert.Equal(1, actual.Property1);
@@ -151,7 +151,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var container = Scenario.CreateContainer();
             // Exercise system
-            var result = container.Create(typeof(DoublePropertyHolder<DoublePropertyHolder<string, string>, DoublePropertyHolder<string, string>>));
+            var result = container.Resolve(typeof(DoublePropertyHolder<DoublePropertyHolder<string, string>, DoublePropertyHolder<string, string>>));
             // Verify outcome
             var actual = Assert.IsAssignableFrom<DoublePropertyHolder<DoublePropertyHolder<string, string>, DoublePropertyHolder<string, string>>>(result);
             Assert.False(string.IsNullOrEmpty(actual.Property1.Property1));
@@ -167,7 +167,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var container = Scenario.CreateContainer();
             // Exercise system
-            var result = container.Create(typeof(DoublePropertyHolder<DoublePropertyHolder<int, int>, DoublePropertyHolder<int, int>>));
+            var result = container.Resolve(typeof(DoublePropertyHolder<DoublePropertyHolder<int, int>, DoublePropertyHolder<int, int>>));
             // Verify outcome
             var actual = Assert.IsAssignableFrom<DoublePropertyHolder<DoublePropertyHolder<int, int>, DoublePropertyHolder<int, int>>>(result);
             Assert.Equal(1, actual.Property1.Property1);
@@ -198,7 +198,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 Scenario.CreateFoundationBuilder());
             var container = new DefaultSpecimenContainer(builder);
             // Exercise system
-            var result = container.Create(typeof(DoublePropertyHolder<string, int>));
+            var result = container.Resolve(typeof(DoublePropertyHolder<string, int>));
             // Verify outcome
             var actual = Assert.IsAssignableFrom<DoublePropertyHolder<string, int>>(result);
             Assert.Equal(expectedText, actual.Property1);

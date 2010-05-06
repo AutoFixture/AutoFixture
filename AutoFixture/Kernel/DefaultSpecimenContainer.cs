@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
         /// <returns>The result of a request to the contained <see cref="Builder"/>.</returns>
-        public object Create(object request)
+        public object Resolve(object request)
         {
             return this.Builder.Create(request, this);
         }
