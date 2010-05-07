@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             this.builder = builder;
-            this.filter = new InclusiveRequestSpecification();
+            this.filter = new TrueRequestSpecification();
         }
 
         /// <summary>
