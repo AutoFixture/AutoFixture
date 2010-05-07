@@ -145,7 +145,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             object tracked = null;
             object createdSpecimen = Guid.NewGuid();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => createdSpecimen };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => createdSpecimen };
             var sut = new DelegatingTracingBuilder();
 
             // Exercise system

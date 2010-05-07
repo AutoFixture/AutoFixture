@@ -10,18 +10,18 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
     {
         public DelegatingSpecimenContainer()
         {
-            this.OnCreate = r => null;
+            this.OnResolve = r => null;
         }
 
         #region ISpecimenContainer Members
 
         public object Resolve(object request)
         {
-            return this.OnCreate(request);
+            return this.OnResolve(request);
         }
 
         #endregion
 
-        internal Func<object, object> OnCreate { get; set; }
+        internal Func<object, object> OnResolve { get; set; }
     }
 }

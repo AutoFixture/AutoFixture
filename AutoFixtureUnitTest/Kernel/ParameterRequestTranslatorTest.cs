@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => new NoSpecimen(parameterInfo) };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => new NoSpecimen(parameterInfo) };
             var sut = new ParameterRequestTranslator();
             // Exercise system
             var result = sut.Create(parameterInfo, container);
@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedSpecimen = new object();
             var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => expectedSpecimen };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => expectedSpecimen };
             var sut = new ParameterRequestTranslator();
             // Exercise system
             var result = sut.Create(parameterInfo, container);
@@ -102,7 +102,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var mockVerified = false;
             var containerMock = new DelegatingSpecimenContainer();
-            containerMock.OnCreate = r =>
+            containerMock.OnResolve = r =>
             {
                 Assert.Equal(expectedRequest, r);
                 mockVerified = true;

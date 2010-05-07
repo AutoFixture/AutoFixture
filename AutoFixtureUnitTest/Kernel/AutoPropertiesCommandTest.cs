@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedFieldValue = new object();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => expectedFieldValue };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => expectedFieldValue };
 
             var sut = new AutoPropertiesCommand<FieldHolder<object>>();
 
@@ -65,7 +65,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedPropertyValue = new object();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => expectedPropertyValue };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => expectedPropertyValue };
 
             var sut = new AutoPropertiesCommand<PropertyHolder<object>>();
 
@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new AutoPropertiesCommand<SingleParameterType<object>>();
             var specimen = new SingleParameterType<object>(new object());
             var unexpectedValue = new object();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => unexpectedValue };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => unexpectedValue };
             // Exercise system
             sut.Execute(specimen, container);
             // Verify outcome
@@ -98,7 +98,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new AutoPropertiesCommand<IndexedPropertyHolder<object>>();
             var specimen = new IndexedPropertyHolder<object>();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => new object() };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => new object() };
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() =>
                 sut.Execute(specimen, container));
@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new AutoPropertiesCommand<StaticPropertyHolder<object>>();
             var specimen = new StaticPropertyHolder<object>();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => new object() };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => new object() };
             // Exercise system
             sut.Execute(specimen, container);
             // Verify outcome
@@ -125,7 +125,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new AutoPropertiesCommand<StaticFieldHolder<object>>();
             var specimen = new StaticFieldHolder<object>();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => new object() };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => new object() };
             // Exercise system
             sut.Execute(specimen, container);
             // Verify outcome
@@ -140,7 +140,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new AutoPropertiesCommand<ReadOnlyFieldHolder<object>>();
             var specimen = new ReadOnlyFieldHolder<object>();
             var unexpectedValue = new object();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => unexpectedValue };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => unexpectedValue };
             // Exercise system
             sut.Execute(specimen, container);
             // Verify outcome
@@ -164,7 +164,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var spec = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => false };
             var sut = new AutoPropertiesCommand<PropertyHolder<object>>(spec);
             var specimen = new PropertyHolder<object>();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => new object() };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => new object() };
             // Exercise system
             sut.Execute(specimen, container);
             // Verify outcome
@@ -196,7 +196,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var spec = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => false };
             var sut = new AutoPropertiesCommand<FieldHolder<object>>(spec);
             var specimen = new FieldHolder<object>();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => new object() };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => new object() };
             // Exercise system
             sut.Execute(specimen, container);
             // Verify outcome
@@ -393,7 +393,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new AutoPropertiesCommand(specimen.GetType());
 
             var expectedPropertyValue = new object();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => expectedPropertyValue };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => expectedPropertyValue };
             // Exercise system
             sut.Execute(specimen, container);
             // Verify outcome
@@ -408,7 +408,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new AutoPropertiesCommand();
 
             var expectedPropertyValue = new object();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => expectedPropertyValue };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => expectedPropertyValue };
 
             var specimen = new PropertyHolder<object>();
             // Exercise system

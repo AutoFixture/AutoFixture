@@ -182,7 +182,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedValue = new object();
             var expectedRequest = typeof(PropertyHolder<object>).GetProperty("Property");
-            var container = new DelegatingSpecimenContainer { OnCreate = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() };
 
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
             var specimen = new PropertyHolder<object>();
@@ -199,7 +199,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedValue = new object();
             var expectedRequest = typeof(FieldHolder<object>).GetField("Field");
-            var container = new DelegatingSpecimenContainer { OnCreate = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() };
 
             var sut = new BindingCommand<FieldHolder<object>, object>(ph => ph.Field);
             var specimen = new FieldHolder<object>();
@@ -215,7 +215,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var nonInt = "Anonymous variable";
-            var container = new DelegatingSpecimenContainer { OnCreate = r => nonInt };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => nonInt };
 
             var sut = new BindingCommand<PropertyHolder<int>, int>(ph => ph.Property);
             // Exercise system and verify outcome

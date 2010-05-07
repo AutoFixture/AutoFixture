@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var fieldInfo = typeof(FieldHolder<object>).GetField("Field");
-            var container = new DelegatingSpecimenContainer { OnCreate = r => new NoSpecimen(fieldInfo) };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => new NoSpecimen(fieldInfo) };
             var sut = new FieldRequestTranslator();
             // Exercise system
             var result = sut.Create(fieldInfo, container);
@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedSpecimen = new object();
             var fieldInfo = typeof(FieldHolder<object>).GetField("Field");
-            var container = new DelegatingSpecimenContainer { OnCreate = r => expectedSpecimen };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => expectedSpecimen };
             var sut = new FieldRequestTranslator();
             // Exercise system
             var result = sut.Create(fieldInfo, container);
@@ -102,7 +102,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var mockVerified = false;
             var containerMock = new DelegatingSpecimenContainer();
-            containerMock.OnCreate = r => mockVerified = expectedRequest.Equals(r);
+            containerMock.OnResolve = r => mockVerified = expectedRequest.Equals(r);
             // Exercise system
             sut.Create(fieldInfo, containerMock);
             // Verify outcome

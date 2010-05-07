@@ -68,7 +68,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var type = typeof(string);
-            var container = new DelegatingSpecimenContainer { OnCreate = r => new NoSpecimen(type) };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => new NoSpecimen(type) };
             var sut = new ModestConstructorInvoker();
             // Exercise system
             var result = sut.Create(type, container);
@@ -82,7 +82,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateFromTypeWithNoPublicConstructorWhenContainerCanSatisfyRequestWillReturnNull()
         {
             // Fixture setup
-            var container = new DelegatingSpecimenContainer { OnCreate = r => new object() };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => new object() };
             var sut = new ModestConstructorInvoker();
             // Exercise system
             var result = sut.Create(typeof(AbstractType), container);
@@ -98,7 +98,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var requestedType = typeof(DoubleParameterType<string, int>);
             var parameters = requestedType.GetConstructors().Single().GetParameters();
-            var container = new DelegatingSpecimenContainer { OnCreate = r => parameters[0] == r ? new object() : new NoSpecimen(r) };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => parameters[0] == r ? new object() : new NoSpecimen(r) };
             var sut = new ModestConstructorInvoker();
             // Exercise system
             var result = sut.Create(requestedType, container);
@@ -118,7 +118,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var parameters = requestedType.GetConstructors().Single().GetParameters();
 
             var container = new DelegatingSpecimenContainer();
-            container.OnCreate = r =>
+            container.OnResolve = r =>
             {
                 if (parameters.Any(r.Equals))
                 {
@@ -146,7 +146,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var mockVerified = false;
             var containerMock = new DelegatingSpecimenContainer();
-            containerMock.OnCreate = r =>
+            containerMock.OnResolve = r =>
                 {
                     if (parameters.Any(r.Equals))
                     {
