@@ -129,7 +129,7 @@
     <Compile Include="NoneRecursionHandler.cs" />
     <Compile Include="NullAccessor.cs" />
     <Compile Include="NullAccessorFactory.cs" />
-    <Compile Include="NullRecursionCatcher.cs" />
+    <Compile Include="NullRecursionGuard.cs" />
     <Compile Include="NullRecursionHandler.cs" />
     <Compile Include="ObjectBuilder.cs" />
     <Compile Include="ObjectCreationException.cs" />
@@ -138,7 +138,7 @@
     <Compile Include="GuidStringGenerator.cs" />
     <Compile Include="PropertyAccessor.cs" />
     <Compile Include="PropertyAccessorFactory.cs" />
-    <Compile Include="RecursionCatcher.cs" />
+    <Compile Include="RecursionGuard.cs" />
     <Compile Include="RecursionHandler.cs" />
     <Compile Include="SByteSequenceGenerator.cs" />
     <Compile Include="Kernel\SeededRequest.cs" />

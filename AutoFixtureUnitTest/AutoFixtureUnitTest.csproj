@@ -68,7 +68,7 @@
     <Compile Include="BooleanSwitchTest.cs" />
     <Compile Include="ByteSequenceGeneratorTest.cs" />
     <Compile Include="DelegatingEqualityComparer.cs" />
-    <Compile Include="DelegatingRecursionCatcher.cs" />
+    <Compile Include="DelegatingRecursionGuard.cs" />
     <Compile Include="Kernel\AndRequestSpecificationTest.cs" />
     <Compile Include="Kernel\AnyTypeSpecificationTest.cs" />
     <Compile Include="Kernel\AutoPropertiesCommandTest.cs" />
@@ -107,8 +107,8 @@
     <Compile Include="Kernel\ExactTypeSpecificationTest.cs" />
     <Compile Include="Kernel\ValueIgnoringSeedUnwrapperTest.cs" />
     <Compile Include="Kernel\SeededRequestTest.cs" />
-    <Compile Include="NullRecursionCatcherTest.cs" />
-    <Compile Include="RecursionCatcherTest.cs" />
+    <Compile Include="NullRecursionGuardTest.cs" />
+    <Compile Include="RecursionGuardTest.cs" />
     <Compile Include="StringGeneratorTest.cs" />
     <Compile Include="NullRecursionHandlerTest.cs" />
     <Compile Include="TemplatedLikenessTest.cs" />

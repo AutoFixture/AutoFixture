@@ -10,20 +10,20 @@ namespace Ploeh.AutoFixture
     /// Base class for recursion handling. Tracks requests and reacts when a recursion point in the
     /// specimen creation process is detected.
     /// </summary>
-	public abstract class RecursionCatcher : ISpecimenBuilder
+	public abstract class RecursionGuard : ISpecimenBuilder
 	{
         private readonly ISpecimenBuilder builder;
         private readonly IEqualityComparer comparer;
 		private Stack<object> monitoredRequests;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecursionCatcher"/> class.
+        /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
         /// </summary>
         /// <param name="builder">The intercepting builder to decorate.</param>
         /// <param name="comparer">
         /// An IEqualitycomparer implementation to use when comparing requests to determine recursion.
         /// </param>
-        protected RecursionCatcher(ISpecimenBuilder builder, IEqualityComparer comparer)
+        protected RecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
         {
             if (builder == null)
             {
@@ -40,10 +40,10 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecursionCatcher"/> class.
+        /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
         /// </summary>
         /// <param name="builder">The intercepting builder to decorate.</param>
-        protected RecursionCatcher(ISpecimenBuilder builder) : this(builder, EqualityComparer<object>.Default)
+        protected RecursionGuard(ISpecimenBuilder builder) : this(builder, EqualityComparer<object>.Default)
         {
         }
 

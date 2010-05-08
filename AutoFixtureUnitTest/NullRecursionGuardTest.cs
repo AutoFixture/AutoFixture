@@ -10,16 +10,16 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     using Kernel;
 
-    public class NullRecursionCatcherTest
+    public class NullRecursionGuardTest
     {
         [Fact]
         public void SutIsRecursionGuard()
         {
             // Fixture setup
             // Exercise system
-            var sut = new NullRecursionCatcher(new DelegatingSpecimenBuilder());
+            var sut = new NullRecursionGuard(new DelegatingSpecimenBuilder());
             // Verify outcome
-            Assert.IsAssignableFrom<RecursionCatcher>(sut);
+            Assert.IsAssignableFrom<RecursionGuard>(sut);
             // Teardown
         }
 
@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var builder = new DelegatingSpecimenBuilder();
             builder.OnCreate = (r, c) => c.Resolve(r);
-            var sut = new NullRecursionCatcher(builder);
+            var sut = new NullRecursionGuard(builder);
             var container = new DelegatingSpecimenContainer();
             container.OnResolve = (r) => sut.Create(r, container); // Provoke recursion
 
