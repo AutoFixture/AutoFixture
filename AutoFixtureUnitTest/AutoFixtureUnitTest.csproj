@@ -67,6 +67,8 @@
   <ItemGroup>
     <Compile Include="BooleanSwitchTest.cs" />
     <Compile Include="ByteSequenceGeneratorTest.cs" />
+    <Compile Include="DelegatingEqualityComparer.cs" />
+    <Compile Include="DelegatingRecursionCatcher.cs" />
     <Compile Include="Kernel\AndRequestSpecificationTest.cs" />
     <Compile Include="Kernel\AnyTypeSpecificationTest.cs" />
     <Compile Include="Kernel\AutoPropertiesCommandTest.cs" />

@@ -10,12 +10,11 @@ namespace Ploeh.AutoFixture
     /// Base class for recursion handling. Tracks requests and reacts when a recursion point in the
     /// specimen creation process is detected.
     /// </summary>
-	public class RecursionCatcher : ISpecimenBuilder
+	public abstract class RecursionCatcher : ISpecimenBuilder
 	{
         private readonly ISpecimenBuilder builder;
         private readonly IEqualityComparer comparer;
 		private Stack<object> monitoredRequests;
-        private Func<object, object> _interceptRecursiveRequest;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionCatcher"/> class.
@@ -24,7 +23,7 @@ namespace Ploeh.AutoFixture
         /// <param name="comparer">
         /// An IEqualitycomparer implementation to use when comparing requests to determine recursion.
         /// </param>
-        public RecursionCatcher(ISpecimenBuilder builder, IEqualityComparer comparer)
+        protected RecursionCatcher(ISpecimenBuilder builder, IEqualityComparer comparer)
         {
             if (builder == null)
             {
@@ -44,28 +43,16 @@ namespace Ploeh.AutoFixture
         /// Initializes a new instance of the <see cref="RecursionCatcher"/> class.
         /// </summary>
         /// <param name="builder">The intercepting builder to decorate.</param>
-        public RecursionCatcher(ISpecimenBuilder builder) : this(builder, EqualityComparer<object>.Default)
+        protected RecursionCatcher(ISpecimenBuilder builder) : this(builder, EqualityComparer<object>.Default)
         {
         }
 
         /// <summary>
-        /// Gets or sets the recursion request interceptor.
-        /// The recursion request interceptor is called for any recursion-causing requests.
+        /// Handles a request that would cause recursion.
         /// </summary>
-        /// <value>The recursion request interceptor.</value>
-        public Func<object, object> RecursiveRequestInterceptor
-        {
-            get { return this._interceptRecursiveRequest; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("value");
-                }
-
-                this._interceptRecursiveRequest = value;
-            }
-        }
+        /// <param name="request">The recursion causing request.</param>
+        /// <returns>The specimen to return.</returns>
+        public abstract object HandleRecursiveRequest(object request);
 
         /// <summary>
         /// Creates a new specimen based on a request.
@@ -85,7 +72,7 @@ namespace Ploeh.AutoFixture
         {
             if (monitoredRequests.Any(x => comparer.Equals(x, request)))
             {
-                return _interceptRecursiveRequest(request);
+                return HandleRecursiveRequest(request);
             }
 
             monitoredRequests.Push(request);

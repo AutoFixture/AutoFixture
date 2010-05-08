@@ -1,8 +1,6 @@
 namespace Ploeh.AutoFixtureUnitTest
 {
     using System;
-    using System.Collections;
-    using AutoFixture;
     using AutoFixture.Kernel;
     using Kernel;
     using Xunit;
@@ -15,7 +13,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
             // Exercise system
-            var sut = new RecursionCatcher(dummyBuilder);
+            var sut = new DelegatingRecursionCatcher(dummyBuilder);
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -26,7 +24,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new RecursionCatcher(null));
+            Assert.Throws<ArgumentNullException>(() => new DelegatingRecursionCatcher(null));
             // Teardown
         }
 
@@ -36,7 +34,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new RecursionCatcher(dummyBuilder, null));
+            Assert.Throws<ArgumentNullException>(() => new DelegatingRecursionCatcher(dummyBuilder, null));
             // Teardown
         }
 
@@ -48,8 +46,8 @@ namespace Ploeh.AutoFixtureUnitTest
             builder.OnCreate = (r, c) => c.Resolve(r);
             bool comparerUsed = false;
             var comparer = new DelegatingEqualityComparer { OnEquals = (x, y) => comparerUsed = true };
-            var sut = new RecursionCatcher(builder, comparer);
-            sut.RecursiveRequestInterceptor = (obj) => { return null; };
+            var sut = new DelegatingRecursionCatcher(builder, comparer);
+            sut.OnHandleRecursiveRequest = (obj) => { return null; };
             var container = new DelegatingSpecimenContainer();
             container.OnResolve = (r) => sut.Create(r, container);
 
@@ -64,9 +62,9 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWillNotTriggerHandlingOnFirstRequest()
         {
             // Fixture setup
-            var sut = new RecursionCatcher(new DelegatingSpecimenBuilder());
+            var sut = new DelegatingRecursionCatcher(new DelegatingSpecimenBuilder());
             bool handlingTriggered = false;
-            sut.RecursiveRequestInterceptor = obj => handlingTriggered = true;
+            sut.OnHandleRecursiveRequest = obj => handlingTriggered = true;
 
             // Exercise system
             sut.Create(Guid.NewGuid(), new DelegatingSpecimenContainer());
@@ -79,10 +77,10 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWillNotTriggerHandlingOnSubsequentSimilarRequests()
         {
             // Fixture setup
-            var sut = new RecursionCatcher(new DelegatingSpecimenBuilder());
+            var sut = new DelegatingRecursionCatcher(new DelegatingSpecimenBuilder());
             bool handlingTriggered = false;
             object request = Guid.NewGuid();
-            sut.RecursiveRequestInterceptor = obj => handlingTriggered = true;
+            sut.OnHandleRecursiveRequest = obj => handlingTriggered = true;
 
             // Exercise system
             sut.Create(request, new DelegatingSpecimenContainer());
@@ -98,9 +96,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var builder = new DelegatingSpecimenBuilder();
             builder.OnCreate = (r, c) => c.Resolve(r);
-            var sut = new RecursionCatcher(builder);
+            var sut = new DelegatingRecursionCatcher(builder);
             bool handlingTriggered = false;
-            sut.RecursiveRequestInterceptor = obj => handlingTriggered = true;
+            sut.OnHandleRecursiveRequest = obj => handlingTriggered = true;
             var container = new DelegatingSpecimenContainer();
             container.OnResolve = (r) => sut.Create(r, container);
 
@@ -108,26 +106,6 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Create(Guid.NewGuid(), container);
 
             Assert.True(handlingTriggered);
-        }
-
-        private class DelegatingEqualityComparer : IEqualityComparer
-        {
-            public DelegatingEqualityComparer()
-            {
-                this.OnEquals = (x, y) => false;
-            }
-
-            public bool Equals(object x, object y)
-            {
-                return this.OnEquals(x, y);
-            }
-
-            public int GetHashCode(object obj)
-            {
-                return obj.GetHashCode();
-            }
-
-            internal Func<object, object, bool> OnEquals { get; set; }
         }
     }
 }
