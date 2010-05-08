@@ -14,7 +14,7 @@
         /// <param name="builder">The builder to decorate.</param>
         public NullRecursionCatcher(ISpecimenBuilder builder) : base(builder)
         {
-            this.RecursionRequestInterceptor = (obj) => { return null; };
+            this.RecursiveRequestInterceptor = (obj) => { return null; };
         }
     }
 }

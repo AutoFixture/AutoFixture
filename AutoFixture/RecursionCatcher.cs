@@ -1,8 +1,10 @@
 namespace Ploeh.AutoFixture
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
-	using Kernel;
+    using System.Linq;
+    using Kernel;
 
     /// <summary>
     /// Base class for recursion handling. Tracks requests and reacts when a recursion point in the
@@ -11,22 +13,39 @@ namespace Ploeh.AutoFixture
 	public class RecursionCatcher : ISpecimenBuilder
 	{
         private readonly ISpecimenBuilder builder;
+        private readonly IEqualityComparer comparer;
 		private Stack<object> monitoredRequests;
-        private Func<object, object> interceptRecursionRequest;
+        private Func<object, object> _interceptRecursiveRequest;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionCatcher"/> class.
         /// </summary>
         /// <param name="builder">The intercepting builder to decorate.</param>
-        public RecursionCatcher(ISpecimenBuilder builder)
+        /// <param name="comparer">
+        /// An IEqualitycomparer implementation to use when comparing requests to determine recursion.
+        /// </param>
+        public RecursionCatcher(ISpecimenBuilder builder, IEqualityComparer comparer)
         {
             if (builder == null)
             {
                 throw new ArgumentNullException("builder");
             }
+            if (comparer == null)
+            {
+                throw new ArgumentNullException("comparer");
+            }
 
             monitoredRequests = new Stack<object>();
             this.builder = builder;
+            this.comparer = comparer;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecursionCatcher"/> class.
+        /// </summary>
+        /// <param name="builder">The intercepting builder to decorate.</param>
+        public RecursionCatcher(ISpecimenBuilder builder) : this(builder, EqualityComparer<object>.Default)
+        {
         }
 
         /// <summary>
@@ -34,9 +53,9 @@ namespace Ploeh.AutoFixture
         /// The recursion request interceptor is called for any recursion-causing requests.
         /// </summary>
         /// <value>The recursion request interceptor.</value>
-        public Func<object, object> RecursionRequestInterceptor
+        public Func<object, object> RecursiveRequestInterceptor
         {
-            get { return this.interceptRecursionRequest; }
+            get { return this._interceptRecursiveRequest; }
             set
             {
                 if (value == null)
@@ -44,7 +63,7 @@ namespace Ploeh.AutoFixture
                     throw new ArgumentNullException("value");
                 }
 
-                this.interceptRecursionRequest = value;
+                this._interceptRecursiveRequest = value;
             }
         }
 
@@ -64,13 +83,12 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         public object Create(object request, ISpecimenContainer container)
         {
-            if (monitoredRequests.Contains(request))
+            if (monitoredRequests.Any(x => comparer.Equals(x, request)))
             {
-                return interceptRecursionRequest(request);
+                return _interceptRecursiveRequest(request);
             }
 
             monitoredRequests.Push(request);
-
             object specimen = this.builder.Create(request, container);
             monitoredRequests.Pop();
             return specimen;
