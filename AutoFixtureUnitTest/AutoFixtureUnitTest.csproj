@@ -61,7 +61,7 @@
     </Reference>
     <Reference Include="xunit.extensions, Version=1.5.0.1479, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Program Files\xUnit.net 1.5\xunit.extensions.dll</HintPath>
+      <HintPath>..\Lib\xUnit 1.5\xunit.extensions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

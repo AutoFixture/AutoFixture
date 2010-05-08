@@ -10,23 +10,19 @@ namespace Ploeh.AutoFixture
     /// </summary>
 	public class RecursionCatcher : ISpecimenBuilder
 	{
-        private readonly TracingBuilder tracer;
+        private readonly ISpecimenBuilder builder;
 		private Stack<object> monitoredRequests;
-        private InterceptingBuilder interceptor;
         private Func<object, object> interceptRecursionRequest;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionCatcher"/> class.
         /// </summary>
-        /// <param name="interceptBuilder">The intercepting builder to decorate.</param>
-		public RecursionCatcher(InterceptingBuilder interceptBuilder)
-		{
-			monitoredRequests = new Stack<object>();
-            this.tracer = new TracingBuilder(interceptBuilder);
-            interceptor = interceptBuilder;
-            this.tracer.SpecimenRequested += (sender, e) => TrackRequest(e.Request);
-            this.tracer.SpecimenCreated += (sender, e) => TrackSpecimen();
-		}
+        /// <param name="builder">The intercepting builder to decorate.</param>
+        public RecursionCatcher(ISpecimenBuilder builder)
+        {
+            monitoredRequests = new Stack<object>();
+            this.builder = builder;
+        }
 
         /// <summary>
         /// Gets or sets the recursion request interceptor.
@@ -63,22 +59,16 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         public object Create(object request, ISpecimenContainer container)
         {
-            return this.tracer.Create(request, container);
-        }
-
-        private void TrackRequest(object request)
-        {
             if (monitoredRequests.Contains(request))
             {
-                interceptor.SetOnetimeInterception(request, interceptRecursionRequest(request));
+                return interceptRecursionRequest(request);
             }
 
             monitoredRequests.Push(request);
-        }
 
-        private void TrackSpecimen()
-        {
+            object specimen = this.builder.Create(request, container);
             monitoredRequests.Pop();
+            return specimen;
         }
 	}
 }
