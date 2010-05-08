@@ -105,6 +105,7 @@
     <Compile Include="Kernel\ExactTypeSpecificationTest.cs" />
     <Compile Include="Kernel\ValueIgnoringSeedUnwrapperTest.cs" />
     <Compile Include="Kernel\SeededRequestTest.cs" />
+    <Compile Include="NullRecursionCatcherTest.cs" />
     <Compile Include="RecursionCatcherTest.cs" />
     <Compile Include="StringGeneratorTest.cs" />
     <Compile Include="NullRecursionHandlerTest.cs" />

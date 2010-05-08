@@ -95,7 +95,6 @@
     <Compile Include="CustomizedObjectFactory.cs" />
     <Compile Include="GuidGenerator.cs" />
     <Compile Include="IBuilder.cs" />
-    <Compile Include="InterceptingBuilder.cs" />
     <Compile Include="Kernel\CompositeSpecimenBuilder.cs" />
     <Compile Include="Kernel\DefaultSpecimenContainer.cs" />
     <Compile Include="Kernel\ISpecimenBuilder.cs" />

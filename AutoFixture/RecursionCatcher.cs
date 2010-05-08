@@ -20,6 +20,11 @@ namespace Ploeh.AutoFixture
         /// <param name="builder">The intercepting builder to decorate.</param>
         public RecursionCatcher(ISpecimenBuilder builder)
         {
+            if (builder == null)
+            {
+                throw new ArgumentNullException("builder");
+            }
+
             monitoredRequests = new Stack<object>();
             this.builder = builder;
         }

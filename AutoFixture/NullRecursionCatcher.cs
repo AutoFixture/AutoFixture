@@ -11,8 +11,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="NullRecursionCatcher"/> class.
         /// </summary>
-        /// <param name="interceptBuilder">The intercepting builder to decorate.</param>
-        public NullRecursionCatcher(InterceptingBuilder interceptBuilder) : base(interceptBuilder)
+        /// <param name="builder">The builder to decorate.</param>
+        public NullRecursionCatcher(ISpecimenBuilder builder) : base(builder)
         {
             this.RecursionRequestInterceptor = (obj) => { return null; };
         }

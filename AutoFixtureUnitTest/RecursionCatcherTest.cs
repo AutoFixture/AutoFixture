@@ -13,9 +13,19 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             // Exercise system
-            var sut = new RecursionCatcher(new InterceptingBuilder(new DelegatingSpecimenBuilder()));
+            var sut = new RecursionCatcher(new DelegatingSpecimenBuilder());
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullBuilderThrows()
+        {
+            // Fixture setup
+            var dummySpecification = new DelegatingRequestSpecification();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() => new RecursionCatcher(null));
             // Teardown
         }
 
