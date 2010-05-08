@@ -144,6 +144,7 @@
     <Compile Include="Kernel\SeededRequest.cs" />
     <Compile Include="SingleSequenceGenerator.cs" />
     <Compile Include="StringGenerator.cs" />
+    <Compile Include="ThrowingRecursionGuard.cs" />
     <Compile Include="ThrowingRecursionHandler.cs" />
     <Compile Include="UInt16SequenceGenerator.cs" />
     <Compile Include="UInt32SequenceGenerator.cs" />

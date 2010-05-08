@@ -132,6 +132,7 @@
     <Compile Include="ConstructingObjectBuilderTest.cs" />
     <Compile Include="ObjectBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThrowingRecursionGuardTest.cs" />
     <Compile Include="ThrowingRecursionHandlerTest.cs" />
     <Compile Include="Kernel\TraceWriterTest.cs" />
     <Compile Include="UInt16SequenceGeneratorTest.cs" />

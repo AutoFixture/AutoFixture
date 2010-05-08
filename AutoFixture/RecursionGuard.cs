@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture
 	{
         private readonly ISpecimenBuilder builder;
         private readonly IEqualityComparer comparer;
-		private Stack<object> monitoredRequests;
+		private readonly Stack<object> monitoredRequests;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
@@ -45,6 +45,15 @@ namespace Ploeh.AutoFixture
         /// <param name="builder">The intercepting builder to decorate.</param>
         protected RecursionGuard(ISpecimenBuilder builder) : this(builder, EqualityComparer<object>.Default)
         {
+        }
+
+        /// <summary>
+        /// Gets the recorded requests so far.
+        /// </summary>
+        /// <value>The recorded requests.</value>
+        protected object[] GetRecordedRequests()
+        {
+            return monitoredRequests.ToArray();
         }
 
         /// <summary>

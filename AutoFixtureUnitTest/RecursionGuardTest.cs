@@ -1,6 +1,7 @@
 namespace Ploeh.AutoFixtureUnitTest
 {
     using System;
+    using System.Collections.Generic;
     using AutoFixture.Kernel;
     using Kernel;
     using Xunit;
@@ -105,7 +106,32 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Create(Guid.NewGuid(), container);
 
+            // Verify outcome
             Assert.True(handlingTriggered);
+        }
+
+        [Fact]
+        public void CreateWillTriggerHandlingOnSecondLevelRecursiveRequest()
+        {
+            // Fixture setup
+            object subRequest1 = Guid.NewGuid();
+            object subRequest2 = Guid.NewGuid();
+            var requestScenario = new Stack<object>(new [] { subRequest1, subRequest2, subRequest1 });
+            var builder = new DelegatingSpecimenBuilder();
+            builder.OnCreate = (r, c) => c.Resolve(requestScenario.Pop());
+            
+            var sut = new DelegatingRecursionGuard(builder);
+            object recursiveRequest = null;
+            sut.OnHandleRecursiveRequest = obj => recursiveRequest = obj;
+
+            var container = new DelegatingSpecimenContainer();
+            container.OnResolve = (r) => sut.Create(r, container);
+
+            // Exercise system
+            sut.Create(Guid.NewGuid(), container);
+
+            // Verify outcome
+            Assert.Same(subRequest1, recursiveRequest);
         }
     }
 }
