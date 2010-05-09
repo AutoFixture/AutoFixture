@@ -93,11 +93,11 @@
     <Compile Include="Kernel\PostprocessorTest.cs" />
     <Compile Include="Kernel\BindingCommandTest.cs" />
     <Compile Include="Kernel\PropertyRequestTranslatorTest.cs" />
-    <Compile Include="Kernel\SpecimenCreatorWithDoubleParameterFuncTest.cs" />
-    <Compile Include="Kernel\SpecimenCreatorWithParameterlessFuncTest.cs" />
-    <Compile Include="Kernel\SpecimenCreatorWithQuadrupleParameterFuncTest.cs" />
-    <Compile Include="Kernel\SpecimenCreatorWithSingleParameterFuncTest.cs" />
-    <Compile Include="Kernel\SpecimenCreatorWithTripleParameterFuncTest.cs" />
+    <Compile Include="Kernel\SpecimenFactoryWithDoubleParameterFuncTest.cs" />
+    <Compile Include="Kernel\SpecimenFactoryWithParameterlessFuncTest.cs" />
+    <Compile Include="Kernel\SpecimenFactoryWithQuadrupleParameterFuncTest.cs" />
+    <Compile Include="Kernel\SpecimenFactoryWithSingleParameterFuncTest.cs" />
+    <Compile Include="Kernel\SpecimenFactoryWithTripleParameterFuncTest.cs" />
     <Compile Include="Kernel\TracingBuilderTest.cs" />
     <Compile Include="Kernel\Scenario.cs" />
     <Compile Include="Kernel\SpecimenCreatedEventArgsTest.cs" />

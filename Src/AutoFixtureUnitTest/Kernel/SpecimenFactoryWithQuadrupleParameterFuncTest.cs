@@ -7,7 +7,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class SpecimenCreatorWithQuadrupleParameterFuncTest
+    public class SpecimenFactoryWithQuadrupleParameterFuncTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             Func<bool, string, int, decimal, object> dummyFunc = (x, y, z, æ) => new object();
             // Exercise system
-            var sut = new SpecimenCreator<bool, string, int, decimal, object>(dummyFunc);
+            var sut = new SpecimenFactory<bool, string, int, decimal, object>(dummyFunc);
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new SpecimenCreator<bool, int, DateTime, string, object>((Func<bool, int, DateTime, string, object>)null));
+            Assert.Throws<ArgumentNullException>(() => new SpecimenFactory<bool, int, DateTime, string, object>((Func<bool, int, DateTime, string, object>)null));
             // Teardown
         }
 
@@ -34,7 +34,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithNullContainerThrows()
         {
             // Fixture setup
-            var sut = new SpecimenCreator<object, object, object, object, object>((x, y, z, æ) => x);
+            var sut = new SpecimenFactory<object, object, object, object, object>((x, y, z, æ) => x);
             var dummyRequest = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
@@ -61,7 +61,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             Func<decimal, TimeSpan, string, int, object> f = (d, ts, s, i) =>
                 param1.Specimen.Equals(d) && param2.Specimen.Equals(ts) && param3.Specimen.Equals(s) && param4.Specimen.Equals(i) ? expectedSpecimen : new NoSpecimen();
-            var sut = new SpecimenCreator<decimal, TimeSpan, string, int, object>(f);
+            var sut = new SpecimenFactory<decimal, TimeSpan, string, int, object>(f);
             // Exercise system
             var dummyRequest = new object();
             var result = sut.Create(dummyRequest, container);

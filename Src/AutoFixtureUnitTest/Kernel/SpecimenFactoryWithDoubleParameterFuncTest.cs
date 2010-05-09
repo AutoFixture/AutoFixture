@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xunit;
 using Ploeh.AutoFixture.Kernel;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class SpecimenCreatorWithSingleParameterFuncTest
+    public class SpecimenFactoryWithDoubleParameterFuncTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
-            Func<string, object> dummyFunc = s => new object();
+            Func<string, int, object> dummyFunc = (x, y) => new object();
             // Exercise system
-            var sut = new SpecimenCreator<string, object>(dummyFunc);
+            var sut = new SpecimenFactory<string, int, object>(dummyFunc);
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new SpecimenCreator<int, object>((Func<int, object>)null));
+            Assert.Throws<ArgumentNullException>(() => new SpecimenFactory<int, string, object>((Func<int, string, object>)null));
             // Teardown
         }
 
@@ -34,7 +34,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithNullContainerThrows()
         {
             // Fixture setup
-            var sut = new SpecimenCreator<object, object>(x => x);
+            var sut = new SpecimenFactory<object, object, object>((x, y) => x);
             var dummyRequest = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
@@ -48,12 +48,17 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedSpecimen = new object();
 
-            var dtSpecimen = DateTimeOffset.Now;
-            var expectedParameterRequest = typeof(DateTimeOffset);
-            var container = new DelegatingSpecimenContainer { OnResolve = r => expectedParameterRequest.Equals(r) ? (object)dtSpecimen : new NoSpecimen(r) };
+            var param1 = new { ExpectedRequest = typeof(decimal), Specimen = (object)1m };
+            var param2 = new { ExpectedRequest = typeof(TimeSpan), Specimen = (object)TimeSpan.FromDays(1) };
+            var subRequests = new[] { param1, param2 };
 
-            Func<DateTimeOffset, object> f = dt => dtSpecimen.Equals(dt) ? expectedSpecimen : new NoSpecimen(dt);
-            var sut = new SpecimenCreator<DateTimeOffset, object>(f);
+            var container = new DelegatingSpecimenContainer();
+            container.OnResolve = r => (from x in subRequests
+                                        where x.ExpectedRequest.Equals(r)
+                                        select x.Specimen).DefaultIfEmpty(new NoSpecimen(r)).SingleOrDefault();
+
+            Func<decimal, TimeSpan, object> f = (d, ts) => param1.Specimen.Equals(d) && param2.Specimen.Equals(ts) ? expectedSpecimen : new NoSpecimen();
+            var sut = new SpecimenFactory<decimal, TimeSpan, object>(f);
             // Exercise system
             var dummyRequest = new object();
             var result = sut.Create(dummyRequest, container);

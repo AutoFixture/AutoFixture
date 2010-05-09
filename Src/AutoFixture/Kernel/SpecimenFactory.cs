@@ -9,22 +9,22 @@ namespace Ploeh.AutoFixture.Kernel
     /// Creates a new specimen using a <see cref="Func{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of specimen to create.</typeparam>
-    public class SpecimenCreator<T> : ISpecimenBuilder
+    public class SpecimenFactory<T> : ISpecimenBuilder
     {
         private readonly Func<T> create;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SpecimenCreator&lt;T&gt;"/> class.
+        /// Initializes a new instance of the <see cref="SpecimenFactory&lt;T&gt;"/> class.
         /// </summary>
-        /// <param name="creator">The func that will create specimens.</param>
-        public SpecimenCreator(Func<T> creator)
+        /// <param name="factory">The func that will create specimens.</param>
+        public SpecimenFactory(Func<T> factory)
         {
-            if (creator == null)
+            if (factory == null)
             {
-                throw new ArgumentNullException("creator");
+                throw new ArgumentNullException("factory");
             }
 
-            this.create = creator;
+            this.create = factory;
         }
 
         #region ISpecimenBuilder Members
@@ -56,28 +56,28 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     /// <typeparam name="TInput">The type of the parameter provided to the Func.</typeparam>
     /// <typeparam name="T">The type of specimen to create.</typeparam>
-    public class SpecimenCreator<TInput, T> : ISpecimenBuilder
+    public class SpecimenFactory<TInput, T> : ISpecimenBuilder
     {
         private readonly Func<TInput, T> create;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SpecimenCreator&lt;TInput, T&gt;"/> class.
+        /// Initializes a new instance of the <see cref="SpecimenFactory&lt;TInput, T&gt;"/> class.
         /// </summary>
-        /// <param name="creator">The func that will create specimens.</param>
+        /// <param name="factory">The func that will create specimens.</param>
         /// <remarks>
         /// <para>
-        /// The input parameter to <paramref name="creator"/> will be supplied by the
+        /// The input parameter to <paramref name="factory"/> will be supplied by the
         /// <see cref="ISpecimenContainer"/> passed to the <see cref="Create"/> method.
         /// </para>
         /// </remarks>
-        public SpecimenCreator(Func<TInput, T> creator)
+        public SpecimenFactory(Func<TInput, T> factory)
         {
-            if (creator == null)
+            if (factory == null)
             {
-                throw new ArgumentNullException("creator");
+                throw new ArgumentNullException("factory");
             }
 
-            this.create = creator;
+            this.create = factory;
         }
 
         #region ISpecimenBuilder Members
@@ -118,29 +118,29 @@ namespace Ploeh.AutoFixture.Kernel
     /// <typeparam name="TInput2">The type of the second parameter provided to the Func.</typeparam>
     /// <typeparam name="T">The type of specimen to create.</typeparam>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", Justification = "Necessary to wrap the corresponding Func. However, this particular API is only intended to be used to implement the fluent API, and is not targeted at the typical end-user.")]
-    public class SpecimenCreator<TInput1, TInput2, T> : ISpecimenBuilder
+    public class SpecimenFactory<TInput1, TInput2, T> : ISpecimenBuilder
     {
         private readonly Func<TInput1, TInput2, T> create;
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="SpecimenCreator&lt;TInput1, TInput2, T&gt;"/> class.
+        /// <see cref="SpecimenFactory&lt;TInput1, TInput2, T&gt;"/> class.
         /// </summary>
-        /// <param name="creator">The func that will create specimens.</param>
+        /// <param name="factory">The func that will create specimens.</param>
         /// <remarks>
         /// <para>
-        /// The input parameters to <paramref name="creator"/> will be supplied by the
+        /// The input parameters to <paramref name="factory"/> will be supplied by the
         /// <see cref="ISpecimenContainer"/> passed to the <see cref="Create"/> method.
         /// </para>
         /// </remarks>
-        public SpecimenCreator(Func<TInput1, TInput2, T> creator)
+        public SpecimenFactory(Func<TInput1, TInput2, T> factory)
         {
-            if (creator == null)
+            if (factory == null)
             {
-                throw new ArgumentNullException("creator");
+                throw new ArgumentNullException("factory");
             }
 
-            this.create = creator;
+            this.create = factory;
         }
 
         #region ISpecimenBuilder Members
@@ -183,29 +183,29 @@ namespace Ploeh.AutoFixture.Kernel
     /// <typeparam name="TInput3">The type of the third parameter provided to the Func.</typeparam>
     /// <typeparam name="T">The type of specimen to create.</typeparam>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", Justification = "Necessary to wrap the corresponding Func. However, this particular API is only intended to be used to implement the fluent API, and is not targeted at the typical end-user.")]
-    public class SpecimenCreator<TInput1, TInput2, TInput3, T> : ISpecimenBuilder
+    public class SpecimenFactory<TInput1, TInput2, TInput3, T> : ISpecimenBuilder
     {
         private readonly Func<TInput1, TInput2, TInput3, T> create;
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="SpecimenCreator&lt;TInput1, TInput2, TInput3, T&gt;"/> class.
+        /// <see cref="SpecimenFactory&lt;TInput1, TInput2, TInput3, T&gt;"/> class.
         /// </summary>
-        /// <param name="creator">The func that will create specimens.</param>
+        /// <param name="factory">The func that will create specimens.</param>
         /// <remarks>
         /// <para>
-        /// The input parameters to <paramref name="creator"/> will be supplied by the
+        /// The input parameters to <paramref name="factory"/> will be supplied by the
         /// <see cref="ISpecimenContainer"/> passed to the <see cref="Create"/> method.
         /// </para>
         /// </remarks>
-        public SpecimenCreator(Func<TInput1, TInput2, TInput3, T> creator)
+        public SpecimenFactory(Func<TInput1, TInput2, TInput3, T> factory)
         {
-            if (creator == null)
+            if (factory == null)
             {
-                throw new ArgumentNullException("creator");
+                throw new ArgumentNullException("factory");
             }
 
-            this.create = creator;
+            this.create = factory;
         }
 
         #region ISpecimenBuilder Members
@@ -250,29 +250,29 @@ namespace Ploeh.AutoFixture.Kernel
     /// <typeparam name="TInput4">The type of the fourth parameter provided to the Func.</typeparam>
     /// <typeparam name="T">The type of specimen to create.</typeparam>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", Justification = "Necessary to wrap the corresponding Func. However, this particular API is only intended to be used to implement the fluent API, and is not targeted at the typical end-user.")]
-    public class SpecimenCreator<TInput1, TInput2, TInput3, TInput4, T> : ISpecimenBuilder
+    public class SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T> : ISpecimenBuilder
     {
         private readonly Func<TInput1, TInput2, TInput3, TInput4, T> create;
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="SpecimenCreator&lt;TInput1, TInput2, TInput3, TInput4, T&gt;"/> class.
+        /// <see cref="SpecimenFactory&lt;TInput1, TInput2, TInput3, TInput4, T&gt;"/> class.
         /// </summary>
-        /// <param name="creator">The func that will create specimens.</param>
+        /// <param name="factory">The func that will create specimens.</param>
         /// <remarks>
         /// <para>
-        /// The input parameters to <paramref name="creator"/> will be supplied by the
+        /// The input parameters to <paramref name="factory"/> will be supplied by the
         /// <see cref="ISpecimenContainer"/> passed to the <see cref="Create"/> method.
         /// </para>
         /// </remarks>
-        public SpecimenCreator(Func<TInput1, TInput2, TInput3, TInput4, T> creator)
+        public SpecimenFactory(Func<TInput1, TInput2, TInput3, TInput4, T> factory)
         {
-            if (creator == null)
+            if (factory == null)
             {
-                throw new ArgumentNullException("creator");
+                throw new ArgumentNullException("factory");
             }
 
-            this.create = creator;
+            this.create = factory;
         }
 
         #region ISpecimenBuilder Members

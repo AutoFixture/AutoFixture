@@ -7,7 +7,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class SpecimenCreatorWithParameterlessFuncTest
+    public class SpecimenFactoryWithParameterlessFuncTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             Func<object> dummyFunc = () => new object();
             // Exercise system
-            var sut = new SpecimenCreator<object>(dummyFunc);
+            var sut = new SpecimenFactory<object>(dummyFunc);
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new SpecimenCreator<object>((Func<object>)null));
+            Assert.Throws<ArgumentNullException>(() => new SpecimenFactory<object>((Func<object>)null));
             // Teardown
         }
 
@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedSpecimen = new object();
             Func<object> creator = () => expectedSpecimen;
-            var sut = new SpecimenCreator<object>(creator);
+            var sut = new SpecimenFactory<object>(creator);
             // Exercise system
             var dummyRequest = new object();
             var dummyContainer = new DelegatingSpecimenContainer();
