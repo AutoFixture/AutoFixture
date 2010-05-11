@@ -9,21 +9,6 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     public class ObjectBuilderTest
     {
-        public ObjectBuilderTest()
-        {
-        }
-
-        [Fact]
-        public void CreateWithNullTypeMappingsWillThrow()
-        {
-            // Fixture setup
-            IDictionary<Type, Func<object, object>> nullTypeMappings = null;
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                new TestableObjectBuilder<object>(nullTypeMappings, new ThrowingRecursionHandler(), 7, false, t => null, new object()));
-            // Teardown
-        }
-
         [Fact]
         public void CreateAnonymousWillSetInt32Property()
         {
@@ -367,47 +352,13 @@ namespace Ploeh.AutoFixtureUnitTest
         private static ObjectBuilder<T> CreateSut<T>(T obj, Func<Type, object> resolve)
         {
             var f = new Fixture();
-#pragma warning disable 618
-            return new TestableObjectBuilder<T>(f.TypeMappings, new ThrowingRecursionHandler(), f.RepeatCount, f.OmitAutoProperties, resolve, obj);
-#pragma warning restore 618
+            f.Resolver = resolve;
+            return f.Build<T>().WithConstructor(() => obj);
         }
 
         private static ObjectBuilder<T> CreateSut<T>(Fixture fixture, T obj)
         {
-#pragma warning disable 618
-            return new TestableObjectBuilder<T>(fixture.TypeMappings, new ThrowingRecursionHandler(), fixture.RepeatCount, fixture.OmitAutoProperties, t => null, obj);
-#pragma warning restore 618
+            return fixture.Build<T>().WithConstructor(() => obj);
         }
-
-        private class TestableObjectBuilder<T> : ObjectBuilder<T>
-        {
-            private readonly IDictionary<Type, Func<object, object>> typeMappings;
-            private readonly int repeatCount;
-            private readonly bool omitAutoProperties;
-            private readonly Func<Type, object> resolve;
-
-            internal TestableObjectBuilder(IDictionary<Type, Func<object, object>> typeMappings, RecursionHandler recursionHandler, int repeatCount, bool omitAutoProperties, Func<Type, object> resolve, T obj)
-                : base(typeMappings, recursionHandler, repeatCount, omitAutoProperties, resolve)
-            {
-                this.typeMappings = typeMappings;
-                this.repeatCount = repeatCount;
-                this.omitAutoProperties = omitAutoProperties;
-                this.resolve = resolve;
-                this.CreatedObject = obj;
-            }
-
-            internal T CreatedObject { get; private set; }
-
-            protected override ObjectBuilder<T> CloneCore()
-            {
-                return new TestableObjectBuilder<T>(this.typeMappings, new ThrowingRecursionHandler(), this.repeatCount, this.omitAutoProperties, this.resolve, this.CreatedObject);
-            }
-
-            protected override T Create(T seed)
-            {
-                return this.CreatedObject;
-            }
-        }
-
     }
 }
