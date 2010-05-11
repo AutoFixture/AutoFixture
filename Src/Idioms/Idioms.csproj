@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="IPickedProperty.cs" />
     <Compile Include="PickedProperty.cs" />
+    <Compile Include="PickedPropertyException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FixtureExtensions.cs" />
     <Compile Include="Reflect.cs" />

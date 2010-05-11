@@ -38,6 +38,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PickedPropertyExceptionTest.cs" />
     <Compile Include="PickedPropertyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FixtureExtensionsTest.cs" />

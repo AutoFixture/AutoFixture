@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(PickedPropertyException))]
         [TestMethod]
         public void IsWellBehavedWritablePropertyWithReadOnlyPropertyWillThrow()
         {
@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(PickedPropertyException))]
         [TestMethod]
         public void IsWellBehavedWritablePropertyForIllBehavedPropertyGetterWillThrow()
         {
@@ -74,7 +74,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(PickedPropertyException))]
         [TestMethod]
         public void IsWellBehavedWritablePropertyForIllBehavedPropertySetterWillThrow()
         {
