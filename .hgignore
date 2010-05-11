@@ -4,3 +4,6 @@ glob:*\obj\*
 glob:TestResults\*
 glob:*.sln.cache
 glob:AutoFixture character.design
+glob:*.resharper.user
+glob:*.csproj.user
+glob:*_ReSharper*
