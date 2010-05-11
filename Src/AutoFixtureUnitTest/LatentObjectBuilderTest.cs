@@ -92,10 +92,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
         private static LatentObjectBuilder<T> CreateSut<T>()
         {
-            Fixture f = new Fixture();
-#pragma warning disable 618
-            return new LatentObjectBuilder<T>(f.TypeMappings, new ThrowingRecursionHandler(), f.RepeatCount, f.OmitAutoProperties, t => null);
-#pragma warning restore 618
+            return new Fixture().Build<T>();
         }
     }
 }

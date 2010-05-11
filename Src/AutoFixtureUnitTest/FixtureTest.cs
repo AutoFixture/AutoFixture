@@ -1856,51 +1856,91 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.False(result, "OmitAutoProperties");
             // Teardown
         }
-    }
 
-    public class RecursionTestObjectWithReferenceOutA
-    {
-        public RecursionTestObjectWithReferenceOutB ReferenceToB
+        [Fact]
+        public void FromSeedWithNullFuncThrows()
         {
-            get;
-            set;
-        }
-    }
-
-    public class RecursionTestObjectWithReferenceOutB
-    {
-        public RecursionTestObjectWithReferenceOutA ReferenceToA
-        {
-            get;
-            set;
-        }
-    }
-
-    public class RecursionTestObjectWithConstructorReferenceOutA
-    {
-        public RecursionTestObjectWithConstructorReferenceOutB ReferenceToB
-        {
-            get;
-            private set;
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Build<object>().FromSeed(null));
+            // Teardown
         }
 
-        public RecursionTestObjectWithConstructorReferenceOutA(RecursionTestObjectWithConstructorReferenceOutB b)
+        [Fact]
+        public void BuildFromSeedWillReturnCorrectResult()
         {
-            this.ReferenceToB = b;
+            // Fixture setup
+            var sut = new Fixture();
+            var expectedResult = new object();
+            // Exercise system
+            var result = sut.Build<object>().FromSeed(s => expectedResult).CreateAnonymous();
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
         }
-    }
 
-    public class RecursionTestObjectWithConstructorReferenceOutB
-    {
-        public RecursionTestObjectWithConstructorReferenceOutA ReferenceToA
+        [Fact]
+        public void BuildFromSeedWillCreateUsingCorrectSeed()
         {
-            get;
-            private set;
+            // Fixture setup
+            var sut = new Fixture();
+            var seed = new object();
+
+            var verified = false;
+            Func<object, object> mock = s => verified = seed.Equals(s);
+            // Exercise system
+            sut.Build<object>().FromSeed(mock).CreateAnonymous(seed);
+            // Verify outcome
+            Assert.True(verified, "Mock verified");
+            // Teardown
         }
 
-        public RecursionTestObjectWithConstructorReferenceOutB(RecursionTestObjectWithConstructorReferenceOutA a)
+        private class RecursionTestObjectWithReferenceOutA
         {
-            this.ReferenceToA = a;
+            public RecursionTestObjectWithReferenceOutB ReferenceToB
+            {
+                get;
+                set;
+            }
+        }
+
+        private class RecursionTestObjectWithReferenceOutB
+        {
+            public RecursionTestObjectWithReferenceOutA ReferenceToA
+            {
+                get;
+                set;
+            }
+        }
+
+        private class RecursionTestObjectWithConstructorReferenceOutA
+        {
+            public RecursionTestObjectWithConstructorReferenceOutB ReferenceToB
+            {
+                get;
+                private set;
+            }
+
+            public RecursionTestObjectWithConstructorReferenceOutA(RecursionTestObjectWithConstructorReferenceOutB b)
+            {
+                this.ReferenceToB = b;
+            }
+        }
+
+        private class RecursionTestObjectWithConstructorReferenceOutB
+        {
+            public RecursionTestObjectWithConstructorReferenceOutA ReferenceToA
+            {
+                get;
+                private set;
+            }
+
+            public RecursionTestObjectWithConstructorReferenceOutB(RecursionTestObjectWithConstructorReferenceOutA a)
+            {
+                this.ReferenceToA = a;
+            }
         }
     }
 }
