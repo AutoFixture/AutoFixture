@@ -18,6 +18,9 @@ namespace Ploeh.AutoFixture.Idioms
         /// </summary>
         /// <exception cref="ArgumentNullException">The <paramref name="method"/> is null.</exception>
         /// <exception cref="ArgumentException">The <paramref name="method"/> is not a lambda expression or it does not represent a method invocation.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "The entire purpose of this class is strongly-typed reflection.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Nested generics and Expression's is a very happy marriage.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The entire purpose of this class is strongly-typed reflection.")]
         public static MethodInfo GetMethod(Expression<Action<TTarget>> method)
         {
             return GetMethodInfo(method);
@@ -28,7 +31,10 @@ namespace Ploeh.AutoFixture.Idioms
         /// </summary>
         /// <exception cref="ArgumentNullException">The <paramref name="method"/> is null.</exception>
         /// <exception cref="ArgumentException">The <paramref name="method"/> is not a lambda expression or it does not represent a method invocation.</exception>
-        public static MethodInfo GetMethod<T1>(Expression<Action<TTarget, T1>> method)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "The entire purpose of this class is strongly-typed reflection.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Nested generics and Expression's is a very happy marriage.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The entire purpose of this class is strongly-typed reflection.")]
+        public static MethodInfo GetMethod<TArgument>(Expression<Action<TTarget, TArgument>> method)
         {
             return GetMethodInfo(method);
         }
@@ -38,7 +44,10 @@ namespace Ploeh.AutoFixture.Idioms
         /// </summary>
         /// <exception cref="ArgumentNullException">The <paramref name="method"/> is null.</exception>
         /// <exception cref="ArgumentException">The <paramref name="method"/> is not a lambda expression or it does not represent a method invocation.</exception>
-        public static MethodInfo GetMethod<T1, T2>(Expression<Action<TTarget, T1, T2>> method)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "The entire purpose of this class is strongly-typed reflection.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Nested generics and Expression's is a very happy marriage.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The entire purpose of this class is strongly-typed reflection.")]
+        public static MethodInfo GetMethod<TFirstArgument, TSecondArgument>(Expression<Action<TTarget, TFirstArgument, TSecondArgument>> method)
         {
             return GetMethodInfo(method);
         }
@@ -48,7 +57,10 @@ namespace Ploeh.AutoFixture.Idioms
         /// </summary>
         /// <exception cref="ArgumentNullException">The <paramref name="method"/> is null.</exception>
         /// <exception cref="ArgumentException">The <paramref name="method"/> is not a lambda expression or it does not represent a method invocation.</exception>
-        public static MethodInfo GetMethod<T1, T2, T3>(Expression<Action<TTarget, T1, T2, T3>> method)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "The entire purpose of this class is strongly-typed reflection.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Nested generics and Expression's is a very happy marriage.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The entire purpose of this class is strongly-typed reflection.")]
+        public static MethodInfo GetMethod<TFirstArgument, TSecondArgument, TThirdArgument>(Expression<Action<TTarget, TFirstArgument, TSecondArgument, TThirdArgument>> method)
         {
             return GetMethodInfo(method);
         }
@@ -69,23 +81,13 @@ namespace Ploeh.AutoFixture.Idioms
         /// </summary>
         /// <exception cref="ArgumentNullException">The <paramref name="property"/> is null.</exception>
         /// <exception cref="ArgumentException">The <paramref name="property"/> is not a lambda expression or it does not represent a property access.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "The entire purpose of this class is strongly-typed reflection.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Nested generics and Expression's is a very happy marriage.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The entire purpose of this class is strongly-typed reflection.")]
         public static PropertyInfo GetProperty<TProperty>(Expression<Func<TTarget, TProperty>> property)
         {
             PropertyInfo info = GetMemberInfo(property) as PropertyInfo;
             if (info == null) throw new ArgumentException("Member is not a property");
-
-            return info;
-        }
-
-        /// <summary>
-        /// Gets the field represented by the lambda expression.
-        /// </summary>
-        /// <exception cref="ArgumentNullException">The <paramref name="field"/> is null.</exception>
-        /// <exception cref="ArgumentException">The <paramref name="field"/> is not a lambda expression or it does not represent a field access.</exception>
-        public static FieldInfo GetField<TField>(Expression<Func<TTarget, TField>> field)
-        {
-            FieldInfo info = GetMemberInfo(field) as FieldInfo;
-            if (info == null) throw new ArgumentException("Member is not a field");
 
             return info;
         }

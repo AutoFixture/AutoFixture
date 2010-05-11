@@ -7,7 +7,8 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public static class FixtureExtensions
     {
-        public static IPickedProperty PickProperty<T, TProperty>(this Fixture f, Expression<Func<T, TProperty>> property)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Nested generics and Expression's is a very happy marriage.")]
+        public static IPickedProperty PickProperty<T, TProperty>(this Fixture fixture, Expression<Func<T, TProperty>> property)
         {
             if (property == null)
             {
@@ -15,7 +16,7 @@ namespace Ploeh.AutoFixture.Idioms
             }
 
             var propertyInfo = Reflect<T>.GetProperty(property);
-            return new PickedProperty<T, TProperty>(f, propertyInfo);
+            return new PickedProperty<T, TProperty>(fixture, propertyInfo);
         }
     }
 }

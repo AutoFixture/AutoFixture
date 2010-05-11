@@ -26,13 +26,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Reflect<Mock>.GetProperty((Expression<Func<Mock, object>>)null);
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
-        public void ShouldThrowIfNullFieldLambda()
-        {
-            Reflect<Mock>.GetField((Expression<Func<Mock, object>>)null);
-        }
-
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
         public void ShouldThrowIfNotMethodLambda()
@@ -47,25 +40,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Reflect<Mock>.GetProperty(x => x.PublicField);
         }
 
-        [ExpectedException(typeof(ArgumentException))]
-        [TestMethod]
-        public void ShouldThrowIfNotFieldLambda()
-        {
-            Reflect<Mock>.GetField(x => x.PublicProperty);
-        }
-
         [TestMethod]
         public void ShouldGetPublicProperty()
         {
             PropertyInfo info = Reflect<Mock>.GetProperty(x => x.PublicProperty);
             Assert.IsTrue(info == typeof(Mock).GetProperty("PublicProperty"));
-        }
-
-        [TestMethod]
-        public void ShouldGetPublicField()
-        {
-            FieldInfo info = Reflect<Mock>.GetField(x => x.PublicField);
-            Assert.IsTrue(info == typeof(Mock).GetField("PublicField"));
         }
 
         [TestMethod]
@@ -95,13 +74,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             PropertyInfo info = Reflect<ReflectorFixture>.GetProperty(x => x.NonPublicProperty);
             Assert.IsTrue(info == typeof(ReflectorFixture).GetProperty("NonPublicProperty", BindingFlags.Instance | BindingFlags.NonPublic));
-        }
-
-        [TestMethod]
-        public void ShouldGetNonPublicField()
-        {
-            FieldInfo info = Reflect<ReflectorFixture>.GetField(x => x.NonPublicField);
-            Assert.IsTrue(info == typeof(ReflectorFixture).GetField("NonPublicField", BindingFlags.Instance | BindingFlags.NonPublic));
         }
 
         [TestMethod]
