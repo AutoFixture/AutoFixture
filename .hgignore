@@ -2,5 +2,8 @@ glob:*.suo
 glob:*\bin\*
 glob:*\obj\*
 glob:TestResults\*
+glob:*.sln.cache
+glob:AutoFixture character.design
 glob:*.resharper.user
-glob:_ReSharper*
+glob:*.csproj.user
+glob:*_ReSharper*
