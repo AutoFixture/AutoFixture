@@ -9,17 +9,13 @@ namespace Ploeh.AutoFixtureUnitTest
 
     public class LatentObjectBuilderTest
     {
-        public LatentObjectBuilderTest()
-        {
-        }
-
         [Fact]
         public void CreateAnonymousWillCreateObject()
         {
             // Fixture setup
-            ObjectBuilder<object> sut = LatentObjectBuilderTest.CreateSut<object>();
+            var sut = new Fixture();
             // Exercise system
-            object result = sut.CreateAnonymous();
+            object result = sut.Build<object>().CreateAnonymous();
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
@@ -29,12 +25,14 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousAfterDefiningConstructorWithZeroParametersWillReturnDefinedObject()
         {
             // Fixture setup
+            var sut = new Fixture();
             object expectedObject = new object();
-            LatentObjectBuilder<object> sut = LatentObjectBuilderTest.CreateSut<object>();
             // Exercise system
-            ConstructingObjectBuilder<object> result = sut.WithConstructor(() => expectedObject);
+            var result = sut.Build<object>()
+                .WithConstructor(() => expectedObject)
+                .CreateAnonymous();
             // Verify outcome
-            Assert.Equal<object>(expectedObject, result.CreateAnonymous());
+            Assert.Equal<object>(expectedObject, result);
             // Teardown
         }
 
@@ -42,12 +40,14 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousAfterDefiningConstructorWithOneParameterWillReturnDefinedObject()
         {
             // Fixture setup
+            var sut = new Fixture();
             SingleParameterType<object> expectedObject = new SingleParameterType<object>(new object());
-            LatentObjectBuilder<SingleParameterType<object>> sut = LatentObjectBuilderTest.CreateSut<SingleParameterType<object>>();
             // Exercise system
-            ConstructingObjectBuilder<SingleParameterType<object>> result = sut.WithConstructor<object>(obj => expectedObject);
+            var result = sut.Build<SingleParameterType<object>>()
+                .WithConstructor<object>(obj => expectedObject)
+                .CreateAnonymous();
             // Verify outcome
-            Assert.Equal<SingleParameterType<object>>(expectedObject, result.CreateAnonymous());
+            Assert.Equal<SingleParameterType<object>>(expectedObject, result);
             // Teardown
         }
 
@@ -55,12 +55,14 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousAfterDefiningConstructorWithTwoParametersWillReturnDefinedObject()
         {
             // Fixture setup
+            var sut = new Fixture();
             DoubleParameterType<object, object> expectedObject = new DoubleParameterType<object, object>(new object(), new object());
-            LatentObjectBuilder<DoubleParameterType<object, object>> sut = LatentObjectBuilderTest.CreateSut<DoubleParameterType<object, object>>();
             // Exercise system
-            ConstructingObjectBuilder<DoubleParameterType<object, object>> result = sut.WithConstructor<object, object>((o1, o2) => expectedObject);
+            var result = sut.Build<DoubleParameterType<object, object>>()
+                .WithConstructor<object, object>((o1, o2) => expectedObject)
+                .CreateAnonymous();
             // Verify outcome
-            Assert.Equal<DoubleParameterType<object, object>>(expectedObject, result.CreateAnonymous());
+            Assert.Equal<DoubleParameterType<object, object>>(expectedObject, result);
             // Teardown
         }
 
@@ -68,12 +70,14 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousAfterDefiningConstructorWithThreeParametersWillReturnDefinedObject()
         {
             // Fixture setup
+            var sut = new Fixture();
             TripleParameterType<object, object, object> expectedObject = new TripleParameterType<object, object, object>(new object(), new object(), new object());
-            LatentObjectBuilder<TripleParameterType<object, object, object>> sut = LatentObjectBuilderTest.CreateSut<TripleParameterType<object, object, object>>();
             // Exercise system
-            ConstructingObjectBuilder<TripleParameterType<object, object, object>> result = sut.WithConstructor<object, object, object>((o1, o2, o3) => expectedObject);
+            var result = sut.Build<TripleParameterType<object, object, object>>()
+                .WithConstructor<object, object, object>((o1, o2, o3) => expectedObject)
+                .CreateAnonymous();
             // Verify outcome
-            Assert.Equal<TripleParameterType<object, object, object>>(expectedObject, result.CreateAnonymous());
+            Assert.Equal<TripleParameterType<object, object, object>>(expectedObject, result);
             // Teardown
         }
 
@@ -81,18 +85,15 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousAfterDefiningConstructorWithFourParametersWillReturnDefinedObject()
         {
             // Fixture setup
+            var sut = new Fixture();
             QuadrupleParameterType<object, object, object, object> expectedObject = new QuadrupleParameterType<object, object, object, object>(new object(), new object(), new object(), new object());
-            LatentObjectBuilder<QuadrupleParameterType<object, object, object, object>> sut = LatentObjectBuilderTest.CreateSut<QuadrupleParameterType<object, object, object, object>>();
             // Exercise system
-            ConstructingObjectBuilder<QuadrupleParameterType<object, object, object, object>> result = sut.WithConstructor<object, object, object, object>((o1, o2, o3, o4) => expectedObject);
+            var result = sut.Build<QuadrupleParameterType<object, object, object, object>>()
+                .WithConstructor<object, object, object, object>((o1, o2, o3, o4) => expectedObject)
+                .CreateAnonymous();
             // Verify outcome
-            Assert.Equal<QuadrupleParameterType<object, object, object, object>>(expectedObject, result.CreateAnonymous());
+            Assert.Equal<QuadrupleParameterType<object, object, object, object>>(expectedObject, result);
             // Teardown
-        }
-
-        private static LatentObjectBuilder<T> CreateSut<T>()
-        {
-            return new Fixture().Build<T>();
         }
     }
 }
