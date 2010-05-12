@@ -10,10 +10,6 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     public class FixtureTest
     {
-        public FixtureTest()
-        {
-        }
-
         [Fact]
         public void CreateAnonymousWillCreateSimpleObject()
         {
@@ -1894,6 +1890,514 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Build<object>().FromSeed(mock).CreateAnonymous(seed);
             // Verify outcome
             Assert.True(verified, "Mock verified");
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateAnonymousWillSetInt32Property()
+        {
+            // Fixture setup
+            int unexpectedNumber = default(int);
+            var sut = new Fixture();
+            // Exercise system
+            PropertyHolder<int> result = sut.Build<PropertyHolder<int>>().CreateAnonymous();
+            // Verify outcome
+            Assert.NotEqual<int>(unexpectedNumber, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateAnonymousWillSetInt32Field()
+        {
+            // Fixture setup
+            int unexpectedNumber = default(int);
+            var sut = new Fixture();
+            // Exercise system
+            FieldHolder<int> result = sut.Build<FieldHolder<int>>().CreateAnonymous();
+            // Verify outcome
+            Assert.NotEqual<int>(unexpectedNumber, result.Field);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateAnonymousWillNotAttemptToSetReadOnlyProperty()
+        {
+            // Fixture setup
+            int expectedNumber = default(int);
+            var sut = new Fixture();
+            // Exercise system
+            ReadOnlyPropertyHolder<int> result = sut.Build<ReadOnlyPropertyHolder<int>>().CreateAnonymous();
+            // Verify outcome
+            Assert.Equal<int>(expectedNumber, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateAnonymousWillNotAttemptToSetReadOnlyField()
+        {
+            // Fixture setup
+            int expectedNumber = default(int);
+            var sut = new Fixture();
+            // Exercise system
+            ReadOnlyFieldHolder<int> result = sut.Build<ReadOnlyFieldHolder<int>>().CreateAnonymous();
+            // Verify outcome
+            Assert.Equal<int>(expectedNumber, result.Field);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildWithWillSetPropertyOnCreatedObject()
+        {
+            // Fixture setup
+            string expectedText = "Anonymous text";
+            var sut = new Fixture();
+            // Exercise system
+            PropertyHolder<string> result = sut.Build<PropertyHolder<string>>().With(ph => ph.Property, expectedText).CreateAnonymous();
+            // Verify outcome
+            Assert.Equal<string>(expectedText, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildWithWillSetFieldOnCreatedObject()
+        {
+            // Fixture setup
+            string expectedText = "Anonymous text";
+            var fixture = new Fixture();
+            // Exercise system
+            FieldHolder<string> result = fixture.Build<FieldHolder<string>>().With(fh => fh.Field, expectedText).CreateAnonymous();
+            // Verify outcome
+            Assert.Equal<string>(expectedText, result.Field);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAnonymousWithWillAssignPropertyEvenInCombinationWithOmitAutoProperties()
+        {
+            // Fixture setup
+            long unexpectedNumber = default(long);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Build<DoublePropertyHolder<long, long>>().With(ph => ph.Property1).OmitAutoProperties().CreateAnonymous();
+            // Verify outcome
+            Assert.NotEqual<long>(unexpectedNumber, result.Property1);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAnonymousWithWillAssignFieldEvenInCombinationWithOmitAutoProperties()
+        {
+            // Fixture setup
+            int unexpectedNumber = default(int);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Build<DoubleFieldHolder<int, decimal>>().With(fh => fh.Field1).OmitAutoProperties().CreateAnonymous();
+            // Verify outcome
+            Assert.NotEqual<int>(unexpectedNumber, result.Field1);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildWithoutWillIgnorePropertyOnCreatedObject()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Build<DoublePropertyHolder<string, string>>().Without(ph => ph.Property1).CreateAnonymous();
+            // Verify outcome
+            Assert.Null(result.Property1);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildWithoutWillIgnorePropertyOnCreatedObjectEvenInCombinationWithWithAutoProperties()
+        {
+            // Fixture setup
+            var sut = new Fixture() { OmitAutoProperties = true };
+            // Exercise system
+            var result = sut.Build<DoublePropertyHolder<string, string>>().WithAutoProperties().Without(ph => ph.Property1).CreateAnonymous();
+            // Verify outcome
+            Assert.Null(result.Property1);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildWithoutWillIgnoreFieldOnCreatedObject()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Build<DoubleFieldHolder<string, string>>().Without(fh => fh.Field1).CreateAnonymous();
+            // Verify outcome
+            Assert.Null(result.Field1);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildWithoutWillNotIgnoreOtherPropertyOnCreatedObject()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Build<DoublePropertyHolder<string, string>>().Without(ph => ph.Property1).CreateAnonymous();
+            // Verify outcome
+            Assert.NotNull(result.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildWithoutWillNotIgnoreOtherFieldOnCreatedObject()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Build<DoubleFieldHolder<string, string>>().Without(fh => fh.Field1).CreateAnonymous();
+            // Verify outcome
+            Assert.NotNull(result.Field2);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndOmitAutoPropertiesWillNotAutoPopulateProperty()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            PropertyHolder<object> result = sut.Build<PropertyHolder<object>>().OmitAutoProperties().CreateAnonymous();
+            // Verify outcome
+            Assert.Null(result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildWithAutoPropertiesWillAutoPopulateProperty()
+        {
+            // Fixture setup
+            var sut = new Fixture { OmitAutoProperties = true };
+            // Exercise system
+            PropertyHolder<object> result = sut.Build<PropertyHolder<object>>().WithAutoProperties().CreateAnonymous();
+            // Verify outcome
+            Assert.NotNull(result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndDoWillPerformOperationOnCreatedObject()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var expectedObject = new object();
+            // Exercise system
+            var result = sut.Build<CollectionHolder<object>>().Do(x => x.Collection.Add(expectedObject)).CreateAnonymous().Collection.First();
+            // Verify outcome
+            Assert.Equal<object>(expectedObject, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuilderSequenceWillBePreserved()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            int expectedValue = 3;
+            // Exercise system
+            var result = sut.Build<PropertyHolder<int>>()
+                .With(x => x.Property, 1)
+                .Do(x => x.SetProperty(2))
+                .With(x => x.Property, expectedValue)
+                .CreateAnonymous();
+            // Verify outcome
+            Assert.Equal<int>(expectedValue, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateAnonymousWillInvokeResolve()
+        {
+            // Fixture setup
+            bool resolveWasInvoked = false;
+
+            var sut = new Fixture();
+            sut.Resolver = t =>
+            {
+                resolveWasInvoked = true;
+                return new ConcreteType();
+            };
+            // Exercise system
+            sut.Build<PropertyHolder<AbstractType>>().CreateAnonymous();
+            // Verify outcome
+            Assert.True(resolveWasInvoked, "Resolve");
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateAnonymousOnUnregisteredAbstractionWillInvokeResolveCallbackWithCorrectType()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Resolver = t =>
+            {
+                Assert.Equal<Type>(typeof(AbstractType), t);
+                return new ConcreteType();
+            };
+            // Exercise system
+            sut.Build<PropertyHolder<AbstractType>>().CreateAnonymous();
+            // Verify outcome (done by callback)
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateAnonymousOnUnregisteredAbstractionWillReturnInstanceFromResolveCallback()
+        {
+            // Fixture setup
+            var expectedValue = new ConcreteType();
+
+            var sut = new Fixture();
+            sut.Resolver = t => expectedValue;
+            // Exercise system
+            var result = sut.Build<PropertyHolder<AbstractType>>().CreateAnonymous().Property;
+            // Verify outcome
+            Assert.Equal<AbstractType>(expectedValue, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndOmitAutoPropetiesWillNotMutateSut()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var sut = fixture.Build<PropertyHolder<string>>();
+            // Exercise system
+            sut.OmitAutoProperties();
+            // Verify outcome
+            var instance = sut.CreateAnonymous();
+            Assert.NotNull(instance.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildWithAutoPropetiesWillNotMutateSut()
+        {
+            // Fixture setup
+            var fixture = new Fixture() { OmitAutoProperties = true };
+            var sut = fixture.Build<PropertyHolder<string>>();
+            // Exercise system
+            sut.WithAutoProperties();
+            // Verify outcome
+            var instance = sut.CreateAnonymous();
+            Assert.Null(instance.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAnonymousWithWillNotMutateSut()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var sut = fixture.Build<PropertyHolder<string>>().OmitAutoProperties();
+            // Exercise system
+            sut.With(s => s.Property);
+            // Verify outcome
+            var instance = sut.CreateAnonymous();
+            Assert.Null(instance.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildWithWillNotMutateSut()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var unexpectedProperty = "Anonymous value";
+            var sut = fixture.Build<PropertyHolder<string>>();
+            // Exercise system
+            sut.With(s => s.Property, unexpectedProperty);
+            // Verify outcome
+            var instance = sut.CreateAnonymous();
+            Assert.NotEqual(unexpectedProperty, instance.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildWithoutWillNotMutateSut()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var sut = fixture.Build<PropertyHolder<string>>();
+            // Exercise system
+            sut.Without(s => s.Property);
+            // Verify outcome
+            var instance = sut.CreateAnonymous();
+            Assert.NotNull(instance.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateAnonymousWillReturnCreatedObject()
+        {
+            // Fixture setup
+            object expectedObject = new object();
+            var sut = new Fixture();
+            // Exercise system
+            object result = sut.Build<object>().FromSeed(seed => expectedObject).CreateAnonymous();
+            // Verify outcome
+            Assert.Equal<object>(expectedObject, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateManyWillCreateManyAnonymousItems()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var expectedItemCount = sut.RepeatCount;
+            // Exercise system
+            IEnumerable<PropertyHolder<int>> result = sut.Build<PropertyHolder<int>>().CreateMany();
+            // Verify outcome
+            var uniqueItemCount = (from ph in result
+                                   select ph.Property).Distinct().Count();
+            Assert.Equal<int>(expectedItemCount, uniqueItemCount);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateManyWillCreateCorrectNumberOfItems()
+        {
+            // Fixture setup
+            int expectedCount = 401;
+            var sut = new Fixture();
+            // Exercise system
+            IEnumerable<PropertyHolder<int>> result = sut.Build<PropertyHolder<int>>().CreateMany(expectedCount);
+            // Verify outcome
+            var uniqueItemCount = (from ph in result
+                                   select ph.Property).Distinct().Count();
+            Assert.Equal<int>(expectedCount, uniqueItemCount);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateManyWithSeedWillCreateManyCorrectItems()
+        {
+            // Fixture setup
+            string anonymousPrefix = "AnonymousPrefix";
+            var sut = new Fixture();
+            var expectedItemCount = sut.RepeatCount;
+            // Exercise system
+            IEnumerable<string> result = sut.Build<string>()
+                .FromSeed(seed => seed + Guid.NewGuid())
+                .CreateMany(anonymousPrefix);
+            // Verify outcome
+            int actualCount = (from s in result
+                               where s.StartsWith(anonymousPrefix)
+                               select s).Count();
+            Assert.Equal<int>(expectedItemCount, actualCount);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateManyWithSeedWillCreateCorrectNumberOfItems()
+        {
+            // Fixture setup
+            string anonymousPrefix = "Prefix";
+            int expectedItemCount = 29;
+            var sut = new Fixture();
+            sut.RepeatCount = expectedItemCount;
+            // Exercise system
+            IEnumerable<string> result = sut.Build<string>()
+                .FromSeed(seed => seed + Guid.NewGuid())
+                .CreateMany(anonymousPrefix, expectedItemCount);
+            // Verify outcome
+            int actualCount = (from s in result
+                               where s.StartsWith(anonymousPrefix)
+                               select s).Count();
+            Assert.Equal<int>(expectedItemCount, actualCount);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateAnonymousWillCreateObject()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            object result = sut.Build<object>().CreateAnonymous();
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateAnonymousAfterDefiningConstructorWithZeroParametersWillReturnDefinedObject()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            object expectedObject = new object();
+            // Exercise system
+            var result = sut.Build<object>()
+                .WithConstructor(() => expectedObject)
+                .CreateAnonymous();
+            // Verify outcome
+            Assert.Equal<object>(expectedObject, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateAnonymousAfterDefiningConstructorWithOneParameterWillReturnDefinedObject()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            SingleParameterType<object> expectedObject = new SingleParameterType<object>(new object());
+            // Exercise system
+            var result = sut.Build<SingleParameterType<object>>()
+                .WithConstructor<object>(obj => expectedObject)
+                .CreateAnonymous();
+            // Verify outcome
+            Assert.Equal<SingleParameterType<object>>(expectedObject, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateAnonymousAfterDefiningConstructorWithTwoParametersWillReturnDefinedObject()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            DoubleParameterType<object, object> expectedObject = new DoubleParameterType<object, object>(new object(), new object());
+            // Exercise system
+            var result = sut.Build<DoubleParameterType<object, object>>()
+                .WithConstructor<object, object>((o1, o2) => expectedObject)
+                .CreateAnonymous();
+            // Verify outcome
+            Assert.Equal<DoubleParameterType<object, object>>(expectedObject, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateAnonymousAfterDefiningConstructorWithThreeParametersWillReturnDefinedObject()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            TripleParameterType<object, object, object> expectedObject = new TripleParameterType<object, object, object>(new object(), new object(), new object());
+            // Exercise system
+            var result = sut.Build<TripleParameterType<object, object, object>>()
+                .WithConstructor<object, object, object>((o1, o2, o3) => expectedObject)
+                .CreateAnonymous();
+            // Verify outcome
+            Assert.Equal<TripleParameterType<object, object, object>>(expectedObject, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAndCreateAnonymousAfterDefiningConstructorWithFourParametersWillReturnDefinedObject()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            QuadrupleParameterType<object, object, object, object> expectedObject = new QuadrupleParameterType<object, object, object, object>(new object(), new object(), new object(), new object());
+            // Exercise system
+            var result = sut.Build<QuadrupleParameterType<object, object, object, object>>()
+                .WithConstructor<object, object, object, object>((o1, o2, o3, o4) => expectedObject)
+                .CreateAnonymous();
+            // Verify outcome
+            Assert.Equal<QuadrupleParameterType<object, object, object, object>>(expectedObject, result);
             // Teardown
         }
 
