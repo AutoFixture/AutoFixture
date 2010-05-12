@@ -40,6 +40,24 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
+        /// Defines a creational function that creates anonymous variables based on a seed.
+        /// </summary>
+        /// <param name="creator">The function used to create anonymous variables.</param>
+        /// <returns>
+        /// A <see cref="ConstructingObjectBuilder{T}"/> that can be used to create anonymous
+        /// objects, or further customize the creation algorithm.
+        /// </returns>
+        public ConstructingObjectBuilder<T> FromSeed(Func<T, T> creator)
+        {
+            if (creator == null)
+            {
+                throw new ArgumentNullException("creator");
+            }
+
+            return this.CustomizedFactory.CreateConstructingBuilder<T>(creator);
+        }
+
+        /// <summary>
         /// Specifies that an anonymous object should be created in a particular way; often by
         /// using a constructor.
         /// </summary>

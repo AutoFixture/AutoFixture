@@ -128,9 +128,6 @@
     <Compile Include="TextGuidRegex.cs" />
     <Compile Include="FixtureTest.cs" />
     <Compile Include="Int32SequenceCreatorTest.cs" />
-    <Compile Include="LatentObjectBuilderTest.cs" />
-    <Compile Include="ConstructingObjectBuilderTest.cs" />
-    <Compile Include="ObjectBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThrowingRecursionGuardTest.cs" />
     <Compile Include="ThrowingRecursionHandlerTest.cs" />

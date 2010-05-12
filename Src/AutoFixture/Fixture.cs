@@ -262,7 +262,7 @@ namespace Ploeh.AutoFixture
         public void Customize<T>(Func<LatentObjectBuilder<T>, ObjectBuilder<T>> builderTransform)
         {
             var b = this.CreateLatentObjectBuilder<T>();
-            this.TypeMappings[typeof(T)] = x => builderTransform(b).CreateAnonymous();
+            this.TypeMappings[typeof(T)] = x => builderTransform(b).CreateAnonymous((T)x);
         }
 
         /// <summary>
