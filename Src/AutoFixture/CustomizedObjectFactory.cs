@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixture
 
         internal object CreateNamedObject(Type t, string name)
         {
-            object seed = null;
+            object seed = CustomizedObjectFactory.GetDetault(t);
             if (t == typeof(string))
             {
                 seed = name;
@@ -113,6 +113,15 @@ namespace Ploeh.AutoFixture
                 parameters.Add(parameter);
             }
             return constructors.First().Invoke(parameters.ToArray());
+        }
+
+        private static object GetDetault(Type t)
+        {
+            if (t.IsValueType)
+            {
+                return Activator.CreateInstance(t);
+            }
+            return null;
         }
     }
 }
