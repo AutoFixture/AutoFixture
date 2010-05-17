@@ -7,11 +7,6 @@ namespace Ploeh.AutoFixture.Idioms
     {
         #region Implementation of IInvalidValue<T>
 
-        public Guid Value
-        {
-            get { return Guid.Empty; }
-        }
-
         public void Assert(Action<object> action)
         {
             if (action == null)
@@ -19,7 +14,7 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new ArgumentNullException("action");
             }
 
-            action(this.Value);
+            action(Guid.Empty);
         }
 
         public bool IsSatisfiedBy(Type exceptionType)

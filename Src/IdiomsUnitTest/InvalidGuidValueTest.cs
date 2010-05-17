@@ -18,21 +18,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ValueIsCorrect()
-        {
-            // Fixture setup
-            var fixture = new Fixture();
-            var expected = Guid.Empty;
-
-            var sut = fixture.CreateAnonymous<InvalidGuidValue>();
-            // Exercise system
-            var result = sut.Value;
-            // Verify outcome
-            Assert.Equal<Guid>(expected, result);
-            // Teardown
-        }
-
-        [Fact]
         public void AssertWithNullActionWillThrow()
         {
             // Fixture setup
