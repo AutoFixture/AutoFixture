@@ -31,18 +31,35 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="xunit, Version=1.5.0.1479, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\xUnit 1.5\xunit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmptyStringInvalidValueTest.cs" />
+    <Compile Include="IInvalidValueExtensionsTest.cs" />
+    <Compile Include="InvalidGuidValueTest.cs" />
+    <Compile Include="NullReferenceInvalidValueTest.cs" />
+    <Compile Include="ValueTypeGuardConventionTest.cs" />
+    <Compile Include="ReferenceTypeGuardConventionTest.cs" />
+    <Compile Include="StringGuardConventionTest.cs" />
+    <Compile Include="ValueGuardConventionExceptionTest.cs" />
+    <Compile Include="DefaultTypeGuardSpecificationCollectionTest.cs" />
+    <Compile Include="GuidGuardSpecificationTest.cs" />
+    <Compile Include="GuidValueGuardConventionTest.cs" />
     <Compile Include="PickedPropertyExceptionTest.cs" />
     <Compile Include="PickedPropertyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FixtureExtensionsTest.cs" />
+    <Compile Include="ReferenceTypeGuardSpecificationTest.cs" />
     <Compile Include="ReflectorFixture.cs" />
+    <Compile Include="StringGuardSpecificationTest.cs" />
+    <Compile Include="ValueTypeGuardSpecificationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

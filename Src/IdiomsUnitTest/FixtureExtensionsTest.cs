@@ -1,72 +1,68 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    [TestClass]
     public class FixtureExtensionsTest
     {
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void PickPropertyWithNullExpressionWillThrow()
         {
             // Fixture setup
             // Exercise system
-            new Fixture().PickProperty<object, object>(null);
+            Assert.Throws(typeof(ArgumentNullException), () =>
+                new Fixture().PickProperty<object, object>(null));
             // Verify outcome (expected exception)
             // Teardown
         }
 
-        [ExpectedException(typeof(ArgumentException))]
-        [TestMethod]
+        [Fact]
         public void PickPropertyWithNullFuncWillThrow()
         {
             // Fixture setup
             // Exercise system
-            new Fixture().PickProperty<object, object>(sut => (object)null);
+            Assert.Throws(typeof(ArgumentException), () =>
+                new Fixture().PickProperty<object, object>(sut => (object)null));
             // Verify outcome (expected exception)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void PickPropertyCanPickReadOnlyProperty()
         {
             // Fixture setup
             // Exercise system
             var result = new Fixture().PickProperty((ReadOnlyPropertyHolder<object> sut) => sut.Property);
             // Verify outcome
-            Assert.IsNotNull(result, "PickProperty");
+            Assert.NotNull(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void PickPropertyWithReadWritePropertyWillReturnInstance()
         {
             // Fixture setup
             // Exercise system
             var result = new Fixture().PickProperty((PropertyHolder<object> sut) => sut.Property);
             // Verify outcome
-            Assert.IsNotNull(result, "PickProperty");
+            Assert.NotNull(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void PickPropertyWithReadWritePropertyWillReturnCorrectType()
         {
             // Fixture setup
             // Exercise system
             var result = new Fixture().PickProperty((PropertyHolder<object> sut) => sut.Property);
             // Verify outcome
-            Assert.IsInstanceOfType(result, typeof(PickedProperty<PropertyHolder<object>, object>));
+            Assert.IsType<PickedProperty<PropertyHolder<object>, object>>(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void PickPropertyReturnsUsableInstance()
         {
             // Fixture setup
@@ -74,6 +70,18 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             new Fixture()
                 .PickProperty((PropertyHolder<object> ph) => ph.Property)
                 .IsWellBehavedWritableProperty();
+            // Verify outcome (no exception indicates success)
+            // Teardown
+        }
+
+        [Fact]
+        public void PickPropertyCanAssertInvariants()
+        {
+            // Fixture setup
+            new Fixture()
+                .PickProperty((InvariantReferenceTypePropertyHolder<object> iph) => iph.Property)
+                .AssertInvariants();
+            // Exercise system
             // Verify outcome (no exception indicates success)
             // Teardown
         }

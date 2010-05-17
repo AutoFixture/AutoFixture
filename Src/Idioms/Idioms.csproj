@@ -58,12 +58,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmptyStringInvalidValue.cs" />
+    <Compile Include="IInvalidValue.cs" />
+    <Compile Include="IInvalidValueExtensions.cs" />
+    <Compile Include="InvalidGuidValue.cs" />
+    <Compile Include="NullReferenceInvalidValue.cs" />
+    <Compile Include="ValueTypeGuardConvention.cs" />
+    <Compile Include="ReferenceTypeGuardConvention.cs" />
+    <Compile Include="StringGuardConvention.cs" />
+    <Compile Include="ValueGuardConventionException.cs" />
+    <Compile Include="DefaultTypeGuardSpecificationCollection.cs" />
+    <Compile Include="GuidGuardSpecification.cs" />
+    <Compile Include="GuidValueGuardConvention.cs" />
     <Compile Include="IPickedProperty.cs" />
+    <Compile Include="ITypeGuardSpecification.cs" />
+    <Compile Include="IValueGuardConvention.cs" />
     <Compile Include="PickedProperty.cs" />
     <Compile Include="PickedPropertyException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FixtureExtensions.cs" />
+    <Compile Include="ReferenceTypeGuardSpecification.cs" />
     <Compile Include="Reflect.cs" />
+    <Compile Include="StringGuardSpecification.cs" />
+    <Compile Include="ValueTypeGuardSpecification.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

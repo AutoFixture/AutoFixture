@@ -4,14 +4,14 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class PickedPropertyExceptionTest
+    public class ValueGuardConventionExceptionTest
     {
         [Fact]
         public void SutIsException()
         {
             // Fixture setup
             // Exercise system
-            var sut = System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(PickedPropertyException));
+            var sut = System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(ValueGuardConventionException));
             // Verify outcome
             Assert.IsAssignableFrom<Exception>(sut);
             // Teardown
@@ -21,9 +21,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void MessageIsNotNull()
         {
             // Fixture setup
-            var fixture = new Fixture();
-
-            var sut = new PickedPropertyException();
+            var sut = new ValueGuardConventionException();
             // Exercise system
             var result = sut.Message;
             // Verify outcome
@@ -38,7 +36,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             var expected = fixture.CreateAnonymous("Message");
 
-            var sut = new PickedPropertyException(expected);
+            var sut = new ValueGuardConventionException(expected);
             // Exercise system
             var result = sut.Message;
             // Verify outcome
@@ -53,7 +51,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             var expected = fixture.CreateAnonymous<Exception>();
 
-            var sut = new PickedPropertyException(fixture.CreateAnonymous("Message"), expected);
+            var sut = new ValueGuardConventionException(fixture.CreateAnonymous("Message"), expected);
             // Exercise system
             var result = sut.InnerException;
             // Verify outcome

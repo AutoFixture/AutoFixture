@@ -64,6 +64,7 @@
     <Compile Include="FieldHolder.cs" />
     <Compile Include="IllBehavedPropertyHolder.cs" />
     <Compile Include="IndexedPropertyHolder.cs" />
+    <Compile Include="InvariantReferenceTypePropertyHolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyHolder.cs" />
     <Compile Include="QuadrupleParameterType.cs" />
