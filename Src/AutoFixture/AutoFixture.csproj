@@ -75,6 +75,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Kernel\IFactoryComposer.cs" />
+    <Compile Include="Kernel\IPostprocessComposer.cs" />
     <Compile Include="Kernel\AndRequestSpecification.cs" />
     <Compile Include="Kernel\AnyTypeSpecification.cs" />
     <Compile Include="Kernel\AutoPropertiesCommand.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="Kernel\FilteringSpecimenBuilder.cs" />
     <Compile Include="Kernel\InverseRequestSpecification.cs" />
     <Compile Include="Kernel\IRequestSpecification.cs" />
+    <Compile Include="Kernel\IRuleComposer.cs" />
     <Compile Include="Kernel\ISpecifiedSpecimenCommand.cs" />
     <Compile Include="Kernel\NullSpecifiedSpecimenCommand.cs" />
     <Compile Include="Kernel\OrRequestSpecification.cs" />
