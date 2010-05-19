@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace Ploeh.AutoFixture.Dsl
 {
     public interface IFactoryComposer<T>
     {

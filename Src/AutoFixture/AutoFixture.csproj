@@ -75,8 +75,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Kernel\IFactoryComposer.cs" />
-    <Compile Include="Kernel\IPostprocessComposer.cs" />
+    <Compile Include="Dsl\IFactoryComposer.cs" />
+    <Compile Include="Dsl\IPostprocessComposer.cs" />
     <Compile Include="Kernel\AndRequestSpecification.cs" />
     <Compile Include="Kernel\AnyTypeSpecification.cs" />
     <Compile Include="Kernel\AutoPropertiesCommand.cs" />
@@ -86,13 +86,14 @@
     <Compile Include="Kernel\FilteringSpecimenBuilder.cs" />
     <Compile Include="Kernel\InverseRequestSpecification.cs" />
     <Compile Include="Kernel\IRequestSpecification.cs" />
-    <Compile Include="Kernel\IRuleComposer.cs" />
+    <Compile Include="Dsl\IRuleComposer.cs" />
     <Compile Include="Kernel\ISpecifiedSpecimenCommand.cs" />
     <Compile Include="Kernel\NullSpecifiedSpecimenCommand.cs" />
     <Compile Include="Kernel\OrRequestSpecification.cs" />
     <Compile Include="Kernel\Postprocessor.cs" />
     <Compile Include="Kernel\BindingCommand.cs" />
     <Compile Include="Kernel\PropertyRequestTranslator.cs" />
+    <Compile Include="Dsl\RuleComposer.cs" />
     <Compile Include="Kernel\SpecimenFactory.cs" />
     <Compile Include="Kernel\TraceWriter.cs" />
     <Compile Include="CustomizedObjectFactory.cs" />

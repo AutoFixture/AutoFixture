@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace Ploeh.AutoFixture.Dsl
 {
     public interface IPostprocessComposer<T>
     {
