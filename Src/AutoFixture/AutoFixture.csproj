@@ -94,6 +94,7 @@
     <Compile Include="Kernel\BindingCommand.cs" />
     <Compile Include="Kernel\PropertyRequestTranslator.cs" />
     <Compile Include="Dsl\RuleComposer.cs" />
+    <Compile Include="Kernel\SeededFactory.cs" />
     <Compile Include="Kernel\SpecimenFactory.cs" />
     <Compile Include="Kernel\TraceWriter.cs" />
     <Compile Include="CustomizedObjectFactory.cs" />
