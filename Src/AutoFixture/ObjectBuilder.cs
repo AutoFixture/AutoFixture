@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture
     /// Customizes and creates anonymous object instances of a given type.
     /// </summary>
     /// <typeparam name="T">The type of object to create.</typeparam>
-    public abstract class ObjectBuilder<T> : IBuilder
+    public abstract class ObjectBuilder<T> : IBuilder, ISpecimenFactory<T>
     {
         private readonly List<MemberAnnotatedAction<T>> actions;
         private readonly CustomizedObjectFactory customizedFactory;
