@@ -4,10 +4,8 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Dsl
 {
-    public interface IPostprocessComposer<T>
+    public interface IPostprocessComposer<T> : ISpecimenBuilderComposer
     {
-        ISpecimenBuilder Compose();
-
         IPostprocessComposer<T> Do(Action<T> action);
 
         IPostprocessComposer<T> OmitAutoProperties();

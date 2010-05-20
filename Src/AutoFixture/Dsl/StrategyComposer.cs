@@ -4,7 +4,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Dsl
 {
-    public class RuleComposer<T> : IRuleComposer<T>
+    public class StrategyComposer<T> : IStrategyComposer<T>
     {
         #region IFactoryComposer<T> Members
 
@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.Dsl
             {
                 throw new ArgumentNullException("factory");
             }
-            return new RuleComposer<T>();
+            return new StrategyComposer<T>();
         }
 
         public IPostprocessComposer<T> FromFactory(Func<T> factory)
@@ -46,11 +46,6 @@ namespace Ploeh.AutoFixture.Dsl
 
         #region IPostprocessComposer<T> Members
 
-        public ISpecimenBuilder Compose()
-        {
-            return new FilteringSpecimenBuilder(new ModestConstructorInvoker(), new ExactTypeSpecification(typeof (T)));
-        }
-
         public IPostprocessComposer<T> Do(Action<T> action)
         {
             throw new NotImplementedException();
@@ -79,6 +74,15 @@ namespace Ploeh.AutoFixture.Dsl
         public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
             throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region ISpecimenBuilderComposer Members
+
+        public ISpecimenBuilder Compose()
+        {
+            return new FilteringSpecimenBuilder(new ModestConstructorInvoker(), new ExactTypeSpecification(typeof(T)));
         }
 
         #endregion

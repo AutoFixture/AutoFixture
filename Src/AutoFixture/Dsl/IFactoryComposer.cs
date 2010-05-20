@@ -2,7 +2,7 @@
 
 namespace Ploeh.AutoFixture.Dsl
 {
-    public interface IFactoryComposer<T>
+    public interface IFactoryComposer<T> : ISpecimenBuilderComposer
     {
         IPostprocessComposer<T> FromSeed(Func<T, T> factory);
 
