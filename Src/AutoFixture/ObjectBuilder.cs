@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Ploeh.AutoFixture.Dsl;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
@@ -11,7 +13,7 @@ namespace Ploeh.AutoFixture
     /// Customizes and creates anonymous object instances of a given type.
     /// </summary>
     /// <typeparam name="T">The type of object to create.</typeparam>
-    public abstract class ObjectBuilder<T> : IBuilder, ISpecimenFactory<T>
+    public abstract class ObjectBuilder<T> : IBuilder, ISpecimenFactory<T>, IPostprocessComposer<T>
     {
         private readonly List<MemberAnnotatedAction<T>> actions;
         private readonly CustomizedObjectFactory customizedFactory;
@@ -349,5 +351,48 @@ namespace Ploeh.AutoFixture
                         select aa.Member).Contains(m, new MemberInfoNameComparer())
                    select this.CustomizedFactory.CreateAssigment(m).ToAnnotatedAction<T>();
         }
+
+        #region IPostprocessComposer<T> Members
+
+        IPostprocessComposer<T> IPostprocessComposer<T>.Do(Action<T> action)
+        {
+            return this.Do(action);
+        }
+
+        IPostprocessComposer<T> IPostprocessComposer<T>.OmitAutoProperties()
+        {
+            return this.OmitAutoProperties();
+        }
+
+        IPostprocessComposer<T> IPostprocessComposer<T>.With<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
+        {
+            return this.With(propertyPicker);
+        }
+
+        IPostprocessComposer<T> IPostprocessComposer<T>.With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
+        {
+            return this.With(propertyPicker, value);
+        }
+
+        IPostprocessComposer<T> IPostprocessComposer<T>.WithAutoProperties()
+        {
+            return this.WithAutoProperties();
+        }
+
+        IPostprocessComposer<T> IPostprocessComposer<T>.Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
+        {
+            return this.Without(propertyPicker);
+        }
+
+        #endregion
+
+        #region ISpecimenBuilderComposer Members
+
+        public ISpecimenBuilder Compose()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }
