@@ -94,7 +94,6 @@
     <Compile Include="Kernel\PostprocessorTest.cs" />
     <Compile Include="Kernel\BindingCommandTest.cs" />
     <Compile Include="Kernel\PropertyRequestTranslatorTest.cs" />
-    <Compile Include="Dsl\StrategyComposerTest.cs" />
     <Compile Include="Kernel\SeededFactoryTest.cs" />
     <Compile Include="Kernel\SpecimenFactoryWithDoubleParameterFuncTest.cs" />
     <Compile Include="Kernel\SpecimenFactoryWithParameterlessFuncTest.cs" />

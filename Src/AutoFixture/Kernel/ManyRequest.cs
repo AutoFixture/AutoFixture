@@ -129,7 +129,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return defaultCount;
             }
 
-            throw new ArgumentOutOfRangeException("defaultNumber", "Neither the contained count nor the default count is positive. At least one of them must specify a positive number of requests to generate.");
+            throw new ArgumentOutOfRangeException("defaultCount", "Neither the contained count nor the default count is positive. At least one of them must specify a positive number of requests to generate.");
         }
     }
 }
