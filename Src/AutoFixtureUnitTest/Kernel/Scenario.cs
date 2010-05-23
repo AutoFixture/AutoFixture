@@ -206,6 +206,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void RequestManyReturnsCorrectResult()
+        {
+            // Fixture setup
+            var container = Scenario.CreateContainer();
+            // Exercise system
+            var result = container.Resolve(new ManyRequest(typeof(int), 3));
+            // Verify outcome
+            var actual = Assert.IsAssignableFrom<IEnumerable<object>>(result);
+            Assert.True(Enumerable.Range(1, 3).Cast<object>().SequenceEqual(actual));
+            // Teardown
+        }
+
         private static DefaultSpecimenContainer CreateContainer()
         {
             var builder = Scenario.CreateFoundationBuilder();
@@ -226,6 +239,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new ParameterRequestTranslator(),
                 new PropertyRequestTranslator(),
                 new FieldRequestTranslator(),
+                new ManyUnwrapper(),
                 new StringSeedUnwrapper(),
                 new ValueIgnoringSeedUnwrapper());
             return new Postprocessor(builder, new AutoPropertiesCommand().Execute, new AnyTypeSpecification());

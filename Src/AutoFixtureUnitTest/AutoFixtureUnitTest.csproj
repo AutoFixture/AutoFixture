@@ -85,6 +85,7 @@
     <Compile Include="Kernel\FilteringSpecimenBuilderTest.cs" />
     <Compile Include="Kernel\InverseRequestSpecificationTest.cs" />
     <Compile Include="Kernel\ManyRequestTest.cs" />
+    <Compile Include="Kernel\ManyUnwrapperTest.cs" />
     <Compile Include="Kernel\ModestConstructorInvokerTest.cs" />
     <Compile Include="Kernel\NoSpecimenTest.cs" />
     <Compile Include="Kernel\NullSpecifiedSpecimenCommandTest.cs" />
