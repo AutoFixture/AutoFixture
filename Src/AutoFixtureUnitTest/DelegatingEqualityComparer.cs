@@ -10,12 +10,12 @@
             this.OnEquals = (x, y) => false;
         }
 
-        public bool Equals(object x, object y)
+        bool IEqualityComparer.Equals(object x, object y)
         {
             return this.OnEquals(x, y);
         }
 
-        public int GetHashCode(object obj)
+        int IEqualityComparer.GetHashCode(object obj)
         {
             return obj.GetHashCode();
         }
