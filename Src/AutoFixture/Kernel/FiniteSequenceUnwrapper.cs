@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// Unwraps a request for many instances and returns the results.
     /// </summary>
-    public class ManyUnwrapper : ISpecimenBuilder
+    public class FiniteSequenceUnwrapper : ISpecimenBuilder
     {
         #region ISpecimenBuilder Members
 
@@ -18,8 +18,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="request">The request that describes what to create.</param>
         /// <param name="container">A container that can be used to create other specimens.</param>
         /// <returns>
-        /// Many specimens if <paramref name="request"/> is a <see cref="ManyRequest"/> instance;
-        /// otherwise a <see cref="NoSpecimen"/> instance.
+        /// Many specimens if <paramref name="request"/> is a <see cref="FiniteSequenceRequest"/>
+        /// instance; otherwise a <see cref="NoSpecimen"/> instance.
         /// </returns>
         public object Create(object request, ISpecimenContainer container)
         {
@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("container");
             }
 
-            var manyRequest = request as ManyRequest;
+            var manyRequest = request as FiniteSequenceRequest;
             if (manyRequest == null)
             {
                 return new NoSpecimen(request);

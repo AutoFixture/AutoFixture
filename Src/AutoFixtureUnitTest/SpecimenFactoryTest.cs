@@ -88,7 +88,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var count = 3;
             object expectedResult = Enumerable.Range(1, count);
-            var container = new DelegatingSpecimenContainer { OnResolve = r => r.Equals(new ManyRequest(typeof(int), count)) ? expectedResult : new NoSpecimen(r) };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => r.Equals(new FiniteSequenceRequest(typeof(int), count)) ? expectedResult : new NoSpecimen(r) };
             // Exercise system
             var result = container.CreateMany<int>();
             // Verify outcome

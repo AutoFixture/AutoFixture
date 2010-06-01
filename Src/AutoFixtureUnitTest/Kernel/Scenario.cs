@@ -207,12 +207,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void RequestManyReturnsCorrectResult()
+        public void RequestFiniteSequenceReturnsCorrectResult()
         {
             // Fixture setup
             var container = Scenario.CreateContainer();
             // Exercise system
-            var result = container.Resolve(new ManyRequest(typeof(int), 3));
+            var result = container.Resolve(new FiniteSequenceRequest(typeof(int), 3));
             // Verify outcome
             var actual = Assert.IsAssignableFrom<IEnumerable<object>>(result);
             Assert.True(Enumerable.Range(1, 3).Cast<object>().SequenceEqual(actual));
@@ -239,7 +239,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new ParameterRequestTranslator(),
                 new PropertyRequestTranslator(),
                 new FieldRequestTranslator(),
-                new ManyUnwrapper(),
+                new FiniteSequenceUnwrapper(),
                 new StringSeedUnwrapper(),
                 new ValueIgnoringSeedUnwrapper());
             return new Postprocessor(builder, new AutoPropertiesCommand().Execute, new AnyTypeSpecification());

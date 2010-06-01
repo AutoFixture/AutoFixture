@@ -9,17 +9,17 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// Signals that many similar instances are requested.
     /// </summary>
-    public class ManyRequest : IEquatable<ManyRequest>
+    public class FiniteSequenceRequest : IEquatable<FiniteSequenceRequest>
     {
         private readonly object request;
         private readonly int count;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ManyRequest"/> class.
+        /// Initializes a new instance of the <see cref="FiniteSequenceRequest"/> class.
         /// </summary>
         /// <param name="request">The underlying request to muliply.</param>
         /// <param name="count">The number of instances requested.</param>
-        public ManyRequest(object request, int count)
+        public FiniteSequenceRequest(object request, int count)
         {
             if (request == null)
             {
@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </exception>
         public override bool Equals(object obj)
         {
-            var other = obj as ManyRequest;
+            var other = obj as FiniteSequenceRequest;
             if (other != null)
             {
                 return this.Equals(other);
@@ -89,7 +89,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <see langword="true"/> if <paramref name="other"/> represents the same request with the
         /// same requested count; otherwise, <see langword="false"/>.
         /// </returns>
-        public bool Equals(ManyRequest other)
+        public bool Equals(FiniteSequenceRequest other)
         {
             if (other == null)
             {

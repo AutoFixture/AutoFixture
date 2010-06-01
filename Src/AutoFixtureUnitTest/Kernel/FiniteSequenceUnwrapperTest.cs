@@ -8,14 +8,14 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class ManyUnwrapperTest
+    public class FiniteSequenceUnwrapperTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-            var sut = new ManyUnwrapper();
+            var sut = new FiniteSequenceUnwrapper();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithNullContainerThrows()
         {
             // Fixture setup
-            var sut = new ManyUnwrapper();
+            var sut = new FiniteSequenceUnwrapper();
             var dummyRequest = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithAnonymousRequestReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = new ManyUnwrapper();
+            var sut = new FiniteSequenceUnwrapper();
             var request = new object();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContainer();
@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithInvalidRequestReturnsCorrectResult(object request)
         {
             // Fixture setup
-            var sut = new ManyUnwrapper();
+            var sut = new FiniteSequenceUnwrapper();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(request, dummyContainer);
@@ -71,12 +71,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var request = new object();
             var count = 3;
-            var manyRequest = new ManyRequest(request, count);
+            var manyRequest = new FiniteSequenceRequest(request, count);
 
             var expectedResult = new object();
             var container = new DelegatingSpecimenContainer { OnResolve = r => request.Equals(r) ? expectedResult : new NoSpecimen() };
 
-            var sut = new ManyUnwrapper();
+            var sut = new FiniteSequenceUnwrapper();
             // Exercise system
             var result = sut.Create(manyRequest, container);
             // Verify outcome
