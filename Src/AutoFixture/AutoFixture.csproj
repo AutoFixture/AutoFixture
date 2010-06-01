@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dsl\ISpecimenBuilderComposer.cs" />
     <Compile Include="Kernel\AndRequestSpecification.cs" />
     <Compile Include="Kernel\AnyTypeSpecification.cs" />
     <Compile Include="Kernel\AutoPropertiesCommand.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="SByteSequenceGenerator.cs" />
     <Compile Include="Kernel\SeededRequest.cs" />
     <Compile Include="SingleSequenceGenerator.cs" />
+    <Compile Include="SpecimenFactory.cs" />
     <Compile Include="StringGenerator.cs" />
     <Compile Include="ThrowingRecursionGuard.cs" />
     <Compile Include="ThrowingRecursionHandler.cs" />

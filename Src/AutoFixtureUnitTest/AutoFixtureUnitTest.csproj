@@ -69,6 +69,7 @@
     <Compile Include="ByteSequenceGeneratorTest.cs" />
     <Compile Include="DelegatingEqualityComparer.cs" />
     <Compile Include="DelegatingRecursionGuard.cs" />
+    <Compile Include="Dsl\DelegatingSpecimenBuilderComposer.cs" />
     <Compile Include="Kernel\AndRequestSpecificationTest.cs" />
     <Compile Include="Kernel\AnyTypeSpecificationTest.cs" />
     <Compile Include="Kernel\AutoPropertiesCommandTest.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Kernel\SeededRequestTest.cs" />
     <Compile Include="NullRecursionGuardTest.cs" />
     <Compile Include="RecursionGuardTest.cs" />
+    <Compile Include="SpecimenFactoryTest.cs" />
     <Compile Include="StringGeneratorTest.cs" />
     <Compile Include="NullRecursionHandlerTest.cs" />
     <Compile Include="TemplatedLikenessTest.cs" />
