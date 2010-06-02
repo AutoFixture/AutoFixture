@@ -8,16 +8,43 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class FiniteSequenceUnwrapperTest
+    public class ManyTranslatorTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-            var sut = new FiniteSequenceUnwrapper();
+            var sut = new ManyTranslator();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void CountIsProperWritableProperty()
+        {
+            // Fixture setup
+            var sut = new ManyTranslator();
+            var expectedCount = 1;
+            // Exercise system
+            sut.Count = expectedCount;
+            int result = sut.Count;
+            // Verify outcome
+            Assert.Equal(expectedCount, result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void SettingInvalidCountThrows(int count)
+        {
+            // Fixture setup
+            var sut = new ManyTranslator();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                sut.Count = count);
             // Teardown
         }
 
@@ -25,7 +52,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithNullContainerThrows()
         {
             // Fixture setup
-            var sut = new FiniteSequenceUnwrapper();
+            var sut = new ManyTranslator();
             var dummyRequest = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
@@ -37,7 +64,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithAnonymousRequestReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = new FiniteSequenceUnwrapper();
+            var sut = new ManyTranslator();
             var request = new object();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContainer();
@@ -55,7 +82,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithInvalidRequestReturnsCorrectResult(object request)
         {
             // Fixture setup
-            var sut = new FiniteSequenceUnwrapper();
+            var sut = new ManyTranslator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContainer();
             var result = sut.Create(request, dummyContainer);
@@ -66,22 +93,20 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void CreateWithFiniteSequenceRequestReturnsCorrectResult()
+        public void CreateWithManyRequestReturnsCorrectResult()
         {
             // Fixture setup
-            var request = new object();
-            var count = 3;
-            var manyRequest = new FiniteSequenceRequest(request, count);
-
+            var request = new ManyRequest(new object());
+            var count = 7;
+            var expectedTranslation = new FiniteSequenceRequest(request.Request, 7);
             var expectedResult = new object();
-            var container = new DelegatingSpecimenContainer { OnResolve = r => request.Equals(r) ? expectedResult : new NoSpecimen() };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => expectedTranslation.Equals(r) ? expectedResult : new NoSpecimen(r) };
 
-            var sut = new FiniteSequenceUnwrapper();
+            var sut = new ManyTranslator { Count = count };
             // Exercise system
-            var result = sut.Create(manyRequest, container);
+            var result = sut.Create(request, container);
             // Verify outcome
-            var actual = Assert.IsAssignableFrom<IEnumerable<object>>(result);
-            Assert.True(actual.All(expectedResult.Equals));
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
     }

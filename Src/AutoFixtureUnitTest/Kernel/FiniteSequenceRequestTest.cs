@@ -8,7 +8,7 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class FiniteSequentRequestTest
+    public class FiniteSequenceRequestTest
     {
         [Fact]
         public void InitializeWithNullRequestAndValidNumberThrows()

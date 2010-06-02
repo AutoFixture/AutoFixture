@@ -88,6 +88,8 @@
     <Compile Include="Kernel\ISpecifiedSpecimenCommand.cs" />
     <Compile Include="Kernel\FiniteSequenceRequest.cs" />
     <Compile Include="Kernel\FiniteSequenceUnwrapper.cs" />
+    <Compile Include="Kernel\ManyRequest.cs" />
+    <Compile Include="Kernel\ManyTranslator.cs" />
     <Compile Include="Kernel\NullSpecifiedSpecimenCommand.cs" />
     <Compile Include="Kernel\OrRequestSpecification.cs" />
     <Compile Include="Kernel\Postprocessor.cs" />

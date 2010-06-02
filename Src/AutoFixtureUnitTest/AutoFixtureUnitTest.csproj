@@ -85,8 +85,10 @@
     <Compile Include="Kernel\FieldRequestTranslatorTest.cs" />
     <Compile Include="Kernel\FilteringSpecimenBuilderTest.cs" />
     <Compile Include="Kernel\InverseRequestSpecificationTest.cs" />
-    <Compile Include="Kernel\FiniteSequentRequestTest.cs" />
+    <Compile Include="Kernel\FiniteSequenceRequestTest.cs" />
     <Compile Include="Kernel\FiniteSequenceUnwrapperTest.cs" />
+    <Compile Include="Kernel\ManyRequestTest.cs" />
+    <Compile Include="Kernel\ManyTranslatorTest.cs" />
     <Compile Include="Kernel\ModestConstructorInvokerTest.cs" />
     <Compile Include="Kernel\NoSpecimenTest.cs" />
     <Compile Include="Kernel\NullSpecifiedSpecimenCommandTest.cs" />
