@@ -101,7 +101,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var expectedResult = Enumerable.Range(1, 17).Select(i => i.ToString());
             var specimenBuilder = new DelegatingSpecimenBuilder();
-            specimenBuilder.OnCreate = (r,c)=>
+            specimenBuilder.OnCreate = (r, c) =>
                 {
                     Assert.NotNull(c);
                     Assert.Equal(new ManyRequest(typeof(string)), r);
@@ -111,6 +111,47 @@ namespace Ploeh.AutoFixtureUnitTest
             var composer = new DelegatingSpecimenBuilderComposer { OnCompose = () => specimenBuilder };
             // Exercise system
             var result = composer.CreateMany<string>();
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateSeededManyOnContainerReturnsCorrectResult()
+        {
+            // Fixture setup
+            var seed = new Version(1, 1);
+            var expectedResult = Enumerable.Range(1, 5).Select(i => new Version(i, i));
+            var container = new DelegatingSpecimenContainer
+            {
+                OnResolve = r => r.Equals(new ManyRequest(new SeededRequest(typeof(Version), seed))) ?
+                    (object)expectedResult.Cast<object>() :
+                    new NoSpecimen(r)
+            };
+            // Exercise system
+            var result = container.CreateMany(seed);
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateSeededManyOnSpecimenBuilderComposerReturnsCorrectResult()
+        {
+            // Fixture setup
+            var seed = TimeSpan.FromMinutes(48);
+            var expectedResult = Enumerable.Range(1, 8).Select(i => TimeSpan.FromHours(i));
+            var specimenBuilder = new DelegatingSpecimenBuilder();
+            specimenBuilder.OnCreate = (r, c) =>
+                {
+                    Assert.NotNull(c);
+                    Assert.Equal(new ManyRequest(new SeededRequest(typeof(TimeSpan), seed)), r);
+                    return expectedResult.Cast<object>();
+                };
+
+            var composer = new DelegatingSpecimenBuilderComposer { OnCompose = () => specimenBuilder };
+            // Exercise system
+            var result = composer.CreateMany(seed);
             // Verify outcome
             Assert.True(expectedResult.SequenceEqual(result));
             // Teardown
