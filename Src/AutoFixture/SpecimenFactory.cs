@@ -62,12 +62,30 @@ namespace Ploeh.AutoFixture
         /// <returns>An anonymous object.</returns>
         public static T CreateAnonymous<T>(this ISpecimenBuilderComposer composer, T seed)
         {
-            return (T)SpecimenFactory.CreateContainer(composer.Compose()).Resolve(new SeededRequest(typeof(T), seed));
+            return (T)SpecimenFactory.CreateContainer(composer.Compose()).CreateAnonymous(seed);
         }
 
+        /// <summary>
+        /// Creates many anonymous objects.
+        /// </summary>
+        /// <typeparam name="T">The type of objects to create.</typeparam>
+        /// <param name="container">The container used to resolve the type request.</param>
+        /// <returns>A sequence of anonymous object of type <typeparamref name="T"/>.</returns>
         public static IEnumerable<T> CreateMany<T>(this ISpecimenContainer container)
         {
-            return Enumerable.Empty<T>();
+            return from s in (IEnumerable<object>)container.Resolve(new ManyRequest(typeof(T)))
+                   select (T)s;
+        }
+
+        /// <summary>
+        /// Creates many anonymous objects.
+        /// </summary>
+        /// <typeparam name="T">The type of objects to create.</typeparam>
+        /// <param name="composer">The composer used to resolve the type request.</param>
+        /// <returns>A sequence of anonymous object of type <typeparamref name="T"/>.</returns>
+        public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilderComposer composer)
+        {
+            return SpecimenFactory.CreateContainer(composer.Compose()).CreateMany<T>();
         }
 
         private static ISpecimenContainer CreateContainer(ISpecimenBuilder builder)

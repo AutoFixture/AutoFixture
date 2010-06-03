@@ -82,17 +82,37 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact(Skip = "Waiting for slight redesign of the ManyRequest/ManyUnwrapper API to handle uncounted requests for Many.")]
+        [Fact]
         public void CreateManyOnContainerReturnsCorrectResult()
         {
             // Fixture setup
-            var count = 3;
-            object expectedResult = Enumerable.Range(1, count);
-            var container = new DelegatingSpecimenContainer { OnResolve = r => r.Equals(new FiniteSequenceRequest(typeof(int), count)) ? expectedResult : new NoSpecimen(r) };
+            var expectedResult = Enumerable.Range(1, 10);
+            var container = new DelegatingSpecimenContainer { OnResolve = r => r.Equals(new ManyRequest(typeof(int))) ? (object)expectedResult.Cast<object>() : new NoSpecimen(r) };
             // Exercise system
             var result = container.CreateMany<int>();
             // Verify outcome
-            Assert.Equal(expectedResult, result);
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateManyOnSpecimenBuilderComposerReturnsCorrectResult()
+        {
+            // Fixture setup
+            var expectedResult = Enumerable.Range(1, 17).Select(i => i.ToString());
+            var specimenBuilder = new DelegatingSpecimenBuilder();
+            specimenBuilder.OnCreate = (r,c)=>
+                {
+                    Assert.NotNull(c);
+                    Assert.Equal(new ManyRequest(typeof(string)), r);
+                    return expectedResult.Cast<object>();
+                };
+
+            var composer = new DelegatingSpecimenBuilderComposer { OnCompose = () => specimenBuilder };
+            // Exercise system
+            var result = composer.CreateMany<string>();
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result));
             // Teardown
         }
     }
