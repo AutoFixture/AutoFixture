@@ -163,11 +163,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var count = 19;
             var expectedResult = Enumerable.Range(1, count).Select(i => new DateTime(i));
-            var container = new DelegatingSpecimenContainer 
+            var container = new DelegatingSpecimenContainer
             {
                 OnResolve = r => r.Equals(new FiniteSequenceRequest(typeof(DateTime), count)) ?
-                    (object)expectedResult.Cast<object>() : 
-                    new NoSpecimen(r) 
+                    (object)expectedResult.Cast<object>() :
+                    new NoSpecimen(r)
             };
             // Exercise system
             var result = container.CreateMany<DateTime>(count);
@@ -193,6 +193,49 @@ namespace Ploeh.AutoFixtureUnitTest
             var composer = new DelegatingSpecimenBuilderComposer { OnCompose = () => specimenBuilder };
             // Exercise system
             var result = composer.CreateMany<string>(count);
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateSeededAndCountedManyOnContainerReturnsCorrectResult()
+        {
+            // Fixture setup
+            var seed = new Version(0, 9);
+            var count = 4;
+            var expectedResult = Enumerable.Range(1, count).Select(i => new Version(i, i));
+            var container = new DelegatingSpecimenContainer
+            {
+                OnResolve = r => r.Equals(new FiniteSequenceRequest(new SeededRequest(typeof(Version), seed), count)) ?
+                    (object)expectedResult.Cast<object>() :
+                    new NoSpecimen(r)
+            };
+            // Exercise system
+            var result = container.CreateMany(seed, count);
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateSeededAndCountedManyOnSpecimenBuilderComposerReturnsCorrectResult()
+        {
+            // Fixture setup
+            var seed = TimeSpan.FromDays(3);
+            var count = 6;
+            var expectedResult = Enumerable.Range(1, count).Select(i => TimeSpan.FromHours(i));
+            var specimenBuilder = new DelegatingSpecimenBuilder();
+            specimenBuilder.OnCreate = (r, c) =>
+                {
+                    Assert.NotNull(c);
+                    Assert.Equal(new FiniteSequenceRequest(new SeededRequest(typeof(TimeSpan), seed), count), r);
+                    return expectedResult.Cast<object>();
+                };
+
+            var composer = new DelegatingSpecimenBuilderComposer { OnCompose = () => specimenBuilder };
+            // Exercise system
+            var result = composer.CreateMany(seed, count);
             // Verify outcome
             Assert.True(expectedResult.SequenceEqual(result));
             // Teardown

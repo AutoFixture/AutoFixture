@@ -144,6 +144,39 @@ namespace Ploeh.AutoFixture
             return SpecimenFactory.CreateContainer(composer.Compose()).CreateMany<T>(count);
         }
 
+        /// <summary>
+        /// Creates many anonymous objects.
+        /// </summary>
+        /// <typeparam name="T">The type of objects to create.</typeparam>
+        /// <param name="container">The container used to resolve the type request.</param>
+        /// <param name="seed">
+        /// An initial value that may or may not be used as input for the algorithm creating the
+        /// return value.
+        /// </param>
+        /// <param name="count">The number of objects to create.</param>
+        /// <returns>A sequence of anonymous objects of type <typeparamref name="T"/>.</returns>
+        public static IEnumerable<T> CreateMany<T>(this ISpecimenContainer container, T seed, int count)
+        {
+            return from s in (IEnumerable<object>)container.Resolve(new FiniteSequenceRequest(new SeededRequest(typeof(T), seed), count))
+                   select (T)s;
+        }
+
+        /// <summary>
+        /// Creates many anonymous objects.
+        /// </summary>
+        /// <typeparam name="T">The type of objects to create.</typeparam>
+        /// <param name="composer">The composer used to resolve the type request.</param>
+        /// <param name="seed">
+        /// An initial value that may or may not be used as input for the algorithm creating the
+        /// return value.
+        /// </param>
+        /// <param name="count">The number of objects to create.</param>
+        /// <returns>A sequence of anonymous objects of type <typeparamref name="T"/>.</returns>
+        public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilderComposer composer, T seed, int count)
+        {
+            return SpecimenFactory.CreateContainer(composer.Compose()).CreateMany(seed, count);
+        }
+
         private static ISpecimenContainer CreateContainer(ISpecimenBuilder builder)
         {
             return new DefaultSpecimenContainer(builder);
