@@ -156,5 +156,46 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.True(expectedResult.SequenceEqual(result));
             // Teardown
         }
+
+        [Fact]
+        public void CreateCountedManyOnContainerReturnsCorrectResult()
+        {
+            // Fixture setup
+            var count = 19;
+            var expectedResult = Enumerable.Range(1, count).Select(i => new DateTime(i));
+            var container = new DelegatingSpecimenContainer 
+            {
+                OnResolve = r => r.Equals(new FiniteSequenceRequest(typeof(DateTime), count)) ?
+                    (object)expectedResult.Cast<object>() : 
+                    new NoSpecimen(r) 
+            };
+            // Exercise system
+            var result = container.CreateMany<DateTime>(count);
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateCountedManyOnSpecimenBuilderComposerReturnsCorrectResult()
+        {
+            // Fixture setup
+            var count = 9;
+            var expectedResult = Enumerable.Range(1, count).Select(i => i.ToString());
+            var specimenBuilder = new DelegatingSpecimenBuilder();
+            specimenBuilder.OnCreate = (r, c) =>
+                {
+                    Assert.NotNull(c);
+                    Assert.Equal(new FiniteSequenceRequest(typeof(string), count), r);
+                    return expectedResult.Cast<object>();
+                };
+
+            var composer = new DelegatingSpecimenBuilderComposer { OnCompose = () => specimenBuilder };
+            // Exercise system
+            var result = composer.CreateMany<string>(count);
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
     }
 }
