@@ -232,6 +232,83 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void CreateAnonymousReturnsCorrectResult()
+        {
+            // Fixture setup
+            var container = Scenario.CreateContainer();
+            // Exercise system
+            var result = container.CreateAnonymous<int>();
+            // Verify outcome
+            Assert.Equal(1, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithSeedReturnsCorrectResult()
+        {
+            // Fixture setup
+            var container = Scenario.CreateContainer();
+            // Exercise system
+            var result = container.CreateAnonymous("Seed");
+            // Verify outcome
+            Assert.Contains("Seed", result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateManyReturnsCorrectResult()
+        {
+            // Fixture setup
+            var container = Scenario.CreateContainer();
+            // Exercise system
+            var result = container.CreateMany<decimal>();
+            // Verify outcome
+            Assert.True(Enumerable.Range(1, 3).Select(i => (decimal)i).SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateManyWithSeedReturnsCorrectResult()
+        {
+            // Fixture setup
+            var container = Scenario.CreateContainer();
+            // Exercise system
+            var result = container.CreateMany("Seed").ToList();
+            // Verify outcome
+            Assert.NotEmpty(result);
+            Assert.True(result.All(s => s.Contains("Seed")));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateManyWithCountReturnsCorrectResult()
+        {
+            // Fixture setup
+            var count = 8;
+            var container = Scenario.CreateContainer();
+            // Exercise system
+            var result = container.CreateMany<long>(count);
+            // Verify outcome
+            Assert.True(Enumerable.Range(1, count).Select(i => (long)i).SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateManyWithSeedAndCountReturnsCorrectResult()
+        {
+            // Fixture setup
+            var seed = "Seed";
+            var count = 2;
+            var container = Scenario.CreateContainer();
+            // Exercise system
+            var result = container.CreateMany(seed, count).ToList();
+            // Verify outcome
+            Assert.Equal(count, result.Count);
+            Assert.True(result.All(s => s.Contains(seed)));
+            // Teardown
+        }
+
         private static DefaultSpecimenContainer CreateContainer()
         {
             var builder = Scenario.CreateFoundationBuilder();
