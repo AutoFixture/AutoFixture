@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Dsl
+namespace Ploeh.AutoFixture
 {
     /// <summary>
     /// Composes instances of <see cref="ISpecimenBuilder"/>.
