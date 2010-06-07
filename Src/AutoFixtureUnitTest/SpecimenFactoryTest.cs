@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             object expectedResult = 1;
-            var container = new DelegatingSpecimenContainer { OnResolve = r => r == typeof(int) ? expectedResult : new NoSpecimen(r) };
+            var container = new DelegatingSpecimenContainer { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : new NoSpecimen(r) };
             // Exercise system
             var result = container.CreateAnonymous<int>();
             // Verify outcome
@@ -34,7 +34,7 @@ namespace Ploeh.AutoFixtureUnitTest
             specimenBuilder.OnCreate = (r, c) =>
             {
                 Assert.NotNull(c);
-                Assert.Equal(typeof(DateTime), r);
+                Assert.Equal(new SeededRequest(typeof(DateTime), default(DateTime)), r);
                 return expectedResult;
             };
 
@@ -87,7 +87,12 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var expectedResult = Enumerable.Range(1, 10);
-            var container = new DelegatingSpecimenContainer { OnResolve = r => r.Equals(new ManyRequest(typeof(int))) ? (object)expectedResult.Cast<object>() : new NoSpecimen(r) };
+            var container = new DelegatingSpecimenContainer
+            {
+                OnResolve = r => r.Equals(new ManyRequest(new SeededRequest(typeof(int), 0))) ? 
+                    (object)expectedResult.Cast<object>() : 
+                    new NoSpecimen(r) 
+            };
             // Exercise system
             var result = container.CreateMany<int>();
             // Verify outcome
@@ -104,7 +109,7 @@ namespace Ploeh.AutoFixtureUnitTest
             specimenBuilder.OnCreate = (r, c) =>
                 {
                     Assert.NotNull(c);
-                    Assert.Equal(new ManyRequest(typeof(string)), r);
+                    Assert.Equal(new ManyRequest(new SeededRequest(typeof(string), null)), r);
                     return expectedResult.Cast<object>();
                 };
 
@@ -165,7 +170,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var expectedResult = Enumerable.Range(1, count).Select(i => new DateTime(i));
             var container = new DelegatingSpecimenContainer
             {
-                OnResolve = r => r.Equals(new FiniteSequenceRequest(typeof(DateTime), count)) ?
+                OnResolve = r => r.Equals(new FiniteSequenceRequest(new SeededRequest(typeof(DateTime), default(DateTime)), count)) ?
                     (object)expectedResult.Cast<object>() :
                     new NoSpecimen(r)
             };
@@ -186,7 +191,7 @@ namespace Ploeh.AutoFixtureUnitTest
             specimenBuilder.OnCreate = (r, c) =>
                 {
                     Assert.NotNull(c);
-                    Assert.Equal(new FiniteSequenceRequest(typeof(string), count), r);
+                    Assert.Equal(new FiniteSequenceRequest(new SeededRequest(typeof(string), null), count), r);
                     return expectedResult.Cast<object>();
                 };
 

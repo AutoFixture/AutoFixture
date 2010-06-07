@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -21,7 +20,7 @@ namespace Ploeh.AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static T CreateAnonymous<T>(this ISpecimenContainer container)
         {
-            return (T)container.Resolve(typeof(T));
+            return (T)container.CreateAnonymous(default(T));
         }
 
         /// <summary>
@@ -33,7 +32,7 @@ namespace Ploeh.AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static T CreateAnonymous<T>(this ISpecimenBuilderComposer composer)
         {
-            return (T)SpecimenFactory.CreateContainer(composer.Compose()).CreateAnonymous<T>();
+            return composer.Compose().CreateContainer().CreateAnonymous<T>();
         }
 
         /// <summary>
@@ -63,7 +62,7 @@ namespace Ploeh.AutoFixture
         /// <returns>An anonymous object.</returns>
         public static T CreateAnonymous<T>(this ISpecimenBuilderComposer composer, T seed)
         {
-            return (T)SpecimenFactory.CreateContainer(composer.Compose()).CreateAnonymous(seed);
+            return composer.Compose().CreateContainer().CreateAnonymous(seed);
         }
 
         /// <summary>
@@ -75,8 +74,7 @@ namespace Ploeh.AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static IEnumerable<T> CreateMany<T>(this ISpecimenContainer container)
         {
-            return from s in (IEnumerable<object>)container.Resolve(new ManyRequest(typeof(T)))
-                   select (T)s;
+            return container.CreateMany(default(T));
         }
 
         /// <summary>
@@ -88,7 +86,7 @@ namespace Ploeh.AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilderComposer composer)
         {
-            return SpecimenFactory.CreateContainer(composer.Compose()).CreateMany<T>();
+            return composer.Compose().CreateContainer().CreateMany<T>();
         }
 
         /// <summary>
@@ -119,7 +117,7 @@ namespace Ploeh.AutoFixture
         /// <returns>A sequence of anonymous object of type <typeparamref name="T"/>.</returns>
         public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilderComposer composer, T seed)
         {
-            return SpecimenFactory.CreateContainer(composer.Compose()).CreateMany(seed);
+            return composer.Compose().CreateContainer().CreateMany(seed);
         }
 
         /// <summary>
@@ -132,8 +130,7 @@ namespace Ploeh.AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static IEnumerable<T> CreateMany<T>(this ISpecimenContainer container, int count)
         {
-            return from s in (IEnumerable<object>)container.Resolve(new FiniteSequenceRequest(typeof(T), count))
-                   select (T)s;
+            return container.CreateMany(default(T), count);
         }
 
         /// <summary>
@@ -146,7 +143,7 @@ namespace Ploeh.AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilderComposer composer, int count)
         {
-            return SpecimenFactory.CreateContainer(composer.Compose()).CreateMany<T>(count);
+            return composer.Compose().CreateContainer().CreateMany<T>(count);
         }
 
         /// <summary>
@@ -179,10 +176,10 @@ namespace Ploeh.AutoFixture
         /// <returns>A sequence of anonymous objects of type <typeparamref name="T"/>.</returns>
         public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilderComposer composer, T seed, int count)
         {
-            return SpecimenFactory.CreateContainer(composer.Compose()).CreateMany(seed, count);
+            return composer.Compose().CreateContainer().CreateMany(seed, count);
         }
 
-        private static ISpecimenContainer CreateContainer(ISpecimenBuilder builder)
+        private static ISpecimenContainer CreateContainer(this ISpecimenBuilder builder)
         {
             return new DefaultSpecimenContainer(builder);
         }
