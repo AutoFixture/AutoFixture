@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void FromNullFactoryThrows()
+        public void FromNullParameterlessFactoryThrows()
         {
             // Fixture setup
             var sut = ComposerTest.CreateSut<Guid>();
@@ -118,6 +118,32 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Verify outcome
             var filter = ComposerTest.AssertComposedBuilder<Uri>(result);
             var factory = Assert.IsAssignableFrom<SpecimenFactory<Uri>>(filter.Builder);
+            Assert.Equal(expectedFactory, factory.Factory);
+            // Teardown
+        }
+
+        [Fact]
+        public void FromNullSingleParameterFactoryThrows()
+        {
+            // Fixture setup
+            var sut = ComposerTest.CreateSut<DateTimeKind>();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.FromFactory<ObsoleteAttribute>(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeFromSingleInputFacttoryReturnsCorrectResult()
+        {
+            // Fixture setup
+            Func<Version, Uri> expectedFactory = v => new Uri("urn:" + v.ToString());
+            var sut = ComposerTest.CreateSut<Uri>();
+            // Exercise system
+            var result = sut.FromFactory(expectedFactory).Compose();
+            // Verify outcome
+            var filter = ComposerTest.AssertComposedBuilder<Uri>(result);
+            var factory = Assert.IsAssignableFrom<SpecimenFactory<Version, Uri>>(filter.Builder);
             Assert.Equal(expectedFactory, factory.Factory);
             // Teardown
         }

@@ -10,5 +10,7 @@ namespace Ploeh.AutoFixture.Dsl
         IPostprocessComposer<T> FromSeed(Func<T, T> factory);
 
         IPostprocessComposer<T> FromFactory(Func<T> factory);
+
+        IPostprocessComposer<T> FromFactory<TInput>(Func<TInput, T> factory);
     }
 }
