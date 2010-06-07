@@ -31,6 +31,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void FactoryIsCorrect()
+        {
+            // Fixture setup
+            Func<OperatingSystem> expectedFactory = () => new OperatingSystem(PlatformID.WinCE, new Version(10, 8));
+            var sut = new SpecimenFactory<OperatingSystem>(expectedFactory);
+            // Exercise system
+            Func<OperatingSystem> result = sut.Factory;
+            // Verify outcome
+            Assert.Equal(expectedFactory, result);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateReturnsCorrectResult()
         {
             // Fixture setup

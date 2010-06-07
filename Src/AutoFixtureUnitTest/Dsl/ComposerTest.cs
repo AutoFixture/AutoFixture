@@ -65,15 +65,13 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var result = sut.Compose();
             // Verify outcome
-            var filter = Assert.IsAssignableFrom<FilteringSpecimenBuilder>(result);
-            var spec = Assert.IsAssignableFrom<ExactTypeSpecification>(filter.Specification);
-            Assert.Equal(typeof(int), spec.TargetType);
+            var filter = ComposerTest.AssertComposedBuilder<int>(result);
             Assert.IsAssignableFrom<ModestConstructorInvoker>(filter.Builder);
             // Teardown
         }
 
         [Fact]
-        public void FromNullFactoryThrows()
+        public void FromNullSeedThrows()
         {
             // Fixture setup
             var sut = ComposerTest.CreateSut<object>();
@@ -92,10 +90,34 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var result = sut.FromSeed(expectedFactory).Compose();
             // Verify outcome
-            var filter = Assert.IsAssignableFrom<FilteringSpecimenBuilder>(result);
-            var spec = Assert.IsAssignableFrom<ExactTypeSpecification>(filter.Specification);
-            Assert.Equal(typeof(OperatingSystem), spec.TargetType);
+            var filter = ComposerTest.AssertComposedBuilder<OperatingSystem>(result);
             var factory = Assert.IsAssignableFrom<SeededFactory<OperatingSystem>>(filter.Builder);
+            Assert.Equal(expectedFactory, factory.Factory);
+            // Teardown
+        }
+
+        [Fact]
+        public void FromNullFactoryThrows()
+        {
+            // Fixture setup
+            var sut = ComposerTest.CreateSut<Guid>();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.FromFactory((Func<Guid>)null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeFromZeroInputFactoryReturnsCorrectResult()
+        {
+            // Fixture setup
+            Func<Uri> expectedFactory = () => new Uri("urn:anonymous:uri");
+            var sut = ComposerTest.CreateSut<Uri>();
+            // Exercise system
+            var result = sut.FromFactory(expectedFactory).Compose();
+            // Verify outcome
+            var filter = ComposerTest.AssertComposedBuilder<Uri>(result);
+            var factory = Assert.IsAssignableFrom<SpecimenFactory<Uri>>(filter.Builder);
             Assert.Equal(expectedFactory, factory.Factory);
             // Teardown
         }
@@ -103,6 +125,15 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         private static Composer<T> CreateSut<T>()
         {
             return new Composer<T>();
+        }
+
+        private static FilteringSpecimenBuilder AssertComposedBuilder<T>(ISpecimenBuilder builder)
+        {
+            var filter = Assert.IsAssignableFrom<FilteringSpecimenBuilder>(builder);
+            var spec = Assert.IsAssignableFrom<ExactTypeSpecification>(filter.Specification);
+            Assert.Equal(typeof(T), spec.TargetType);
+
+            return filter;
         }
     }
 }
