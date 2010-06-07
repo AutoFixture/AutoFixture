@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class ExactTypeSpecification : IRequestSpecification
     {
-        private readonly Type specType;
+        private readonly Type targetType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExactTypeSpecification"/> class.
@@ -23,7 +23,12 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("type");
             }
 
-            this.specType = type;
+            this.targetType = type;
+        }
+
+        public Type TargetType
+        {
+            get { return this.targetType; }
         }
 
         #region IRequestSpecification Members
@@ -43,7 +48,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("request");
             }
 
-            return this.specType.Equals(request);
+            return this.targetType.Equals(request);
         }
 
         #endregion

@@ -70,6 +70,7 @@
     <Compile Include="DelegatingEqualityComparer.cs" />
     <Compile Include="DelegatingRecursionGuard.cs" />
     <Compile Include="Dsl\DelegatingSpecimenBuilderComposer.cs" />
+    <Compile Include="Dsl\ComposerTest.cs" />
     <Compile Include="Kernel\AndRequestSpecificationTest.cs" />
     <Compile Include="Kernel\AnyTypeSpecificationTest.cs" />
     <Compile Include="Kernel\AutoPropertiesCommandTest.cs" />

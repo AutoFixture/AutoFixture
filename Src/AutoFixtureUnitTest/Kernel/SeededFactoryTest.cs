@@ -32,6 +32,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void FactoryIsCorrect()
+        {
+            // Fixture setup
+            Func<string, string> expectedResult = s => s;
+            var sut = new SeededFactory<string>(expectedResult);
+            // Exercise system
+            Func<string, string> result = sut.Factory;
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateWithAnonymousRequestReturnsCorrectResult()
         {
             // Fixture setup

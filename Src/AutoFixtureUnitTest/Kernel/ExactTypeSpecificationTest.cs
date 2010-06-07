@@ -33,6 +33,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void TargetTypeIsCorrect()
+        {
+            // Fixture setup
+            var expectedType = typeof(DayOfWeek);
+            var sut = new ExactTypeSpecification(expectedType);
+            // Exercise system
+            Type result = sut.TargetType;
+            // Verify outcome
+            Assert.Equal(expectedType, result);
+            // Teardown
+        }
+
+        [Fact]
         public void IsSatisfiedByNullThrows()
         {
             // Fixture setup

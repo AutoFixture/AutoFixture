@@ -27,6 +27,11 @@ namespace Ploeh.AutoFixture.Kernel
             this.create = factory;
         }
 
+        public Func<T, T> Factory
+        {
+            get { return this.create; }
+        }
+
         #region ISpecimenBuilder Members
 
         /// <summary>

@@ -43,6 +43,34 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void BulderIsCorrect()
+        {
+            // Fixture setup
+            var expectedBuilder = new DelegatingSpecimenBuilder();
+            var dummySpecification = new DelegatingRequestSpecification();
+            var sut = new FilteringSpecimenBuilder(expectedBuilder, dummySpecification);
+            // Exercise system
+            ISpecimenBuilder result = sut.Builder;
+            // Verify outcome
+            Assert.Equal(expectedBuilder, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecificationIsCorrect()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var expectedSpecification = new DelegatingRequestSpecification();
+            var sut = new FilteringSpecimenBuilder(dummyBuilder, expectedSpecification);
+            // Exercise system
+            IRequestSpecification result = sut.Specification;
+            // Verify outcome
+            Assert.Equal(expectedSpecification, result);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateReturnsCorrectResultWhenSpecificationIsNotSatisfied()
         {
             // Fixture setup

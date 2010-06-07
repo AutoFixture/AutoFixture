@@ -36,6 +36,16 @@ namespace Ploeh.AutoFixture.Kernel
             this.specification = specification;
         }
 
+        public ISpecimenBuilder Builder
+        {
+            get { return this.builder; }
+        }
+
+        public IRequestSpecification Specification
+        {
+            get { return this.specification; }
+        }
+
         #region ISpecimenBuilder Members
 
         /// <summary>
