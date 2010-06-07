@@ -31,6 +31,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void FactoryIsCorrect()
+        {
+            // Fixture setup
+            Func<string, int, decimal> expectedFactory = (x, y) => 0m;
+            var sut = new SpecimenFactory<string, int, decimal>(expectedFactory);
+            // Exercise system
+            Func<string, int, decimal> result = sut.Factory;
+            // Verify outcome
+            Assert.Equal(expectedFactory, result);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateWithNullContainerThrows()
         {
             // Fixture setup

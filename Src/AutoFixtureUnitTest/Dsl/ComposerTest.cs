@@ -134,7 +134,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void ComposeFromSingleInputFacttoryReturnsCorrectResult()
+        public void ComposeFromSingleInputFactoryReturnsCorrectResult()
         {
             // Fixture setup
             Func<Version, Uri> expectedFactory = v => new Uri("urn:" + v.ToString());
@@ -144,6 +144,32 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Verify outcome
             var filter = ComposerTest.AssertComposedBuilder<Uri>(result);
             var factory = Assert.IsAssignableFrom<SpecimenFactory<Version, Uri>>(filter.Builder);
+            Assert.Equal(expectedFactory, factory.Factory);
+            // Teardown
+        }
+
+        [Fact]
+        public void FromNullDoubleParameterFactoryThrows()
+        {
+            // Fixture setup
+            var sut = ComposerTest.CreateSut<UnicodeEncoding>();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.FromFactory<WeakReference, HttpStyleUriParser>(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeFromDoubleInputFactoryReturnsCorrectResult()
+        {
+            // Fixture setup
+            Func<string, decimal, byte> expectedFactory = (x, y) => 0;
+            var sut = ComposerTest.CreateSut<byte>();
+            // Exercise system
+            var result = sut.FromFactory(expectedFactory).Compose();
+            // Verify outcome
+            var filter = ComposerTest.AssertComposedBuilder<byte>(result);
+            var factory = Assert.IsAssignableFrom<SpecimenFactory<string, decimal, byte>>(filter.Builder);
             Assert.Equal(expectedFactory, factory.Factory);
             // Teardown
         }
