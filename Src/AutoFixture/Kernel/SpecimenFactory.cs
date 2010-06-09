@@ -223,6 +223,11 @@ namespace Ploeh.AutoFixture.Kernel
             this.create = factory;
         }
 
+        public Func<TInput1, TInput2, TInput3, T> Factory
+        {
+            get { return this.create; }
+        }
+
         #region ISpecimenBuilder Members
 
         /// <summary>
