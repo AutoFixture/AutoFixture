@@ -8,26 +8,26 @@ namespace Ploeh.AutoFixture.Dsl
 {
     public class Composer<T> : IStrategyComposer<T>
     {
-        private readonly ISpecimenBuilder rootBuilder;
+        private readonly ISpecimenBuilder factory;
 
         public Composer()
             : this(new ModestConstructorInvoker())
         {
         }
 
-        public Composer(ISpecimenBuilder rootBuilder)
+        public Composer(ISpecimenBuilder factory)
         {
-            if (rootBuilder == null)
+            if (factory == null)
             {
-                throw new ArgumentNullException("rootBuilder");
+                throw new ArgumentNullException("factory");
             }
         
-            this.rootBuilder = rootBuilder;
+            this.factory = factory;
         }
 
-        public ISpecimenBuilder RootBuilder
+        public ISpecimenBuilder Factory
         {
-            get { return this.rootBuilder; }
+            get { return this.factory; }
         }
 
         #region IFactoryComposer<T> Members
@@ -78,7 +78,7 @@ namespace Ploeh.AutoFixture.Dsl
 
         public ISpecimenBuilder Compose()
         {
-            return new FilteringSpecimenBuilder(this.rootBuilder, new ExactTypeSpecification(typeof(T)));
+            return new FilteringSpecimenBuilder(this.factory, new ExactTypeSpecification(typeof(T)));
         }
 
         #endregion
