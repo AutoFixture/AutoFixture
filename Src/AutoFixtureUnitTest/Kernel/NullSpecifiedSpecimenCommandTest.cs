@@ -6,6 +6,7 @@ using Xunit;
 using Ploeh.TestTypeFoundation;
 using Ploeh.AutoFixture.Kernel;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -58,6 +59,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Expression<Func<SingleParameterType<object>, object>> readOnlyPropertyExpression = sp => sp.Parameter;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentException>(() => new NullSpecifiedSpecimenCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression));
+            // Teardown
+        }
+
+        [Fact]
+        public void MemberIsCorrect()
+        {
+            // Fixture setup
+            var expectedMember = typeof(PropertyHolder<object>).GetProperty("Property");
+            var sut = new NullSpecifiedSpecimenCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            // Exercise system
+            MemberInfo result = sut.Member;
+            // Verify outcome
+            Assert.Equal(expectedMember, result);
             // Teardown
         }
 

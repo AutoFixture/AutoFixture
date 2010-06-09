@@ -78,6 +78,7 @@
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
     <Compile Include="Kernel\DefaultSpecimenContainerTest.cs" />
     <Compile Include="Kernel\DelegatingRequestSpecification.cs" />
+    <Compile Include="Kernel\DelegatingSpecifiedSpecimenCommand.cs" />
     <Compile Include="Kernel\DelegatingSpecimenBuilder.cs" />
     <Compile Include="Kernel\DelegatingSpecimenContainer.cs" />
     <Compile Include="DoubleSequenceGeneratorTest.cs" />

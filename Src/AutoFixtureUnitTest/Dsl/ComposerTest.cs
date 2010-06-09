@@ -6,6 +6,7 @@ using Xunit;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
+using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixtureUnitTest.Dsl
 {
@@ -24,25 +25,84 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void IntializeWithNullRootBuilderThrows()
+        public void InitializeWithDefaultConstructorHasCorrectPostprocessors()
         {
             // Fixture setup
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                new Composer<UriParser>(null));
+            var sut = new Composer<HttpStyleUriParser>();
+            // Exercise system
+            IEnumerable<ISpecifiedSpecimenCommand<HttpStyleUriParser>> result = sut.Postprocessors;
+            // Verify outcome
+            Assert.NotNull(result);
             // Teardown
         }
 
         [Fact]
-        public void InitializeWithRootBuilderHasCorrectFactory()
+        public void IntializeWithNullFactoryThrows()
+        {
+            // Fixture setup
+            var dummyCommands = Enumerable.Empty<ISpecifiedSpecimenCommand<UriParser>>();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new Composer<UriParser>(null, dummyCommands));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullPostprocessorsThrows()
+        {
+            // Fixture setup
+            var dummyFactory = new DelegatingSpecimenBuilder();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new Composer<ParamArrayAttribute>(dummyFactory, null));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithFactoryHasCorrectFactory()
         {
             // Fixture setup
             var expectedFactory = new DelegatingSpecimenBuilder();
-            var sut = new Composer<byte>(expectedFactory);
+            var dummyCommands = Enumerable.Empty<ISpecifiedSpecimenCommand<byte>>();
+            var sut = new Composer<byte>(expectedFactory, dummyCommands);
             // Exercise system
             var result = sut.Factory;
             // Verify outcome
             Assert.Equal(expectedFactory, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void IntializeWithPostprocessorsHasCorrectCommands()
+        {
+            // Fixture setup
+            var dummyFactory = new DelegatingSpecimenBuilder();
+            var expectedCommands = Enumerable.Range(1, 3)
+                .Select(i => new DelegatingSpecifiedSpecimenCommand<Version>())
+                .Cast<ISpecifiedSpecimenCommand<Version>>()
+                .ToList();
+            var sut = new Composer<Version>(dummyFactory, expectedCommands);
+            // Exercise system
+            var result = sut.Postprocessors;
+            // Verify outcome
+            Assert.True(expectedCommands.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void PostprocessorEnumerationIsStable()
+        {
+            // Fixture setup
+            var dummyFactory = new DelegatingSpecimenBuilder();
+            var postprocessors = Enumerable.Range(1, 3)
+                .Select(i => new DelegatingSpecifiedSpecimenCommand<Uri>())
+                .Cast<ISpecifiedSpecimenCommand<Uri>>();
+            var sut = new Composer<Uri>(dummyFactory, postprocessors);
+            var expected = sut.Postprocessors;
+            // Exercise system
+            var result = sut.Postprocessors;
+            // Verify outcome
+            Assert.True(expected.SequenceEqual(result));
             // Teardown
         }
 
@@ -54,6 +114,85 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var sut = ComposerTest.CreateSut<object>();
             // Verify outcome
             Assert.IsAssignableFrom<IFactoryComposer<object>>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void WithNullFactoryThrows()
+        {
+            // Fixture setup
+            var sut = ComposerTest.CreateSut<object>();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.WithFactory(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void WithFactoryReturnsResultWithCorrectFactory()
+        {
+            // Fixture setup
+            var expectedFactory = new DelegatingSpecimenBuilder();
+            var sut = ComposerTest.CreateSut<int>();
+            // Exercise system
+            var result = sut.WithFactory(expectedFactory);
+            // Verify outcome
+            Assert.Equal(expectedFactory, result.Factory);
+            // Teardown
+        }
+
+        [Fact]
+        public void WithFactoryReturnsResultWithCorrectPostprocessors()
+        {
+            // Fixture setup
+            var expectedPostprocessors = Enumerable.Range(1, 3)
+                .Select(i => new DelegatingSpecifiedSpecimenCommand<Version>())
+                .Cast<ISpecifiedSpecimenCommand<Version>>()
+                .ToList();
+            var sut = ComposerTest.CreateSut<Version>(expectedPostprocessors);
+            // Exercise system
+            var dummyFactory = new DelegatingSpecimenBuilder();
+            var result = sut.WithFactory(dummyFactory);
+            // Verify outcome
+            Assert.True(expectedPostprocessors.SequenceEqual(result.Postprocessors));
+            // Teardown
+        }
+
+        [Fact]
+        public void WithNullPostprocessorThrows()
+        {
+            // Fixture setup
+            var sut = ComposerTest.CreateSut<object>();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.WithPostprocessor(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void WithPostprocessorReturnsResultWithCorrectFactory()
+        {
+            // Fixture setup
+            var sut = ComposerTest.CreateSut<object>();
+            var expectedFactory = sut.Factory;
+            // Exercise system
+            var dummyPostprocessor = new DelegatingSpecifiedSpecimenCommand<object>();
+            var result = sut.WithPostprocessor(dummyPostprocessor);
+            // Verify outcome
+            Assert.Equal(expectedFactory, result.Factory);
+            // Teardown
+        }
+
+        [Fact]
+        public void WithPostprocessorReturnsResultWithAddedPostprocessor()
+        {
+            // Fixture setup
+            var expectedPostprocessor = new DelegatingSpecifiedSpecimenCommand<object>();
+            var sut = ComposerTest.CreateSut<object>();
+            // Exercise system
+            var result = sut.WithPostprocessor(expectedPostprocessor);
+            // Verify outcome
+            Assert.Contains(expectedPostprocessor, result.Postprocessors);
             // Teardown
         }
 
@@ -163,7 +302,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void ComposeFromDoubleInputFactoryReturnsCorrectResult()
+        public void FromDoubleInputFactoryReturnsCorrectResult()
         {
             // Fixture setup
             Func<string, decimal, byte> expectedFactory = (x, y) => 0;
@@ -189,7 +328,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void ComposeFromTripleInputFactoryReturnsCorrectResult()
+        public void FromTripleInputFactoryReturnsCorrectResult()
         {
             // Fixture setup
             Func<HttpStyleUriParser, Random, ASCIIEncoding, string> expectedFactory = (x, y, z)=> string.Empty;
@@ -215,7 +354,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void ComposeFromQuadrupleInputFactoryReturnsCorrectResult()
+        public void FromQuadrupleInputFactoryReturnsCorrectResult()
         {
             // Fixture setup
             Func<Random, HttpStyleUriParser, LoaderOptimizationAttribute, Base64FormattingOptions, NetPipeStyleUriParser> expectedFactory = (x, y, z, æ) => new NetPipeStyleUriParser();
@@ -229,9 +368,40 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Teardown
         }
 
+        [Fact]
+        public void WithNullPropertyPickerThrows()
+        {
+            // Fixture setup
+            var sut = ComposerTest.CreateSut<UriPartial>();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Without<ConsoleCancelEventArgs>(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void WithoutReturnsCorrectResult()
+        {
+            // Fixture setup
+            var expectedMember = typeof(PropertyHolder<string>).GetProperty("Property");
+            var sut = ComposerTest.CreateSut<PropertyHolder<string>>();
+            // Exercise system
+            var result = sut.Without(x => x.Property);
+            // Verify outcome
+            var resultingComposer = Assert.IsAssignableFrom<Composer<PropertyHolder<string>>>(result);
+            var postprocessor = resultingComposer.Postprocessors.OfType<NullSpecifiedSpecimenCommand<PropertyHolder<string>, string>>().Single();
+            Assert.Equal(expectedMember, postprocessor.Member);
+            // Teardown
+        }
+
         private static Composer<T> CreateSut<T>()
         {
             return new Composer<T>();
+        }
+
+        private static Composer<T> CreateSut<T>(IEnumerable<ISpecifiedSpecimenCommand<T>> postprocessors)
+        {
+            return new Composer<T>(new ModestConstructorInvoker(), postprocessors);
         }
     }
 }

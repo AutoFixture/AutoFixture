@@ -39,6 +39,11 @@ namespace Ploeh.AutoFixture.Kernel
             this.member = propertyPicker.GetWritableMember().Member;
         }
 
+        public MemberInfo Member
+        {
+            get { return this.member; }
+        }
+
         #region ISpecifiedSpecimenCommand<T> Members
 
         /// <summary>
