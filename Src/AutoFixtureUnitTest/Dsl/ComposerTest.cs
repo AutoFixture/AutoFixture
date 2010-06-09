@@ -203,6 +203,32 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Teardown
         }
 
+        [Fact]
+        public void FromNullQuadrupleParameterFactoryThrows()
+        {
+            // Fixture setup
+            var sut = ComposerTest.CreateSut<GenericUriParser>();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.FromFactory<int, DateTime, AttributeTargets, LoaderOptimization>(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeFromQuadrupleInputFactoryReturnsCorrectResult()
+        {
+            // Fixture setup
+            Func<Random, HttpStyleUriParser, LoaderOptimizationAttribute, Base64FormattingOptions, NetPipeStyleUriParser> expectedFactory = (x, y, z, æ) => new NetPipeStyleUriParser();
+            var sut = ComposerTest.CreateSut<NetPipeStyleUriParser>();
+            // Exercise system
+            var result = sut.FromFactory(expectedFactory);
+            // Verify outcome
+            var resultingComposer = Assert.IsAssignableFrom<Composer<NetPipeStyleUriParser>>(result);
+            var factory = Assert.IsAssignableFrom<SpecimenFactory<Random, HttpStyleUriParser, LoaderOptimizationAttribute, Base64FormattingOptions, NetPipeStyleUriParser>>(resultingComposer.Factory);
+            Assert.Equal(expectedFactory, factory.Factory);
+            // Teardown
+        }
+
         private static Composer<T> CreateSut<T>()
         {
             return new Composer<T>();

@@ -82,6 +82,16 @@ namespace Ploeh.AutoFixture.Dsl
             return new Composer<T>(new SpecimenFactory<TInput1, TInput2, TInput3, T>(factory));
         }
 
+        public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3, TInput4>(Func<TInput1, TInput2, TInput3, TInput4, T> factory)
+        {
+            if (factory == null)
+            {
+                throw new ArgumentNullException("factory");
+            }
+
+            return new Composer<T>(new SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T>(factory));
+        }
+
         #endregion
 
         #region ISpecimenBuilderComposer Members

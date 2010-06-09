@@ -31,6 +31,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void FactoryIsCorrect()
+        {
+            // Fixture setup
+            Func<LdapStyleUriParser, TimeZone, StringBuilder, DateTime, ConsoleColor> expectedFactory = (x, y, z, æ) => ConsoleColor.Black;
+            var sut = new SpecimenFactory<LdapStyleUriParser, TimeZone, StringBuilder, DateTime, ConsoleColor>(expectedFactory);
+            // Exercise system
+            Func<LdapStyleUriParser, TimeZone, StringBuilder, DateTime, ConsoleColor> result = sut.Factory;
+            // Verify outcome
+            Assert.Equal(expectedFactory, result);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateWithNullContainerThrows()
         {
             // Fixture setup
