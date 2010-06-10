@@ -488,6 +488,32 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Teardown
         }
 
+        [Fact]
+        public void DoNullActionThrows()
+        {
+            // Fixture setup
+            var sut = new SutBuilder<object>().Create();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Do(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void DoReturnsCorrectResult()
+        {
+            // Fixture setup
+            Action<long> expectedAction = s => { };
+            var sut = new SutBuilder<long>().Create();
+            // Exercise system
+            var result = sut.Do(expectedAction);
+            // Verify outcome
+            var resultingComposer = Assert.IsAssignableFrom<Composer<long>>(result);
+            var postprocessor = resultingComposer.Postprocessors.OfType<UnspecifiedSpecimenCommand<long>>().Single();
+            Assert.Equal(expectedAction, postprocessor.Action);
+            // Teardown
+        }
+
         private class SutBuilder<T>
         {
             private ISpecimenBuilder factory;

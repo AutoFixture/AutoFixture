@@ -8,6 +8,8 @@ namespace Ploeh.AutoFixture.Dsl
 {
     public interface IPostprocessComposer<T> : ISpecimenBuilderComposer
     {
+        IPostprocessComposer<T> Do(Action<T> action);
+
         IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker);
 
         IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value);

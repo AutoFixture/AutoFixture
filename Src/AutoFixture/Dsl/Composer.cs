@@ -123,6 +123,17 @@ namespace Ploeh.AutoFixture.Dsl
 
         #region IPostprocessComposer<T> Members
 
+        public IPostprocessComposer<T> Do(Action<T> action)
+        {
+            if (action == null)
+            {
+                throw new ArgumentNullException("action");
+            }
+
+            var postprocessor = new UnspecifiedSpecimenCommand<T>(action);
+            return this.WithPostprocessor(postprocessor);
+        }
+
         public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
             if (propertyPicker == null)
