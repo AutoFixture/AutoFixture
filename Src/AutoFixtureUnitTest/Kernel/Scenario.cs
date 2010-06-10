@@ -6,6 +6,7 @@ using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixture;
 using Ploeh.TestTypeFoundation;
 using Xunit;
+using Ploeh.AutoFixture.Dsl;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -120,7 +121,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var builder = new CompositeSpecimenBuilder(
                 intPostprocessor,
-                Scenario.CreateFoundationBuilder());
+                Scenario.CreateAutoPropertyBuilder());
             var container = new DefaultSpecimenContainer(builder);
             // Exercise system
             var result = container.Resolve(typeof(DoublePropertyHolder<string, int>));
@@ -195,7 +196,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var builder = new CompositeSpecimenBuilder(
                 customizedBuilder,
-                Scenario.CreateFoundationBuilder());
+                Scenario.CreateAutoPropertyBuilder());
             var container = new DefaultSpecimenContainer(builder);
             // Exercise system
             var result = container.Resolve(typeof(DoublePropertyHolder<string, int>));
@@ -309,16 +310,38 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void ComposeWithValueReturnsCorrectResult()
+        {
+            // Fixture setup
+            var expectedValue = 9;
+            var customBuilder = new Composer<PropertyHolder<int>>().With(x => x.Property, expectedValue).Compose();
+            var builder = new CompositeSpecimenBuilder(
+                customBuilder,
+                Scenario.CreateCoreBuilder());
+            // Exercise system
+            var result = new DefaultSpecimenContainer(builder).CreateAnonymous<PropertyHolder<int>>();
+            // Verify outcome
+            Assert.Equal(expectedValue, result.Property);
+            // Teardown
+        }
+
         private static DefaultSpecimenContainer CreateContainer()
         {
-            var builder = Scenario.CreateFoundationBuilder();
+            var builder = Scenario.CreateAutoPropertyBuilder();
             var tracer = new TraceWriter(Console.Out, new TracingBuilder(builder));
             return new DefaultSpecimenContainer(tracer);
         }
 
-        private static ISpecimenBuilder CreateFoundationBuilder()
+        private static ISpecimenBuilder CreateAutoPropertyBuilder()
         {
-            var builder = new CompositeSpecimenBuilder(
+            var builder = Scenario.CreateCoreBuilder();
+            return new Postprocessor(builder, new AutoPropertiesCommand().Execute, new AnyTypeSpecification());
+        }
+
+        private static CompositeSpecimenBuilder CreateCoreBuilder()
+        {
+            return new CompositeSpecimenBuilder(
                 new Int32SequenceGenerator(),
                 new Int64SequenceGenerator(),
                 new StringGenerator(() => Guid.NewGuid()),
@@ -333,7 +356,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new FiniteSequenceUnwrapper(),
                 new StringSeedUnwrapper(),
                 new ValueIgnoringSeedUnwrapper());
-            return new Postprocessor(builder, new AutoPropertiesCommand().Execute, new AnyTypeSpecification());
         }
     }
 }
