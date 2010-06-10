@@ -6,6 +6,7 @@ using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -146,11 +147,38 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void InitializeInstanceValueConstructorWithNullCreateWillThrow()
+        public void InitializeInstanceValueConstructorWithNullValueDoesNotThrow()
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, (object)null));
+            Assert.DoesNotThrow(() => 
+                new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, (object)null));
+            // Teardown
+        }
+
+        [Fact]
+        public void MemberIsCorrect()
+        {
+            // Fixture setup
+            var expectedMember = typeof(PropertyHolder<object>).GetProperty("Property");
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            // Exercise system
+            MemberInfo result = sut.Member;
+            // Verify outcome
+            Assert.Equal(expectedMember, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ValueCreatorIsCorrect()
+        {
+            // Fixture setup
+            Func<ISpecimenContainer, double> expectedCreator = c => 8;
+            var sut = new BindingCommand<PropertyHolder<double>, double>(ph => ph.Property, expectedCreator);
+            // Exercise system
+            Func<ISpecimenContainer, double> result = sut.ValueCreator;
+            // Verify outcome
+            Assert.Equal(expectedCreator, result);
             // Teardown
         }
 

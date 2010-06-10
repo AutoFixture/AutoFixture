@@ -60,10 +60,6 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 throw new ArgumentNullException("propertyPicker");
             }
-            if (propertyValue == null)
-            {
-                throw new ArgumentNullException("propertyValue");
-            }
 
             this.member = propertyPicker.GetWritableMember().Member;
             this.createBindingValue = c => propertyValue;
@@ -95,6 +91,15 @@ namespace Ploeh.AutoFixture.Kernel
             this.createBindingValue = valueCreator;
         }
 
+        public MemberInfo Member
+        {
+            get { return this.member; }
+        }
+
+        public Func<ISpecimenContainer, TProperty> ValueCreator
+        {
+            get { return this.createBindingValue; }
+        }
 
         #region ISpecifiedSpecimenCommand<T> Members
 

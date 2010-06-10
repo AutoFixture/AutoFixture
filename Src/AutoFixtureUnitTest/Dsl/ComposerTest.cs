@@ -393,7 +393,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void WithNullPropertyPickerThrows()
+        public void WithoutNullPropertyPickerThrows()
         {
             // Fixture setup
             var sut = new SutBuilder<UriPartial>().Create();
@@ -415,6 +415,46 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var resultingComposer = Assert.IsAssignableFrom<Composer<PropertyHolder<string>>>(result);
             var postprocessor = resultingComposer.Postprocessors.OfType<NullSpecifiedSpecimenCommand<PropertyHolder<string>, string>>().Single();
             Assert.Equal(expectedMember, postprocessor.Member);
+            // Teardown
+        }
+
+        [Fact]
+        public void WithNullPropertyPickerAndDummyValueThrows()
+        {
+            // Fixture setup
+            var sut = new SutBuilder<object>().Create();
+            var dummyValue = new object();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.With<object>(null, dummyValue));
+            // Teardown
+        }
+
+        [Fact]
+        public void WithNullValueDoesNotThrow()
+        {
+            // Fixture setup
+            var sut = new SutBuilder<PropertyHolder<object>>().Create();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.With(ph => ph.Property, null));
+            // Teardown
+        }
+
+        [Fact]
+        public void WithValueReturnsCorrectResult()
+        {
+            // Fixture setup
+            var expectedMember = typeof(PropertyHolder<decimal>).GetProperty("Property");
+            var expectedValue = 1.3m;
+            var sut = new SutBuilder<PropertyHolder<decimal>>().Create();
+            // Exercise system
+            var result = sut.With(x => x.Property, expectedValue);
+            // Verify outcome
+            var resultingComposer = Assert.IsAssignableFrom<Composer<PropertyHolder<decimal>>>(result);
+            var postprocessor = resultingComposer.Postprocessors.OfType<BindingCommand<PropertyHolder<decimal>, decimal>>().Single();
+            Assert.Equal(expectedMember, postprocessor.Member);
+            Assert.Equal(expectedValue, postprocessor.ValueCreator(new DelegatingSpecimenContainer()));
             // Teardown
         }
 
