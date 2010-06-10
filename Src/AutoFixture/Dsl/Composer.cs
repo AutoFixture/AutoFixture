@@ -140,7 +140,13 @@ namespace Ploeh.AutoFixture.Dsl
 
         public ISpecimenBuilder Compose()
         {
-            return new FilteringSpecimenBuilder(this.factory, new ExactTypeSpecification(typeof(T)));
+            var builder = this.Factory;
+            foreach (var p in this.Postprocessors)
+            {
+                builder = new Postprocessor<T>(builder, p.Execute);
+            }
+
+            return new FilteringSpecimenBuilder(builder, new ExactTypeSpecification(typeof(T)));
         }
 
         #endregion

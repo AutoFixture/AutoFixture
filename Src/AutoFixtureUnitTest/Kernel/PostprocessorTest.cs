@@ -78,6 +78,52 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void BuilderIsCorrect()
+        {
+            // Fixture setup
+            var expectedBuilder = new DelegatingSpecimenBuilder();
+            Action<object> dummyAction = s => { };
+
+            var sut = new Postprocessor<object>(expectedBuilder, dummyAction);
+            // Exercise system
+            ISpecimenBuilder result = sut.Builder;
+            // Verify outcome
+            Assert.Equal(expectedBuilder, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ActionIsCorrect()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            Action<object, ISpecimenContainer> expectedAction = (s, c) => { };
+
+            var sut = new Postprocessor<object>(dummyBuilder, expectedAction);
+            // Exercise system
+            Action<object, ISpecimenContainer> result = sut.Action;
+            // Verify outcome
+            Assert.Equal(expectedAction, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecificationIsCorrect()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            Action<object, ISpecimenContainer> dummyAction = (s, c) => { };
+            var expectedSpec = new DelegatingRequestSpecification();
+
+            var sut = new Postprocessor<object>(dummyBuilder, dummyAction, expectedSpec);
+            // Exercise system
+            IRequestSpecification result = sut.Specification;
+            // Verify outcome
+            Assert.Equal(expectedSpec, result);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateInvokesDecoratedBuilderWithCorrectParameters()
         {
             // Fixture setup

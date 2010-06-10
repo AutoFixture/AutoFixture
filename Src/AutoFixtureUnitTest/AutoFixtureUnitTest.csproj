@@ -69,6 +69,7 @@
     <Compile Include="ByteSequenceGeneratorTest.cs" />
     <Compile Include="DelegatingEqualityComparer.cs" />
     <Compile Include="DelegatingRecursionGuard.cs" />
+    <Compile Include="Dsl\ComposerAssert.cs" />
     <Compile Include="Dsl\DelegatingSpecimenBuilderComposer.cs" />
     <Compile Include="Dsl\ComposerTest.cs" />
     <Compile Include="Kernel\AndRequestSpecificationTest.cs" />

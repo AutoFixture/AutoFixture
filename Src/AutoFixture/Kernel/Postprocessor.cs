@@ -112,6 +112,21 @@ namespace Ploeh.AutoFixture.Kernel
             this.specification = specification;
         }
 
+        public Action<T, ISpecimenContainer> Action
+        {
+            get { return this.action; }
+        }
+
+        public ISpecimenBuilder Builder
+        {
+            get { return this.builder; }
+        }
+
+        public IRequestSpecification Specification
+        {
+            get { return this.specification; }
+        }
+
         #region ISpecimenBuilder Members
 
         /// <summary>
