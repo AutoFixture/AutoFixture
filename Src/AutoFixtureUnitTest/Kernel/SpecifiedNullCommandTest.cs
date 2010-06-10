@@ -10,14 +10,14 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class NullSpecifiedSpecimenCommandTest
+    public class SpecifiedNullCommandTest
     {
         [Fact]
         public void SutIsSpecifiedSpecimenCommand()
         {
             // Fixture setup
             // Exercise system
-            var sut = new NullSpecifiedSpecimenCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
             // Verify outcome
             Assert.IsAssignableFrom<ISpecifiedSpecimenCommand<PropertyHolder<object>>>(sut);
             // Teardown
@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new NullSpecifiedSpecimenCommand<PropertyHolder<object>, object>(null));
+            Assert.Throws<ArgumentNullException>(() => new SpecifiedNullCommand<PropertyHolder<object>, object>(null));
             // Teardown
         }
 
@@ -38,7 +38,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             Expression<Func<object, object>> invalidExpression = obj => obj;
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentException>(() => new NullSpecifiedSpecimenCommand<object, object>(invalidExpression));
+            Assert.Throws<ArgumentException>(() => new SpecifiedNullCommand<object, object>(invalidExpression));
             // Teardown
         }
 
@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             Expression<Func<object, string>> methodExpression = obj => obj.ToString();
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentException>(() => new NullSpecifiedSpecimenCommand<object, string>(methodExpression));
+            Assert.Throws<ArgumentException>(() => new SpecifiedNullCommand<object, string>(methodExpression));
             // Teardown
         }
 
@@ -58,7 +58,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             Expression<Func<SingleParameterType<object>, object>> readOnlyPropertyExpression = sp => sp.Parameter;
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentException>(() => new NullSpecifiedSpecimenCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression));
+            Assert.Throws<ArgumentException>(() => new SpecifiedNullCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression));
             // Teardown
         }
 
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedMember = typeof(PropertyHolder<object>).GetProperty("Property");
-            var sut = new NullSpecifiedSpecimenCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
             // Exercise system
             MemberInfo result = sut.Member;
             // Verify outcome
@@ -79,7 +79,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void ExecuteDoesNotThrow()
         {
             // Fixture setup
-            var sut = new NullSpecifiedSpecimenCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Execute(null, null));
             // Teardown
@@ -89,7 +89,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void IsSatisfiedByNullThrows()
         {
             // Fixture setup
-            var sut = new NullSpecifiedSpecimenCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() => sut.IsSatisfiedBy(null));
             // Teardown
@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var request = new object();
-            var sut = new NullSpecifiedSpecimenCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
             // Exercise system
             bool result = sut.IsSatisfiedBy(request);
             // Verify outcome
@@ -113,7 +113,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var request = typeof(DoublePropertyHolder<object, object>).GetProperty("Property1");
-            var sut = new NullSpecifiedSpecimenCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property2);
+            var sut = new SpecifiedNullCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property2);
             // Exercise system
             bool result = sut.IsSatisfiedBy(request);
             // Verify outcome
@@ -126,7 +126,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var request = typeof(DoublePropertyHolder<object, object>).GetProperty("Property1");
-            var sut = new NullSpecifiedSpecimenCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property1);
+            var sut = new SpecifiedNullCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property1);
             // Exercise system
             bool result = sut.IsSatisfiedBy(request);
             // Verify outcome

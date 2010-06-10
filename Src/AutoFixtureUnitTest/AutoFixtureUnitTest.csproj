@@ -94,7 +94,7 @@
     <Compile Include="Kernel\ManyTranslatorTest.cs" />
     <Compile Include="Kernel\ModestConstructorInvokerTest.cs" />
     <Compile Include="Kernel\NoSpecimenTest.cs" />
-    <Compile Include="Kernel\NullSpecifiedSpecimenCommandTest.cs" />
+    <Compile Include="Kernel\SpecifiedNullCommandTest.cs" />
     <Compile Include="Kernel\OrRequestSpecificationTest.cs" />
     <Compile Include="Kernel\ParameterRequestTranslatorTest.cs" />
     <Compile Include="Kernel\PostprocessorGenericTest.cs" />
@@ -114,6 +114,7 @@
     <Compile Include="Kernel\StringSeedUnwrapperTest.cs" />
     <Compile Include="Kernel\TrueRequestSpecificationTest.cs" />
     <Compile Include="Kernel\ExactTypeSpecificationTest.cs" />
+    <Compile Include="Kernel\UnspecifiedSpecimenCommandTest.cs" />
     <Compile Include="Kernel\ValueIgnoringSeedUnwrapperTest.cs" />
     <Compile Include="Kernel\SeededRequestTest.cs" />
     <Compile Include="NullRecursionGuardTest.cs" />

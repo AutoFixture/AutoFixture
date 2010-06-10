@@ -152,7 +152,7 @@ namespace Ploeh.AutoFixture.Dsl
                 throw new ArgumentNullException("propertyPicker");
             }
 
-            var postprocessor = new NullSpecifiedSpecimenCommand<T, TProperty>(propertyPicker);
+            var postprocessor = new SpecifiedNullCommand<T, TProperty>(propertyPicker);
             return this.WithPostprocessor(postprocessor);
         }
 

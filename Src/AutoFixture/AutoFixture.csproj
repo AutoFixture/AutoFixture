@@ -94,7 +94,7 @@
     <Compile Include="Kernel\FiniteSequenceUnwrapper.cs" />
     <Compile Include="Kernel\ManyRequest.cs" />
     <Compile Include="Kernel\ManyTranslator.cs" />
-    <Compile Include="Kernel\NullSpecifiedSpecimenCommand.cs" />
+    <Compile Include="Kernel\SpecifiedNullCommand.cs" />
     <Compile Include="Kernel\OrRequestSpecification.cs" />
     <Compile Include="Kernel\Postprocessor.cs" />
     <Compile Include="Kernel\BindingCommand.cs" />
@@ -118,6 +118,7 @@
     <Compile Include="Kernel\StringSeedUnwrapper.cs" />
     <Compile Include="Kernel\TrueRequestSpecification.cs" />
     <Compile Include="Kernel\ExactTypeSpecification.cs" />
+    <Compile Include="Kernel\UnspecifiedSpecimenCommand.cs" />
     <Compile Include="Kernel\ValueIgnoringSeedUnwrapper.cs" />
     <Compile Include="MemberAnnotatedAction.cs" />
     <Compile Include="BooleanSwitch.cs" />

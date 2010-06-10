@@ -18,18 +18,18 @@ namespace Ploeh.AutoFixture.Kernel
     /// with it.
     /// </para>
     /// </remarks>
-    public class NullSpecifiedSpecimenCommand<T, TProperty> : ISpecifiedSpecimenCommand<T>
+    public class SpecifiedNullCommand<T, TProperty> : ISpecifiedSpecimenCommand<T>
     {
         private readonly MemberInfo member;
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="NullSpecifiedSpecimenCommand{T, TProperty}"/> class with the supplied
+        /// <see cref="SpecifiedNullCommand{T, TProperty}"/> class with the supplied
         /// property picker expression.
         /// </summary>
         /// <param name="propertyPicker">An expression that identifies a property or field.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This follows the same coding idiom as LINQ to SQL and LINQ to Entities. Since Funcs have implicit conversions into Expressions, usage is not as bad as it could have been. In any case, the desired functionality cannot be implemented in any other way while preserving static type checking.")]
-        public NullSpecifiedSpecimenCommand(Expression<Func<T, TProperty>> propertyPicker)
+        public SpecifiedNullCommand(Expression<Func<T, TProperty>> propertyPicker)
         {
             if (propertyPicker == null)
             {

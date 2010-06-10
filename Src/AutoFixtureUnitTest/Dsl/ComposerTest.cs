@@ -413,7 +413,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var result = sut.Without(x => x.Property);
             // Verify outcome
             var resultingComposer = Assert.IsAssignableFrom<Composer<PropertyHolder<string>>>(result);
-            var postprocessor = resultingComposer.Postprocessors.OfType<NullSpecifiedSpecimenCommand<PropertyHolder<string>, string>>().Single();
+            var postprocessor = resultingComposer.Postprocessors.OfType<SpecifiedNullCommand<PropertyHolder<string>, string>>().Single();
             Assert.Equal(expectedMember, postprocessor.Member);
             // Teardown
         }
