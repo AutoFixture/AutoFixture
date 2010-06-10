@@ -123,6 +123,17 @@ namespace Ploeh.AutoFixture.Dsl
 
         #region IPostprocessComposer<T> Members
 
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
+        {
+            if (propertyPicker == null)
+            {
+                throw new ArgumentNullException("propertyPicker");
+            }
+
+            var postprocessor = new BindingCommand<T, TProperty>(propertyPicker);
+            return this.WithPostprocessor(postprocessor);
+        }
+
         public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
             if (propertyPicker == null)

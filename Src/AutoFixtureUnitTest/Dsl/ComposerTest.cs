@@ -458,6 +458,36 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Teardown
         }
 
+        [Fact]
+        public void WithNullPropertyPickerThrows()
+        {
+            // Fixture setup
+            var sut = new SutBuilder<object>().Create();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.With<object>(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void WithReturnsCorrectResult()
+        {
+            // Fixture setup
+            var member = typeof(PropertyHolder<float>).GetProperty("Property");
+            var sut = new SutBuilder<PropertyHolder<float>>().Create();
+            // Exercise system
+            var result = sut.With(x => x.Property);
+            // Verify outcome
+            var resultingComposer = Assert.IsAssignableFrom<Composer<PropertyHolder<float>>>(result);
+            var postprocessor = resultingComposer.Postprocessors.OfType<BindingCommand<PropertyHolder<float>, float>>().Single();
+            Assert.Equal(member, postprocessor.Member);
+
+            object expectedValue = 3.6f;
+            var actual = postprocessor.ValueCreator(new DelegatingSpecimenContainer { OnResolve = r => r.Equals(member) ? expectedValue : new NoSpecimen(r) });
+            Assert.Equal(expectedValue, actual);
+            // Teardown
+        }
+
         private class SutBuilder<T>
         {
             private ISpecimenBuilder factory;
