@@ -326,6 +326,43 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void ComposeWithAutoPropertiesAndExplicitProperty()
+        {
+            // Fixture setup
+            var customBuilder = new Composer<DoublePropertyHolder<int, int>>()
+                .WithAutoProperties()
+                .With(x => x.Property1, 8)
+                .Compose();
+            var builder = new CompositeSpecimenBuilder(
+                customBuilder,
+                Scenario.CreateCoreBuilder());
+            // Exercise system
+            var result = new DefaultSpecimenContainer(builder).CreateAnonymous<DoublePropertyHolder<int, int>>();
+            // Verify outcome
+            Assert.Equal(8, result.Property1);
+            Assert.Equal(1, result.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeWithAutoProperties()
+        {
+            // Fixture setup
+            var customBuilder = new Composer<DoublePropertyHolder<int, int>>()
+                .WithAutoProperties()
+                .Compose();
+            var builder = new CompositeSpecimenBuilder(
+                customBuilder,
+                Scenario.CreateCoreBuilder());
+            // Exercise system
+            var result = new DefaultSpecimenContainer(builder).CreateAnonymous<DoublePropertyHolder<int, int>>();
+            // Verify outcome
+            Assert.Equal(1, result.Property1);
+            Assert.Equal(2, result.Property2);
+            // Teardown
+        }
+
         private static DefaultSpecimenContainer CreateContainer()
         {
             var builder = Scenario.CreateAutoPropertyBuilder();

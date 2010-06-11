@@ -27,8 +27,8 @@ namespace Ploeh.AutoFixture.Dsl
             if (postprocessors == null)
             {
                 throw new ArgumentNullException("postprocessors");
-            }        
-        
+            }
+
             this.factory = factory;
             this.postprocessors = postprocessors.ToList();
             this.enableAutoProperties = enableAutoProperties;
@@ -65,7 +65,7 @@ namespace Ploeh.AutoFixture.Dsl
             {
                 throw new ArgumentNullException("postprocessor");
             }
-        
+
             return new Composer<T>(this.Factory, this.postprocessors.Concat(new[] { postprocessor }), this.EnableAutoProperties);
         }
 
@@ -87,7 +87,7 @@ namespace Ploeh.AutoFixture.Dsl
             {
                 throw new ArgumentNullException("factory");
             }
-        
+
             return this.WithFactory(new SpecimenFactory<T>(factory));
         }
 
@@ -199,6 +199,18 @@ namespace Ploeh.AutoFixture.Dsl
             foreach (var p in this.Postprocessors)
             {
                 builder = new Postprocessor<T>(builder, p.Execute);
+            }
+
+            if (this.EnableAutoProperties)
+            {
+                var reservedProperties =
+                    new InverseRequestSpecification(
+                        new OrRequestSpecification(
+                            this.Postprocessors.Cast<IRequestSpecification>().Concat(new[] { new FalseRequestSpecification() })));
+                builder = new Postprocessor<T>(
+                    builder,
+                    new AutoPropertiesCommand<T>(reservedProperties).Execute,
+                    new AnyTypeSpecification());
             }
 
             return new FilteringSpecimenBuilder(builder, new ExactTypeSpecification(typeof(T)));

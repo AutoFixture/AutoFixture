@@ -608,6 +608,32 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Teardown
         }
 
+        [Fact]
+        public void ComposeWithoutAutoPropertiesReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new SutBuilder<string>().WithAutoProperties(false).Create();
+            // Exercise system
+            var result = sut.Compose();
+            // Verify outcome
+            result.IsFilter().ShouldContain(sut.Factory).ShouldSpecify<string>();
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeWithAutoPropertiesReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new SutBuilder<decimal>().WithAutoProperties(true).Create();
+            // Exercise system
+            var result = sut.Compose();
+            // Verify outcome
+            var filter = result.IsFilter().ShouldSpecify<decimal>();
+            var postprocessor = Assert.IsAssignableFrom<Postprocessor<decimal>>(filter.Builder);
+            Assert.Equal(sut.Factory, postprocessor.Builder);
+            // Teardown
+        }
+
         private class SutBuilder<T>
         {
             private ISpecimenBuilder factory;
