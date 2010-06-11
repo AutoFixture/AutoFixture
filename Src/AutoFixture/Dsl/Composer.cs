@@ -11,13 +11,14 @@ namespace Ploeh.AutoFixture.Dsl
     {
         private readonly ISpecimenBuilder factory;
         private readonly IEnumerable<ISpecifiedSpecimenCommand<T>> postprocessors;
+        private readonly bool enableAutoProperties;
 
         public Composer()
-            : this(new ModestConstructorInvoker(), Enumerable.Empty<ISpecifiedSpecimenCommand<T>>())
+            : this(new ModestConstructorInvoker(), Enumerable.Empty<ISpecifiedSpecimenCommand<T>>(), false)
         {
         }
 
-        public Composer(ISpecimenBuilder factory, IEnumerable<ISpecifiedSpecimenCommand<T>> postprocessors)
+        public Composer(ISpecimenBuilder factory, IEnumerable<ISpecifiedSpecimenCommand<T>> postprocessors, bool enableAutoProperties)
         {
             if (factory == null)
             {
@@ -30,6 +31,12 @@ namespace Ploeh.AutoFixture.Dsl
         
             this.factory = factory;
             this.postprocessors = postprocessors.ToList();
+            this.enableAutoProperties = enableAutoProperties;
+        }
+
+        public bool EnableAutoProperties
+        {
+            get { return this.enableAutoProperties; }
         }
 
         public ISpecimenBuilder Factory
@@ -42,9 +49,14 @@ namespace Ploeh.AutoFixture.Dsl
             get { return this.postprocessors; }
         }
 
+        public Composer<T> WithAutoProperties(bool enable)
+        {
+            return new Composer<T>(this.Factory, this.Postprocessors, enable);
+        }
+
         public Composer<T> WithFactory(ISpecimenBuilder factory)
         {
-            return new Composer<T>(factory, this.postprocessors);
+            return new Composer<T>(factory, this.postprocessors, this.EnableAutoProperties);
         }
 
         public Composer<T> WithPostprocessor(ISpecifiedSpecimenCommand<T> postprocessor)
@@ -54,7 +66,7 @@ namespace Ploeh.AutoFixture.Dsl
                 throw new ArgumentNullException("postprocessor");
             }
         
-            return new Composer<T>(this.Factory, this.postprocessors.Concat(new[] { postprocessor }));
+            return new Composer<T>(this.Factory, this.postprocessors.Concat(new[] { postprocessor }), this.EnableAutoProperties);
         }
 
         #region IFactoryComposer<T> Members
@@ -134,6 +146,11 @@ namespace Ploeh.AutoFixture.Dsl
             return this.WithPostprocessor(postprocessor);
         }
 
+        public IPostprocessComposer<T> OmitAutoProperties()
+        {
+            return this.WithAutoProperties(false);
+        }
+
         public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
             if (propertyPicker == null)
@@ -154,6 +171,11 @@ namespace Ploeh.AutoFixture.Dsl
 
             var postprocessor = new BindingCommand<T, TProperty>(propertyPicker, value);
             return this.WithPostprocessor(postprocessor);
+        }
+
+        public IPostprocessComposer<T> WithAutoProperties()
+        {
+            return this.WithAutoProperties(true);
         }
 
         public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)

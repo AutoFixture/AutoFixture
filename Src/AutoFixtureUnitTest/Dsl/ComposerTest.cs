@@ -37,13 +37,25 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
+        public void InitializeWithDefaultConstructorHasCorrectEnableAutoProperties()
+        {
+            // Fixture setup
+            var sut = new Composer<PlatformID>();
+            // Exercise system
+            bool result = sut.EnableAutoProperties;
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
         public void IntializeWithNullFactoryThrows()
         {
             // Fixture setup
             var dummyCommands = Enumerable.Empty<ISpecifiedSpecimenCommand<UriParser>>();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new Composer<UriParser>(null, dummyCommands));
+                new Composer<UriParser>(null, dummyCommands, false));
             // Teardown
         }
 
@@ -54,7 +66,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var dummyFactory = new DelegatingSpecimenBuilder();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new Composer<ParamArrayAttribute>(dummyFactory, null));
+                new Composer<ParamArrayAttribute>(dummyFactory, null, false));
             // Teardown
         }
 
@@ -64,7 +76,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Fixture setup
             var expectedFactory = new DelegatingSpecimenBuilder();
             var dummyCommands = Enumerable.Empty<ISpecifiedSpecimenCommand<byte>>();
-            var sut = new Composer<byte>(expectedFactory, dummyCommands);
+            var sut = new Composer<byte>(expectedFactory, dummyCommands, false);
             // Exercise system
             var result = sut.Factory;
             // Verify outcome
@@ -81,11 +93,26 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                 .Select(i => new DelegatingSpecifiedSpecimenCommand<Version>())
                 .Cast<ISpecifiedSpecimenCommand<Version>>()
                 .ToList();
-            var sut = new Composer<Version>(dummyFactory, expectedCommands);
+            var sut = new Composer<Version>(dummyFactory, expectedCommands, false);
             // Exercise system
             var result = sut.Postprocessors;
             // Verify outcome
             Assert.True(expectedCommands.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithEnableAutoPropertiesHasMatchingProperty()
+        {
+            // Fixture setup
+            var dummyFactory = new DelegatingSpecimenBuilder();
+            var dummyPostprocessors = Enumerable.Empty<ISpecifiedSpecimenCommand<HttpStyleUriParser>>();
+            var enableAutoProperties = true;
+            var sut = new Composer<HttpStyleUriParser>(dummyFactory, dummyPostprocessors, enableAutoProperties);
+            // Exercise system
+            var result = sut.EnableAutoProperties;
+            // Verify outcome
+            Assert.Equal(enableAutoProperties, result);
             // Teardown
         }
 
@@ -97,7 +124,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var postprocessors = Enumerable.Range(1, 3)
                 .Select(i => new DelegatingSpecifiedSpecimenCommand<Uri>())
                 .Cast<ISpecifiedSpecimenCommand<Uri>>();
-            var sut = new Composer<Uri>(dummyFactory, postprocessors);
+            var sut = new Composer<Uri>(dummyFactory, postprocessors, false);
             var expected = sut.Postprocessors;
             // Exercise system
             var result = sut.Postprocessors;
@@ -514,10 +541,78 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Teardown
         }
 
+        [Fact]
+        public void OmitAutoPropertiesReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new SutBuilder<object>().WithAutoProperties(true).Create();
+            // Exercise system
+            var result = sut.OmitAutoProperties();
+            // Verify outcome
+            var resultingComposer = Assert.IsAssignableFrom<Composer<object>>(result);
+            Assert.Equal(sut.Factory, resultingComposer.Factory);
+            Assert.True(sut.Postprocessors.SequenceEqual(resultingComposer.Postprocessors));
+            Assert.False(resultingComposer.EnableAutoProperties);
+            // Teardown
+        }
+
+        [Fact]
+        public void WithAutoPropertiesReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new SutBuilder<object>().WithAutoProperties(false).Create();
+            // Exercise system
+            var result = sut.WithAutoProperties();
+            // Verify outcome
+            var resultingComposer = Assert.IsAssignableFrom<Composer<object>>(result);
+            Assert.Equal(sut.Factory, resultingComposer.Factory);
+            Assert.True(sut.Postprocessors.SequenceEqual(resultingComposer.Postprocessors));
+            Assert.True(resultingComposer.EnableAutoProperties);
+            // Teardown
+        }
+
+        [Fact]
+        public void WithExplicitAutoPropertiesReturnsResultWithCorrectAutoProperties()
+        {
+            // Fixture setup
+            var sut = new SutBuilder<object>().WithAutoProperties(true).Create();
+            // Exercise system
+            var result = sut.WithAutoProperties(true);
+            // Verify outcome
+            Assert.True(result.EnableAutoProperties);
+            // Teardown
+        }
+
+        [Fact]
+        public void WithExplicitAutoPropertiesReturnsResultWithCorrectFactory()
+        {
+            // Fixture setup
+            var sut = new SutBuilder<object>().Create();
+            // Exercise system
+            var result = sut.WithAutoProperties(true);
+            // Verify outcome
+            Assert.Equal(sut.Factory, result.Factory);
+            // Teardown
+        }
+
+        [Fact]
+        public void WithExplicitAutoPropertiesReturnsResultWithCorrectPostprocessors()
+        {
+            // Fixture setup
+            var postprocessors = Enumerable.Range(1, 3).Select(i => new DelegatingSpecifiedSpecimenCommand<int>()).ToArray();
+            var sut = new SutBuilder<int>().With(postprocessors).Create();
+            // Exercise system
+            var result = sut.WithAutoProperties(false);
+            // Verify outcome
+            Assert.True(postprocessors.SequenceEqual(result.Postprocessors));
+            // Teardown
+        }
+
         private class SutBuilder<T>
         {
             private ISpecimenBuilder factory;
             private List<ISpecifiedSpecimenCommand<T>> postprocessors;
+            private bool enableAutoProperties;
 
             internal SutBuilder()
             {
@@ -531,9 +626,15 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                 return this;
             }
 
+            internal SutBuilder<T> WithAutoProperties(bool enable)
+            {
+                this.enableAutoProperties = enable;
+                return this;
+            }
+
             internal Composer<T> Create()
             {
-                return new Composer<T>(this.factory, this.postprocessors);
+                return new Composer<T>(this.factory, this.postprocessors, this.enableAutoProperties);
             }
         }
     }
