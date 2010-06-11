@@ -28,7 +28,6 @@ namespace Ploeh.AutoFixture.Kernel
         /// property picker expression.
         /// </summary>
         /// <param name="propertyPicker">An expression that identifies a property or field.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This follows the same coding idiom as LINQ to SQL and LINQ to Entities. Since Funcs have implicit conversions into Expressions, usage is not as bad as it could have been. In any case, the desired functionality cannot be implemented in any other way while preserving static type checking.")]
         public SpecifiedNullCommand(Expression<Func<T, TProperty>> propertyPicker)
         {
             if (propertyPicker == null)
@@ -39,6 +38,9 @@ namespace Ploeh.AutoFixture.Kernel
             this.member = propertyPicker.GetWritableMember().Member;
         }
 
+        /// <summary>
+        /// Gets the member identified by the expression supplied through the constructor.
+        /// </summary>
         public MemberInfo Member
         {
             get { return this.member; }

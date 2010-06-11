@@ -185,7 +185,6 @@ namespace Ploeh.AutoFixture
         /// A new <see cref="Likeness{T}"/> that ignores the property identified by
         /// <paramref name="propertyPicker"/> when determining equality.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This follows the same coding idiom as LINQ to SQL and LINQ to Entities. Since Funcs have implicit conversions into Expressions, usage is not as bad as it could have been. In any case, the desired functionality cannot be implemented in any other way while preserving static type checking.")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The explicit use of Expression<Func<T>> enables type inference from the test code. With only the base class LambdaExpression, calling code would have to explicitly spell out the property type as a generic type parameter. This would hurt readability of the calling code.")]
         public Likeness<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {

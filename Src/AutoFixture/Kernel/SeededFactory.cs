@@ -27,6 +27,9 @@ namespace Ploeh.AutoFixture.Kernel
             this.create = factory;
         }
 
+        /// <summary>
+        /// Gets the factory that is used to create specimens from a seed.
+        /// </summary>
         public Func<T, T> Factory
         {
             get { return this.create; }

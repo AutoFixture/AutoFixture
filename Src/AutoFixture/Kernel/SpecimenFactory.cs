@@ -27,6 +27,9 @@ namespace Ploeh.AutoFixture.Kernel
             this.create = factory;
         }
 
+        /// <summary>
+        /// Gets the factory that will create specimens.
+        /// </summary>
         public Func<T> Factory
         {
             get { return this.create; }
@@ -85,6 +88,9 @@ namespace Ploeh.AutoFixture.Kernel
             this.create = factory;
         }
 
+        /// <summary>
+        /// Gets the factory that creates specimens.
+        /// </summary>
         public Func<TInput, T> Factory
         {
             get { return this.create; }
@@ -153,6 +159,9 @@ namespace Ploeh.AutoFixture.Kernel
             this.create = factory;
         }
 
+        /// <summary>
+        /// Gets the factory that creates specimens.
+        /// </summary>
         public Func<TInput1, TInput2, T> Factory
         {
             get { return this.create; }
@@ -223,6 +232,9 @@ namespace Ploeh.AutoFixture.Kernel
             this.create = factory;
         }
 
+        /// <summary>
+        /// Gets the factory that creates specimens.
+        /// </summary>
         public Func<TInput1, TInput2, TInput3, T> Factory
         {
             get { return this.create; }
@@ -295,6 +307,9 @@ namespace Ploeh.AutoFixture.Kernel
             this.create = factory;
         }
 
+        /// <summary>
+        /// Gets the factory that creates specimens.
+        /// </summary>
         public Func<TInput1, TInput2, TInput3, TInput4, T> Factory
         {
             get { return this.create; }

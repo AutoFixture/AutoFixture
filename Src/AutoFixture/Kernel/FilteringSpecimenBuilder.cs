@@ -36,11 +36,18 @@ namespace Ploeh.AutoFixture.Kernel
             this.specification = specification;
         }
 
+        /// <summary>
+        /// Gets the decorated builder.
+        /// </summary>
         public ISpecimenBuilder Builder
         {
             get { return this.builder; }
         }
 
+        /// <summary>
+        /// Gets the specification that determines whether <see cref="Builder"/> will be invoked or
+        /// not.
+        /// </summary>
         public IRequestSpecification Specification
         {
             get { return this.specification; }

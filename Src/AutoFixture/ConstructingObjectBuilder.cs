@@ -38,7 +38,6 @@ namespace Ploeh.AutoFixture
         /// <param name="resolveCallback">
         /// A callback that can be invoked to resolve unresolved types.
         /// </param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "The alternative design is to define an interface that mimics Func<object, object>, and expose a dictionary of Type and this interface. That would be a more heavy-weight solution that doesn't add a lot of clarity or value.")]
         public ConstructingObjectBuilder(IDictionary<Type, Func<object, object>> typeMappings, RecursionHandler recursionHandler, int repeatCount, bool omitAutoProperties, Func<Type, object> resolveCallback, Func<T, T> creator)
             : base(typeMappings, recursionHandler, repeatCount, omitAutoProperties, resolveCallback)
         {

@@ -26,6 +26,9 @@ namespace Ploeh.AutoFixture.Kernel
             this.targetType = type;
         }
 
+        /// <summary>
+        /// Gets the type targeted by this <see cref="IRequestSpecification"/>.
+        /// </summary>
         public Type TargetType
         {
             get { return this.targetType; }

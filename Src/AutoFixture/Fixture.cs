@@ -77,7 +77,6 @@ namespace Ploeh.AutoFixture
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Use the Customize method instead of the TypeMappings dictionary.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "The alternative design is to define an interface that mimics Func<object, object>, and expose a dictionary of Type and this interface. That would be a more heavy-weight solution that doesn't add a lot of clarity or value.")]
         public IDictionary<Type, Func<object, object>> TypeMappings
         {
             get { return this.typeMappings; }
@@ -258,7 +257,6 @@ namespace Ploeh.AutoFixture
         /// A function that customizes a given <see cref="ObjectBuilder{T}"/> and returns the
         /// modified  builder.
         /// </param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "The alternative design is to define an interface that mimics Func<ObjectBuilder<T>, ObjectBuilder<T>>, and expose this interface as a parameter. That would be a more heavy-weight solution that doesn't add a lot of clarity or value.")]
         public void Customize<T>(Func<LatentObjectBuilder<T>, ObjectBuilder<T>> builderTransform)
         {
             var b = this.CreateLatentObjectBuilder<T>();
@@ -400,7 +398,6 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         /// <seealso cref="Freeze{T}()"/>
         /// <seealso cref="Freeze{T}(T)"/>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "The alternative design is to define an interface that mimics Func<ObjectBuilder<T>, ObjectBuilder<T>>, and expose this interface as a parameter. That would be a more heavy-weight solution that doesn't add a lot of clarity or value.")]
         public T Freeze<T>(Func<LatentObjectBuilder<T>, ObjectBuilder<T>> builderTransform)
         {
             var b = this.CreateLatentObjectBuilder<T>();

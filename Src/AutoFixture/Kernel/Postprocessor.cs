@@ -112,16 +112,25 @@ namespace Ploeh.AutoFixture.Kernel
             this.specification = specification;
         }
 
+        /// <summary>
+        /// Gets the action to perform on created specimens.
+        /// </summary>
         public Action<T, ISpecimenContainer> Action
         {
             get { return this.action; }
         }
 
+        /// <summary>
+        /// Gets the decorated builder.
+        /// </summary>
         public ISpecimenBuilder Builder
         {
             get { return this.builder; }
         }
 
+        /// <summary>
+        /// Gets the filter that determines whether <see cref="Action"/> should be executed.
+        /// </summary>
         public IRequestSpecification Specification
         {
             get { return this.specification; }

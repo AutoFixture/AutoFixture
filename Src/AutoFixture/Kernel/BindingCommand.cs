@@ -31,7 +31,6 @@ namespace Ploeh.AutoFixture.Kernel
         /// field identified by <paramref name="propertyPicker"/>.
         /// </para>
         /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This follows the same coding idiom as LINQ to SQL and LINQ to Entities. Since Funcs have implicit conversions into Expressions, usage is not as bad as it could have been. In any case, the desired functionality cannot be implemented in any other way while preserving static type checking.")]
         public BindingCommand(Expression<Func<T, TProperty>> propertyPicker)
         {
             if (propertyPicker == null)
@@ -53,7 +52,6 @@ namespace Ploeh.AutoFixture.Kernel
         /// The value to assign to the property or field identified by
         /// <paramref name="propertyPicker"/>.
         /// </param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This follows the same coding idiom as LINQ to SQL and LINQ to Entities. Since Funcs have implicit conversions into Expressions, usage is not as bad as it could have been. In any case, the desired functionality cannot be implemented in any other way while preserving static type checking.")]
         public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, TProperty propertyValue)
         {
             if (propertyPicker == null)
@@ -75,7 +73,6 @@ namespace Ploeh.AutoFixture.Kernel
         /// A function that creates a value that will be assigned to the property or field
         /// identified by <paramref name="propertyPicker"/>.
         /// </param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This follows the same coding idiom as LINQ to SQL and LINQ to Entities. Since Funcs have implicit conversions into Expressions, usage is not as bad as it could have been. In any case, the desired functionality cannot be implemented in any other way while preserving static type checking.")]
         public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, Func<ISpecimenContainer, TProperty> valueCreator)
         {
             if (propertyPicker == null)
@@ -91,11 +88,18 @@ namespace Ploeh.AutoFixture.Kernel
             this.createBindingValue = valueCreator;
         }
 
+        /// <summary>
+        /// Gets the member identified by the expression supplied through the constructor.
+        /// </summary>
         public MemberInfo Member
         {
             get { return this.member; }
         }
 
+        /// <summary>
+        /// Gets the function that creates a value to be assigned to the property or field
+        /// identified by <see cref="Member"/>.
+        /// </summary>
         public Func<ISpecimenContainer, TProperty> ValueCreator
         {
             get { return this.createBindingValue; }
