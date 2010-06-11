@@ -363,6 +363,78 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void ComposeComplexObjectWithAutoPropertiesAndSomeCustomizations()
+        {
+            // Fixture setup
+            var builder = new CompositeSpecimenBuilder(
+                new Composer<DoublePropertyHolder<long, long>>()
+                    .With(x => x.Property2, 43)
+                    .WithAutoProperties()
+                    .Compose(),
+                new Composer<DoublePropertyHolder<int, string>>()
+                    .OmitAutoProperties()
+                    .With(x => x.Property1)
+                    .Compose(),
+                new Composer<DoublePropertyHolder<DoublePropertyHolder<long, long>, DoublePropertyHolder<int, string>>>()
+                    .WithAutoProperties()
+                    .Compose(),
+                Scenario.CreateCoreBuilder());
+            // Exercise system
+            var result = new DefaultSpecimenContainer(builder).CreateAnonymous<DoublePropertyHolder<DoublePropertyHolder<long, long>, DoublePropertyHolder<int, string>>>();
+            // Verify outcome
+            Assert.Equal(1, result.Property1.Property1);
+            Assert.Equal(43, result.Property1.Property2);
+            Assert.Equal(1, result.Property2.Property1);
+            Assert.Null(result.Property2.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomDoSetsCorrectProperty()
+        {
+            // Fixture setup
+            var builder = new CompositeSpecimenBuilder(
+                new Composer<PropertyHolder<decimal>>().OmitAutoProperties().Do(x => x.SetProperty(6789)).Compose(),
+                Scenario.CreateCoreBuilder());
+            // Exercise system
+            var result = new DefaultSpecimenContainer(builder).CreateAnonymous<SingleParameterType<PropertyHolder<decimal>>>();
+            // Verify outcome
+            Assert.Equal(6789, result.Parameter.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeWithoutCorrectlyCreatesSpecimen()
+        {
+            // Fixture setup
+            var builder = new CompositeSpecimenBuilder(
+                new Composer<DoubleFieldHolder<string, int>>().WithAutoProperties().Without(x => x.Field1).Compose(),
+                Scenario.CreateCoreBuilder());
+            // Exercise system
+            var result = new DefaultSpecimenContainer(builder).CreateAnonymous<DoubleFieldHolder<string, int>>();
+            // Verify outcome
+            Assert.Null(result.Field1);
+            Assert.Equal(1, result.Field2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeFromFactoryCorrectlyResolvesSpecimen()
+        {
+            // Fixture setup
+            var instance = new PropertyHolder<float> { Property = 89 };
+            var builder = new CompositeSpecimenBuilder(
+                new Composer<PropertyHolder<float>>().FromFactory(() => instance).OmitAutoProperties().Compose(),
+                Scenario.CreateCoreBuilder());
+            // Exercise system
+            var result = new DefaultSpecimenContainer(builder).CreateAnonymous<PropertyHolder<float>>();
+            // Verify outcome
+            Assert.Equal(instance, result);
+            Assert.Equal(89, result.Property);
+            // Teardown
+        }
+
         private static DefaultSpecimenContainer CreateContainer()
         {
             var builder = Scenario.CreateAutoPropertyBuilder();
