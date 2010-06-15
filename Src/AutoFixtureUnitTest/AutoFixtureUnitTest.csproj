@@ -74,6 +74,7 @@
     <Compile Include="Dsl\CompositePostprocessComposerTest.cs" />
     <Compile Include="Dsl\DelegatingComposer.cs" />
     <Compile Include="Dsl\ComposerTest.cs" />
+    <Compile Include="Dsl\NullComposerTest.cs" />
     <Compile Include="Kernel\AndRequestSpecificationTest.cs" />
     <Compile Include="Kernel\AnyTypeSpecificationTest.cs" />
     <Compile Include="Kernel\AutoPropertiesCommandTest.cs" />
