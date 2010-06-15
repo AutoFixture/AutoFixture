@@ -7,6 +7,7 @@ using Ploeh.AutoFixtureUnitTest.Kernel;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Dsl;
+using Ploeh.AutoFixture.Dsl;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -38,9 +39,30 @@ namespace Ploeh.AutoFixtureUnitTest
                 return expectedResult;
             };
 
-            var composer = new DelegatingComposer { OnCompose = () => specimenBuilder };
+            ISpecimenBuilderComposer composer = new DelegatingComposer { OnCompose = () => specimenBuilder };
             // Exercise system
             var result = composer.CreateAnonymous<DateTime>();
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousOnPostprocessComposerReturnsCorrectResult()
+        {
+            // Fixture setup
+            var expectedResult = new DateTime(2010, 5, 31, 14, 52, 19);
+            var specimenBuilder = new DelegatingSpecimenBuilder();
+            specimenBuilder.OnCreate = (r, c) =>
+            {
+                Assert.NotNull(c);
+                Assert.Equal(new SeededRequest(typeof(DateTime), default(DateTime)), r);
+                return expectedResult;
+            };
+
+            var composer = new DelegatingComposer<DateTime> { OnCompose = () => specimenBuilder };
+            // Exercise system
+            var result = composer.CreateAnonymous();
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
@@ -113,9 +135,30 @@ namespace Ploeh.AutoFixtureUnitTest
                     return expectedResult.Cast<object>();
                 };
 
-            var composer = new DelegatingComposer { OnCompose = () => specimenBuilder };
+            ISpecimenBuilderComposer composer = new DelegatingComposer { OnCompose = () => specimenBuilder };
             // Exercise system
             var result = composer.CreateMany<string>();
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateManyOnPostprocessComposerReturnsCorrectResult()
+        {
+            // Fixture setup
+            var expectedResult = Enumerable.Range(1, 17).Select(i => i.ToString());
+            var specimenBuilder = new DelegatingSpecimenBuilder();
+            specimenBuilder.OnCreate = (r, c) =>
+            {
+                Assert.NotNull(c);
+                Assert.Equal(new ManyRequest(new SeededRequest(typeof(string), null)), r);
+                return expectedResult.Cast<object>();
+            };
+
+            var composer = new DelegatingComposer<string> { OnCompose = () => specimenBuilder };
+            // Exercise system
+            var result = composer.CreateMany();
             // Verify outcome
             Assert.True(expectedResult.SequenceEqual(result));
             // Teardown
@@ -195,9 +238,31 @@ namespace Ploeh.AutoFixtureUnitTest
                     return expectedResult.Cast<object>();
                 };
 
-            var composer = new DelegatingComposer { OnCompose = () => specimenBuilder };
+            ISpecimenBuilderComposer composer = new DelegatingComposer { OnCompose = () => specimenBuilder };
             // Exercise system
             var result = composer.CreateMany<string>(count);
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateCountedManyOnPostprocessComposerReturnsCorrectResult()
+        {
+            // Fixture setup
+            var count = 9;
+            var expectedResult = Enumerable.Range(1, count).Select(i => i.ToString());
+            var specimenBuilder = new DelegatingSpecimenBuilder();
+            specimenBuilder.OnCreate = (r, c) =>
+            {
+                Assert.NotNull(c);
+                Assert.Equal(new FiniteSequenceRequest(new SeededRequest(typeof(string), null), count), r);
+                return expectedResult.Cast<object>();
+            };
+
+            var composer = new DelegatingComposer<string> { OnCompose = () => specimenBuilder };
+            // Exercise system
+            var result = composer.CreateMany(count);
             // Verify outcome
             Assert.True(expectedResult.SequenceEqual(result));
             // Teardown

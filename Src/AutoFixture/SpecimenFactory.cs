@@ -35,6 +35,11 @@ namespace Ploeh.AutoFixture
             return composer.Compose().CreateContainer().CreateAnonymous<T>();
         }
 
+        public static T CreateAnonymous<T>(this IPostprocessComposer<T> composer)
+        {
+            return ((ISpecimenBuilderComposer)composer).CreateAnonymous<T>();
+        }
+
         /// <summary>
         /// Creates an anonymous object, potentially using the supplied seed as additional
         /// information when creating the object.
@@ -87,6 +92,11 @@ namespace Ploeh.AutoFixture
         public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilderComposer composer)
         {
             return composer.Compose().CreateContainer().CreateMany<T>();
+        }
+
+        public static IEnumerable<T> CreateMany<T>(this IPostprocessComposer<T> composer)
+        {
+            return ((ISpecimenBuilderComposer)composer).CreateMany<T>();
         }
 
         /// <summary>
@@ -144,6 +154,11 @@ namespace Ploeh.AutoFixture
         public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilderComposer composer, int count)
         {
             return composer.Compose().CreateContainer().CreateMany<T>(count);
+        }
+
+        public static IEnumerable<T> CreateMany<T>(this IPostprocessComposer<T> composer, int count)
+        {
+            return ((ISpecimenBuilderComposer)composer).CreateMany<T>(count);
         }
 
         /// <summary>
