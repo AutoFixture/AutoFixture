@@ -79,7 +79,7 @@
     <Compile Include="Dsl\IFactoryComposer.cs" />
     <Compile Include="Dsl\IPostprocessComposer.cs" />
     <Compile Include="Dsl\ISpecimenBuilderComposer.cs" />
-    <Compile Include="Dsl\IStrategyComposer.cs" />
+    <Compile Include="Dsl\ICustomizationComposer.cs" />
     <Compile Include="Kernel\AndRequestSpecification.cs" />
     <Compile Include="Kernel\AnyTypeSpecification.cs" />
     <Compile Include="Kernel\AutoPropertiesCommand.cs" />

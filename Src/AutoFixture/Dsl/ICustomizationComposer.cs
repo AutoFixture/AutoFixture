@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.Dsl
     /// post-processed.
     /// </summary>
     /// <typeparam name="T">The type of specimen.</typeparam>
-    public interface IStrategyComposer<T> : IFactoryComposer<T>, IPostprocessComposer<T>
+    public interface ICustomizationComposer<T> : IFactoryComposer<T>, IPostprocessComposer<T>
     {
     }
 }
