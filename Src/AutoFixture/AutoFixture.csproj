@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dsl\Composer.cs" />
+    <Compile Include="Dsl\CompositePostprocessComposer.cs" />
     <Compile Include="Dsl\IFactoryComposer.cs" />
     <Compile Include="Dsl\IPostprocessComposer.cs" />
     <Compile Include="Dsl\ISpecimenBuilderComposer.cs" />
