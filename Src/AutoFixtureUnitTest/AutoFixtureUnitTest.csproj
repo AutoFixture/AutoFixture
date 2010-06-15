@@ -70,6 +70,7 @@
     <Compile Include="DelegatingEqualityComparer.cs" />
     <Compile Include="DelegatingRecursionGuard.cs" />
     <Compile Include="Dsl\ComposerAssert.cs" />
+    <Compile Include="Dsl\CompositeComposerTest.cs" />
     <Compile Include="Dsl\CompositePostprocessComposerTest.cs" />
     <Compile Include="Dsl\DelegatingComposer.cs" />
     <Compile Include="Dsl\ComposerTest.cs" />
