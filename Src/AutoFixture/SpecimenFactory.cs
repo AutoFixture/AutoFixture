@@ -35,6 +35,18 @@ namespace Ploeh.AutoFixture
             return composer.Compose().CreateContainer().CreateAnonymous<T>();
         }
 
+        /// <summary>
+        /// Creates an anonymous variable of the requested type.
+        /// </summary>
+        /// <typeparam name="T">The type of object to create.</typeparam>
+        /// <param name="composer">The composer used to resolve the type request.</param>
+        /// <returns>An anonymous object of type <typeparamref name="T"/>.</returns>
+        /// <remarks>
+        /// <para>
+        /// The only purpose of this explicit overload is to support type inferencing.
+        /// </para>
+        /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Supports type inferencing.")]
         public static T CreateAnonymous<T>(this IPostprocessComposer<T> composer)
         {
             return ((ISpecimenBuilderComposer)composer).CreateAnonymous<T>();
@@ -94,6 +106,18 @@ namespace Ploeh.AutoFixture
             return composer.Compose().CreateContainer().CreateMany<T>();
         }
 
+        /// <summary>
+        /// Creates many anonymous objects.
+        /// </summary>
+        /// <typeparam name="T">The type of objects to create.</typeparam>
+        /// <param name="composer">The composer used to resolve the type request.</param>
+        /// <returns>A sequence of anonymous object of type <typeparamref name="T"/>.</returns>
+        /// <remarks>
+        /// <para>
+        /// The only purpose of this explicit overload is to support type inferencing.
+        /// </para>
+        /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Supports type inferencing.")]
         public static IEnumerable<T> CreateMany<T>(this IPostprocessComposer<T> composer)
         {
             return ((ISpecimenBuilderComposer)composer).CreateMany<T>();
@@ -156,6 +180,19 @@ namespace Ploeh.AutoFixture
             return composer.Compose().CreateContainer().CreateMany<T>(count);
         }
 
+        /// <summary>
+        /// Creates many anonymous objects.
+        /// </summary>
+        /// <typeparam name="T">The type of objects to create.</typeparam>
+        /// <param name="composer">The composer used to resolve the type request.</param>
+        /// <param name="count">The number of objects to create.</param>
+        /// <returns>A sequence of anonymous objects of type <typeparamref name="T"/>.</returns>
+        /// <remarks>
+        /// <para>
+        /// The only purpose of this explicit overload is to support type inferencing.
+        /// </para>
+        /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Supports type inferencing.")]
         public static IEnumerable<T> CreateMany<T>(this IPostprocessComposer<T> composer, int count)
         {
             return ((ISpecimenBuilderComposer)composer).CreateMany<T>(count);
