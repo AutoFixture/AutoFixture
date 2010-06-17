@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var byteRequest = typeof(byte);
             var dummyContainer = new DelegatingSpecimenContainer();
-            var loopTest = new LoopTest<ByteSequenceGenerator, decimal>(sut => (byte)sut.Create(byteRequest, dummyContainer));
+            var loopTest = new LoopTest<ByteSequenceGenerator, byte>(sut => (byte)sut.Create(byteRequest, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(2);
             // Teardown
@@ -112,7 +112,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var byteRequest = typeof(byte);
             var dummyContainer = new DelegatingSpecimenContainer();
-            var loopTest = new LoopTest<ByteSequenceGenerator, decimal>(sut => (byte)sut.Create(byteRequest, dummyContainer));
+            var loopTest = new LoopTest<ByteSequenceGenerator, byte>(sut => (byte)sut.Create(byteRequest, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(10);
             // Teardown
