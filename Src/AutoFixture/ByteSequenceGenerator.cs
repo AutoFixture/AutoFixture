@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
     /// <summary>
     /// Creates a sequence of consecutive numbers, starting at 1.
     /// </summary>
-    public class ByteSequenceGenerator
+    public class ByteSequenceGenerator : ISpecimenBuilder
     {
         private byte b;
         private readonly object syncRoot;
@@ -43,5 +44,28 @@ namespace Ploeh.AutoFixture
         {
             return this.CreateAnonymous();
         }
+
+        #region ISpecimenBuilder Members
+
+        /// <summary>
+        /// Creates an anonymous byte.
+        /// </summary>
+        /// <param name="request">The request that describes what to create.</param>
+        /// <param name="container">Not used.</param>
+        /// <returns>
+        /// The next byte in a consequtive sequence, if <paramref name="request"/> is a request
+        /// for a byte; otherwise, a <see cref="NoSpecimen"/> instance.
+        /// </returns>
+        public object Create(object request, ISpecimenContainer container)
+        {
+            if (request != typeof(byte))
+            {
+                return new NoSpecimen(request);
+            }
+
+            return this.CreateAnonymous();
+        }
+
+        #endregion
     }
 }
