@@ -450,6 +450,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void BuildAndCreateAnonymousComplexType()
+        {
+            // Fixture setup
+            var composer = new NullComposer<object>(Scenario.CreateAutoPropertyBuilder);
+            // Exercise system
+            var result = composer.Build<DoublePropertyHolder<int, long>>().With(x => x.Property1, 3).WithAutoProperties().CreateAnonymous();
+            // Verify outcome
+            Assert.Equal(3, result.Property1);
+            Assert.Equal(1, result.Property2);
+            // Teardown
+        }
+
         private static DefaultSpecimenContainer CreateContainer()
         {
             var builder = Scenario.CreateAutoPropertyBuilder();

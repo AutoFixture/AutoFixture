@@ -158,6 +158,7 @@
     <Compile Include="SByteSequenceGenerator.cs" />
     <Compile Include="Kernel\SeededRequest.cs" />
     <Compile Include="SingleSequenceGenerator.cs" />
+    <Compile Include="SpecimenBuilderComposer.cs" />
     <Compile Include="SpecimenFactory.cs" />
     <Compile Include="StringGenerator.cs" />
     <Compile Include="ThrowingRecursionGuard.cs" />
