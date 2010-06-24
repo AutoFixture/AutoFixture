@@ -80,6 +80,7 @@
     <Compile Include="Dsl\CompositePostprocessComposer.cs" />
     <Compile Include="Dsl\IFactoryComposer.cs" />
     <Compile Include="Dsl\IPostprocessComposer.cs" />
+    <Compile Include="Kernel\IMany.cs" />
     <Compile Include="Kernel\ISpecimenBuilderComposer.cs" />
     <Compile Include="Dsl\ICustomizationComposer.cs" />
     <Compile Include="Dsl\NullComposer.cs" />

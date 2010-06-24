@@ -9,9 +9,11 @@ namespace Ploeh.AutoFixture.Kernel
     /// Translates requests for many (an unspecified count) specimens into a request for a specific
     /// number of specimens.
     /// </summary>
-    public class ManyTranslator : ISpecimenBuilder
+    public class ManyTranslator : ISpecimenBuilder, IMany
     {
         private int count;
+
+        #region IMany Members
 
         /// <summary>
         /// Gets or sets the count that specifies how many specimens will be requested.
@@ -28,6 +30,8 @@ namespace Ploeh.AutoFixture.Kernel
                 this.count = value;
             }
         }
+
+        #endregion
 
         #region ISpecimenBuilder Members
 
