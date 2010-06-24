@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Int32SequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             Assert.Equal(new NoSpecimen(), result);
@@ -72,7 +72,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var nonInt32Request = new object();
             var sut = new Int32SequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonInt32Request, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonInt32Request);
@@ -87,7 +87,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var int32Request = typeof(int);
             var sut = new Int32SequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(int32Request, dummyContainer);
             // Verify outcome
             Assert.Equal(1, result);
@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var int32Request = typeof(int);
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<Int32SequenceGenerator, int>(sut => (int)sut.Create(int32Request, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(2);
@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var int32Request = typeof(int);
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<Int32SequenceGenerator, int>(sut => (int)sut.Create(int32Request, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(10);

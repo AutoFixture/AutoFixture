@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var sut = new UnspecifiedSpecimenCommand<object>(spy);
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             sut.Execute(specimen, dummyContainer);
             // Verify outcome
             Assert.True(verified);

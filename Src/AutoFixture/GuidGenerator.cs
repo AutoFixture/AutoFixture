@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture
         /// A new <see cref="Guid"/> instance, if <paramref name="request"/> is a request for a
         /// <see cref="Guid"/>; otherwise, a <see cref="NoSpecimen"/> instance.
         /// </returns>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (request != typeof(Guid))
             {

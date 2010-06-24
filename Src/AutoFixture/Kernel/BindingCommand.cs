@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture.Kernel
     public class BindingCommand<T, TProperty> : ISpecifiedSpecimenCommand<T>
     {
         private readonly MemberInfo member;
-        private readonly Func<ISpecimenContainer, TProperty> createBindingValue;
+        private readonly Func<ISpecimenContext, TProperty> createBindingValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BindingCommand{T, TProperty}"/> class with
@@ -73,7 +73,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// A function that creates a value that will be assigned to the property or field
         /// identified by <paramref name="propertyPicker"/>.
         /// </param>
-        public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, Func<ISpecimenContainer, TProperty> valueCreator)
+        public BindingCommand(Expression<Func<T, TProperty>> propertyPicker, Func<ISpecimenContext, TProperty> valueCreator)
         {
             if (propertyPicker == null)
             {
@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Gets the function that creates a value to be assigned to the property or field
         /// identified by <see cref="Member"/>.
         /// </summary>
-        public Func<ISpecimenContainer, TProperty> ValueCreator
+        public Func<ISpecimenContext, TProperty> ValueCreator
         {
             get { return this.createBindingValue; }
         }
@@ -114,8 +114,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="specimen">
         /// A specimen that should have its property or field assigned.
         /// </param>
-        /// <param name="container">
-        /// An <see cref="ISpecimenContainer"/> which can supply an anonymous value for the
+        /// <param name="context">
+        /// An <see cref="ISpecimenContext"/> which can supply an anonymous value for the
         /// property or field.
         /// </param>
         /// <remarks>
@@ -125,18 +125,18 @@ namespace Ploeh.AutoFixture.Kernel
         /// constructor, <paramref name="container"/> will be used to create the value.
         /// </para>
         /// </remarks>
-        public void Execute(T specimen, ISpecimenContainer container)
+        public void Execute(T specimen, ISpecimenContext context)
         {
             if (specimen == null)
             {
                 throw new ArgumentNullException("specimen");
             }
-            if (container == null)
+            if (context == null)
             {
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException("context");
             }
 
-            var bindingValue = this.createBindingValue(container);
+            var bindingValue = this.createBindingValue(context);
 
             var pi = this.member as PropertyInfo;
             if (pi != null)
@@ -176,7 +176,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         #endregion
 
-        private TProperty CreateAnonymousValue(ISpecimenContainer container)
+        private TProperty CreateAnonymousValue(ISpecimenContext container)
         {
             var bindingValue = container.Resolve(this.member);
             if (!(bindingValue is TProperty))

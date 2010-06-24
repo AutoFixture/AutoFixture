@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new PropertyRequestTranslator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen();
@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var nonParameterRequest = new object();
             var sut = new PropertyRequestTranslator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonParameterRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonParameterRequest);
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
-            var container = new DelegatingSpecimenContainer { OnResolve = r => new NoSpecimen(propertyInfo) };
+            var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(propertyInfo) };
             var sut = new PropertyRequestTranslator();
             // Exercise system
             var result = sut.Create(propertyInfo, container);
@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedSpecimen = new object();
             var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
-            var container = new DelegatingSpecimenContainer { OnResolve = r => expectedSpecimen };
+            var container = new DelegatingSpecimenContext { OnResolve = r => expectedSpecimen };
             var sut = new PropertyRequestTranslator();
             // Exercise system
             var result = sut.Create(propertyInfo, container);
@@ -101,7 +101,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var expectedRequest = new SeededRequest(propertyInfo.PropertyType, propertyInfo.Name);
 
             var mockVerified = false;
-            var containerMock = new DelegatingSpecimenContainer();
+            var containerMock = new DelegatingSpecimenContext();
             containerMock.OnResolve = r =>
             {
                 Assert.Equal(expectedRequest, r);

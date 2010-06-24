@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new ParameterRequestTranslator(),
                 new StringSeedUnwrapper(),
                 new ValueIgnoringSeedUnwrapper());
-            var container = new DefaultSpecimenContainer(builder);
+            var container = new SpecimenContext(builder);
             // Exercise system
             var result = (TripleParameterType<int, string, int>)container.Resolve(typeof(TripleParameterType<int, string, int>));
             // Verify outcome
@@ -122,7 +122,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var builder = new CompositeSpecimenBuilder(
                 intPostprocessor,
                 Scenario.CreateAutoPropertyBuilder());
-            var container = new DefaultSpecimenContainer(builder);
+            var container = new SpecimenContext(builder);
             // Exercise system
             var result = container.Resolve(typeof(DoublePropertyHolder<string, int>));
             // Verify outcome
@@ -197,7 +197,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var builder = new CompositeSpecimenBuilder(
                 customizedBuilder,
                 Scenario.CreateAutoPropertyBuilder());
-            var container = new DefaultSpecimenContainer(builder);
+            var container = new SpecimenContext(builder);
             // Exercise system
             var result = container.Resolve(typeof(DoublePropertyHolder<string, int>));
             // Verify outcome
@@ -320,7 +320,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 customBuilder,
                 Scenario.CreateCoreBuilder());
             // Exercise system
-            var result = new DefaultSpecimenContainer(builder).CreateAnonymous<PropertyHolder<int>>();
+            var result = new SpecimenContext(builder).CreateAnonymous<PropertyHolder<int>>();
             // Verify outcome
             Assert.Equal(expectedValue, result.Property);
             // Teardown
@@ -338,7 +338,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 customBuilder,
                 Scenario.CreateCoreBuilder());
             // Exercise system
-            var result = new DefaultSpecimenContainer(builder).CreateAnonymous<DoublePropertyHolder<int, int>>();
+            var result = new SpecimenContext(builder).CreateAnonymous<DoublePropertyHolder<int, int>>();
             // Verify outcome
             Assert.Equal(8, result.Property1);
             Assert.Equal(1, result.Property2);
@@ -356,7 +356,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 customBuilder,
                 Scenario.CreateCoreBuilder());
             // Exercise system
-            var result = new DefaultSpecimenContainer(builder).CreateAnonymous<DoublePropertyHolder<int, int>>();
+            var result = new SpecimenContext(builder).CreateAnonymous<DoublePropertyHolder<int, int>>();
             // Verify outcome
             Assert.Equal(1, result.Property1);
             Assert.Equal(2, result.Property2);
@@ -381,7 +381,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     .Compose(),
                 Scenario.CreateCoreBuilder());
             // Exercise system
-            var result = new DefaultSpecimenContainer(builder).CreateAnonymous<DoublePropertyHolder<DoublePropertyHolder<long, long>, DoublePropertyHolder<int, string>>>();
+            var result = new SpecimenContext(builder).CreateAnonymous<DoublePropertyHolder<DoublePropertyHolder<long, long>, DoublePropertyHolder<int, string>>>();
             // Verify outcome
             Assert.Equal(1, result.Property1.Property1);
             Assert.Equal(43, result.Property1.Property2);
@@ -398,7 +398,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new Composer<PropertyHolder<decimal>>().OmitAutoProperties().Do(x => x.SetProperty(6789)).Compose(),
                 Scenario.CreateCoreBuilder());
             // Exercise system
-            var result = new DefaultSpecimenContainer(builder).CreateAnonymous<SingleParameterType<PropertyHolder<decimal>>>();
+            var result = new SpecimenContext(builder).CreateAnonymous<SingleParameterType<PropertyHolder<decimal>>>();
             // Verify outcome
             Assert.Equal(6789, result.Parameter.Property);
             // Teardown
@@ -412,7 +412,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new Composer<DoubleFieldHolder<string, int>>().WithAutoProperties().Without(x => x.Field1).Compose(),
                 Scenario.CreateCoreBuilder());
             // Exercise system
-            var result = new DefaultSpecimenContainer(builder).CreateAnonymous<DoubleFieldHolder<string, int>>();
+            var result = new SpecimenContext(builder).CreateAnonymous<DoubleFieldHolder<string, int>>();
             // Verify outcome
             Assert.Null(result.Field1);
             Assert.Equal(1, result.Field2);
@@ -428,7 +428,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new Composer<PropertyHolder<float>>().FromFactory(() => instance).OmitAutoProperties().Compose(),
                 Scenario.CreateCoreBuilder());
             // Exercise system
-            var result = new DefaultSpecimenContainer(builder).CreateAnonymous<PropertyHolder<float>>();
+            var result = new SpecimenContext(builder).CreateAnonymous<PropertyHolder<float>>();
             // Verify outcome
             Assert.Equal(instance, result);
             Assert.Equal(89, result.Property);
@@ -463,11 +463,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        private static DefaultSpecimenContainer CreateContainer()
+        private static SpecimenContext CreateContainer()
         {
             var builder = Scenario.CreateAutoPropertyBuilder();
             var tracer = new TraceWriter(Console.Out, new TracingBuilder(builder));
-            return new DefaultSpecimenContainer(tracer);
+            return new SpecimenContext(tracer);
         }
 
         private static ISpecimenBuilder CreateAutoPropertyBuilder()

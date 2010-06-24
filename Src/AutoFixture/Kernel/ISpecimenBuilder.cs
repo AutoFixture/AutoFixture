@@ -28,6 +28,6 @@ namespace Ploeh.AutoFixture.Kernel
         /// <see cref="NoSpecimen"/> instance if they can't satisfy the request.
         /// </para>
         /// </remarks>
-        object Create(object request, ISpecimenContainer container);
+        object Create(object request, ISpecimenContext container);
     }
 }

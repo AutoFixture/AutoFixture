@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// The number of specimens requested is determined by <see cref="Count"/>.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (container == null)
             {

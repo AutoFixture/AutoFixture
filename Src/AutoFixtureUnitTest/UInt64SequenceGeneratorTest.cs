@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new UInt64SequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             Assert.Equal(new NoSpecimen(), result);
@@ -72,7 +72,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var nonUInt64Request = new object();
             var sut = new UInt64SequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonUInt64Request, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonUInt64Request);
@@ -87,7 +87,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var uInt64Request = typeof(ulong);
             var sut = new UInt64SequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(uInt64Request, dummyContainer);
             // Verify outcome
             Assert.Equal(1ul, result);
@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var uInt64Request = typeof(ulong);
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<UInt64SequenceGenerator, ulong>(sut => (ulong)sut.Create(uInt64Request, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(2);
@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var uInt64Request = typeof(ulong);
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<UInt64SequenceGenerator, ulong>(sut => (ulong)sut.Create(uInt64Request, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(10);

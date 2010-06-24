@@ -79,7 +79,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new FilteringSpecimenBuilder(dummyBuilder, spec);
             var request = new object();
             // Exercise system            
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(request);
@@ -98,7 +98,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var sut = new FilteringSpecimenBuilder(dummyBuilder, specMock);
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(expectedRequest, dummyContainer);
             // Verify outcome
             Assert.True(verified, "Mock verified");
@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new FilteringSpecimenBuilder(builder, spec);
             // Exercise system
             var dummyRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
             Assert.Equal(expectedResult, result);
@@ -127,7 +127,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedRequest = new object();
-            var expectedContainer = new DelegatingSpecimenContainer();
+            var expectedContainer = new DelegatingSpecimenContext();
             var verified = false;
             var builderMock = new DelegatingSpecimenBuilder { OnCreate = (r, c) => verified = r == expectedRequest && c == expectedContainer };
             var spec = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => true };

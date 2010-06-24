@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixtureUnitTest
 			var builder = new DelegatingSpecimenBuilder();
 			builder.OnCreate = (r, c) => c.Resolve(r);
 			var sut = new ThrowingRecursionGuard(builder);
-			var container = new DelegatingSpecimenContainer();
+			var container = new DelegatingSpecimenContext();
 			container.OnResolve = (r) => sut.Create(r, container); // Provoke recursion
 
 			// Exercise system

@@ -51,7 +51,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// used to create a specimen.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             return this.create();
         }
@@ -75,7 +75,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <remarks>
         /// <para>
         /// The input parameter to <paramref name="factory"/> will be supplied by the
-        /// <see cref="ISpecimenContainer"/> passed to the <see cref="Create"/> method.
+        /// <see cref="ISpecimenContext"/> passed to the <see cref="Create"/> method.
         /// </para>
         /// </remarks>
         public SpecimenFactory(Func<TInput, T> factory)
@@ -113,7 +113,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="container"/>.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (container == null)
             {
@@ -146,7 +146,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <remarks>
         /// <para>
         /// The input parameters to <paramref name="factory"/> will be supplied by the
-        /// <see cref="ISpecimenContainer"/> passed to the <see cref="Create"/> method.
+        /// <see cref="ISpecimenContext"/> passed to the <see cref="Create"/> method.
         /// </para>
         /// </remarks>
         public SpecimenFactory(Func<TInput1, TInput2, T> factory)
@@ -184,7 +184,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="container"/>.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (container == null)
             {
@@ -219,7 +219,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <remarks>
         /// <para>
         /// The input parameters to <paramref name="factory"/> will be supplied by the
-        /// <see cref="ISpecimenContainer"/> passed to the <see cref="Create"/> method.
+        /// <see cref="ISpecimenContext"/> passed to the <see cref="Create"/> method.
         /// </para>
         /// </remarks>
         public SpecimenFactory(Func<TInput1, TInput2, TInput3, T> factory)
@@ -257,7 +257,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="container"/>.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (container == null)
             {
@@ -294,7 +294,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <remarks>
         /// <para>
         /// The input parameters to <paramref name="factory"/> will be supplied by the
-        /// <see cref="ISpecimenContainer"/> passed to the <see cref="Create"/> method.
+        /// <see cref="ISpecimenContext"/> passed to the <see cref="Create"/> method.
         /// </para>
         /// </remarks>
         public SpecimenFactory(Func<TInput1, TInput2, TInput3, TInput4, T> factory)
@@ -332,7 +332,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="container"/>.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (container == null)
             {

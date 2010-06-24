@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             object expectedResult = 1;
-            var container = new DelegatingSpecimenContainer { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : new NoSpecimen(r) };
+            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : new NoSpecimen(r) };
             // Exercise system
             var result = container.CreateAnonymous<int>();
             // Verify outcome
@@ -74,7 +74,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var seed = TimeSpan.FromMinutes(8);
             object expectedResult = TimeSpan.FromHours(2);
-            var container = new DelegatingSpecimenContainer { OnResolve = r => r.Equals(new SeededRequest(typeof(TimeSpan), seed)) ? expectedResult : new NoSpecimen(r) };
+            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(TimeSpan), seed)) ? expectedResult : new NoSpecimen(r) };
             // Exercise system
             var result = container.CreateAnonymous(seed);
             // Verify outcome
@@ -109,7 +109,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var expectedResult = Enumerable.Range(1, 10);
-            var container = new DelegatingSpecimenContainer
+            var container = new DelegatingSpecimenContext
             {
                 OnResolve = r => r.Equals(new ManyRequest(new SeededRequest(typeof(int), 0))) ? 
                     (object)expectedResult.Cast<object>() : 
@@ -170,7 +170,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var seed = new Version(1, 1);
             var expectedResult = Enumerable.Range(1, 5).Select(i => new Version(i, i));
-            var container = new DelegatingSpecimenContainer
+            var container = new DelegatingSpecimenContext
             {
                 OnResolve = r => r.Equals(new ManyRequest(new SeededRequest(typeof(Version), seed))) ?
                     (object)expectedResult.Cast<object>() :
@@ -211,7 +211,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var count = 19;
             var expectedResult = Enumerable.Range(1, count).Select(i => new DateTime(i));
-            var container = new DelegatingSpecimenContainer
+            var container = new DelegatingSpecimenContext
             {
                 OnResolve = r => r.Equals(new FiniteSequenceRequest(new SeededRequest(typeof(DateTime), default(DateTime)), count)) ?
                     (object)expectedResult.Cast<object>() :
@@ -275,7 +275,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var seed = new Version(0, 9);
             var count = 4;
             var expectedResult = Enumerable.Range(1, count).Select(i => new Version(i, i));
-            var container = new DelegatingSpecimenContainer
+            var container = new DelegatingSpecimenContext
             {
                 OnResolve = r => r.Equals(new FiniteSequenceRequest(new SeededRequest(typeof(Version), seed), count)) ?
                     (object)expectedResult.Cast<object>() :

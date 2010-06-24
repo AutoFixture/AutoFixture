@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new SingleSequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             Assert.Equal(new NoSpecimen(), result);
@@ -72,7 +72,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var nonSingleRequest = new object();
             var sut = new SingleSequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonSingleRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonSingleRequest);
@@ -87,7 +87,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var singleRequest = typeof(float);
             var sut = new SingleSequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(singleRequest, dummyContainer);
             // Verify outcome
             Assert.Equal(1f, result);
@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var singleRequest = typeof(float);
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<SingleSequenceGenerator, float>(sut => (float)sut.Create(singleRequest, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(2);
@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var singleRequest = typeof(float);
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<SingleSequenceGenerator, float>(sut => (float)sut.Create(singleRequest, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(10);

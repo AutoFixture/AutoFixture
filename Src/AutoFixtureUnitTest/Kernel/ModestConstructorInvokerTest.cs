@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new ModestConstructorInvoker();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen();
@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var nonTypeRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var sut = new ModestConstructorInvoker();
             // Exercise system
             var result = sut.Create(nonTypeRequest, dummyContainer);
@@ -68,7 +68,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var type = typeof(string);
-            var container = new DelegatingSpecimenContainer { OnResolve = r => new NoSpecimen(type) };
+            var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(type) };
             var sut = new ModestConstructorInvoker();
             // Exercise system
             var result = sut.Create(type, container);
@@ -82,7 +82,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateFromTypeWithNoPublicConstructorWhenContainerCanSatisfyRequestWillReturnNull()
         {
             // Fixture setup
-            var container = new DelegatingSpecimenContainer { OnResolve = r => new object() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => new object() };
             var sut = new ModestConstructorInvoker();
             // Exercise system
             var result = sut.Create(typeof(AbstractType), container);
@@ -98,7 +98,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var requestedType = typeof(DoubleParameterType<string, int>);
             var parameters = requestedType.GetConstructors().Single().GetParameters();
-            var container = new DelegatingSpecimenContainer { OnResolve = r => parameters[0] == r ? new object() : new NoSpecimen(r) };
+            var container = new DelegatingSpecimenContext { OnResolve = r => parameters[0] == r ? new object() : new NoSpecimen(r) };
             var sut = new ModestConstructorInvoker();
             // Exercise system
             var result = sut.Create(requestedType, container);
@@ -117,7 +117,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var requestedType = typeof(DoubleParameterType<int, decimal>);
             var parameters = requestedType.GetConstructors().Single().GetParameters();
 
-            var container = new DelegatingSpecimenContainer();
+            var container = new DelegatingSpecimenContext();
             container.OnResolve = r =>
             {
                 if (parameters.Any(r.Equals))
@@ -145,7 +145,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var parameters = requestedType.GetConstructors().Single().GetParameters();
 
             var mockVerified = false;
-            var containerMock = new DelegatingSpecimenContainer();
+            var containerMock = new DelegatingSpecimenContext();
             containerMock.OnResolve = r =>
                 {
                     if (parameters.Any(r.Equals))

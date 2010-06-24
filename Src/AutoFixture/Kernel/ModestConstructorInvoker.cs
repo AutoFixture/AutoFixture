@@ -22,7 +22,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// A specimen generated from the requested type's most modest constructor, if possible;
         /// otherwise, <see langword="null"/>.
         /// </returns>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (container == null)
             {

@@ -481,7 +481,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var resultingComposer = Assert.IsAssignableFrom<Composer<PropertyHolder<decimal>>>(result);
             var postprocessor = resultingComposer.Postprocessors.OfType<BindingCommand<PropertyHolder<decimal>, decimal>>().Single();
             Assert.Equal(expectedMember, postprocessor.Member);
-            Assert.Equal(expectedValue, postprocessor.ValueCreator(new DelegatingSpecimenContainer()));
+            Assert.Equal(expectedValue, postprocessor.ValueCreator(new DelegatingSpecimenContext()));
             // Teardown
         }
 
@@ -510,7 +510,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.Equal(member, postprocessor.Member);
 
             object expectedValue = 3.6f;
-            var actual = postprocessor.ValueCreator(new DelegatingSpecimenContainer { OnResolve = r => r.Equals(member) ? expectedValue : new NoSpecimen(r) });
+            var actual = postprocessor.ValueCreator(new DelegatingSpecimenContext { OnResolve = r => r.Equals(member) ? expectedValue : new NoSpecimen(r) });
             Assert.Equal(expectedValue, actual);
             // Teardown
         }

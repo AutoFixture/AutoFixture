@@ -124,29 +124,29 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="specimen">
         /// The specimen on which property and field values will be assigned.
         /// </param>
-        /// <param name="container">
-        /// An <see cref="ISpecimenContainer"/> that is used to create property and field values.
+        /// <param name="context">
+        /// An <see cref="ISpecimenContext"/> that is used to create property and field values.
         /// </param>
-        public void Execute(T specimen, ISpecimenContainer container)
+        public void Execute(T specimen, ISpecimenContext context)
         {
             if (specimen == null)
             {
                 throw new ArgumentNullException("specimen");
             }
-            if (container == null)
+            if (context == null)
             {
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException("context");
             }
 
             foreach (var pi in this.GetProperties(specimen))
             {
-                var propertyValue = container.Resolve(pi);
+                var propertyValue = context.Resolve(pi);
                 pi.SetValue(specimen, propertyValue, null);
             }
 
             foreach (var fi in this.GetFields(specimen))
             {
-                var fieldValue = container.Resolve(fi);
+                var fieldValue = context.Resolve(fi);
                 fi.SetValue(specimen, fieldValue);
             }
         }

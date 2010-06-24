@@ -42,7 +42,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new DoubleSequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             Assert.Equal(new NoSpecimen(), result);
@@ -68,7 +68,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var nonDoubleRequest = new object();
             var sut = new DoubleSequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonDoubleRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonDoubleRequest);
@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var doubleRequest = typeof(double);
             var sut = new DoubleSequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(doubleRequest, dummyContainer);
             // Verify outcome
             Assert.Equal(1d, result);
@@ -95,7 +95,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var doubleRequest = typeof(double);
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<DoubleSequenceGenerator, double>(sut => (double)sut.Create(doubleRequest, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(2);
@@ -107,7 +107,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var doubleRequest = typeof(double);
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<DoubleSequenceGenerator, double>(sut => (double)sut.Create(doubleRequest, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(10);

@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>
         /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
         /// </returns>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             return this.tracer.Create(request, container);
         }

@@ -81,11 +81,11 @@
     <Compile Include="Kernel\AutoPropertiesCommandTest.cs" />
     <Compile Include="Kernel\CompositeSpecimenBuilderTest.cs" />
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
-    <Compile Include="Kernel\DefaultSpecimenContainerTest.cs" />
+    <Compile Include="Kernel\SpecimenContextTest.cs" />
     <Compile Include="Kernel\DelegatingRequestSpecification.cs" />
     <Compile Include="Kernel\DelegatingSpecifiedSpecimenCommand.cs" />
     <Compile Include="Kernel\DelegatingSpecimenBuilder.cs" />
-    <Compile Include="Kernel\DelegatingSpecimenContainer.cs" />
+    <Compile Include="Kernel\DelegatingSpecimenContext.cs" />
     <Compile Include="DoubleSequenceGeneratorTest.cs" />
     <Compile Include="Kernel\DelegatingTracingBuilder.cs" />
     <Compile Include="Kernel\FalseRequestSpecificationTest.cs" />

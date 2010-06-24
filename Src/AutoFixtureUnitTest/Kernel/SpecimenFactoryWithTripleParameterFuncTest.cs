@@ -66,7 +66,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var param3 = new { ExpectedRequest = typeof(string), Specimen = (object)"Anonymous value - with Foo!" };
             var subRequests = new[] { param1, param2, param3 };
 
-            var container = new DelegatingSpecimenContainer();
+            var container = new DelegatingSpecimenContext();
             container.OnResolve = r => (from x in subRequests
                                         where x.ExpectedRequest.Equals(r)
                                         select x.Specimen).DefaultIfEmpty(new NoSpecimen(r)).SingleOrDefault();

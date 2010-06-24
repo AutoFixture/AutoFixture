@@ -15,13 +15,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
         #region ISpecifiedSpecimenCommand<T> Members
 
-        public void Execute(T specimen, ISpecimenContainer container)
+        public void Execute(T specimen, ISpecimenContext container)
         {
             this.OnExecute(specimen, container);
         }
 
         #endregion
 
-        internal Action<T, ISpecimenContainer> OnExecute { get; set; }
+        internal Action<T, ISpecimenContext> OnExecute { get; set; }
     }
 }

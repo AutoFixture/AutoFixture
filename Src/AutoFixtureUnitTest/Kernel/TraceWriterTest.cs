@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new TraceWriter(dummyWriter, stubBuilder);
             // Exercise system
             var dummyRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
             Assert.Equal(expectedSpecimen, result);
@@ -64,7 +64,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedRequest = new object();
-            var expectedContainer = new DelegatingSpecimenContainer();
+            var expectedContainer = new DelegatingSpecimenContext();
 
             var verified = false;
             var mockBuilder = new TracingBuilder(new DelegatingSpecimenBuilder { OnCreate = (r, c) => verified = expectedRequest == r && expectedContainer == c });
@@ -128,7 +128,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             sut.TraceRequestFormatter = (tw, r, i) => verified = tw == expectedWriter;
             // Exercise system
             var dummyRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
             Assert.True(verified);
@@ -146,7 +146,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             sut.TraceSpecimenFormatter = (tw, r, i) => verified = tw == expectedWriter;
             // Exercise system
             var dummyRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
             Assert.True(verified);

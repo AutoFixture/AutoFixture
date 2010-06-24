@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="container"/> must be able to create a string.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (container == null)
             {

@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
         /// <param name="action">The action to perform on the created specimen.</param>
-        public Postprocessor(ISpecimenBuilder builder, Action<object, ISpecimenContainer> action)
+        public Postprocessor(ISpecimenBuilder builder, Action<object, ISpecimenContext> action)
             : base(builder, action)
         {
         }
@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// A specification which is used to determine whether postprocessing should be performed
         /// for a request.
         /// </param>
-        public Postprocessor(ISpecimenBuilder builder, Action<object, ISpecimenContainer> action, IRequestSpecification specification)
+        public Postprocessor(ISpecimenBuilder builder, Action<object, ISpecimenContext> action, IRequestSpecification specification)
             : base(builder, action, specification)
         {
         }
@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixture.Kernel
     public class Postprocessor<T> : ISpecimenBuilder
     {
         private readonly ISpecimenBuilder builder;
-        private readonly Action<T, ISpecimenContainer> action;
+        private readonly Action<T, ISpecimenContext> action;
         private readonly IRequestSpecification specification;
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
         /// <param name="action">The action to perform on the created specimen.</param>
         public Postprocessor(ISpecimenBuilder builder, Action<T> action)
-            : this(builder, action == null ? (Action<T, ISpecimenContainer>)null : (s, c) => action(s))
+            : this(builder, action == null ? (Action<T, ISpecimenContext>)null : (s, c) => action(s))
         {
         }
 
@@ -77,7 +77,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
         /// <param name="action">The action to perform on the created specimen.</param>
-        public Postprocessor(ISpecimenBuilder builder, Action<T, ISpecimenContainer> action)
+        public Postprocessor(ISpecimenBuilder builder, Action<T, ISpecimenContext> action)
             : this(builder, action, new TrueRequestSpecification())
         {
         }
@@ -92,7 +92,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// A specification which is used to determine whether postprocessing should be performed
         /// for a request.
         /// </param>
-        public Postprocessor(ISpecimenBuilder builder, Action<T, ISpecimenContainer> action, IRequestSpecification specification)
+        public Postprocessor(ISpecimenBuilder builder, Action<T, ISpecimenContext> action, IRequestSpecification specification)
         {
             if (builder == null)
             {
@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the action to perform on created specimens.
         /// </summary>
-        public Action<T, ISpecimenContainer> Action
+        public Action<T, ISpecimenContext> Action
         {
             get { return this.action; }
         }
@@ -153,7 +153,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <see cref="Type"/> or other <see cref="System.Reflection.MemberInfo"/> instances.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             var specimen = this.builder.Create(request, container);
 

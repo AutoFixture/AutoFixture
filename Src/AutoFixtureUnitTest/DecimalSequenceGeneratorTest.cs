@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new DecimalSequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             Assert.Equal(new NoSpecimen(), result);
@@ -76,7 +76,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var nonDecimalRequest = new object();
             var sut = new DecimalSequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonDecimalRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonDecimalRequest);
@@ -91,7 +91,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var decimalRequest = typeof(decimal);
             var sut = new DecimalSequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(decimalRequest, dummyContainer);
             // Verify outcome
             Assert.Equal(1m, result);
@@ -103,7 +103,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var decimalRequest = typeof(decimal);
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<DecimalSequenceGenerator, decimal>(sut => (decimal)sut.Create(decimalRequest, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(2);
@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var decimalRequest = typeof(decimal);
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<DecimalSequenceGenerator, decimal>(sut => (decimal)sut.Create(decimalRequest, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(10);

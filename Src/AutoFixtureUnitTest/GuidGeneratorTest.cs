@@ -56,7 +56,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new GuidGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             Assert.Equal(new NoSpecimen(), result);
@@ -82,7 +82,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var nonGuidRequest = new object();
             var sut = new GuidGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonGuidRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonGuidRequest);
@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var guidRequest = typeof(Guid);
             var sut = new GuidGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(guidRequest, dummyContainer);
             // Verify outcome
             Assert.NotEqual(default(Guid), result);
@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new GuidGenerator();
 
             var guidRequest = typeof(Guid);
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var unexpectedResult = sut.Create(guidRequest, dummyContainer);
             // Exercise system
             var result = sut.Create(guidRequest, dummyContainer);

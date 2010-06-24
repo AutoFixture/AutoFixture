@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture
         /// <returns>
         /// The string representation of a specimen created by the contained specimen factory.
         /// </returns>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (request != typeof(string))
             {

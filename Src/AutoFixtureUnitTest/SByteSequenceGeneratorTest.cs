@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new SByteSequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             Assert.Equal(new NoSpecimen(), result);
@@ -72,7 +72,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var nonSByteRequest = new object();
             var sut = new SByteSequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonSByteRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonSByteRequest);
@@ -87,7 +87,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sbyteRequest = typeof(sbyte);
             var sut = new SByteSequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(sbyteRequest, dummyContainer);
             // Verify outcome
             Assert.Equal((sbyte)1, result);
@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sbyteRequest = typeof(sbyte);
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<SByteSequenceGenerator, sbyte>(sut => (sbyte)sut.Create(sbyteRequest, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(2);
@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sbyteRequest = typeof(sbyte);
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<SByteSequenceGenerator, sbyte>(sut => (sbyte)sut.Create(sbyteRequest, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(10);

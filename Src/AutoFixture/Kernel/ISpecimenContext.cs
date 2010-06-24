@@ -6,9 +6,9 @@ using System.Text;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// A container used to create anonymous variables (specimens).
+    /// A context used to create anonymous variables (specimens).
     /// </summary>
-    public interface ISpecimenContainer
+    public interface ISpecimenContext
     {
         /// <summary>
         /// Creates an anonymous variable (specimen) based on a request.

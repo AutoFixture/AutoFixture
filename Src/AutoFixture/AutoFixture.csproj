@@ -110,9 +110,9 @@
     <Compile Include="GuidGenerator.cs" />
     <Compile Include="IBuilder.cs" />
     <Compile Include="Kernel\CompositeSpecimenBuilder.cs" />
-    <Compile Include="Kernel\DefaultSpecimenContainer.cs" />
+    <Compile Include="Kernel\SpecimenContext.cs" />
     <Compile Include="Kernel\ISpecimenBuilder.cs" />
-    <Compile Include="Kernel\ISpecimenContainer.cs" />
+    <Compile Include="Kernel\ISpecimenContext.cs" />
     <Compile Include="Kernel\ModestConstructorInvoker.cs" />
     <Compile Include="Kernel\NoSpecimen.cs" />
     <Compile Include="Kernel\ParameterRequestTranslator.cs" />

@@ -63,7 +63,7 @@ namespace Ploeh.AutoFixture
         /// so on, if <paramref name="request"/> is a request for a boolean; otherwise, a
         /// <see cref="NoSpecimen"/> instance.
         /// </returns>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (request != typeof(bool))
             {

@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new SpecimenFactory<object>(creator);
             // Exercise system
             var dummyRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
             Assert.Equal(expectedSpecimen, result);

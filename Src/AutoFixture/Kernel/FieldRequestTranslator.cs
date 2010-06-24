@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// and name of the requested field, if possible; otherwise, a <see cref="NoSpecimen"/>
         /// instance.
         /// </returns>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (container == null)
             {

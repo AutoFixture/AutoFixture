@@ -52,8 +52,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// Does nothing.
         /// </summary>
         /// <param name="specimen">A specimen.</param>
-        /// <param name="container">An <see cref="ISpecimenContainer"/>.</param>
-        public void Execute(T specimen, ISpecimenContainer container)
+        /// <param name="context">An <see cref="ISpecimenContext"/>.</param>
+        public void Execute(T specimen, ISpecimenContext context)
         {
         }
 

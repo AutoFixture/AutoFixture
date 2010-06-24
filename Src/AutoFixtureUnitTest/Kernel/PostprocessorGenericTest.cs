@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void InitializeDoubleActionWithNullBuilderThrows()
         {
             // Fixture setup
-            Action<int, ISpecimenContainer> dummyAction = (s, c) => { };
+            Action<int, ISpecimenContext> dummyAction = (s, c) => { };
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() => new Postprocessor<int>(null, dummyAction));
             // Teardown
@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new Postprocessor<string>(dummyBuilder, (Action<string, ISpecimenContainer>)null));
+            Assert.Throws<ArgumentNullException>(() => new Postprocessor<string>(dummyBuilder, (Action<string, ISpecimenContext>)null));
             // Teardown
         }
 
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void InitializeDoubleActionAndSpecificationWithNullBuilderThrows()
         {
             // Fixture setup
-            Action<object, ISpecimenContainer> dummyAction = (s, c) => { };
+            Action<object, ISpecimenContext> dummyAction = (s, c) => { };
             var dummySpec = new DelegatingRequestSpecification();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() => new Postprocessor<object>(null, dummyAction, dummySpec));
@@ -90,7 +90,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            Action<object, ISpecimenContainer> dummyAction = (s, c) => { };
+            Action<object, ISpecimenContext> dummyAction = (s, c) => { };
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() => new Postprocessor<object>(dummyBuilder, dummyAction, null));
             // Teardown
@@ -101,7 +101,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedRequest = new object();
-            var expectedContainer = new DelegatingSpecimenContainer();
+            var expectedContainer = new DelegatingSpecimenContext();
 
             var verified = false;
             var builderMock = new DelegatingSpecimenBuilder { OnCreate = (r, c) => verified = r == expectedRequest && c == expectedContainer };
@@ -125,7 +125,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new Postprocessor<decimal>(builder, dummyAction);
             // Exercise system
             var dummyRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
             Assert.Equal(expectedResult, result);
@@ -143,7 +143,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new Postprocessor<int>(builder, dummyAction);
             // Exercise system and verify outcome
             var dummyRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             Assert.Throws<InvalidOperationException>(() => sut.Create(dummyRequest, dummyContainer));
             // Teardown
         }
@@ -158,7 +158,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new Postprocessor<int>(builder, dummyAction);
             // Exercise system
             var dummyRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
             Assert.IsAssignableFrom<NoSpecimen>(result);
@@ -178,7 +178,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new Postprocessor<DateTime>(builder, mock);
             // Exercise system
             var dummyRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
             Assert.True(verified, "Mock verified");
@@ -190,12 +190,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedRequest = new object();
-            var expectedContainer = new DelegatingSpecimenContainer();
+            var expectedContainer = new DelegatingSpecimenContext();
 
             var verified = false;
             var builderMock = new DelegatingSpecimenBuilder { OnCreate = (r, c) => verified = r == expectedRequest && c == expectedContainer };
 
-            Action<bool, ISpecimenContainer> dummyAction = (s, c) => { };
+            Action<bool, ISpecimenContext> dummyAction = (s, c) => { };
             var sut = new Postprocessor<bool>(builderMock, dummyAction);
             // Exercise system
             sut.Create(expectedRequest, expectedContainer);
@@ -210,11 +210,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedResult = 1m;
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedResult };
-            Action<decimal, ISpecimenContainer> dummyAction = (s, c) => { };
+            Action<decimal, ISpecimenContext> dummyAction = (s, c) => { };
             var sut = new Postprocessor<decimal>(builder, dummyAction);
             // Exercise system
             var dummyRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
             Assert.Equal(expectedResult, result);
@@ -228,11 +228,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var nonInt = "Anonymous variable";
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => nonInt };
 
-            Action<int, ISpecimenContainer> dummyAction = (s, c) => { };
+            Action<int, ISpecimenContext> dummyAction = (s, c) => { };
             var sut = new Postprocessor<int>(builder, dummyAction);
             // Exercise system and verify outcome
             var dummyRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             Assert.Throws<InvalidOperationException>(() => sut.Create(dummyRequest, dummyContainer));
             // Teardown
         }
@@ -244,10 +244,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var expectedSpecimen = new DateTime(2010, 4, 26);
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedSpecimen };
 
-            var expectedContainer = new DelegatingSpecimenContainer();
+            var expectedContainer = new DelegatingSpecimenContext();
 
             var verified = false;
-            Action<DateTime, ISpecimenContainer> mock = (s, c) => verified = s == expectedSpecimen && c == expectedContainer;
+            Action<DateTime, ISpecimenContext> mock = (s, c) => verified = s == expectedSpecimen && c == expectedContainer;
 
             var sut = new Postprocessor<DateTime>(builder, mock);
             // Exercise system
@@ -265,14 +265,14 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new object() };
 
             var mockInvoked = false;
-            Action<object, ISpecimenContainer> mock = (s, c) => mockInvoked = true;
+            Action<object, ISpecimenContext> mock = (s, c) => mockInvoked = true;
 
             var spec = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => false };
 
             var sut = new Postprocessor<object>(builder, mock, spec);
             // Exercise system
             var dummyRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
             Assert.False(mockInvoked, "Mock invoked");

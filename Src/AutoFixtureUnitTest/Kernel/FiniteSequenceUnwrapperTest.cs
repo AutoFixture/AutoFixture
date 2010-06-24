@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new FiniteSequenceUnwrapper();
             var request = new object();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(request);
@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new FiniteSequenceUnwrapper();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(request);
@@ -74,7 +74,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var manyRequest = new FiniteSequenceRequest(request, count);
 
             var expectedResult = new object();
-            var container = new DelegatingSpecimenContainer { OnResolve = r => request.Equals(r) ? expectedResult : new NoSpecimen() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => request.Equals(r) ? expectedResult : new NoSpecimen() };
 
             var sut = new FiniteSequenceUnwrapper();
             // Exercise system

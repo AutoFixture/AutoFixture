@@ -64,7 +64,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// A specimen created by the decorated <see cref="ISpecimenBuilder"/> if the filter allows
         /// the request through; otherwise, a <see cref="NoSpecimen"/> instance.
         /// </returns>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (!this.specification.IsSatisfiedBy(request))
             {

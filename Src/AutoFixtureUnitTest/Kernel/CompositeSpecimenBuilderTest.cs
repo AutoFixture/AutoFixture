@@ -104,7 +104,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new CompositeSpecimenBuilder(builders);
             // Exercise system
             var anonymousRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(anonymousRequest, dummyContainer);
             // Verify outcome
             Assert.Equal(expectedResult, result);
@@ -124,7 +124,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new CompositeSpecimenBuilder(builders);
             // Exercise system
             var anonymousRequest = new object();
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(anonymousRequest, dummyContainer);
             // Verify outcome
             Assert.IsAssignableFrom<NoSpecimen>(result);
@@ -148,7 +148,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var sut = new CompositeSpecimenBuilder(builderMock);
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(expectedRequest, dummyContainer);
             // Verify outcome
             Assert.True(mockVerified, "Mock verification");
@@ -159,7 +159,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWillInvokeBuilderWithCorrectContainer()
         {
             // Fixture setup
-            var expectedContainer = new DelegatingSpecimenContainer();
+            var expectedContainer = new DelegatingSpecimenContext();
 
             var mockVerified = false;
             var builderMock = new DelegatingSpecimenBuilder();

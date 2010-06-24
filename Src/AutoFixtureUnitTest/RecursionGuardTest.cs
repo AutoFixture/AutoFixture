@@ -49,7 +49,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var comparer = new DelegatingEqualityComparer { OnEquals = (x, y) => comparerUsed = true };
             var sut = new DelegatingRecursionGuard(builder, comparer);
             sut.OnHandleRecursiveRequest = (obj) => { return null; };
-            var container = new DelegatingSpecimenContainer();
+            var container = new DelegatingSpecimenContext();
             container.OnResolve = (r) => sut.Create(r, container);
 
             // Exercise system
@@ -68,7 +68,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.OnHandleRecursiveRequest = obj => handlingTriggered = true;
 
             // Exercise system
-            sut.Create(Guid.NewGuid(), new DelegatingSpecimenContainer());
+            sut.Create(Guid.NewGuid(), new DelegatingSpecimenContext());
 
             // Verify outcome
             Assert.False(handlingTriggered);
@@ -84,8 +84,8 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.OnHandleRecursiveRequest = obj => handlingTriggered = true;
 
             // Exercise system
-            sut.Create(request, new DelegatingSpecimenContainer());
-            sut.Create(request, new DelegatingSpecimenContainer());
+            sut.Create(request, new DelegatingSpecimenContext());
+            sut.Create(request, new DelegatingSpecimenContext());
 
             // Verify outcome
             Assert.False(handlingTriggered);
@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new DelegatingRecursionGuard(builder);
             bool handlingTriggered = false;
             sut.OnHandleRecursiveRequest = obj => handlingTriggered = true;
-            var container = new DelegatingSpecimenContainer();
+            var container = new DelegatingSpecimenContext();
             container.OnResolve = (r) => sut.Create(r, container);
 
             // Exercise system
@@ -124,7 +124,7 @@ namespace Ploeh.AutoFixtureUnitTest
             object recursiveRequest = null;
             sut.OnHandleRecursiveRequest = obj => recursiveRequest = obj;
 
-            var container = new DelegatingSpecimenContainer();
+            var container = new DelegatingSpecimenContext();
             container.OnResolve = (r) => sut.Create(r, container);
 
             // Exercise system

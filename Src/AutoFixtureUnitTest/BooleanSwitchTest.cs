@@ -86,7 +86,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new BooleanSwitch();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             Assert.Equal(new NoSpecimen(), result);
@@ -112,7 +112,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var nonBooleanRequest = new object();
             var sut = new BooleanSwitch();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonBooleanRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonBooleanRequest);
@@ -127,7 +127,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var booleanRequest = typeof(bool);
             var sut = new BooleanSwitch();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(booleanRequest, dummyContainer);
             // Verify outcome
             Assert.Equal(true, result);
@@ -141,7 +141,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var booleanRequest = typeof(bool);
             var sut = new BooleanSwitch();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(booleanRequest, dummyContainer);
             var result = sut.Create(booleanRequest, dummyContainer);
             // Verify outcome
@@ -156,7 +156,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var booleanRequest = typeof(bool);
             var sut = new BooleanSwitch();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(booleanRequest, dummyContainer);
             sut.Create(booleanRequest, dummyContainer);
             var result = sut.Create(booleanRequest, dummyContainer);
@@ -172,7 +172,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var booleanRequest = typeof(bool);
             var sut = new BooleanSwitch();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(booleanRequest, dummyContainer);
             sut.Create(booleanRequest, dummyContainer);
             sut.Create(booleanRequest, dummyContainer);

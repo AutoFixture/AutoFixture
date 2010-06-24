@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new ParameterRequestTranslator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen();
@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var nonParameterRequest = new object();
             var sut = new ParameterRequestTranslator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonParameterRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonParameterRequest);
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
-            var container = new DelegatingSpecimenContainer { OnResolve = r => new NoSpecimen(parameterInfo) };
+            var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(parameterInfo) };
             var sut = new ParameterRequestTranslator();
             // Exercise system
             var result = sut.Create(parameterInfo, container);
@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedSpecimen = new object();
             var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
-            var container = new DelegatingSpecimenContainer { OnResolve = r => expectedSpecimen };
+            var container = new DelegatingSpecimenContext { OnResolve = r => expectedSpecimen };
             var sut = new ParameterRequestTranslator();
             // Exercise system
             var result = sut.Create(parameterInfo, container);
@@ -101,7 +101,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var expectedRequest = new SeededRequest(parameterInfo.ParameterType, parameterInfo.Name);
 
             var mockVerified = false;
-            var containerMock = new DelegatingSpecimenContainer();
+            var containerMock = new DelegatingSpecimenContext();
             containerMock.OnResolve = r =>
             {
                 Assert.Equal(expectedRequest, r);

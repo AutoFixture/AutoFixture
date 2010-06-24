@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new UInt16SequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             Assert.Equal(new NoSpecimen(), result);
@@ -72,7 +72,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var nonUInt16Request = new object();
             var sut = new UInt16SequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonUInt16Request, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonUInt16Request);
@@ -87,7 +87,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var uInt16Request = typeof(ushort);
             var sut = new UInt16SequenceGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(uInt16Request, dummyContainer);
             // Verify outcome
             Assert.Equal((ushort)1, result);
@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var uInt16Request = typeof(ushort);
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<UInt16SequenceGenerator, ushort>(sut => (ushort)sut.Create(uInt16Request, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(2);
@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var uInt16Request = typeof(ushort);
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var loopTest = new LoopTest<UInt16SequenceGenerator, ushort>(sut => (ushort)sut.Create(uInt16Request, dummyContainer));
             // Exercise system and verify outcome
             loopTest.Execute(10);

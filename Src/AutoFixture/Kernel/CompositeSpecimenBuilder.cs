@@ -61,7 +61,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="request">The request that describes what to create.</param>
         /// <param name="container">A container that can be used to create other specimens.</param>
         /// <returns>The first result created by <see cref="Builders"/>.</returns>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             return (from b in this.Builders
                     let result = b.Create(request, container)

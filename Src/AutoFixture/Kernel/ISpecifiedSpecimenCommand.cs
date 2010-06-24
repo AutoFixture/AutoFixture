@@ -16,9 +16,9 @@ namespace Ploeh.AutoFixture.Kernel
         /// Executes the command on the supplied specimen.
         /// </summary>
         /// <param name="specimen">The specimen on which the command is executed.</param>
-        /// <param name="container">
-        /// An <see cref="ISpecimenContainer"/> that can be used to resolve other requests.
+        /// <param name="context">
+        /// An <see cref="ISpecimenContext"/> that can be used to resolve other requests.
         /// </param>
-        void Execute(T specimen, ISpecimenContainer container);
+        void Execute(T specimen, ISpecimenContext context);
     }
 }

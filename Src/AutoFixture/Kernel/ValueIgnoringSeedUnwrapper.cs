@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// don't match and can't be combined, ensuring that at least some value is returned.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (container == null)
             {

@@ -77,7 +77,7 @@ namespace Ploeh.AutoFixture
         /// <see cref="Type"/> or other <see cref="System.Reflection.MemberInfo"/> instances.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (monitoredRequests.Any(x => comparer.Equals(x, request)))
             {

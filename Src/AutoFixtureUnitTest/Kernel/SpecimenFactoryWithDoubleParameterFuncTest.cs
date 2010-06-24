@@ -65,7 +65,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var param2 = new { ExpectedRequest = typeof(TimeSpan), Specimen = (object)TimeSpan.FromDays(1) };
             var subRequests = new[] { param1, param2 };
 
-            var container = new DelegatingSpecimenContainer();
+            var container = new DelegatingSpecimenContext();
             container.OnResolve = r => (from x in subRequests
                                         where x.ExpectedRequest.Equals(r)
                                         select x.Specimen).DefaultIfEmpty(new NoSpecimen(r)).SingleOrDefault();

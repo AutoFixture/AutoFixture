@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new StringGenerator(() => new object());
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen();
@@ -64,7 +64,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new StringGenerator(() => string.Empty);
             var nonStringRequest = new object();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonStringRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonStringRequest);
@@ -82,7 +82,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new StringGenerator(() => specimen);
             var stringRequest = typeof(string);
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(stringRequest, dummyContainer);
             // Verify outcome
             Assert.Equal(expectedResult, result);
@@ -96,7 +96,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new StringGenerator(() => null);
             var stringRequest = typeof(string);
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(stringRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(stringRequest);
@@ -112,7 +112,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new StringGenerator(() => expectedResult);
             var stringRequest = typeof(string);
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(stringRequest, dummyContainer);
             // Verify outcome
             Assert.Equal(expectedResult, result);

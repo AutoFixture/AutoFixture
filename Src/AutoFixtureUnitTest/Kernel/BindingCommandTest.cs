@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void InitializeDelegateValueConstructorWithNullExpressionWillThrow()
         {
             // Fixture setup
-            Func<ISpecimenContainer, object> dummyValueCreator = c => new object();
+            Func<ISpecimenContext, object> dummyValueCreator = c => new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(null, dummyValueCreator));
             // Teardown
@@ -66,7 +66,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             Expression<Func<object, object>> invalidExpression = obj => obj;
-            Func<ISpecimenContainer, object> dummyValueCreator = c => new object();
+            Func<ISpecimenContext, object> dummyValueCreator = c => new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentException>(() => new BindingCommand<object, object>(invalidExpression, dummyValueCreator));
             // Teardown
@@ -77,7 +77,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             Expression<Func<object, string>> methodExpression = obj => obj.ToString();
-            Func<ISpecimenContainer, string> dummyValueCreator = c => "Anonymous value";
+            Func<ISpecimenContext, string> dummyValueCreator = c => "Anonymous value";
             // Exercise system and verify outcome
             Assert.Throws<ArgumentException>(() => new BindingCommand<object, string>(methodExpression, dummyValueCreator));
             // Teardown
@@ -88,7 +88,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             Expression<Func<SingleParameterType<object>, object>> readOnlyPropertyExpression = sp => sp.Parameter;
-            Func<ISpecimenContainer, object> dummyValueCreator = c => new object();
+            Func<ISpecimenContext, object> dummyValueCreator = c => new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentException>(() => new BindingCommand<SingleParameterType<object>, object>(readOnlyPropertyExpression, dummyValueCreator));
             // Teardown
@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, (Func<ISpecimenContainer, object>)null));
+            Assert.Throws<ArgumentNullException>(() => new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, (Func<ISpecimenContext, object>)null));
             // Teardown
         }
 
@@ -173,10 +173,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void ValueCreatorIsCorrect()
         {
             // Fixture setup
-            Func<ISpecimenContainer, double> expectedCreator = c => 8;
+            Func<ISpecimenContext, double> expectedCreator = c => 8;
             var sut = new BindingCommand<PropertyHolder<double>, double>(ph => ph.Property, expectedCreator);
             // Exercise system
-            Func<ISpecimenContainer, double> result = sut.ValueCreator;
+            Func<ISpecimenContext, double> result = sut.ValueCreator;
             // Verify outcome
             Assert.Equal(expectedCreator, result);
             // Teardown
@@ -188,7 +188,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new BindingCommand<PropertyHolder<string>, string>(ph => ph.Property);
             // Exercise system and verify outcome
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             Assert.Throws<ArgumentNullException>(() => sut.Execute(null, dummyContainer));
             // Teardown
         }
@@ -210,7 +210,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedValue = new object();
             var expectedRequest = typeof(PropertyHolder<object>).GetProperty("Property");
-            var container = new DelegatingSpecimenContainer { OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() };
 
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
             var specimen = new PropertyHolder<object>();
@@ -227,7 +227,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedValue = new object();
             var expectedRequest = typeof(FieldHolder<object>).GetField("Field");
-            var container = new DelegatingSpecimenContainer { OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() };
+            var container = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() };
 
             var sut = new BindingCommand<FieldHolder<object>, object>(ph => ph.Field);
             var specimen = new FieldHolder<object>();
@@ -243,7 +243,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var nonInt = "Anonymous variable";
-            var container = new DelegatingSpecimenContainer { OnResolve = r => nonInt };
+            var container = new DelegatingSpecimenContext { OnResolve = r => nonInt };
 
             var sut = new BindingCommand<PropertyHolder<int>, int>(ph => ph.Property);
             // Exercise system and verify outcome
@@ -257,7 +257,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedValue = new object();
-            var expectedContainer = new DelegatingSpecimenContainer();
+            var expectedContainer = new DelegatingSpecimenContext();
 
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, c => expectedContainer == c ? expectedValue : new NoSpecimen());
             var specimen = new PropertyHolder<object>();
@@ -277,7 +277,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, expectedValue);
             var specimen = new PropertyHolder<object>();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             sut.Execute(specimen, dummyContainer);
             // Verify outcome
             Assert.Equal(expectedValue, specimen.Property);

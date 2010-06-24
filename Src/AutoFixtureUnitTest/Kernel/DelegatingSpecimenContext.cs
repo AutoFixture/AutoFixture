@@ -6,9 +6,9 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    internal class DelegatingSpecimenContainer : ISpecimenContainer
+    internal class DelegatingSpecimenContext : ISpecimenContext
     {
-        public DelegatingSpecimenContainer()
+        public DelegatingSpecimenContext()
         {
             this.OnResolve = r => null;
         }

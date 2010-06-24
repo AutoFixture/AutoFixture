@@ -6,18 +6,18 @@ using System.Text;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// Default implementation of <see cref="ISpecimenContainer"/>.
+    /// Default implementation of <see cref="ISpecimenContext"/>.
     /// </summary>
-    public class DefaultSpecimenContainer : ISpecimenContainer
+    public class SpecimenContext : ISpecimenContext
     {
         private readonly ISpecimenBuilder builder;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="DefaultSpecimenContainer"/> with the supplied
+        /// Initializes a new instance of <see cref="SpecimenContext"/> with the supplied
         /// <see cref="ISpecimenBuilder"/>.
         /// </summary>
         /// <param name="builder">The builder that will handle requests.</param>
-        public DefaultSpecimenContainer(ISpecimenBuilder builder)
+        public SpecimenContext(ISpecimenBuilder builder)
         {
             if (builder == null)
             {

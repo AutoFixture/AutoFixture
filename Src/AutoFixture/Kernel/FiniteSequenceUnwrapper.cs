@@ -21,7 +21,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Many specimens if <paramref name="request"/> is a <see cref="FiniteSequenceRequest"/>
         /// instance; otherwise a <see cref="NoSpecimen"/> instance.
         /// </returns>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (container == null)
             {

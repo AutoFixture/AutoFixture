@@ -51,7 +51,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new SeededFactory<string>(s => s);
             var request = new object();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(request);
@@ -68,7 +68,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new SeededFactory<int>(s => s);
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(request);
@@ -88,7 +88,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new SeededFactory<int>(s => s);
             var seededRequest = new SeededRequest(request, seed);
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(seededRequest, dummyContainer);
             // Verify outcome
             var expectedResult = new NoSpecimen(seededRequest);
@@ -108,7 +108,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var sut = new SeededFactory<decimal>(factoryStub);
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(seededRequest, dummyContainer);
             // Verify outcome
             Assert.Equal(expectedResult, result);

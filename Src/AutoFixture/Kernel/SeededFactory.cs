@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <see cref="SeededRequest"/> for the correct type and containing a seed of the same
         /// type; otherwise a <see cref="NoSpecimen"/> instance.
         /// </returns>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             var seededRequest = request as SeededRequest;
             if (seededRequest == null)

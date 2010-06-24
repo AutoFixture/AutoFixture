@@ -7,17 +7,17 @@ using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class DefaultSpecimenContainerTest
+    public class SpecimenContextTest
     {
         [Fact]
-        public void SutIsSpecimenContainer()
+        public void SutIsSpecimenContext()
         {
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
             // Exercise system
-            var sut = new DefaultSpecimenContainer(dummyBuilder);
+            var sut = new SpecimenContext(dummyBuilder);
             // Verify outcome
-            Assert.IsAssignableFrom<ISpecimenContainer>(sut);
+            Assert.IsAssignableFrom<ISpecimenContext>(sut);
             // Teardown
         }
 
@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new DefaultSpecimenContainer(null));
+                new SpecimenContext(null));
             // Teardown
         }
 
@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedBuilder = new DelegatingSpecimenBuilder();
-            var sut = new DefaultSpecimenContainer(expectedBuilder);
+            var sut = new SpecimenContext(expectedBuilder);
             // Exercise system
             ISpecimenBuilder result = sut.Builder;
             // Verify outcome
@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedResult = new object();
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedResult };
-            var sut = new DefaultSpecimenContainer(builder);
+            var sut = new SpecimenContext(builder);
             // Exercise system
             var dummyRequest = new object();
             var result = sut.Resolve(dummyRequest);
@@ -74,7 +74,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     return new object();
                 };
 
-            var sut = new DefaultSpecimenContainer(builderMock);
+            var sut = new SpecimenContext(builderMock);
             // Exercise system
             sut.Resolve(expectedRequest);
             // Verify outcome
@@ -89,7 +89,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var mockVerified = false;
             var builderMock = new DelegatingSpecimenBuilder();
 
-            var sut = new DefaultSpecimenContainer(builderMock);
+            var sut = new SpecimenContext(builderMock);
 
             builderMock.OnCreate = (r, c) =>
             {

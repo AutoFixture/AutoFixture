@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixture
         /// The next number in a consequtive sequence, if <paramref name="request"/> is a request
         /// for an unsigned 16-bit integer; otherwise, a <see cref="NoSpecimen"/> instance.
         /// </returns>
-        public object Create(object request, ISpecimenContainer container)
+        public object Create(object request, ISpecimenContext container)
         {
             if (request != typeof(ushort))
             {
