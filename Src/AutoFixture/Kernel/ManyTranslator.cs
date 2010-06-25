@@ -13,6 +13,14 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private int count;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ManyTranslator"/> class.
+        /// </summary>
+        public ManyTranslator()
+        {
+            this.count = 3;
+        }
+
         #region IMany Members
 
         /// <summary>

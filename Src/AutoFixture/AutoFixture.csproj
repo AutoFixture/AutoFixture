@@ -164,6 +164,7 @@
     <Compile Include="StringGenerator.cs" />
     <Compile Include="ThrowingRecursionGuard.cs" />
     <Compile Include="ThrowingRecursionHandler.cs" />
+    <Compile Include="TransmissionBuilders.cs" />
     <Compile Include="UInt16SequenceGenerator.cs" />
     <Compile Include="UInt32SequenceGenerator.cs" />
     <Compile Include="UInt64SequenceGenerator.cs" />

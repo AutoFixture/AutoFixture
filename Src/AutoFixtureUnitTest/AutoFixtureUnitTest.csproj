@@ -148,6 +148,7 @@
     <Compile Include="ThrowingRecursionGuardTest.cs" />
     <Compile Include="ThrowingRecursionHandlerTest.cs" />
     <Compile Include="Kernel\TraceWriterTest.cs" />
+    <Compile Include="TransmissionBuildersTest.cs" />
     <Compile Include="UInt16SequenceGeneratorTest.cs" />
     <Compile Include="UInt32SequenceGeneratorTest.cs" />
     <Compile Include="UInt64SequenceGeneratorTest.cs" />

@@ -35,6 +35,18 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void DefaultCountIsCorrect()
+        {
+            // Fixture setup
+            var sut = new ManyTranslator();
+            // Exercise system
+            var result = sut.Count;
+            // Verify outcome
+            Assert.Equal(3, result);
+            // Teardown
+        }
+
         [Theory]
         [InlineData(0)]
         [InlineData(-1)]
@@ -49,7 +61,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void CreateWithNullContainerThrows()
+        public void CreateWithNullContextThrows()
         {
             // Fixture setup
             var sut = new ManyTranslator();
