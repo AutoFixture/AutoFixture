@@ -59,19 +59,19 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates a new specimen based on a request.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <param name="context">A container that can be used to create other specimens.</param>
         /// <returns>
         /// A specimen created by the decorated <see cref="ISpecimenBuilder"/> if the filter allows
         /// the request through; otherwise, a <see cref="NoSpecimen"/> instance.
         /// </returns>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
             if (!this.specification.IsSatisfiedBy(request))
             {
                 return new NoSpecimen(request);
             }
 
-            return this.builder.Create(request, container);
+            return this.builder.Create(request, context);
         }
 
         #endregion

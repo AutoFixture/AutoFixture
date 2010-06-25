@@ -59,12 +59,12 @@ namespace Ploeh.AutoFixture.Kernel
         /// Createa a new specimen by delegating to <see cref="Builders"/>.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <param name="context">A container that can be used to create other specimens.</param>
         /// <returns>The first result created by <see cref="Builders"/>.</returns>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
             return (from b in this.Builders
-                    let result = b.Create(request, container)
+                    let result = b.Create(request, context)
                     where !(result is NoSpecimen)
                     select result).DefaultIfEmpty(new NoSpecimen()).FirstOrDefault();
         }

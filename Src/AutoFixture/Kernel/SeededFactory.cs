@@ -41,13 +41,13 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates a new specimen based on a seeded request.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
         /// The result of the contained function if <paramref name="request"/> is a
         /// <see cref="SeededRequest"/> for the correct type and containing a seed of the same
         /// type; otherwise a <see cref="NoSpecimen"/> instance.
         /// </returns>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
             var seededRequest = request as SeededRequest;
             if (seededRequest == null)

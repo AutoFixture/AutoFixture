@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates an anonymous value by unwrapping a seeded request and ignoring the seed.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
         /// A specimen based on <paramref name="request"/> if possible; otherwise,
         /// <see langword="null"/>.
@@ -35,11 +35,11 @@ namespace Ploeh.AutoFixture.Kernel
         /// don't match and can't be combined, ensuring that at least some value is returned.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
-            if (container == null)
+            if (context == null)
             {
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException("context");
             }
 
             var seededRequest = request as SeededRequest;
@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return new NoSpecimen(request);
             }
 
-            return container.Resolve(seededRequest.Request);
+            return context.Resolve(seededRequest.Request);
         }
 
         #endregion

@@ -11,10 +11,6 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     public class GuidGeneratorTest
     {
-        public GuidGeneratorTest()
-        {
-        }
-
         [Fact]
         public void CreateAnonymousWillReturnNonDefaultGuid()
         {
@@ -64,7 +60,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithNullContainerDoesNotThrow()
+        public void CreateWithNullContextDoesNotThrow()
         {
             // Fixture setup
             var sut = new GuidGenerator();
@@ -82,8 +78,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var nonGuidRequest = new object();
             var sut = new GuidGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(nonGuidRequest, dummyContainer);
+            var dummyContext = new DelegatingSpecimenContext();
+            var result = sut.Create(nonGuidRequest, dummyContext);
             // Verify outcome
             var expectedResult = new NoSpecimen(nonGuidRequest);
             Assert.Equal(expectedResult, result);
@@ -97,8 +93,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var guidRequest = typeof(Guid);
             var sut = new GuidGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(guidRequest, dummyContainer);
+            var dummyContext = new DelegatingSpecimenContext();
+            var result = sut.Create(guidRequest, dummyContext);
             // Verify outcome
             Assert.NotEqual(default(Guid), result);
             // Teardown
@@ -111,10 +107,10 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new GuidGenerator();
 
             var guidRequest = typeof(Guid);
-            var dummyContainer = new DelegatingSpecimenContext();
-            var unexpectedResult = sut.Create(guidRequest, dummyContainer);
+            var dummyContext = new DelegatingSpecimenContext();
+            var unexpectedResult = sut.Create(guidRequest, dummyContext);
             // Exercise system
-            var result = sut.Create(guidRequest, dummyContainer);
+            var result = sut.Create(guidRequest, dummyContext);
             // Verify outcome
             Assert.NotEqual(unexpectedResult, result);
             // Teardown

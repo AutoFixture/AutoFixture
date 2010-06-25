@@ -28,6 +28,7 @@ namespace Ploeh.AutoFixture
             yield return new StringGenerator(() => Guid.NewGuid());
             yield return new StringSeedUnwrapper();
             yield return new Int32SequenceGenerator();
+            yield return new DateTimeGenerator();
             yield return new DecimalSequenceGenerator();
             yield return new BooleanSwitch();
             yield return new GuidGenerator();

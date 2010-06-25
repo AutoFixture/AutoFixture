@@ -71,7 +71,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates a new specimen based on a request and raises events tracing the progress.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
         /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
         /// </returns>
@@ -81,13 +81,13 @@ namespace Ploeh.AutoFixture.Kernel
         /// <see cref="Type"/> or other <see cref="System.Reflection.MemberInfo"/> instances.
         /// </para>
         /// </remarks>
-		public object Create(object request, ISpecimenContext container)
+		public object Create(object request, ISpecimenContext context)
 		{
             if (this.filter.IsSatisfiedBy(request))
             {
                 this.OnSpecimenRequested(new RequestTraceEventArgs(request, ++this.depth));
             }
-            object specimen = this.builder.Create(request, container);
+            object specimen = this.builder.Create(request, context);
             if (this.filter.IsSatisfiedBy(request))
             {
                 this.OnSpecimenCreated(new SpecimenCreatedEventArgs(request, specimen, this.depth--));

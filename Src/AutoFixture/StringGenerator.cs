@@ -48,11 +48,11 @@ namespace Ploeh.AutoFixture
         /// <see cref="object.ToString()"/> on the result.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">Not used.</param>
+        /// <param name="context">Not used.</param>
         /// <returns>
         /// The string representation of a specimen created by the contained specimen factory.
         /// </returns>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
             if (request != typeof(string))
             {

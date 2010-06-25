@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates a new specimen based on a request.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
         /// The specimen created by the Func contained by this instance.
         /// </returns>
@@ -51,7 +51,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// used to create a specimen.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
             return this.create();
         }
@@ -102,7 +102,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates a new specimen based on a request.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
         /// The specimen created by the Func contained by this instance.
         /// </returns>
@@ -113,14 +113,14 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="container"/>.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
-            if (container == null)
+            if (context == null)
             {
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException("context");
             }
 
-            var p = (TInput)container.Resolve(typeof(TInput));
+            var p = (TInput)context.Resolve(typeof(TInput));
             return this.create(p);
         }
 
@@ -173,7 +173,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates a new specimen based on a request.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
         /// The specimen created by the Func contained by this instance.
         /// </returns>
@@ -184,15 +184,15 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="container"/>.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
-            if (container == null)
+            if (context == null)
             {
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException("context");
             }
 
-            var p1 = (TInput1)container.Resolve(typeof(TInput1));
-            var p2 = (TInput2)container.Resolve(typeof(TInput2));
+            var p1 = (TInput1)context.Resolve(typeof(TInput1));
+            var p2 = (TInput2)context.Resolve(typeof(TInput2));
             return this.create(p1, p2);
         }
 
@@ -246,7 +246,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates a new specimen based on a request.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
         /// The specimen created by the Func contained by this instance.
         /// </returns>
@@ -257,16 +257,16 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="container"/>.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
-            if (container == null)
+            if (context == null)
             {
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException("context");
             }
 
-            var p1 = (TInput1)container.Resolve(typeof(TInput1));
-            var p2 = (TInput2)container.Resolve(typeof(TInput2));
-            var p3 = (TInput3)container.Resolve(typeof(TInput3));
+            var p1 = (TInput1)context.Resolve(typeof(TInput1));
+            var p2 = (TInput2)context.Resolve(typeof(TInput2));
+            var p3 = (TInput3)context.Resolve(typeof(TInput3));
             return this.create(p1, p2, p3);
         }
 
@@ -321,7 +321,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates a new specimen based on a request.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
         /// The specimen created by the Func contained by this instance.
         /// </returns>
@@ -332,17 +332,17 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="container"/>.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
-            if (container == null)
+            if (context == null)
             {
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException("context");
             }
 
-            var p1 = (TInput1)container.Resolve(typeof(TInput1));
-            var p2 = (TInput2)container.Resolve(typeof(TInput2));
-            var p3 = (TInput3)container.Resolve(typeof(TInput3));
-            var p4 = (TInput4)container.Resolve(typeof(TInput4));
+            var p1 = (TInput1)context.Resolve(typeof(TInput1));
+            var p2 = (TInput2)context.Resolve(typeof(TInput2));
+            var p3 = (TInput3)context.Resolve(typeof(TInput3));
+            var p4 = (TInput4)context.Resolve(typeof(TInput4));
             return this.create(p1, p2, p3, p4);
         }
 

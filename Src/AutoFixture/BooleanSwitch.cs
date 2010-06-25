@@ -57,13 +57,13 @@ namespace Ploeh.AutoFixture
         /// every other time it is invoked.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">Not used.</param>
+        /// <param name="context">Not used.</param>
         /// <returns>
         /// <see langword="true"/>, followed by <see langword="false"/> at the next invocation, and
         /// so on, if <paramref name="request"/> is a request for a boolean; otherwise, a
         /// <see cref="NoSpecimen"/> instance.
         /// </returns>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
             if (request != typeof(bool))
             {

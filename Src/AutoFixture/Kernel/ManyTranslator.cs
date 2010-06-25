@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates many new specimens based on a request.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
         /// The requested specimens if possible; otherwise a <see cref="NoSpecimen"/> instance.
         /// </returns>
@@ -56,11 +56,11 @@ namespace Ploeh.AutoFixture.Kernel
         /// The number of specimens requested is determined by <see cref="Count"/>.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
-            if (container == null)
+            if (context == null)
             {
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException("context");
             }
 
             var manyRequest = request as ManyRequest;
@@ -69,7 +69,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return new NoSpecimen(request);
             }
 
-            return container.Resolve(new FiniteSequenceRequest(manyRequest.Request, this.Count));
+            return context.Resolve(new FiniteSequenceRequest(manyRequest.Request, this.Count));
         }
 
         #endregion

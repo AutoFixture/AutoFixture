@@ -43,12 +43,12 @@ namespace Ploeh.AutoFixture
         /// Creates an anonymous number.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">Not used.</param>
+        /// <param name="context">Not used.</param>
         /// <returns>
         /// The next number in a consequtive sequence, if <paramref name="request"/> is a request
         /// for an integer; otherwise, a <see cref="NoSpecimen"/> instance.
         /// </returns>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
             if (request != typeof(int))
             {

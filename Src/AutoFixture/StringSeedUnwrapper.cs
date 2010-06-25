@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixture
         /// Creates an anonymous string based on a seed.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <param name="context">A container that can be used to create other specimens.</param>
         /// <returns>
         /// A string with the seed prefixed to a string created by <paramref name="container"/> if
         /// possible; otherwise, <see langword="null"/>.
@@ -24,14 +24,14 @@ namespace Ploeh.AutoFixture
         /// <para>
         /// This method only returns an instance if a number of conditions are satisfied.
         /// <paramref name="request"/> must represent a request for a seed string, and
-        /// <paramref name="container"/> must be able to create a string.
+        /// <paramref name="context"/> must be able to create a string.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
-            if (container == null)
+            if (context == null)
             {
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException("context");
             }
 
             var seededRequest = request as SeededRequest;
@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            var containerResult = container.Resolve(typeof(string));
+            var containerResult = context.Resolve(typeof(string));
             if (containerResult is NoSpecimen)
             {
                 return containerResult;

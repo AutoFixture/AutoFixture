@@ -143,7 +143,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// specimen.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
         /// The requested specimen if possible; otherwise a <see cref="NoSpecimen"/> instance.
         /// </returns>
@@ -153,9 +153,9 @@ namespace Ploeh.AutoFixture.Kernel
         /// <see cref="Type"/> or other <see cref="System.Reflection.MemberInfo"/> instances.
         /// </para>
         /// </remarks>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
-            var specimen = this.builder.Create(request, container);
+            var specimen = this.builder.Create(request, context);
 
             var ns = specimen as NoSpecimen;
             if (ns != null)
@@ -174,7 +174,7 @@ namespace Ploeh.AutoFixture.Kernel
                     "The specimen returned by the decorated ISpecimenBuilder is not compatible with {0}.", typeof(T)));
             }
             var s = (T)specimen;
-            this.action(s, container);
+            this.action(s, context);
             return specimen;
         }
 

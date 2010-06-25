@@ -18,17 +18,17 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates a new specimen based on a requested field.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <param name="context">A container that can be used to create other specimens.</param>
         /// <returns>
         /// A specimen created from a <see cref="SeededRequest"/> encapsulating the field type
         /// and name of the requested field, if possible; otherwise, a <see cref="NoSpecimen"/>
         /// instance.
         /// </returns>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
-            if (container == null)
+            if (context == null)
             {
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException("context");
             }
 
             var fieldInfo = request as FieldInfo;
@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return new NoSpecimen(request);
             }
 
-            return container.Resolve(new SeededRequest(fieldInfo.FieldType, fieldInfo.Name));
+            return context.Resolve(new SeededRequest(fieldInfo.FieldType, fieldInfo.Name));
         }
 
         #endregion

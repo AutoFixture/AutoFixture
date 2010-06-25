@@ -17,16 +17,16 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates a specimen of the requested type by invoking its most modest constructor.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="container">A container that can be used to create other specimens.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
         /// A specimen generated from the requested type's most modest constructor, if possible;
         /// otherwise, <see langword="null"/>.
         /// </returns>
-        public object Create(object request, ISpecimenContext container)
+        public object Create(object request, ISpecimenContext context)
         {
-            if (container == null)
+            if (context == null)
             {
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException("context");
             }
 
             var ctor = ModestConstructorInvoker.GetModestConstructor(request);
@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             var paramValues = (from pi in ctor.GetParameters()
-                               select container.Resolve(pi)).ToList();
+                               select context.Resolve(pi)).ToList();
 
             if (paramValues.Any(pv => pv is NoSpecimen))
             {
