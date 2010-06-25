@@ -1,109 +1,111 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.AutoFixtureUnitTest.Kernel;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    [TestClass]
     public class StringSeedUnwrapperTest
     {
-        [TestMethod]
+        [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
             var sut = new StringSeedUnwrapper();
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(ISpecimenBuilder));
+            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNullRequestWillReturnNull()
         {
             // Fixture setup
             var sut = new StringSeedUnwrapper();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen();
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void CreateWithNullContainerWillThrow()
         {
             // Fixture setup
             var sut = new StringSeedUnwrapper();
-            // Exercise system
             var dummyRequest = new object();
-            sut.Create(dummyRequest, null);
-            // Verify outcome (expected exception)
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Create(dummyRequest, null));
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNonSeedWillReturnNull()
         {
             // Fixture setup
             var sut = new StringSeedUnwrapper();
             var nonSeed = new object();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonSeed, dummyContainer);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen(nonSeed);
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithNonStringRequestSeedWillReturnNull()
         {
             // Fixture setup
             var sut = new StringSeedUnwrapper();
             var nonStringRequestSeed = new SeededRequest(typeof(object), "Anonymous value");
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonStringRequestSeed, dummyContainer);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen(nonStringRequestSeed);
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
-        public void CreateWithNonStringSeedWillReturnNull()
+        [Fact]
+        public void CreateWithNonStringSeedWillReturnCorrectResult()
         {
             // Fixture setup
             var sut = new StringSeedUnwrapper();
             var nonStringSeed = new SeededRequest(typeof(string), new object());
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContainer();
+            var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonStringSeed, dummyContainer);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen(nonStringSeed);
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
-        public void CreateWithStringSeedWhenContainerCannotCreateStringsWillReturnNull()
+        [Fact]
+        public void CreateWithStringSeedWhenContainerCannotCreateStringsWillReturnCorrectResult()
         {
             // Fixture setup
             var sut = new StringSeedUnwrapper();
             var stringSeed = new SeededRequest(typeof(string), "Anonymous value");
-            var unableContainer = new DelegatingSpecimenContainer { OnCreate = r => null };
+            var unableContainer = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(stringSeed) };
             // Exercise system
             var result = sut.Create(stringSeed, unableContainer);
             // Verify outcome
-            Assert.IsNull(result, "Create");
+            var expectedResult = new NoSpecimen(stringSeed);
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithStringSeedWhenContainerCanCreateStringsWillReturnCorrectResult()
         {
             // Fixture setup
@@ -112,16 +114,16 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var sut = new StringSeedUnwrapper();
             var stringSeed = new SeededRequest(typeof(string), seedString);
-            var container = new DelegatingSpecimenContainer { OnCreate = r => containerString };
+            var container = new DelegatingSpecimenContext { OnResolve = r => containerString };
             // Exercise system
             var result = sut.Create(stringSeed, container);
             // Verify outcome
             var expectedString = seedString + containerString;
-            Assert.AreEqual(expectedString, result, "Create");
+            Assert.Equal(expectedString, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateWithStringSeedWillCorrectlyInvokeContainer()
         {
             // Fixture setup
@@ -129,17 +131,17 @@ namespace Ploeh.AutoFixtureUnitTest
             var stringSeed = new SeededRequest(typeof(string), "Anonymous value");
 
             var mockVerified = false;
-            var containerMock = new DelegatingSpecimenContainer();
-            containerMock.OnCreate = r =>
+            var containerMock = new DelegatingSpecimenContext();
+            containerMock.OnResolve = r =>
                 {
-                    Assert.AreEqual(typeof(string), r, "Create");
+                    Assert.Equal(typeof(string), r);
                     mockVerified = true;
                     return null;
                 };
             // Exercise system
             sut.Create(stringSeed, containerMock);
             // Verify outcome
-            Assert.IsTrue(mockVerified, "Mock verification");
+            Assert.True(mockVerified, "Mock verification");
             // Teardown
         }
     }

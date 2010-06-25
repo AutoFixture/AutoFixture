@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
+using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace Ploeh.AutoFixture
 {
     /// <summary>
     /// Unwraps a request for a string <see cref="SeededRequest"/> to a request for a string and

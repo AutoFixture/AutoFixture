@@ -5,6 +5,7 @@ using System.Text;
 using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixture;
+using System.Collections;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -39,6 +40,18 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new TransmissionBuilders();
             // Verify outcome
             Assert.True(expectedBuilderTypes.SequenceEqual(sut.Select(b => b.GetType())));
+            // Teardown
+        }
+
+        [Fact]
+        public void NonGenericEnumeratorMatchesGenericEnumerator()
+        {
+            // Fixture setup
+            var sut = new TransmissionBuilders();
+            // Exercise system
+            IEnumerable result = sut;
+            // Verify outcome
+            Assert.True(sut.Select(b => b.GetType()).SequenceEqual(result.Cast<object>().Select(o => o.GetType())));
             // Teardown
         }
 

@@ -32,6 +32,15 @@ namespace Ploeh.AutoFixture
             this.createSpecimen = specimenFactory;
         }
 
+        /// <summary>
+        /// Gets the factory used to specimens.
+        /// </summary>
+        /// <seealso cref="StringGenerator(Func{object})"/>
+        public Func<object> Factory
+        {
+            get { return this.createSpecimen; }
+        }
+
         #region ISpecimenBuilder Members
 
         /// <summary>
