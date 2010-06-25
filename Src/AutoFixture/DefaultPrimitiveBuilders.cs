@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture
         /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate
         /// through the collection.
         /// </returns>
-        public IEnumerator<ISpecimenBuilder> GetEnumerator()
+        public virtual IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
             yield return new StringGenerator(() => Guid.NewGuid());
             yield return new StringSeedUnwrapper();
