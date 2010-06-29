@@ -14,12 +14,12 @@ namespace Ploeh.AutoFixture.Kernel
     /// that the latter specifies the number of specimens requested.
     /// </para>
     /// <para>
-    /// <see cref="ManyTranslator"/> translates <see cref="ManyRequest"/> instances to
+    /// <see cref="ManyRelay"/> translates <see cref="ManyRequest"/> instances to
     /// <see cref="FiniteSequenceRequest"/> instances.
     /// </para>
     /// </remarks>
     /// <seealso cref="FiniteSequenceRequest"/>
-    /// <seealso cref="ManyTranslator"/>
+    /// <seealso cref="ManyRelay"/>
     public class ManyRequest : IEquatable<ManyRequest>
     {
         private readonly object request;

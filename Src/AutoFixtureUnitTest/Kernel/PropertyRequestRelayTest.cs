@@ -8,14 +8,14 @@ using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class FieldRequestTranslatorTest
+    public class PropertyRequestRelayTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-            var sut = new FieldRequestTranslator();
+            var sut = new PropertyRequestRelay();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
             // Fixture setup
-            var sut = new FieldRequestTranslator();
+            var sut = new PropertyRequestRelay();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithNullContainerWillThrow()
         {
             // Fixture setup
-            var sut = new FieldRequestTranslator();
+            var sut = new PropertyRequestRelay();
             var dummyRequest = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
@@ -48,63 +48,68 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void CreateFromNonFieldRequestWillReturnCorrectResult()
+        public void CreateFromNonPropertyRequestWillReturnCorrectResult()
         {
             // Fixture setup
-            var nonFieldRequest = new object();
-            var sut = new FieldRequestTranslator();
+            var nonParameterRequest = new object();
+            var sut = new PropertyRequestRelay();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(nonFieldRequest, dummyContainer);
+            var result = sut.Create(nonParameterRequest, dummyContainer);
             // Verify outcome
-            var expectedResult = new NoSpecimen(nonFieldRequest);
+            var expectedResult = new NoSpecimen(nonParameterRequest);
             Assert.Equal(expectedResult, result);
             // Teardown
         }
 
         [Fact]
-        public void CreateFromFieldRequestWillReturnCorrectResultWhenContainerCannotSatisfyRequest()
+        public void CreateFromPropertyRequestWillReturnCorrectResultWhenContainerCannotSatisfyRequest()
         {
             // Fixture setup
-            var fieldInfo = typeof(FieldHolder<object>).GetField("Field");
-            var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(fieldInfo) };
-            var sut = new FieldRequestTranslator();
+            var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
+            var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(propertyInfo) };
+            var sut = new PropertyRequestRelay();
             // Exercise system
-            var result = sut.Create(fieldInfo, container);
+            var result = sut.Create(propertyInfo, container);
             // Verify outcome
-            var expectedResult = new NoSpecimen(fieldInfo);
+            var expectedResult = new NoSpecimen(propertyInfo);
             Assert.Equal(expectedResult, result);
             // Teardown
         }
 
         [Fact]
-        public void CreateFromFieldRequestWillReturnCorrectResultWhenContainerCanSatisfyRequest()
+        public void CreateFromPropertyRequestWillReturnCorrectResultWhenContainerCanSatisfyRequest()
         {
             // Fixture setup
             var expectedSpecimen = new object();
-            var fieldInfo = typeof(FieldHolder<object>).GetField("Field");
+            var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedSpecimen };
-            var sut = new FieldRequestTranslator();
+            var sut = new PropertyRequestRelay();
             // Exercise system
-            var result = sut.Create(fieldInfo, container);
+            var result = sut.Create(propertyInfo, container);
             // Verify outcome
             Assert.Equal(expectedSpecimen, result);
             // Teardown
         }
 
         [Fact]
-        public void CreateFromFieldRequestWillCorrectlyInvokeContainer()
+        public void CreateFromParameterRequestWillCorrectlyInvokeContainer()
         {
             // Fixture setup
-            var sut = new FieldRequestTranslator();
-            var fieldInfo = typeof(FieldHolder<object>).GetField("Field");
-            var expectedRequest = new SeededRequest(fieldInfo.FieldType, fieldInfo.Name);
+            var sut = new PropertyRequestRelay();
+            var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
+            var expectedRequest = new SeededRequest(propertyInfo.PropertyType, propertyInfo.Name);
 
             var mockVerified = false;
             var containerMock = new DelegatingSpecimenContext();
-            containerMock.OnResolve = r => mockVerified = expectedRequest.Equals(r);
+            containerMock.OnResolve = r =>
+            {
+                Assert.Equal(expectedRequest, r);
+                mockVerified = true;
+                return null;
+            };
             // Exercise system
-            sut.Create(fieldInfo, containerMock);
+            sut.Create(propertyInfo, containerMock);
             // Verify outcome
             Assert.True(mockVerified, "Mock verification");
             // Teardown

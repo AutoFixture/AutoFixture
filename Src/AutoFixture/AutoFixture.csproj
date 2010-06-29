@@ -93,7 +93,7 @@
     <Compile Include="Kernel\AutoPropertiesCommand.cs" />
     <Compile Include="Kernel\ExpressionReflector.cs" />
     <Compile Include="Kernel\FalseRequestSpecification.cs" />
-    <Compile Include="Kernel\FieldRequestTranslator.cs" />
+    <Compile Include="Kernel\FieldRequestRelay.cs" />
     <Compile Include="Kernel\FilteringSpecimenBuilder.cs" />
     <Compile Include="Kernel\InverseRequestSpecification.cs" />
     <Compile Include="Kernel\IRequestSpecification.cs" />
@@ -101,12 +101,12 @@
     <Compile Include="Kernel\FiniteSequenceRequest.cs" />
     <Compile Include="Kernel\FiniteSequenceUnwrapper.cs" />
     <Compile Include="Kernel\ManyRequest.cs" />
-    <Compile Include="Kernel\ManyTranslator.cs" />
+    <Compile Include="Kernel\ManyRelay.cs" />
     <Compile Include="Kernel\SpecifiedNullCommand.cs" />
     <Compile Include="Kernel\OrRequestSpecification.cs" />
     <Compile Include="Kernel\Postprocessor.cs" />
     <Compile Include="Kernel\BindingCommand.cs" />
-    <Compile Include="Kernel\PropertyRequestTranslator.cs" />
+    <Compile Include="Kernel\PropertyRequestRelay.cs" />
     <Compile Include="Kernel\SeededFactory.cs" />
     <Compile Include="Kernel\SpecimenFactory.cs" />
     <Compile Include="Kernel\TraceWriter.cs" />
@@ -119,7 +119,7 @@
     <Compile Include="Kernel\ISpecimenContext.cs" />
     <Compile Include="Kernel\ModestConstructorInvoker.cs" />
     <Compile Include="Kernel\NoSpecimen.cs" />
-    <Compile Include="Kernel\ParameterRequestTranslator.cs" />
+    <Compile Include="Kernel\ParameterRequestRelay.cs" />
     <Compile Include="Kernel\TracingBuilder.cs" />
     <Compile Include="Kernel\SpecimenCreatedEventArgs.cs" />
     <Compile Include="Kernel\RequestTraceEventArgs.cs" />

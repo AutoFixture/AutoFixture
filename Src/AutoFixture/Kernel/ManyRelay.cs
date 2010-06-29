@@ -6,17 +6,17 @@ using System.Text;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// Translates requests for many (an unspecified count) specimens into a request for a specific
+    /// Relays requests for many (an unspecified count) specimens to a request for a specific
     /// number of specimens.
     /// </summary>
-    public class ManyTranslator : ISpecimenBuilder, IMany
+    public class ManyRelay : ISpecimenBuilder, IMany
     {
         private int count;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ManyTranslator"/> class.
+        /// Initializes a new instance of the <see cref="ManyRelay"/> class.
         /// </summary>
-        public ManyTranslator()
+        public ManyRelay()
         {
             this.count = 3;
         }

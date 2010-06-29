@@ -7,10 +7,10 @@ using System.Reflection;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// Translates a request for a parameter into a <see cref="SeededRequest"/> with a seed based
+    /// Relays a request for a parameter to a <see cref="SeededRequest"/> with a seed based
     /// on the parameter's name.
     /// </summary>
-    public class ParameterRequestTranslator : ISpecimenBuilder
+    public class ParameterRequestRelay : ISpecimenBuilder
     {
         #region ISpecimenBuilder Members
 

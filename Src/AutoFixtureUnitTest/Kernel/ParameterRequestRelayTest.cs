@@ -8,14 +8,14 @@ using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class ParameterRequestTranslatorTest
+    public class ParameterRequestRelayTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-            var sut = new ParameterRequestTranslator();
+            var sut = new ParameterRequestRelay();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
             // Fixture setup
-            var sut = new ParameterRequestTranslator();
+            var sut = new ParameterRequestRelay();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithNullContainerWillThrow()
         {
             // Fixture setup
-            var sut = new ParameterRequestTranslator();
+            var sut = new ParameterRequestRelay();
             var dummyRequest = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var nonParameterRequest = new object();
-            var sut = new ParameterRequestTranslator();
+            var sut = new ParameterRequestRelay();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonParameterRequest, dummyContainer);
@@ -68,7 +68,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
             var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(parameterInfo) };
-            var sut = new ParameterRequestTranslator();
+            var sut = new ParameterRequestRelay();
             // Exercise system
             var result = sut.Create(parameterInfo, container);
             // Verify outcome
@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var expectedSpecimen = new object();
             var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedSpecimen };
-            var sut = new ParameterRequestTranslator();
+            var sut = new ParameterRequestRelay();
             // Exercise system
             var result = sut.Create(parameterInfo, container);
             // Verify outcome
@@ -96,7 +96,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateFromParameterRequestWillCorrectlyInvokeContainer()
         {
             // Fixture setup
-            var sut = new ParameterRequestTranslator();
+            var sut = new ParameterRequestRelay();
             var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
             var expectedRequest = new SeededRequest(parameterInfo.ParameterType, parameterInfo.Name);
 

@@ -14,14 +14,14 @@ namespace Ploeh.AutoFixture
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "This is not a 'collection' - it can't be modified.")]
     public class TransmissionBuilders : IEnumerable<ISpecimenBuilder>, IMany
     {
-        private readonly ManyTranslator many;
+        private readonly ManyRelay many;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransmissionBuilders"/> class.
         /// </summary>
         public TransmissionBuilders()
         {
-            this.many = new ManyTranslator();
+            this.many = new ManyRelay();
         }
 
         #region IEnumerable<ISpecimenBuilder> Members
@@ -36,9 +36,9 @@ namespace Ploeh.AutoFixture
         public virtual IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
             yield return new ModestConstructorInvoker();
-            yield return new ParameterRequestTranslator();
-            yield return new PropertyRequestTranslator();
-            yield return new FieldRequestTranslator();
+            yield return new ParameterRequestRelay();
+            yield return new PropertyRequestRelay();
+            yield return new FieldRequestRelay();
             yield return this.many;
             yield return new FiniteSequenceUnwrapper();
             yield return new ValueIgnoringSeedUnwrapper();

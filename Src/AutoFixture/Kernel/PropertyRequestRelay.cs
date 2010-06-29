@@ -7,21 +7,21 @@ using System.Reflection;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// Translates a request for a field into a <see cref="SeededRequest"/> with a seed based
-    /// on the field's name.
+    /// Relays a request for a property to a <see cref="SeededRequest"/> with a seed based
+    /// on the property's name.
     /// </summary>
-    public class FieldRequestTranslator : ISpecimenBuilder
+    public class PropertyRequestRelay : ISpecimenBuilder
     {
         #region ISpecimenBuilder Members
 
         /// <summary>
-        /// Creates a new specimen based on a requested field.
+        /// Creates a specimen based on a requested property.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="context">A container that can be used to create other specimens.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
-        /// A specimen created from a <see cref="SeededRequest"/> encapsulating the field type
-        /// and name of the requested field, if possible; otherwise, a <see cref="NoSpecimen"/>
+        /// A specimen created from a <see cref="SeededRequest"/> encapsulating the property type
+        /// and name of the requested property, if possible; otherwise, a <see cref="NoSpecimen"/>
         /// instance.
         /// </returns>
         public object Create(object request, ISpecimenContext context)
@@ -31,13 +31,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("context");
             }
 
-            var fieldInfo = request as FieldInfo;
-            if (fieldInfo == null)
+            var propertyInfo = request as PropertyInfo;
+            if (propertyInfo == null)
             {
                 return new NoSpecimen(request);
             }
 
-            return context.Resolve(new SeededRequest(fieldInfo.FieldType, fieldInfo.Name));
+            return context.Resolve(new SeededRequest(propertyInfo.PropertyType, propertyInfo.Name));
         }
 
         #endregion

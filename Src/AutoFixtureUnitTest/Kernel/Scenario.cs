@@ -96,7 +96,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new BooleanSwitch(),
                 new GuidGenerator(),
                 new ModestConstructorInvoker(),
-                new ParameterRequestTranslator(),
+                new ParameterRequestRelay(),
                 new StringSeedUnwrapper(),
                 new ValueIgnoringSeedUnwrapper());
             var container = new SpecimenContext(builder);
@@ -486,10 +486,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new BooleanSwitch(),
                 new GuidGenerator(),
                 new ModestConstructorInvoker(),
-                new ParameterRequestTranslator(),
-                new PropertyRequestTranslator(),
-                new FieldRequestTranslator(),
-                new ManyTranslator { Count = 3 },
+                new ParameterRequestRelay(),
+                new PropertyRequestRelay(),
+                new FieldRequestRelay(),
+                new ManyRelay { Count = 3 },
                 new FiniteSequenceUnwrapper(),
                 new StringSeedUnwrapper(),
                 new ValueIgnoringSeedUnwrapper());

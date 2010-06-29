@@ -29,10 +29,10 @@ namespace Ploeh.AutoFixtureUnitTest
             var expectedBuilderTypes = new[]
             {
                 typeof(ModestConstructorInvoker),
-                typeof(ParameterRequestTranslator),
-                typeof(PropertyRequestTranslator),
-                typeof(FieldRequestTranslator),
-                typeof(ManyTranslator),
+                typeof(ParameterRequestRelay),
+                typeof(PropertyRequestRelay),
+                typeof(FieldRequestRelay),
+                typeof(ManyRelay),
                 typeof(FiniteSequenceUnwrapper),
                 typeof(ValueIgnoringSeedUnwrapper)
             };
@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void SettingCountSetsCountOnManyTranslator()
+        public void SettingCountSetsCountOnManyRelay()
         {
             // Fixture setup
             var sut = new TransmissionBuilders();
@@ -89,18 +89,18 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Count = expectedCount;
             // Verify outcome
-            var manyTranslator = sut.OfType<ManyTranslator>().Single();
-            Assert.Equal(expectedCount, manyTranslator.Count);
+            var manyRelay = sut.OfType<ManyRelay>().Single();
+            Assert.Equal(expectedCount, manyRelay.Count);
             // Teardown
         }
 
         [Fact]
-        public void CountMatchesCountOnManyTranslator()
+        public void CountMatchesCountOnManyRelay()
         {
             // Fixture setup
             var sut = new TransmissionBuilders();
             var expectedCount = 149;
-            sut.OfType<ManyTranslator>().Single().Count = expectedCount;
+            sut.OfType<ManyRelay>().Single().Count = expectedCount;
             // Exercise system
             var result = sut.Count;
             // Verify outcome
