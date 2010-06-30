@@ -433,7 +433,8 @@ namespace Ploeh.AutoFixture.Dsl
                     new AnyTypeSpecification());
             }
 
-            return new FilteringSpecimenBuilder(builder, new ExactTypeSpecification(typeof(T)));
+            var filter = new OrRequestSpecification(new SeedRequestSpecification(typeof(T)), new ExactTypeSpecification(typeof(T)));
+            return new FilteringSpecimenBuilder(builder, filter);
         }
 
         #endregion

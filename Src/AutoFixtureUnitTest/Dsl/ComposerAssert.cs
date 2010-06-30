@@ -23,8 +23,13 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
 
         internal static FilteringSpecimenBuilder ShouldSpecify<T>(this FilteringSpecimenBuilder filter)
         {
-            var spec = Assert.IsAssignableFrom<ExactTypeSpecification>(filter.Specification);
-            Assert.Equal(typeof(T), spec.TargetType);
+            var orSpec = Assert.IsAssignableFrom<OrRequestSpecification>(filter.Specification);
+
+            var seedSpec = Assert.IsAssignableFrom<SeedRequestSpecification>(orSpec.Specifications.First());
+            Assert.Equal(typeof(T), seedSpec.TargetType);
+
+            var typeSpec = Assert.IsAssignableFrom<ExactTypeSpecification>(orSpec.Specifications.Skip(1).First());
+            Assert.Equal(typeof(T), typeSpec.TargetType);
 
             return filter;
         }
