@@ -84,6 +84,7 @@
     <Compile Include="Kernel\AutoPropertiesCommandTest.cs" />
     <Compile Include="Kernel\CompositeSpecimenBuilderTest.cs" />
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
+    <Compile Include="Kernel\SeedRequestSpecificationTest.cs" />
     <Compile Include="Kernel\SpecimenContextTest.cs" />
     <Compile Include="Kernel\DelegatingRequestSpecification.cs" />
     <Compile Include="Kernel\DelegatingSpecifiedSpecimenCommand.cs" />

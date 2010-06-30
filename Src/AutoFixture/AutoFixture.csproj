@@ -102,6 +102,7 @@
     <Compile Include="Kernel\FiniteSequenceUnwrapper.cs" />
     <Compile Include="Kernel\ManyRequest.cs" />
     <Compile Include="Kernel\ManyRelay.cs" />
+    <Compile Include="Kernel\SeedRequestSpecification.cs" />
     <Compile Include="Kernel\SpecifiedNullCommand.cs" />
     <Compile Include="Kernel\OrRequestSpecification.cs" />
     <Compile Include="Kernel\Postprocessor.cs" />
