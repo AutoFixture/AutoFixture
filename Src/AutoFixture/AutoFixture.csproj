@@ -109,6 +109,7 @@
     <Compile Include="Kernel\PropertyRequestRelay.cs" />
     <Compile Include="Kernel\SeededFactory.cs" />
     <Compile Include="Kernel\SpecimenFactory.cs" />
+    <Compile Include="Kernel\TerminatingSpecimenBuilder.cs" />
     <Compile Include="Kernel\TraceWriter.cs" />
     <Compile Include="CustomizedObjectFactory.cs" />
     <Compile Include="GuidGenerator.cs" />
