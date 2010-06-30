@@ -60,7 +60,8 @@ namespace Ploeh.AutoFixture.Kernel
                 return new NoSpecimen(request);
             }
 
-            if (!(seededRequest.Seed is T))
+            if ((seededRequest.Seed != null)
+                && !(seededRequest.Seed is T))
             {
                 return new NoSpecimen(request);
             }

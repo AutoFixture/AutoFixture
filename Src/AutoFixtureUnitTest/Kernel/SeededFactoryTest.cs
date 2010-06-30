@@ -108,8 +108,26 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var sut = new SeededFactory<decimal>(factoryStub);
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(seededRequest, dummyContainer);
+            var dummyContext = new DelegatingSpecimenContext();
+            var result = sut.Create(seededRequest, dummyContext);
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithCorrectlyTypedSeededRequestWithNullSeedReturnsCorrectResult()
+        {
+            // Fixture setup
+            var seededRequest = new SeededRequest(typeof(string), null);
+            var expectedResult = Guid.NewGuid().ToString();
+
+            Func<string, string> factoryStub = s => s == null ? expectedResult : null;
+
+            var sut = new SeededFactory<string>(factoryStub);
+            // Exercise system
+            var dummyContext = new DelegatingSpecimenContext();
+            var result = sut.Create(seededRequest, dummyContext);
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
