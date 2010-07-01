@@ -2630,6 +2630,22 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void NewestCustomizationWins()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Customize<string>(c => c.FromFactory(() => "ploeh"));
+
+            var expectedResult = "fnaah";
+            // Exercise system
+            sut.Customize<string>(c => c.FromFactory(() => expectedResult));
+            var result = sut.CreateAnonymous<string>();
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
