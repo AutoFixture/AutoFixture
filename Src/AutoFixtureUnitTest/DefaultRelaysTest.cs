@@ -9,14 +9,14 @@ using System.Collections;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    public class TransmissionBuildersTest
+    public class DefaultRelaysTest
     {
         [Fact]
         public void SutIsSpecimenBuilders()
         {
             // Fixture setup
             // Exercise system
-            var sut = new TransmissionBuilders();
+            var sut = new DefaultRelays();
             // Verify outcome
             Assert.IsAssignableFrom<IEnumerable<ISpecimenBuilder>>(sut);
             // Teardown
@@ -33,11 +33,11 @@ namespace Ploeh.AutoFixtureUnitTest
                 typeof(PropertyRequestRelay),
                 typeof(FieldRequestRelay),
                 typeof(ManyRelay),
-                typeof(FiniteSequenceUnwrapper),
-                typeof(ValueIgnoringSeedUnwrapper)
+                typeof(FiniteSequenceRelay),
+                typeof(SeedIgnoringRelay)
             };
             // Exercise system
-            var sut = new TransmissionBuilders();
+            var sut = new DefaultRelays();
             // Verify outcome
             Assert.True(expectedBuilderTypes.SequenceEqual(sut.Select(b => b.GetType())));
             // Teardown
@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void NonGenericEnumeratorMatchesGenericEnumerator()
         {
             // Fixture setup
-            var sut = new TransmissionBuilders();
+            var sut = new DefaultRelays();
             // Exercise system
             IEnumerable result = sut;
             // Verify outcome
@@ -60,7 +60,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             // Exercise system
-            var sut = new TransmissionBuilders();
+            var sut = new DefaultRelays();
             // Verify outcome
             Assert.IsAssignableFrom<IMany>(sut);
             // Teardown
@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CountIsProperWritableProperty()
         {
             // Fixture setup
-            var sut = new TransmissionBuilders();
+            var sut = new DefaultRelays();
             var expectedCount = 912;
             // Exercise system
             sut.Count = expectedCount;
@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void SettingCountSetsCountOnManyRelay()
         {
             // Fixture setup
-            var sut = new TransmissionBuilders();
+            var sut = new DefaultRelays();
             var expectedCount = 76;
             // Exercise system
             sut.Count = expectedCount;
@@ -98,7 +98,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CountMatchesCountOnManyRelay()
         {
             // Fixture setup
-            var sut = new TransmissionBuilders();
+            var sut = new DefaultRelays();
             var expectedCount = 149;
             sut.OfType<ManyRelay>().Single().Count = expectedCount;
             // Exercise system

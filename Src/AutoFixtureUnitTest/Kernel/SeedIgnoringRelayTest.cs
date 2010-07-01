@@ -8,14 +8,14 @@ using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class ValueIgnoringSeedUnwrapperTest
+    public class SeedIgnoringRelayTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-            var sut = new ValueIgnoringSeedUnwrapper();
+            var sut = new SeedIgnoringRelay();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithNullRequestWillReturnNull()
         {
             // Fixture setup
-            var sut = new ValueIgnoringSeedUnwrapper();
+            var sut = new SeedIgnoringRelay();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithNullContainerWillThrow()
         {
             // Fixture setup
-            var sut = new ValueIgnoringSeedUnwrapper();
+            var sut = new SeedIgnoringRelay();
             var dummyRequest = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(()=>
@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var anonymousSeed = new SeededRequest(typeof(object), new object());
             var unableContainer = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(anonymousSeed) };
-            var sut = new ValueIgnoringSeedUnwrapper();
+            var sut = new SeedIgnoringRelay();
             // Exercise system
             var result = sut.Create(anonymousSeed, unableContainer);
             // Verify outcome
@@ -71,7 +71,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var expectedResult = new object();
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedResult };
 
-            var sut = new ValueIgnoringSeedUnwrapper();
+            var sut = new SeedIgnoringRelay();
             // Exercise system
             var result = sut.Create(anonymousSeed, container);
             // Verify outcome
@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateFromSeedWillCorrectlyInvokeContainer()
         {
             // Fixture setup
-            var sut = new ValueIgnoringSeedUnwrapper();
+            var sut = new SeedIgnoringRelay();
             var seededRequest = new SeededRequest(typeof(int), 1);
 
             var mockVerified = false;

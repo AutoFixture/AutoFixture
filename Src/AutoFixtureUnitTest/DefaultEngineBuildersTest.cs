@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var sut = new DefaultEngineBuilders();
             // Verify outcome
-            Assert.IsAssignableFrom<TransmissionBuilders>(sut);
+            Assert.IsAssignableFrom<DefaultRelays>(sut);
             // Teardown
         }
 
@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var expectedBuilders = new DefaultPrimitiveBuilders()
-                .Concat(new TransmissionBuilders())
+                .Concat(new DefaultRelays())
                 .Select(b => b.GetType());
             // Exercise system
             var sut = new DefaultEngineBuilders();
@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var primitiveBuilders = Enumerable.Range(1, 3).Select(i => new DelegatingSpecimenBuilder()).Cast<ISpecimenBuilder>().ToList();
             var expectedBuilders = primitiveBuilders
-                .Concat(new TransmissionBuilders())
+                .Concat(new DefaultRelays())
                 .Select(b => b.GetType());
             // Exercise system
             var sut = new DefaultEngineBuilders(primitiveBuilders);
@@ -77,7 +77,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var primitiveBuilders = Enumerable.Range(1, 3).Select(i => new DelegatingSpecimenBuilder()).ToArray();
             var expectedBuilders = primitiveBuilders
-                .Concat(new TransmissionBuilders())
+                .Concat(new DefaultRelays())
                 .Select(b => b.GetType());
             // Exercise system
             var sut = new DefaultEngineBuilders(primitiveBuilders);

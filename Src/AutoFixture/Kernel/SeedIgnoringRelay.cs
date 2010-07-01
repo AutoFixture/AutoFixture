@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Unwraps a request for a <see cref="SeededRequest"/> to a request for its
     /// <see cref="SeededRequest.Request"/> while ignoring the <see cref="SeededRequest.Seed"/>.
     /// </summary>
-    public class ValueIgnoringSeedUnwrapper : ISpecimenBuilder
+    public class SeedIgnoringRelay : ISpecimenBuilder
     {
         #region ISpecimenBuilder Members
 

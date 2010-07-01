@@ -99,7 +99,7 @@
     <Compile Include="Kernel\IRequestSpecification.cs" />
     <Compile Include="Kernel\ISpecifiedSpecimenCommand.cs" />
     <Compile Include="Kernel\FiniteSequenceRequest.cs" />
-    <Compile Include="Kernel\FiniteSequenceUnwrapper.cs" />
+    <Compile Include="Kernel\FiniteSequenceRelay.cs" />
     <Compile Include="Kernel\ManyRequest.cs" />
     <Compile Include="Kernel\ManyRelay.cs" />
     <Compile Include="Kernel\SeedRequestSpecification.cs" />
@@ -129,7 +129,7 @@
     <Compile Include="Kernel\TrueRequestSpecification.cs" />
     <Compile Include="Kernel\ExactTypeSpecification.cs" />
     <Compile Include="Kernel\UnspecifiedSpecimenCommand.cs" />
-    <Compile Include="Kernel\ValueIgnoringSeedUnwrapper.cs" />
+    <Compile Include="Kernel\SeedIgnoringRelay.cs" />
     <Compile Include="MemberAnnotatedAction.cs" />
     <Compile Include="BooleanSwitch.cs" />
     <Compile Include="ByteSequenceGenerator.cs" />
@@ -169,7 +169,7 @@
     <Compile Include="StringGenerator.cs" />
     <Compile Include="ThrowingRecursionGuard.cs" />
     <Compile Include="ThrowingRecursionHandler.cs" />
-    <Compile Include="TransmissionBuilders.cs" />
+    <Compile Include="DefaultRelays.cs" />
     <Compile Include="UInt16SequenceGenerator.cs" />
     <Compile Include="UInt32SequenceGenerator.cs" />
     <Compile Include="UInt64SequenceGenerator.cs" />

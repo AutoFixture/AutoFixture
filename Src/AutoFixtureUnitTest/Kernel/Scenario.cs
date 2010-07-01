@@ -98,7 +98,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new ModestConstructorInvoker(),
                 new ParameterRequestRelay(),
                 new StringSeedUnwrapper(),
-                new ValueIgnoringSeedUnwrapper());
+                new SeedIgnoringRelay());
             var container = new SpecimenContext(builder);
             // Exercise system
             var result = (TripleParameterType<int, string, int>)container.Resolve(typeof(TripleParameterType<int, string, int>));
@@ -490,9 +490,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new PropertyRequestRelay(),
                 new FieldRequestRelay(),
                 new ManyRelay { Count = 3 },
-                new FiniteSequenceUnwrapper(),
+                new FiniteSequenceRelay(),
                 new StringSeedUnwrapper(),
-                new ValueIgnoringSeedUnwrapper());
+                new SeedIgnoringRelay());
         }
     }
 }

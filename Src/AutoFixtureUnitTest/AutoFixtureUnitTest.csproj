@@ -97,7 +97,7 @@
     <Compile Include="Kernel\FilteringSpecimenBuilderTest.cs" />
     <Compile Include="Kernel\InverseRequestSpecificationTest.cs" />
     <Compile Include="Kernel\FiniteSequenceRequestTest.cs" />
-    <Compile Include="Kernel\FiniteSequenceUnwrapperTest.cs" />
+    <Compile Include="Kernel\FiniteSequenceRelayTest.cs" />
     <Compile Include="Kernel\ManyRequestTest.cs" />
     <Compile Include="Kernel\ManyRelayTest.cs" />
     <Compile Include="Kernel\ModestConstructorInvokerTest.cs" />
@@ -124,7 +124,7 @@
     <Compile Include="Kernel\TrueRequestSpecificationTest.cs" />
     <Compile Include="Kernel\ExactTypeSpecificationTest.cs" />
     <Compile Include="Kernel\UnspecifiedSpecimenCommandTest.cs" />
-    <Compile Include="Kernel\ValueIgnoringSeedUnwrapperTest.cs" />
+    <Compile Include="Kernel\SeedIgnoringRelayTest.cs" />
     <Compile Include="Kernel\SeededRequestTest.cs" />
     <Compile Include="NullRecursionGuardTest.cs" />
     <Compile Include="RecursionGuardTest.cs" />
@@ -153,7 +153,7 @@
     <Compile Include="ThrowingRecursionGuardTest.cs" />
     <Compile Include="ThrowingRecursionHandlerTest.cs" />
     <Compile Include="Kernel\TraceWriterTest.cs" />
-    <Compile Include="TransmissionBuildersTest.cs" />
+    <Compile Include="DefaultRelaysTest.cs" />
     <Compile Include="UInt16SequenceGeneratorTest.cs" />
     <Compile Include="UInt32SequenceGeneratorTest.cs" />
     <Compile Include="UInt64SequenceGeneratorTest.cs" />

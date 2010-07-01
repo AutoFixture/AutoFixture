@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture
     /// engine of AutoFixture.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "This is not a 'collection' - it can't be modified.")]
-    public class DefaultEngineBuilders : TransmissionBuilders
+    public class DefaultEngineBuilders : DefaultRelays
     {
         private readonly IEnumerable<ISpecimenBuilder> primitiveBuilders;
 

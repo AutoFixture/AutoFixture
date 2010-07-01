@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// Unwraps a request for many instances and returns the results.
     /// </summary>
-    public class FiniteSequenceUnwrapper : ISpecimenBuilder
+    public class FiniteSequenceRelay : ISpecimenBuilder
     {
         #region ISpecimenBuilder Members
 

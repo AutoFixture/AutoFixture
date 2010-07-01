@@ -12,14 +12,14 @@ namespace Ploeh.AutoFixture
     /// 'transmission'. Without those builders, very little is likely to work.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "This is not a 'collection' - it can't be modified.")]
-    public class TransmissionBuilders : IEnumerable<ISpecimenBuilder>, IMany
+    public class DefaultRelays : IEnumerable<ISpecimenBuilder>, IMany
     {
         private readonly ManyRelay many;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransmissionBuilders"/> class.
+        /// Initializes a new instance of the <see cref="DefaultRelays"/> class.
         /// </summary>
-        public TransmissionBuilders()
+        public DefaultRelays()
         {
             this.many = new ManyRelay();
         }
@@ -40,8 +40,8 @@ namespace Ploeh.AutoFixture
             yield return new PropertyRequestRelay();
             yield return new FieldRequestRelay();
             yield return this.many;
-            yield return new FiniteSequenceUnwrapper();
-            yield return new ValueIgnoringSeedUnwrapper();
+            yield return new FiniteSequenceRelay();
+            yield return new SeedIgnoringRelay();
         }
 
         #endregion
