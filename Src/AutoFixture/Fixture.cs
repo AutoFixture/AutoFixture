@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
@@ -13,10 +14,16 @@ namespace Ploeh.AutoFixture
 
         private readonly Dictionary<Type, Func<object, object>> typeMappings;
 
+        private readonly CompositeSpecimenBuilder customizer;
+        private readonly ISpecimenBuilder engine;
+        private readonly CompositeSpecimenBuilder residueCollector;
+        private readonly IMany many;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Fixture"/> class.
         /// </summary>
         public Fixture()
+            : this(new DefaultEngineParts())
         {
             this.typeMappings = new Dictionary<Type, Func<object, object>>();
             this.typeMappings[typeof(bool)] = new BooleanSwitch().CreateAnonymous;
@@ -38,6 +45,38 @@ namespace Ploeh.AutoFixture
             this.RepeatCount = Fixture.manyEquivalence;
         }
 
+        public Fixture(DefaultRelays engineParts)
+            : this(new CompositeSpecimenBuilder(engineParts), engineParts)
+        {
+        }
+
+        public Fixture(ISpecimenBuilder engine, IMany many)
+        {
+            if (engine == null)
+            {
+                throw new ArgumentNullException("engine");
+            }
+            if (many == null)
+            {
+                throw new ArgumentNullException("many");
+            }
+
+            this.customizer = new CompositeSpecimenBuilder();
+            this.engine = engine;
+            this.residueCollector = new CompositeSpecimenBuilder();
+            this.many = many;
+        }
+
+        public IList<ISpecimenBuilder> Customizations
+        {
+            get { return this.customizer.Builders; }
+        }
+
+        public ISpecimenBuilder Engine
+        {
+            get { return this.engine; }
+        }
+
         /// <summary>
         /// Gets or sets a number that controls how many objects are created when a
         /// <see cref="Fixture"/> creates more than one anonymous objects.
@@ -52,7 +91,16 @@ namespace Ploeh.AutoFixture
         /// <seealso cref="CreateMany()" />
         /// <seealso cref="CreateMany(int)" />
         /// <seealso cref="Repeat"/>
-        public int RepeatCount { get; set; }
+        public int RepeatCount
+        {
+            get { return this.many.Count; }
+            set { this.many.Count = value; }
+        }
+
+        public IList<ISpecimenBuilder> ResidueCollectors
+        {
+            get { return this.residueCollector.Builders; }
+        }
 
         /// <summary>
         /// Gets or sets if writable properties should generally be assigned a value when 

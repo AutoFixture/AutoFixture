@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture
     /// engine of AutoFixture.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "This is not a 'collection' - it can't be modified.")]
-    public class DefaultEngineBuilders : DefaultRelays
+    public class DefaultEngineParts : DefaultRelays
     {
         private readonly IEnumerable<ISpecimenBuilder> primitiveBuilders;
 
@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixture
         /// Initializes a new instance of the <see cref="DefaultEngineBuilders"/> class with
         /// an instance of <see cref="DefaultPrimitiveBuilders"/>.
         /// </summary>
-        public DefaultEngineBuilders()
+        public DefaultEngineParts()
             : this(new DefaultPrimitiveBuilders())
         {
         }
@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture
         /// <param name="primitiveBuilders">
         /// The builders to use instead of <see cref="DefaultPrimitiveBuilders"/>.
         /// </param>
-        public DefaultEngineBuilders(IEnumerable<ISpecimenBuilder> primitiveBuilders)
+        public DefaultEngineParts(IEnumerable<ISpecimenBuilder> primitiveBuilders)
             : this(primitiveBuilders.ToArray())
         {
         }
@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture
         /// <param name="primitiveBuilders">
         /// The builders to use instead of <see cref="DefaultPrimitiveBuilders"/>.
         /// </param>
-        public DefaultEngineBuilders(params ISpecimenBuilder[] primitiveBuilders)
+        public DefaultEngineParts(params ISpecimenBuilder[] primitiveBuilders)
         {
             if (primitiveBuilders == null)
             {

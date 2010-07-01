@@ -9,14 +9,14 @@ using Ploeh.AutoFixtureUnitTest.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    public class DefaultEngineBuildersTest
+    public class DefaultEnginePartsTest
     {
         [Fact]
         public void SutIsTransmissionBuilders()
         {
             // Fixture setup
             // Exercise system
-            var sut = new DefaultEngineBuilders();
+            var sut = new DefaultEngineParts();
             // Verify outcome
             Assert.IsAssignableFrom<DefaultRelays>(sut);
             // Teardown
@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .Concat(new DefaultRelays())
                 .Select(b => b.GetType());
             // Exercise system
-            var sut = new DefaultEngineBuilders();
+            var sut = new DefaultEngineParts();
             // Verify outcome
             Assert.True(expectedBuilders.SequenceEqual(sut.Select(b => b.GetType())));
             // Teardown
@@ -42,7 +42,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new DefaultEngineBuilders((IEnumerable<ISpecimenBuilder>)null));
+                new DefaultEngineParts((IEnumerable<ISpecimenBuilder>)null));
             // Teardown
         }
 
@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .Concat(new DefaultRelays())
                 .Select(b => b.GetType());
             // Exercise system
-            var sut = new DefaultEngineBuilders(primitiveBuilders);
+            var sut = new DefaultEngineParts(primitiveBuilders);
             // Verify outcome
             Assert.True(expectedBuilders.SequenceEqual(sut.Select(b => b.GetType())));
             // Teardown
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new DefaultEngineBuilders((ISpecimenBuilder[])null));
+                new DefaultEngineParts((ISpecimenBuilder[])null));
             // Teardown
         }
 
@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .Concat(new DefaultRelays())
                 .Select(b => b.GetType());
             // Exercise system
-            var sut = new DefaultEngineBuilders(primitiveBuilders);
+            var sut = new DefaultEngineParts(primitiveBuilders);
             // Verify outcome
             Assert.True(expectedBuilders.SequenceEqual(sut.Select(b => b.GetType())));
             // Teardown

@@ -77,13 +77,14 @@
     <Compile Include="Dsl\DelegatingComposer.cs" />
     <Compile Include="Dsl\ComposerTest.cs" />
     <Compile Include="Dsl\NullComposerTest.cs" />
-    <Compile Include="DefaultEngineBuildersTest.cs" />
+    <Compile Include="DefaultEnginePartsTest.cs" />
     <Compile Include="FactoryComposerTest.cs" />
     <Compile Include="Kernel\AndRequestSpecificationTest.cs" />
     <Compile Include="Kernel\AnyTypeSpecificationTest.cs" />
     <Compile Include="Kernel\AutoPropertiesCommandTest.cs" />
     <Compile Include="Kernel\CompositeSpecimenBuilderTest.cs" />
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
+    <Compile Include="Kernel\FakeMany.cs" />
     <Compile Include="Kernel\SeedRequestSpecificationTest.cs" />
     <Compile Include="Kernel\SpecimenContextTest.cs" />
     <Compile Include="Kernel\DelegatingRequestSpecification.cs" />

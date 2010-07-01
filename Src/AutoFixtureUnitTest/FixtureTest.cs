@@ -5,11 +5,171 @@ using System.Threading;
 using Ploeh.AutoFixture;
 using Ploeh.TestTypeFoundation;
 using Xunit;
+using Ploeh.AutoFixture.Kernel;
+using Ploeh.AutoFixtureUnitTest.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
     public class FixtureTest
     {
+        [Fact]
+        public void InitializedWithDefaultConstructorSutHasCorrectEngineParts()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Engine;
+            // Verify outcome
+            var expectedParts = from b in new DefaultEngineParts()
+                                select b.GetType();
+            var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result);
+            Assert.True(expectedParts.SequenceEqual(from b in composite.Builders
+                                                    select b.GetType()));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullRelaysThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new Fixture(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializedWithRelaysSutHasCorrectEngineParts()
+        {
+            // Fixture setup
+            var relays = new DefaultRelays();
+            var sut = new Fixture(relays);
+            // Exercise system
+            var result = sut.Engine;
+            // Verify outcome
+            var expectedParts = from b in relays
+                                select b.GetType();
+            var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result);
+            Assert.True(expectedParts.SequenceEqual(from b in composite.Builders
+                                                    select b.GetType()));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullEngineThrows()
+        {
+            // Fixture setup
+            var dummyMany = new FakeMany();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new Fixture(null, dummyMany));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullManyThrows()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new Fixture(dummyBuilder, null));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializedWithEngineSutHasCorrectEngine()
+        {
+            // Fixture setup
+            var expectedEngine = new DelegatingSpecimenBuilder();
+            var dummyMany = new FakeMany();
+            var sut = new Fixture(expectedEngine, dummyMany);
+            // Exercise system
+            var result = sut.Engine;
+            // Verify outcome
+            Assert.Equal(expectedEngine, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializedWithManySutHasCorrectRepeatCount()
+        {
+            // Fixture setup
+            var expectedRepeatCount = 187;
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var many = new FakeMany { Count = expectedRepeatCount };
+            var sut = new Fixture(dummyBuilder, many);
+            // Exercise system
+            var result = sut.RepeatCount;
+            // Verify outcome
+            Assert.Equal(expectedRepeatCount, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SettingRepeatCountWillCorrectlyUpdateMany()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var many = new FakeMany();
+            var sut = new Fixture(dummyBuilder, many);
+            // Exercise system
+            sut.RepeatCount = 26;
+            // Verify outcome
+            Assert.Equal(sut.RepeatCount, many.Count);
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizationsIsInstance()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            IList<ISpecimenBuilder> result = sut.Customizations;
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizationsIsStable()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var builder = new DelegatingSpecimenBuilder();
+            // Exercise system
+            sut.Customizations.Add(builder);
+            // Verify outcome
+            Assert.Contains(builder, sut.Customizations);
+            // Teardown
+        }
+
+        [Fact]
+        public void ResidueCollectorsIsInstance()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            IList<ISpecimenBuilder> result = sut.ResidueCollectors;
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ResidueCollectorsIsStable()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var builder = new DelegatingSpecimenBuilder();
+            // Exercise system
+            sut.ResidueCollectors.Add(builder);
+            // Verify outcome
+            Assert.Contains(builder, sut.ResidueCollectors);
+            // Teardown
+        }
+
         [Fact]
         public void CreateAnonymousWillCreateSimpleObject()
         {
