@@ -36,20 +36,6 @@ namespace Ploeh.AutoFixture
             }
         }
 
-        /// <summary>
-        /// Returns an alternating sequence of <see langword="true"/> and <see langword="false"/>
-        /// every other time it is invoked.
-        /// </summary>
-        /// <returns>
-        /// <see langword="true"/>, followed by <see langword="false"/> at the next invocation, and
-        /// so on.
-        /// </returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public object CreateAnonymous(object seed)
-        {
-            return this.CreateAnonymous();
-        }
-
         #region ISpecimenBuilder Members
 
         /// <summary>

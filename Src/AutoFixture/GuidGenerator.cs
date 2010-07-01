@@ -21,17 +21,6 @@ namespace Ploeh.AutoFixture
             return Guid.NewGuid();
         }
 
-        /// <summary>
-        /// Creates a new <see cref="Guid"/> instance.
-        /// </summary>
-        /// <param name="seed">Ignored.</param>
-        /// <returns>A new <see cref="Guid"/> instance.</returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static object CreateAnonymous(object seed)
-        {
-            return GuidGenerator.CreateAnonymous();
-        }
-
         #region ISpecimenBuilder Members
 
         /// <summary>

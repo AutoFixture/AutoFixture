@@ -27,16 +27,6 @@ namespace Ploeh.AutoFixture
             return Interlocked.Increment(ref this.i);
         }
 
-        /// <summary>
-        /// Creates an anonymous number.
-        /// </summary>
-        /// <returns>The next number in a consequtive sequence.</returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public object CreateAnonymous(object seed)
-        {
-            return this.CreateAnonymous();
-        }
-
         #region ISpecimenBuilder Members
 
         /// <summary>

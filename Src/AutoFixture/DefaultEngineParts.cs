@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture
         private readonly IEnumerable<ISpecimenBuilder> primitiveBuilders;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultEngineBuilders"/> class with
+        /// Initializes a new instance of the <see cref="DefaultEngineParts"/> class with
         /// an instance of <see cref="DefaultPrimitiveBuilders"/>.
         /// </summary>
         public DefaultEngineParts()
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultEngineBuilders"/> class with the
+        /// Initializes a new instance of the <see cref="DefaultEngineParts"/> class with the
         /// supplied sequence of <see cref="ISpecimenBuilder"/>.
         /// </summary>
         /// <param name="primitiveBuilders">
@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultEngineBuilders"/> class with the
+        /// Initializes a new instance of the <see cref="DefaultEngineParts"/> class with the
         /// supplied array of <see cref="ISpecimenBuilder"/>.
         /// </summary>
         /// <param name="primitiveBuilders">

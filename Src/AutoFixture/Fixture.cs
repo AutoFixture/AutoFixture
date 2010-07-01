@@ -24,11 +24,22 @@ namespace Ploeh.AutoFixture
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Fixture"/> class with the supplied engine
+        /// parts.
+        /// </summary>
+        /// <param name="engineParts">The engine parts.</param>
         public Fixture(DefaultRelays engineParts)
             : this(new CompositeSpecimenBuilder(engineParts), engineParts)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Fixture"/> class with the supplied engine
+        /// and a definition of what 'many' means.
+        /// </summary>
+        /// <param name="engine">The engine.</param>
+        /// <param name="many">The definition and implementation of 'many'.</param>
         public Fixture(ISpecimenBuilder engine, IMany many)
         {
             if (engine == null)
@@ -46,11 +57,39 @@ namespace Ploeh.AutoFixture
             this.many = many;
         }
 
+        /// <summary>
+        /// Gets the customizations that intercept the <see cref="Engine"/>.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Any <see cref="ISpecimenBuilder"/> in this list are invoked before
+        /// <see cref="Engine"/>, giving them a chance to intercept a request and resolve it before
+        /// the Engine.
+        /// </para>
+        /// <para>
+        /// <see cref="Customize{T}"/> places resulting customizations in this list.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="Engine"/>
+        /// <seealso cref="ResidueCollectors"/>
         public IList<ISpecimenBuilder> Customizations
         {
             get { return this.customizer.Builders; }
         }
 
+        /// <summary>
+        /// Gets the core engine of the <see cref="Fixture"/> instance.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This is the core engine that drives a <see cref="Fixture"/> instance. Even with no
+        /// <see cref="Customizations"/> or <see cref="ResidueCollectors"/>, the
+        /// <see cref="Engine"/> should be capably of resolving a wide range of different requests,
+        /// based on conventions.
+        /// </para>
+        /// </remarks>
+        /// <see cref="Customizations"/>
+        /// <see cref="ResidueCollectors"/>
         public ISpecimenBuilder Engine
         {
             get { return this.engine; }
@@ -67,8 +106,8 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         /// <seealso cref="AddManyTo{T}(ICollection{T})" />
         /// <seealso cref="AddManyTo{T}(ICollection{T}, Func{T})" />
-        /// <seealso cref="CreateMany()" />
-        /// <seealso cref="CreateMany(int)" />
+        /// <seealso cref="SpecimenFactory.CreateMany{T}(ISpecimenBuilderComposer)" />
+        /// <seealso cref="SpecimenFactory.CreateMany{T}(ISpecimenBuilderComposer, int)" />
         /// <seealso cref="Repeat"/>
         public int RepeatCount
         {
@@ -76,6 +115,17 @@ namespace Ploeh.AutoFixture
             set { this.many.Count = value; }
         }
 
+        /// <summary>
+        /// Gets the residue collectors that can be used to handle requests that neither the
+        /// <see cref="Customizations"/> nor <see cref="Engine"/> could handle.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// These <see cref="ISpecimenBuilder"/> instances will be invoked if no previous builder
+        /// could resolve a request. This gives you the opportunity to define fallback strategies
+        /// to deal with unresolved requests.
+        /// </para>
+        /// </remarks>
         public IList<ISpecimenBuilder> ResidueCollectors
         {
             get { return this.residueCollector.Builders; }
@@ -181,6 +231,11 @@ namespace Ploeh.AutoFixture
         /// A function that customizes a given <see cref="ICustomizationComposer{T}"/> and returns
         /// the modified composer.
         /// </param>
+        /// <remarks>
+        /// <para>
+        /// The resulting <see cref="ISpecimenBuilder"/> is added to <see cref="Customizations"/>.
+        /// </para>
+        /// </remarks>
         public void Customize<T>(Func<ICustomizationComposer<T>, ISpecimenBuilderComposer> composerTransformation)
         {
             var c = composerTransformation(new Composer<T>().WithAutoProperties(this.EnableAutoProperties));
@@ -267,7 +322,7 @@ namespace Ploeh.AutoFixture
         /// </para>
         /// </remarks>
         /// <seealso cref="Freeze{T}(T)"/>
-        /// <seealso cref="Freeze{T}(Func{LatentObjectBuilder{T}, ObjectBuilder{T}})"/>
+        /// <seealso cref="Freeze{T}(Func{ICustomizationComposer{T}, ISpecimenBuilderComposer})"/>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public T Freeze<T>()
         {
@@ -293,7 +348,7 @@ namespace Ploeh.AutoFixture
         /// </para>
         /// </remarks>
         /// <seealso cref="Freeze{T}()"/>
-        /// <seealso cref="Freeze{T}(Func{LatentObjectBuilder{T}, ObjectBuilder{T}})"/>
+        /// <seealso cref="Freeze{T}(Func{ICustomizationComposer{T}, ISpecimenBuilderComposer})"/>
         public T Freeze<T>(T seed)
         {
             var value = this.CreateAnonymous<T>(seed);
@@ -426,7 +481,6 @@ namespace Ploeh.AutoFixture
         /// </param>
         public void Register<T>(Func<T> creator)
         {
-            //this.Customize<T>(ob => ob.WithConstructor(creator).OmitAutoProperties());
             this.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }
 
@@ -446,7 +500,6 @@ namespace Ploeh.AutoFixture
         /// </param>
         public void Register<TInput, T>(Func<TInput, T> creator)
         {
-            //this.Customize<T>(ob => ob.WithConstructor<TInput>(creator).OmitAutoProperties());
             this.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }
 
@@ -469,7 +522,6 @@ namespace Ploeh.AutoFixture
         /// </param>
         public void Register<TInput1, TInput2, T>(Func<TInput1, TInput2, T> creator)
         {
-            //this.Customize<T>(ob => ob.WithConstructor<TInput1, TInput2>(creator).OmitAutoProperties());
             this.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }
 
@@ -495,7 +547,6 @@ namespace Ploeh.AutoFixture
         /// </param>
         public void Register<TInput1, TInput2, TInput3, T>(Func<TInput1, TInput2, TInput3, T> creator)
         {
-            //this.Customize<T>(ob => ob.WithConstructor<TInput1, TInput2, TInput3>(creator).OmitAutoProperties());
             this.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }
 
@@ -524,7 +575,6 @@ namespace Ploeh.AutoFixture
         /// </param>
         public void Register<TInput1, TInput2, TInput3, TInput4, T>(Func<TInput1, TInput2, TInput3, TInput4, T> creator)
         {
-            //this.Customize<T>(ob => ob.WithConstructor<TInput1, TInput2, TInput3, TInput4>(creator).OmitAutoProperties());
             this.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }
 
@@ -551,6 +601,15 @@ namespace Ploeh.AutoFixture
 
         #region ISpecimenBuilderComposer Members
 
+        /// <summary>
+        /// Composes a new <see cref="ISpecimenBuilder"/> instance that contains all the relevant
+        /// strategies defined for this instance.
+        /// </summary>
+        /// <returns>
+        /// A new <see cref="ISpecimenBuilder"/> instance that contains all the relevant strategies
+        /// for the this <see cref="Fixture"/> instance, including <see cref="Customizations"/>,
+        /// <see cref="Engine"/> and <see cref="ResidueCollectors"/>.
+        /// </returns>
         public ISpecimenBuilder Compose()
         {
             var builder = this.Engine;

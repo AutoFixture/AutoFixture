@@ -31,16 +31,6 @@ namespace Ploeh.AutoFixture
             }
         }
 
-        /// <summary>
-        /// Creates an anonymous number.
-        /// </summary>
-        /// <returns>The next number in a consequtive sequence.</returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public object CreateAnonymous(object seed)
-        {
-            return this.CreateAnonymous();
-        }
-
         #region ISpecimenBuilder Members
 
         /// <summary>
