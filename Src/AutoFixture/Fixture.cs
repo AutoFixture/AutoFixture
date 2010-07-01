@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture
     /// <summary>
     /// Provides anonymous object creation service.
     /// </summary>
-    public class Fixture
+    public class Fixture : ISpecimenBuilderComposer
     {
         private const int manyEquivalence = 3;
 
@@ -666,6 +666,34 @@ namespace Ploeh.AutoFixture
         public IEnumerable<T> Repeat<T>(Func<T> function)
         {
             return function.Repeat(this.RepeatCount);
+        }
+
+        #region ISpecimenBuilderComposer Members
+
+        public ISpecimenBuilder Compose()
+        {
+            var builder = this.Engine;
+
+            if (this.EnableAutoProperties)
+            {
+                builder = new Postprocessor(
+                    builder,
+                    new AutoPropertiesCommand().Execute,
+                    new AnyTypeSpecification());
+            }
+
+            return new CompositeSpecimenBuilder(
+                this.customizer,
+                builder,
+                this.residueCollector,
+                new TerminatingSpecimenBuilder());
+        }
+
+        #endregion
+
+        private bool EnableAutoProperties
+        {
+            get { return !this.OmitAutoProperties; }
         }
 
         private LatentObjectBuilder<T> CreateLatentObjectBuilder<T>()

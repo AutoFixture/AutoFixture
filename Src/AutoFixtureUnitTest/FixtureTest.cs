@@ -171,6 +171,75 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void SutIsSpecimenBuilderComposer()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new Fixture();
+            // Verify outcome
+            Assert.IsAssignableFrom<ISpecimenBuilderComposer>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeReturnsInstance()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Compose();
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeWhenAutoPropertiesAreOmittedReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Fixture { OmitAutoProperties = true };
+            // Exercise system
+            var result = sut.Compose();
+            // Verify outcome
+            var composedBuiders = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result).Builders.ToList();
+            
+            var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuiders[0]);
+            Assert.Equal(sut.Customizations, customizer.Builders);
+
+            Assert.Equal(sut.Engine, composedBuiders[1]);
+
+            var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuiders[2]);
+            Assert.Equal(sut.ResidueCollectors, residueCollector.Builders);
+
+            Assert.IsAssignableFrom<TerminatingSpecimenBuilder>(composedBuiders[3]);
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeWhenAutoPropertiesAreEnabledReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Compose();
+            // Verify outcome
+            var composedBuiders = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result).Builders.ToList();
+
+            var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuiders[0]);
+            Assert.Equal(sut.Customizations, customizer.Builders);
+
+            var postprocessor = Assert.IsAssignableFrom<Postprocessor>(composedBuiders[1]);
+            Assert.Equal(sut.Engine, postprocessor.Builder);
+            Assert.IsAssignableFrom<AnyTypeSpecification>(postprocessor.Specification);
+
+            var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuiders[2]);
+            Assert.Equal(sut.ResidueCollectors, residueCollector.Builders);
+
+            Assert.IsAssignableFrom<TerminatingSpecimenBuilder>(composedBuiders[3]);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousWillCreateSimpleObject()
         {
             // Fixture setup
