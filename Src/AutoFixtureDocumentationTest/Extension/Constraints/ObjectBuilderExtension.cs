@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using Ploeh.AutoFixture;
 using System.Linq.Expressions;
+using Ploeh.AutoFixture.Dsl;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
 {
     public static class ObjectBuilderExtension
     {
-        public static ObjectBuilder<T> With<T>(
-            this ObjectBuilder<T> ob,
+        public static IPostprocessComposer<T> With<T>(
+            this ICustomizationComposer<T> ob,
             Expression<Func<T, string>> propertyPicker,
             int minimumLength,
             int maximumLength)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.AutoFixture.Dsl;
 
 namespace Ploeh.AutoFixture
 {
@@ -10,10 +11,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class Fixture : ISpecimenBuilderComposer
     {
-        private const int manyEquivalence = 3;
-
-        private readonly Dictionary<Type, Func<object, object>> typeMappings;
-
         private readonly CompositeSpecimenBuilder customizer;
         private readonly ISpecimenBuilder engine;
         private readonly CompositeSpecimenBuilder residueCollector;
@@ -25,24 +22,6 @@ namespace Ploeh.AutoFixture
         public Fixture()
             : this(new DefaultEngineParts())
         {
-            this.typeMappings = new Dictionary<Type, Func<object, object>>();
-            this.typeMappings[typeof(bool)] = new BooleanSwitch().CreateAnonymous;
-            this.typeMappings[typeof(byte)] = new ByteSequenceGenerator().CreateAnonymous;
-            this.typeMappings[typeof(sbyte)] = new SByteSequenceGenerator().CreateAnonymous;
-            this.typeMappings[typeof(ushort)] = new UInt16SequenceGenerator().CreateAnonymous;
-            this.typeMappings[typeof(short)] = new Int16SequenceGenerator().CreateAnonymous;
-            this.typeMappings[typeof(uint)] = new UInt32SequenceGenerator().CreateAnonymous;
-            this.typeMappings[typeof(int)] = new Int32SequenceGenerator().CreateAnonymous;
-            this.typeMappings[typeof(ulong)] = new UInt64SequenceGenerator().CreateAnonymous;
-            this.typeMappings[typeof(long)] = new Int64SequenceGenerator().CreateAnonymous;
-            this.typeMappings[typeof(decimal)] = new DecimalSequenceGenerator().CreateAnonymous;
-            this.typeMappings[typeof(float)] = new SingleSequenceGenerator().CreateAnonymous;
-            this.typeMappings[typeof(double)] = new DoubleSequenceGenerator().CreateAnonymous;
-            this.typeMappings[typeof(Guid)] = GuidGenerator.CreateAnonymous;
-            this.typeMappings[typeof(DateTime)] = seed => DateTime.Now;
-            this.typeMappings[typeof(string)] = GuidStringGenerator.CreateAnonymous;
-
-            this.RepeatCount = Fixture.manyEquivalence;
         }
 
         public Fixture(DefaultRelays engineParts)
@@ -120,17 +99,6 @@ namespace Ploeh.AutoFixture
         public Func<Type, object> Resolver { get; set; }
 
         /// <summary>
-        /// Gets a dictionary of type mappings that defines how objects of specific types will be
-        /// created.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use the Customize method instead of the TypeMappings dictionary.")]
-        public IDictionary<Type, Func<object, object>> TypeMappings
-        {
-            get { return this.typeMappings; }
-        }
-
-        /// <summary>
         /// Adds many anonymously created objects to a list.
         /// </summary>
         /// <typeparam name="T">The type of object that is contained in the list.</typeparam>
@@ -194,121 +162,29 @@ namespace Ploeh.AutoFixture
         /// The type of object for which the algorithm should be customized.
         /// </typeparam>
         /// <returns>
-        /// A <see cref="LatentObjectBuilder{T}"/> that can be used to customize the creation
+        /// A <see cref="ICustomizationComposer{T}"/> that can be used to customize the creation
         /// algorithm before creating the object.
         /// </returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
-        public LatentObjectBuilder<T> Build<T>()
+        public ICustomizationComposer<T> Build<T>()
         {
-            return this.CreateLatentObjectBuilder<T>();
-        }
-
-        /// <summary>
-        /// Creates an anonymous object.
-        /// </summary>
-        /// <typeparam name="T">The type of object to create.</typeparam>
-        /// <returns>An anonymous object of type <typeparamref name="T"/>.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
-        public T CreateAnonymous<T>()
-        {
-            return this.CreateAnonymous<T>(default(T));
-        }
-
-        /// <summary>
-        /// Creates an anonymous object, potentially using the supplied seed as additional
-        /// information when creating the object.
-        /// </summary>
-        /// <param name="seed">
-        /// Any data that adds additional information when creating the anonymous object.
-        /// </param>
-        /// <returns>An anonymous object.</returns>
-        public virtual T CreateAnonymous<T>(T seed)
-        {
-            return new CustomizedObjectFactory(this.typeMappings, new ThrowingRecursionHandler(), this.RepeatCount, this.OmitAutoProperties, this.Resolver).CreateAnonymous(seed);
-        }
-
-        /// <summary>
-        /// Creates many anonymous objects.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to create.</typeparam>
-        /// <returns>A sequence of anonymous object of type <typeparamref name="T"/>.</returns>
-        /// <remarks>
-        /// <para>
-        /// The number of objects created is determined by <see cref="RepeatCount"/>.
-        /// </para>
-        /// </remarks>
-        /// <seealso cref="CreateMany{T}(int)"/>
-        /// <seealso cref="CreateMany{T}(T)"/>
-        /// <seealso cref="CreateMany{T}(T, int)"/>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
-        public IEnumerable<T> CreateMany<T>()
-        {
-            return this.CreateMany<T>(this.RepeatCount);
-        }
-
-        /// <summary>
-        /// Creates many anonymous objects.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to create.</typeparam>
-        /// <param name="seed">
-        /// An initial value that may or may not be used as input for the algorithm creating the
-        /// return value.
-        /// </param>
-        /// <returns>A sequence of anonymous object of type <typeparamref name="T"/>.</returns>
-        /// <seealso cref="CreateMany{T}()"/>
-        /// <seealso cref="CreateMany{T}(int)"/>
-        /// <seealso cref="CreateMany{T}(T, int)"/>
-        public IEnumerable<T> CreateMany<T>(T seed)
-        {
-            return this.CreateMany(seed, this.RepeatCount);
-        }
-
-        /// <summary>
-        /// Creates many anonymous objects.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to create.</typeparam>
-        /// <param name="repeatCount">The number of objects to create.</param>
-        /// <returns>A sequence of anonymous objects of type <typeparamref name="T"/>.</returns>
-        /// <seealso cref="CreateMany{T}()"/>
-        /// <seealso cref="CreateMany{T}(T)"/>
-        /// <seealso cref="CreateMany{T}(T, int)"/>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
-        public IEnumerable<T> CreateMany<T>(int repeatCount)
-        {
-            return this.CreateMany(default(T), repeatCount);
-        }
-
-        /// <summary>
-        /// Creates many anonymous objects.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to create.</typeparam>
-        /// <param name="seed">
-        /// An initial value that may or may not be used as input for the algorithm creating the
-        /// return value.
-        /// </param>
-        /// <param name="repeatCount">The number of objects to create.</param>
-        /// <returns>A sequence of anonymous objects of type <typeparamref name="T"/>.</returns>
-        /// <seealso cref="CreateMany{T}()"/>
-        /// <seealso cref="CreateMany{T}(T)"/>
-        /// <seealso cref="CreateMany{T}(int)"/>
-        public virtual IEnumerable<T> CreateMany<T>(T seed, int repeatCount)
-        {
-            Func<T> f = () => this.CreateAnonymous(seed);
-            return f.Repeat(repeatCount);
+            return new CompositeComposer<T>(
+                new Composer<T>().WithAutoProperties(this.EnableAutoProperties),
+                new NullComposer<T>(this.Compose));
         }
 
         /// <summary>
         /// Customizes the creation algorithm for all objects of a given type.
         /// </summary>
         /// <typeparam name="T">The type of object to customize.</typeparam>
-        /// <param name="builderTransform">
-        /// A function that customizes a given <see cref="ObjectBuilder{T}"/> and returns the
-        /// modified  builder.
+        /// <param name="composerTransformation">
+        /// A function that customizes a given <see cref="ICustomizationComposer{T}"/> and returns
+        /// the modified composer.
         /// </param>
-        public void Customize<T>(Func<LatentObjectBuilder<T>, ObjectBuilder<T>> builderTransform)
+        public void Customize<T>(Func<ICustomizationComposer<T>, ISpecimenBuilderComposer> composerTransformation)
         {
-            var b = this.CreateLatentObjectBuilder<T>();
-            this.TypeMappings[typeof(T)] = x => builderTransform(b).CreateAnonymous((T)x);
+            var c = composerTransformation(new Composer<T>().WithAutoProperties(this.EnableAutoProperties));
+            this.customizer.Builders.Add(c.Compose());
         }
 
         /// <summary>
@@ -428,9 +304,9 @@ namespace Ploeh.AutoFixture
         /// Freezes the type to a single value.
         /// </summary>
         /// <typeparam name="T">The type to freeze.</typeparam>
-        /// <param name="builderTransform">
-        /// A function that customizes a given <see cref="ObjectBuilder{T}"/> and returns the
-        /// modified  builder.
+        /// <param name="composerTransformation">
+        /// A function that customizes a given <see cref="ICustomizationComposer{T}"/> and returns
+        /// the modified composer.
         /// </param>
         /// <returns>
         /// The value that will subsequently always be created for <typeparamref name="T"/>.
@@ -441,16 +317,16 @@ namespace Ploeh.AutoFixture
         /// instance whenever an instance of the type is requested either directly, or indirectly
         /// as a nested value of other types. The frozen instance is created by an
         /// <see cref="ObjectBuilder{T}"/> that is the result of applying the
-        /// <paramref name="builderTransform"/>.
+        /// <paramref name="composerTransformation"/>.
         /// </para>
         /// </remarks>
         /// <seealso cref="Freeze{T}()"/>
         /// <seealso cref="Freeze{T}(T)"/>
-        public T Freeze<T>(Func<LatentObjectBuilder<T>, ObjectBuilder<T>> builderTransform)
+        public T Freeze<T>(Func<ICustomizationComposer<T>, ISpecimenBuilderComposer> composerTransformation)
         {
-            var b = this.CreateLatentObjectBuilder<T>();
-            var value = builderTransform(b).CreateAnonymous();
-            return this.FreezeValue<T>(value);
+            var c = this.Build<T>();
+            var value = composerTransformation(c).CreateAnonymous<T>();
+            return this.FreezeValue(value);
         }
 
         /// <summary>
@@ -535,7 +411,7 @@ namespace Ploeh.AutoFixture
         /// <param name="item">The item to register.</param>
         public void Register<T>(T item)
         {
-            this.Customize<T>(ob => ob.WithConstructor(() => item).OmitAutoProperties());
+            this.Customize<T>(c => c.FromFactory(() => item).OmitAutoProperties());
         }
 
         /// <summary>
@@ -550,7 +426,8 @@ namespace Ploeh.AutoFixture
         /// </param>
         public void Register<T>(Func<T> creator)
         {
-            this.Customize<T>(ob => ob.WithConstructor(creator).OmitAutoProperties());
+            //this.Customize<T>(ob => ob.WithConstructor(creator).OmitAutoProperties());
+            this.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }
 
         /// <summary>
@@ -569,7 +446,8 @@ namespace Ploeh.AutoFixture
         /// </param>
         public void Register<TInput, T>(Func<TInput, T> creator)
         {
-            this.Customize<T>(ob => ob.WithConstructor<TInput>(creator).OmitAutoProperties());
+            //this.Customize<T>(ob => ob.WithConstructor<TInput>(creator).OmitAutoProperties());
+            this.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }
 
         /// <summary>
@@ -591,7 +469,8 @@ namespace Ploeh.AutoFixture
         /// </param>
         public void Register<TInput1, TInput2, T>(Func<TInput1, TInput2, T> creator)
         {
-            this.Customize<T>(ob => ob.WithConstructor<TInput1, TInput2>(creator).OmitAutoProperties());
+            //this.Customize<T>(ob => ob.WithConstructor<TInput1, TInput2>(creator).OmitAutoProperties());
+            this.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }
 
         /// <summary>
@@ -616,7 +495,8 @@ namespace Ploeh.AutoFixture
         /// </param>
         public void Register<TInput1, TInput2, TInput3, T>(Func<TInput1, TInput2, TInput3, T> creator)
         {
-            this.Customize<T>(ob => ob.WithConstructor<TInput1, TInput2, TInput3>(creator).OmitAutoProperties());
+            //this.Customize<T>(ob => ob.WithConstructor<TInput1, TInput2, TInput3>(creator).OmitAutoProperties());
+            this.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }
 
         /// <summary>
@@ -644,7 +524,8 @@ namespace Ploeh.AutoFixture
         /// </param>
         public void Register<TInput1, TInput2, TInput3, TInput4, T>(Func<TInput1, TInput2, TInput3, TInput4, T> creator)
         {
-            this.Customize<T>(ob => ob.WithConstructor<TInput1, TInput2, TInput3, TInput4>(creator).OmitAutoProperties());
+            //this.Customize<T>(ob => ob.WithConstructor<TInput1, TInput2, TInput3, TInput4>(creator).OmitAutoProperties());
+            this.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }
 
         /// <summary>
@@ -694,11 +575,6 @@ namespace Ploeh.AutoFixture
         private bool EnableAutoProperties
         {
             get { return !this.OmitAutoProperties; }
-        }
-
-        private LatentObjectBuilder<T> CreateLatentObjectBuilder<T>()
-        {
-            return new LatentObjectBuilder<T>(this.typeMappings, new ThrowingRecursionHandler(), this.RepeatCount, this.OmitAutoProperties, this.Resolver);
         }
 
         private T FreezeValue<T>(T value)

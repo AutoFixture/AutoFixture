@@ -142,11 +142,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         }
 
         [Fact]
-        public void ReplacingStringAlgorithmUsingTypeMappings()
+        public void ReplacingStringAlgorithmUsingFromSeed()
         {
             // Fixture setup
             Fixture fixture = new Fixture();
-            fixture.TypeMappings[typeof(string)] = s => "fnaah";
+            fixture.Customize<string>(c => c.FromSeed(s => "fnaah"));
             // Exercise system
             string result = fixture.CreateAnonymous<string>();
             // Verify outcome
@@ -158,8 +158,9 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         public void ReplacingStringAlgorithmWithSeed()
         {
             Fixture fixture = new Fixture();
-            fixture.TypeMappings[typeof(string)] = s =>
-                string.Format((string)s, new Random().Next(100));
+            fixture.Customize<string>(c =>
+                c.FromSeed(s =>
+                    string.Format(s, new Random().Next(100))));
 
             string result = fixture.CreateAnonymous("Risk: {0}%");
 
