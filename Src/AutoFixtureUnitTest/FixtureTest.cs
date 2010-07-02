@@ -1588,7 +1588,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void WithConstructorWithOneParameterWillRespectPreviousCustomizations()
+        public void FromFactoryWithOneParameterWillRespectPreviousCustomizations()
         {
             // Fixture setup
             string expectedText = Guid.NewGuid().ToString();
@@ -1596,7 +1596,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
             // Exercise system
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
-                .WithConstructor((PropertyHolder<string> ph) => new SingleParameterType<PropertyHolder<string>>(ph))
+                .FromFactory((PropertyHolder<string> ph) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
             Assert.Equal<string>(expectedText, result.Parameter.Property);
@@ -1604,7 +1604,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void WithConstructorWithTwoParametersWillRespectPreviousCustomizations()
+        public void FromFactoryWithTwoParametersWillRespectPreviousCustomizations()
         {
             // Fixture setup
             string expectedText = Guid.NewGuid().ToString();
@@ -1612,7 +1612,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
             // Exercise system
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
-                .WithConstructor((PropertyHolder<string> ph, object dummy) => new SingleParameterType<PropertyHolder<string>>(ph))
+                .FromFactory((PropertyHolder<string> ph, object dummy) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
             Assert.Equal<string>(expectedText, result.Parameter.Property);
@@ -1620,7 +1620,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void WithConstructorWithThreeParametersWillRespectPreviousCustomizations()
+        public void FromFactoryWithThreeParametersWillRespectPreviousCustomizations()
         {
             // Fixture setup
             string expectedText = Guid.NewGuid().ToString();
@@ -1628,7 +1628,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
             // Exercise system
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
-                .WithConstructor((PropertyHolder<string> ph, object dummy1, object dummy2) => new SingleParameterType<PropertyHolder<string>>(ph))
+                .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
             Assert.Equal<string>(expectedText, result.Parameter.Property);
@@ -1636,7 +1636,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void WithConstructorWithFourParametersWillRespectPreviousCustomizations()
+        public void FromFactoryWithFourParametersWillRespectPreviousCustomizations()
         {
             // Fixture setup
             string expectedText = Guid.NewGuid().ToString();
@@ -1644,7 +1644,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize<PropertyHolder<string>>(ob => ob.With(ph => ph.Property, expectedText));
             // Exercise system
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
-                .WithConstructor((PropertyHolder<string> ph, object dummy1, object dummy2, object dummy3) => new SingleParameterType<PropertyHolder<string>>(ph))
+                .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2, object dummy3) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
             Assert.Equal<string>(expectedText, result.Parameter.Property);
@@ -1657,7 +1657,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             string expectedText = Guid.NewGuid().ToString();
-            sut.Customize<SingleParameterType<string>>(ob => ob.WithConstructor(() => new SingleParameterType<string>(expectedText)));
+            sut.Customize<SingleParameterType<string>>(ob => ob.FromFactory(() => new SingleParameterType<string>(expectedText)));
             // Exercise system
             var result = sut.CreateAnonymous<SingleParameterType<string>>();
             // Verify outcome
@@ -2580,7 +2580,7 @@ namespace Ploeh.AutoFixtureUnitTest
             object expectedObject = new object();
             // Exercise system
             var result = sut.Build<object>()
-                .WithConstructor(() => expectedObject)
+                .FromFactory(() => expectedObject)
                 .CreateAnonymous();
             // Verify outcome
             Assert.Equal<object>(expectedObject, result);
