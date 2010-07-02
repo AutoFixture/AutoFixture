@@ -1721,18 +1721,21 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact(Skip = "Resolver")]
-        public void CreateAnonymousWillInvokeResolver()
+        [Fact]
+        public void CreateAnonymousWillInvokeResidueCollector()
         {
             // Fixture setup
             bool resolveWasInvoked = false;
-            Func<Type, object> resolver = t =>
+
+            var residueCollector = new DelegatingSpecimenBuilder();
+            residueCollector.OnCreate = (r, c) =>
             {
                 resolveWasInvoked = true;
                 return new ConcreteType();
             };
+
             var sut = new Fixture();
-            sut.Resolver = resolver;
+            sut.ResidueCollectors.Add(residueCollector);
             // Exercise system
             sut.CreateAnonymous<PropertyHolder<AbstractType>>();
             // Verify outcome
@@ -1740,31 +1743,36 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact(Skip = "Resolver")]
-        public void CreateAnonymousOnUnregisteredAbstractionWillInvokeResolveCallbackWithCorrectType()
+        [Fact]
+        public void CreateAnonymousOnUnregisteredAbstractionWillInvokeResidueCollectorWithCorrectType()
         {
             // Fixture setup
-            Func<Type, object> resolver = t =>
+            var residueCollector = new DelegatingSpecimenBuilder();
+            residueCollector.OnCreate = (r, c) =>
             {
-                Assert.Equal<Type>(typeof(AbstractType), t);
+                Assert.Equal(typeof(AbstractType), r);
                 return new ConcreteType();
             };
+
             var sut = new Fixture();
-            sut.Resolver = resolver;
+            sut.ResidueCollectors.Add(residueCollector);
             // Exercise system
             sut.CreateAnonymous<PropertyHolder<AbstractType>>();
             // Verify outcome (done by callback)
             // Teardown
         }
 
-        [Fact(Skip = "Resolver")]
-        public void CreateAnonymousOnUnregisteredAbstractionWillReturnInstanceFromResolveCallback()
+        [Fact]
+        public void CreateAnonymousOnUnregisteredAbstractionWillReturnInstanceFromResidueCollector()
         {
             // Fixture setup
             var expectedValue = new ConcreteType();
-            Func<Type, object> resolver = t => expectedValue;
+
+            var residueCollector = new DelegatingSpecimenBuilder();
+            residueCollector.OnCreate = (r, c) => expectedValue;
+
             var sut = new Fixture();
-            sut.Resolver = resolver;
+            sut.ResidueCollectors.Add(residueCollector);
             // Exercise system
             var result = sut.CreateAnonymous<PropertyHolder<AbstractType>>().Property;
             // Verify outcome
@@ -2340,18 +2348,21 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact(Skip = "Resolver")]
-        public void BuildAndCreateAnonymousWillInvokeResolve()
+        [Fact]
+        public void BuildAndCreateAnonymousWillInvokeResidueCollector()
         {
             // Fixture setup
             bool resolveWasInvoked = false;
 
+            var residueCollector = new DelegatingSpecimenBuilder();
+            residueCollector.OnCreate = (r, c) =>
+                {
+                    resolveWasInvoked = true;
+                    return new ConcreteType();
+                };
+
             var sut = new Fixture();
-            sut.Resolver = t =>
-            {
-                resolveWasInvoked = true;
-                return new ConcreteType();
-            };
+            sut.ResidueCollectors.Add(residueCollector);
             // Exercise system
             sut.Build<PropertyHolder<AbstractType>>().CreateAnonymous();
             // Verify outcome
@@ -2359,30 +2370,36 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact(Skip = "Resolver")]
-        public void BuildAndCreateAnonymousOnUnregisteredAbstractionWillInvokeResolveCallbackWithCorrectType()
+        [Fact]
+        public void BuildAndCreateAnonymousOnUnregisteredAbstractionWillInvokeResidueCollectorWithCorrectType()
         {
             // Fixture setup
-            var sut = new Fixture();
-            sut.Resolver = t =>
+            var residueCollector = new DelegatingSpecimenBuilder();
+            residueCollector.OnCreate = (r, c) =>
             {
-                Assert.Equal<Type>(typeof(AbstractType), t);
+                Assert.Equal(typeof(AbstractType), r);
                 return new ConcreteType();
             };
+
+            var sut = new Fixture();
+            sut.ResidueCollectors.Add(residueCollector);
             // Exercise system
             sut.Build<PropertyHolder<AbstractType>>().CreateAnonymous();
             // Verify outcome (done by callback)
             // Teardown
         }
 
-        [Fact(Skip = "Resolver")]
-        public void BuildAndCreateAnonymousOnUnregisteredAbstractionWillReturnInstanceFromResolveCallback()
+        [Fact]
+        public void BuildAndCreateAnonymousOnUnregisteredAbstractionWillReturnInstanceFromResidueCollector()
         {
             // Fixture setup
             var expectedValue = new ConcreteType();
 
+            var residueCollector = new DelegatingSpecimenBuilder();
+            residueCollector.OnCreate = (r, c) => expectedValue;
+
             var sut = new Fixture();
-            sut.Resolver = t => expectedValue;
+            sut.ResidueCollectors.Add(residueCollector);
             // Exercise system
             var result = sut.Build<PropertyHolder<AbstractType>>().CreateAnonymous().Property;
             // Verify outcome

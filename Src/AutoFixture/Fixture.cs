@@ -143,12 +143,6 @@ namespace Ploeh.AutoFixture
         public bool OmitAutoProperties { get; set; }
 
         /// <summary>
-        /// Gets or sets a callback that can be invoked to resolve unresolved types.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public Func<Type, object> Resolver { get; set; }
-
-        /// <summary>
         /// Adds many anonymously created objects to a list.
         /// </summary>
         /// <typeparam name="T">The type of object that is contained in the list.</typeparam>
