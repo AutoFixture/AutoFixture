@@ -10,11 +10,20 @@ namespace Ploeh.AutoFixture
     /// Base class for recursion handling. Tracks requests and reacts when a recursion point in the
     /// specimen creation process is detected.
     /// </summary>
-	public abstract class RecursionGuard : ISpecimenBuilder
-	{
+    public abstract class RecursionGuard : ISpecimenBuilder
+    {
         private readonly ISpecimenBuilder builder;
         private readonly IEqualityComparer comparer;
-		private readonly Stack<object> monitoredRequests;
+        private readonly Stack<object> monitoredRequests;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
+        /// </summary>
+        /// <param name="builder">The intercepting builder to decorate.</param>
+        protected RecursionGuard(ISpecimenBuilder builder)
+            : this(builder, EqualityComparer<object>.Default)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
@@ -39,12 +48,9 @@ namespace Ploeh.AutoFixture
             this.comparer = comparer;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
-        /// </summary>
-        /// <param name="builder">The intercepting builder to decorate.</param>
-        protected RecursionGuard(ISpecimenBuilder builder) : this(builder, EqualityComparer<object>.Default)
+        public ISpecimenBuilder Builder
         {
+            get { return this.builder; }
         }
 
         /// <summary>
@@ -89,5 +95,5 @@ namespace Ploeh.AutoFixture
             monitoredRequests.Pop();
             return specimen;
         }
-	}
+    }
 }

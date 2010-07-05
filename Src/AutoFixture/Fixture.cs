@@ -11,6 +11,7 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class Fixture : ISpecimenBuilderComposer
     {
+        private readonly List<ISpecimenBuilderTransformation> behaviors;
         private readonly CompositeSpecimenBuilder customizer;
         private readonly ISpecimenBuilder engine;
         private readonly CompositeSpecimenBuilder residueCollector;
@@ -55,6 +56,14 @@ namespace Ploeh.AutoFixture
             this.engine = engine;
             this.residueCollector = new CompositeSpecimenBuilder();
             this.many = many;
+
+            this.behaviors = new List<ISpecimenBuilderTransformation>();
+            this.behaviors.Add(new ThrowingRecursionBehavior());
+        }
+
+        public IList<ISpecimenBuilderTransformation> Behaviors
+        {
+            get { return this.behaviors; }
         }
 
         /// <summary>
@@ -616,11 +625,18 @@ namespace Ploeh.AutoFixture
                     new AnyTypeSpecification());
             }
 
-            return new CompositeSpecimenBuilder(
+            builder = new CompositeSpecimenBuilder(
                 this.customizer,
                 builder,
                 this.residueCollector,
                 new TerminatingSpecimenBuilder());
+
+            foreach (var behavior in this.Behaviors)
+            {
+                builder = behavior.Transform(builder);
+            }
+
+            return builder;
         }
 
         #endregion

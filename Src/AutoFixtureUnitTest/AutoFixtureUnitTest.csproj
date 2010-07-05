@@ -84,6 +84,7 @@
     <Compile Include="Kernel\AutoPropertiesCommandTest.cs" />
     <Compile Include="Kernel\CompositeSpecimenBuilderTest.cs" />
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
+    <Compile Include="Kernel\DelegatingSpecimenBuilderTransformation.cs" />
     <Compile Include="Kernel\FakeMany.cs" />
     <Compile Include="Kernel\SeedRequestSpecificationTest.cs" />
     <Compile Include="Kernel\SpecimenContextTest.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Kernel\SpecimenFactoryWithSingleParameterFuncTest.cs" />
     <Compile Include="Kernel\SpecimenFactoryWithTripleParameterFuncTest.cs" />
     <Compile Include="Kernel\TerminatingSpecimenBuilderTest.cs" />
+    <Compile Include="Kernel\ThrowingRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\TracingBuilderTest.cs" />
     <Compile Include="Kernel\Scenario.cs" />
     <Compile Include="Kernel\SpecimenCreatedEventArgsTest.cs" />

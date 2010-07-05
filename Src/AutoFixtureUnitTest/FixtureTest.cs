@@ -171,6 +171,43 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void BehaviorsIsInstance()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            IList<ISpecimenBuilderTransformation> result = sut.Behaviors;
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void BehaviorsIsStable()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var behavior = new DelegatingSpecimenBuilderTransformation();
+            // Exercise system
+            sut.Behaviors.Add(behavior);
+            // Verify outcome
+            Assert.Contains(behavior, sut.Behaviors);
+            // Teardown
+        }
+
+        [Fact]
+        public void BehaviorsContainsCorrectRecursionBehavior()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Behaviors;
+            // Verify outcome
+            Assert.True(result.OfType<ThrowingRecursionBehavior>().Any());
+            // Teardown
+        }
+
+        [Fact]
         public void SutIsSpecimenBuilderComposer()
         {
             // Fixture setup
@@ -194,6 +231,25 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void ComposeCorrectlyAppliesBehaviors()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+
+            var builder1 = new DelegatingSpecimenBuilder();
+            var builder2 = new DelegatingSpecimenBuilder();
+
+            sut.Behaviors.Clear();
+            sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => builder1 });
+            sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => b == builder1 ? builder2 : new DelegatingSpecimenBuilder() });
+            // Exercise system
+            var result = sut.Compose();
+            // Verify outcome
+            Assert.Equal(builder2, result);
+            // Teardown
+        }
+
+        [Fact]
         public void ComposeWhenAutoPropertiesAreOmittedReturnsCorrectResult()
         {
             // Fixture setup
@@ -201,17 +257,19 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Compose();
             // Verify outcome
-            var composedBuiders = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result).Builders.ToList();
-            
-            var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuiders[0]);
+            var guard = Assert.IsAssignableFrom<RecursionGuard>(result);
+
+            var composedBuilders = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(guard.Builder).Builders.ToList();
+
+            var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[0]);
             Assert.Equal(sut.Customizations, customizer.Builders);
 
-            Assert.Equal(sut.Engine, composedBuiders[1]);
+            Assert.Equal(sut.Engine, composedBuilders[1]);
 
-            var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuiders[2]);
+            var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[2]);
             Assert.Equal(sut.ResidueCollectors, residueCollector.Builders);
 
-            Assert.IsAssignableFrom<TerminatingSpecimenBuilder>(composedBuiders[3]);
+            Assert.IsAssignableFrom<TerminatingSpecimenBuilder>(composedBuilders[3]);
             // Teardown
         }
 
@@ -223,19 +281,21 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Compose();
             // Verify outcome
-            var composedBuiders = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result).Builders.ToList();
+            var guard = Assert.IsAssignableFrom<RecursionGuard>(result);
 
-            var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuiders[0]);
+            var composedBuilders = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(guard.Builder).Builders.ToList();
+
+            var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[0]);
             Assert.Equal(sut.Customizations, customizer.Builders);
 
-            var postprocessor = Assert.IsAssignableFrom<Postprocessor>(composedBuiders[1]);
+            var postprocessor = Assert.IsAssignableFrom<Postprocessor>(composedBuilders[1]);
             Assert.Equal(sut.Engine, postprocessor.Builder);
             Assert.IsAssignableFrom<AnyTypeSpecification>(postprocessor.Specification);
 
-            var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuiders[2]);
+            var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[2]);
             Assert.Equal(sut.ResidueCollectors, residueCollector.Builders);
 
-            Assert.IsAssignableFrom<TerminatingSpecimenBuilder>(composedBuiders[3]);
+            Assert.IsAssignableFrom<TerminatingSpecimenBuilder>(composedBuilders[3]);
             // Teardown
         }
 
@@ -1861,7 +1921,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact(Skip = "Recursion")]
+        [Fact]
         public void CreateAnonymousWillThrowOnReferenceRecursionPoint()
         {
             // Fixture setup
@@ -1871,7 +1931,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 sut.CreateAnonymous<RecursionTestObjectWithReferenceOutA>());
         }
 
-        [Fact(Skip = "Recursion")]
+        [Fact]
         public void CreateAnonymousWillThrowOnConstructorRecursionPoint()
         {
             // Fixture setup
@@ -1889,7 +1949,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             Assert.Throws<ObjectCreationException>(() =>
                 sut.Build<RecursionTestObjectWithReferenceOutA>()
-                //.UsingRecursionHandler(new ThrowingRecursionHandler())
+                    //.UsingRecursionHandler(new ThrowingRecursionHandler())
                 .CreateAnonymous());
         }
 
@@ -1901,7 +1961,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             Assert.Throws<ObjectCreationException>(() =>
                 sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
-                //.UsingRecursionHandler(new ThrowingRecursionHandler())
+                    //.UsingRecursionHandler(new ThrowingRecursionHandler())
                 .CreateAnonymous());
         }
 

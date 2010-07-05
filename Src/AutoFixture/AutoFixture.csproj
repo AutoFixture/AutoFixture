@@ -100,6 +100,7 @@
     <Compile Include="Kernel\ISpecifiedSpecimenCommand.cs" />
     <Compile Include="Kernel\FiniteSequenceRequest.cs" />
     <Compile Include="Kernel\FiniteSequenceRelay.cs" />
+    <Compile Include="Kernel\ISpecimenBuilderTransformation.cs" />
     <Compile Include="Kernel\ManyRequest.cs" />
     <Compile Include="Kernel\ManyRelay.cs" />
     <Compile Include="Kernel\SeedRequestSpecification.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Kernel\SeededFactory.cs" />
     <Compile Include="Kernel\SpecimenFactory.cs" />
     <Compile Include="Kernel\TerminatingSpecimenBuilder.cs" />
+    <Compile Include="Kernel\ThrowingRecursionBehavior.cs" />
     <Compile Include="Kernel\TraceWriter.cs" />
     <Compile Include="CustomizedObjectFactory.cs" />
     <Compile Include="GuidGenerator.cs" />

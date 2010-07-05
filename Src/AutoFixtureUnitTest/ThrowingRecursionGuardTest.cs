@@ -18,6 +18,19 @@ namespace Ploeh.AutoFixtureUnitTest
 			// Teardown
 		}
 
+        [Fact]
+        public void BuilderIsCorrect()
+        {
+            // Fixture setup
+            var expectedBuilder = new DelegatingSpecimenBuilder();
+            var sut = new ThrowingRecursionGuard(expectedBuilder);
+            // Exercise system
+            var result = sut.Builder;
+            // Verify outcome
+            Assert.Equal(expectedBuilder, result);
+            // Teardown
+        }
+
 		[Fact]
 		public void ThrowsAtRecursionPoint()
 		{
