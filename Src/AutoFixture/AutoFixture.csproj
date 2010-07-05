@@ -142,14 +142,11 @@
     <Compile Include="Int64SequenceGenerator.cs" />
     <Compile Include="ListGenerator.cs" />
     <Compile Include="MemberInfoNameComparer.cs" />
-    <Compile Include="NoneRecursionHandler.cs" />
     <Compile Include="Kernel\NullRecursionGuard.cs" />
-    <Compile Include="NullRecursionHandler.cs" />
     <Compile Include="ObjectCreationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GuidStringGenerator.cs" />
     <Compile Include="Kernel\RecursionGuard.cs" />
-    <Compile Include="RecursionHandler.cs" />
     <Compile Include="SByteSequenceGenerator.cs" />
     <Compile Include="Kernel\SeededRequest.cs" />
     <Compile Include="SingleSequenceGenerator.cs" />
@@ -157,7 +154,6 @@
     <Compile Include="SpecimenFactory.cs" />
     <Compile Include="StringGenerator.cs" />
     <Compile Include="Kernel\ThrowingRecursionGuard.cs" />
-    <Compile Include="ThrowingRecursionHandler.cs" />
     <Compile Include="DefaultRelays.cs" />
     <Compile Include="UInt16SequenceGenerator.cs" />
     <Compile Include="UInt32SequenceGenerator.cs" />

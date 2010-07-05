@@ -135,7 +135,6 @@
     <Compile Include="SpecimenBuilderComposerTest.cs" />
     <Compile Include="SpecimenFactoryTest.cs" />
     <Compile Include="StringGeneratorTest.cs" />
-    <Compile Include="NullRecursionHandlerTest.cs" />
     <Compile Include="GuidGeneratorTest.cs" />
     <Compile Include="GuidStringGeneratorTest.cs" />
     <Compile Include="Int16SequenceGeneratorTest.cs" />
@@ -153,7 +152,6 @@
     <Compile Include="Int32SequenceCreatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Kernel\ThrowingRecursionGuardTest.cs" />
-    <Compile Include="ThrowingRecursionHandlerTest.cs" />
     <Compile Include="Kernel\TraceWriterTest.cs" />
     <Compile Include="DefaultRelaysTest.cs" />
     <Compile Include="UInt16SequenceGeneratorTest.cs" />
