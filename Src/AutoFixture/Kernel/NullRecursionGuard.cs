@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture
+﻿namespace Ploeh.AutoFixture.Kernel
 {
     using System;
     using System.Collections;
@@ -13,7 +13,8 @@
         /// Initializes a new instance of the <see cref="NullRecursionGuard"/> class.
         /// </summary>
         /// <param name="builder">The builder to decorate.</param>
-        public NullRecursionGuard(ISpecimenBuilder builder) : base(builder)
+        public NullRecursionGuard(ISpecimenBuilder builder)
+            : base(builder)
         {
         }
 
@@ -22,7 +23,8 @@
         /// </summary>
         /// <param name="builder">The intercepting builder to decorate.</param>
         /// <param name="comparer">An IEqualitycomparer implementation to use when comparing requests to determine recursion.</param>
-        public NullRecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer) : base(builder, comparer)
+        public NullRecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
+            : base(builder, comparer)
         {
         }
 

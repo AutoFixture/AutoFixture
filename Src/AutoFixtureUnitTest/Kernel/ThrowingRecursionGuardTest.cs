@@ -1,9 +1,9 @@
 using System;
 using Ploeh.AutoFixture;
-using Ploeh.AutoFixtureUnitTest.Kernel;
 using Xunit;
+using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
 	public class ThrowingRecursionGuardTest
 	{

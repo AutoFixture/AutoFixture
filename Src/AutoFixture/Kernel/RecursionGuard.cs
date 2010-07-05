@@ -1,11 +1,10 @@
-namespace Ploeh.AutoFixture
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Kernel;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
+namespace Ploeh.AutoFixture.Kernel
+{
     /// <summary>
     /// Base class for recursion handling. Tracks requests and reacts when a recursion point in the
     /// specimen creation process is detected.
@@ -43,7 +42,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("comparer");
             }
 
-            monitoredRequests = new Stack<object>();
+            this.monitoredRequests = new Stack<object>();
             this.builder = builder;
             this.comparer = comparer;
         }
@@ -59,7 +58,7 @@ namespace Ploeh.AutoFixture
         /// <value>The recorded requests.</value>
         protected object[] GetRecordedRequests()
         {
-            return monitoredRequests.ToArray();
+            return this.monitoredRequests.ToArray();
         }
 
         /// <summary>
@@ -85,14 +84,14 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (monitoredRequests.Any(x => comparer.Equals(x, request)))
+            if (this.monitoredRequests.Any(x => this.comparer.Equals(x, request)))
             {
-                return HandleRecursiveRequest(request);
+                return this.HandleRecursiveRequest(request);
             }
 
-            monitoredRequests.Push(request);
-            object specimen = this.builder.Create(request, context);
-            monitoredRequests.Pop();
+            this.monitoredRequests.Push(request);
+            var specimen = this.builder.Create(request, context);
+            this.monitoredRequests.Pop();
             return specimen;
         }
     }

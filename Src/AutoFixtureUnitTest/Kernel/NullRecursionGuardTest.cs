@@ -1,15 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using Ploeh.AutoFixture;
-using Ploeh.TestTypeFoundation;
+using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    using Kernel;
-
     public class NullRecursionGuardTest
     {
         [Fact]

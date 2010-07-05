@@ -1,11 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
     /// Handles recursion in the specimen creation process by throwing an exception at recursion point.
