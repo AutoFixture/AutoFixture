@@ -141,7 +141,6 @@
     <Compile Include="Int64SequenceGeneratorTest.cs" />
     <Compile Include="ListGeneratorTest.cs" />
     <Compile Include="LoopTest.cs" />
-    <Compile Include="MemberInfoNameComparerTest.cs" />
     <Compile Include="CommandMock.cs" />
     <Compile Include="ObjectCreationExceptionTest.cs" />
     <Compile Include="QueryMock.cs" />

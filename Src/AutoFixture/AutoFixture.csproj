@@ -140,7 +140,6 @@
     <Compile Include="Int32SequenceGenerator.cs" />
     <Compile Include="Int64SequenceGenerator.cs" />
     <Compile Include="ListGenerator.cs" />
-    <Compile Include="MemberInfoNameComparer.cs" />
     <Compile Include="Kernel\NullRecursionGuard.cs" />
     <Compile Include="ObjectCreationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
