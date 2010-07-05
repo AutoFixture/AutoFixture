@@ -1941,54 +1941,47 @@ namespace Ploeh.AutoFixtureUnitTest
                 sut.CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>());
         }
 
-        [Fact(Skip = "Recursion")]
+        [Fact]
         public void BuildWithThrowingRecursionHandlerWillThrowOnReferenceRecursionPoint()
         {
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
             Assert.Throws<ObjectCreationException>(() =>
-                sut.Build<RecursionTestObjectWithReferenceOutA>()
-                    //.UsingRecursionHandler(new ThrowingRecursionHandler())
-                .CreateAnonymous());
+                new SpecimenContext(
+                    new ThrowingRecursionGuard(
+                        sut.Build<RecursionTestObjectWithReferenceOutA>().Compose()
+                    )
+                ).CreateAnonymous<RecursionTestObjectWithReferenceOutA>());
         }
 
-        [Fact(Skip = "Recursion")]
+        [Fact]
         public void BuildWithThrowingRecursionHandlerWillThrowOnConstructorRecursionPoint()
         {
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
             Assert.Throws<ObjectCreationException>(() =>
-                sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
-                    //.UsingRecursionHandler(new ThrowingRecursionHandler())
-                .CreateAnonymous());
+                new SpecimenContext(
+                    new ThrowingRecursionGuard(
+                        sut.Build<RecursionTestObjectWithConstructorReferenceOutA>().Compose()
+                    )
+                ).CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>());
         }
 
-        [Fact(Skip = "Recursion")]
+        [Fact]
         public void BuildWithNullRecursionHandlerWillCreateNullOnRecursionPoint()
         {
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            var result = sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
-                //.UsingRecursionHandler(new NullRecursionHandler())
-                .CreateAnonymous();
+            var result = new SpecimenContext(
+                new NullRecursionGuard(
+                    sut.Build<RecursionTestObjectWithConstructorReferenceOutA>().Compose()
+                )
+            ).CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>();
             // Verify outcome
-            Assert.Null(result.ReferenceToB.ReferenceToA.ReferenceToB);
-        }
-
-        [Fact(Skip = "Recursion")]
-        public void BuildWithNullRecursionHandlerWillCreateNullOnConstructorRecursionPoint()
-        {
-            // Fixture setup
-            var sut = new Fixture();
-            // Exercise system
-            var result = sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
-                //.UsingRecursionHandler(new NullRecursionHandler())
-                .CreateAnonymous();
-            // Verify outcome
-            Assert.Null(result.ReferenceToB.ReferenceToA.ReferenceToB);
+            Assert.Null(result.ReferenceToB.ReferenceToA);
         }
 
         [Fact]
