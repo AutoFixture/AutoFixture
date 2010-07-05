@@ -136,12 +136,10 @@
     <Compile Include="SpecimenFactoryTest.cs" />
     <Compile Include="StringGeneratorTest.cs" />
     <Compile Include="NullRecursionHandlerTest.cs" />
-    <Compile Include="TemplatedLikenessTest.cs" />
     <Compile Include="GuidGeneratorTest.cs" />
     <Compile Include="GuidStringGeneratorTest.cs" />
     <Compile Include="Int16SequenceGeneratorTest.cs" />
     <Compile Include="Int64SequenceGeneratorTest.cs" />
-    <Compile Include="LikenessTest.cs" />
     <Compile Include="ListGeneratorTest.cs" />
     <Compile Include="LoopTest.cs" />
     <Compile Include="MemberInfoNameComparerTest.cs" />

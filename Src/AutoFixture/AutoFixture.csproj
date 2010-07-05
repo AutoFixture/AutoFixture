@@ -136,27 +136,18 @@
     <Compile Include="ByteSequenceGenerator.cs" />
     <Compile Include="DecimalSequenceGenerator.cs" />
     <Compile Include="DoubleSequenceGenerator.cs" />
-    <Compile Include="FieldAccessor.cs" />
-    <Compile Include="FieldAccessorFactory.cs" />
     <Compile Include="Fixture.cs" />
     <Compile Include="Int16SequenceGenerator.cs" />
     <Compile Include="Int32SequenceGenerator.cs" />
     <Compile Include="Int64SequenceGenerator.cs" />
-    <Compile Include="Likeness.cs" />
     <Compile Include="ListGenerator.cs" />
-    <Compile Include="AccessorFactory.cs" />
     <Compile Include="MemberInfoNameComparer.cs" />
     <Compile Include="NoneRecursionHandler.cs" />
-    <Compile Include="NullAccessor.cs" />
-    <Compile Include="NullAccessorFactory.cs" />
     <Compile Include="Kernel\NullRecursionGuard.cs" />
     <Compile Include="NullRecursionHandler.cs" />
     <Compile Include="ObjectCreationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Accessor.cs" />
     <Compile Include="GuidStringGenerator.cs" />
-    <Compile Include="PropertyAccessor.cs" />
-    <Compile Include="PropertyAccessorFactory.cs" />
     <Compile Include="Kernel\RecursionGuard.cs" />
     <Compile Include="RecursionHandler.cs" />
     <Compile Include="SByteSequenceGenerator.cs" />
@@ -171,10 +162,6 @@
     <Compile Include="UInt16SequenceGenerator.cs" />
     <Compile Include="UInt32SequenceGenerator.cs" />
     <Compile Include="UInt64SequenceGenerator.cs" />
-    <Compile Include="UnEqual.cs" />
-    <Compile Include="UnEqualAccessor.cs" />
-    <Compile Include="UnEqualAccessorFactory.cs" />
-    <Compile Include="UnexpectedInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
