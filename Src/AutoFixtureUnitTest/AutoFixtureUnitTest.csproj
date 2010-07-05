@@ -86,6 +86,7 @@
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
     <Compile Include="Kernel\DelegatingSpecimenBuilderTransformation.cs" />
     <Compile Include="Kernel\FakeMany.cs" />
+    <Compile Include="Kernel\NullRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\SeedRequestSpecificationTest.cs" />
     <Compile Include="Kernel\SpecimenContextTest.cs" />
     <Compile Include="Kernel\DelegatingRequestSpecification.cs" />

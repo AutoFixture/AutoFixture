@@ -61,6 +61,9 @@ namespace Ploeh.AutoFixture
             this.behaviors.Add(new ThrowingRecursionBehavior());
         }
 
+        /// <summary>
+        /// Gets the behaviors that are applied when <see cref="Compose"/> is invoked.
+        /// </summary>
         public IList<ISpecimenBuilderTransformation> Behaviors
         {
             get { return this.behaviors; }

@@ -103,6 +103,7 @@
     <Compile Include="Kernel\ISpecimenBuilderTransformation.cs" />
     <Compile Include="Kernel\ManyRequest.cs" />
     <Compile Include="Kernel\ManyRelay.cs" />
+    <Compile Include="Kernel\NullRecursionBehavior.cs" />
     <Compile Include="Kernel\SeedRequestSpecification.cs" />
     <Compile Include="Kernel\SpecifiedNullCommand.cs" />
     <Compile Include="Kernel\OrRequestSpecification.cs" />

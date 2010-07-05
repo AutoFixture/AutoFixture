@@ -6,15 +6,15 @@ using System.Text;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// Decorates a <see cref="ISpecimenBuilder"/> with a <see cref="ThrowingRecursionGuard"/>.
+    /// Decorates a <see cref="ISpecimenBuilder"/> with a <see cref="NullRecursionGuard"/>.
     /// </summary>
-    public class ThrowingRecursionBehavior : ISpecimenBuilderTransformation
+    public class NullRecursionBehavior : ISpecimenBuilderTransformation
     {
         #region ISpecimenBuilderTransformation Members
 
         /// <summary>
         /// Decorates the supplied <see cref="ISpecimenBuilder"/> with a
-        /// <see cref="ThrowingRecursionGuard"/>.
+        /// <see cref="NullRecursionGuard"/>.
         /// </summary>
         /// <param name="builder">The builder to decorate.</param>
         /// <returns>
@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("builder");
             }
 
-            return new ThrowingRecursionGuard(builder);
+            return new NullRecursionGuard(builder);
         }
 
         #endregion
