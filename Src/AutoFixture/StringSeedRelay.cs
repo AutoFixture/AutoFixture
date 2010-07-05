@@ -7,7 +7,7 @@ namespace Ploeh.AutoFixture
     /// Unwraps a request for a string <see cref="SeededRequest"/> to a request for a string and
     /// prefixes the seed to the result.
     /// </summary>
-    public class StringSeedUnwrapper : ISpecimenBuilder
+    public class StringSeedRelay : ISpecimenBuilder
     {
         #region ISpecimenBuilder Members
 
@@ -15,9 +15,9 @@ namespace Ploeh.AutoFixture
         /// Creates an anonymous string based on a seed.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="context">A container that can be used to create other specimens.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
-        /// A string with the seed prefixed to a string created by <paramref name="container"/> if
+        /// A string with the seed prefixed to a string created by <paramref name="context"/> if
         /// possible; otherwise, <see langword="null"/>.
         /// </returns>
         /// <remarks>

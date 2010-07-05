@@ -126,7 +126,7 @@
     <Compile Include="Kernel\TracingBuilder.cs" />
     <Compile Include="Kernel\SpecimenCreatedEventArgs.cs" />
     <Compile Include="Kernel\RequestTraceEventArgs.cs" />
-    <Compile Include="StringSeedUnwrapper.cs" />
+    <Compile Include="StringSeedRelay.cs" />
     <Compile Include="Kernel\TrueRequestSpecification.cs" />
     <Compile Include="Kernel\ExactTypeSpecification.cs" />
     <Compile Include="Kernel\UnspecifiedSpecimenCommand.cs" />

@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var expectedBuilderTypes = new[]
                 {
                     typeof(StringGenerator),
-                    typeof(StringSeedUnwrapper),
+                    typeof(StringSeedRelay),
                     typeof(Int32SequenceGenerator),
                     typeof(DateTimeGenerator),
                     typeof(DecimalSequenceGenerator),

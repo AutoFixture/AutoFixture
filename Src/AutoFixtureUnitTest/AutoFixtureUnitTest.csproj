@@ -124,7 +124,7 @@
     <Compile Include="Kernel\Scenario.cs" />
     <Compile Include="Kernel\SpecimenCreatedEventArgsTest.cs" />
     <Compile Include="Kernel\RequestTraceEventArgsTest.cs" />
-    <Compile Include="StringSeedUnwrapperTest.cs" />
+    <Compile Include="StringSeedRelayTest.cs" />
     <Compile Include="Kernel\TrueRequestSpecificationTest.cs" />
     <Compile Include="Kernel\ExactTypeSpecificationTest.cs" />
     <Compile Include="Kernel\UnspecifiedSpecimenCommandTest.cs" />

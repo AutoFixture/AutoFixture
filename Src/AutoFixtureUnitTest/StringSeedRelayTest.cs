@@ -6,14 +6,14 @@ using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    public class StringSeedUnwrapperTest
+    public class StringSeedRelayTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-            var sut = new StringSeedUnwrapper();
+            var sut = new StringSeedRelay();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNullRequestWillReturnNull()
         {
             // Fixture setup
-            var sut = new StringSeedUnwrapper();
+            var sut = new StringSeedRelay();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNullContainerWillThrow()
         {
             // Fixture setup
-            var sut = new StringSeedUnwrapper();
+            var sut = new StringSeedRelay();
             var dummyRequest = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
@@ -49,7 +49,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNonSeedWillReturnNull()
         {
             // Fixture setup
-            var sut = new StringSeedUnwrapper();
+            var sut = new StringSeedRelay();
             var nonSeed = new object();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
@@ -64,7 +64,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNonStringRequestSeedWillReturnNull()
         {
             // Fixture setup
-            var sut = new StringSeedUnwrapper();
+            var sut = new StringSeedRelay();
             var nonStringRequestSeed = new SeededRequest(typeof(object), "Anonymous value");
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
@@ -79,7 +79,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNonStringSeedWillReturnCorrectResult()
         {
             // Fixture setup
-            var sut = new StringSeedUnwrapper();
+            var sut = new StringSeedRelay();
             var nonStringSeed = new SeededRequest(typeof(string), new object());
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
@@ -94,7 +94,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithStringSeedWhenContainerCannotCreateStringsWillReturnCorrectResult()
         {
             // Fixture setup
-            var sut = new StringSeedUnwrapper();
+            var sut = new StringSeedRelay();
             var stringSeed = new SeededRequest(typeof(string), "Anonymous value");
             var unableContainer = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(stringSeed) };
             // Exercise system
@@ -112,7 +112,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var seedString = Guid.NewGuid().ToString();
             var containerString = Guid.NewGuid().ToString();
 
-            var sut = new StringSeedUnwrapper();
+            var sut = new StringSeedRelay();
             var stringSeed = new SeededRequest(typeof(string), seedString);
             var container = new DelegatingSpecimenContext { OnResolve = r => containerString };
             // Exercise system
@@ -127,7 +127,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithStringSeedWillCorrectlyInvokeContainer()
         {
             // Fixture setup
-            var sut = new StringSeedUnwrapper();
+            var sut = new StringSeedRelay();
             var stringSeed = new SeededRequest(typeof(string), "Anonymous value");
 
             var mockVerified = false;

@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new GuidGenerator(),
                 new ModestConstructorInvoker(),
                 new ParameterRequestRelay(),
-                new StringSeedUnwrapper(),
+                new StringSeedRelay(),
                 new SeedIgnoringRelay());
             var container = new SpecimenContext(builder);
             // Exercise system
@@ -491,7 +491,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new FieldRequestRelay(),
                 new ManyRelay { Count = 3 },
                 new FiniteSequenceRelay(),
-                new StringSeedUnwrapper(),
+                new StringSeedRelay(),
                 new SeedIgnoringRelay());
         }
     }

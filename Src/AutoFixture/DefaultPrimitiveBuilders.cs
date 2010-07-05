@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixture
         public virtual IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
             yield return new StringGenerator(() => Guid.NewGuid());
-            yield return new StringSeedUnwrapper();
+            yield return new StringSeedRelay();
             yield return new Int32SequenceGenerator();
             yield return new DateTimeGenerator();
             yield return new DecimalSequenceGenerator();
