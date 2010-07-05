@@ -30,10 +30,5 @@ namespace Ploeh.AutoFixture
         internal abstract void AssignOn(object obj);
 
         internal abstract object ReadFrom(object obj);
-
-        internal MemberAnnotatedAction<T> ToAnnotatedAction<T>()
-        {
-            return new MemberAnnotatedAction<T>(x => this.AssignOn(x), this.Member);
-        }
     }
 }

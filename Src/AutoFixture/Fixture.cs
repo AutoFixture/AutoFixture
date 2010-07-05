@@ -377,7 +377,7 @@ namespace Ploeh.AutoFixture
         /// The <see cref="Freeze{T}(T)"/> method freezes the type to always return the same
         /// instance whenever an instance of the type is requested either directly, or indirectly
         /// as a nested value of other types. The frozen instance is created by an
-        /// <see cref="ObjectBuilder{T}"/> that is the result of applying the
+        /// <see cref="ISpecimenBuilderComposer"/> that is the result of applying the
         /// <paramref name="composerTransformation"/>.
         /// </para>
         /// </remarks>

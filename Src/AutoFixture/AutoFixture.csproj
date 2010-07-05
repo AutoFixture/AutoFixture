@@ -115,7 +115,6 @@
     <Compile Include="Kernel\TerminatingSpecimenBuilder.cs" />
     <Compile Include="Kernel\ThrowingRecursionBehavior.cs" />
     <Compile Include="Kernel\TraceWriter.cs" />
-    <Compile Include="CustomizedObjectFactory.cs" />
     <Compile Include="GuidGenerator.cs" />
     <Compile Include="IBuilder.cs" />
     <Compile Include="Kernel\CompositeSpecimenBuilder.cs" />
@@ -133,7 +132,6 @@
     <Compile Include="Kernel\ExactTypeSpecification.cs" />
     <Compile Include="Kernel\UnspecifiedSpecimenCommand.cs" />
     <Compile Include="Kernel\SeedIgnoringRelay.cs" />
-    <Compile Include="MemberAnnotatedAction.cs" />
     <Compile Include="BooleanSwitch.cs" />
     <Compile Include="ByteSequenceGenerator.cs" />
     <Compile Include="DecimalSequenceGenerator.cs" />
@@ -144,10 +142,8 @@
     <Compile Include="Int16SequenceGenerator.cs" />
     <Compile Include="Int32SequenceGenerator.cs" />
     <Compile Include="Int64SequenceGenerator.cs" />
-    <Compile Include="LatentObjectBuilder.cs" />
     <Compile Include="Likeness.cs" />
     <Compile Include="ListGenerator.cs" />
-    <Compile Include="ConstructingObjectBuilder.cs" />
     <Compile Include="AccessorFactory.cs" />
     <Compile Include="MemberInfoNameComparer.cs" />
     <Compile Include="NoneRecursionHandler.cs" />
@@ -155,7 +151,6 @@
     <Compile Include="NullAccessorFactory.cs" />
     <Compile Include="Kernel\NullRecursionGuard.cs" />
     <Compile Include="NullRecursionHandler.cs" />
-    <Compile Include="ObjectBuilder.cs" />
     <Compile Include="ObjectCreationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Accessor.cs" />
