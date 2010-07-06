@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Globalization;
 using System.Text;
+using System.Linq;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -39,14 +40,14 @@ namespace Ploeh.AutoFixture.Kernel
             throw new ObjectCreationException(string.Format(
                 CultureInfo.InvariantCulture,
                 "AutoFixture was unable to create an instance of type {0} because the traversed object graph contains a circular referece. Path: {1}.",
-                this.GetRecordedRequests()[0].GetType(),
-                GetFlattenedRequests(request)));
+                this.RecordedRequests.Cast<object>().First().GetType(),
+                this.GetFlattenedRequests(request)));
         }
 
         private string GetFlattenedRequests(object finalRequest)
         {
             var requestInfos = new StringBuilder();
-            foreach (object request in this.GetRecordedRequests())
+            foreach (object request in this.RecordedRequests)
             {
                 Type type = request.GetType();
                 if (type.Assembly != typeof(RecursionGuard).Assembly)

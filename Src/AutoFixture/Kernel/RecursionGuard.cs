@@ -60,10 +60,9 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the recorded requests so far.
         /// </summary>
-        /// <value>The recorded requests.</value>
-        protected object[] GetRecordedRequests()
+        protected IEnumerable RecordedRequests
         {
-            return this.monitoredRequests.ToArray();
+            get { return this.monitoredRequests; }
         }
 
         /// <summary>
