@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
     public class CompositeComposerTest
     {
         [Fact]
-        public void SutIsPostprocessComposer()
+        public void SutIsCustomizationComposer()
         {
             // Fixture setup
             // Exercise system

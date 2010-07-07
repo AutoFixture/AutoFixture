@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BehaviorPostprocessComposer.cs" />
     <Compile Include="DateTimeGenerator.cs" />
     <Compile Include="DefaultPrimitiveBuilders.cs" />
     <Compile Include="Dsl\Composer.cs" />

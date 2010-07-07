@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixture.Dsl;
+using System.Linq;
 
 namespace Ploeh.AutoFixture
 {
@@ -634,12 +635,10 @@ namespace Ploeh.AutoFixture
                 this.residueCollector,
                 new TerminatingSpecimenBuilder());
 
-            foreach (var behavior in this.Behaviors)
-            {
-                builder = behavior.Transform(builder);
-            }
-
-            return builder;
+            return this.Behaviors.Aggregate(
+                builder,
+                (b, behavior) =>
+                    behavior.Transform(b));
         }
 
         #endregion
