@@ -1,8 +1,10 @@
 ﻿using System;
+using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.AutoFixtureUnitTest.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace Ploeh.AutoFixtureUnitTest
 {
     public class NullRecursionBehaviorTest
     {

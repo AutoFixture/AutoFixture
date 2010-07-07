@@ -104,7 +104,7 @@
     <Compile Include="Kernel\ManyRequest.cs" />
     <Compile Include="Kernel\ManyRelay.cs" />
     <Compile Include="Kernel\MemberInfoEqualityComparer.cs" />
-    <Compile Include="Kernel\NullRecursionBehavior.cs" />
+    <Compile Include="NullRecursionBehavior.cs" />
     <Compile Include="Kernel\SeedRequestSpecification.cs" />
     <Compile Include="Kernel\SpecifiedNullCommand.cs" />
     <Compile Include="Kernel\OrRequestSpecification.cs" />
@@ -114,7 +114,7 @@
     <Compile Include="Kernel\SeededFactory.cs" />
     <Compile Include="Kernel\SpecimenFactory.cs" />
     <Compile Include="Kernel\TerminatingSpecimenBuilder.cs" />
-    <Compile Include="Kernel\ThrowingRecursionBehavior.cs" />
+    <Compile Include="ThrowingRecursionBehavior.cs" />
     <Compile Include="Kernel\TraceWriter.cs" />
     <Compile Include="GuidGenerator.cs" />
     <Compile Include="Kernel\CompositeSpecimenBuilder.cs" />

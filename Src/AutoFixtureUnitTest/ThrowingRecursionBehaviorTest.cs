@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xunit;
-using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.Kernel;
+using Ploeh.AutoFixtureUnitTest.Kernel;
+using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace Ploeh.AutoFixtureUnitTest
 {
     public class ThrowingRecursionBehaviorTest
     {
