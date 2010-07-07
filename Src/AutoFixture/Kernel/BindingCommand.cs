@@ -5,6 +5,7 @@ using System.Text;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Globalization;
+using System.Collections;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -171,7 +172,8 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("request");
             }
 
-            return this.member.Equals(request);
+            IEqualityComparer comparer = new MemberInfoEqualityComparer();
+            return comparer.Equals(this.member, request);
         }
 
         #endregion

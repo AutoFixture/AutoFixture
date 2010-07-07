@@ -343,5 +343,18 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.True(result);
             // Teardown
         }
+
+        [Fact]
+        public void IsSatisfiedByReturnsTrueForDerivedProperty()
+        {
+            // Fixture setup
+            var request = typeof(ConcreteType).GetProperty("Property1");
+            var sut = new BindingCommand<AbstractType, object>(x => x.Property1);
+            // Exercise system
+            var result = sut.IsSatisfiedBy(request);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
     }
 }
