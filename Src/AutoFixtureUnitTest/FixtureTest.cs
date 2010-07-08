@@ -2716,6 +2716,23 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void BuildAndComposeWillCarryBehaviorsForward()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Behaviors.Clear();
+
+            var expectedBuilder = new DelegatingSpecimenBuilder();
+            sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => expectedBuilder });
+            // Exercise system
+            var result = sut.Build<object>().Compose();
+            // Verify outcome
+            var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result);
+            Assert.Equal(expectedBuilder, composite.Builders.First());
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB

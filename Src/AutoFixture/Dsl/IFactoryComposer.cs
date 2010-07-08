@@ -40,8 +40,8 @@ namespace Ploeh.AutoFixture.Dsl
         /// parameter for the factory.
         /// </summary>
         /// <typeparam name="TInput">
-        /// The type of input parameter to use when invoking <paramref name="factory"/>
-        /// .</typeparam>
+        /// The type of input parameter to use when invoking <paramref name="factory"/>.
+        /// </typeparam>
         /// <param name="factory">
         /// A function that will be used to create the object. This will often be a constructor
         /// that takes a single constructor argument of type <typeparamref name="TInput"/>.

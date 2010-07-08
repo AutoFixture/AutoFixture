@@ -226,7 +226,9 @@ namespace Ploeh.AutoFixture
         public ICustomizationComposer<T> Build<T>()
         {
             return new CompositeComposer<T>(
-                new Composer<T>().WithAutoProperties(this.EnableAutoProperties),
+                new BehaviorComposer<T>(
+                    new Composer<T>().WithAutoProperties(this.EnableAutoProperties),
+                    this.Behaviors),
                 new NullComposer<T>(this.Compose));
         }
 
