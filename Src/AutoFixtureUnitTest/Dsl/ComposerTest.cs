@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             ISpecimenBuilder result = sut.Factory;
             // Verify outcome
-            Assert.IsAssignableFrom<ModestConstructorInvoker>(result);
+            Assert.IsAssignableFrom<ConstructorInvoker>(result);
             // Teardown
         }
 
@@ -642,7 +642,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
 
             internal SutBuilder()
             {
-                this.factory = new ModestConstructorInvoker();
+                this.factory = new ConstructorInvoker(new ModestConstructorQuery());
                 this.postprocessors = new List<ISpecifiedSpecimenCommand<T>>();
             }
 

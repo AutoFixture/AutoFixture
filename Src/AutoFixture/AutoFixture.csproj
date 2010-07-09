@@ -85,6 +85,7 @@
     <Compile Include="Dsl\IFactoryComposer.cs" />
     <Compile Include="Dsl\IPostprocessComposer.cs" />
     <Compile Include="DefaultEngineParts.cs" />
+    <Compile Include="Kernel\IConstructorQuery.cs" />
     <Compile Include="Kernel\IMany.cs" />
     <Compile Include="Kernel\ISpecimenBuilderComposer.cs" />
     <Compile Include="Dsl\ICustomizationComposer.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Kernel\ManyRequest.cs" />
     <Compile Include="Kernel\ManyRelay.cs" />
     <Compile Include="Kernel\MemberInfoEqualityComparer.cs" />
+    <Compile Include="Kernel\ModestConstructorQuery.cs" />
     <Compile Include="NullRecursionBehavior.cs" />
     <Compile Include="Kernel\SeedRequestSpecification.cs" />
     <Compile Include="Kernel\SpecifiedNullCommand.cs" />
@@ -123,7 +125,7 @@
     <Compile Include="Kernel\SpecimenContext.cs" />
     <Compile Include="Kernel\ISpecimenBuilder.cs" />
     <Compile Include="Kernel\ISpecimenContext.cs" />
-    <Compile Include="Kernel\ModestConstructorInvoker.cs" />
+    <Compile Include="Kernel\ConstructorInvoker.cs" />
     <Compile Include="Kernel\NoSpecimen.cs" />
     <Compile Include="Kernel\ParameterRequestRelay.cs" />
     <Compile Include="Kernel\TracingBuilder.cs" />

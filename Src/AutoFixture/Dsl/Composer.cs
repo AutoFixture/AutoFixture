@@ -21,7 +21,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// Initializes a new instance of the <see cref="Composer&lt;T&gt;"/> class.
         /// </summary>
         public Composer()
-            : this(new ModestConstructorInvoker(), Enumerable.Empty<ISpecifiedSpecimenCommand<T>>(), false)
+            : this(new ConstructorInvoker(new ModestConstructorQuery()), Enumerable.Empty<ISpecifiedSpecimenCommand<T>>(), false)
         {
         }
 

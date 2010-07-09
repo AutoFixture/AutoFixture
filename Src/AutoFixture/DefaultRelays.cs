@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public virtual IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            yield return new ModestConstructorInvoker();
+            yield return new ConstructorInvoker(new ModestConstructorQuery());
             yield return new ParameterRequestRelay();
             yield return new PropertyRequestRelay();
             yield return new FieldRequestRelay();

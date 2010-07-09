@@ -86,9 +86,11 @@
     <Compile Include="Kernel\AutoPropertiesCommandTest.cs" />
     <Compile Include="Kernel\CompositeSpecimenBuilderTest.cs" />
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
+    <Compile Include="Kernel\DelegatingConstructorQuery.cs" />
     <Compile Include="Kernel\DelegatingSpecimenBuilderTransformation.cs" />
     <Compile Include="Kernel\FakeMany.cs" />
     <Compile Include="Kernel\MemberInfoEqualityComparerTest.cs" />
+    <Compile Include="Kernel\ModestConstructorQueryTest.cs" />
     <Compile Include="NullRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\SeedRequestSpecificationTest.cs" />
     <Compile Include="Kernel\SpecimenContextTest.cs" />
@@ -106,7 +108,7 @@
     <Compile Include="Kernel\FiniteSequenceRelayTest.cs" />
     <Compile Include="Kernel\ManyRequestTest.cs" />
     <Compile Include="Kernel\ManyRelayTest.cs" />
-    <Compile Include="Kernel\ModestConstructorInvokerTest.cs" />
+    <Compile Include="Kernel\ConstructorInvokerTest.cs" />
     <Compile Include="Kernel\NoSpecimenTest.cs" />
     <Compile Include="Kernel\SpecifiedNullCommandTest.cs" />
     <Compile Include="Kernel\OrRequestSpecificationTest.cs" />

@@ -9,16 +9,39 @@ using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class ModestConstructorInvokerTest
+    public class ConstructorInvokerTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-            var sut = new ModestConstructorInvoker();
+            var sut = new ConstructorInvoker(new ModestConstructorQuery());
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullPickerThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new ConstructorInvoker(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void QueryIsCorrect()
+        {
+            // Fixture setup
+            var expectedPicker = new DelegatingConstructorQuery();
+            var sut = new ConstructorInvoker(expectedPicker);
+            // Exercise system
+            IConstructorQuery result = sut.Query;
+            // Verify outcome
+            Assert.Equal(expectedPicker, result);
             // Teardown
         }
 
@@ -26,7 +49,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithNullRequestWillReturnNull()
         {
             // Fixture setup
-            var sut = new ModestConstructorInvoker();
+            var sut = new ConstructorInvoker(new ModestConstructorQuery());
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
@@ -40,7 +63,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithNullContainerWillThrow()
         {
             // Fixture setup
-            var sut = new ModestConstructorInvoker();
+            var sut = new ConstructorInvoker(new ModestConstructorQuery());
             var dummyRequest = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
@@ -54,7 +77,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var nonTypeRequest = new object();
             var dummyContainer = new DelegatingSpecimenContext();
-            var sut = new ModestConstructorInvoker();
+            var sut = new ConstructorInvoker(new ModestConstructorQuery());
             // Exercise system
             var result = sut.Create(nonTypeRequest, dummyContainer);
             // Verify outcome
@@ -69,7 +92,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var type = typeof(string);
             var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(type) };
-            var sut = new ModestConstructorInvoker();
+            var sut = new ConstructorInvoker(new ModestConstructorQuery());
             // Exercise system
             var result = sut.Create(type, container);
             // Verify outcome
@@ -79,11 +102,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void CreateFromTypeWithNoPublicConstructorWhenContainerCanSatisfyRequestWillReturnNull()
+        public void CreateFromTypeWithNoPublicConstructorWhenContainerCanSatisfyRequestReturnsCorrectResult()
         {
             // Fixture setup
             var container = new DelegatingSpecimenContext { OnResolve = r => new object() };
-            var sut = new ModestConstructorInvoker();
+            var sut = new ConstructorInvoker(new ModestConstructorQuery());
             // Exercise system
             var result = sut.Create(typeof(AbstractType), container);
             // Verify outcome
@@ -99,7 +122,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var requestedType = typeof(DoubleParameterType<string, int>);
             var parameters = requestedType.GetConstructors().Single().GetParameters();
             var container = new DelegatingSpecimenContext { OnResolve = r => parameters[0] == r ? new object() : new NoSpecimen(r) };
-            var sut = new ModestConstructorInvoker();
+            var sut = new ConstructorInvoker(new ModestConstructorQuery());
             // Exercise system
             var result = sut.Create(requestedType, container);
             // Verify outcome
@@ -127,7 +150,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 return null;
             };
 
-            var sut = new ModestConstructorInvoker();
+            var sut = new ConstructorInvoker(new ModestConstructorQuery());
             // Exercise system
             var result = sut.Create(requestedType, container);
             // Verify outcome
@@ -145,8 +168,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var parameters = requestedType.GetConstructors().Single().GetParameters();
 
             var mockVerified = false;
-            var containerMock = new DelegatingSpecimenContext();
-            containerMock.OnResolve = r =>
+            var contextMock = new DelegatingSpecimenContext();
+            contextMock.OnResolve = r =>
                 {
                     if (parameters.Any(r.Equals))
                     {
@@ -164,11 +187,52 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     throw new ArgumentException("Unexpected container request.", "r");
                 };
 
-            var sut = new ModestConstructorInvoker();
+            var sut = new ConstructorInvoker(new ModestConstructorQuery());
             // Exercise system
-            sut.Create(requestedType, containerMock);
+            sut.Create(requestedType, contextMock);
             // Verify outcome
             Assert.True(mockVerified, "Mock verification");
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateFromTypeWillUseFirstConstructorItCanSatisfy()
+        {
+            // Fixture setup
+            var requestedType = typeof(MultiUnorderedConstructorType);
+            var ctor1 = requestedType.GetConstructor(new[] { typeof(MultiUnorderedConstructorType.ParameterObject) });
+            var ctor2 = requestedType.GetConstructor(new[] { typeof(string), typeof(int) });
+
+            var picker = new DelegatingConstructorQuery { OnSelectConstructors = t => new[] { ctor1, ctor2 } };
+            var sut = new ConstructorInvoker(picker);
+
+            var ctor2Params = ctor2.GetParameters();
+            var expectedText = "Anonymous text";
+            var expectedNumber = 14;
+
+            var context = new DelegatingSpecimenContext();
+            context.OnResolve = r =>
+                {
+                    if (ctor2Params.Any(r.Equals))
+                    {
+                        var pType = ((ParameterInfo)r).ParameterType;
+                        if (typeof(string) == pType)
+                        {
+                            return expectedText;
+                        }
+                        if (typeof(int) == pType)
+                        {
+                            return expectedNumber;
+                        }
+                    }
+                    return new NoSpecimen(r);
+                };
+            // Exercise system
+            var result = sut.Create(requestedType, context);
+            // Verify outcome
+            var actual = Assert.IsAssignableFrom<MultiUnorderedConstructorType>(result);
+            Assert.Equal(expectedText, actual.Text);
+            Assert.Equal(expectedNumber, actual.Number);
             // Teardown
         }
     }
