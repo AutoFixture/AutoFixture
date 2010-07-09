@@ -146,7 +146,6 @@
     <Compile Include="Kernel\NullRecursionGuard.cs" />
     <Compile Include="ObjectCreationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GuidStringGenerator.cs" />
     <Compile Include="Kernel\RecursionGuard.cs" />
     <Compile Include="SByteSequenceGenerator.cs" />
     <Compile Include="Kernel\SeededRequest.cs" />

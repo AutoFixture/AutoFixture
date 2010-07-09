@@ -32,13 +32,18 @@ namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
             var s = string.Empty;
             while (s.Length < this.minimumLength)
             {
-                s += GuidStringGenerator.CreateAnonymous(seed);
+                s += ConstrainedStringGenerator.CreateAnonymous(seed);
             }
             if (s.Length > this.maximumLength)
             {
                 s = s.Substring(0, this.maximumLength);
             }
             return s;
+        }
+
+        private static string CreateAnonymous(string seed)
+        {
+            return seed + Guid.NewGuid();
         }
     }
 }
