@@ -873,7 +873,7 @@ namespace Ploeh.AutoFixtureUnitTest
             int expectedCount = sut.RepeatCount;
             // Exercise system
             int result = 0;
-            sut.Repeat(() => result++);
+            sut.Repeat(() => result++).ToList();
             // Verify outcome
             Assert.Equal<int>(expectedCount, result);
             // Teardown
@@ -901,7 +901,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.RepeatCount = expectedCount;
             // Exercise system
             int result = 0;
-            sut.Repeat(() => result++);
+            sut.Repeat(() => result++).ToList();
             // Verify outcome
             Assert.Equal<int>(expectedCount, result);
             // Teardown

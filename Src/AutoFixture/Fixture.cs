@@ -605,7 +605,8 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         public IEnumerable<T> Repeat<T>(Func<T> function)
         {
-            return function.Repeat(this.RepeatCount);
+            return from f in Enumerable.Repeat(function, this.RepeatCount)
+                   select f();
         }
 
         #region ISpecimenBuilderComposer Members

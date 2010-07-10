@@ -24,35 +24,7 @@ namespace Ploeh.AutoFixture
         /// </param>
         public static void AddMany<T>(this ICollection<T> collection, Func<T> creator, int repeatCount)
         {
-            creator.Repeat(repeatCount).ToList().ForEach(item => collection.Add(item));
-        }
-
-        /// <summary>
-        /// Repeats a function a specified number of times and returns a sequence of the created
-        /// objects.
-        /// </summary>
-        /// <typeparam name="T">
-        /// The type of objects contained within in the returned sequence.
-        /// </typeparam>
-        /// <param name="function">
-        /// A function that will be called many times to create objects that will be returned as a
-        /// sequence.
-        /// </param>
-        /// <param name="repeatCount">
-        /// The number of times <paramref name="function"/> is invoked, and hence the number of
-        /// items returned.
-        /// </param>
-        /// <returns>
-        /// A sequence of objects created by <paramref name="function"/>.
-        /// </returns>
-        public static IEnumerable<T> Repeat<T>(this Func<T> function, int repeatCount)
-        {
-            List<T> list = new List<T>();
-            for (int i = 0; i < repeatCount; i++)
-            {
-                list.Add(function());
-            }
-            return list;
+            Enumerable.Repeat(creator, repeatCount).ToList().ForEach(f => collection.Add(f()));
         }
     }
 }

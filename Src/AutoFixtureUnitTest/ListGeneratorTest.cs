@@ -9,37 +9,6 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     public class ListGeneratorTest
     {
-        public ListGeneratorTest()
-        {
-        }
-
-        [Fact]
-        public void RepeatWillCreateTheCorrectNumberOfObjects()
-        {
-            // Fixture setup
-            int expectedCount = 7;
-            Func<object> function = () => new object();
-            // Exercise system
-            IEnumerable<object> result = function.Repeat(expectedCount);
-            // Verify outcome
-            Assert.Equal<int>(expectedCount, result.Count());
-            // Teardown
-        }
-
-        [Fact]
-        public void RepeatWillInvokeFunctionTheCorrectNumberOfTimes()
-        {
-            // Fixture setup
-            int expectedCount = 4;
-            // Exercise system
-            int result = 0;
-            Func<int> function = () => result++;
-            function.Repeat(expectedCount);
-            // Verify outcome
-            Assert.Equal<int>(expectedCount, result);
-            // Teardown
-        }
-
         [Fact]
         public void AddManyWillAddItemsToList()
         {
