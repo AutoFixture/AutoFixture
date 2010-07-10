@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture
         private readonly CompositeSpecimenBuilder customizer;
         private readonly ISpecimenBuilder engine;
         private readonly CompositeSpecimenBuilder residueCollector;
-        private readonly IMany many;
+        private readonly IMultiple multiple;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Fixture"/> class.
@@ -41,22 +41,22 @@ namespace Ploeh.AutoFixture
         /// and a definition of what 'many' means.
         /// </summary>
         /// <param name="engine">The engine.</param>
-        /// <param name="many">The definition and implementation of 'many'.</param>
-        public Fixture(ISpecimenBuilder engine, IMany many)
+        /// <param name="multiple">The definition and implementation of 'many'.</param>
+        public Fixture(ISpecimenBuilder engine, IMultiple multiple)
         {
             if (engine == null)
             {
                 throw new ArgumentNullException("engine");
             }
-            if (many == null)
+            if (multiple == null)
             {
-                throw new ArgumentNullException("many");
+                throw new ArgumentNullException("multiple");
             }
 
             this.customizer = new CompositeSpecimenBuilder();
             this.engine = engine;
             this.residueCollector = new CompositeSpecimenBuilder();
-            this.many = many;
+            this.multiple = multiple;
 
             this.behaviors = new List<ISpecimenBuilderTransformation>();
             this.behaviors.Add(new ThrowingRecursionBehavior());
@@ -124,8 +124,8 @@ namespace Ploeh.AutoFixture
         /// <seealso cref="Repeat"/>
         public int RepeatCount
         {
-            get { return this.many.Count; }
-            set { this.many.Count = value; }
+            get { return this.multiple.Count; }
+            set { this.multiple.Count = value; }
         }
 
         /// <summary>

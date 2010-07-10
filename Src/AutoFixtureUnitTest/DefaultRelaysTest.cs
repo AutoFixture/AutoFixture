@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 typeof(ParameterRequestRelay),
                 typeof(PropertyRequestRelay),
                 typeof(FieldRequestRelay),
-                typeof(ManyRelay),
+                typeof(MultipleRelay),
                 typeof(FiniteSequenceRelay),
                 typeof(SeedIgnoringRelay)
             };
@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var sut = new DefaultRelays();
             // Verify outcome
-            Assert.IsAssignableFrom<IMany>(sut);
+            Assert.IsAssignableFrom<IMultiple>(sut);
             // Teardown
         }
 
@@ -89,7 +89,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Count = expectedCount;
             // Verify outcome
-            var manyRelay = sut.OfType<ManyRelay>().Single();
+            var manyRelay = sut.OfType<MultipleRelay>().Single();
             Assert.Equal(expectedCount, manyRelay.Count);
             // Teardown
         }
@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new DefaultRelays();
             var expectedCount = 149;
-            sut.OfType<ManyRelay>().Single().Count = expectedCount;
+            sut.OfType<MultipleRelay>().Single().Count = expectedCount;
             // Exercise system
             var result = sut.Count;
             // Verify outcome

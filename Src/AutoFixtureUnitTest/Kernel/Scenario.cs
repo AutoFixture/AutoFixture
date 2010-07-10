@@ -226,7 +226,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var container = Scenario.CreateContainer();
             // Exercise system
-            var result = container.Resolve(new ManyRequest(typeof(int)));
+            var result = container.Resolve(new MultipleRequest(typeof(int)));
             // Verify outcome
             var actual = Assert.IsAssignableFrom<IEnumerable<object>>(result);
             Assert.True(Enumerable.Range(1, 3).Cast<object>().SequenceEqual(actual));
@@ -489,7 +489,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new ParameterRequestRelay(),
                 new PropertyRequestRelay(),
                 new FieldRequestRelay(),
-                new ManyRelay { Count = 3 },
+                new MultipleRelay { Count = 3 },
                 new FiniteSequenceRelay(),
                 new StringSeedRelay(),
                 new SeedIgnoringRelay());

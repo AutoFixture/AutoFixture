@@ -10,25 +10,26 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     /// <remarks>
     /// <para>
-    /// The difference between <see cref="ManyRequest"/> and <see cref="FiniteSequenceRequest"/> is
-    /// that the latter specifies the number of specimens requested.
+    /// The difference between <see cref="MultipleRequest"/> and
+    /// <see cref="FiniteSequenceRequest"/> is that the latter specifies the number of specimens
+    /// requested.
     /// </para>
     /// <para>
-    /// <see cref="ManyRelay"/> translates <see cref="ManyRequest"/> instances to
+    /// <see cref="MultipleRelay"/> translates <see cref="MultipleRequest"/> instances to
     /// <see cref="FiniteSequenceRequest"/> instances.
     /// </para>
     /// </remarks>
     /// <seealso cref="FiniteSequenceRequest"/>
-    /// <seealso cref="ManyRelay"/>
-    public class ManyRequest : IEquatable<ManyRequest>
+    /// <seealso cref="MultipleRelay"/>
+    public class MultipleRequest : IEquatable<MultipleRequest>
     {
         private readonly object request;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ManyRequest"/> class.
+        /// Initializes a new instance of the <see cref="MultipleRequest"/> class.
         /// </summary>
         /// <param name="request">A single request which will be multiplied.</param>
-        public ManyRequest(object request)
+        public MultipleRequest(object request)
         {
             if (request == null)
             {
@@ -53,12 +54,12 @@ namespace Ploeh.AutoFixture.Kernel
         /// The <see cref="System.Object"/> to compare with this instance.
         /// </param>
         /// <returns>
-        /// <see langword="true"/> if <paramref name="obj"/> is a <see cref="ManyRequest"/>
+        /// <see langword="true"/> if <paramref name="obj"/> is a <see cref="MultipleRequest"/>
         /// instance which is equal to this instance; otherwise, <see langword="false"/>.
         /// </returns>
         public override bool Equals(object obj)
         {
-            var other = obj as ManyRequest;
+            var other = obj as MultipleRequest;
             if (other != null)
             {
                 return this.Equals(other);
@@ -81,15 +82,15 @@ namespace Ploeh.AutoFixture.Kernel
         #region IEquatable<ManyRequest> Members
 
         /// <summary>
-        /// Indicates whether the current <see cref="ManyRequest"/> is equal to another ManyRequest
-        /// instance.
+        /// Indicates whether the current <see cref="MultipleRequest"/> is equal to another
+        /// MultipleRequest instance.
         /// </summary>
         /// <param name="other">An object to compare with this object.</param>
         /// <returns>
-        /// <see langword="true"/> if the current <see cref="ManyRequest"/> is equal to the
+        /// <see langword="true"/> if the current <see cref="MultipleRequest"/> is equal to the
         /// <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
-        public bool Equals(ManyRequest other)
+        public bool Equals(MultipleRequest other)
         {
             if (other == null)
             {

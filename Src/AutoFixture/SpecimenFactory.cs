@@ -135,7 +135,7 @@ namespace Ploeh.AutoFixture
         /// <returns>A sequence of anonymous object of type <typeparamref name="T"/>.</returns>
         public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context, T seed)
         {
-            return from s in (IEnumerable<object>)context.Resolve(new ManyRequest(new SeededRequest(typeof(T), seed)))
+            return from s in (IEnumerable<object>)context.Resolve(new MultipleRequest(new SeededRequest(typeof(T), seed)))
                    select (T)s;
         }
 

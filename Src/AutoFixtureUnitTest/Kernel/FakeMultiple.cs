@@ -6,9 +6,9 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class FakeMany : IMany
+    public class FakeMultiple : IMultiple
     {
-        #region IMany Members
+        #region IMultiple Members
 
         public int Count { get; set; }
 

@@ -7,7 +7,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class ManyRequestTest
+    public class MultipleRequestTest
     {
         [Fact]
         public void InitializeWithNullRequestThrows()
@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new ManyRequest(null));
+                new MultipleRequest(null));
             // Teardown
         }
 
@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedRequest = new object();
-            var sut = new ManyRequest(expectedRequest);
+            var sut = new MultipleRequest(expectedRequest);
             // Exercise system
             var result = sut.Request;
             // Verify outcome
@@ -37,9 +37,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system
-            var sut = new ManyRequest(new object());
+            var sut = new MultipleRequest(new object());
             // Verify outcome
-            Assert.IsAssignableFrom<IEquatable<ManyRequest>>(sut);
+            Assert.IsAssignableFrom<IEquatable<MultipleRequest>>(sut);
             // Teardown
         }
 
@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualNullObject()
         {
             // Fixture setup
-            var sut = new ManyRequest(new object());
+            var sut = new MultipleRequest(new object());
             object other = null;
             // Exercise system
             var result = sut.Equals(other);
@@ -60,8 +60,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualNullSut()
         {
             // Fixture setup
-            var sut = new ManyRequest(new object());
-            ManyRequest other = null;
+            var sut = new MultipleRequest(new object());
+            MultipleRequest other = null;
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
@@ -73,7 +73,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualAnonymousObject()
         {
             // Fixture setup
-            var sut = new ManyRequest(new object());
+            var sut = new MultipleRequest(new object());
             object anonymousObject = new FileStyleUriParser();
             // Exercise system
             var result = sut.Equals(anonymousObject);
@@ -86,8 +86,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualOtherObjectWhenRequestDiffers()
         {
             // Fixture setup
-            var sut = new ManyRequest(new object());
-            object other = new ManyRequest(new object());
+            var sut = new MultipleRequest(new object());
+            object other = new MultipleRequest(new object());
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
@@ -99,8 +99,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualOtherSutWhenRequestDiffers()
         {
             // Fixture setup
-            var sut = new ManyRequest(new object());
-            var other = new ManyRequest(new object());
+            var sut = new MultipleRequest(new object());
+            var other = new MultipleRequest(new object());
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
@@ -113,8 +113,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var request = new object();
-            var sut = new ManyRequest(request);
-            object other = new ManyRequest(request);
+            var sut = new MultipleRequest(request);
+            object other = new MultipleRequest(request);
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
@@ -127,8 +127,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var request = new object();
-            var sut = new ManyRequest(request);
-            var other = new ManyRequest(request);
+            var sut = new MultipleRequest(request);
+            var other = new MultipleRequest(request);
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
@@ -140,7 +140,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void GetHashCodeReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = new ManyRequest(new object());
+            var sut = new MultipleRequest(new object());
             // Exercise system
             var result = sut.GetHashCode();
             // Verify outcome

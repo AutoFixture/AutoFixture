@@ -8,14 +8,14 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class ManyRelayTest
+    public class MultipleRelayTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-            var sut = new ManyRelay();
+            var sut = new MultipleRelay();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CountIsProperWritableProperty()
         {
             // Fixture setup
-            var sut = new ManyRelay();
+            var sut = new MultipleRelay();
             var expectedCount = 1;
             // Exercise system
             sut.Count = expectedCount;
@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void DefaultCountIsCorrect()
         {
             // Fixture setup
-            var sut = new ManyRelay();
+            var sut = new MultipleRelay();
             // Exercise system
             var result = sut.Count;
             // Verify outcome
@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SettingInvalidCountThrows(int count)
         {
             // Fixture setup
-            var sut = new ManyRelay();
+            var sut = new MultipleRelay();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 sut.Count = count);
@@ -64,7 +64,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithNullContextThrows()
         {
             // Fixture setup
-            var sut = new ManyRelay();
+            var sut = new MultipleRelay();
             var dummyRequest = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
@@ -76,7 +76,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithAnonymousRequestReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = new ManyRelay();
+            var sut = new MultipleRelay();
             var request = new object();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
@@ -94,7 +94,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithInvalidRequestReturnsCorrectResult(object request)
         {
             // Fixture setup
-            var sut = new ManyRelay();
+            var sut = new MultipleRelay();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
@@ -108,13 +108,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithManyRequestReturnsCorrectResult()
         {
             // Fixture setup
-            var request = new ManyRequest(new object());
+            var request = new MultipleRequest(new object());
             var count = 7;
             var expectedTranslation = new FiniteSequenceRequest(request.Request, 7);
             var expectedResult = new object();
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedTranslation.Equals(r) ? expectedResult : new NoSpecimen(r) };
 
-            var sut = new ManyRelay { Count = count };
+            var sut = new MultipleRelay { Count = count };
             // Exercise system
             var result = sut.Create(request, container);
             // Verify outcome
@@ -127,9 +127,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system
-            var sut = new ManyRelay();
+            var sut = new MultipleRelay();
             // Verify outcome
-            Assert.IsAssignableFrom<IMany>(sut);
+            Assert.IsAssignableFrom<IMultiple>(sut);
             // Teardown
         }
     }

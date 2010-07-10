@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void InitializeWithNullEngineThrows()
         {
             // Fixture setup
-            var dummyMany = new FakeMany();
+            var dummyMany = new FakeMultiple();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new Fixture(null, dummyMany));
@@ -82,7 +82,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var expectedEngine = new DelegatingSpecimenBuilder();
-            var dummyMany = new FakeMany();
+            var dummyMany = new FakeMultiple();
             var sut = new Fixture(expectedEngine, dummyMany);
             // Exercise system
             var result = sut.Engine;
@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var expectedRepeatCount = 187;
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            var many = new FakeMany { Count = expectedRepeatCount };
+            var many = new FakeMultiple { Count = expectedRepeatCount };
             var sut = new Fixture(dummyBuilder, many);
             // Exercise system
             var result = sut.RepeatCount;
@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            var many = new FakeMany();
+            var many = new FakeMultiple();
             var sut = new Fixture(dummyBuilder, many);
             // Exercise system
             sut.RepeatCount = 26;

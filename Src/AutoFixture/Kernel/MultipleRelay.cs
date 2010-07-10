@@ -6,22 +6,22 @@ using System.Text;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// Relays requests for many (an unspecified count) specimens to a request for a specific
+    /// Relays requests for multiple (an unspecified count) specimens to a request for a specific
     /// number of specimens.
     /// </summary>
-    public class ManyRelay : ISpecimenBuilder, IMany
+    public class MultipleRelay : ISpecimenBuilder, IMultiple
     {
         private int count;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ManyRelay"/> class.
+        /// Initializes a new instance of the <see cref="MultipleRelay"/> class.
         /// </summary>
-        public ManyRelay()
+        public MultipleRelay()
         {
             this.count = 3;
         }
 
-        #region IMany Members
+        #region IMultiple Members
 
         /// <summary>
         /// Gets or sets the count that specifies how many specimens will be requested.
@@ -63,7 +63,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("context");
             }
 
-            var manyRequest = request as ManyRequest;
+            var manyRequest = request as MultipleRequest;
             if (manyRequest == null)
             {
                 return new NoSpecimen(request);

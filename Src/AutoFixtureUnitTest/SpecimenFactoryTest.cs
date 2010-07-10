@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var expectedResult = Enumerable.Range(1, 10);
             var container = new DelegatingSpecimenContext
             {
-                OnResolve = r => r.Equals(new ManyRequest(new SeededRequest(typeof(int), 0))) ? 
+                OnResolve = r => r.Equals(new MultipleRequest(new SeededRequest(typeof(int), 0))) ? 
                     (object)expectedResult.Cast<object>() : 
                     new NoSpecimen(r) 
             };
@@ -131,7 +131,7 @@ namespace Ploeh.AutoFixtureUnitTest
             specimenBuilder.OnCreate = (r, c) =>
                 {
                     Assert.NotNull(c);
-                    Assert.Equal(new ManyRequest(new SeededRequest(typeof(string), null)), r);
+                    Assert.Equal(new MultipleRequest(new SeededRequest(typeof(string), null)), r);
                     return expectedResult.Cast<object>();
                 };
 
@@ -152,7 +152,7 @@ namespace Ploeh.AutoFixtureUnitTest
             specimenBuilder.OnCreate = (r, c) =>
             {
                 Assert.NotNull(c);
-                Assert.Equal(new ManyRequest(new SeededRequest(typeof(string), null)), r);
+                Assert.Equal(new MultipleRequest(new SeededRequest(typeof(string), null)), r);
                 return expectedResult.Cast<object>();
             };
 
@@ -172,7 +172,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var expectedResult = Enumerable.Range(1, 5).Select(i => new Version(i, i));
             var container = new DelegatingSpecimenContext
             {
-                OnResolve = r => r.Equals(new ManyRequest(new SeededRequest(typeof(Version), seed))) ?
+                OnResolve = r => r.Equals(new MultipleRequest(new SeededRequest(typeof(Version), seed))) ?
                     (object)expectedResult.Cast<object>() :
                     new NoSpecimen(r)
             };
@@ -193,7 +193,7 @@ namespace Ploeh.AutoFixtureUnitTest
             specimenBuilder.OnCreate = (r, c) =>
                 {
                     Assert.NotNull(c);
-                    Assert.Equal(new ManyRequest(new SeededRequest(typeof(TimeSpan), seed)), r);
+                    Assert.Equal(new MultipleRequest(new SeededRequest(typeof(TimeSpan), seed)), r);
                     return expectedResult.Cast<object>();
                 };
 
