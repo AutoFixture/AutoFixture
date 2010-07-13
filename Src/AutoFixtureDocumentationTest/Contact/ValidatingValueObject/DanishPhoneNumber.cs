@@ -7,18 +7,23 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.ValidatingValueObject
 {
     public class DanishPhoneNumber
     {
-        private readonly int number;
-
         public const int MinValue = 112;
+
+        private readonly int number;
 
         public DanishPhoneNumber(int number)
         {
-            if ((number < 112) ||
-                (number > 99999999))
+            if (!DanishPhoneNumber.IsValid(number))
             {
                 throw new ArgumentOutOfRangeException("number");
             }
             this.number = number;
+        }
+
+        public static bool IsValid(int number)
+        {
+            return (112 <= number)
+                && (number <= 99999999);
         }
 
         public int RawNumber
