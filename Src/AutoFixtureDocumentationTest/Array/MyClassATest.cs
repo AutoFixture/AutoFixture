@@ -58,5 +58,20 @@ namespace Ploeh.AutoFixtureDocumentationTest.Array
             Assert.True(mc.Items.All(x => x != null), "No item should be null");
             // Teardown
         }
+
+        [Fact]
+        public void RegisterArrayWillProperlyPopulateItems()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            fixture.Register<MyClassB[]>(() => 
+                fixture.CreateMany<MyClassB>().ToArray());
+            // Exercise system
+            var mc = fixture.CreateAnonymous<MyClassA>();
+            // Verify outcome
+            Assert.True(mc.Items.Length > 0, "Non-empty array");
+            Assert.True(mc.Items.All(x => x != null), "No item should be null");
+            // Teardown
+        }
     }
 }
