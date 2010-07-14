@@ -22,22 +22,38 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void CreateWithNullWriterWillThrow()
+        public void InitializeWithNullWriterWillThrow()
         {
             // Fixture setup
             var dummyBuilder = new DelegatingTracingBuilder();
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new TraceWriter(null, dummyBuilder));
+            Assert.Throws<ArgumentNullException>(() =>
+                new TraceWriter(null, dummyBuilder));
             // Teardown
         }
 
         [Fact]
-        public void CreateWithNullBuilderWillThrow()
+        public void InitializeWithNullBuilderWillThrow()
         {
             // Fixture setup
             var dummyWriter = TextWriter.Null;
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new TraceWriter(dummyWriter, null));
+            Assert.Throws<ArgumentNullException>(() =>
+                new TraceWriter(dummyWriter, null));
+            // Teardown
+        }
+
+        [Fact]
+        public void TracerIsCorrect()
+        {
+            // Fixture setup
+            var dummyWriter = TextWriter.Null;
+            var expectedTracer = new DelegatingTracingBuilder();
+            var sut = new TraceWriter(dummyWriter, expectedTracer);
+            // Exercise system
+            TracingBuilder result = sut.Tracer;
+            // Verify outcome
+            Assert.Equal(expectedTracer, result);
             // Teardown
         }
 

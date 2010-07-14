@@ -41,6 +41,14 @@ namespace Ploeh.AutoFixture.Kernel
         }
 
         /// <summary>
+        /// Gets the builder decorated by this instance.
+        /// </summary>
+        public ISpecimenBuilder Builder
+        {
+            get { return this.builder; }
+        }
+
+        /// <summary>
         /// Gets or sets a filter for tracking
         /// </summary>
         /// <remarks>

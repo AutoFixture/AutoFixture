@@ -7,6 +7,7 @@ using Ploeh.TestTypeFoundation;
 using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
+using System.IO;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -2731,6 +2732,22 @@ namespace Ploeh.AutoFixtureUnitTest
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result);
             Assert.Equal(expectedBuilder, composite.Builders.First());
             // Teardown
+        }
+
+        [Fact]
+        public void AddingTracingBehaviorWillTraceDiagnostics()
+        {
+            // Fixture setup
+            using (var writer = new StringWriter())
+            {
+                var sut = new Fixture();
+                sut.Behaviors.Add(new TracingBehavior(writer));
+                // Exercise system
+                sut.CreateAnonymous<int>();
+                // Verify outcome
+                Assert.False(string.IsNullOrEmpty(writer.ToString()));
+                // Teardown
+            }
         }
 
         private class RecursionTestObjectWithReferenceOutA

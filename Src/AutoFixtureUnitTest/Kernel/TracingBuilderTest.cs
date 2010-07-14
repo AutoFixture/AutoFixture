@@ -30,11 +30,25 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void CreateWithNullSpecimenBuilderWillThrow()
+        public void InitializeWithNullSpecimenBuilderWillThrow()
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new DelegatingTracingBuilder(null));
+            Assert.Throws<ArgumentNullException>(() => 
+                new DelegatingTracingBuilder(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void BuilderIsCorrect()
+        {
+            // Fixture setup
+            var expectedBuilder = new DelegatingSpecimenBuilder();
+            var sut = new TracingBuilder(expectedBuilder);
+            // Exercise system
+            ISpecimenBuilder result = sut.Builder;
+            // Verify outcome
+            Assert.Equal(expectedBuilder, result);
             // Teardown
         }
 

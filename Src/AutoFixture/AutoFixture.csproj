@@ -157,6 +157,7 @@
     <Compile Include="StringGenerator.cs" />
     <Compile Include="Kernel\ThrowingRecursionGuard.cs" />
     <Compile Include="DefaultRelays.cs" />
+    <Compile Include="TracingBehavior.cs" />
     <Compile Include="UInt16SequenceGenerator.cs" />
     <Compile Include="UInt32SequenceGenerator.cs" />
     <Compile Include="UInt64SequenceGenerator.cs" />

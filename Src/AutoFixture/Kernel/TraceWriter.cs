@@ -38,6 +38,14 @@ namespace Ploeh.AutoFixture.Kernel
         }
 
         /// <summary>
+        /// Gets the <see cref="TracingBuilder"/> decorated by this instance.
+        /// </summary>
+        public TracingBuilder Tracer
+        {
+            get { return this.tracer; }
+        }
+
+        /// <summary>
         /// Gets or sets the formatter for tracing a request.
         /// </summary>
         /// <value>The request trace formatter.</value>
