@@ -71,6 +71,7 @@
     <Compile Include="Dsl\ComposerTest.cs" />
     <Compile Include="Dsl\NullComposerTest.cs" />
     <Compile Include="DefaultEnginePartsTest.cs" />
+    <Compile Include="EnumGeneratorTest.cs" />
     <Compile Include="FactoryComposerTest.cs" />
     <Compile Include="Kernel\AndRequestSpecificationTest.cs" />
     <Compile Include="Kernel\AnyTypeSpecificationTest.cs" />

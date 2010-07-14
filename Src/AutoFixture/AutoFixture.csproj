@@ -85,6 +85,7 @@
     <Compile Include="Dsl\IFactoryComposer.cs" />
     <Compile Include="Dsl\IPostprocessComposer.cs" />
     <Compile Include="DefaultEngineParts.cs" />
+    <Compile Include="EnumGenerator.cs" />
     <Compile Include="Kernel\IConstructorQuery.cs" />
     <Compile Include="Kernel\IMultiple.cs" />
     <Compile Include="Kernel\ISpecimenBuilderComposer.cs" />

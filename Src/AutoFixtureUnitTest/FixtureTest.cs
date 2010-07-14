@@ -2750,6 +2750,18 @@ namespace Ploeh.AutoFixtureUnitTest
             }
         }
 
+        [Fact]
+        public void CreateAnonymousEnumReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<TriState>();
+            // Verify outcome
+            Assert.Equal(TriState.First, result);
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB

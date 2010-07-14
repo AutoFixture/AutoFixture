@@ -75,6 +75,7 @@
     <Compile Include="StaticFieldHolder.cs" />
     <Compile Include="StaticPropertyHolder.cs" />
     <Compile Include="TripleParameterType.cs" />
+    <Compile Include="TriState.cs" />
     <Compile Include="TypeWithIndexer.cs" />
     <Compile Include="TypeWithOverloadedMembers.cs" />
   </ItemGroup>
