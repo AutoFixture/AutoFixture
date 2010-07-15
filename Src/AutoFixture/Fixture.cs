@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixture.Dsl;
 using System.Linq;
+using Ploeh.AutoFixture.Dsl;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
     /// <summary>
     /// Provides anonymous object creation service.
     /// </summary>
-    public class Fixture : ISpecimenBuilderComposer
+    public class Fixture : ICustomizableComposer
     {
         private readonly List<ISpecimenBuilderTransformation> behaviors;
         private readonly CompositeSpecimenBuilder customizer;
@@ -74,26 +73,6 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Gets the customizations that intercept the <see cref="Engine"/>.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// Any <see cref="ISpecimenBuilder"/> in this list are invoked before
-        /// <see cref="Engine"/>, giving them a chance to intercept a request and resolve it before
-        /// the Engine.
-        /// </para>
-        /// <para>
-        /// <see cref="Customize{T}"/> places resulting customizations in this list.
-        /// </para>
-        /// </remarks>
-        /// <seealso cref="Engine"/>
-        /// <seealso cref="ResidueCollectors"/>
-        public IList<ISpecimenBuilder> Customizations
-        {
-            get { return this.customizer.Builders; }
-        }
-
-        /// <summary>
         /// Gets the core engine of the <see cref="Fixture"/> instance.
         /// </summary>
         /// <remarks>
@@ -129,22 +108,6 @@ namespace Ploeh.AutoFixture
         {
             get { return this.multiple.Count; }
             set { this.multiple.Count = value; }
-        }
-
-        /// <summary>
-        /// Gets the residue collectors that can be used to handle requests that neither the
-        /// <see cref="Customizations"/> nor <see cref="Engine"/> could handle.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// These <see cref="ISpecimenBuilder"/> instances will be invoked if no previous builder
-        /// could resolve a request. This gives you the opportunity to define fallback strategies
-        /// to deal with unresolved requests.
-        /// </para>
-        /// </remarks>
-        public IList<ISpecimenBuilder> ResidueCollectors
-        {
-            get { return this.residueCollector.Builders; }
         }
 
         /// <summary>
@@ -611,6 +574,46 @@ namespace Ploeh.AutoFixture
             return from f in Enumerable.Repeat(function, this.RepeatCount)
                    select f();
         }
+
+        #region ICustomizableComposer Members
+
+        /// <summary>
+        /// Gets the customizations that intercept the <see cref="Engine"/>.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Any <see cref="ISpecimenBuilder"/> in this list are invoked before
+        /// <see cref="Engine"/>, giving them a chance to intercept a request and resolve it before
+        /// the Engine.
+        /// </para>
+        /// <para>
+        /// <see cref="Customize{T}"/> places resulting customizations in this list.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="Engine"/>
+        /// <seealso cref="ResidueCollectors"/>
+        public IList<ISpecimenBuilder> Customizations
+        {
+            get { return this.customizer.Builders; }
+        }
+
+        /// <summary>
+        /// Gets the residue collectors that can be used to handle requests that neither the
+        /// <see cref="Customizations"/> nor <see cref="Engine"/> could handle.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// These <see cref="ISpecimenBuilder"/> instances will be invoked if no previous builder
+        /// could resolve a request. This gives you the opportunity to define fallback strategies
+        /// to deal with unresolved requests.
+        /// </para>
+        /// </remarks>
+        public IList<ISpecimenBuilder> ResidueCollectors
+        {
+            get { return this.residueCollector.Builders; }
+        }
+
+        #endregion
 
         #region ISpecimenBuilderComposer Members
 

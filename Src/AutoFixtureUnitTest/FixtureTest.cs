@@ -301,6 +301,17 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void SutIsCustomizableComposer()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new Fixture();
+            // Verify outcome
+            Assert.IsAssignableFrom<ICustomizableComposer>(sut);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousWillCreateSimpleObject()
         {
             // Fixture setup
