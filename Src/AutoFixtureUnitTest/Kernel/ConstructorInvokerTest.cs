@@ -87,6 +87,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void CreateReturnsCorrectResultWhenQueryReturnsEmptyConstructors()
+        {
+            // Fixture setup
+            var dummyRequest = typeof(object);
+            var query = new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<ConstructorInfo>() };
+            var sut = new ConstructorInvoker(query);
+            // Exercise system
+            var dummyContext = new DelegatingSpecimenContext();
+            var result = sut.Create(dummyRequest, dummyContext);
+            // Verify outcome
+            var expectedResult = new NoSpecimen(dummyRequest);
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateFromTypeRequestWhenContainerCannotSatisfyParameterRequestWillReturnCorrectResult()
         {
             // Fixture setup

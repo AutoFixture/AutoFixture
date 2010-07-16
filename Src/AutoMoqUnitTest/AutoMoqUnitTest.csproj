@@ -5,21 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}</ProjectGuid>
+    <ProjectGuid>{C50B2B1F-AF13-4DAB-8F56-788155017318}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ploeh.TestTypeFoundation</RootNamespace>
-    <AssemblyName>Ploeh.TestTypeFoundation</AssemblyName>
+    <RootNamespace>Ploeh.AutoFixture.AutoMoq.UnitTest</RootNamespace>
+    <AssemblyName>Ploeh.AutoFixture.AutoMoq.UnitTest</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq, Version=3.1.416.3, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Moq 3.1\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -51,35 +47,36 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="xunit, Version=1.5.0.1479, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\xUnit 1.5\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.extensions, Version=1.5.0.1479, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\xUnit 1.5\xunit.extensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractType.cs" />
-    <Compile Include="AbstractTypeWithNonDefaultConstructor.cs" />
-    <Compile Include="CollectionHolder.cs" />
-    <Compile Include="ConcreteType.cs" />
-    <Compile Include="DataErrorInfo.cs" />
-    <Compile Include="DoubleFieldHolder.cs" />
-    <Compile Include="DoubleParameterType.cs" />
-    <Compile Include="DoublePropertyHolder.cs" />
-    <Compile Include="EqualityResponder.cs" />
-    <Compile Include="FieldHolder.cs" />
-    <Compile Include="IInterface.cs" />
-    <Compile Include="IllBehavedPropertyHolder.cs" />
-    <Compile Include="IndexedPropertyHolder.cs" />
-    <Compile Include="InvariantReferenceTypePropertyHolder.cs" />
-    <Compile Include="MultiUnorderedConstructorType.cs" />
+    <Compile Include="AutoMoqFixtureTest.cs" />
+    <Compile Include="FixtureIntegrationTest.cs" />
+    <Compile Include="MockConstructorQueryTest.cs" />
+    <Compile Include="MockPostprocessorTest.cs" />
+    <Compile Include="MockReleayTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyHolder.cs" />
-    <Compile Include="QuadrupleParameterType.cs" />
-    <Compile Include="ReadOnlyFieldHolder.cs" />
-    <Compile Include="ReadOnlyPropertyHolder.cs" />
-    <Compile Include="SingleParameterType.cs" />
-    <Compile Include="StaticFieldHolder.cs" />
-    <Compile Include="StaticPropertyHolder.cs" />
-    <Compile Include="TripleParameterType.cs" />
-    <Compile Include="TriState.cs" />
-    <Compile Include="TypeWithIndexer.cs" />
-    <Compile Include="TypeWithOverloadedMembers.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
+      <Project>{400AC174-9A4A-4C7D-815B-F2A21130A0D1}</Project>
+      <Name>AutoFixture</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoMoq\AutoMoq.csproj">
+      <Project>{5DCEC2BD-40A3-458A-BEBC-C2FC0D4D451B}</Project>
+      <Name>AutoMoq</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj">
+      <Project>{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}</Project>
+      <Name>TestTypeFoundation</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
