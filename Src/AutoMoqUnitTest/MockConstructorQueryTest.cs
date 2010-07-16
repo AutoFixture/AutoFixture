@@ -107,9 +107,32 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Verify outcome
             var actualArgs = from ci in result
                              select ci.GetParameters();
-            Assert.True(mockTypeCtorArgs.All(expectedParams => 
-                actualArgs.Any(actualParams => 
+            Assert.True(mockTypeCtorArgs.All(expectedParams =>
+                actualArgs.Any(actualParams =>
                     expectedParams.SequenceEqual(actualParams))));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(Mock<AbstractType>))]
+        [InlineData(typeof(Mock<ConcreteType>))]
+        [InlineData(typeof(Mock<MultiUnorderedConstructorType>))]
+        public void ConstructorsAreReturnedInCorrectOrder(Type t)
+        {
+            // Fixture setup
+            var mockType = t.GetGenericArguments().Single();
+            var mockTypeCtorArgCounts = from ci in mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                                        let paramCount = ci.GetParameters().Length
+                                        orderby paramCount ascending
+                                        select paramCount;
+
+            var sut = new MockConstructorQuery();
+            // Exercise system
+            var result = sut.SelectConstructors(t);
+            // Verify outcome
+            var actualArgCounts = from ci in result
+                                  select ci.GetParameters().Length;
+            Assert.True(mockTypeCtorArgCounts.SequenceEqual(actualArgCounts));
             // Teardown
         }
     }
