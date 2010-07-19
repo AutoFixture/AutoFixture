@@ -2713,6 +2713,20 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void BuildFromFactoryStillAppliesAutoProperties()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Build<PropertyHolder<string>>()
+                .FromFactory(() => new PropertyHolder<string>())
+                .CreateAnonymous();
+            // Verify outcome
+            Assert.NotNull(result.Property);
+            // Teardown
+        }
+
+        [Fact]
         public void NewestCustomizationWins()
         {
             // Fixture setup
