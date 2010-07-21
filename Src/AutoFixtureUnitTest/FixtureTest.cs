@@ -2773,6 +2773,19 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void RegisterNullWillAssignCorrectPickedPropertyValue()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Register(() => (string)null);
+            // Exercise system
+            var result = sut.Build<PropertyHolder<string>>().With(p => p.Property).CreateAnonymous();
+            // Verify outcome
+            Assert.Null(result.Property);
+            // Teardown
+        }
+
+        [Fact]
         public void AddingTracingBehaviorWillTraceDiagnostics()
         {
             // Fixture setup

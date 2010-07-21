@@ -181,7 +181,7 @@ namespace Ploeh.AutoFixture.Kernel
         private TProperty CreateAnonymousValue(ISpecimenContext container)
         {
             var bindingValue = container.Resolve(this.member);
-            if (!(bindingValue is TProperty))
+            if ((bindingValue != null) && !(bindingValue is TProperty))
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                     "The specimen created for assignment is not compatible with {0}.", typeof(TProperty)));
