@@ -2727,6 +2727,19 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void BuildOverwritesPreviousFactoryBasedCustomization()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Customize<PropertyHolder<object>>(c => c.FromFactory(() => new PropertyHolder<object>()));
+            // Exercise system
+            var result = sut.Build<PropertyHolder<object>>().OmitAutoProperties().CreateAnonymous();
+            // Verify outcome
+            Assert.Null(result.Property);
+            // Teardown
+        }
+
+        [Fact]
         public void NewestCustomizationWins()
         {
             // Fixture setup

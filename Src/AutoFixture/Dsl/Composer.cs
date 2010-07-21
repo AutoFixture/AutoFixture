@@ -421,6 +421,8 @@ namespace Ploeh.AutoFixture.Dsl
                 builder = new Postprocessor<T>(builder, p.Execute);
             }
 
+            var filter = new OrRequestSpecification(new SeedRequestSpecification(typeof(T)), new ExactTypeSpecification(typeof(T)));
+
             if (this.EnableAutoProperties)
             {
                 var reservedProperties =
@@ -430,10 +432,11 @@ namespace Ploeh.AutoFixture.Dsl
                 builder = new Postprocessor<T>(
                     builder,
                     new AutoPropertiesCommand<T>(reservedProperties).Execute,
-                    new OrRequestSpecification(new SeedRequestSpecification(typeof(T)), new AnyTypeSpecification()));
+                    filter);
             }
 
-            var filter = new OrRequestSpecification(new SeedRequestSpecification(typeof(T)), new ExactTypeSpecification(typeof(T)));
+            builder = new CompositeSpecimenBuilder(builder, new SeedIgnoringRelay());
+
             return new FilteringSpecimenBuilder(builder, filter);
         }
 
