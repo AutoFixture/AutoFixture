@@ -23,6 +23,35 @@ namespace Ploeh.AutoFixture.Dsl
         IPostprocessComposer<T> FromSeed(Func<T, T> factory);
 
         /// <summary>
+        /// Specifies an <see cref="ISpecimenBuilder"/> that can create specimens of the
+        /// appropriate type. Mostly for advanced scenarios.
+        /// </summary>
+        /// <param name="factory">
+        /// An <see cref="ISpecimenBuilder"/> that can create specimens of the appropriate type.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to further customize the
+        /// post-processing of created specimens.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This method is mostly intended for advanced scenarios where a more loosely coupled
+        /// strategy is desired to create specimens, but the advantages of the strongly typed
+        /// <see cref="IPostprocessComposer{T}"/> are still desired for post-processing.
+        /// </para>
+        /// <para>
+        /// One possible scenario is for post-processing of interfaces or abstract types where
+        /// auto-mocking is desired to create the instance. This method makes it possible to supply
+        /// an auto-mocking <see cref="ISpecimenBuilder"/>.
+        /// </para>
+        /// <para>
+        /// <paramref name="factory"/> must be able to create specimens of the requested type, or
+        /// exceptions may be thrown.
+        /// </para>
+        /// </remarks>
+        IPostprocessComposer<T> FromFactory(ISpecimenBuilder factory);
+
+        /// <summary>
         /// Specifies that an anonymous object should be created in a particular way; often by
         /// using a constructor.
         /// </summary>

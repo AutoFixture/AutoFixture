@@ -252,6 +252,23 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void FromBuilderFactoryReturnsCorrectResult()
+        {
+            // Fixture setup
+            var expectedFactory = new DelegatingSpecimenBuilder();
+            var expectedComposer = new DelegatingComposer<Version>();
+            var composer = new DelegatingComposer<Version> { OnFromBuilder = f => f == expectedFactory ? expectedComposer : new DelegatingComposer<Version>() };
+
+            var sut = new BehaviorComposer<Version>(composer);
+            // Exercise system
+            var result = sut.FromFactory(expectedFactory);
+            // Verify outcome
+            var behaviorComposer = Assert.IsAssignableFrom<BehaviorPostprocessComposer<Version>>(result);
+            Assert.Equal(expectedComposer, behaviorComposer.Composer);
+            // Teardown
+        }
+
+        [Fact]
         public void FromZeroInputFactoryReturnsCorrectResult()
         {
             // Fixture setup

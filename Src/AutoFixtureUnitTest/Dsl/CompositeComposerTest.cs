@@ -205,6 +205,26 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
+        public void FromBuilderFactoryReturnsCorrectResult()
+        {
+            // Fixture setup
+            var expectedFactory = new DelegatingSpecimenBuilder();
+            var expectedComposers = Enumerable.Range(1, 3).Select(i => new DelegatingComposer<Version>()).ToArray();
+            var initialComposers = (from c in expectedComposers
+                                    select new DelegatingComposer<Version>
+                                    {
+                                        OnFromBuilder = f => f == expectedFactory ? c : new DelegatingComposer<Version>()
+                                    }).ToArray();
+            var sut = new CompositeComposer<Version>(initialComposers);
+            // Exercise system
+            var result = sut.FromFactory(expectedFactory);
+            // Verify outcome
+            var composite = Assert.IsAssignableFrom<CompositePostprocessComposer<Version>>(result);
+            Assert.True(expectedComposers.SequenceEqual(composite.Composers));
+            // Teardown
+        }
+
+        [Fact]
         public void FromFactoryReturnsCorrectResult()
         {
             // Fixture setup

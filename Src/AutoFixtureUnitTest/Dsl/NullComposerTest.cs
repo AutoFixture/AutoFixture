@@ -95,6 +95,19 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
+        public void FromBuilderFactoryReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new NullComposer<Version>();
+            // Exercise system
+            var dummyFactory = new DelegatingSpecimenBuilder();
+            var result = sut.FromFactory(dummyFactory);
+            // Verify outcome
+            Assert.Same(sut, result);
+            // Teardown
+        }
+
+        [Fact]
         public void FromFactoryReturnsCorrectResult()
         {
             // Fixture setup

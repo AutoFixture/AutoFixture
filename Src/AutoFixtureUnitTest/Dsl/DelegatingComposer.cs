@@ -15,6 +15,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public DelegatingComposer()
         {
             this.OnFromSeed = f => new DelegatingComposer<T>();
+            this.OnFromBuilder = f => new DelegatingComposer<T>();
             this.OnFromFactory = f => new DelegatingComposer<T>();
             this.OnFromOverloadeFactory = f => new DelegatingComposer<T>();
             this.OnDo = f => new DelegatingComposer<T>();
@@ -31,6 +32,11 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public IPostprocessComposer<T> FromSeed(Func<T, T> factory)
         {
             return this.OnFromSeed(factory);
+        }
+
+        public IPostprocessComposer<T> FromFactory(ISpecimenBuilder factory)
+        {
+            return this.OnFromBuilder(factory);
         }
 
         public IPostprocessComposer<T> FromFactory(Func<T> factory)
@@ -104,6 +110,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         #endregion
 
         internal Func<Func<T, T>, IPostprocessComposer<T>> OnFromSeed { get; set; }
+        internal Func<ISpecimenBuilder, IPostprocessComposer<T>> OnFromBuilder { get; set; }
         internal Func<Func<T>, IPostprocessComposer<T>> OnFromFactory { get; set; }
         internal Func<object, IPostprocessComposer<T>> OnFromOverloadeFactory { get; set; }
         internal Func<Action<T>, IPostprocessComposer<T>> OnDo { get; set; }

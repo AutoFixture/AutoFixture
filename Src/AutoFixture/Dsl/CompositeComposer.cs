@@ -65,6 +65,23 @@ namespace Ploeh.AutoFixture.Dsl
         }
 
         /// <summary>
+        /// Specifies an <see cref="ISpecimenBuilder"/> that can create specimens of the
+        /// appropriate type. Mostly for advanced scenarios.
+        /// </summary>
+        /// <param name="factory">
+        /// An <see cref="ISpecimenBuilder"/> that can create specimens of the appropriate type.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to further customize the
+        /// post-processing of created specimens.
+        /// </returns>
+        public IPostprocessComposer<T> FromFactory(ISpecimenBuilder factory)
+        {
+            return new CompositePostprocessComposer<T>(from c in this.composers
+                                                       select c.FromFactory(factory));
+        }
+
+        /// <summary>
         /// Specifies that an anonymous object should be created in a particular way; often by
         /// using a constructor.
         /// </summary>

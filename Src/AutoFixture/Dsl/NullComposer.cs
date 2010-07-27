@@ -79,6 +79,16 @@ namespace Ploeh.AutoFixture.Dsl
         }
 
         /// <summary>
+        /// Does nothing.
+        /// </summary>
+        /// <param name="factory">Ignored.</param>
+        /// <returns>The current instance.</returns>
+        public IPostprocessComposer<T> FromFactory(ISpecimenBuilder factory)
+        {
+            return this;
+        }
+
+        /// <summary>
         /// Does nothing
         /// </summary>
         /// <param name="factory">Ignored.</param>
