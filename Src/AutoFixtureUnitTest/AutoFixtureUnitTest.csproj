@@ -83,6 +83,7 @@
     <Compile Include="Kernel\FakeMultiple.cs" />
     <Compile Include="Kernel\MemberInfoEqualityComparerTest.cs" />
     <Compile Include="Kernel\ModestConstructorQueryTest.cs" />
+    <Compile Include="Kernel\NoSpecimenOutputGuardTest.cs" />
     <Compile Include="NullRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\SeedRequestSpecificationTest.cs" />
     <Compile Include="Kernel\SpecimenContextTest.cs" />
