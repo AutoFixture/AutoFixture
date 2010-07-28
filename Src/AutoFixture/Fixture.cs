@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
+using System.ComponentModel;
 
 namespace Ploeh.AutoFixture
 {
@@ -433,15 +434,35 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
+        /// Injects a specific instance for a specific type.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type for which <paramref name="item"/> should be injected.
+        /// </typeparam>
+        /// <param name="item">The item to inject.</param>
+        public void Inject<T>(T item)
+        {
+            this.Customize<T>(c => c.FromFactory(() => item).OmitAutoProperties());
+        }
+
+        /// <summary>
         /// Registers a specific instance for a specific type.
         /// </summary>
         /// <typeparam name="T">
         /// The type for which <paramref name="item"/> should be registered.
         /// </typeparam>
         /// <param name="item">The item to register.</param>
+        /// <remarks>
+        /// <para>
+        /// This method is deprecated. Use <see cref="Inject{T}(T)"/> instead.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="Inject{T}(T)"/>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Use the Inject method instead.")]
         public void Register<T>(T item)
         {
-            this.Customize<T>(c => c.FromFactory(() => item).OmitAutoProperties());
+            this.Inject(item);
         }
 
         /// <summary>
@@ -659,7 +680,7 @@ namespace Ploeh.AutoFixture
 
         private T FreezeValue<T>(T value)
         {
-            this.Register(value);
+            this.Inject(value);
             return value;
         }
     }

@@ -1763,6 +1763,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+#pragma warning disable 618
         [Fact]
         public void RegisterInstanceWillCauseSutToReturnInstanceWhenRequested()
         {
@@ -1786,6 +1787,37 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var sut = new Fixture();
             sut.Register(item);
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<object>>();
+            // Verify outcome
+            Assert.Null(result.Property);
+            // Teardown
+        }
+#pragma warning restore 618
+
+        [Fact]
+        public void InjectWillCauseSutToReturnInstanceWhenRequested()
+        {
+            // Fixture setup
+            var expectedResult = new PropertyHolder<object>();
+            var sut = new Fixture();
+            sut.Inject(expectedResult);
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<object>>();
+            // Verify outcome
+            Assert.Equal<PropertyHolder<object>>(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void InjectWillCauseSutToReturnInstanceWithoutAutoPropertiesWhenRequested()
+        {
+            // Fixture setup
+            var item = new PropertyHolder<object>();
+            item.Property = null;
+
+            var sut = new Fixture();
+            sut.Inject(item);
             // Exercise system
             var result = sut.CreateAnonymous<PropertyHolder<object>>();
             // Verify outcome
@@ -2003,7 +2035,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var item = new PropertyHolder<string>();
             var sut = new Fixture();
             // Exercise system
-            sut.Register(item);
+            sut.Inject(item);
             // Verify outcome
             var result = sut.CreateAnonymous<PropertyHolder<string>>();
             Assert.Null(result.Property);
