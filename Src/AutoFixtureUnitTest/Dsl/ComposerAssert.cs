@@ -15,10 +15,10 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             return filter;
         }
 
-        internal static FilteringSpecimenBuilder ShouldContain(this FilteringSpecimenBuilder filter, ISpecimenBuilder expectedBuilder)
+        internal static FilteringSpecimenBuilder ShouldContain(this FilteringSpecimenBuilder filter, Func<ISpecimenBuilder, bool> predicate)
         {
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(filter.Builder);
-            Assert.Equal(expectedBuilder, composite.Builders.First());
+            Assert.True(composite.Builders.Any(predicate));
             return filter;
         }
 

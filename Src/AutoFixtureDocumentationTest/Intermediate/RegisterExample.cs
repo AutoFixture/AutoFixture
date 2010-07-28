@@ -21,9 +21,8 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
                 Fixture fixture = new Fixture();
                 MyClass sut = fixture.CreateAnonymous<MyClass>();
             }
-            catch (ObjectCreationException e)
+            catch (ObjectCreationException)
             {
-                Console.WriteLine(e);
             }
         }
 

@@ -431,7 +431,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public ISpecimenBuilder Compose()
         {
-            var builder = this.Factory;
+            ISpecimenBuilder builder = this.Factory;
             foreach (var p in this.Postprocessors)
             {
                 builder = new Postprocessor<T>(builder, p.Execute);

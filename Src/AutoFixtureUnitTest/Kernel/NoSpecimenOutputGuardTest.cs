@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void InitializeWithNullBuilderThrows()
+        public void InitializeModestCtorWithNullBuilderThrows()
         {
             // Fixture setup
             // Exercise system and verify outcome
@@ -33,7 +33,29 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void BuilderIsCorrect()
+        public void InitializeGreedyCtorWithNullBuilderThrows()
+        {
+            // Fixture setup
+            var dummySpec = new DelegatingRequestSpecification();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new NoSpecimenOutputGuard(null, dummySpec));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeGreedyCtorWithNullSpecificationThrows()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new NoSpecimenOutputGuard(dummyBuilder, null));
+            // Teardown
+        }
+
+        [Fact]
+        public void BuilderIsCorrectWhenInitializedWithModestCtor()
         {
             // Fixture setup
             var expectedBuilder = new DelegatingSpecimenBuilder();
@@ -42,6 +64,47 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             ISpecimenBuilder result = sut.Builder;
             // Verify outcome
             Assert.Equal(expectedBuilder, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuilderIsCorrectWhenInitializedWithGreedyCtor()
+        {
+            // Fixture setup
+            var expectedBuilder = new DelegatingSpecimenBuilder();
+            var dummySpec = new DelegatingRequestSpecification();
+            var sut = new NoSpecimenOutputGuard(expectedBuilder, dummySpec);
+            // Exercise system
+            var result = sut.Builder;
+            // Verify outcome
+            Assert.Equal(expectedBuilder, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecificationIsCorrectWhenInitializedWithModestCtor()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var sut = new NoSpecimenOutputGuard(dummyBuilder);
+            // Exercise system
+            IRequestSpecification result = sut.Specification;
+            // Verify outcome
+            Assert.IsAssignableFrom<TrueRequestSpecification>(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecificationIsCorrectWhenInitializedWithGreedyCtor()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var expectedSpec = new DelegatingRequestSpecification();
+            var sut = new NoSpecimenOutputGuard(dummyBuilder, expectedSpec);
+            // Exercise system
+            var result = sut.Specification;
+            // Verify outcome
+            Assert.Equal(expectedSpec, result);
             // Teardown
         }
 
@@ -73,6 +136,24 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             Assert.Throws<ObjectCreationException>(() =>
                 sut.Create(dummyRequest, dummyContext));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateDoesNotThrowOnReturnedNoSpecimenWhenSpecificationReturnsFalse()
+        {
+            // Fixture setup            
+            var request = new object();
+
+            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen(r) };
+            var spec = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => request == r ? false : true };
+            var sut = new NoSpecimenOutputGuard(builder, spec);
+            // Exercise system
+            var dummyContext = new DelegatingSpecimenContext();
+            var result = sut.Create(request, dummyContext);
+            // Verify outcome
+            var expectedResult = new NoSpecimen(request);
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
     }

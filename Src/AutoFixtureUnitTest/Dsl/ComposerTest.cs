@@ -232,7 +232,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var result = sut.Compose();
             // Verify outcome
-            result.IsFilter().ShouldContain(expectedResult).ShouldSpecify<int>();
+            result.IsFilter().ShouldContain(expectedResult.Equals).ShouldSpecify<int>();
             // Teardown
         }
 
@@ -632,7 +632,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var result = sut.Compose();
             // Verify outcome
-            result.IsFilter().ShouldContain(sut.Factory).ShouldSpecify<string>();
+            result.IsFilter().ShouldContain(sut.Factory.Equals).ShouldSpecify<string>();
             // Teardown
         }
 
