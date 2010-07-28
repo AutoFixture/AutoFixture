@@ -2773,6 +2773,58 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void BuildAbstractClassThrows()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ObjectCreationException>(() =>
+                sut.Build<AbstractType>().CreateAnonymous());
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAbstractTypeUsingStronglyTypedFactoryIsPossible()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Build<AbstractType>().FromFactory(() => new ConcreteType()).CreateAnonymous();
+            // Verify outcome
+            Assert.IsAssignableFrom<ConcreteType>(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAbstractTypeUsingBuilderIsPossible()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new ConcreteType() };
+            // Exercise system
+            var result = sut.Build<AbstractType>().FromFactory(builder).CreateAnonymous();
+            // Verify outcome
+            Assert.IsAssignableFrom<ConcreteType>(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuildAbstractTypeCorrectlyAppliesProperty()
+        {
+            // Fixture setup
+            var expected = new object();
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Build<AbstractType>()
+                .FromFactory(() => new ConcreteType())
+                .With(x => x.Property1, expected)
+                .CreateAnonymous();
+            // Verify outcome
+            Assert.Equal(expected, result.Property1);
+            // Teardown
+        }
+
+        [Fact]
         public void RegisterNullWillAssignCorrectPickedPropertyValue()
         {
             // Fixture setup

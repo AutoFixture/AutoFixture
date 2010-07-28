@@ -16,6 +16,7 @@ namespace Ploeh.AutoFixture.Dsl
         private readonly ISpecimenBuilder factoryBuilder;
         private readonly IEnumerable<ISpecifiedSpecimenCommand<T>> postprocessors;
         private readonly bool enableAutoProperties;
+        private readonly IRequestSpecification inputFilter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Composer&lt;T&gt;"/> class.
@@ -51,6 +52,7 @@ namespace Ploeh.AutoFixture.Dsl
             this.factoryBuilder = factory;
             this.postprocessors = postprocessors.ToList();
             this.enableAutoProperties = enableAutoProperties;
+            this.inputFilter = Composer<T>.CreateInputFilter();
         }
 
         /// <summary>
@@ -431,31 +433,65 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public ISpecimenBuilder Compose()
         {
-            ISpecimenBuilder builder = this.Factory;
-            foreach (var p in this.Postprocessors)
-            {
-                builder = new Postprocessor<T>(builder, p.Execute);
-            }
+            var builder = this.Factory;
 
-            var filter = new OrRequestSpecification(new SeedRequestSpecification(typeof(T)), new ExactTypeSpecification(typeof(T)));
+            builder = Composer<T>.DecorateWithOutputGuard(builder);
+            builder = this.DecorateWithPostprocessors(builder);
+            builder = this.DecorateWithAppropriateAutoPropertyBuilders(builder);
+            builder = Composer<T>.CombineWithSeedRelay(builder);
+            builder = this.DecorateWithInputFilter(builder);
 
-            if (this.EnableAutoProperties)
-            {
-                var reservedProperties =
-                    new InverseRequestSpecification(
-                        new OrRequestSpecification(
-                            this.Postprocessors.Cast<IRequestSpecification>().Concat(new[] { new FalseRequestSpecification() })));
-                builder = new Postprocessor<T>(
-                    builder,
-                    new AutoPropertiesCommand<T>(reservedProperties).Execute,
-                    filter);
-            }
-
-            builder = new CompositeSpecimenBuilder(builder, new SeedIgnoringRelay());
-
-            return new FilteringSpecimenBuilder(builder, filter);
+            return builder;
         }
 
         #endregion
+
+        private static IRequestSpecification CreateInputFilter()
+        {
+            return new OrRequestSpecification(
+                new SeedRequestSpecification(typeof(T)),
+                new ExactTypeSpecification(typeof(T)));
+        }
+
+        private static ISpecimenBuilder DecorateWithOutputGuard(ISpecimenBuilder builder)
+        {
+            var allowedNoSpecimenFilter = new SeedRequestSpecification(typeof(T));
+            var throwSpec = new InverseRequestSpecification(allowedNoSpecimenFilter);
+            return new NoSpecimenOutputGuard(builder, throwSpec);
+        }
+
+        private ISpecimenBuilder DecorateWithPostprocessors(ISpecimenBuilder builder)
+        {
+            return this.Postprocessors.Aggregate(builder, (b, p) =>
+                new Postprocessor<T>(b, p.Execute));
+        }
+
+        private ISpecimenBuilder DecorateWithAppropriateAutoPropertyBuilders(ISpecimenBuilder builder)
+        {
+            if (!this.EnableAutoProperties)
+            {
+                return builder;
+            }
+
+            var defaultSpecIfPostprocessorsIsEmpty = new FalseRequestSpecification();
+            var postprocessorSpecs = this.Postprocessors.Cast<IRequestSpecification>().Concat(new[] { defaultSpecIfPostprocessorsIsEmpty });
+            var reservedProperties = new OrRequestSpecification(postprocessorSpecs);
+            var allowedProperties = new InverseRequestSpecification(reservedProperties);
+
+            return new Postprocessor<T>(
+                builder,
+                new AutoPropertiesCommand<T>(allowedProperties).Execute,
+                this.inputFilter);
+        }
+
+        private static ISpecimenBuilder CombineWithSeedRelay(ISpecimenBuilder builder)
+        {
+            return new CompositeSpecimenBuilder(builder, new SeedIgnoringRelay());
+        }
+
+        private ISpecimenBuilder DecorateWithInputFilter(ISpecimenBuilder builder)
+        {
+            return new FilteringSpecimenBuilder(builder, this.inputFilter);
+        }
     }
 }

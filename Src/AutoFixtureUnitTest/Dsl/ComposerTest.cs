@@ -232,7 +232,12 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var result = sut.Compose();
             // Verify outcome
-            result.IsFilter().ShouldContain(expectedResult.Equals).ShouldSpecify<int>();
+            Func<ISpecimenBuilder, bool> factoryPredicate = b =>
+            {
+                var guard = Assert.IsAssignableFrom<NoSpecimenOutputGuard>(b);
+                return guard.Builder == expectedResult;
+            };
+            result.IsFilter().ShouldContain(factoryPredicate).ShouldSpecify<int>();
             // Teardown
         }
 
@@ -261,7 +266,9 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var pp3 = Assert.IsAssignableFrom<Postprocessor<string>>(pp2.Builder);
             Assert.Equal(postproc1.Execute, pp3.Action);
 
-            Assert.Equal(sut.Factory, pp3.Builder);
+            var guard = Assert.IsAssignableFrom<NoSpecimenOutputGuard>(pp3.Builder);
+
+            Assert.Equal(sut.Factory, guard.Builder);
             // Teardown
         }
 
@@ -632,7 +639,12 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var result = sut.Compose();
             // Verify outcome
-            result.IsFilter().ShouldContain(sut.Factory.Equals).ShouldSpecify<string>();
+            Func<ISpecimenBuilder, bool> factoryPredicate = b =>
+            {
+                var guard = Assert.IsAssignableFrom<NoSpecimenOutputGuard>(b);
+                return guard.Builder == sut.Factory;
+            };
+            result.IsFilter().ShouldContain(factoryPredicate).ShouldSpecify<string>();
             // Teardown
         }
 
@@ -647,7 +659,8 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var filter = result.IsFilter().ShouldSpecify<decimal>();
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(filter.Builder);
             var postprocessor = Assert.IsAssignableFrom<Postprocessor<decimal>>(composite.Builders.First());
-            Assert.Equal(sut.Factory, postprocessor.Builder);
+            var guard = Assert.IsAssignableFrom<NoSpecimenOutputGuard>(postprocessor.Builder);
+            Assert.Equal(sut.Factory, guard.Builder);
             // Teardown
         }
 
