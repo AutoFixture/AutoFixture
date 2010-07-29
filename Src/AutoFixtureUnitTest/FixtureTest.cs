@@ -865,6 +865,19 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousWithArrayPropertyCorrectlyAssignsArray()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<int[]>>();
+            // Verify outcome
+            Assert.NotEmpty(result.Property);
+            Assert.True(result.Property.All(i => i != 0));
+            // Teardown
+        }
+
+        [Fact]
         public void DefaultRepeatCountIsThree()
         {
             // Fixture setup
