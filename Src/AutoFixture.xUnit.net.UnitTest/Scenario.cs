@@ -38,5 +38,11 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             Assert.NotNull(spt);
             Assert.NotNull(spt.Parameter);
         }
+
+        [Theory, AutoData(typeof(CustomizedFixture))]
+        public void AutoDataProvidesCustomizedObject(PropertyHolder<string> ph)
+        {
+            Assert.Equal("Ploeh", ph.Property);
+        }
     }
 }
