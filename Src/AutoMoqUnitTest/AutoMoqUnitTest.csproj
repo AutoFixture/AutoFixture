@@ -57,7 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoMoqFixtureTest.cs" />
+    <Compile Include="AutoMoqCustomizationTest.cs" />
     <Compile Include="FixtureIntegrationTest.cs" />
     <Compile Include="MockConstructorQueryTest.cs" />
     <Compile Include="MockPostprocessorTest.cs" />

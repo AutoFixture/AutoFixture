@@ -236,6 +236,24 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
+        /// Applies a customization.
+        /// </summary>
+        /// <param name="customization">The customization to apply.</param>
+        /// <returns>
+        /// The current instance.
+        /// </returns>
+        public IFixture Customize(ICustomization customization)
+        {
+            if (customization == null)
+            {
+                throw new ArgumentNullException("customization");
+            }
+
+            customization.Customize(this);
+            return this;
+        }
+
+        /// <summary>
         /// Customizes the creation algorithm for all objects of a given type.
         /// </summary>
         /// <typeparam name="T">The type of object to customize.</typeparam>

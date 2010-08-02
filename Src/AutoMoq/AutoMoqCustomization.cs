@@ -7,15 +7,17 @@ using Ploeh.AutoFixture.Kernel;
 namespace Ploeh.AutoFixture.AutoMoq
 {
     /// <summary>
-    /// Provides configuration operations for AutoMocking with Moq.
+    /// Enables auto-mocking with Moq.
     /// </summary>
-    public static class AutoMoqFixture
+    public class AutoMoqCustomization : ICustomization
     {
+        #region ICustomization Members
+
         /// <summary>
-        /// Enables auto-mocking with Moq.
+        /// Customizes a <see cref="IFixture"/> to enable auto-mocking with Moq.
         /// </summary>
-        /// <param name="fixture">The composer upon which to enable auto-mocking.</param>
-        public static void EnableAutoMocking(this IFixture fixture)
+        /// <param name="fixture">The fixture upon which to enable auto-mocking.</param>
+        public void Customize(IFixture fixture)
         {
             if (fixture == null)
             {
@@ -28,5 +30,7 @@ namespace Ploeh.AutoFixture.AutoMoq
                         new MockConstructorQuery())));
             fixture.ResidueCollectors.Add(new MockRelay());
         }
+
+        #endregion
     }
 }

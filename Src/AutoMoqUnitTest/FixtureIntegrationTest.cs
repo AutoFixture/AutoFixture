@@ -14,8 +14,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void FixtureAutoMocksInterface()
         {
             // Fixture setup
-            var fixture = new Fixture();
-            fixture.EnableAutoMocking();
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
             // Exercise system
             var result = fixture.CreateAnonymous<IInterface>();
             // Verify outcome
@@ -27,8 +26,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void FixtureAutoMocksAbstractType()
         {
             // Fixture setup
-            var fixture = new Fixture();
-            fixture.EnableAutoMocking();
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
             // Exercise system
             var result = fixture.CreateAnonymous<AbstractType>();
             // Verify outcome
@@ -40,8 +38,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void FixtureAutoMocksAbstractTypeWithNonDefaultConstructor()
         {
             // Fixture setup
-            var fixture = new Fixture();
-            fixture.EnableAutoMocking();
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
             // Exercise system
             var result = fixture.CreateAnonymous<AbstractTypeWithNonDefaultConstructor<int>>();
             // Verify outcome
@@ -53,8 +50,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void FixtureCanCreateMock()
         {
             // Fixture setup
-            var fixture = new Fixture();
-            fixture.EnableAutoMocking();
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
             // Exercise system
             var result = fixture.CreateAnonymous<Mock<AbstractType>>();
             // Verify outcome
@@ -67,7 +63,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            fixture.EnableAutoMocking();
+            fixture.Customize(new AutoMoqCustomization());
 
             var expected = new object();
 

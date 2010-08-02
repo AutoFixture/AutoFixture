@@ -99,6 +99,20 @@ namespace Ploeh.AutoFixture
         ICustomizationComposer<T> Build<T>();
 
         /// <summary>
+        /// Applies a customization.
+        /// </summary>
+        /// <param name="customization">The customization to apply.</param>
+        /// <returns>An <see cref="IFixture"/> where the customization is applied.</returns>
+        /// <remarks>
+        /// <para>
+        /// Note to implementers: the returned <see cref="IFixture"/> is expected to have
+        /// <paramref name="customization"/> applied. Whether the return value is the same instance
+        /// as the current instance, or a copy is unspecfied.
+        /// </para>
+        /// </remarks>
+        IFixture Customize(ICustomization customization);
+
+        /// <summary>
         /// Customizes the creation algorithm for all objects of a given type.
         /// </summary>
         /// <typeparam name="T">The type of object to customize.</typeparam>

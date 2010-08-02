@@ -8,41 +8,57 @@ using Moq;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 {
-    public class AutoMoqFixtureTest
+    public class AutoMoqCustomizationTest
     {
         [Fact]
-        public void EnableNullComposerThrows()
+        public void SutIsCustomization()
         {
             // Fixture setup
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                AutoMoqFixture.EnableAutoMocking(null));
+            // Exercise system
+            var sut = new AutoMoqCustomization();
+            // Verify outcome
+            Assert.IsAssignableFrom<ICustomization>(sut);
             // Teardown
         }
 
         [Fact]
-        public void EnableAutoMockingAddsAppropriateResidueCollector()
+        public void CustomizeNullFixtureThrows()
+        {
+            // Fixture setup
+            var sut = new AutoMoqCustomization();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Customize(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeAddsAppropriateResidueCollector()
         {
             // Fixture setup
             var residueCollectors = new List<ISpecimenBuilder>();
-            var composerStub = new Mock<IFixture> { DefaultValue = DefaultValue.Mock };
-            composerStub.SetupGet(c => c.ResidueCollectors).Returns(residueCollectors);
+            var fixtureStub = new Mock<IFixture> { DefaultValue = DefaultValue.Mock };
+            fixtureStub.SetupGet(c => c.ResidueCollectors).Returns(residueCollectors);
+
+            var sut = new AutoMoqCustomization();
             // Exercise system
-            composerStub.Object.EnableAutoMocking();
+            sut.Customize(fixtureStub.Object);
             // Verify outcome
             Assert.True(residueCollectors.OfType<MockRelay>().Any());
             // Teardown
         }
 
         [Fact]
-        public void EnableAutoMockingAddsAppropriateCustomizations()
+        public void CustomizeAddsAppropriateCustomizations()
         {
             // Fixture setup
             var customizations = new List<ISpecimenBuilder>();
-            var composerStub = new Mock<IFixture> { DefaultValue = DefaultValue.Mock };
-            composerStub.SetupGet(c => c.Customizations).Returns(customizations);
+            var fixtureStub = new Mock<IFixture> { DefaultValue = DefaultValue.Mock };
+            fixtureStub.SetupGet(c => c.Customizations).Returns(customizations);
+
+            var sut = new AutoMoqCustomization();
             // Exercise system
-            composerStub.Object.EnableAutoMocking();
+            sut.Customize(fixtureStub.Object);
             // Verify outcome
             var postprocessor = customizations.OfType<MockPostprocessor>().Single();
             var ctorInvoker = Assert.IsAssignableFrom<ConstructorInvoker>(postprocessor.Builder);
