@@ -22,24 +22,24 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Fact]
-        public void InitializedWithDefaultConstructorHasCorrectComposer()
+        public void InitializedWithDefaultConstructorHasCorrectFixture()
         {
             // Fixture setup
             var sut = new AutoDataAttribute();
             // Exercise system
-            ICustomizableComposer result = sut.Composer;
+            IFixture result = sut.Fixture;
             // Verify outcome
             Assert.IsAssignableFrom<Fixture>(result);
             // Teardown
         }
 
         [Fact]
-        public void InitializeWithNullComposerThrows()
+        public void InitializeWithNullFixtureThrows()
         {
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new AutoDataAttribute((ICustomizableComposer)null));
+                new AutoDataAttribute((IFixture)null));
             // Teardown
         }
 
@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             var expectedComposer = new DelegatingComposer();
             var sut = new AutoDataAttribute(expectedComposer);
             // Exercise system
-            var result = sut.Composer;
+            var result = sut.Fixture;
             // Verify outcome
             Assert.Equal(expectedComposer, result);
             // Teardown
@@ -93,7 +93,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             var composerType = typeof(DelegatingComposer);
             var sut = new AutoDataAttribute(composerType);
             // Exercise system
-            var result = sut.Composer;
+            var result = sut.Fixture;
             // Verify outcome
             Assert.IsAssignableFrom(composerType, result);
             // Teardown
@@ -106,7 +106,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             var composerType = typeof(DelegatingComposer);
             var sut = new AutoDataAttribute(composerType);
             // Exercise system
-            var result = sut.ComposerType;
+            var result = sut.FixtureType;
             // Verify outcome
             Assert.Equal(composerType, result);
             // Teardown
