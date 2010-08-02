@@ -307,7 +307,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var sut = new Fixture();
             // Verify outcome
-            Assert.IsAssignableFrom<ICustomizableComposer>(sut);
+            Assert.IsAssignableFrom<IFixture>(sut);
             // Teardown
         }
 

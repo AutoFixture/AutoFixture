@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         {
             // Fixture setup
             var residueCollectors = new List<ISpecimenBuilder>();
-            var composerStub = new Mock<ICustomizableComposer> { DefaultValue = DefaultValue.Mock };
+            var composerStub = new Mock<IFixture> { DefaultValue = DefaultValue.Mock };
             composerStub.SetupGet(c => c.ResidueCollectors).Returns(residueCollectors);
             // Exercise system
             composerStub.Object.EnableAutoMocking();
@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         {
             // Fixture setup
             var customizations = new List<ISpecimenBuilder>();
-            var composerStub = new Mock<ICustomizableComposer> { DefaultValue = DefaultValue.Mock };
+            var composerStub = new Mock<IFixture> { DefaultValue = DefaultValue.Mock };
             composerStub.SetupGet(c => c.Customizations).Returns(customizations);
             // Exercise system
             composerStub.Object.EnableAutoMocking();

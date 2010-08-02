@@ -8,9 +8,9 @@ using System.ComponentModel;
 namespace Ploeh.AutoFixture
 {
     /// <summary>
-    /// Provides anonymous object creation service.
+    /// Provides anonymous object creation services.
     /// </summary>
-    public class Fixture : ICustomizableComposer
+    public class Fixture : IFixture
     {
         private readonly List<ISpecimenBuilderTransformation> behaviors;
         private readonly CompositeSpecimenBuilder customizer;
@@ -74,6 +74,26 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
+        /// Gets the customizations that intercept the <see cref="Engine"/>.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Any <see cref="ISpecimenBuilder"/> in this list are invoked before
+        /// <see cref="Engine"/>, giving them a chance to intercept a request and resolve it before
+        /// the Engine.
+        /// </para>
+        /// <para>
+        /// <see cref="Customize{T}"/> places resulting customizations in this list.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="Engine"/>
+        /// <seealso cref="ResidueCollectors"/>
+        public IList<ISpecimenBuilder> Customizations
+        {
+            get { return this.customizer.Builders; }
+        }
+
+        /// <summary>
         /// Gets the core engine of the <see cref="Fixture"/> instance.
         /// </summary>
         /// <remarks>
@@ -90,6 +110,17 @@ namespace Ploeh.AutoFixture
         {
             get { return this.engine; }
         }
+
+        /// <summary>
+        /// Gets or sets if writable properties should generally be assigned a value when 
+        /// generating an anonymous object.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The default value is false.
+        /// </para>
+        /// </remarks>
+        public bool OmitAutoProperties { get; set; }
 
         /// <summary>
         /// Gets or sets a number that controls how many objects are created when a
@@ -112,15 +143,20 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Gets or sets if writable properties should generally be assigned a value when 
-        /// generating an anonymous object.
+        /// Gets the residue collectors that can be used to handle requests that neither the
+        /// <see cref="Customizations"/> nor <see cref="Engine"/> could handle.
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The default value is false.
+        /// These <see cref="ISpecimenBuilder"/> instances will be invoked if no previous builder
+        /// could resolve a request. This gives you the opportunity to define fallback strategies
+        /// to deal with unresolved requests.
         /// </para>
         /// </remarks>
-        public bool OmitAutoProperties { get; set; }
+        public IList<ISpecimenBuilder> ResidueCollectors
+        {
+            get { return this.residueCollector.Builders; }
+        }
 
         /// <summary>
         /// Adds many anonymously created objects to a list.
@@ -595,46 +631,6 @@ namespace Ploeh.AutoFixture
             return from f in Enumerable.Repeat(function, this.RepeatCount)
                    select f();
         }
-
-        #region ICustomizableComposer Members
-
-        /// <summary>
-        /// Gets the customizations that intercept the <see cref="Engine"/>.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// Any <see cref="ISpecimenBuilder"/> in this list are invoked before
-        /// <see cref="Engine"/>, giving them a chance to intercept a request and resolve it before
-        /// the Engine.
-        /// </para>
-        /// <para>
-        /// <see cref="Customize{T}"/> places resulting customizations in this list.
-        /// </para>
-        /// </remarks>
-        /// <seealso cref="Engine"/>
-        /// <seealso cref="ResidueCollectors"/>
-        public IList<ISpecimenBuilder> Customizations
-        {
-            get { return this.customizer.Builders; }
-        }
-
-        /// <summary>
-        /// Gets the residue collectors that can be used to handle requests that neither the
-        /// <see cref="Customizations"/> nor <see cref="Engine"/> could handle.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// These <see cref="ISpecimenBuilder"/> instances will be invoked if no previous builder
-        /// could resolve a request. This gives you the opportunity to define fallback strategies
-        /// to deal with unresolved requests.
-        /// </para>
-        /// </remarks>
-        public IList<ISpecimenBuilder> ResidueCollectors
-        {
-            get { return this.residueCollector.Builders; }
-        }
-
-        #endregion
 
         #region ISpecimenBuilderComposer Members
 

@@ -14,19 +14,19 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// <summary>
         /// Enables auto-mocking with Moq.
         /// </summary>
-        /// <param name="composer">The composer upon which to enable auto-mocking.</param>
-        public static void EnableAutoMocking(this ICustomizableComposer composer)
+        /// <param name="fixture">The composer upon which to enable auto-mocking.</param>
+        public static void EnableAutoMocking(this IFixture fixture)
         {
-            if (composer == null)
+            if (fixture == null)
             {
-                throw new ArgumentNullException("composer");
+                throw new ArgumentNullException("fixture");
             }
 
-            composer.Customizations.Add(
+            fixture.Customizations.Add(
                 new MockPostprocessor(
                     new ConstructorInvoker(
                         new MockConstructorQuery())));
-            composer.ResidueCollectors.Add(new MockRelay());
+            fixture.ResidueCollectors.Add(new MockRelay());
         }
     }
 }
