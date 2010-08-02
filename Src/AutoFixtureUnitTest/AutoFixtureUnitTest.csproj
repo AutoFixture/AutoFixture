@@ -60,8 +60,10 @@
     <Compile Include="BehaviorPostprocessComposerTest.cs" />
     <Compile Include="BooleanSwitchTest.cs" />
     <Compile Include="ByteSequenceGeneratorTest.cs" />
+    <Compile Include="CompositeCustomizationTest.cs" />
     <Compile Include="DateTimeGeneratorTest.cs" />
     <Compile Include="DefaultPrimitiveBuildersTest.cs" />
+    <Compile Include="DelegatingCustomization.cs" />
     <Compile Include="DelegatingEqualityComparer.cs" />
     <Compile Include="DelegatingRecursionGuard.cs" />
     <Compile Include="Dsl\ComposerAssert.cs" />

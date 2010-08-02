@@ -307,7 +307,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var sut = new Fixture();
             // Verify outcome
-            Assert.IsAssignableFrom<ICustomizableComposer>(sut);
+            Assert.IsAssignableFrom<IFixture>(sut);
             // Teardown
         }
 
@@ -2907,6 +2907,45 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.CreateAnonymous<TriState>();
             // Verify outcome
             Assert.Equal(TriState.First, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeNullCustomizationThrows()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Customize((ICustomization)null));
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeCorrectlyAppliesCustomization()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+
+            var verified = false;
+            var customization = new DelegatingCustomization { OnCustomize = f => verified = f == sut };
+            // Exercise system
+            sut.Customize(customization);
+            // Verify outcome
+            Assert.True(verified, "Mock verified");
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var dummyCustomization = new DelegatingCustomization();
+            // Exercise system
+            var result = sut.Customize(dummyCustomization);
+            // Verify outcome
+            Assert.Equal(sut, result);
             // Teardown
         }
 

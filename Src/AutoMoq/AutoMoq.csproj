@@ -65,7 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoMoqFixture.cs" />
+    <Compile Include="AutoMoqCustomization.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MockConstructorInfo.cs" />
     <Compile Include="MockConstructorQuery.cs" />

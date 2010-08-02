@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="BehaviorComposer.cs" />
     <Compile Include="BehaviorPostprocessComposer.cs" />
+    <Compile Include="CompositeCustomization.cs" />
     <Compile Include="DateTimeGenerator.cs" />
     <Compile Include="DefaultPrimitiveBuilders.cs" />
     <Compile Include="Dsl\Composer.cs" />
@@ -86,7 +87,8 @@
     <Compile Include="Dsl\IPostprocessComposer.cs" />
     <Compile Include="DefaultEngineParts.cs" />
     <Compile Include="EnumGenerator.cs" />
-    <Compile Include="ICustomizableComposer.cs" />
+    <Compile Include="ICustomization.cs" />
+    <Compile Include="IFixture.cs" />
     <Compile Include="Kernel\ArrayRelay.cs" />
     <Compile Include="Kernel\IConstructorQuery.cs" />
     <Compile Include="Kernel\IMultiple.cs" />
