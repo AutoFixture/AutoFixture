@@ -84,9 +84,11 @@
     <Compile Include="Kernel\DelegatingSpecimenBuilderTransformation.cs" />
     <Compile Include="Kernel\ArrayRelayTest.cs" />
     <Compile Include="Kernel\FakeMultiple.cs" />
+    <Compile Include="Kernel\FixedBuilderTest.cs" />
     <Compile Include="Kernel\MemberInfoEqualityComparerTest.cs" />
     <Compile Include="Kernel\ModestConstructorQueryTest.cs" />
     <Compile Include="Kernel\NoSpecimenOutputGuardTest.cs" />
+    <Compile Include="Kernel\TypedBuilderComposerTest.cs" />
     <Compile Include="NullRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\SeedRequestSpecificationTest.cs" />
     <Compile Include="Kernel\SpecimenContextTest.cs" />

@@ -29,6 +29,19 @@ namespace Ploeh.AutoFixture.Kernel
             this.spec = specification;
         }
 
+        /// <summary>
+        /// Gets the decorated specification.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This is the <see cref="IRequestSpecification"/> that will be inverted.
+        /// </para>
+        /// </remarks>
+        public IRequestSpecification Specification
+        {
+            get { return this.spec; }
+        }
+
         #region IRequestSpecification Members
 
         /// <summary>

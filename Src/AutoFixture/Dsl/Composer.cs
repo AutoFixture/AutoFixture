@@ -11,12 +11,10 @@ namespace Ploeh.AutoFixture.Dsl
     /// Enables composition customization of a single type of specimen.
     /// </summary>
     /// <typeparam name="T">The type of specimen.</typeparam>
-    public class Composer<T> : ICustomizationComposer<T>
+    public class Composer<T> : TypedBuilderComposer, ICustomizationComposer<T>
     {
-        private readonly ISpecimenBuilder factoryBuilder;
         private readonly IEnumerable<ISpecifiedSpecimenCommand<T>> postprocessors;
         private readonly bool enableAutoProperties;
-        private readonly IRequestSpecification inputFilter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Composer&lt;T&gt;"/> class.
@@ -39,20 +37,15 @@ namespace Ploeh.AutoFixture.Dsl
         /// Enables auto properties if set to <see langword="true"/>.
         /// </param>
         public Composer(ISpecimenBuilder factory, IEnumerable<ISpecifiedSpecimenCommand<T>> postprocessors, bool enableAutoProperties)
+            : base(typeof(T), factory)
         {
-            if (factory == null)
-            {
-                throw new ArgumentNullException("factory");
-            }
             if (postprocessors == null)
             {
                 throw new ArgumentNullException("postprocessors");
             }
 
-            this.factoryBuilder = factory;
             this.postprocessors = postprocessors.ToList();
             this.enableAutoProperties = enableAutoProperties;
-            this.inputFilter = Composer<T>.CreateInputFilter();
         }
 
         /// <summary>
@@ -62,14 +55,6 @@ namespace Ploeh.AutoFixture.Dsl
         public bool EnableAutoProperties
         {
             get { return this.enableAutoProperties; }
-        }
-
-        /// <summary>
-        /// Gets the factory used to create specimens.
-        /// </summary>
-        public ISpecimenBuilder Factory
-        {
-            get { return this.factoryBuilder; }
         }
 
         /// <summary>
@@ -98,8 +83,9 @@ namespace Ploeh.AutoFixture.Dsl
         /// </summary>
         /// <param name="factory">The factory.</param>
         /// <returns>
-        /// A new instance of <see cref="Composer{T}"/> with <see cref="Factory"/> set to the value
-        /// of <paramref name="factory"/>.
+        /// A new instance of <see cref="Composer{T}"/> with
+        /// <see cref="TypedBuilderComposer.Factory"/> set to the value of
+        /// <paramref name="factory"/>.
         /// </returns>
         public Composer<T> WithFactory(ISpecimenBuilder factory)
         {
@@ -421,77 +407,133 @@ namespace Ploeh.AutoFixture.Dsl
 
         #endregion
 
-        #region ISpecimenBuilderComposer Members
+        /// <summary>
+        /// Gets the transformations that will be applied to
+        /// <see cref="TypedBuilderComposer.Factory"/> during
+        /// <see cref="TypedBuilderComposer.Compose"/>.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// These transformations compose the appropriate post-processors according to the rules
+        /// encapsulated by the <see cref="Composer{T}"/> instance.
+        /// </para>
+        /// </remarks>
+        protected override IEnumerable<ISpecimenBuilderTransformation> Transformations
+        {
+            get
+            {
+                yield return new DecorateWithOutputGuardTransformation(this.TargetType);
+                yield return new DecorateWithPostprocessorsTransformation(this.Postprocessors);
+                yield return new DecorateWithAppropriateAutoPropertyBuilders(this.Postprocessors, this.InputFilter, this.EnableAutoProperties);
+                yield return new CombineWithSeedRelayTransformation();
+                yield return new DecorateWithInputFilterTransformation(this.InputFilter);
+            }
+        }
 
         /// <summary>
-        /// Composes a new <see cref="ISpecimenBuilder"/> instance based on the current
-        /// customization.
+        /// A transformation that decorates an <see cref="ISpecimenBuilder"/> with the appropriate
+        /// postprocessor.
         /// </summary>
-        /// <returns>
-        /// A new <see cref="ISpecimenBuilder"/> instance created and post-processed according to
-        /// the rules encapsulated by the <see cref="Composer{T}"/> instance.
-        /// </returns>
-        public ISpecimenBuilder Compose()
+        protected class DecorateWithPostprocessorsTransformation : ISpecimenBuilderTransformation
         {
-            var builder = this.Factory;
+            private readonly IEnumerable<ISpecifiedSpecimenCommand<T>> postprocessors;
 
-            builder = Composer<T>.DecorateWithOutputGuard(builder);
-            builder = this.DecorateWithPostprocessors(builder);
-            builder = this.DecorateWithAppropriateAutoPropertyBuilders(builder);
-            builder = Composer<T>.CombineWithSeedRelay(builder);
-            builder = this.DecorateWithInputFilter(builder);
-
-            return builder;
-        }
-
-        #endregion
-
-        private static IRequestSpecification CreateInputFilter()
-        {
-            return new OrRequestSpecification(
-                new SeedRequestSpecification(typeof(T)),
-                new ExactTypeSpecification(typeof(T)));
-        }
-
-        private static ISpecimenBuilder DecorateWithOutputGuard(ISpecimenBuilder builder)
-        {
-            var allowedNoSpecimenFilter = new SeedRequestSpecification(typeof(T));
-            var throwSpec = new InverseRequestSpecification(allowedNoSpecimenFilter);
-            return new NoSpecimenOutputGuard(builder, throwSpec);
-        }
-
-        private ISpecimenBuilder DecorateWithPostprocessors(ISpecimenBuilder builder)
-        {
-            return this.Postprocessors.Aggregate(builder, (b, p) =>
-                new Postprocessor<T>(b, p.Execute));
-        }
-
-        private ISpecimenBuilder DecorateWithAppropriateAutoPropertyBuilders(ISpecimenBuilder builder)
-        {
-            if (!this.EnableAutoProperties)
+            /// <summary>
+            /// Initializes a new instance of the
+            /// <see cref="Composer{T}.DecorateWithPostprocessorsTransformation"/> class.
+            /// </summary>
+            /// <param name="postprocessors">The postprocessors.</param>
+            public DecorateWithPostprocessorsTransformation(IEnumerable<ISpecifiedSpecimenCommand<T>> postprocessors)
             {
-                return builder;
+                if (postprocessors == null)
+                {
+                    throw new ArgumentNullException("postprocessors");
+                }
+
+                this.postprocessors = postprocessors;
             }
 
-            var defaultSpecIfPostprocessorsIsEmpty = new FalseRequestSpecification();
-            var postprocessorSpecs = this.Postprocessors.Cast<IRequestSpecification>().Concat(new[] { defaultSpecIfPostprocessorsIsEmpty });
-            var reservedProperties = new OrRequestSpecification(postprocessorSpecs);
-            var allowedProperties = new InverseRequestSpecification(reservedProperties);
+            #region ISpecimenBuilderTransformation Members
 
-            return new Postprocessor<T>(
-                builder,
-                new AutoPropertiesCommand<T>(allowedProperties).Execute,
-                this.inputFilter);
+            /// <summary>
+            /// Transforms the supplied builder into another.
+            /// </summary>
+            /// <param name="builder">The builder to transform.</param>
+            /// <returns>
+            /// A new <see cref="ISpecimenBuilder"/> created from <paramref name="builder"/>.
+            /// </returns>
+            public ISpecimenBuilder Transform(ISpecimenBuilder builder)
+            {
+                return this.postprocessors.Aggregate(builder, (b, p) =>
+                    new Postprocessor<T>(b, p.Execute));
+            }
+
+            #endregion
         }
 
-        private static ISpecimenBuilder CombineWithSeedRelay(ISpecimenBuilder builder)
+        /// <summary>
+        /// A transformation that decorates an <see cref="ISpecimenBuilder"/> with a post-processor
+        /// that applies the appropriate auto-properties.
+        /// </summary>
+        protected class DecorateWithAppropriateAutoPropertyBuilders : ISpecimenBuilderTransformation
         {
-            return new CompositeSpecimenBuilder(builder, new SeedIgnoringRelay());
-        }
+            private readonly IEnumerable<ISpecifiedSpecimenCommand<T>> postprocessors;
+            private readonly IRequestSpecification inputFilter;
+            private readonly bool enableAutoProperties;
 
-        private ISpecimenBuilder DecorateWithInputFilter(ISpecimenBuilder builder)
-        {
-            return new FilteringSpecimenBuilder(builder, this.inputFilter);
+            /// <summary>
+            /// Initializes a new instance of the
+            /// <see cref="Composer{T}.DecorateWithAppropriateAutoPropertyBuilders"/> class.
+            /// </summary>
+            /// <param name="postprocessors">The postprocessors.</param>
+            /// <param name="inputFilter">The input filter.</param>
+            /// <param name="enableAutoProperties">
+            /// Indicates whether auto-properties are enabled.
+            /// </param>
+            public DecorateWithAppropriateAutoPropertyBuilders(IEnumerable<ISpecifiedSpecimenCommand<T>> postprocessors, IRequestSpecification inputFilter, bool enableAutoProperties)
+            {
+                if (postprocessors == null)
+                {
+                    throw new ArgumentNullException("postprocessors");
+                }
+                if (inputFilter == null)
+                {
+                    throw new ArgumentNullException("inputFilter");
+                }
+
+                this.postprocessors = postprocessors;
+                this.inputFilter = inputFilter;
+                this.enableAutoProperties = enableAutoProperties;
+            }
+
+            #region ISpecimenBuilderTransformation Members
+
+            /// <summary>
+            /// Transforms the supplied builder into another.
+            /// </summary>
+            /// <param name="builder">The builder to transform.</param>
+            /// <returns>
+            /// A new <see cref="ISpecimenBuilder"/> created from <paramref name="builder"/>.
+            /// </returns>
+            public ISpecimenBuilder Transform(ISpecimenBuilder builder)
+            {
+                if (!this.enableAutoProperties)
+                {
+                    return builder;
+                }
+
+                var defaultSpecIfPostprocessorsIsEmpty = new FalseRequestSpecification();
+                var postprocessorSpecs = this.postprocessors.Cast<IRequestSpecification>().Concat(new[] { defaultSpecIfPostprocessorsIsEmpty });
+                var reservedProperties = new OrRequestSpecification(postprocessorSpecs);
+                var allowedProperties = new InverseRequestSpecification(reservedProperties);
+
+                return new Postprocessor<T>(
+                    builder,
+                    new AutoPropertiesCommand<T>(allowedProperties).Execute,
+                    this.inputFilter);
+            }
+
+            #endregion
         }
     }
 }
