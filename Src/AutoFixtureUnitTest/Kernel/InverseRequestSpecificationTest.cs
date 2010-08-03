@@ -31,6 +31,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void SpecificationIsCorrecty()
+        {
+            // Fixture setup
+            var expectedSpec = new DelegatingRequestSpecification();
+            var sut = new InverseRequestSpecification(expectedSpec);
+            // Exercise system
+            IRequestSpecification result = sut.Specification;
+            // Verify outcome
+            Assert.Equal(expectedSpec, result);
+            // Teardown
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]

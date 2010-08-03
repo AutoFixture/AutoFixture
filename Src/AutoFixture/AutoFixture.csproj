@@ -115,6 +115,7 @@
     <Compile Include="Kernel\MemberInfoEqualityComparer.cs" />
     <Compile Include="Kernel\ModestConstructorQuery.cs" />
     <Compile Include="Kernel\NoSpecimenOutputGuard.cs" />
+    <Compile Include="Kernel\TypedBuilderComposer.cs" />
     <Compile Include="NullRecursionBehavior.cs" />
     <Compile Include="Kernel\SeedRequestSpecification.cs" />
     <Compile Include="Kernel\SpecifiedNullCommand.cs" />

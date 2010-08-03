@@ -88,6 +88,7 @@
     <Compile Include="Kernel\MemberInfoEqualityComparerTest.cs" />
     <Compile Include="Kernel\ModestConstructorQueryTest.cs" />
     <Compile Include="Kernel\NoSpecimenOutputGuardTest.cs" />
+    <Compile Include="Kernel\TypedBuilderComposerTest.cs" />
     <Compile Include="NullRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\SeedRequestSpecificationTest.cs" />
     <Compile Include="Kernel\SpecimenContextTest.cs" />
