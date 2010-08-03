@@ -21,7 +21,12 @@ namespace Ploeh.AutoFixture.Xunit
         /// <returns></returns>
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-            throw new NotImplementedException();
+            if (parameter == null)
+            {
+                throw new ArgumentNullException("parameter");
+            }
+
+            return new FreezingCustomization(parameter.ParameterType);
         }
     }
 }

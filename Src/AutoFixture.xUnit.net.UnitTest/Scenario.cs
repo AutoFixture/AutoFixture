@@ -44,5 +44,20 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         {
             Assert.Equal("Ploeh", ph.Property);
         }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameter([Frozen]Guid g1, Guid g2)
+        {
+            Assert.Equal(g1, g2);
+        }
+
+        [Theory, AutoData]
+        public void FreezeSecondParameterOnlyFreezesSubsequentParameters(Guid g1, [Frozen]Guid g2, Guid g3)
+        {
+            Assert.NotEqual(g1, g2);
+            Assert.NotEqual(g1, g3);
+
+            Assert.Equal(g2, g3);
+        }
     }
 }

@@ -91,11 +91,35 @@ namespace Ploeh.AutoFixture.Xunit
             {
                 throw new ArgumentNullException("methodUnderTest");
             }
-            
-            var context = new SpecimenContext(this.fixture.Compose());
-            var specimens = (from pi in methodUnderTest.GetParameters()
-                             select context.Resolve(pi)).ToArray();
-            return new[] { specimens };
+
+            var specimens = new List<object>();
+            foreach (var p in methodUnderTest.GetParameters())
+            {
+                this.CustomizeFixture(p);
+
+                var specimen = this.Resolve(p);
+                specimens.Add(specimen);
+            }
+
+            return new[] { specimens.ToArray() };
+        }
+
+        private void CustomizeFixture(ParameterInfo p)
+        {
+            var dummy = false;
+            var customizeAttributes = p.GetCustomAttributes(typeof(CustomizeAttribute), dummy).OfType<CustomizeAttribute>();
+            foreach (var ca in customizeAttributes)
+            {
+                var c = ca.GetCustomization(p);
+                this.Fixture.Customize(c);
+            }
+        }
+
+        private object Resolve(ParameterInfo p)
+        {
+            var context = new SpecimenContext(this.Fixture.Compose());
+            var specimen = context.Resolve(p);
+            return specimen;
         }
 
         private static IFixture CreateFixture(Type type)
