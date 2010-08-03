@@ -56,7 +56,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             // Teardown
         }
 
-        [Fact(Skip = "Waiting for appropiate building block.")]
+        [Fact]
         public void CustomizeCorrectlyCustomizesFixture()
         {
             // Fixture setup
