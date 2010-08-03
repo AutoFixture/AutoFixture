@@ -6,12 +6,12 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Xunit.UnitTest
 {
-    internal class DelegatingComposer : IFixture
+    internal class DelegatingFixture : IFixture
     {
         private readonly List<ISpecimenBuilder> customizations;
         private readonly List<ISpecimenBuilder> residueCollectors;
 
-        public DelegatingComposer()
+        public DelegatingFixture()
         {
             this.customizations = new List<ISpecimenBuilder>();
             this.residueCollectors = new List<ISpecimenBuilder>();

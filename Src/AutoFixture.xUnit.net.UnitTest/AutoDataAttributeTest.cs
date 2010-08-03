@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         public void InitializedWithComposerHasCorrectComposer()
         {
             // Fixture setup
-            var expectedComposer = new DelegatingComposer();
+            var expectedComposer = new DelegatingFixture();
             var sut = new AutoDataAttribute(expectedComposer);
             // Exercise system
             var result = sut.Fixture;
@@ -90,7 +90,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         public void InitializedWithCorrectComposerTypeHasCorrectComposer()
         {
             // Fixture setup
-            var composerType = typeof(DelegatingComposer);
+            var composerType = typeof(DelegatingFixture);
             var sut = new AutoDataAttribute(composerType);
             // Exercise system
             var result = sut.Fixture;
@@ -100,15 +100,27 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Fact]
-        public void ComposerTypeIsCorrect()
+        public void FixtureTypeIsCorrect()
         {
             // Fixture setup
-            var composerType = typeof(DelegatingComposer);
+            var composerType = typeof(DelegatingFixture);
             var sut = new AutoDataAttribute(composerType);
             // Exercise system
             var result = sut.FixtureType;
             // Verify outcome
             Assert.Equal(composerType, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void GetDataWithNullMethodThrows()
+        {
+            // Fixture setup
+            var sut = new AutoDataAttribute();
+            var dummyTypes = Type.EmptyTypes;
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.GetData(null, dummyTypes));
             // Teardown
         }
 
@@ -131,7 +143,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
                         return expectedResult;
                     }
             };
-            var composer = new DelegatingComposer { OnCompose = () => builder };
+            var composer = new DelegatingFixture { OnCompose = () => builder };
 
             var sut = new AutoDataAttribute(composer);
             // Exercise system
