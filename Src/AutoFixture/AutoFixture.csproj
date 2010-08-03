@@ -90,6 +90,7 @@
     <Compile Include="ICustomization.cs" />
     <Compile Include="IFixture.cs" />
     <Compile Include="Kernel\ArrayRelay.cs" />
+    <Compile Include="Kernel\FixedBuilder.cs" />
     <Compile Include="Kernel\IConstructorQuery.cs" />
     <Compile Include="Kernel\IMultiple.cs" />
     <Compile Include="Kernel\ISpecimenBuilderComposer.cs" />
