@@ -61,7 +61,6 @@
     <Compile Include="DelegatingCustomization.cs" />
     <Compile Include="DelegatingCustomizeAttribute.cs" />
     <Compile Include="DelegatingSpecimenBuilder.cs" />
-    <Compile Include="FreezingCustomizationTest.cs" />
     <Compile Include="FrozenAttributeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenario.cs" />

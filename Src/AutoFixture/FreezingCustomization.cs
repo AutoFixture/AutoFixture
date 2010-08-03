@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Xunit
+namespace Ploeh.AutoFixture
 {
     /// <summary>
     /// A customization that will freeze a specimen of a given <see cref="Type"/>.

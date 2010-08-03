@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Ploeh.AutoFixture;
 using Xunit;
-using Ploeh.TestTypeFoundation;
 
-namespace Ploeh.AutoFixture.Xunit.UnitTest
+namespace Ploeh.AutoFixtureUnitTest
 {
     public class FreezingCustomizationTest
     {

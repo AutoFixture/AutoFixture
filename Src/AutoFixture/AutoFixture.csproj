@@ -87,6 +87,7 @@
     <Compile Include="Dsl\IPostprocessComposer.cs" />
     <Compile Include="DefaultEngineParts.cs" />
     <Compile Include="EnumGenerator.cs" />
+    <Compile Include="FreezingCustomization.cs" />
     <Compile Include="ICustomization.cs" />
     <Compile Include="IFixture.cs" />
     <Compile Include="Kernel\ArrayRelay.cs" />
