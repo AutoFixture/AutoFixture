@@ -1141,6 +1141,17 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void DoOnCommandWithNullSingleParameterActionThrows()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Do<object>(null));
+            // Teardown
+        }
+
+        [Fact]
         public void DoOnCommandWithSingleParameterWillInvokeMethod()
         {
             // Fixture setup
@@ -1170,6 +1181,17 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Do((int i) => mock.Command(i));
             // Verify outcome (done by mock)
+            // Teardown
+        }
+
+        [Fact]
+        public void DoOnCommandWithNullTwoParameterActionThrows()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Do<object, object>(null));
             // Teardown
         }
 
@@ -1220,6 +1242,17 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Do((DateTime x1, short x2) => mock.Command(x1, x2));
             // Verify outcome (done by mock)
+            // Teardown
+        }
+
+        [Fact]
+        public void DoOnCommandWithNullThreeParameterActionThrows()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Do<object, object, object>(null));
             // Teardown
         }
 
@@ -1287,6 +1320,17 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Do((double x1, uint x2, string x3) => mock.Command(x1, x2, x3));
             // Verify outcome (done by mock)
+            // Teardown
+        }
+
+        [Fact]
+        public void DoOnCommandWithNullFourParameterActionThrows()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Do<object, object, object, object>(null));
             // Teardown
         }
 
@@ -1375,6 +1419,17 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void GetOnCommandWithNullSingleParameterFunctionThrows()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Get<object, object>(null));
+            // Teardown
+        }
+
+        [Fact]
         public void GetOnQueryWithSingleParameterWillInvokeMethod()
         {
             // Fixture setup
@@ -1420,6 +1475,17 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Get((int? x) => mock.Query(x));
             // Verify outcome
             Assert.Equal<Version>(expectedVersion, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void GetOnCommandWithNullDoubleParameterFunctionThrows()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Get<object, object, object>(null));
             // Teardown
         }
 
@@ -1486,6 +1552,17 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Get((DateTime x1, TimeSpan x2) => mock.Query(x1, x2));
             // Verify outcome
             Assert.Equal<byte?>(expectedByte, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void GetOnCommandWithNullTripleParameterFunctionThrows()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Get<object, object, object, object>(null));
             // Teardown
         }
 
@@ -1569,6 +1646,17 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Get((short x1, long x2, Guid x3) => mock.Query(x1, x2, x3));
             // Verify outcome
             Assert.Equal<DateTimeOffset>(expectedDateTime, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void GetOnCommandWithNullQuadrupleParameterFunctionThrows()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Get<object, object, object, object, object>(null));
             // Teardown
         }
 
