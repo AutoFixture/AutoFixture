@@ -273,83 +273,6 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Freezes the type to a single value.
-        /// </summary>
-        /// <typeparam name="T">The type to freeze.</typeparam>
-        /// <returns>
-        /// The value that will subsequently always be created for <typeparamref name="T"/>.
-        /// </returns>
-        /// <remarks>
-        /// <para>
-        /// The <see cref="Freeze()"/> method freezes the type to always return the same instance
-        /// whenever an instance of the type is requested either directly, or indirectly as a
-        /// nested value of other types.
-        /// </para>
-        /// </remarks>
-        /// <seealso cref="Freeze{T}(T)"/>
-        /// <seealso cref="Freeze{T}(Func{ICustomizationComposer{T}, ISpecimenBuilderComposer})"/>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
-        public T Freeze<T>()
-        {
-            var value = this.CreateAnonymous<T>();
-            return this.FreezeValue<T>(value);
-        }
-
-        /// <summary>
-        /// Freezes the type to a single value.
-        /// </summary>
-        /// <typeparam name="T">The type to freeze.</typeparam>
-        /// <param name="seed">
-        /// Any data that adds additional information when creating the anonymous object.
-        /// </param>
-        /// <returns>
-        /// The value that will subsequently always be created for <typeparamref name="T"/>.
-        /// </returns>
-        /// <remarks>
-        /// <para>
-        /// The <see cref="Freeze{T}(T)"/> method freezes the type to always return the same
-        /// instance whenever an instance of the type is requested either directly, or indirectly
-        /// as a nested value of other types.
-        /// </para>
-        /// </remarks>
-        /// <seealso cref="Freeze{T}()"/>
-        /// <seealso cref="Freeze{T}(Func{ICustomizationComposer{T}, ISpecimenBuilderComposer})"/>
-        public T Freeze<T>(T seed)
-        {
-            var value = this.CreateAnonymous<T>(seed);
-            return this.FreezeValue<T>(value);
-        }
-
-        /// <summary>
-        /// Freezes the type to a single value.
-        /// </summary>
-        /// <typeparam name="T">The type to freeze.</typeparam>
-        /// <param name="composerTransformation">
-        /// A function that customizes a given <see cref="ICustomizationComposer{T}"/> and returns
-        /// the modified composer.
-        /// </param>
-        /// <returns>
-        /// The value that will subsequently always be created for <typeparamref name="T"/>.
-        /// </returns>
-        /// <remarks>
-        /// <para>
-        /// The <see cref="Freeze{T}(T)"/> method freezes the type to always return the same
-        /// instance whenever an instance of the type is requested either directly, or indirectly
-        /// as a nested value of other types. The frozen instance is created by an
-        /// <see cref="ISpecimenBuilderComposer"/> that is the result of applying the
-        /// <paramref name="composerTransformation"/>.
-        /// </para>
-        /// </remarks>
-        /// <seealso cref="Freeze{T}()"/>
-        /// <seealso cref="Freeze{T}(T)"/>
-        public T Freeze<T>(Func<ICustomizationComposer<T>, ISpecimenBuilderComposer> composerTransformation)
-        {
-            var c = this.Build<T>();
-            var value = composerTransformation(c).CreateAnonymous<T>();
-            return this.FreezeValue(value);
-        }
-
-        /// <summary>
         /// Injects a specific instance for a specific type.
         /// </summary>
         /// <typeparam name="T">
@@ -552,12 +475,6 @@ namespace Ploeh.AutoFixture
         private bool EnableAutoProperties
         {
             get { return !this.OmitAutoProperties; }
-        }
-
-        private T FreezeValue<T>(T value)
-        {
-            this.Inject(value);
-            return value;
         }
     }
 }

@@ -8,6 +8,7 @@ using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using System.IO;
+using Ploeh.AutoFixture.Dsl;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -2021,6 +2022,17 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.CreateAnonymous("Something else");
             // Verify outcome
             Assert.Equal<string>(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void FreezeWithNullTranformationThrows()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Freeze((Func<ICustomizationComposer<object>, ISpecimenBuilderComposer>)null));
             // Teardown
         }
 
