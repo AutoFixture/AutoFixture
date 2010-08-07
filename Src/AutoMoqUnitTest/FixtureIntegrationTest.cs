@@ -62,8 +62,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void FixtureCanFreezeMock()
         {
             // Fixture setup
-            var fixture = new Fixture();
-            fixture.Customize(new AutoMoqCustomization());
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
 
             var expected = new object();
 
