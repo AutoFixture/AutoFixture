@@ -131,8 +131,8 @@ namespace Ploeh.AutoFixture
         /// The default value is 3.
         /// </para>
         /// </remarks>
-        /// <seealso cref="AddManyTo{T}(ICollection{T})" />
-        /// <seealso cref="AddManyTo{T}(ICollection{T}, Func{T})" />
+        /// <seealso cref="CollectionFiller.AddManyTo{T}(IFixture, ICollection{T})" />
+        /// <seealso cref="CollectionFiller.AddManyTo{T}(IFixture, ICollection{T}, Func{T})" />
         /// <seealso cref="SpecimenFactory.CreateMany{T}(ISpecimenBuilderComposer)" />
         /// <seealso cref="SpecimenFactory.CreateMany{T}(ISpecimenBuilderComposer, int)" />
         /// <seealso cref="Repeat"/>
@@ -156,63 +156,6 @@ namespace Ploeh.AutoFixture
         public IList<ISpecimenBuilder> ResidueCollectors
         {
             get { return this.residueCollector.Builders; }
-        }
-
-        /// <summary>
-        /// Adds many anonymously created objects to a list.
-        /// </summary>
-        /// <typeparam name="T">The type of object that is contained in the list.</typeparam>
-        /// <param name="collection">
-        /// The list to which the anonymously created objects will be added.
-        /// </param>
-        /// <remarks>
-        /// <para>
-        /// The number of objects created and added is determined by <see cref="RepeatCount"/>.
-        /// </para>
-        /// </remarks>
-        /// <seealso cref="AddManyTo{T}(ICollection{T}, int)"/>
-        /// <seealso cref="AddManyTo{T}(ICollection{T}, Func{T})"/>
-        public void AddManyTo<T>(ICollection<T> collection)
-        {
-            this.AddManyTo(collection, this.CreateAnonymous<T>);
-        }
-
-        /// <summary>
-        /// Adds many anonymously created objects to a list.
-        /// </summary>
-        /// <typeparam name="T">The type of object that is contained in the list.</typeparam>
-        /// <param name="collection">
-        /// The list to which the anonymously created objects will be added.
-        /// </param>
-        /// <param name="repeatCount">The number of objects created and added.</param>
-        /// <seealso cref="AddManyTo{T}(ICollection{T})"/>
-        /// <seealso cref="AddManyTo{T}(ICollection{T}, Func{T})"/>
-        public void AddManyTo<T>(ICollection<T> collection, int repeatCount)
-        {
-            collection.AddMany(this.CreateAnonymous<T>, repeatCount);
-        }
-
-        /// <summary>
-        /// Adds many objects to a list using the provided function to create each object.
-        /// </summary>
-        /// <typeparam name="T">The type of object that is contained in the list.</typeparam>
-        /// <param name="collection">
-        /// The list to which the created objects will be added.
-        /// </param>
-        /// <param name="creator">
-        /// The function that creates each object which is subsequently added to
-        /// <paramref name="collection"/>.
-        /// </param>
-        /// <remarks>
-        /// <para>
-        /// The number of objects created and added is determined by <see cref="RepeatCount"/>.
-        /// </para>
-        /// </remarks>
-        /// <seealso cref="AddManyTo{T}(ICollection{T})"/>
-        /// <seealso cref="AddManyTo{T}(ICollection{T}, int)"/>
-        public void AddManyTo<T>(ICollection<T> collection, Func<T> creator)
-        {
-            collection.AddMany(creator, this.RepeatCount);
         }
 
         /// <summary>

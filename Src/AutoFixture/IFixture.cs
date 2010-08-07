@@ -54,38 +54,6 @@ namespace Ploeh.AutoFixture
         IList<ISpecimenBuilder> ResidueCollectors { get; }
 
         /// <summary>
-        /// Adds many objects to a list using the provided function to create each object.
-        /// </summary>
-        /// <typeparam name="T">The type of object that is contained in the list.</typeparam>
-        /// <param name="collection">
-        /// The list to which the created objects will be added.
-        /// </param>
-        /// <param name="creator">
-        /// The function that creates each object which is subsequently added to
-        /// <paramref name="collection"/>.
-        /// </param>
-        void AddManyTo<T>(ICollection<T> collection, Func<T> creator);
-
-        /// <summary>
-        /// Adds many anonymously created objects to a list.
-        /// </summary>
-        /// <typeparam name="T">The type of object that is contained in the list.</typeparam>
-        /// <param name="collection">
-        /// The list to which the anonymously created objects will be added.
-        /// </param>
-        void AddManyTo<T>(ICollection<T> collection);
-
-        /// <summary>
-        /// Adds many anonymously created objects to a list.
-        /// </summary>
-        /// <typeparam name="T">The type of object that is contained in the list.</typeparam>
-        /// <param name="collection">
-        /// The list to which the anonymously created objects will be added.
-        /// </param>
-        /// <param name="repeatCount">The number of objects created and added.</param>
-        void AddManyTo<T>(ICollection<T> collection, int repeatCount);
-
-        /// <summary>
         /// Customizes the creation algorithm for a single object.
         /// </summary>
         /// <typeparam name="T">
