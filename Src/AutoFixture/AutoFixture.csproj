@@ -88,6 +88,7 @@
     <Compile Include="DefaultEngineParts.cs" />
     <Compile Include="EnumGenerator.cs" />
     <Compile Include="FixtureFreezer.cs" />
+    <Compile Include="FixtureRegistrar.cs" />
     <Compile Include="FreezingCustomization.cs" />
     <Compile Include="ICustomization.cs" />
     <Compile Include="IFixture.cs" />

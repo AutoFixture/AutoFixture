@@ -273,18 +273,6 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Injects a specific instance for a specific type.
-        /// </summary>
-        /// <typeparam name="T">
-        /// The type for which <paramref name="item"/> should be injected.
-        /// </typeparam>
-        /// <param name="item">The item to inject.</param>
-        public void Inject<T>(T item)
-        {
-            this.Customize<T>(c => c.FromFactory(() => item).OmitAutoProperties());
-        }
-
-        /// <summary>
         /// Registers a specific instance for a specific type.
         /// </summary>
         /// <typeparam name="T">
@@ -293,124 +281,16 @@ namespace Ploeh.AutoFixture
         /// <param name="item">The item to register.</param>
         /// <remarks>
         /// <para>
-        /// This method is deprecated. Use <see cref="Inject{T}(T)"/> instead.
+        /// This method is deprecated. Use <see cref="FixtureRegistrar.Inject{T}(IFixture, T)"/>
+        /// instead.
         /// </para>
         /// </remarks>
-        /// <seealso cref="Inject{T}(T)"/>
+        /// <seealso cref="FixtureRegistrar.Inject{T}(IFixture, T)"/>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use the Inject method instead.")]
+        [Obsolete("Use the Inject extension method instead.")]
         public void Register<T>(T item)
         {
             this.Inject(item);
-        }
-
-        /// <summary>
-        /// Registers a creation function for a specifc type.
-        /// </summary>
-        /// <typeparam name="T">
-        /// The type for which <paramref name="creator"/> should be registered.
-        /// </typeparam>
-        /// <param name="creator">
-        /// A function that will be used to create objects of type <typeparamref name="T"/> every
-        /// time the <see cref="Fixture"/> is asked to create an object of that type.
-        /// </param>
-        public void Register<T>(Func<T> creator)
-        {
-            this.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
-        }
-
-        /// <summary>
-        /// Registers a creation function for a specific type, when that creation function requires
-        /// a single input parameter.
-        /// </summary>
-        /// <typeparam name="TInput">
-        /// The type of the input parameter used by <paramref name="creator"/>.
-        /// </typeparam>
-        /// <typeparam name="T">
-        /// The type for which <paramref name="creator"/> should be registered.
-        /// </typeparam>
-        /// <param name="creator">
-        /// A function that will be used to create objects of type <typeparamref name="T"/> every
-        /// time the <see cref="Fixture"/> is asked to create an object of that type.
-        /// </param>
-        public void Register<TInput, T>(Func<TInput, T> creator)
-        {
-            this.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
-        }
-
-        /// <summary>
-        /// Registers a creation function for a specific type, when that creation function requires
-        /// two input parameters.
-        /// </summary>
-        /// <typeparam name="TInput1">
-        /// The type of the first input parameter used by <paramref name="creator"/>.
-        /// </typeparam>
-        /// <typeparam name="TInput2">
-        /// The type of the second input parameter used by <paramref name="creator"/>.
-        /// </typeparam>
-        /// <typeparam name="T">
-        /// The type for which <paramref name="creator"/> should be registered.
-        /// </typeparam>
-        /// <param name="creator">
-        /// A function that will be used to create objects of type <typeparamref name="T"/> every
-        /// time the <see cref="Fixture"/> is asked to create an object of that type.
-        /// </param>
-        public void Register<TInput1, TInput2, T>(Func<TInput1, TInput2, T> creator)
-        {
-            this.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
-        }
-
-        /// <summary>
-        /// Registers a creation function for a specific type, when that creation function requires
-        /// three input parameters.
-        /// </summary>
-        /// <typeparam name="TInput1">
-        /// The type of the first input parameter used by <paramref name="creator"/>.
-        /// </typeparam>
-        /// <typeparam name="TInput2">
-        /// The type of the second input parameter used by <paramref name="creator"/>.
-        /// </typeparam>
-        /// <typeparam name="TInput3">
-        /// The type of the third input parameter used by <paramref name="creator"/>.
-        /// </typeparam>
-        /// <typeparam name="T">
-        /// The type for which <paramref name="creator"/> should be registered.
-        /// </typeparam>
-        /// <param name="creator">
-        /// A function that will be used to create objects of type <typeparamref name="T"/> every
-        /// time the <see cref="Fixture"/> is asked to create an object of that type.
-        /// </param>
-        public void Register<TInput1, TInput2, TInput3, T>(Func<TInput1, TInput2, TInput3, T> creator)
-        {
-            this.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
-        }
-
-        /// <summary>
-        /// Registers a creation function for a specific type, when that creation function requires
-        /// four input parameters.
-        /// </summary>
-        /// <typeparam name="TInput1">
-        /// The type of the first input parameter used by <paramref name="creator"/>.
-        /// </typeparam>
-        /// <typeparam name="TInput2">
-        /// The type of the second input parameter used by <paramref name="creator"/>.
-        /// </typeparam>
-        /// <typeparam name="TInput3">
-        /// The type of the third input parameter used by <paramref name="creator"/>.
-        /// </typeparam>
-        /// <typeparam name="TInput4">
-        /// The type of the fourth input parameter used by <paramref name="creator"/>.
-        /// </typeparam>
-        /// <typeparam name="T">
-        /// The type for which <paramref name="creator"/> should be registered.
-        /// </typeparam>
-        /// <param name="creator">
-        /// A function that will be used to create objects of type <typeparamref name="T"/> every
-        /// time the <see cref="Fixture"/> is asked to create an object of that type.
-        /// </param>
-        public void Register<TInput1, TInput2, TInput3, TInput4, T>(Func<TInput1, TInput2, TInput3, TInput4, T> creator)
-        {
-            this.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
         }
 
         /// <summary>
