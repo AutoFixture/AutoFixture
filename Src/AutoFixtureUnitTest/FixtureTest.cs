@@ -3049,6 +3049,28 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateAnonymousIntPtrThrowsCorrectException()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<IllegalRequestException>(() =>
+                sut.CreateAnonymous<IntPtr>());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousFuncThrowsCorrectException()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<IllegalRequestException>(() =>
+                sut.CreateAnonymous<Func<object>>());
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB

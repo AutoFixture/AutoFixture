@@ -96,7 +96,9 @@
     <Compile Include="Kernel\ArrayRelay.cs" />
     <Compile Include="Kernel\FixedBuilder.cs" />
     <Compile Include="Kernel\IConstructorQuery.cs" />
+    <Compile Include="Kernel\IllegalRequestException.cs" />
     <Compile Include="Kernel\IMultiple.cs" />
+    <Compile Include="Kernel\IntPtrGuard.cs" />
     <Compile Include="Kernel\ISpecimenBuilderComposer.cs" />
     <Compile Include="Dsl\ICustomizationComposer.cs" />
     <Compile Include="Dsl\NullComposer.cs" />

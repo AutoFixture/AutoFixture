@@ -7,3 +7,4 @@ glob:AutoFixture character.design
 glob:*.resharper.user
 glob:*.csproj.user
 glob:*_ReSharper*
+glob:AutoFixtureLogo1.png
