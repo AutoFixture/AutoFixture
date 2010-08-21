@@ -43,7 +43,8 @@ namespace Ploeh.AutoFixtureUnitTest
                     typeof(ByteSequenceGenerator),
                     typeof(SByteSequenceGenerator),
                     typeof(SingleSequenceGenerator),
-                    typeof(DoubleSequenceGenerator)
+                    typeof(DoubleSequenceGenerator),
+                    typeof(IntPtrGuard)
                 };
             // Exercise system
             var sut = new DefaultPrimitiveBuilders();
