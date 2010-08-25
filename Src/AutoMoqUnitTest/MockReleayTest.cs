@@ -24,6 +24,41 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void InitializeWithNullSpecificationThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new MockRelay(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecificationIsCorrectWhenInitializedWithSpecification()
+        {
+            // Fixture setup
+            Func<Type, bool> expectedSpec = t => true;
+            var sut = new MockRelay(expectedSpec);
+            // Exercise system
+            Func<Type, bool> result = sut.MockableSpecification;
+            // Verify outcome
+            Assert.Equal(expectedSpec, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecificationIsNotNullWhenInitializedWithDefaultConstructor()
+        {
+            // Fixture setup
+            var sut = new MockRelay();
+            // Exercise system
+            var result = sut.MockableSpecification;
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateWithNullContextThrows()
         {
             // Fixture setup
@@ -90,6 +125,25 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Verify outcome
             var expectedResult = new NoSpecimen(request);
             Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(AbstractType))]
+        [InlineData(typeof(IInterface))]
+        public void CreateCorrectlyInvokesSpecification(Type request)
+        {
+            // Fixture setup
+            var verified = false;
+            Func<Type, bool> mockSpec = t => verified = t == request;
+            var sut = new MockRelay(mockSpec);
+            // Exercise system
+            var contextDummy = new Mock<ISpecimenContext>();
+            sut.Create(request, contextDummy.Object);
+            // Verify outcome
+            Assert.True(verified, "Mock verified");
             // Teardown
         }
     }

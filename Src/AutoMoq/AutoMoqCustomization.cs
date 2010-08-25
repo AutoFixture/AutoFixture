@@ -11,6 +11,41 @@ namespace Ploeh.AutoFixture.AutoMoq
     /// </summary>
     public class AutoMoqCustomization : ICustomization
     {
+        private readonly ISpecimenBuilder relay;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoMoqCustomization"/> class.
+        /// </summary>
+        public AutoMoqCustomization()
+            : this(new MockRelay())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoMoqCustomization"/> class with a
+        /// <see cref="MockRelay"/>.
+        /// </summary>
+        /// <param name="relay">The relay.</param>
+        public AutoMoqCustomization(ISpecimenBuilder relay)
+        {
+            if (relay == null)
+            {
+                throw new ArgumentNullException("relay");
+            }
+
+            this.relay = relay;
+        }
+
+        /// <summary>
+        /// Gets the relay that will be added to <see cref="IFixture.ResidueCollectors"/> when
+        /// <see cref="Customize"/> is invoked.
+        /// </summary>
+        /// <seealso cref="AutoMoqCustomization(ISpecimenBuilder)"/>
+        public ISpecimenBuilder Relay
+        {
+            get { return this.relay; }
+        }
+
         #region ICustomization Members
 
         /// <summary>
@@ -28,7 +63,7 @@ namespace Ploeh.AutoFixture.AutoMoq
                 new MockPostprocessor(
                     new ConstructorInvoker(
                         new MockConstructorQuery())));
-            fixture.ResidueCollectors.Add(new MockRelay());
+            fixture.ResidueCollectors.Add(this.Relay);
         }
 
         #endregion

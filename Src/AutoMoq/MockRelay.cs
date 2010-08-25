@@ -13,6 +13,53 @@ namespace Ploeh.AutoFixture.AutoMoq
     /// </summary>
     public class MockRelay : ISpecimenBuilder
     {
+        private readonly Func<Type, bool> shouldBeMocked;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockRelay"/> class.
+        /// </summary>
+        public MockRelay()
+            : this(MockRelay.ShouldBeMocked)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockRelay"/> class with a specification
+        /// that determines whether a type should be mocked.
+        /// </summary>
+        /// <param name="mockableSpecification">
+        /// A specification that determines whether a type should be mocked or not.
+        /// </param>
+        public MockRelay(Func<Type, bool> mockableSpecification)
+        {
+            if (mockableSpecification == null)
+            {
+                throw new ArgumentNullException("mockableSpecification");
+            }
+
+            this.shouldBeMocked = mockableSpecification;
+        }
+
+        /// <summary>
+        /// Gets a specification that determines whether a given type should be mocked.
+        /// </summary>
+        /// <value>The specification.</value>
+        /// <remarks>
+        /// <para>
+        /// This specification determins whether a given type should be relayed as a request for a
+        /// mock of the same type. By default it only returns <see langword="true"/> for interfaces
+        /// and abstract classes, but a different specification can be supplied by using the
+        /// <see cref="MockRelay(Func{Type, bool})"/> overloaded constructor that takes a
+        /// specification as input. In that case, this property returns the specification supplied
+        /// to the constructor.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="MockRelay(Func{Type, bool})"/>
+        public Func<Type, bool> MockableSpecification
+        {
+            get { return this.shouldBeMocked; }
+        }
+
         #region ISpecimenBuilder Members
 
         /// <summary>
@@ -32,7 +79,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             }
 
             var t = request as Type;
-            if (!MockRelay.ShouldBeMocked(t))
+            if (!this.shouldBeMocked(t))
             {
                 return new NoSpecimen(request);
             }

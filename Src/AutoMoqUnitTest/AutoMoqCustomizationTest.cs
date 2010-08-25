@@ -22,6 +22,41 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void InitializeWithNullRelayThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new AutoMoqCustomization(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecificationIsCorrectWhenInitializedWithRelay()
+        {
+            // Fixture setup
+            var expectedRelay = new MockRelay();
+            var sut = new AutoMoqCustomization(expectedRelay);
+            // Exercise system
+            ISpecimenBuilder result = sut.Relay;
+            // Verify outcome
+            Assert.Equal(expectedRelay, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecificationIsNotNullWhenInitializedWithDefaultConstructor()
+        {
+            // Fixture setup
+            var sut = new AutoMoqCustomization();
+            // Exercise system
+            var result = sut.Relay;
+            // Verify outcome
+            Assert.IsType<MockRelay>(result);
+            // Teardown
+        }
+
+        [Fact]
         public void CustomizeNullFixtureThrows()
         {
             // Fixture setup
@@ -44,7 +79,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             sut.Customize(fixtureStub.Object);
             // Verify outcome
-            Assert.True(residueCollectors.OfType<MockRelay>().Any());
+            Assert.Contains(sut.Relay, residueCollectors);
             // Teardown
         }
 
