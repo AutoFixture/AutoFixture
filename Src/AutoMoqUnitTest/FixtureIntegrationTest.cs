@@ -76,5 +76,17 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             Assert.Equal(expected, result.MakeIt(dummy));
             // Teardown
         }
+
+        [Fact]
+        public void FixtureCanCreateList()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            // Exercise system
+            var result = fixture.CreateAnonymous<IList<ConcreteType>>();
+            // Verify outcome
+            Assert.False(result.Any());
+            // Teardown
+        }
     }
 }
