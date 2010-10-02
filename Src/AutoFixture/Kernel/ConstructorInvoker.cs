@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixture.Kernel
 
             foreach (var ci in this.GetConstructors(request))
             {
-                var paramValues = (from pi in ci.GetParameters()
+                var paramValues = (from pi in ci.Parameters
                                    select context.Resolve(pi)).ToList();
 
                 if (paramValues.All(ConstructorInvoker.IsValueValid))
@@ -81,12 +81,12 @@ namespace Ploeh.AutoFixture.Kernel
 
         #endregion
 
-        private IEnumerable<ConstructorInfo> GetConstructors(object request)
+        private IEnumerable<IMethod> GetConstructors(object request)
         {
             var requestedType = request as Type;
             if (requestedType == null)
             {
-                return Enumerable.Empty<ConstructorInfo>();
+                return Enumerable.Empty<IMethod>();
             }
 
             return this.query.SelectConstructors(requestedType);

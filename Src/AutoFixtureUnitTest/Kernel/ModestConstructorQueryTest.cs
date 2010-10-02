@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
@@ -56,7 +54,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var expectedConstructors = from ci in type.GetConstructors()
                                        let parameters = ci.GetParameters()
                                        orderby parameters.Length ascending
-                                       select ci;
+                                       select new ConstructorMethod(ci) as IMethod;
 
             var sut = new ModestConstructorQuery();
             // Exercise system

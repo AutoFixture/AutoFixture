@@ -67,7 +67,7 @@
   <ItemGroup>
     <Compile Include="AutoMoqCustomization.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="MockConstructorInfo.cs" />
+    <Compile Include="MockConstructorMethod.cs" />
     <Compile Include="MockConstructorQuery.cs" />
     <Compile Include="MockPostprocessor.cs" />
     <Compile Include="MockRelay.cs" />

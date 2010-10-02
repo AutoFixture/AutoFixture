@@ -36,23 +36,23 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// each constructor.
         /// </para>
         /// </remarks>
-        public IEnumerable<ConstructorInfo> SelectConstructors(Type type)
+        public IEnumerable<IMethod> SelectConstructors(Type type)
         {
             if (!type.IsMock())
             {
-                return Enumerable.Empty<ConstructorInfo>();
+                return Enumerable.Empty<IMethod>();
             }
 
             var mockType = type.GetMockedType();
             if (mockType.IsInterface)
             {
-                return new[] { type.GetDefaultConstructor() };
+                return new[] { new ConstructorMethod(type.GetDefaultConstructor()) };
             }
 
             return from ci in mockType.GetPublicAndProtectedConstructors()
                    let paramInfos = ci.GetParameters()
                    orderby paramInfos.Length ascending
-                   select new MockConstructorInfo(type.GetParamsConstructor(), paramInfos) as ConstructorInfo;
+                   select new MockConstructorMethod(type.GetParamsConstructor(), paramInfos) as IMethod;
         }
 
         #endregion

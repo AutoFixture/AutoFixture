@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
-using System.Reflection;
 using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
@@ -91,7 +90,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var dummyRequest = typeof(object);
-            var query = new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<ConstructorInfo>() };
+            var query = new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() };
             var sut = new ConstructorInvoker(query);
             // Exercise system
             var dummyContext = new DelegatingSpecimenContext();
@@ -219,7 +218,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var ctor1 = requestedType.GetConstructor(new[] { typeof(MultiUnorderedConstructorType.ParameterObject) });
             var ctor2 = requestedType.GetConstructor(new[] { typeof(string), typeof(int) });
 
-            var picker = new DelegatingConstructorQuery { OnSelectConstructors = t => new[] { ctor1, ctor2 } };
+            var picker = new DelegatingConstructorQuery { OnSelectConstructors = t => new IMethod[] { new ConstructorMethod(ctor1), new ConstructorMethod(ctor2) } };
             var sut = new ConstructorInvoker(picker);
 
             var ctor2Params = ctor2.GetParameters();

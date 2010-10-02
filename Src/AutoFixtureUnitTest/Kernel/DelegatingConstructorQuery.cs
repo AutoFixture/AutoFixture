@@ -11,18 +11,18 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
     {
         public DelegatingConstructorQuery()
         {
-            this.OnSelectConstructors = t => Enumerable.Empty<ConstructorInfo>();
+            this.OnSelectConstructors = t => Enumerable.Empty<IMethod>();
         }
 
         #region IConstructorPicker Members
 
-        public IEnumerable<ConstructorInfo> SelectConstructors(Type type)
+        public IEnumerable<IMethod> SelectConstructors(Type type)
         {
             return this.OnSelectConstructors(type);
         }
 
         #endregion
 
-        internal Func<Type, IEnumerable<ConstructorInfo>> OnSelectConstructors { get; set; }
+        internal Func<Type, IEnumerable<IMethod>> OnSelectConstructors { get; set; }
     }
 }

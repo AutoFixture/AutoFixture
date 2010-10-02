@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// unspecified.
         /// </para>
         /// </remarks>
-        public IEnumerable<ConstructorInfo> SelectConstructors(Type type)
+        public IEnumerable<IMethod> SelectConstructors(Type type)
         {
             if (type == null)
             {
@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture.Kernel
             return from ci in type.GetConstructors()
                    let parameters = ci.GetParameters()
                    orderby parameters.Length ascending
-                   select ci;
+                   select new ConstructorMethod(ci) as IMethod;
         }
 
         #endregion

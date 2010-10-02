@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Xunit;
-using Ploeh.AutoFixture.Kernel;
-using Xunit.Extensions;
-using Ploeh.TestTypeFoundation;
-using Moq;
 using System.Reflection;
+using Moq;
+using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
+using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 {
@@ -42,19 +40,6 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Teardown
         }
 
-        [Fact]
-        public void SelectReturnsCorrectConstructorForTypeWithConstructor()
-        {
-            // Fixture setup
-            var type = typeof(Mock<IInterface>);
-            var sut = new MockConstructorQuery();
-            // Exercise system
-            var result = sut.SelectConstructors(type);
-            // Verify outcome
-            Assert.True(result.Single().DeclaringType == type);
-            // Teardown
-        }
-
         [Theory]
         [InlineData(typeof(Mock<AbstractType>))]
         [InlineData(typeof(Mock<ConcreteType>))]
@@ -78,22 +63,6 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         [InlineData(typeof(Mock<AbstractType>))]
         [InlineData(typeof(Mock<ConcreteType>))]
         [InlineData(typeof(Mock<MultiUnorderedConstructorType>))]
-        public void SelectReturnsCorrectConstructorInfoForMockType(Type t)
-        {
-            // Fixture setup
-            var sut = new MockConstructorQuery();
-            // Exercise system
-            var result = sut.SelectConstructors(t);
-            // Verify outcome
-            Assert.True(result.All(ci => ci.DeclaringType == t));
-            // Teardown
-        }
-
-        [Theory]
-        [InlineData(typeof(Mock<IInterface>))]
-        [InlineData(typeof(Mock<AbstractType>))]
-        [InlineData(typeof(Mock<ConcreteType>))]
-        [InlineData(typeof(Mock<MultiUnorderedConstructorType>))]
         public void ConstructorsDefineCorrectParameters(Type t)
         {
             // Fixture setup
@@ -106,7 +75,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var result = sut.SelectConstructors(t);
             // Verify outcome
             var actualArgs = from ci in result
-                             select ci.GetParameters();
+                             select ci.Parameters;
             Assert.True(mockTypeCtorArgs.All(expectedParams =>
                 actualArgs.Any(actualParams =>
                     expectedParams.SequenceEqual(actualParams))));
@@ -131,7 +100,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var result = sut.SelectConstructors(t);
             // Verify outcome
             var actualArgCounts = from ci in result
-                                  select ci.GetParameters().Length;
+                                  select ci.Parameters.Count();
             Assert.True(mockTypeCtorArgCounts.SequenceEqual(actualArgCounts));
             // Teardown
         }

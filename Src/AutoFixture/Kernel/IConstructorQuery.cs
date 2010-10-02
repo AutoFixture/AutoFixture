@@ -16,6 +16,6 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>Constructors for <paramref name="type"/>.</returns>
-        IEnumerable<ConstructorInfo> SelectConstructors(Type type);
+        IEnumerable<IMethod> SelectConstructors(Type type);
     }
 }

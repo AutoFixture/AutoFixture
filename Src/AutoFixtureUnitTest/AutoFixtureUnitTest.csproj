@@ -84,6 +84,7 @@
     <Compile Include="Kernel\AutoPropertiesCommandTest.cs" />
     <Compile Include="Kernel\CompositeSpecimenBuilderTest.cs" />
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
+    <Compile Include="Kernel\ConstructorMethodTest.cs" />
     <Compile Include="Kernel\DelegatingConstructorQuery.cs" />
     <Compile Include="Kernel\DelegatingSpecimenBuilderTransformation.cs" />
     <Compile Include="Kernel\ArrayRelayTest.cs" />
