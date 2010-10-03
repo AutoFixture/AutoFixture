@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            fixture.Customize<T>(c => c.FromFactory(() => item).OmitAutoProperties());
+            fixture.Register(() => item);
         }
 
         /// <summary>

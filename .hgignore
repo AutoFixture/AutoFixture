@@ -8,3 +8,4 @@ glob:*.resharper.user
 glob:*.csproj.user
 glob:*_ReSharper*
 glob:AutoFixtureLogo1.png
+glob:Release/*
