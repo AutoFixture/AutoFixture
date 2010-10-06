@@ -103,6 +103,11 @@
             Gets the version of xunit.dll used by the test assembly.
             </summary>
         </member>
+        <member name="M:Xunit.ExecutorWrapper.#cctor">
+            <summary>
+            Initializes the <see cref="T:Xunit.ExecutorWrapper"/> class.
+            </summary>
+        </member>
         <member name="M:Xunit.ExecutorWrapper.#ctor(System.String,System.String,System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:Xunit.ExecutorWrapper"/> class.
@@ -143,10 +148,108 @@
         <member name="P:Xunit.ExecutorWrapper.XunitVersion">
             <inheritdoc/>
         </member>
-        <member name="M:Xunit.ExecutorWrapper.CallbackHandler`1.InitializeLifetimeService">
+        <member name="T:Xunit.ExecutorWrapper.IntCallbackHandler">
+            <summary>
+            THIS CLASS IS FOR INTERNAL USE ONLY.
+            </summary>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.IntCallbackHandler.InitializeLifetimeService">
             <summary/>
         </member>
-        <member name="M:Xunit.ExecutorWrapper.XmlNodeCallbackWrapper.InitializeLifetimeService">
+        <member name="P:Xunit.ExecutorWrapper.IntCallbackHandler.Result">
+            <summary/>
+        </member>
+        <member name="T:Xunit.ExecutorWrapper.IntCallbackHandlerWithIMessageSink">
+            <summary>
+            THIS CLASS IS FOR INTERNAL USE ONLY.
+            </summary>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.IntCallbackHandlerWithIMessageSink.System#Runtime#Remoting#Messaging#IMessageSink#AsyncProcessMessage(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessageSink)">
+            <summary/>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.IntCallbackHandlerWithIMessageSink.System#Runtime#Remoting#Messaging#IMessageSink#SyncProcessMessage(System.Runtime.Remoting.Messaging.IMessage)">
+            <summary/>
+        </member>
+        <member name="P:Xunit.ExecutorWrapper.IntCallbackHandlerWithIMessageSink.System#Runtime#Remoting#Messaging#IMessageSink#NextSink">
+            <summary/>
+        </member>
+        <member name="T:Xunit.ExecutorWrapper.IntCallbackHandlerWithICallbackEventHandler">
+            <summary>
+            THIS CLASS IS FOR INTERNAL USE ONLY.
+            </summary>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.IntCallbackHandlerWithICallbackEventHandler.GetCallbackResult">
+            <summary/>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.IntCallbackHandlerWithICallbackEventHandler.RaiseCallbackEvent(System.String)">
+            <summary/>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.IntCallbackHandlerWithICallbackEventHandler.InitializeLifetimeService">
+            <summary/>
+        </member>
+        <member name="T:Xunit.ExecutorWrapper.XmlNodeCallbackHandler">
+            <summary>
+            THIS CLASS IS FOR INTERNAL USE ONLY.
+            </summary>
+        </member>
+        <member name="F:Xunit.ExecutorWrapper.XmlNodeCallbackHandler.callback">
+            <summary/>
+        </member>
+        <member name="F:Xunit.ExecutorWrapper.XmlNodeCallbackHandler.lastNodeName">
+            <summary/>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.XmlNodeCallbackHandler.#ctor(System.Predicate{System.Xml.XmlNode},System.String)">
+            <summary/>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.XmlNodeCallbackHandler.InitializeLifetimeService">
+            <summary/>
+        </member>
+        <member name="P:Xunit.ExecutorWrapper.XmlNodeCallbackHandler.LastNode">
+            <summary/>
+        </member>
+        <member name="P:Xunit.ExecutorWrapper.XmlNodeCallbackHandler.LastNodeArrived">
+            <summary/>
+        </member>
+        <member name="T:Xunit.ExecutorWrapper.XmlNodeCallbackHandlerWithIMessageSink">
+            <summary>
+            THIS CLASS IS FOR INTERNAL USE ONLY.
+            </summary>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.XmlNodeCallbackHandlerWithIMessageSink.#ctor(System.Predicate{System.Xml.XmlNode},System.String)">
+            <summary/>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.XmlNodeCallbackHandlerWithIMessageSink.System#Runtime#Remoting#Messaging#IMessageSink#AsyncProcessMessage(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Messaging.IMessageSink)">
+            <summary/>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.XmlNodeCallbackHandlerWithIMessageSink.System#Runtime#Remoting#Messaging#IMessageSink#SyncProcessMessage(System.Runtime.Remoting.Messaging.IMessage)">
+            <summary/>
+        </member>
+        <member name="P:Xunit.ExecutorWrapper.XmlNodeCallbackHandlerWithIMessageSink.System#Runtime#Remoting#Messaging#IMessageSink#NextSink">
+            <summary/>
+        </member>
+        <member name="T:Xunit.ExecutorWrapper.XmlNodeCallbackHandlerWithICallbackEventHandler">
+            <summary>
+            THIS CLASS IS FOR INTERNAL USE ONLY.
+            </summary>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.XmlNodeCallbackHandlerWithICallbackEventHandler.#ctor(System.Predicate{System.Xml.XmlNode},System.String)">
+            <summary/>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.XmlNodeCallbackHandlerWithICallbackEventHandler.RaiseCallbackEvent(System.String)">
+            <summary/>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.XmlNodeCallbackHandlerWithICallbackEventHandler.GetCallbackResult">
+            <summary/>
+        </member>
+        <member name="T:Xunit.ExecutorWrapper.OutgoingMessage">
+            <summary>
+            THIS CLASS IS FOR INTERNAL USE ONLY.
+            </summary>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.OutgoingMessage.#ctor(System.Object)">
+            <summary/>
+        </member>
+        <member name="M:Xunit.ExecutorWrapper.OutgoingMessage.InitializeLifetimeService">
             <summary/>
         </member>
         <member name="T:Xunit.ITestMethodRunnerCallback">
@@ -562,21 +665,50 @@
             Initializes a new instance of the <see cref="T:Xunit.XunitProject"/> class.
             </summary>
         </member>
+        <member name="M:Xunit.XunitProject.AddAssembly(Xunit.XunitProjectAssembly)">
+            <summary>
+            Adds an assembly to the project
+            </summary>
+            <param name="assembly">The assembly to be added</param>
+        </member>
         <member name="M:Xunit.XunitProject.Load(System.String)">
             <summary>
             Loads an xUnit.net Test Project file from disk.
             </summary>
             <param name="filename">The test project filename</param>
         </member>
-        <member name="M:Xunit.XunitProject.Save(System.String)">
+        <member name="M:Xunit.XunitProject.RemoveAssembly(Xunit.XunitProjectAssembly)">
             <summary>
-            Saves the xUnit.net Test Project file to disk.
+            Removes assembly from the assembly list
+            </summary>
+            <param name="assembly">The assembly to be removed</param>
+        </member>
+        <member name="M:Xunit.XunitProject.Save">
+            <summary>
+            Saves the xUnit.net Test Project file to disk using the project's filename.
+            </summary>
+        </member>
+        <member name="M:Xunit.XunitProject.SaveAs(System.String)">
+            <summary>
+            Saves the xUnit.net Test Project file to disk using the provided filename.
+            The projects filename is updated to match this new name.
             </summary>
             <param name="filename">The test project filename</param>
         </member>
         <member name="P:Xunit.XunitProject.Assemblies">
             <summary>
             Gets or sets the assemblies in the project.
+            </summary>
+        </member>
+        <member name="P:Xunit.XunitProject.Filename">
+            <summary>
+            Gets or set the filename of the project.
+            </summary>
+        </member>
+        <member name="P:Xunit.XunitProject.IsDirty">
+            <summary>
+            Gets or sets a flag which indicates if this project has been modified since
+            the last time it was loaded or saved.
             </summary>
         </member>
         <member name="T:Xunit.XunitProjectAssembly">
@@ -821,14 +953,9 @@
             </summary>
             <param name="xml">The assembly XML.</param>
         </member>
-        <member name="P:Xunit.IResultXmlTransform.Filename">
+        <member name="P:Xunit.IResultXmlTransform.OutputFilename">
             <summary>
             Gets the output filename, if known; returns null if the output isn't done to file.
-            </summary>
-        </member>
-        <member name="P:Xunit.IResultXmlTransform.OutputType">
-            <summary>
-            Gets the type of the output.
             </summary>
         </member>
         <member name="T:Xunit.TestRunner">
@@ -874,10 +1001,7 @@
         <member name="M:Xunit.NullTransformer.Transform(System.String)">
             <inheritdoc/>
         </member>
-        <member name="P:Xunit.NullTransformer.Filename">
-            <inheritdoc/>
-        </member>
-        <member name="P:Xunit.NullTransformer.OutputType">
+        <member name="P:Xunit.NullTransformer.OutputFilename">
             <inheritdoc/>
         </member>
         <member name="T:Xunit.XslStreamTransformer">
@@ -886,22 +1010,35 @@
             XML to a file after applying the XSL stylesheet in the given stream.
             </summary>
         </member>
-        <member name="M:Xunit.XslStreamTransformer.#ctor(System.IO.Stream,System.String,System.String)">
+        <member name="M:Xunit.XslStreamTransformer.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Xunit.XslStreamTransformer"/> class.
+            </summary>
+            <param name="xslFilename">The XSL filename.</param>
+            <param name="outputFilename">The output filename.</param>
+        </member>
+        <member name="M:Xunit.XslStreamTransformer.#ctor(System.IO.Stream,System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:Xunit.XslStreamTransformer"/> class.
             </summary>
             <param name="xslStream">The stream with the XSL stylesheet.</param>
-            <param name="filename">The output filename.</param>
-            <param name="outputType">The output type.</param>
+            <param name="outputFilename">The output filename.</param>
         </member>
         <member name="M:Xunit.XslStreamTransformer.Transform(System.String)">
             <inheritdoc/>
         </member>
-        <member name="P:Xunit.XslStreamTransformer.Filename">
+        <member name="P:Xunit.XslStreamTransformer.OutputFilename">
             <inheritdoc/>
         </member>
-        <member name="P:Xunit.XslStreamTransformer.OutputType">
-            <inheritdoc/>
+        <member name="P:Xunit.XslStreamTransformer.XslFilename">
+            <summary>
+            Gets or sets the XSL filename.
+            </summary>
+        </member>
+        <member name="P:Xunit.XslStreamTransformer.XslStream">
+            <summary>
+            Gets or sets the XSL stream.
+            </summary>
         </member>
         <member name="T:Xunit.MultiValueDictionary`2">
             <summary>
@@ -964,18 +1101,6 @@
             </summary>
         </member>
         <member name="T:Xunit.MultiValueDictionary`2.ForEachDelegate">
-            <summary/>
-        </member>
-        <member name="T:Xunit.StackFrameTransformer">
-            <summary>
-            Transforms stack frames and stack traces into compiler-like output
-            so they can be double-clicked in Visual Studio.
-            </summary>
-        </member>
-        <member name="M:Xunit.StackFrameTransformer.TransformFrame(System.String)">
-            <summary/>
-        </member>
-        <member name="M:Xunit.StackFrameTransformer.TransformStack(System.String)">
             <summary/>
         </member>
         <member name="T:Xunit.TestAssemblyBuilder">

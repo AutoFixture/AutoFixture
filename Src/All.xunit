@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xunit>
+  <assemblies>
+    <assembly filename="AutoFixtureUnitTest\bin\Release\Ploeh.AutoFixtureUnitTest.dll" shadow-copy="true" />
+    <assembly filename="AutoFixtureDocumentationTest\bin\Release\Ploeh.AutoFixtureDocumentationTest.dll" shadow-copy="true" />
+    <assembly filename="AutoFixture.xUnit.net.UnitTest\bin\Release\Ploeh.AutoFixture.Xunit.UnitTest.dll" shadow-copy="true" />
+    <assembly filename="AutoMoqUnitTest\bin\Release\Ploeh.AutoFixture.AutoMoq.UnitTest.dll" shadow-copy="true" />
+    <assembly filename="IdiomsUnitTest\bin\Release\Ploeh.AutoFixture.IdiomsUnitTest.dll" shadow-copy="true" />
+    <assembly filename="SemanticComparisonUnitTest\bin\Release\Ploeh.SemanticComparison.UnitTest.dll" shadow-copy="true" />
+  </assemblies>
+</xunit>
