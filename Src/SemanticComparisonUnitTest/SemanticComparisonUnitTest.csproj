@@ -34,12 +34,19 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
     <Reference Include="xunit, Version=1.6.1.1521, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\xUnit.net 1.6.1\xunit.dll</HintPath>
     </Reference>
+    <Reference Include="xunit.extensions, Version=1.6.1.1521, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\xUnit.net 1.6.1\xunit.extensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DependencyConstraints.cs" />
     <Compile Include="LikenessTest.cs" />
     <Compile Include="LikenessSourceTest.cs" />
     <Compile Include="MemberInfoNameComparerTest.cs" />

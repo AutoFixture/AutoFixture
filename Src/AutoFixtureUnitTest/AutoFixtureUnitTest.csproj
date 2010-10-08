@@ -60,6 +60,7 @@
     <Compile Include="BehaviorPostprocessComposerTest.cs" />
     <Compile Include="BooleanSwitchTest.cs" />
     <Compile Include="ByteSequenceGeneratorTest.cs" />
+    <Compile Include="DependencyConstraints.cs" />
     <Compile Include="CollectionFillerTest.cs" />
     <Compile Include="CompositeCustomizationTest.cs" />
     <Compile Include="DateTimeGeneratorTest.cs" />

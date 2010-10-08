@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMoqCustomizationTest.cs" />
+    <Compile Include="DependencyConstraints.cs" />
     <Compile Include="FixtureIntegrationTest.cs" />
     <Compile Include="MockConstructorQueryTest.cs" />
     <Compile Include="MockPostprocessorTest.cs" />

@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoDataAttributeTest.cs" />
+    <Compile Include="DependencyConstraints.cs" />
     <Compile Include="ComposerWithoutADefaultConstructor.cs" />
     <Compile Include="CustomizeAttributeTest.cs" />
     <Compile Include="CustomizedFixture.cs" />
