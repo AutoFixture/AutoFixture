@@ -59,5 +59,17 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
 
             Assert.Equal(g2, g3);
         }
+
+        [Theory, AutoData]
+        public void IntroductoryTest(
+            int expectedNumber, MyClass sut)
+        {
+            // Fixture setup
+            // Exercise system
+            int result = sut.Echo(expectedNumber);
+            // Verify outcome
+            Assert.Equal(expectedNumber, result);
+            // Teardown
+        }
     }
 }
