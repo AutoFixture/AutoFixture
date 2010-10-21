@@ -93,6 +93,7 @@
     <Compile Include="CompositeCustomization.cs" />
     <Compile Include="DateTimeGenerator.cs" />
     <Compile Include="DefaultPrimitiveBuilders.cs" />
+    <Compile Include="DisposableTrackingCustomization.cs" />
     <Compile Include="Dsl\Composer.cs" />
     <Compile Include="Dsl\CompositeComposer.cs" />
     <Compile Include="Dsl\CompositePostprocessComposer.cs" />
@@ -107,6 +108,8 @@
     <Compile Include="IFixture.cs" />
     <Compile Include="Kernel\ArrayRelay.cs" />
     <Compile Include="Kernel\ConstructorMethod.cs" />
+    <Compile Include="Kernel\DisposableTracker.cs" />
+    <Compile Include="Kernel\DisposableTrackingBehavior.cs" />
     <Compile Include="Kernel\FixedBuilder.cs" />
     <Compile Include="Kernel\IConstructorQuery.cs" />
     <Compile Include="Kernel\IllegalRequestException.cs" />

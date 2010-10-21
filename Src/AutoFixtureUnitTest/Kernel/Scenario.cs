@@ -450,6 +450,37 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void DisposeBehaviorDisposesSpecimen()
+        {
+            // Fixture setup
+            var behavior = new DisposableTrackingBehavior();
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(behavior);
+
+            var disp = fixture.CreateAnonymous<DisposableSpy>();
+            // Exercise system
+            behavior.Dispose();
+            // Verify outcome
+            Assert.True(disp.Disposed);
+            // Teardown
+        }
+
+        [Fact]
+        public void DisposeCustomizationDisposesSpecimen()
+        {
+            // Fixture setup
+            var customization = new DisposableTrackingCustomization();
+            var fixture = new Fixture().Customize(customization);
+
+            var disp = fixture.CreateAnonymous<DisposableSpy>();
+            // Exercise system
+            customization.Dispose();
+            // Verify outcome
+            Assert.True(disp.Disposed);
+            // Teardown
+        }
+
         private static SpecimenContext CreateContainer()
         {
             var builder = Scenario.CreateAutoPropertyBuilder();
