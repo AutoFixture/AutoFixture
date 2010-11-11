@@ -9,3 +9,7 @@ glob:*.csproj.user
 glob:*_ReSharper*
 glob:AutoFixtureLogo1.png
 glob:Release/*
+glob:*ReSharper.user
+glob:Src/AutoMoqUnitTest/FixtureIntegrationTest.cs.orig
+glob:*.vsmdi
+glob:*.testrunconfig
