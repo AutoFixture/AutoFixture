@@ -67,6 +67,7 @@
     <Compile Include="RhinoMockPostprocessorTest.cs" />
     <Compile Include="RhinoMockRelayTest.cs" />
     <Compile Include="RhinoMockTestTypes.cs" />
+    <Compile Include="RhinoMockTypeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

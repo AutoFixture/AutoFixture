@@ -160,6 +160,5 @@ namespace AutoRhinoMockUnitTest
             Assert.IsAssignableFrom<RhinoMockConstructorQuery>(ctorInvoker.Query);
             // Teardown
         }
-
     }
 }

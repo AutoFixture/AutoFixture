@@ -44,6 +44,10 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
             {
                 return new NoSpecimen(request);
             }
+            if (t == null)
+            {
+                return new NoSpecimen(request);
+            }
 
             if (t.IsInterface)
             {
@@ -63,8 +67,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
 
         private static bool ShouldBeMocked(Type t)
         {
-            return (t != null)
-                && ((t.IsAbstract) || (t.IsInterface));
+            return RhinoMockType.IsMockable(t);
         }
     }
 }

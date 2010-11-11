@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
                     new ConstructorInvoker(
                         new RhinoMockConstructorQuery())));
 
-            foreach(var eb in this.genericEnumerableBuilders)
+            foreach (var eb in this.genericEnumerableBuilders)
             {
                 fixture.ResidueCollectors.Add(eb);
             }

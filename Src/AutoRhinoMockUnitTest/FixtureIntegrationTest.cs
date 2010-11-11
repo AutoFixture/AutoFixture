@@ -8,11 +8,24 @@ using Xunit;
 using Rhino.Mocks.Interfaces;
 using Ploeh.AutoFixture.AutoRhinoMock;
 using Ploeh.AutoFixture;
+using Xunit.Extensions;
 
 namespace AutoRhinoMockUnitTest
 {
     public class FixtureIntegrationTest
     {
+        [Fact]
+        public void FixtureDoesNotMockConcreteType()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
+            // Exercise system
+            var result = fixture.CreateAnonymous<string>();
+            // Verify outcome
+            Assert.Throws<InvalidOperationException>( () => result.GetMockRepository());
+            // Teardown
+        }
+
         [Fact]
         public void FixtureAutoMocksInterface()
         {
@@ -62,6 +75,30 @@ namespace AutoRhinoMockUnitTest
         }
 
         [Fact]
+        public void FixtureCanCreateGuid()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
+            // Exercise system
+            var result = fixture.CreateAnonymous<Guid>();
+            // Verify outcome
+            Assert.NotEqual(Guid.Empty, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void FixtureAutoMocksAbstractTypeWithNonDefaultConstructorRequiringGuid()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
+            // Exercise system
+            var result = fixture.CreateAnonymous<AbstractTypeWithNonDefaultConstructor<Guid>>();
+            // Verify outcome
+            Assert.NotEqual(Guid.Empty, result.Property);
+            // Teardown
+        }
+
+        [Fact]
         public void FixtureAutoMocksAbstractTypeWithNonDefaultConstructor()
         {
             // Fixture setup
@@ -81,7 +118,48 @@ namespace AutoRhinoMockUnitTest
             // Exercise system
             var result = fixture.CreateAnonymous<AbstractTypeWithNonDefaultConstructor<RhinoMockTestTypes.AnotherAbstractTypeWithNonDefaultConstructor<int>>>();
             // Verify outcome
-            Assert.NotEqual(0, result.Property.Value);
+            Assert.NotNull(result.GetMockRepository());
+            Assert.NotNull(result.Property.GetMockRepository());
+            // Teardown
+        }
+
+        [Fact]
+        public void FixtureDoesNotMockNestedConcreteTypeWithNonDefaultConstructor()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
+            // Exercise system
+            var result = fixture.CreateAnonymous<AbstractTypeWithNonDefaultConstructor<RhinoMockTestTypes.ConcreteGenericType<int>>>();
+            // Verify outcome
+            Assert.NotNull(result.GetMockRepository());
+            Assert.Throws<InvalidOperationException>(() => result.Property.GetMockRepository());
+            // Teardown
+        }
+
+        [Fact]
+        public void FixtureDoesNotMockParentOfNestedAbstractTypeWithNonDefaultConstructor()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
+            // Exercise system
+            var result = fixture.CreateAnonymous<RhinoMockTestTypes.ConcreteGenericType<AbstractTypeWithNonDefaultConstructor<int>>>();
+            // Verify outcome
+            Assert.Throws<InvalidOperationException>(() => result.GetMockRepository());
+            Assert.NotNull(result.Value.GetMockRepository());
+            // Teardown
+        }
+
+        [Fact]
+        public void FixtureMocksDoubleGenericTypeCorrectly()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
+            // Exercise system
+            var result = fixture.CreateAnonymous<RhinoMockTestTypes.ConcreteDoublyGenericType<ConcreteType, AbstractTypeWithNonDefaultConstructor<int>>>();
+            // Verify outcome
+            Assert.Throws<InvalidOperationException>(() => result.GetMockRepository());
+            Assert.Throws<InvalidOperationException>(() => result.Value1.GetMockRepository());
+            Assert.NotNull(result.Value2.GetMockRepository());
             // Teardown
         }
 
