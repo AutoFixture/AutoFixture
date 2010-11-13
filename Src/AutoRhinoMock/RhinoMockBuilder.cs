@@ -6,16 +6,16 @@ using Rhino.Mocks;
 
 namespace Ploeh.AutoFixture.AutoRhinoMock
 {
-    public class RhinoMockRelay : ISpecimenBuilder
+    public class RhinoMockBuilder : ISpecimenBuilder
     {
         private readonly Func<Type, bool> shouldBeMocked;
 
-        public RhinoMockRelay()
-            : this(RhinoMockRelay.ShouldBeMocked)
+        public RhinoMockBuilder()
+            : this(RhinoMockBuilder.ShouldBeMocked)
         {
         }
 
-        public RhinoMockRelay(Func<Type, bool> mockableSpecification)
+        public RhinoMockBuilder(Func<Type, bool> mockableSpecification)
         {
             if (mockableSpecification == null)
             {

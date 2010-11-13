@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
         private readonly ISpecimenBuilder mockRelay;
         private readonly IEnumerable<ISpecimenBuilder> genericEnumerableBuilders;
 
-        public AutoRhinoMockCustomization() : this(new RhinoMockRelay(), new DefaultGenericListBuilder(), new DefaultGenericDictionaryBuilder()) { }
+        public AutoRhinoMockCustomization() : this(new RhinoMockBuilder(), new DefaultGenericListBuilder(), new DefaultGenericDictionaryBuilder()) { }
 
         public AutoRhinoMockCustomization(ISpecimenBuilder mockRelay, params ISpecimenBuilder[] genericEnumerableBuilders)
         {

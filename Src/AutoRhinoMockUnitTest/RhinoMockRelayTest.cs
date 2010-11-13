@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var sut = new RhinoMockRelay();
+            var sut = new RhinoMockBuilder();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new RhinoMockRelay(null));
+                new RhinoMockBuilder(null));
             // Teardown
         }
 
@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         {
             // Fixture setup
             Func<Type, bool> expectedSpec = t => true;
-            var sut = new RhinoMockRelay(expectedSpec);
+            var sut = new RhinoMockBuilder(expectedSpec);
             // Exercise system
             Func<Type, bool> result = sut.MockableSpecification;
             // Verify outcome
@@ -51,7 +51,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         public void SpecificationIsNotNullWhenInitializedWithDefaultConstructor()
         {
             // Fixture setup
-            var sut = new RhinoMockRelay();
+            var sut = new RhinoMockBuilder();
             // Exercise system
             var result = sut.MockableSpecification;
             // Verify outcome
@@ -63,7 +63,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         public void CreateWithNullContextThrows()
         {
             // Fixture setup
-            var sut = new RhinoMockRelay();
+            var sut = new RhinoMockBuilder();
             var dummyRequest = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
@@ -82,7 +82,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         public void CreateWithNonAbstractRequestReturnsCorrectResult(object request)
         {
             // Fixture setup
-            var sut = new RhinoMockRelay();
+            var sut = new RhinoMockBuilder();
             var dummyContext = MockRepository.GenerateMock<ISpecimenContext>();
             // Exercise system
             var result = sut.Create(request, dummyContext);
@@ -103,7 +103,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         public void CreateWithNonAbstractRequestReturnsNonMockedResult(object request)
         {
             // Fixture setup
-            var sut = new RhinoMockRelay();
+            var sut = new RhinoMockBuilder();
             var dummyContext = MockRepository.GenerateMock<ISpecimenContext>();
             // Exercise system
             var result = sut.Create(request, dummyContext);
