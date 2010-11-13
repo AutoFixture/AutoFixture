@@ -27,14 +27,14 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
             return false;
         }
 
-        public static bool IsGeneric(Type t)
+        public static bool IsGeneric(Type type)
         {
-            if (t == null)
+            if (type == null)
             {
                 return false;
             }
 
-            if (t.IsGenericType && RhinoMockType.IsMockable(t.GetGenericTypeDefinition()))
+            if (type.IsGenericType && RhinoMockType.IsMockable(type.GetGenericTypeDefinition()))
             {
                 return true;
             }
