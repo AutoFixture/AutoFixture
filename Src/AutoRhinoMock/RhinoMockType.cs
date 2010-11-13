@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
             return type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
         }
 
-        public static bool IsMockable(object request)
+        public static bool IsMockable(this object request)
         {
             var t = request as Type;
             if(t == null)
@@ -27,14 +27,14 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
             return false;
         }
 
-        public static bool IsGeneric(Type type)
+        public static bool IsGeneric(this Type type)
         {
             if (type == null)
             {
                 return false;
             }
 
-            if (type.IsGenericType && RhinoMockType.IsMockable(type.GetGenericTypeDefinition()))
+            if (type.IsGenericType && type.GetGenericTypeDefinition().IsMockable())
             {
                 return true;
             }

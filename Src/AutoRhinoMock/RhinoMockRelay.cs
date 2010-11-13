@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
 
         private static bool ShouldBeMocked(Type t)
         {
-            return RhinoMockType.IsMockable(t);
+            return t.IsMockable();
         }
     }
 }
