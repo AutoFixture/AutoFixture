@@ -8,8 +8,8 @@
     <ProjectGuid>{481F0C9E-DA19-4DBD-9D25-EBA1030AAA03}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AutoRhinoMockUnitTest</RootNamespace>
-    <AssemblyName>AutoRhinoMockUnitTest</AssemblyName>
+    <RootNamespace>Ploeh.AutoFixture.AutoRhinoMock.UnitTest</RootNamespace>
+    <AssemblyName>Ploeh.AutoFixture.AutoRhinoMock.UnitTest</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -9,7 +9,7 @@ using Xunit.Extensions;
 using Rhino.Mocks;
 using Ploeh.TestTypeFoundation;
 
-namespace AutoRhinoMockUnitTest
+namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
     public class RhinoRhinoMockRelayTest
     {

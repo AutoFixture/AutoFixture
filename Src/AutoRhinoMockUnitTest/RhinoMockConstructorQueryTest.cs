@@ -10,7 +10,7 @@ using Ploeh.TestTypeFoundation;
 using Rhino.Mocks.Interfaces;
 using System.Reflection;
 
-namespace AutoRhinoMockUnitTest
+namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
     public class RhinoMockConstructorQueryTest
     {

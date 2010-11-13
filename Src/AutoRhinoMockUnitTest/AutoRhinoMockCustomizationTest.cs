@@ -8,7 +8,7 @@ using Ploeh.AutoFixture.AutoRhinoMock;
 using Ploeh.AutoFixture.Kernel;
 using Rhino.Mocks;
 
-namespace AutoRhinoMockUnitTest
+namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
     public class AutoRhinoMockCustomizationTest
     {

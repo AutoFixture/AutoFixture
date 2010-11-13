@@ -3,7 +3,7 @@ using Ploeh.AutoFixture.AutoRhinoMock;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
-namespace AutoRhinoMockUnitTest
+namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
     public class DefaultGenericEnumerableBuilderTest
     {

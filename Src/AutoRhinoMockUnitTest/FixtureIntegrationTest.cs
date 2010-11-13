@@ -10,7 +10,7 @@ using Ploeh.AutoFixture.AutoRhinoMock;
 using Ploeh.AutoFixture;
 using Xunit.Extensions;
 
-namespace AutoRhinoMockUnitTest
+namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
     public class FixtureIntegrationTest
     {

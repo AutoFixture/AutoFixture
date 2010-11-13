@@ -7,7 +7,7 @@ using Xunit;
 using Xunit.Extensions;
 using Ploeh.TestTypeFoundation;
 
-namespace AutoRhinoMockUnitTest
+namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
     public class RhinoMockTypeTest
     {

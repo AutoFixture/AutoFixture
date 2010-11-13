@@ -10,7 +10,7 @@ using Rhino.Mocks;
 using Xunit;
 using Xunit.Extensions;
 
-namespace AutoRhinoMockUnitTest
+namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
     public class DefaultGenericDictionaryBuilderTest
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace AutoRhinoMockUnitTest
+namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
     public class RhinoMockTestTypes
     {

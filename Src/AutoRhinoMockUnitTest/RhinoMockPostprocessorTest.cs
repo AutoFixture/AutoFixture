@@ -8,7 +8,7 @@ using Rhino.Mocks;
 using Ploeh.AutoFixture.AutoRhinoMock;
 using Xunit.Extensions;
 
-namespace AutoRhinoMockUnitTest
+namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
     public class RhinoMockPostprocessorTest
     {
