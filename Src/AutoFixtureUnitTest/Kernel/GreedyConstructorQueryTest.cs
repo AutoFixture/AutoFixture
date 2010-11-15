@@ -1,20 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using System.Text;
 using Xunit;
 using Xunit.Extensions;
+using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class ModestConstructorQueryTest
+    public class GreedyConstructorQueryTest
     {
         [Fact]
         public void SutIsConstructorQuery()
         {
             // Fixture setup
             // Exercise system
-            var sut = new ModestConstructorQuery();
+            var sut = new GreedyConstructorQuery();
             // Verify outcome
             Assert.IsAssignableFrom<IConstructorQuery>(sut);
             // Teardown
@@ -24,7 +26,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SelectConstructorsFromNullTypeThrows()
         {
             // Fixture setup
-            var sut = new ModestConstructorQuery();
+            var sut = new GreedyConstructorQuery();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.SelectConstructors(null));
@@ -35,7 +37,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SelectFromTypeWithNoPublicConstructorReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = new ModestConstructorQuery();
+            var sut = new GreedyConstructorQuery();
             var typeWithNoPublicConstructors = typeof(AbstractType);
             // Exercise system
             var result = sut.SelectConstructors(typeWithNoPublicConstructors);
@@ -53,10 +55,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedConstructors = from ci in type.GetConstructors()
                                        let parameters = ci.GetParameters()
-                                       orderby parameters.Length ascending
+                                       orderby parameters.Length descending
                                        select new ConstructorMethod(ci) as IMethod;
 
-            var sut = new ModestConstructorQuery();
+            var sut = new GreedyConstructorQuery();
             // Exercise system
             var result = sut.SelectConstructors(type);
             // Verify outcome
