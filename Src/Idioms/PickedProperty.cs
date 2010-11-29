@@ -69,7 +69,7 @@ namespace Ploeh.AutoFixture.Idioms
             var behaviors = valueGuardConvention.CreateBoundaryBehaviors(this.fixture);
             foreach (var b in behaviors)
             {
-                b.ReflectionAssert(action);
+                b.Assert(action);
             }
         }
 

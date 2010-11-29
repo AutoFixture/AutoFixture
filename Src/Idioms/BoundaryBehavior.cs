@@ -6,7 +6,7 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public static class BoundaryBehavior
     {
-        public static void ReflectionAssert(this IBoundaryBehavior behavior, Action<object> action)
+        public static void Assert(this IBoundaryBehavior behavior, Action<object> action)
         {
             if (action == null)
             {

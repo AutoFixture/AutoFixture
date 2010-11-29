@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new DelegatingBoundaryBehavior();
             // Exercise system
             Assert.Throws<ArgumentNullException>(() => 
-                sut.ReflectionAssert(null));
+                sut.Assert(null));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             sut.OnExercise = a => { verified = a == expected; a(new object()); };
             sut.OnIsSatisfiedBy = e => e is ArgumentNullException;
             // Exercise system
-            sut.ReflectionAssert(expected);
+            sut.Assert(expected);
             // Verify outcome
             Assert.True(verified);
             // Teardown
@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new DelegatingBoundaryBehavior();
             sut.OnIsSatisfiedBy = e => e is ArgumentNullException;
             // Exercise system
-            sut.ReflectionAssert(o => { throw new TargetInvocationException("Test", new ArgumentNullException()); });
+            sut.Assert(o => { throw new TargetInvocationException("Test", new ArgumentNullException()); });
             // Verify outcome (no exception indicates success)
             // Teardown
         }
@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new DelegatingBoundaryBehavior();
             // Exercise system
             Assert.Throws<ValueGuardConventionException>(() =>
-                sut.ReflectionAssert(g => { }));
+                sut.Assert(g => { }));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new DelegatingBoundaryBehavior();
             // Exercise system
             Assert.Throws(typeof(ValueGuardConventionException), () =>
-                sut.ReflectionAssert(g => { throw new TargetInvocationException("Test", new InvalidOperationException()); }));
+                sut.Assert(g => { throw new TargetInvocationException("Test", new InvalidOperationException()); }));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             behavior.OnExercise = a => { throw new TargetInvocationException(expectedException); };
             behavior.OnIsSatisfiedBy = e => verified = e == expectedException;
             // Exercise system
-            behavior.ReflectionAssert(x => { });
+            behavior.Assert(x => { });
             // Verify outcome
             Assert.True(verified);
             // Teardown
