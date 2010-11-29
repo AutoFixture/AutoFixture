@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture.Idioms
             var propertyValue = this.fixture.CreateAnonymous<TProperty>();
 
             this.propertyInfo.SetValue(sut, propertyValue, null);
-            var result = (TProperty) this.propertyInfo.GetValue(sut, null);
+            var result = (TProperty)this.propertyInfo.GetValue(sut, null);
 
             if (!propertyValue.Equals(result))
             {
@@ -55,13 +55,12 @@ namespace Ploeh.AutoFixture.Idioms
         public virtual void AssertInvariants(IEnumerable<ITypeGuardSpecification> typeGuardSpecifications)
         {
             var valueGuardConvention = (from tgs in typeGuardSpecifications
-                                        let vgs = tgs.IsSatisfiedBy(typeof (TProperty))
-                                        where vgs != null
+                                        let vgs = tgs.IsSatisfiedBy(typeof(TProperty))
                                         select vgs).FirstOrDefault();
 
             if (valueGuardConvention == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "List of Type guard specifications cannot handle Type {0}", typeof (TProperty)));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "List of Type guard specifications cannot handle Type {0}", typeof(TProperty)));
             }
 
             var sut = this.fixture.CreateAnonymous<T>();

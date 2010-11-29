@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixture.Idioms
 
             if (type != typeof(string))
             {
-                return null;
+                return new NullValueGuardConvention();
             }
 
             return new StringGuardConvention();

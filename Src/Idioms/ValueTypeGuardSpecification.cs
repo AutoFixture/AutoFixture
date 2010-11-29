@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture.Idioms
                 return new ValueTypeGuardConvention();
             }
 
-            return null;
+            return new NullValueGuardConvention();
         }
 
         #endregion

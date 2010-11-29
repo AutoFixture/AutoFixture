@@ -52,6 +52,7 @@
     <Compile Include="IInvalidValueExtensionsTest.cs" />
     <Compile Include="InvalidGuidValueTest.cs" />
     <Compile Include="NullReferenceInvalidValueTest.cs" />
+    <Compile Include="NullValueGuardConventionTest.cs" />
     <Compile Include="ValueTypeGuardConventionTest.cs" />
     <Compile Include="ReferenceTypeGuardConventionTest.cs" />
     <Compile Include="StringGuardConventionTest.cs" />

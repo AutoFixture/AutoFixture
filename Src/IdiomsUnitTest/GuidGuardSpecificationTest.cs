@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void IsSatisfiedByReturnsNullForNonGuidType()
+        public void IsSatisfiedByReturnsCorrectResultForNonGuidType()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = sut.IsSatisfiedBy(typeof (string));
             // Verify outcome
-            Assert.Null(result);
+            Assert.IsAssignableFrom<NullValueGuardConvention>(result);
             // Teardown
         }
     }

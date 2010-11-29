@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixture.Idioms
 
             if (type != typeof(Guid))
             {
-                return null;
+                return new NullValueGuardConvention();
             }
 
             return new GuidValueGuardConvention();

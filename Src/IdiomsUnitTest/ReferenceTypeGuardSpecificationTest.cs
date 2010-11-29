@@ -41,12 +41,12 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = sut.IsSatisfiedBy(typeof(Guid));
             // Verify outcome
-            Assert.Null(result);
+            Assert.IsAssignableFrom<NullValueGuardConvention>(result);
             // Teardown
         }
 
         [Fact]
-        public void IsSatisfiedByReturnsCorrectResultForValueType()
+        public void IsSatisfiedByReturnsCorrectResultForReferenceType()
         {
             // Fixture setup
             var fixture = new Fixture();

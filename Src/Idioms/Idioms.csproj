@@ -63,6 +63,7 @@
     <Compile Include="IInvalidValueExtensions.cs" />
     <Compile Include="InvalidGuidValue.cs" />
     <Compile Include="NullReferenceInvalidValue.cs" />
+    <Compile Include="NullValueGuardConvention.cs" />
     <Compile Include="ValueTypeGuardConvention.cs" />
     <Compile Include="ReferenceTypeGuardConvention.cs" />
     <Compile Include="StringGuardConvention.cs" />
