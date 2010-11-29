@@ -2,7 +2,7 @@ using System;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public interface IInvalidValue
+    public interface IBoundaryBehavior
     {
         void Assert(Action<object> action);
 

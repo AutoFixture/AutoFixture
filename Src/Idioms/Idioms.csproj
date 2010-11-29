@@ -58,11 +58,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EmptyStringInvalidValue.cs" />
-    <Compile Include="IInvalidValue.cs" />
-    <Compile Include="IInvalidValueExtensions.cs" />
-    <Compile Include="InvalidGuidValue.cs" />
-    <Compile Include="NullReferenceInvalidValue.cs" />
+    <Compile Include="EmptyStringBehavior.cs" />
+    <Compile Include="IBoundaryBehavior.cs" />
+    <Compile Include="BoundaryBehavior.cs" />
+    <Compile Include="GuidBoundaryBehavior.cs" />
+    <Compile Include="NullReferenceBehavior.cs" />
     <Compile Include="NullValueGuardConvention.cs" />
     <Compile Include="ValueTypeGuardConvention.cs" />
     <Compile Include="ReferenceTypeGuardConvention.cs" />

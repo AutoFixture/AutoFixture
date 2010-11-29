@@ -3,9 +3,9 @@ using System.Globalization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class EmptyStringInvalidValue : IInvalidValue
+    public class EmptyStringBehavior : IBoundaryBehavior
     {
-        #region Implementation of IInvalidValue<T>
+        #region Implementation of IBoundaryBehavior
 
         public void Assert(Action<object> action)
         {

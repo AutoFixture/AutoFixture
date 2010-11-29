@@ -47,10 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyConstraints.cs" />
-    <Compile Include="EmptyStringInvalidValueTest.cs" />
-    <Compile Include="IInvalidValueExtensionsTest.cs" />
-    <Compile Include="InvalidGuidValueTest.cs" />
-    <Compile Include="NullReferenceInvalidValueTest.cs" />
+    <Compile Include="EmptyStringBehaviorTest.cs" />
+    <Compile Include="BoundaryBehaviorTest.cs" />
+    <Compile Include="GuidBoundaryBehaviorTest.cs" />
+    <Compile Include="NullReferenceBehaviorTest.cs" />
     <Compile Include="NullValueGuardConventionTest.cs" />
     <Compile Include="ValueTypeGuardConventionTest.cs" />
     <Compile Include="ReferenceTypeGuardConventionTest.cs" />

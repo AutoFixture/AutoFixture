@@ -3,9 +3,9 @@ using System.Globalization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class NullReferenceInvalidValue : IInvalidValue
+    public class GuidBoundaryBehavior : IBoundaryBehavior
     {
-        #region Implementation of IInvalidValue
+        #region Implementation of IBoundaryBehavior
 
         public void Assert(Action<object> action)
         {
@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new ArgumentNullException("action");
             }
 
-            action(null);
+            action(Guid.Empty);
         }
 
         public bool IsSatisfiedBy(Type exceptionType)
@@ -24,12 +24,12 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new ArgumentNullException("exceptionType");
             }
 
-            return exceptionType == typeof(ArgumentNullException);
+            return exceptionType == typeof(ArgumentException);
         }
 
         public string Description
         {
-            get { return "null reference"; }
+            get { return "empty Guid"; }
         }
 
         #endregion

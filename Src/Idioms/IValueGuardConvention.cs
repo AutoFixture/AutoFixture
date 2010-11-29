@@ -4,6 +4,6 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public interface IValueGuardConvention
     {
-        IEnumerable<IInvalidValue> CreateInvalids(Fixture fixture);
+        IEnumerable<IBoundaryBehavior> CreateInvalids(Fixture fixture);
     }
 }

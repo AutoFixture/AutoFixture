@@ -38,7 +38,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
             var expected = new[] {
-                typeof(EmptyStringInvalidValue)
+                typeof(EmptyStringBehavior)
             };
 
             var sut = fixture.CreateAnonymous<StringGuardConvention>();

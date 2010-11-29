@@ -4,9 +4,9 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public static class IInvalidValueExtensions
+    public static class BoundaryBehavior
     {
-        public static void ReflectionAssert(this IInvalidValue invalid, Action<object> action)
+        public static void ReflectionAssert(this IBoundaryBehavior invalid, Action<object> action)
         {
             if (action == null)
             {

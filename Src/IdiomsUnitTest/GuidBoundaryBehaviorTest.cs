@@ -4,16 +4,16 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class EmptyStringInvalidValueTest
+    public class GuidBoundaryBehaviorTest
     {
         [Fact]
-        public void SutIsIInvalidValue()
+        public void SutIsBoundaryBehavior()
         {
             // Fixture setup
             // Exercise system
-            var sut = System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(EmptyStringInvalidValue));
+            var sut = System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(GuidBoundaryBehavior));
             // Verify outcome
-            Assert.IsAssignableFrom<IInvalidValue>(sut);
+            Assert.IsAssignableFrom<IBoundaryBehavior>(sut);
             // Teardown
         }
 
@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<EmptyStringInvalidValue>();
+            var sut = fixture.CreateAnonymous<GuidBoundaryBehavior>();
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () =>
                 sut.Assert((Action<object>)null));
@@ -39,11 +39,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var capturedObject = new object();
             Action<object> actionSpy = o => capturedObject = o;
 
-            var sut = fixture.CreateAnonymous<EmptyStringInvalidValue>();
+            var sut = fixture.CreateAnonymous<GuidBoundaryBehavior>();
             // Exercise system
             sut.Assert(actionSpy);
             // Verify outcome
-            Assert.Equal(string.Empty, capturedObject);
+            Assert.Equal(Guid.Empty, capturedObject);
             // Teardown
         }
 
@@ -53,10 +53,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<EmptyStringInvalidValue>();
+            var sut = fixture.CreateAnonymous<GuidBoundaryBehavior>();
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () =>
-               sut.IsSatisfiedBy((Type)null));
+              sut.IsSatisfiedBy((Type)null));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<EmptyStringInvalidValue>();
+            var sut = fixture.CreateAnonymous<GuidBoundaryBehavior>();
             // Exercise system
             var result = sut.IsSatisfiedBy(typeof(ArgumentException));
             // Verify outcome 
@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<EmptyStringInvalidValue>();
+            var sut = fixture.CreateAnonymous<GuidBoundaryBehavior>();
             // Exercise system
             var result = sut.IsSatisfiedBy(typeof(InvalidOperationException));
             // Verify outcome 
@@ -94,14 +94,15 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var expected = "empty string";
+            var expected = "empty Guid";
 
-            var sut = fixture.CreateAnonymous<EmptyStringInvalidValue>();
+            var sut = fixture.CreateAnonymous<GuidBoundaryBehavior>();
             // Exercise system
             var result = sut.Description;
             // Verify outcome
             Assert.Equal<string>(expected, result);
             // Teardown
         }
+
     }
 }

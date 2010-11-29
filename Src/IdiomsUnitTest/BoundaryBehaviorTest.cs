@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class IInvalidValueExtensionsTest
+    public class BoundaryBehaviorTest
     {
         [Fact]
         public void ReflectionAssertWithNullActionWillThrow()
@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<MyInvalidValue>();
+            var sut = fixture.CreateAnonymous<MyBoundaryBehavior>();
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () => 
                 sut.ReflectionAssert((Action<object>) null));
@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             Action<object> expected = o => { throw new TargetInvocationException("Test", new ArgumentNullException());};
 
-            var sut = fixture.CreateAnonymous<MyInvalidValue>();
+            var sut = fixture.CreateAnonymous<MyBoundaryBehavior>();
             // Exercise system
             sut.ReflectionAssert(expected);
             // Verify outcome
@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<MyInvalidValue>();
+            var sut = fixture.CreateAnonymous<MyBoundaryBehavior>();
             // Exercise system
             sut.ReflectionAssert(o => { throw new TargetInvocationException("Test", new ArgumentNullException()); });
             // Verify outcome (no exception indicates success)
@@ -56,7 +56,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<MyInvalidValue>();
+            var sut = fixture.CreateAnonymous<MyBoundaryBehavior>();
             // Exercise system
             Assert.Throws(typeof(ValueGuardConventionException), () =>
                 sut.ReflectionAssert(g => { }));
@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<MyInvalidValue>();
+            var sut = fixture.CreateAnonymous<MyBoundaryBehavior>();
             // Exercise system
             Assert.Throws(typeof(ValueGuardConventionException), () =>
                 sut.ReflectionAssert(g => { throw new TargetInvocationException("Test", new InvalidOperationException()); }));
@@ -78,12 +78,12 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
         
-        private class MyInvalidValue : IInvalidValue
+        private class MyBoundaryBehavior : IBoundaryBehavior
         {
             private Action<object> assertAction;
             public Action<object> AssertAction {  get { return this.assertAction; } }
 
-            #region Implementation of IInvalidValue
+            #region Implementation of IBoundaryBehavior
 
             public void Assert(Action<object> action)
             {

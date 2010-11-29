@@ -170,29 +170,29 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         private class MyValueGuardConvention : IValueGuardConvention
         {
-            public readonly TestInvalidValue testInvalidValue;
+            public readonly TestBoundaryBehavior testInvalidValue;
 
             public MyValueGuardConvention()
             {
-                this.testInvalidValue = new TestInvalidValue(); ;
+                this.testInvalidValue = new TestBoundaryBehavior(); ;
             }
 
             #region Implementation of IValueGuardConvention
 
-            public IEnumerable<IInvalidValue> CreateInvalids(Fixture fixture)
+            public IEnumerable<IBoundaryBehavior> CreateInvalids(Fixture fixture)
             {
-                return Enumerable.Repeat(this.testInvalidValue, 1).Cast<IInvalidValue>();
+                return Enumerable.Repeat(this.testInvalidValue, 1).Cast<IBoundaryBehavior>();
             }
 
             #endregion
         }
 
-        private class TestInvalidValue : IInvalidValue
+        private class TestBoundaryBehavior : IBoundaryBehavior
         {
             private Action<object> assertAction;
             public Action<object> AssertAction { get { return this.assertAction; } }
 
-            #region Implementation of IInvalidValue
+            #region Implementation of IBoundaryBehavior
 
             public void Assert(Action<object> action)
             {

@@ -42,7 +42,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = sut.CreateInvalids(fixture).Single();
             // Verify outcome
-            Assert.IsType<InvalidGuidValue>(result);
+            Assert.IsType<GuidBoundaryBehavior>(result);
             // Teardown
         }
     }

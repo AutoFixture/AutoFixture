@@ -4,16 +4,16 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class NullReferenceInvalidValueTest
+    public class NullReferenceBehaviorTest
     {
         [Fact]
-        public void SutIsIInvalidValue()
+        public void SutIsBoundaryBehavior()
         {
             // Fixture setup
             // Exercise system
-            var sut = System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(NullReferenceInvalidValue));
+            var sut = System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(NullReferenceBehavior));
             // Verify outcome
-            Assert.IsAssignableFrom<IInvalidValue>(sut);
+            Assert.IsAssignableFrom<IBoundaryBehavior>(sut);
             // Teardown
         }
 
@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<NullReferenceInvalidValue>();
+            var sut = fixture.CreateAnonymous<NullReferenceBehavior>();
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () =>
                 sut.Assert((Action<object>)null));
@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var capturedObject = new object();
             Action<object> actionSpy = o => capturedObject = o;
 
-            var sut = fixture.CreateAnonymous<NullReferenceInvalidValue>();
+            var sut = fixture.CreateAnonymous<NullReferenceBehavior>();
             // Exercise system
             sut.Assert(actionSpy);
             // Verify outcome
@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<NullReferenceInvalidValue>();
+            var sut = fixture.CreateAnonymous<NullReferenceBehavior>();
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () =>
              sut.IsSatisfiedBy((Type)null));
@@ -68,7 +68,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<NullReferenceInvalidValue>();
+            var sut = fixture.CreateAnonymous<NullReferenceBehavior>();
             // Exercise system
             var result = sut.IsSatisfiedBy(typeof(ArgumentNullException));
             // Verify outcome 
@@ -82,7 +82,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<NullReferenceInvalidValue>();
+            var sut = fixture.CreateAnonymous<NullReferenceBehavior>();
             // Exercise system
             var result = sut.IsSatisfiedBy(typeof(InvalidOperationException));
             // Verify outcome 
@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             var expected = "null reference";
 
-            var sut = fixture.CreateAnonymous<NullReferenceInvalidValue>();
+            var sut = fixture.CreateAnonymous<NullReferenceBehavior>();
             // Exercise system
             var result = sut.Description;
             // Verify outcome

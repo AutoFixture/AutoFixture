@@ -7,9 +7,9 @@ namespace Ploeh.AutoFixture.Idioms
     {
         #region Implementation of IValueGuardConvention
 
-        public IEnumerable<IInvalidValue> CreateInvalids(Fixture fixture)
+        public IEnumerable<IBoundaryBehavior> CreateInvalids(Fixture fixture)
         {
-            return Enumerable.Empty<IInvalidValue>();
+            return Enumerable.Empty<IBoundaryBehavior>();
         }
 
         #endregion
