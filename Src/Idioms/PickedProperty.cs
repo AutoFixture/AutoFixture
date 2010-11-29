@@ -66,10 +66,10 @@ namespace Ploeh.AutoFixture.Idioms
             var sut = this.fixture.CreateAnonymous<T>();
             Action<object> action = g => this.propertyInfo.SetValue(sut, g, null);
 
-            var invalids = valueGuardConvention.CreateInvalids(this.fixture);
-            foreach (var invalid in invalids)
+            var behaviors = valueGuardConvention.CreateBoundaryBehaviors(this.fixture);
+            foreach (var b in behaviors)
             {
-                invalid.ReflectionAssert(action);
+                b.ReflectionAssert(action);
             }
         }
 

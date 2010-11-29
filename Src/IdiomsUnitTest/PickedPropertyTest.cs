@@ -181,7 +181,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             #region Implementation of IValueGuardConvention
 
-            public IEnumerable<IBoundaryBehavior> CreateInvalids(Fixture fixture)
+            public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(Fixture fixture)
             {
                 return Enumerable.Repeat(this.testInvalidValue, 1).Cast<IBoundaryBehavior>();
             }

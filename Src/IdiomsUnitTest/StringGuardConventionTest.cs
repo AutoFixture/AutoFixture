@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = fixture.CreateAnonymous<StringGuardConvention>();
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () =>
-                sut.CreateInvalids((Fixture)null));
+                sut.CreateBoundaryBehaviors((Fixture)null));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = fixture.CreateAnonymous<StringGuardConvention>();
             // Exercise system
-            var result = (from invalid in sut.CreateInvalids(fixture) select invalid.GetType()).ToList();
+            var result = (from invalid in sut.CreateBoundaryBehaviors(fixture) select invalid.GetType()).ToList();
             // Verify outcome
             Assert.True(expected.SequenceEqual(result), "CreateInvalids");
             // Teardown
