@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             // Exercise system
-            var sut = System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(NullReferenceBehavior));
+            var sut = new NullReferenceBehavior();
             // Verify outcome
             Assert.IsAssignableFrom<IBoundaryBehavior>(sut);
             // Teardown

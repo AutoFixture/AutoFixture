@@ -15,8 +15,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void SutIsIPickedProperty()
         {
             // Fixture setup
+            var dummyFixture = new Fixture();
+            var dummyProperty = Reflect<string>.GetProperty(s => s.Length);
             // Exercise system
-            var sut = System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(PickedProperty<object, object>));
+            var sut = new PickedProperty<object, object>(dummyFixture, dummyProperty);
             // Verify outcome
             Assert.IsAssignableFrom<IPickedProperty>(sut);
             // Teardown

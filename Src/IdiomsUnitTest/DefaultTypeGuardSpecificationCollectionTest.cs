@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             // Exercise system
-            var sut = System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(DefaultTypeGuardSpecificationCollection));
+            var sut = new DefaultTypeGuardSpecificationCollection();
             // Verify outcome
             Assert.IsAssignableFrom<Collection<ITypeGuardSpecification>>(sut);
             // Teardown

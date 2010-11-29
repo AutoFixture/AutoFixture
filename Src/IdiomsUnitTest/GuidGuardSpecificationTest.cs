@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             // Exercise system
-            var sut = System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(GuidGuardSpecification));
+            var sut = new GuidGuardSpecification();
             // Verify outcome
             Assert.IsAssignableFrom<ITypeGuardSpecification>(sut);
             // Teardown

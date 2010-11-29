@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             // Exercise system
-            var sut = System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(PickedPropertyException));
+            var sut = new PickedPropertyException();
             // Verify outcome
             Assert.IsAssignableFrom<Exception>(sut);
             // Teardown
