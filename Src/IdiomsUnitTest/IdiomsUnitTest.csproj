@@ -61,7 +61,7 @@
     <Compile Include="ReferenceTypeBoundaryConventionTest.cs" />
     <Compile Include="StringBoundaryConventionTest.cs" />
     <Compile Include="ValueGuardConventionExceptionTest.cs" />
-    <Compile Include="DefaultBoundaryConventionFactoryCollectionTest.cs" />
+    <Compile Include="DefaultBoundaryConventionFactoryTest.cs" />
     <Compile Include="GuidBoundaryConventionFactoryTest.cs" />
     <Compile Include="GuidBoundaryConventionTest.cs" />
     <Compile Include="PickedPropertyExceptionTest.cs" />

@@ -49,24 +49,20 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void AssertInvariants()
         {
-            this.AssertInvariants(new DefaultBoundaryConventionFactoryCollection());
+            this.AssertInvariants(new DefaultBoundaryConventionFactory());
         }
 
-        public virtual void AssertInvariants(IEnumerable<IBoundaryConventionFactory> factories)
+        public virtual void AssertInvariants(IBoundaryConventionFactory factory)
         {
-            var boundaryConvention = (from tgs in factories
-                                      let vgs = tgs.GetConvention(typeof(TProperty))
-                                      select vgs).FirstOrDefault();
-
-            if (boundaryConvention == null)
+            if (factory == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "The supplied list of specifications cannot handle the Type {0}.", typeof(TProperty)), "factories");
+                throw new ArgumentNullException("factory");
             }
 
             var sut = this.fixture.CreateAnonymous<T>();
             Action<object> setProperty = x => this.propertyInfo.SetValue(sut, x, null);
 
-            var behaviors = boundaryConvention.CreateBoundaryBehaviors(this.fixture);
+            var behaviors = factory.GetConvention(typeof(TProperty)).CreateBoundaryBehaviors(this.fixture);
             foreach (var b in behaviors)
             {
                 b.Assert(setProperty);

@@ -6,16 +6,16 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class DefaultBoundaryConventionFactoryCollectionTest
+    public class DefaultBoundaryConventionFactoryTest
     {
         [Fact]
         public void SutIsCollection()
         {
             // Fixture setup
             // Exercise system
-            var sut = new DefaultBoundaryConventionFactoryCollection();
+            var sut = new DefaultBoundaryConventionFactory();
             // Verify outcome
-            Assert.IsAssignableFrom<Collection<IBoundaryConventionFactory>>(sut);
+            Assert.IsAssignableFrom<CompositeBoundaryConventionFactory>(sut);
             // Teardown
         }
 
@@ -23,7 +23,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void ItemTypesAreCorrect()
         {
             // Fixture setup
-            var fixture = new Fixture();
             var expected = new[] {
                 typeof(GuidBoundaryConventionFactory),
                 typeof(ValueTypeBoundaryConventionFactory),
@@ -32,9 +31,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             };
 
             // Exercise system
-            var sut = fixture.CreateAnonymous<DefaultBoundaryConventionFactoryCollection>();
+            var sut = new DefaultBoundaryConventionFactory();
             // Verify outcome
-            var result = (from item in sut select item.GetType()).ToList();
+            var result = (from item in sut.Factories
+                          select item.GetType()).ToList();
             Assert.True(expected.SequenceEqual(result), "Default ctor");
             // Teardown
         }

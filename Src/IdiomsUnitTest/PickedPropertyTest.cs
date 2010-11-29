@@ -114,23 +114,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = new PickedProperty<PropertyHolder<object>, object>(fixture, propertyInfo);
             // Exercise system
-            Assert.Throws(typeof(ArgumentNullException), () =>
-                sut.AssertInvariants((IEnumerable<IBoundaryConventionFactory>) null));
-            // Verify outcome (expected exception)
-            // Teardown
-        }
-
-        [Fact]
-        public void AssertInvariantsWithListThatCannotHandlePropertyTypeWillThrow()
-        {
-            // Fixture setup
-            var fixture = new Fixture();
-            var propertyInfo = Reflect<PropertyHolder<object>>.GetProperty(propertyHolder => propertyHolder.Property);
-
-            var sut = new PickedProperty<PropertyHolder<object>, object>(fixture, propertyInfo);
-            // Exercise system
-            Assert.Throws(typeof(ArgumentException), () =>
-                sut.AssertInvariants(Enumerable.Empty<IBoundaryConventionFactory>()));
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.AssertInvariants(null));
             // Verify outcome (expected exception)
             // Teardown
         }
