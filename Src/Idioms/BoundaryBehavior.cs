@@ -6,7 +6,7 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public static class BoundaryBehavior
     {
-        public static void ReflectionAssert(this IBoundaryBehavior invalid, Action<object> action)
+        public static void ReflectionAssert(this IBoundaryBehavior behavior, Action<object> action)
         {
             if (action == null)
             {
@@ -15,21 +15,21 @@ namespace Ploeh.AutoFixture.Idioms
 
             try
             {
-                invalid.Exercise(action);
+                behavior.Exercise(action);
                 throw new ValueGuardConventionException(
                     string.Format(CultureInfo.CurrentCulture,
-                         "The action did not throw the expected exception for the invalid value {0}", invalid.Description));
+                         "The action did not throw the expected exception for the invalid value {0}", behavior.Description));
             }
             catch (Exception e)
             {
-                if (e is TargetInvocationException && invalid.IsSatisfiedBy(e.InnerException.GetType()))
+                if (e is TargetInvocationException && behavior.IsSatisfiedBy(e.InnerException.GetType()))
                 {
                     return;
                 }
 
                 throw new ValueGuardConventionException(
                     string.Format(CultureInfo.CurrentCulture,
-                         "The action did not throw the expected exception for the invalid value {0}", invalid.Description),
+                         "The action did not throw the expected exception for the invalid value {0}", behavior.Description),
                     e);
             } 
         }
