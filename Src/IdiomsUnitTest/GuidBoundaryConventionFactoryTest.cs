@@ -4,16 +4,16 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class StringGuardSpecificationTest
+    public class GuidBoundaryConventionFactoryTest
     {
         [Fact]
         public void SutIsITypeGuardSpecification()
         {
             // Fixture setup
             // Exercise system
-            var sut = new StringGuardSpecification();
+            var sut = new GuidBoundaryConventionFactory();
             // Verify outcome
-            Assert.IsAssignableFrom<ITypeGuardSpecification>(sut);
+            Assert.IsAssignableFrom<IBoundaryConventionFactory>(sut);
             // Teardown
         }
 
@@ -23,41 +23,40 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<StringGuardSpecification>();
+            var sut = fixture.CreateAnonymous<GuidBoundaryConventionFactory>();
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () =>
-                sut.IsSatisfiedBy((Type) null));
+                sut.GetConvention((Type)null));
             // Verify outcome (expected exception)
             // Teardown
         }
 
         [Fact]
-        public void IsSatisfiedByWillReturnCorrectResultForString()
+        public void IsSatisfiedByReturnsCorrectResultForGuidType()
         {
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<StringGuardSpecification>();
+            var sut = fixture.CreateAnonymous<GuidBoundaryConventionFactory>();
             // Exercise system
-            var result = sut.IsSatisfiedBy(typeof (string));
+            var result = sut.GetConvention(typeof(Guid));
             // Verify outcome
-            Assert.IsType<StringBoundaryConvention>(result);
+            Assert.IsType<GuidBoundaryConvention>(result);
             // Teardown
         }
 
         [Fact]
-        public void IsSatisfiedByWillReturnCorrectResultForNonString()
+        public void IsSatisfiedByReturnsCorrectResultForNonGuidType()
         {
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<StringGuardSpecification>();
+            var sut = fixture.CreateAnonymous<GuidBoundaryConventionFactory>();
             // Exercise system
-            var result = sut.IsSatisfiedBy(typeof(Guid));
+            var result = sut.GetConvention(typeof (string));
             // Verify outcome
             Assert.IsAssignableFrom<NullBoundaryConvention>(result);
             // Teardown
         }
-
     }
 }

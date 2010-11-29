@@ -2,11 +2,11 @@ using System;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class GuidGuardSpecification : ITypeGuardSpecification
+    public class GuidBoundaryConventionFactory : IBoundaryConventionFactory
     {
-        #region Implementation of ITypeGuardSpecification
+        #region Implementation of IBoundaryConventionFactory
 
-        public IBoundaryConvention IsSatisfiedBy(Type type)
+        public IBoundaryConvention GetConvention(Type type)
         {
             if (type == null)
             {

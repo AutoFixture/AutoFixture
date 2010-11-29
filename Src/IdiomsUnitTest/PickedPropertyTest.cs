@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new PickedProperty<PropertyHolder<object>, object>(fixture, propertyInfo);
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () =>
-                sut.AssertInvariants((IEnumerable<ITypeGuardSpecification>) null));
+                sut.AssertInvariants((IEnumerable<IBoundaryConventionFactory>) null));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -130,12 +130,12 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new PickedProperty<PropertyHolder<object>, object>(fixture, propertyInfo);
             // Exercise system
             Assert.Throws(typeof(ArgumentException), () =>
-                sut.AssertInvariants(Enumerable.Empty<ITypeGuardSpecification>()));
+                sut.AssertInvariants(Enumerable.Empty<IBoundaryConventionFactory>()));
             // Verify outcome (expected exception)
             // Teardown
         }
 
-        private class MyTypeGuardSpecification : ITypeGuardSpecification
+        private class MyTypeGuardSpecification : IBoundaryConventionFactory
         {
             public readonly MyValueGuardConvention valueGuardConvention;
 
@@ -144,9 +144,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 this.valueGuardConvention = new MyValueGuardConvention();
             }
 
-            #region Implementation of ITypeGuardSpecification
+            #region Implementation of IBoundaryConventionFactory
 
-            public IBoundaryConvention IsSatisfiedBy(Type type)
+            public IBoundaryConvention GetConvention(Type type)
             {
                 return this.valueGuardConvention;
             }

@@ -57,17 +57,17 @@
     <Compile Include="ReferenceTypeBoundaryConventionTest.cs" />
     <Compile Include="StringBoundaryConventionTest.cs" />
     <Compile Include="ValueGuardConventionExceptionTest.cs" />
-    <Compile Include="DefaultTypeGuardSpecificationCollectionTest.cs" />
-    <Compile Include="GuidGuardSpecificationTest.cs" />
+    <Compile Include="DefaultBoundaryConventionFactoryCollectionTest.cs" />
+    <Compile Include="GuidBoundaryConventionFactoryTest.cs" />
     <Compile Include="GuidBoundaryConventionTest.cs" />
     <Compile Include="PickedPropertyExceptionTest.cs" />
     <Compile Include="PickedPropertyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FixtureExtensionsTest.cs" />
-    <Compile Include="ReferenceTypeGuardSpecificationTest.cs" />
+    <Compile Include="ReferenceTypeBoundaryConventionFactoryTest.cs" />
     <Compile Include="ReflectorFixture.cs" />
-    <Compile Include="StringGuardSpecificationTest.cs" />
-    <Compile Include="ValueTypeGuardSpecificationTest.cs" />
+    <Compile Include="StringBoundaryConventionFactoryTest.cs" />
+    <Compile Include="ValueTypeBoundaryConventionFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

@@ -2,20 +2,20 @@ using System;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class ReferenceTypeGuardSpecification : ITypeGuardSpecification
+    public class ValueTypeBoundaryConventionFactory : IBoundaryConventionFactory
     {
-        #region Implementation of ITypeGuardSpecification
+        #region Implementation of IBoundaryConventionFactory
 
-        public IBoundaryConvention IsSatisfiedBy(Type type)
+        public IBoundaryConvention GetConvention(Type type)
         {
             if (type == null)
             {
                 throw new ArgumentNullException("type");
             }
 
-            if (type.IsClass)
+            if (type.IsValueType)
             {
-                return new ReferenceTypeBoundaryConvention();
+                return new ValueTypeBoundaryConvention();
             }
 
             return new NullBoundaryConvention();

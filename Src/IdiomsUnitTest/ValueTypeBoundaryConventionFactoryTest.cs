@@ -4,16 +4,16 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class ReferenceTypeGuardSpecificationTest
+    public class ValueTypeBoundaryConventionFactoryTest
     {
         [Fact]
         public void SutIsITypeGuardSpecification()
         {
             // Fixture setup
             // Exercise system
-            var sut = new ReferenceTypeGuardSpecification();
+            var sut = new ValueTypeBoundaryConventionFactory();
             // Verify outcome
-            Assert.IsAssignableFrom<ITypeGuardSpecification>(sut);
+            Assert.IsAssignableFrom<IBoundaryConventionFactory>(sut);
             // Teardown
         }
 
@@ -23,25 +23,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<ReferenceTypeGuardSpecification>();
+            var sut = fixture.CreateAnonymous<ValueTypeBoundaryConventionFactory>();
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () =>
-                sut.IsSatisfiedBy((Type)null));
+                sut.GetConvention((Type) null));
             // Verify outcome (expected exception)
-            // Teardown
-        }
-
-        [Fact]
-        public void IsSatisfiedByReturnsNullForValueType()
-        {
-            // Fixture setup
-            var fixture = new Fixture();
-
-            var sut = fixture.CreateAnonymous<ReferenceTypeGuardSpecification>();
-            // Exercise system
-            var result = sut.IsSatisfiedBy(typeof(Guid));
-            // Verify outcome
-            Assert.IsAssignableFrom<NullBoundaryConvention>(result);
             // Teardown
         }
 
@@ -51,13 +37,26 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<ReferenceTypeGuardSpecification>();
+            var sut = fixture.CreateAnonymous<ValueTypeBoundaryConventionFactory>();
             // Exercise system
-            var result = sut.IsSatisfiedBy(typeof(string));
+            var result = sut.GetConvention(typeof(string));
             // Verify outcome
-            Assert.IsType<ReferenceTypeBoundaryConvention>(result);
+            Assert.IsAssignableFrom<NullBoundaryConvention>(result);
             // Teardown
         }
 
+        [Fact]
+        public void IsSatisfiedByReturnsCorrectResultForValueType()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+
+            var sut = fixture.CreateAnonymous<ValueTypeBoundaryConventionFactory>();
+            // Exercise system
+            var result = sut.GetConvention(typeof(DateTime));
+            // Verify outcome
+            Assert.IsType<ValueTypeBoundaryConvention>(result);
+            // Teardown
+        }
     }
 }
