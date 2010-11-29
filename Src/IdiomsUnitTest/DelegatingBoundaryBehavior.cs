@@ -12,6 +12,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             this.OnExercise = a => a(new object());
             this.OnIsSatisfiedBy = e => false;
+            this.Description = string.Empty;
         }
 
         public Action<Action<object>> OnExercise { get; set; }
