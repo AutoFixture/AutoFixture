@@ -135,22 +135,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
-        [Fact]
-        public void AssertInvariantsWillAssertCorrectly()
-        {
-            // Fixture setup
-            var fixture = new Fixture();
-            var propertyInfo = Reflect<InvariantReferenceTypePropertyHolder<object>>.GetProperty(propertyHolder => propertyHolder.Property);
-            var typeSpec = new MyTypeGuardSpecification();
-
-            var sut = new PickedProperty<InvariantReferenceTypePropertyHolder<object>, object>(fixture, propertyInfo);
-            // Exercise system
-            sut.AssertInvariants(Enumerable.Repeat(typeSpec, 1).Cast<ITypeGuardSpecification>());
-            // Verify outcome
-            Assert.NotNull(typeSpec.valueGuardConvention.testInvalidValue.AssertAction);
-            // Teardown
-        }
-
         private class MyTypeGuardSpecification : ITypeGuardSpecification
         {
             public readonly MyValueGuardConvention valueGuardConvention;
@@ -172,11 +156,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         private class MyValueGuardConvention : IValueGuardConvention
         {
-            public readonly TestBoundaryBehavior testInvalidValue;
+            private readonly IBoundaryBehavior testInvalidValue;
 
             public MyValueGuardConvention()
             {
-                this.testInvalidValue = new TestBoundaryBehavior(); ;
+                this.testInvalidValue = new DelegatingBoundaryBehavior(); ;
             }
 
             #region Implementation of IValueGuardConvention
@@ -188,37 +172,5 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             #endregion
         }
-
-        private class TestBoundaryBehavior : IBoundaryBehavior
-        {
-            private Action<object> assertAction;
-            public Action<object> AssertAction { get { return this.assertAction; } }
-
-            #region Implementation of IBoundaryBehavior
-
-            public void Exercise(Action<object> action)
-            {
-                this.assertAction = action;
-                action(null);
-            }
-
-            public bool IsSatisfiedBy(Type exceptionType)
-            {
-                return true;
-            }
-
-            public bool IsSatisfiedBy(Exception exception)
-            {
-                return true;
-            }
-
-            public string Description
-            {
-                get { return string.Empty; }
-            }
-
-            #endregion
-        }
-
     }
 }
