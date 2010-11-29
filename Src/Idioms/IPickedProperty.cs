@@ -8,6 +8,6 @@ namespace Ploeh.AutoFixture.Idioms
         
         void AssertInvariants();
 
-        void AssertInvariants(IEnumerable<IBoundaryConventionFactory> typeGuardSpecifications);
+        void AssertInvariants(IEnumerable<IBoundaryConventionFactory> factories);
     }
 }
