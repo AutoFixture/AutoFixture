@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new ArgumentNullException("fixture");
             }
 
-            return Enumerable.Repeat(new GuidBoundaryBehavior(), 1).Cast<IBoundaryBehavior>();
+            return new[] { new GuidBoundaryBehavior() };
         }
 
         #endregion

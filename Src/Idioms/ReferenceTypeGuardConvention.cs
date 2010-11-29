@@ -15,9 +15,7 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new ArgumentNullException("fixture");
             }
 
-            return new IBoundaryBehavior[] {
-                new NullReferenceBehavior()
-            };
+            return new[] { new NullReferenceBehavior() };
         }
 
         #endregion
