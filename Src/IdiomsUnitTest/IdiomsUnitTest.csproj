@@ -46,7 +46,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompositeBoundaryConventionTest.cs" />
+    <Compile Include="CompositeBoundaryConventionFactoryTest.cs" />
     <Compile Include="DelegatingBoundaryBehavior.cs" />
+    <Compile Include="DelegatingBoundaryConvention.cs" />
+    <Compile Include="DelegatingBoundaryConventionFactory.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="EmptyStringBehaviorTest.cs" />
     <Compile Include="BoundaryBehaviorTest.cs" />
