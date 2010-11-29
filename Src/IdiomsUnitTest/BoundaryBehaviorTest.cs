@@ -77,6 +77,23 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Verify outcome (expected exception)
             // Teardown
         }
+
+        [Fact]
+        public void AssertWillCorrectlyContinueWhenExceptionIsSatisfiedByBehavior()
+        {
+            // Fixture setup
+            var expectedException = new Exception();
+            var verified = false;
+
+            var behavior = new DelegatingBoundaryBehavior();
+            behavior.OnExercise = a => { throw new TargetInvocationException(expectedException); };
+            behavior.OnIsSatisfiedBy = e => verified = e == expectedException;
+            // Exercise system
+            behavior.ReflectionAssert(x => { });
+            // Verify outcome
+            Assert.True(verified);
+            // Teardown
+        }
         
         private class MyBoundaryBehavior : IBoundaryBehavior
         {
@@ -94,6 +111,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             public bool IsSatisfiedBy(Type exceptionType)
             {
                 return exceptionType == typeof(ArgumentNullException);
+            }
+
+            public bool IsSatisfiedBy(Exception exception)
+            {
+                return exception is ArgumentNullException;
             }
 
             public string Description

@@ -6,7 +6,7 @@ namespace Ploeh.AutoFixture.Idioms
     {
         void Exercise(Action<object> action);
 
-        bool IsSatisfiedBy(Type exceptionType);
+        bool IsSatisfiedBy(Exception exception);
 
         string Description { get; }
     }

@@ -22,7 +22,7 @@ namespace Ploeh.AutoFixture.Idioms
             }
             catch (Exception e)
             {
-                if (e is TargetInvocationException && behavior.IsSatisfiedBy(e.InnerException.GetType()))
+                if (e is TargetInvocationException && behavior.IsSatisfiedBy(e.InnerException))
                 {
                     return;
                 }

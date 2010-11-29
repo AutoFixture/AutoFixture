@@ -207,6 +207,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 return true;
             }
 
+            public bool IsSatisfiedBy(Exception exception)
+            {
+                return true;
+            }
+
             public string Description
             {
                 get { return string.Empty; }

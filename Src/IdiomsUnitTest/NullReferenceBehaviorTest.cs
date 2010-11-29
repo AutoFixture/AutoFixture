@@ -56,8 +56,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = fixture.CreateAnonymous<NullReferenceBehavior>();
             // Exercise system
-            Assert.Throws(typeof(ArgumentNullException), () =>
-             sut.IsSatisfiedBy((Type)null));
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.IsSatisfiedBy(null));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = fixture.CreateAnonymous<NullReferenceBehavior>();
             // Exercise system
-            var result = sut.IsSatisfiedBy(typeof(ArgumentNullException));
+            var result = sut.IsSatisfiedBy(new ArgumentNullException());
             // Verify outcome 
             Assert.True(result, "IsSatisfiedBy");
             // Teardown
@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = fixture.CreateAnonymous<NullReferenceBehavior>();
             // Exercise system
-            var result = sut.IsSatisfiedBy(typeof(InvalidOperationException));
+            var result = sut.IsSatisfiedBy(new InvalidOperationException());
             // Verify outcome 
             Assert.False(result, "IsSatisfiedBy");
             // Teardown

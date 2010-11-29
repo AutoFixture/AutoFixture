@@ -17,14 +17,14 @@ namespace Ploeh.AutoFixture.Idioms
             action(null);
         }
 
-        public bool IsSatisfiedBy(Type exceptionType)
+        public bool IsSatisfiedBy(Exception exception)
         {
-            if (exceptionType == null)
+            if (exception == null)
             {
-                throw new ArgumentNullException("exceptionType");
+                throw new ArgumentNullException("exception");
             }
 
-            return exceptionType == typeof(ArgumentNullException);
+            return exception is ArgumentNullException;
         }
 
         public string Description
