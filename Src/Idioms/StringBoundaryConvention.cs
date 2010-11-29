@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class GuidValueGuardConvention : IValueGuardConvention
+    public class StringBoundaryConvention : IBoundaryConvention
     {
-        #region Implementation of IValueGuardConvention
+        #region Implementation of IBoundaryConvention
 
         public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(IFixture fixture)
         {
@@ -16,7 +15,7 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new ArgumentNullException("fixture");
             }
 
-            return new[] { new GuidBoundaryBehavior() };
+            return new[] { new EmptyStringBehavior() };
         }
 
         #endregion

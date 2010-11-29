@@ -5,16 +5,16 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class StringGuardConventionTest
+    public class GuidBoundaryConventionTest
     {
         [Fact]
         public void SutIsIValueGuardConvention()
         {
             // Fixture setup
             // Exercise system
-            var sut = new StringGuardConvention();
+            var sut = new GuidBoundaryConvention();
             // Verify outcome
-            Assert.IsAssignableFrom<IValueGuardConvention>(sut);
+            Assert.IsAssignableFrom<IBoundaryConvention>(sut);
             // Teardown
         }
 
@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<StringGuardConvention>();
+            var sut = fixture.CreateAnonymous<GuidBoundaryConvention>();
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () =>
                 sut.CreateBoundaryBehaviors((Fixture)null));
@@ -37,15 +37,12 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var expected = new[] {
-                typeof(EmptyStringBehavior)
-            };
 
-            var sut = fixture.CreateAnonymous<StringGuardConvention>();
+            var sut = fixture.CreateAnonymous<GuidBoundaryConvention>();
             // Exercise system
-            var result = (from invalid in sut.CreateBoundaryBehaviors(fixture) select invalid.GetType()).ToList();
+            var result = sut.CreateBoundaryBehaviors(fixture).Single();
             // Verify outcome
-            Assert.True(expected.SequenceEqual(result), "CreateInvalids");
+            Assert.IsType<GuidBoundaryBehavior>(result);
             // Teardown
         }
     }

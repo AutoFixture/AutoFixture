@@ -5,16 +5,16 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class ValueTypeGuardConventionTest
+    public class ValueTypeBoundaryConventionTest
     {
         [Fact]
         public void SutIsIValueGuardConvention()
         {
             // Fixture setup
             // Exercise system
-            var sut = new ValueTypeGuardConvention();
+            var sut = new ValueTypeBoundaryConvention();
             // Verify outcome
-            Assert.IsAssignableFrom<IValueGuardConvention>(sut);
+            Assert.IsAssignableFrom<IBoundaryConvention>(sut);
             // Teardown
         }
 
@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<ValueTypeGuardConvention>();
+            var sut = fixture.CreateAnonymous<ValueTypeBoundaryConvention>();
             // Exercise system
             var result = sut.CreateBoundaryBehaviors(fixture).Any();
             // Verify outcome

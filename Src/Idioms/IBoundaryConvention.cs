@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public interface IValueGuardConvention
+    public interface IBoundaryConvention
     {
         IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(IFixture fixture);
     }

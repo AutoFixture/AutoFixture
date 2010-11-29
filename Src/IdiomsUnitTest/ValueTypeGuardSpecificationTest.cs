@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = sut.IsSatisfiedBy(typeof(string));
             // Verify outcome
-            Assert.IsAssignableFrom<NullValueGuardConvention>(result);
+            Assert.IsAssignableFrom<NullBoundaryConvention>(result);
             // Teardown
         }
 
@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = sut.IsSatisfiedBy(typeof(DateTime));
             // Verify outcome
-            Assert.IsType<ValueTypeGuardConvention>(result);
+            Assert.IsType<ValueTypeBoundaryConvention>(result);
             // Teardown
         }
     }

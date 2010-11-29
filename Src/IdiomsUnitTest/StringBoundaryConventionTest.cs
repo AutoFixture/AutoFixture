@@ -5,16 +5,16 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class ReferenceTypeGuardConventionTest
+    public class StringBoundaryConventionTest
     {
         [Fact]
         public void SutIsIValueGuardConvention()
         {
             // Fixture setup
             // Exercise system
-            var sut = new ReferenceTypeGuardConvention();
+            var sut = new StringBoundaryConvention();
             // Verify outcome
-            Assert.IsAssignableFrom<IValueGuardConvention>(sut);
+            Assert.IsAssignableFrom<IBoundaryConvention>(sut);
             // Teardown
         }
 
@@ -24,9 +24,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<ReferenceTypeGuardConvention>();
+            var sut = fixture.CreateAnonymous<StringBoundaryConvention>();
             // Exercise system
-            Assert.Throws(typeof(ArgumentNullException), () => 
+            Assert.Throws(typeof(ArgumentNullException), () =>
                 sut.CreateBoundaryBehaviors((Fixture)null));
             // Verify outcome (expected exception)
             // Teardown
@@ -38,14 +38,14 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
             var expected = new[] {
-                typeof(NullReferenceBehavior)
+                typeof(EmptyStringBehavior)
             };
 
-            var sut = fixture.CreateAnonymous<ReferenceTypeGuardConvention>();
+            var sut = fixture.CreateAnonymous<StringBoundaryConvention>();
             // Exercise system
             var result = (from invalid in sut.CreateBoundaryBehaviors(fixture) select invalid.GetType()).ToList();
             // Verify outcome
-            Assert.True(expected.SequenceEqual(result));
+            Assert.True(expected.SequenceEqual(result), "CreateInvalids");
             // Teardown
         }
     }

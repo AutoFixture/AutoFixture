@@ -146,7 +146,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             #region Implementation of ITypeGuardSpecification
 
-            public IValueGuardConvention IsSatisfiedBy(Type type)
+            public IBoundaryConvention IsSatisfiedBy(Type type)
             {
                 return this.valueGuardConvention;
             }
@@ -154,7 +154,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             #endregion
         }
 
-        private class MyValueGuardConvention : IValueGuardConvention
+        private class MyValueGuardConvention : IBoundaryConvention
         {
             private readonly IBoundaryBehavior testInvalidValue;
 
@@ -163,7 +163,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 this.testInvalidValue = new DelegatingBoundaryBehavior(); ;
             }
 
-            #region Implementation of IValueGuardConvention
+            #region Implementation of IBoundaryConvention
 
             public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(IFixture fixture)
             {

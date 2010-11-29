@@ -7,16 +7,16 @@ using Ploeh.AutoFixture.Idioms;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class NullValueGuardConventionTest
+    public class NullBoundaryConventionTest
     {
         [Fact]
         public void SutIsValueGuardConvention()
         {
             // Fixture setup
             // Exercise system
-            var sut = new NullValueGuardConvention();
+            var sut = new NullBoundaryConvention();
             // Verify outcome
-            Assert.IsAssignableFrom<IValueGuardConvention>(sut);
+            Assert.IsAssignableFrom<IBoundaryConvention>(sut);
             // Teardown
         }
 
@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void CreateInvalidsReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = new NullValueGuardConvention();
+            var sut = new NullBoundaryConvention();
             // Exercise system
             Fixture dummyFixture = null;
             var result = sut.CreateBoundaryBehaviors(dummyFixture);

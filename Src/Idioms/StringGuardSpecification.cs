@@ -6,7 +6,7 @@ namespace Ploeh.AutoFixture.Idioms
     {
         #region Implementation of ITypeGuardSpecification
 
-        public IValueGuardConvention IsSatisfiedBy(Type type)
+        public IBoundaryConvention IsSatisfiedBy(Type type)
         {
             if (type == null)
             {
@@ -15,10 +15,10 @@ namespace Ploeh.AutoFixture.Idioms
 
             if (type != typeof(string))
             {
-                return new NullValueGuardConvention();
+                return new NullBoundaryConvention();
             }
 
-            return new StringGuardConvention();
+            return new StringBoundaryConvention();
         }
 
         #endregion

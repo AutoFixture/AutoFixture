@@ -5,16 +5,16 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class GuidValueGuardConventionTest
+    public class ReferenceTypeBoundaryConventionTest
     {
         [Fact]
         public void SutIsIValueGuardConvention()
         {
             // Fixture setup
             // Exercise system
-            var sut = new GuidValueGuardConvention();
+            var sut = new ReferenceTypeBoundaryConvention();
             // Verify outcome
-            Assert.IsAssignableFrom<IValueGuardConvention>(sut);
+            Assert.IsAssignableFrom<IBoundaryConvention>(sut);
             // Teardown
         }
 
@@ -24,9 +24,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = fixture.CreateAnonymous<GuidValueGuardConvention>();
+            var sut = fixture.CreateAnonymous<ReferenceTypeBoundaryConvention>();
             // Exercise system
-            Assert.Throws(typeof(ArgumentNullException), () =>
+            Assert.Throws(typeof(ArgumentNullException), () => 
                 sut.CreateBoundaryBehaviors((Fixture)null));
             // Verify outcome (expected exception)
             // Teardown
@@ -37,12 +37,15 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
+            var expected = new[] {
+                typeof(NullReferenceBehavior)
+            };
 
-            var sut = fixture.CreateAnonymous<GuidValueGuardConvention>();
+            var sut = fixture.CreateAnonymous<ReferenceTypeBoundaryConvention>();
             // Exercise system
-            var result = sut.CreateBoundaryBehaviors(fixture).Single();
+            var result = (from invalid in sut.CreateBoundaryBehaviors(fixture) select invalid.GetType()).ToList();
             // Verify outcome
-            Assert.IsType<GuidBoundaryBehavior>(result);
+            Assert.True(expected.SequenceEqual(result));
             // Teardown
         }
     }
