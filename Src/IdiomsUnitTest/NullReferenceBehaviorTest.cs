@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = fixture.CreateAnonymous<NullReferenceBehavior>();
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () =>
-                sut.Assert((Action<object>)null));
+                sut.Exercise((Action<object>)null));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -42,7 +42,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = fixture.CreateAnonymous<NullReferenceBehavior>();
             // Exercise system
-            sut.Assert(actionSpy);
+            sut.Exercise(actionSpy);
             // Verify outcome
             Assert.Null(capturedObject);
             // Teardown

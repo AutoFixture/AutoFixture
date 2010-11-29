@@ -196,7 +196,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             #region Implementation of IBoundaryBehavior
 
-            public void Assert(Action<object> action)
+            public void Exercise(Action<object> action)
             {
                 this.assertAction = action;
                 action(null);

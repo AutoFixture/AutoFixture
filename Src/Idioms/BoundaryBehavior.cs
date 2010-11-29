@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixture.Idioms
 
             try
             {
-                invalid.Assert(action);
+                invalid.Exercise(action);
                 throw new ValueGuardConventionException(
                     string.Format(CultureInfo.CurrentCulture,
                          "The action did not throw the expected exception for the invalid value {0}", invalid.Description));

@@ -4,7 +4,7 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public interface IBoundaryBehavior
     {
-        void Assert(Action<object> action);
+        void Exercise(Action<object> action);
 
         bool IsSatisfiedBy(Type exceptionType);
 

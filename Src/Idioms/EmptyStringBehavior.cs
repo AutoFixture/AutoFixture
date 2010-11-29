@@ -7,7 +7,7 @@ namespace Ploeh.AutoFixture.Idioms
     {
         #region Implementation of IBoundaryBehavior
 
-        public void Assert(Action<object> action)
+        public void Exercise(Action<object> action)
         {
             if (action == null)
             {

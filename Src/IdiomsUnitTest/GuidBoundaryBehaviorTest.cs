@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = fixture.CreateAnonymous<GuidBoundaryBehavior>();
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () =>
-                sut.Assert((Action<object>)null));
+                sut.Exercise((Action<object>)null));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = fixture.CreateAnonymous<GuidBoundaryBehavior>();
             // Exercise system
-            sut.Assert(actionSpy);
+            sut.Exercise(actionSpy);
             // Verify outcome
             Assert.Equal(Guid.Empty, capturedObject);
             // Teardown
