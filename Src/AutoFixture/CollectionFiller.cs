@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            fixture.AddManyTo(collection, fixture.CreateAnonymous<T>);
+            fixture.AddManyTo(collection, () => fixture.CreateAnonymous<T>());
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            collection.AddMany(fixture.CreateAnonymous<T>, repeatCount);
+            collection.AddMany(() => fixture.CreateAnonymous<T>(), repeatCount);
         }
 
         /// <summary>
