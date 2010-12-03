@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Ploeh.TestTypeFoundation;
 using Ploeh.SemanticComparison.Fluent;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 
 namespace Ploeh.SemanticComparison.UnitTest
 {
     public class LikenessTest
     {
-        public LikenessTest()
-        {
-        }
-
         [Fact]
         public void CreateWithNullValueWillHoldCorrectValue()
         {
@@ -756,6 +749,55 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void ShouldEqualDoesNotThrowWhenSourceAndDestinationMatch()
+        {
+            // Fixture setup
+            var source = new object();
+            var destination = new object();
+            var sut = new Likeness<object, object>(source);
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.ShouldEqual(destination));
+            // Teardown
+        }
+
+        [Fact]
+        public void ShouldEqualOfNullAgainstNullDoesNotThrow()
+        {
+            // Fixture setup
+            var sut = new Likeness<object, object>(null);
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.ShouldEqual(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ShouldEqualOfInstanceAgainstNullThrows()
+        {
+            // Fixture setup
+            var dummy = new object();
+            var sut = new Likeness<object, object>(dummy);
+            // Exercise system and verify outcome
+            Assert.Throws<LikenessException>(() =>
+                sut.ShouldEqual(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ShouldEqualOfDifferentValuesThrows()
+        {
+            // Fixture setup
+            var source = new { Property = 2 };
+            var destination = new PropertyHolder<int> { Property = 1 };
+            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
+            // Exercise system and verify outcome
+            Assert.Throws<LikenessException>(() =>
+                sut.ShouldEqual(destination));
+            // Teardown
+        }
+
         private static void CompareLikenessToObject<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup
@@ -767,12 +809,12 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
-        public class A
+        private class A
         {
             public string X { get; set; }
         }
 
-        public class B : A
+        private class B : A
         {
             public new int X { get; set; }
         }

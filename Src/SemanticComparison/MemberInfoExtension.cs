@@ -11,12 +11,12 @@ namespace Ploeh.SemanticComparison
     {
         private readonly static MethodInfo equalsMember = typeof(object).GetMethod("Equals", BindingFlags.Public | BindingFlags.Static);
 
-        internal static Func<TSource, TDestination, bool> ToEvaluator<TSource, TDestination>(this MemberInfo member)
+        internal static MemberEvaluator<TSource, TDestination> ToEvaluator<TSource, TDestination>(this MemberInfo member)
         {
             var property = member as PropertyInfo;
             if ((property != null) && (property.GetIndexParameters().Length > 0))
             {
-                return (TSource s, TDestination d) => true;
+                return new MemberEvaluator<TSource, TDestination>(member, (TSource s, TDestination d) => true);
             }
 
             var srcParam = Expression.Parameter(typeof(TSource), "x");
@@ -34,15 +34,15 @@ namespace Ploeh.SemanticComparison
                     MemberInfoExtension.equalsMember);
 
                 var exp = Expression.Lambda<Func<TSource, TDestination, bool>>(eq, srcParam, destParam);
-                return exp.Compile();
+                return new MemberEvaluator<TSource, TDestination>(member, exp.Compile());
             }
             catch (ArgumentException)
             {
-                return (TSource s, TDestination d) => false;
+                return new MemberEvaluator<TSource, TDestination>(member, (TSource s, TDestination d) => false);
             }
             catch (AmbiguousMatchException)
             {
-                return (TSource s, TDestination d) => false;
+                return new MemberEvaluator<TSource, TDestination>(member, (TSource s, TDestination d) => false);
             }
         }
     }

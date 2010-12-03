@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyConstraints.cs" />
+    <Compile Include="LikenessExceptionTest.cs" />
     <Compile Include="LikenessTest.cs" />
     <Compile Include="LikenessSourceTest.cs" />
     <Compile Include="MemberInfoNameComparerTest.cs" />

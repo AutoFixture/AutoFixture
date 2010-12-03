@@ -73,6 +73,7 @@
     <Compile Include="Fluent\LikenessSourceFactory.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Likeness.cs" />
+    <Compile Include="LikenessException.cs" />
     <Compile Include="LikenessMember.cs" />
     <Compile Include="MemberEvaluator.cs" />
     <Compile Include="MemberInfoExtension.cs" />

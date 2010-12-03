@@ -101,6 +101,35 @@ namespace Ploeh.SemanticComparison
         }
 
         /// <summary>
+        /// Verifies that a value matches the encapsulated value, or throws a descriptive exception
+        /// if this is not the case.
+        /// </summary>
+        /// <param name="other">The value to compare against <see cref="Value"/>.</param>
+        /// <exception cref="LikenessException">
+        /// <paramref name="other"/> does not match <see cref="Value"/>.
+        /// </exception>
+        public void ShouldEqual(TDestination other)
+        {
+            if ((this.Value == null) && (other == null))
+            {
+                return;
+            }
+            if (other == null)
+            {
+                throw new LikenessException("The provided value was null, but an instance was expected.");
+            }
+
+            var mismatches = (from me in this.GetEvaluators()
+                              where !me.Evaluator(this.Value, other)
+                              select me).ToList();
+            if (mismatches.Any())
+            {
+                var message = this.CreateMismatchMessage(other, mismatches);
+                throw new LikenessException(message);
+            }
+        }
+
+        /// <summary>
         /// Returns a <see cref="string"/> that represents the contained object.
         /// </summary>
         /// <returns>A <see cref="string"/> representation of the contained object.</returns>
@@ -146,7 +175,7 @@ namespace Ploeh.SemanticComparison
         {
             var me = (MemberExpression)propertyPicker.Body;
             var f = me.Member.ToEvaluator<TSource, TDestination>();
-            return this.With(propertyPicker).EqualsWhen(f);
+            return this.With(propertyPicker).EqualsWhen(f.Evaluator);
         }
 
         /// <summary>
@@ -188,14 +217,7 @@ namespace Ploeh.SemanticComparison
                 return false;
             }
 
-            foreach (var e in this.GetEvaluators())
-            {
-                if (!e(this.Value, other))
-                {
-                    return false;
-                }
-            }
-            return true;
+            return !this.GetEvaluators().Any(me => !me.Evaluator(this.Value, other));
         }
 
         #endregion
@@ -205,13 +227,13 @@ namespace Ploeh.SemanticComparison
             return new Likeness<TSource, TDestination>(this.Value, this.evaluators.Concat(new[] { evaluator }), this.defaultMembersGenerator);
         }
 
-        private IEnumerable<Func<TSource, TDestination, bool>> GetEvaluators()
+        private IEnumerable<MemberEvaluator<TSource, TDestination>> GetEvaluators()
         {
             var defaultMembers = this.defaultMembersGenerator();
             var undefinedMembers = defaultMembers.Except(this.evaluators.Select(e => e.Member), new MemberInfoNameComparer());
             var undefinedEvaluators = from mi in undefinedMembers
                                       select mi.ToEvaluator<TSource, TDestination>();
-            return this.evaluators.Select(e => e.Evaluator).Concat(undefinedEvaluators);
+            return this.evaluators.Concat(undefinedEvaluators);
         }
 
         private static class DefaultMembers
@@ -225,6 +247,17 @@ namespace Ploeh.SemanticComparison
                         .GetFields(BindingFlags.Public | BindingFlags.Instance)
                         .Cast<MemberInfo>());
             }
+        }
+
+        private string CreateMismatchMessage(TDestination other, List<MemberEvaluator<TSource, TDestination>> mismatches)
+        {
+            return string.Concat(
+                new[]
+                {
+                    string.Format(CultureInfo.CurrentCulture, "The provided value {0} did not match the expected value {1}. The following members did not match:{2}", this.Value, other, Environment.NewLine)
+                }
+                .Concat(mismatches.Select(me => string.Format(CultureInfo.CurrentCulture, "- {0}.{1}", me.Member.Name, Environment.NewLine)))
+                .ToArray());
         }
     }
 }
