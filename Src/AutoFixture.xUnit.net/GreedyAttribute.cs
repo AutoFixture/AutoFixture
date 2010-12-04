@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Xunit
 {
     /// <summary>
     /// An attribute that can be applied to parameters in an <see cref="AutoDataAttribute"/>-driven
-    /// Theory to indicate that the parameter value should be frozen so that the same instance is
-    /// returned every time the <see cref="IFixture"/> creates an instance of that type.
+    /// Theory to indicate that the parameter value should be created using the most greedy
+    /// constructor that can be satisfied by an <see cref="IFixture"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class FrozenAttribute : CustomizeAttribute
+    public sealed class GreedyAttribute : CustomizeAttribute
     {
         /// <summary>
-        /// Gets a customization that freezes the <see cref="Type"/> of the parameter.
+        /// Gets a customization that associates a <see cref="GreedyConstructorQuery"/> with the
+        /// <see cref="Type"/> of the parameter.
         /// </summary>
         /// <param name="parameter">The parameter for which the customization is requested.</param>
         /// <returns>
-        /// A customization that freezes the <see cref="Type"/> of the parameter.
+        /// A customization that associates a <see cref="GreedyConstructorQuery"/> with the
+        /// <see cref="Type"/> of the parameter.
         /// </returns>
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
@@ -28,7 +31,7 @@ namespace Ploeh.AutoFixture.Xunit
                 throw new ArgumentNullException("parameter");
             }
 
-            return new FreezingCustomization(parameter.ParameterType);
+            return new ConstructorCustomization(parameter.ParameterType, new GreedyConstructorQuery());
         }
     }
 }

@@ -118,8 +118,7 @@ namespace Ploeh.AutoFixture.Xunit
         private object Resolve(ParameterInfo p)
         {
             var context = new SpecimenContext(this.Fixture.Compose());
-            var specimen = context.Resolve(p);
-            return specimen;
+            return context.Resolve(p);
         }
 
         private static IFixture CreateFixture(Type type)

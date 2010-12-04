@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using Xunit;
 using Ploeh.TestTypeFoundation;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Xunit.UnitTest
 {
-    public class FrozenAttributeTest
+    public class ModestAttributeTest
     {
         [Fact]
         public void SutIsAttribute()
         {
             // Fixture setup
             // Exercise system
-            var sut = new FrozenAttribute();
+            var sut = new ModestAttribute();
             // Verify outcome
             Assert.IsAssignableFrom<CustomizeAttribute>(sut);
             // Teardown
@@ -24,7 +25,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         public void GetCustomizationFromNullParamterThrows()
         {
             // Fixture setup
-            var sut = new FrozenAttribute();
+            var sut = new ModestAttribute();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.GetCustomization(null));
@@ -35,13 +36,14 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         public void GetCustomizationReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = new FrozenAttribute();
+            var sut = new ModestAttribute();
             var parameter = typeof(TypeWithOverloadedMembers).GetMethod("DoSomething", new[] { typeof(object) }).GetParameters().Single();
             // Exercise system
             var result = sut.GetCustomization(parameter);
             // Verify outcome
-            var freezer = Assert.IsAssignableFrom<FreezingCustomization>(result);
-            Assert.Equal(parameter.ParameterType, freezer.TargetType);
+            var invoker = Assert.IsAssignableFrom<ConstructorCustomization>(result);
+            Assert.Equal(parameter.ParameterType, invoker.TargetType);
+            Assert.IsAssignableFrom<ModestConstructorQuery>(invoker.Query);
             // Teardown
         }
     }

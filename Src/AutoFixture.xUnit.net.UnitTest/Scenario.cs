@@ -71,5 +71,26 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             Assert.Equal(expectedNumber, result);
             // Teardown
         }
+
+        [Theory, AutoData]
+        public void ModestCreatesParameterWithModestConstructor([Modest]MultiUnorderedConstructorType p)
+        {
+            Assert.True(string.IsNullOrEmpty(p.Text));
+            Assert.Equal(0, p.Number);
+        }
+
+        [Theory, AutoData]
+        public void GreedyCreatesParameterWithGreedyConstructor([Greedy]MultiUnorderedConstructorType p)
+        {
+            Assert.False(string.IsNullOrEmpty(p.Text));
+            Assert.NotEqual(0, p.Number);
+        }
+
+        [Theory, AutoData]
+        public void BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter([Frozen][Greedy]MultiUnorderedConstructorType p1, MultiUnorderedConstructorType p2)
+        {
+            Assert.False(string.IsNullOrEmpty(p2.Text));
+            Assert.NotEqual(0, p2.Number);
+        }
     }
 }

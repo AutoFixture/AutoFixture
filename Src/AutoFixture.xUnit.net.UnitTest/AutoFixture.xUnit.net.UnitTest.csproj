@@ -63,6 +63,8 @@
     <Compile Include="DelegatingCustomizeAttribute.cs" />
     <Compile Include="DelegatingSpecimenBuilder.cs" />
     <Compile Include="FrozenAttributeTest.cs" />
+    <Compile Include="GreedyAttributeTest.cs" />
+    <Compile Include="ModestAttributeTest.cs" />
     <Compile Include="MyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenario.cs" />

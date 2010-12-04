@@ -104,6 +104,7 @@
     <Compile Include="FixtureFreezer.cs" />
     <Compile Include="FixtureRegistrar.cs" />
     <Compile Include="FreezingCustomization.cs" />
+    <Compile Include="ConstructorCustomization.cs" />
     <Compile Include="ICustomization.cs" />
     <Compile Include="IFixture.cs" />
     <Compile Include="Kernel\ArrayRelay.cs" />
