@@ -8,13 +8,8 @@ namespace Ploeh.AutoFixture.Idioms
     {
         #region Implementation of IBoundaryConvention
 
-        public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(IFixture fixture)
+        public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors()
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException("fixture");
-            }
-
             return new[] { new EmptyStringBehavior() };
         }
 

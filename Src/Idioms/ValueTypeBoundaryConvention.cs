@@ -7,7 +7,7 @@ namespace Ploeh.AutoFixture.Idioms
     {
         #region Implementation of IBoundaryConvention
 
-        public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(IFixture fixture)
+        public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors()
         {
             return Enumerable.Empty<IBoundaryBehavior>();
         }

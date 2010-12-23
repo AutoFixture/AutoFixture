@@ -19,20 +19,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void CreateInvalidsWithNullFixtureWillThrow()
-        {
-            // Fixture setup
-            var fixture = new Fixture();
-
-            var sut = fixture.CreateAnonymous<GuidBoundaryConvention>();
-            // Exercise system
-            Assert.Throws(typeof(ArgumentNullException), () =>
-                sut.CreateBoundaryBehaviors((Fixture)null));
-            // Verify outcome (expected exception)
-            // Teardown
-        }
-
-        [Fact]
         public void CreateInvalidsReturnsCorrectResult()
         {
             // Fixture setup
@@ -40,7 +26,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = fixture.CreateAnonymous<GuidBoundaryConvention>();
             // Exercise system
-            var result = sut.CreateBoundaryBehaviors(fixture).Single();
+            var result = sut.CreateBoundaryBehaviors().Single();
             // Verify outcome
             Assert.IsType<GuidBoundaryBehavior>(result);
             // Teardown

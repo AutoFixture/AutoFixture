@@ -74,14 +74,14 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var expectedBehaviors = new IBoundaryBehavior[] { new DelegatingBoundaryBehavior(), new DelegatingBoundaryBehavior(), new DelegatingBoundaryBehavior(), new DelegatingBoundaryBehavior() };
             var conventions = new[]
             {
-                new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = f => f == fixture? new[]{ expectedBehaviors[0] } : new[]{ new DelegatingBoundaryBehavior() }},
-                new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = f => f == fixture? new IBoundaryBehavior[]{ } : new[]{ new DelegatingBoundaryBehavior() }},
-                new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = f => f == fixture? new[]{ expectedBehaviors[1], expectedBehaviors[2], expectedBehaviors[3] } : new[]{ new DelegatingBoundaryBehavior() }}
+                new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = () => new[]{ expectedBehaviors[0] }},
+                new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = () => new IBoundaryBehavior[]{ }},
+                new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = () => new[]{ expectedBehaviors[1], expectedBehaviors[2], expectedBehaviors[3] }}
             };
 
             var sut = new CompositeBoundaryConvention(conventions);
             // Exercise system
-            var result = sut.CreateBoundaryBehaviors(fixture);
+            var result = sut.CreateBoundaryBehaviors();
             // Verify outcome
             Assert.True(expectedBehaviors.SequenceEqual(result));
             // Teardown

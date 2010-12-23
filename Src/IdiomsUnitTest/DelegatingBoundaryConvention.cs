@@ -10,16 +10,16 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     {
         public DelegatingBoundaryConvention()
         {
-            this.OnCreateBoundaryBehaviors = f => new[] { new DelegatingBoundaryBehavior() };
+            this.OnCreateBoundaryBehaviors = () => new[] { new DelegatingBoundaryBehavior() };
         }
 
-        public Func<IFixture, IEnumerable<IBoundaryBehavior>> OnCreateBoundaryBehaviors { get; set; }
+        public Func<IEnumerable<IBoundaryBehavior>> OnCreateBoundaryBehaviors { get; set; }
 
         #region IBoundaryConvention Members
 
-        public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(IFixture fixture)
+        public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors()
         {
-            return this.OnCreateBoundaryBehaviors(fixture);
+            return this.OnCreateBoundaryBehaviors();
         }
 
         #endregion

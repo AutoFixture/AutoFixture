@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = fixture.CreateAnonymous<ValueTypeBoundaryConvention>();
             // Exercise system
-            var result = sut.CreateBoundaryBehaviors(fixture).Any();
+            var result = sut.CreateBoundaryBehaviors().Any();
             // Verify outcome
             Assert.False(result, "CreateInvalids");
             // Teardown

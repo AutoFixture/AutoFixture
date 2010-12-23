@@ -150,7 +150,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             #region Implementation of IBoundaryConvention
 
-            public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(IFixture fixture)
+            public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors()
             {
                 return Enumerable.Repeat(this.testInvalidValue, 1).Cast<IBoundaryBehavior>();
             }

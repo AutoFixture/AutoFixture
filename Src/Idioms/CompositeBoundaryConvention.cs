@@ -31,10 +31,10 @@ namespace Ploeh.AutoFixture.Idioms
 
         #region IBoundaryConvention Members
 
-        public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(IFixture fixture)
+        public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors()
         {
             return from c in this.conventions
-                   from b in c.CreateBoundaryBehaviors(fixture)
+                   from b in c.CreateBoundaryBehaviors()
                    select b;
         }
 

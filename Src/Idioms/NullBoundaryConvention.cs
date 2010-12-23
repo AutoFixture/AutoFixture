@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture.Idioms
     {
         #region IBoundaryConvention Members
 
-        public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(IFixture fixture)
+        public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors()
         {
             return Enumerable.Empty<IBoundaryBehavior>();
         }

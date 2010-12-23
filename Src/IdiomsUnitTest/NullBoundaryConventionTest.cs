@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new NullBoundaryConvention();
             // Exercise system
             Fixture dummyFixture = null;
-            var result = sut.CreateBoundaryBehaviors(dummyFixture);
+            var result = sut.CreateBoundaryBehaviors();
             // Verify outcome
             Assert.Empty(result);
             // Teardown
