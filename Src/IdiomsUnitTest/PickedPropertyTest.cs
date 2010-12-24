@@ -11,19 +11,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     public class PickedPropertyTest
     {
         [Fact]
-        public void SutIsIPickedProperty()
-        {
-            // Fixture setup
-            var dummyFixture = new Fixture();
-            var dummyProperty = Reflect<string>.GetProperty(s => s.Length);
-            // Exercise system
-            var sut = new PickedProperty<object, object>(dummyFixture, dummyProperty);
-            // Verify outcome
-            Assert.IsAssignableFrom<IPickedProperty>(sut);
-            // Teardown
-        }
-
-        [Fact]
         public void SutIsVerifiableBoundary()
         {
             // Fixture setup

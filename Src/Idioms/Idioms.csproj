@@ -73,7 +73,6 @@
     <Compile Include="StringBoundaryConvention.cs" />
     <Compile Include="BoundaryConventionException.cs" />
     <Compile Include="GuidBoundaryConvention.cs" />
-    <Compile Include="IPickedProperty.cs" />
     <Compile Include="IBoundaryConvention.cs" />
     <Compile Include="PickedProperty.cs" />
     <Compile Include="PickedPropertyException.cs" />

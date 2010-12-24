@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class PickedProperty<T, TProperty> : IPickedProperty, IVerifiableBoundary
+    public class PickedProperty<T, TProperty> : IVerifiableBoundary
     {
         private readonly Fixture fixture;
         private readonly PropertyInfo propertyInfo;
@@ -26,8 +26,6 @@ namespace Ploeh.AutoFixture.Idioms
             this.propertyInfo = propertyInfo;
         }
 
-        #region Implementation of IPickedProperty
-
         public void IsWellBehavedWritableProperty()
         {
             if (this.propertyInfo.GetSetMethod() == null)
@@ -46,31 +44,6 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new PickedPropertyException("The supplied PropertyInfo does not point out a well-behaved property.");
             }
         }
-
-        public virtual void AssertInvariants()
-        {
-            this.AssertInvariants(new DefaultBoundaryConvention());
-        }
-
-        public virtual void AssertInvariants(IBoundaryConvention convention)
-        {
-            if (convention == null)
-            {
-                throw new ArgumentNullException("convention");
-            }
-
-            var sut = this.fixture.CreateAnonymous<T>();
-            Action<object> setProperty = x => this.propertyInfo.SetValue(sut, x, null);
-
-            var behaviors = from b in convention.CreateBoundaryBehaviors(typeof(TProperty))
-                            select new ReflectionBoundaryBehavior(b);
-            foreach (var b in behaviors)
-            {
-                b.Assert(setProperty);
-            }
-        }
-
-        #endregion
 
         #region IVerifiableBoundary Members
 
