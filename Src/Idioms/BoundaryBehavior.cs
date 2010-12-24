@@ -16,9 +16,6 @@ namespace Ploeh.AutoFixture.Idioms
             try
             {
                 behavior.Exercise(action);
-                throw new ValueGuardConventionException(
-                    string.Format(CultureInfo.CurrentCulture,
-                         "The action did not throw the expected exception for the invalid value {0}", behavior.Description));
             }
             catch (Exception e)
             {
@@ -26,12 +23,11 @@ namespace Ploeh.AutoFixture.Idioms
                 {
                     return;
                 }
+            }
 
-                throw new ValueGuardConventionException(
-                    string.Format(CultureInfo.CurrentCulture,
-                         "The action did not throw the expected exception for the invalid value {0}", behavior.Description),
-                    e);
-            } 
+            throw new ValueGuardConventionException(
+                string.Format(CultureInfo.CurrentCulture,
+                     "The action did not throw the expected exception for the value {0}.", behavior.Description));
         }
     }
 }
