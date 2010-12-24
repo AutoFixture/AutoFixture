@@ -50,6 +50,7 @@
     <Compile Include="DefaultBoundaryConventionTest.cs" />
     <Compile Include="DelegatingBoundaryBehavior.cs" />
     <Compile Include="DelegatingBoundaryConvention.cs" />
+    <Compile Include="DelegatingVerifiableBoundary.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="EmptyStringBehaviorTest.cs" />
     <Compile Include="BoundaryBehaviorTest.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FixtureExtensionsTest.cs" />
     <Compile Include="ReflectorFixture.cs" />
+    <Compile Include="VerifiableBoundaryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
