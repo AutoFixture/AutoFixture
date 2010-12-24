@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class PickedProperty<T, TProperty> : IPickedProperty
+    public class PickedProperty<T, TProperty> : IPickedProperty, IVerifiableBoundary
     {
         private readonly Fixture fixture;
         private readonly PropertyInfo propertyInfo;
@@ -53,6 +53,28 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         public virtual void AssertInvariants(IBoundaryConvention convention)
+        {
+            if (convention == null)
+            {
+                throw new ArgumentNullException("convention");
+            }
+
+            var sut = this.fixture.CreateAnonymous<T>();
+            Action<object> setProperty = x => this.propertyInfo.SetValue(sut, x, null);
+
+            var behaviors = from b in convention.CreateBoundaryBehaviors(typeof(TProperty))
+                            select new ReflectionBoundaryBehavior(b);
+            foreach (var b in behaviors)
+            {
+                b.Assert(setProperty);
+            }
+        }
+
+        #endregion
+
+        #region IVerifiableBoundary Members
+
+        public void VerifyBoundaryBehavior(IBoundaryConvention convention)
         {
             if (convention == null)
             {

@@ -8,7 +8,6 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-#warning Revisit this when ConstructorArgumentMatches<>() and AssertConstructorInvariantsOf<>() have been implemented
     public class PickedPropertyTest
     {
         [Fact]
@@ -21,6 +20,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new PickedProperty<object, object>(dummyFixture, dummyProperty);
             // Verify outcome
             Assert.IsAssignableFrom<IPickedProperty>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutIsVerifiableBoundary()
+        {
+            // Fixture setup
+            var dummyFixture = new Fixture();
+            var dummyProperty = Reflect<string>.GetProperty(s => s.Length);
+            // Exercise system
+            var sut = new PickedProperty<object, object>(dummyFixture, dummyProperty);
+            // Verify outcome
+            Assert.IsAssignableFrom<IVerifiableBoundary>(sut);
             // Teardown
         }
 
@@ -106,7 +118,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void AssertInvariantsWithNullWillThrow()
+        public void VerifyBoundaryBehaviorWithNullWillThrow()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -115,7 +127,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new PickedProperty<PropertyHolder<object>, object>(fixture, propertyInfo);
             // Exercise system
             Assert.Throws<ArgumentNullException>(() =>
-                sut.AssertInvariants(null));
+                sut.VerifyBoundaryBehavior(null));
             // Verify outcome (expected exception)
             // Teardown
         }

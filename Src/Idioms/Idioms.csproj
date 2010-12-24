@@ -64,6 +64,7 @@
     <Compile Include="IBoundaryBehavior.cs" />
     <Compile Include="BoundaryBehavior.cs" />
     <Compile Include="GuidBoundaryBehavior.cs" />
+    <Compile Include="IVerifiableBoundary.cs" />
     <Compile Include="NullReferenceBehavior.cs" />
     <Compile Include="NullBoundaryConvention.cs" />
     <Compile Include="ReflectionBoundaryBehavior.cs" />
