@@ -8,6 +8,10 @@ namespace Ploeh.AutoFixture.Idioms
     {
         public static void Assert(this IBoundaryBehavior behavior, Action<object> action)
         {
+            if (behavior == null)
+            {
+                throw new ArgumentNullException("behavior");
+            }
             if (action == null)
             {
                 throw new ArgumentNullException("action");

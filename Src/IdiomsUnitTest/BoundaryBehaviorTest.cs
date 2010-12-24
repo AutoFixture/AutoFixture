@@ -8,7 +8,18 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     public class BoundaryBehaviorTest
     {
         [Fact]
-        public void ReflectionAssertWithNullActionWillThrow()
+        public void AssertNullBehaviorThrows()
+        {
+            // Fixture setup
+            Action<object> dummyAction = x => { };
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                BoundaryBehavior.Assert(null, dummyAction));
+            // Teardown
+        }
+
+        [Fact]
+        public void AssertNullActionThrows()
         {
             // Fixture setup
             var sut = new DelegatingBoundaryBehavior();
@@ -20,7 +31,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ReflectionAssertWillAssertInvalidValueCorrectly()
+        public void AssertWillAssertInvalidValueCorrectly()
         {
             // Fixture setup
             Action<object> expected = o => { throw new ArgumentNullException();};
