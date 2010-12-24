@@ -2,13 +2,14 @@
 using System.Linq;
 using Ploeh.AutoFixture.Idioms;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
     public class ReferenceTypeBoundaryConventionTest
     {
         [Fact]
-        public void SutIsIValueGuardConvention()
+        public void SutIsBoundaryConvention()
         {
             // Fixture setup
             // Exercise system
@@ -19,19 +20,45 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void CreateInvalidsReturnsCorrectResult()
+        public void CreateBoundaryBehaviorsWithNullTypeThrows()
         {
             // Fixture setup
-            var fixture = new Fixture();
-            var expected = new[] {
-                typeof(NullReferenceBehavior)
-            };
+            var sut = new ReferenceTypeBoundaryConvention();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.CreateBoundaryBehaviors(null).ToList());
+            // Teardown
+        }
 
-            var sut = fixture.CreateAnonymous<ReferenceTypeBoundaryConvention>();
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(Version))]
+        [InlineData(typeof(OperatingSystem))]
+        public void CreateBoundaryBehaviorsForReferenceTypeReturnsCorrectResult(Type referenceType)
+        {
+            // Fixture setup
+            var sut = new ReferenceTypeBoundaryConvention();
             // Exercise system
-            var result = (from invalid in sut.CreateBoundaryBehaviors() select invalid.GetType()).ToList();
+            var result = sut.CreateBoundaryBehaviors(referenceType);
             // Verify outcome
-            Assert.True(expected.SequenceEqual(result));
+            Assert.True(result.OfType<NullReferenceBehavior>().Any());
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(decimal))]
+        [InlineData(typeof(Guid))]
+        [InlineData(typeof(DateTime))]
+        public void CreateBoundaryBehaviorsForValueTypeReturnsCorrectResult(Type valueType)
+        {
+            // Fixture setup
+            var sut = new ReferenceTypeBoundaryConvention();
+            // Exercise system
+            var result = sut.CreateBoundaryBehaviors(valueType);
+            // Verify outcome
+            Assert.False(result.Any());
             // Teardown
         }
     }

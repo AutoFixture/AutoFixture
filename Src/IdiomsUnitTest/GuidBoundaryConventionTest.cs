@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     public class GuidBoundaryConventionTest
     {
         [Fact]
-        public void SutIsIValueGuardConvention()
+        public void SutIsBoundaryConvention()
         {
             // Fixture setup
             // Exercise system
@@ -19,16 +19,37 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void CreateInvalidsReturnsCorrectResult()
+        public void CreateBoundaryBehaviorsWithNullTypeThrows()
         {
             // Fixture setup
-            var fixture = new Fixture();
+            var sut = new GuidBoundaryConvention();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.CreateBoundaryBehaviors(null).ToList());
+            // Teardown
+        }
 
-            var sut = fixture.CreateAnonymous<GuidBoundaryConvention>();
+        [Fact]
+        public void CreateBoundaryBehaviorsForGuidReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new GuidBoundaryConvention();
             // Exercise system
-            var result = sut.CreateBoundaryBehaviors().Single();
+            var result = sut.CreateBoundaryBehaviors(typeof(Guid));
             // Verify outcome
-            Assert.IsType<GuidBoundaryBehavior>(result);
+            Assert.True(result.OfType<GuidBoundaryBehavior>().Any());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateBoundaryBehaviorsForNonGuidReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new GuidBoundaryConvention();
+            // Exercise system
+            var result = sut.CreateBoundaryBehaviors(typeof(string));
+            // Verify outcome
+            Assert.False(result.Any());
             // Teardown
         }
     }

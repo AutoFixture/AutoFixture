@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     public class NullBoundaryConventionTest
     {
         [Fact]
-        public void SutIsValueGuardConvention()
+        public void SutIsBoundaryConvention()
         {
             // Fixture setup
             // Exercise system
@@ -21,15 +21,15 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void CreateInvalidsReturnsCorrectResult()
+        public void CreateBoundaryBehaviorsReturnsCorrectResult()
         {
             // Fixture setup
             var sut = new NullBoundaryConvention();
+            var dummyType = typeof(object);
             // Exercise system
-            Fixture dummyFixture = null;
-            var result = sut.CreateBoundaryBehaviors();
+            var result = sut.CreateBoundaryBehaviors(dummyType);
             // Verify outcome
-            Assert.Empty(result);
+            Assert.False(result.Any());
             // Teardown
         }
     }

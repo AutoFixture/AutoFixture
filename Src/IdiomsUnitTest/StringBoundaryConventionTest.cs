@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     public class StringBoundaryConventionTest
     {
         [Fact]
-        public void SutIsIValueGuardConvention()
+        public void SutIsBoundaryConvention()
         {
             // Fixture setup
             // Exercise system
@@ -19,19 +19,37 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void CreateInvalidsReturnsCorrectResult()
+        public void CreateBoundaryBehaviorsWithNullTypeThrows()
         {
             // Fixture setup
-            var fixture = new Fixture();
-            var expected = new[] {
-                typeof(EmptyStringBehavior)
-            };
+            var sut = new StringBoundaryConvention();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.CreateBoundaryBehaviors(null).ToList());
+            // Teardown
+        }
 
-            var sut = fixture.CreateAnonymous<StringBoundaryConvention>();
+        [Fact]
+        public void CreateBoundaryBehaviorsForStringReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new StringBoundaryConvention();
             // Exercise system
-            var result = (from invalid in sut.CreateBoundaryBehaviors() select invalid.GetType()).ToList();
+            var result = sut.CreateBoundaryBehaviors(typeof(string));
             // Verify outcome
-            Assert.True(expected.SequenceEqual(result), "CreateInvalids");
+            Assert.True(result.OfType<EmptyStringBehavior>().Any());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateBoundaryBehaviorsForNonStringReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new StringBoundaryConvention();
+            // Exercise system
+            var result = sut.CreateBoundaryBehaviors(typeof(Guid));
+            // Verify outcome
+            Assert.False(result.Any());
             // Teardown
         }
     }

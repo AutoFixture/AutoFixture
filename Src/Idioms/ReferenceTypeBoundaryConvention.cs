@@ -8,9 +8,17 @@ namespace Ploeh.AutoFixture.Idioms
     {
         #region Implementation of IBoundaryConvention
 
-        public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors()
+        public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(Type type)
         {
-            return new[] { new NullReferenceBehavior() };
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
+            if (type.IsClass)
+            {
+                yield return new NullReferenceBehavior();
+            }
         }
 
         #endregion

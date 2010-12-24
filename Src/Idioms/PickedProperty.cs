@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixture.Idioms
             var sut = this.fixture.CreateAnonymous<T>();
             Action<object> setProperty = x => this.propertyInfo.SetValue(sut, x, null);
 
-            var behaviors = factory.GetConvention(typeof(TProperty)).CreateBoundaryBehaviors();
+            var behaviors = factory.GetConvention(typeof(TProperty)).CreateBoundaryBehaviors(typeof(TProperty));
             foreach (var b in behaviors)
             {
                 b.Assert(setProperty);

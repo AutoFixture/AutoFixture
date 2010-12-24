@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     public class ValueTypeBoundaryConventionTest
     {
         [Fact]
-        public void SutIsIValueGuardConvention()
+        public void SutIsBoundaryConvention()
         {
             // Fixture setup
             // Exercise system
@@ -19,16 +19,15 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void CreateInvalidsWithNullFixtureWillThrow()
+        public void CreateBoundaryBehaviorsReturnsCorrectResult()
         {
             // Fixture setup
-            var fixture = new Fixture();
-
-            var sut = fixture.CreateAnonymous<ValueTypeBoundaryConvention>();
+            var sut = new ValueTypeBoundaryConvention();
+            var dummyType = typeof(object);
             // Exercise system
-            var result = sut.CreateBoundaryBehaviors().Any();
+            var result = sut.CreateBoundaryBehaviors(dummyType);
             // Verify outcome
-            Assert.False(result, "CreateInvalids");
+            Assert.False(result.Any());
             // Teardown
         }
     }
