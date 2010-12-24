@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixture.Idioms
                 }
             }
 
-            throw new ValueGuardConventionException(
+            throw new BoundaryConventionException(
                 string.Format(CultureInfo.CurrentCulture,
                      "The action did not throw the expected exception for the value {0}.", behavior.Description));
         }

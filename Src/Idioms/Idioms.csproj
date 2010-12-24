@@ -70,7 +70,7 @@
     <Compile Include="ValueTypeBoundaryConvention.cs" />
     <Compile Include="ReferenceTypeBoundaryConvention.cs" />
     <Compile Include="StringBoundaryConvention.cs" />
-    <Compile Include="ValueGuardConventionException.cs" />
+    <Compile Include="BoundaryConventionException.cs" />
     <Compile Include="GuidBoundaryConvention.cs" />
     <Compile Include="IPickedProperty.cs" />
     <Compile Include="IBoundaryConvention.cs" />

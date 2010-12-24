@@ -4,14 +4,14 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class ValueGuardConventionExceptionTest
+    public class BoundaryConventionExceptionTest
     {
         [Fact]
         public void SutIsException()
         {
             // Fixture setup
             // Exercise system
-            var sut = new ValueGuardConventionException();
+            var sut = new BoundaryConventionException();
             // Verify outcome
             Assert.IsAssignableFrom<Exception>(sut);
             // Teardown
@@ -21,7 +21,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void MessageIsNotNull()
         {
             // Fixture setup
-            var sut = new ValueGuardConventionException();
+            var sut = new BoundaryConventionException();
             // Exercise system
             var result = sut.Message;
             // Verify outcome
@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             var expected = fixture.CreateAnonymous("Message");
 
-            var sut = new ValueGuardConventionException(expected);
+            var sut = new BoundaryConventionException(expected);
             // Exercise system
             var result = sut.Message;
             // Verify outcome
@@ -51,7 +51,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             var expected = fixture.CreateAnonymous<Exception>();
 
-            var sut = new ValueGuardConventionException(fixture.CreateAnonymous("Message"), expected);
+            var sut = new BoundaryConventionException(fixture.CreateAnonymous("Message"), expected);
             // Exercise system
             var result = sut.InnerException;
             // Verify outcome

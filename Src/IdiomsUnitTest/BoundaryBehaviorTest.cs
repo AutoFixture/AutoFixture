@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var sut = new DelegatingBoundaryBehavior();
             // Exercise system
-            Assert.Throws<ValueGuardConventionException>(() =>
+            Assert.Throws<BoundaryConventionException>(() =>
                 sut.Assert(g => { }));
             // Verify outcome (expected exception)
             // Teardown
@@ -66,7 +66,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var sut = new DelegatingBoundaryBehavior();
             // Exercise system
-            Assert.Throws(typeof(ValueGuardConventionException), () =>
+            Assert.Throws(typeof(BoundaryConventionException), () =>
                 sut.Assert(g => { throw new TargetInvocationException("Test", new InvalidOperationException()); }));
             // Verify outcome (expected exception)
             // Teardown
