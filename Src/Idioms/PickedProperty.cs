@@ -62,7 +62,8 @@ namespace Ploeh.AutoFixture.Idioms
             var sut = this.fixture.CreateAnonymous<T>();
             Action<object> setProperty = x => this.propertyInfo.SetValue(sut, x, null);
 
-            var behaviors = convention.CreateBoundaryBehaviors(typeof(TProperty));
+            var behaviors = from b in convention.CreateBoundaryBehaviors(typeof(TProperty))
+                            select new ReflectionBoundaryBehavior(b);
             foreach (var b in behaviors)
             {
                 b.Assert(setProperty);

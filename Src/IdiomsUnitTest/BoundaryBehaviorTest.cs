@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void ReflectionAssertWillAssertInvalidValueCorrectly()
         {
             // Fixture setup
-            Action<object> expected = o => { throw new TargetInvocationException("Test", new ArgumentNullException());};
+            Action<object> expected = o => { throw new ArgumentNullException();};
 
             var verified = false;
             var sut = new DelegatingBoundaryBehavior();
@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new DelegatingBoundaryBehavior();
             sut.OnIsSatisfiedBy = e => e is ArgumentNullException;
             // Exercise system
-            sut.Assert(o => { throw new TargetInvocationException("Test", new ArgumentNullException()); });
+            sut.Assert(o => { throw new ArgumentNullException(); });
             // Verify outcome (no exception indicates success)
             // Teardown
         }
@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var verified = false;
 
             var behavior = new DelegatingBoundaryBehavior();
-            behavior.OnExercise = a => { throw new TargetInvocationException(expectedException); };
+            behavior.OnExercise = a => { throw expectedException; };
             behavior.OnIsSatisfiedBy = e => verified = e == expectedException;
             // Exercise system
             behavior.Assert(x => { });
