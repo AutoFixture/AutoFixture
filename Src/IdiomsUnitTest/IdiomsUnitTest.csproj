@@ -57,6 +57,7 @@
     <Compile Include="NullReferenceBehaviorTest.cs" />
     <Compile Include="NullBoundaryConventionTest.cs" />
     <Compile Include="ReflectionBoundaryBehaviorTest.cs" />
+    <Compile Include="Scenario.cs" />
     <Compile Include="ValueTypeBoundaryConventionTest.cs" />
     <Compile Include="ReferenceTypeBoundaryConventionTest.cs" />
     <Compile Include="StringBoundaryConventionTest.cs" />
