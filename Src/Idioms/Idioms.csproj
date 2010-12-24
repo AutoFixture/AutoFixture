@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="CompositeBoundaryConvention.cs" />
     <Compile Include="CompositeBoundaryConventionFactory.cs" />
+    <Compile Include="DefaultBoundaryConvention.cs" />
     <Compile Include="EmptyStringBehavior.cs" />
     <Compile Include="IBoundaryBehavior.cs" />
     <Compile Include="BoundaryBehavior.cs" />

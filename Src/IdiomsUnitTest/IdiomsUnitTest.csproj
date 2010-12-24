@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="CompositeBoundaryConventionTest.cs" />
     <Compile Include="CompositeBoundaryConventionFactoryTest.cs" />
+    <Compile Include="DefaultBoundaryConventionTest.cs" />
     <Compile Include="DelegatingBoundaryBehavior.cs" />
     <Compile Include="DelegatingBoundaryConvention.cs" />
     <Compile Include="DelegatingBoundaryConventionFactory.cs" />
