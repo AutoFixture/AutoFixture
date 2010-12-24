@@ -47,11 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompositeBoundaryConventionTest.cs" />
-    <Compile Include="CompositeBoundaryConventionFactoryTest.cs" />
     <Compile Include="DefaultBoundaryConventionTest.cs" />
     <Compile Include="DelegatingBoundaryBehavior.cs" />
     <Compile Include="DelegatingBoundaryConvention.cs" />
-    <Compile Include="DelegatingBoundaryConventionFactory.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="EmptyStringBehaviorTest.cs" />
     <Compile Include="BoundaryBehaviorTest.cs" />
@@ -62,17 +60,12 @@
     <Compile Include="ReferenceTypeBoundaryConventionTest.cs" />
     <Compile Include="StringBoundaryConventionTest.cs" />
     <Compile Include="ValueGuardConventionExceptionTest.cs" />
-    <Compile Include="DefaultBoundaryConventionFactoryTest.cs" />
-    <Compile Include="GuidBoundaryConventionFactoryTest.cs" />
     <Compile Include="GuidBoundaryConventionTest.cs" />
     <Compile Include="PickedPropertyExceptionTest.cs" />
     <Compile Include="PickedPropertyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FixtureExtensionsTest.cs" />
-    <Compile Include="ReferenceTypeBoundaryConventionFactoryTest.cs" />
     <Compile Include="ReflectorFixture.cs" />
-    <Compile Include="StringBoundaryConventionFactoryTest.cs" />
-    <Compile Include="ValueTypeBoundaryConventionFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

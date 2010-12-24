@@ -119,43 +119,5 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Verify outcome (expected exception)
             // Teardown
         }
-
-        private class MyTypeGuardSpecification : IBoundaryConventionFactory
-        {
-            public readonly MyValueGuardConvention valueGuardConvention;
-
-            public MyTypeGuardSpecification()
-            {
-                this.valueGuardConvention = new MyValueGuardConvention();
-            }
-
-            #region Implementation of IBoundaryConventionFactory
-
-            public IBoundaryConvention GetConvention(Type type)
-            {
-                return this.valueGuardConvention;
-            }
-
-            #endregion
-        }
-
-        private class MyValueGuardConvention : IBoundaryConvention
-        {
-            private readonly IBoundaryBehavior testInvalidValue;
-
-            public MyValueGuardConvention()
-            {
-                this.testInvalidValue = new DelegatingBoundaryBehavior(); ;
-            }
-
-            #region Implementation of IBoundaryConvention
-
-            public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(Type type)
-            {
-                return Enumerable.Repeat(this.testInvalidValue, 1).Cast<IBoundaryBehavior>();
-            }
-
-            #endregion
-        }
     }
 }

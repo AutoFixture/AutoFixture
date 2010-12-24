@@ -49,7 +49,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void AssertInvariants()
         {
-            this.AssertInvariants(new DefaultBoundaryConventionFactory().GetConvention(typeof(TProperty)));
+            this.AssertInvariants(new DefaultBoundaryConvention());
         }
 
         public virtual void AssertInvariants(IBoundaryConvention convention)

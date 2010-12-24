@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompositeBoundaryConvention.cs" />
-    <Compile Include="CompositeBoundaryConventionFactory.cs" />
     <Compile Include="DefaultBoundaryConvention.cs" />
     <Compile Include="EmptyStringBehavior.cs" />
     <Compile Include="IBoundaryBehavior.cs" />
@@ -71,20 +70,14 @@
     <Compile Include="ReferenceTypeBoundaryConvention.cs" />
     <Compile Include="StringBoundaryConvention.cs" />
     <Compile Include="ValueGuardConventionException.cs" />
-    <Compile Include="DefaultBoundaryConventionFactory.cs" />
-    <Compile Include="GuidBoundaryConventionFactory.cs" />
     <Compile Include="GuidBoundaryConvention.cs" />
     <Compile Include="IPickedProperty.cs" />
-    <Compile Include="IBoundaryConventionFactory.cs" />
     <Compile Include="IBoundaryConvention.cs" />
     <Compile Include="PickedProperty.cs" />
     <Compile Include="PickedPropertyException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FixtureExtensions.cs" />
-    <Compile Include="ReferenceTypeBoundaryConventionFactory.cs" />
     <Compile Include="Reflect.cs" />
-    <Compile Include="StringBoundaryConventionFactory.cs" />
-    <Compile Include="ValueTypeBoundaryConventionFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
