@@ -49,20 +49,20 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void AssertInvariants()
         {
-            this.AssertInvariants(new DefaultBoundaryConventionFactory());
+            this.AssertInvariants(new DefaultBoundaryConventionFactory().GetConvention(typeof(TProperty)));
         }
 
-        public virtual void AssertInvariants(IBoundaryConventionFactory factory)
+        public virtual void AssertInvariants(IBoundaryConvention convention)
         {
-            if (factory == null)
+            if (convention == null)
             {
-                throw new ArgumentNullException("factory");
+                throw new ArgumentNullException("convention");
             }
 
             var sut = this.fixture.CreateAnonymous<T>();
             Action<object> setProperty = x => this.propertyInfo.SetValue(sut, x, null);
 
-            var behaviors = factory.GetConvention(typeof(TProperty)).CreateBoundaryBehaviors(typeof(TProperty));
+            var behaviors = convention.CreateBoundaryBehaviors(typeof(TProperty));
             foreach (var b in behaviors)
             {
                 b.Assert(setProperty);

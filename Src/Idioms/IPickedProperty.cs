@@ -8,6 +8,6 @@ namespace Ploeh.AutoFixture.Idioms
         
         void AssertInvariants();
 
-        void AssertInvariants(IBoundaryConventionFactory factory);
+        void AssertInvariants(IBoundaryConvention convention);
     }
 }
