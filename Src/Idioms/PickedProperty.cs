@@ -58,7 +58,7 @@ namespace Ploeh.AutoFixture.Idioms
             Action<object> setProperty = x => this.propertyInfo.SetValue(sut, x, null);
 
             var behaviors = from b in convention.CreateBoundaryBehaviors(typeof(TProperty))
-                            select new ReflectionBoundaryBehavior(b);
+                            select new ReflectionExceptionBoundaryBehavior(b);
             foreach (var b in behaviors)
             {
                 b.Assert(setProperty);

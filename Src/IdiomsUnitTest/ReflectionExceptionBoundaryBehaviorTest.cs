@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class ReflectionBoundaryBehaviorTest
+    public class ReflectionExceptionBoundaryBehaviorTest
     {
         [Fact]
         public void SutIsBoundaryBehavior()
@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var dummyBehavior = new DelegatingExceptionBoundaryBehavior();
             // Exercise system
-            var sut = new ReflectionBoundaryBehavior(dummyBehavior);
+            var sut = new ReflectionExceptionBoundaryBehavior(dummyBehavior);
             // Verify outcome
             Assert.IsAssignableFrom<ExceptionBoundaryBehavior>(sut);
             // Teardown
@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new ReflectionBoundaryBehavior(null));
+                new ReflectionExceptionBoundaryBehavior(null));
             // Teardown
         }
 
@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var verified = false;
             var mock = new DelegatingExceptionBoundaryBehavior { OnExercise = a => verified = a == action };
 
-            var sut = new ReflectionBoundaryBehavior(mock);
+            var sut = new ReflectionExceptionBoundaryBehavior(mock);
             // Exercise system
             sut.Exercise(action);
             // Verify outcome
@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var expectedDescription = "Anonymous description.";
             var stub = new DelegatingExceptionBoundaryBehavior { WritableDescription = expectedDescription };
 
-            var sut = new ReflectionBoundaryBehavior(stub);
+            var sut = new ReflectionExceptionBoundaryBehavior(stub);
             // Exercise system
             var result = sut.Description;
             // Verify outcome
@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var nonReflectionException = new Exception();
 
             var dummyBehavior = new DelegatingExceptionBoundaryBehavior();
-            var sut = new ReflectionBoundaryBehavior(dummyBehavior);
+            var sut = new ReflectionExceptionBoundaryBehavior(dummyBehavior);
             // Exercise system
             var result = sut.IsSatisfiedBy(nonReflectionException);
             // Verify outcome
@@ -85,7 +85,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var innerException = new Exception();
             var reflectionException = new TargetInvocationException(innerException);
             var stub = new DelegatingExceptionBoundaryBehavior { OnIsSatisfiedBy = e => e == innerException };
-            var sut = new ReflectionBoundaryBehavior(stub);
+            var sut = new ReflectionExceptionBoundaryBehavior(stub);
             // Exercise system
             var result = sut.IsSatisfiedBy(reflectionException);
             // Verify outcome

@@ -6,11 +6,11 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class ReflectionBoundaryBehavior : ExceptionBoundaryBehavior
+    public class ReflectionExceptionBoundaryBehavior : ExceptionBoundaryBehavior
     {
         private readonly ExceptionBoundaryBehavior behavior;
 
-        public ReflectionBoundaryBehavior(ExceptionBoundaryBehavior behavior)
+        public ReflectionExceptionBoundaryBehavior(ExceptionBoundaryBehavior behavior)
         {
             if (behavior == null)
             {
