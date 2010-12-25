@@ -10,7 +10,6 @@ namespace Ploeh.AutoFixture.Idioms
         public DefaultBoundaryConvention()
             : base(
                 new GuidBoundaryConvention(),
-                new ValueTypeBoundaryConvention(),
                 new StringBoundaryConvention(),
                 new ReferenceTypeBoundaryConvention())
         {

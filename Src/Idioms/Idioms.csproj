@@ -68,7 +68,6 @@
     <Compile Include="NullReferenceBehavior.cs" />
     <Compile Include="NullBoundaryConvention.cs" />
     <Compile Include="ReflectionBoundaryBehavior.cs" />
-    <Compile Include="ValueTypeBoundaryConvention.cs" />
     <Compile Include="ReferenceTypeBoundaryConvention.cs" />
     <Compile Include="StringBoundaryConvention.cs" />
     <Compile Include="BoundaryConventionException.cs" />
