@@ -5,6 +5,6 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public interface IBoundaryConvention
     {
-        IEnumerable<ExceptionBoundaryBehavior> CreateBoundaryBehaviors(Type type);
+        IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(Type type);
     }
 }

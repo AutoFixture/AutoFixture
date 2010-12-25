@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public abstract class ExceptionBoundaryBehavior
+    public abstract class ExceptionBoundaryBehavior : IBoundaryBehavior
     {
         public void Assert(Action<object> action)
         {

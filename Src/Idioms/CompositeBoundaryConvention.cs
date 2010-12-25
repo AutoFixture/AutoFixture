@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         #region IBoundaryConvention Members
 
-        public IEnumerable<ExceptionBoundaryBehavior> CreateBoundaryBehaviors(Type type)
+        public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(Type type)
         {
             return from c in this.conventions
                    from b in c.CreateBoundaryBehaviors(type)
