@@ -62,7 +62,6 @@
     <Compile Include="DefaultBoundaryConvention.cs" />
     <Compile Include="EmptyStringBehavior.cs" />
     <Compile Include="ExceptionBoundaryBehavior.cs" />
-    <Compile Include="BoundaryBehavior.cs" />
     <Compile Include="GuidBoundaryBehavior.cs" />
     <Compile Include="IVerifiableBoundary.cs" />
     <Compile Include="NullReferenceBehavior.cs" />

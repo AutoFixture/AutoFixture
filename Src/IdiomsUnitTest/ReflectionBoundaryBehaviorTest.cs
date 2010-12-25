@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void SutIsBoundaryBehavior()
         {
             // Fixture setup
-            var dummyBehavior = new DelegatingBoundaryBehavior();
+            var dummyBehavior = new DelegatingExceptionBoundaryBehavior();
             // Exercise system
             var sut = new ReflectionBoundaryBehavior(dummyBehavior);
             // Verify outcome
@@ -38,7 +38,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             Action<object> action = x => { };
             var verified = false;
-            var mock = new DelegatingBoundaryBehavior { OnExercise = a => verified = a == action };
+            var mock = new DelegatingExceptionBoundaryBehavior { OnExercise = a => verified = a == action };
 
             var sut = new ReflectionBoundaryBehavior(mock);
             // Exercise system
@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var expectedDescription = "Anonymous description.";
-            var stub = new DelegatingBoundaryBehavior { WritableDescription = expectedDescription };
+            var stub = new DelegatingExceptionBoundaryBehavior { WritableDescription = expectedDescription };
 
             var sut = new ReflectionBoundaryBehavior(stub);
             // Exercise system
@@ -69,7 +69,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var nonReflectionException = new Exception();
 
-            var dummyBehavior = new DelegatingBoundaryBehavior();
+            var dummyBehavior = new DelegatingExceptionBoundaryBehavior();
             var sut = new ReflectionBoundaryBehavior(dummyBehavior);
             // Exercise system
             var result = sut.IsSatisfiedBy(nonReflectionException);
@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var innerException = new Exception();
             var reflectionException = new TargetInvocationException(innerException);
-            var stub = new DelegatingBoundaryBehavior { OnIsSatisfiedBy = e => e == innerException };
+            var stub = new DelegatingExceptionBoundaryBehavior { OnIsSatisfiedBy = e => e == innerException };
             var sut = new ReflectionBoundaryBehavior(stub);
             // Exercise system
             var result = sut.IsSatisfiedBy(reflectionException);

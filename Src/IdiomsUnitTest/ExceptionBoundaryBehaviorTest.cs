@@ -5,24 +5,13 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class BoundaryBehaviorTest
+    public class ExceptionBoundaryBehaviorTest
     {
-        [Fact]
-        public void AssertNullBehaviorThrows()
-        {
-            // Fixture setup
-            Action<object> dummyAction = x => { };
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                BoundaryBehavior.Assert(null, dummyAction));
-            // Teardown
-        }
-
         [Fact]
         public void AssertNullActionThrows()
         {
             // Fixture setup
-            var sut = new DelegatingBoundaryBehavior();
+            var sut = new DelegatingExceptionBoundaryBehavior();
             // Exercise system
             Assert.Throws<ArgumentNullException>(() => 
                 sut.Assert(null));
@@ -37,7 +26,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Action<object> expected = o => { throw new ArgumentNullException();};
 
             var verified = false;
-            var sut = new DelegatingBoundaryBehavior();
+            var sut = new DelegatingExceptionBoundaryBehavior();
             sut.OnExercise = a => { verified = a == expected; a(new object()); };
             sut.OnIsSatisfiedBy = e => e is ArgumentNullException;
             // Exercise system
@@ -51,7 +40,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void AssertWillNotThrowWhenActionThrowsCorrectException()
         {
             // Fixture setup
-            var sut = new DelegatingBoundaryBehavior();
+            var sut = new DelegatingExceptionBoundaryBehavior();
             sut.OnIsSatisfiedBy = e => e is ArgumentNullException;
             // Exercise system
             sut.Assert(o => { throw new ArgumentNullException(); });
@@ -63,7 +52,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void AssertWillThrowWhenActionDoesNotThrow()
         {
             // Fixture setup
-            var sut = new DelegatingBoundaryBehavior();
+            var sut = new DelegatingExceptionBoundaryBehavior();
             // Exercise system
             Assert.Throws<BoundaryConventionException>(() =>
                 sut.Assert(g => { }));
@@ -75,7 +64,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void AssertWillThrowWhenActionThrowsAnotherException()
         {
             // Fixture setup
-            var sut = new DelegatingBoundaryBehavior();
+            var sut = new DelegatingExceptionBoundaryBehavior();
             // Exercise system
             Assert.Throws(typeof(BoundaryConventionException), () =>
                 sut.Assert(g => { throw new TargetInvocationException("Test", new InvalidOperationException()); }));
@@ -90,7 +79,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var expectedException = new Exception();
             var verified = false;
 
-            var behavior = new DelegatingBoundaryBehavior();
+            var behavior = new DelegatingExceptionBoundaryBehavior();
             behavior.OnExercise = a => { throw expectedException; };
             behavior.OnIsSatisfiedBy = e => verified = e == expectedException;
             // Exercise system

@@ -72,12 +72,12 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
             var type = typeof(short);
-            var expectedBehaviors = new ExceptionBoundaryBehavior[] { new DelegatingBoundaryBehavior(), new DelegatingBoundaryBehavior(), new DelegatingBoundaryBehavior(), new DelegatingBoundaryBehavior() };
+            var expectedBehaviors = new ExceptionBoundaryBehavior[] { new DelegatingExceptionBoundaryBehavior(), new DelegatingExceptionBoundaryBehavior(), new DelegatingExceptionBoundaryBehavior(), new DelegatingExceptionBoundaryBehavior() };
             var conventions = new[]
             {
-                new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = t => t == type ? new[]{ expectedBehaviors[0] } : new[]{new DelegatingBoundaryBehavior()}},
-                new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = t => t == type ? new ExceptionBoundaryBehavior[]{ } : new[]{new DelegatingBoundaryBehavior()}},
-                new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = t => t == type ? new[]{ expectedBehaviors[1], expectedBehaviors[2], expectedBehaviors[3] } : new[]{new DelegatingBoundaryBehavior()}}
+                new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = t => t == type ? new[]{ expectedBehaviors[0] } : new[]{new DelegatingExceptionBoundaryBehavior()}},
+                new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = t => t == type ? new ExceptionBoundaryBehavior[]{ } : new[]{new DelegatingExceptionBoundaryBehavior()}},
+                new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = t => t == type ? new[]{ expectedBehaviors[1], expectedBehaviors[2], expectedBehaviors[3] } : new[]{new DelegatingExceptionBoundaryBehavior()}}
             };
 
             var sut = new CompositeBoundaryConvention(conventions);

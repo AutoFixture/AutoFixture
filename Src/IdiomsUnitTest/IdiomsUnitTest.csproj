@@ -48,12 +48,12 @@
   <ItemGroup>
     <Compile Include="CompositeBoundaryConventionTest.cs" />
     <Compile Include="DefaultBoundaryConventionTest.cs" />
-    <Compile Include="DelegatingBoundaryBehavior.cs" />
+    <Compile Include="DelegatingExceptionBoundaryBehavior.cs" />
     <Compile Include="DelegatingBoundaryConvention.cs" />
     <Compile Include="DelegatingVerifiableBoundary.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="EmptyStringBehaviorTest.cs" />
-    <Compile Include="BoundaryBehaviorTest.cs" />
+    <Compile Include="ExceptionBoundaryBehaviorTest.cs" />
     <Compile Include="GuidBoundaryBehaviorTest.cs" />
     <Compile Include="NullReferenceBehaviorTest.cs" />
     <Compile Include="NullBoundaryConventionTest.cs" />

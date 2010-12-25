@@ -6,9 +6,9 @@ using Ploeh.AutoFixture.Idioms;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class DelegatingBoundaryBehavior : ExceptionBoundaryBehavior
+    public class DelegatingExceptionBoundaryBehavior : ExceptionBoundaryBehavior
     {
-        public DelegatingBoundaryBehavior()
+        public DelegatingExceptionBoundaryBehavior()
         {
             this.OnExercise = a => a(new object());
             this.OnIsSatisfiedBy = e => false;

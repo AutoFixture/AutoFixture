@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     {
         public DelegatingBoundaryConvention()
         {
-            this.OnCreateBoundaryBehaviors = t => new[] { new DelegatingBoundaryBehavior() };
+            this.OnCreateBoundaryBehaviors = t => new[] { new DelegatingExceptionBoundaryBehavior() };
         }
 
         public Func<Type, IEnumerable<ExceptionBoundaryBehavior>> OnCreateBoundaryBehaviors { get; set; }
