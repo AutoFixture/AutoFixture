@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.Idioms
             var propertyValue = this.fixture.CreateAnonymous<TProperty>();
 
             this.propertyInfo.SetValue(sut, propertyValue, null);
-            var result = (TProperty)this.propertyInfo.GetValue(sut, null);
+            var result = this.propertyInfo.GetValue(sut, null);
 
             if (!propertyValue.Equals(result))
             {
