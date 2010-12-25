@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var sut = new NullReferenceBehavior();
             // Verify outcome
-            Assert.IsAssignableFrom<IBoundaryBehavior>(sut);
+            Assert.IsAssignableFrom<ExceptionBoundaryBehavior>(sut);
             // Teardown
         }
 

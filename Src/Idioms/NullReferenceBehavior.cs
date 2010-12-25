@@ -3,11 +3,9 @@ using System.Globalization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class NullReferenceBehavior : IBoundaryBehavior
+    public class NullReferenceBehavior : ExceptionBoundaryBehavior
     {
-        #region Implementation of IBoundaryBehavior
-
-        public void Exercise(Action<object> action)
+        public override void Exercise(Action<object> action)
         {
             if (action == null)
             {
@@ -17,7 +15,7 @@ namespace Ploeh.AutoFixture.Idioms
             action(null);
         }
 
-        public bool IsSatisfiedBy(Exception exception)
+        public override bool IsSatisfiedBy(Exception exception)
         {
             if (exception == null)
             {
@@ -27,11 +25,9 @@ namespace Ploeh.AutoFixture.Idioms
             return exception is ArgumentNullException;
         }
 
-        public string Description
+        public override string Description
         {
             get { return "null reference"; }
         }
-
-        #endregion
     }
 }

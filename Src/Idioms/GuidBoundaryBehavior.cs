@@ -3,11 +3,9 @@ using System.Globalization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class GuidBoundaryBehavior : IBoundaryBehavior
+    public class GuidBoundaryBehavior : ExceptionBoundaryBehavior
     {
-        #region Implementation of IBoundaryBehavior
-
-        public void Exercise(Action<object> action)
+        public override void Exercise(Action<object> action)
         {
             if (action == null)
             {
@@ -17,7 +15,7 @@ namespace Ploeh.AutoFixture.Idioms
             action(Guid.Empty);
         }
 
-        public bool IsSatisfiedBy(Exception exception)
+        public override bool IsSatisfiedBy(Exception exception)
         {
             if (exception == null)
             {
@@ -27,11 +25,9 @@ namespace Ploeh.AutoFixture.Idioms
             return exception is ArgumentException;
         }
 
-        public string Description
+        public override string Description
         {
             get { return "empty Guid"; }
         }
-
-        #endregion
     }
 }

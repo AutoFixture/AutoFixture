@@ -6,11 +6,11 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class ReflectionBoundaryBehavior : IBoundaryBehavior
+    public class ReflectionBoundaryBehavior : ExceptionBoundaryBehavior
     {
-        private readonly IBoundaryBehavior behavior;
+        private readonly ExceptionBoundaryBehavior behavior;
 
-        public ReflectionBoundaryBehavior(IBoundaryBehavior behavior)
+        public ReflectionBoundaryBehavior(ExceptionBoundaryBehavior behavior)
         {
             if (behavior == null)
             {
@@ -20,14 +20,12 @@ namespace Ploeh.AutoFixture.Idioms
             this.behavior = behavior;
         }
 
-        #region IBoundaryBehavior Members
-
-        public void Exercise(Action<object> action)
+        public override void Exercise(Action<object> action)
         {
             this.behavior.Exercise(action);
         }
 
-        public bool IsSatisfiedBy(Exception exception)
+        public override bool IsSatisfiedBy(Exception exception)
         {
             var reflectionException = exception as TargetInvocationException;
             if (reflectionException != null)
@@ -38,11 +36,9 @@ namespace Ploeh.AutoFixture.Idioms
             return false;
         }
 
-        public string Description
+        public override string Description
         {
             get { return this.behavior.Description; }
         }
-
-        #endregion
     }
 }

@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture.Idioms
     {
         #region Implementation of IBoundaryConvention
 
-        public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(Type type)
+        public IEnumerable<ExceptionBoundaryBehavior> CreateBoundaryBehaviors(Type type)
         {
             if (type == null)
             {

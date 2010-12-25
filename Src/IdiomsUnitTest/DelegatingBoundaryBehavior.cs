@@ -6,33 +6,34 @@ using Ploeh.AutoFixture.Idioms;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class DelegatingBoundaryBehavior : IBoundaryBehavior
+    public class DelegatingBoundaryBehavior : ExceptionBoundaryBehavior
     {
         public DelegatingBoundaryBehavior()
         {
             this.OnExercise = a => a(new object());
             this.OnIsSatisfiedBy = e => false;
-            this.Description = string.Empty;
+            this.WritableDescription = string.Empty;
         }
 
         public Action<Action<object>> OnExercise { get; set; }
 
         public Func<Exception, bool> OnIsSatisfiedBy { get; set; }
 
-        #region IBoundaryBehavior Members
-
-        public void Exercise(Action<object> action)
+        public override void Exercise(Action<object> action)
         {
             this.OnExercise(action);
         }
 
-        public bool IsSatisfiedBy(Exception exception)
+        public override bool IsSatisfiedBy(Exception exception)
         {
             return this.OnIsSatisfiedBy(exception);
         }
 
-        public string Description { get; set; }
+        public override string Description
+        {
+            get { return this.WritableDescription; }
+        }
 
-        #endregion
+        public string WritableDescription { get; set; }
     }
 }

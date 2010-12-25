@@ -3,11 +3,9 @@ using System.Globalization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class EmptyStringBehavior : IBoundaryBehavior
+    public class EmptyStringBehavior : ExceptionBoundaryBehavior
     {
-        #region Implementation of IBoundaryBehavior
-
-        public void Exercise(Action<object> action)
+        public override void Exercise(Action<object> action)
         {
             if (action == null)
             {
@@ -17,7 +15,7 @@ namespace Ploeh.AutoFixture.Idioms
             action(string.Empty);
         }
 
-        public bool IsSatisfiedBy(Exception exception)
+        public override bool IsSatisfiedBy(Exception exception)
         {
             if (exception == null)
             {
@@ -27,11 +25,9 @@ namespace Ploeh.AutoFixture.Idioms
             return exception is ArgumentException;
         }
 
-        public string Description
+        public override string Description
         {
             get { return "empty string"; }
         }
-
-        #endregion
     }
 }

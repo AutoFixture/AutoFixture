@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var sut = new ReflectionBoundaryBehavior(dummyBehavior);
             // Verify outcome
-            Assert.IsAssignableFrom<IBoundaryBehavior>(sut);
+            Assert.IsAssignableFrom<ExceptionBoundaryBehavior>(sut);
             // Teardown
         }
 
@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var expectedDescription = "Anonymous description.";
-            var stub = new DelegatingBoundaryBehavior { Description = expectedDescription };
+            var stub = new DelegatingBoundaryBehavior { WritableDescription = expectedDescription };
 
             var sut = new ReflectionBoundaryBehavior(stub);
             // Exercise system

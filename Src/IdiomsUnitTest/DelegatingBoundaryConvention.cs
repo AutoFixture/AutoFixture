@@ -13,11 +13,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             this.OnCreateBoundaryBehaviors = t => new[] { new DelegatingBoundaryBehavior() };
         }
 
-        public Func<Type, IEnumerable<IBoundaryBehavior>> OnCreateBoundaryBehaviors { get; set; }
+        public Func<Type, IEnumerable<ExceptionBoundaryBehavior>> OnCreateBoundaryBehaviors { get; set; }
 
         #region IBoundaryConvention Members
 
-        public IEnumerable<IBoundaryBehavior> CreateBoundaryBehaviors(Type type)
+        public IEnumerable<ExceptionBoundaryBehavior> CreateBoundaryBehaviors(Type type)
         {
             return this.OnCreateBoundaryBehaviors(type);
         }
