@@ -8,10 +8,10 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public class PickedProperty<T, TProperty> : IVerifiableBoundary
     {
-        private readonly Fixture fixture;
+        private readonly IFixture fixture;
         private readonly PropertyInfo propertyInfo;
 
-        public PickedProperty(Fixture fixture, PropertyInfo propertyInfo)
+        public PickedProperty(IFixture fixture, PropertyInfo propertyInfo)
         {
             if (fixture == null)
             {
