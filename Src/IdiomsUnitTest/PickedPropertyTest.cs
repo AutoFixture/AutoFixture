@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () =>
-                new PickedProperty<object, object>((Fixture) null, Reflect<string>.GetProperty(s => s.Length)));
+                new PickedProperty<object, object>((Fixture)null, Reflect<string>.GetProperty(s => s.Length)));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () =>
-                new PickedProperty<object, object>(new Fixture(), (PropertyInfo) null));
+                new PickedProperty<object, object>(new Fixture(), (PropertyInfo)null));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -116,6 +116,50 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Throws<ArgumentNullException>(() =>
                 sut.VerifyBoundaryBehavior(null));
             // Verify outcome (expected exception)
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyBoundaryBehaviorCorrectlyAssertsBehaviors()
+        {
+            // Fixture setup
+            var invocations = 0;
+            var behaviors = new[]
+            {
+                new DelegatingBoundaryBehavior{ OnAssert = a => invocations++ },
+                new DelegatingBoundaryBehavior{ OnAssert = a => invocations++ },
+                new DelegatingBoundaryBehavior{ OnAssert = a => invocations++ }
+            };
+
+            var convention = new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = t => t == typeof(object) ? behaviors : Enumerable.Empty<IBoundaryBehavior>() };
+
+            var sut = new Fixture().PickProperty((PropertyHolder<object> ph) => ph.Property);
+            // Exercise system
+            sut.VerifyBoundaryBehavior(convention);
+            // Verify outcome
+            Assert.Equal(behaviors.Length, invocations);
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyBoundaryBehaviorThrowsWhenSutHasIncorrectBoundaryBehavior()
+        {
+            // Fixture setup
+            var sut = new Fixture().PickProperty((PropertyHolder<object> ph) => ph.Property);
+            // Exercise system and verify outcome
+            Assert.Throws<BoundaryConventionException>(() =>
+                sut.VerifyBoundaryBehavior());
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyBoundaryBehaviorDoesNotThrowWhenSutHasCorrectBoundaryBehavior()
+        {
+            // Fixture setup
+            var sut = new Fixture().PickProperty((InvariantReferenceTypePropertyHolder<object> x) => x.Property);
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.VerifyBoundaryBehavior());
             // Teardown
         }
     }
