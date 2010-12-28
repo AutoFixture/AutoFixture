@@ -63,7 +63,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ForPropertyReturnsUsableInstance()
+        public void ForPropertyCanVerifyWritable()
         {
             // Fixture setup
             // Exercise system
@@ -75,13 +75,13 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ForPropertyCanAssertInvariants()
+        public void ForPropertyVerifyBoundaries()
         {
             // Fixture setup
+            // Exercise system
             new Fixture()
                 .ForProperty((InvariantReferenceTypePropertyHolder<object> iph) => iph.Property)
                 .VerifyBoundaries();
-            // Exercise system
             // Verify outcome (no exception indicates success)
             // Teardown
         }
