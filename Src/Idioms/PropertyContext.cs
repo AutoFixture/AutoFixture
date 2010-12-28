@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture.Idioms
         {
             if (this.propertyInfo.GetSetMethod() == null)
             {
-                throw new PickedPropertyException("The supplied PropertyInfo is read-only.");
+                throw new PropertyContextException("The supplied PropertyInfo is read-only.");
             }
 
             var sut = this.fixture.CreateAnonymous<T>();
@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture.Idioms
 
             if (!propertyValue.Equals(result))
             {
-                throw new PickedPropertyException("The supplied PropertyInfo does not point out a well-behaved property.");
+                throw new PropertyContextException("The supplied PropertyInfo does not point out a well-behaved property.");
             }
         }
 

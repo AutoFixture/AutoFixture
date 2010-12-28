@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = new PropertyContext<ReadOnlyPropertyHolder<object>, object>(fixture, propertyInfo);
             // Exercise system
-            Assert.Throws(typeof(PickedPropertyException), () =>
+            Assert.Throws(typeof(PropertyContextException), () =>
                 sut.VerifyWritable());
             // Verify outcome (expected exception)
             // Teardown
@@ -69,7 +69,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = new PropertyContext<IllBehavedPropertyHolder<object>, object>(fixture, propertyInfo);
             // Exercise system
-            Assert.Throws(typeof(PickedPropertyException), () =>
+            Assert.Throws(typeof(PropertyContextException), () =>
                sut.VerifyWritable());
             // Verify outcome (expected exception)
             // Teardown
@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = new PropertyContext<IllBehavedPropertyHolder<object>, object>(fixture, propertyInfo);
             // Exercise system
-            Assert.Throws(typeof(PickedPropertyException), () =>
+            Assert.Throws(typeof(PropertyContextException), () =>
                 sut.VerifyWritable());
             // Verify outcome (expected exception)
             // Teardown

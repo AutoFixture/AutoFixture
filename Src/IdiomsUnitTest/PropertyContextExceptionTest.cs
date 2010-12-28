@@ -4,14 +4,14 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class PickedPropertyExceptionTest
+    public class PropertyContextExceptionTest
     {
         [Fact]
         public void SutIsException()
         {
             // Fixture setup
             // Exercise system
-            var sut = new PickedPropertyException();
+            var sut = new PropertyContextException();
             // Verify outcome
             Assert.IsAssignableFrom<Exception>(sut);
             // Teardown
@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
 
-            var sut = new PickedPropertyException();
+            var sut = new PropertyContextException();
             // Exercise system
             var result = sut.Message;
             // Verify outcome
@@ -38,7 +38,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             var expected = fixture.CreateAnonymous("Message");
 
-            var sut = new PickedPropertyException(expected);
+            var sut = new PropertyContextException(expected);
             // Exercise system
             var result = sut.Message;
             // Verify outcome
@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             var expected = fixture.CreateAnonymous<Exception>();
 
-            var sut = new PickedPropertyException(fixture.CreateAnonymous("Message"), expected);
+            var sut = new PropertyContextException(fixture.CreateAnonymous("Message"), expected);
             // Exercise system
             var result = sut.InnerException;
             // Verify outcome
