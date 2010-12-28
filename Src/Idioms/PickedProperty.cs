@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixture.Idioms
             this.propertyInfo = propertyInfo;
         }
 
-        public void IsWellBehavedWritableProperty()
+        public void VerifyWritable()
         {
             if (this.propertyInfo.GetSetMethod() == null)
             {

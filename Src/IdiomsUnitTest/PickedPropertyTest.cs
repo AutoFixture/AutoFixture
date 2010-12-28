@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void IsWellBehavedWritablePropertyWithReadOnlyPropertyWillThrow()
+        public void VerifyWritableWithReadOnlyPropertyWillThrow()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -55,13 +55,13 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new PickedProperty<ReadOnlyPropertyHolder<object>, object>(fixture, propertyInfo);
             // Exercise system
             Assert.Throws(typeof(PickedPropertyException), () =>
-                sut.IsWellBehavedWritableProperty());
+                sut.VerifyWritable());
             // Verify outcome (expected exception)
             // Teardown
         }
 
         [Fact]
-        public void IsWellBehavedWritablePropertyForIllBehavedPropertyGetterWillThrow()
+        public void VerifyWritableForIllBehavedPropertyGetterWillThrow()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -70,13 +70,13 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new PickedProperty<IllBehavedPropertyHolder<object>, object>(fixture, propertyInfo);
             // Exercise system
             Assert.Throws(typeof(PickedPropertyException), () =>
-               sut.IsWellBehavedWritableProperty());
+               sut.VerifyWritable());
             // Verify outcome (expected exception)
             // Teardown
         }
 
         [Fact]
-        public void IsWellBehavedWritablePropertyForIllBehavedPropertySetterWillThrow()
+        public void VerifyWritableForIllBehavedPropertySetterWillThrow()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -85,13 +85,13 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new PickedProperty<IllBehavedPropertyHolder<object>, object>(fixture, propertyInfo);
             // Exercise system
             Assert.Throws(typeof(PickedPropertyException), () =>
-                sut.IsWellBehavedWritableProperty());
+                sut.VerifyWritable());
             // Verify outcome (expected exception)
             // Teardown
         }
 
         [Fact]
-        public void IsWellBehavedWritablePropertyIsCorrectForWellBehavedProperty()
+        public void VerifyWritableIsCorrectForWellBehavedProperty()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = new PickedProperty<PropertyHolder<object>, object>(fixture, propertyInfo);
             // Exercise system
-            sut.IsWellBehavedWritableProperty();
+            sut.VerifyWritable();
             // Verify outcome (no exception indicates success)
             // Teardown
         }

@@ -69,7 +69,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             new Fixture()
                 .ForProperty((PropertyHolder<object> ph) => ph.Property)
-                .IsWellBehavedWritableProperty();
+                .VerifyWritable();
             // Verify outcome (no exception indicates success)
             // Teardown
         }
