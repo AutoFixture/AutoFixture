@@ -7,14 +7,14 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public static class VerifiableBoundary
     {
-        public static void VerifyBoundaryBehavior(this IVerifiableBoundary boundary)
+        public static void VerifyBoundaries(this IVerifiableBoundary boundary)
         {
             if (boundary == null)
             {
                 throw new ArgumentNullException("boundary");
             }
 
-            boundary.VerifyBoundaryBehavior(new DefaultBoundaryConvention());
+            boundary.VerifyBoundaries(new DefaultBoundaryConvention());
         }
     }
 }

@@ -7,6 +7,6 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public interface IVerifiableBoundary
     {
-        void VerifyBoundaryBehavior(IBoundaryConvention convention);
+        void VerifyBoundaries(IBoundaryConvention convention);
     }
 }

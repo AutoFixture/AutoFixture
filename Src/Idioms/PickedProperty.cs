@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         #region IVerifiableBoundary Members
 
-        public void VerifyBoundaryBehavior(IBoundaryConvention convention)
+        public void VerifyBoundaries(IBoundaryConvention convention)
         {
             if (convention == null)
             {

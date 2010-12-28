@@ -105,7 +105,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyBoundaryBehaviorWithNullWillThrow()
+        public void VerifyBoundariesWithNullWillThrow()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -114,13 +114,13 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new PickedProperty<PropertyHolder<object>, object>(fixture, propertyInfo);
             // Exercise system
             Assert.Throws<ArgumentNullException>(() =>
-                sut.VerifyBoundaryBehavior(null));
+                sut.VerifyBoundaries(null));
             // Verify outcome (expected exception)
             // Teardown
         }
 
         [Fact]
-        public void VerifyBoundaryBehaviorCorrectlyAssertsBehaviors()
+        public void VerifyBoundariesCorrectlyAssertsBehaviors()
         {
             // Fixture setup
             var invocations = 0;
@@ -135,31 +135,31 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = new Fixture().ForProperty((PropertyHolder<object> ph) => ph.Property);
             // Exercise system
-            sut.VerifyBoundaryBehavior(convention);
+            sut.VerifyBoundaries(convention);
             // Verify outcome
             Assert.Equal(behaviors.Length, invocations);
             // Teardown
         }
 
         [Fact]
-        public void VerifyBoundaryBehaviorThrowsWhenSutHasIncorrectBoundaryBehavior()
+        public void VerifyBoundariesThrowsWhenSutHasIncorrectBoundaryBehavior()
         {
             // Fixture setup
             var sut = new Fixture().ForProperty((PropertyHolder<object> ph) => ph.Property);
             // Exercise system and verify outcome
             Assert.Throws<BoundaryConventionException>(() =>
-                sut.VerifyBoundaryBehavior());
+                sut.VerifyBoundaries());
             // Teardown
         }
 
         [Fact]
-        public void VerifyBoundaryBehaviorDoesNotThrowWhenSutHasCorrectBoundaryBehavior()
+        public void VerifyBoundariesDoesNotThrowWhenSutHasCorrectBoundaryBehavior()
         {
             // Fixture setup
             var sut = new Fixture().ForProperty((InvariantReferenceTypePropertyHolder<object> x) => x.Property);
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() =>
-                sut.VerifyBoundaryBehavior());
+                sut.VerifyBoundaries());
             // Teardown
         }
     }

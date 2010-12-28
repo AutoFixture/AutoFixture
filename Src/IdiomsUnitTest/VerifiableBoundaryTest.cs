@@ -10,23 +10,23 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     public class VerifiableBoundaryTest
     {
         [Fact]
-        public void VerifyBoundaryBehaviorAgainstNullBoundaryThrows()
+        public void VerifyBoundariesAgainstNullBoundaryThrows()
         {
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                VerifiableBoundary.VerifyBoundaryBehavior(null));
+                VerifiableBoundary.VerifyBoundaries(null));
             // Teardown
         }
 
         [Fact]
-        public void VerifyBoundaryBehaviorInvokesSutWithCorrectConvention()
+        public void VerifyBoundariesInvokesSutWithCorrectConvention()
         {
             // Fixture setup
             var verified = false;
-            var mock = new DelegatingVerifiableBoundary { OnVerifyBoundaryBehavior = c => verified = c is DefaultBoundaryConvention };
+            var mock = new DelegatingVerifiableBoundary { OnVerifyBoundaries = c => verified = c is DefaultBoundaryConvention };
             // Exercise system
-            mock.VerifyBoundaryBehavior();
+            mock.VerifyBoundaries();
             // Verify outcome
             Assert.True(verified, "Mock verified.");
             // Teardown

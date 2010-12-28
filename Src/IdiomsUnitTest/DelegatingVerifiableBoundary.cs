@@ -10,16 +10,16 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     {
         public DelegatingVerifiableBoundary()
         {
-            this.OnVerifyBoundaryBehavior = c => { };
+            this.OnVerifyBoundaries = c => { };
         }
 
-        public Action<IBoundaryConvention> OnVerifyBoundaryBehavior { get; set; }
+        public Action<IBoundaryConvention> OnVerifyBoundaries { get; set; }
 
         #region IVerifiableBoundary Members
 
-        public void VerifyBoundaryBehavior(IBoundaryConvention convention)
+        public void VerifyBoundaries(IBoundaryConvention convention)
         {
-            this.OnVerifyBoundaryBehavior(convention);
+            this.OnVerifyBoundaries(convention);
         }
 
         #endregion

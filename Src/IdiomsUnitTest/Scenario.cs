@@ -7,9 +7,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     public class Scenario
     {
         [Fact]
-        public void VerifyBoundaryBehaviorForProperty()
+        public void VerifyBoundariesForProperty()
         {
-            new Fixture().ForProperty((InvariantReferenceTypePropertyHolder<object> sut) => sut.Property).VerifyBoundaryBehavior();
+            new Fixture().ForProperty((InvariantReferenceTypePropertyHolder<object> sut) => sut.Property).VerifyBoundaries();
         }
     }
 }

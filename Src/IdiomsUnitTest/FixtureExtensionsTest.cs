@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             new Fixture()
                 .ForProperty((InvariantReferenceTypePropertyHolder<object> iph) => iph.Property)
-                .VerifyBoundaryBehavior();
+                .VerifyBoundaries();
             // Exercise system
             // Verify outcome (no exception indicates success)
             // Teardown
