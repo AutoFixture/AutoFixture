@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyBoundaryBehaviorForProperty()
         {
-            new Fixture().PickProperty((InvariantReferenceTypePropertyHolder<object> sut) => sut.Property).VerifyBoundaryBehavior();
+            new Fixture().ForProperty((InvariantReferenceTypePropertyHolder<object> sut) => sut.Property).VerifyBoundaryBehavior();
         }
     }
 }

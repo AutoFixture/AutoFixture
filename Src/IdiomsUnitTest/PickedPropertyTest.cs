@@ -133,7 +133,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var convention = new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = t => t == typeof(object) ? behaviors : Enumerable.Empty<IBoundaryBehavior>() };
 
-            var sut = new Fixture().PickProperty((PropertyHolder<object> ph) => ph.Property);
+            var sut = new Fixture().ForProperty((PropertyHolder<object> ph) => ph.Property);
             // Exercise system
             sut.VerifyBoundaryBehavior(convention);
             // Verify outcome
@@ -145,7 +145,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void VerifyBoundaryBehaviorThrowsWhenSutHasIncorrectBoundaryBehavior()
         {
             // Fixture setup
-            var sut = new Fixture().PickProperty((PropertyHolder<object> ph) => ph.Property);
+            var sut = new Fixture().ForProperty((PropertyHolder<object> ph) => ph.Property);
             // Exercise system and verify outcome
             Assert.Throws<BoundaryConventionException>(() =>
                 sut.VerifyBoundaryBehavior());
@@ -156,7 +156,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void VerifyBoundaryBehaviorDoesNotThrowWhenSutHasCorrectBoundaryBehavior()
         {
             // Fixture setup
-            var sut = new Fixture().PickProperty((InvariantReferenceTypePropertyHolder<object> x) => x.Property);
+            var sut = new Fixture().ForProperty((InvariantReferenceTypePropertyHolder<object> x) => x.Property);
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() =>
                 sut.VerifyBoundaryBehavior());

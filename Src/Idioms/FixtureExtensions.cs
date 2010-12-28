@@ -5,7 +5,7 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public static class FixtureExtensions
     {
-        public static PickedProperty<T, TProperty> PickProperty<T, TProperty>(this IFixture fixture, Expression<Func<T, TProperty>> property)
+        public static PickedProperty<T, TProperty> ForProperty<T, TProperty>(this IFixture fixture, Expression<Func<T, TProperty>> property)
         {
             if (property == null)
             {
