@@ -6,12 +6,12 @@ using System.Globalization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class PickedProperty<T, TProperty> : IVerifiableBoundary
+    public class PropertyContext<T, TProperty> : IVerifiableBoundary
     {
         private readonly IFixture fixture;
         private readonly PropertyInfo propertyInfo;
 
-        public PickedProperty(IFixture fixture, PropertyInfo propertyInfo)
+        public PropertyContext(IFixture fixture, PropertyInfo propertyInfo)
         {
             if (fixture == null)
             {
@@ -58,7 +58,7 @@ namespace Ploeh.AutoFixture.Idioms
             Action<object> setProperty = x => this.propertyInfo.SetValue(sut, x, null);
 
             var behaviors = from b in convention.CreateBoundaryBehaviors(typeof(TProperty))
-                            select PickedProperty<T, TProperty>.WrapBehavior(b);
+                            select PropertyContext<T, TProperty>.WrapBehavior(b);
             foreach (var b in behaviors)
             {
                 b.Assert(setProperty);

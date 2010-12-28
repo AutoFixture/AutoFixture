@@ -58,7 +58,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = new Fixture().ForProperty((PropertyHolder<object> sut) => sut.Property);
             // Verify outcome
-            Assert.IsType<PickedProperty<PropertyHolder<object>, object>>(result);
+            Assert.IsType<PropertyContext<PropertyHolder<object>, object>>(result);
             // Teardown
         }
 
