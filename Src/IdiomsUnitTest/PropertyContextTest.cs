@@ -162,5 +162,16 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 sut.VerifyBoundaries());
             // Teardown
         }
+
+        [Fact]
+        public void VerifyBoundariesOnReadOnlyPropertyDoesNotThrow()
+        {
+            // Fixture setup
+            var sut = new Fixture().ForProperty((SingleParameterType<object> x) => x.Parameter);
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.VerifyBoundaries());
+            // Teardown
+        }
     }
 }

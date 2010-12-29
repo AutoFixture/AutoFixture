@@ -10,6 +10,7 @@ namespace Ploeh.AutoFixture.Idioms
     {
         private readonly IFixture fixture;
         private readonly PropertyInfo propertyInfo;
+        private readonly bool isPropertyReadOnly;
 
         public PropertyContext(IFixture fixture, PropertyInfo propertyInfo)
         {
@@ -24,11 +25,12 @@ namespace Ploeh.AutoFixture.Idioms
 
             this.fixture = fixture;
             this.propertyInfo = propertyInfo;
+            this.isPropertyReadOnly = this.propertyInfo.GetSetMethod() == null;
         }
 
         public void VerifyWritable()
         {
-            if (this.propertyInfo.GetSetMethod() == null)
+            if (this.isPropertyReadOnly)
             {
                 throw new PropertyContextException("The supplied PropertyInfo is read-only.");
             }
@@ -52,6 +54,11 @@ namespace Ploeh.AutoFixture.Idioms
             if (convention == null)
             {
                 throw new ArgumentNullException("convention");
+            }
+
+            if (this.isPropertyReadOnly)
+            {
+                return;
             }
 
             var sut = this.fixture.CreateAnonymous<T>();
