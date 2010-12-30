@@ -16,5 +16,13 @@ namespace Ploeh.TestTypeFoundation
         public void DoSomething(object obj)
         {
         }
+
+        public void DoSomething(object x, object y)
+        {
+        }
+
+        public void DoSomething(object x, object y, object z)
+        {
+        }
     }
 }
