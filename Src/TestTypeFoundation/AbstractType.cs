@@ -17,6 +17,6 @@ namespace Ploeh.TestTypeFoundation
 
         public object Property3 { get; set; }
 
-        public object Property4 { get; set; }
+        public virtual object Property4 { get; set; }
     }
 }

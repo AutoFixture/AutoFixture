@@ -37,6 +37,8 @@ namespace Ploeh.TestTypeFoundation
             this.Property4 = obj4;
         }
 
+        public override object Property4 { get; set; }
+
         public object Property5 { get; set; }
     }
 }

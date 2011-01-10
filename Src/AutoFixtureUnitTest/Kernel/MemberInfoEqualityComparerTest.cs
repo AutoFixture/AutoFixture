@@ -76,7 +76,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void EqualsOfDerivedPropertyReturnsCorrectResult()
+        public void EqualsOfDeclaredAndDerivedPropertyReturnsCorrectResult()
         {
             // Fixture setup
             var sut = new MemberInfoEqualityComparer();
@@ -84,6 +84,48 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var derivedProperty = typeof(ConcreteType).GetProperty("Property1");
             // Exercise system
             var result = sut.Equals(declaredProperty, derivedProperty);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void EqualsOfDerivedAndDeclaredPropertyReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new MemberInfoEqualityComparer();
+            var declaredProperty = typeof(AbstractType).GetProperty("Property1");
+            var derivedProperty = typeof(ConcreteType).GetProperty("Property1");
+            // Exercise system
+            var result = sut.Equals(derivedProperty, declaredProperty);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void EqualsOfDeclaredAndOverriddenPropertyReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new MemberInfoEqualityComparer();
+            var declaredProperty = typeof(AbstractType).GetProperty("Property4");
+            var overriddenProperty = typeof(ConcreteType).GetProperty("Property4");
+            // Exercise system
+            var result = sut.Equals(declaredProperty, overriddenProperty);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void EqualsOfOverriddenAndDeclaredPropertyReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new MemberInfoEqualityComparer();
+            var declaredProperty = typeof(AbstractType).GetProperty("Property4");
+            var overriddenProperty = typeof(ConcreteType).GetProperty("Property4");
+            // Exercise system
+            var result = sut.Equals(overriddenProperty, declaredProperty);
             // Verify outcome
             Assert.True(result);
             // Teardown

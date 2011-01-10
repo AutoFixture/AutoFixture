@@ -52,7 +52,12 @@ namespace Ploeh.AutoFixture.Kernel
                 return true;
             }
 
-            return x.DeclaringType == y.DeclaringType
+            if (x.DeclaringType == null)
+            {
+                return false;
+            }
+
+            return MemberInfoEqualityComparer.AreTypesRelated(x.DeclaringType, y.DeclaringType)
                 && x.Name == y.Name;
         }
 
@@ -120,5 +125,11 @@ namespace Ploeh.AutoFixture.Kernel
         }
 
         #endregion
+
+        private static bool AreTypesRelated(Type x, Type y)
+        {
+            return x.IsAssignableFrom(y)
+                || (y.IsAssignableFrom(x));
+        }
     }
 }

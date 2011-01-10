@@ -3071,6 +3071,19 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void BuildWithOverriddenVirtualPropertyCorrectlySetsProperty()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var expected = Guid.NewGuid();
+            // Exercise system
+            var result = sut.Build<ConcreteType>().With(x => x.Property4, expected).CreateAnonymous();
+            // Verify outcome
+            Assert.Equal(expected, result.Property4);
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
