@@ -25,8 +25,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = fixture.CreateAnonymous<EmptyStringBehavior>();
             // Exercise system
-            Assert.Throws(typeof(ArgumentNullException), () =>
-                sut.Exercise((Action<object>)null));
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Exercise(null));
             // Verify outcome (expected exception)
             // Teardown
         }

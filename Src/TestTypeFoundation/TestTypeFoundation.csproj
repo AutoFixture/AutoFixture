@@ -67,6 +67,7 @@
     <Compile Include="IllBehavedPropertyHolder.cs" />
     <Compile Include="IndexedPropertyHolder.cs" />
     <Compile Include="InvariantReferenceTypePropertyHolder.cs" />
+    <Compile Include="GuardedMethodHost.cs" />
     <Compile Include="MultiUnorderedConstructorType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyHolder.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="TriState.cs" />
     <Compile Include="TypeWithIndexer.cs" />
     <Compile Include="TypeWithOverloadedMembers.cs" />
+    <Compile Include="UnguardedMethodHost.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
