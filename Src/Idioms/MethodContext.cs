@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixture.Idioms
 
             var combinations = from p in parameterValues.Keys
                                from b in convention.CreateBoundaryBehaviors(p.ParameterType)
-                               select new { Parameter = p, Behavior = MethodContext.WrapBehavior(b) };
+                               select new { Parameter = p, Behavior = b.UnwrapReflectionExceptions() };
             foreach (var c in combinations)
             {
                 Action<object> invokeMethod = x =>
@@ -74,17 +74,5 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         #endregion
-
-#warning Refactor to DRY
-        private static IBoundaryBehavior WrapBehavior(IBoundaryBehavior behavior)
-        {
-            var exceptionBehavior = behavior as ExceptionBoundaryBehavior;
-            if (exceptionBehavior == null)
-            {
-                return behavior;
-            }
-
-            return new ReflectionExceptionBoundaryBehavior(exceptionBehavior);
-        }
     }
 }

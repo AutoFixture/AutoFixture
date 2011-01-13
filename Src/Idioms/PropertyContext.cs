@@ -65,7 +65,7 @@ namespace Ploeh.AutoFixture.Idioms
             Action<object> setProperty = x => this.propertyInfo.SetValue(sut, x, null);
 
             var behaviors = from b in convention.CreateBoundaryBehaviors(typeof(TProperty))
-                            select PropertyContext<T, TProperty>.WrapBehavior(b);
+                            select b.UnwrapReflectionExceptions();
             foreach (var b in behaviors)
             {
                 b.Assert(setProperty);
@@ -73,16 +73,5 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         #endregion
-
-        private static IBoundaryBehavior WrapBehavior(IBoundaryBehavior behavior)
-        {
-            var exceptionBehavior = behavior as ExceptionBoundaryBehavior;
-            if (exceptionBehavior == null)
-            {
-                return behavior;
-            }
-
-            return new ReflectionExceptionBoundaryBehavior(exceptionBehavior);
-        }
     }
 }

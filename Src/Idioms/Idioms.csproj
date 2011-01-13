@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoundaryBehavior.cs" />
     <Compile Include="CompositeBoundaryConvention.cs" />
     <Compile Include="DefaultBoundaryConvention.cs" />
     <Compile Include="EmptyStringBehavior.cs" />
