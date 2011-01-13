@@ -49,13 +49,11 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new ArgumentNullException("convention");
             }
 
-            var builder = this.Composer.Compose();
-
             var argumentMap = (from p in this.MethodInfo.GetParameters()
                                select new
                                {
                                    Parameter = p,
-                                   Value = builder.CreateAnonymous(p)
+                                   Value = this.Composer.CreateAnonymous(p)
                                }
                                ).ToDictionary(x => x.Parameter, x => x.Value);
 
@@ -74,7 +72,7 @@ namespace Ploeh.AutoFixture.Idioms
                         var arguments = new Dictionary<ParameterInfo, object>(argumentMap);
                         arguments[c.Parameter] = x;
 
-                        var specimen = builder.CreateAnonymous(this.MethodInfo.ReflectedType);
+                        var specimen = this.Composer.CreateAnonymous(this.MethodInfo.ReflectedType);
                         this.MethodInfo.Invoke(specimen, arguments.Values.ToArray());
                     };
 
