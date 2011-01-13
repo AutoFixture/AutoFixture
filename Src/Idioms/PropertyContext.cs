@@ -3,27 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Globalization;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
 {
     public class PropertyContext<T, TProperty> : IVerifiableBoundary
     {
-        private readonly IFixture fixture;
+        private readonly ISpecimenBuilderComposer composer;
         private readonly PropertyInfo propertyInfo;
         private readonly bool isPropertyReadOnly;
 
-        public PropertyContext(IFixture fixture, PropertyInfo propertyInfo)
+        public PropertyContext(ISpecimenBuilderComposer composer, PropertyInfo propertyInfo)
         {
-            if (fixture == null)
+            if (composer == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException("composer");
             }
             if (propertyInfo == null)
             {
                 throw new ArgumentNullException("propertyInfo");
             }
 
-            this.fixture = fixture;
+            this.composer = composer;
             this.propertyInfo = propertyInfo;
             this.isPropertyReadOnly = this.propertyInfo.GetSetMethod() == null;
         }
@@ -35,8 +36,8 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new PropertyContextException("The supplied PropertyInfo is read-only.");
             }
 
-            var sut = this.fixture.CreateAnonymous<T>();
-            var propertyValue = this.fixture.CreateAnonymous<TProperty>();
+            var sut = this.composer.CreateAnonymous<T>();
+            var propertyValue = this.composer.CreateAnonymous<TProperty>();
 
             this.propertyInfo.SetValue(sut, propertyValue, null);
             var result = this.propertyInfo.GetValue(sut, null);
@@ -61,7 +62,7 @@ namespace Ploeh.AutoFixture.Idioms
                 return;
             }
 
-            var sut = this.fixture.CreateAnonymous<T>();
+            var sut = this.composer.CreateAnonymous<T>();
             Action<object> setProperty = x => this.propertyInfo.SetValue(sut, x, null);
 
             var behaviors = from b in convention.CreateBoundaryBehaviors(typeof(TProperty))
