@@ -49,11 +49,10 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new ArgumentNullException("convention");
             }
 
-            var builder = this.Composer.Compose();
-            
+            var builder = this.Composer.Compose();            
 
             var parameterValues = (from p in this.MethodInfo.GetParameters()
-                                   select new { Parameter = p, Value = new SpecimenContext(builder).Resolve(p) }).ToDictionary(x => x.Parameter, x => x.Value);
+                                   select new { Parameter = p, Value = builder.CreateAnonymous(p) }).ToDictionary(x => x.Parameter, x => x.Value);
 
             var combinations = from p in parameterValues.Keys
                                from b in convention.CreateBoundaryBehaviors(p.ParameterType)
@@ -65,7 +64,7 @@ namespace Ploeh.AutoFixture.Idioms
                         var values = new Dictionary<ParameterInfo, object>(parameterValues);
                         values[c.Parameter] = x;
 
-                        var specimen = new SpecimenContext(builder).Resolve(this.MethodInfo.ReflectedType);
+                        var specimen = builder.CreateAnonymous(this.MethodInfo.ReflectedType);
                         this.MethodInfo.Invoke(specimen, values.Values.ToArray());
                     };
 
