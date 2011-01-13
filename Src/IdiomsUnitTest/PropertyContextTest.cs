@@ -5,6 +5,7 @@ using System;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.TestTypeFoundation;
 using Xunit;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -24,24 +25,52 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void CreateWithNullFixtureWillThrow()
+        public void InitializeWithNullFixtureThrows()
         {
             // Fixture setup
             // Exercise system
-            Assert.Throws(typeof(ArgumentNullException), () =>
-                new PropertyContext((Fixture)null, Reflect<string>.GetProperty(s => s.Length)));
+            Assert.Throws<ArgumentNullException>(() =>
+                new PropertyContext(null, Reflect<string>.GetProperty(s => s.Length)));
             // Verify outcome (expected exception)
             // Teardown
         }
 
         [Fact]
-        public void CreateWithNullPropertyInfoWillThrow()
+        public void InitializeWithNullPropertyInfoThrows()
         {
             // Fixture setup
             // Exercise system
-            Assert.Throws(typeof(ArgumentNullException), () =>
-                new PropertyContext(new Fixture(), (PropertyInfo)null));
+            Assert.Throws<ArgumentNullException>(() =>
+                new PropertyContext(new Fixture(), null));
             // Verify outcome (expected exception)
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposerIsCorrect()
+        {
+            // Fixture setup
+            var expectedComposer = new Fixture();
+            var dummyProperty = typeof(string).GetProperties().First();
+            var sut = new PropertyContext(expectedComposer, dummyProperty);
+            // Exercise system
+            ISpecimenBuilderComposer result = sut.Composer;
+            // Verify outcome
+            Assert.Equal(expectedComposer, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void PropertyInfoIsCorrect()
+        {
+            // Fixture setup
+            var dummyFixture = new Fixture();
+            var expectedProperty = typeof(string).GetProperties().First();
+            var sut = new PropertyContext(dummyFixture, expectedProperty);
+            // Exercise system
+            PropertyInfo result = sut.PropertyInfo;
+            // Verify outcome
+            Assert.Equal(expectedProperty, result);
             // Teardown
         }
 

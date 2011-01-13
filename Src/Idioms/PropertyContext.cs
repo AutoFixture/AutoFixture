@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Globalization;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
@@ -29,6 +28,18 @@ namespace Ploeh.AutoFixture.Idioms
             this.isPropertyReadOnly = this.propertyInfo.GetSetMethod() == null;
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public ISpecimenBuilderComposer Composer
+        {
+            get { return this.composer; }
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public PropertyInfo PropertyInfo
+        {
+            get { return this.propertyInfo; }
+        }
+
         public void VerifyWritable()
         {
             if (this.isPropertyReadOnly)
@@ -36,11 +47,11 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new PropertyContextException("The supplied PropertyInfo is read-only.");
             }
 
-            var specimen = this.composer.CreateAnonymous(this.propertyInfo.ReflectedType);
-            var propertyValue = this.composer.CreateAnonymous(this.propertyInfo.PropertyType);
+            var specimen = this.composer.CreateAnonymous(this.PropertyInfo.ReflectedType);
+            var propertyValue = this.composer.CreateAnonymous(this.PropertyInfo.PropertyType);
 
-            this.propertyInfo.SetValue(specimen, propertyValue, null);
-            var result = this.propertyInfo.GetValue(specimen, null);
+            this.PropertyInfo.SetValue(specimen, propertyValue, null);
+            var result = this.PropertyInfo.GetValue(specimen, null);
 
             if (!propertyValue.Equals(result))
             {
@@ -62,10 +73,10 @@ namespace Ploeh.AutoFixture.Idioms
                 return;
             }
 
-            var specimen = this.composer.CreateAnonymous(this.propertyInfo.ReflectedType);
-            Action<object> setProperty = x => this.propertyInfo.SetValue(specimen, x, null);
+            var specimen = this.composer.CreateAnonymous(this.PropertyInfo.ReflectedType);
+            Action<object> setProperty = x => this.PropertyInfo.SetValue(specimen, x, null);
 
-            var behaviors = from b in convention.CreateBoundaryBehaviors(this.propertyInfo.PropertyType)
+            var behaviors = from b in convention.CreateBoundaryBehaviors(this.PropertyInfo.PropertyType)
                             select b.UnwrapReflectionExceptions();
             foreach (var b in behaviors)
             {
