@@ -49,23 +49,33 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new ArgumentNullException("convention");
             }
 
-            var builder = this.Composer.Compose();            
+            var builder = this.Composer.Compose();
 
-            var parameterValues = (from p in this.MethodInfo.GetParameters()
-                                   select new { Parameter = p, Value = builder.CreateAnonymous(p) }).ToDictionary(x => x.Parameter, x => x.Value);
+            var argumentMap = (from p in this.MethodInfo.GetParameters()
+                               select new
+                               {
+                                   Parameter = p,
+                                   Value = builder.CreateAnonymous(p)
+                               }
+                               ).ToDictionary(x => x.Parameter, x => x.Value);
 
-            var combinations = from p in parameterValues.Keys
+            var combinations = from p in argumentMap.Keys
                                from b in convention.CreateBoundaryBehaviors(p.ParameterType)
-                               select new { Parameter = p, Behavior = b.UnwrapReflectionExceptions() };
+                               select new
+                               {
+                                   Parameter = p,
+                                   Behavior = b.UnwrapReflectionExceptions()
+                               };
+
             foreach (var c in combinations)
             {
                 Action<object> invokeMethod = x =>
                     {
-                        var values = new Dictionary<ParameterInfo, object>(parameterValues);
-                        values[c.Parameter] = x;
+                        var arguments = new Dictionary<ParameterInfo, object>(argumentMap);
+                        arguments[c.Parameter] = x;
 
                         var specimen = builder.CreateAnonymous(this.MethodInfo.ReflectedType);
-                        this.MethodInfo.Invoke(specimen, values.Values.ToArray());
+                        this.MethodInfo.Invoke(specimen, arguments.Values.ToArray());
                     };
 
                 c.Behavior.Assert(invokeMethod);
