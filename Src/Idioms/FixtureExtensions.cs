@@ -6,10 +6,10 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public static class FixtureExtensions
     {
-        public static PropertyContext<T, TProperty> ForProperty<T, TProperty>(this IFixture fixture, Expression<Func<T, TProperty>> property)
+        public static PropertyContext ForProperty<T, TProperty>(this IFixture fixture, Expression<Func<T, TProperty>> property)
         {
             var propertyInfo = Reflect<T>.GetProperty(property);
-            return new PropertyContext<T, TProperty>(fixture, propertyInfo);
+            return new PropertyContext(fixture, propertyInfo);
         }
 
         public static MethodContext ForMethod<T>(this IFixture fixture, Expression<Action<T>> methodPicker)

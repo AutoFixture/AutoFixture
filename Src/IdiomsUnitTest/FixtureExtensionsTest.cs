@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = new Fixture().ForProperty((PropertyHolder<object> sut) => sut.Property);
             // Verify outcome
-            Assert.IsType<PropertyContext<PropertyHolder<object>, object>>(result);
+            Assert.IsAssignableFrom<PropertyContext>(result);
             // Teardown
         }
 

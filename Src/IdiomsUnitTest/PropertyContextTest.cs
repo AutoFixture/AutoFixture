@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var dummyFixture = new Fixture();
             var dummyProperty = Reflect<string>.GetProperty(s => s.Length);
             // Exercise system
-            var sut = new PropertyContext<object, object>(dummyFixture, dummyProperty);
+            var sut = new PropertyContext(dummyFixture, dummyProperty);
             // Verify outcome
             Assert.IsAssignableFrom<IVerifiableBoundary>(sut);
             // Teardown
@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () =>
-                new PropertyContext<object, object>((Fixture)null, Reflect<string>.GetProperty(s => s.Length)));
+                new PropertyContext((Fixture)null, Reflect<string>.GetProperty(s => s.Length)));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             // Exercise system
             Assert.Throws(typeof(ArgumentNullException), () =>
-                new PropertyContext<object, object>(new Fixture(), (PropertyInfo)null));
+                new PropertyContext(new Fixture(), (PropertyInfo)null));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             var propertyInfo = Reflect<ReadOnlyPropertyHolder<object>>.GetProperty(propertyHolder => propertyHolder.Property);
 
-            var sut = new PropertyContext<ReadOnlyPropertyHolder<object>, object>(fixture, propertyInfo);
+            var sut = new PropertyContext(fixture, propertyInfo);
             // Exercise system
             Assert.Throws(typeof(PropertyContextException), () =>
                 sut.VerifyWritable());
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             var propertyInfo = Reflect<IllBehavedPropertyHolder<object>>.GetProperty(propertyHolder => propertyHolder.PropertyIllBehavedGet);
 
-            var sut = new PropertyContext<IllBehavedPropertyHolder<object>, object>(fixture, propertyInfo);
+            var sut = new PropertyContext(fixture, propertyInfo);
             // Exercise system
             Assert.Throws(typeof(PropertyContextException), () =>
                sut.VerifyWritable());
@@ -82,7 +82,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             var propertyInfo = Reflect<IllBehavedPropertyHolder<object>>.GetProperty(propertyHolder => propertyHolder.PropertyIllBehavedSet);
 
-            var sut = new PropertyContext<IllBehavedPropertyHolder<object>, object>(fixture, propertyInfo);
+            var sut = new PropertyContext(fixture, propertyInfo);
             // Exercise system
             Assert.Throws(typeof(PropertyContextException), () =>
                 sut.VerifyWritable());
@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             var propertyInfo = Reflect<PropertyHolder<object>>.GetProperty(propertyHolder => propertyHolder.Property);
 
-            var sut = new PropertyContext<PropertyHolder<object>, object>(fixture, propertyInfo);
+            var sut = new PropertyContext(fixture, propertyInfo);
             // Exercise system
             sut.VerifyWritable();
             // Verify outcome (no exception indicates success)
@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             var propertyInfo = Reflect<PropertyHolder<object>>.GetProperty(propertyHolder => propertyHolder.Property);
 
-            var sut = new PropertyContext<PropertyHolder<object>, object>(fixture, propertyInfo);
+            var sut = new PropertyContext(fixture, propertyInfo);
             // Exercise system
             Assert.Throws<ArgumentNullException>(() =>
                 sut.VerifyBoundaries(null));

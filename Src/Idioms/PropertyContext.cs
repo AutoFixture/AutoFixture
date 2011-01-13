@@ -7,7 +7,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class PropertyContext<T, TProperty> : IVerifiableBoundary
+    public class PropertyContext : IVerifiableBoundary
     {
         private readonly ISpecimenBuilderComposer composer;
         private readonly PropertyInfo propertyInfo;
@@ -36,11 +36,11 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new PropertyContextException("The supplied PropertyInfo is read-only.");
             }
 
-            var sut = this.composer.CreateAnonymous<T>();
-            var propertyValue = this.composer.CreateAnonymous<TProperty>();
+            var specimen = this.composer.CreateAnonymous(this.propertyInfo.ReflectedType);
+            var propertyValue = this.composer.CreateAnonymous(this.propertyInfo.PropertyType);
 
-            this.propertyInfo.SetValue(sut, propertyValue, null);
-            var result = this.propertyInfo.GetValue(sut, null);
+            this.propertyInfo.SetValue(specimen, propertyValue, null);
+            var result = this.propertyInfo.GetValue(specimen, null);
 
             if (!propertyValue.Equals(result))
             {
@@ -62,10 +62,10 @@ namespace Ploeh.AutoFixture.Idioms
                 return;
             }
 
-            var sut = this.composer.CreateAnonymous<T>();
-            Action<object> setProperty = x => this.propertyInfo.SetValue(sut, x, null);
+            var specimen = this.composer.CreateAnonymous(this.propertyInfo.ReflectedType);
+            Action<object> setProperty = x => this.propertyInfo.SetValue(specimen, x, null);
 
-            var behaviors = from b in convention.CreateBoundaryBehaviors(typeof(TProperty))
+            var behaviors = from b in convention.CreateBoundaryBehaviors(this.propertyInfo.PropertyType)
                             select b.UnwrapReflectionExceptions();
             foreach (var b in behaviors)
             {
