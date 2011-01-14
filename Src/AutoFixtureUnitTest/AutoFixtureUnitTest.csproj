@@ -94,6 +94,7 @@
     <Compile Include="Kernel\ArrayRelayTest.cs" />
     <Compile Include="Kernel\DisposableTrackerTest.cs" />
     <Compile Include="Kernel\DisposableTrackingBehaviorTest.cs" />
+    <Compile Include="Kernel\EnumerableRelayTest.cs" />
     <Compile Include="Kernel\FakeMultiple.cs" />
     <Compile Include="Kernel\FixedBuilderTest.cs" />
     <Compile Include="Kernel\GreedyConstructorQueryTest.cs" />

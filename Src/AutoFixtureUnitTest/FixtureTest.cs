@@ -3085,6 +3085,30 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousEnumerableWithoutCustomizationThrows()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ObjectCreationException>(() =>
+                sut.CreateAnonymous<IEnumerable<decimal>>());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousEnumerableWhenEnumerableRelayIsPresentReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Customizations.Add(new EnumerableRelay());
+            // Exercise system
+            var result = sut.CreateAnonymous<IEnumerable<decimal>>();
+            // Verify outcome
+            Assert.True(result.Any());
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousListDoesNotFillWithItemsPerDefault()
         {
             // Fixture setup
