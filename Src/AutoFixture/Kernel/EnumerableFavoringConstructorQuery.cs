@@ -18,24 +18,55 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return from ci in type.GetConstructors()
-                   let parameters = ci.GetParameters()
-                   orderby EnumerableFavoringConstructorQuery.Score(type, parameters) descending
+                   let score = new EnumerableScore(type, ci.GetParameters())
+                   orderby score descending
                    select new ConstructorMethod(ci) as IMethod;
         }
 
         #endregion
 
-        private static int Score(Type type, ParameterInfo[] parameters)
+        private class EnumerableScore : IComparable<EnumerableScore>
         {
-            var genericParameterTypes = type.GetGenericArguments();
-            if (genericParameterTypes.Length != 1)
-            {
-                return 0;
-            }
-            var genericParameterType = genericParameterTypes.Single();
+            private readonly Type parentType;
+            private readonly IEnumerable<ParameterInfo> parameters;
 
-            var enumerableType = typeof(IEnumerable<>).MakeGenericType(genericParameterType);
-            return parameters.Count(p => enumerableType.IsAssignableFrom(p.ParameterType));
+            public EnumerableScore(Type parentType, IEnumerable<ParameterInfo> parameters)
+            {
+                if (parentType == null)
+                {
+                    throw new ArgumentNullException("parentType");
+                }
+                if (parameters == null)
+                {
+                    throw new ArgumentNullException("parameters");
+                }
+
+                this.parentType = parentType;
+                this.parameters = parameters;
+            }
+
+            #region IComparable<EnumerableScore> Members
+
+            public int CompareTo(EnumerableScore other)
+            {
+                return this.CalculateScore().CompareTo(other.CalculateScore());
+            }
+
+            #endregion
+
+            private int CalculateScore()
+            {
+                var genericParameterTypes = this.parentType.GetGenericArguments();
+                if (genericParameterTypes.Length != 1)
+                {
+                    return 0;
+                }
+                var genericParameterType = genericParameterTypes.Single();
+
+                var enumerableType = typeof(IEnumerable<>).MakeGenericType(genericParameterType);
+                return this.parameters.Count(p => enumerableType.IsAssignableFrom(p.ParameterType));
+            }
         }
+
     }
 }
