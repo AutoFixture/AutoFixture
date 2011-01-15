@@ -3126,7 +3126,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             sut.Customizations.Add(new EnumerableRelay());
-            sut.Customize<List<string>>(c => c.FromFactory(new ConstructorInvoker(new EnumerableFavoringConstructorQuery())).Without(l => l.Capacity));
+            sut.Customize<List<string>>(c => c.FromFactory(new ConstructorInvoker(new EnumerableFavoringConstructorQuery())).OmitAutoProperties());
             // Exercise system
             var result = sut.CreateAnonymous<List<string>>();
             // Verify outcome
