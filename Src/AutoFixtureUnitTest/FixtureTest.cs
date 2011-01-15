@@ -3120,6 +3120,20 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateAnonymousListWithStronglyTypedCustomizationsReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Customizations.Add(new EnumerableRelay());
+            sut.Customize<List<string>>(c => c.FromFactory(new ConstructorInvoker(new EnumerableFavoringConstructorQuery())).Without(l => l.Capacity));
+            // Exercise system
+            var result = sut.CreateAnonymous<List<string>>();
+            // Verify outcome
+            Assert.True(result.Any());
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
