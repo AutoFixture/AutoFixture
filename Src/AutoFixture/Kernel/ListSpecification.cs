@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
-    public class EnumerableSpecification : IRequestSpecification
+    public class ListSpecification : IRequestSpecification
     {
         #region IRequestSpecification Members
 
@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return type.IsGenericType
-                && typeof(IEnumerable<>) == type.GetGenericTypeDefinition();
+                && typeof(List<>) == type.GetGenericTypeDefinition();
         }
 
         #endregion

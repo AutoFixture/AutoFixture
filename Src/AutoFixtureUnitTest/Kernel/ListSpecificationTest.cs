@@ -8,14 +8,14 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class EnumerableSpecificationTest
+    public class ListSpecificationTest
     {
         [Fact]
         public void SutIsRequestSpecification()
         {
             // Fixture setup
             // Exercise system
-            var sut = new EnumerableSpecification();
+            var sut = new ListSpecification();
             // Verify outcome
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
             // Teardown
@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void IsSatisfiedByNonEnumerableRequestReturnsCorrectResult(object request)
         {
             // Fixture setup
-            var sut = new EnumerableSpecification();
+            var sut = new ListSpecification();
             // Exercise system
             var result = sut.IsSatisfiedBy(request);
             // Verify outcome
@@ -45,14 +45,14 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [InlineData(typeof(IEnumerable<object>))]
-        [InlineData(typeof(IEnumerable<string>))]
-        [InlineData(typeof(IEnumerable<int>))]
-        [InlineData(typeof(IEnumerable<Version>))]
+        [InlineData(typeof(List<object>))]
+        [InlineData(typeof(List<string>))]
+        [InlineData(typeof(List<int>))]
+        [InlineData(typeof(List<Version>))]
         public void IsSatisfiedByEnumerableRequestReturnsCorrectResult(Type request)
         {
             // Fixture setup
-            var sut = new EnumerableSpecification();
+            var sut = new ListSpecification();
             // Exercise system
             var result = sut.IsSatisfiedBy(request);
             // Verify outcome
