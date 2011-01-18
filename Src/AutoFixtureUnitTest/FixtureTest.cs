@@ -3121,12 +3121,12 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousListWithStronglyTypedCustomizationsReturnsCorrectResult()
+        public void CreateAnonymousListWithCustomizationsReturnsCorrectResult()
         {
             // Fixture setup
             var sut = new Fixture();
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
             sut.Customizations.Add(new EnumerableRelay());
-            sut.Customize<List<string>>(c => c.FromFactory(new ConstructorInvoker(new EnumerableFavoringConstructorQuery())).OmitAutoProperties());
             // Exercise system
             var result = sut.CreateAnonymous<List<string>>();
             // Verify outcome
