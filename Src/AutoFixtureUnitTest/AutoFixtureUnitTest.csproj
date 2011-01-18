@@ -85,6 +85,7 @@
     <Compile Include="Kernel\AndRequestSpecificationTest.cs" />
     <Compile Include="Kernel\AnyTypeSpecificationTest.cs" />
     <Compile Include="Kernel\AutoPropertiesCommandTest.cs" />
+    <Compile Include="Kernel\CollectionRelayTest.cs" />
     <Compile Include="Kernel\CompositeSpecimenBuilderTest.cs" />
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
     <Compile Include="Kernel\ConstructorMethodTest.cs" />

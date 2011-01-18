@@ -3149,6 +3149,21 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateAnonymousICollectionWithCustomizationsReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
+            sut.Customizations.Add(new EnumerableRelay());
+            sut.Customizations.Add(new CollectionRelay());
+            // Exercise system
+            var result = sut.CreateAnonymous<ICollection<Version>>();
+            // Verify outcome
+            Assert.True(result.Any());
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
