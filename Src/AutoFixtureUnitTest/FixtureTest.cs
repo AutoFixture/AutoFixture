@@ -3134,6 +3134,21 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateAnonymousIListWithCustomizationsReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
+            sut.Customizations.Add(new EnumerableRelay());
+            sut.Customizations.Add(new ListRelay());
+            // Exercise system
+            var result = sut.CreateAnonymous<IList<int>>();
+            // Verify outcome
+            Assert.True(result.Any());
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
