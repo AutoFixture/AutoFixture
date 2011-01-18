@@ -45,12 +45,16 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(typeof(string[]))]
         [InlineData(typeof(int[]))]
         [InlineData(typeof(Version[]))]
+        [InlineData(typeof(IList<object>))]
+        [InlineData(typeof(IList<string>))]
+        [InlineData(typeof(IList<int>))]
+        [InlineData(typeof(IList<Version>))]
         public void CreateWithNoneEnumerableRequestReturnsCorrectResult(object request)
         {
             // Fixture setup
             var sut = new EnumerableRelay();
             // Exercise system
-            var dummyContext = new DelegatingSpecimenContext();
+            var dummyContext = new DelegatingSpecimenContext { OnResolve = r => Enumerable.Empty<object>() };
             var result = sut.Create(request, dummyContext);
             // Verify outcome
             var expectedResult = new NoSpecimen(request);

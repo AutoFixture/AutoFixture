@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
             var typeArgument = typeArguments.Single();
 
-            if (!typeof(IEnumerable<>).MakeGenericType(typeArgument).IsAssignableFrom(type))
+            if (typeof(IEnumerable<>) != type.GetGenericTypeDefinition())
             {
                 return new NoSpecimen(request);
             }
