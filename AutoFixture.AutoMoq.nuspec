@@ -5,6 +5,7 @@
     <version>2.0</version>
 	<title>AutoFixture with Auto Mocking using Moq</title>
     <authors>Mark Seemann</authors>
+	<owners>Peter Ravnholt</owners>
 	<dependencies>
 		<dependency id="autofixture" version="2.0" />
 		<dependency id="moq" version="3.1" />

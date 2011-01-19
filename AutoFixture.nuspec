@@ -5,10 +5,11 @@
     <version>2.0</version> 
 	<title>AutoFixture</title>
     <authors>Mark Seemann</authors>
+	<owners>Peter Ravnholt</owners>
     <description>AutoFixture makes it easier for developers to do Test-Driven Development by automating non-relevant Test Fixture Setup, allowing the Test Developer to focus on the essentials of each test case.</description> 
-    <language>en-US</language>
-    <licenseUrl>http://autofixture.codeplex.com/license</licenseUrl>
     <projectUrl>http://autofixture.codeplex.com</projectUrl>
+	<licenseUrl>http://autofixture.codeplex.com/license</licenseUrl>
+	<language>en-US</language>
   </metadata>
   <files>
     <file src="Ploeh.AutoFixture.dll" target="lib" />
