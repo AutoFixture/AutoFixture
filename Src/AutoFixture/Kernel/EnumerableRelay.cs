@@ -16,6 +16,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("context");
             }
 
+#warning Pretty much same implementation for CollectionRelay, ListRelay and EnumerableRelay. Should be refactored, but it seems more and more likely that the correct solution is to use a Maybe monad, so we'll wait for that before refactoring.
             var type = request as Type;
             if (type == null)
             {
