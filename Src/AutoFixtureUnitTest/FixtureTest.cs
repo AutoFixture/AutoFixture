@@ -3136,6 +3136,20 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousHashSetWithCustomizationsReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new EnumerableFavoringConstructorQuery()), new HashSetSpecification()));
+            sut.Customizations.Add(new EnumerableRelay());
+            // Exercise system
+            var result = sut.CreateAnonymous<HashSet<float>>();
+            // Verify outcome
+            Assert.True(result.Any());
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousIListWithCustomizationsReturnsCorrectResult()
         {
             // Fixture setup

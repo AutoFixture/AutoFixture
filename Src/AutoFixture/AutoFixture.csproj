@@ -114,6 +114,7 @@
     <Compile Include="Kernel\DisposableTracker.cs" />
     <Compile Include="Kernel\DisposableTrackingBehavior.cs" />
     <Compile Include="Kernel\EnumerableRelay.cs" />
+    <Compile Include="Kernel\HashSetSpecification.cs" />
     <Compile Include="Kernel\ListFavoringConstructorQuery.cs" />
     <Compile Include="Kernel\ListRelay.cs" />
     <Compile Include="Kernel\ListSpecification.cs" />

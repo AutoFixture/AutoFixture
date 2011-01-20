@@ -97,6 +97,7 @@
     <Compile Include="Kernel\DisposableTrackerTest.cs" />
     <Compile Include="Kernel\DisposableTrackingBehaviorTest.cs" />
     <Compile Include="Kernel\EnumerableRelayTest.cs" />
+    <Compile Include="Kernel\HashSetSpecificationTest.cs" />
     <Compile Include="Kernel\ListFavoringConstructorQueryTest.cs" />
     <Compile Include="Kernel\ListRelayTest.cs" />
     <Compile Include="Kernel\ListSpecificationTest.cs" />
