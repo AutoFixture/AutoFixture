@@ -9,6 +9,7 @@ using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using System.IO;
 using Ploeh.AutoFixture.Dsl;
+using System.Collections.ObjectModel;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -3159,6 +3160,22 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customizations.Add(new CollectionRelay());
             // Exercise system
             var result = sut.CreateAnonymous<ICollection<Version>>();
+            // Verify outcome
+            Assert.True(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousCollectionWithCustomizationsReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new ListFavoringConstructorQuery()), new CollectionSpecification()));
+            sut.Customizations.Add(new EnumerableRelay());
+            sut.Customizations.Add(new ListRelay());
+            // Exercise system
+            var result = sut.CreateAnonymous<Collection<OperatingSystem>>();
             // Verify outcome
             Assert.True(result.Any());
             // Teardown
