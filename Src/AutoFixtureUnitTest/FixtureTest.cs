@@ -3101,7 +3101,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new EnumerableRelay());
+            sut.ResidueCollectors.Add(new EnumerableRelay());
             // Exercise system
             var result = sut.CreateAnonymous<IEnumerable<decimal>>();
             // Verify outcome
@@ -3127,7 +3127,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
-            sut.Customizations.Add(new EnumerableRelay());
+            sut.ResidueCollectors.Add(new EnumerableRelay());
             // Exercise system
             var result = sut.CreateAnonymous<List<string>>();
             // Verify outcome
@@ -3141,7 +3141,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new EnumerableFavoringConstructorQuery()), new HashSetSpecification()));
-            sut.Customizations.Add(new EnumerableRelay());
+            sut.ResidueCollectors.Add(new EnumerableRelay());
             // Exercise system
             var result = sut.CreateAnonymous<HashSet<float>>();
             // Verify outcome
@@ -3155,8 +3155,8 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
-            sut.Customizations.Add(new EnumerableRelay());
-            sut.Customizations.Add(new ListRelay());
+            sut.ResidueCollectors.Add(new EnumerableRelay());
+            sut.ResidueCollectors.Add(new ListRelay());
             // Exercise system
             var result = sut.CreateAnonymous<IList<int>>();
             // Verify outcome
@@ -3170,8 +3170,8 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
-            sut.Customizations.Add(new EnumerableRelay());
-            sut.Customizations.Add(new CollectionRelay());
+            sut.ResidueCollectors.Add(new EnumerableRelay());
+            sut.ResidueCollectors.Add(new CollectionRelay());
             // Exercise system
             var result = sut.CreateAnonymous<ICollection<Version>>();
             // Verify outcome
@@ -3186,8 +3186,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
             sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new ListFavoringConstructorQuery()), new CollectionSpecification()));
-            sut.Customizations.Add(new EnumerableRelay());
-            sut.Customizations.Add(new ListRelay());
+            sut.ResidueCollectors.Add(new EnumerableRelay());
+            sut.ResidueCollectors.Add(new ListRelay());
             // Exercise system
             var result = sut.CreateAnonymous<Collection<OperatingSystem>>();
             // Verify outcome

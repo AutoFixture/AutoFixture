@@ -111,6 +111,7 @@
     <Compile Include="Kernel\NoSpecimenOutputGuardTest.cs" />
     <Compile Include="Kernel\EnumerableFavoringConstructorQueryTest.cs" />
     <Compile Include="Kernel\TypedBuilderComposerTest.cs" />
+    <Compile Include="MultipleCustomizationTest.cs" />
     <Compile Include="NullRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\SeedRequestSpecificationTest.cs" />
     <Compile Include="Kernel\SpecimenContextTest.cs" />
