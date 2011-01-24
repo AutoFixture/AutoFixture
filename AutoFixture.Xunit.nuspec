@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<package> 
+  <metadata> 
+    <id>AutoFixture.Xunit</id> 
+    <version>2.0</version>
+	<title>AutoFixture with xUnit.net data theories</title>
+    <authors>Mark Seemann</authors>
+	<owners>Peter Ravnholt</owners>
+	<dependencies>
+		<dependency id="autofixture" version="2.0" />
+		<dependency id="xunit" version="1.6.1" />
+	</dependencies>
+    <description>AutoFixture makes it easier for developers to do Test-Driven Development by automating non-relevant Test Fixture Setup, allowing the Test Developer to focus on the essentials of each test case.</description> 
+    <language>en-US</language>
+    <licenseUrl>http://autofixture.codeplex.com/license</licenseUrl>
+    <projectUrl>http://autofixture.codeplex.com</projectUrl>
+  </metadata>
+  <files>
+    <file src="Ploeh.AutoFixture.Xunit.dll" target="lib" />
+	<file src="Ploeh.AutoFixture.Xunit.XML" target="lib" />
+  </files>
+</package>
