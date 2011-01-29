@@ -3195,6 +3195,19 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateAnonymousDictionaryWithCustomizationsReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new ConstructorInvoker(new ModestConstructorQuery()), DictionaryFiller.AddMany), new DictionarySpecification()));
+            // Exercise system
+            var result = sut.CreateAnonymous<Dictionary<int, string>>();
+            // Verify outcome
+            Assert.True(result.Any());
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
