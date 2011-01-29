@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using Ploeh.AutoFixture.Kernel;
 using System.Collections;
+using System.ComponentModel;
 
 namespace Ploeh.AutoFixture
 {
     public static class DictionaryFiller
     {
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static void AddMany(object specimen, ISpecimenContext context)
         {
             if (specimen == null)
