@@ -93,6 +93,7 @@
     <Compile Include="CompositeCustomization.cs" />
     <Compile Include="DateTimeGenerator.cs" />
     <Compile Include="DefaultPrimitiveBuilders.cs" />
+    <Compile Include="DictionaryFiller.cs" />
     <Compile Include="DisposableTrackingCustomization.cs" />
     <Compile Include="Dsl\Composer.cs" />
     <Compile Include="Dsl\CompositeComposer.cs" />
