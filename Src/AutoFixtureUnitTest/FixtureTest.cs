@@ -3208,6 +3208,20 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateAnonymousIDictionaryWithCustomizationsReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new ConstructorInvoker(new ModestConstructorQuery()), DictionaryFiller.AddMany), new DictionarySpecification()));
+            sut.ResidueCollectors.Add(new DictionaryRelay());
+            // Exercise system
+            var result = sut.CreateAnonymous<IDictionary<TimeSpan, Version>>();
+            // Verify outcome
+            Assert.True(result.Any());
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
