@@ -92,6 +92,7 @@
     <Compile Include="Kernel\ConstructorMethodTest.cs" />
     <Compile Include="Kernel\DelegatingConstructorQuery.cs" />
     <Compile Include="DictionaryFillerTest.cs" />
+    <Compile Include="Kernel\DictionaryRelayTest.cs" />
     <Compile Include="Kernel\DictionarySpecificationTest.cs" />
     <Compile Include="Kernel\DisposableSpy.cs" />
     <Compile Include="Kernel\DelegatingSpecimenBuilderTransformation.cs" />

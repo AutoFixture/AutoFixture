@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
-    public class CollectionRelay : ISpecimenBuilder
+    public class DictionaryRelay : ISpecimenBuilder
     {
         #region ISpecimenBuilder Members
 
@@ -24,18 +24,17 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             var typeArguments = type.GetGenericArguments();
-            if (typeArguments.Length != 1)
-            {
-                return new NoSpecimen(request);
-            }
-            var typeArgument = typeArguments.Single();
-
-            if (typeof(ICollection<>) != type.GetGenericTypeDefinition())
+            if (typeArguments.Length != 2)
             {
                 return new NoSpecimen(request);
             }
 
-            return context.Resolve(typeof(List<>).MakeGenericType(typeArgument));
+            if (typeof(IDictionary<,>) != type.GetGenericTypeDefinition())
+            {
+                return new NoSpecimen(request);
+            }
+
+            return context.Resolve(typeof(Dictionary<,>).MakeGenericType(typeArguments));
         }
 
         #endregion
