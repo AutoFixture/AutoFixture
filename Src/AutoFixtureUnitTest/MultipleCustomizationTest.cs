@@ -38,6 +38,7 @@ namespace Ploeh.AutoFixtureUnitTest
         [InlineData(typeof(EnumerableRelay))]
         [InlineData(typeof(ListRelay))]
         [InlineData(typeof(CollectionRelay))]
+        [InlineData(typeof(DictionaryRelay))]
         public void CustomizeAddsRelayToFixture(Type relayType)
         {
             // Fixture setup
@@ -68,6 +69,28 @@ namespace Ploeh.AutoFixtureUnitTest
                 .Where(b => typeof(ConstructorInvoker).IsAssignableFrom(b.Builder.GetType()))
                 .Select(b => (ConstructorInvoker)b.Builder)
                 .Where(i => queryType.IsAssignableFrom(i.Query.GetType()))
+                .Any());
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeAddsBuilderForConcreteDictionaries()
+        {
+            // Fixture setup
+            var sut = new MultipleCustomization();
+            var fixture = new Fixture();
+            // Exercise system
+            sut.Customize(fixture);
+            // Verify outcome
+            Assert.True(fixture.Customizations
+                .OfType<FilteringSpecimenBuilder>()
+                .Where(b => typeof(DictionarySpecification).IsAssignableFrom(b.Specification.GetType()))
+                .Where(b => typeof(Postprocessor).IsAssignableFrom(b.Builder.GetType()))
+                .Select(b => (Postprocessor)b.Builder)
+                .Where(p => p.Action == DictionaryFiller.AddMany)
+                .Where(p => typeof(ConstructorInvoker).IsAssignableFrom(p.Builder.GetType()))
+                .Select(p => (ConstructorInvoker)p.Builder)
+                .Where(i => typeof(ModestConstructorQuery).IsAssignableFrom(i.Query.GetType()))
                 .Any());
             // Teardown
         }
@@ -141,6 +164,30 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture().Customize(new MultipleCustomization());
             // Exercise system
             var result = fixture.CreateAnonymous<Collection<Guid>>();
+            // Verify outcome
+            Assert.True(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousDictionaryReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new MultipleCustomization());
+            // Exercise system
+            var result = fixture.CreateAnonymous<Dictionary<string, OperatingSystem>>();
+            // Verify outcome
+            Assert.True(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousIDictionaryReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new MultipleCustomization());
+            // Exercise system
+            var result = fixture.CreateAnonymous<IDictionary<float, object>>();
             // Verify outcome
             Assert.True(result.Any());
             // Teardown

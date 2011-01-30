@@ -17,10 +17,18 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
+            fixture.ResidueCollectors.Add(new DictionaryRelay());
             fixture.ResidueCollectors.Add(new CollectionRelay());
             fixture.ResidueCollectors.Add(new ListRelay());
             fixture.ResidueCollectors.Add(new EnumerableRelay());
 
+            fixture.Customizations.Add(
+                new FilteringSpecimenBuilder(
+                    new Postprocessor(
+                        new ConstructorInvoker(
+                            new ModestConstructorQuery()),
+                        DictionaryFiller.AddMany),
+                    new DictionarySpecification()));
             fixture.Customizations.Add(
                 new FilteringSpecimenBuilder(
                     new ConstructorInvoker(
