@@ -28,14 +28,13 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 return new NoSpecimen(request);
             }
-            var typeArgument = typeArguments.Single();
 
             if (typeof(ICollection<>) != type.GetGenericTypeDefinition())
             {
                 return new NoSpecimen(request);
             }
 
-            return context.Resolve(typeof(List<>).MakeGenericType(typeArgument));
+            return context.Resolve(typeof(List<>).MakeGenericType(typeArguments));
         }
 
         #endregion
