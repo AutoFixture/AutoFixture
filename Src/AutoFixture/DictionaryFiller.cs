@@ -8,8 +8,25 @@ using System.ComponentModel;
 
 namespace Ploeh.AutoFixture
 {
+    /// <summary>
+    /// Contains methods for populating dictionaries with specimens.
+    /// </summary>
     public static class DictionaryFiller
     {
+        /// <summary>
+        /// Adds many items to a dictionary.
+        /// </summary>
+        /// <param name="specimen">The dictionary to which items should be added.</param>
+        /// <param name="context">The context which can be used to resolve other specimens.</param>
+        /// <remarks>
+        /// <para>
+        /// This method mainly exists to support AutoFixture's infrastructure code (particularly
+        /// <see cref="MultipleCustomization" /> and is not intended for use in user code.
+        /// </para>
+        /// </remarks>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="specimen"/> is not an instance of <see cref="IDictionary{TKey, TValue}" />.
+        /// </exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static void AddMany(object specimen, ISpecimenContext context)
         {
