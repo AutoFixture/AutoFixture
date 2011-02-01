@@ -5,10 +5,31 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
+    /// <summary>
+    /// Relays a request for <see cref="IEnumerable{T}" /> to a <see cref="MultipleRequest"/> and
+    /// converts the result to a sequence of the requested type.
+    /// </summary>
     public class EnumerableRelay : ISpecimenBuilder
     {
         #region ISpecimenBuilder Members
 
+        /// <summary>
+        /// Creates a new sequence of items based on a request.
+        /// </summary>
+        /// <param name="request">The request that describes what to create.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
+        /// <returns>
+        /// A sequence of the requested type if possible; otherwise a <see cref="NoSpecimen"/>
+        /// instance.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If <paramref name="request"/> is a request for <see cref="IEnumerable{T}" /> and
+        /// <paramref name="context"/> can satisfy a <see cref="MultipleRequest"/> for the item
+        /// type, the return value is a populated sequence of the requested type. If not, the
+        /// return value is a <see cref="NoSpecimen"/> instance.
+        /// </para>
+        /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
             if (context == null)

@@ -6,10 +6,41 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
+    /// <summary>
+    /// A customization that enables conventions for well-known types that represents multiple
+    /// items.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// When this customization is added to an <see cref="IFixture"/> instance, requests for
+    /// common sequence and collection types will be satisfied with instances populated with
+    /// multiple items.
+    /// </para>
+    /// <para>
+    /// Normally, <see cref="Fixture"/> can satisfy requests for <see cref="List{T}" /> and similar
+    /// collection types, but the returned instances will be empty. When the
+    /// <see cref="MultipleCustomization" /> is added to an <see cref="IFixture" />, such
+    /// collection specimens will be populated with items.
+    /// </para>
+    /// <para>
+    /// Please note that apart from the concrete types <see cref="List{T}"/>,
+    /// <see cref="System.Collections.ObjectModel.Collection{T}"/> etc. this
+    /// <see cref="ICustomization"/> also resolves requests for the related interfaces
+    /// <see cref="IList{T}"/>, <see cref="ICollection{T}"/> etc. This can potentially conflict
+    /// with other customizations, such as the auto-mocking extensions for AutoFixture. In this
+    /// case latest customization to be added to a Fixture wins.
+    /// </para>
+    /// </remarks>
     public class MultipleCustomization : ICustomization
     {
         #region ICustomization Members
 
+        /// <summary>
+        /// Customizes the specified fixture by adding conventions for populating sequences and
+        /// collections.
+        /// </summary>
+        /// <param name="fixture">The fixture to customize.</param>
+        /// <seealso cref="MultipleCustomization" />
         public void Customize(IFixture fixture)
         {
             if (fixture == null)
