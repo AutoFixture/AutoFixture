@@ -49,19 +49,18 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 return new NoSpecimen(request);
             }
-            var typeArgument = typeArguments.Single();
 
             if (typeof(IEnumerable<>) != type.GetGenericTypeDefinition())
             {
                 return new NoSpecimen(request);
             }
 
-            var enumerable = context.Resolve(new MultipleRequest(typeArgument)) as IEnumerable<object>;
+            var enumerable = context.Resolve(new MultipleRequest(typeArguments.Single())) as IEnumerable<object>;
             if (enumerable == null)
             {
                 return new NoSpecimen(request);
             }
-            return typeof(ConvertedEnumerable<>).MakeGenericType(typeArgument).GetConstructor(new[] { typeof(IEnumerable<object>) }).Invoke(new[] { enumerable });
+            return typeof(ConvertedEnumerable<>).MakeGenericType(typeArguments).GetConstructor(new[] { typeof(IEnumerable<object>) }).Invoke(new[] { enumerable });
         }
 
         #endregion
