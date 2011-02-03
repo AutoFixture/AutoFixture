@@ -47,56 +47,11 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return from ci in type.GetConstructors()
-                   let score = new EnumerableScore(type, ci.GetParameters())
+                   let score = new ParameterScore(type, typeof(IEnumerable<>), ci.GetParameters())
                    orderby score descending
                    select new ConstructorMethod(ci) as IMethod;
         }
 
         #endregion
-
-#warning ListFavoringConstructorQuery+ListScore and EnumerableFavoringConstructorQuery+EnumerableScore are very similar.
-        private class EnumerableScore : IComparable<EnumerableScore>
-        {
-            private readonly Type parentType;
-            private readonly IEnumerable<ParameterInfo> parameters;
-
-            public EnumerableScore(Type parentType, IEnumerable<ParameterInfo> parameters)
-            {
-                if (parentType == null)
-                {
-                    throw new ArgumentNullException("parentType");
-                }
-                if (parameters == null)
-                {
-                    throw new ArgumentNullException("parameters");
-                }
-
-                this.parentType = parentType;
-                this.parameters = parameters;
-            }
-
-            #region IComparable<EnumerableScore> Members
-
-            public int CompareTo(EnumerableScore other)
-            {
-                return this.CalculateScore().CompareTo(other.CalculateScore());
-            }
-
-            #endregion
-
-            private int CalculateScore()
-            {
-                var genericParameterTypes = this.parentType.GetGenericArguments();
-                if (genericParameterTypes.Length != 1)
-                {
-                    return 0;
-                }
-                var genericParameterType = genericParameterTypes.Single();
-
-                var enumerableType = typeof(IEnumerable<>).MakeGenericType(genericParameterType);
-                return this.parameters.Count(p => enumerableType.IsAssignableFrom(p.ParameterType));
-            }
-        }
-
     }
 }

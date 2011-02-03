@@ -47,55 +47,11 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return from ci in type.GetConstructors()
-                   let score = new ListScore(type, ci.GetParameters())
+                   let score = new ParameterScore(type, typeof(IList<>), ci.GetParameters())
                    orderby score descending
                    select new ConstructorMethod(ci) as IMethod;
         }
 
         #endregion
-
-#warning ListFavoringConstructorQuery+ListScore and EnumerableFavoringConstructorQuery+EnumerableScore are very similar.
-        private class ListScore : IComparable<ListScore>
-        {
-            private readonly Type parentType;
-            private readonly IEnumerable<ParameterInfo> parameters;
-
-            public ListScore(Type parentType, IEnumerable<ParameterInfo> parameters)
-            {
-                if (parentType == null)
-                {
-                    throw new ArgumentNullException("parentType");
-                }
-                if (parameters == null)
-                {
-                    throw new ArgumentNullException("parameters");
-                }
-
-                this.parentType = parentType;
-                this.parameters = parameters;
-            }
-
-            #region IComparable<ListScore> Members
-
-            public int CompareTo(ListScore other)
-            {
-                return this.CalculateScore().CompareTo(other.CalculateScore());
-            }
-
-            #endregion
-
-            private int CalculateScore()
-            {
-                var genericParameterTypes = this.parentType.GetGenericArguments();
-                if (genericParameterTypes.Length != 1)
-                {
-                    return 0;
-                }
-                var genericParameterType = genericParameterTypes.Single();
-
-                var listType = typeof(IList<>).MakeGenericType(genericParameterType);
-                return this.parameters.Count(p => listType.IsAssignableFrom(p.ParameterType));
-            }
-        }
     }
 }
