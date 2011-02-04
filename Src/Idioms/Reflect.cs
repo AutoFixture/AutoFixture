@@ -19,7 +19,6 @@ namespace Ploeh.AutoFixture.Idioms
         /// <exception cref="ArgumentNullException">The <paramref name="method"/> is null.</exception>
         /// <exception cref="ArgumentException">The <paramref name="method"/> is not a lambda expression or it does not represent a method invocation.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "The entire purpose of this class is strongly-typed reflection.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Nested generics and Expression's is a very happy marriage.")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The entire purpose of this class is strongly-typed reflection.")]
         public static MethodInfo GetMethod(Expression<Action<TTarget>> method)
         {
@@ -32,7 +31,6 @@ namespace Ploeh.AutoFixture.Idioms
         /// <exception cref="ArgumentNullException">The <paramref name="method"/> is null.</exception>
         /// <exception cref="ArgumentException">The <paramref name="method"/> is not a lambda expression or it does not represent a method invocation.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "The entire purpose of this class is strongly-typed reflection.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Nested generics and Expression's is a very happy marriage.")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The entire purpose of this class is strongly-typed reflection.")]
         public static MethodInfo GetMethod<TArgument>(Expression<Action<TTarget, TArgument>> method)
         {
@@ -45,7 +43,6 @@ namespace Ploeh.AutoFixture.Idioms
         /// <exception cref="ArgumentNullException">The <paramref name="method"/> is null.</exception>
         /// <exception cref="ArgumentException">The <paramref name="method"/> is not a lambda expression or it does not represent a method invocation.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "The entire purpose of this class is strongly-typed reflection.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Nested generics and Expression's is a very happy marriage.")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The entire purpose of this class is strongly-typed reflection.")]
         public static MethodInfo GetMethod<TFirstArgument, TSecondArgument>(Expression<Action<TTarget, TFirstArgument, TSecondArgument>> method)
         {
@@ -58,7 +55,6 @@ namespace Ploeh.AutoFixture.Idioms
         /// <exception cref="ArgumentNullException">The <paramref name="method"/> is null.</exception>
         /// <exception cref="ArgumentException">The <paramref name="method"/> is not a lambda expression or it does not represent a method invocation.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "The entire purpose of this class is strongly-typed reflection.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Nested generics and Expression's is a very happy marriage.")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The entire purpose of this class is strongly-typed reflection.")]
         public static MethodInfo GetMethod<TFirstArgument, TSecondArgument, TThirdArgument>(Expression<Action<TTarget, TFirstArgument, TSecondArgument, TThirdArgument>> method)
         {
@@ -82,7 +78,6 @@ namespace Ploeh.AutoFixture.Idioms
         /// <exception cref="ArgumentNullException">The <paramref name="property"/> is null.</exception>
         /// <exception cref="ArgumentException">The <paramref name="property"/> is not a lambda expression or it does not represent a property access.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "The entire purpose of this class is strongly-typed reflection.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Nested generics and Expression's is a very happy marriage.")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The entire purpose of this class is strongly-typed reflection.")]
         public static PropertyInfo GetProperty<TProperty>(Expression<Func<TTarget, TProperty>> property)
         {

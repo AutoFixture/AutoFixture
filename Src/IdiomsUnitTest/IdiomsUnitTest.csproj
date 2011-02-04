@@ -11,7 +11,6 @@
     <AssemblyName>Ploeh.AutoFixture.IdiomsUnitTest</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,26 +46,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompositeBoundaryConventionTest.cs" />
+    <Compile Include="DefaultBoundaryConventionTest.cs" />
+    <Compile Include="DelegatingBoundaryBehavior.cs" />
+    <Compile Include="DelegatingExceptionBoundaryBehavior.cs" />
+    <Compile Include="DelegatingBoundaryConvention.cs" />
+    <Compile Include="DelegatingVerifiableBoundary.cs" />
     <Compile Include="DependencyConstraints.cs" />
-    <Compile Include="EmptyStringInvalidValueTest.cs" />
-    <Compile Include="IInvalidValueExtensionsTest.cs" />
-    <Compile Include="InvalidGuidValueTest.cs" />
-    <Compile Include="NullReferenceInvalidValueTest.cs" />
-    <Compile Include="ValueTypeGuardConventionTest.cs" />
-    <Compile Include="ReferenceTypeGuardConventionTest.cs" />
-    <Compile Include="StringGuardConventionTest.cs" />
-    <Compile Include="ValueGuardConventionExceptionTest.cs" />
-    <Compile Include="DefaultTypeGuardSpecificationCollectionTest.cs" />
-    <Compile Include="GuidGuardSpecificationTest.cs" />
-    <Compile Include="GuidValueGuardConventionTest.cs" />
-    <Compile Include="PickedPropertyExceptionTest.cs" />
-    <Compile Include="PickedPropertyTest.cs" />
+    <Compile Include="EmptyStringBehaviorTest.cs" />
+    <Compile Include="ExceptionBoundaryBehaviorTest.cs" />
+    <Compile Include="GuidBoundaryBehaviorTest.cs" />
+    <Compile Include="MethodContextTest.cs" />
+    <Compile Include="NullReferenceBehaviorTest.cs" />
+    <Compile Include="ReflectionExceptionBoundaryBehaviorTest.cs" />
+    <Compile Include="Scenario.cs" />
+    <Compile Include="ReferenceTypeBoundaryConventionTest.cs" />
+    <Compile Include="StringBoundaryConventionTest.cs" />
+    <Compile Include="BoundaryConventionExceptionTest.cs" />
+    <Compile Include="GuidBoundaryConventionTest.cs" />
+    <Compile Include="PropertyContextExceptionTest.cs" />
+    <Compile Include="PropertyContextTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FixtureExtensionsTest.cs" />
-    <Compile Include="ReferenceTypeGuardSpecificationTest.cs" />
     <Compile Include="ReflectorFixture.cs" />
-    <Compile Include="StringGuardSpecificationTest.cs" />
-    <Compile Include="ValueTypeGuardSpecificationTest.cs" />
+    <Compile Include="VerifiableBoundaryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
