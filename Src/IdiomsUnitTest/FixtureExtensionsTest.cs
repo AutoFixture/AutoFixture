@@ -3,6 +3,8 @@ using Ploeh.AutoFixture.Idioms;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Linq;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -95,6 +97,43 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 .ForProperty((InvariantReferenceTypePropertyHolder<object> iph) => iph.Property)
                 .VerifyBoundaries();
             // Verify outcome (no exception indicates success)
+            // Teardown
+        }
+
+        [Fact]
+        public void ForPropertyWithNullFixtureAndDummyPropertyInfoThrows()
+        {
+            // Fixture setup
+            var dummyProperty = typeof(string).GetProperties().First();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                FixtureExtensions.ForProperty(null, dummyProperty));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForPropertyWithNullPropertyInfoThrows()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                fixture.ForProperty((PropertyInfo)null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForPropertyWithPropertyInfoReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var anonymousProperty = typeof(string).GetProperties().First();
+            // Exercise system
+            var result = fixture.ForProperty(anonymousProperty);
+            // Verify outcome
+            var propertyContext = Assert.IsAssignableFrom<PropertyContext>(result);
+            Assert.Equal(fixture, propertyContext.Composer);
+            Assert.Equal(anonymousProperty, propertyContext.PropertyInfo);
             // Teardown
         }
 

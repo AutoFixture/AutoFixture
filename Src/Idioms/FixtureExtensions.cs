@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -9,6 +10,20 @@ namespace Ploeh.AutoFixture.Idioms
         public static PropertyContext ForProperty<T, TProperty>(this IFixture fixture, Expression<Func<T, TProperty>> property)
         {
             var propertyInfo = Reflect<T>.GetProperty(property);
+            return fixture.ForProperty(propertyInfo);
+        }
+
+        public static PropertyContext ForProperty(this IFixture fixture, PropertyInfo propertyInfo)
+        {
+            if (fixture == null)
+            {
+                throw new ArgumentNullException("fixture");
+            }
+            if (propertyInfo == null)
+            {
+                throw new ArgumentNullException("propertyInfo");
+            }
+
             return new PropertyContext(fixture, propertyInfo);
         }
 
