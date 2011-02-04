@@ -11,21 +11,21 @@ namespace Ploeh.AutoFixture.Idioms
     public class MethodContext : IVerifiableBoundary
     {
         private readonly ISpecimenBuilderComposer composer;
-        private readonly MethodBase methodInfo;
+        private readonly MethodBase methodBase;
 
-        public MethodContext(ISpecimenBuilderComposer composer, MethodBase methodInfo)
+        public MethodContext(ISpecimenBuilderComposer composer, MethodBase methodBase)
         {
             if (composer == null)
             {
                 throw new ArgumentNullException("composer");
             }
-            if (methodInfo == null)
+            if (methodBase == null)
             {
-                throw new ArgumentNullException("methodInfo");
+                throw new ArgumentNullException("methodBase");
             }
 
             this.composer = composer;
-            this.methodInfo = methodInfo;
+            this.methodBase = methodBase;
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.Idioms
         [EditorBrowsable(EditorBrowsableState.Never)]
         public MethodBase MethodBase
         {
-            get { return this.methodInfo; }
+            get { return this.methodBase; }
         }
 
         #region IVerifiableBoundary Members
