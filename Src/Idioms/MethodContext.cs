@@ -11,9 +11,9 @@ namespace Ploeh.AutoFixture.Idioms
     public class MethodContext : IVerifiableBoundary
     {
         private readonly ISpecimenBuilderComposer composer;
-        private readonly MethodInfo methodInfo;
+        private readonly MethodBase methodInfo;
 
-        public MethodContext(ISpecimenBuilderComposer composer, MethodInfo methodInfo)
+        public MethodContext(ISpecimenBuilderComposer composer, MethodBase methodInfo)
         {
             if (composer == null)
             {
@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public MethodInfo MethodInfo
+        public MethodBase MethodBase
         {
             get { return this.methodInfo; }
         }
@@ -49,7 +49,7 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new ArgumentNullException("convention");
             }
 
-            var argumentMap = (from p in this.MethodInfo.GetParameters()
+            var argumentMap = (from p in this.MethodBase.GetParameters()
                                select new
                                {
                                    Parameter = p,
@@ -72,8 +72,8 @@ namespace Ploeh.AutoFixture.Idioms
                         var arguments = new Dictionary<ParameterInfo, object>(argumentMap);
                         arguments[c.Parameter] = x;
 
-                        var specimen = this.Composer.CreateAnonymous(this.MethodInfo.ReflectedType);
-                        this.MethodInfo.Invoke(specimen, arguments.Values.ToArray());
+                        var specimen = this.Composer.CreateAnonymous(this.MethodBase.ReflectedType);
+                        this.MethodBase.Invoke(specimen, arguments.Values.ToArray());
                     };
 
                 c.Behavior.Assert(invokeMethod);

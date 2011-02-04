@@ -63,6 +63,7 @@
     <Compile Include="DoublePropertyHolder.cs" />
     <Compile Include="EqualityResponder.cs" />
     <Compile Include="FieldHolder.cs" />
+    <Compile Include="GuardedConstructorHost.cs" />
     <Compile Include="IInterface.cs" />
     <Compile Include="IllBehavedPropertyHolder.cs" />
     <Compile Include="IndexedPropertyHolder.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="TriState.cs" />
     <Compile Include="TypeWithIndexer.cs" />
     <Compile Include="TypeWithOverloadedMembers.cs" />
+    <Compile Include="UnguardedConstructorHost.cs" />
     <Compile Include="UnguardedMethodHost.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

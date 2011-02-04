@@ -142,7 +142,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = fixture.ForMethod((TypeWithOverloadedMembers a) => a.DoSomething());
             // Verify outcome
-            Assert.Equal(expectedMethodInfo, result.MethodInfo);
+            Assert.Equal(expectedMethodInfo, result.MethodBase);
             // Teardown
         }
 
@@ -190,7 +190,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = fixture.ForMethod((TypeWithOverloadedMembers a, object x) => a.DoSomething(x));
             // Verify outcome
-            Assert.Equal(expectedMethodInfo, result.MethodInfo);
+            Assert.Equal(expectedMethodInfo, result.MethodBase);
             // Teardown
         }
 
@@ -238,7 +238,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = fixture.ForMethod((TypeWithOverloadedMembers a, object x, object y) => a.DoSomething(x, y));
             // Verify outcome
-            Assert.Equal(expectedMethodInfo, result.MethodInfo);
+            Assert.Equal(expectedMethodInfo, result.MethodBase);
             // Teardown
         }
 
@@ -286,7 +286,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = fixture.ForMethod((TypeWithOverloadedMembers a, object x, object y, object z) => a.DoSomething(x, y, z));
             // Verify outcome
-            Assert.Equal(expectedMethodInfo, result.MethodInfo);
+            Assert.Equal(expectedMethodInfo, result.MethodBase);
             // Teardown
         }
     }

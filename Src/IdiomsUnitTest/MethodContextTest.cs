@@ -50,14 +50,14 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void MethodInfoIsCorrect()
+        public void MethodBaseIsCorrect()
         {
             // Fixture setup
             var dummyFixture = new Fixture();
             var expectedMethod = typeof(object).GetMethods().First();
             var sut = new MethodContext(dummyFixture, expectedMethod);
             // Exercise system
-            MethodInfo result = sut.MethodInfo;
+            MethodBase result = sut.MethodBase;
             // Verify outcome
             Assert.Equal(expectedMethod, result);
             // Teardown
@@ -207,6 +207,38 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             var method = typeof(UnguardedMethodHost).GetMethod("ConsumeGuardedGuidAndUnguardedString");
             var sut = new MethodContext(fixture, method);
+            // Exercise system and verify outcome
+            Assert.Throws<BoundaryConventionException>(() =>
+                sut.VerifyBoundaries());
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(GuardedConstructorHost<object>))]
+        [InlineData(typeof(GuardedConstructorHost<OperatingSystem>))]
+        [InlineData(typeof(GuardedConstructorHost<Version>))]
+        public void VerifyBoundariesForGuardedConstructorSucceeds(Type type)
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var ctor = type.GetConstructors().Single(c => c.GetParameters().Length == 1);
+            var sut = new MethodContext(fixture, ctor);
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.VerifyBoundaries());
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(UnguardedConstructorHost<object>))]
+        [InlineData(typeof(UnguardedConstructorHost<OperatingSystem>))]
+        [InlineData(typeof(UnguardedConstructorHost<Version>))]
+        public void VerifyBoundariesForUnguardedConstructorThrows(Type type)
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var ctor = type.GetConstructors().Single(c => c.GetParameters().Length == 1);
+            var sut = new MethodContext(fixture, ctor);
             // Exercise system and verify outcome
             Assert.Throws<BoundaryConventionException>(() =>
                 sut.VerifyBoundaries());
