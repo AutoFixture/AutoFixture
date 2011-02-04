@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyFixture = new Fixture();
-            var dummyProperty = Reflect<string>.GetProperty(s => s.Length);
+            var dummyProperty = typeof(string).GetProperties().First();
             // Exercise system
             var sut = new PropertyContext(dummyFixture, dummyProperty);
             // Verify outcome
@@ -28,9 +28,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void InitializeWithNullFixtureThrows()
         {
             // Fixture setup
+            var dummyProperty = typeof(string).GetProperties().First();
             // Exercise system
             Assert.Throws<ArgumentNullException>(() =>
-                new PropertyContext(null, Reflect<string>.GetProperty(s => s.Length)));
+                new PropertyContext(null, dummyProperty));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -79,7 +80,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var propertyInfo = Reflect<ReadOnlyPropertyHolder<object>>.GetProperty(propertyHolder => propertyHolder.Property);
+            var propertyInfo = typeof(ReadOnlyPropertyHolder<object>).GetProperty("Property");
 
             var sut = new PropertyContext(fixture, propertyInfo);
             // Exercise system
@@ -94,7 +95,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var propertyInfo = Reflect<IllBehavedPropertyHolder<object>>.GetProperty(propertyHolder => propertyHolder.PropertyIllBehavedGet);
+            var propertyInfo = typeof(IllBehavedPropertyHolder<object>).GetProperty("PropertyIllBehavedGet");
 
             var sut = new PropertyContext(fixture, propertyInfo);
             // Exercise system
@@ -109,7 +110,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var propertyInfo = Reflect<IllBehavedPropertyHolder<object>>.GetProperty(propertyHolder => propertyHolder.PropertyIllBehavedSet);
+            var propertyInfo = typeof(IllBehavedPropertyHolder<object>).GetProperty("PropertyIllBehavedSet");
 
             var sut = new PropertyContext(fixture, propertyInfo);
             // Exercise system
@@ -124,7 +125,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var propertyInfo = Reflect<PropertyHolder<object>>.GetProperty(propertyHolder => propertyHolder.Property);
+            var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
 
             var sut = new PropertyContext(fixture, propertyInfo);
             // Exercise system
@@ -138,7 +139,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var propertyInfo = Reflect<PropertyHolder<object>>.GetProperty(propertyHolder => propertyHolder.Property);
+            var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
 
             var sut = new PropertyContext(fixture, propertyInfo);
             // Exercise system

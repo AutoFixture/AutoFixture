@@ -68,7 +68,6 @@
     <Compile Include="PropertyContextTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FixtureExtensionsTest.cs" />
-    <Compile Include="ReflectorFixture.cs" />
     <Compile Include="VerifiableBoundaryTest.cs" />
   </ItemGroup>
   <ItemGroup>
