@@ -131,9 +131,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = fixture.ForProperty(anonymousProperty);
             // Verify outcome
-            var propertyContext = Assert.IsAssignableFrom<PropertyContext>(result);
-            Assert.Equal(fixture, propertyContext.Composer);
-            Assert.Equal(anonymousProperty, propertyContext.PropertyInfo);
+            Assert.Equal(fixture, result.Composer);
+            Assert.Equal(anonymousProperty, result.PropertyInfo);
             // Teardown
         }
 
@@ -326,6 +325,42 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var result = fixture.ForMethod((TypeWithOverloadedMembers a, object x, object y, object z) => a.DoSomething(x, y, z));
             // Verify outcome
             Assert.Equal(expectedMethodInfo, result.MethodBase);
+            // Teardown
+        }
+
+        [Fact]
+        public void ForMethodWithNullFixtureAndDummyMethodBaseThrows()
+        {
+            // Fixture setup
+            var dummyMethod = typeof(object).GetMethods().First();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                FixtureExtensions.ForMethod(null, (MethodBase)dummyMethod));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForMethodWithNullMethodBaseThrows()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                fixture.ForMethod((MethodBase)null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForMethodWithMethodBaseReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var method = typeof(object).GetMethods().First();
+            // Exercise system
+            var result = fixture.ForMethod(method);
+            // Verify outcome
+            Assert.Equal(fixture, result.Composer);
+            Assert.Equal(method, result.MethodBase);
             // Teardown
         }
     }
