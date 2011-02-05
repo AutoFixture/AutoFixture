@@ -48,18 +48,32 @@ namespace Ploeh.AutoFixture.Idioms
             return composer.ForMethod(Reflect<T>.GetMethod(methodPicker));
         }
 
-        public static MethodContext ForMethod(this ISpecimenBuilderComposer composer, MethodBase methodBase)
+        public static MethodContext ForMethod(this ISpecimenBuilderComposer composer, MethodInfo methodInfo)
         {
             if (composer == null)
             {
                 throw new ArgumentNullException("composer");
             }
-            if (methodBase == null)
+            if (methodInfo == null)
             {
                 throw new ArgumentNullException("methodBase");
             }
 
-            return new MethodContext(composer, methodBase);
+            return new MethodContext(composer, methodInfo);
+        }
+
+        public static MethodContext ForMethod(this ISpecimenBuilderComposer composer, ConstructorInfo constructorInfo)
+        {
+            if (composer == null)
+            {
+                throw new ArgumentNullException("composer");
+            }
+            if (constructorInfo == null)
+            {
+                throw new ArgumentNullException("constructorInfo");
+            }
+
+            return new MethodContext(composer, constructorInfo);
         }
     }
 }

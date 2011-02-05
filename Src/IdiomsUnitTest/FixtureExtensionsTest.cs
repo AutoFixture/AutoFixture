@@ -329,29 +329,29 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ForMethodWithNullFixtureAndDummyMethodBaseThrows()
+        public void ForMethodWithNullFixtureAndDummyMethodInfoThrows()
         {
             // Fixture setup
             var dummyMethod = typeof(object).GetMethods().First();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForMethod(null, (MethodBase)dummyMethod));
+                FixtureExtensions.ForMethod(null, dummyMethod));
             // Teardown
         }
 
         [Fact]
-        public void ForMethodWithNullMethodBaseThrows()
+        public void ForMethodWithNullMethodInfoThrows()
         {
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                fixture.ForMethod((MethodBase)null));
+                fixture.ForMethod((MethodInfo)null));
             // Teardown
         }
 
         [Fact]
-        public void ForMethodWithMethodBaseReturnsCorrectResult()
+        public void ForMethodWithMethodInfoReturnsCorrectResult()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -361,6 +361,42 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Verify outcome
             Assert.Equal(fixture, result.Composer);
             Assert.Equal(method, result.MethodBase);
+            // Teardown
+        }
+
+        [Fact]
+        public void ForMethodWithNullFixtureAndDummyConstructorInfoThrows()
+        {
+            // Fixture setup
+            var dummyConstructor = typeof(object).GetConstructors().First();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                FixtureExtensions.ForMethod(null, dummyConstructor));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForMethodWithNullConstructorInfoThrows()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                fixture.ForMethod((ConstructorInfo)null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForMethodWithConstructorInfoReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var constructor = typeof(object).GetConstructors().First();
+            // Exercise system
+            var result = fixture.ForMethod(constructor);
+            // Verify outcome
+            Assert.Equal(fixture, result.Composer);
+            Assert.Equal(constructor, result.MethodBase);
             // Teardown
         }
     }

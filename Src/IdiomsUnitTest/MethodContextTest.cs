@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     public class MethodContextTest
     {
         [Fact]
-        public void InitializeWithNullComposerThrows()
+        public void InitializeWithNullComposerAndDummyMethodInfoThrows()
         {
             // Fixture setup
             var dummyMethod = typeof(object).GetMethods().First();
@@ -25,13 +25,35 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void InitializeWithNullMethodThrows()
+        public void InitializeWithNullMethodInfoThrows()
         {
             // Fixture setup
             var dummyComposer = new Fixture();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new MethodContext(dummyComposer, null));
+                new MethodContext(dummyComposer, (MethodInfo)null));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullComposerAndDummyConstructorInfoThrows()
+        {
+            // Fixture setup
+            var dummyConstructor = typeof(object).GetConstructors().First();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new MethodContext(null, dummyConstructor));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullConstructorInfoThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new MethodContext(dummyComposer, (ConstructorInfo)null));
             // Teardown
         }
 

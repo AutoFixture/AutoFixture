@@ -12,20 +12,42 @@ namespace Ploeh.AutoFixture.Idioms
     {
         private readonly ISpecimenBuilderComposer composer;
         private readonly MethodBase methodBase;
+        private readonly Action<object[]> invoke;
 
-        public MethodContext(ISpecimenBuilderComposer composer, MethodBase methodBase)
+        public MethodContext(ISpecimenBuilderComposer composer, MethodInfo methodInfo)
         {
             if (composer == null)
             {
                 throw new ArgumentNullException("composer");
             }
-            if (methodBase == null)
+            if (methodInfo == null)
             {
-                throw new ArgumentNullException("methodBase");
+                throw new ArgumentNullException("methodInfo");
             }
 
             this.composer = composer;
-            this.methodBase = methodBase;
+            this.methodBase = methodInfo;
+            this.invoke = args =>
+            {
+                var specimen = this.Composer.CreateAnonymous(this.MethodBase.ReflectedType);
+                methodInfo.Invoke(specimen, args);
+            };
+        }
+
+        public MethodContext(ISpecimenBuilderComposer composer, ConstructorInfo constructorInfo)
+        {
+            if (composer == null)
+            {
+                throw new ArgumentNullException("composer");
+            }
+            if (constructorInfo == null)
+            {
+                throw new ArgumentNullException("constructorInfo");
+            }
+
+            this.composer = composer;
+            this.methodBase = constructorInfo;
+            this.invoke = args => constructorInfo.Invoke(args);
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -72,8 +94,7 @@ namespace Ploeh.AutoFixture.Idioms
                         var arguments = new Dictionary<ParameterInfo, object>(argumentMap);
                         arguments[c.Parameter] = x;
 
-                        var specimen = this.Composer.CreateAnonymous(this.MethodBase.ReflectedType);
-                        this.MethodBase.Invoke(specimen, arguments.Values.ToArray());
+                        this.invoke(arguments.Values.ToArray());
                     };
 
                 c.Behavior.Assert(invokeMethod);
