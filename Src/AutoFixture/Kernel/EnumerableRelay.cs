@@ -45,7 +45,7 @@ namespace Ploeh.AutoFixture.Kernel
                     where enumerable != null
                     select typeof(ConvertedEnumerable<>).MakeGenericType(typeArguments).GetConstructor(new[] { typeof(IEnumerable<object>) }).Invoke(new[] { enumerable }))
                     .DefaultIfEmpty(new NoSpecimen(request))
-                    .SingleOrDefault();
+                    .Single();
         }
 
         #endregion

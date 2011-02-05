@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture.Kernel
                     && typeof(ICollection<>) == t.GetGenericTypeDefinition()
                     select context.Resolve(typeof(List<>).MakeGenericType(typeArguments)))
                     .DefaultIfEmpty(new NoSpecimen(request))
-                    .SingleOrDefault();
+                    .Single();
         }
 
         #endregion
