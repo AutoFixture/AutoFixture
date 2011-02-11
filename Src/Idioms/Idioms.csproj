@@ -67,7 +67,7 @@
     <Compile Include="ExceptionBoundaryBehavior.cs" />
     <Compile Include="GuidBoundaryBehavior.cs" />
     <Compile Include="IBoundaryBehavior.cs" />
-    <Compile Include="IVerifiableBoundary.cs" />
+    <Compile Include="IMemberContext.cs" />
     <Compile Include="MethodContext.cs" />
     <Compile Include="NullReferenceBehavior.cs" />
     <Compile Include="ReflectionExceptionBoundaryBehavior.cs" />
@@ -82,7 +82,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FixtureExtensions.cs" />
     <Compile Include="Reflect.cs" />
-    <Compile Include="VerifiableBoundary.cs" />
+    <Compile Include="MemberContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

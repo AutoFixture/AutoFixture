@@ -86,7 +86,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void SutIsVerifiableBoundary()
+        public void SutIsMemberContext()
         {
             // Fixture setup
             var dummyFixture = new Fixture();
@@ -94,7 +94,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var sut = new MethodContext(dummyFixture, expectedMethod);
             // Verify outcome
-            Assert.IsAssignableFrom<IVerifiableBoundary>(sut);
+            Assert.IsAssignableFrom<IMemberContext>(sut);
             // Teardown
         }
 

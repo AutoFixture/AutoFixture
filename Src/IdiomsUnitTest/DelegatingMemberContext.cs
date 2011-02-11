@@ -6,16 +6,16 @@ using Ploeh.AutoFixture.Idioms;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class DelegatingVerifiableBoundary : IVerifiableBoundary
+    public class DelegatingMemberContext : IMemberContext
     {
-        public DelegatingVerifiableBoundary()
+        public DelegatingMemberContext()
         {
             this.OnVerifyBoundaries = c => { };
         }
 
         public Action<IBoundaryConvention> OnVerifyBoundaries { get; set; }
 
-        #region IVerifiableBoundary Members
+        #region IMemberContext Members
 
         public void VerifyBoundaries(IBoundaryConvention convention)
         {

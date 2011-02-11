@@ -7,7 +7,7 @@ using Ploeh.AutoFixture.Idioms;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class VerifiableBoundaryTest
+    public class MemberContextTest
     {
         [Fact]
         public void VerifyBoundariesAgainstNullBoundaryThrows()
@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                VerifiableBoundary.VerifyBoundaries(null));
+                MemberContext.VerifyBoundaries(null));
             // Teardown
         }
 
@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var verified = false;
-            var mock = new DelegatingVerifiableBoundary { OnVerifyBoundaries = c => verified = c is DefaultBoundaryConvention };
+            var mock = new DelegatingMemberContext { OnVerifyBoundaries = c => verified = c is DefaultBoundaryConvention };
             // Exercise system
             mock.VerifyBoundaries();
             // Verify outcome

@@ -8,7 +8,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class MethodContext : IVerifiableBoundary
+    public class MethodContext : IMemberContext
     {
         private readonly ISpecimenBuilderComposer composer;
         private readonly MethodBase methodBase;
@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixture.Idioms
             get { return this.methodBase; }
         }
 
-        #region IVerifiableBoundary Members
+        #region IMemberContext Members
 
         public void VerifyBoundaries(IBoundaryConvention convention)
         {

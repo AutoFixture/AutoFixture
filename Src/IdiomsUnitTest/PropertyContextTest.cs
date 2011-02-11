@@ -12,7 +12,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     public class PropertyContextTest
     {
         [Fact]
-        public void SutIsVerifiableBoundary()
+        public void SutIsMemberContext()
         {
             // Fixture setup
             var dummyFixture = new Fixture();
@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var sut = new PropertyContext(dummyFixture, dummyProperty);
             // Verify outcome
-            Assert.IsAssignableFrom<IVerifiableBoundary>(sut);
+            Assert.IsAssignableFrom<IMemberContext>(sut);
             // Teardown
         }
 

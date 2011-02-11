@@ -51,7 +51,7 @@
     <Compile Include="DelegatingBoundaryBehavior.cs" />
     <Compile Include="DelegatingExceptionBoundaryBehavior.cs" />
     <Compile Include="DelegatingBoundaryConvention.cs" />
-    <Compile Include="DelegatingVerifiableBoundary.cs" />
+    <Compile Include="DelegatingMemberContext.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="EmptyStringBehaviorTest.cs" />
     <Compile Include="ExceptionBoundaryBehaviorTest.cs" />
@@ -68,7 +68,7 @@
     <Compile Include="PropertyContextTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FixtureExtensionsTest.cs" />
-    <Compile Include="VerifiableBoundaryTest.cs" />
+    <Compile Include="MemberContextTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

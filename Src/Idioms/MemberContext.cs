@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public static class VerifiableBoundary
+    public static class MemberContext
     {
-        public static void VerifyBoundaries(this IVerifiableBoundary boundary)
+        public static void VerifyBoundaries(this IMemberContext boundary)
         {
             if (boundary == null)
             {

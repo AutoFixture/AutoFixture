@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public interface IVerifiableBoundary
+    public interface IMemberContext
     {
         void VerifyBoundaries(IBoundaryConvention convention);
     }
