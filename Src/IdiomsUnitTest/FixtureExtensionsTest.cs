@@ -131,8 +131,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = fixture.ForProperty(anonymousProperty);
             // Verify outcome
-            Assert.Equal(fixture, result.Composer);
-            Assert.Equal(anonymousProperty, result.PropertyInfo);
+            var ctx = Assert.IsAssignableFrom<PropertyContext>(result);
+            Assert.Equal(fixture, ctx.Composer);
+            Assert.Equal(anonymousProperty, ctx.PropertyInfo);
             // Teardown
         }
 
@@ -165,9 +166,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             Expression<Action<TypeWithOverloadedMembers>> dummyExpression = a => a.DoSomething();
             // Exercise system
-            MethodContext result = fixture.ForMethod(dummyExpression);
+            IMethodContext result = fixture.ForMethod(dummyExpression);
             // Verify outcome
-            Assert.Equal(fixture, result.Composer);
+            var ctx = Assert.IsAssignableFrom<MethodContext>(result);
+            Assert.Equal(fixture, ctx.Composer);
             // Teardown
         }
 
@@ -180,7 +182,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = fixture.ForMethod((TypeWithOverloadedMembers a) => a.DoSomething());
             // Verify outcome
-            Assert.Equal(expectedMethodInfo, result.MethodBase);
+            var ctx = Assert.IsAssignableFrom<MethodContext>(result);
+            Assert.Equal(expectedMethodInfo, ctx.MethodBase);
             // Teardown
         }
 
@@ -213,9 +216,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             Expression<Action<TypeWithOverloadedMembers, object>> dummyExpression = (a, x) => a.DoSomething(x);
             // Exercise system
-            MethodContext result = fixture.ForMethod(dummyExpression);
+            IMethodContext result = fixture.ForMethod(dummyExpression);
             // Verify outcome
-            Assert.Equal(fixture, result.Composer);
+            var ctx = Assert.IsAssignableFrom<MethodContext>(result);
+            Assert.Equal(fixture, ctx.Composer);
             // Teardown
         }
 
@@ -228,7 +232,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = fixture.ForMethod((TypeWithOverloadedMembers a, object x) => a.DoSomething(x));
             // Verify outcome
-            Assert.Equal(expectedMethodInfo, result.MethodBase);
+            var ctx = Assert.IsAssignableFrom<MethodContext>(result);
+            Assert.Equal(expectedMethodInfo, ctx.MethodBase);
             // Teardown
         }
 
@@ -261,9 +266,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             Expression<Action<TypeWithOverloadedMembers, object, object>> dummyExpression = (a, x, y) => a.DoSomething(x, y);
             // Exercise system
-            MethodContext result = fixture.ForMethod(dummyExpression);
+            IMethodContext result = fixture.ForMethod(dummyExpression);
             // Verify outcome
-            Assert.Equal(fixture, result.Composer);
+            var ctx = Assert.IsAssignableFrom<MethodContext>(result);
+            Assert.Equal(fixture, ctx.Composer);
             // Teardown
         }
 
@@ -276,7 +282,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = fixture.ForMethod((TypeWithOverloadedMembers a, object x, object y) => a.DoSomething(x, y));
             // Verify outcome
-            Assert.Equal(expectedMethodInfo, result.MethodBase);
+            var ctx = Assert.IsAssignableFrom<MethodContext>(result);
+            Assert.Equal(expectedMethodInfo, ctx.MethodBase);
             // Teardown
         }
 
@@ -309,9 +316,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fixture = new Fixture();
             Expression<Action<TypeWithOverloadedMembers, object, object, object>> dummyExpression = (a, x, y, z) => a.DoSomething(x, y, z);
             // Exercise system
-            MethodContext result = fixture.ForMethod(dummyExpression);
+            IMethodContext result = fixture.ForMethod(dummyExpression);
             // Verify outcome
-            Assert.Equal(fixture, result.Composer);
+            var ctx = Assert.IsAssignableFrom<MethodContext>(result);
+            Assert.Equal(fixture, ctx.Composer);
             // Teardown
         }
 
@@ -324,7 +332,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = fixture.ForMethod((TypeWithOverloadedMembers a, object x, object y, object z) => a.DoSomething(x, y, z));
             // Verify outcome
-            Assert.Equal(expectedMethodInfo, result.MethodBase);
+            var ctx = Assert.IsAssignableFrom<MethodContext>(result);
+            Assert.Equal(expectedMethodInfo, ctx.MethodBase);
             // Teardown
         }
 
@@ -359,8 +368,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = fixture.ForMethod(method);
             // Verify outcome
-            Assert.Equal(fixture, result.Composer);
-            Assert.Equal(method, result.MethodBase);
+            var ctx = Assert.IsAssignableFrom<MethodContext>(result);
+            Assert.Equal(fixture, ctx.Composer);
+            Assert.Equal(method, ctx.MethodBase);
             // Teardown
         }
 
@@ -395,8 +405,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = fixture.ForMethod(constructor);
             // Verify outcome
-            Assert.Equal(fixture, result.Composer);
-            Assert.Equal(constructor, result.MethodBase);
+            var ctx = Assert.IsAssignableFrom<MethodContext>(result);
+            Assert.Equal(fixture, ctx.Composer);
+            Assert.Equal(constructor, ctx.MethodBase);
             // Teardown
         }
     }

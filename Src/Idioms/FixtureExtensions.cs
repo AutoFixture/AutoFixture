@@ -8,13 +8,13 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public static class FixtureExtensions
     {
-        public static PropertyContext ForProperty<T, TProperty>(this ISpecimenBuilderComposer composer, Expression<Func<T, TProperty>> property)
+        public static IPropertyContext ForProperty<T, TProperty>(this ISpecimenBuilderComposer composer, Expression<Func<T, TProperty>> property)
         {
             var propertyInfo = Reflect<T>.GetProperty(property);
             return composer.ForProperty(propertyInfo);
         }
 
-        public static PropertyContext ForProperty(this ISpecimenBuilderComposer composer, PropertyInfo propertyInfo)
+        public static IPropertyContext ForProperty(this ISpecimenBuilderComposer composer, PropertyInfo propertyInfo)
         {
             if (composer == null)
             {
@@ -28,27 +28,27 @@ namespace Ploeh.AutoFixture.Idioms
             return new PropertyContext(composer, propertyInfo);
         }
 
-        public static MethodContext ForMethod<T>(this ISpecimenBuilderComposer composer, Expression<Action<T>> methodPicker)
+        public static IMethodContext ForMethod<T>(this ISpecimenBuilderComposer composer, Expression<Action<T>> methodPicker)
         {
             return composer.ForMethod(Reflect<T>.GetMethod(methodPicker));
         }
 
-        public static MethodContext ForMethod<T, TInput>(this ISpecimenBuilderComposer composer, Expression<Action<T, TInput>> methodPicker)
+        public static IMethodContext ForMethod<T, TInput>(this ISpecimenBuilderComposer composer, Expression<Action<T, TInput>> methodPicker)
         {
             return composer.ForMethod(Reflect<T>.GetMethod(methodPicker));
         }
 
-        public static MethodContext ForMethod<T, TInput1, TInput2>(this ISpecimenBuilderComposer composer, Expression<Action<T, TInput1, TInput2>> methodPicker)
+        public static IMethodContext ForMethod<T, TInput1, TInput2>(this ISpecimenBuilderComposer composer, Expression<Action<T, TInput1, TInput2>> methodPicker)
         {
             return composer.ForMethod(Reflect<T>.GetMethod(methodPicker));
         }
 
-        public static MethodContext ForMethod<T, TInput1, TInput2, TInput3>(this ISpecimenBuilderComposer composer, Expression<Action<T, TInput1, TInput2, TInput3>> methodPicker)
+        public static IMethodContext ForMethod<T, TInput1, TInput2, TInput3>(this ISpecimenBuilderComposer composer, Expression<Action<T, TInput1, TInput2, TInput3>> methodPicker)
         {
             return composer.ForMethod(Reflect<T>.GetMethod(methodPicker));
         }
 
-        public static MethodContext ForMethod(this ISpecimenBuilderComposer composer, MethodInfo methodInfo)
+        public static IMethodContext ForMethod(this ISpecimenBuilderComposer composer, MethodInfo methodInfo)
         {
             if (composer == null)
             {
@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixture.Idioms
             return new MethodContext(composer, methodInfo);
         }
 
-        public static MethodContext ForMethod(this ISpecimenBuilderComposer composer, ConstructorInfo constructorInfo)
+        public static IMethodContext ForMethod(this ISpecimenBuilderComposer composer, ConstructorInfo constructorInfo)
         {
             if (composer == null)
             {
