@@ -375,35 +375,35 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ForMethodWithNullFixtureAndDummyConstructorInfoThrows()
+        public void ForConstructorWithNullFixtureAndDummyConstructorInfoThrows()
         {
             // Fixture setup
             var dummyConstructor = typeof(object).GetConstructors().First();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForMethod(null, dummyConstructor));
+                FixtureExtensions.ForConstructor(null, dummyConstructor));
             // Teardown
         }
 
         [Fact]
-        public void ForMethodWithNullConstructorInfoThrows()
+        public void ForConstructorWithNullConstructorInfoThrows()
         {
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                fixture.ForMethod((ConstructorInfo)null));
+                fixture.ForConstructor((ConstructorInfo)null));
             // Teardown
         }
 
         [Fact]
-        public void ForMethodWithConstructorInfoReturnsCorrectResult()
+        public void ForConstructorWithConstructorInfoReturnsCorrectResult()
         {
             // Fixture setup
             var fixture = new Fixture();
             var constructor = typeof(object).GetConstructors().First();
             // Exercise system
-            var result = fixture.ForMethod(constructor);
+            var result = fixture.ForConstructor(constructor);
             // Verify outcome
             var ctx = Assert.IsAssignableFrom<MethodContext>(result);
             Assert.Equal(fixture, ctx.Composer);

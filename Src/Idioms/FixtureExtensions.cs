@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixture.Idioms
             return new MethodContext(composer, methodInfo);
         }
 
-        public static IMethodContext ForMethod(this ISpecimenBuilderComposer composer, ConstructorInfo constructorInfo)
+        public static IMethodContext ForConstructor(this ISpecimenBuilderComposer composer, ConstructorInfo constructorInfo)
         {
             if (composer == null)
             {
