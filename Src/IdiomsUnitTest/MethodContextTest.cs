@@ -90,11 +90,24 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyFixture = new Fixture();
-            var expectedMethod = typeof(object).GetMethods().First();
+            var dummyMethod = typeof(object).GetMethods().First();
             // Exercise system
-            var sut = new MethodContext(dummyFixture, expectedMethod);
+            var sut = new MethodContext(dummyFixture, dummyMethod);
             // Verify outcome
             Assert.IsAssignableFrom<IMemberContext>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutIsMethodContext()
+        {
+            // Fixture setup
+            var dummyFixture = new Fixture();
+            var dummyMethod = typeof(object).GetMethods().First();
+            // Exercise system
+            var sut = new MethodContext(dummyFixture, dummyMethod);
+            // Verify outcome
+            Assert.IsAssignableFrom<IMethodContext>(sut);
             // Teardown
         }
 

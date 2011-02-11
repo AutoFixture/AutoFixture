@@ -8,7 +8,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class MethodContext : IMemberContext
+    public class MethodContext : IMethodContext
     {
         private readonly ISpecimenBuilderComposer composer;
         private readonly MethodBase methodBase;
