@@ -47,11 +47,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompositeBoundaryConventionTest.cs" />
+    <Compile Include="CompositeMethodContextTest.cs" />
     <Compile Include="DefaultBoundaryConventionTest.cs" />
     <Compile Include="DelegatingBoundaryBehavior.cs" />
     <Compile Include="DelegatingExceptionBoundaryBehavior.cs" />
     <Compile Include="DelegatingBoundaryConvention.cs" />
     <Compile Include="DelegatingMemberContext.cs" />
+    <Compile Include="DelegatingMethodContext.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="EmptyStringBehaviorTest.cs" />
     <Compile Include="ExceptionBoundaryBehaviorTest.cs" />
