@@ -25,6 +25,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
+        public void SutIsPropertyContext()
+        {
+            // Fixture setup
+            var dummyFixture = new Fixture();
+            var dummyProperty = typeof(string).GetProperties().First();
+            // Exercise system
+            var sut = new PropertyContext(dummyFixture, dummyProperty);
+            // Verify outcome
+            Assert.IsAssignableFrom<IPropertyContext>(sut);
+            // Teardown
+        }
+
+        [Fact]
         public void InitializeWithNullFixtureThrows()
         {
             // Fixture setup

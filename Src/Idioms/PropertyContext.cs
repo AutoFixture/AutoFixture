@@ -6,7 +6,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class PropertyContext : IMemberContext
+    public class PropertyContext : IPropertyContext
     {
         private readonly ISpecimenBuilderComposer composer;
         private readonly PropertyInfo propertyInfo;
@@ -40,6 +40,8 @@ namespace Ploeh.AutoFixture.Idioms
             get { return this.propertyInfo; }
         }
 
+        #region IPropertyContext Members
+
         public void VerifyWritable()
         {
             if (this.isPropertyReadOnly)
@@ -58,6 +60,8 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new PropertyContextException("The supplied PropertyInfo does not point out a well-behaved property.");
             }
         }
+
+        #endregion
 
         #region IMemberContext Members
 

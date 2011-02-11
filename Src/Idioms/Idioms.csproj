@@ -68,6 +68,7 @@
     <Compile Include="GuidBoundaryBehavior.cs" />
     <Compile Include="IBoundaryBehavior.cs" />
     <Compile Include="IMemberContext.cs" />
+    <Compile Include="IPropertyContext.cs" />
     <Compile Include="MethodContext.cs" />
     <Compile Include="NullReferenceBehavior.cs" />
     <Compile Include="ReflectionExceptionBoundaryBehavior.cs" />
