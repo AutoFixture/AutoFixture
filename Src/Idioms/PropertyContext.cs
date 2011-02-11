@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
@@ -28,13 +27,11 @@ namespace Ploeh.AutoFixture.Idioms
             this.isPropertyReadOnly = this.propertyInfo.GetSetMethod() == null;
         }
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public ISpecimenBuilderComposer Composer
         {
             get { return this.composer; }
         }
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public PropertyInfo PropertyInfo
         {
             get { return this.propertyInfo; }

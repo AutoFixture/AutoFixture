@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.ComponentModel;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 
@@ -50,13 +49,11 @@ namespace Ploeh.AutoFixture.Idioms
             this.invoke = args => constructorInfo.Invoke(args);
         }
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public ISpecimenBuilderComposer Composer
         {
             get { return this.composer; }
         }
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public MethodBase MethodBase
         {
             get { return this.methodBase; }
