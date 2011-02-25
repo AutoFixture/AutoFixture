@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.builder; }
         }
 
-        #region ISpecimenContainer Members
+        #region ISpecimenContext Members
 
         /// <summary>
         /// Creates an anonymous variable (specimen) based on a request by delegating the request
