@@ -21,15 +21,15 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void MethodContextsIsCorrectWhenInitializedByArray()
+        public void MemberContextsIsCorrectWhenInitializedByArray()
         {
             // Fixture setup
-            var expectedMethodContexts = new[] { new DelegatingMethodContext(), new DelegatingMethodContext(), new DelegatingMethodContext() };
-            var sut = new CompositeMethodContext(expectedMethodContexts);
+            var expectedMemberContexts = new[] { new DelegatingMethodContext(), new DelegatingMethodContext(), new DelegatingMethodContext() };
+            var sut = new CompositeMethodContext(expectedMemberContexts);
             // Exercise system
             IEnumerable<IMethodContext> result = sut.MethodContexts;
             // Verify outcome
-            Assert.True(expectedMethodContexts.SequenceEqual(result));
+            Assert.True(expectedMemberContexts.SequenceEqual(result));
             // Teardown
         }
 
@@ -44,15 +44,15 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void MethodContextIsCorrectWhenInitializedByEnumerable()
+        public void MemberContextsIsCorrectWhenInitializedByEnumerable()
         {
             // Fixture setup
-            var expectedMethodContexts = new[] { new DelegatingMethodContext(), new DelegatingMethodContext(), new DelegatingMethodContext() }.AsEnumerable().Cast<IMethodContext>();
-            var sut = new CompositeMethodContext(expectedMethodContexts);
+            var expectedMemberContexts = new[] { new DelegatingMethodContext(), new DelegatingMethodContext(), new DelegatingMethodContext() }.AsEnumerable().Cast<IMethodContext>();
+            var sut = new CompositeMethodContext(expectedMemberContexts);
             // Exercise system
             var result = sut.MethodContexts;
             // Verify outcome
-            Assert.True(expectedMethodContexts.SequenceEqual(result));
+            Assert.True(expectedMemberContexts.SequenceEqual(result));
             // Teardown
         }
 
