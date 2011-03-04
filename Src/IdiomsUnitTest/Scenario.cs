@@ -48,5 +48,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             new Fixture().ForAllPropertiesOf<DoublePropertyHolder<string, int>>().VerifyWritable();
         }
+
+        [Fact]
+        public void VerifyBoundariesForAllConstructors()
+        {
+            new Fixture().ForAllConstructorsOf<GuardedConstructorHost<Version>>().VerifyBoundaries();
+        }
     }
 }

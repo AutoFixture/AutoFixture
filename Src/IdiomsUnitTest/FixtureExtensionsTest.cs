@@ -492,7 +492,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ForAllPropertiessOfGenericReturnsCorrectResult()
+        public void ForAllPropertiesOfGenericReturnsCorrectResult()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -532,7 +532,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ForAllPropertiessOfTypeInstanceReturnsCorrectResult()
+        public void ForAllPropertiesOfTypeInstanceReturnsCorrectResult()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -546,6 +546,74 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                          select pi).SequenceEqual(from p in typeof(PropertyHolder<string>).GetProperties()
                                                   orderby p.Name
                                                   select p));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllConstructorsOfGenericWithNullComposerThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                FixtureExtensions.ForAllConstructorsOf<GuardedConstructorHost<Version>>(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllConstructorsOfGenericReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.ForAllConstructorsOf<GuardedConstructorHost<Version>>();
+            // Verify outcome
+            var composite = Assert.IsAssignableFrom<CompositeMethodContext>(result);
+            Assert.True((from ctx in composite.MethodContexts.OfType<MethodContext>()
+                         let m = ctx.MethodBase
+                         orderby m.Name
+                         select m).SequenceEqual(from c in typeof(GuardedConstructorHost<Version>).GetConstructors()
+                                                  orderby c.Name
+                                                  select c as MethodBase));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllConstructorsOfTypeInstanceWithNullComposerThrows()
+        {
+            // Fixture setup
+            var dummyType = typeof(GuardedConstructorHost<Version>);
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                FixtureExtensions.ForAllConstructorsOf(null, dummyType));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllConstructorsOfTypeInstanceWithNullTypeThrows()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                fixture.ForAllConstructorsOf(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllConstructorsOfTypeInstanceReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.ForAllConstructorsOf(typeof(GuardedConstructorHost<Version>));
+            // Verify outcome
+            var composite = Assert.IsAssignableFrom<CompositeMethodContext>(result);
+            Assert.True((from ctx in composite.MethodContexts.OfType<MethodContext>()
+                         let m = ctx.MethodBase
+                         orderby m.Name
+                         select m).SequenceEqual(from c in typeof(GuardedConstructorHost<Version>).GetConstructors()
+                                                 orderby c.Name
+                                                 select c as MethodBase));
             // Teardown
         }
     }
