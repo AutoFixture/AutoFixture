@@ -24,5 +24,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             new Fixture().ForMethod((GuardedMethodHost sut, string s, int i, Guid g) => sut.ConsumeStringAndInt32AndGuid(s, i, g)).VerifyBoundaries();
         }
+
+        [Fact]
+        public void VerifyBoundariesForAllMethods()
+        {
+            new Fixture().ForAllMethodsOf<GuardedMethodHost>().VerifyBoundaries();
+        }
     }
 }

@@ -410,5 +410,75 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(constructor, ctx.MethodBase);
             // Teardown
         }
+
+        [Fact]
+        public void ForAllMethodsOfGenericWithNullComposerThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                FixtureExtensions.ForAllMethodsOf<object>(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllMethodsOfGenericReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.ForAllMethodsOf<object>();
+            // Verify outcome
+            var composite = Assert.IsAssignableFrom<CompositeMethodContext>(result);
+            Assert.True((from ctx in composite.MethodContexts.OfType<MethodContext>()
+                         let mb = ctx.MethodBase
+                         orderby mb.Name
+                         select mb).SequenceEqual(from m in typeof(object).GetMethods()
+                                                  where m.Name != "Equals"
+                                                  orderby m.Name
+                                                  select m as MethodBase));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllMethodsOfTypeInstanceWithNullComposerThrows()
+        {
+            // Fixture setup
+            var dummyType = typeof(object);
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                FixtureExtensions.ForAllMethodsOf(null, dummyType));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllMethodsOfTypeInstanceWithNullTypeThrows()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                fixture.ForAllMethodsOf(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllMethodsOfTypeInstanceReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.ForAllMethodsOf(typeof(object));
+            // Verify outcome
+            var composite = Assert.IsAssignableFrom<CompositeMethodContext>(result);
+            Assert.True((from ctx in composite.MethodContexts.OfType<MethodContext>()
+                         let mb = ctx.MethodBase
+                         orderby mb.Name
+                         select mb).SequenceEqual(from m in typeof(object).GetMethods()
+                                                  where m.Name != "Equals"
+                                                  orderby m.Name
+                                                  select m as MethodBase));
+            // Teardown
+        }
     }
 }

@@ -62,6 +62,23 @@ namespace Ploeh.AutoFixture.Idioms
             return new MethodContext(composer, methodInfo);
         }
 
+        public static IMethodContext ForAllMethodsOf<T>(this ISpecimenBuilderComposer composer)
+        {
+            return composer.ForAllMethodsOf(typeof(T));
+        }
+
+        public static IMethodContext ForAllMethodsOf(this ISpecimenBuilderComposer composer, Type type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
+            return new CompositeMethodContext(from m in type.GetMethods()
+                                              where m.Name != "Equals"
+                                              select new MethodContext(composer, m) as IMethodContext);
+        }
+
         public static IMethodContext ForConstructor(this ISpecimenBuilderComposer composer, ConstructorInfo constructorInfo)
         {
             if (composer == null)
