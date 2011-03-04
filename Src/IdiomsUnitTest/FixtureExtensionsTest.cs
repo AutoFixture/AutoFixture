@@ -94,7 +94,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             // Exercise system
             new Fixture()
-                .ForProperty((InvariantReferenceTypePropertyHolder<object> iph) => iph.Property)
+                .ForProperty((GuardedPropertyHolder<object> iph) => iph.Property)
                 .VerifyBoundaries();
             // Verify outcome (no exception indicates success)
             // Teardown
@@ -478,6 +478,74 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                                                   where m.Name != "Equals"
                                                   orderby m.Name
                                                   select m as MethodBase));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllPropertiesOfGenericWithNullComposerThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                FixtureExtensions.ForAllPropertiesOf<PropertyHolder<string>>(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllPropertiessOfGenericReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.ForAllPropertiesOf<PropertyHolder<string>>();
+            // Verify outcome
+            var composite = Assert.IsAssignableFrom<CompositePropertyContext>(result);
+            Assert.True((from ctx in composite.PropertyContexts.OfType<PropertyContext>()
+                         let pi = ctx.PropertyInfo
+                         orderby pi.Name
+                         select pi).SequenceEqual(from p in typeof(PropertyHolder<string>).GetProperties()
+                                                  orderby p.Name
+                                                  select p));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllPropertiesOfTypeInstanceWithNullComposerThrows()
+        {
+            // Fixture setup
+            var dummyType = typeof(PropertyHolder<Guid>);
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                FixtureExtensions.ForAllPropertiesOf(null, dummyType));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllPropertiesOfTypeInstanceWithNullTypeThrows()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                fixture.ForAllPropertiesOf(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllPropertiessOfTypeInstanceReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.ForAllPropertiesOf(typeof(PropertyHolder<string>));
+            // Verify outcome
+            var composite = Assert.IsAssignableFrom<CompositePropertyContext>(result);
+            Assert.True((from ctx in composite.PropertyContexts.OfType<PropertyContext>()
+                         let pi = ctx.PropertyInfo
+                         orderby pi.Name
+                         select pi).SequenceEqual(from p in typeof(PropertyHolder<string>).GetProperties()
+                                                  orderby p.Name
+                                                  select p));
             // Teardown
         }
     }

@@ -2,7 +2,7 @@ using System;
 
 namespace Ploeh.TestTypeFoundation
 {
-    public class InvariantReferenceTypePropertyHolder<T> where T : class
+    public class GuardedPropertyHolder<T>
     {
         private T property;
 
@@ -15,7 +15,7 @@ namespace Ploeh.TestTypeFoundation
 
             set
             {
-                if (value == default(T))
+                if (object.Equals(value, default(T)))
                 {
                     throw new ArgumentNullException("value");
                 }

@@ -67,7 +67,7 @@
     <Compile Include="IInterface.cs" />
     <Compile Include="IllBehavedPropertyHolder.cs" />
     <Compile Include="IndexedPropertyHolder.cs" />
-    <Compile Include="InvariantReferenceTypePropertyHolder.cs" />
+    <Compile Include="GuardedPropertyHolder.cs" />
     <Compile Include="GuardedMethodHost.cs" />
     <Compile Include="MultiUnorderedConstructorType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

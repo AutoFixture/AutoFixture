@@ -28,6 +28,22 @@ namespace Ploeh.AutoFixture.Idioms
             return new PropertyContext(composer, propertyInfo);
         }
 
+        public static IPropertyContext ForAllPropertiesOf<T>(this ISpecimenBuilderComposer composer)
+        {
+            return composer.ForAllPropertiesOf(typeof(T));
+        }
+
+        public static IPropertyContext ForAllPropertiesOf(this ISpecimenBuilderComposer composer, Type type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
+            return new CompositePropertyContext(from p in type.GetProperties()
+                                                select new PropertyContext(composer, p) as IPropertyContext);
+        }
+
         public static IMethodContext ForMethod<T>(this ISpecimenBuilderComposer composer, Expression<Action<T>> methodPicker)
         {
             return composer.ForMethod(Reflect<T>.GetMethod(methodPicker));

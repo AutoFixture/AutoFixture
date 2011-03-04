@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyBoundariesForProperty()
         {
-            new Fixture().ForProperty((InvariantReferenceTypePropertyHolder<object> sut) => sut.Property).VerifyBoundaries();
+            new Fixture().ForProperty((GuardedPropertyHolder<object> sut) => sut.Property).VerifyBoundaries();
         }
 
         [Fact]
@@ -29,6 +29,24 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void VerifyBoundariesForAllMethods()
         {
             new Fixture().ForAllMethodsOf<GuardedMethodHost>().VerifyBoundaries();
+        }
+
+        [Fact]
+        public void VerifyBoundariesForAllPropertiesOnMutableClass()
+        {
+            new Fixture().ForAllPropertiesOf<GuardedPropertyHolder<Version>>().VerifyBoundaries();
+        }
+
+        [Fact]
+        public void VerifyBoundariesForAllPropertiesOnImmutableClass()
+        {
+            new Fixture().ForAllPropertiesOf<DoubleParameterType<string, object>>().VerifyBoundaries();
+        }
+
+        [Fact]
+        public void VerifyWritableForAllPropertiesOnMutableClass()
+        {
+            new Fixture().ForAllPropertiesOf<DoublePropertyHolder<string, int>>().VerifyWritable();
         }
     }
 }

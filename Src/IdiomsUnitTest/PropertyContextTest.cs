@@ -199,7 +199,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void VerifyBoundariesDoesNotThrowWhenSutHasCorrectBoundaryBehavior()
         {
             // Fixture setup
-            var sut = new Fixture().ForProperty((InvariantReferenceTypePropertyHolder<object> x) => x.Property);
+            var sut = new Fixture().ForProperty((GuardedPropertyHolder<object> x) => x.Property);
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() =>
                 sut.VerifyBoundaries());
