@@ -64,6 +64,7 @@
     <Compile Include="CompositeBoundaryConvention.cs" />
     <Compile Include="CompositeMemberContext.cs" />
     <Compile Include="CompositeMethodContext.cs" />
+    <Compile Include="CompositePropertyContext.cs" />
     <Compile Include="DefaultBoundaryConvention.cs" />
     <Compile Include="EmptyStringBehavior.cs" />
     <Compile Include="ExceptionBoundaryBehavior.cs" />
