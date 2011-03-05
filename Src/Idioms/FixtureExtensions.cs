@@ -72,7 +72,7 @@ namespace Ploeh.AutoFixture.Idioms
             }
             if (methodInfo == null)
             {
-                throw new ArgumentNullException("methodBase");
+                throw new ArgumentNullException("methodInfo");
             }
 
             return new MethodContext(composer, methodInfo);

@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
@@ -81,7 +82,7 @@ namespace Ploeh.AutoFixture.Idioms
                             select b.UnwrapReflectionExceptions();
             foreach (var b in behaviors)
             {
-                b.Assert(setProperty, string.Format("Assigning the property {0}", this.PropertyInfo.Name));
+                b.Assert(setProperty, string.Format(CultureInfo.InvariantCulture, "Assigning the property {0}", this.PropertyInfo.Name));
             }
         }
 

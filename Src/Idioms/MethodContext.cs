@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
+using System.Globalization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -32,7 +33,7 @@ namespace Ploeh.AutoFixture.Idioms
                 var specimen = this.Composer.CreateAnonymous(this.MethodBase.ReflectedType);
                 methodInfo.Invoke(specimen, args);
             };
-            this.context = string.Format("The \"{0}\" method", this.MethodBase.Name);
+            this.context = string.Format(CultureInfo.InvariantCulture, "The \"{0}\" method", this.MethodBase.Name);
         }
 
         public MethodContext(ISpecimenBuilderComposer composer, ConstructorInfo constructorInfo)
@@ -97,7 +98,7 @@ namespace Ploeh.AutoFixture.Idioms
                         this.invoke(arguments.Values.ToArray());
                     };
 
-                c.Behavior.Assert(invokeMethod, string.Format("{0} argument \"{1}\"", this.context, c.Parameter.Name));
+                c.Behavior.Assert(invokeMethod, string.Format(CultureInfo.InvariantCulture, "{0} argument \"{1}\"", this.context, c.Parameter.Name));
             }
         }
 

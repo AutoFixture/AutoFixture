@@ -26,6 +26,7 @@ namespace Ploeh.AutoFixture.Idioms
                 {
                     return;
                 }
+                throw;
             }
 
             throw new BoundaryConventionException(
