@@ -144,7 +144,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             {
                 OnCreateBoundaryBehaviors = t => new[] { new DelegatingBoundaryBehavior
                 {
-                    OnAssert = a => invocations++
+                    OnAssert = (a, ctx) => invocations++
                 }}
             };
             // Exercise system
@@ -163,7 +163,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new MethodContext(fixture, method);
 
             var invocations = new List<int>();
-            var behaviors = Enumerable.Range(0, 3).Select(i => new DelegatingBoundaryBehavior { OnAssert = a => invocations.Add(i) }).ToArray();
+            var behaviors = Enumerable.Range(0, 3).Select(i => new DelegatingBoundaryBehavior { OnAssert = (a, ctx) => invocations.Add(i) }).ToArray();
             var convention = new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = t => behaviors };
             // Exercise system
             sut.VerifyBoundaries(convention);
@@ -191,7 +191,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var typedBehaviors = (from p in method.GetParameters()
                                   select new
                                   {
-                                      Behavior = new DelegatingBoundaryBehavior { OnAssert = a => invokedParameterTypes.Add(p.ParameterType) },
+                                      Behavior = new DelegatingBoundaryBehavior { OnAssert = (a, ctx) => invokedParameterTypes.Add(p.ParameterType) },
                                       ParameterType = p.ParameterType
                                   }).ToDictionary(x => x.ParameterType);
             var convention = new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = t => new[] { typedBehaviors[t].Behavior } };

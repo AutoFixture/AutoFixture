@@ -169,9 +169,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var invocations = 0;
             var behaviors = new[]
             {
-                new DelegatingBoundaryBehavior{ OnAssert = a => invocations++ },
-                new DelegatingBoundaryBehavior{ OnAssert = a => invocations++ },
-                new DelegatingBoundaryBehavior{ OnAssert = a => invocations++ }
+                new DelegatingBoundaryBehavior{ OnAssert = (a, ctx) => invocations++ },
+                new DelegatingBoundaryBehavior{ OnAssert = (a, ctx) => invocations++ },
+                new DelegatingBoundaryBehavior{ OnAssert = (a, ctx) => invocations++ }
             };
 
             var convention = new DelegatingBoundaryConvention { OnCreateBoundaryBehaviors = t => t == typeof(object) ? behaviors : Enumerable.Empty<IBoundaryBehavior>() };

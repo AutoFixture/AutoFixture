@@ -95,7 +95,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var expected = "null reference";
+            var expected = "null";
 
             var sut = fixture.CreateAnonymous<NullReferenceBehavior>();
             // Exercise system

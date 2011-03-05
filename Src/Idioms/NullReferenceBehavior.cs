@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public override string Description
         {
-            get { return "null reference"; }
+            get { return "null"; }
         }
     }
 }

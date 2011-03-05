@@ -12,6 +12,7 @@ namespace Ploeh.AutoFixture.Idioms
         private readonly ISpecimenBuilderComposer composer;
         private readonly MethodBase methodBase;
         private readonly Action<object[]> invoke;
+        private readonly string context;
 
         public MethodContext(ISpecimenBuilderComposer composer, MethodInfo methodInfo)
         {
@@ -31,6 +32,7 @@ namespace Ploeh.AutoFixture.Idioms
                 var specimen = this.Composer.CreateAnonymous(this.MethodBase.ReflectedType);
                 methodInfo.Invoke(specimen, args);
             };
+            this.context = string.Format("The \"{0}\" method", this.MethodBase.Name);
         }
 
         public MethodContext(ISpecimenBuilderComposer composer, ConstructorInfo constructorInfo)
@@ -47,6 +49,7 @@ namespace Ploeh.AutoFixture.Idioms
             this.composer = composer;
             this.methodBase = constructorInfo;
             this.invoke = args => constructorInfo.Invoke(args);
+            this.context = "The constructor";
         }
 
         public ISpecimenBuilderComposer Composer
@@ -94,7 +97,7 @@ namespace Ploeh.AutoFixture.Idioms
                         this.invoke(arguments.Values.ToArray());
                     };
 
-                c.Behavior.Assert(invokeMethod);
+                c.Behavior.Assert(invokeMethod, string.Format("{0} argument \"{1}\"", this.context, c.Parameter.Name));
             }
         }
 

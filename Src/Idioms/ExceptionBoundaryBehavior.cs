@@ -5,11 +5,15 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public abstract class ExceptionBoundaryBehavior : IBoundaryBehavior
     {
-        public void Assert(Action<object> action)
+        public void Assert(Action<object> action, string context)
         {
             if (action == null)
             {
                 throw new ArgumentNullException("action");
+            }
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
             }
 
             try
@@ -26,7 +30,7 @@ namespace Ploeh.AutoFixture.Idioms
 
             throw new BoundaryConventionException(
                 string.Format(CultureInfo.CurrentCulture,
-                     "The action did not throw the expected exception for the value {0}.", this.Description));
+                     "{0} did not throw the expected exception for the value: {1}.", context, this.Description));
         }
 
         public abstract void Exercise(Action<object> action);

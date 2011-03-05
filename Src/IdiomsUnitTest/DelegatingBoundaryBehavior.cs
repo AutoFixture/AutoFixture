@@ -10,16 +10,16 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     {
         public DelegatingBoundaryBehavior()
         {
-            this.OnAssert = a => { };
+            this.OnAssert = (a, ctx) => { };
         }
 
-        public Action<Action<object>> OnAssert { get; set; }
+        public Action<Action<object>, string> OnAssert { get; set; }
 
         #region IBoundaryBehavior Members
 
-        public void Assert(Action<object> action)
+        public void Assert(Action<object> action, string context)
         {
-            this.OnAssert(action);
+            this.OnAssert(action, context);
         }
 
         #endregion

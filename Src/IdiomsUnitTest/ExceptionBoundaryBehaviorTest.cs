@@ -11,11 +11,24 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void AssertNullActionThrows()
         {
             // Fixture setup
+            var dummyContext = string.Empty;
             var sut = new DelegatingExceptionBoundaryBehavior();
             // Exercise system
-            Assert.Throws<ArgumentNullException>(() => 
-                sut.Assert(null));
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Assert(null, dummyContext));
             // Verify outcome (expected exception)
+            // Teardown
+        }
+
+        [Fact]
+        public void AssertNullContextThrows()
+        {
+            // Fixture setup
+            Action<object> dummyAction = x => { };
+            var sut = new DelegatingExceptionBoundaryBehavior();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Assert(dummyAction, null));
             // Teardown
         }
 
@@ -23,14 +36,15 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void AssertWillAssertInvalidValueCorrectly()
         {
             // Fixture setup
-            Action<object> expected = o => { throw new ArgumentNullException();};
+            Action<object> expected = o => { throw new ArgumentNullException(); };
+            var dummyContext = string.Empty;
 
             var verified = false;
             var sut = new DelegatingExceptionBoundaryBehavior();
             sut.OnExercise = a => { verified = a == expected; a(new object()); };
             sut.OnIsSatisfiedBy = e => e is ArgumentNullException;
             // Exercise system
-            sut.Assert(expected);
+            sut.Assert(expected, dummyContext);
             // Verify outcome
             Assert.True(verified);
             // Teardown
@@ -40,10 +54,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void AssertWillNotThrowWhenActionThrowsCorrectException()
         {
             // Fixture setup
+            var dummyContext = string.Empty;
             var sut = new DelegatingExceptionBoundaryBehavior();
             sut.OnIsSatisfiedBy = e => e is ArgumentNullException;
             // Exercise system
-            sut.Assert(o => { throw new ArgumentNullException(); });
+            sut.Assert(o => { throw new ArgumentNullException(); }, dummyContext);
             // Verify outcome (no exception indicates success)
             // Teardown
         }
@@ -52,10 +67,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void AssertWillThrowWhenActionDoesNotThrow()
         {
             // Fixture setup
+            var dummyContext = string.Empty;
             var sut = new DelegatingExceptionBoundaryBehavior();
             // Exercise system
             Assert.Throws<BoundaryConventionException>(() =>
-                sut.Assert(g => { }));
+                sut.Assert(g => { }, dummyContext));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -64,10 +80,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void AssertWillThrowWhenActionThrowsAnotherException()
         {
             // Fixture setup
+            var dummyContext = string.Empty;
             var sut = new DelegatingExceptionBoundaryBehavior();
             // Exercise system
             Assert.Throws(typeof(BoundaryConventionException), () =>
-                sut.Assert(g => { throw new TargetInvocationException("Test", new InvalidOperationException()); }));
+                sut.Assert(g => { throw new TargetInvocationException("Test", new InvalidOperationException()); }, dummyContext));
             // Verify outcome (expected exception)
             // Teardown
         }
@@ -76,6 +93,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void AssertWillCorrectlyContinueWhenExceptionIsSatisfiedByBehavior()
         {
             // Fixture setup
+            var dummyContext = string.Empty;
             var expectedException = new Exception();
             var verified = false;
 
@@ -83,7 +101,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             behavior.OnExercise = a => { throw expectedException; };
             behavior.OnIsSatisfiedBy = e => verified = e == expectedException;
             // Exercise system
-            behavior.Assert(x => { });
+            behavior.Assert(x => { }, dummyContext);
             // Verify outcome
             Assert.True(verified);
             // Teardown

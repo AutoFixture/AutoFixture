@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixture.Idioms
                             select b.UnwrapReflectionExceptions();
             foreach (var b in behaviors)
             {
-                b.Assert(setProperty);
+                b.Assert(setProperty, string.Format("Assigning the property {0}", this.PropertyInfo.Name));
             }
         }
 
