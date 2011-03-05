@@ -124,5 +124,18 @@ namespace Ploeh.AutoFixture.Idioms
             return new CompositeMethodContext(from c in type.GetConstructors()
                                               select new MethodContext(composer, c) as IMethodContext);
         }
+
+        public static IMemberContext ForAllMembersOf<T>(this ISpecimenBuilderComposer composer)
+        {
+            return composer.ForAllMembersOf(typeof(T));
+        }
+
+        public static IMemberContext ForAllMembersOf(this ISpecimenBuilderComposer composer, Type type)
+        {
+            return new CompositeMemberContext(
+                composer.ForAllConstructorsOf(type),
+                composer.ForAllMethodsOf(type),
+                composer.ForAllPropertiesOf(type));
+        }
     }
 }

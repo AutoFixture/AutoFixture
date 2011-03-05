@@ -616,5 +616,111 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                                                  select c as MethodBase));
             // Teardown
         }
+
+        [Fact]
+        public void ForAllMembersOfGenericWithNullComposerThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                FixtureExtensions.ForAllMembersOf<GuardedConstructorHost<Version>>(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllMembersOfGenericReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.ForAllMembersOf<GuardedConstructorHost<Version>>();
+            // Verify outcome
+            var composite = Assert.IsAssignableFrom<CompositeMemberContext>(result);
+
+            var constructorComposite = Assert.IsAssignableFrom<CompositeMethodContext>(composite.MemberContexts.First());
+            Assert.True((from ctx in constructorComposite.MethodContexts.OfType<MethodContext>()
+                         let m = ctx.MethodBase
+                         orderby m.Name
+                         select m).SequenceEqual(from c in typeof(GuardedConstructorHost<Version>).GetConstructors()
+                                                 orderby c.Name
+                                                 select c as MethodBase));
+
+            var methodComposite = Assert.IsAssignableFrom<CompositeMethodContext>(composite.MemberContexts.ElementAt(1));
+            Assert.True((from ctx in methodComposite.MethodContexts.OfType<MethodContext>()
+                         let mb = ctx.MethodBase
+                         orderby mb.Name
+                         select mb).SequenceEqual(from m in typeof(GuardedConstructorHost<Version>).GetMethods()
+                                                  where m.Name != "Equals"
+                                                  orderby m.Name
+                                                  select m as MethodBase));
+
+            var propertyComposite = Assert.IsAssignableFrom<CompositePropertyContext>(composite.MemberContexts.ElementAt(2));
+            Assert.True((from ctx in propertyComposite.PropertyContexts.OfType<PropertyContext>()
+                         let pi = ctx.PropertyInfo
+                         orderby pi.Name
+                         select pi).SequenceEqual(from p in typeof(GuardedConstructorHost<Version>).GetProperties()
+                                                  orderby p.Name
+                                                  select p));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllMembersOfTypeInstanceWithNullComposerThrows()
+        {
+            // Fixture setup
+            var dummyType = typeof(GuardedConstructorHost<Version>);
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                FixtureExtensions.ForAllMembersOf(null, dummyType));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllMembersOfTypeInstanceWithNullTypeThrows()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                fixture.ForAllMembersOf(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ForAllMembersOfTypeInstanceReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.ForAllMembersOf(typeof(GuardedConstructorHost<Version>));
+            // Verify outcome
+            var composite = Assert.IsAssignableFrom<CompositeMemberContext>(result);
+
+            var constructorComposite = Assert.IsAssignableFrom<CompositeMethodContext>(composite.MemberContexts.First());
+            Assert.True((from ctx in constructorComposite.MethodContexts.OfType<MethodContext>()
+                         let m = ctx.MethodBase
+                         orderby m.Name
+                         select m).SequenceEqual(from c in typeof(GuardedConstructorHost<Version>).GetConstructors()
+                                                 orderby c.Name
+                                                 select c as MethodBase));
+
+            var methodComposite = Assert.IsAssignableFrom<CompositeMethodContext>(composite.MemberContexts.ElementAt(1));
+            Assert.True((from ctx in methodComposite.MethodContexts.OfType<MethodContext>()
+                         let mb = ctx.MethodBase
+                         orderby mb.Name
+                         select mb).SequenceEqual(from m in typeof(GuardedConstructorHost<Version>).GetMethods()
+                                                  where m.Name != "Equals"
+                                                  orderby m.Name
+                                                  select m as MethodBase));
+
+            var propertyComposite = Assert.IsAssignableFrom<CompositePropertyContext>(composite.MemberContexts.ElementAt(2));
+            Assert.True((from ctx in propertyComposite.PropertyContexts.OfType<PropertyContext>()
+                         let pi = ctx.PropertyInfo
+                         orderby pi.Name
+                         select pi).SequenceEqual(from p in typeof(GuardedConstructorHost<Version>).GetProperties()
+                                                  orderby p.Name
+                                                  select p));
+            // Teardown
+        }
     }
 }

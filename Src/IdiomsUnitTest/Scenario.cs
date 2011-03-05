@@ -54,5 +54,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             new Fixture().ForAllConstructorsOf<GuardedConstructorHost<Version>>().VerifyBoundaries();
         }
+
+        [Fact]
+        public void VerifyBoundariesForAllMembers()
+        {
+            new Fixture().ForAllMembersOf<GuardedConstructorHost<Version>>().VerifyBoundaries();
+        }
     }
 }
