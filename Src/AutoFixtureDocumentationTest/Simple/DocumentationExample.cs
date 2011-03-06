@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture;
 using System.Reflection;
+using Ploeh.AutoFixture;
 using Xunit;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Simple
@@ -15,10 +14,6 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
     /// </summary>
     public class DocumentationExample
     {
-        public DocumentationExample()
-        {
-        }
-
         [Fact]
         public void IntroductoryTest()
         {
@@ -165,6 +160,32 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             string result = fixture.CreateAnonymous("Risk: {0}%");
 
             Console.WriteLine(result);
+        }
+
+        // Addresses this particular question: http://autofixture.codeplex.com/discussions/248586
+        [Fact]
+        public void ReplacingStringAlgorithmWithSeededFooStrings()
+        {
+            var fixture = new Fixture();
+            fixture.Customize<string>(c =>
+                c.FromFactory((int i) => "foo" + i));
+
+            var s1 = fixture.CreateAnonymous<string>();
+            var s2 = fixture.CreateAnonymous<string>();
+
+            Assert.Equal("foo1", s1);
+            Assert.Equal("foo2", s2);
+        }
+
+        [Fact]
+        public void ReplacingInt32AlgorithmWithSeededAlgorithm()
+        {
+            var fixture = new Fixture();
+            fixture.Customize<int>(c => c.FromSeed(i => i));
+
+            var result = fixture.CreateAnonymous<int>(42);
+
+            Assert.Equal(42, result);
         }
 
         [Fact]
