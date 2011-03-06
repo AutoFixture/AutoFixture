@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class FixtureExtensionsTest
+    public class SpecimenBuilderComposerIdiomsTest
     {
         [Fact]
         public void ForPropertyWithNullFixtureThrows()
@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Expression<Func<PropertyHolder<object>, object>> dummyExpression = ph => ph.Property;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForProperty(null, dummyExpression));
+                SpecimenBuilderComposerIdioms.ForProperty(null, dummyExpression));
             // Teardown
         }
 
@@ -107,7 +107,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var dummyProperty = typeof(string).GetProperties().First();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForProperty(null, dummyProperty));
+                SpecimenBuilderComposerIdioms.ForProperty(null, dummyProperty));
             // Teardown
         }
 
@@ -144,7 +144,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Expression<Action<TypeWithOverloadedMembers>> dummyExpression = a => a.DoSomething();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForMethod(null, dummyExpression));
+                SpecimenBuilderComposerIdioms.ForMethod(null, dummyExpression));
             // Teardown
         }
 
@@ -194,7 +194,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Expression<Action<TypeWithOverloadedMembers, object>> dummyExpression = (a, x) => a.DoSomething(x);
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForMethod(null, dummyExpression));
+                SpecimenBuilderComposerIdioms.ForMethod(null, dummyExpression));
             // Teardown
         }
 
@@ -244,7 +244,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Expression<Action<TypeWithOverloadedMembers, object, object>> dummyExpression = (a, x, y) => a.DoSomething(x, y);
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForMethod(null, dummyExpression));
+                SpecimenBuilderComposerIdioms.ForMethod(null, dummyExpression));
             // Teardown
         }
 
@@ -294,7 +294,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Expression<Action<TypeWithOverloadedMembers, object, object, object>> dummyExpression = (a, x, y, z) => a.DoSomething(x, y, z);
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForMethod(null, dummyExpression));
+                SpecimenBuilderComposerIdioms.ForMethod(null, dummyExpression));
             // Teardown
         }
 
@@ -344,7 +344,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var dummyMethod = typeof(object).GetMethods().First();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForMethod(null, dummyMethod));
+                SpecimenBuilderComposerIdioms.ForMethod(null, dummyMethod));
             // Teardown
         }
 
@@ -381,7 +381,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var dummyConstructor = typeof(object).GetConstructors().First();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForConstructor(null, dummyConstructor));
+                SpecimenBuilderComposerIdioms.ForConstructor(null, dummyConstructor));
             // Teardown
         }
 
@@ -417,7 +417,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForAllMethodsOf<object>(null));
+                SpecimenBuilderComposerIdioms.ForAllMethodsOf<object>(null));
             // Teardown
         }
 
@@ -447,7 +447,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var dummyType = typeof(object);
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForAllMethodsOf(null, dummyType));
+                SpecimenBuilderComposerIdioms.ForAllMethodsOf(null, dummyType));
             // Teardown
         }
 
@@ -487,7 +487,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForAllPropertiesOf<PropertyHolder<string>>(null));
+                SpecimenBuilderComposerIdioms.ForAllPropertiesOf<PropertyHolder<string>>(null));
             // Teardown
         }
 
@@ -516,7 +516,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var dummyType = typeof(PropertyHolder<Guid>);
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForAllPropertiesOf(null, dummyType));
+                SpecimenBuilderComposerIdioms.ForAllPropertiesOf(null, dummyType));
             // Teardown
         }
 
@@ -555,7 +555,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForAllConstructorsOf<GuardedConstructorHost<Version>>(null));
+                SpecimenBuilderComposerIdioms.ForAllConstructorsOf<GuardedConstructorHost<Version>>(null));
             // Teardown
         }
 
@@ -584,7 +584,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var dummyType = typeof(GuardedConstructorHost<Version>);
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForAllConstructorsOf(null, dummyType));
+                SpecimenBuilderComposerIdioms.ForAllConstructorsOf(null, dummyType));
             // Teardown
         }
 
@@ -623,7 +623,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForAllMembersOf<GuardedConstructorHost<Version>>(null));
+                SpecimenBuilderComposerIdioms.ForAllMembersOf<GuardedConstructorHost<Version>>(null));
             // Teardown
         }
 
@@ -671,7 +671,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var dummyType = typeof(GuardedConstructorHost<Version>);
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                FixtureExtensions.ForAllMembersOf(null, dummyType));
+                SpecimenBuilderComposerIdioms.ForAllMembersOf(null, dummyType));
             // Teardown
         }
 

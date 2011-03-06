@@ -6,7 +6,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public static class FixtureExtensions
+    public static class SpecimenBuilderComposerIdioms
     {
         public static IPropertyContext ForProperty<T, TProperty>(this ISpecimenBuilderComposer composer, Expression<Func<T, TProperty>> property)
         {

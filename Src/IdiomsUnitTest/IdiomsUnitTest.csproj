@@ -72,7 +72,7 @@
     <Compile Include="PropertyContextExceptionTest.cs" />
     <Compile Include="PropertyContextTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FixtureExtensionsTest.cs" />
+    <Compile Include="SpecimenBuilderComposerIdiomsTest.cs" />
     <Compile Include="MemberContextTest.cs" />
   </ItemGroup>
   <ItemGroup>
