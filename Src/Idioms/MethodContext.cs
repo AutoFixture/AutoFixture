@@ -8,6 +8,9 @@ using System.Globalization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
+    /// <summary>
+    /// Expresses idiomatic assertions related to a single method or constructor.
+    /// </summary>
     public class MethodContext : IMethodContext
     {
         private readonly ISpecimenBuilderComposer composer;
@@ -15,6 +18,14 @@ namespace Ploeh.AutoFixture.Idioms
         private readonly Action<object[]> invoke;
         private readonly string context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MethodContext"/> class.
+        /// </summary>
+        /// <param name="composer">
+        /// The composer which will be used to create instances of the appropriate types to perform
+        /// the selected verifications.
+        /// </param>
+        /// <param name="methodInfo">The method.</param>
         public MethodContext(ISpecimenBuilderComposer composer, MethodInfo methodInfo)
         {
             if (composer == null)
@@ -36,6 +47,14 @@ namespace Ploeh.AutoFixture.Idioms
             this.context = string.Format(CultureInfo.InvariantCulture, "The \"{0}\" method", this.MethodBase.Name);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MethodContext"/> class.
+        /// </summary>
+        /// <param name="composer">
+        /// The composer which will be used to create instances of the appropriate types to perform
+        /// the selected verifications.
+        /// </param>
+        /// <param name="constructorInfo">The constructor.</param>
         public MethodContext(ISpecimenBuilderComposer composer, ConstructorInfo constructorInfo)
         {
             if (composer == null)
@@ -53,11 +72,17 @@ namespace Ploeh.AutoFixture.Idioms
             this.context = "The constructor";
         }
 
+        /// <summary>
+        /// Gets the composer provided to the constructor of the instance.
+        /// </summary>
         public ISpecimenBuilderComposer Composer
         {
             get { return this.composer; }
         }
 
+        /// <summary>
+        /// Gets the method or constructor provided to the constructor of the instance.
+        /// </summary>
         public MethodBase MethodBase
         {
             get { return this.methodBase; }
@@ -65,6 +90,15 @@ namespace Ploeh.AutoFixture.Idioms
 
         #region IMemberContext Members
 
+        /// <summary>
+        /// Verifies the boundaries conditions of the method or constructor encapsulated by the
+        /// context.
+        /// </summary>
+        /// <param name="convention">The convention to use to verify the boundaries.</param>
+        /// <remarks>
+        /// An example of a convention could be to verify that all method parameters are protected
+        /// by Guard Clauses the protect against null references.
+        /// </remarks>
         public void VerifyBoundaries(IBoundaryConvention convention)
         {
             if (convention == null)

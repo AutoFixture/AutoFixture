@@ -6,12 +6,23 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
 {
+    /// <summary>
+    /// Expresses idiomatic assertions related to a single property.
+    /// </summary>
     public class PropertyContext : IPropertyContext
     {
         private readonly ISpecimenBuilderComposer composer;
         private readonly PropertyInfo propertyInfo;
         private readonly bool isPropertyReadOnly;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyContext"/> class.
+        /// </summary>
+        /// <param name="composer">
+        /// The composer which will be used to create instances of the type owning the property, as
+        /// well as the property value itself.
+        /// </param>
+        /// <param name="propertyInfo">The property.</param>
         public PropertyContext(ISpecimenBuilderComposer composer, PropertyInfo propertyInfo)
         {
             if (composer == null)
@@ -28,11 +39,17 @@ namespace Ploeh.AutoFixture.Idioms
             this.isPropertyReadOnly = this.propertyInfo.GetSetMethod() == null;
         }
 
+        /// <summary>
+        /// Gets the composer provided to the constructor.
+        /// </summary>
         public ISpecimenBuilderComposer Composer
         {
             get { return this.composer; }
         }
 
+        /// <summary>
+        /// Gets the property provided to the constructor.
+        /// </summary>
         public PropertyInfo PropertyInfo
         {
             get { return this.propertyInfo; }
@@ -40,6 +57,11 @@ namespace Ploeh.AutoFixture.Idioms
 
         #region IPropertyContext Members
 
+        /// <summary>
+        /// Verifies that the property or properties encapsulated by the context is or are
+        /// writable, and that the value returned is the same as the value which was originally
+        /// assigned.
+        /// </summary>
         public void VerifyWritable()
         {
             if (this.isPropertyReadOnly)
@@ -63,6 +85,14 @@ namespace Ploeh.AutoFixture.Idioms
 
         #region IMemberContext Members
 
+        /// <summary>
+        /// Verifies the boundaries conditions of the type member(s) encapsulated by the context.
+        /// </summary>
+        /// <param name="convention">The convention to use to verify the boundaries.</param>
+        /// <remarks>
+        /// An example of a convention could be to verify that all method parameters are protected
+        /// by Guard Clauses the protect against null references.
+        /// </remarks>
         public void VerifyBoundaries(IBoundaryConvention convention)
         {
             if (convention == null)
