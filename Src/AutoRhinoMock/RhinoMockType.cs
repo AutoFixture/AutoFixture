@@ -4,14 +4,14 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixture.AutoRhinoMock
 {
-    public static class RhinoMockType
+    internal static class RhinoMockType
     {
         internal static IEnumerable<ConstructorInfo> GetPublicAndProtectedConstructors(this Type type)
         {
             return type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
         }
 
-        public static bool IsMockable(this object request)
+        internal static bool IsMockable(this object request)
         {
             var t = request as Type;
             if(t == null)
@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
             return false;
         }
 
-        public static bool IsGeneric(this Type type)
+        internal static bool IsGeneric(this Type type)
         {
             if (type == null)
             {
