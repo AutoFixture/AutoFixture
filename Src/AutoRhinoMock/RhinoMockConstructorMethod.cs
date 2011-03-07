@@ -7,7 +7,7 @@ using Rhino.Mocks;
 
 namespace Ploeh.AutoFixture.AutoRhinoMock
 {
-    public class RhinoMockConstructorMethod: IMethod
+    internal class RhinoMockConstructorMethod: IMethod
     {
         private readonly ConstructorInfo ctor;
         private readonly ParameterInfo[] paramInfos;
