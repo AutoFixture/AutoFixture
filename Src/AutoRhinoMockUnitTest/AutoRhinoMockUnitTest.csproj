@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="AutoRhinoMockCustomizationTest.cs" />
     <Compile Include="DefaultGenericDictionaryBuilderTest.cs" />
-    <Compile Include="DefaultGenericEnumerableBuilderTest.cs" />
     <Compile Include="DefaultGenericListBuilderTest.cs" />
     <Compile Include="FixtureIntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
