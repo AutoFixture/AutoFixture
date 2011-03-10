@@ -77,16 +77,14 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void AssertWillRethrowWhenActionThrowsAnotherException()
+        public void AssertWillThrowWhenActionThrowsAnotherException()
         {
             // Fixture setup
             var dummyContext = string.Empty;
-            var expectedException = new TargetInvocationException("Test", new InvalidOperationException());
             var sut = new DelegatingExceptionBoundaryBehavior();
             // Exercise system
-            var e = Assert.Throws(expectedException.GetType(), () =>
-                sut.Assert(g => { throw expectedException; }, dummyContext));
-            Assert.Equal(expectedException, e);
+            Assert.Throws(typeof(BoundaryConventionException), () =>
+                sut.Assert(g => { throw new TargetInvocationException("Test", new InvalidOperationException()); }, dummyContext));
             // Verify outcome (expected exception)
             // Teardown
         }
