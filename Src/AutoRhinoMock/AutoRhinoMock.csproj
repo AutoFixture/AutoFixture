@@ -64,7 +64,6 @@
   <ItemGroup>
     <Compile Include="AutoRhinoMockCustomization.cs" />
     <Compile Include="DefaultGenericDictionaryBuilder.cs" />
-    <Compile Include="DefaultGenericEnumerableBuilder.cs" />
     <Compile Include="DefaultGenericListBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RhinoMockConstructorMethod.cs" />

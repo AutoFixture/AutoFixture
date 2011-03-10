@@ -78,6 +78,8 @@
     <Compile Include="Intermediate\PersonTest.cs" />
     <Compile Include="Intermediate\Thing.cs" />
     <Compile Include="Commerce\OrderTest.cs" />
+    <Compile Include="Multiple\General\Scenario.cs" />
+    <Compile Include="Multiple\Specific\Scenario.cs" />
     <Compile Include="Simple\MyViewModelTest.cs" />
     <Compile Include="Simple\ComplexChild.cs" />
     <Compile Include="Simple\ComplexParent.cs" />

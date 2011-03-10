@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="AutoRhinoMockCustomizationTest.cs" />
     <Compile Include="DefaultGenericDictionaryBuilderTest.cs" />
-    <Compile Include="DefaultGenericEnumerableBuilderTest.cs" />
     <Compile Include="DefaultGenericListBuilderTest.cs" />
     <Compile Include="FixtureIntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,7 +66,6 @@
     <Compile Include="RhinoMockPostprocessorTest.cs" />
     <Compile Include="RhinoMockRelayTest.cs" />
     <Compile Include="RhinoMockTestTypes.cs" />
-    <Compile Include="RhinoMockTypeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
