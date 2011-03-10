@@ -427,13 +427,13 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system
-            var result = fixture.ForAllMethodsOf<object>();
+            var result = fixture.ForAllMethodsOf<PropertyHolder<object>>();
             // Verify outcome
             var composite = Assert.IsAssignableFrom<CompositeMethodContext>(result);
             Assert.True((from ctx in composite.MethodContexts.OfType<MethodContext>()
                          let mb = ctx.MethodBase
                          orderby mb.Name
-                         select mb).SequenceEqual(from m in typeof(object).GetMethods()
+                         select mb).SequenceEqual(from m in typeof(PropertyHolder<object>).GetMethods().Except(typeof(PropertyHolder<object>).GetProperties().SelectMany(p => p.GetAccessors()))
                                                   where m.Name != "Equals"
                                                   orderby m.Name
                                                   select m as MethodBase));
@@ -468,13 +468,13 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system
-            var result = fixture.ForAllMethodsOf(typeof(object));
+            var result = fixture.ForAllMethodsOf(typeof(PropertyHolder<object>));
             // Verify outcome
             var composite = Assert.IsAssignableFrom<CompositeMethodContext>(result);
             Assert.True((from ctx in composite.MethodContexts.OfType<MethodContext>()
                          let mb = ctx.MethodBase
                          orderby mb.Name
-                         select mb).SequenceEqual(from m in typeof(object).GetMethods()
+                         select mb).SequenceEqual(from m in typeof(PropertyHolder<object>).GetMethods().Except(typeof(PropertyHolder<object>).GetProperties().SelectMany(p => p.GetAccessors()))
                                                   where m.Name != "Equals"
                                                   orderby m.Name
                                                   select m as MethodBase));
@@ -649,7 +649,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.True((from ctx in methodComposite.MethodContexts.OfType<MethodContext>()
                          let mb = ctx.MethodBase
                          orderby mb.Name
-                         select mb).SequenceEqual(from m in typeof(GuardedConstructorHost<Version>).GetMethods()
+                         select mb).SequenceEqual(from m in typeof(GuardedConstructorHost<Version>).GetMethods().Except(typeof(GuardedConstructorHost<Version>).GetProperties().SelectMany(p => p.GetAccessors()))
                                                   where m.Name != "Equals"
                                                   orderby m.Name
                                                   select m as MethodBase));
@@ -708,7 +708,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.True((from ctx in methodComposite.MethodContexts.OfType<MethodContext>()
                          let mb = ctx.MethodBase
                          orderby mb.Name
-                         select mb).SequenceEqual(from m in typeof(GuardedConstructorHost<Version>).GetMethods()
+                         select mb).SequenceEqual(from m in typeof(GuardedConstructorHost<Version>).GetMethods().Except(typeof(GuardedConstructorHost<Version>).GetProperties().SelectMany(p => p.GetAccessors()))
                                                   where m.Name != "Equals"
                                                   orderby m.Name
                                                   select m as MethodBase));
