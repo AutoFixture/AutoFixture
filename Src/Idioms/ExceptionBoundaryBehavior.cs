@@ -35,7 +35,11 @@ namespace Ploeh.AutoFixture.Idioms
                 {
                     return;
                 }
-                throw;
+
+                throw new BoundaryConventionException(
+                    string.Format(CultureInfo.CurrentCulture,
+                        "{0} did not throw the expected exception for the value: {1}.", context, this.Description),
+                    e);
             }
 
             throw new BoundaryConventionException(
