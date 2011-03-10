@@ -223,7 +223,7 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new ArgumentNullException("type");
             }
 
-            return new CompositeMethodContext(from m in type.GetMethods()
+            return new CompositeMethodContext(from m in type.GetMethods().Except(type.GetProperties().SelectMany(p => p.GetAccessors()))
                                               where m.Name != "Equals"
                                               select new MethodContext(composer, m) as IMethodContext);
         }
