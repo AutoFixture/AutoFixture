@@ -35,6 +35,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [InlineData(typeof(string))]
         [InlineData(typeof(Version))]
         [InlineData(typeof(OperatingSystem))]
+        [InlineData(typeof(IAsyncResult))]
         public void CreateBoundaryBehaviorsForReferenceTypeReturnsCorrectResult(Type referenceType)
         {
             // Fixture setup

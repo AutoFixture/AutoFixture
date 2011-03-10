@@ -17,7 +17,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
-
         [Fact]
         public void AssertWithNullActionWillThrow()
         {

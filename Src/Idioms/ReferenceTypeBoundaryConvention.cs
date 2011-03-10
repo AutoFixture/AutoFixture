@@ -27,7 +27,8 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new ArgumentNullException("type");
             }
 
-            if (type.IsClass)
+            if (type.IsClass
+                || type.IsInterface)
             {
                 yield return new NullReferenceBehavior();
             }
