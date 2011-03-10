@@ -26,7 +26,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var expected = new[]{
                 typeof(GuidBoundaryConvention),
-                typeof(StringBoundaryConvention),
                 typeof(ReferenceTypeBoundaryConvention)
             };
 
