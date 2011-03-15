@@ -189,6 +189,16 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         }
 
         [Fact]
+        public void ReplaceDateTimeAlgorithmToReturnRisingUniqueDateTimeInstances()
+        {
+            var fixture = new Fixture();
+            fixture.Register((long i) => new DateTime(i));
+
+            var dateTimes = fixture.CreateMany<DateTime>(20);
+            Assert.True(dateTimes.Aggregate(new { DateTime = DateTime.MinValue, Flag = true }, (x, dt) => new { DateTime = dt, Flag = x.Flag && x.DateTime < dt }, x => x.Flag));
+        }
+
+        [Fact]
         public void CreateManyStrings()
         {
             Fixture fixture = new Fixture();
