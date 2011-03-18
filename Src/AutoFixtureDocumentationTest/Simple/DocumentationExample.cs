@@ -199,6 +199,23 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         }
 
         [Fact]
+        public void CustomizeNumbersToUseASingleRisingSequence()
+        {
+            var fixture = new Fixture();
+            fixture.Register((int i) => (long)i);
+            fixture.Register((int i) => (decimal)i);
+            fixture.Register((int i) => (float)i);
+
+            Assert.Equal(1, fixture.CreateAnonymous<int>());
+            Assert.Equal(2, fixture.CreateAnonymous<long>());
+            Assert.Equal(3, fixture.CreateAnonymous<int>());
+            Assert.Equal(4, fixture.CreateAnonymous<float>());
+            Assert.Equal(5, fixture.CreateAnonymous<decimal>());
+            Assert.Equal(6, fixture.CreateAnonymous<decimal>());
+            Assert.Equal(7, fixture.CreateAnonymous<int>());
+        }
+
+        [Fact]
         public void CreateManyStrings()
         {
             Fixture fixture = new Fixture();
