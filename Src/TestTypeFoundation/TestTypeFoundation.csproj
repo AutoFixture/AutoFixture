@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractGenericType.cs" />
     <Compile Include="AbstractType.cs" />
     <Compile Include="AbstractTypeWithNonDefaultConstructor.cs" />
     <Compile Include="CollectionHolder.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="DoublePropertyHolder.cs" />
     <Compile Include="EqualityResponder.cs" />
     <Compile Include="FieldHolder.cs" />
+    <Compile Include="GenericType.cs" />
     <Compile Include="GuardedConstructorHost.cs" />
     <Compile Include="IInterface.cs" />
     <Compile Include="IllBehavedPropertyHolder.cs" />

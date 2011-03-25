@@ -62,9 +62,10 @@
     <Compile Include="DefaultGenericListBuilderTest.cs" />
     <Compile Include="FixtureIntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RhinoMockConstructorMethodTest.cs" />
     <Compile Include="RhinoMockConstructorQueryTest.cs" />
     <Compile Include="RhinoMockPostprocessorTest.cs" />
-    <Compile Include="RhinoMockRelayTest.cs" />
+    <Compile Include="RhinoMockBuilderTest.cs" />
     <Compile Include="RhinoMockTestTypes.cs" />
   </ItemGroup>
   <ItemGroup>

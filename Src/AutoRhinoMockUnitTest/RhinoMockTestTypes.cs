@@ -9,20 +9,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             private readonly T value;
             public AnotherAbstractTypeWithNonDefaultConstructor(T value)
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("value");
-                }
-
                 this.value = value;
-            }
-
-            public T Value
-            {
-                get
-                {
-                    return this.value;
-                }
             }
         }
         
