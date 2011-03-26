@@ -12,19 +12,19 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
         private readonly ConstructorInfo ctor;
         private readonly ParameterInfo[] paramInfos;
 
-        public RhinoMockConstructorMethod(ConstructorInfo ctor, ParameterInfo[] paramInfos)
+        public RhinoMockConstructorMethod(ConstructorInfo constructorInfo, ParameterInfo[] parameterInfos)
         {
-            if (ctor == null)
+            if (constructorInfo == null)
             {
-                throw new ArgumentNullException("ctor");
+                throw new ArgumentNullException("constructorInfo");
             }
-            if (paramInfos == null)
+            if (parameterInfos == null)
             {
-                throw new ArgumentNullException("paramInfos");
+                throw new ArgumentNullException("parameterInfos");
             }
 
-            this.ctor = ctor;
-            this.paramInfos = paramInfos;
+            this.ctor = constructorInfo;
+            this.paramInfos = parameterInfos;
         }
 
         #region IMethod Members
