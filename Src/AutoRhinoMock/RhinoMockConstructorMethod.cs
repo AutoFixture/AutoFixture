@@ -49,6 +49,10 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
             this.paramInfos = parameterInfos;
         }
 
+        /// <summary>
+        /// Gets the type of which a mock instance should be created.
+        /// </summary>
+        /// <seealso cref="RhinoMockConstructorMethod(Type, ParameterInfo[])" />
         public Type MockTargetType
         {
             get { return this.mockTargetType; }
