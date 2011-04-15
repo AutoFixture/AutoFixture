@@ -164,36 +164,12 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         }
 
         [Fact]
-        public void FixtureCanCreateIList()
-        {
-            // Fixture setup
-            var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
-            // Exercise system
-            var result = fixture.CreateAnonymous<IList<ConcreteType>>();
-            // Verify outcome
-            Assert.False(result.Any());
-            // Teardown
-        }
-
-        [Fact]
         public void FixtureCanCreateList()
         {
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
             var result = fixture.CreateAnonymous<List<ConcreteType>>();
-            // Verify outcome
-            Assert.False(result.Any());
-            // Teardown
-        }
-
-        [Fact]
-        public void FixtureCanCreateICollection()
-        {
-            // Fixture setup
-            var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
-            // Exercise system
-            var result = fixture.CreateAnonymous<ICollection<ConcreteType>>();
             // Verify outcome
             Assert.False(result.Any());
             // Teardown
@@ -222,18 +198,5 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             Assert.False(result.Any());
             // Teardown
         }
-
-        [Fact]
-        public void FixtureCanCreateDictionary()
-        {
-            // Fixture setup
-            var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
-            // Exercise system
-            var result = fixture.CreateAnonymous<IDictionary<ConcreteType, IInterface>>();
-            // Verify outcome
-            Assert.False(result.Any());
-            // Teardown
-        }
-
     }
 }

@@ -47,20 +47,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         }
 
         [Fact]
-        public void GenericEnumerableBuildersIsCorrectWhenInitializedWithDefaultConstructor()
-        {
-            // Fixture setup
-            var sut = new AutoRhinoMockCustomization();
-            var expected = new[] {typeof (DefaultGenericListBuilder), typeof (DefaultGenericDictionaryBuilder)}.ToList();
-
-            // Exercise system
-            var result = (from ge in sut.GenericEnumerableBuilders select ge.GetType()).ToList();
-            // Verify outcome
-            Assert.True(expected.SequenceEqual(result));
-            // Teardown
-        }
-
-        [Fact]
         public void InitializeWithNullRelayThrows()
         {
             // Fixture setup
