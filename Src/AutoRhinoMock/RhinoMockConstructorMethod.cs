@@ -9,21 +9,21 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
 {
     public class RhinoMockConstructorMethod: IMethod
     {
-        private readonly ConstructorInfo ctor;
+        private readonly Type mockTargetType;
         private readonly ParameterInfo[] paramInfos;
 
-        public RhinoMockConstructorMethod(ConstructorInfo constructorInfo, ParameterInfo[] parameterInfos)
+        public RhinoMockConstructorMethod(Type mockTargetType, ParameterInfo[] parameterInfos)
         {
-            if (constructorInfo == null)
+            if (mockTargetType == null)
             {
-                throw new ArgumentNullException("constructorInfo");
+                throw new ArgumentNullException("mockTargetType");
             }
             if (parameterInfos == null)
             {
                 throw new ArgumentNullException("parameterInfos");
             }
 
-            this.ctor = constructorInfo;
+            this.mockTargetType = mockTargetType;
             this.paramInfos = parameterInfos;
         }
 
@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
 
         public object Invoke(IEnumerable<object> parameters)
         {
-            return MockRepository.GenerateMock(this.ctor.DeclaringType, new Type[0], parameters.ToArray());
+            return MockRepository.GenerateMock(this.mockTargetType, new Type[0], parameters.ToArray());
         }
 
         #endregion

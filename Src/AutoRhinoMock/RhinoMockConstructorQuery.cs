@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
             return from ci in type.GetPublicAndProtectedConstructors()
                    let paramInfos = ci.GetParameters()
                    orderby paramInfos.Length ascending
-                   select new RhinoMockConstructorMethod(ci, paramInfos) as IMethod;
+                   select new RhinoMockConstructorMethod(ci.DeclaringType, paramInfos) as IMethod;
         }
 
         #endregion

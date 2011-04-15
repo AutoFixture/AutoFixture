@@ -12,7 +12,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         public void SutImplementsISpecimenBuilder()
         {
             // Exercise system
-            var sut = new RhinoMockConstructorMethod(typeof(RhinoMockConstructorMethod).GetConstructors().First(), Enumerable.Empty<ParameterInfo>().ToArray());
+            var sut = new RhinoMockConstructorMethod(typeof(RhinoMockConstructorMethod), Enumerable.Empty<ParameterInfo>().ToArray());
 
             // Verify outcome
             Assert.IsAssignableFrom<IMethod>(sut);
@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         {
             // Exercise system
             Assert.Throws<ArgumentNullException>(() =>
-                new RhinoMockConstructorMethod(typeof(RhinoMockConstructorMethod).GetConstructors().First(), null));
+                new RhinoMockConstructorMethod(typeof(RhinoMockConstructorMethod), null));
         }
     }
 }
