@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
         /// Initializes a new instance of the <see cref="AutoRhinoMockCustomization"/> class.
         /// </summary>
         public AutoRhinoMockCustomization()
-            : this(new RhinoMockBuilder())
+            : this(new RhinoMockInterfaceBuilder())
         {
         }
 

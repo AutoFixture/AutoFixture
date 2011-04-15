@@ -8,14 +8,14 @@ using Rhino.Mocks;
 
 namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
-    public class RhinoRhinoMockBuilderTest
+    public class RhinoMockInterfaceBuilderTest
     {
         [Fact]
         public void SutImplementsISpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-            var sut = new RhinoMockBuilder();
+            var sut = new RhinoMockInterfaceBuilder();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new RhinoMockBuilder(null));
+                new RhinoMockInterfaceBuilder(null));
             // Teardown
         }
 
@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         {
             // Fixture setup
             Func<Type, bool> expectedSpec = t => true;
-            var sut = new RhinoMockBuilder(expectedSpec);
+            var sut = new RhinoMockInterfaceBuilder(expectedSpec);
             // Exercise system
             Func<Type, bool> result = sut.MockableSpecification;
             // Verify outcome
@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         public void SpecificationIsNotNullWhenInitializedWithDefaultConstructor()
         {
             // Fixture setup
-            var sut = new RhinoMockBuilder();
+            var sut = new RhinoMockInterfaceBuilder();
             // Exercise system
             var result = sut.MockableSpecification;
             // Verify outcome
@@ -60,7 +60,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         public void CreateWithNullContextThrows()
         {
             // Fixture setup
-            var sut = new RhinoMockBuilder();
+            var sut = new RhinoMockInterfaceBuilder();
             var dummyRequest = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
@@ -72,11 +72,11 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         public void CreateWithNonTypeIsCorrect()
         {
             // Fixture setup
-            var sut = new RhinoMockBuilder(t => true);
+            var sut = new RhinoMockInterfaceBuilder(t => true);
 
             var dummyContext = MockRepository.GenerateMock<ISpecimenContext>();
             // Exercise system
-            Assembly request = typeof(RhinoMockBuilder).Assembly;
+            Assembly request = typeof(RhinoMockInterfaceBuilder).Assembly;
             var result = sut.Create(request, dummyContext);
 
             // Verify outcome
@@ -95,7 +95,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         public void CreateWithNonAbstractRequestReturnsCorrectResult(object request)
         {
             // Fixture setup
-            var sut = new RhinoMockBuilder();
+            var sut = new RhinoMockInterfaceBuilder();
             var dummyContext = MockRepository.GenerateMock<ISpecimenContext>();
             // Exercise system
             var result = sut.Create(request, dummyContext);
@@ -116,7 +116,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         public void CreateWithNonAbstractRequestReturnsNonMockedResult(object request)
         {
             // Fixture setup
-            var sut = new RhinoMockBuilder();
+            var sut = new RhinoMockInterfaceBuilder();
             var dummyContext = MockRepository.GenerateMock<ISpecimenContext>();
             // Exercise system
             var result = sut.Create(request, dummyContext);
@@ -129,13 +129,32 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         public void CreateGenericTypeWithNonDefaultConstructorIsCorrect()
         {
             // Fixture setup
-            var sut = new RhinoMockBuilder();
+            var sut = new RhinoMockInterfaceBuilder();
             var dummyContext = MockRepository.GenerateMock<ISpecimenContext>();
             // Exercise system
             var result = sut.Create(typeof(GenericType<ConcreteType>), dummyContext);
 
             // Verify outcome
             Assert.Throws<InvalidOperationException>(() => result.GetMockRepository());
+        }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(AbstractType))]
+        [InlineData(typeof(IInterface))]
+        public void CreateCorrectlyInvokesSpecification(Type request)
+        {
+            // Fixture setup
+            var verified = false;
+            Func<Type, bool> mockSpec = t => verified = t == request;
+            var sut = new RhinoMockInterfaceBuilder(mockSpec);
+            // Exercise system
+            var contextDummy = MockRepository.GenerateMock<ISpecimenContext>();
+            sut.Create(request, contextDummy);
+            // Verify outcome
+            Assert.True(verified, "Mock verified");
+            // Teardown
         }
     }
 }

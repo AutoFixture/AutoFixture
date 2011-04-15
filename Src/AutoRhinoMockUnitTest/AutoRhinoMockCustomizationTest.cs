@@ -42,7 +42,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Exercise system
             var result = sut.MockRelay;
             // Verify outcome
-            Assert.IsType<RhinoMockBuilder>(result);
+            Assert.IsType<RhinoMockInterfaceBuilder>(result);
             // Teardown
         }
 

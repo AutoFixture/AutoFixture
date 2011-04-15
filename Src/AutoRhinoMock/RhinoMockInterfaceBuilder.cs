@@ -6,16 +6,16 @@ using Rhino.Mocks;
 
 namespace Ploeh.AutoFixture.AutoRhinoMock
 {
-    public class RhinoMockBuilder : ISpecimenBuilder
+    public class RhinoMockInterfaceBuilder : ISpecimenBuilder
     {
         private readonly Func<Type, bool> shouldBeMocked;
 
-        public RhinoMockBuilder()
-            : this(RhinoMockBuilder.ShouldBeMocked)
+        public RhinoMockInterfaceBuilder()
+            : this(RhinoMockInterfaceBuilder.ShouldBeMocked)
         {
         }
 
-        public RhinoMockBuilder(Func<Type, bool> mockableSpecification)
+        public RhinoMockInterfaceBuilder(Func<Type, bool> mockableSpecification)
         {
             if (mockableSpecification == null)
             {
@@ -49,18 +49,12 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
                 return new NoSpecimen(request);
             }
 
-            if (t.IsInterface)
+            if (!t.IsInterface)
             {
-                return MockRepository.GenerateMock(t, Enumerable.Empty<Type>().ToArray());
+                return new NoSpecimen(request);                
             }
 
-            var resolvedParameters = new List<object>();
-
-            var ctor = t.GetPublicAndProtectedConstructors().First();
-            var parameters = ctor.GetParameters().ToList();
-            parameters.ForEach(p => resolvedParameters.Add(context.Resolve(p.ParameterType)));
-
-            return MockRepository.GenerateMock(t, Enumerable.Empty<Type>().ToArray(), resolvedParameters.ToArray());
+            return MockRepository.GenerateMock(t, Enumerable.Empty<Type>().ToArray());
         }
 
         #endregion
