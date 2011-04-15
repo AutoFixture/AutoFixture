@@ -11,7 +11,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
     public class AutoRhinoMockCustomization : ICustomization
     {
         private readonly ISpecimenBuilder mockRelay;
-        private readonly IEnumerable<ISpecimenBuilder> genericEnumerableBuilders;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoRhinoMockCustomization"/> class.
@@ -21,19 +20,14 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
         {
         }
 
-        public AutoRhinoMockCustomization(ISpecimenBuilder mockRelay, params ISpecimenBuilder[] genericEnumerableBuilders)
+        public AutoRhinoMockCustomization(ISpecimenBuilder mockRelay)
         {
             if (mockRelay == null)
             {
                 throw new ArgumentNullException("mockRelay");
             }
-            if (genericEnumerableBuilders.Any(geb => geb == null))
-            {
-                throw new ArgumentNullException("genericEnumerableBuilders", "null value in params array not allowed");
-            }
 
             this.mockRelay = mockRelay;
-            this.genericEnumerableBuilders = new List<ISpecimenBuilder>(genericEnumerableBuilders);
         }
 
         #region ICustomization Members
@@ -50,10 +44,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
                     new ConstructorInvoker(
                         new RhinoMockConstructorQuery())));
 
-            foreach (var eb in this.genericEnumerableBuilders)
-            {
-                fixture.ResidueCollectors.Add(eb);
-            }
             fixture.ResidueCollectors.Add(this.MockRelay);
         }
 
@@ -64,14 +54,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
             get
             {
                 return this.mockRelay;
-            }
-        }
-
-        public IEnumerable<ISpecimenBuilder> GenericEnumerableBuilders
-        {
-            get
-            {
-                return this.genericEnumerableBuilders;
             }
         }
     }

@@ -52,17 +52,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new AutoRhinoMockCustomization((ISpecimenBuilder)null, MockRepository.GenerateMock<ISpecimenBuilder>()));
-            // Teardown
-        }
-
-        [Fact]
-        public void InitializeWithNullGenericEnumerableBuildersThrows()
-        {
-            // Fixture setup
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                new AutoRhinoMockCustomization(MockRepository.GenerateMock<ISpecimenBuilder>(), (ISpecimenBuilder)null));
+                new AutoRhinoMockCustomization((ISpecimenBuilder)null));
             // Teardown
         }
 
@@ -73,23 +63,9 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             var expected = MockRepository.GenerateMock<ISpecimenBuilder>();
 
             // Exercise system
-            var sut = new AutoRhinoMockCustomization(expected, MockRepository.GenerateMock<ISpecimenBuilder>());
+            var sut = new AutoRhinoMockCustomization(expected);
             // Verify outcome
             Assert.Equal(expected, sut.MockRelay);
-            // Teardown
-        }
-
-        [Fact]
-        public void GenericEnumerableBuildersIsCorrect()
-        {
-            // Fixture setup
-            var fixture = new Fixture();
-            var expected = fixture.Repeat(() => MockRepository.GenerateMock<ISpecimenBuilder>()).ToList();
-
-            // Exercise system
-            var sut = new AutoRhinoMockCustomization(MockRepository.GenerateMock<ISpecimenBuilder>(), expected.ToArray());
-            // Verify outcome
-            Assert.True(expected.SequenceEqual(sut.GenericEnumerableBuilders));
             // Teardown
         }
 
@@ -107,24 +83,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             sut.Customize(fixtureStub);
             // Verify outcome
             Assert.Contains(sut.MockRelay, residueCollectors);
-            // Teardown
-        }
-
-        [Fact]
-        public void CustomizeAddsEnumerableBuildersToResidueCollector()
-        {
-            // Fixture setup
-            var residueCollectors = new List<ISpecimenBuilder>();
-            var fixtureStub = MockRepository.GenerateMock<IFixture>();
-            fixtureStub.Stub(fixture => fixture.Customizations).Return(new List<ISpecimenBuilder>());
-            fixtureStub.Stub(fixture => fixture.ResidueCollectors).Return(residueCollectors);
-
-            var sut = new AutoRhinoMockCustomization();
-            // Exercise system
-            sut.Customize(fixtureStub);
-            // Verify outcome
-            sut.GenericEnumerableBuilders.ToList().ForEach(eb => 
-                Assert.Contains(eb, residueCollectors));
             // Teardown
         }
 
