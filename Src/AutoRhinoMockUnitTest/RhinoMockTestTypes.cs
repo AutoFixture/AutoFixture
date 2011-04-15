@@ -7,7 +7,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         public abstract class AnotherAbstractTypeWithNonDefaultConstructor<T>
         {
             private readonly T value;
-            public AnotherAbstractTypeWithNonDefaultConstructor(T value)
+            protected AnotherAbstractTypeWithNonDefaultConstructor(T value)
             {
                 this.value = value;
             }

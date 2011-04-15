@@ -4,7 +4,7 @@ namespace Ploeh.TestTypeFoundation
     {
         private readonly T t;
 
-        public AbstractGenericType(T t)
+        protected AbstractGenericType(T t)
         {
             this.t = t;
         }
