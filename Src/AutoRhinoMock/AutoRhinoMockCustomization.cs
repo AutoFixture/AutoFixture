@@ -20,6 +20,10 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoRhinoMockCustomization"/> class.
+        /// </summary>
+        /// <param name="mockRelay">The mock relay.</param>
         public AutoRhinoMockCustomization(ISpecimenBuilder mockRelay)
         {
             if (mockRelay == null)
@@ -32,6 +36,10 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
 
         #region ICustomization Members
 
+        /// <summary>
+        /// Customizes an <see cref="IFixture"/> to enable auto-mocking with Rhino Mocks.
+        /// </summary>
+        /// <param name="fixture">The fixture upon which to enable auto-mocking.</param>
         public void Customize(IFixture fixture)
         {
             if (fixture == null)
@@ -49,6 +57,11 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
 
         #endregion
 
+        /// <summary>
+        /// Gets the relay that will be added to <see cref="IFixture.ResidueCollectors" /> when
+        /// <see cref="Customize"/> is invoked.
+        /// </summary>
+        /// <seealso cref="AutoRhinoMockCustomization(ISpecimenBuilder)" />
         public ISpecimenBuilder MockRelay
         {
             get
