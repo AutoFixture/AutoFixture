@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
 
         public object Invoke(IEnumerable<object> parameters)
         {
-            return MockRepository.GenerateMock(this.ctor.DeclaringType, Enumerable.Empty<Type>().ToArray(), parameters.ToArray());
+            return MockRepository.GenerateMock(this.ctor.DeclaringType, new Type[0], parameters.ToArray());
         }
 
         #endregion
