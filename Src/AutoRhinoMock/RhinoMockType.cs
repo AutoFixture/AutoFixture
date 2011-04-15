@@ -14,17 +14,12 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
         internal static bool IsMockable(this object request)
         {
             var t = request as Type;
-            if(t == null)
+            if (t == null)
             {
                 return false;
             }
 
-            if (t.IsInterface || t.IsAbstract)
-            {
-                return true;
-            }
-
-            return false;
+            return (t.IsInterface || t.IsAbstract);
         }
 
         internal static bool IsGeneric(this Type type)
@@ -34,12 +29,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
                 return false;
             }
 
-            if (type.IsGenericType && type.GetGenericTypeDefinition().IsMockable())
-            {
-                return true;
-            }
-
-            return false;
+            return type.IsGenericType && type.GetGenericTypeDefinition().IsMockable();
         }
     }
 }
