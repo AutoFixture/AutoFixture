@@ -27,11 +27,11 @@ namespace Ploeh.AutoFixture
         /// <remarks>
         /// <para>
         /// This method is deprecated. Use <see cref="IFactoryComposer{T}.FromFactory(Func{T})"/>
-        /// instead.
+        /// instead. The method will be removed in the version following AutoFixture 2.1.
         /// </para>
         /// </remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use the FromFactory method instead of the WithConstructor method.")]
+        [Obsolete("Use the FromFactory method instead of the WithConstructor method.", true)]
         public static IPostprocessComposer<T> WithConstructor<T>(this IFactoryComposer<T> composer, Func<T> factory)
         {
             return composer.FromFactory(factory);
@@ -57,11 +57,12 @@ namespace Ploeh.AutoFixture
         /// <remarks>
         /// <para>
         /// This method is deprecated. Use
-        /// <see cref="IFactoryComposer{T}.FromFactory{TInput}(Func{TInput, T})"/> instead.
+        /// <see cref="IFactoryComposer{T}.FromFactory{TInput}(Func{TInput, T})"/> instead. The
+        /// method will be removed in the version following AutoFixture 2.1.
         /// </para>
         /// </remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use the FromFactory method instead of the WithConstructor method.")]
+        [Obsolete("Use the FromFactory method instead of the WithConstructor method.", true)]
         public static IPostprocessComposer<T> WithConstructor<T, TInput>(this IFactoryComposer<T> composer, Func<TInput, T> factory)
         {
             return composer.FromFactory(factory);
@@ -92,11 +93,11 @@ namespace Ploeh.AutoFixture
         /// <para>
         /// This method is deprecated. Use
         /// <see cref="IFactoryComposer{T}.FromFactory{TInput1, TInput2}(Func{TInput1, TInput2, T})"/>
-        /// instead.
+        /// instead. The method will be removed in the version following AutoFixture 2.1.
         /// </para>
         /// </remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use the FromFactory method instead of the WithConstructor method.")]
+        [Obsolete("Use the FromFactory method instead of the WithConstructor method.", true)]
         public static IPostprocessComposer<T> WithConstructor<T, TInput1, TInput2>(this IFactoryComposer<T> composer, Func<TInput1, TInput2, T> factory)
         {
             return composer.FromFactory(factory);
@@ -130,11 +131,11 @@ namespace Ploeh.AutoFixture
         /// <para>
         /// This method is deprecated. Use
         /// <see cref="IFactoryComposer{T}.FromFactory{TInput1, TInput2, TInput3}(Func{TInput1, TInput2, TInput3, T})"/>
-        /// instead.
+        /// instead. The method will be removed in the version following AutoFixture 2.1.
         /// </para>
         /// </remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use the FromFactory method instead of the WithConstructor method.")]
+        [Obsolete("Use the FromFactory method instead of the WithConstructor method.", true)]
         public static IPostprocessComposer<T> WithConstructor<T, TInput1, TInput2, TInput3>(this IFactoryComposer<T> composer, Func<TInput1, TInput2, TInput3, T> factory)
         {
             return composer.FromFactory(factory);
@@ -172,11 +173,11 @@ namespace Ploeh.AutoFixture
         /// <para>
         /// This method is deprecated. Use
         /// <see cref="IFactoryComposer{T}.FromFactory{TInput1, TInput2, TInput3, TInput4}(Func{TInput1, TInput2, TInput3, TInput4, T})"/>
-        /// instead.
+        /// instead. The method will be removed in the version following AutoFixture 2.1.
         /// </para>
         /// </remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use the FromFactory method instead of the WithConstructor method.")]
+        [Obsolete("Use the FromFactory method instead of the WithConstructor method.", true)]
         public static IPostprocessComposer<T> WithConstructor<T, TInput1, TInput2, TInput3, TInput4>(this IFactoryComposer<T> composer, Func<TInput1, TInput2, TInput3, TInput4, T> factory)
         {
             return composer.FromFactory(factory);

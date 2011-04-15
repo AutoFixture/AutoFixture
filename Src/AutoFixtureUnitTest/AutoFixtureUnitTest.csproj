@@ -77,7 +77,6 @@
     <Compile Include="Dsl\NullComposerTest.cs" />
     <Compile Include="DefaultEnginePartsTest.cs" />
     <Compile Include="EnumGeneratorTest.cs" />
-    <Compile Include="FactoryComposerTest.cs" />
     <Compile Include="FixtureFreezerTest.cs" />
     <Compile Include="FixtureRegistrarTest.cs" />
     <Compile Include="FreezingCustomizationTest.cs" />

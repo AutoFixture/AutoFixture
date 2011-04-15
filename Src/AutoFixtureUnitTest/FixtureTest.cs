@@ -1866,38 +1866,6 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-#pragma warning disable 618
-        [Fact]
-        public void RegisterInstanceWillCauseSutToReturnInstanceWhenRequested()
-        {
-            // Fixture setup
-            var expectedResult = new PropertyHolder<object>();
-            var sut = new Fixture();
-            sut.Register(expectedResult);
-            // Exercise system
-            var result = sut.CreateAnonymous<PropertyHolder<object>>();
-            // Verify outcome
-            Assert.Equal<PropertyHolder<object>>(expectedResult, result);
-            // Teardown
-        }
-
-        [Fact]
-        public void RegisterInstanceWillCauseSutToReturnInstanceWithoutAutoPropertiesWhenRequested()
-        {
-            // Fixture setup
-            var item = new PropertyHolder<object>();
-            item.Property = null;
-
-            var sut = new Fixture();
-            sut.Register(item);
-            // Exercise system
-            var result = sut.CreateAnonymous<PropertyHolder<object>>();
-            // Verify outcome
-            Assert.Null(result.Property);
-            // Teardown
-        }
-#pragma warning restore 618
-
         [Fact]
         public void InjectWillCauseSutToReturnInstanceWhenRequested()
         {

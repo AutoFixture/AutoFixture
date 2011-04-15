@@ -225,12 +225,12 @@ namespace Ploeh.AutoFixture
         /// <remarks>
         /// <para>
         /// This method is deprecated. Use <see cref="FixtureRegistrar.Inject{T}(IFixture, T)"/>
-        /// instead.
+        /// instead. The method will be removed in the version following AutoFixture 2.1.
         /// </para>
         /// </remarks>
         /// <seealso cref="FixtureRegistrar.Inject{T}(IFixture, T)"/>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use the Inject extension method instead.")]
+        [Obsolete("Use the Inject extension method instead.", true)]
         public void Register<T>(T item)
         {
             this.Inject(item);
