@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
                 throw new ArgumentNullException("fixture");
             }
 
-            fixture.Customizations.Add(
+            fixture.ResidueCollectors.Add(
                 new RhinoMockPostprocessor(
                     new ConstructorInvoker(
                         new RhinoMockConstructorQuery())));

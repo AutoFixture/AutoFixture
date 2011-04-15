@@ -35,19 +35,18 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         }
 
         [Fact]
-        public void CustomizeAddsAppropriateCustomizations()
+        public void CustomizeAddsAppropriateResidueCollectors()
         {
             // Fixture setup
-            var customizations = new List<ISpecimenBuilder>();
+            var residueCollectors = new List<ISpecimenBuilder>();
             var fixtureStub = MockRepository.GenerateMock<IFixture>();
-            fixtureStub.Stub(c => c.Customizations).Return(customizations);
-            fixtureStub.Stub(fixture => fixture.ResidueCollectors).Return(new List<ISpecimenBuilder>());
+            fixtureStub.Stub(c => c.ResidueCollectors).Return(residueCollectors);
 
             var sut = new AutoRhinoMockCustomization();
             // Exercise system
             sut.Customize(fixtureStub);
             // Verify outcome
-            var postprocessor = customizations.OfType<RhinoMockPostprocessor>().Single();
+            var postprocessor = residueCollectors.OfType<RhinoMockPostprocessor>().Single();
             var ctorInvoker = Assert.IsAssignableFrom<ConstructorInvoker>(postprocessor.Builder);
             Assert.IsAssignableFrom<RhinoMockConstructorQuery>(ctorInvoker.Query);
             // Teardown
