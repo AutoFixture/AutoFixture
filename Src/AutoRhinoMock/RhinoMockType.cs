@@ -22,7 +22,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
             return (t.IsInterface || t.IsAbstract);
         }
 
-        internal static bool IsGeneric(this Type type)
+        internal static bool IsGenericMockable(this Type type)
         {
             if (type == null)
             {
