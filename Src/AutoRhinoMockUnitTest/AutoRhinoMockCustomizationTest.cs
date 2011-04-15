@@ -35,18 +35,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         }
 
         [Fact]
-        public void RelayIsCorrectWhenInitializedWithDefaultConstructor()
-        {
-            // Fixture setup
-            var sut = new AutoRhinoMockCustomization();
-            // Exercise system
-            var result = sut.MockRelay;
-            // Verify outcome
-            Assert.IsType<RhinoMockInterfaceBuilder>(result);
-            // Teardown
-        }
-
-        [Fact]
         public void InitializeWithNullRelayThrows()
         {
             // Fixture setup
@@ -66,23 +54,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             var sut = new AutoRhinoMockCustomization(expected);
             // Verify outcome
             Assert.Equal(expected, sut.MockRelay);
-            // Teardown
-        }
-
-        [Fact]
-        public void CustomizeAddsRelayToResidueCollector()
-        {
-            // Fixture setup
-            var residueCollectors = new List<ISpecimenBuilder>();
-            var fixtureStub = MockRepository.GenerateMock<IFixture>();
-            fixtureStub.Stub(fixture => fixture.Customizations).Return(new List<ISpecimenBuilder>());
-            fixtureStub.Stub(fixture => fixture.ResidueCollectors).Return(residueCollectors);
-
-            var sut = new AutoRhinoMockCustomization();
-            // Exercise system
-            sut.Customize(fixtureStub);
-            // Verify outcome
-            Assert.Contains(sut.MockRelay, residueCollectors);
             // Teardown
         }
 

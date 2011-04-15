@@ -16,7 +16,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
         /// Initializes a new instance of the <see cref="AutoRhinoMockCustomization"/> class.
         /// </summary>
         public AutoRhinoMockCustomization()
-            : this(new RhinoMockInterfaceBuilder())
         {
         }
 
@@ -52,7 +51,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
                     new ConstructorInvoker(
                         new RhinoMockConstructorQuery())));
 
-            fixture.ResidueCollectors.Add(this.MockRelay);
+            //fixture.ResidueCollectors.Add(this.MockRelay);
         }
 
         #endregion

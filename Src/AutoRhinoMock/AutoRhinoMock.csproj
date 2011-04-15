@@ -71,7 +71,6 @@
     <Compile Include="RhinoMockConstructorMethod.cs" />
     <Compile Include="RhinoMockConstructorQuery.cs" />
     <Compile Include="RhinoMockPostprocessor.cs" />
-    <Compile Include="RhinoMockInterfaceBuilder.cs" />
     <Compile Include="RhinoMockType.cs" />
   </ItemGroup>
   <ItemGroup>

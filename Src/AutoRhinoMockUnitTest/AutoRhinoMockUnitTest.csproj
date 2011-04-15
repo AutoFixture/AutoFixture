@@ -63,7 +63,6 @@
     <Compile Include="RhinoMockConstructorMethodTest.cs" />
     <Compile Include="RhinoMockConstructorQueryTest.cs" />
     <Compile Include="RhinoMockPostprocessorTest.cs" />
-    <Compile Include="RhinoMockInterfaceBuilderTest.cs" />
     <Compile Include="RhinoMockTestTypes.cs" />
   </ItemGroup>
   <ItemGroup>
