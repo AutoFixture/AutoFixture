@@ -49,6 +49,11 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
             this.paramInfos = parameterInfos;
         }
 
+        public Type MockTargetType
+        {
+            get { return this.mockTargetType; }
+        }
+
         #region IMethod Members
 
         /// <summary>

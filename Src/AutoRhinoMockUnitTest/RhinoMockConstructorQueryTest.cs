@@ -40,8 +40,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         [InlineData(typeof(object))]
         [InlineData(typeof(string))]
         [InlineData(typeof(AbstractType))]
-        [InlineData(typeof(IInterface))]
-        public void SelectReturnsCorrectResult(Type t)
+        public void SelectReturnsCorrectResultForNonInterfaces(Type t)
         {
             // Fixture setup
             var expectedCount = t.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
@@ -53,5 +52,54 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Teardown
         }
 
+        [Theory]
+        [InlineData(typeof(IInterface))]
+        [InlineData(typeof(IComparable<object>))]
+        [InlineData(typeof(IComparable<string>))]
+        [InlineData(typeof(IComparable<int>))]
+        public void SelectReturnsCorrectNumberOfMethodsForInterface(Type t)
+        {
+            // Fixture setup
+            var sut = new RhinoMockConstructorQuery();
+            // Exercise system
+            var result = sut.SelectConstructors(t);
+            // Verify outcome
+            Assert.Equal(1, result.Count());
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(IInterface))]
+        [InlineData(typeof(IComparable<object>))]
+        [InlineData(typeof(IComparable<string>))]
+        [InlineData(typeof(IComparable<int>))]
+        public void SelectReturnsCorrectResultForInterface(Type t)
+        {
+            // Fixture setup
+            var sut = new RhinoMockConstructorQuery();
+            // Exercise system
+            var result = sut.SelectConstructors(t);
+            // Verify outcome
+            var method = Assert.IsAssignableFrom<RhinoMockConstructorMethod>(result.Single());
+            Assert.Equal(t, method.MockTargetType);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(IInterface))]
+        [InlineData(typeof(IComparable<object>))]
+        [InlineData(typeof(IComparable<string>))]
+        [InlineData(typeof(IComparable<int>))]
+        public void SelectReturnsResultWithNoParametersForInterface(Type t)
+        {
+            // Fixture setup
+            var sut = new RhinoMockConstructorQuery();
+            // Exercise system
+            var result = sut.SelectConstructors(t);
+            // Verify outcome
+            var method = Assert.IsAssignableFrom<RhinoMockConstructorMethod>(result.Single());
+            Assert.Empty(method.Parameters);
+            // Teardown
+        }
     }
 }

@@ -3,6 +3,8 @@ using System.Reflection;
 using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using System;
+using Xunit.Extensions;
+using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
@@ -33,6 +35,26 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Exercise system
             Assert.Throws<ArgumentNullException>(() =>
                 new RhinoMockConstructorMethod(typeof(RhinoMockConstructorMethod), null));
+        }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(AbstractType))]
+        [InlineData(typeof(IInterface))]
+        [InlineData(typeof(IComparable<object>))]
+        [InlineData(typeof(IComparable<string>))]
+        [InlineData(typeof(IComparable<int>))]
+        public void MockTargetTypeIsCorrect(Type t)
+        {
+            // Fixture setup
+            var sut = new RhinoMockConstructorMethod(t, new ParameterInfo[0]);
+            // Exercise system
+            Type result = sut.MockTargetType;
+            // Verify outcome
+            Assert.Equal(t, result);
+            // Teardown
         }
     }
 }

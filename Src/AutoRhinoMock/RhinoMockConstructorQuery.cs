@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Ploeh.AutoFixture.Kernel;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.AutoRhinoMock
 {
@@ -30,6 +31,11 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
             if (type == null)
             {
                 throw new ArgumentNullException("type");
+            }
+
+            if (type.IsInterface)
+            {
+                return new[] { new RhinoMockConstructorMethod(type, new ParameterInfo[0]) };
             }
 
             return from ci in type.GetPublicAndProtectedConstructors()
