@@ -126,19 +126,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         }
 
         [Fact]
-        public void CreateWithAbstractTypeReturnsMockedResult()
-        {
-            // Fixture setup
-            var sut = new RhinoMockBuilder();
-            var dummyContext = MockRepository.GenerateMock<ISpecimenContext>();
-            // Exercise system
-            var result = sut.Create(typeof(Type), dummyContext);
-
-            // Verify outcome
-            Assert.NotNull(result.GetMockRepository());
-        }
-
-        [Fact]
         public void CreateGenericTypeWithNonDefaultConstructorIsCorrect()
         {
             // Fixture setup
@@ -149,45 +136,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 
             // Verify outcome
             Assert.Throws<InvalidOperationException>(() => result.GetMockRepository());
-        }
-
-        [Fact]
-        public void CreateAbstractGenericTypeWithNonDefaultConstructorIsCorrect()
-        {
-            // Fixture setup
-            var sut = new RhinoMockBuilder();
-            var dummyContext = MockRepository.GenerateMock<ISpecimenContext>();
-            // Exercise system
-            var result = sut.Create(typeof(AbstractGenericType<object>), dummyContext);
-
-            // Verify outcome
-            Assert.NotNull(result.GetMockRepository());
-        }
-
-        [Fact]
-        public void CreateAbstractGenericTypeWithNonDefaultConstructorReturnsCorrectType()
-        {
-            // Fixture setup
-            var sut = new RhinoMockBuilder();
-            var dummyContext = MockRepository.GenerateMock<ISpecimenContext>();
-            // Exercise system
-            var result = sut.Create(typeof(AbstractGenericType<object>), dummyContext) as AbstractGenericType<object>;
-
-            // Verify outcome
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public void CreateAbstractGenericTypeWithConcreteGenericParameterIsCorrect()
-        {
-            // Fixture setup
-            var sut = new RhinoMockBuilder();
-            var dummyContext = MockRepository.GenerateMock<ISpecimenContext>();
-            // Exercise system
-            var result = (AbstractGenericType<object>)sut.Create(typeof(AbstractGenericType<object>), dummyContext);
-
-            // Verify outcome
-            Assert.Throws<InvalidOperationException>(() => result.Value.GetMockRepository());
         }
     }
 }
