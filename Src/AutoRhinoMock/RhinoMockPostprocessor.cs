@@ -30,8 +30,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
 
         public object Create(object request, ISpecimenContext context)
         {
-            if (!request.IsMockable()
-                & !(request as Type).IsGenericMockable())
+            if (!request.IsMockable())
             {
                 return new NoSpecimen(request);
             }

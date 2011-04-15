@@ -21,15 +21,5 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
 
             return (t.IsInterface || t.IsAbstract);
         }
-
-        internal static bool IsGenericMockable(this Type type)
-        {
-            if (type == null)
-            {
-                return false;
-            }
-
-            return type.IsGenericType && type.GetGenericTypeDefinition().IsMockable();
-        }
     }
 }
