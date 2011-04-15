@@ -7,14 +7,15 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
 {
     /// <summary>
     /// Enables IFixture auto-mocking of abstract classes and interfaces using RhinoMocks.
-    /// As a convience, specimen builders for types that are assignable from generic List and Dictionary are added since RhinoMocks of these types 
-    /// return null for GetEnumerator() which makes the returned instances pretty much useless.
     /// </summary>
     public class AutoRhinoMockCustomization : ICustomization
     {
         private readonly ISpecimenBuilder mockRelay;
         private readonly IEnumerable<ISpecimenBuilder> genericEnumerableBuilders;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoRhinoMockCustomization"/> class.
+        /// </summary>
         public AutoRhinoMockCustomization()
             : this(new RhinoMockBuilder())
         {
