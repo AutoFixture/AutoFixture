@@ -25,6 +25,17 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void SelectConstructorsFromNullTypeThrows()
+        {
+            // Fixture setup
+            var sut = new RhinoMockConstructorQuery();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.SelectConstructors(null));
+            // Teardown
+        }
+
         [Theory]
         [InlineData(typeof(object))]
         [InlineData(typeof(string))]

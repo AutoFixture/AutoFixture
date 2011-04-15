@@ -27,6 +27,11 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
         /// </remarks>
         public IEnumerable<IMethod> SelectConstructors(Type type)
         {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
             return from ci in type.GetPublicAndProtectedConstructors()
                    let paramInfos = ci.GetParameters()
                    orderby paramInfos.Length ascending
