@@ -10,27 +10,11 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
     /// </summary>
     public class AutoRhinoMockCustomization : ICustomization
     {
-        private readonly ISpecimenBuilder mockRelay;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoRhinoMockCustomization"/> class.
         /// </summary>
         public AutoRhinoMockCustomization()
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AutoRhinoMockCustomization"/> class.
-        /// </summary>
-        /// <param name="mockRelay">The mock relay.</param>
-        public AutoRhinoMockCustomization(ISpecimenBuilder mockRelay)
-        {
-            if (mockRelay == null)
-            {
-                throw new ArgumentNullException("mockRelay");
-            }
-
-            this.mockRelay = mockRelay;
         }
 
         #region ICustomization Members
@@ -50,23 +34,8 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
                 new RhinoMockPostprocessor(
                     new ConstructorInvoker(
                         new RhinoMockConstructorQuery())));
-
-            //fixture.ResidueCollectors.Add(this.MockRelay);
         }
 
         #endregion
-
-        /// <summary>
-        /// Gets the relay that will be added to <see cref="IFixture.ResidueCollectors" /> when
-        /// <see cref="Customize"/> is invoked.
-        /// </summary>
-        /// <seealso cref="AutoRhinoMockCustomization(ISpecimenBuilder)" />
-        public ISpecimenBuilder MockRelay
-        {
-            get
-            {
-                return this.mockRelay;
-            }
-        }
     }
 }

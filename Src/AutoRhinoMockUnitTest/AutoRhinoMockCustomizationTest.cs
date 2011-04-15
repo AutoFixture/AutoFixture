@@ -35,29 +35,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         }
 
         [Fact]
-        public void InitializeWithNullRelayThrows()
-        {
-            // Fixture setup
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                new AutoRhinoMockCustomization((ISpecimenBuilder)null));
-            // Teardown
-        }
-
-        [Fact]
-        public void RelayIsCorrect()
-        {
-            // Fixture setup
-            var expected = MockRepository.GenerateMock<ISpecimenBuilder>();
-
-            // Exercise system
-            var sut = new AutoRhinoMockCustomization(expected);
-            // Verify outcome
-            Assert.Equal(expected, sut.MockRelay);
-            // Teardown
-        }
-
-        [Fact]
         public void CustomizeAddsAppropriateCustomizations()
         {
             // Fixture setup
