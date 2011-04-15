@@ -10,13 +10,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
     /// </summary>
     public class AutoRhinoMockCustomization : ICustomization
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AutoRhinoMockCustomization"/> class.
-        /// </summary>
-        public AutoRhinoMockCustomization()
-        {
-        }
-
         #region ICustomization Members
 
         /// <summary>
