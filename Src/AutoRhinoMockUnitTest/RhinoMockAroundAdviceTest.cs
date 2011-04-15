@@ -10,7 +10,7 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
-    public class RhinoMockPostprocessorTest
+    public class RhinoMockAroundAdviceTest
     {
         [Fact]
         public void SutImplementsISpecimenBuilder()
@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var dummyBuilder = MockRepository.GenerateMock<ISpecimenBuilder>();
             // Exercise system
-            var sut = new RhinoMockPostprocessor(dummyBuilder);
+            var sut = new RhinoMockAroundAdvice(dummyBuilder);
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new RhinoMockPostprocessor((ISpecimenBuilder)null));
+                new RhinoMockAroundAdvice((ISpecimenBuilder)null));
             // Teardown
         }
 
@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         {
             // Fixture setup
             var expectedBuilder = MockRepository.GenerateMock<ISpecimenBuilder>();
-            var sut = new RhinoMockPostprocessor(expectedBuilder);
+            var sut = new RhinoMockAroundAdvice(expectedBuilder);
             // Exercise system
             ISpecimenBuilder result = sut.Builder;
             // Verify outcome
@@ -56,7 +56,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         {
             // Fixture setup
             var dummyBuilder = MockRepository.GenerateMock<ISpecimenBuilder>();
-            var sut = new RhinoMockPostprocessor(dummyBuilder);
+            var sut = new RhinoMockAroundAdvice(dummyBuilder);
             // Exercise system
             var dummyContext = MockRepository.GenerateMock<ISpecimenContext>();
             var result = sut.Create(request, dummyContext);

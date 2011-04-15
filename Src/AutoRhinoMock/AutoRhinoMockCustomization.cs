@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
             }
 
             fixture.ResidueCollectors.Add(
-                new RhinoMockPostprocessor(
+                new RhinoMockAroundAdvice(
                     new ConstructorInvoker(
                         new RhinoMockConstructorQuery())));
         }

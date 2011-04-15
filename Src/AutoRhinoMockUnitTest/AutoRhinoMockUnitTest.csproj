@@ -62,7 +62,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RhinoMockConstructorMethodTest.cs" />
     <Compile Include="RhinoMockConstructorQueryTest.cs" />
-    <Compile Include="RhinoMockPostprocessorTest.cs" />
+    <Compile Include="RhinoMockAroundAdviceTest.cs" />
     <Compile Include="RhinoMockTestTypes.cs" />
   </ItemGroup>
   <ItemGroup>

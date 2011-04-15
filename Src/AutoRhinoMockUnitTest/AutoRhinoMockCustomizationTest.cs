@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Exercise system
             sut.Customize(fixtureStub);
             // Verify outcome
-            var postprocessor = residueCollectors.OfType<RhinoMockPostprocessor>().Single();
+            var postprocessor = residueCollectors.OfType<RhinoMockAroundAdvice>().Single();
             var ctorInvoker = Assert.IsAssignableFrom<ConstructorInvoker>(postprocessor.Builder);
             Assert.IsAssignableFrom<RhinoMockConstructorQuery>(ctorInvoker.Query);
             // Teardown

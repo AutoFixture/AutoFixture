@@ -4,11 +4,11 @@ using Rhino.Mocks.Interfaces;
 
 namespace Ploeh.AutoFixture.AutoRhinoMock
 {
-    public class RhinoMockPostprocessor : ISpecimenBuilder
+    public class RhinoMockAroundAdvice : ISpecimenBuilder
     {
         private readonly ISpecimenBuilder builder;
 
-        public RhinoMockPostprocessor(ISpecimenBuilder builder)
+        public RhinoMockAroundAdvice(ISpecimenBuilder builder)
         {
             if (builder == null)
             {
