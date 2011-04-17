@@ -5,6 +5,7 @@ using System.Text;
 using Xunit;
 using Ploeh.AutoFixture;
 using System.Collections.ObjectModel;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
 {
@@ -91,6 +92,31 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
             var expected =
                 fixture.CreateAnonymous<IEnumerable<string>>();
             Assert.False(expected.SequenceEqual(expected));
+        }
+
+        [Fact]
+        public void ManyIsStableWithCustomization()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var stableRelay = new StableFiniteSequenceRelay();
+            fixture.Customizations.Add(stableRelay);
+            // Exercise system
+            var expected =
+                fixture.CreateMany<string>();
+            // Verify outcome
+            Assert.True(expected.SequenceEqual(expected));
+            // Teardown
+        }
+
+        [Fact]
+        public void EnumerablesAreStableWithCustomization()
+        {
+            var fixture = new Fixture()
+                .Customize(new StableMultipeCustomization());
+            var expected =
+                fixture.CreateAnonymous<IEnumerable<string>>();
+            Assert.True(expected.SequenceEqual(expected));
         }
     }
 }

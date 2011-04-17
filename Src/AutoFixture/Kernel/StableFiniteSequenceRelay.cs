@@ -6,15 +6,26 @@ using System.Text;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// Unwraps a request for many instances and returns the results as a true dynamic sequence.
+    /// Unwraps a request for many instances and returns the results as a stable list.
     /// </summary>
-    /// <seealso cref="StableFiniteSequenceRelay" />
-    public class FiniteSequenceRelay : ISpecimenBuilder
+    /// <remarks>
+    /// <para>
+    /// In contrast to <see cref="FiniteSequenceRelay" /> this alternative implementation returns
+    /// the sequence wrapped in a <see cref="List{Object}" />. This means that the iterator will
+    /// yield the same instances across multiple iterations.
+    /// </para>
+    /// <para>
+    /// By default this class is not used by <see cref="Fixture" />, but it can be used to override
+    /// the dynamic enumerable behavior by adding it to <see cref="Fixture.Customizations" />.
+    /// </para>
+    /// </remarks>
+    /// <seealso cref="FiniteSequenceRelay" />
+    public class StableFiniteSequenceRelay : ISpecimenBuilder
     {
         #region ISpecimenBuilder Members
 
         /// <summary>
-        /// Creates many specimen based on a request.
+        /// Creates a new specimen based on a request.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
         /// <param name="context">A context that can be used to create other specimens.</param>
@@ -24,9 +35,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         /// <remarks>
         /// <para>
-        /// The sequence returned is a true generator, so successive iterations will yield
-        /// different sets of specimens. If this is not the desired behavior,
-        /// <see cref="StableFiniteSequenceRelay" /> provides an alternative.
+        /// The sequence of specimens returned is stable which means that it can be iterated over
+        /// more than once and be expected to yield the same instances every time.
         /// </para>
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
@@ -42,8 +52,8 @@ namespace Ploeh.AutoFixture.Kernel
                 return new NoSpecimen(request);
             }
 
-            return from r in manyRequest.CreateRequests()
-                   select context.Resolve(r);
+            return (from r in manyRequest.CreateRequests()
+                    select context.Resolve(r)).ToList();
         }
 
         #endregion

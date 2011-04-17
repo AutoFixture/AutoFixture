@@ -153,6 +153,7 @@
     <Compile Include="Kernel\NoSpecimenOutputGuard.cs" />
     <Compile Include="Kernel\EnumerableFavoringConstructorQuery.cs" />
     <Compile Include="Kernel\ParameterScore.cs" />
+    <Compile Include="Kernel\StableFiniteSequenceRelay.cs" />
     <Compile Include="Kernel\TypedBuilderComposer.cs" />
     <Compile Include="MultipleCustomization.cs" />
     <Compile Include="NullRecursionBehavior.cs" />
