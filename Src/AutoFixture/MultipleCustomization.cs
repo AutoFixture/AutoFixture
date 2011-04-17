@@ -64,17 +64,17 @@ namespace Ploeh.AutoFixture
                 new FilteringSpecimenBuilder(
                     new ConstructorInvoker(
                         new ListFavoringConstructorQuery()),
-                        new CollectionSpecification()));
+                    new CollectionSpecification()));
             fixture.Customizations.Add(
                 new FilteringSpecimenBuilder(
                     new ConstructorInvoker(
                         new EnumerableFavoringConstructorQuery()),
-                        new HashSetSpecification()));
+                    new HashSetSpecification()));
             fixture.Customizations.Add(
                 new FilteringSpecimenBuilder(
                     new ConstructorInvoker(
                         new EnumerableFavoringConstructorQuery()),
-                        new ListSpecification()));
+                    new ListSpecification()));
         }
 
         #endregion
