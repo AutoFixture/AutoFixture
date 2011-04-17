@@ -79,8 +79,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
         public void ManyIsUniqueByDefault()
         {
             var fixture = new Fixture();
-            var expected =
-                fixture.CreateMany<string>();
+            var expected = fixture.CreateMany<string>();
             Assert.False(expected.SequenceEqual(expected));
         }
 
@@ -97,16 +96,13 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
         [Fact]
         public void ManyIsStableWithCustomization()
         {
-            // Fixture setup
             var fixture = new Fixture();
             var stableRelay = new StableFiniteSequenceRelay();
             fixture.Customizations.Add(stableRelay);
-            // Exercise system
+
             var expected =
                 fixture.CreateMany<string>();
-            // Verify outcome
             Assert.True(expected.SequenceEqual(expected));
-            // Teardown
         }
 
         [Fact]

@@ -6,7 +6,8 @@ using Ploeh.AutoFixture;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
 {
-    public class StableMultipeCustomization : CompositeCustomization
+    public class StableMultipeCustomization : 
+        CompositeCustomization
     {
         public StableMultipeCustomization()
             : base(
