@@ -8,7 +8,7 @@
 	<owners>Peter Ravnholt</owners>
 	<dependencies>
 		<dependency id="autofixture" version="2.0" />
-		<dependency id="xunit" version="1.6.1" />
+		<dependency id="xunit.extensions" version="1.7" />
 	</dependencies>
     <description>AutoFixture makes it easier for developers to do Test-Driven Development by automating non-relevant Test Fixture Setup, allowing the Test Developer to focus on the essentials of each test case.</description> 
     <language>en-US</language>
