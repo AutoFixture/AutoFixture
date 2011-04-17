@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
             var fixture = new Fixture()
                 .Customize(new MultipleCustomization());
             // Exercise system
-            var integers = 
+            var integers =
                 fixture.CreateAnonymous<IEnumerable<int>>();
             // Verify outcome
             Assert.True(integers.Any());
@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
             // Fixture setup
             var fixture = new Fixture().Customize(new MultipleCustomization());
             // Exercise system
-            var collection = 
+            var collection =
                 fixture.CreateAnonymous<Collection<int>>();
             // Verify outcome
             Assert.True(collection.Any());
@@ -72,6 +72,25 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
             // Verify outcome
             Assert.Equal(fixture.RepeatCount, integers.Count());
             // Teardown
+        }
+
+        [Fact]
+        public void ManyIsUniqueByDefault()
+        {
+            var fixture = new Fixture();
+            var expected =
+                fixture.CreateMany<string>();
+            Assert.False(expected.SequenceEqual(expected));
+        }
+
+        [Fact]
+        public void EnumerablesAreUniqueByDefault()
+        {
+            var fixture = new Fixture()
+                .Customize(new MultipleCustomization());
+            var expected =
+                fixture.CreateAnonymous<IEnumerable<string>>();
+            Assert.False(expected.SequenceEqual(expected));
         }
     }
 }
