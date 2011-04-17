@@ -484,7 +484,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         private static SpecimenContext CreateContainer()
         {
             var builder = Scenario.CreateAutoPropertyBuilder();
-            var tracer = new TraceWriter(Console.Out, new TracingBuilder(builder));
+            var tracer = new TraceWriter(TestConsole.Out, new TracingBuilder(builder));
             return new SpecimenContext(tracer);
         }
 

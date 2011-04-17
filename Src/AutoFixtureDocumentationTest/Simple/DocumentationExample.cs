@@ -51,7 +51,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             Fixture fixture = new Fixture();
             var anonymousText = fixture.CreateAnonymous<string>();
             // Exercise system
-            Console.WriteLine(anonymousText);
+            TestConsole.WriteLine(anonymousText);
             // Verify outcome
             Assert.NotNull(anonymousText);
             // Teardown
@@ -64,7 +64,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             Fixture fixture = new Fixture();
             var anonymousName = fixture.CreateAnonymous("Name");
             // Exercise system
-            Console.WriteLine(anonymousName);
+            TestConsole.WriteLine(anonymousName);
             // Verify outcome
             Assert.NotNull(anonymousName);
             // Teardown
@@ -159,7 +159,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
 
             string result = fixture.CreateAnonymous("Risk: {0}%");
 
-            Console.WriteLine(result);
+            TestConsole.WriteLine(result);
         }
 
         // Addresses this particular question: http://autofixture.codeplex.com/discussions/248586

@@ -148,6 +148,7 @@
     <Compile Include="Kernel\SpecimenFactoryWithSingleParameterFuncTest.cs" />
     <Compile Include="Kernel\SpecimenFactoryWithTripleParameterFuncTest.cs" />
     <Compile Include="Kernel\TerminatingSpecimenBuilderTest.cs" />
+    <Compile Include="TestConsole.cs" />
     <Compile Include="ThrowingRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\TracingBuilderTest.cs" />
     <Compile Include="Kernel\Scenario.cs" />
