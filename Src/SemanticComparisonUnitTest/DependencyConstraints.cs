@@ -8,6 +8,7 @@ namespace Ploeh.SemanticComparison.UnitTest
     {
         [Theory]
         [InlineData("Moq")]
+        [InlineData("Rhino.Mocks")]
         [InlineData("xunit")]
         [InlineData("xunit.extensions")]
         public void SemanticComparisonDoesNotReference(string assemblyName)
@@ -22,6 +23,7 @@ namespace Ploeh.SemanticComparison.UnitTest
 
         [Theory]
         [InlineData("Moq")]
+        [InlineData("Rhino.Mocks")]
         public void SemanticComparisonUnitTestsDoNotReference(string assemblyName)
         {
             // Fixture setup

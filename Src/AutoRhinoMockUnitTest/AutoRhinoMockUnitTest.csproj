@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoRhinoMockCustomizationTest.cs" />
+    <Compile Include="DependencyConstraints.cs" />
     <Compile Include="FixtureIntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RhinoMockConstructorMethodTest.cs" />

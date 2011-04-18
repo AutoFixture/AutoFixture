@@ -8,6 +8,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
     {
         [Theory]
         [InlineData("Moq")]
+        [InlineData("Rhino.Mocks")]
         public void AutoFixtureXunitDoesNotReference(string assemblyName)
         {
             // Fixture setup
@@ -20,6 +21,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
 
         [Theory]
         [InlineData("Moq")]
+        [InlineData("Rhino.Mocks")]
         public void AutoFixtureXunitUnitTestsDoNotReference(string assemblyName)
         {
             // Fixture setup

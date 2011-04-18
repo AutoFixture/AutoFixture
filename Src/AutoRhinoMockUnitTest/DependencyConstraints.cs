@@ -1,22 +1,23 @@
-﻿using System.Linq;
-using Ploeh.AutoFixture.Idioms;
-using Xunit;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Xunit.Extensions;
+using Xunit;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
     public class DependencyConstraints
     {
         [Theory]
         [InlineData("Moq")]
-        [InlineData("Rhino.Mocks")]
         [InlineData("xunit")]
         [InlineData("xunit.extensions")]
-        public void IdiomsDoesNotReference(string assemblyName)
+        public void AutoFixtureDoesNotReference(string assemblyName)
         {
             // Fixture setup
             // Exercise system
-            var references = typeof(SpecimenBuilderComposerIdioms).Assembly.GetReferencedAssemblies();
+            var references = typeof(AutoRhinoMockCustomization).Assembly.GetReferencedAssemblies();
             // Verify outcome
             Assert.False(references.Any(an => an.Name == assemblyName));
             // Teardown
@@ -24,8 +25,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         [Theory]
         [InlineData("Moq")]
-        [InlineData("Rhino.Mocks")]
-        public void IdiomsUnitTestsDoNotReference(string assemblyName)
+        public void AutoFixtureUnitTestsDoNotReference(string assemblyName)
         {
             // Fixture setup
             // Exercise system
