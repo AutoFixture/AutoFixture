@@ -69,6 +69,11 @@
     <Compile Include="Extension\Constraints\MyClass.cs" />
     <Compile Include="Extension\Constraints\ObjectBuilderExtension.cs" />
     <Compile Include="Extension\Constraints\ObjectBuilderExtensionTest.cs" />
+    <Compile Include="Greedy\Bastard.cs" />
+    <Compile Include="Greedy\DefaultFoo.cs" />
+    <Compile Include="Greedy\DummyFoo.cs" />
+    <Compile Include="Greedy\IFoo.cs" />
+    <Compile Include="Greedy\Scenario.cs" />
     <Compile Include="Intermediate\IMyInterface.cs" />
     <Compile Include="Intermediate\MyClass.cs" />
     <Compile Include="Intermediate\FakeMyInterface.cs" />
