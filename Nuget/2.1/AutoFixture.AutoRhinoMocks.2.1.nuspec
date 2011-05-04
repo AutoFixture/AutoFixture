@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<package> 
+  <metadata> 
+    <id>AutoFixture.AutoRhinoMocks</id> 
+    <version>2.1</version>
+	<title>AutoFixture with Auto Mocking using Rhino Mocks</title>
+    <authors>Mark Seemann</authors>
+	<owners>Peter Ravnholt</owners>
+	<dependencies>
+		<dependency id="autofixture" version="2.1" />
+		<dependency id="RhinoMocks" version="3.6" />
+	</dependencies>
+    <description>AutoFixture makes it easier for developers to do Test-Driven Development by automating non-relevant Test Fixture Setup, allowing the Test Developer to focus on the essentials of each test case.</description> 
+    <language>en-US</language>
+    <licenseUrl>http://autofixture.codeplex.com/license</licenseUrl>
+    <projectUrl>http://autofixture.codeplex.com</projectUrl>
+  </metadata>
+  <files>
+    <file src="Ploeh.AutoFixture.AutoRhinoMock.dll" target="lib" />
+	<file src="Ploeh.AutoFixture.AutoRhinoMock.XML" target="lib" />
+  </files>
+</package>
