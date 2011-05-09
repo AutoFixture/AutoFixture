@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <remarks>
         /// <para>
         /// If <paramref name="request"/> is a seeded request, the Create method unwraps the inner
-        /// request and forwards it to <paramref name="container"/>. The seed value is ignored.
+        /// request and forwards it to <paramref name="context"/>. The seed value is ignored.
         /// </para>
         /// <para>
         /// The purpose of this class is to provide a fallback to handle seeded requests that no

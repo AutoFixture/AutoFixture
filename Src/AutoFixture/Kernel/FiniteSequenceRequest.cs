@@ -71,9 +71,6 @@ namespace Ploeh.AutoFixture.Kernel
         /// Creates many requests from the underlying requests.
         /// </summary>
         /// <returns>A number of similar requests.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// When both the requested count and <paramref name="defaultCount"/> are negative or zero.
-        /// </exception>
         public IEnumerable<object> CreateRequests()
         {
             return Enumerable.Repeat(this.request, this.count);

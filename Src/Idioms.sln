@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdiomsUnitTest", "IdiomsUnitTest\IdiomsUnitTest.csproj", "{730E1D38-BA80-48C7-B05C-E2BD29F38851}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Idioms", "Idioms\Idioms.csproj", "{35DE0E35-4E3A-46D7-B175-80CA10276BE7}"

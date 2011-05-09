@@ -123,7 +123,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <para>
         /// This method assigns a value to the property or field identified by the expression
         /// supplied to the class' constructor. If no value (or creator) was supplied to the
-        /// constructor, <paramref name="container"/> will be used to create the value.
+        /// constructor, <paramref name="context"/> will be used to create the value.
         /// </para>
         /// </remarks>
         public void Execute(T specimen, ISpecimenContext context)

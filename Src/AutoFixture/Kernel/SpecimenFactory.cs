@@ -110,7 +110,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <para>
         /// <paramref name="request"/> is ignored. Instead, the Func contained by this instance is
         /// used to create a specimen. The parameter for the Func is supplied by
-        /// <paramref name="container"/>.
+        /// <paramref name="context"/>.
         /// </para>
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
@@ -181,7 +181,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <para>
         /// <paramref name="request"/> is ignored. Instead, the Func contained by this instance is
         /// used to create a specimen. The parameters for the Func is supplied by
-        /// <paramref name="container"/>.
+        /// <paramref name="context"/>.
         /// </para>
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
@@ -254,7 +254,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <para>
         /// <paramref name="request"/> is ignored. Instead, the Func contained by this instance is
         /// used to create a specimen. The parameters for the Func is supplied by
-        /// <paramref name="container"/>.
+        /// <paramref name="context"/>.
         /// </para>
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
@@ -329,7 +329,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <para>
         /// <paramref name="request"/> is ignored. Instead, the Func contained by this instance is
         /// used to create a specimen. The parameters for the Func is supplied by
-        /// <paramref name="container"/>.
+        /// <paramref name="context"/>.
         /// </para>
         /// </remarks>
         public object Create(object request, ISpecimenContext context)

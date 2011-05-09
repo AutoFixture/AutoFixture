@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoMoq", "AutoMoq\AutoMoq.csproj", "{5DCEC2BD-40A3-458A-BEBC-C2FC0D4D451B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture", "AutoFixture\AutoFixture.csproj", "{400AC174-9A4A-4C7D-815B-F2A21130A0D1}"

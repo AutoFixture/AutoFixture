@@ -17,8 +17,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Determines whether the specified objects are equal.
         /// </summary>
-        /// <param name="x">The first object of type <paramref name="T"/> to compare.</param>
-        /// <param name="y">The second object of type <paramref name="T"/> to compare.</param>
+        /// <param name="x">The first <see cref="MemberInfo"/> instance to compare.</param>
+        /// <param name="y">The second <see cref="MemberInfo"/> instance to compare.</param>
         /// <returns>
         /// <see langword="true"/> if the specified objects are considered equal; otherwise,
         /// <see langword="false"/>.

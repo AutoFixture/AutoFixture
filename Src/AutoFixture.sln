@@ -1,13 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture", "AutoFixture\AutoFixture.csproj", "{400AC174-9A4A-4C7D-815B-F2A21130A0D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixtureUnitTest", "AutoFixtureUnitTest\AutoFixtureUnitTest.csproj", "{01C86B79-C79F-4EC4-B32E-DA5467DBBD31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixtureDocumentationTest", "AutoFixtureDocumentationTest\AutoFixtureDocumentationTest.csproj", "{53F3A7F8-B4CA-4500-B493-FBE59D2619A7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0BAAB8F9-0D62-4622-89DF-1C778F47CAC9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticComparisonUnitTest", "SemanticComparisonUnitTest\SemanticComparisonUnitTest.csproj", "{E10289EF-D37F-4048-83B4-0A3D0BC29927}"
 EndProject
