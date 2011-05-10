@@ -75,6 +75,11 @@ namespace Ploeh.AutoFixture
         /// <returns>An anonymous object.</returns>
         public static T CreateAnonymous<T>(this ISpecimenContext context, T seed)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             return (T)context.Resolve(new SeededRequest(typeof(T), seed));
         }
 
