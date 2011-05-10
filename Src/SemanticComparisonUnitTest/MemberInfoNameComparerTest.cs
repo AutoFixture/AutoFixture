@@ -9,10 +9,6 @@ namespace Ploeh.SemanticComparison.UnitTest
 {
     public class MemberInfoNameComparerTest
     {
-        public MemberInfoNameComparerTest()
-        {
-        }
-
         [Fact]
         public void ComparingIdenticalMembersWillReturnTrue()
         {
@@ -78,6 +74,17 @@ namespace Ploeh.SemanticComparison.UnitTest
             bool result = sut.Equals(null, null);
             // Verify outcome
             Assert.True(result, "Equals");
+            // Teardown
+        }
+
+        [Fact]
+        public void GetHashCodeOfNullSutThrows()
+        {
+            // Fixture setup
+            var sut = new MemberInfoNameComparer();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.GetHashCode(null));
             // Teardown
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Ploeh.SemanticComparison
@@ -34,6 +35,11 @@ namespace Ploeh.SemanticComparison
         /// </returns>
         public int GetHashCode(MemberInfo obj)
         {
+            if (obj == null)
+            {
+                throw new ArgumentNullException("obj");
+            }
+
             return obj.Name.GetHashCode();
         }
 

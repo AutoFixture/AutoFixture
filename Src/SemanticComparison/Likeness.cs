@@ -178,6 +178,11 @@ namespace Ploeh.SemanticComparison
         /// </returns>
         public Likeness<TSource, TDestination> WithDefaultEquality<TProperty>(Expression<Func<TDestination, TProperty>> propertyPicker)
         {
+            if (propertyPicker == null)
+            {
+                throw new ArgumentNullException("propertyPicker");
+            }
+
             var me = (MemberExpression)propertyPicker.Body;
             var f = me.Member.ToEvaluator<TSource, TDestination>();
             return this.With(propertyPicker).EqualsWhen(f.Evaluator);

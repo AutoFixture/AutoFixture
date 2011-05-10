@@ -707,6 +707,17 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
+        public void WithDefaultEqualityOfNullPropertyThrows()
+        {
+            // Fixture setup
+            var sut = new Likeness<object, object>(new object());
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.WithDefaultEquality<object>(null));
+            // Teardown
+        }
+
+        [Fact]
         public void OmitAutoComparisonFollowedByWithDefaultEqualityWillOptInOnThosePropertiesOnlyAndReturnTrueWhenTheyMatch()
         {
             // Fixture setup
