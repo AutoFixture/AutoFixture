@@ -216,27 +216,6 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Registers a specific instance for a specific type.
-        /// </summary>
-        /// <typeparam name="T">
-        /// The type for which <paramref name="item"/> should be registered.
-        /// </typeparam>
-        /// <param name="item">The item to register.</param>
-        /// <remarks>
-        /// <para>
-        /// This method is deprecated. Use <see cref="FixtureRegistrar.Inject{T}(IFixture, T)"/>
-        /// instead. The method will be removed in the version following AutoFixture 2.1.
-        /// </para>
-        /// </remarks>
-        /// <seealso cref="FixtureRegistrar.Inject{T}(IFixture, T)"/>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use the Inject extension method instead.", true)]
-        public void Register<T>(T item)
-        {
-            this.Inject(item);
-        }
-
-        /// <summary>
         /// Repeats a function many times.
         /// </summary>
         /// <typeparam name="T">

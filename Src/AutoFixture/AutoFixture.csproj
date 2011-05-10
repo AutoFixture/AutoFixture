@@ -156,7 +156,6 @@
     <Compile Include="Kernel\ISpecimenBuilderComposer.cs" />
     <Compile Include="Dsl\ICustomizationComposer.cs" />
     <Compile Include="Dsl\NullComposer.cs" />
-    <Compile Include="FactoryComposer.cs" />
     <Compile Include="Kernel\AndRequestSpecification.cs" />
     <Compile Include="Kernel\AnyTypeSpecification.cs" />
     <Compile Include="Kernel\AutoPropertiesCommand.cs" />
