@@ -12,7 +12,7 @@ namespace Ploeh.AutoFixture.Kernel
         private readonly Type targetType;
         private readonly IEnumerable<ParameterInfo> parameters;
 
-        public ParameterScore(Type parentType, Type targetType, IEnumerable<ParameterInfo> parameters)
+        internal ParameterScore(Type parentType, Type targetType, IEnumerable<ParameterInfo> parameters)
         {
             if (parentType == null)
             {
