@@ -176,7 +176,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void WeakyTypedGetHashCodeReturnsCorrectResultForPropertyInfo()
+        public void WeaklyTypedGetHashCodeReturnsCorrectResultForPropertyInfo()
         {
             // Fixture setup
             IEqualityComparer sut = new MemberInfoEqualityComparer();
@@ -186,6 +186,17 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             var expectedHashCode = propertyInfo.DeclaringType.GetHashCode() ^ propertyInfo.Name.GetHashCode();
             Assert.Equal(expectedHashCode, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void StronglyTypedGetHashCodeWithNullSutThrows()
+        {
+            // Fixture setup
+            var sut = new MemberInfoEqualityComparer();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.GetHashCode(null));
             // Teardown
         }
     }

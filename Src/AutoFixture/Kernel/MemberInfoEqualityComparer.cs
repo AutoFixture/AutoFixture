@@ -75,6 +75,11 @@ namespace Ploeh.AutoFixture.Kernel
         /// </exception>
         public int GetHashCode(MemberInfo obj)
         {
+            if (obj == null)
+            {
+                throw new ArgumentNullException("obj");
+            }
+
             if (obj.DeclaringType == null)
             {
                 return obj.Name.GetHashCode();
