@@ -85,6 +85,11 @@ namespace Ploeh.AutoFixture
         /// <returns>An anonymous object.</returns>
         public static T CreateAnonymous<T>(this ISpecimenBuilderComposer composer, T seed)
         {
+            if (composer == null)
+            {
+                throw new ArgumentNullException("composer");
+            }
+
             return composer.Compose().CreateContext().CreateAnonymous(seed);
         }
 
