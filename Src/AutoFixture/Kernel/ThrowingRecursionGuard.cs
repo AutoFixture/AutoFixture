@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             throw new ObjectCreationException(string.Format(
                 CultureInfo.InvariantCulture,
-                "AutoFixture was unable to create an instance of type {0} because the traversed object graph contains a circular referece. Path: {1}.",
+                "AutoFixture was unable to create an instance of type {0} because the traversed object graph contains a circular reference. Path: {1}.",
                 this.RecordedRequests.Cast<object>().First().GetType(),
                 this.GetFlattenedRequests(request)));
         }
