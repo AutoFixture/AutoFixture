@@ -32,14 +32,15 @@ namespace Ploeh.AutoFixture.Kernel
             this.parameters = parameters;
         }
 
-        #region IComparable<ParameterScore> Members
-
         public int CompareTo(ParameterScore other)
         {
+            if (other == null)
+            {
+                return 1;
+            }
+
             return this.CalculateScore().CompareTo(other.CalculateScore());
         }
-
-        #endregion
 
         private int CalculateScore()
         {
