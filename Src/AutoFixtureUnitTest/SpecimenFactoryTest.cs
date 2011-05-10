@@ -14,6 +14,16 @@ namespace Ploeh.AutoFixtureUnitTest
     public class SpecimenFactoryTest
     {
         [Fact]
+        public void CreateAnonymousFromNullSpecimenBuilderComposerThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                SpecimenFactory.CreateAnonymous<object>((ISpecimenBuilderComposer)null));
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousOnContainerReturnsCorrectResult()
         {
             // Fixture setup

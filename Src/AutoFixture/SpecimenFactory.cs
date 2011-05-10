@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
@@ -32,6 +33,11 @@ namespace Ploeh.AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static T CreateAnonymous<T>(this ISpecimenBuilderComposer composer)
         {
+            if (composer == null)
+            {
+                throw new ArgumentNullException("composer");
+            }
+
             return composer.Compose().CreateContext().CreateAnonymous<T>();
         }
 
