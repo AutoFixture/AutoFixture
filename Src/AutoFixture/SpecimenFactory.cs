@@ -177,6 +177,11 @@ namespace Ploeh.AutoFixture
         /// <returns>A sequence of anonymous object of type <typeparamref name="T"/>.</returns>
         public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilderComposer composer, T seed)
         {
+            if (composer == null)
+            {
+                throw new ArgumentNullException("composer");
+            }
+
             return composer.Compose().CreateContext().CreateMany(seed);
         }
 
