@@ -252,6 +252,11 @@ namespace Ploeh.AutoFixture
         /// <returns>A sequence of anonymous objects of type <typeparamref name="T"/>.</returns>
         public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context, T seed, int count)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             return from s in (IEnumerable<object>)context.Resolve(new FiniteSequenceRequest(new SeededRequest(typeof(T), seed), count))
                    select (T)s;
         }
