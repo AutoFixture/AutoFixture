@@ -237,8 +237,6 @@
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Migrated rules for AutoFixture %282%29.ruleset" />
-    <None Include="Migrated rules for AutoFixture %283%29.ruleset" />
     <None Include="AutoFixture.ruleset" />
   </ItemGroup>
   <ItemGroup>
