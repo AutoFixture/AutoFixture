@@ -168,6 +168,18 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateManyOnNullSpecimenBuilderComposerWithSeedAndCountThrows()
+        {
+            // Fixture setup
+            var dummySeed = new object();
+            var dummyCount = 1;
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                SpecimenFactory.CreateMany<object>((ISpecimenBuilderComposer)null, dummySeed, dummyCount));
+            // Teardown
+        }
+
+        [Fact]
         public void CreateManyOnContainerReturnsCorrectResult()
         {
             // Fixture setup
