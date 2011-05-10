@@ -21,6 +21,11 @@ namespace Ploeh.AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static T CreateAnonymous<T>(this ISpecimenContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             return (T)context.CreateAnonymous(default(T));
         }
 
