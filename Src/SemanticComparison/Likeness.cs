@@ -154,6 +154,11 @@ namespace Ploeh.SemanticComparison
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "The explicit use of Expression<Func<T>> enables type inference from the test code. With only the base class LambdaExpression, calling code would have to explicitly spell out the property type as a generic type parameter. This would hurt readability of the calling code.")]
         public LikenessMember<TSource, TDestination> With<TProperty>(Expression<Func<TDestination, TProperty>> propertyPicker)
         {
+            if (propertyPicker == null)
+            {
+                throw new ArgumentNullException("propertyPicker");
+            }
+
             var me = (MemberExpression)propertyPicker.Body;
             return new LikenessMember<TSource, TDestination>(this, me.Member);
         }

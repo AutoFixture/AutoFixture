@@ -75,7 +75,7 @@
     </CodeAnalysisRules>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Verify\Ploeh.SemanticComparison.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>SemanticComparison.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
