@@ -1103,6 +1103,17 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CustomizeNullTransformationThrows()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Customize<object>(null));
+            // Teardown
+        }
+
+        [Fact]
         public void RegisterTypeWithPropertyOverrideWillSetPropertyValueCorrectly()
         {
             // Fixture setup

@@ -211,6 +211,11 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         public void Customize<T>(Func<ICustomizationComposer<T>, ISpecimenBuilderComposer> composerTransformation)
         {
+            if (composerTransformation == null)
+            {
+                throw new ArgumentNullException("composerTransformation");
+            }
+
             var c = composerTransformation(new Composer<T>().WithAutoProperties(this.EnableAutoProperties));
             this.customizer.Builders.Insert(0, c.Compose());
         }
