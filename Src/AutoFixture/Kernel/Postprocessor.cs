@@ -153,6 +153,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <see cref="Type"/> or other <see cref="System.Reflection.MemberInfo"/> instances.
         /// </para>
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ISpecimenBuilder", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public object Create(object request, ISpecimenContext context)
         {
             var specimen = this.builder.Create(request, context);

@@ -22,6 +22,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Initializes a new instance of the <see cref="IllegalRequestException"/> class.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "IntPtr", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public IllegalRequestException()
             : base("An illegal request was detected. This is most likely caused by a request for an unsafe resource (such as an IntPtr) that could crash the process.")
         {

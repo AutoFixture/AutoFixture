@@ -35,6 +35,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="request">The recursion causing request.</param>
         /// <returns>Nothing. Always throws.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public override object HandleRecursiveRequest(object request)
         {
             throw new ObjectCreationException(string.Format(

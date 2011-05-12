@@ -234,7 +234,9 @@
     <Compile Include="UInt64SequenceGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
+    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml">
+      <SubType>Designer</SubType>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
     <None Include="AutoFixture.ruleset" />
