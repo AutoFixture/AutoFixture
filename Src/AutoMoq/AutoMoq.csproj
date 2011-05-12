@@ -67,7 +67,7 @@
     </CodeAnalysisRules>
     <DocumentationFile>bin\Verify\Ploeh.AutoFixture.AutoMoq.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CodeAnalysisRuleSet>AutoMoq.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Moq, Version=3.1.416.3, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
