@@ -67,7 +67,7 @@
     </CodeAnalysisRules>
     <DocumentationFile>bin\Verify\Ploeh.AutoFixture.Xunit.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CodeAnalysisRuleSet>AutoFixture.xUnit.net.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
