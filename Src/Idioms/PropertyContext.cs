@@ -62,6 +62,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// writable, and that the value returned is the same as the value which was originally
         /// assigned.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "PropertyInfo", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public void VerifyWritable()
         {
             if (this.isPropertyReadOnly)

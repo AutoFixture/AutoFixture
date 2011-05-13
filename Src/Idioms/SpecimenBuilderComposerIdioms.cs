@@ -67,6 +67,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// <typeparam name="T">The type owning the properties.</typeparam>
         /// <param name="composer">The composer.</param>
         /// <returns>An <see cref="IPropertyContext"/> that encapsulates the properties.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the internal Microsoft FxCop DL.")]
         public static IPropertyContext ForAllPropertiesOf<T>(this ISpecimenBuilderComposer composer)
         {
             return composer.ForAllPropertiesOf(typeof(T));
@@ -203,6 +204,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// <typeparam name="T">The type owning the methods.</typeparam>
         /// <param name="composer">The composer.</param>
         /// <returns>An <see cref="IMethodContext"/> that encapsulates the methods.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the internal Microsoft FxCop DL.")]
         public static IMethodContext ForAllMethodsOf<T>(this ISpecimenBuilderComposer composer)
         {
             return composer.ForAllMethodsOf(typeof(T));
@@ -260,6 +262,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// <typeparam name="T">The type owning the constructors.</typeparam>
         /// <param name="composer">The composer.</param>
         /// <returns>An <see cref="IMethodContext"/> that encapsulates the constructors.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the internal Microsoft FxCop DL.")]
         public static IMethodContext ForAllConstructorsOf<T>(this ISpecimenBuilderComposer composer)
         {
             return composer.ForAllConstructorsOf(typeof(T));
@@ -292,6 +295,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// <typeparam name="T">The type owning the members.</typeparam>
         /// <param name="composer">The composer.</param>
         /// <returns>An <see cref="IMemberContext"/> that encapsulates the members.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the internal Microsoft FxCop DL.")]
         public static IMemberContext ForAllMembersOf<T>(this ISpecimenBuilderComposer composer)
         {
             return composer.ForAllMembersOf(typeof(T));
