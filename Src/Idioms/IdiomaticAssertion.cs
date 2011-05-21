@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -9,7 +10,7 @@ namespace Ploeh.AutoFixture.Idioms
     {
         #region IIdiomaticAssertion Members
 
-        public virtual void Verify(System.Reflection.Assembly assembly)
+        public virtual void Verify(Assembly assembly)
         {
         }
 
@@ -25,51 +26,51 @@ namespace Ploeh.AutoFixture.Idioms
         {
         }
 
-        public virtual void Verify(params System.Reflection.MemberInfo[] memberInfos)
+        public virtual void Verify(params MemberInfo[] memberInfos)
         {
         }
 
-        public virtual void Verify(IEnumerable<System.Reflection.MemberInfo> memberInfos)
+        public virtual void Verify(IEnumerable<MemberInfo> memberInfos)
         {
         }
 
-        public virtual void Verify(System.Reflection.MemberInfo memberInfo)
+        public virtual void Verify(MemberInfo memberInfo)
         {
         }
 
-        public virtual void Verify(params System.Reflection.ConstructorInfo[] constructorInfos)
+        public virtual void Verify(params ConstructorInfo[] constructorInfos)
         {
         }
 
-        public virtual void Verify(IEnumerable<System.Reflection.ConstructorInfo> constructorInfos)
+        public virtual void Verify(IEnumerable<ConstructorInfo> constructorInfos)
         {
         }
 
-        public virtual void Verify(System.Reflection.ConstructorInfo constructorInfo)
+        public virtual void Verify(ConstructorInfo constructorInfo)
         {
         }
 
-        public virtual void Verify(params System.Reflection.MethodInfo[] methodInfos)
+        public virtual void Verify(params MethodInfo[] methodInfos)
         {
         }
 
-        public virtual void Verify(IEnumerable<System.Reflection.MethodInfo> methodInfos)
+        public virtual void Verify(IEnumerable<MethodInfo> methodInfos)
         {
         }
 
-        public virtual void Verify(System.Reflection.MethodInfo methodInfo)
+        public virtual void Verify(MethodInfo methodInfo)
         {
         }
 
-        public virtual void Verify(params System.Reflection.PropertyInfo[] propertyInfos)
+        public virtual void Verify(params PropertyInfo[] propertyInfos)
         {
         }
 
-        public virtual void Verify(IEnumerable<System.Reflection.PropertyInfo> propertyInfos)
+        public virtual void Verify(IEnumerable<PropertyInfo> propertyInfos)
         {
         }
 
-        public virtual void Verify(System.Reflection.PropertyInfo propertyInfo)
+        public virtual void Verify(PropertyInfo propertyInfo)
         {
         }
 
