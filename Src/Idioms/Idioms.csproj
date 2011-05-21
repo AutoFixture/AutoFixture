@@ -96,6 +96,8 @@
     <Compile Include="ExceptionBoundaryBehavior.cs" />
     <Compile Include="GuidBoundaryBehavior.cs" />
     <Compile Include="IBoundaryBehavior.cs" />
+    <Compile Include="IdiomaticAssertion.cs" />
+    <Compile Include="IIdiomaticAssertion.cs" />
     <Compile Include="IMemberContext.cs" />
     <Compile Include="IMethodContext.cs" />
     <Compile Include="IPropertyContext.cs" />

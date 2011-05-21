@@ -76,6 +76,7 @@
     <Compile Include="DelegatingBoundaryBehavior.cs" />
     <Compile Include="DelegatingExceptionBoundaryBehavior.cs" />
     <Compile Include="DelegatingBoundaryConvention.cs" />
+    <Compile Include="DelegatingIdiomaticAssertion.cs" />
     <Compile Include="DelegatingMemberContext.cs" />
     <Compile Include="DelegatingMethodContext.cs" />
     <Compile Include="DelegatingPropertyContext.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="EmptyStringBehaviorTest.cs" />
     <Compile Include="ExceptionBoundaryBehaviorTest.cs" />
     <Compile Include="GuidBoundaryBehaviorTest.cs" />
+    <Compile Include="IdiomaticAssertionTest.cs" />
     <Compile Include="MethodContextTest.cs" />
     <Compile Include="NullReferenceBehaviorTest.cs" />
     <Compile Include="ReflectionExceptionBoundaryBehaviorTest.cs" />
