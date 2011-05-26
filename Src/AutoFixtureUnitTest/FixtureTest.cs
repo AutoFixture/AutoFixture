@@ -3201,6 +3201,30 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateMultipleHoldersOfEnumsReturnsCorrectResultForLastItem()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateMany<PropertyHolder<TriState>>(4);
+            // Verify outcome
+            Assert.InRange(result.Last().Property, TriState.First, TriState.Third);
+            // Teardown
+        }
+
+        [Fact(Skip = "Waiting for resolution of this bug.")]
+        public void CreateMultipleHoldersOfNullableEnumsReturnsCorrectResultForLastItem()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateMany<PropertyHolder<TriState?>>(4);
+            // Verify outcome
+            Assert.InRange(result.Last().Property.GetValueOrDefault(), TriState.First, TriState.Third);
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
