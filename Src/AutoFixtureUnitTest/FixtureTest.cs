@@ -3213,7 +3213,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact(Skip = "Waiting for resolution of this bug.")]
+        [Fact]
         public void CreateMultipleHoldersOfNullableEnumsReturnsCorrectResultForLastItem()
         {
             // Fixture setup
