@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixture
             this.engine = engine;
             this.residueCollector = new CompositeSpecimenBuilder();
 
-            this.ResidueCollectors.Add(new EnumGenerator());
+            this.Customizations.Add(new EnumGenerator());
 
             this.multiple = multiple;
 
