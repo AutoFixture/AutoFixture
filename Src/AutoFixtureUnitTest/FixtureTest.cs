@@ -3225,6 +3225,18 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateMultipleSingleParameterTypesWithEnumReturnsCorrectResultForLastItem()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateMany<PropertyHolder<SingleParameterType<TriState>>>(4);
+            // Verify outcome
+            Assert.InRange(result.Last().Property.Parameter, TriState.First, TriState.Third);
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
