@@ -5,10 +5,21 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
+    /// <summary>
+    /// A specification that evaluates whether a request is a request for a nullable enum.
+    /// </summary>
     public class NullableEnumRequestSpecification : IRequestSpecification
     {
         #region IRequestSpecification Members
 
+        /// <summary>
+        /// Evaluates a request for a specimen.
+        /// </summary>
+        /// <param name="request">The specimen request.</param>
+        /// <returns>
+        /// <see langword="true"/> if <paramref name="request"/> is a request for a nullable enum;
+        /// otherwise, <see langword="false"/>.
+        /// </returns>
         public bool IsSatisfiedBy(object request)
         {
             return (from t in request.Maybe().OfType<Type>()
