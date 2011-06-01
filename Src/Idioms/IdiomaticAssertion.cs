@@ -73,6 +73,10 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void Verify(params ConstructorInfo[] constructorInfos)
         {
+            foreach (var c in constructorInfos)
+            {
+                this.Verify(c);
+            }
         }
 
         public virtual void Verify(IEnumerable<ConstructorInfo> constructorInfos)

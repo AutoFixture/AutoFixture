@@ -221,5 +221,22 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.True(mockVerified, "Mock verified.");
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(Version))]
+        public void VerifyConstructorInfoArrayCorrectlyInvokesNextVerify(Type type)
+        {
+            // Fixture setup
+            var ctors = type.GetConstructors();
+            var observedConstructors = new List<ConstructorInfo>();
+            var sut = new DelegatingIdiomaticAssertion { OnConstructorInfoVerify = observedConstructors.Add };
+            // Exercise system
+            sut.Verify(ctors);
+            // Verify outcome
+            Assert.True(ctors.SequenceEqual(observedConstructors));
+            // Teardown
+        }
     }
 }
