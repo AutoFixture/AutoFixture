@@ -80,6 +80,8 @@
     <Compile Include="DelegatingMemberContext.cs" />
     <Compile Include="DelegatingMethodContext.cs" />
     <Compile Include="DelegatingPropertyContext.cs" />
+    <Compile Include="DelegatingSpecimenBuilder.cs" />
+    <Compile Include="FakeSpecimenBuilderComposer.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="EmptyStringBehaviorTest.cs" />
     <Compile Include="ExceptionBoundaryBehaviorTest.cs" />
