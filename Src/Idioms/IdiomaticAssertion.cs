@@ -81,6 +81,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void Verify(IEnumerable<ConstructorInfo> constructorInfos)
         {
+            this.Verify(constructorInfos.ToArray());
         }
 
         public virtual void Verify(ConstructorInfo constructorInfo)

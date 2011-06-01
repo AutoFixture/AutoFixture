@@ -238,5 +238,22 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.True(ctors.SequenceEqual(observedConstructors));
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(Version))]
+        public void VerifyConstructorInfosCorrectlyInvokesNextVerify(Type type)
+        {
+            // Fixture setup
+            var ctors = type.GetConstructors().AsEnumerable();
+            var observedConstructors = new List<ConstructorInfo>();
+            var sut = new DelegatingIdiomaticAssertion { OnConstructorInfoVerify = observedConstructors.Add };
+            // Exercise system
+            sut.Verify(ctors);
+            // Verify outcome
+            Assert.True(ctors.SequenceEqual(observedConstructors));
+            // Teardown
+        }
     }
 }
