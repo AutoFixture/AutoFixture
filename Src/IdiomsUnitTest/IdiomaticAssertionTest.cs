@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Xunit;
 using Ploeh.AutoFixture.Idioms;
+using System.Reflection;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -73,6 +75,60 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             sut.Verify(types);
             // Verify outcome
             Assert.True(types.SequenceEqual(observedTypes));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(int))]        
+        [InlineData(typeof(Version))]
+        public void VerifyTypeCorrectlyInvokesConstructorsVerify(Type type)
+        {
+            // Fixture setup
+            var expectedCtors = type.GetConstructors();
+            var mockVerified = false;
+            var sut = new DelegatingIdiomaticAssertion { OnConstructorInfoArrayVerify = c => mockVerified = expectedCtors.SequenceEqual(c) };
+            // Exercise system
+            sut.Verify(type);
+            // Verify outcome
+            Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(Version))]
+        public void VerifyTypeCorrectlyInvokesMethodsVerify(Type type)
+        {
+            // Fixture setup
+            var expectedMethods = type.GetMethods().Except(type.GetProperties().SelectMany(p => p.GetAccessors()));
+            var mockVerified = false;
+            var sut = new DelegatingIdiomaticAssertion { OnMethodInfosVerify = m => mockVerified = expectedMethods.SequenceEqual(m) };
+            // Exercise system
+            sut.Verify(type);
+            // Verify outcome
+            Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(Version))]
+        public void VerifyTypeCorrectlyInvokesPropertiesVerify(Type type)
+        {
+            // Fixture setup
+            var expectedProperties = type.GetProperties();
+            var mockVerified = false;
+            var sut = new DelegatingIdiomaticAssertion { OnPropertyInfoArrayVerify = p => mockVerified = expectedProperties.SequenceEqual(p) };
+            // Exercise system
+            sut.Verify(type);
+            // Verify outcome
+            Assert.True(mockVerified, "Mock verified.");
             // Teardown
         }
     }

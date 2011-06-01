@@ -30,6 +30,9 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void Verify(Type type)
         {
+            this.Verify(type.GetConstructors());
+            this.Verify(IdiomaticAssertion.GetMethodsExceptPropertyAccessors(type));
+            this.Verify(type.GetProperties());
         }
 
         public virtual void Verify(params MemberInfo[] memberInfos)
@@ -81,5 +84,10 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         #endregion
+
+        private static IEnumerable<MethodInfo> GetMethodsExceptPropertyAccessors(Type type)
+        {
+            return type.GetMethods().Except(type.GetProperties().SelectMany(p => p.GetAccessors()));
+        }
     }
 }
