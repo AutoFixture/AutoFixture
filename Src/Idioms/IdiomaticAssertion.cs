@@ -37,6 +37,10 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void Verify(params MemberInfo[] memberInfos)
         {
+            foreach (var m in memberInfos)
+            {
+                this.Verify(m);
+            }
         }
 
         public virtual void Verify(IEnumerable<MemberInfo> memberInfos)

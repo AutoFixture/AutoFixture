@@ -131,5 +131,23 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.True(mockVerified, "Mock verified.");
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(Version))]
+        public void VerifyMemberInfoArrayCorrectlyInvokesNextVerify(Type type)
+        {
+            // Fixture setup
+            var members = type.GetMembers();
+            var observedMembers = new List<MemberInfo>();
+            var sut = new DelegatingIdiomaticAssertion { OnMemberInfoVerify = observedMembers.Add };
+            // Exercise system
+            sut.Verify(members);
+            // Verify outcome
+            Assert.True(members.SequenceEqual(observedMembers));
+            // Teardown
+        }
     }
 }
