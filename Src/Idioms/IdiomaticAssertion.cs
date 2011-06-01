@@ -107,6 +107,10 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void Verify(params PropertyInfo[] propertyInfos)
         {
+            foreach (var p in propertyInfos)
+            {
+                this.Verify(p);
+            }
         }
 
         public virtual void Verify(IEnumerable<PropertyInfo> propertyInfos)
