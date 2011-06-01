@@ -20,5 +20,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.IsAssignableFrom<IdiomaticAssertion>(sut);
             // Teardown
         }
+
+        [Fact]
+        public void VerifyReadOnlyPropertyDoesNotThrow()
+        {
+            // Fixture setup
+            var sut = new WritablePropertyAssertion();
+            var propertyInfo = typeof(ReadOnlyPropertyHolder<object>).GetProperty("Property");
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.Verify(propertyInfo));
+            // Teardown
+        }
     }
 }
