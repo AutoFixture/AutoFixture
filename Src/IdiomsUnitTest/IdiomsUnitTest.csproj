@@ -101,6 +101,7 @@
     <Compile Include="SpecimenBuilderComposerIdiomsTest.cs" />
     <Compile Include="MemberContextTest.cs" />
     <Compile Include="WritablePropertyAssertionTest.cs" />
+    <Compile Include="WritablePropertyExceptionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

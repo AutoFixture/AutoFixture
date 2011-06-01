@@ -117,6 +117,7 @@
     <Compile Include="Reflect.cs" />
     <Compile Include="MemberContext.cs" />
     <Compile Include="WritablePropertyAssertion.cs" />
+    <Compile Include="WritablePropertyException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

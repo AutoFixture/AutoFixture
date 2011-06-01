@@ -24,5 +24,15 @@ namespace Ploeh.AutoFixture.Idioms
         {
             get { return this.composer; }
         }
+
+        public override void Verify(System.Reflection.PropertyInfo propertyInfo)
+        {
+            if (propertyInfo.GetSetMethod() == null)
+            {
+                return;
+            }
+
+            throw new WritablePropertyException(propertyInfo);
+        }
     }
 }

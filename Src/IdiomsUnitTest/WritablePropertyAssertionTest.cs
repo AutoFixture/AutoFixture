@@ -6,6 +6,7 @@ using Xunit;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.TestTypeFoundation;
 using Ploeh.AutoFixture.Kernel;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -43,6 +44,36 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new WritablePropertyAssertion(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyIllBehavedPropertyGetterThrows()
+        {
+            // Fixture setup
+            var composer = new Fixture();
+            var sut = new WritablePropertyAssertion(composer);
+            
+            var propertyInfo = typeof(IllBehavedPropertyHolder<object>).GetProperty("PropertyIllBehavedGet");
+            // Exercise system and verify outcome
+            var e = Assert.Throws<WritablePropertyException>(() =>
+                sut.Verify(propertyInfo));
+            Assert.Equal(propertyInfo, e.PropertyInfo);
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyIllBehavedPropertySetterThrows()
+        {
+            // Fixture setup
+            var composer = new Fixture();
+            var sut = new WritablePropertyAssertion(composer);
+
+            var propertyInfo = typeof(IllBehavedPropertyHolder<object>).GetProperty("PropertyIllBehavedSet");
+            // Exercise system and verify outcome
+            var e = Assert.Throws<WritablePropertyException>(() =>
+                sut.Verify(propertyInfo));
+            Assert.Equal(propertyInfo, e.PropertyInfo);
             // Teardown
         }
 
