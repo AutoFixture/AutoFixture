@@ -90,6 +90,10 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void Verify(params MethodInfo[] methodInfos)
         {
+            foreach (var m in methodInfos)
+            {
+                this.Verify(m);
+            }
         }
 
         public virtual void Verify(IEnumerable<MethodInfo> methodInfos)

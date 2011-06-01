@@ -255,5 +255,23 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.True(ctors.SequenceEqual(observedConstructors));
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(Version))]
+        public void VerifyMethodInfoArrayCorrectlyInvokesNextVerify(Type type)
+        {
+            // Fixture setup
+            var methods = type.GetMethods().Except(type.GetProperties().SelectMany(p => p.GetAccessors())).ToArray();
+            var observedMethods = new List<MethodInfo>();
+            var sut = new DelegatingIdiomaticAssertion { OnMethodInfoVerify = observedMethods.Add };
+            // Exercise system
+            sut.Verify(methods);
+            // Verify outcome
+            Assert.True(methods.SequenceEqual(observedMethods));
+            // Teardown
+        }
     }
 }
