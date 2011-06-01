@@ -50,6 +50,25 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void Verify(MemberInfo memberInfo)
         {
+            var c = memberInfo as ConstructorInfo;
+            if (c != null)
+            {
+                this.Verify(c);
+                return;
+            }
+
+            var m = memberInfo as MethodInfo;
+            if (m != null)
+            {
+                this.Verify(m);
+                return;
+            }
+
+            var p = memberInfo as PropertyInfo;
+            if (p != null)
+            {
+                this.Verify(p);
+            }
         }
 
         public virtual void Verify(params ConstructorInfo[] constructorInfos)

@@ -168,5 +168,58 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(Version))]
+        public void VerifyMemberInfoCorrectlyInvokesConstructorVerify(Type type)
+        {
+            // Fixture setup
+            var member = type.GetConstructors().Cast<MemberInfo>().First();
+            var mockVerified = false;
+            var sut = new DelegatingIdiomaticAssertion { OnConstructorInfoVerify = c => mockVerified = c.Equals(member) };
+            // Exercise system
+            sut.Verify(member);
+            // Verify outcome
+            Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(Version))]
+        public void VerifyMemberInfoCorrectlyInvokesMethodVerify(Type type)
+        {
+            // Fixture setup
+            var member = type.GetMethods()
+                .Except(type.GetProperties().SelectMany(p => p.GetAccessors()))
+                .Cast<MemberInfo>()
+                .First();
+            var mockVerified = false;
+            var sut = new DelegatingIdiomaticAssertion { OnMethodInfoVerify = m => mockVerified = m.Equals(member) };
+            // Exercise system
+            sut.Verify(member);
+            // Verify outcome
+            Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(Version))]
+        public void VerifyMemberInfoCorrectlyInvokesPropertyVerify(Type type)
+        {
+            // Fixture setup
+            var member = type.GetProperties().Cast<MemberInfo>().First();
+            var mockVerified = false;
+            var sut = new DelegatingIdiomaticAssertion { OnPropertyInfoVerify = p => mockVerified = p.Equals(member) };
+            // Exercise system
+            sut.Verify(member);
+            // Verify outcome
+            Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
     }
 }
