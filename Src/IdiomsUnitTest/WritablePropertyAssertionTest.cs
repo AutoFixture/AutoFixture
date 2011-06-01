@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void SutIsIdiomaticAssertion()
         {
             // Fixture setup
-            var dummyComposer = new FakeSpecimenBuilderComposer();
+            var dummyComposer = new Fixture();
             // Exercise system
             var sut = new WritablePropertyAssertion(dummyComposer);
             // Verify outcome
@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void ComposerIsCorrect()
         {
             // Fixture setup
-            var expectedComposer = new FakeSpecimenBuilderComposer();
+            var expectedComposer = new Fixture();
             var sut = new WritablePropertyAssertion(expectedComposer);
             // Exercise system
             ISpecimenBuilderComposer result = sut.Composer;
