@@ -259,6 +259,22 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Theory]
         [InlineData(typeof(object))]
         [InlineData(typeof(string))]
+        [InlineData(typeof(Version))]
+        public void VerifyConstructorInfoDoesNotThrow(Type type)
+        {
+            // Fixture setup
+            var ctor = type.GetConstructors().First();
+            var sut = new DelegatingIdiomaticAssertion();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.Verify(ctor));
+            // Teardown
+        }
+
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
         [InlineData(typeof(int))]
         [InlineData(typeof(Version))]
         public void VerifyMethodInfoArrayCorrectlyInvokesNextVerify(Type type)
@@ -293,6 +309,22 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(Version))]
+        public void VerifyMethodInfoDoesNotThrow(Type type)
+        {
+            // Fixture setup
+            var method = type.GetMethods().Except(type.GetProperties().SelectMany(p => p.GetAccessors())).First();
+            var sut = new DelegatingIdiomaticAssertion();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.Verify(method));
+            // Teardown
+        }
+
+        [Theory]
         [InlineData(typeof(string))]
         [InlineData(typeof(Version))]
         public void VerifyPropertyInfoArrayCorrectlyInvokesNextVerify(Type type)
@@ -321,6 +353,20 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             sut.Verify(properties);
             // Verify outcome
             Assert.True(properties.SequenceEqual(observedProperties));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(Version))]
+        public void VerifyPropertyInfoDoesNotThrow(Type type)
+        {
+            // Fixture setup
+            var property = type.GetProperties().First();
+            var sut = new DelegatingIdiomaticAssertion();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.Verify(property));
             // Teardown
         }
     }
