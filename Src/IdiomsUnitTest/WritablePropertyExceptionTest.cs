@@ -5,6 +5,8 @@ using System.Text;
 using Xunit;
 using Ploeh.AutoFixture.Idioms;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -118,6 +120,53 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Verify outcome
             Assert.Equal<Exception>(expected, result);
             // Teardown
+        }
+
+        [Fact]
+        public void MessageSerializesCorrectly()
+        {
+            // Fixture setup
+            var dummyProperty = typeof(Version).GetProperties().First();
+            var message = Guid.NewGuid().ToString();
+            var sut = new WritablePropertyException(dummyProperty, message);
+
+            var formatter = new BinaryFormatter();
+            // Exercise system
+            using (var s = new MemoryStream())
+            {
+                formatter.Serialize(s, sut);
+                s.Flush();
+                s.Position = 0;
+                var result = formatter.Deserialize(s);
+                // Verify outcome
+                var e = Assert.IsAssignableFrom<WritablePropertyException>(result);
+                Assert.Equal(message, e.Message);
+                // Teardown
+            }
+        }
+
+        [Fact]
+        public void InnerExceptionSerializesCorrectly()
+        {
+            // Fixture setup
+            var dummyProperty = typeof(Version).GetProperties().First();
+            var dummyMessage = Guid.NewGuid().ToString();
+            var innerException = new Exception(Guid.NewGuid().ToString());
+            var sut = new WritablePropertyException(dummyProperty, dummyMessage, innerException);
+
+            var formatter = new BinaryFormatter();
+            // Exercise system
+            using (var s = new MemoryStream())
+            {
+                formatter.Serialize(s, sut);
+                s.Flush();
+                s.Position = 0;
+                var result = formatter.Deserialize(s);
+                // Verify outcome
+                var e = Assert.IsAssignableFrom<WritablePropertyException>(result);
+                Assert.Equal(innerException.Message, e.InnerException.Message);
+                // Teardown
+            }
         }
     }
 }

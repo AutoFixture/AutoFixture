@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
+    [Serializable]
     public class WritablePropertyException : Exception
     {
         private readonly PropertyInfo propertyInfo;
@@ -25,6 +27,11 @@ namespace Ploeh.AutoFixture.Idioms
             : base(message, innerException)
         {
             this.propertyInfo = propertyInfo;
+        }
+
+        protected WritablePropertyException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
         }
 
         public PropertyInfo PropertyInfo
