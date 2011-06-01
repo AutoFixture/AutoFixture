@@ -10,7 +10,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyWritableForProperty()
         {
-            new Fixture().ForProperty((PropertyHolder<object> sut) => sut.Property).VerifyWritable();
+            var fixture = new Fixture();
+            var assertion = new WritablePropertyAssertion(fixture);
+            var property = typeof(PropertyHolder<object>).GetProperty("Property");
+            assertion.Verify(property);
         }
 
         [Fact]
@@ -46,7 +49,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyWritableForAllPropertiesOnMutableClass()
         {
-            new Fixture().ForAllPropertiesOf<DoublePropertyHolder<string, int>>().VerifyWritable();
+            var fixture = new Fixture();
+            var assertion = new WritablePropertyAssertion(fixture);
+            var properties = typeof(DoublePropertyHolder<string, int>).GetProperties();
+            assertion.Verify(properties);
         }
 
         [Fact]
