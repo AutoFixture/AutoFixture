@@ -81,9 +81,23 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void VerifyReadOnlyPropertyDoesNotThrow()
         {
             // Fixture setup
-            var dummyComposer = new FakeSpecimenBuilderComposer();
+            var dummyComposer = new Fixture();
             var sut = new WritablePropertyAssertion(dummyComposer);
             var propertyInfo = typeof(ReadOnlyPropertyHolder<object>).GetProperty("Property");
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.Verify(propertyInfo));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyWellBehavedWritablePropertyDoesNotThrow()
+        {
+            // Fixture setup
+            var composer = new Fixture();
+            var sut = new WritablePropertyAssertion(composer);
+
+            var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() =>
                 sut.Verify(propertyInfo));

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ploeh.AutoFixture.Kernel;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -25,14 +26,23 @@ namespace Ploeh.AutoFixture.Idioms
             get { return this.composer; }
         }
 
-        public override void Verify(System.Reflection.PropertyInfo propertyInfo)
+        public override void Verify(PropertyInfo propertyInfo)
         {
-            if (propertyInfo.GetSetMethod() == null)
+            if (!propertyInfo.CanWrite)
             {
                 return;
             }
 
-            throw new WritablePropertyException(propertyInfo);
+            var specimen = this.composer.CreateAnonymous(propertyInfo.ReflectedType);
+            var propertyValue = this.composer.CreateAnonymous(propertyInfo.PropertyType);
+
+            propertyInfo.SetValue(specimen, propertyValue, null);
+            var result = propertyInfo.GetValue(specimen, null);
+
+            if (!propertyValue.Equals(result))
+            {
+                throw new WritablePropertyException(propertyInfo);
+            }
         }
     }
 }
