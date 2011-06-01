@@ -45,6 +45,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void Verify(IEnumerable<MemberInfo> memberInfos)
         {
+            this.Verify(memberInfos.ToArray());
         }
 
         public virtual void Verify(MemberInfo memberInfo)

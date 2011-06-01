@@ -149,5 +149,24 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.True(members.SequenceEqual(observedMembers));
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(Version))]
+        public void VerifyMembersCorrectlyInvokesNextVerify(Type type)
+        {
+            // Fixture setup
+            var members = type.GetMembers().AsEnumerable();
+            var observedMembers = new List<MemberInfo>();
+            var sut = new DelegatingIdiomaticAssertion { OnMemberInfoVerify = observedMembers.Add };
+            // Exercise system
+            sut.Verify(members);
+            // Verify outcome
+            Assert.True(members.SequenceEqual(observedMembers));
+            // Teardown
+        }
+
     }
 }
