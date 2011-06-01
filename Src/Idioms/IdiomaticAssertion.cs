@@ -25,6 +25,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void Verify(IEnumerable<Type> types)
         {
+            this.Verify(types.ToArray());
         }
 
         public virtual void Verify(Type type)

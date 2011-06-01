@@ -60,5 +60,20 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.True(types.SequenceEqual(observedTypes));
             // Teardown
         }
+
+        [Fact]
+        public void VerifyTypesCorrectlyInvokesNextVerify()
+        {
+            // Fixture setup
+            var types = new[] { typeof(string), typeof(int), typeof(Version) }.AsEnumerable();
+
+            var observedTypes = new List<Type>();
+            var sut = new DelegatingIdiomaticAssertion { OnTypeVerify = t => observedTypes.Add(t) };
+            // Exercise system
+            sut.Verify(types);
+            // Verify outcome
+            Assert.True(types.SequenceEqual(observedTypes));
+            // Teardown
+        }
     }
 }
