@@ -17,6 +17,10 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void Verify(params Type[] types)
         {
+            foreach (var t in types)
+            {
+                this.Verify(t);
+            }
         }
 
         public virtual void Verify(IEnumerable<Type> types)
