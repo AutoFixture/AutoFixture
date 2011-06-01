@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var types = new[] { typeof(string), typeof(int), typeof(Version) };
 
             var observedTypes = new List<Type>();
-            var sut = new DelegatingIdiomaticAssertion { OnTypeVerify = t => observedTypes.Add(t) };
+            var sut = new DelegatingIdiomaticAssertion { OnTypeVerify = observedTypes.Add };
             // Exercise system
             sut.Verify(types);
             // Verify outcome
@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var types = new[] { typeof(string), typeof(int), typeof(Version) }.AsEnumerable();
 
             var observedTypes = new List<Type>();
-            var sut = new DelegatingIdiomaticAssertion { OnTypeVerify = t => observedTypes.Add(t) };
+            var sut = new DelegatingIdiomaticAssertion { OnTypeVerify = observedTypes.Add };
             // Exercise system
             sut.Verify(types);
             // Verify outcome
