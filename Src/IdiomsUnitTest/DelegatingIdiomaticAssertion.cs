@@ -64,81 +64,97 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public override void Verify(Assembly assembly)
         {
             this.OnAssemblyVerify(assembly);
+            base.Verify(assembly);
         }
 
         public override void Verify(params Type[] types)
         {
             this.OnTypeArrayVerify(types);
+            base.Verify(types);
         }
 
         public override void Verify(IEnumerable<Type> types)
         {
             this.OnTypesVerify(types);
+            base.Verify(types);
         }
 
         public override void Verify(Type type)
         {
             this.OnTypeVerify(type);
+            base.Verify(type);
         }
 
         public override void Verify(params MemberInfo[] memberInfos)
         {
             this.OnMemberInfoArrayVerify(memberInfos);
+            base.Verify(memberInfos);
         }
 
         public override void Verify(IEnumerable<MemberInfo> memberInfos)
         {
             this.OnMemberInfosVerify(memberInfos);
+            base.Verify(memberInfos);
         }
 
         public override void Verify(MemberInfo memberInfo)
         {
             this.OnMemberInfoVerify(memberInfo);
+            base.Verify(memberInfo);
         }
 
         public override void Verify(params ConstructorInfo[] constructorInfos)
         {
             this.OnConstructorInfoArrayVerify(constructorInfos);
+            base.Verify(constructorInfos);
         }
 
         public override void Verify(IEnumerable<ConstructorInfo> constructorInfos)
         {
             this.OnConstructorInfosVerify(constructorInfos);
+            base.Verify(constructorInfos);
         }
 
         public override void Verify(ConstructorInfo constructorInfo)
         {
             this.OnConstructorInfoVerify(constructorInfo);
+            base.Verify(constructorInfo);
         }
 
         public override void Verify(params MethodInfo[] methodInfos)
         {
             this.OnMethodInfoArrayVerify(methodInfos);
+            base.Verify(methodInfos);
         }
 
         public override void Verify(IEnumerable<MethodInfo> methodInfos)
         {
             this.OnMethodInfosVerify(methodInfos);
+            base.Verify(methodInfos);
         }
 
         public override void Verify(MethodInfo methodInfo)
         {
             this.OnMethodInfoVerify(methodInfo);
+            base.Verify(methodInfo);
         }
 
         public override void Verify(params PropertyInfo[] propertyInfos)
         {
             this.OnPropertyInfoArrayVerify(propertyInfos);
+            base.Verify(propertyInfos);
         }
 
         public override void Verify(IEnumerable<PropertyInfo> propertyInfos)
         {
             this.OnPropertyInfosVerify(propertyInfos);
+            base.Verify(propertyInfos);
         }
 
         public override void Verify(PropertyInfo propertyInfo)
         {
             this.OnPropertyInfoVerify(propertyInfo);
+            base.Verify(propertyInfo);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void Verify(Assembly assembly)
         {
+            this.Verify(assembly.GetExportedTypes());
         }
 
         public virtual void Verify(params Type[] types)
