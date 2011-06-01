@@ -98,6 +98,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void Verify(IEnumerable<MethodInfo> methodInfos)
         {
+            this.Verify(methodInfos.ToArray());
         }
 
         public virtual void Verify(MethodInfo methodInfo)
