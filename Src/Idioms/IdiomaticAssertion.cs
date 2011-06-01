@@ -115,6 +115,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public virtual void Verify(IEnumerable<PropertyInfo> propertyInfos)
         {
+            this.Verify(propertyInfos.ToArray());
         }
 
         public virtual void Verify(PropertyInfo propertyInfo)

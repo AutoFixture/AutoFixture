@@ -307,5 +307,21 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.True(properties.SequenceEqual(observedProperties));
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(Version))]
+        public void VerifyPropertyInfosCorrectlyInvokesNextVerify(Type type)
+        {
+            // Fixture setup
+            var properties = type.GetProperties().AsEnumerable();
+            var observedProperties = new List<PropertyInfo>();
+            var sut = new DelegatingIdiomaticAssertion { OnPropertyInfoVerify = observedProperties.Add };
+            // Exercise system
+            sut.Verify(properties);
+            // Verify outcome
+            Assert.True(properties.SequenceEqual(observedProperties));
+            // Teardown
+        }
     }
 }
