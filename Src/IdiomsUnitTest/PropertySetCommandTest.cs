@@ -7,14 +7,14 @@ using Ploeh.AutoFixture.Idioms;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class ContextualCommandTest
+    public class PropertySetCommandTest
     {
         [Fact]
         public void SutIsContextualAction()
         {
             // Fixture setup
             // Exercise system
-            var sut = new ContextualCommand();
+            var sut = new PropertySetCommand();
             // Verify outcome
             Assert.IsAssignableFrom<IContextualCommand>(sut);
             // Teardown
