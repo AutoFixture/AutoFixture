@@ -33,5 +33,14 @@ namespace Ploeh.AutoFixture.Idioms
         {
             get { return this.value; }
         }
+
+        #region IContextualCommand Members
+
+        public void Execute()
+        {
+            this.PropertyInfo.SetValue(this.Owner, this.Value, null);
+        }
+
+        #endregion
     }
 }

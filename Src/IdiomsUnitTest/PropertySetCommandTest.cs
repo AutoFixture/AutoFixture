@@ -69,5 +69,20 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(value, result);
             // Teardown
         }
+
+        [Fact]
+        public void ExecuteAssignsValueToOwnerProperty()
+        {
+            // Fixture setup
+            var owner = new PropertyHolder<object>();
+            var property = owner.GetType().GetProperty("Property");
+            var value = new object();
+            var sut = new PropertySetCommand(property, owner, value);
+            // Exercise system
+            sut.Execute();
+            // Verify outcome
+            Assert.Equal(value, owner.Property);
+            // Teardown
+        }
     }
 }
