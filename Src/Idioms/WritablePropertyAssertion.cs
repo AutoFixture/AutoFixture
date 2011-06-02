@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public override void Verify(PropertyInfo propertyInfo)
         {
-            if (!propertyInfo.CanWrite)
+            if (propertyInfo.GetSetMethod() == null)
             {
                 return;
             }
