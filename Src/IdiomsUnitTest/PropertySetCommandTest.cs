@@ -17,8 +17,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var dummyOwner = new PropertyHolder<object>();
             var dummyProperty = dummyOwner.GetType().GetProperty("Property");
+            var dummyValue = new object();
             // Exercise system
-            var sut = new PropertySetCommand(dummyProperty, dummyOwner);
+            var sut = new PropertySetCommand(dummyProperty, dummyOwner, dummyValue);
             // Verify outcome
             Assert.IsAssignableFrom<IContextualCommand>(sut);
             // Teardown
@@ -30,7 +31,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var dummyOwner = new PropertyHolder<object>();
             var propertyInfo = dummyOwner.GetType().GetProperty("Property");
-            var sut = new PropertySetCommand(propertyInfo, dummyOwner);
+            var dummyValue = new object();
+            var sut = new PropertySetCommand(propertyInfo, dummyOwner, dummyValue);
             // Exercise system
             PropertyInfo result = sut.PropertyInfo;
             // Verify outcome
@@ -44,11 +46,27 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var owner = new PropertyHolder<object>();
             var dummyProperty = owner.GetType().GetProperty("Property");
-            var sut = new PropertySetCommand(dummyProperty, owner);
+            var dummyValue = new object();
+            var sut = new PropertySetCommand(dummyProperty, owner, dummyValue);
             // Exercise system
             var result = sut.Owner;
             // Verify outcome
             Assert.Equal(owner, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ValueIsCorrect()
+        {
+            // Fixture setup
+            var dummyOwner = new PropertyHolder<object>();
+            var dummyProperty = dummyOwner.GetType().GetProperty("Property");
+            var value = new object();
+            var sut = new PropertySetCommand(dummyProperty, dummyOwner, value);
+            // Exercise system
+            var result = sut.Value;
+            // Verify outcome
+            Assert.Equal(value, result);
             // Teardown
         }
     }
