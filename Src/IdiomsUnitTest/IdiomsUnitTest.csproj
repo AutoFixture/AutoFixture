@@ -72,7 +72,7 @@
     <Compile Include="CompositeMemberContextTest.cs" />
     <Compile Include="CompositeMethodContextTest.cs" />
     <Compile Include="CompositePropertyContextTest.cs" />
-    <Compile Include="ContextualActionTest.cs" />
+    <Compile Include="ContextualCommandTest.cs" />
     <Compile Include="DefaultBoundaryConventionTest.cs" />
     <Compile Include="DelegatingBoundaryBehavior.cs" />
     <Compile Include="DelegatingExceptionBoundaryBehavior.cs" />

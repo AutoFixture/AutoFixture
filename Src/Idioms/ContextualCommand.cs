@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public interface IContextualAction
+    public class ContextualCommand : IContextualCommand
     {
     }
 }

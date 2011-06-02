@@ -7,16 +7,16 @@ using Ploeh.AutoFixture.Idioms;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class ContextualActionTest
+    public class ContextualCommandTest
     {
         [Fact]
         public void SutIsContextualAction()
         {
             // Fixture setup
             // Exercise system
-            var sut = new ContextualAction();
+            var sut = new ContextualCommand();
             // Verify outcome
-            Assert.IsAssignableFrom<IContextualAction>(sut);
+            Assert.IsAssignableFrom<IContextualCommand>(sut);
             // Teardown
         }
     }

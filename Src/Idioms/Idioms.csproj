@@ -91,14 +91,14 @@
     <Compile Include="CompositeMemberContext.cs" />
     <Compile Include="CompositeMethodContext.cs" />
     <Compile Include="CompositePropertyContext.cs" />
-    <Compile Include="ContextualAction.cs" />
+    <Compile Include="ContextualCommand.cs" />
     <Compile Include="DefaultBoundaryConvention.cs" />
     <Compile Include="EmptyStringBehavior.cs" />
     <Compile Include="ExceptionBoundaryBehavior.cs" />
     <Compile Include="GuardClauseAssertion.cs" />
     <Compile Include="GuidBoundaryBehavior.cs" />
     <Compile Include="IBoundaryBehavior.cs" />
-    <Compile Include="IContextualAction.cs" />
+    <Compile Include="IContextualCommand.cs" />
     <Compile Include="IdiomaticAssertion.cs" />
     <Compile Include="IIdiomaticAssertion.cs" />
     <Compile Include="IMemberContext.cs" />
