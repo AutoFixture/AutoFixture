@@ -76,5 +76,35 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 sut.Verify(property));
             // Teardown
         }
+
+        [Fact]
+        public void VerifyPropertyCorrectlyInvokesBehaviorExpectation()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var owner = fixture.Freeze<PropertyHolder<Version>>(c => c.OmitAutoProperties());
+            var value = fixture.Freeze<Version>();
+
+            var property = owner.GetType().GetProperty("Property");
+
+            var mockVerified = false;
+            var expectation = new DelegatingBehaviorExpectation
+            {
+                OnVerify = c =>
+                {
+                    var unwrapper = Assert.IsAssignableFrom<ReflectionExceptionUnwrappingCommand>(c);
+                    var setterCmd = Assert.IsAssignableFrom<PropertySetCommand>(unwrapper.Command);
+                    mockVerified = setterCmd.PropertyInfo.Equals(property)
+                        && setterCmd.Owner.Equals(owner)
+                        && setterCmd.Value.Equals(value);
+                }
+            };
+            var sut = new GuardClauseAssertion(fixture, expectation);
+            // Exercise system
+            sut.Verify(property);
+            // Verify outcome
+            Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
     }
 }
