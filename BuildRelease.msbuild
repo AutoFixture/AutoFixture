@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <ItemGroup>
+    <ProjectToBuild Include="Src\*.sln" />
+  </ItemGroup>
+  <!--Optional Clean targets-->
+  <Target Name="CleanAll" DependsOnTargets="CleanDebug;CleanVerify;CleanRelease" />
+  <Target Name="CleanDebug">
+    <MSBuild Projects="@(ProjectToBuild)" Targets="Clean" Properties="Configuration=Debug" />
+  </Target>
+  <Target Name="CleanVerify">
+    <MSBuild Projects="@(ProjectToBuild)" Targets="Clean" Properties="Configuration=Verify" />
+  </Target>
+  <Target Name="CleanRelease">
+    <MSBuild Projects="@(ProjectToBuild)" Targets="Clean" Properties="Configuration=Release" />
+  </Target>
+  <!--Build tasks-->
+  <Target Name="Verify">
+    <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Verify" />
+  </Target>
+  <Target Name="Build" DependsOnTargets="Verify">
+    <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Release" />
+  </Target>
+</Project>
