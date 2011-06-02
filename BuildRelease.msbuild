@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Test">
+  <PropertyGroup>
+    <XUnitPath>Lib\xUnit.net 1.6.1</XUnitPath>
+  </PropertyGroup>
+  <UsingTask TaskName="xunitproject" AssemblyFile="$(XUnitPath)\xunit.runner.msbuild.dll" />
+
   <ItemGroup>
     <ProjectToBuild Include="Src\*.sln" />
   </ItemGroup>
@@ -20,5 +25,8 @@
   </Target>
   <Target Name="Build" DependsOnTargets="Verify">
     <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Release" />
+  </Target>
+  <Target Name="Test" DependsOnTargets="Build">
+    <xunitproject ProjectFile="Src\All.xunit" />
   </Target>
 </Project>
