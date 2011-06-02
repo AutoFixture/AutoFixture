@@ -33,5 +33,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(expectedCommand, result);
             // Teardown
         }
+
+        [Fact]
+        public void ExecuteExecutesDecoratedCommand()
+        {
+            // Fixture setup
+            var mockVerified = false;
+            var cmd = new DelegatingContextualCommand { OnExecute = () => mockVerified = true };
+            var sut = new ReflectionExceptionUnwrappingCommand(cmd);
+            // Exercise system
+            sut.Execute();
+            // Verify outcome
+            Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
     }
 }

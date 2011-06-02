@@ -23,6 +23,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public void Execute()
         {
+            this.Command.Execute();
         }
 
         #endregion
