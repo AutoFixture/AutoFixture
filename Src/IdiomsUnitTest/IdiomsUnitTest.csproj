@@ -83,6 +83,7 @@
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="EmptyStringBehaviorTest.cs" />
     <Compile Include="ExceptionBoundaryBehaviorTest.cs" />
+    <Compile Include="GuardClauseAssertionTest.cs" />
     <Compile Include="GuidBoundaryBehaviorTest.cs" />
     <Compile Include="IdiomaticAssertionTest.cs" />
     <Compile Include="MethodContextTest.cs" />

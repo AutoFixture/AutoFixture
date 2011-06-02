@@ -94,6 +94,7 @@
     <Compile Include="DefaultBoundaryConvention.cs" />
     <Compile Include="EmptyStringBehavior.cs" />
     <Compile Include="ExceptionBoundaryBehavior.cs" />
+    <Compile Include="GuardClauseAssertion.cs" />
     <Compile Include="GuidBoundaryBehavior.cs" />
     <Compile Include="IBoundaryBehavior.cs" />
     <Compile Include="IdiomaticAssertion.cs" />
