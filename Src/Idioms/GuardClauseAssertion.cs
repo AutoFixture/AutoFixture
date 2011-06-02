@@ -11,8 +11,9 @@ namespace Ploeh.AutoFixture.Idioms
         private readonly ISpecimenBuilderComposer composer;
         private readonly IBehaviorExpectation behaviorExpectation;
 
-        public GuardClauseAssertion()
+        public GuardClauseAssertion(ISpecimenBuilderComposer composer)
         {
+            this.composer = composer;
         }
 
         public GuardClauseAssertion(ISpecimenBuilderComposer composer, IBehaviorExpectation behaviorExpectation)

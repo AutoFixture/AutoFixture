@@ -15,10 +15,24 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void SutIsIdiomaticAssertion()
         {
             // Fixture setup
+            var dummyComposer = new Fixture();
             // Exercise system
-            var sut = new GuardClauseAssertion();
+            var sut = new GuardClauseAssertion(dummyComposer);
             // Verify outcome
             Assert.IsAssignableFrom<IdiomaticAssertion>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposerIsCorrectFromModestConstructor()
+        {
+            // Fixture setup
+            ISpecimenBuilderComposer expectedComposer = new Fixture();
+            var sut = new GuardClauseAssertion(expectedComposer);
+            // Exercise system
+            var result = sut.Composer;
+            // Verify outcome
+            Assert.Equal(expectedComposer, result);
             // Teardown
         }
 
@@ -54,7 +68,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void VerifyReadOnlyPropertyDoesNotThrow()
         {
             // Fixture setup
-            var sut = new GuardClauseAssertion();
+            var dummyComposer = new Fixture();
+            var sut = new GuardClauseAssertion(dummyComposer);
             // Exercise system and verify outcome
             var property = typeof(SingleParameterType<object>).GetProperty("Parameter");
             Assert.DoesNotThrow(() =>
