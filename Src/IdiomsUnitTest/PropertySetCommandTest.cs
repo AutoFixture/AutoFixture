@@ -15,9 +15,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void SutIsContextualAction()
         {
             // Fixture setup
-            var dummyProperty = typeof(PropertyHolder<object>).GetProperty("Property");
+            var dummyOwner = new PropertyHolder<object>();
+            var dummyProperty = dummyOwner.GetType().GetProperty("Property");
             // Exercise system
-            var sut = new PropertySetCommand(dummyProperty);
+            var sut = new PropertySetCommand(dummyProperty, dummyOwner);
             // Verify outcome
             Assert.IsAssignableFrom<IContextualCommand>(sut);
             // Teardown
@@ -27,12 +28,27 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void PropertyInfoIsCorrect()
         {
             // Fixture setup
-            var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
-            var sut = new PropertySetCommand(propertyInfo);
+            var dummyOwner = new PropertyHolder<object>();
+            var propertyInfo = dummyOwner.GetType().GetProperty("Property");
+            var sut = new PropertySetCommand(propertyInfo, dummyOwner);
             // Exercise system
             PropertyInfo result = sut.PropertyInfo;
             // Verify outcome
             Assert.Equal(propertyInfo, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void OwnerIsCorrect()
+        {
+            // Fixture setup
+            var owner = new PropertyHolder<object>();
+            var dummyProperty = owner.GetType().GetProperty("Property");
+            var sut = new PropertySetCommand(dummyProperty, owner);
+            // Exercise system
+            var result = sut.Owner;
+            // Verify outcome
+            Assert.Equal(owner, result);
             // Teardown
         }
     }
