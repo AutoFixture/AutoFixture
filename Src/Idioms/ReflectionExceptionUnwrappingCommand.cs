@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -23,7 +24,14 @@ namespace Ploeh.AutoFixture.Idioms
 
         public void Execute()
         {
-            this.Command.Execute();
+            try
+            {
+                this.Command.Execute();
+            }
+            catch (TargetInvocationException e)
+            {
+                throw e.InnerException;
+            }
         }
 
         #endregion

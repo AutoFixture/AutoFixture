@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Xunit;
 using Ploeh.AutoFixture.Idioms;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -45,6 +46,32 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             sut.Execute();
             // Verify outcome
             Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
+
+        [Fact]
+        public void ExecuteRethrowsNormalException()
+        {
+            // Fixture setup
+            var cmd = new DelegatingContextualCommand { OnExecute = () => { throw new InvalidOperationException(); } };
+            var sut = new ReflectionExceptionUnwrappingCommand(cmd);
+            // Exercise system and verify outcome
+            Assert.Throws<InvalidOperationException>(() =>
+                sut.Execute());
+            // Teardown
+        }
+
+        [Fact]
+        public void ExecuteUnwrapsAndThrowsInnerExceptionFromTargetInvocationException()
+        {
+            // Fixture setup
+            var expectedException = new InvalidOperationException();
+            var cmd = new DelegatingContextualCommand { OnExecute = () => { throw new TargetInvocationException(expectedException); } };
+            var sut = new ReflectionExceptionUnwrappingCommand(cmd);
+            // Exercise system and verify outcome
+            var e = Assert.Throws<InvalidOperationException>(() =>
+                sut.Execute());
+            Assert.Equal(expectedException, e);
             // Teardown
         }
     }
