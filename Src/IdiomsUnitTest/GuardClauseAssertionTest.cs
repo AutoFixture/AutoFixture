@@ -5,6 +5,7 @@ using System.Text;
 using Xunit;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.TestTypeFoundation;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -22,11 +23,26 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void BehaviorExpectationIsCorrectFromExplicitConstructor()
+        public void ComposerIsCorrectFromGreedyConstructor()
         {
             // Fixture setup
+            ISpecimenBuilderComposer expectedComposer = new Fixture();
+            var dummyExpectation = new DelegatingBehaviorExpectation();
+            var sut = new GuardClauseAssertion(expectedComposer, dummyExpectation);
+            // Exercise system
+            ISpecimenBuilderComposer result = sut.Composer;
+            // Verify outcome
+            Assert.Equal(expectedComposer, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void BehaviorExpectationIsCorrectFromGreedyConstructor()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
             IBehaviorExpectation expected = new DelegatingBehaviorExpectation();
-            var sut = new GuardClauseAssertion(expected);
+            var sut = new GuardClauseAssertion(dummyComposer, expected);
             // Exercise system
             IBehaviorExpectation result = sut.BehaviorExpectation;
             // Verify outcome
