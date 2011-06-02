@@ -22,6 +22,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
+        public void BehaviorExpectationIsCorrectFromExplicitConstructor()
+        {
+            // Fixture setup
+            IBehaviorExpectation expected = new DelegatingBehaviorExpectation();
+            var sut = new GuardClauseAssertion(expected);
+            // Exercise system
+            IBehaviorExpectation result = sut.BehaviorExpectation;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
         public void VerifyReadOnlyPropertyDoesNotThrow()
         {
             // Fixture setup

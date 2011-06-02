@@ -91,6 +91,7 @@
     <Compile Include="CompositeMemberContext.cs" />
     <Compile Include="CompositeMethodContext.cs" />
     <Compile Include="CompositePropertyContext.cs" />
+    <Compile Include="IBehaviorExpectation.cs" />
     <Compile Include="PropertySetCommand.cs" />
     <Compile Include="DefaultBoundaryConvention.cs" />
     <Compile Include="EmptyStringBehavior.cs" />
