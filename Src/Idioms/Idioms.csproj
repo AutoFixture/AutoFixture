@@ -108,6 +108,7 @@
     <Compile Include="NullReferenceBehavior.cs" />
     <Compile Include="ReflectionExceptionBoundaryBehavior.cs" />
     <Compile Include="ReferenceTypeBoundaryConvention.cs" />
+    <Compile Include="ReflectionExceptionUnwrappingCommand.cs" />
     <Compile Include="SpecimenBuilderComposer.cs" />
     <Compile Include="StringBoundaryConvention.cs" />
     <Compile Include="BoundaryConventionException.cs" />

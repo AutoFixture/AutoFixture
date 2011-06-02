@@ -90,6 +90,7 @@
     <Compile Include="MethodContextTest.cs" />
     <Compile Include="NullReferenceBehaviorTest.cs" />
     <Compile Include="ReflectionExceptionBoundaryBehaviorTest.cs" />
+    <Compile Include="ReflectionExceptionUnwrappingCommandTest.cs" />
     <Compile Include="Scenario.cs" />
     <Compile Include="ReferenceTypeBoundaryConventionTest.cs" />
     <Compile Include="StringBoundaryConventionTest.cs" />
