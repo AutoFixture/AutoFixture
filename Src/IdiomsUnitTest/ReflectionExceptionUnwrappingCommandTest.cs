@@ -95,5 +95,23 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(type, result);
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(Version))]
+        public void MemberInfoIsCorrect(Type type)
+        {
+            // Fixture setup
+            var member = type.GetMembers().First();
+            var cmd = new DelegatingContextualCommand { MemberInfo = member };
+            var sut = new ReflectionExceptionUnwrappingCommand(cmd);
+            // Exercise system
+            var result = sut.MemberInfo;
+            // Verify outcome
+            Assert.Equal(member, result);
+            // Teardown
+        }
     }
 }

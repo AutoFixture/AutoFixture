@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public MemberInfo MemberInfo
         {
-            get { return null; }
+            get { return this.command.MemberInfo; }
         }
 
         public Type ContextType
