@@ -7,9 +7,9 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class DelegatingContextualCommand : IContextualCommand
+    public class DelegatingGuardClauseCommand : IGuardClauseCommand
     {
-        public DelegatingContextualCommand()
+        public DelegatingGuardClauseCommand()
         {
             this.ContextType = typeof(object);
             this.MemberInfo = typeof(object).GetMembers().First();

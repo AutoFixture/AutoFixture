@@ -7,6 +7,6 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public interface IBehaviorExpectation
     {
-        void Verify(IContextualCommand command);
+        void Verify(IGuardClauseCommand command);
     }
 }

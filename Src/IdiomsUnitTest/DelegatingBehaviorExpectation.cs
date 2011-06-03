@@ -13,11 +13,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             this.OnVerify = c => { };
         }
 
-        public Action<IContextualCommand> OnVerify { get; set; }
+        public Action<IGuardClauseCommand> OnVerify { get; set; }
 
         #region IBehaviorExpectation Members
 
-        public void Verify(IContextualCommand command)
+        public void Verify(IGuardClauseCommand command)
         {
             this.OnVerify(command);
         }

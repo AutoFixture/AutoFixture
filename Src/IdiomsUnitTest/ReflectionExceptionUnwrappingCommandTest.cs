@@ -15,11 +15,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void SutIsContextualCommand()
         {
             // Fixture setup
-            var dummyCommand = new DelegatingContextualCommand();
+            var dummyCommand = new DelegatingGuardClauseCommand();
             // Exercise system
             var sut = new ReflectionExceptionUnwrappingCommand(dummyCommand);
             // Verify outcome
-            Assert.IsAssignableFrom<IContextualCommand>(sut);
+            Assert.IsAssignableFrom<IGuardClauseCommand>(sut);
             // Teardown
         }
 
@@ -27,10 +27,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void CommandIsCorrect()
         {
             // Fixture setup
-            var expectedCommand = new DelegatingContextualCommand();
+            var expectedCommand = new DelegatingGuardClauseCommand();
             var sut = new ReflectionExceptionUnwrappingCommand(expectedCommand);
             // Exercise system
-            IContextualCommand result = sut.Command;
+            IGuardClauseCommand result = sut.Command;
             // Verify outcome
             Assert.Equal(expectedCommand, result);
             // Teardown
@@ -42,7 +42,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var mockVerified = false;
             var expectedValue = new object();
-            var cmd = new DelegatingContextualCommand { OnExecute = v => mockVerified = expectedValue.Equals(v) };
+            var cmd = new DelegatingGuardClauseCommand { OnExecute = v => mockVerified = expectedValue.Equals(v) };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system
             sut.Execute(expectedValue);
@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void ExecuteRethrowsNormalException()
         {
             // Fixture setup
-            var cmd = new DelegatingContextualCommand { OnExecute = v => { throw new InvalidOperationException(); } };
+            var cmd = new DelegatingGuardClauseCommand { OnExecute = v => { throw new InvalidOperationException(); } };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system and verify outcome
             var dummyValue = new object();
@@ -69,7 +69,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var expectedException = new InvalidOperationException();
-            var cmd = new DelegatingContextualCommand { OnExecute = v => { throw new TargetInvocationException(expectedException); } };
+            var cmd = new DelegatingGuardClauseCommand { OnExecute = v => { throw new TargetInvocationException(expectedException); } };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system and verify outcome
             var dummyValue = new object();
@@ -87,7 +87,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void ContextTypeIsCorrect(Type type)
         {
             // Fixture setup
-            var cmd = new DelegatingContextualCommand { ContextType = type };
+            var cmd = new DelegatingGuardClauseCommand { ContextType = type };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system
             var result = sut.ContextType;
@@ -105,7 +105,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var member = type.GetMembers().First();
-            var cmd = new DelegatingContextualCommand { MemberInfo = member };
+            var cmd = new DelegatingGuardClauseCommand { MemberInfo = member };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system
             var result = sut.MemberInfo;

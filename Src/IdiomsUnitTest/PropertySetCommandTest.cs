@@ -21,7 +21,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var sut = new PropertySetCommand(dummyProperty, dummyOwner);
             // Verify outcome
-            Assert.IsAssignableFrom<IContextualCommand>(sut);
+            Assert.IsAssignableFrom<IGuardClauseCommand>(sut);
             // Teardown
         }
 

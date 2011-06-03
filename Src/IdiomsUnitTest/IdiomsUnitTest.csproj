@@ -75,7 +75,7 @@
     <Compile Include="GuardClauseExceptionTest.cs" />
     <Compile Include="NullReferenceBehaviorExpectationTest.cs" />
     <Compile Include="DelegatingBehaviorExpectation.cs" />
-    <Compile Include="DelegatingContextualCommand.cs" />
+    <Compile Include="DelegatingGuardClauseCommand.cs" />
     <Compile Include="PropertySetCommandTest.cs" />
     <Compile Include="DefaultBoundaryConventionTest.cs" />
     <Compile Include="DelegatingBoundaryBehavior.cs" />

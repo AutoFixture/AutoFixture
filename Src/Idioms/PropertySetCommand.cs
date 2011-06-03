@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class PropertySetCommand : IContextualCommand
+    public class PropertySetCommand : IGuardClauseCommand
     {
         private readonly PropertyInfo propertyInfo;
         private readonly object owner;

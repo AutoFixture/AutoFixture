@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public interface IContextualCommand
+    public interface IGuardClauseCommand
     {
         MemberInfo MemberInfo { get; }
 

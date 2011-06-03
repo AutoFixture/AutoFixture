@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture.Idioms
     {
         #region IBehaviorExpectation Members
 
-        public void Verify(IContextualCommand command)
+        public void Verify(IGuardClauseCommand command)
         {
             if (!command.ContextType.IsClass
                 && !command.ContextType.IsInterface)

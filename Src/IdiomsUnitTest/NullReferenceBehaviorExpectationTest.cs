@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var verifyInvoked = false;
-            var mockCommand = new DelegatingContextualCommand { OnExecute = v => verifyInvoked = true };
+            var mockCommand = new DelegatingGuardClauseCommand { OnExecute = v => verifyInvoked = true };
             mockCommand.ContextType = type;
 
             var sut = new NullReferenceBehaviorExpectation();
@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var mockVerified = false;
-            var mockCommand = new DelegatingContextualCommand { OnExecute = v => mockVerified = v == null };
+            var mockCommand = new DelegatingGuardClauseCommand { OnExecute = v => mockVerified = v == null };
             mockCommand.ContextType = type;
 
             var sut = new NullReferenceBehaviorExpectation();
@@ -69,7 +69,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void VerifySuccedsWhenCommandThrowsCorrectException()
         {
             // Fixture setup
-            var cmd = new DelegatingContextualCommand { OnExecute = v => { throw new ArgumentNullException(); } };
+            var cmd = new DelegatingGuardClauseCommand { OnExecute = v => { throw new ArgumentNullException(); } };
             var sut = new NullReferenceBehaviorExpectation();
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() =>
@@ -82,7 +82,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var expectedInner = new Exception();
-            var cmd = new DelegatingContextualCommand { OnExecute = v => { throw expectedInner; } };
+            var cmd = new DelegatingGuardClauseCommand { OnExecute = v => { throw expectedInner; } };
             var sut = new NullReferenceBehaviorExpectation();
             // Exercise system and verify outcome
             var e = Assert.Throws<GuardClauseException>(() =>
@@ -95,7 +95,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void VerifyThrowsWhenCommandDoesNotThrow()
         {
             // Fixture setup
-            var cmd = new DelegatingContextualCommand();
+            var cmd = new DelegatingGuardClauseCommand();
             var sut = new NullReferenceBehaviorExpectation();
             // Exercise system and verify outcome
             Assert.Throws<GuardClauseException>(() =>

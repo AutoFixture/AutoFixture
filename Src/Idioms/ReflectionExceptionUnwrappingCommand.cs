@@ -6,16 +6,16 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class ReflectionExceptionUnwrappingCommand : IContextualCommand
+    public class ReflectionExceptionUnwrappingCommand : IGuardClauseCommand
     {
-        private IContextualCommand command;
+        private IGuardClauseCommand command;
 
-        public ReflectionExceptionUnwrappingCommand(IContextualCommand command)
+        public ReflectionExceptionUnwrappingCommand(IGuardClauseCommand command)
         {
             this.command = command;
         }
 
-        public IContextualCommand Command
+        public IGuardClauseCommand Command
         {
             get { return this.command; }
         }
