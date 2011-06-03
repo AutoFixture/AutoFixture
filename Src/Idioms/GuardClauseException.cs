@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         public GuardClauseException(MemberInfo memberInfo, Type valueType, string message, Exception innerException)
-            : base(message)
+            : base(message, innerException)
         {
             this.memberInfo = memberInfo;
             this.valueType = valueType;

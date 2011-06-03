@@ -142,5 +142,21 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(expectedMessage, result);
             // Teardown
         }
+
+        [Fact]
+        public void InnerExceptionIsCorrectWhenConstructedWithMessageAndInnerException()
+        {
+            // Fixture setup
+            var dummyMember = typeof(object).GetMembers().First();
+            var dummyValueType = typeof(object);
+            var dummyMessage = "Anonymous text";
+            var expectedInner = new Exception();
+            var sut = new GuardClauseException(dummyMember, dummyValueType, dummyMessage, expectedInner);
+            // Exercise system
+            var result = sut.InnerException;
+            // Verify outcome
+            Assert.Equal(expectedInner, result);
+            // Teardown
+        }
     }
 }
