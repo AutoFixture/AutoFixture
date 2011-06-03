@@ -13,5 +13,9 @@ namespace Ploeh.AutoFixture.Idioms
         Type ContextType { get; }
 
         void Execute(object value);
+
+        void Throw(string value);
+
+        void Throw(string value, Exception innerException);
     }
 }

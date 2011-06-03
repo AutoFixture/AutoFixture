@@ -39,6 +39,14 @@ namespace Ploeh.AutoFixture.Idioms
             this.propertyInfo.SetValue(this.Owner, value, null);
         }
 
+        public void Throw(string value)
+        {
+        }
+
+        public void Throw(string value, Exception innerException)
+        {
+        }
+
         #endregion
     }
 }

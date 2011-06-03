@@ -14,9 +14,15 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             this.ContextType = typeof(object);
             this.MemberInfo = typeof(object).GetMembers().First();
             this.OnExecute = v => { };
+            this.OnThrow = v => { };
+            this.OnThrowWithInner = (v, e) => { };
         }
 
         public Action<object> OnExecute { get; set; }
+
+        public Action<string> OnThrow { get; set; }
+
+        public Action<string, Exception> OnThrowWithInner { get; set; }
 
         #region IContextualCommand Members
 
@@ -27,6 +33,16 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void Execute(object value)
         {
             this.OnExecute(value);
+        }
+
+        public void Throw(string value)
+        {
+            this.OnThrow(value);
+        }
+
+        public void Throw(string value, Exception innerException)
+        {
+            this.OnThrowWithInner(value, innerException);
         }
 
         #endregion
