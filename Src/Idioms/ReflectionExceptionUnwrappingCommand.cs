@@ -44,14 +44,14 @@ namespace Ploeh.AutoFixture.Idioms
             }
         }
 
-        public Exception Throw(string value)
+        public Exception CreateException(string value)
         {
-            return this.Command.Throw(value);
+            return this.Command.CreateException(value);
         }
 
-        public Exception Throw(string value, Exception innerException)
+        public Exception CreateException(string value, Exception innerException)
         {
-            return this.Command.Throw(value, innerException);
+            return this.Command.CreateException(value, innerException);
         }
 
         #endregion

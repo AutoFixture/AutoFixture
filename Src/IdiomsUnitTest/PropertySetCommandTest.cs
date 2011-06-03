@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ThrowReturnsExceptionWithCorrectProperty()
+        public void CreateExceptionReturnsExceptionWithCorrectProperty()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
@@ -91,7 +91,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new PropertySetCommand(expectedProperty, dummyOwner);
             // Exercise system
             var message = "Anonymous message";
-            var result = sut.Throw(message);
+            var result = sut.CreateException(message);
             // Verify outcome            
             var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Equal(expectedProperty, e.MemberInfo);
@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ThrowReturnsExceptionWithCorrectValueType()
+        public void CreateExceptionReturnsExceptionWithCorrectValueType()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
@@ -107,7 +107,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new PropertySetCommand(property, dummyOwner);
             // Exercise system
             var message = "Anonymous message";
-            var result = sut.Throw(message);
+            var result = sut.CreateException(message);
             // Verify outcome
             var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Equal(property.PropertyType, e.ValueType);
@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ThrowReturnsExceptionWithCorrectMessage()
+        public void CreateExceptionReturnsExceptionWithCorrectMessage()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
@@ -123,7 +123,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new PropertySetCommand(dummyProperty, dummyOwner);
             // Exercise system
             var message = Guid.NewGuid().ToString();
-            var result = sut.Throw(message);
+            var result = sut.CreateException(message);
             // Verify outcome
             var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Contains(message, e.Message);
@@ -131,7 +131,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ThrowWithInnerReturnsExceptionWithCorrectProperty()
+        public void CreateExceptionWithInnerReturnsExceptionWithCorrectProperty()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
@@ -140,7 +140,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var message = "Anonymous message";
             var inner = new Exception();
-            var result = sut.Throw(message, inner);
+            var result = sut.CreateException(message, inner);
             // Verify outcome
             var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Equal(expectedProperty, e.MemberInfo);
@@ -148,7 +148,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ThrowWithInnerReturnsExceptionWithCorrectValueType()
+        public void CreateExceptionWithInnerReturnsExceptionWithCorrectValueType()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
@@ -157,7 +157,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var message = "Anonymous message";
             var inner = new Exception();
-            var result = sut.Throw(message, inner);
+            var result = sut.CreateException(message, inner);
             // Verify outcome
             var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Equal(property.PropertyType, e.ValueType);
@@ -165,7 +165,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ThrowWithInnerReturnsExceptionWithCorrectMessage()
+        public void CreateExceptionWithInnerReturnsExceptionWithCorrectMessage()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
@@ -174,7 +174,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var message = Guid.NewGuid().ToString();
             var inner = new Exception();
-            var result = sut.Throw(message, inner);
+            var result = sut.CreateException(message, inner);
             // Verify outcome
             var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Contains(message, e.Message);
@@ -182,7 +182,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ThrowWithInnerReturnsExceptionWithCorrectInnerException()
+        public void CreateExceptionWithInnerReturnsExceptionWithCorrectInnerException()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
@@ -191,7 +191,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var message = Guid.NewGuid().ToString();
             var inner = new Exception();
-            var result = sut.Throw(message, inner);
+            var result = sut.CreateException(message, inner);
             // Verify outcome
             var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Equal(inner, e.InnerException);

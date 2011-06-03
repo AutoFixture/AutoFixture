@@ -39,12 +39,12 @@ namespace Ploeh.AutoFixture.Idioms
             this.propertyInfo.SetValue(this.Owner, value, null);
         }
 
-        public Exception Throw(string value)
+        public Exception CreateException(string value)
         {
             return new GuardClauseException(this.propertyInfo, this.ContextType, value);
         }
 
-        public Exception Throw(string value, Exception innerException)
+        public Exception CreateException(string value, Exception innerException)
         {
             return new GuardClauseException(this.propertyInfo, this.ContextType, value, innerException);
         }

@@ -35,12 +35,12 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             this.OnExecute(value);
         }
 
-        public Exception Throw(string value)
+        public Exception CreateException(string value)
         {
             return this.OnThrow(value);
         }
 
-        public Exception Throw(string value, Exception innerException)
+        public Exception CreateException(string value, Exception innerException)
         {
             return this.OnThrowWithInner(value, innerException);
         }

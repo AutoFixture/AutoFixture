@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ThrowReturnsCorrectResult()
+        public void CreateExceptionReturnsCorrectResult()
         {
             // Fixture setup
             var value = Guid.NewGuid().ToString();
@@ -123,14 +123,14 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var cmd = new DelegatingGuardClauseCommand { OnThrow = v => value == v ? expected : new Exception() };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system
-            var result = sut.Throw(value);
+            var result = sut.CreateException(value);
             // Verify outcome
             Assert.Equal(expected, result);
             // Teardown
         }
 
         [Fact]
-        public void ThrowWithInnerReturnsCorrectResult()
+        public void CreateExceptionWithInnerReturnsCorrectResult()
         {
             // Fixture setup
             var value = Guid.NewGuid().ToString();
@@ -139,7 +139,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var cmd = new DelegatingGuardClauseCommand { OnThrowWithInner = (v, e) => value == v && inner.Equals(e) ? expected : new Exception() };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system
-            var result = sut.Throw(value, inner);
+            var result = sut.CreateException(value, inner);
             // Verify outcome
             Assert.Equal(expected, result);
             // Teardown
