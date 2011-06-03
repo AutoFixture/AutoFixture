@@ -5,6 +5,7 @@ using System.Text;
 using Xunit;
 using Ploeh.AutoFixture.Idioms;
 using System.Reflection;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -72,6 +73,23 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var e = Assert.Throws<InvalidOperationException>(() =>
                 sut.Execute());
             Assert.Equal(expectedException, e);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(Version))]
+        public void ContextTypeIsCorrect(Type type)
+        {
+            // Fixture setup
+            var cmd = new DelegatingContextualCommand { ContextType = type };
+            var sut = new ReflectionExceptionUnwrappingCommand(cmd);
+            // Exercise system
+            var result = sut.ContextType;
+            // Verify outcome
+            Assert.Equal(type, result);
             // Teardown
         }
     }

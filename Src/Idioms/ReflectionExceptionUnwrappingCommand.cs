@@ -24,8 +24,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public Type ContextType
         {
-            get { return default(Type); }
-            set { }
+            get { return this.command.ContextType; }
         }
 
         public void Execute()

@@ -10,6 +10,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     {
         public DelegatingContextualCommand()
         {
+            this.ContextType = typeof(object);
             this.OnExecute = () => { };
         }
 
