@@ -55,7 +55,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var sut = new NullReferenceBehaviorExpectation();
             // Exercise system
-            sut.Verify(mockCommand);
+            try
+            {
+                sut.Verify(mockCommand);
+            }
+            catch (GuardClauseException) { }
             // Verify outcome
             Assert.True(mockVerified, "Mock verified.");
             // Teardown
@@ -84,6 +88,18 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var e = Assert.Throws<GuardClauseException>(() =>
                 sut.Verify(cmd));
             Assert.Equal(expectedInner, e.InnerException);
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyThrowsWhenCommandDoesNotThrow()
+        {
+            // Fixture setup
+            var cmd = new DelegatingContextualCommand();
+            var sut = new NullReferenceBehaviorExpectation();
+            // Exercise system and verify outcome
+            Assert.Throws<GuardClauseException>(() =>
+                sut.Verify(cmd));
             // Teardown
         }
     }

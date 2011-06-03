@@ -22,11 +22,13 @@ namespace Ploeh.AutoFixture.Idioms
             }
             catch (ArgumentNullException)
             {
+                return;
             }
             catch (Exception e)
             {
                 throw new GuardClauseException(e);
             }
+            throw new GuardClauseException();
         }
 
         #endregion

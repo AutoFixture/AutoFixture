@@ -15,5 +15,10 @@ namespace Ploeh.AutoFixture.Idioms
             // TODO: Complete member initialization
             this.e = e;
         }
+
+        public GuardClauseException()
+        {
+            // TODO: Complete member initialization
+        }
     }
 }
