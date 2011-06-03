@@ -2,23 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
 {
     public class GuardClauseException : Exception
     {
-        private Exception e;
+        private readonly MemberInfo memberInfo;
+        private readonly Type valueType;
 
         public GuardClauseException(Exception e)
             : base(Guid.NewGuid().ToString(), e)
         {
-            // TODO: Complete member initialization
-            this.e = e;
         }
 
         public GuardClauseException()
         {
-            // TODO: Complete member initialization
+        }
+
+        public GuardClauseException(MemberInfo memberInfo, Type valueType)
+        {
+            this.memberInfo = memberInfo;
+            this.valueType = valueType;
+        }
+
+        public MemberInfo MemberInfo
+        {
+            get { return this.memberInfo; }
+        }
+
+        public Type ValueType
+        {
+            get { return this.valueType; }
         }
     }
 }
