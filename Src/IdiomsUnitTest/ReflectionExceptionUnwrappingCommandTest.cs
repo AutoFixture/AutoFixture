@@ -113,5 +113,36 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(member, result);
             // Teardown
         }
+
+        [Fact]
+        public void ThrowCorrectlyDelegates()
+        {
+            // Fixture setup
+            var value = Guid.NewGuid().ToString();
+            var mockVerified = false;
+            var cmd = new DelegatingGuardClauseCommand { OnThrow = v => mockVerified = value == v };
+            var sut = new ReflectionExceptionUnwrappingCommand(cmd);
+            // Exercise system
+            sut.Throw(value);
+            // Verify outcome
+            Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
+
+        [Fact]
+        public void ThrowWithInnerCorrectlyDelegates()
+        {
+            // Fixture setup
+            var value = Guid.NewGuid().ToString();
+            var inner = new Exception();
+            var mockVerified = false;
+            var cmd = new DelegatingGuardClauseCommand { OnThrowWithInner = (v, e) => mockVerified = value == v && inner.Equals(e) };
+            var sut = new ReflectionExceptionUnwrappingCommand(cmd);
+            // Exercise system
+            sut.Throw(value, inner);
+            // Verify outcome
+            Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
     }
 }

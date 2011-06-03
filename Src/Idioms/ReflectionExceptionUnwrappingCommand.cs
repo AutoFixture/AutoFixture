@@ -46,10 +46,12 @@ namespace Ploeh.AutoFixture.Idioms
 
         public void Throw(string value)
         {
+            this.Command.Throw(value);
         }
 
         public void Throw(string value, Exception innerException)
         {
+            this.Command.Throw(value, innerException);
         }
 
         #endregion
