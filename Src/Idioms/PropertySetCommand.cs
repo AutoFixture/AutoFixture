@@ -29,6 +29,11 @@ namespace Ploeh.AutoFixture.Idioms
 
         #region IContextualCommand Members
 
+        public MemberInfo MemberInfo
+        {
+            get { return null; }
+        }
+
         public Type ContextType
         {
             get { return this.PropertyInfo.PropertyType; }
