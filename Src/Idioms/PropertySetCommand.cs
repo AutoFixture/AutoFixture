@@ -39,9 +39,9 @@ namespace Ploeh.AutoFixture.Idioms
             this.propertyInfo.SetValue(this.Owner, value, null);
         }
 
-        public void Throw(string value)
+        public Exception Throw(string value)
         {
-            throw new GuardClauseException(this.propertyInfo, this.ContextType, value);
+            return new GuardClauseException(this.propertyInfo, this.ContextType, value);
         }
 
         public void Throw(string value, Exception innerException)

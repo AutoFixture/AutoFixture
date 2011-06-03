@@ -83,46 +83,49 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ThrowThrowsExceptionWithCorrectProperty()
+        public void ThrowReturnsExceptionWithCorrectProperty()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
             var expectedProperty = dummyOwner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(expectedProperty, dummyOwner);
-            // Exercise system and verify outcome
+            // Exercise system
             var message = "Anonymous message";
-            var e = Assert.Throws<GuardClauseException>(() =>
-                sut.Throw(message));
+            var result = sut.Throw(message);
+            // Verify outcome            
+            var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Equal(expectedProperty, e.MemberInfo);
             // Teardown
         }
 
         [Fact]
-        public void ThrowThrowsExceptionWithCorrectValueType()
+        public void ThrowReturnsExceptionWithCorrectValueType()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
             var property = dummyOwner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(property, dummyOwner);
-            // Exercise system and verify outcome
+            // Exercise system
             var message = "Anonymous message";
-            var e = Assert.Throws<GuardClauseException>(() =>
-                sut.Throw(message));
+            var result = sut.Throw(message);
+            // Verify outcome
+            var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Equal(property.PropertyType, e.ValueType);
             // Teardown
         }
 
         [Fact]
-        public void ThrowThrowsExceptionWithCorrectMessage()
+        public void ThrowReturnsExceptionWithCorrectMessage()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
             var dummyProperty = dummyOwner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(dummyProperty, dummyOwner);
-            // Exercise system and verify outcome
+            // Exercise system
             var message = Guid.NewGuid().ToString();
-            var e = Assert.Throws<GuardClauseException>(() =>
-                sut.Throw(message));
+            var result = sut.Throw(message);
+            // Verify outcome
+            var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Contains(message, e.Message);
             // Teardown
         }

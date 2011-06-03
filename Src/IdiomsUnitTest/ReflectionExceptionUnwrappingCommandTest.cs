@@ -119,13 +119,13 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var value = Guid.NewGuid().ToString();
-            var mockVerified = false;
-            var cmd = new DelegatingGuardClauseCommand { OnThrow = v => mockVerified = value == v };
+            var expected = new Exception();
+            var cmd = new DelegatingGuardClauseCommand { OnThrow = v => value == v ? expected : new Exception() };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system
-            sut.Throw(value);
+            var result = sut.Throw(value);
             // Verify outcome
-            Assert.True(mockVerified, "Mock verified.");
+            Assert.Equal(expected, result);
             // Teardown
         }
 

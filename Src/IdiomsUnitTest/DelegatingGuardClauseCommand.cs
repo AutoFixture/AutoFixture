@@ -14,13 +14,13 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             this.ContextType = typeof(object);
             this.MemberInfo = typeof(object).GetMembers().First();
             this.OnExecute = v => { };
-            this.OnThrow = v => { };
+            this.OnThrow = v => new Exception();
             this.OnThrowWithInner = (v, e) => { };
         }
 
         public Action<object> OnExecute { get; set; }
 
-        public Action<string> OnThrow { get; set; }
+        public Func<string, Exception> OnThrow { get; set; }
 
         public Action<string, Exception> OnThrowWithInner { get; set; }
 
@@ -35,9 +35,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             this.OnExecute(value);
         }
 
-        public void Throw(string value)
+        public Exception Throw(string value)
         {
-            this.OnThrow(value);
+            return this.OnThrow(value);
         }
 
         public void Throw(string value, Exception innerException)
