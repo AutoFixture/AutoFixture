@@ -120,7 +120,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var value = Guid.NewGuid().ToString();
             var expected = new Exception();
-            var cmd = new DelegatingGuardClauseCommand { OnThrow = v => value == v ? expected : new Exception() };
+            var cmd = new DelegatingGuardClauseCommand { OnCreateException = v => value == v ? expected : new Exception() };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system
             var result = sut.CreateException(value);
@@ -136,7 +136,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var value = Guid.NewGuid().ToString();
             var inner = new Exception();
             var expected = new Exception();
-            var cmd = new DelegatingGuardClauseCommand { OnThrowWithInner = (v, e) => value == v && inner.Equals(e) ? expected : new Exception() };
+            var cmd = new DelegatingGuardClauseCommand { OnCreateExceptionWithInner = (v, e) => value == v && inner.Equals(e) ? expected : new Exception() };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system
             var result = sut.CreateException(value, inner);

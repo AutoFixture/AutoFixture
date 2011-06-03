@@ -14,15 +14,15 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             this.ContextType = typeof(object);
             this.MemberInfo = typeof(object).GetMembers().First();
             this.OnExecute = v => { };
-            this.OnThrow = v => new Exception();
-            this.OnThrowWithInner = (v, e) => new Exception();
+            this.OnCreateException = v => new Exception();
+            this.OnCreateExceptionWithInner = (v, e) => new Exception();
         }
 
         public Action<object> OnExecute { get; set; }
 
-        public Func<string, Exception> OnThrow { get; set; }
+        public Func<string, Exception> OnCreateException { get; set; }
 
-        public Func<string, Exception, Exception> OnThrowWithInner { get; set; }
+        public Func<string, Exception, Exception> OnCreateExceptionWithInner { get; set; }
 
         #region IContextualCommand Members
 
@@ -37,12 +37,12 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         public Exception CreateException(string value)
         {
-            return this.OnThrow(value);
+            return this.OnCreateException(value);
         }
 
         public Exception CreateException(string value, Exception innerException)
         {
-            return this.OnThrowWithInner(value, innerException);
+            return this.OnCreateExceptionWithInner(value, innerException);
         }
 
         #endregion

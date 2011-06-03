@@ -16,6 +16,7 @@ namespace Ploeh.AutoFixture.Idioms
             {
                 return;
             }
+
             try
             {
                 command.Execute(null);
@@ -26,9 +27,10 @@ namespace Ploeh.AutoFixture.Idioms
             }
             catch (Exception e)
             {
-                throw new GuardClauseException(e);
+                throw command.CreateException("null", e);
             }
-            throw new GuardClauseException();
+
+            throw command.CreateException("null");
         }
 
         #endregion

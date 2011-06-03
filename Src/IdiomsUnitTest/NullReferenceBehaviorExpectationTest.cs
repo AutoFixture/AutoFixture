@@ -50,7 +50,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var mockVerified = false;
-            var mockCommand = new DelegatingGuardClauseCommand { OnExecute = v => mockVerified = v == null };
+            var mockCommand = new DelegatingGuardClauseCommand
+            {
+                OnExecute = v => mockVerified = v == null,
+                OnCreateException = v => new InvalidOperationException()
+            };
             mockCommand.ContextType = type;
 
             var sut = new NullReferenceBehaviorExpectation();
@@ -59,7 +63,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             {
                 sut.Verify(mockCommand);
             }
-            catch (GuardClauseException) { }
+            catch (InvalidOperationException) { }
             // Verify outcome
             Assert.True(mockVerified, "Mock verified.");
             // Teardown
@@ -82,12 +86,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var expectedInner = new Exception();
-            var cmd = new DelegatingGuardClauseCommand { OnExecute = v => { throw expectedInner; } };
+            var expected = new Exception();
+            var cmd = new DelegatingGuardClauseCommand
+            {
+                OnExecute = v => { throw expectedInner; },
+                OnCreateExceptionWithInner = (v, e) => v == "null" && expectedInner.Equals(e) ? expected : new Exception()
+            };
             var sut = new NullReferenceBehaviorExpectation();
             // Exercise system and verify outcome
-            var e = Assert.Throws<GuardClauseException>(() =>
+            var result = Assert.Throws<Exception>(() =>
                 sut.Verify(cmd));
-            Assert.Equal(expectedInner, e.InnerException);
+            Assert.Equal(expected, result);
             // Teardown
         }
 
@@ -95,11 +104,16 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void VerifyThrowsWhenCommandDoesNotThrow()
         {
             // Fixture setup
-            var cmd = new DelegatingGuardClauseCommand();
+            var expected = new Exception();
+            var cmd = new DelegatingGuardClauseCommand
+            {
+                OnCreateException = v => v == "null" ? expected : new Exception()
+            };
             var sut = new NullReferenceBehaviorExpectation();
             // Exercise system and verify outcome
-            Assert.Throws<GuardClauseException>(() =>
+            var result = Assert.Throws<Exception>(() =>
                 sut.Verify(cmd));
+            Assert.Equal(expected, result);
             // Teardown
         }
     }
