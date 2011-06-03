@@ -11,7 +11,6 @@ namespace Ploeh.AutoFixture.Idioms
 
         public void Verify(IContextualCommand command)
         {
-            throw new NotImplementedException();
         }
 
         #endregion

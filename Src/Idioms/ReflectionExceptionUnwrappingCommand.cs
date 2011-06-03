@@ -22,6 +22,12 @@ namespace Ploeh.AutoFixture.Idioms
 
         #region IContextualCommand Members
 
+        public Type ContextType
+        {
+            get { return default(Type); }
+            set { }
+        }
+
         public void Execute()
         {
             try

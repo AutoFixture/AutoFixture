@@ -36,6 +36,12 @@ namespace Ploeh.AutoFixture.Idioms
 
         #region IContextualCommand Members
 
+        public Type ContextType
+        {
+            get { return default(Type); }
+            set { }
+        }
+
         public void Execute()
         {
             this.PropertyInfo.SetValue(this.Owner, this.Value, null);

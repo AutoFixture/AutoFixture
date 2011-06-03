@@ -17,6 +17,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         #region IContextualCommand Members
 
+        public Type ContextType { get; set; }
+
         public void Execute()
         {
             this.OnExecute();

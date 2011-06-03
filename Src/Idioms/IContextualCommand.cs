@@ -7,6 +7,8 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public interface IContextualCommand
     {
+        Type ContextType { get; }
+
         void Execute();
     }
 }
