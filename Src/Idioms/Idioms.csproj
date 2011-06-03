@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoundaryBehavior.cs" />
+    <Compile Include="CompositeBehaviorExpectation.cs" />
     <Compile Include="CompositeBoundaryConvention.cs" />
     <Compile Include="CompositeMemberContext.cs" />
     <Compile Include="CompositeMethodContext.cs" />

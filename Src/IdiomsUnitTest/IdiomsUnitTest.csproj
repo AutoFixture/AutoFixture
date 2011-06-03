@@ -68,6 +68,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompositeBehaviorExpectationTest.cs" />
     <Compile Include="CompositeBoundaryConventionTest.cs" />
     <Compile Include="CompositeMemberContextTest.cs" />
     <Compile Include="CompositeMethodContextTest.cs" />
