@@ -49,9 +49,9 @@ namespace Ploeh.AutoFixture.Idioms
             return this.Command.Throw(value);
         }
 
-        public void Throw(string value, Exception innerException)
+        public Exception Throw(string value, Exception innerException)
         {
-            this.Command.Throw(value, innerException);
+            return this.Command.Throw(value, innerException);
         }
 
         #endregion

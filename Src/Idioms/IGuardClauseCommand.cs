@@ -16,6 +16,6 @@ namespace Ploeh.AutoFixture.Idioms
 
         Exception Throw(string value);
 
-        void Throw(string value, Exception innerException);
+        Exception Throw(string value, Exception innerException);
     }
 }

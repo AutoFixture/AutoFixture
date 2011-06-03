@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ThrowCorrectlyDelegates()
+        public void ThrowReturnsCorrectResult()
         {
             // Fixture setup
             var value = Guid.NewGuid().ToString();
@@ -130,18 +130,18 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ThrowWithInnerCorrectlyDelegates()
+        public void ThrowWithInnerReturnsCorrectResult()
         {
             // Fixture setup
             var value = Guid.NewGuid().ToString();
             var inner = new Exception();
-            var mockVerified = false;
-            var cmd = new DelegatingGuardClauseCommand { OnThrowWithInner = (v, e) => mockVerified = value == v && inner.Equals(e) };
+            var expected = new Exception();
+            var cmd = new DelegatingGuardClauseCommand { OnThrowWithInner = (v, e) => value == v && inner.Equals(e) ? expected : new Exception() };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system
-            sut.Throw(value, inner);
+            var result = sut.Throw(value, inner);
             // Verify outcome
-            Assert.True(mockVerified, "Mock verified.");
+            Assert.Equal(expected, result);
             // Teardown
         }
     }

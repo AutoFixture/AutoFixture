@@ -44,9 +44,9 @@ namespace Ploeh.AutoFixture.Idioms
             return new GuardClauseException(this.propertyInfo, this.ContextType, value);
         }
 
-        public void Throw(string value, Exception innerException)
+        public Exception Throw(string value, Exception innerException)
         {
-            throw new GuardClauseException(this.propertyInfo, this.ContextType, value, innerException);
+            return new GuardClauseException(this.propertyInfo, this.ContextType, value, innerException);
         }
 
         #endregion

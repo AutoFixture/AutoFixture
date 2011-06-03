@@ -131,65 +131,69 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ThrowWithInnerThrowsExceptionWithCorrectProperty()
+        public void ThrowWithInnerReturnsExceptionWithCorrectProperty()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
             var expectedProperty = dummyOwner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(expectedProperty, dummyOwner);
-            // Exercise system and verify outcome
+            // Exercise system
             var message = "Anonymous message";
             var inner = new Exception();
-            var e = Assert.Throws<GuardClauseException>(() =>
-                sut.Throw(message, inner));
+            var result = sut.Throw(message, inner);
+            // Verify outcome
+            var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Equal(expectedProperty, e.MemberInfo);
             // Teardown
         }
 
         [Fact]
-        public void ThrowWithInnerThrowsExceptionWithCorrectValueType()
+        public void ThrowWithInnerReturnsExceptionWithCorrectValueType()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
             var property = dummyOwner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(property, dummyOwner);
-            // Exercise system and verify outcome
+            // Exercise system
             var message = "Anonymous message";
             var inner = new Exception();
-            var e = Assert.Throws<GuardClauseException>(() =>
-                sut.Throw(message, inner));
+            var result = sut.Throw(message, inner);
+            // Verify outcome
+            var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Equal(property.PropertyType, e.ValueType);
             // Teardown
         }
 
         [Fact]
-        public void ThrowWithInnerThrowsExceptionWithCorrectMessage()
+        public void ThrowWithInnerReturnsExceptionWithCorrectMessage()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
             var dummyProperty = dummyOwner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(dummyProperty, dummyOwner);
-            // Exercise system and verify outcome
+            // Exercise system
             var message = Guid.NewGuid().ToString();
             var inner = new Exception();
-            var e = Assert.Throws<GuardClauseException>(() =>
-                sut.Throw(message, inner));
+            var result = sut.Throw(message, inner);
+            // Verify outcome
+            var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Contains(message, e.Message);
             // Teardown
         }
 
         [Fact]
-        public void ThrowWithInnerThrowsExceptionWithCorrectInnerException()
+        public void ThrowWithInnerReturnsExceptionWithCorrectInnerException()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
             var dummyProperty = dummyOwner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(dummyProperty, dummyOwner);
-            // Exercise system and verify outcome
+            // Exercise system
             var message = Guid.NewGuid().ToString();
             var inner = new Exception();
-            var e = Assert.Throws<GuardClauseException>(() =>
-                sut.Throw(message, inner));
+            var result = sut.Throw(message, inner);
+            // Verify outcome
+            var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Equal(inner, e.InnerException);
             // Teardown
         }
