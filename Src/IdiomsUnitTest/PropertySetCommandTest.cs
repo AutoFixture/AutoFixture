@@ -6,6 +6,7 @@ using Xunit;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.TestTypeFoundation;
 using System.Reflection;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -82,6 +83,21 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             sut.Execute();
             // Verify outcome
             Assert.Equal(value, owner.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void ContextTypeIsCorrect()
+        {
+            // Fixture setup
+            var dummyOwner = new PropertyHolder<Version>();
+            var property = dummyOwner.GetType().GetProperty("Property");
+            var dummyValue = new Version();
+            var sut = new PropertySetCommand(property, dummyOwner, dummyValue);
+            // Exercise system
+            var result = sut.ContextType;
+            // Verify outcome
+            Assert.Equal(property.PropertyType, result);
             // Teardown
         }
     }

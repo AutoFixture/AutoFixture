@@ -38,8 +38,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public Type ContextType
         {
-            get { return default(Type); }
-            set { }
+            get { return this.PropertyInfo.PropertyType; }
         }
 
         public void Execute()
