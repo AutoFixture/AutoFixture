@@ -16,7 +16,17 @@ namespace Ploeh.AutoFixture.Idioms
             {
                 return;
             }
-            command.Execute(null);
+            try
+            {
+                command.Execute(null);
+            }
+            catch (ArgumentNullException)
+            {
+            }
+            catch (Exception e)
+            {
+                throw new GuardClauseException(e);
+            }
         }
 
         #endregion

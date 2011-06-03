@@ -60,5 +60,31 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.True(mockVerified, "Mock verified.");
             // Teardown
         }
+
+        [Fact]
+        public void VerifySuccedsWhenCommandThrowsCorrectException()
+        {
+            // Fixture setup
+            var cmd = new DelegatingContextualCommand { OnExecute = v => { throw new ArgumentNullException(); } };
+            var sut = new NullReferenceBehaviorExpectation();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.Verify(cmd));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyThrowsWhenCommandThrowsUnexpectedException()
+        {
+            // Fixture setup
+            var expectedInner = new Exception();
+            var cmd = new DelegatingContextualCommand { OnExecute = v => { throw expectedInner; } };
+            var sut = new NullReferenceBehaviorExpectation();
+            // Exercise system and verify outcome
+            var e = Assert.Throws<GuardClauseException>(() =>
+                sut.Verify(cmd));
+            Assert.Equal(expectedInner, e.InnerException);
+            // Teardown
+        }
     }
 }
