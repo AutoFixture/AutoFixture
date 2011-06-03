@@ -12,6 +12,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public DelegatingContextualCommand()
         {
             this.ContextType = typeof(object);
+            this.MemberInfo = typeof(object).GetMembers().First();
             this.OnExecute = v => { };
         }
 

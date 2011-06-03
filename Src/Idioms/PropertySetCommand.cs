@@ -22,26 +22,21 @@ namespace Ploeh.AutoFixture.Idioms
             get { return this.owner; }
         }
 
-        public PropertyInfo PropertyInfo
-        {
-            get { return this.propertyInfo; }
-        }
-
         #region IContextualCommand Members
 
         public MemberInfo MemberInfo
         {
-            get { return null; }
+            get { return this.propertyInfo; }
         }
 
         public Type ContextType
         {
-            get { return this.PropertyInfo.PropertyType; }
+            get { return this.propertyInfo.PropertyType; }
         }
 
         public void Execute(object value)
         {
-            this.PropertyInfo.SetValue(this.Owner, value, null);
+            this.propertyInfo.SetValue(this.Owner, value, null);
         }
 
         #endregion

@@ -26,14 +26,14 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void PropertyInfoIsCorrect()
+        public void MemberInfoIsCorrect()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<object>();
             var propertyInfo = dummyOwner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(propertyInfo, dummyOwner);
             // Exercise system
-            PropertyInfo result = sut.PropertyInfo;
+            var result = sut.MemberInfo;
             // Verify outcome
             Assert.Equal(propertyInfo, result);
             // Teardown
