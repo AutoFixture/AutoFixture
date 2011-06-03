@@ -94,6 +94,21 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(expectedValueType, result);
             // Teardown
         }
+
+        [Fact]
+        public void MessageIsCorrectWhenConstructedWithMessage()
+        {
+            // Fixture setup
+            var dummyMember = typeof(object).GetMembers().First();
+            var dummyValueType = typeof(object);
+            var expectedMessage = Guid.NewGuid().ToString();
+            var sut = new GuardClauseException(dummyMember, dummyValueType, expectedMessage);
+            // Exercise system
+            var result = sut.Message;
+            // Verify outcome
+            Assert.Equal(expectedMessage, result);
+            // Teardown
+        }
         
         [Fact]
         public void MemberInfoIsCorrectWhenConstructedWithMessageAndInnerException()
