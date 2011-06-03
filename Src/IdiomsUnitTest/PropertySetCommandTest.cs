@@ -126,5 +126,69 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Contains(message, e.Message);
             // Teardown
         }
+
+        [Fact]
+        public void ThrowWithInnerThrowsExceptionWithCorrectProperty()
+        {
+            // Fixture setup
+            var dummyOwner = new PropertyHolder<Version>();
+            var expectedProperty = dummyOwner.GetType().GetProperty("Property");
+            var sut = new PropertySetCommand(expectedProperty, dummyOwner);
+            // Exercise system and verify outcome
+            var message = "Anonymous message";
+            var inner = new Exception();
+            var e = Assert.Throws<GuardClauseException>(() =>
+                sut.Throw(message, inner));
+            Assert.Equal(expectedProperty, e.MemberInfo);
+            // Teardown
+        }
+
+        [Fact]
+        public void ThrowWithInnerThrowsExceptionWithCorrectValueType()
+        {
+            // Fixture setup
+            var dummyOwner = new PropertyHolder<Version>();
+            var property = dummyOwner.GetType().GetProperty("Property");
+            var sut = new PropertySetCommand(property, dummyOwner);
+            // Exercise system and verify outcome
+            var message = "Anonymous message";
+            var inner = new Exception();
+            var e = Assert.Throws<GuardClauseException>(() =>
+                sut.Throw(message, inner));
+            Assert.Equal(property.PropertyType, e.ValueType);
+            // Teardown
+        }
+
+        [Fact]
+        public void ThrowWithInnerThrowsExceptionWithCorrectMessage()
+        {
+            // Fixture setup
+            var dummyOwner = new PropertyHolder<Version>();
+            var dummyProperty = dummyOwner.GetType().GetProperty("Property");
+            var sut = new PropertySetCommand(dummyProperty, dummyOwner);
+            // Exercise system and verify outcome
+            var message = Guid.NewGuid().ToString();
+            var inner = new Exception();
+            var e = Assert.Throws<GuardClauseException>(() =>
+                sut.Throw(message, inner));
+            Assert.Contains(message, e.Message);
+            // Teardown
+        }
+
+        [Fact]
+        public void ThrowWithInnerThrowsExceptionWithCorrectInnerException()
+        {
+            // Fixture setup
+            var dummyOwner = new PropertyHolder<Version>();
+            var dummyProperty = dummyOwner.GetType().GetProperty("Property");
+            var sut = new PropertySetCommand(dummyProperty, dummyOwner);
+            // Exercise system and verify outcome
+            var message = Guid.NewGuid().ToString();
+            var inner = new Exception();
+            var e = Assert.Throws<GuardClauseException>(() =>
+                sut.Throw(message, inner));
+            Assert.Equal(inner, e.InnerException);
+            // Teardown
+        }
     }
 }
