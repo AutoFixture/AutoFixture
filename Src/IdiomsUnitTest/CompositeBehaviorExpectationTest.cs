@@ -32,5 +32,18 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.True(expectations.SequenceEqual(result));
             // Teardown
         }
+
+        [Fact]
+        public void ConstructedWithEnumerableBehaviorExpectationsIsCorrect()
+        {
+            // Fixture setup
+            var expectations = new[] { new DelegatingBehaviorExpectation(), new DelegatingBehaviorExpectation(), new DelegatingBehaviorExpectation() }.Cast<IBehaviorExpectation>();
+            var sut = new CompositeBehaviorExpectation(expectations);
+            // Exercise system
+            var result = sut.BehaviorExpectations;
+            // Verify outcome
+            Assert.True(expectations.SequenceEqual(result));
+            // Teardown
+        }
     }
 }

@@ -7,11 +7,16 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public class CompositeBehaviorExpectation : IBehaviorExpectation
     {
-        private readonly IBehaviorExpectation[] expectations;
+        private readonly IEnumerable<IBehaviorExpectation> expectations;
 
         public CompositeBehaviorExpectation(params IBehaviorExpectation[] behaviorExpectations)
         {
             this.expectations = behaviorExpectations;
+        }
+
+        public CompositeBehaviorExpectation(IEnumerable<IBehaviorExpectation> behaviorExpectations)
+            : this(behaviorExpectations.ToArray())
+        {
         }
 
         #region IBehaviorExpectation Members
