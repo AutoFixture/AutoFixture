@@ -11,6 +11,12 @@ namespace Ploeh.AutoFixture.Idioms
 
         public void Verify(IContextualCommand command)
         {
+            if (!command.ContextType.IsClass
+                && !command.ContextType.IsInterface)
+            {
+                return;
+            }
+            command.Execute(null);
         }
 
         #endregion

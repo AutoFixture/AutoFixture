@@ -41,5 +41,24 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.False(verifyInvoked, "Mock verified.");
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(Version))]
+        public void VerifyCorrectlyInvokesExecuteForNullableContexts(Type type)
+        {
+            // Fixture setup
+            var mockVerified = false;
+            var mockCommand = new DelegatingContextualCommand { OnExecute = v => mockVerified = v == null };
+            mockCommand.ContextType = type;
+
+            var sut = new NullReferenceBehaviorExpectation();
+            // Exercise system
+            sut.Verify(mockCommand);
+            // Verify outcome
+            Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
     }
 }
