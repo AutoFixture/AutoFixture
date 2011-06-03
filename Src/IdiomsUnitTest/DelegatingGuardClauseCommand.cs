@@ -12,7 +12,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public DelegatingGuardClauseCommand()
         {
             this.ContextType = typeof(object);
-            this.MemberInfo = typeof(object).GetMembers().First();
             this.OnExecute = v => { };
             this.OnCreateException = v => new Exception();
             this.OnCreateExceptionWithInner = (v, e) => new Exception();
@@ -25,8 +24,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public Func<string, Exception, Exception> OnCreateExceptionWithInner { get; set; }
 
         #region IContextualCommand Members
-
-        public MemberInfo MemberInfo { get; set; }
 
         public Type ContextType { get; set; }
 

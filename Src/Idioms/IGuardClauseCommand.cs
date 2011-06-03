@@ -8,8 +8,6 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public interface IGuardClauseCommand
     {
-        MemberInfo MemberInfo { get; }
-
         Type ContextType { get; }
 
         void Execute(object value);

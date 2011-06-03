@@ -22,12 +22,12 @@ namespace Ploeh.AutoFixture.Idioms
             get { return this.owner; }
         }
 
-        #region IContextualCommand Members
-
-        public MemberInfo MemberInfo
+        public PropertyInfo PropertyInfo
         {
             get { return this.propertyInfo; }
         }
+
+        #region IContextualCommand Members
 
         public Type ContextType
         {

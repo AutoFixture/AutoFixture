@@ -22,11 +22,6 @@ namespace Ploeh.AutoFixture.Idioms
 
         #region IContextualCommand Members
 
-        public MemberInfo MemberInfo
-        {
-            get { return this.command.MemberInfo; }
-        }
-
         public Type ContextType
         {
             get { return this.command.ContextType; }

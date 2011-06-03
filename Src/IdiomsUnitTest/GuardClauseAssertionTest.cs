@@ -94,7 +94,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 {
                     var unwrapper = Assert.IsAssignableFrom<ReflectionExceptionUnwrappingCommand>(c);
                     var setterCmd = Assert.IsAssignableFrom<PropertySetCommand>(unwrapper.Command);
-                    mockVerified = setterCmd.MemberInfo.Equals(property)
+                    mockVerified = setterCmd.PropertyInfo.Equals(property)
                         && setterCmd.Owner.Equals(owner);
                 }
             };
