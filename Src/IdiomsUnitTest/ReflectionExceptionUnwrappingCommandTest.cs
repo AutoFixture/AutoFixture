@@ -41,11 +41,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var mockVerified = false;
-            var cmd = new DelegatingContextualCommand { OnExecute = v => mockVerified = true };
+            var expectedValue = new object();
+            var cmd = new DelegatingContextualCommand { OnExecute = v => mockVerified = expectedValue.Equals(v) };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system
-            var dummyValue = new object();
-            sut.Execute(dummyValue);
+            sut.Execute(expectedValue);
             // Verify outcome
             Assert.True(mockVerified, "Mock verified.");
             // Teardown

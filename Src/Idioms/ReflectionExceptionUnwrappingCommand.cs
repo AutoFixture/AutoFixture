@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture.Idioms
         {
             try
             {
-                this.Command.Execute(new object());
+                this.Command.Execute(value);
             }
             catch (TargetInvocationException e)
             {
