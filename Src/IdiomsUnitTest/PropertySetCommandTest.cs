@@ -81,5 +81,50 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(property.PropertyType, result);
             // Teardown
         }
+
+        [Fact]
+        public void ThrowThrowsExceptionWithCorrectProperty()
+        {
+            // Fixture setup
+            var dummyOwner = new PropertyHolder<Version>();
+            var expectedProperty = dummyOwner.GetType().GetProperty("Property");
+            var sut = new PropertySetCommand(expectedProperty, dummyOwner);
+            // Exercise system and verify outcome
+            var message = "Anonymous message";
+            var e = Assert.Throws<GuardClauseException>(() =>
+                sut.Throw(message));
+            Assert.Equal(expectedProperty, e.MemberInfo);
+            // Teardown
+        }
+
+        [Fact]
+        public void ThrowThrowsExceptionWithCorrectValueType()
+        {
+            // Fixture setup
+            var dummyOwner = new PropertyHolder<Version>();
+            var property = dummyOwner.GetType().GetProperty("Property");
+            var sut = new PropertySetCommand(property, dummyOwner);
+            // Exercise system and verify outcome
+            var message = "Anonymous message";
+            var e = Assert.Throws<GuardClauseException>(() =>
+                sut.Throw(message));
+            Assert.Equal(property.PropertyType, e.ValueType);
+            // Teardown
+        }
+
+        [Fact]
+        public void ThrowThrowsExceptionWithCorrectMessage()
+        {
+            // Fixture setup
+            var dummyOwner = new PropertyHolder<Version>();
+            var dummyProperty = dummyOwner.GetType().GetProperty("Property");
+            var sut = new PropertySetCommand(dummyProperty, dummyOwner);
+            // Exercise system and verify outcome
+            var message = Guid.NewGuid().ToString();
+            var e = Assert.Throws<GuardClauseException>(() =>
+                sut.Throw(message));
+            Assert.Contains(message, e.Message);
+            // Teardown
+        }
     }
 }
