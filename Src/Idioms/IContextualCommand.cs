@@ -9,6 +9,6 @@ namespace Ploeh.AutoFixture.Idioms
     {
         Type ContextType { get; }
 
-        void Execute();
+        void Execute(object value);
     }
 }

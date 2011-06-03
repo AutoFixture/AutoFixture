@@ -41,10 +41,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var mockVerified = false;
-            var cmd = new DelegatingContextualCommand { OnExecute = () => mockVerified = true };
+            var cmd = new DelegatingContextualCommand { OnExecute = v => mockVerified = true };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system
-            sut.Execute();
+            var dummyValue = new object();
+            sut.Execute(dummyValue);
             // Verify outcome
             Assert.True(mockVerified, "Mock verified.");
             // Teardown
@@ -54,11 +55,12 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void ExecuteRethrowsNormalException()
         {
             // Fixture setup
-            var cmd = new DelegatingContextualCommand { OnExecute = () => { throw new InvalidOperationException(); } };
+            var cmd = new DelegatingContextualCommand { OnExecute = v => { throw new InvalidOperationException(); } };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system and verify outcome
+            var dummyValue = new object();
             Assert.Throws<InvalidOperationException>(() =>
-                sut.Execute());
+                sut.Execute(dummyValue));
             // Teardown
         }
 
@@ -67,11 +69,12 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var expectedException = new InvalidOperationException();
-            var cmd = new DelegatingContextualCommand { OnExecute = () => { throw new TargetInvocationException(expectedException); } };
+            var cmd = new DelegatingContextualCommand { OnExecute = v => { throw new TargetInvocationException(expectedException); } };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system and verify outcome
+            var dummyValue = new object();
             var e = Assert.Throws<InvalidOperationException>(() =>
-                sut.Execute());
+                sut.Execute(dummyValue));
             Assert.Equal(expectedException, e);
             // Teardown
         }

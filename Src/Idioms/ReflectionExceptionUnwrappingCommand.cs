@@ -27,11 +27,11 @@ namespace Ploeh.AutoFixture.Idioms
             get { return this.command.ContextType; }
         }
 
-        public void Execute()
+        public void Execute(object value)
         {
             try
             {
-                this.Command.Execute();
+                this.Command.Execute(new object());
             }
             catch (TargetInvocationException e)
             {

@@ -80,7 +80,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var value = new object();
             var sut = new PropertySetCommand(property, owner, value);
             // Exercise system
-            sut.Execute();
+            var dummyValue = new object();
+            sut.Execute(dummyValue);
             // Verify outcome
             Assert.Equal(value, owner.Property);
             // Teardown

@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var verifyInvoked = false;
-            var mockCommand = new DelegatingContextualCommand { OnExecute = () => verifyInvoked = true };
+            var mockCommand = new DelegatingContextualCommand { OnExecute = v => verifyInvoked = true };
             mockCommand.ContextType = type;
 
             var sut = new NullReferenceBehaviorExpectation();

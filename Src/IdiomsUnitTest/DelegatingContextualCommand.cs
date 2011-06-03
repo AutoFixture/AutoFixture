@@ -11,18 +11,18 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public DelegatingContextualCommand()
         {
             this.ContextType = typeof(object);
-            this.OnExecute = () => { };
+            this.OnExecute = v => { };
         }
 
-        public Action OnExecute { get; set; }
+        public Action<object> OnExecute { get; set; }
 
         #region IContextualCommand Members
 
         public Type ContextType { get; set; }
 
-        public void Execute()
+        public void Execute(object value)
         {
-            this.OnExecute();
+            this.OnExecute(value);
         }
 
         #endregion
