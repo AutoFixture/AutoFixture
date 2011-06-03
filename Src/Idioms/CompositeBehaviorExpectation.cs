@@ -7,6 +7,13 @@ namespace Ploeh.AutoFixture.Idioms
 {
     public class CompositeBehaviorExpectation : IBehaviorExpectation
     {
+        private readonly IBehaviorExpectation[] expectations;
+
+        public CompositeBehaviorExpectation(params IBehaviorExpectation[] behaviorExpectations)
+        {
+            this.expectations = behaviorExpectations;
+        }
+
         #region IBehaviorExpectation Members
 
         public void Verify(IGuardClauseCommand command)
@@ -14,5 +21,10 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         #endregion
+
+        public IEnumerable<IBehaviorExpectation> BehaviorExpectations
+        {
+            get { return this.expectations; }
+        }
     }
 }

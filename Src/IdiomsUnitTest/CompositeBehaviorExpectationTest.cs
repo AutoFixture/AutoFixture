@@ -19,5 +19,18 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.IsAssignableFrom<IBehaviorExpectation>(sut);
             // Teardown
         }
+
+        [Fact]
+        public void ConstructedWithArrayBehaviorExpectationsIsCorrect()
+        {
+            // Fixture setup
+            var expectations = new[] { new DelegatingBehaviorExpectation(), new DelegatingBehaviorExpectation(), new DelegatingBehaviorExpectation() };
+            var sut = new CompositeBehaviorExpectation(expectations);
+            // Exercise system
+            IEnumerable<IBehaviorExpectation> result = sut.BehaviorExpectations;
+            // Verify outcome
+            Assert.True(expectations.SequenceEqual(result));
+            // Teardown
+        }
     }
 }
