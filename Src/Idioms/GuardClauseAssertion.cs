@@ -42,7 +42,7 @@ namespace Ploeh.AutoFixture.Idioms
 
             var owner = this.Composer.CreateAnonymous(propertyInfo.ReflectedType);
             var value = this.Composer.CreateAnonymous(propertyInfo.PropertyType);
-            var command = new PropertySetCommand(propertyInfo, owner, value);
+            var command = new PropertySetCommand(propertyInfo, owner);
             var unwrapper = new ReflectionExceptionUnwrappingCommand(command);
             this.BehaviorExpectation.Verify(unwrapper);
         }

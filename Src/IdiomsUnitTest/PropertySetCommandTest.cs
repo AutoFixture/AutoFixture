@@ -18,9 +18,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var dummyOwner = new PropertyHolder<object>();
             var dummyProperty = dummyOwner.GetType().GetProperty("Property");
-            var dummyValue = new object();
             // Exercise system
-            var sut = new PropertySetCommand(dummyProperty, dummyOwner, dummyValue);
+            var sut = new PropertySetCommand(dummyProperty, dummyOwner);
             // Verify outcome
             Assert.IsAssignableFrom<IContextualCommand>(sut);
             // Teardown
@@ -32,8 +31,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var dummyOwner = new PropertyHolder<object>();
             var propertyInfo = dummyOwner.GetType().GetProperty("Property");
-            var dummyValue = new object();
-            var sut = new PropertySetCommand(propertyInfo, dummyOwner, dummyValue);
+            var sut = new PropertySetCommand(propertyInfo, dummyOwner);
             // Exercise system
             PropertyInfo result = sut.PropertyInfo;
             // Verify outcome
@@ -47,27 +45,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var owner = new PropertyHolder<object>();
             var dummyProperty = owner.GetType().GetProperty("Property");
-            var dummyValue = new object();
-            var sut = new PropertySetCommand(dummyProperty, owner, dummyValue);
+            var sut = new PropertySetCommand(dummyProperty, owner);
             // Exercise system
             var result = sut.Owner;
             // Verify outcome
             Assert.Equal(owner, result);
-            // Teardown
-        }
-
-        [Fact]
-        public void ValueIsCorrect()
-        {
-            // Fixture setup
-            var dummyOwner = new PropertyHolder<object>();
-            var dummyProperty = dummyOwner.GetType().GetProperty("Property");
-            var value = new object();
-            var sut = new PropertySetCommand(dummyProperty, dummyOwner, value);
-            // Exercise system
-            var result = sut.Value;
-            // Verify outcome
-            Assert.Equal(value, result);
             // Teardown
         }
 
@@ -77,11 +59,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var owner = new PropertyHolder<object>();
             var property = owner.GetType().GetProperty("Property");
+            var sut = new PropertySetCommand(property, owner);
             var value = new object();
-            var sut = new PropertySetCommand(property, owner, value);
             // Exercise system
-            var dummyValue = new object();
-            sut.Execute(dummyValue);
+            sut.Execute(value);
             // Verify outcome
             Assert.Equal(value, owner.Property);
             // Teardown
@@ -93,8 +74,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
             var property = dummyOwner.GetType().GetProperty("Property");
-            var dummyValue = new Version();
-            var sut = new PropertySetCommand(property, dummyOwner, dummyValue);
+            var sut = new PropertySetCommand(property, dummyOwner);
             // Exercise system
             var result = sut.ContextType;
             // Verify outcome

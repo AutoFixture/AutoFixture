@@ -10,13 +10,11 @@ namespace Ploeh.AutoFixture.Idioms
     {
         private readonly PropertyInfo propertyInfo;
         private readonly object owner;
-        private readonly object value;
 
-        public PropertySetCommand(PropertyInfo propertyInfo, object owner, object value)
+        public PropertySetCommand(PropertyInfo propertyInfo, object owner)
         {
             this.propertyInfo = propertyInfo;
             this.owner = owner;
-            this.value = value;
         }
 
         public object Owner
@@ -29,11 +27,6 @@ namespace Ploeh.AutoFixture.Idioms
             get { return this.propertyInfo; }
         }
 
-        public object Value
-        {
-            get { return this.value; }
-        }
-
         #region IContextualCommand Members
 
         public Type ContextType
@@ -43,7 +36,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public void Execute(object value)
         {
-            this.PropertyInfo.SetValue(this.Owner, this.Value, null);
+            this.PropertyInfo.SetValue(this.Owner, value, null);
         }
 
         #endregion
