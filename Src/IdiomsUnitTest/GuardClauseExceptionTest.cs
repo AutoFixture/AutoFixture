@@ -64,5 +64,35 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(expectedValueType, result);
             // Teardown
         }
+
+        [Fact]
+        public void MemberInfoIsCorrectWhenConstructedWithMessage()
+        {
+            // Fixture setup
+            var expectedMember = typeof(object).GetMembers().First();
+            var dummyValueType = typeof(object);
+            var dummyMessage = "Anonymous text";
+            var sut = new GuardClauseException(expectedMember, dummyValueType, dummyMessage);
+            // Exercise system
+            MemberInfo result = sut.MemberInfo;
+            // Verify outcome
+            Assert.Equal(expectedMember, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ValueTypeIsCorrectWhenConstructedWithMessage()
+        {
+            // Fixture setup
+            var dummyMember = typeof(object).GetMembers().First();
+            var expectedValueType = typeof(object);
+            var dummyMessage = "Anonymous text";
+            var sut = new GuardClauseException(dummyMember, expectedValueType, dummyMessage);
+            // Exercise system
+            Type result = sut.ValueType;
+            // Verify outcome
+            Assert.Equal(expectedValueType, result);
+            // Teardown
+        }
     }
 }
