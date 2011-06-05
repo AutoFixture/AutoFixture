@@ -105,5 +105,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.True(mockVerified, "Mock verified.");
             // Teardown
         }
+
+        [Fact]
+        public void DefaultBehaviorExpectationIsCorrect()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new GuardClauseAssertion(dummyComposer);
+            // Exercise system
+            var result = sut.BehaviorExpectation;
+            // Verify outcome
+            var composite = Assert.IsAssignableFrom<CompositeBehaviorExpectation>(result);
+            Assert.True(composite.BehaviorExpectations.OfType<NullReferenceBehaviorExpectation>().Any());
+            // Teardown
+        }
     }
 }

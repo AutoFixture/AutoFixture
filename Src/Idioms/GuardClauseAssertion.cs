@@ -13,8 +13,8 @@ namespace Ploeh.AutoFixture.Idioms
         private readonly IBehaviorExpectation behaviorExpectation;
 
         public GuardClauseAssertion(ISpecimenBuilderComposer composer)
+            : this(composer, new CompositeBehaviorExpectation(new NullReferenceBehaviorExpectation()))
         {
-            this.composer = composer;
         }
 
         public GuardClauseAssertion(ISpecimenBuilderComposer composer, IBehaviorExpectation behaviorExpectation)
