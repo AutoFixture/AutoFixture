@@ -11,15 +11,6 @@ namespace Ploeh.AutoFixture.Idioms
         private readonly MemberInfo memberInfo;
         private readonly Type valueType;
 
-        public GuardClauseException(Exception e)
-            : base(Guid.NewGuid().ToString(), e)
-        {
-        }
-
-        public GuardClauseException()
-        {
-        }
-
         public GuardClauseException(MemberInfo memberInfo, Type valueType)
         {
             this.memberInfo = memberInfo;
