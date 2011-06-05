@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     public class PropertySetCommandTest
     {
         [Fact]
-        public void SutIsContextualAction()
+        public void SutIsGuardClauseCommand()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<object>();
@@ -69,7 +69,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ContextTypeIsCorrect()
+        public void ValueTypeIsCorrect()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
