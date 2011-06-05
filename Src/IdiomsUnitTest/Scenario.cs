@@ -19,7 +19,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyBoundariesForProperty()
         {
-            new Fixture().ForProperty((GuardedPropertyHolder<object> sut) => sut.Property).VerifyBoundaries();
+            var fixture = new Fixture();
+            var assertion = new GuardClauseAssertion(fixture);
+            var property = typeof(GuardedPropertyHolder<object>).GetProperty("Property");
+            assertion.Verify(property);
         }
 
         [Fact]
@@ -37,13 +40,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyBoundariesForAllPropertiesOnMutableClass()
         {
-            new Fixture().ForAllPropertiesOf<GuardedPropertyHolder<Version>>().VerifyBoundaries();
+            var fixture = new Fixture();
+            var assertion = new GuardClauseAssertion(fixture);
+            var properties = typeof(GuardedPropertyHolder<Version>).GetProperties();
+            assertion.Verify(properties);
         }
 
         [Fact]
         public void VerifyBoundariesForAllPropertiesOnImmutableClass()
         {
-            new Fixture().ForAllPropertiesOf<DoubleParameterType<string, object>>().VerifyBoundaries();
+            var fixture = new Fixture();
+            var assertion = new GuardClauseAssertion(fixture);
+            var properties = typeof(DoubleParameterType<string, object>).GetProperties();
+            assertion.Verify(properties);
         }
 
         [Fact]
