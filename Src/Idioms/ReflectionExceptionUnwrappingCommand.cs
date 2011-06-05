@@ -22,9 +22,9 @@ namespace Ploeh.AutoFixture.Idioms
 
         #region IContextualCommand Members
 
-        public Type ContextType
+        public Type ValueType
         {
-            get { return this.command.ContextType; }
+            get { return this.command.ValueType; }
         }
 
         public void Execute(object value)

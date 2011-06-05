@@ -11,8 +11,8 @@ namespace Ploeh.AutoFixture.Idioms
 
         public void Verify(IGuardClauseCommand command)
         {
-            if (!command.ContextType.IsClass
-                && !command.ContextType.IsInterface)
+            if (!command.ValueType.IsClass
+                && !command.ValueType.IsInterface)
             {
                 return;
             }

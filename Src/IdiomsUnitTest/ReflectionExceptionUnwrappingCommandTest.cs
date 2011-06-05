@@ -87,10 +87,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void ContextTypeIsCorrect(Type type)
         {
             // Fixture setup
-            var cmd = new DelegatingGuardClauseCommand { ContextType = type };
+            var cmd = new DelegatingGuardClauseCommand { ValueType = type };
             var sut = new ReflectionExceptionUnwrappingCommand(cmd);
             // Exercise system
-            var result = sut.ContextType;
+            var result = sut.ValueType;
             // Verify outcome
             Assert.Equal(type, result);
             // Teardown

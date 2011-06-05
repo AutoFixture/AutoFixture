@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         #region IContextualCommand Members
 
-        public Type ContextType
+        public Type ValueType
         {
             get { return this.propertyInfo.PropertyType; }
         }
@@ -41,12 +41,12 @@ namespace Ploeh.AutoFixture.Idioms
 
         public Exception CreateException(string value)
         {
-            return new GuardClauseException(this.propertyInfo, this.ContextType, this.CreateExceptionMessage(value));
+            return new GuardClauseException(this.propertyInfo, this.ValueType, this.CreateExceptionMessage(value));
         }
 
         public Exception CreateException(string value, Exception innerException)
         {
-            return new GuardClauseException(this.propertyInfo, this.ContextType, this.CreateExceptionMessage(value), innerException);
+            return new GuardClauseException(this.propertyInfo, this.ValueType, this.CreateExceptionMessage(value), innerException);
         }
 
         #endregion
