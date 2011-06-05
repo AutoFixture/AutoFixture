@@ -16,8 +16,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyCtor = typeof(object).GetConstructors().First();
+            var dummyArguments = new Dictionary<ParameterInfo, object>();
             // Exercise system
-            var sut = new ConstructorInvokeCommand(dummyCtor);
+            var sut = new ConstructorInvokeCommand(dummyCtor, dummyArguments);
             // Verify outcome
             Assert.IsAssignableFrom<IGuardClauseCommand>(sut);
             // Teardown
@@ -31,11 +32,26 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var constructorInfo = type.GetConstructors().First();
-            var sut = new ConstructorInvokeCommand(constructorInfo);
+            var dummyArguments = new Dictionary<ParameterInfo, object>();
+            var sut = new ConstructorInvokeCommand(constructorInfo, dummyArguments);
             // Exercise system
             ConstructorInfo result = sut.ConstructorInfo;
             // Verify outcome
             Assert.Equal(constructorInfo, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void DefaultArgumentsIsCorrect()
+        {
+            // Fixture setup
+            var dummyCtor = typeof(object).GetConstructors().First();
+            var arguments = new Dictionary<ParameterInfo, object>();
+            var sut = new ConstructorInvokeCommand(dummyCtor, arguments);
+            // Exercise system
+            IDictionary<ParameterInfo, object> result = sut.DefaultArguments;
+            // Verify outcome
+            Assert.Equal(arguments, result);
             // Teardown
         }
     }

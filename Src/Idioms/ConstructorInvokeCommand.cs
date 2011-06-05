@@ -9,15 +9,22 @@ namespace Ploeh.AutoFixture.Idioms
     public class ConstructorInvokeCommand : IGuardClauseCommand
     {
         private readonly ConstructorInfo constructorInfo;
+        private readonly IDictionary<ParameterInfo, object> defaultArguments;
 
-        public ConstructorInvokeCommand(ConstructorInfo constructorInfo)
+        public ConstructorInvokeCommand(ConstructorInfo constructorInfo, IDictionary<ParameterInfo, object> defaultArguments)
         {
             this.constructorInfo = constructorInfo;
+            this.defaultArguments = defaultArguments;
         }
 
         public ConstructorInfo ConstructorInfo
         {
             get { return this.constructorInfo; }
+        }
+
+        public IDictionary<ParameterInfo, object> DefaultArguments
+        {
+            get { return this.defaultArguments; }
         }
 
         #region IGuardClauseCommand Members
