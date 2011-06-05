@@ -41,14 +41,26 @@ namespace Ploeh.AutoFixture.Idioms
 
         public Exception CreateException(string value)
         {
-            return new GuardClauseException(this.propertyInfo, this.ContextType, value);
+            return new GuardClauseException(this.propertyInfo, this.ContextType, this.CreateExceptionMessage(value));
         }
 
         public Exception CreateException(string value, Exception innerException)
         {
-            return new GuardClauseException(this.propertyInfo, this.ContextType, value, innerException);
+            return new GuardClauseException(this.propertyInfo, this.ContextType, this.CreateExceptionMessage(value), innerException);
         }
 
         #endregion
+
+        public string CreateExceptionMessage(string value)
+        {
+            return string.Format(
+                "An attempt was made to assign the value {0} to the property {1}, and no Guard Clause prevented this. Are you missing a Guard Clause?{5}Property Type: {2}{5}Declaring Type: {3}{5}Reflected Type: {4}",
+                value,
+                this.PropertyInfo.Name,
+                this.PropertyInfo.PropertyType.AssemblyQualifiedName,
+                this.PropertyInfo.DeclaringType.AssemblyQualifiedName,
+                this.PropertyInfo.ReflectedType.AssemblyQualifiedName,
+                Environment.NewLine);
+        }
     }
 }

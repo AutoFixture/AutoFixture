@@ -12,6 +12,7 @@ namespace Ploeh.AutoFixture.Idioms
         private readonly Type valueType;
 
         public GuardClauseException(MemberInfo memberInfo, Type valueType)
+            : base("An invariant was not correctly protected. Are you missing a Guard Clause?")
         {
             this.memberInfo = memberInfo;
             this.valueType = valueType;
