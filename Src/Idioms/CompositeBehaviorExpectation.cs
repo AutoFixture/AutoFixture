@@ -23,6 +23,10 @@ namespace Ploeh.AutoFixture.Idioms
 
         public void Verify(IGuardClauseCommand command)
         {
+            foreach (var be in this.BehaviorExpectations)
+            {
+                be.Verify(command);
+            }
         }
 
         #endregion

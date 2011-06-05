@@ -45,5 +45,21 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.True(expectations.SequenceEqual(result));
             // Teardown
         }
+
+        [Fact]
+        public void VerifyVerifiesAllBehaviorExpectations()
+        {
+            // Fixture setup
+            var observedCommands = new List<IGuardClauseCommand>();
+            var expectations = Enumerable.Repeat(new DelegatingBehaviorExpectation { OnVerify = observedCommands.Add }, 3).ToArray();
+            var sut = new CompositeBehaviorExpectation(expectations);
+
+            var cmd = new DelegatingGuardClauseCommand();
+            // Exercise system
+            sut.Verify(cmd);
+            // Verify outcome
+            Assert.Equal(expectations.Length, observedCommands.Count(c => cmd.Equals(c)));
+            // Teardown
+        }
     }
 }
