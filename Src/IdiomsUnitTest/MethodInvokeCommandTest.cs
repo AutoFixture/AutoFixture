@@ -17,26 +17,21 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyMethod = new DelegatingMethod();
-            var dummyParameter = typeof(Version).GetConstructors().OrderBy(ci => ci.GetParameters().Length).Last().GetParameters().First();
-            var dummyArguments = new Dictionary<ParameterInfo, object>();
+            var dummyExpansion = new DelegatingExpansion();
             // Exercise system
-            var sut = new MethodInvokeCommand(dummyMethod, dummyParameter, dummyArguments);
+            var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion);
             // Verify outcome
             Assert.IsAssignableFrom<IGuardClauseCommand>(sut);
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(object))]
-        [InlineData(typeof(string))]
-        [InlineData(typeof(Version))]
-        public void MethodIsCorrect(Type type)
+        [Fact]
+        public void MethodIsCorrect()
         {
             // Fixture setup
             var method = new DelegatingMethod();
-            var dummyParameter = typeof(Version).GetConstructors().OrderBy(ci => ci.GetParameters().Length).Last().GetParameters().First();
-            var dummyArguments = new Dictionary<ParameterInfo, object>();
-            var sut = new MethodInvokeCommand(method, dummyParameter, dummyArguments);
+            var dummyExpansion = new DelegatingExpansion();
+            var sut = new MethodInvokeCommand(method, dummyExpansion);
             // Exercise system
             IMethod result = sut.Method;
             // Verify outcome
@@ -45,32 +40,16 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void TargetParameterIsCorrect()
+        public void ExpansionIsCorrect()
         {
             // Fixture setup
             var dummyMethod = new DelegatingMethod();
-            var targetParameter = typeof(Version).GetConstructors().OrderBy(ci => ci.GetParameters().Length).Last().GetParameters().First();
-            var dummyArguments = new Dictionary<ParameterInfo, object>();
-            var sut = new MethodInvokeCommand(dummyMethod, targetParameter, dummyArguments);
+            var expansion = new DelegatingExpansion();
+            var sut = new MethodInvokeCommand(dummyMethod, expansion);
             // Exercise system
-            ParameterInfo result = sut.TargetParameter;
+            IExpansion result = sut.Expansion;
             // Verify outcome
-            Assert.Equal(targetParameter, result);
-            // Teardown
-        }
-
-        [Fact]
-        public void DefaultArgumentsIsCorrect()
-        {
-            // Fixture setup
-            var dummyMethod = new DelegatingMethod();
-            var dummyParameter = typeof(Version).GetConstructors().OrderBy(ci => ci.GetParameters().Length).Last().GetParameters().First();
-            var arguments = new Dictionary<ParameterInfo, object>();
-            var sut = new MethodInvokeCommand(dummyMethod, dummyParameter, arguments);
-            // Exercise system
-            IDictionary<ParameterInfo, object> result = sut.DefaultArguments;
-            // Verify outcome
-            Assert.Equal(arguments, result);
+            Assert.Equal(expansion, result);
             // Teardown
         }
     }

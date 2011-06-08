@@ -10,14 +10,12 @@ namespace Ploeh.AutoFixture.Idioms
     public class MethodInvokeCommand : IGuardClauseCommand
     {
         private readonly IMethod method;
-        private readonly ParameterInfo targetParameter;
-        private readonly IDictionary<ParameterInfo, object> defaultArguments;
+        private readonly IExpansion expansion;
 
-        public MethodInvokeCommand(IMethod method, ParameterInfo targetParameter, IDictionary<ParameterInfo, object> defaultArguments)
+        public MethodInvokeCommand(IMethod method, IExpansion expansion)
         {
             this.method = method;
-            this.targetParameter = targetParameter;
-            this.defaultArguments = defaultArguments;
+            this.expansion = expansion;
         }
 
         public IMethod Method
@@ -25,14 +23,9 @@ namespace Ploeh.AutoFixture.Idioms
             get { return this.method; }
         }
 
-        public IDictionary<ParameterInfo, object> DefaultArguments
+        public IExpansion Expansion
         {
-            get { return this.defaultArguments; }
-        }
-
-        public ParameterInfo TargetParameter
-        {
-            get { return this.targetParameter; }
+            get { return this.expansion; }
         }
 
         #region IGuardClauseCommand Members
