@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public class ConstructorInvokeCommand : IGuardClauseCommand
+    public class MethodInvokeCommand : IGuardClauseCommand
     {
-        private readonly ConstructorInfo constructorInfo;
+        private readonly IMethod method;
         private readonly ParameterInfo targetParameter;
         private readonly IDictionary<ParameterInfo, object> defaultArguments;
 
-        public ConstructorInvokeCommand(ConstructorInfo constructorInfo, ParameterInfo targetParameter, IDictionary<ParameterInfo, object> defaultArguments)
+        public MethodInvokeCommand(IMethod method, ParameterInfo targetParameter, IDictionary<ParameterInfo, object> defaultArguments)
         {
-            this.constructorInfo = constructorInfo;
+            this.method = method;
             this.targetParameter = targetParameter;
             this.defaultArguments = defaultArguments;
         }
 
-        public ConstructorInfo ConstructorInfo
+        public IMethod Method
         {
-            get { return this.constructorInfo; }
+            get { return this.method; }
         }
 
         public IDictionary<ParameterInfo, object> DefaultArguments

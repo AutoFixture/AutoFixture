@@ -92,7 +92,7 @@
     <Compile Include="CompositeMemberContext.cs" />
     <Compile Include="CompositeMethodContext.cs" />
     <Compile Include="CompositePropertyContext.cs" />
-    <Compile Include="ConstructorInvokeCommand.cs" />
+    <Compile Include="MethodInvokeCommand.cs" />
     <Compile Include="GuardClauseException.cs" />
     <Compile Include="IBehaviorExpectation.cs" />
     <Compile Include="NullReferenceBehaviorExpectation.cs" />

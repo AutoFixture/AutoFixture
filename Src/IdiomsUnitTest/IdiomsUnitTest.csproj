@@ -73,7 +73,8 @@
     <Compile Include="CompositeMemberContextTest.cs" />
     <Compile Include="CompositeMethodContextTest.cs" />
     <Compile Include="CompositePropertyContextTest.cs" />
-    <Compile Include="ConstructorInvokeCommandTest.cs" />
+    <Compile Include="MethodInvokeCommandTest.cs" />
+    <Compile Include="DelegatingMethod.cs" />
     <Compile Include="GuardClauseExceptionTest.cs" />
     <Compile Include="NullReferenceBehaviorExpectationTest.cs" />
     <Compile Include="DelegatingBehaviorExpectation.cs" />
