@@ -52,5 +52,24 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(expansion, result);
             // Teardown
         }
+
+        [Fact]
+        public void ExecuteCorrectlyInvokesMethod()
+        {
+            // Fixture setup
+            var value = new object();
+            var arguments = new[] { new object(), new object(), new object() };
+            var expansion = new DelegatingExpansion { OnExpand = v => v == value ? arguments : new object[0] };
+
+            var mockVerified = false;
+            var method = new DelegatingMethod { OnInvoke = a => mockVerified = a == arguments };
+
+            var sut = new MethodInvokeCommand(method, expansion);
+            // Exercise system
+            sut.Execute(value);
+            // Verify outcome
+            Assert.True(mockVerified);
+            // Teardown
+        }
     }
 }

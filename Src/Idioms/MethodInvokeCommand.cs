@@ -37,6 +37,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public void Execute(object value)
         {
+            this.method.Invoke(this.expansion.Expand(value));
         }
 
         public Exception CreateException(string value)
