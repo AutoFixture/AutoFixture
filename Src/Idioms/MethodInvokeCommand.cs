@@ -11,11 +11,13 @@ namespace Ploeh.AutoFixture.Idioms
     {
         private readonly IMethod method;
         private readonly IExpansion expansion;
+        private readonly ParameterInfo parameterInfo;
 
-        public MethodInvokeCommand(IMethod method, IExpansion expansion)
+        public MethodInvokeCommand(IMethod method, IExpansion expansion, ParameterInfo parameterInfo)
         {
             this.method = method;
             this.expansion = expansion;
+            this.parameterInfo = parameterInfo;
         }
 
         public IMethod Method
@@ -26,6 +28,11 @@ namespace Ploeh.AutoFixture.Idioms
         public IExpansion Expansion
         {
             get { return this.expansion; }
+        }
+
+        public ParameterInfo ParameterInfo
+        {
+            get { return this.parameterInfo; }
         }
 
         #region IGuardClauseCommand Members
