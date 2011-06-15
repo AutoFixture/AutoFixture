@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         #region IGuardClauseCommand Members
 
-        public Type ValueType
+        public Type RequestedType
         {
             get { throw new NotImplementedException(); }
         }

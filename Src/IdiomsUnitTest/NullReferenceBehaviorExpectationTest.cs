@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var verifyInvoked = false;
             var mockCommand = new DelegatingGuardClauseCommand { OnExecute = v => verifyInvoked = true };
-            mockCommand.ValueType = type;
+            mockCommand.RequestedType = type;
 
             var sut = new NullReferenceBehaviorExpectation();
             // Exercise system
@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 OnExecute = v => mockVerified = v == null,
                 OnCreateException = v => new InvalidOperationException()
             };
-            mockCommand.ValueType = type;
+            mockCommand.RequestedType = type;
 
             var sut = new NullReferenceBehaviorExpectation();
             // Exercise system

@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     {
         public DelegatingGuardClauseCommand()
         {
-            this.ValueType = typeof(object);
+            this.RequestedType = typeof(object);
             this.OnExecute = v => { };
             this.OnCreateException = v => new Exception();
             this.OnCreateExceptionWithInner = (v, e) => new Exception();
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         #region IContextualCommand Members
 
-        public Type ValueType { get; set; }
+        public Type RequestedType { get; set; }
 
         public void Execute(object value)
         {

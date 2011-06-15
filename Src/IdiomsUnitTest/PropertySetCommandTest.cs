@@ -76,7 +76,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var property = dummyOwner.GetType().GetProperty("Property");
             var sut = new PropertySetCommand(property, dummyOwner);
             // Exercise system
-            var result = sut.ValueType;
+            var result = sut.RequestedType;
             // Verify outcome
             Assert.Equal(property.PropertyType, result);
             // Teardown
