@@ -91,6 +91,21 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void RequestedTypeIsCorrect()
+        {
+            // Fixture setup
+            var dummyMethod = new DelegatingMethod();
+            var dummyExpansion = new DelegatingExpansion();
+            var parameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
+            var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, parameter);
+            // Exercise system
+            var result = sut.RequestedType;
+            // Verify outcome
+            Assert.Equal(parameter.ParameterType, result);
+            // Teardown
+        }
+
         private static ParameterInfo CreateAnonymousParameterInfo()
         {
             var parameter = (from m in typeof(object).GetMethods()

@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public Type RequestedType
         {
-            get { throw new NotImplementedException(); }
+            get { return this.ParameterInfo.ParameterType; }
         }
 
         public void Execute(object value)
