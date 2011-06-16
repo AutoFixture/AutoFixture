@@ -839,6 +839,53 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousWithFlagEnumProperyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            ActivityScope unexpectedActivityScope = default(ActivityScope);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<ActivityScope>>();
+            // Verify outcome
+            Assert.NotEqual<ActivityScope>(unexpectedActivityScope, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithFlagEnumPropertyTwiceWillAssignDifferentValues()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var ph = sut.CreateAnonymous<PropertyHolder<ActivityScope>>();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<ActivityScope>>();
+            // Verify outcome
+            Assert.NotEqual<ActivityScope>(ph.Property, result.Property);
+            // Teardown
+        }
+        
+        [Fact]
+        public void CreateAnonymousWithFlagEnumPropertyMultipleTimesWillAssignValidValues()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Build<PropertyHolder<ActivityScope?>>().CreateMany(100);
+            // Verify outcome
+            long activityMin = 0;
+            long activityMax = (long)ActivityScope.All;
+            foreach (var propertyHolder in result)
+            {
+                if (propertyHolder.Property != null)
+                {
+                    long activityScope = (long)propertyHolder.Property;
+                    Assert.InRange(activityScope, activityMin, activityMax);
+                }
+            }
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousWithDateTimePropertyWillAssignValueMatchingCurrentTime()
         {
             // Fixture setup
@@ -2987,6 +3034,18 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.CreateAnonymous<TriState>();
             // Verify outcome
             Assert.Equal(TriState.First, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateManyAnonymousFlagEnumsReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateMany<ActivityScope>(100).ToArray().Last();
+            // Verify outcome
+            Assert.Equal(ActivityScope.Standalone, result);
             // Teardown
         }
 

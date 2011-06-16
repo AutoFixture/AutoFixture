@@ -83,5 +83,32 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(expectedResult, result);
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(ActivityScope), 1, ActivityScope.Undefined)]
+        [InlineData(typeof(ActivityScope), 2, ActivityScope.OnDuty)]
+        [InlineData(typeof(ActivityScope), 3, ActivityScope.OffDuty)]
+        [InlineData(typeof(ActivityScope), 4, ActivityScope.Standalone)]
+        [InlineData(typeof(ActivityScope), 5, ActivityScope.Parent)]
+        [InlineData(typeof(ActivityScope), 6, ActivityScope.AllInitiatingScopes)]
+        [InlineData(typeof(ActivityScope), 7, ActivityScope.Child)]
+        [InlineData(typeof(ActivityScope), 8, ActivityScope.All)]
+        [InlineData(typeof(ActivityScope), 9, ActivityScope.Undefined)]
+        [InlineData(typeof(ActivityScope), 10, ActivityScope.OnDuty)]
+        [InlineData(typeof(ActivityScope), 11, ActivityScope.OffDuty)]
+        [InlineData(typeof(ActivityScope), 20, ActivityScope.Standalone)]
+        [InlineData(typeof(ActivityScope), 21, ActivityScope.Parent)]
+        [InlineData(typeof(ActivityScope), 100, ActivityScope.Standalone)]
+        public void RequestForFlagEnumTypeReturnsCorrectResult(Type enumType, int requestCount, object expectedResult)
+        {
+            // Fixture setup
+            var sut = new EnumGenerator();
+            // Exercise system
+            var dummyContext = new DelegatingSpecimenContext();
+            var result = Enumerable.Repeat<Func<object>>(() => sut.Create(enumType, dummyContext), requestCount).Select(f => f()).Last();
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
     }
 }
