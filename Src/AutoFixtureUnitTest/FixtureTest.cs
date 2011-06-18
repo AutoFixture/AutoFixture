@@ -850,7 +850,7 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.NotEqual<ActivityScope>(ph.Property, result.Property);
             // Teardown
         }
-        
+
         [Fact]
         public void CreateAnonymousWithFlagEnumPropertyMultipleTimesWillAssignValidValues()
         {
@@ -863,11 +863,8 @@ namespace Ploeh.AutoFixtureUnitTest
             long activityMax = (long)ActivityScope.All;
             foreach (var propertyHolder in result)
             {
-                if (propertyHolder.Property != null)
-                {
-                    long activityScope = (long)propertyHolder.Property;
-                    Assert.InRange(activityScope, activityMin, activityMax);
-                }
+                long activityScope = (long)propertyHolder.Property;
+                Assert.InRange(activityScope, activityMin, activityMax);
             }
             // Teardown
         }
