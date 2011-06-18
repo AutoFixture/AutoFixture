@@ -839,19 +839,6 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithFlagEnumProperyWillAssignNonDefaultValue()
-        {
-            // Fixture setup
-            ActivityScope unexpectedActivityScope = default(ActivityScope);
-            var sut = new Fixture();
-            // Exercise system
-            var result = sut.CreateAnonymous<PropertyHolder<ActivityScope>>();
-            // Verify outcome
-            Assert.NotEqual<ActivityScope>(unexpectedActivityScope, result.Property);
-            // Teardown
-        }
-
-        [Fact]
         public void CreateAnonymousWithFlagEnumPropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setup
