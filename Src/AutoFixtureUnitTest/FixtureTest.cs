@@ -887,9 +887,11 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithDateTimePropertyTwiceWillAssignDifferentValuesIfYouWaitLongEnough()
         {
             // Fixture setup
+            var resolutionOfNow = TimeSpan.FromMilliseconds(10); // according to http://msdn.microsoft.com/en-us/library/system.datetime.now.aspx
+
             var sut = new Fixture();
             var ph = sut.CreateAnonymous<PropertyHolder<DateTime>>();
-            Thread.Sleep(TimeSpan.FromMilliseconds(1));
+            Thread.Sleep(resolutionOfNow + resolutionOfNow);
             // Exercise system
             var result = sut.CreateAnonymous<PropertyHolder<DateTime>>();
             // Verify outcome
