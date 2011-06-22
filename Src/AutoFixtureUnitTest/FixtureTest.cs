@@ -3282,6 +3282,40 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        // Supporting http://autofixture.codeplex.com/discussions/262288 Breaking this test might not be considered a breaking change
+        [Fact]
+        public void RefreezeHack()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var version2 = fixture.CreateAnonymous<Version>();
+            var version1 = fixture.Freeze<Version>();
+            // Exercise system
+            fixture.Inject(version2);
+            var actual = fixture.CreateAnonymous<Version>();
+            // Verify outcome
+            Assert.Equal(version2, actual);
+            // Teardown
+        }
+
+        // Supporting http://autofixture.codeplex.com/discussions/262288 Breaking this test might not be considered a breaking change
+        [Fact]
+        public void UnfreezeHack()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var snapshot = fixture.Customizations.ToList();
+            var anonymousVersion = fixture.Freeze<Version>();
+            var freezer = fixture.Customizations.Except(snapshot).Single();
+            // Exercise system
+            fixture.Customizations.Remove(freezer);
+            var expected = fixture.Freeze<Version>();
+            var actual = fixture.CreateAnonymous<Version>();
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
