@@ -3316,6 +3316,22 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void UseGreedyConstructorQueryWithAutoProperties()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            fixture.Customizations.Add(new Postprocessor(
+                new ConstructorInvoker(new GreedyConstructorQuery()),
+                new AutoPropertiesCommand().Execute,
+                new AnyTypeSpecification()));
+            // Exercise system
+            var result = fixture.CreateAnonymous<ConcreteType>();
+            // Verify outcome
+            Assert.NotNull(result.Property5);
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
