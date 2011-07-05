@@ -913,6 +913,97 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousWithParameterlessActionDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Action);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Action>>();
+            // Verify outcome
+            Assert.NotEqual<Action>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithSingleObjectParameterActionDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Action<object>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Action<object>>>();
+            // Verify outcome
+            Assert.NotEqual<Action<object>>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithSingleSpecializedObjectParameterActionDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedValue = default(Action<string>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Action<string>>>();
+            // Verify outcome
+            Assert.NotEqual<Action<string>>(unexpectedValue, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithSingleValueParameterActionDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedValue = default(Action<int>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Action<int>>>();
+            // Verify outcome
+            Assert.NotEqual<Action<int>>(unexpectedValue, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithDoubleObjectParametersActionDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Action<object, object>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Action<object, object>>>();
+            // Verify outcome
+            Assert.NotEqual<Action<object, object>>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithDoubleSpecializedObjectParametersActionDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Action<string, string>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Action<string, string>>>();
+            // Verify outcome
+            Assert.NotEqual<Action<string, string>>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithDoubleValueParametersActionDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Action<int, bool>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Action<int, bool>>>();
+            // Verify outcome
+            Assert.NotEqual<Action<int, bool>>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
         public void DefaultRepeatCountIsThree()
         {
             // Fixture setup
@@ -3085,7 +3176,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact(Skip = "Support for creating anonymous delegates is currently being added")]
         public void CreateAnonymousFuncThrowsCorrectException()
         {
             // Fixture setup
