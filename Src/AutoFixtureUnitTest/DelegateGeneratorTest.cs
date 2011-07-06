@@ -60,7 +60,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithParameterlessActionDelegateRequestReturnsCorrectResult()
+        public void CreateWithVoidParameterlessDelegateRequestReturnsCorrectResult()
         {
             // Fixture setup
             var delegateRequest = typeof(Action);
@@ -74,7 +74,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithSingleObjectParameterActionDelegateRequestReturnsCorrectResult()
+        public void CreateWithVoidSingleObjectParameterDelegateRequestReturnsCorrectResult()
         {
             // Fixture setup
             var delegateRequest = typeof(Action<object>);
@@ -88,7 +88,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithDoubleObjectParametersActionDelegateRequestReturnsCorrectResult()
+        public void CreateWithVoidDoubleObjectParametersDelegateRequestReturnsCorrectResult()
         {
             // Fixture setup
             var delegateRequest = typeof(Action<object, object>);
@@ -102,7 +102,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithSingleValueParameterActionDelegateRequestReturnsCorrectResult()
+        public void CreateWithVoidSingleValueParameterDelegateRequestReturnsCorrectResult()
         {
             // Fixture setup
             var delegateRequest = typeof(Action<int>);
@@ -116,7 +116,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithDoubleValueParametersActionDelegateRequestReturnsCorrectResult()
+        public void CreateWithVoidDoubleValueParametersDelegateRequestReturnsCorrectResult()
         {
             // Fixture setup
             var delegateRequest = typeof(Action<int, bool>);
@@ -130,7 +130,21 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithParameterlessObjectResultFunctionDelegateRequestReturnsCorrectResult()
+        public void CreateWithVoidParameterlessDelegateRequestReturnsDelegateNotThrowing()
+        {
+            // Fixture setup
+            var delegateRequest = typeof(Action);
+            var sut = new DelegateGenerator();
+            // Exercise system
+            var dummyContainer = new DelegatingSpecimenContext();
+            var result = sut.Create(delegateRequest, dummyContainer);
+            // Verify outcome
+            Assert.DoesNotThrow(() => ((Action)result).Invoke());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithReturnObjectParameterlessDelegateRequestReturnsCorrectResult()
         {
             // Fixture setup
             var delegateRequest = typeof(Func<object>);
@@ -144,7 +158,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithSingleObjectParameterObjectResultFunctionDelegateRequestReturnsCorrectResult()
+        public void CreateWithReturnObjectSingleObjectParameterDelegateRequestReturnsCorrectResult()
         {
             // Fixture setup
             var delegateRequest = typeof(Func<object, object>);
@@ -158,7 +172,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithDoubleObjectParametersObjectResultFunctionDelegateRequestReturnsCorrectResult()
+        public void CreateWithReturnObjectDoubleObjectParametersDelegateRequestReturnsCorrectResult()
         {
             // Fixture setup
             var delegateRequest = typeof(Func<object, object, object>);
@@ -172,14 +186,14 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithParameterlessObjectResultFunctionDelegateRequestReturnsDelegateReturningObjectSpecimen()
+        public void CreateWithReturnObjectParameterlessDelegateRequestReturnsDelegateReturningObjectSpecimen()
         {
             // Fixture setup
             var delegateRequest = typeof(Func<object>);
             var expectedResult = new object();
             var sut = new DelegateGenerator();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext()
+            var dummyContainer = new DelegatingSpecimenContext
             {
                 OnResolve = arg => expectedResult
             };
@@ -190,8 +204,8 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact(Skip = "Functionality not yet implemented.")]
-        public void CreateWithParameterlessValueResultFunctionDelegateRequestReturnsCorrectResult()
+        [Fact]
+        public void CreateWithReturnValueParameterlessDelegateRequestReturnsCorrectResult()
         {
             // Fixture setup
             var delegateRequest = typeof(Func<int>);
@@ -201,6 +215,25 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Create(delegateRequest, dummyContainer);
             // Verify outcome
             Assert.IsType<Func<int>>(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithReturnValueParameterlessDelegateRequestReturnsDelegateReturningValueSpecimen()
+        {
+            // Fixture setup
+            var delegateRequest = typeof(Func<int>);
+            var expectedResult = 3;
+            var sut = new DelegateGenerator();
+            // Exercise system
+            var dummyContainer = new DelegatingSpecimenContext
+            {
+                OnResolve = arg => expectedResult
+            };
+            var result = sut.Create(delegateRequest, dummyContainer);
+            // Verify outcome
+            var actualResult = ((Func<int>)result).Invoke();
+            Assert.Equal(expectedResult, actualResult);
             // Teardown
         }
     }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
@@ -34,38 +36,40 @@ namespace Ploeh.AutoFixture
             }
 
             var delegateMethod = delegateType.GetMethod("Invoke");
-            var delegateReturnType = delegateMethod.ReturnType;
-            var specimenReturnValue = delegateReturnType != typeof(void) ? context.Resolve(delegateReturnType) : null;
-            var specimenParams = DelegateGenerator.CreateMethodSpecimenParameters(delegateMethod);
-            var specimenBody = CreateMethodSpecimenBody(specimenParams, specimenReturnValue);
+            var methodSpecimenParams = DelegateGenerator.CreateMethodSpecimenParameters(delegateMethod);
+            var methodSpecimenBody = DelegateGenerator.CreateMethodSpecimenBody(delegateMethod, context);
 
-            var speciment = Expression.Lambda(delegateType, specimenBody, specimenParams).Compile();
-
-            return speciment;
+            var delegateSpecimen = Expression.Lambda(delegateType, methodSpecimenBody, methodSpecimenParams).Compile();
+            
+            return delegateSpecimen;
         }
 
-        private static ParameterExpression[] CreateMethodSpecimenParameters(MethodInfo targetMethod)
+        private static IEnumerable<ParameterExpression> CreateMethodSpecimenParameters(MethodInfo request)
         {
             int paramCount = 0;
-            var parameters = Array.ConvertAll(
-                targetMethod.GetParameters(),
+            var parameters = request.GetParameters().Select(
                 param => Expression.Parameter(param.ParameterType, String.Concat("arg", paramCount++)));
 
             return parameters;
         }
 
-        private static Expression CreateMethodSpecimenBody(ParameterExpression[] parameters, object returnValue)
+        private static Expression CreateMethodSpecimenBody(MethodInfo request, ISpecimenContext context)
         {
-            var paramsToObjectsConversions = Array.ConvertAll(
-                parameters,
-                param => Expression.Convert(param, typeof(object)));
-            var newObjectArray = Expression.NewArrayInit(typeof(object), paramsToObjectsConversions);
+            var returnType = request.ReturnType;
+            Expression body;
 
-            Func<object[], object> body = args => returnValue;
-            var instance = Expression.Constant(body.Target);
-            var methodCall = Expression.Call(instance, body.Method, newObjectArray);
+            if (returnType == typeof(void))
+            {
+                // Replace with Expression.Empty() when moving to .NET 4.0
+                body = Expression.Constant(null);
+            }
+            else
+            {
+                var returnValue = context.Resolve(returnType);
+                body = Expression.Convert(Expression.Constant(returnValue), returnType);
+            }
 
-            return methodCall;
+            return body;
         }
     }
 }
