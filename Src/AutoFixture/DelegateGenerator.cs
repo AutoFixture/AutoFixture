@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -20,30 +21,37 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            var targetType = request as Type;
+            var delegateType = request as Type;
 
-            if (targetType == null)
+            if (delegateType == null)
             {
                 return new NoSpecimen(request);
             }
 
-            if (!typeof(Delegate).IsAssignableFrom(targetType))
+            if (!typeof(Delegate).IsAssignableFrom(delegateType))
             {
                 return new NoSpecimen(request);
             }
 
-            var targetMethod = targetType.GetMethod("Invoke");
+            var delegateMethod = delegateType.GetMethod("Invoke");
+            var specimenParams = DelegateGenerator.CreateMethodSpecimenParameters(delegateMethod);
+            var specimenBody = DelegateGenerator.CreateMethodSpecimenBody(specimenParams);
+            var speciment = Expression.Lambda(delegateType, specimenBody, specimenParams).Compile();
 
-            int paramCount = 0;
-            var specimenParams = Array.ConvertAll(
-                targetMethod.GetParameters(),
-                param => Expression.Parameter(param.ParameterType, String.Concat("arg", paramCount++)));
-            var specimenBody = DelegateGenerator.CreateDynamicMethodExpression(specimenParams);
-            
-            return Expression.Lambda(targetType, specimenBody, specimenParams).Compile();
+            return speciment;
         }
 
-        private static Expression CreateDynamicMethodExpression(ParameterExpression[] parameters)
+        private static ParameterExpression[] CreateMethodSpecimenParameters(MethodInfo targetMethod)
+        {
+            int paramCount = 0;
+            var parameters = Array.ConvertAll(
+                targetMethod.GetParameters(),
+                param => Expression.Parameter(param.ParameterType, String.Concat("arg", paramCount++)));
+
+            return parameters;
+        }
+
+        private static Expression CreateMethodSpecimenBody(ParameterExpression[] parameters)
         {
             var paramsToObjectsConversions = Array.ConvertAll(
                 parameters,
