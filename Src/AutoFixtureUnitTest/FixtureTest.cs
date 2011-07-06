@@ -3176,17 +3176,6 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact(Skip = "Support for creating anonymous delegates is currently being added")]
-        public void CreateAnonymousFuncThrowsCorrectException()
-        {
-            // Fixture setup
-            var sut = new Fixture();
-            // Exercise system and verify outcome
-            Assert.Throws<IllegalRequestException>(() =>
-                sut.CreateAnonymous<Func<object>>());
-            // Teardown
-        }
-
         [Fact]
         public void BuildWithOverriddenVirtualPropertyCorrectlySetsProperty()
         {

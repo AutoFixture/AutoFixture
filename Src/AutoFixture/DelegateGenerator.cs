@@ -34,8 +34,11 @@ namespace Ploeh.AutoFixture
             }
 
             var delegateMethod = delegateType.GetMethod("Invoke");
+            var delegateReturnType = delegateMethod.ReturnType;
+            var specimenReturnValue = delegateReturnType != typeof(void) ? context.Resolve(delegateReturnType) : null;
             var specimenParams = DelegateGenerator.CreateMethodSpecimenParameters(delegateMethod);
-            var specimenBody = DelegateGenerator.CreateMethodSpecimenBody(specimenParams);
+            var specimenBody = CreateMethodSpecimenBody(specimenParams, specimenReturnValue);
+
             var speciment = Expression.Lambda(delegateType, specimenBody, specimenParams).Compile();
 
             return speciment;
@@ -51,15 +54,16 @@ namespace Ploeh.AutoFixture
             return parameters;
         }
 
-        private static Expression CreateMethodSpecimenBody(ParameterExpression[] parameters)
+        private static Expression CreateMethodSpecimenBody(ParameterExpression[] parameters, object returnValue)
         {
             var paramsToObjectsConversions = Array.ConvertAll(
                 parameters,
                 param => Expression.Convert(param, typeof(object)));
             var newObjectArray = Expression.NewArrayInit(typeof(object), paramsToObjectsConversions);
 
-            Action<object[]> body = args => { };
-            var methodCall = Expression.Call(null, body.Method, newObjectArray);
+            Func<object[], object> body = args => returnValue;
+            var instance = Expression.Constant(body.Target);
+            var methodCall = Expression.Call(instance, body.Method, newObjectArray);
 
             return methodCall;
         }
