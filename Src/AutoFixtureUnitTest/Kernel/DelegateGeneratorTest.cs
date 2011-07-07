@@ -1,10 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
     public class DelegateGeneratorTest
     {
@@ -33,14 +31,13 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithNullContainerDoesNotThrow()
+        public void CreateWithNullContainerThrowsArgumentNullException()
         {
             // Fixture setup
-            var sut = new DelegateGenerator();
-            // Exercise system
             var dummyRequest = new object();
-            sut.Create(dummyRequest, null);
-            // Verify outcome (no exception indicates success)
+            var sut = new DelegateGenerator();
+            // Exercise system and verify outcome
+            Assert.Throws(typeof(ArgumentNullException), () => sut.Create(dummyRequest, null));
             // Teardown
         }
 

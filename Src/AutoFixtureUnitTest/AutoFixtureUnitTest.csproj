@@ -83,7 +83,6 @@
     <Compile Include="BehaviorPostprocessComposerTest.cs" />
     <Compile Include="BooleanSwitchTest.cs" />
     <Compile Include="ByteSequenceGeneratorTest.cs" />
-    <Compile Include="DelegateGeneratorTest.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="CollectionFillerTest.cs" />
     <Compile Include="CompositeCustomizationTest.cs" />
@@ -113,6 +112,7 @@
     <Compile Include="Kernel\CompositeSpecimenBuilderTest.cs" />
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
     <Compile Include="Kernel\ConstructorMethodTest.cs" />
+    <Compile Include="Kernel\DelegateGeneratorTest.cs" />
     <Compile Include="Kernel\DelegatingConstructorQuery.cs" />
     <Compile Include="DictionaryFillerTest.cs" />
     <Compile Include="Kernel\DictionaryRelayTest.cs" />

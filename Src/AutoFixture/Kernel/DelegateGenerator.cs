@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
     /// Creates new <see cref="Delegate"/> instances.
@@ -17,12 +16,18 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
         /// <param name="context">A context that can be used to create other specimens.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="context"/> is null.</exception>
         /// <returns>
         /// A new <see cref="Delegate"/> instance, if <paramref name="request"/> is a request for a
         /// <see cref="Delegate"/>; otherwise, a <see cref="NoSpecimen"/> instance.
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             var delegateType = request as Type;
 
             if (delegateType == null)
@@ -40,7 +45,7 @@ namespace Ploeh.AutoFixture
             var methodSpecimenBody = DelegateGenerator.CreateMethodSpecimenBody(delegateMethod, context);
 
             var delegateSpecimen = Expression.Lambda(delegateType, methodSpecimenBody, methodSpecimenParams).Compile();
-            
+
             return delegateSpecimen;
         }
 
