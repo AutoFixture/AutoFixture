@@ -913,6 +913,228 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousWithVoidParameterlessDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Action);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Action>>();
+            // Verify outcome
+            Assert.NotEqual<Action>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithVoidSingleObjectParameterDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Action<object>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Action<object>>>();
+            // Verify outcome
+            Assert.NotEqual<Action<object>>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithVoidSingleSpecializedObjectParameterDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedValue = default(Action<string>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Action<string>>>();
+            // Verify outcome
+            Assert.NotEqual<Action<string>>(unexpectedValue, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithVoidSingleValueParameterDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedValue = default(Action<int>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Action<int>>>();
+            // Verify outcome
+            Assert.NotEqual<Action<int>>(unexpectedValue, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithVoidDoubleObjectParametersDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Action<object, object>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Action<object, object>>>();
+            // Verify outcome
+            Assert.NotEqual<Action<object, object>>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithVoidDoubleSpecializedObjectParametersDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Action<string, string>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Action<string, string>>>();
+            // Verify outcome
+            Assert.NotEqual<Action<string, string>>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithVoidDoubleValueParametersDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Action<int, bool>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Action<int, bool>>>();
+            // Verify outcome
+            Assert.NotEqual<Action<int, bool>>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithVoidParameterlessDelegatePropertyWillAssignDelegateNotThrowing()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Action>>();
+            // Verify outcome
+            Assert.DoesNotThrow(() => ((Action)result.Property).Invoke());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithReturnObjectParameterlessDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Func<object>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Func<object>>>();
+            // Verify outcome
+            Assert.NotEqual<Func<object>>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithReturnObjectSingleObjectParameterDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Func<object, object>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Func<object, object>>>();
+            // Verify outcome
+            Assert.NotEqual<Func<object, object>>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithReturnObjectSingleSpecializedObjectParameterDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Func<string, object>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Func<string, object>>>();
+            // Verify outcome
+            Assert.NotEqual<Func<string, object>>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithReturnObjectSingleValueParameterDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Func<int, object>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Func<int, object>>>();
+            // Verify outcome
+            Assert.NotEqual<Func<int, object>>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithReturnValueParameterlessDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Func<int>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Func<int>>>();
+            // Verify outcome
+            Assert.NotEqual<Func<int>>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithReturnValueSingleObjectParameterDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Func<int, object>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Func<int, object>>>();
+            // Verify outcome
+            Assert.NotEqual<Func<int, object>>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithReturnValueSingleSpecializedObjectParameterDelegatePropertyWillAssignNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedDelegate = default(Func<int, string>);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Func<int, string>>>();
+            // Verify outcome
+            Assert.NotEqual<Func<int, string>>(unexpectedDelegate, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithReturnObjectParameterlessDelegatePropertyWillAssignDelegateReturningNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedResult = default(string);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Func<string>>>();
+            // Verify outcome
+            var actualResult = ((Func<string>)result.Property).Invoke();
+            Assert.NotEqual<string>(unexpectedResult, actualResult);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithReturnValueParameterlessDelegatePropertyWillAssignDelegateReturningNonDefaultValue()
+        {
+            // Fixture setup
+            var unexpectedResult = default(int);
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<PropertyHolder<Func<int>>>();
+            // Verify outcome
+            var actualResult = ((Func<int>)result.Property).Invoke();
+            Assert.NotEqual<int>(unexpectedResult, actualResult);
+            // Teardown
+        }
+
+        [Fact]
         public void DefaultRepeatCountIsThree()
         {
             // Fixture setup
@@ -3082,17 +3304,6 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system and verify outcome
             Assert.Throws<IllegalRequestException>(() =>
                 sut.CreateAnonymous<IntPtr>());
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateAnonymousFuncThrowsCorrectException()
-        {
-            // Fixture setup
-            var sut = new Fixture();
-            // Exercise system and verify outcome
-            Assert.Throws<IllegalRequestException>(() =>
-                sut.CreateAnonymous<Func<object>>());
             // Teardown
         }
 
