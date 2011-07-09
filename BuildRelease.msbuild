@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Test">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CopyToReleaseFolder">
   <PropertyGroup>
     <XUnitPath>Lib\xUnit.net 1.6.1</XUnitPath>
   </PropertyGroup>
@@ -7,6 +7,18 @@
 
   <ItemGroup>
     <ProjectToBuild Include="Src\*.sln" />
+  </ItemGroup>
+  <ItemGroup>
+    <BuildOutput Include="Src\AutoFixture\bin\Release\Ploeh.AutoFixture.dll" />
+    <BuildOutput Include="Src\AutoFixture\bin\Release\Ploeh.AutoFixture.XML" />
+    <BuildOutput Include="Src\SemanticComparison\bin\Release\Ploeh.SemanticComparison.dll" />
+    <BuildOutput Include="Src\SemanticComparison\bin\Release\Ploeh.SemanticComparison.XML" />
+    <BuildOutput Include="Src\AutoMoq\bin\Release\Ploeh.AutoFixture.AutoMoq.dll" />
+    <BuildOutput Include="Src\AutoMoq\bin\Release\Ploeh.AutoFixture.AutoMoq.XML" />
+    <BuildOutput Include="Src\AutoRhinoMock\bin\Release\Ploeh.AutoFixture.AutoRhinoMock.dll" />
+    <BuildOutput Include="Src\AutoRhinoMock\bin\Release\Ploeh.AutoFixture.AutoRhinoMock.XML" />
+    <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.dll" />
+    <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.XML" />
   </ItemGroup>
   <PropertyGroup>
     <ReleaseFolder>Release</ReleaseFolder>
@@ -37,5 +49,8 @@
   </Target>
   <Target Name="Test" DependsOnTargets="Build">
     <xunitproject ProjectFile="Src\All.xunit" />
+  </Target>
+  <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
+    <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />
   </Target>
 </Project>
