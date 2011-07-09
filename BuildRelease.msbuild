@@ -8,6 +8,9 @@
   <ItemGroup>
     <ProjectToBuild Include="Src\*.sln" />
   </ItemGroup>
+  <PropertyGroup>
+    <ReleaseFolder>Release</ReleaseFolder>
+  </PropertyGroup>
   <!--Optional Clean targets-->
   <Target Name="CleanAll" DependsOnTargets="CleanDebug;CleanVerify;CleanRelease" />
   <Target Name="CleanDebug">
@@ -20,7 +23,13 @@
     <MSBuild Projects="@(ProjectToBuild)" Targets="Clean" Properties="Configuration=Release" />
   </Target>
   <!--Build tasks-->
-  <Target Name="Verify">
+  <Target Name="DeleteReleaseFolder">
+    <RemoveDir Directories="$(ReleaseFolder)" />
+  </Target>
+  <Target Name="MakeReleaseFolder" DependsOnTargets="DeleteReleaseFolder">
+    <MakeDir Directories="$(ReleaseFolder)" Condition="!Exists($(ReleaseFolder))" />
+  </Target>  
+  <Target Name="Verify" DependsOnTargets="MakeReleaseFolder">
     <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Verify" />
   </Target>
   <Target Name="Build" DependsOnTargets="Verify">
