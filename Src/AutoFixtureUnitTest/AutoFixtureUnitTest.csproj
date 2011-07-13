@@ -100,6 +100,9 @@
     <Compile Include="Dsl\NullComposerTest.cs" />
     <Compile Include="DefaultEnginePartsTest.cs" />
     <Compile Include="EnumGeneratorTest.cs" />
+    <Compile Include="Kernel\CompositeConstructorQueryTest.cs" />
+    <Compile Include="Kernel\FactoryMethodQueryTest.cs" />
+    <Compile Include="Kernel\FactoryMethodTest.cs" />
     <Compile Include="FixtureFreezerTest.cs" />
     <Compile Include="FixtureRegistrarTest.cs" />
     <Compile Include="FreezingCustomizationTest.cs" />

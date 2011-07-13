@@ -136,13 +136,16 @@
     <Compile Include="Kernel\ArrayRelay.cs" />
     <Compile Include="Kernel\CollectionRelay.cs" />
     <Compile Include="Kernel\CollectionSpecification.cs" />
+    <Compile Include="Kernel\CompositeConstructorQuery.cs" />
     <Compile Include="Kernel\ConstructorMethod.cs" />
     <Compile Include="Kernel\DictionaryRelay.cs" />
     <Compile Include="Kernel\DictionarySpecification.cs" />
     <Compile Include="Kernel\DisposableTracker.cs" />
     <Compile Include="Kernel\DisposableTrackingBehavior.cs" />
     <Compile Include="Kernel\EnumerableRelay.cs" />
+    <Compile Include="Kernel\FactoryMethod.cs" />
     <Compile Include="Kernel\HashSetSpecification.cs" />
+    <Compile Include="Kernel\FactoryMethodQuery.cs" />
     <Compile Include="Kernel\ListFavoringConstructorQuery.cs" />
     <Compile Include="Kernel\ListRelay.cs" />
     <Compile Include="Kernel\ListSpecification.cs" />
