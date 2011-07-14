@@ -8,7 +8,7 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class FactoryMethodTest
+    public class StaticMethodTest
     {
         [Theory]
         [InlineData(typeof(TypeWithFactoryMethod))]
@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                           where mi.ReturnType == targetType 
                           select mi).First();
             // Exercise system
-            var sut = new FactoryMethod(method);
+            var sut = new StaticMethod(method);
             // Verify outcome
             Assert.IsAssignableFrom<IMethod>(sut);
             // Teardown
@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new FactoryMethod(null));
+                new StaticMethod(null));
             // Teardown
         }
 
@@ -45,7 +45,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                                       .GetMethods(BindingFlags.Static | BindingFlags.Public)
                                   where mi.ReturnType == targetType
                                   select mi).First();
-            var sut = new FactoryMethod(expectedMethod);
+            var sut = new StaticMethod(expectedMethod);
             // Exercise system
             MethodInfo result = sut.Method;
             // Verify outcome
@@ -64,7 +64,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                           where mi.ReturnType == targetType
                           select mi).ElementAt(index);
             var expectedParameters = method.GetParameters();
-            var sut = new FactoryMethod(method);
+            var sut = new StaticMethod(method);
             // Exercise system
             var result = sut.Parameters;
             // Verify outcome
@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
                           where mi.ReturnType == targetType
                           select mi).First();
-            var sut = new FactoryMethod(method);
+            var sut = new StaticMethod(method);
             // Exercise system
             var result = sut.Invoke(Enumerable.Empty<object>());
             // Verify outcome
@@ -98,7 +98,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
                           where mi.ReturnType == targetType
                           select mi).ElementAt(1); // Index of method with single parameter.
-            var sut = new FactoryMethod(method);
+            var sut = new StaticMethod(method);
             // Exercise system
             var result = sut.Invoke(new[] { parameter });
             // Verify outcome
@@ -114,9 +114,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
                           select mi).First();
             // Exercise system
-            var sut = new FactoryMethod(method);
+            var sut = new StaticMethod(method);
             // Verify outcome
-            Assert.IsAssignableFrom<IEquatable<FactoryMethod>>(sut);
+            Assert.IsAssignableFrom<IEquatable<StaticMethod>>(sut);
             // Teardown
         }
 
@@ -127,7 +127,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var method = (from mi in typeof(TypeWithFactoryMethod)
                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
                           select mi).First();
-            var sut = new FactoryMethod(method);
+            var sut = new StaticMethod(method);
             // Exercise system
             var result = sut.Equals((object)null);
             // Verify outcome
@@ -142,9 +142,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var method = (from mi in typeof(TypeWithFactoryMethod)
                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
                           select mi).First();
-            var sut = new FactoryMethod(method);
+            var sut = new StaticMethod(method);
             // Exercise system
-            var result = sut.Equals((FactoryMethod)null);
+            var result = sut.Equals((StaticMethod)null);
             // Verify outcome
             Assert.False(result);
             // Teardown
@@ -157,7 +157,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var method = (from mi in typeof(TypeWithFactoryMethod) 
                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
                           select mi).First();
-            var sut = new FactoryMethod(method);
+            var sut = new StaticMethod(method);
             // Exercise system
             var result = sut.Equals(new object());
             // Verify outcome
@@ -172,12 +172,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var method1 = (from mi in typeof(TypeWithFactoryMethod)
                                .GetMethods(BindingFlags.Static | BindingFlags.Public)
                            select mi).ElementAt(0);
-            var sut = new FactoryMethod(method1);
+            var sut = new StaticMethod(method1);
 
             var method2 = (from mi in typeof(TypeWithFactoryMethod)
                                .GetMethods(BindingFlags.Static | BindingFlags.Public)
                            select mi).ElementAt(1);
-            object other = new FactoryMethod(method2);
+            object other = new StaticMethod(method2);
 
             // Exercise system
             var result = sut.Equals(other);
@@ -192,8 +192,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var method = (from mi in typeof(TypeWithFactoryMethod)
                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
                           select mi).First();
-            var sut = new FactoryMethod(method);
-            object other = new FactoryMethod(method);
+            var sut = new StaticMethod(method);
+            object other = new StaticMethod(method);
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
@@ -208,7 +208,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var method = (from mi in typeof(TypeWithFactoryMethod)
                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
                           select mi).First();
-            var sut = new FactoryMethod(method);
+            var sut = new StaticMethod(method);
             // Exercise system
             var result = sut.GetHashCode();
             // Verify outcome

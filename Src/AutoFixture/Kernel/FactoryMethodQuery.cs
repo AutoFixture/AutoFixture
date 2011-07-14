@@ -42,7 +42,7 @@ namespace Ploeh.AutoFixture.Kernel
                    where mi.ReturnType == type
                    let parameters = mi.GetParameters()
                    orderby parameters.Length ascending
-                   select new FactoryMethod(mi) as IMethod;
+                   select new StaticMethod(mi) as IMethod;
         }
 
         #endregion

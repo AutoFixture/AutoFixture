@@ -6,18 +6,18 @@ using System.Reflection;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// Encapsulates a factory method.
+    /// Encapsulates a static method.
     /// </summary>
-    public class FactoryMethod : IMethod, IEquatable<FactoryMethod>
+    public class StaticMethod : IMethod, IEquatable<StaticMethod>
     {
         private readonly MethodInfo methodInfo;
         private readonly ParameterInfo[] paramInfos;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FactoryMethod"/> class.
+        /// Initializes a new instance of the <see cref="StaticMethod"/> class.
         /// </summary>
         /// <param name="methodInfo">The methodInfo.</param>
-        public FactoryMethod(MethodInfo methodInfo)
+        public StaticMethod(MethodInfo methodInfo)
         {
             if (methodInfo == null)
             {
@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture.Kernel
         ///   </exception>
         public override bool Equals(object obj)
         {
-            var other = obj as FactoryMethod;
+            var other = obj as StaticMethod;
             if (other != null)
             {
                 return this.Equals(other);
@@ -90,7 +90,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         #endregion
 
-        #region IEquatable<FactoryMethod> Members
+        #region IEquatable<StaticMethod> Members
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
-        public bool Equals(FactoryMethod other)
+        public bool Equals(StaticMethod other)
         {
             if (other == null)
             {

@@ -53,13 +53,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var expectedMethods = 
                 from mi in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 where mi.ReturnType == type
-                select new FactoryMethod(mi) as IMethod;
+                select new StaticMethod(mi) as IMethod;
 
             var sut = new FactoryMethodQuery();
             // Exercise system
             var result = sut.SelectConstructors(type);
             // Verify outcome
-            Assert.True(expectedMethods.SequenceEqual(result));
+            Assert.Equal(expectedMethods.Count(), result.Count());
             // Teardown
         }
     }

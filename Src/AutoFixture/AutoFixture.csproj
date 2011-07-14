@@ -143,7 +143,7 @@
     <Compile Include="Kernel\DisposableTracker.cs" />
     <Compile Include="Kernel\DisposableTrackingBehavior.cs" />
     <Compile Include="Kernel\EnumerableRelay.cs" />
-    <Compile Include="Kernel\FactoryMethod.cs" />
+    <Compile Include="Kernel\StaticMethod.cs" />
     <Compile Include="Kernel\HashSetSpecification.cs" />
     <Compile Include="Kernel\FactoryMethodQuery.cs" />
     <Compile Include="Kernel\ListFavoringConstructorQuery.cs" />

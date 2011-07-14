@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new CompositeConstructorQuery();
             // Exercise system
-            IList<IConstructorQuery> result = sut.Queries;
+            IEnumerable<IConstructorQuery> result = sut.Queries;
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
@@ -98,23 +98,27 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SelectWillReturnResultsInCorrectSequence(Type type)
         {
             // Fixture setup
-            var expectedConstructors = new List<IMethod>();
-            
-            expectedConstructors.AddRange(from ci in type.GetConstructors()
-                                          let parameters = ci.GetParameters()
-                                          orderby parameters.Length ascending // Modest
-                                          select new ConstructorMethod(ci) as IMethod);
+            IEnumerable<IMethod> modestConstructors = from ci in type.GetConstructors()
+                                                      let parameters = ci.GetParameters()
+                                                      orderby parameters.Length ascending
+                                                      select new ConstructorMethod(ci) as IMethod;
 
-            expectedConstructors.AddRange(from ci in type.GetConstructors()
-                                          let parameters = ci.GetParameters()
-                                          orderby parameters.Length descending // Greedy
-                                          select new ConstructorMethod(ci) as IMethod);
+            IEnumerable<IMethod> greedyConstructors = from ci in type.GetConstructors()
+                                                      let parameters = ci.GetParameters()
+                                                      orderby parameters.Length descending
+                                                      select new ConstructorMethod(ci) as IMethod;
+
+            var expectedConstructors = new List<IMethod>();
+            expectedConstructors.AddRange(modestConstructors);
+            expectedConstructors.AddRange(greedyConstructors);
 
             var queries = new IConstructorQuery[]
             {
-                new ModestConstructorQuery(),
-                new GreedyConstructorQuery()
+                new DelegatingConstructorQuery { OnSelectConstructors = t => modestConstructors },
+                new DelegatingConstructorQuery { OnSelectConstructors = t => greedyConstructors },
+                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() }
             };
+
             var sut = new CompositeConstructorQuery(queries);
             // Exercise system
             var result = sut.SelectConstructors(type);

@@ -9,15 +9,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class CompositeConstructorQuery : IConstructorQuery
     {
-        private readonly List<IConstructorQuery> queries;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CompositeConstructorQuery"/> class.
-        /// </summary>
-        public CompositeConstructorQuery()
-            : this(Enumerable.Empty<IConstructorQuery>())
-        {
-        }
+        private readonly IEnumerable<IConstructorQuery> queries;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeConstructorQuery"/> class.
@@ -45,7 +37,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the child builders.
         /// </summary>
-        public IList<IConstructorQuery> Queries
+        public IEnumerable<IConstructorQuery> Queries
         {
             get { return this.queries; }
         }
@@ -72,9 +64,9 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
         public IEnumerable<IMethod> SelectConstructors(Type type)
         {
-            return (from q in this.Queries
-                    let result = q.SelectConstructors(type)
-                    select result).SelectMany(x => x);
+            return (from query in this.Queries
+                    from result in query.SelectConstructors(type)
+                    select result);
         }
 
         #endregion
