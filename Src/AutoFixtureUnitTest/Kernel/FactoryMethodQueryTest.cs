@@ -50,16 +50,18 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SelectFromTypeReturnsCorrectResult(Type type)
         {
             // Fixture setup
-            var expectedMethods = 
+            var expectedMethods =
                 from mi in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 where mi.ReturnType == type
+                let parameters = mi.GetParameters()
+                orderby parameters.Length ascending
                 select new StaticMethod(mi) as IMethod;
 
             var sut = new FactoryMethodQuery();
             // Exercise system
             var result = sut.SelectConstructors(type);
             // Verify outcome
-            Assert.Equal(expectedMethods.Count(), result.Count());
+            Assert.True(expectedMethods.SequenceEqual(result));
             // Teardown
         }
     }
