@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class FactoryMethodQuery : IConstructorQuery
     {
-        #region IConstructorPicker Members
+        #region IConstructorQuery Members
 
         /// <summary>
         /// Selects the public factory methods for the supplied type.

@@ -47,6 +47,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
         [Theory]
         [InlineData(typeof(TypeWithFactoryMethod))]
+        [InlineData(typeof(TypeWithFactoryProperty))]
         public void SelectFromTypeReturnsCorrectResult(Type type)
         {
             // Fixture setup

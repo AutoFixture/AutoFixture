@@ -50,15 +50,15 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedQueries = new IConstructorQuery[]
             {
-                new ModestConstructorQuery(),
-                new GreedyConstructorQuery(),
-                new ListFavoringConstructorQuery()
+                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() },
+                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() },
+                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() }
             }.AsEnumerable();
             var sut = new CompositeConstructorQuery(expectedQueries);
             // Exercise system
             var result = sut.Queries;
             // Verify outcome
-            Assert.True(expectedQueries.SequenceEqual(result), "Builders");
+            Assert.True(expectedQueries.SequenceEqual(result));
             // Teardown
         }
 
@@ -79,15 +79,34 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedQueries = new IConstructorQuery[]
             {
-                new ModestConstructorQuery(),
-                new GreedyConstructorQuery(),
-                new ListFavoringConstructorQuery()
+                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() },
+                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() },
+                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() }
             };
             var sut = new CompositeConstructorQuery(expectedQueries[0], expectedQueries[1], expectedQueries[2]);
             // Exercise system
             var result = sut.Queries;
             // Verify outcome
-            Assert.True(expectedQueries.SequenceEqual(result), "Queries");
+            Assert.True(expectedQueries.SequenceEqual(result));
+            // Teardown
+        }
+
+
+        [Fact]
+        public void QueriesWillNotMatchParamsArray()
+        {
+            // Fixture setup
+            var expectedQueries = new IConstructorQuery[]
+            {
+                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() },
+                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() },
+                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() }
+            };
+            var sut = new CompositeConstructorQuery(expectedQueries[0], expectedQueries[2], expectedQueries[1]);
+            // Exercise system
+            var result = sut.Queries;
+            // Verify outcome
+            Assert.False(expectedQueries.SequenceEqual(result));
             // Teardown
         }
 

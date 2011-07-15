@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("queries");
             }
 
-            this.queries = queries.ToList();
+            this.queries = queries;
         }
 
         /// <summary>
