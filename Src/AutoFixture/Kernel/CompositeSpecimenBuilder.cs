@@ -56,7 +56,7 @@ namespace Ploeh.AutoFixture.Kernel
         #region ISpecimenBuilder Members
 
         /// <summary>
-        /// Createa a new specimen by delegating to <see cref="Builders"/>.
+        /// Creates a new specimen by delegating to <see cref="Builders"/>.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
         /// <param name="context">A container that can be used to create other specimens.</param>

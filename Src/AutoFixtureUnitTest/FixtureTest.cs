@@ -1134,6 +1134,28 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]        
+        public void CreateAnonymousWithTypeWithFactoryMethodWillInvokeFactoryMethod()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var result = fixture.CreateAnonymous<TypeWithFactoryMethod>();
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithTypeWithFactoryPropertyWillInvokeFactoryProperty()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var result = fixture.CreateAnonymous<TypeWithFactoryProperty>();
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
         [Fact]
         public void DefaultRepeatCountIsThree()
         {

@@ -1,9 +1,6 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ploeh.AutoFixture.Kernel;
-using System.Collections;
 
 namespace Ploeh.AutoFixture
 {
@@ -36,7 +33,10 @@ namespace Ploeh.AutoFixture
         public virtual IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
             yield return new ArrayRelay();
-            yield return new ConstructorInvoker(new ModestConstructorQuery());
+            yield return new ConstructorInvoker(
+                new CompositeConstructorQuery(
+                    new ModestConstructorQuery(), 
+                    new FactoryMethodQuery()));
             yield return new ParameterRequestRelay();
             yield return new PropertyRequestRelay();
             yield return new FieldRequestRelay();
