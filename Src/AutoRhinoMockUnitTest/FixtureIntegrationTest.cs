@@ -169,7 +169,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<Type>();
+            var result = fixture.CreateAnonymous<AbstractType>();
             // Verify outcome
             Assert.NotNull(result.GetMockRepository());
         }
