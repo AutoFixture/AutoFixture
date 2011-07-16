@@ -16,4 +16,4 @@ glob:*.testrunconfig
 glob:AutoFixtureLogo200x200.png
 glob:AutoFixtureLogo100x100.png
 glob:*.docstates
-glob:Src/AutoFixture_mm_cache.bin
+glob:Src/*_mm_cache.bin
