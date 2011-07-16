@@ -50,9 +50,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedQueries = new IConstructorQuery[]
             {
-                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() },
-                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() },
-                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() }
+                new DelegatingConstructorQuery(),
+                new DelegatingConstructorQuery(),
+                new DelegatingConstructorQuery()
             }.AsEnumerable();
             var sut = new CompositeConstructorQuery(expectedQueries);
             // Exercise system
@@ -79,11 +79,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedQueries = new IConstructorQuery[]
             {
-                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() },
-                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() },
-                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() }
+                new DelegatingConstructorQuery(),
+                new DelegatingConstructorQuery(),
+                new DelegatingConstructorQuery()
             };
-            var sut = new CompositeConstructorQuery(expectedQueries[0], expectedQueries[1], expectedQueries[2]);
+            var sut = new CompositeConstructorQuery(expectedQueries);
             // Exercise system
             var result = sut.Queries;
             // Verify outcome
@@ -91,16 +91,15 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-
         [Fact]
         public void QueriesWillNotMatchParamsArray()
         {
             // Fixture setup
             var expectedQueries = new IConstructorQuery[]
             {
-                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() },
-                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() },
-                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() }
+                new DelegatingConstructorQuery(),
+                new DelegatingConstructorQuery(),
+                new DelegatingConstructorQuery()
             };
             var sut = new CompositeConstructorQuery(expectedQueries[0], expectedQueries[2], expectedQueries[1]);
             // Exercise system
@@ -135,7 +134,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             {
                 new DelegatingConstructorQuery { OnSelectConstructors = t => modestConstructors },
                 new DelegatingConstructorQuery { OnSelectConstructors = t => greedyConstructors },
-                new DelegatingConstructorQuery { OnSelectConstructors = t => Enumerable.Empty<IMethod>() }
+                new DelegatingConstructorQuery()
             };
 
             var sut = new CompositeConstructorQuery(queries);
