@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             sut.Customize(fixtureStub);
             // Verify outcome
             var postprocessor = residueCollectors.OfType<RhinoMockAroundAdvice>().Single();
-            var ctorInvoker = Assert.IsAssignableFrom<ConstructorInvoker>(postprocessor.Builder);
+            var ctorInvoker = Assert.IsAssignableFrom<MethodInvoker>(postprocessor.Builder);
             Assert.IsAssignableFrom<RhinoMockConstructorQuery>(ctorInvoker.Query);
             // Teardown
         }

@@ -9,7 +9,9 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
     /// <summary>
     /// Selects appropriate constructors to create mock instances with Rhino Mocks.
     /// </summary>
-    public class RhinoMockConstructorQuery : IConstructorQuery
+#pragma warning disable 618
+    public class RhinoMockConstructorQuery : IMethodQuery, IConstructorQuery
+#pragma warning restore 618
     {
         #region IConstructorQuery Members
 
@@ -27,6 +29,15 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
         /// </para>
         /// </remarks>
         public IEnumerable<IMethod> SelectConstructors(Type type)
+        {
+            return this.SelectMethods(type);
+        }
+
+        #endregion
+
+        #region IMethodQuery Members
+
+        public IEnumerable<IMethod> SelectMethods(Type type)
         {
             if (type == null)
             {
