@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Greedy
         {
             var fixture = new Fixture();
             fixture.Customize<Bastard>(c => c.FromFactory(
-                new ConstructorInvoker(
+                new MethodInvoker(
                     new GreedyConstructorQuery())));
             fixture.Register<IFoo>(
                 fixture.CreateAnonymous<DummyFoo>);
@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Greedy
         {
             var fixture = new Fixture();
             fixture.Customizations.Add(
-                new ConstructorInvoker(
+                new MethodInvoker(
                     new GreedyConstructorQuery()));
             fixture.Register<IFoo>(
                 fixture.CreateAnonymous<DummyFoo>);
