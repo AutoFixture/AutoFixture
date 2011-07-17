@@ -9,7 +9,9 @@ namespace Ploeh.AutoFixture.AutoMoq
     /// <summary>
     /// Selects appropriate constructors to create <see cref="Moq.Mock{T}"/> instances.
     /// </summary>
-    public class MockConstructorQuery : IConstructorQuery
+#pragma warning disable 618
+    public class MockConstructorQuery : IMethodQuery, IConstructorQuery
+#pragma warning restore 618
     {
         #region IConstructorQuery Members
 
@@ -37,6 +39,15 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// </para>
         /// </remarks>
         public IEnumerable<IMethod> SelectConstructors(Type type)
+        {
+            return this.SelectMethods(type);
+        }
+
+        #endregion
+
+        #region IMethodQuery Members
+
+        public IEnumerable<IMethod> SelectMethods(Type type)
         {
             if (!type.IsMock())
             {
