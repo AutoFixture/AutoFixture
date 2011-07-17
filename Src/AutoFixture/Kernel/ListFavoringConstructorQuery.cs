@@ -15,7 +15,9 @@ namespace Ploeh.AutoFixture.Kernel
     /// <see cref="System.Collections.ObjectModel.Collection{T}(IList{T})" /> before any other
     /// constructor. This can be used to populate a Collection instance with a list of items.
     /// </remarks>
-    public class ListFavoringConstructorQuery : IConstructorQuery
+#pragma warning disable 618
+    public class ListFavoringConstructorQuery : IMethodQuery, IConstructorQuery
+#pragma warning restore 618
     {
         #region IConstructorQuery Members
 
@@ -40,6 +42,15 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
         /// <seealso cref="ListFavoringConstructorQuery" />
         public IEnumerable<IMethod> SelectConstructors(Type type)
+        {
+            return this.SelectMethods(type);
+        }
+
+        #endregion
+
+        #region IMethodQuery Members
+
+        public IEnumerable<IMethod> SelectMethods(Type type)
         {
             if (type == null)
             {
