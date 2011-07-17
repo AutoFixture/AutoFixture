@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture
     public class ConstructorCustomization : ICustomization
     {
         private readonly Type targetType;
-        private readonly IConstructorQuery query;
+        private readonly IMethodQuery query;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstructorCustomization"/> class.
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixture
         /// <param name="query">
         /// The query that selects a constructor for <paramref name="targetType"/>.
         /// </param>
-        public ConstructorCustomization(Type targetType, IConstructorQuery query)
+        public ConstructorCustomization(Type targetType, IMethodQuery query)
         {
             if (targetType == null)
             {
@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixture
         /// <summary>
         /// Gets the query that selects a constructor for <see cref="TargetType"/>.
         /// </summary>
-        public IConstructorQuery Query
+        public IMethodQuery Query
         {
             get { return this.query; }
         }
@@ -71,7 +71,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            var factory = new ConstructorInvoker(this.Query);
+            var factory = new MethodInvoker(this.Query);
             var composer = new TypedBuilderComposer(this.TargetType, factory);
 
             fixture.Customizations.Insert(0, composer.Compose());

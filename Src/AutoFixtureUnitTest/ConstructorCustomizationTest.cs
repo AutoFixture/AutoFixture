@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyType = typeof(object);
-            var dummyQuery = new DelegatingConstructorQuery();
+            var dummyQuery = new DelegatingMethodQuery();
             // Exercise system
             var sut = new ConstructorCustomization(dummyType, dummyQuery);
             // Verify outcome
@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void InitializeWithNullTypeThrows()
         {
             // Fixture setup
-            var dummyQuery = new DelegatingConstructorQuery();
+            var dummyQuery = new DelegatingMethodQuery();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new ConstructorCustomization(null, dummyQuery));
@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var expectedType = typeof(string);
-            var dummyQuery = new DelegatingConstructorQuery();
+            var dummyQuery = new DelegatingMethodQuery();
             var sut = new ConstructorCustomization(expectedType, dummyQuery);
             // Exercise system
             Type result = sut.TargetType;
@@ -66,10 +66,10 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyType = typeof(object);
-            var expectedQuery = new DelegatingConstructorQuery();
+            var expectedQuery = new DelegatingMethodQuery();
             var sut = new ConstructorCustomization(dummyType, expectedQuery);
             // Exercise system
-            IConstructorQuery result = sut.Query;
+            IMethodQuery result = sut.Query;
             // Verify outcome
             Assert.Equal(expectedQuery, result);
             // Teardown
@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyType = typeof(object);
-            var dummyQuery = new DelegatingConstructorQuery();
+            var dummyQuery = new DelegatingMethodQuery();
             var sut = new ConstructorCustomization(dummyType, dummyQuery);
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
