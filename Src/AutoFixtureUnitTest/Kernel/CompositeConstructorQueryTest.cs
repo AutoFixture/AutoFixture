@@ -8,6 +8,7 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
+#pragma warning disable 618
     public class CompositeConstructorQueryTest
     {
         [Fact]
@@ -145,4 +146,5 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
     }
+#pragma warning restore 618
 }

@@ -7,7 +7,9 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
+#pragma warning disable 618
     public class DelegatingConstructorQuery : IConstructorQuery
+#pragma warning restore 618
     {
         public DelegatingConstructorQuery()
         {
