@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// Selects public constructors ordered by the most greedy constructor first.
     /// </summary>
-    public class GreedyConstructorQuery : IConstructorQuery
+    public class GreedyConstructorQuery : IMethodQuery, IConstructorQuery
     {
         #region IConstructorQuery Members
 
@@ -33,6 +33,23 @@ namespace Ploeh.AutoFixture.Kernel
         /// </para>
         /// </remarks>
         public IEnumerable<IMethod> SelectConstructors(Type type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
+            return from ci in type.GetConstructors()
+                   let parameters = ci.GetParameters()
+                   orderby parameters.Length descending
+                   select new ConstructorMethod(ci) as IMethod;
+        }
+
+        #endregion
+
+        #region IMethodQuery Members
+
+        public IEnumerable<IMethod> SelectMethods(Type type)
         {
             if (type == null)
             {
