@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (queries == null)
             {
-                throw new ArgumentNullException("parameterToCheck");
+                throw new ArgumentNullException("queries");
             }
             
             this.queries = queries;
