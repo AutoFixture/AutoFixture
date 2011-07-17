@@ -56,23 +56,23 @@ namespace Ploeh.AutoFixture
             fixture.Customizations.Add(
                 new FilteringSpecimenBuilder(
                     new Postprocessor(
-                        new ConstructorInvoker(
+                        new MethodInvoker(
                             new ModestConstructorQuery()),
                         DictionaryFiller.AddMany),
                     new DictionarySpecification()));
             fixture.Customizations.Add(
                 new FilteringSpecimenBuilder(
-                    new ConstructorInvoker(
+                    new MethodInvoker(
                         new ListFavoringConstructorQuery()),
                     new CollectionSpecification()));
             fixture.Customizations.Add(
                 new FilteringSpecimenBuilder(
-                    new ConstructorInvoker(
+                    new MethodInvoker(
                         new EnumerableFavoringConstructorQuery()),
                     new HashSetSpecification()));
             fixture.Customizations.Add(
                 new FilteringSpecimenBuilder(
-                    new ConstructorInvoker(
+                    new MethodInvoker(
                         new EnumerableFavoringConstructorQuery()),
                     new ListSpecification()));
         }

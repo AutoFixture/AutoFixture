@@ -66,8 +66,8 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.True(fixture.Customizations
                 .OfType<FilteringSpecimenBuilder>()
                 .Where(b => specificationType.IsAssignableFrom(b.Specification.GetType()))
-                .Where(b => typeof(ConstructorInvoker).IsAssignableFrom(b.Builder.GetType()))
-                .Select(b => (ConstructorInvoker)b.Builder)
+                .Where(b => typeof(MethodInvoker).IsAssignableFrom(b.Builder.GetType()))
+                .Select(b => (MethodInvoker)b.Builder)
                 .Where(i => queryType.IsAssignableFrom(i.Query.GetType()))
                 .Any());
             // Teardown
@@ -88,8 +88,8 @@ namespace Ploeh.AutoFixtureUnitTest
                 .Where(b => typeof(Postprocessor).IsAssignableFrom(b.Builder.GetType()))
                 .Select(b => (Postprocessor)b.Builder)
                 .Where(p => p.Action == DictionaryFiller.AddMany)
-                .Where(p => typeof(ConstructorInvoker).IsAssignableFrom(p.Builder.GetType()))
-                .Select(p => (ConstructorInvoker)p.Builder)
+                .Where(p => typeof(MethodInvoker).IsAssignableFrom(p.Builder.GetType()))
+                .Select(p => (MethodInvoker)p.Builder)
                 .Where(i => typeof(ModestConstructorQuery).IsAssignableFrom(i.Query.GetType()))
                 .Any());
             // Teardown

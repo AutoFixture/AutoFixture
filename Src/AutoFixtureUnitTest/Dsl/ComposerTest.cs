@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             ISpecimenBuilder result = sut.Factory;
             // Verify outcome
-            Assert.IsAssignableFrom<ConstructorInvoker>(result);
+            Assert.IsAssignableFrom<MethodInvoker>(result);
             // Teardown
         }
 

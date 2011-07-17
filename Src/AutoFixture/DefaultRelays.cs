@@ -33,8 +33,8 @@ namespace Ploeh.AutoFixture
         public virtual IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
             yield return new ArrayRelay();
-            yield return new ConstructorInvoker(
-                new CompositeConstructorQuery(
+            yield return new MethodInvoker(
+                new CompositeMethodQuery(
                     new ModestConstructorQuery(), 
                     new FactoryMethodQuery()));
             yield return new ParameterRequestRelay();
