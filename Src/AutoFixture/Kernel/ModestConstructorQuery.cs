@@ -44,6 +44,26 @@ namespace Ploeh.AutoFixture.Kernel
 
         #region IMethodQuery Members
 
+        /// <summary>
+        /// Selects the constructors for the supplied type.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>
+        /// All public constructors for <paramref name="type"/>, ordered by the most modest
+        /// constructor first.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The ordering of the returned constructors is based on the number of parameters of the
+        /// constructor. Constructors with fewer parameters are returned before constructors with
+        /// more parameters. This means that if a default constructor exists, it will be the first
+        /// one returned.
+        /// </para>
+        /// <para>
+        /// In case of two constructors with an equal number of parameters, the ordering is
+        /// unspecified.
+        /// </para>
+        /// </remarks>
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
             if (type == null)
