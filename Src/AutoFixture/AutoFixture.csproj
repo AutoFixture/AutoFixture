@@ -137,6 +137,7 @@
     <Compile Include="Kernel\CollectionRelay.cs" />
     <Compile Include="Kernel\CollectionSpecification.cs" />
     <Compile Include="Kernel\CompositeConstructorQuery.cs" />
+    <Compile Include="Kernel\CompositeMethodQuery.cs" />
     <Compile Include="Kernel\ConstructorMethod.cs" />
     <Compile Include="Kernel\DelegateGenerator.cs" />
     <Compile Include="Kernel\DictionaryRelay.cs" />
