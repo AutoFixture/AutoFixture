@@ -87,15 +87,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoundaryBehavior.cs" />
+    <Compile Include="CompositeBehaviorExpectation.cs" />
     <Compile Include="CompositeBoundaryConvention.cs" />
     <Compile Include="CompositeMemberContext.cs" />
     <Compile Include="CompositeMethodContext.cs" />
     <Compile Include="CompositePropertyContext.cs" />
+    <Compile Include="IExpansion.cs" />
+    <Compile Include="MethodInvokeCommand.cs" />
+    <Compile Include="GuardClauseException.cs" />
+    <Compile Include="IBehaviorExpectation.cs" />
+    <Compile Include="NullReferenceBehaviorExpectation.cs" />
+    <Compile Include="PropertySetCommand.cs" />
     <Compile Include="DefaultBoundaryConvention.cs" />
     <Compile Include="EmptyStringBehavior.cs" />
     <Compile Include="ExceptionBoundaryBehavior.cs" />
+    <Compile Include="GuardClauseAssertion.cs" />
     <Compile Include="GuidBoundaryBehavior.cs" />
     <Compile Include="IBoundaryBehavior.cs" />
+    <Compile Include="IGuardClauseCommand.cs" />
+    <Compile Include="IdiomaticAssertion.cs" />
+    <Compile Include="IIdiomaticAssertion.cs" />
     <Compile Include="IMemberContext.cs" />
     <Compile Include="IMethodContext.cs" />
     <Compile Include="IPropertyContext.cs" />
@@ -103,6 +114,7 @@
     <Compile Include="NullReferenceBehavior.cs" />
     <Compile Include="ReflectionExceptionBoundaryBehavior.cs" />
     <Compile Include="ReferenceTypeBoundaryConvention.cs" />
+    <Compile Include="ReflectionExceptionUnwrappingCommand.cs" />
     <Compile Include="SpecimenBuilderComposer.cs" />
     <Compile Include="StringBoundaryConvention.cs" />
     <Compile Include="BoundaryConventionException.cs" />
@@ -114,6 +126,8 @@
     <Compile Include="SpecimenBuilderComposerIdioms.cs" />
     <Compile Include="Reflect.cs" />
     <Compile Include="MemberContext.cs" />
+    <Compile Include="WritablePropertyAssertion.cs" />
+    <Compile Include="WritablePropertyException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

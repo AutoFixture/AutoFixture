@@ -10,13 +10,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyWritableForProperty()
         {
-            new Fixture().ForProperty((PropertyHolder<object> sut) => sut.Property).VerifyWritable();
+            var fixture = new Fixture();
+            var assertion = new WritablePropertyAssertion(fixture);
+            var property = typeof(PropertyHolder<object>).GetProperty("Property");
+            assertion.Verify(property);
         }
 
         [Fact]
         public void VerifyBoundariesForProperty()
         {
-            new Fixture().ForProperty((GuardedPropertyHolder<object> sut) => sut.Property).VerifyBoundaries();
+            var fixture = new Fixture();
+            var assertion = new GuardClauseAssertion(fixture);
+            var property = typeof(GuardedPropertyHolder<object>).GetProperty("Property");
+            assertion.Verify(property);
         }
 
         [Fact]
@@ -34,19 +40,28 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyBoundariesForAllPropertiesOnMutableClass()
         {
-            new Fixture().ForAllPropertiesOf<GuardedPropertyHolder<Version>>().VerifyBoundaries();
+            var fixture = new Fixture();
+            var assertion = new GuardClauseAssertion(fixture);
+            var properties = typeof(GuardedPropertyHolder<Version>).GetProperties();
+            assertion.Verify(properties);
         }
 
         [Fact]
         public void VerifyBoundariesForAllPropertiesOnImmutableClass()
         {
-            new Fixture().ForAllPropertiesOf<DoubleParameterType<string, object>>().VerifyBoundaries();
+            var fixture = new Fixture();
+            var assertion = new GuardClauseAssertion(fixture);
+            var properties = typeof(DoubleParameterType<string, object>).GetProperties();
+            assertion.Verify(properties);
         }
 
         [Fact]
         public void VerifyWritableForAllPropertiesOnMutableClass()
         {
-            new Fixture().ForAllPropertiesOf<DoublePropertyHolder<string, int>>().VerifyWritable();
+            var fixture = new Fixture();
+            var assertion = new WritablePropertyAssertion(fixture);
+            var properties = typeof(DoublePropertyHolder<string, int>).GetProperties();
+            assertion.Verify(properties);
         }
 
         [Fact]
