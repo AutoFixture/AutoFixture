@@ -95,7 +95,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new DecimalSequenceGenerator(),
                 new BooleanSwitch(),
                 new GuidGenerator(),
-                new ConstructorInvoker(new ModestConstructorQuery()),
+                new MethodInvoker(new ModestConstructorQuery()),
                 new ParameterRequestRelay(),
                 new StringSeedRelay(),
                 new SeedIgnoringRelay());
@@ -113,7 +113,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateAndAddProperyValues()
         {
             // Fixture setup
-            var ctorInvoker = new ConstructorInvoker(new ModestConstructorQuery());
+            var ctorInvoker = new MethodInvoker(new ModestConstructorQuery());
             var strCmd = new BindingCommand<DoublePropertyHolder<string, int>, string>(ph => ph.Property1);
             var intCmd = new BindingCommand<DoublePropertyHolder<string, int>, int>(ph => ph.Property2);
             var strPostprocessor = new Postprocessor<DoublePropertyHolder<string, int>>(ctorInvoker, strCmd.Execute);
@@ -189,7 +189,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var customizedBuilder = new Postprocessor<DoublePropertyHolder<string, int>>(
                 new Postprocessor<DoublePropertyHolder<string, int>>(
-                    new ConstructorInvoker(new ModestConstructorQuery()),
+                    new MethodInvoker(new ModestConstructorQuery()),
                     specifiedCommand.Execute),
                 new AutoPropertiesCommand<DoublePropertyHolder<string, int>>(reservedProperty).Execute,
                 new AnyTypeSpecification());
@@ -503,7 +503,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new DecimalSequenceGenerator(),
                 new BooleanSwitch(),
                 new GuidGenerator(),
-                new ConstructorInvoker(new ModestConstructorQuery()),
+                new MethodInvoker(new ModestConstructorQuery()),
                 new ParameterRequestRelay(),
                 new PropertyRequestRelay(),
                 new FieldRequestRelay(),

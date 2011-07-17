@@ -672,7 +672,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
 
             internal SutBuilder()
             {
-                this.factory = new ConstructorInvoker(new ModestConstructorQuery());
+                this.factory = new MethodInvoker(new ModestConstructorQuery());
                 this.postprocessors = new List<ISpecifiedSpecimenCommand<T>>();
             }
 

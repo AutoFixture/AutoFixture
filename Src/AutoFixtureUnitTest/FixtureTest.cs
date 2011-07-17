@@ -3383,7 +3383,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
             sut.ResidueCollectors.Add(new EnumerableRelay());
             // Exercise system
             var result = sut.CreateAnonymous<List<string>>();
@@ -3397,7 +3397,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new EnumerableFavoringConstructorQuery()), new HashSetSpecification()));
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new HashSetSpecification()));
             sut.ResidueCollectors.Add(new EnumerableRelay());
             // Exercise system
             var result = sut.CreateAnonymous<HashSet<float>>();
@@ -3411,7 +3411,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
             sut.ResidueCollectors.Add(new EnumerableRelay());
             sut.ResidueCollectors.Add(new ListRelay());
             // Exercise system
@@ -3426,7 +3426,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
             sut.ResidueCollectors.Add(new EnumerableRelay());
             sut.ResidueCollectors.Add(new CollectionRelay());
             // Exercise system
@@ -3441,8 +3441,8 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new ConstructorInvoker(new ListFavoringConstructorQuery()), new CollectionSpecification()));
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new ListFavoringConstructorQuery()), new CollectionSpecification()));
             sut.ResidueCollectors.Add(new EnumerableRelay());
             sut.ResidueCollectors.Add(new ListRelay());
             // Exercise system
@@ -3457,7 +3457,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new ConstructorInvoker(new ModestConstructorQuery()), DictionaryFiller.AddMany), new DictionarySpecification()));
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new MethodInvoker(new ModestConstructorQuery()), DictionaryFiller.AddMany), new DictionarySpecification()));
             // Exercise system
             var result = sut.CreateAnonymous<Dictionary<int, string>>();
             // Verify outcome
@@ -3470,7 +3470,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new ConstructorInvoker(new ModestConstructorQuery()), DictionaryFiller.AddMany), new DictionarySpecification()));
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new MethodInvoker(new ModestConstructorQuery()), DictionaryFiller.AddMany), new DictionarySpecification()));
             sut.ResidueCollectors.Add(new DictionaryRelay());
             // Exercise system
             var result = sut.CreateAnonymous<IDictionary<TimeSpan, Version>>();
@@ -3555,7 +3555,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture();
             fixture.Customizations.Add(new Postprocessor(
-                new ConstructorInvoker(new GreedyConstructorQuery()),
+                new MethodInvoker(new GreedyConstructorQuery()),
                 new AutoPropertiesCommand().Execute,
                 new AnyTypeSpecification()));
             // Exercise system
