@@ -10,6 +10,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Creates a new instance of the requested type by invoking the first constructor it can
     /// satisfy.
     /// </summary>
+    [Obsolete("Use MethodInvoker instead.")]
     public class ConstructorInvoker : ISpecimenBuilder
     {
         private readonly IConstructorQuery query;
