@@ -96,7 +96,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             sut.Customize(fixtureStub.Object);
             // Verify outcome
             var postprocessor = customizations.OfType<MockPostprocessor>().Single();
-            var ctorInvoker = Assert.IsAssignableFrom<ConstructorInvoker>(postprocessor.Builder);
+            var ctorInvoker = Assert.IsAssignableFrom<MethodInvoker>(postprocessor.Builder);
             Assert.IsAssignableFrom<MockConstructorQuery>(ctorInvoker.Query);
             // Teardown
         }

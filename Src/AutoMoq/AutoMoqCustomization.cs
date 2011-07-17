@@ -61,7 +61,7 @@ namespace Ploeh.AutoFixture.AutoMoq
 
             fixture.Customizations.Add(
                 new MockPostprocessor(
-                    new ConstructorInvoker(
+                    new MethodInvoker(
                         new MockConstructorQuery())));
             fixture.ResidueCollectors.Add(this.Relay);
         }

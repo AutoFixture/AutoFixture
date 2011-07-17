@@ -11,6 +11,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 {
     public class MockConstructorQueryTest
     {
+#pragma warning disable 618
         [Fact]
         public void SutIsConstructorQuery()
         {
@@ -21,6 +22,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             Assert.IsAssignableFrom<IConstructorQuery>(sut);
             // Teardown
         }
+#pragma warning restore 618
 
         [Fact]
         public void SutIsMethodQuery()
