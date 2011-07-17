@@ -9,7 +9,9 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// Selects public constructors ordered by the most modest constructor first.
     /// </summary>
-    public class ModestConstructorQuery : IConstructorQuery
+#pragma warning disable 618
+    public class ModestConstructorQuery : IMethodQuery, IConstructorQuery
+#pragma warning restore 618
     {
         #region IConstructorPicker Members
 
@@ -34,6 +36,15 @@ namespace Ploeh.AutoFixture.Kernel
         /// </para>
         /// </remarks>
         public IEnumerable<IMethod> SelectConstructors(Type type)
+        {
+            return this.SelectMethods(type);
+        }
+
+        #endregion
+
+        #region IMethodQuery Members
+
+        public IEnumerable<IMethod> SelectMethods(Type type)
         {
             if (type == null)
             {
