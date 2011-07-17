@@ -15,7 +15,9 @@ namespace Ploeh.AutoFixture.Kernel
     /// <see cref="List{T}(IEnumerable{T})" /> before any other constructor. This can be used to
     /// populate a list instance with a sequence of items.
     /// </remarks>
-    public class EnumerableFavoringConstructorQuery : IConstructorQuery
+#pragma warning disable 618
+    public class EnumerableFavoringConstructorQuery : IMethodQuery, IConstructorQuery
+#pragma warning restore 618
     {
         #region IConstructorQuery Members
 
@@ -40,6 +42,15 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
         /// <seealso cref="EnumerableFavoringConstructorQuery" />
         public IEnumerable<IMethod> SelectConstructors(Type type)
+        {
+            return this.SelectMethods(type);
+        }
+
+        #endregion
+
+        #region IMethodQuery Members
+
+        public IEnumerable<IMethod> SelectMethods(Type type)
         {
             if (type == null)
             {
