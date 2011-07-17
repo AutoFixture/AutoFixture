@@ -144,6 +144,7 @@
     <Compile Include="Kernel\DisposableTracker.cs" />
     <Compile Include="Kernel\DisposableTrackingBehavior.cs" />
     <Compile Include="Kernel\EnumerableRelay.cs" />
+    <Compile Include="Kernel\IMethodQuery.cs" />
     <Compile Include="Kernel\StaticMethod.cs" />
     <Compile Include="Kernel\HashSetSpecification.cs" />
     <Compile Include="Kernel\FactoryMethodQuery.cs" />
