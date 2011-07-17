@@ -8,7 +8,9 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// Selects public factory methods ordered by the modest first.
     /// </summary>
-    public class FactoryMethodQuery : IConstructorQuery
+#pragma warning disable 618
+    public class FactoryMethodQuery : IMethodQuery, IConstructorQuery
+#pragma warning restore 618
     {
         #region IConstructorQuery Members
 
@@ -32,6 +34,15 @@ namespace Ploeh.AutoFixture.Kernel
         /// </para>
         /// </remarks>
         public IEnumerable<IMethod> SelectConstructors(Type type)
+        {
+            return this.SelectMethods(type);
+        }
+
+        #endregion
+
+        #region IMethodQuery Members
+
+        public IEnumerable<IMethod> SelectMethods(Type type)
         {
             if (type == null)
             {
