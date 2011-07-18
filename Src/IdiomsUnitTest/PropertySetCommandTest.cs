@@ -83,38 +83,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void CreateExceptionReturnsExceptionWithCorrectProperty()
-        {
-            // Fixture setup
-            var dummyOwner = new PropertyHolder<Version>();
-            var expectedProperty = dummyOwner.GetType().GetProperty("Property");
-            var sut = new PropertySetCommand(expectedProperty, dummyOwner);
-            // Exercise system
-            var message = "Anonymous message";
-            var result = sut.CreateException(message);
-            // Verify outcome            
-            var e = Assert.IsAssignableFrom<GuardClauseException>(result);
-            Assert.Equal(expectedProperty, e.MemberInfo);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateExceptionReturnsExceptionWithCorrectValueType()
-        {
-            // Fixture setup
-            var dummyOwner = new PropertyHolder<Version>();
-            var property = dummyOwner.GetType().GetProperty("Property");
-            var sut = new PropertySetCommand(property, dummyOwner);
-            // Exercise system
-            var message = "Anonymous message";
-            var result = sut.CreateException(message);
-            // Verify outcome
-            var e = Assert.IsAssignableFrom<GuardClauseException>(result);
-            Assert.Equal(property.PropertyType, e.ValueType);
-            // Teardown
-        }
-
-        [Fact]
         public void CreateExceptionReturnsExceptionWithCorrectMessage()
         {
             // Fixture setup
@@ -127,40 +95,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Verify outcome
             var e = Assert.IsAssignableFrom<GuardClauseException>(result);
             Assert.Contains(message, e.Message);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateExceptionWithInnerReturnsExceptionWithCorrectProperty()
-        {
-            // Fixture setup
-            var dummyOwner = new PropertyHolder<Version>();
-            var expectedProperty = dummyOwner.GetType().GetProperty("Property");
-            var sut = new PropertySetCommand(expectedProperty, dummyOwner);
-            // Exercise system
-            var message = "Anonymous message";
-            var inner = new Exception();
-            var result = sut.CreateException(message, inner);
-            // Verify outcome
-            var e = Assert.IsAssignableFrom<GuardClauseException>(result);
-            Assert.Equal(expectedProperty, e.MemberInfo);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateExceptionWithInnerReturnsExceptionWithCorrectValueType()
-        {
-            // Fixture setup
-            var dummyOwner = new PropertyHolder<Version>();
-            var property = dummyOwner.GetType().GetProperty("Property");
-            var sut = new PropertySetCommand(property, dummyOwner);
-            // Exercise system
-            var message = "Anonymous message";
-            var inner = new Exception();
-            var result = sut.CreateException(message, inner);
-            // Verify outcome
-            var e = Assert.IsAssignableFrom<GuardClauseException>(result);
-            Assert.Equal(property.PropertyType, e.ValueType);
             // Teardown
         }
 

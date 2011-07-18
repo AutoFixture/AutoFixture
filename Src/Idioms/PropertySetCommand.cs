@@ -41,12 +41,12 @@ namespace Ploeh.AutoFixture.Idioms
 
         public Exception CreateException(string value)
         {
-            return new GuardClauseException(this.propertyInfo, this.RequestedType, this.CreateExceptionMessage(value));
+            return new GuardClauseException(this.CreateExceptionMessage(value));
         }
 
         public Exception CreateException(string value, Exception innerException)
         {
-            return new GuardClauseException(this.propertyInfo, this.RequestedType, this.CreateExceptionMessage(value), innerException);
+            return new GuardClauseException(this.CreateExceptionMessage(value), innerException);
         }
 
         #endregion
