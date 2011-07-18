@@ -69,7 +69,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ValueTypeIsCorrect()
+        public void RequestedTypeIsCorrect()
         {
             // Fixture setup
             var dummyOwner = new PropertyHolder<Version>();
