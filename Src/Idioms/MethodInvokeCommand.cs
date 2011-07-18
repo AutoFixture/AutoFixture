@@ -49,14 +49,27 @@ namespace Ploeh.AutoFixture.Idioms
 
         public Exception CreateException(string value)
         {
-            throw new NotImplementedException();
+            return new GuardClauseException(this.CreateExceptionMessage(value));
         }
 
         public Exception CreateException(string value, Exception innerException)
         {
-            throw new NotImplementedException();
+            return new GuardClauseException(this.CreateExceptionMessage(value), innerException);
         }
 
         #endregion
+
+        private string CreateExceptionMessage(string value)
+        {
+            return string.Format(
+                "An attempt was made to assign the value {0} to the parameter {1} of the method [{2}], and no Guard Clause prevented this. Are you missing a Guard Clause?{6}Parameter Type: {3}{6}Declaring Type: {4}{6}Reflected Type: {5}",
+                value,
+                this.ParameterInfo.Name,
+                this.ParameterInfo.Member,
+                this.ParameterInfo.ParameterType.AssemblyQualifiedName,
+                this.ParameterInfo.Member.DeclaringType.AssemblyQualifiedName,
+                this.ParameterInfo.Member.ReflectedType.AssemblyQualifiedName,
+                Environment.NewLine);
+        }
     }
 }

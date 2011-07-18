@@ -106,6 +106,59 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateExceptionReturnsExceptionWithCorrectMessage()
+        {
+            // Fixture setup
+            var dummyMethod = new DelegatingMethod();
+            var dummyExpansion = new DelegatingExpansion<object>();
+            var parameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
+            var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, parameter);
+            // Exercise system
+            var message = Guid.NewGuid().ToString();
+            var result = sut.CreateException(message);
+            // Verify outcome
+            var e = Assert.IsAssignableFrom<GuardClauseException>(result);
+            Assert.Contains(message, e.Message);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateExceptionWithInnerReturnsExceptionWithCorrectMessage()
+        {
+            // Fixture setup
+            var dummyMethod = new DelegatingMethod();
+            var dummyExpansion = new DelegatingExpansion<object>();
+            var parameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
+            var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, parameter);
+            // Exercise system
+            var message = Guid.NewGuid().ToString();
+            var inner = new Exception();
+            var result = sut.CreateException(message, inner);
+            // Verify outcome
+            var e = Assert.IsAssignableFrom<GuardClauseException>(result);
+            Assert.Contains(message, e.Message);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateExceptionWithInnerReturnsExceptionWithCorrectInnerException()
+        {
+            // Fixture setup
+            var dummyMethod = new DelegatingMethod();
+            var dummyExpansion = new DelegatingExpansion<object>();
+            var parameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
+            var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, parameter);
+            // Exercise system
+            var message = Guid.NewGuid().ToString();
+            var inner = new Exception();
+            var result = sut.CreateException(message, inner);
+            // Verify outcome
+            var e = Assert.IsAssignableFrom<GuardClauseException>(result);
+            Assert.Equal(inner, e.InnerException);
+            // Teardown
+        }
+
         private static ParameterInfo CreateAnonymousParameterInfo()
         {
             var parameter = (from m in typeof(object).GetMethods()
