@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.Idioms
 {
-    public interface IExpansion
+    public interface IExpansion<T>
     {
-        IEnumerable<object> Expand(object value);
+        IEnumerable<T> Expand(T value);
     }
 }

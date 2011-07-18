@@ -6,18 +6,18 @@ using Ploeh.AutoFixture.Idioms;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class DelegatingExpansion : IExpansion
+    public class DelegatingExpansion<T> : IExpansion<T>
     {
         public DelegatingExpansion()
         {
             this.OnExpand = v => new[] { v };
         }
 
-        public Func<object, IEnumerable<object>> OnExpand { get; set; }
+        public Func<T, IEnumerable<T>> OnExpand { get; set; }
 
         #region IExpansion Members
 
-        public IEnumerable<object> Expand(object value)
+        public IEnumerable<T> Expand(T value)
         {
             return this.OnExpand(value);
         }

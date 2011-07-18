@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyMethod = new DelegatingMethod();
-            var dummyExpansion = new DelegatingExpansion();
+            var dummyExpansion = new DelegatingExpansion<object>();
             var dummyParameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
             // Exercise system
             var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, dummyParameter);
@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var method = new DelegatingMethod();
-            var dummyExpansion = new DelegatingExpansion();
+            var dummyExpansion = new DelegatingExpansion<object>();
             var dummyParameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
             var sut = new MethodInvokeCommand(method, dummyExpansion, dummyParameter);
             // Exercise system
@@ -46,11 +46,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyMethod = new DelegatingMethod();
-            var expansion = new DelegatingExpansion();
+            var expansion = new DelegatingExpansion<object>();
             var dummyParameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
             var sut = new MethodInvokeCommand(dummyMethod, expansion, dummyParameter);
             // Exercise system
-            IExpansion result = sut.Expansion;
+            IExpansion<object> result = sut.Expansion;
             // Verify outcome
             Assert.Equal(expansion, result);
             // Teardown
@@ -61,7 +61,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyMethod = new DelegatingMethod();
-            var dummyExpansion = new DelegatingExpansion();
+            var dummyExpansion = new DelegatingExpansion<object>();
             var parameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
             var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, parameter);
             // Exercise system
@@ -77,7 +77,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var value = new object();
             var arguments = new[] { new object(), new object(), new object() };
-            var expansion = new DelegatingExpansion { OnExpand = v => v == value ? arguments : new object[0] };
+            var expansion = new DelegatingExpansion<object> { OnExpand = v => v == value ? arguments : new object[0] };
             var dummyParameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
 
             var mockVerified = false;
@@ -96,7 +96,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyMethod = new DelegatingMethod();
-            var dummyExpansion = new DelegatingExpansion();
+            var dummyExpansion = new DelegatingExpansion<object>();
             var parameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
             var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, parameter);
             // Exercise system
