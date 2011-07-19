@@ -5,6 +5,7 @@ using System.Text;
 using Xunit;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -29,6 +30,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new InstanceMethod(null));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(DateTime))]
+        public void MethodIsCorrect(Type type)
+        {
+            // Fixture setup
+            var expectedMethod = type.GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
+            var sut = new InstanceMethod(expectedMethod);
+            // Exercise system
+            MethodInfo result = sut.Method;
+            // Verify outcome
+            Assert.Equal(expectedMethod, result);
             // Teardown
         }
     }
