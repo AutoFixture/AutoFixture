@@ -17,8 +17,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var dummyMethod = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
+            var dummyOwner = new object();
             // Exercise system
-            var sut = new InstanceMethod(dummyMethod);
+            var sut = new InstanceMethod(dummyMethod, dummyOwner);
             // Verify outcome
             Assert.IsAssignableFrom<IMethod>(sut);
             // Teardown
@@ -28,9 +29,21 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void ConstructWithNullMethodThrows()
         {
             // Fixture setup
+            var dummyOwner = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new InstanceMethod(null));
+                new InstanceMethod(null, dummyOwner));
+            // Teardown
+        }
+
+        [Fact]
+        public void ConstructWithNullOwnerThrows()
+        {
+            // Fixture setup
+            var dummyMethod = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new InstanceMethod(dummyMethod, null));
             // Teardown
         }
 
@@ -42,7 +55,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedMethod = type.GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
-            var sut = new InstanceMethod(expectedMethod);
+            var dummyOwner = new object();
+            var sut = new InstanceMethod(expectedMethod, dummyOwner);
             // Exercise system
             MethodInfo result = sut.Method;
             // Verify outcome
@@ -64,7 +78,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var method = type.GetMethods(BindingFlags.Public | BindingFlags.Instance).ElementAt(index);
             var expectedParameters = method.GetParameters();
 
-            var sut = new InstanceMethod(method);
+            var dummyOwner = new object();
+            var sut = new InstanceMethod(method, dummyOwner);
             // Exercise system
             var result = sut.Parameters;
             // Verify outcome

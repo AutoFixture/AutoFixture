@@ -11,11 +11,15 @@ namespace Ploeh.AutoFixture.Kernel
         private readonly MethodInfo method;
         private readonly ParameterInfo[] parameters;
 
-        public InstanceMethod(MethodInfo instanceMethod)
+        public InstanceMethod(MethodInfo instanceMethod, object owner)
         {
             if (instanceMethod == null)
             {
                 throw new ArgumentNullException("instanceMethod");
+            }
+            if (owner == null)
+            {
+                throw new ArgumentNullException("owner");
             }
 
             this.method = instanceMethod;
