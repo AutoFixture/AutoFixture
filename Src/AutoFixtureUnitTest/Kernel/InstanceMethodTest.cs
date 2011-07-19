@@ -100,5 +100,46 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.True(expectedParameters.SequenceEqual(result));
             // Teardown
         }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData("")]
+        [InlineData("Ploeh")]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void InvokeParameterlessMethodReturnsCorrectResult(object owner)
+        {
+            // Fixture setup
+            var method = owner.GetType().GetMethod("GetHashCode");
+            var sut = new InstanceMethod(method, owner);
+            // Exercise system
+            var result = sut.Invoke(Enumerable.Empty<object>());
+            // Verify outcome
+            var expected = owner.GetHashCode();
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(0, 0)]
+        [InlineData(1, 0)]
+        [InlineData(0, 1)]
+        [InlineData(1, 1)]
+        [InlineData(42, 7)]
+        public void InvokeMethodWithParametersReturnsCorrectResult(int x, int y)
+        {
+            // Fixture setup
+            var owner = Comparer<int>.Default;
+            var method = owner.GetType().GetMethod("Compare");
+            var sut = new InstanceMethod(method, owner);
+            // Exercise system
+            var result = sut.Invoke(new object[] { x, y });
+            // Verify outcome
+            var expected = owner.Compare(x, y);
+            Assert.Equal(expected, result);
+            // Teardown
+        }
     }
 }

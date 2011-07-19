@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         public object Invoke(IEnumerable<object> parameters)
         {
-            throw new NotImplementedException();
+            return this.method.Invoke(this.owner, parameters.ToArray());
         }
 
         #endregion
