@@ -104,6 +104,7 @@
     <Compile Include="Kernel\CompositeMethodQueryTest.cs" />
     <Compile Include="Kernel\DelegatingMethodQuery.cs" />
     <Compile Include="Kernel\FactoryMethodQueryTest.cs" />
+    <Compile Include="Kernel\InstanceMethodTest.cs" />
     <Compile Include="Kernel\MethodInvokerTest.cs" />
     <Compile Include="Kernel\StaticMethodTest.cs" />
     <Compile Include="FixtureFreezerTest.cs" />
