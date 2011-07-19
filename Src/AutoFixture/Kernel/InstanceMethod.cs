@@ -10,6 +10,7 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly MethodInfo method;
         private readonly ParameterInfo[] parameters;
+        private readonly object owner;
 
         public InstanceMethod(MethodInfo instanceMethod, object owner)
         {
@@ -24,11 +25,17 @@ namespace Ploeh.AutoFixture.Kernel
 
             this.method = instanceMethod;
             this.parameters = this.method.GetParameters();
+            this.owner = owner;
         }
 
         public MethodInfo Method
         {
             get { return this.method; }
+        }
+
+        public object Owner
+        {
+            get { return this.owner; }
         }
 
         #region IMethod Members

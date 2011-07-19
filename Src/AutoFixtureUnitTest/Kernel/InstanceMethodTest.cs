@@ -64,6 +64,20 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void OwnerIsCorrect()
+        {
+            // Fixture setup
+            var dummyMethod = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
+            var expectedOwner = new object();
+            var sut = new InstanceMethod(dummyMethod, expectedOwner);
+            // Exercise system
+            var result = sut.Owner;
+            // Verify outcome
+            Assert.Equal(expectedOwner, result);
+            // Teardown
+        }
+
         [Theory]
         [InlineData(typeof(GuardedMethodHost), 0)]
         [InlineData(typeof(GuardedMethodHost), 1)]
