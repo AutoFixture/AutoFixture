@@ -6,6 +6,7 @@ using Xunit;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 using Xunit.Extensions;
+using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -46,6 +47,28 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             MethodInfo result = sut.Method;
             // Verify outcome
             Assert.Equal(expectedMethod, result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(GuardedMethodHost), 0)]
+        [InlineData(typeof(GuardedMethodHost), 1)]
+        [InlineData(typeof(GuardedMethodHost), 2)]
+        [InlineData(typeof(GuardedMethodHost), 3)]
+        [InlineData(typeof(GuardedMethodHost), 4)]
+        [InlineData(typeof(GuardedMethodHost), 5)]
+        [InlineData(typeof(GuardedMethodHost), 6)]
+        public void ParametersReturnsCorrectResult(Type type, int index)
+        {
+            // Fixture setup
+            var method = type.GetMethods(BindingFlags.Public | BindingFlags.Instance).ElementAt(index);
+            var expectedParameters = method.GetParameters();
+
+            var sut = new InstanceMethod(method);
+            // Exercise system
+            var result = sut.Parameters;
+            // Verify outcome
+            Assert.True(expectedParameters.SequenceEqual(result));
             // Teardown
         }
     }
