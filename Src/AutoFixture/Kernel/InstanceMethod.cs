@@ -8,8 +8,12 @@ namespace Ploeh.AutoFixture.Kernel
 {
     public class InstanceMethod : IMethod
     {
-        public InstanceMethod(MethodInfo dummyMethod)
+        public InstanceMethod(MethodInfo instanceMethod)
         {
+            if (instanceMethod == null)
+            {
+                throw new ArgumentNullException("instanceMethod");
+            }
         }
 
         #region IMethod Members

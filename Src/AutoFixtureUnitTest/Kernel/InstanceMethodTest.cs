@@ -21,5 +21,15 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.IsAssignableFrom<IMethod>(sut);
             // Teardown
         }
+
+        [Fact]
+        public void ConstructWithNullMethodThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new InstanceMethod(null));
+            // Teardown
+        }
     }
 }
