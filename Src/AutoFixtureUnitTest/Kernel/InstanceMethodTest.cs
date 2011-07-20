@@ -141,5 +141,173 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(expected, result);
             // Teardown
         }
+
+        [Fact]
+        public void SutIsEquatable()
+        {
+            // Fixture setup
+            var dummyMethod = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
+            var dummyOwner = new object();
+            // Exercise system
+            var sut = new InstanceMethod(dummyMethod, dummyOwner);
+            // Verify outcome
+            Assert.IsAssignableFrom<IEquatable<InstanceMethod>>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutDoesNotEqualNullObject()
+        {
+            // Fixture setup
+            var dummyMethod = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
+            var dummyOwner = new object();
+            var sut = new InstanceMethod(dummyMethod, dummyOwner);
+            // Exercise system
+            var result = sut.Equals((object)null);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutDoesNotEqualNullSut()
+        {
+            // Fixture setup
+            var dummyMethod = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
+            var dummyOwner = new object();
+            var sut = new InstanceMethod(dummyMethod, dummyOwner);
+            // Exercise system
+            var result = sut.Equals((InstanceMethod)null);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutDoesNotEqualSomeOtherObject()
+        {
+            // Fixture setup
+            var dummyMethod = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
+            var dummyOwner = new object();
+            var sut = new InstanceMethod(dummyMethod, dummyOwner);
+            // Exercise system
+            var result = sut.Equals(new object());
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutDoesNotEqualOtherObjectWithDifferentMethod()
+        {
+            // Fixture setup
+            var method1 = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
+            var dummyOwner = new object();
+            var sut = new InstanceMethod(method1, dummyOwner);
+            
+            var method2 = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).Skip(1).First();
+            object other = new InstanceMethod(method2, dummyOwner);
+            // Exercise system
+            var result = sut.Equals(other);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutDoesNotEqualOtherSutWithDifferentMethod()
+        {
+            // Fixture setup
+            var method1 = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
+            var dummyOwner = new object();
+            var sut = new InstanceMethod(method1, dummyOwner);
+            
+            var method2 = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).Skip(1).First();
+            object other = new InstanceMethod(method2, dummyOwner);
+            // Exercise system
+            var result = sut.Equals(other);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutDoesNotEqualOtherObjectWithDifferentOwner()
+        {
+            // Fixture setup
+            var dummyMethod = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
+            var owner1 = new object();
+            var sut = new InstanceMethod(dummyMethod, owner1);
+
+            var owner2 = new object();
+            object other = new InstanceMethod(dummyMethod, owner2);
+            // Exercise system
+            var result = sut.Equals(other);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutDoesNotEqualOtherSutWithDifferentOwner()
+        {
+            // Fixture setup
+            var dummyMethod = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
+            var owner1 = new object();
+            var sut = new InstanceMethod(dummyMethod, owner1);
+
+            var owner2 = new object();
+            var other = new InstanceMethod(dummyMethod, owner2);
+            // Exercise system
+            var result = sut.Equals(other);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutEqualsOtherObjectWithSameValues()
+        {
+            // Fixture setup
+            var method = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
+            var owner = new object();
+            var sut = new InstanceMethod(method, owner);
+            object other = new InstanceMethod(method, owner);
+            // Exercise system
+            var result = sut.Equals(other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutEqualsOtherSutWithSameValues()
+        {
+            // Fixture setup
+            var method = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
+            var owner = new object();
+            var sut = new InstanceMethod(method, owner);
+            var other = new InstanceMethod(method, owner);
+            // Exercise system
+            var result = sut.Equals(other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void GetHashCodeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var method = typeof(object).GetMethods(BindingFlags.Public | BindingFlags.Instance).First();
+            var owner = new object();
+            var sut = new InstanceMethod(method, owner);
+            // Exercise system
+            var result = sut.GetHashCode();
+            // Verify outcome
+            var expectedHasCode = method.GetHashCode() ^ owner.GetHashCode();
+            Assert.Equal(expectedHasCode, result);
+            // Teardown
+        }
     }
 }

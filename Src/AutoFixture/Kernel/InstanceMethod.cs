@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Encapsulates an instance method. This is essentially an Adapter over
     /// <see cref="MethodInfo"/>.
     /// </summary>
-    public class InstanceMethod : IMethod
+    public class InstanceMethod : IMethod, IEquatable<InstanceMethod>
     {
         private readonly MethodInfo method;
         private readonly ParameterInfo[] paramInfos;
@@ -64,6 +64,39 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.owner; }
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <returns>
+        /// <see langword="true"/> if the specified <see cref="System.Object"/> is equal to this
+        /// instance; otherwise, <see langword="false"/>.
+        /// </returns>
+        /// <exception cref="T:System.NullReferenceException">
+        /// The <paramref name="obj"/> parameter is null.
+        /// </exception>
+        public override bool Equals(object obj)
+        {
+            var other = obj as InstanceMethod;
+            if (other != null)
+            {
+                return this.Equals(other);
+            }
+            return base.Equals(obj);
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data
+        /// structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return this.Method.GetHashCode() ^ this.Owner.GetHashCode();
+        }
+
         #region IMethod Members
 
         /// <summary>
@@ -82,6 +115,29 @@ namespace Ploeh.AutoFixture.Kernel
         public object Invoke(IEnumerable<object> parameters)
         {
             return this.method.Invoke(this.owner, parameters.ToArray());
+        }
+
+        #endregion
+
+        #region IEquatable<InstanceMethod> Members
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>
+        /// <see langword="true"/> if the current object is equal to the <paramref name="other"/>
+        /// parameter; otherwise, <see langword="false"/>.
+        /// </returns>
+        public bool Equals(InstanceMethod other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return object.Equals(this.Method, other.Method) 
+                && object.Equals(this.Owner, other.Owner);
         }
 
         #endregion
