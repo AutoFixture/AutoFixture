@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture.Kernel
     public class InstanceMethod : IMethod
     {
         private readonly MethodInfo method;
-        private readonly ParameterInfo[] parameters;
+        private readonly ParameterInfo[] paramInfos;
         private readonly object owner;
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             this.method = instanceMethod;
-            this.parameters = this.method.GetParameters();
+            this.paramInfos = this.method.GetParameters();
             this.owner = owner;
         }
 
@@ -71,7 +71,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         public IEnumerable<ParameterInfo> Parameters
         {
-            get { return this.parameters; }
+            get { return this.paramInfos; }
         }
 
         /// <summary>
