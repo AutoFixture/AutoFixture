@@ -35,43 +35,15 @@ namespace Ploeh.AutoFixture.Idioms
 
         public override void Verify(ConstructorInfo constructorInfo)
         {
-            var paramInfos = constructorInfo.GetParameters();
-
             var method = new ConstructorMethod(constructorInfo);
-
-            var parameters = (from pi in paramInfos
-                              select this.Composer.CreateAnonymous(pi.ParameterType)).ToList();
-
-            var i = 0;
-            foreach (var pi in paramInfos)
-            {
-                var expansion = new IndexedReplacement<object>(i++, parameters);
-
-                var command = new MethodInvokeCommand(method, expansion, pi);
-                var unwrapper = new ReflectionExceptionUnwrappingCommand(command);
-                this.BehaviorExpectation.Verify(unwrapper);
-            }
+            this.Verify(method);
         }
 
         public override void Verify(MethodInfo methodInfo)
         {
-            var paramInfos = methodInfo.GetParameters();
-
             var owner = this.Composer.CreateAnonymous(methodInfo.ReflectedType);
             var method = new InstanceMethod(methodInfo, owner);
-
-            var parameters = (from pi in paramInfos
-                              select this.Composer.CreateAnonymous(pi.ParameterType)).ToList();
-
-            var i = 0;
-            foreach (var pi in paramInfos)
-            {
-                var expansion = new IndexedReplacement<object>(i++, parameters);
-
-                var command = new MethodInvokeCommand(method, expansion, pi);
-                var unwrapper = new ReflectionExceptionUnwrappingCommand(command);
-                this.BehaviorExpectation.Verify(unwrapper);
-            }
+            this.Verify(method);
         }
 
         public override void Verify(PropertyInfo propertyInfo)
@@ -85,6 +57,22 @@ namespace Ploeh.AutoFixture.Idioms
             var command = new PropertySetCommand(propertyInfo, owner);
             var unwrapper = new ReflectionExceptionUnwrappingCommand(command);
             this.BehaviorExpectation.Verify(unwrapper);
+        }
+
+        private void Verify(IMethod method)
+        {
+            var parameters = (from pi in method.Parameters
+                              select this.Composer.CreateAnonymous(pi.ParameterType)).ToList();
+
+            var i = 0;
+            foreach (var pi in method.Parameters)
+            {
+                var expansion = new IndexedReplacement<object>(i++, parameters);
+
+                var command = new MethodInvokeCommand(method, expansion, pi);
+                var unwrapper = new ReflectionExceptionUnwrappingCommand(command);
+                this.BehaviorExpectation.Verify(unwrapper);
+            }
         }
     }
 }
