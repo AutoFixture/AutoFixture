@@ -28,7 +28,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyBoundariesForMethod()
         {
-            new Fixture().ForMethod((GuardedMethodHost sut, string s, int i, Guid g) => sut.ConsumeStringAndInt32AndGuid(s, i, g)).VerifyBoundaries();
+            var fixture = new Fixture();
+            var assertion = new GuardClauseAssertion(fixture);
+            var method = typeof(GuardedMethodHost).GetMethod("ConsumeStringAndInt32AndGuid");
+            assertion.Verify(method);
         }
 
         [Fact]

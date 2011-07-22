@@ -33,6 +33,27 @@ namespace Ploeh.AutoFixture.Idioms
             get { return this.behaviorExpectation; }
         }
 
+        public override void Verify(MethodInfo methodInfo)
+        {
+            var paramInfos = methodInfo.GetParameters();
+
+            var owner = this.Composer.CreateAnonymous(methodInfo.ReflectedType);
+            var method = new InstanceMethod(methodInfo, owner);
+
+            var parameters = (from pi in paramInfos
+                              select this.Composer.CreateAnonymous(pi.ParameterType)).ToList();
+
+            var i = 0;
+            foreach (var pi in paramInfos)
+            {
+                var expansion = new IndexedReplacement<object>(i++, parameters);
+
+                var command = new MethodInvokeCommand(method, expansion, pi);
+                var unwrapper = new ReflectionExceptionUnwrappingCommand(command);
+                this.BehaviorExpectation.Verify(unwrapper);
+            }
+        }
+
         public override void Verify(PropertyInfo propertyInfo)
         {
             if (propertyInfo.GetSetMethod() == null)

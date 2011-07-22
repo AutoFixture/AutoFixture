@@ -62,9 +62,10 @@ namespace Ploeh.AutoFixture.Idioms
         private string CreateExceptionMessage(string value)
         {
             return string.Format(
-                "An attempt was made to assign the value {0} to the parameter {1} of the method [{2}], and no Guard Clause prevented this. Are you missing a Guard Clause?{6}Parameter Type: {3}{6}Declaring Type: {4}{6}Reflected Type: {5}",
+                "An attempt was made to assign the value {0} to the parameter {1} of the method {2}, and no Guard Clause prevented this. Are you missing a Guard Clause?{7}Method Signature: {3}{7}Parameter Type: {4}{7}Declaring Type: {5}{7}Reflected Type: {6}",
                 value,
                 this.ParameterInfo.Name,
+                this.ParameterInfo.Member.Name,
                 this.ParameterInfo.Member,
                 this.ParameterInfo.ParameterType.AssemblyQualifiedName,
                 this.ParameterInfo.Member.DeclaringType.AssemblyQualifiedName,

@@ -6,6 +6,8 @@ using Xunit;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.TestTypeFoundation;
 using Ploeh.AutoFixture.Kernel;
+using Xunit.Extensions;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -103,6 +105,204 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             sut.Verify(property);
             // Verify outcome
             Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(GuardedMethodHost), 0)]
+        [InlineData(typeof(GuardedMethodHost), 1)]
+        [InlineData(typeof(GuardedMethodHost), 2)]
+        [InlineData(typeof(GuardedMethodHost), 3)]
+        [InlineData(typeof(GuardedMethodHost), 4)]
+        [InlineData(typeof(GuardedMethodHost), 5)]
+        [InlineData(typeof(GuardedMethodHost), 6)]
+        [InlineData(typeof(GuardedMethodHost), 7)]
+        [InlineData(typeof(GuardedMethodHost), 8)]
+        [InlineData(typeof(Version), 0)]
+        [InlineData(typeof(Version), 1)]
+        [InlineData(typeof(Version), 2)]
+        [InlineData(typeof(Version), 3)]
+        [InlineData(typeof(Version), 4)]
+        [InlineData(typeof(Version), 5)]
+        [InlineData(typeof(Version), 6)]
+        [InlineData(typeof(Version), 7)]
+        [InlineData(typeof(Version), 8)]
+        [InlineData(typeof(Version), 9)]
+        [InlineData(typeof(Version), 10)]
+        public void VerifyMethodInvokesBehaviorExpectationWithCorrectMethod(Type ownerType, int methodIndex)
+        {
+            // Fixture setup
+            var method = ownerType.GetMethods().ElementAt(methodIndex);
+            var parameters = method.GetParameters();
+
+            var fixture = new Fixture();
+
+            var expectation = new DelegatingBehaviorExpectation
+            {
+                OnVerify = c =>
+                {
+                    var unwrapper = Assert.IsAssignableFrom<ReflectionExceptionUnwrappingCommand>(c);
+                    var methodCmd = Assert.IsAssignableFrom<MethodInvokeCommand>(unwrapper.Command);
+                        
+                    var instanceMethod = Assert.IsAssignableFrom<InstanceMethod>(methodCmd.Method);
+                    Assert.Equal(method, instanceMethod.Method);
+                    Assert.IsAssignableFrom(ownerType, instanceMethod.Owner);
+                    Assert.True(parameters.SequenceEqual(instanceMethod.Parameters));
+                }
+            };
+
+            var sut = new GuardClauseAssertion(fixture, expectation);
+            // Exercise system
+            sut.Verify(method);
+            // Verify outcome (done by mock)
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(GuardedMethodHost), 0)]
+        [InlineData(typeof(GuardedMethodHost), 1)]
+        [InlineData(typeof(GuardedMethodHost), 2)]
+        [InlineData(typeof(GuardedMethodHost), 3)]
+        [InlineData(typeof(GuardedMethodHost), 4)]
+        [InlineData(typeof(GuardedMethodHost), 5)]
+        [InlineData(typeof(GuardedMethodHost), 6)]
+        [InlineData(typeof(GuardedMethodHost), 7)]
+        [InlineData(typeof(GuardedMethodHost), 8)]
+        [InlineData(typeof(Version), 0)]
+        [InlineData(typeof(Version), 1)]
+        [InlineData(typeof(Version), 2)]
+        [InlineData(typeof(Version), 3)]
+        [InlineData(typeof(Version), 4)]
+        [InlineData(typeof(Version), 5)]
+        [InlineData(typeof(Version), 6)]
+        [InlineData(typeof(Version), 7)]
+        [InlineData(typeof(Version), 8)]
+        [InlineData(typeof(Version), 9)]
+        [InlineData(typeof(Version), 10)]
+        public void VerifyMethodInvokesBehaviorExpectationWithCorrectReplacementIndices(Type ownerType, int methodIndex)
+        {
+            // Fixture setup
+            var method = ownerType.GetMethods().ElementAt(methodIndex);
+            var parameters = method.GetParameters();
+
+            var fixture = new Fixture();
+
+            var observedIndices = new List<int>();
+            var expectation = new DelegatingBehaviorExpectation
+            {
+                OnVerify = c =>
+                {
+                    var unwrapper = Assert.IsAssignableFrom<ReflectionExceptionUnwrappingCommand>(c);
+                    var methodCmd = Assert.IsAssignableFrom<MethodInvokeCommand>(unwrapper.Command);
+
+                    var replacement = Assert.IsAssignableFrom<IndexedReplacement<object>>(methodCmd.Expansion);
+                    observedIndices.Add(replacement.ReplacementIndex);
+                }
+            };
+
+            var sut = new GuardClauseAssertion(fixture, expectation);
+            // Exercise system
+            sut.Verify(method);
+            // Verify outcome
+            var expectedIndices = Enumerable.Range(0, parameters.Length);
+            Assert.True(expectedIndices.SequenceEqual(observedIndices));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(GuardedMethodHost), 0)]
+        [InlineData(typeof(GuardedMethodHost), 1)]
+        [InlineData(typeof(GuardedMethodHost), 2)]
+        [InlineData(typeof(GuardedMethodHost), 3)]
+        [InlineData(typeof(GuardedMethodHost), 4)]
+        [InlineData(typeof(GuardedMethodHost), 5)]
+        [InlineData(typeof(GuardedMethodHost), 6)]
+        [InlineData(typeof(GuardedMethodHost), 7)]
+        [InlineData(typeof(GuardedMethodHost), 8)]
+        [InlineData(typeof(Version), 0)]
+        [InlineData(typeof(Version), 1)]
+        [InlineData(typeof(Version), 2)]
+        [InlineData(typeof(Version), 3)]
+        [InlineData(typeof(Version), 4)]
+        [InlineData(typeof(Version), 5)]
+        [InlineData(typeof(Version), 6)]
+        [InlineData(typeof(Version), 7)]
+        [InlineData(typeof(Version), 8)]
+        [InlineData(typeof(Version), 9)]
+        [InlineData(typeof(Version), 10)]
+        public void VerifyMethodInvokesBehaviorExpectationWithCorrectParametersForReplacement(Type ownerType, int methodIndex)
+        {
+            // Fixture setup
+            var method = ownerType.GetMethods().ElementAt(methodIndex);
+            var parameters = method.GetParameters();
+
+            var fixture = new Fixture();
+
+            var expectation = new DelegatingBehaviorExpectation
+            {
+                OnVerify = c =>
+                {
+                    var unwrapper = Assert.IsAssignableFrom<ReflectionExceptionUnwrappingCommand>(c);
+                    var methodCmd = Assert.IsAssignableFrom<MethodInvokeCommand>(unwrapper.Command);
+
+                    var replacement = Assert.IsAssignableFrom<IndexedReplacement<object>>(methodCmd.Expansion);
+                    Assert.True(replacement.Source.Select(x => x.GetType()).SequenceEqual(parameters.Select(p => p.ParameterType)));
+                }
+            };
+
+            var sut = new GuardClauseAssertion(fixture, expectation);
+            // Exercise system
+            sut.Verify(method);
+            // Verify outcome (done by mock)
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(GuardedMethodHost), 0)]
+        [InlineData(typeof(GuardedMethodHost), 1)]
+        [InlineData(typeof(GuardedMethodHost), 2)]
+        [InlineData(typeof(GuardedMethodHost), 3)]
+        [InlineData(typeof(GuardedMethodHost), 4)]
+        [InlineData(typeof(GuardedMethodHost), 5)]
+        [InlineData(typeof(GuardedMethodHost), 6)]
+        [InlineData(typeof(GuardedMethodHost), 7)]
+        [InlineData(typeof(GuardedMethodHost), 8)]
+        [InlineData(typeof(Version), 0)]
+        [InlineData(typeof(Version), 1)]
+        [InlineData(typeof(Version), 2)]
+        [InlineData(typeof(Version), 3)]
+        [InlineData(typeof(Version), 4)]
+        [InlineData(typeof(Version), 5)]
+        [InlineData(typeof(Version), 6)]
+        [InlineData(typeof(Version), 7)]
+        [InlineData(typeof(Version), 8)]
+        [InlineData(typeof(Version), 9)]
+        [InlineData(typeof(Version), 10)]
+        public void VerifyMethodInvokesBehaviorExpectationWithCorrectParameterInfo(Type ownerType, int methodIndex)
+        {
+            // Fixture setup
+            var method = ownerType.GetMethods().ElementAt(methodIndex);
+            var parameters = method.GetParameters();
+
+            var fixture = new Fixture();
+
+            var observedParameters = new List<ParameterInfo>();
+            var expectation = new DelegatingBehaviorExpectation
+            {
+                OnVerify = c =>
+                {
+                    var unwrapper = Assert.IsAssignableFrom<ReflectionExceptionUnwrappingCommand>(c);
+                    var methodCmd = Assert.IsAssignableFrom<MethodInvokeCommand>(unwrapper.Command);
+
+                    observedParameters.Add(methodCmd.ParameterInfo);
+                }
+            };
+
+            var sut = new GuardClauseAssertion(fixture, expectation);
+            // Exercise system
+            sut.Verify(method);
+            // Verify outcome
+            Assert.True(parameters.SequenceEqual(observedParameters));
             // Teardown
         }
 
