@@ -70,7 +70,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyBoundariesForAllConstructors()
         {
-            new Fixture().ForAllConstructorsOf<GuardedConstructorHost<Version>>().VerifyBoundaries();
+            var fixture = new Fixture();
+            var assertion = new GuardClauseAssertion(fixture);
+            var ctors = typeof(GuardedConstructorHost<Version>).GetConstructors();
+            assertion.Verify(ctors);
         }
 
         [Fact]

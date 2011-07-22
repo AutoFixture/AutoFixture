@@ -135,8 +135,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var method = ownerType.GetMethods().ElementAt(methodIndex);
             var parameters = method.GetParameters();
 
-            var fixture = new Fixture();
-
             var expectation = new DelegatingBehaviorExpectation
             {
                 OnVerify = c =>
@@ -151,7 +149,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 }
             };
 
-            var sut = new GuardClauseAssertion(fixture, expectation);
+            var sut = new GuardClauseAssertion(new Fixture(), expectation);
             // Exercise system
             sut.Verify(method);
             // Verify outcome (done by mock)
@@ -185,8 +183,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var method = ownerType.GetMethods().ElementAt(methodIndex);
             var parameters = method.GetParameters();
 
-            var fixture = new Fixture();
-
             var observedIndices = new List<int>();
             var expectation = new DelegatingBehaviorExpectation
             {
@@ -200,7 +196,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 }
             };
 
-            var sut = new GuardClauseAssertion(fixture, expectation);
+            var sut = new GuardClauseAssertion(new Fixture(), expectation);
             // Exercise system
             sut.Verify(method);
             // Verify outcome
@@ -236,8 +232,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var method = ownerType.GetMethods().ElementAt(methodIndex);
             var parameters = method.GetParameters();
 
-            var fixture = new Fixture();
-
             var expectation = new DelegatingBehaviorExpectation
             {
                 OnVerify = c =>
@@ -250,7 +244,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 }
             };
 
-            var sut = new GuardClauseAssertion(fixture, expectation);
+            var sut = new GuardClauseAssertion(new Fixture(), expectation);
             // Exercise system
             sut.Verify(method);
             // Verify outcome (done by mock)
@@ -284,7 +278,146 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var method = ownerType.GetMethods().ElementAt(methodIndex);
             var parameters = method.GetParameters();
 
-            var fixture = new Fixture();
+            var observedParameters = new List<ParameterInfo>();
+            var expectation = new DelegatingBehaviorExpectation
+            {
+                OnVerify = c =>
+                {
+                    var unwrapper = Assert.IsAssignableFrom<ReflectionExceptionUnwrappingCommand>(c);
+                    var methodCmd = Assert.IsAssignableFrom<MethodInvokeCommand>(unwrapper.Command);
+
+                    observedParameters.Add(methodCmd.ParameterInfo);
+                }
+            };
+
+            var sut = new GuardClauseAssertion(new Fixture(), expectation);
+            // Exercise system
+            sut.Verify(method);
+            // Verify outcome
+            Assert.True(parameters.SequenceEqual(observedParameters));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(GuardedConstructorHost<object>), 0)]
+        [InlineData(typeof(GuardedConstructorHost<string>), 0)]
+        [InlineData(typeof(GuardedConstructorHost<Version>), 0)]
+        [InlineData(typeof(ConcreteType), 0)]
+        [InlineData(typeof(ConcreteType), 1)]
+        [InlineData(typeof(ConcreteType), 2)]
+        [InlineData(typeof(ConcreteType), 3)]
+        [InlineData(typeof(ConcreteType), 4)]
+        public void VerifyConstructorInvokesBehaviorExpectationWithCorrectMethod(Type type, int constructorIndex)
+        {
+            // Fixture setup
+            var ctor = type.GetConstructors().ElementAt(constructorIndex);
+            var parameters = ctor.GetParameters();
+
+            var expectation = new DelegatingBehaviorExpectation
+            {
+                OnVerify = c =>
+                {
+                    var unwrapper = Assert.IsAssignableFrom<ReflectionExceptionUnwrappingCommand>(c);
+                    var methodCmd = Assert.IsAssignableFrom<MethodInvokeCommand>(unwrapper.Command);
+
+                    var ctorMethod = Assert.IsAssignableFrom<ConstructorMethod>(methodCmd.Method);
+                    Assert.Equal(ctor, ctorMethod.Constructor);
+                    Assert.True(parameters.SequenceEqual(ctorMethod.Parameters));
+                }
+            };
+
+            var sut = new GuardClauseAssertion(new Fixture(), expectation);
+            // Exercise system
+            sut.Verify(ctor);
+            // Verify outcome (done by mock)
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(GuardedConstructorHost<object>), 0)]
+        [InlineData(typeof(GuardedConstructorHost<string>), 0)]
+        [InlineData(typeof(GuardedConstructorHost<Version>), 0)]
+        [InlineData(typeof(ConcreteType), 0)]
+        [InlineData(typeof(ConcreteType), 1)]
+        [InlineData(typeof(ConcreteType), 2)]
+        [InlineData(typeof(ConcreteType), 3)]
+        [InlineData(typeof(ConcreteType), 4)]
+        public void VerifyConstructorInvokesBehaviorExpectationWithCorrectReplacementIndices(Type type, int constructorIndex)
+        {
+            // Fixture setup
+            var ctor = type.GetConstructors().ElementAt(constructorIndex);
+            var parameters = ctor.GetParameters();
+
+            var observedIndices = new List<int>();
+            var expectation = new DelegatingBehaviorExpectation
+            {
+                OnVerify = c =>
+                {
+                    var unwrapper = Assert.IsAssignableFrom<ReflectionExceptionUnwrappingCommand>(c);
+                    var methodCmd = Assert.IsAssignableFrom<MethodInvokeCommand>(unwrapper.Command);
+
+                    var replacement = Assert.IsAssignableFrom<IndexedReplacement<object>>(methodCmd.Expansion);
+                    observedIndices.Add(replacement.ReplacementIndex);
+                }
+            };
+
+            var sut = new GuardClauseAssertion(new Fixture(), expectation);
+            // Exercise system
+            sut.Verify(ctor);
+            // Verify outcome
+            var expectedIndices = Enumerable.Range(0, parameters.Length);
+            Assert.True(expectedIndices.SequenceEqual(observedIndices));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(GuardedConstructorHost<object>), 0)]
+        [InlineData(typeof(GuardedConstructorHost<string>), 0)]
+        [InlineData(typeof(GuardedConstructorHost<Version>), 0)]
+        [InlineData(typeof(ConcreteType), 0)]
+        [InlineData(typeof(ConcreteType), 1)]
+        [InlineData(typeof(ConcreteType), 2)]
+        [InlineData(typeof(ConcreteType), 3)]
+        [InlineData(typeof(ConcreteType), 4)]
+        public void VerifyConstructorInvokesBehaviorExpectationWithCorrectParametersForReplacement(Type type, int constructorIndex)
+        {
+            // Fixture setup
+            var ctor = type.GetConstructors().ElementAt(constructorIndex);
+            var parameters = ctor.GetParameters();
+
+            var expectation = new DelegatingBehaviorExpectation
+            {
+                OnVerify = c =>
+                {
+                    var unwrapper = Assert.IsAssignableFrom<ReflectionExceptionUnwrappingCommand>(c);
+                    var methodCmd = Assert.IsAssignableFrom<MethodInvokeCommand>(unwrapper.Command);
+
+                    var replacement = Assert.IsAssignableFrom<IndexedReplacement<object>>(methodCmd.Expansion);
+                    Assert.True(replacement.Source.Select(x => x.GetType()).SequenceEqual(parameters.Select(p => p.ParameterType)));
+                }
+            };
+
+            var sut = new GuardClauseAssertion(new Fixture(), expectation);
+            // Exercise system
+            sut.Verify(ctor);
+            // Verify outcome (done by mock)
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(GuardedConstructorHost<object>), 0)]
+        [InlineData(typeof(GuardedConstructorHost<string>), 0)]
+        [InlineData(typeof(GuardedConstructorHost<Version>), 0)]
+        [InlineData(typeof(ConcreteType), 0)]
+        [InlineData(typeof(ConcreteType), 1)]
+        [InlineData(typeof(ConcreteType), 2)]
+        [InlineData(typeof(ConcreteType), 3)]
+        [InlineData(typeof(ConcreteType), 4)]
+        public void VerifyConstructorInvokesBehaviorExpectationWithCorrectParameterInfo(Type type, int constructorIndex)
+        {
+            // Fixture setup
+            var ctor = type.GetConstructors().ElementAt(constructorIndex);
+            var parameters = ctor.GetParameters();
 
             var observedParameters = new List<ParameterInfo>();
             var expectation = new DelegatingBehaviorExpectation
@@ -298,9 +431,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 }
             };
 
-            var sut = new GuardClauseAssertion(fixture, expectation);
+            var sut = new GuardClauseAssertion(new Fixture(), expectation);
             // Exercise system
-            sut.Verify(method);
+            sut.Verify(ctor);
             // Verify outcome
             Assert.True(parameters.SequenceEqual(observedParameters));
             // Teardown
