@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             // Exercise system
-            var references = typeof(SpecimenBuilderComposerIdioms).Assembly.GetReferencedAssemblies();
+            var references = typeof(IIdiomaticAssertion).Assembly.GetReferencedAssemblies();
             // Verify outcome
             Assert.False(references.Any(an => an.Name == assemblyName));
             // Teardown
