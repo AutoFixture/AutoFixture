@@ -69,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompositeBehaviorExpectationTest.cs" />
-    <Compile Include="CompositeBoundaryConventionTest.cs" />
     <Compile Include="DelegatingExpansion.cs" />
     <Compile Include="EmptyGuidBehaviorExpectationTest.cs" />
     <Compile Include="IndexedReplacementTest.cs" />
@@ -80,25 +79,13 @@
     <Compile Include="DelegatingBehaviorExpectation.cs" />
     <Compile Include="DelegatingGuardClauseCommand.cs" />
     <Compile Include="PropertySetCommandTest.cs" />
-    <Compile Include="DefaultBoundaryConventionTest.cs" />
-    <Compile Include="DelegatingBoundaryBehavior.cs" />
-    <Compile Include="DelegatingExceptionBoundaryBehavior.cs" />
-    <Compile Include="DelegatingBoundaryConvention.cs" />
     <Compile Include="DelegatingIdiomaticAssertion.cs" />
     <Compile Include="DependencyConstraints.cs" />
-    <Compile Include="EmptyStringBehaviorTest.cs" />
-    <Compile Include="ExceptionBoundaryBehaviorTest.cs" />
     <Compile Include="GuardClauseAssertionTest.cs" />
-    <Compile Include="GuidBoundaryBehaviorTest.cs" />
     <Compile Include="IdiomaticAssertionTest.cs" />
-    <Compile Include="NullReferenceBehaviorTest.cs" />
-    <Compile Include="ReflectionExceptionBoundaryBehaviorTest.cs" />
     <Compile Include="ReflectionExceptionUnwrappingCommandTest.cs" />
     <Compile Include="Scenario.cs" />
-    <Compile Include="ReferenceTypeBoundaryConventionTest.cs" />
-    <Compile Include="StringBoundaryConventionTest.cs" />
     <Compile Include="BoundaryConventionExceptionTest.cs" />
-    <Compile Include="GuidBoundaryConventionTest.cs" />
     <Compile Include="PropertyContextExceptionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WritablePropertyAssertionTest.cs" />
