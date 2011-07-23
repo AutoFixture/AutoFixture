@@ -11,6 +11,23 @@ namespace Ploeh.AutoFixture.Idioms
 
         public void Verify(IGuardClauseCommand command)
         {
+            if (command.RequestedType != typeof(Guid))
+                return;
+
+            try
+            {
+                command.Execute(Guid.Empty);
+            }
+            catch (ArgumentException)
+            {
+                return;
+            }
+            catch (Exception e)
+            {
+                throw command.CreateException("\"Guid.Empty\"", e);
+            }
+
+            throw command.CreateException("\"Guid.Empty\"");
         }
 
         #endregion
