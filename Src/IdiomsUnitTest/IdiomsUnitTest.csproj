@@ -74,6 +74,7 @@
     <Compile Include="CompositeMethodContextTest.cs" />
     <Compile Include="CompositePropertyContextTest.cs" />
     <Compile Include="DelegatingExpansion.cs" />
+    <Compile Include="EmptyGuidBehaviorExpectationTest.cs" />
     <Compile Include="IndexedReplacementTest.cs" />
     <Compile Include="MethodInvokeCommandTest.cs" />
     <Compile Include="DelegatingMethod.cs" />

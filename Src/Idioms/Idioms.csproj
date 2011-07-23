@@ -92,6 +92,7 @@
     <Compile Include="CompositeMemberContext.cs" />
     <Compile Include="CompositeMethodContext.cs" />
     <Compile Include="CompositePropertyContext.cs" />
+    <Compile Include="EmptyGuidBehaviorExpectation.cs" />
     <Compile Include="IExpansion.cs" />
     <Compile Include="IndexedReplacement.cs" />
     <Compile Include="MethodInfoExtensions.cs" />
