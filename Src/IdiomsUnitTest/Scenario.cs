@@ -82,7 +82,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyBoundariesForAllMembers()
         {
-            new Fixture().ForAllMembersOf<GuardedConstructorHost<Version>>().VerifyBoundaries();
+            var fixture = new Fixture();
+            var assertion = new GuardClauseAssertion(fixture);
+            var members = typeof(GuardedConstructorHost<Version>).GetMembers();
+            assertion.Verify(members);
         }
     }
 }
