@@ -67,6 +67,21 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
+        public void DefaultBehaviorExpectationIsCorrect()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new GuardClauseAssertion(dummyComposer);
+            // Exercise system
+            var result = sut.BehaviorExpectation;
+            // Verify outcome
+            var composite = Assert.IsAssignableFrom<CompositeBehaviorExpectation>(result);
+            Assert.True(composite.BehaviorExpectations.OfType<NullReferenceBehaviorExpectation>().Any());
+            Assert.True(composite.BehaviorExpectations.OfType<EmptyGuidBehaviorExpectation>().Any());
+            // Teardown
+        }
+
+        [Fact]
         public void VerifyReadOnlyPropertyDoesNotThrow()
         {
             // Fixture setup
@@ -455,20 +470,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             sut.Verify(ctor);
             // Verify outcome
             Assert.True(parameters.SequenceEqual(observedParameters));
-            // Teardown
-        }
-
-        [Fact]
-        public void DefaultBehaviorExpectationIsCorrect()
-        {
-            // Fixture setup
-            var dummyComposer = new Fixture();
-            var sut = new GuardClauseAssertion(dummyComposer);
-            // Exercise system
-            var result = sut.BehaviorExpectation;
-            // Verify outcome
-            var composite = Assert.IsAssignableFrom<CompositeBehaviorExpectation>(result);
-            Assert.True(composite.BehaviorExpectations.OfType<NullReferenceBehaviorExpectation>().Any());
             // Teardown
         }
 

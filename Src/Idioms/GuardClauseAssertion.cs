@@ -13,7 +13,9 @@ namespace Ploeh.AutoFixture.Idioms
         private readonly IBehaviorExpectation behaviorExpectation;
 
         public GuardClauseAssertion(ISpecimenBuilderComposer composer)
-            : this(composer, new CompositeBehaviorExpectation(new NullReferenceBehaviorExpectation()))
+            : this(composer, new CompositeBehaviorExpectation(
+                new NullReferenceBehaviorExpectation(), 
+                new EmptyGuidBehaviorExpectation()))
         {
         }
 
@@ -41,7 +43,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         public override void Verify(MethodInfo methodInfo)
         {
-            if(methodInfo.IsEqualsMethod())
+            if (methodInfo.IsEqualsMethod())
                 return;
 
             var owner = this.Composer.CreateAnonymous(methodInfo.ReflectedType);
