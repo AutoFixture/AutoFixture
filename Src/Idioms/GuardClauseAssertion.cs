@@ -41,6 +41,9 @@ namespace Ploeh.AutoFixture.Idioms
 
         public override void Verify(MethodInfo methodInfo)
         {
+            if(methodInfo.IsEqualsMethod())
+                return;
+
             var owner = this.Composer.CreateAnonymous(methodInfo.ReflectedType);
             var method = new InstanceMethod(methodInfo, owner);
             this.Verify(method);

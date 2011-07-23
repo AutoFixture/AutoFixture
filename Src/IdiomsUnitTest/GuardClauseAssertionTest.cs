@@ -141,7 +141,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 {
                     var unwrapper = Assert.IsAssignableFrom<ReflectionExceptionUnwrappingCommand>(c);
                     var methodCmd = Assert.IsAssignableFrom<MethodInvokeCommand>(unwrapper.Command);
-                        
+
                     var instanceMethod = Assert.IsAssignableFrom<InstanceMethod>(methodCmd.Method);
                     Assert.Equal(method, instanceMethod.Method);
                     Assert.IsAssignableFrom(ownerType, instanceMethod.Owner);
@@ -180,7 +180,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void VerifyMethodInvokesBehaviorExpectationWithCorrectReplacementIndices(Type ownerType, int methodIndex)
         {
             // Fixture setup
-            var method = ownerType.GetMethods().ElementAt(methodIndex);
+            var method = ownerType.GetMethods().Where(IsNotEqualsMethod).ElementAt(methodIndex);
             var parameters = method.GetParameters();
 
             var observedIndices = new List<int>();
@@ -275,7 +275,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void VerifyMethodInvokesBehaviorExpectationWithCorrectParameterInfo(Type ownerType, int methodIndex)
         {
             // Fixture setup
-            var method = ownerType.GetMethods().ElementAt(methodIndex);
+            var method = ownerType.GetMethods().Where(IsNotEqualsMethod).ElementAt(methodIndex);
             var parameters = method.GetParameters();
 
             var observedParameters = new List<ParameterInfo>();
@@ -295,6 +295,25 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             sut.Verify(method);
             // Verify outcome
             Assert.True(parameters.SequenceEqual(observedParameters));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        public void VerifyMethodIgnoresEquals(Type type)
+        {
+            // Fixture setup
+            var method = type.GetMethod("Equals", new[] { typeof(object) });
+
+            var invoked = false;
+            var expectation = new DelegatingBehaviorExpectation { OnVerify = c => invoked = true };
+
+            var sut = new GuardClauseAssertion(new Fixture(), expectation);
+            // Exercise system
+            sut.Verify(method);
+            // Verify outcome
+            Assert.False(invoked);
             // Teardown
         }
 
@@ -451,6 +470,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var composite = Assert.IsAssignableFrom<CompositeBehaviorExpectation>(result);
             Assert.True(composite.BehaviorExpectations.OfType<NullReferenceBehaviorExpectation>().Any());
             // Teardown
+        }
+
+        private static bool IsNotEqualsMethod(MethodInfo method)
+        {
+            return !typeof(object).GetMethod("Equals", new[] { typeof(object) }).Equals(method.GetBaseDefinition());
         }
     }
 }

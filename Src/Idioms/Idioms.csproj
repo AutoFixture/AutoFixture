@@ -94,6 +94,7 @@
     <Compile Include="CompositePropertyContext.cs" />
     <Compile Include="IExpansion.cs" />
     <Compile Include="IndexedReplacement.cs" />
+    <Compile Include="MethodInfoExtensions.cs" />
     <Compile Include="MethodInvokeCommand.cs" />
     <Compile Include="GuardClauseException.cs" />
     <Compile Include="IBehaviorExpectation.cs" />

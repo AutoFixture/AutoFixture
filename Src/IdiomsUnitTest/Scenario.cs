@@ -37,7 +37,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyBoundariesForAllMethods()
         {
-            new Fixture().ForAllMethodsOf<GuardedMethodHost>().VerifyBoundaries();
+            var fixture = new Fixture();
+            var assertion = new GuardClauseAssertion(fixture);
+            var methods = typeof(GuardedMethodHost).GetMethods();
+            assertion.Verify(methods);
         }
 
         [Fact]
