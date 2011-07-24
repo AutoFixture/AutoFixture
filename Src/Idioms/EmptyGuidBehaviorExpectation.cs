@@ -30,6 +30,9 @@ namespace Ploeh.AutoFixture.Idioms
         /// </remarks>
         public void Verify(IGuardClauseCommand command)
         {
+            if (command == null)
+                throw new ArgumentNullException("command");
+            
             if (command.RequestedType != typeof(Guid))
                 return;
 

@@ -32,6 +32,9 @@ namespace Ploeh.AutoFixture.Idioms
         /// <param name="assemblies">The assemblies.</param>
         public virtual void Verify(params Assembly[] assemblies)
         {
+            if (assemblies == null)
+                throw new ArgumentNullException("assemblies");
+
             foreach (var a in assemblies)
             {
                 this.Verify(a);
@@ -55,6 +58,9 @@ namespace Ploeh.AutoFixture.Idioms
         /// <param name="assembly">The assembly.</param>
         public virtual void Verify(Assembly assembly)
         {
+            if (assembly == null)
+                throw new ArgumentNullException("assembly");
+
             this.Verify(assembly.GetExportedTypes());
         }
 
@@ -64,6 +70,9 @@ namespace Ploeh.AutoFixture.Idioms
         /// <param name="types">The types.</param>
         public virtual void Verify(params Type[] types)
         {
+            if (types == null)
+                throw new ArgumentNullException("types");
+
             foreach (var t in types)
             {
                 this.Verify(t);
@@ -87,6 +96,9 @@ namespace Ploeh.AutoFixture.Idioms
         /// <param name="type">The type.</param>
         public virtual void Verify(Type type)
         {
+            if (type == null)
+                throw new ArgumentNullException("type");
+
             this.Verify(type.GetConstructors());
             this.Verify(IdiomaticAssertion.GetMethodsExceptPropertyAccessors(type));
             this.Verify(type.GetProperties());
@@ -99,6 +111,9 @@ namespace Ploeh.AutoFixture.Idioms
         /// <param name="memberInfos">The members.</param>
         public virtual void Verify(params MemberInfo[] memberInfos)
         {
+            if (memberInfos == null)
+                throw new ArgumentNullException("memberInfos");
+
             foreach (var m in memberInfos)
             {
                 this.Verify(m);
@@ -151,6 +166,9 @@ namespace Ploeh.AutoFixture.Idioms
         /// <param name="constructorInfos">The constructors.</param>
         public virtual void Verify(params ConstructorInfo[] constructorInfos)
         {
+            if (constructorInfos == null)
+                throw new ArgumentNullException("constructorInfos");
+
             foreach (var c in constructorInfos)
             {
                 this.Verify(c);
@@ -182,6 +200,9 @@ namespace Ploeh.AutoFixture.Idioms
         /// <param name="methodInfos">The methods.</param>
         public virtual void Verify(params MethodInfo[] methodInfos)
         {
+            if (methodInfos == null)
+                throw new ArgumentNullException("methodInfos");
+
             foreach (var m in methodInfos)
             {
                 this.Verify(m);
@@ -213,6 +234,9 @@ namespace Ploeh.AutoFixture.Idioms
         /// <param name="propertyInfos">The properties.</param>
         public virtual void Verify(params PropertyInfo[] propertyInfos)
         {
+            if (propertyInfos == null)
+                throw new ArgumentNullException("propertyInfos");
+
             foreach (var p in propertyInfos)
             {
                 this.Verify(p);

@@ -107,6 +107,9 @@ namespace Ploeh.AutoFixture.Idioms
         /// </remarks>
         public override void Verify(MethodInfo methodInfo)
         {
+            if (methodInfo == null)
+                throw new ArgumentNullException("methodInfo");
+
             if (methodInfo.IsEqualsMethod())
                 return;
 
@@ -127,10 +130,11 @@ namespace Ploeh.AutoFixture.Idioms
         /// </remarks>
         public override void Verify(PropertyInfo propertyInfo)
         {
+            if (propertyInfo == null)
+                throw new ArgumentNullException("propertyInfo");
+
             if (propertyInfo.GetSetMethod() == null)
-            {
                 return;
-            }
 
             var owner = this.Composer.CreateAnonymous(propertyInfo.ReflectedType);
             var command = new PropertySetCommand(propertyInfo, owner);

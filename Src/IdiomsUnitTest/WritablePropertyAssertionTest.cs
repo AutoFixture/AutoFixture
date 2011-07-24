@@ -7,6 +7,7 @@ using Ploeh.AutoFixture.Idioms;
 using Ploeh.TestTypeFoundation;
 using Ploeh.AutoFixture.Kernel;
 using Xunit.Extensions;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -44,6 +45,18 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new WritablePropertyAssertion(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyNullPropertyThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new WritablePropertyAssertion(dummyComposer);
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Verify((PropertyInfo)null));
             // Teardown
         }
 

@@ -82,6 +82,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
+        public void VerifyNullPropertyThrows()
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Verify((PropertyInfo)null));
+            // Teardown
+        }
+
+        [Fact]
         public void VerifyReadOnlyPropertyDoesNotThrow()
         {
             // Fixture setup
@@ -120,6 +131,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             sut.Verify(property);
             // Verify outcome
             Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyNullMethodThrows()
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Verify((MethodInfo)null));
             // Teardown
         }
 

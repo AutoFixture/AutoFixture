@@ -22,6 +22,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void VerifyNullCommandThrows()
+        {
+            // Fixture setup
+            var sut = new NullReferenceBehaviorExpectation();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Verify(null));
+            // Teardown
+        }
+
         [Theory]
         [InlineData(typeof(TriState))]
         [InlineData(typeof(int))]

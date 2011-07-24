@@ -33,6 +33,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
+        public void VerifyNullAssemblyArrayThrows()
+        {
+            // Fixture setup
+            var sut = new DelegatingIdiomaticAssertion();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Verify((Assembly[])null));
+            // Teardown
+        }
+
+        [Fact]
         public void VerifyAssemblyArrayCorrectlyInvokesNextVerify()
         {
             // Fixture setup
@@ -63,6 +74,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
+        public void VerifyNullAssemblyThrows()
+        {
+            // Fixture setup
+            var sut = new DelegatingIdiomaticAssertion();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Verify((Assembly)null));
+            // Teardown
+        }
+
+        [Fact]
         public void VerifyAssemblyCorrectlyInvokesNextVerify()
         {
             // Fixture setup
@@ -75,6 +97,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             sut.Verify(assembly);
             // Verify outcome
             Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyNullTypeArrayThrows()
+        {
+            // Fixture setup
+            var sut = new DelegatingIdiomaticAssertion();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Verify((Type[])null));
             // Teardown
         }
 
@@ -105,6 +138,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             sut.Verify(types);
             // Verify outcome
             Assert.True(types.SequenceEqual(observedTypes));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyNullTypeThrows()
+        {
+            // Fixture setup
+            var sut = new DelegatingIdiomaticAssertion();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Verify((Type)null));
             // Teardown
         }
 
@@ -159,6 +203,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             sut.Verify(type);
             // Verify outcome
             Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyNullMemberInfoArrayThrows()
+        {
+            // Fixture setup
+            var sut = new DelegatingIdiomaticAssertion();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Verify((MemberInfo[])null));
             // Teardown
         }
 
@@ -252,6 +307,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void VerifyNullConstructorInfoArrayThrows()
+        {
+            // Fixture setup
+            var sut = new DelegatingIdiomaticAssertion();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Verify((ConstructorInfo[])null));
+            // Teardown
+        }
+
         [Theory]
         [InlineData(typeof(object))]
         [InlineData(typeof(string))]
@@ -301,6 +367,16 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void VerifyNullMethodInfoArrayThrows()
+        {
+            // Fixture setup
+            var sut = new DelegatingIdiomaticAssertion();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Verify((MethodInfo[])null));
+            // Teardown
+        }
 
         [Theory]
         [InlineData(typeof(object))]
@@ -351,6 +427,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() =>
                 sut.Verify(method));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyNullPropertyInfoArrayThrows()
+        {
+            // Fixture setup
+            var sut = new DelegatingIdiomaticAssertion();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Verify((PropertyInfo[])null));
             // Teardown
         }
 

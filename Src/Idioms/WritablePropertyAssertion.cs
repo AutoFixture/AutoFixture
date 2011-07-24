@@ -78,10 +78,11 @@ namespace Ploeh.AutoFixture.Idioms
         /// <exception cref="WritablePropertyException">The verification fails.</exception>
         public override void Verify(PropertyInfo propertyInfo)
         {
+            if (propertyInfo == null)
+                throw new ArgumentNullException("propertyInfo");
+
             if (propertyInfo.GetSetMethod() == null)
-            {
                 return;
-            }
 
             var specimen = this.composer.CreateAnonymous(propertyInfo.ReflectedType);
             var propertyValue = this.composer.CreateAnonymous(propertyInfo.PropertyType);
