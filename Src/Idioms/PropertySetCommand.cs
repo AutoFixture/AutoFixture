@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Globalization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -109,7 +110,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         private string CreateExceptionMessage(string value)
         {
-            return string.Format(
+            return string.Format(CultureInfo.CurrentCulture,
                 "An attempt was made to assign the value {0} to the property {1}, and no Guard Clause prevented this. Are you missing a Guard Clause?{5}Property Type: {2}{5}Declaring Type: {3}{5}Reflected Type: {4}",
                 value,
                 this.PropertyInfo.Name,

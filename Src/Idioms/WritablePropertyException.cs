@@ -5,6 +5,7 @@ using System.Text;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
+using System.Globalization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -104,7 +105,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         private static string FormatDefaultMessage(PropertyInfo propertyInfo)
         {
-            return string.Format("The property {0} failed a test for being well-behaved writable. The getter does not return the value assigned to the setter.{3}Declaring type: {1}{3}Reflected type: {2}{3}", propertyInfo, propertyInfo.DeclaringType.AssemblyQualifiedName, propertyInfo.ReflectedType.AssemblyQualifiedName, Environment.NewLine);
+            return string.Format(CultureInfo.CurrentCulture, "The property {0} failed a test for being well-behaved writable. The getter does not return the value assigned to the setter.{3}Declaring type: {1}{3}Reflected type: {2}{3}", propertyInfo, propertyInfo.DeclaringType.AssemblyQualifiedName, propertyInfo.ReflectedType.AssemblyQualifiedName, Environment.NewLine);
         }
     }
 }
