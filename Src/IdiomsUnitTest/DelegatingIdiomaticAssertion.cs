@@ -11,6 +11,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
     {
         public DelegatingIdiomaticAssertion()
         {
+            this.OnAssemblyArrayVerify = a => { };
+            this.OnAssembliesVerify = a => { };
             this.OnAssemblyVerify = a => { };
             this.OnTypeArrayVerify = t => { };
             this.OnTypesVerify = t => { };
@@ -28,6 +30,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             this.OnPropertyInfosVerify = p => { };
             this.OnPropertyInfoVerify = p => { };
         }
+
+        public Action<Assembly[]> OnAssemblyArrayVerify { get; set; }
+
+        public Action<IEnumerable<Assembly>> OnAssembliesVerify { get; set; }
 
         public Action<Assembly> OnAssemblyVerify { get; set; }
 
@@ -60,6 +66,18 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public Action<IEnumerable<PropertyInfo>> OnPropertyInfosVerify { get; set; }
 
         public Action<PropertyInfo> OnPropertyInfoVerify { get; set; }
+
+        public override void Verify(params Assembly[] assemblies)
+        {
+            this.OnAssemblyArrayVerify(assemblies);
+            base.Verify(assemblies);
+        }
+
+        public override void Verify(IEnumerable<Assembly> assemblies)
+        {
+            this.OnAssembliesVerify(assemblies);
+            base.Verify(assemblies);
+        }
 
         public override void Verify(Assembly assembly)
         {

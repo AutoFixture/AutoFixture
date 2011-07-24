@@ -10,6 +10,19 @@ namespace Ploeh.AutoFixture.Idioms
     {
         #region IIdiomaticAssertion Members
 
+        public virtual void Verify(params Assembly[] assemblies)
+        {
+            foreach (var a in assemblies)
+            {
+                this.Verify(a);
+            }
+        }
+
+        public virtual void Verify(IEnumerable<Assembly> assemblies)
+        {
+            this.Verify(assemblies.ToArray());
+        }
+
         public virtual void Verify(Assembly assembly)
         {
             this.Verify(assembly.GetExportedTypes());
