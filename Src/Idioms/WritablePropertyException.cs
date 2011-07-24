@@ -11,6 +11,7 @@ namespace Ploeh.AutoFixture.Idioms
     /// Represents a verification error when testing whether a writable property is correctly
     /// implemented.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors", Justification = "This exception's invariants require the propertyInfo to be present. Thus, constructors without the propertyInfo would violate the invarient. However, constructors matching the standard Exception constructors have been implemented.")]
     [Serializable]
     public class WritablePropertyException : Exception
     {
@@ -69,6 +70,7 @@ namespace Ploeh.AutoFixture.Idioms
         protected WritablePropertyException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
+            this.propertyInfo = (PropertyInfo)info.GetValue("PropertyInfo", typeof(PropertyInfo));
         }
 
         /// <summary>
@@ -77,6 +79,13 @@ namespace Ploeh.AutoFixture.Idioms
         public PropertyInfo PropertyInfo
         {
             get { return this.propertyInfo; }
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+
+            info.AddValue("PropertyInfo", this.propertyInfo);
         }
 
         private static string FormatDefaultMessage(PropertyInfo propertyInfo)

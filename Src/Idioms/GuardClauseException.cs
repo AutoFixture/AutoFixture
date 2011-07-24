@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
     /// <summary>
     /// Represents an error about a missing Guard Clause.
     /// </summary>
+    [Serializable]
     public class GuardClauseException : Exception
     {
         /// <summary>
@@ -41,6 +43,22 @@ namespace Ploeh.AutoFixture.Idioms
         /// </param>
         public GuardClauseException(string message, Exception innerException)
             : base(message, innerException)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GuardClauseException"/> class.
+        /// </summary>
+        /// <param name="info">
+        /// The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the
+        /// serialized object data about the exception being thrown.
+        /// </param>
+        /// <param name="context">
+        /// The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains
+        /// contextual information about the source or destination.
+        /// </param>
+        protected GuardClauseException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
     }

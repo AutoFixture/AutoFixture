@@ -168,5 +168,28 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 // Teardown
             }
         }
+
+        [Fact]
+        public void PropertyInfosSerializesCorrectly()
+        {
+            // Fixture setup
+            var property = typeof(Version).GetProperties().First();
+            var dummyMessage = Guid.NewGuid().ToString();
+            var sut = new WritablePropertyException(property, dummyMessage);
+
+            var formatter = new BinaryFormatter();
+            // Exercise system
+            using (var s = new MemoryStream())
+            {
+                formatter.Serialize(s, sut);
+                s.Flush();
+                s.Position = 0;
+                var result = formatter.Deserialize(s);
+                // Verify outcome
+                var e = Assert.IsAssignableFrom<WritablePropertyException>(result);
+                Assert.Equal(property, e.PropertyInfo);
+                // Teardown
+            }
+        }
     }
 }
