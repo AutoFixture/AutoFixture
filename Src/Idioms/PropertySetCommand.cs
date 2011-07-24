@@ -6,22 +6,43 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
 {
+    /// <summary>
+    /// Assigns a value to a property.
+    /// </summary>
     public class PropertySetCommand : IGuardClauseCommand
     {
         private readonly PropertyInfo propertyInfo;
         private readonly object owner;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertySetCommand"/> class.
+        /// </summary>
+        /// <param name="propertyInfo">The property which should have a value assigned.</param>
+        /// <param name="owner">The instance exposing the property.</param>
+        /// <remarks>
+        /// <para>
+        /// Although the constructor doesn't enforce this, the <paramref name="owner" /> is
+        /// expected to expose the property identified by <paramref name="propertyInfo" />. If not,
+        /// the <see cref="Execute" /> method will fail.
+        /// </para>
+        /// </remarks>
         public PropertySetCommand(PropertyInfo propertyInfo, object owner)
         {
             this.propertyInfo = propertyInfo;
             this.owner = owner;
         }
 
+        /// <summary>
+        /// Gets the owner supplied via the constructor.
+        /// </summary>
         public object Owner
         {
             get { return this.owner; }
         }
 
+        /// <summary>
+        /// Gets the property supplied via the constructor.
+        /// </summary>
         public PropertyInfo PropertyInfo
         {
             get { return this.propertyInfo; }
