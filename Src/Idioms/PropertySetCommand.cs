@@ -50,21 +50,56 @@ namespace Ploeh.AutoFixture.Idioms
 
         #region IContextualCommand Members
 
+        /// <summary>
+        /// Gets the type of the requested value.
+        /// </summary>
+        /// <value></value>
+        /// <remarks>
+        /// The RequestedType property identifies the type of object which should be supplied to
+        /// the <see cref="Execute"/> method - in this case the type of the
+        /// <see cref="PropertyInfo" />.
+        /// </remarks>
         public Type RequestedType
         {
             get { return this.propertyInfo.PropertyType; }
         }
 
+        /// <summary>
+        /// Executes the action with the specified value.
+        /// </summary>
+        /// <param name="value">The value with wich the action is executed.</param>
+        /// <remarks>
+        /// <para>
+        /// Assigns <paramref name="value" /> to the <see cref="PropertyInfo" />.
+        /// </para>
+        /// </remarks>
         public void Execute(object value)
         {
             this.propertyInfo.SetValue(this.Owner, value, null);
         }
 
+        /// <summary>
+        /// Creates an exception which communicates that an error occured for a specific input
+        /// value.
+        /// </summary>
+        /// <param name="value">A string representation of the value.</param>
+        /// <returns>
+        /// An exception which communicates the cause of the error.
+        /// </returns>
         public Exception CreateException(string value)
         {
             return new GuardClauseException(this.CreateExceptionMessage(value));
         }
 
+        /// <summary>
+        /// Creates an exception which communicates that an error occured for a specific input
+        /// value.
+        /// </summary>
+        /// <param name="value">A string representation of the value.</param>
+        /// <param name="innerException">The exception that is the cause of the current exception.</param>
+        /// <returns>
+        /// An exception which communicates the cause of the error.
+        /// </returns>
         public Exception CreateException(string value, Exception innerException)
         {
             return new GuardClauseException(this.CreateExceptionMessage(value), innerException);
