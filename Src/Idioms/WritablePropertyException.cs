@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Security.Permissions;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -93,6 +94,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains
         /// contextual information about the source or destination.
         /// </param>
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
