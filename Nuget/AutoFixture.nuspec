@@ -1,20 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?> 
-<package> 
-  <metadata> 
-    <id>AutoFixture</id> 
-    <version>2.1</version> 
-	<title>AutoFixture</title>
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>AutoFixture</id>
+    <version>2.2</version>
+    <title>AutoFixture</title>
     <authors>Mark Seemann</authors>
-	<owners>Peter Ravnholt</owners>
-    <description>AutoFixture makes it easier for developers to do Test-Driven Development by automating non-relevant Test Fixture Setup, allowing the Test Developer to focus on the essentials of each test case.</description> 
+    <owners>Mark Seemann</owners>
+    <description>AutoFixture makes it easier for developers to do Test-Driven Development by automating non-relevant Test Fixture Setup, allowing the Test Developer to focus on the essentials of each test case.</description>
     <projectUrl>http://autofixture.codeplex.com</projectUrl>
-	<licenseUrl>http://autofixture.codeplex.com/license</licenseUrl>
-	<language>en-US</language>
+    <licenseUrl>http://autofixture.codeplex.com/license</licenseUrl>
+    <language>en-US</language>
   </metadata>
   <files>
     <file src="Ploeh.AutoFixture.dll" target="lib" />
-	<file src="Ploeh.AutoFixture.XML" target="lib" />
-	<file src="Ploeh.SemanticComparison.dll" target="lib" />
-	<file src="Ploeh.SemanticComparison.XML" target="lib" />
+    <file src="Ploeh.AutoFixture.XML" target="lib" />
+    <file src="Ploeh.SemanticComparison.dll" target="lib" />
+    <file src="Ploeh.SemanticComparison.XML" target="lib" />
   </files>
 </package>
