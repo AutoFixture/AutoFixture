@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CopyToReleaseFolder">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="UpdateNuGetPackages" ToolsVersion="4.0">
   <PropertyGroup>
     <XUnitPath>Lib\xUnit.net 1.6.1</XUnitPath>
   </PropertyGroup>
@@ -22,6 +22,9 @@
     <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.dll" />
     <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.XML" />
   </ItemGroup>
+  <ItemGroup>
+    <NuSpecFiles Include="NuGet\*.nuspec" />
+  </ItemGroup>
   <PropertyGroup>
     <ReleaseFolder>Release</ReleaseFolder>
   </PropertyGroup>
@@ -42,7 +45,7 @@
   </Target>
   <Target Name="MakeReleaseFolder" DependsOnTargets="DeleteReleaseFolder">
     <MakeDir Directories="$(ReleaseFolder)" Condition="!Exists($(ReleaseFolder))" />
-  </Target>  
+  </Target>
   <Target Name="Verify" DependsOnTargets="MakeReleaseFolder">
     <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Verify" />
   </Target>
@@ -54,5 +57,25 @@
   </Target>
   <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
     <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />
+  </Target>
+  <Target Name="PrepareNuGetPackages" DependsOnTargets="CopyToReleaseFolder">
+    <PropertyGroup>
+      <NuGetOutputFolder>NuGetPackages</NuGetOutputFolder>
+    </PropertyGroup>
+    <RemoveDir Directories="$(NuGetOutputFolder)" />
+    <Copy SourceFiles="@(NuSpecFiles)" DestinationFolder="$(NuGetOutputFolder)">
+      <Output TaskParameter="CopiedFiles" ItemName="TempNuspecFiles" />
+    </Copy>
+  </Target>
+  <Target Name="UpdateNuGetPackages" DependsOnTargets="PrepareNuGetPackages">
+    <GetAssemblyIdentity AssemblyFiles="@(TempNuspecFiles->'$(ReleaseFolder)\%(Filename).dll')">
+      <Output TaskParameter="Assemblies" ItemName="AsmInfos" />
+    </GetAssemblyIdentity>
+    <XmlPoke XmlInputPath="$(NuGetOutputFolder)\%(AsmInfos.Name).nuspec"
+             Query="//metadata/version"
+             Value="%(AsmInfos.Version)" />
+    <XmlPoke XmlInputPath="$(NuGetOutputFolder)\%(AsmInfos.Name).nuspec"
+             Query="//metadata/dependencies/dependency[contains(@id, 'autofixture')]/@version"
+             Value="%(AsmInfos.Version)" />
   </Target>
 </Project>
