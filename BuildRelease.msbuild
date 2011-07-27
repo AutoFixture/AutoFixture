@@ -75,5 +75,6 @@
     <XmlPoke XmlInputPath="$(NuGetOutputFolder)\%(AsmInfos.Name).nuspec"
              Query="//metadata/dependencies/dependency[contains(@id, 'autofixture')]/@version"
              Value="%(AsmInfos.Version)" />
+    <Exec Command="Lib\NuGet\nuget.exe pack %(TempNuspecFiles.FullPath) -BasePath $(ReleaseFolder) -OutputDirectory $(NuGetOutputFolder)" />
   </Target>
 </Project>
