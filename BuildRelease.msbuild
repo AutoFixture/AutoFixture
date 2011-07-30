@@ -57,8 +57,8 @@
   </Target>
   <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
     <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />
-  </Target>
-  <Target Name="NuGetPrepare" DependsOnTargets="CopyToReleaseFolder">
+  </Target>  
+  <Target Name="CreateTemporaryNuGetSpecFiles">
     <PropertyGroup>
       <NuGetOutputFolder>NuGetPackages</NuGetOutputFolder>
     </PropertyGroup>
@@ -66,16 +66,26 @@
     <Copy SourceFiles="@(NuSpecFiles)" DestinationFolder="$(NuGetOutputFolder)">
       <Output TaskParameter="CopiedFiles" ItemName="TempNuspecFiles" />
     </Copy>
-    <GetAssemblyIdentity AssemblyFiles="@(TempNuspecFiles->'$(ReleaseFolder)\%(Filename).dll')">
-      <Output TaskParameter="Assemblies" ItemName="AsmInfos" />
+  </Target>  
+  <Target Name="NuGetPrepare" DependsOnTargets="CreateTemporaryNuGetSpecFiles;CopyToReleaseFolder" Outputs="%(TempNuspecFiles.Identity)">
+    <PropertyGroup>
+      <TempNuspecFilePath>%(TempNuspecFiles.FullPath)</TempNuspecFilePath>
+      <AssemblyFile>$(ReleaseFolder)\%(TempNuspecFiles.Filename).dll</AssemblyFile>
+    </PropertyGroup>
+    <GetAssemblyIdentity AssemblyFiles="$(AssemblyFile)">
+      <Output TaskParameter="Assemblies" ItemName="AssemblyInfo" />
     </GetAssemblyIdentity>
-    <XmlPoke XmlInputPath="$(NuGetOutputFolder)\%(AsmInfos.Name).nuspec"
+    <PropertyGroup>
+      <Version>%(AssemblyInfo.Version)</Version>
+      <SemanticVersion>$(Version.Substring(0, $(Version.LastIndexOf('.'))))</SemanticVersion>
+    </PropertyGroup>    
+    <XmlPoke XmlInputPath="$(TempNuspecFilePath)"
              Query="//metadata/version"
-             Value="%(AsmInfos.Version)" />
-    <XmlPoke XmlInputPath="$(NuGetOutputFolder)\%(AsmInfos.Name).nuspec"
+             Value="$(SemanticVersion)" />
+    <XmlPoke XmlInputPath="$(TempNuspecFilePath)"
              Query="//metadata/dependencies/dependency[contains(@id, 'autofixture')]/@version"
-             Value="%(AsmInfos.Version)" />
-  </Target>
+             Value="$(SemanticVersion)" />
+  </Target>  
   <Target Name="NuGetPack" DependsOnTargets="NuGetPrepare">
     <Exec Command="Lib\NuGet\nuget.exe pack %(TempNuspecFiles.FullPath) -BasePath $(ReleaseFolder) -OutputDirectory $(NuGetOutputFolder)" />
   </Target>
