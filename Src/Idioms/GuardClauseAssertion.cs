@@ -8,7 +8,7 @@ using System.Reflection;
 namespace Ploeh.AutoFixture.Idioms
 {
     /// <summary>
-    /// Encapsulates a unit test that verifies that a method or constructor has appropriate Gaurd
+    /// Encapsulates a unit test that verifies that a method or constructor has appropriate Guard
     /// Clauses in place.
     /// </summary>
     public class GuardClauseAssertion : IdiomaticAssertion
