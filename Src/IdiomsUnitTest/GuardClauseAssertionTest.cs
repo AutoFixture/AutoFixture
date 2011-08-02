@@ -275,15 +275,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(GuardedConstructorHost<object>), 0)]
-        [InlineData(typeof(GuardedConstructorHost<string>), 0)]
-        [InlineData(typeof(GuardedConstructorHost<Version>), 0)]
-        [InlineData(typeof(ConcreteType), 0)]
-        [InlineData(typeof(ConcreteType), 1)]
-        [InlineData(typeof(ConcreteType), 2)]
-        [InlineData(typeof(ConcreteType), 3)]
-        [InlineData(typeof(ConcreteType), 4)]
+        [Theory, ClassData(typeof(ConstructorData))]
         public void VerifyConstructorInvokesBehaviorExpectationWithCorrectMethod(Type type, int constructorIndex)
         {
             // Fixture setup
@@ -310,15 +302,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(GuardedConstructorHost<object>), 0)]
-        [InlineData(typeof(GuardedConstructorHost<string>), 0)]
-        [InlineData(typeof(GuardedConstructorHost<Version>), 0)]
-        [InlineData(typeof(ConcreteType), 0)]
-        [InlineData(typeof(ConcreteType), 1)]
-        [InlineData(typeof(ConcreteType), 2)]
-        [InlineData(typeof(ConcreteType), 3)]
-        [InlineData(typeof(ConcreteType), 4)]
+        [Theory, ClassData(typeof(ConstructorData))]
         public void VerifyConstructorInvokesBehaviorExpectationWithCorrectReplacementIndices(Type type, int constructorIndex)
         {
             // Fixture setup
@@ -347,15 +331,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(GuardedConstructorHost<object>), 0)]
-        [InlineData(typeof(GuardedConstructorHost<string>), 0)]
-        [InlineData(typeof(GuardedConstructorHost<Version>), 0)]
-        [InlineData(typeof(ConcreteType), 0)]
-        [InlineData(typeof(ConcreteType), 1)]
-        [InlineData(typeof(ConcreteType), 2)]
-        [InlineData(typeof(ConcreteType), 3)]
-        [InlineData(typeof(ConcreteType), 4)]
+        [Theory, ClassData(typeof(ConstructorData))]
         public void VerifyConstructorInvokesBehaviorExpectationWithCorrectParametersForReplacement(Type type, int constructorIndex)
         {
             // Fixture setup
@@ -381,15 +357,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(GuardedConstructorHost<object>), 0)]
-        [InlineData(typeof(GuardedConstructorHost<string>), 0)]
-        [InlineData(typeof(GuardedConstructorHost<Version>), 0)]
-        [InlineData(typeof(ConcreteType), 0)]
-        [InlineData(typeof(ConcreteType), 1)]
-        [InlineData(typeof(ConcreteType), 2)]
-        [InlineData(typeof(ConcreteType), 3)]
-        [InlineData(typeof(ConcreteType), 4)]
+        [Theory, ClassData(typeof(ConstructorData))]
         public void VerifyConstructorInvokesBehaviorExpectationWithCorrectParameterInfo(Type type, int constructorIndex)
         {
             // Fixture setup
@@ -461,5 +429,32 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             #endregion
         }
 
+        private class ConstructorData : IEnumerable<object[]>
+        {
+            #region IEnumerable<object[]> Members
+
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] { typeof(GuardedConstructorHost<object>), 0 };
+                yield return new object[] { typeof(GuardedConstructorHost<string>), 0 };
+                yield return new object[] { typeof(GuardedConstructorHost<Version>), 0 };
+                yield return new object[] { typeof(ConcreteType), 0 };
+                yield return new object[] { typeof(ConcreteType), 1 };
+                yield return new object[] { typeof(ConcreteType), 2 };
+                yield return new object[] { typeof(ConcreteType), 3 };
+                yield return new object[] { typeof(ConcreteType), 4 };
+            }
+
+            #endregion
+
+            #region IEnumerable Members
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+
+            #endregion
+        }
     }
 }
