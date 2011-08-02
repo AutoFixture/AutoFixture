@@ -8,6 +8,7 @@ using Ploeh.TestTypeFoundation;
 using Ploeh.AutoFixture.Kernel;
 using Xunit.Extensions;
 using System.Reflection;
+using System.Collections;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -145,27 +146,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(GuardedMethodHost), 0)]
-        [InlineData(typeof(GuardedMethodHost), 1)]
-        [InlineData(typeof(GuardedMethodHost), 2)]
-        [InlineData(typeof(GuardedMethodHost), 3)]
-        [InlineData(typeof(GuardedMethodHost), 4)]
-        [InlineData(typeof(GuardedMethodHost), 5)]
-        [InlineData(typeof(GuardedMethodHost), 6)]
-        [InlineData(typeof(GuardedMethodHost), 7)]
-        [InlineData(typeof(GuardedMethodHost), 8)]
-        [InlineData(typeof(Version), 0)]
-        [InlineData(typeof(Version), 1)]
-        [InlineData(typeof(Version), 2)]
-        [InlineData(typeof(Version), 3)]
-        [InlineData(typeof(Version), 4)]
-        [InlineData(typeof(Version), 5)]
-        [InlineData(typeof(Version), 6)]
-        [InlineData(typeof(Version), 7)]
-        [InlineData(typeof(Version), 8)]
-        [InlineData(typeof(Version), 9)]
-        [InlineData(typeof(Version), 10)]
+        [Theory, ClassData(typeof(MethodData))]
         public void VerifyMethodInvokesBehaviorExpectationWithCorrectMethod(Type ownerType, int methodIndex)
         {
             // Fixture setup
@@ -193,27 +174,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(GuardedMethodHost), 0)]
-        [InlineData(typeof(GuardedMethodHost), 1)]
-        [InlineData(typeof(GuardedMethodHost), 2)]
-        [InlineData(typeof(GuardedMethodHost), 3)]
-        [InlineData(typeof(GuardedMethodHost), 4)]
-        [InlineData(typeof(GuardedMethodHost), 5)]
-        [InlineData(typeof(GuardedMethodHost), 6)]
-        [InlineData(typeof(GuardedMethodHost), 7)]
-        [InlineData(typeof(GuardedMethodHost), 8)]
-        [InlineData(typeof(Version), 0)]
-        [InlineData(typeof(Version), 1)]
-        [InlineData(typeof(Version), 2)]
-        [InlineData(typeof(Version), 3)]
-        [InlineData(typeof(Version), 4)]
-        [InlineData(typeof(Version), 5)]
-        [InlineData(typeof(Version), 6)]
-        [InlineData(typeof(Version), 7)]
-        [InlineData(typeof(Version), 8)]
-        [InlineData(typeof(Version), 9)]
-        [InlineData(typeof(Version), 10)]
+        [Theory, ClassData(typeof(MethodData))]
         public void VerifyMethodInvokesBehaviorExpectationWithCorrectReplacementIndices(Type ownerType, int methodIndex)
         {
             // Fixture setup
@@ -242,27 +203,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(GuardedMethodHost), 0)]
-        [InlineData(typeof(GuardedMethodHost), 1)]
-        [InlineData(typeof(GuardedMethodHost), 2)]
-        [InlineData(typeof(GuardedMethodHost), 3)]
-        [InlineData(typeof(GuardedMethodHost), 4)]
-        [InlineData(typeof(GuardedMethodHost), 5)]
-        [InlineData(typeof(GuardedMethodHost), 6)]
-        [InlineData(typeof(GuardedMethodHost), 7)]
-        [InlineData(typeof(GuardedMethodHost), 8)]
-        [InlineData(typeof(Version), 0)]
-        [InlineData(typeof(Version), 1)]
-        [InlineData(typeof(Version), 2)]
-        [InlineData(typeof(Version), 3)]
-        [InlineData(typeof(Version), 4)]
-        [InlineData(typeof(Version), 5)]
-        [InlineData(typeof(Version), 6)]
-        [InlineData(typeof(Version), 7)]
-        [InlineData(typeof(Version), 8)]
-        [InlineData(typeof(Version), 9)]
-        [InlineData(typeof(Version), 10)]
+        [Theory, ClassData(typeof(MethodData))]
         public void VerifyMethodInvokesBehaviorExpectationWithCorrectParametersForReplacement(Type ownerType, int methodIndex)
         {
             // Fixture setup
@@ -288,27 +229,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(GuardedMethodHost), 0)]
-        [InlineData(typeof(GuardedMethodHost), 1)]
-        [InlineData(typeof(GuardedMethodHost), 2)]
-        [InlineData(typeof(GuardedMethodHost), 3)]
-        [InlineData(typeof(GuardedMethodHost), 4)]
-        [InlineData(typeof(GuardedMethodHost), 5)]
-        [InlineData(typeof(GuardedMethodHost), 6)]
-        [InlineData(typeof(GuardedMethodHost), 7)]
-        [InlineData(typeof(GuardedMethodHost), 8)]
-        [InlineData(typeof(Version), 0)]
-        [InlineData(typeof(Version), 1)]
-        [InlineData(typeof(Version), 2)]
-        [InlineData(typeof(Version), 3)]
-        [InlineData(typeof(Version), 4)]
-        [InlineData(typeof(Version), 5)]
-        [InlineData(typeof(Version), 6)]
-        [InlineData(typeof(Version), 7)]
-        [InlineData(typeof(Version), 8)]
-        [InlineData(typeof(Version), 9)]
-        [InlineData(typeof(Version), 10)]
+        [Theory, ClassData(typeof(MethodData))]
         public void VerifyMethodInvokesBehaviorExpectationWithCorrectParameterInfo(Type ownerType, int methodIndex)
         {
             // Fixture setup
@@ -499,5 +420,46 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             return !typeof(object).GetMethod("Equals", new[] { typeof(object) }).Equals(method.GetBaseDefinition());
         }
+
+        private class MethodData : IEnumerable<object[]>
+        {
+            #region IEnumerable<object[]> Members
+
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] { typeof(GuardedMethodHost), 0 };
+                yield return new object[] { typeof(GuardedMethodHost), 1 };
+                yield return new object[] { typeof(GuardedMethodHost), 2 };
+                yield return new object[] { typeof(GuardedMethodHost), 3 };
+                yield return new object[] { typeof(GuardedMethodHost), 4 };
+                yield return new object[] { typeof(GuardedMethodHost), 5 };
+                yield return new object[] { typeof(GuardedMethodHost), 6 };
+                yield return new object[] { typeof(GuardedMethodHost), 7 };
+                yield return new object[] { typeof(GuardedMethodHost), 8 };
+                yield return new object[] { typeof(Version), 0 };
+                yield return new object[] { typeof(Version), 1 };
+                yield return new object[] { typeof(Version), 2 };
+                yield return new object[] { typeof(Version), 3 };
+                yield return new object[] { typeof(Version), 4 };
+                yield return new object[] { typeof(Version), 5 };
+                yield return new object[] { typeof(Version), 6 };
+                yield return new object[] { typeof(Version), 7 };
+                yield return new object[] { typeof(Version), 8 };
+                yield return new object[] { typeof(Version), 9 };
+                yield return new object[] { typeof(Version), 10 };
+            }
+
+            #endregion
+
+            #region IEnumerable Members
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+
+            #endregion
+        }
+
     }
 }
