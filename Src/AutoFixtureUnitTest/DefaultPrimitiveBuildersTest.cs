@@ -44,6 +44,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     typeof(SByteSequenceGenerator),
                     typeof(SingleSequenceGenerator),
                     typeof(DoubleSequenceGenerator),
+                    typeof(TypeGenerator),
                     typeof(DelegateGenerator),
                     typeof(IntPtrGuard)
                 };

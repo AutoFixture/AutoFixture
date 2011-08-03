@@ -41,6 +41,7 @@ namespace Ploeh.AutoFixture
             yield return new SByteSequenceGenerator();
             yield return new SingleSequenceGenerator();
             yield return new DoubleSequenceGenerator();
+            yield return new TypeGenerator();
             yield return new DelegateGenerator();
             yield return new IntPtrGuard();
         }

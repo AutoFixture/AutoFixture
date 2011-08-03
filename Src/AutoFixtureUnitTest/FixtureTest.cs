@@ -1134,7 +1134,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]        
+        [Fact]
         public void CreateAnonymousWithTypeWithFactoryMethodWillInvokeFactoryMethod()
         {
             // Fixture setup
@@ -3562,6 +3562,18 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = fixture.CreateAnonymous<ConcreteType>();
             // Verify outcome
             Assert.NotNull(result.Property5);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousTypeReturnsInstance()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.CreateAnonymous<Type>();
+            // Verify outcome
+            Assert.NotNull(result);
             // Teardown
         }
 

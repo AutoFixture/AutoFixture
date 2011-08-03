@@ -215,6 +215,7 @@
     <Compile Include="Kernel\TraceWriterTest.cs" />
     <Compile Include="DefaultRelaysTest.cs" />
     <Compile Include="TracingBehaviorTest.cs" />
+    <Compile Include="TypeGeneratorTest.cs" />
     <Compile Include="UInt16SequenceGeneratorTest.cs" />
     <Compile Include="UInt32SequenceGeneratorTest.cs" />
     <Compile Include="UInt64SequenceGeneratorTest.cs" />
