@@ -813,6 +813,42 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousWithDoubleMixedWholeNumericPropertyWillAssignDifferentValues()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<DoublePropertyHolder<int, long>>();
+            // Verify outcome
+            Assert.NotEqual(result.Property1, result.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithDoubleMixedFloatingPointNumericPropertyWillAssignDifferentValues()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<DoublePropertyHolder<double, float>>();
+            // Verify outcome
+            Assert.NotEqual(result.Property1, result.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithDoubleMixedNumericPropertyWillAssignDifferentValues()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<DoublePropertyHolder<long, float>>();
+            // Verify outcome
+            Assert.NotEqual(result.Property1, result.Property2);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousWithGuidProperyWillAssignNonDefaultValue()
         {
             // Fixture setup
