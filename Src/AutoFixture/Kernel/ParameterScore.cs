@@ -8,9 +8,7 @@ namespace Ploeh.AutoFixture.Kernel
 {
     internal class ParameterScore : IComparable<ParameterScore>
     {
-        private readonly Type parentType;
-        private readonly Type targetType;
-        private readonly IEnumerable<ParameterInfo> parameters;
+        private readonly int score;
 
         internal ParameterScore(Type parentType, Type targetType, IEnumerable<ParameterInfo> parameters)
         {
@@ -27,9 +25,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("parameters");
             }
 
-            this.parentType = parentType;
-            this.targetType = targetType;
-            this.parameters = parameters;
+            this.score = ParameterScore.CalculateScore(parentType, targetType, parameters);
         }
 
         public int CompareTo(ParameterScore other)
@@ -39,20 +35,20 @@ namespace Ploeh.AutoFixture.Kernel
                 return 1;
             }
 
-            return this.CalculateScore().CompareTo(other.CalculateScore());
+            return this.score.CompareTo(other.score);
         }
 
-        private int CalculateScore()
+        private static int CalculateScore(Type parentType, Type targetType, IEnumerable<ParameterInfo> parameters)
         {
-            var genericParameterTypes = this.parentType.GetGenericArguments();
+            var genericParameterTypes = parentType.GetGenericArguments();
             if (genericParameterTypes.Length != 1)
             {
                 return 0;
             }
             var genericParameterType = genericParameterTypes.Single();
 
-            var listType = this.targetType.MakeGenericType(genericParameterType);
-            return this.parameters.Count(p => listType.IsAssignableFrom(p.ParameterType));
+            var listType = targetType.MakeGenericType(genericParameterType);
+            return parameters.Count(p => listType.IsAssignableFrom(p.ParameterType));
         }
     }
 }
