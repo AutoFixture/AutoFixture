@@ -92,5 +92,11 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             Assert.False(string.IsNullOrEmpty(p2.Text));
             Assert.NotEqual(0, p2.Number);
         }
+
+        [Theory, AutoData]
+        public void FavorArraysCausesArrayConstructorToBeInjectedWithFrozenItems([Frozen]int[] numbers, [FavorArrays]ItemContainer<int> container)
+        {
+            Assert.True(numbers.SequenceEqual(container.Items));
+        }
     }
 }

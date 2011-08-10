@@ -93,6 +93,7 @@
     <Compile Include="IndexedPropertyHolder.cs" />
     <Compile Include="GuardedPropertyHolder.cs" />
     <Compile Include="GuardedMethodHost.cs" />
+    <Compile Include="ItemContainer.cs" />
     <Compile Include="MultiUnorderedConstructorType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyHolder.cs" />
