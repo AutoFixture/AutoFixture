@@ -133,6 +133,7 @@
     <Compile Include="ConstructorCustomization.cs" />
     <Compile Include="ICustomization.cs" />
     <Compile Include="IFixture.cs" />
+    <Compile Include="Kernel\ArrayFavoringConstructorQuery.cs" />
     <Compile Include="Kernel\ArrayRelay.cs" />
     <Compile Include="Kernel\CollectionRelay.cs" />
     <Compile Include="Kernel\CollectionSpecification.cs" />
