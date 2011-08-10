@@ -6,48 +6,48 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixture.Kernel
 {
-	public class ArrayFavoringConstructorQuery : IMethodQuery
-	{
-		#region IMethodQuery Members
+    public class ArrayFavoringConstructorQuery : IMethodQuery
+    {
+        #region IMethodQuery Members
 
-		public IEnumerable<IMethod> SelectMethods(Type type)
-		{
-			if (type == null)
-				throw new ArgumentNullException("type");
+        public IEnumerable<IMethod> SelectMethods(Type type)
+        {
+            if (type == null)
+                throw new ArgumentNullException("type");
 
-			return from ci in type.GetConstructors()
-				   let score = new ArrayParameterScore(ci.GetParameters())
-				   orderby score descending
-				   select new ConstructorMethod(ci) as IMethod;
-		}
+            return from ci in type.GetConstructors()
+                   let score = new ArrayParameterScore(ci.GetParameters())
+                   orderby score descending
+                   select new ConstructorMethod(ci) as IMethod;
+        }
 
-		#endregion
+        #endregion
+        
+        private class ArrayParameterScore : IComparable<ArrayParameterScore>
+        {
+            private readonly int score;
 
-		private class ArrayParameterScore : IComparable<ArrayParameterScore>
-		{
-			private readonly int score;
+            public ArrayParameterScore(IEnumerable<ParameterInfo> parameters)
+            {
+                if (parameters == null)
+                    throw new ArgumentNullException("parameters");
 
-			public ArrayParameterScore(IEnumerable<ParameterInfo> parameters)
-			{
-				if (parameters == null)
-					throw new ArgumentNullException("parameters");
+                this.score = parameters.Count(p => p.ParameterType.IsArray);
+            }
 
-				this.score = parameters.Count(p => p.ParameterType.IsArray);
-			}
+            #region IComparable<ArrayParameterScore> Members
 
-			#region IComparable<ArrayParameterScore> Members
+            public int CompareTo(ArrayParameterScore other)
+            {
+                if (other == null)
+                {
+                    return 1;
+                }
 
-			public int CompareTo(ArrayParameterScore other)
-			{
-				if (other == null)
-				{
-					return 1;
-				}
+                return this.score.CompareTo(other.score);
+            }
 
-				return this.score.CompareTo(other.score);
-			}
-
-			#endregion
-		}
-	}
+            #endregion
+        }
+    }
 }
