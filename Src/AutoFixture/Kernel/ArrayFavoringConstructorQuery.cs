@@ -6,10 +6,37 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixture.Kernel
 {
+    /// <summary>
+    /// Selects public constructors ordered so that any constructor with array arguments are
+    /// selected before any other public constructor.
+    /// </summary>
+    /// <remarks>
+    /// The main target of this <see cref="IMethodQuery" /> implementation is to pick constructors
+    /// with array arguments before any other constructor.
+    /// </remarks>
     public class ArrayFavoringConstructorQuery : IMethodQuery
     {
         #region IMethodQuery Members
 
+        /// <summary>
+        /// Selects the constructors for the supplied type.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>
+        /// All public constructors for <paramref name="type"/>, giving priority to any constructor
+        /// with one or more array arguments.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Given several constructors, this implementation will favor those constructors which
+        /// contain array arguments. Constructors with most matching arguments are returned before
+        /// constructors with less matching arguments.
+        /// </para>
+        /// <para>
+        /// Any other constructors are returned with the most modest constructors first.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="ArrayFavoringConstructorQuery" />
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
             if (type == null)
