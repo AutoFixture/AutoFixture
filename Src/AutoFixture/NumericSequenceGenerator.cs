@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Threading;
 using Ploeh.AutoFixture.Kernel;
 
@@ -70,8 +71,10 @@ namespace Ploeh.AutoFixture
 
         private object CreateNumericSpecimen(Type request)
         {
-            int baseSpecimen = Interlocked.Increment(ref this.baseValue);
-            object specimen = Convert.ChangeType(baseSpecimen, request);
+            Interlocked.Increment(ref this.baseValue);
+
+            var conversionMethod = Expression.Convert(Expression.Constant(this.baseValue), request);
+            var specimen = Expression.Lambda(conversionMethod).Compile().DynamicInvoke();
 
             return specimen;
         }
