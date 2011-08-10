@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Xunit.Extensions;
@@ -70,12 +71,65 @@ namespace Ploeh.AutoFixture.Xunit
                 throw new ArgumentNullException("parameterTypes");
             }
 
-            foreach (var attribute in this.attributes)
+            var theoryList = new List<object>();
+            int parameters = methodUnderTest.GetParameters().Length;
+
+            var grouppings = this.attributes
+                .Select(attribute => attribute.GetData(methodUnderTest, parameterTypes))
+                .SelectMany((theories, index)  => theories
+                    .Select((theory, position) => new { theory, index, position }))
+                .GroupBy(x => new { x.position })
+                .Select(x => x.SelectMany(data => data.theory
+                    .Select(theory => new { theory, data.index })));
+
+            if (!grouppings.Any() && parameters > 0)
             {
-                foreach (var items in attribute.GetData(methodUnderTest, parameterTypes))
+                throw new InvalidOperationException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        "Expected {0} parameters, got {1} parameters",
+                        parameters, theoryList.Count
+                        )
+                    );
+            }
+
+            foreach (var group in grouppings)
+            {
+                foreach (var current in group)
                 {
-                    yield return items;
+                    int remaining = parameters - theoryList.Count;
+                    if (remaining == 0)
+                    {
+                        break;
+                    }
+
+                    int found = parameters - remaining;
+                    if (found > 0)
+                    {
+                        var theories = group
+                            .Where(g => g.index == current.index)
+                            .Skip(found).Take(remaining).Select(data => data.theory);
+
+                        theoryList.AddRange(theories);
+                    }
+                    else
+                    {
+                        theoryList.Add(current.theory);
+                    }
                 }
+
+                if (theoryList.Count < parameters)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            "Expected {0} parameters, got {1} parameters", 
+                            parameters, theoryList.Count
+                            )
+                        );
+                }
+
+                yield return theoryList.ToArray();
             }
         }
     }
