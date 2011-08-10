@@ -85,6 +85,7 @@
     <Compile Include="DelegatingSpecimenBuilder.cs" />
     <Compile Include="FavorArraysAttributeTest.cs" />
     <Compile Include="FavorEnumerableAttributeTest.cs" />
+    <Compile Include="FavorListAttributeTest.cs" />
     <Compile Include="FrozenAttributeTest.cs" />
     <Compile Include="GreedyAttributeTest.cs" />
     <Compile Include="ModestAttributeTest.cs" />
