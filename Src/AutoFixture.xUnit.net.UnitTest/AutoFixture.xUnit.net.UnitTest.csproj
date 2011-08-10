@@ -83,6 +83,7 @@
     <Compile Include="DelegatingCustomization.cs" />
     <Compile Include="DelegatingCustomizeAttribute.cs" />
     <Compile Include="DelegatingSpecimenBuilder.cs" />
+    <Compile Include="FavorArraysAttributeTest.cs" />
     <Compile Include="FrozenAttributeTest.cs" />
     <Compile Include="GreedyAttributeTest.cs" />
     <Compile Include="ModestAttributeTest.cs" />

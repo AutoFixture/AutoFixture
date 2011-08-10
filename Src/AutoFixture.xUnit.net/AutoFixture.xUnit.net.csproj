@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="AutoDataAttribute.cs" />
     <Compile Include="CustomizeAttribute.cs" />
+    <Compile Include="FavorArraysAttribute.cs" />
     <Compile Include="FrozenAttribute.cs" />
     <Compile Include="GreedyAttribute.cs" />
     <Compile Include="ModestAttribute.cs" />
