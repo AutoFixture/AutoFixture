@@ -145,6 +145,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(typeof(Collection<Version>))]
         public void SelectMethodsFromTypeReturnsFirstMethodThatTakesListAsArgument(Type type)
         {
+            // Fixture setup
             var sut = new ListFavoringConstructorQuery();
             // Exercise system
             var result = sut.SelectMethods(type);
@@ -172,6 +173,20 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.SelectMethods(type);
             // Verify outcome
             Assert.True(expectedConstructors.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(ItemHolder<IList<object>, Collection<object>>))]
+        [InlineData(typeof(ItemHolder<Collection<object>, IList<object>>))]
+        public void SelectMethodsPrefersSpecificListParameterOverDerivedParameter(Type type)
+        {
+            // Fixture setup
+            var sut = new ListFavoringConstructorQuery();
+            // Exercise system
+            var result = sut.SelectMethods(type);
+            // Verify outcome
+            Assert.True(result.First().Parameters.Any(p => typeof(IList<object>) == p.ParameterType));
             // Teardown
         }
     }

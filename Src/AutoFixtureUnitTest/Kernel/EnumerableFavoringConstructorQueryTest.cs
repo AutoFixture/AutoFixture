@@ -181,5 +181,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.True(expectedConstructors.SequenceEqual(result));
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(ItemHolder<IEnumerable<object>, object[]>))]
+        [InlineData(typeof(ItemHolder<object[], IEnumerable<object>>))]
+        public void SelectMethodsPrefersSpecificEnumerableParameterOverDerivedParameter(Type type)
+        {
+            // Fixture setup
+            var sut = new EnumerableFavoringConstructorQuery();
+            // Exercise system
+            var result = sut.SelectMethods(type);
+            // Verify outcome
+            Assert.True(result.First().Parameters.Any(p => typeof(IEnumerable<object>) == p.ParameterType));
+            // Teardown
+        }
     }
 }

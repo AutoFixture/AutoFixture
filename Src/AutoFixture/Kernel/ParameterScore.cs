@@ -40,6 +40,17 @@ namespace Ploeh.AutoFixture.Kernel
 
         private static int CalculateScore(Type parentType, Type targetType, IEnumerable<ParameterInfo> parameters)
         {
+            var typeEqualityScore = parameters.Count(p => 
+            {
+                var gpt = p.ParameterType.GetGenericArguments();
+                if (gpt.Length != 1)
+                    return false;
+
+                return p.ParameterType.GetGenericTypeDefinition() == targetType;
+            });
+            if (typeEqualityScore > 0)
+                return typeEqualityScore;
+
             var genericParameterTypes = parentType.GetGenericArguments();
             if (genericParameterTypes.Length != 1)
             {
@@ -48,6 +59,7 @@ namespace Ploeh.AutoFixture.Kernel
             var genericParameterType = genericParameterTypes.Single();
 
             var listType = targetType.MakeGenericType(genericParameterType);
+
             var polymorphismScore = parameters.Count(p => listType.IsAssignableFrom(p.ParameterType));
             if (polymorphismScore <= 0)
             {
