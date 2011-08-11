@@ -130,6 +130,8 @@ namespace Ploeh.AutoFixture.Xunit
                 }
 
                 yield return theoryList.ToArray();
+
+                theoryList.Clear();
             }
         }
     }

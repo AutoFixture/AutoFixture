@@ -187,7 +187,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
                 {
                     hashCode += obj.GetHashCode();
                 }
-                
+
                 return hashCode;
             }
         }
@@ -212,7 +212,119 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
                 return GetEnumerator();
             }
 
-            private object[] TestCase1()
+            //private object[] TestCase1()
+            //{
+            //    var method = typeof(TypeWithOverloadedMembers)
+            //        .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
+            //    var parameters = method.GetParameters();
+            //    var parameterTypes = (from pi in parameters
+            //                          select pi.ParameterType).ToArray();
+
+            //    var attributes = new DataAttribute[]
+            //    {
+            //        new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 1, 2, 3 } })
+            //    };
+
+            //    IEnumerable<object[]> expectedResult = new[] { new object[] { 1, 2, 3 } };
+
+            //    return new object[] { attributes, expectedResult };
+            //}
+
+            //private object[] TestCase2()
+            //{
+            //    var method = typeof(TypeWithOverloadedMembers)
+            //        .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
+            //    var parameters = method.GetParameters();
+            //    var parameterTypes = (from pi in parameters
+            //                          select pi.ParameterType).ToArray();
+
+            //    var attributes = new DataAttribute[]
+            //    {
+            //        new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 1, 2, 3 } }),
+            //        new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 4, 5, 6 } })
+            //    };
+
+            //    IEnumerable<object[]> expectedResult = new[] { new object[] { 1, 2, 3 } };
+
+            //    return new object[] { attributes, expectedResult };
+            //}
+
+            //private object[] TestCase3()
+            //{
+            //    var method = typeof(TypeWithOverloadedMembers)
+            //        .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
+            //    var parameters = method.GetParameters();
+            //    var parameterTypes = (from pi in parameters
+            //                          select pi.ParameterType).ToArray();
+
+            //    var attributes = new DataAttribute[]
+            //    {
+            //        new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 1, 2, 3, 4 } })
+            //    };
+
+            //    IEnumerable<object[]> expectedResult = new[] { new object[] { 1, 2, 3 } };
+
+            //    return new object[] { attributes, expectedResult };
+            //}
+
+            //private object[] TestCase4()
+            //{
+            //    var method = typeof(TypeWithOverloadedMembers)
+            //        .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
+            //    var parameters = method.GetParameters();
+            //    var parameterTypes = (from pi in parameters
+            //                          select pi.ParameterType).ToArray();
+
+            //    var attributes = new DataAttribute[]
+            //    {
+            //        new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 1 } }),
+            //        new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 2, 3, 4 } })
+            //    };
+
+            //    IEnumerable<object[]> expectedResult = new[] { new object[] { 1, 3, 4 } };
+
+            //    return new object[] { attributes, expectedResult };
+            //}
+
+            //private object[] TestCase5()
+            //{
+            //    var method = typeof(TypeWithOverloadedMembers)
+            //        .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
+            //    var parameters = method.GetParameters();
+            //    var parameterTypes = (from pi in parameters
+            //                          select pi.ParameterType).ToArray();
+
+            //    var attributes = new DataAttribute[]
+            //    {
+            //        new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 1, 2 } }),
+            //        new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 3, 4, 5 } })
+            //    };
+
+            //    IEnumerable<object[]> expectedResult = new[] { new object[] { 1, 2, 5 } };
+
+            //    return new object[] { attributes, expectedResult };
+            //}
+
+            //private object[] TestCase6()
+            //{
+            //    var method = typeof(TypeWithOverloadedMembers)
+            //        .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
+            //    var parameters = method.GetParameters();
+            //    var parameterTypes = (from pi in parameters
+            //                          select pi.ParameterType).ToArray();
+
+            //    var attributes = new DataAttribute[]
+            //    {
+            //        new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 1, 2 } }),
+            //        new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 3, 4, 5 } })
+            //    };
+
+            //    IEnumerable<object[]> expectedResult = new[] { new object[] { 1, 2, 5 } };
+
+            //    return new object[] { attributes, expectedResult };
+            //}
+
+            private object[] TestCase7()
             {
                 var method = typeof(TypeWithOverloadedMembers)
                     .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
@@ -222,104 +334,10 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
 
                 var attributes = new DataAttribute[]
                 {
-                    new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 1, 2, 3 } })
+                    new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } })
                 };
 
-                IEnumerable<object[]> expectedResult = new[] { new object[] { 1, 2, 3 } };
-
-                return new object[] { attributes, expectedResult };
-            }
-
-            private object[] TestCase2()
-            {
-                var method = typeof(TypeWithOverloadedMembers)
-                    .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
-                var parameters = method.GetParameters();
-                var parameterTypes = (from pi in parameters
-                                      select pi.ParameterType).ToArray();
-
-                var attributes = new DataAttribute[]
-                {
-                    new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 1, 2, 3 } }),
-                    new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 4, 5, 6 } })
-                };
-
-                IEnumerable<object[]> expectedResult = new[] { new object[] { 1, 2, 3 } };
-
-                return new object[] { attributes, expectedResult };
-            }
-
-            private object[] TestCase3()
-            {
-                var method = typeof(TypeWithOverloadedMembers)
-                    .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
-                var parameters = method.GetParameters();
-                var parameterTypes = (from pi in parameters
-                                      select pi.ParameterType).ToArray();
-
-                var attributes = new DataAttribute[]
-                {
-                    new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 1, 2, 3, 4 } })
-                };
-
-                IEnumerable<object[]> expectedResult = new[] { new object[] { 1, 2, 3 } };
-
-                return new object[] { attributes, expectedResult };
-            }
-
-            private object[] TestCase4()
-            {
-                var method = typeof(TypeWithOverloadedMembers)
-                    .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
-                var parameters = method.GetParameters();
-                var parameterTypes = (from pi in parameters
-                                      select pi.ParameterType).ToArray();
-
-                var attributes = new DataAttribute[]
-                {
-                    new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 1 } }),
-                    new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 2, 3, 4 } })
-                };
-
-                IEnumerable<object[]> expectedResult = new[] { new object[] { 1, 3, 4 } };
-
-                return new object[] { attributes, expectedResult };
-            }
-
-            private object[] TestCase5()
-            {
-                var method = typeof(TypeWithOverloadedMembers)
-                    .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
-                var parameters = method.GetParameters();
-                var parameterTypes = (from pi in parameters
-                                      select pi.ParameterType).ToArray();
-
-                var attributes = new DataAttribute[]
-                {
-                    new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 1, 2 } }),
-                    new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 3, 4, 5 } })
-                };
-
-                IEnumerable<object[]> expectedResult = new[] { new object[] { 1, 2, 5 } };
-
-                return new object[] { attributes, expectedResult };
-            }
-
-            private object[] TestCase6()
-            {
-                var method = typeof(TypeWithOverloadedMembers)
-                    .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
-                var parameters = method.GetParameters();
-                var parameterTypes = (from pi in parameters
-                                      select pi.ParameterType).ToArray();
-
-                var attributes = new DataAttribute[]
-                {
-                    new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 1, 2 } }),
-                    new FakeDataAttribute(method, parameterTypes, new[] { new object[] { 3, 4, 5 } })
-                };
-
-                IEnumerable<object[]> expectedResult = new[] { new object[] { 1, 2, 5 } };
+                IEnumerable<object[]> expectedResult = new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } };
 
                 return new object[] { attributes, expectedResult };
             }
