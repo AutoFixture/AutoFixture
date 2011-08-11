@@ -43,12 +43,18 @@ namespace Ploeh.AutoFixture.Kernel
             var genericParameterTypes = parentType.GetGenericArguments();
             if (genericParameterTypes.Length != 1)
             {
-                return 0;
+                return parameters.Count() * -1;
             }
             var genericParameterType = genericParameterTypes.Single();
 
             var listType = targetType.MakeGenericType(genericParameterType);
-            return parameters.Count(p => listType.IsAssignableFrom(p.ParameterType));
+            var polymorphismScore = parameters.Count(p => listType.IsAssignableFrom(p.ParameterType));
+            if (polymorphismScore <= 0)
+            {
+                return parameters.Count() * -1;
+            }
+            else
+                return polymorphismScore;
         }
     }
 }

@@ -160,5 +160,26 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.True(result.First().Parameters.Any(p => typeof(IEnumerable<>).MakeGenericType(genericParameterType).IsAssignableFrom(p.ParameterType)));
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(SingleParameterType<object>))]
+        [InlineData(typeof(ConcreteType))]
+        [InlineData(typeof(MultiUnorderedConstructorType))]
+        [InlineData(typeof(ItemHolder<object>))]
+        public void SelectMethodsFromTypeReturnsCorrectlyOrderedResultWhenNoConstructorContainsEnumerableArguments(Type type)
+        {
+            // Fixture setup
+            var expectedConstructors = from ci in type.GetConstructors()
+                                       let parameters = ci.GetParameters()
+                                       orderby parameters.Length ascending
+                                       select new ConstructorMethod(ci) as IMethod;
+
+            var sut = new EnumerableFavoringConstructorQuery();
+            // Exercise system
+            var result = sut.SelectMethods(type);
+            // Verify outcome
+            Assert.True(expectedConstructors.SequenceEqual(result));
+            // Teardown
+        }
     }
 }
