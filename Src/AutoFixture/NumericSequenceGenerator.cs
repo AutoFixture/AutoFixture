@@ -36,47 +36,52 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            if (!IsNumeric(requestedType))
-            {
-                return new NoSpecimen(request);
-            }
-
-            var specimen = CreateNumericSpecimen(requestedType);
+            var specimen = this.CreateNumericSpecimen(requestedType);
 
             return specimen;
-        }
-
-        private bool IsNumeric(Type type)
-        {
-            var typeCode = Type.GetTypeCode(type);
-
-            switch (typeCode)
-            {
-                case TypeCode.Byte:
-                case TypeCode.Decimal:
-                case TypeCode.Double:
-                case TypeCode.Int16:
-                case TypeCode.Int32:
-                case TypeCode.Int64:
-                case TypeCode.SByte:
-                case TypeCode.Single:
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
-                    return true;
-                default:
-                    return false;
-            }
         }
 
         private object CreateNumericSpecimen(Type request)
         {
+            var typeCode = Type.GetTypeCode(request);
+
+            switch (typeCode)
+            {
+                case TypeCode.Byte:
+                    return GetNextNumberInSequenceAs<byte>();
+                case TypeCode.Decimal:
+                    return GetNextNumberInSequenceAs<decimal>();
+                case TypeCode.Double:
+                    return GetNextNumberInSequenceAs<double>();
+                case TypeCode.Int16:
+                    return GetNextNumberInSequenceAs<short>();
+                case TypeCode.Int32:
+                    return GetNextNumberInSequenceAs<int>();
+                case TypeCode.Int64:
+                    return GetNextNumberInSequenceAs<long>();
+                case TypeCode.SByte:
+                    return GetNextNumberInSequenceAs<sbyte>();
+                case TypeCode.Single:
+                    return GetNextNumberInSequenceAs<float>();
+                case TypeCode.UInt16:
+                    return GetNextNumberInSequenceAs<ushort>();
+                case TypeCode.UInt32:
+                    return GetNextNumberInSequenceAs<uint>();
+                case TypeCode.UInt64:
+                    return GetNextNumberInSequenceAs<ulong>();
+                default:
+                    return new NoSpecimen(request);
+            }
+        }
+
+        private TRequest GetNextNumberInSequenceAs<TRequest>()
+        {
             Interlocked.Increment(ref this.baseValue);
 
-            var conversionMethod = Expression.Convert(Expression.Constant(this.baseValue), request);
-            var specimen = Expression.Lambda(conversionMethod).Compile().DynamicInvoke();
+            var conversionMethod = Expression.Convert(Expression.Constant(this.baseValue), typeof(TRequest));
+            var value = Expression.Lambda<Func<TRequest>>(conversionMethod).Compile()();
 
-            return specimen;
+            return value;
         }
     }
 }
