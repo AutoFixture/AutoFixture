@@ -49,7 +49,7 @@ namespace Ploeh.AutoFixture.Kernel
         }
 
         #endregion
-        
+
         private class ArrayParameterScore : IComparable<ArrayParameterScore>
         {
             private readonly int score;
@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixture.Kernel
                 if (parameters == null)
                     throw new ArgumentNullException("parameters");
 
-                this.score = parameters.Count(p => p.ParameterType.IsArray);
+                this.score = ArrayParameterScore.CalculateScore(parameters);
             }
 
             #region IComparable<ArrayParameterScore> Members
@@ -75,6 +75,15 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             #endregion
+
+            private static int CalculateScore(IEnumerable<ParameterInfo> parameters)
+            {
+                var arrayScore = parameters.Count(p => p.ParameterType.IsArray);
+                if (arrayScore > 0)
+                    return arrayScore;
+
+                return parameters.Count() * -1;
+            }
         }
     }
 }
