@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.Xunit
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class CompositeDataAttribute : DataAttribute
     {
-        private readonly IEnumerable<DataAttribute> attributes;
+        private readonly IList<DataAttribute> attributes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
@@ -71,77 +71,81 @@ namespace Ploeh.AutoFixture.Xunit
                 throw new ArgumentNullException("parameterTypes");
             }
 
-            var theoryList = new List<object>();
-            int parameters = methodUnderTest.GetParameters().Length;
+            int numberOfParameters = methodUnderTest.GetParameters().Length;
+            int numberOfIterations = 0;
 
-            var grouppings = this.attributes
-                .Select(attribute => attribute.GetData(methodUnderTest, parameterTypes))
-                .SelectMany((theories, index) => theories
-                    .Select((theory, position) => new { theory, index, position }))
-                .GroupBy(x => new { x.position })
-                .Select(x => x.SelectMany(data => data.theory
-                    .Select(theory => new { theory, data.index })));
+            int iteration = 0;
+            var foundData = new List<List<object>>();
 
-            if (!grouppings.Any() && parameters > 0)
+            do
             {
-                throw new InvalidOperationException(
-                    string.Format(
-                        CultureInfo.CurrentCulture,
-                        "Expected {0} parameters, got {1} parameters",
-                        parameters, theoryList.Count
-                        )
-                    );
-            }
-
-            int currentIterations = 0;
-            int maximumIterations = attributes.First().GetData(methodUnderTest, parameterTypes).Count(); // Very inefficient.
-
-            foreach (var group in grouppings)
-            {
-                if (currentIterations == maximumIterations)
+                foreach (var attribute in this.attributes)
                 {
-                    yield break;
-                }
+                    var attributeData = attribute.GetData(methodUnderTest, parameterTypes).ToArray();
 
-                foreach (var current in group)
-                {
-                    int remaining = parameters - theoryList.Count;
-                    if (remaining == 0)
+                    if (numberOfIterations == 0)
+                    {
+                        numberOfIterations = attributeData.Length;
+
+                        for (int n = 0; n < numberOfIterations; n++)
+                        {
+                            foundData.Add(new List<object>());
+                        }
+                    }
+
+                    if (attributeData.Length <= iteration)
                     {
                         break;
                     }
 
-                    int found = parameters - remaining;
-                    if (found > 0)
-                    {
-                        var theories = group
-                            .Where(g => g.index == current.index)
-                            .Skip(found).Take(remaining).Select(data => data.theory);
+                    var theory = attributeData[iteration];
 
-                        theoryList.AddRange(theories);
+                    int remaining =  numberOfParameters - foundData[iteration].Count;
+                    if (remaining == numberOfParameters)
+                    {
+                        if (theory.Length == numberOfParameters)
+                        {
+                            foundData[iteration].AddRange(theory);
+                            break;
+                        }
+
+                        if (theory.Length > numberOfParameters)
+                        {
+                            foundData[iteration].AddRange(theory.Take(numberOfParameters));
+                            break;
+                        }
+                    }
+
+                    if (remaining > theory.Length)
+                    {
+                        foundData[iteration].AddRange(theory);
                     }
                     else
                     {
-                        theoryList.Add(current.theory);
+                        int found = foundData[iteration].Count;
+                        foundData[iteration].AddRange(theory.Skip(found).Take(remaining));
                     }
                 }
 
-                if (theoryList.Count < parameters)
+                if (foundData.Count == 0)
+                {
+                    yield break;
+                }
+                else if (foundData[iteration].Count == numberOfParameters)
+                {
+                    yield return foundData[iteration].ToArray();
+                }
+                else
                 {
                     throw new InvalidOperationException(
-                        string.Format(
-                            CultureInfo.CurrentCulture,
-                            "Expected {0} parameters, got {1} parameters",
-                            parameters, theoryList.Count
-                            )
-                        );
+                          string.Format(
+                              CultureInfo.CurrentCulture,
+                              "Expected {0} parameters, got {1} parameters",
+                              numberOfParameters, foundData[iteration].Count
+                              )
+                          );
                 }
-
-                yield return theoryList.ToArray();
-                theoryList.Clear();
-
-                currentIterations++;
-            }
+            } while (++iteration < numberOfIterations);
         }
     }
 }

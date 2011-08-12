@@ -116,7 +116,6 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             // Teardown
         }
 
-        [Fact]
         public void GetDataOnMethodWithNoParametersReturnsNoTheory()
         {
             // Fixture setup
@@ -139,7 +138,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Theory]
-        [ClassData(typeof(SufficientDataSource))]
+        [ClassData(typeof(SufficientData))]
         public void GetDataReturnsCorrectResult(IEnumerable<DataAttribute> attributes, IEnumerable<object[]> expectedResult)
         {
             // Fixture setup
@@ -156,7 +155,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Theory]
-        [ClassData(typeof(InsufficientDataSource))]
+        [ClassData(typeof(InsufficientData))]
         public void GetDataThrows(IEnumerable<DataAttribute> attributes)
         {
             // Fixture setup
@@ -181,23 +180,16 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
 
             public int GetHashCode(object[] array)
             {
-                int hashCode = 0;
-
-                foreach (object obj in array)
-                {
-                    hashCode += obj.GetHashCode();
-                }
-
-                return hashCode;
+                return (from obj in array select obj.GetHashCode()).Aggregate((x, y) => x ^ y);
             }
         }
 
-        private sealed class SufficientDataSource : IEnumerable<object[]>
+        private sealed class SufficientData : IEnumerable<object[]>
         {
             private readonly MethodInfo method;
             private readonly Type[] parameterTypes;
 
-            public SufficientDataSource()
+            public SufficientData()
             {
                 this.method = typeof(TypeWithOverloadedMembers)
                     .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
@@ -351,12 +343,12 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             }
         }
 
-        private sealed class InsufficientDataSource : IEnumerable<object[]>
+        private sealed class InsufficientData : IEnumerable<object[]>
         {
             private readonly MethodInfo method;
             private readonly Type[] parameterTypes;
 
-            public InsufficientDataSource()
+            public InsufficientData()
             {
                 this.method = typeof(TypeWithOverloadedMembers)
                     .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
