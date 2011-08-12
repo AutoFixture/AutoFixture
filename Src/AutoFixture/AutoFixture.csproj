@@ -200,6 +200,7 @@
     <Compile Include="Kernel\SpecimenFactory.cs" />
     <Compile Include="Kernel\TerminatingSpecimenBuilder.cs" />
     <Compile Include="NumericSequenceGenerator.cs" />
+    <Compile Include="NumericSequencePerTypeCustomization.cs" />
     <Compile Include="ThrowingRecursionBehavior.cs" />
     <Compile Include="Kernel\TraceWriter.cs" />
     <Compile Include="GuidGenerator.cs" />

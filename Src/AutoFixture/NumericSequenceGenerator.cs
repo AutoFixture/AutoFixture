@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq.Expressions;
 using System.Threading;
 using Ploeh.AutoFixture.Kernel;
 
@@ -48,40 +47,35 @@ namespace Ploeh.AutoFixture
             switch (typeCode)
             {
                 case TypeCode.Byte:
-                    return GetNextNumberInSequenceAs<byte>();
+                    return (byte)this.GetNextNumberInSequence();
                 case TypeCode.Decimal:
-                    return GetNextNumberInSequenceAs<decimal>();
+                    return (decimal)this.GetNextNumberInSequence();
                 case TypeCode.Double:
-                    return GetNextNumberInSequenceAs<double>();
+                    return (double)this.GetNextNumberInSequence();
                 case TypeCode.Int16:
-                    return GetNextNumberInSequenceAs<short>();
+                    return (short)this.GetNextNumberInSequence();
                 case TypeCode.Int32:
-                    return GetNextNumberInSequenceAs<int>();
+                    return this.GetNextNumberInSequence();
                 case TypeCode.Int64:
-                    return GetNextNumberInSequenceAs<long>();
+                    return (long)this.GetNextNumberInSequence();
                 case TypeCode.SByte:
-                    return GetNextNumberInSequenceAs<sbyte>();
+                    return (sbyte)this.GetNextNumberInSequence();
                 case TypeCode.Single:
-                    return GetNextNumberInSequenceAs<float>();
+                    return (float)this.GetNextNumberInSequence();
                 case TypeCode.UInt16:
-                    return GetNextNumberInSequenceAs<ushort>();
+                    return (ushort)this.GetNextNumberInSequence();
                 case TypeCode.UInt32:
-                    return GetNextNumberInSequenceAs<uint>();
+                    return (uint)this.GetNextNumberInSequence();
                 case TypeCode.UInt64:
-                    return GetNextNumberInSequenceAs<ulong>();
+                    return (ulong)this.GetNextNumberInSequence();
                 default:
                     return new NoSpecimen(request);
             }
         }
 
-        private TRequest GetNextNumberInSequenceAs<TRequest>()
+        private int GetNextNumberInSequence()
         {
-            Interlocked.Increment(ref this.baseValue);
-
-            var conversionMethod = Expression.Convert(Expression.Constant(this.baseValue), typeof(TRequest));
-            var value = Expression.Lambda<Func<TRequest>>(conversionMethod).Compile()();
-
-            return value;
+            return Interlocked.Increment(ref this.baseValue);
         }
     }
 }

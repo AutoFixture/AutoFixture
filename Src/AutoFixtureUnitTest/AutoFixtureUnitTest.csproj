@@ -181,6 +181,7 @@
     <Compile Include="Kernel\SpecimenFactoryWithTripleParameterFuncTest.cs" />
     <Compile Include="Kernel\TerminatingSpecimenBuilderTest.cs" />
     <Compile Include="NumericSequenceGeneratorTest.cs" />
+    <Compile Include="NumericSequencePerTypeCustomizationTest.cs" />
     <Compile Include="TestConsole.cs" />
     <Compile Include="ThrowingRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\TracingBuilderTest.cs" />
