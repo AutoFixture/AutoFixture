@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.Xunit
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class CompositeDataAttribute : DataAttribute
     {
-        private readonly IList<DataAttribute> attributes;
+        private readonly IEnumerable<DataAttribute> attributes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
@@ -59,6 +59,9 @@ namespace Ploeh.AutoFixture.Xunit
         /// <returns>
         /// Returns the composition of the theory data.
         /// </returns>
+        /// <remarks>
+        /// The number of test cases is set from the first DataAttribute theory length.
+        /// </remarks>
         public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
         {
             if (methodUnderTest == null)
@@ -92,9 +95,10 @@ namespace Ploeh.AutoFixture.Xunit
                             foundData.Add(new List<object>());
                         }
                     }
-
+                    
                     if (attributeData.Length <= iteration)
                     {
+                        // No data found for this position.
                         break;
                     }
 
