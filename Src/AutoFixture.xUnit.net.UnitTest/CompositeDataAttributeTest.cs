@@ -167,7 +167,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
                                   select pi.ParameterType).ToArray();
             // Exercise system and verify outcome
             Assert.Throws<InvalidOperationException>(
-                () => { new CompositeDataAttribute(attributes).GetData(method, parameterTypes).Any(); }
+                () => { new CompositeDataAttribute(attributes).GetData(method, parameterTypes).ToList(); }
                 );
             // Teardown
         }

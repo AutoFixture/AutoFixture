@@ -76,7 +76,7 @@ namespace Ploeh.AutoFixture.Xunit
 
             var grouppings = this.attributes
                 .Select(attribute => attribute.GetData(methodUnderTest, parameterTypes))
-                .SelectMany((theories, index)  => theories
+                .SelectMany((theories, index) => theories
                     .Select((theory, position) => new { theory, index, position }))
                 .GroupBy(x => new { x.position })
                 .Select(x => x.SelectMany(data => data.theory
@@ -93,8 +93,16 @@ namespace Ploeh.AutoFixture.Xunit
                     );
             }
 
+            int currentIterations = 0;
+            int maximumIterations = attributes.First().GetData(methodUnderTest, parameterTypes).Count(); // Very inefficient.
+
             foreach (var group in grouppings)
             {
+                if (currentIterations == maximumIterations)
+                {
+                    yield break;
+                }
+
                 foreach (var current in group)
                 {
                     int remaining = parameters - theoryList.Count;
@@ -123,15 +131,16 @@ namespace Ploeh.AutoFixture.Xunit
                     throw new InvalidOperationException(
                         string.Format(
                             CultureInfo.CurrentCulture,
-                            "Expected {0} parameters, got {1} parameters", 
+                            "Expected {0} parameters, got {1} parameters",
                             parameters, theoryList.Count
                             )
                         );
                 }
 
                 yield return theoryList.ToArray();
-
                 theoryList.Clear();
+
+                currentIterations++;
             }
         }
     }
