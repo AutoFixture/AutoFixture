@@ -201,15 +201,98 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
 
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return OneTestCase1();
-                yield return OneTestCase2();
-                yield return OneTestCase3();
-                yield return OneTestCase4();
-                yield return OneTestCase5();
+                yield return CreateTestCase(
+                    data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 } })
+                    },
+                    expected: new[] 
+                    {
+                        new object[] { 1, 2, 3 } 
+                    }
+                );
 
-                yield return ManyTestCase1();
-                yield return ManyTestCase2();
-                yield return ManyTestCase3();
+                yield return CreateTestCase(
+                    data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 } }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 4, 5, 6 } })
+                    },
+                    expected: new[] 
+                    {
+                        new object[] { 1, 2, 3 }
+                    }
+                );
+
+                yield return CreateTestCase(
+                    data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3, 4 } })
+                    },
+                    expected: new[] 
+                    {
+                        new object[] { 1, 2, 3 }
+                    }
+                );
+
+                yield return CreateTestCase(
+                    data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1       } }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2, 3, 4 } })
+                    },
+                    expected: new[] 
+                    {
+                        new object[] { 1, 3, 4 }
+                    }
+                );
+
+                yield return CreateTestCase(
+                    data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2    } }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 3, 4, 5 } })
+                    },
+                    expected: new[] 
+                    {
+                        new object[] { 1, 2, 5 }
+                    }
+                );
+
+                yield return CreateTestCase(
+                    data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } })
+                    },
+                    expected: new[] 
+                    {
+                        new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 }
+                    }
+                );
+
+                yield return CreateTestCase(
+                    data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 }, new object[] { 4,  5, 6 }                          }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 7, 8    }, new object[] { 9, 10    }, new object[] { 11, 12 } })
+                    },
+                    expected: new[] 
+                    {
+                        new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 }
+                    }
+                );
+
+                yield return CreateTestCase(
+                    data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2    }, new object[] {  3,  4     }, new object[] {  5,  6     } }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 7, 8, 9 }, new object[] { 10, 11, 12 }, new object[] { 13, 14, 15 } })
+                    },
+                    expected: new[] 
+                    {
+                        new object[] { 1, 2, 9 }, new object[] { 3, 4, 12 }, new object[] { 5, 6, 15 }
+                    }
+                );
             }
 
             IEnumerator IEnumerable.GetEnumerator()
@@ -217,129 +300,9 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
                 return GetEnumerator();
             }
 
-            private object[] OneTestCase1()
+            private static object[] CreateTestCase(object[] data, object[] expected)
             {
-                return new object[] 
-                { 
-                    new[]
-                    {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 } })
-                    }, 
-                    new[] 
-                    {
-                        new object[] { 1, 2, 3 } 
-                    } 
-                };
-            }
-
-            private object[] OneTestCase2()
-            {
-                return new object[] 
-                { 
-                    new[]
-                    {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 4, 5, 6 } })
-                    }, 
-                    new[] 
-                    {
-                        new object[] { 1, 2, 3 }
-                    } 
-                };
-            }
-
-            private object[] OneTestCase3()
-            {
-                return new object[] 
-                { 
-                    new[]
-                    {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3, 4 } })
-                    }, 
-                    new[] 
-                    {
-                        new object[] { 1, 2, 3 }
-                    } 
-                };
-            }
-
-            private object[] OneTestCase4()
-            {
-                return new object[] 
-                { 
-                    new[]
-                    {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1       } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2, 3, 4 } })
-                    }, 
-                    new[] 
-                    {
-                        new object[] { 1, 3, 4 }
-                    } 
-                };
-            }
-
-            private object[] OneTestCase5()
-            {
-                return new object[] 
-                { 
-                    new[]
-                    {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2    } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 3, 4, 5 } })
-                    }, 
-                    new[] 
-                    {
-                        new object[] { 1, 2, 5 }
-                    } 
-                };
-            }
-
-            private object[] ManyTestCase1()
-            {
-                return new object[] 
-                { 
-                    new[]
-                    {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } })
-                    }, 
-                    new[] 
-                    {
-                        new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 }
-                    } 
-                };
-            }
-
-            private object[] ManyTestCase2()
-            {
-                return new object[] 
-                { 
-                    new[]
-                    {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 }, new object[] { 4,  5, 6 }                          }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 7, 8    }, new object[] { 9, 10    }, new object[] { 11, 12 } })
-                    }, 
-                    new[] 
-                    {
-                        new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 }
-                    } 
-                };
-            }
-
-            private object[] ManyTestCase3()
-            {
-                return new object[] 
-                { 
-                    new[]
-                    {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2    }, new object[] {  3,  4     }, new object[] {  5,  6     } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 7, 8, 9 }, new object[] { 10, 11, 12 }, new object[] { 13, 14, 15 } })
-                    }, 
-                    new[] 
-                    {
-                        new object[] { 1, 2, 9 }, new object[] { 3, 4, 12 }, new object[] { 5, 6, 15 }
-                    } 
-                };
+                return new object[] { data, expected };
             }
         }
 
@@ -359,13 +322,56 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
 
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return OneTestCase1();
-                yield return OneTestCase2();
-                yield return OneTestCase3();
-                yield return OneTestCase4();
+                yield return CreateTestCase(
+                    data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2 } }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 3, 4 } })
+                    }
+                );
 
-                yield return ManyTestCase1();
-                yield return ManyTestCase2();
+                yield return CreateTestCase(
+                    data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1    } }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2, 3 } })
+                    }
+                );
+
+                yield return CreateTestCase(
+                    data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1    } }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] {      } }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2, 3 } })
+                    }
+                );
+
+                yield return CreateTestCase(
+                    data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1 } }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2 } }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 3 } })
+                    }
+                );
+
+                yield return CreateTestCase(
+                    data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] {  new object[] { 1, 2    },  new object[] {  3,  4     }, new object[] { 5, 6 } }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] {  new object[] { 7, 8, 9 },  new object[] { 10, 11, 12 }                        })
+                    }
+                );
+
+                yield return CreateTestCase(
+                    data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] {  1,  2     }, new object[] {  3,  4     }, new object[] { 5, 6 } }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] {  7,  8,  9 }, new object[] { 10, 11, 12 }                        }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 13, 14, 15 }                                                     })
+                    }
+                );
             }
 
             IEnumerator IEnumerable.GetEnumerator()
@@ -373,79 +379,9 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
                 return GetEnumerator();
             }
 
-            private object[] OneTestCase1()
+            private static object[] CreateTestCase(object[] data)
             {
-                return new object[] 
-                { 
-                    new[]
-                    {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2 } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 3, 4 } })
-                    }
-                };
-            }
-
-            private object[] OneTestCase2()
-            {
-                return new object[] 
-                { 
-                    new[]
-                    {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1    } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2, 3 } })
-                    }
-                };
-            }
-
-            private object[] OneTestCase3()
-            {
-                return new object[] 
-                { 
-                    new[]
-                    {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1    } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] {      } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2, 3 } })
-                    }
-                };
-            }
-
-            private object[] OneTestCase4()
-            {
-                return new object[] 
-                { 
-                    new[]
-                    {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1 } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2 } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 3 } })
-                    }
-                };
-            }
-
-            private object[] ManyTestCase1()
-            {
-                return new object[] 
-                { 
-                    new[]
-                    {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] {  new object[] { 1, 2    },  new object[] {  3,  4     }, new object[] { 5, 6 } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] {  new object[] { 7, 8, 9 },  new object[] { 10, 11, 12 }                        })
-                    }
-                };
-            }
-
-            private object[] ManyTestCase2()
-            {
-                return new object[] 
-                { 
-                    new[]
-                    {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] {  1,  2     }, new object[] {  3,  4     }, new object[] { 5, 6 } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] {  7,  8,  9 }, new object[] { 10, 11, 12 }                        }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 13, 14, 15 }                                                     })
-                    }
-                };
+                return new object[] { data };
             }
         }
     }
