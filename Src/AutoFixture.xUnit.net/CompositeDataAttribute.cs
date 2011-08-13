@@ -10,8 +10,9 @@ namespace Ploeh.AutoFixture.Xunit
     /// <summary>
     /// An implementation of DataAttribute that composes other DataAttribute instances.
     /// </summary>
-    [CLSCompliant(false)]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    [CLSCompliant(false)]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class CompositeDataAttribute : DataAttribute
     {
         private readonly IEnumerable<DataAttribute> attributes;
