@@ -75,6 +75,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoDataAttributeTest.cs" />
+    <Compile Include="CompositeDataAttributeInsufficientData.cs" />
+    <Compile Include="CompositeDataAttributeSufficientData.cs" />
     <Compile Include="CompositeDataAttributeTest.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="ComposerWithoutADefaultConstructor.cs" />
