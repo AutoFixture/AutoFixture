@@ -76,8 +76,10 @@ namespace Ploeh.AutoFixture.Xunit
             }
 
             int numberOfParameters = methodUnderTest.GetParameters().Length;
+            if (numberOfParameters <= 0)
+                yield break;
+            
             int numberOfIterations = 0;
-
             int iteration = 0;
             var foundData = new List<List<object>>();
 

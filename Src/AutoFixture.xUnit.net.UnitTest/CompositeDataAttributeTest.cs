@@ -114,6 +114,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             // Teardown
         }
 
+        [Fact]
         public void GetDataOnMethodWithNoParametersReturnsNoTheory()
         {
             // Fixture setup
