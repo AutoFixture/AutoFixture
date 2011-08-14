@@ -87,6 +87,12 @@ namespace Ploeh.AutoFixture.Xunit
                 {
                     var attributeData = attribute.GetData(methodUnderTest, parameterTypes).ToArray();
 
+                    if (attributeData.Length <= iteration)
+                    {
+                        // No data found for this position.
+                        break;
+                    }
+
                     if (numberOfIterations == 0)
                     {
                         numberOfIterations = attributeData.Length;
@@ -95,12 +101,11 @@ namespace Ploeh.AutoFixture.Xunit
                         {
                             foundData.Add(new List<object>());
                         }
-                    }
-                    
-                    if (attributeData.Length <= iteration)
-                    {
-                        // No data found for this position.
-                        break;
+
+                        if (foundData.Count == 0)
+                        {
+                            yield break;
+                        }
                     }
 
                     var theory = attributeData[iteration];
@@ -132,11 +137,7 @@ namespace Ploeh.AutoFixture.Xunit
                     }
                 }
 
-                if (foundData.Count == 0)
-                {
-                    yield break;
-                }
-                else if (foundData[iteration].Count == numberOfParameters)
+                if (foundData[iteration].Count == numberOfParameters)
                 {
                     yield return foundData[iteration].ToArray();
                 }
