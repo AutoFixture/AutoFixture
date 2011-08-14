@@ -13,6 +13,7 @@ namespace Ploeh.AutoFixture.Xunit
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class InlineAutoDataAttribute : CompositeDataAttribute
     {
+        private readonly AutoDataAttribute autoDataAttribute;
         private readonly IEnumerable<object> values;
 
         /// <summary>
@@ -32,6 +33,7 @@ namespace Ploeh.AutoFixture.Xunit
         public InlineAutoDataAttribute(AutoDataAttribute autoDataAttribute, params object[] values)
             : base(new DataAttribute[] { new InlineDataAttribute(values), autoDataAttribute })
         {
+            this.autoDataAttribute = autoDataAttribute;
             this.values = values;
         }
 
@@ -41,6 +43,11 @@ namespace Ploeh.AutoFixture.Xunit
         public IEnumerable<object> Values
         {
             get { return this.values; }
+        }
+
+        public AutoDataAttribute AutoDataAttribute
+        {
+            get { return this.autoDataAttribute; }
         }
     }
 }

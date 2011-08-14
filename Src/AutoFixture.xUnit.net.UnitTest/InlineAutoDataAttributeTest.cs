@@ -97,5 +97,30 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             Assert.True(expectedValues.SequenceEqual(result));
             // Teardown
         }
+
+        [Fact]
+        public void AutoDataAttributeIsCorrectWhenCreatedWithModestConstructor()
+        {
+            // Fixture setup
+            var sut = new InlineAutoDataAttribute();
+            // Exercise system
+            AutoDataAttribute result = sut.AutoDataAttribute;
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void AutoDataAttributeIsCorrectWhenCreatedExplicitlyByConstructor()
+        {
+            // Fixture setup
+            var expected = new AutoDataAttribute();
+            var sut = new InlineAutoDataAttribute(expected);
+            // Exercise system
+            var result = sut.AutoDataAttribute;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
     }
 }
