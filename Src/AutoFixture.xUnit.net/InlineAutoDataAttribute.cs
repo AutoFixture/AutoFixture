@@ -45,6 +45,16 @@ namespace Ploeh.AutoFixture.Xunit
             get { return this.values; }
         }
 
+        /// <summary>
+        /// Gets the <see cref="AutoDataAttribute"/> encapsulated by this instance.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// If the constructor overload wich takes an explicit instance of
+        /// <see cref="AutoDataAttribute" /> is used, this property exposes that instance.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="InlineAutoDataAttribute(AutoDataAttribute, object[])"/>
         public AutoDataAttribute AutoDataAttribute
         {
             get { return this.autoDataAttribute; }
