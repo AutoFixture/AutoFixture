@@ -40,10 +40,7 @@ namespace Ploeh.AutoFixture.Xunit
         /// </summary>
         public IEnumerable<object> Values
         {
-            get
-            {
-                return this.values;
-            }
+            get { return this.values; }
         }
     }
 }
