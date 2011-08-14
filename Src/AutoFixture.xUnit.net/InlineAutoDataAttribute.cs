@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.Xunit
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [CLSCompliant(false)]
-    public sealed class InlineAutoDataAttribute : CompositeDataAttribute
+    public class InlineAutoDataAttribute : CompositeDataAttribute
     {
         private readonly IEnumerable<object> values;
 
