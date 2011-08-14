@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Xunit.Extensions;
-using Xunit;
 using Ploeh.TestTypeFoundation;
+using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.Xunit.UnitTest
 {
@@ -43,6 +41,35 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         public void AutoDataProvidesCustomizedObject(PropertyHolder<string> ph)
         {
             Assert.Equal("Ploeh", ph.Property);
+        }
+
+        [InlineAutoData("foo")]
+        [InlineAutoData("foo", "bar")]
+        public void InlineAutoDataUsesSuppliedDataValues(string s1, string s2)
+        {
+            Assert.Equal("foo", s1);
+            Assert.NotNull(s2);
+        }
+
+        [Theory]
+        [InlineAutoData("foo")]
+        [InlineAutoData("foo", "bar")]
+        public void InlineAutoDataSuppliesDataSpecimens(string s1, string s2, MyClass myClass)
+        {
+            Assert.Equal("foo", s1);
+            Assert.NotNull(s2);
+            Assert.NotNull(myClass);
+        }
+
+        [Theory]
+        [InlineAutoData("foo")]
+        [InlineAutoData("foo", "bar")]
+        public void InlineAutoDataSuppliesDataSpecimensOnlyForNonProvidedValues(string s1, string s2, string s3)
+        {
+            Assert.Equal("foo", s1);
+            Assert.NotNull(s2);
+            Assert.NotEqual("foo", s3);
+            Assert.NotEqual("bar", s3);
         }
 
         [Theory, AutoData]

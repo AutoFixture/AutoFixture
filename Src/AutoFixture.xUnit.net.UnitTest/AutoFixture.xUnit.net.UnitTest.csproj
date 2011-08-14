@@ -75,6 +75,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoDataAttributeTest.cs" />
+    <Compile Include="CompositeDataAttributeInsufficientDataTest.cs" />
+    <Compile Include="CompositeDataAttributeSufficientDataTest.cs" />
+    <Compile Include="CompositeDataAttributeTest.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="ComposerWithoutADefaultConstructor.cs" />
     <Compile Include="CustomizeAttributeTest.cs" />
@@ -84,10 +87,12 @@
     <Compile Include="DelegatingCustomizeAttribute.cs" />
     <Compile Include="DelegatingSpecimenBuilder.cs" />
     <Compile Include="FavorArraysAttributeTest.cs" />
+    <Compile Include="FakeDataAttribute.cs" />
     <Compile Include="FavorEnumerableAttributeTest.cs" />
     <Compile Include="FavorListAttributeTest.cs" />
     <Compile Include="FrozenAttributeTest.cs" />
     <Compile Include="GreedyAttributeTest.cs" />
+    <Compile Include="InlineAutoDataAttributeTest.cs" />
     <Compile Include="ModestAttributeTest.cs" />
     <Compile Include="MyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

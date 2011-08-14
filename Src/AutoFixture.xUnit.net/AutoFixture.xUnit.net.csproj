@@ -51,7 +51,7 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Release\Ploeh.AutoFixture.Xunit.XML</DocumentationFile>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AutoFixture.xUnit.net.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Verify|AnyCPU' ">
     <OutputPath>bin\Verify\</OutputPath>
@@ -89,12 +89,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoDataAttribute.cs" />
+    <Compile Include="CompositeDataAttribute.cs" />
     <Compile Include="CustomizeAttribute.cs" />
     <Compile Include="FavorArraysAttribute.cs" />
     <Compile Include="FavorEnumerableAttribute.cs" />
     <Compile Include="FavorListAttribute.cs" />
     <Compile Include="FrozenAttribute.cs" />
     <Compile Include="GreedyAttribute.cs" />
+    <Compile Include="InlineAutoDataAttribute.cs" />
     <Compile Include="ModestAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -106,9 +108,6 @@
       <Project>{400AC174-9A4A-4C7D-815B-F2A21130A0D1}</Project>
       <Name>AutoFixture</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="AutoFixture.xUnit.net.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
