@@ -9,12 +9,12 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.Xunit.UnitTest
 {
-    public class CompositeDataAttributeSufficientData : IEnumerable<object[]>
+    public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
     {
         private readonly MethodInfo method;
         private readonly Type[] parameterTypes;
 
-        public CompositeDataAttributeSufficientData()
+        public CompositeDataAttributeSufficientDataTest()
         {
             this.method = typeof(TypeWithOverloadedMembers)
                 .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Theory]
-        [ClassData(typeof(CompositeDataAttributeSufficientData))]
+        [ClassData(typeof(CompositeDataAttributeSufficientDataTest))]
         public void GetDataReturnsCorrectResult(IEnumerable<DataAttribute> attributes, IEnumerable<object[]> expectedResult)
         {
             // Fixture setup
