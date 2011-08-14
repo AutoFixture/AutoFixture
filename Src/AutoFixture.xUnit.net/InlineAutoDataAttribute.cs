@@ -19,7 +19,12 @@ namespace Ploeh.AutoFixture.Xunit
         /// </summary>
         /// <param name="values">The data values to pass to the theory.</param>
         public InlineAutoDataAttribute(params object[] values)
-            : base(new InlineDataAttribute(values), new AutoDataAttribute())
+            : this(new AutoDataAttribute(), values)
+        {
+        }
+
+        public InlineAutoDataAttribute(AutoDataAttribute autoDataAttribute, params object[] values)
+            : base(new DataAttribute[] { new InlineDataAttribute(values), autoDataAttribute })
         {
             this.values = values;
         }

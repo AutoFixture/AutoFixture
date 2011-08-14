@@ -32,6 +32,33 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Fact]
+        public void AttributesContainsAttributeWhenConstructedWithExplicitAutoDataAttribute()
+        {
+            // Fixture setup
+            var autoDataAttribute = new AutoDataAttribute();
+            var sut = new InlineAutoDataAttribute(autoDataAttribute);
+            // Exercise system
+            var result = sut.Attributes;
+            // Verify outcome
+            Assert.Contains(autoDataAttribute, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void AttributesContainsCorrectAttributeTypesWhenConstructorWithExplicitAutoDataAttribute()
+        {
+            // Fixture setup
+            var autoDataAttribute = new AutoDataAttribute();
+            var sut = new InlineAutoDataAttribute(autoDataAttribute);
+            // Exercise system
+            var result = sut.Attributes;
+            // Verify outcome
+            var expected = new[] { typeof(InlineDataAttribute), autoDataAttribute.GetType() };
+            Assert.True(result.Select(d => d.GetType()).SequenceEqual(expected));
+            // Teardown
+        }
+
+        [Fact]
         public void ValuesWillBeEmptyWhenSutIsCreatedWithDefaultConstructor()
         {
             // Fixture setup
@@ -54,6 +81,20 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             var result = sut.Values;
             // Verify outcome
             Assert.True(result.SequenceEqual(expectedValues));
+            // Teardown
+        }
+
+        [Fact]
+        public void ValuesAreCorrectWhenConstructedWithExplicitAutoDataAttribute()
+        {
+            // Fixture setup
+            var dummyAutoDataAttribute = new AutoDataAttribute();
+            var expectedValues = new[] { new object(), new object(), new object() };
+            var sut = new InlineAutoDataAttribute(dummyAutoDataAttribute, expectedValues);
+            // Exercise system
+            var result = sut.Values;
+            // Verify outcome
+            Assert.True(expectedValues.SequenceEqual(result));
             // Teardown
         }
     }
