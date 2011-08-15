@@ -34,6 +34,18 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateWithNullContextDoesNotThrow()
+        {
+            // Fixture setup
+            var sut = new NumericSequenceGenerator();
+            // Exercise system
+            var dummyRequest = new object();
+            sut.Create(dummyRequest, null);
+            // Verify outcome (no exception indicates success)
+            // Teardown
+        }
+
         [Theory]
         [InlineData("")]
         [InlineData(default(bool))]
