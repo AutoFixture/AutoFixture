@@ -11,6 +11,9 @@ namespace Ploeh.AutoFixture
     /// When this customization is added to an <see cref="IFixture"/> instance, requests for numeric specimens
     /// will be satisfied by returning numbers from a <see cref="Type"/> specific sequence.
     /// </para>
+    /// <para>
+    /// This customization reproduces the generation strategy for numeric specimens used in AutoFixture up to version 2.1.
+    /// </para>
     /// <example>
     /// <code>
     /// var fixture = new Fixture();

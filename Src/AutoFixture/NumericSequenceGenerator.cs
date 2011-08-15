@@ -16,18 +16,12 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
         /// <param name="context">Not used.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="context"/> is null.</exception>
         /// <returns>
         /// The next number in a consequtive sequence, if <paramref name="request"/> is a request
         /// for a numeric value; otherwise, a <see cref="NoSpecimen"/> instance.
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
-
             var requestedType = request as Type;
 
             if (requestedType == null)

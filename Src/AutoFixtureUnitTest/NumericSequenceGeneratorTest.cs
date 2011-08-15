@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -32,219 +34,90 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
-        public void CreateWithNullContainerThrowsArgumentNullException()
+        [Theory]
+        [InlineData("")]
+        [InlineData(default(bool))]
+        public void CreateWithNonTypeRequestReturnsNoSpecimen(object request)
         {
             // Fixture setup
-            var dummyRequest = new object();
-            var sut = new NumericSequenceGenerator();
-            // Exercise system and verify outcome
-            Assert.Throws(typeof(ArgumentNullException), () => sut.Create(dummyRequest, null));
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithNonNumericRequestReturnsNoSpecimen()
-        {
-            // Fixture setup
-            var nonNumericRequest = new object();
             var sut = new NumericSequenceGenerator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(nonNumericRequest, dummyContainer);
+            var result = sut.Create(request, dummyContainer);
             // Verify outcome
-            var expectedResult = new NoSpecimen(nonNumericRequest);
+            var expectedResult = new NoSpecimen(request);
             Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [Fact]
-        public void CreateWithByteRequestReturnsByteValue()
+        [Theory]
+        [InlineData(typeof(String))]
+        [InlineData(typeof(Object))]
+        [InlineData(typeof(Boolean))]
+        public void CreateWithNonNumericTypeRequestReturnsNoSpecimen(Type request)
         {
             // Fixture setup
-            var byteRequest = typeof(Byte);
             var sut = new NumericSequenceGenerator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(byteRequest, dummyContainer);
+            var result = sut.Create(request, dummyContainer);
             // Verify outcome
-            Assert.IsType<Byte>(result);
+            var expectedResult = new NoSpecimen(request);
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [Fact]
-        public void CreateWithDecimalRequestReturnsDecimalValue()
+        [Theory]
+        [InlineData(typeof(Byte))]
+        [InlineData(typeof(Decimal))]
+        [InlineData(typeof(Double))]
+        [InlineData(typeof(Int16))]
+        [InlineData(typeof(Int32))]
+        [InlineData(typeof(Int64))]
+        [InlineData(typeof(SByte))]
+        [InlineData(typeof(Single))]
+        [InlineData(typeof(UInt16))]
+        [InlineData(typeof(UInt32))]
+        [InlineData(typeof(UInt64))]
+        public void CreateWithNumericTypeRequestReturnsCorrectValue(Type request)
         {
             // Fixture setup
-            var decimalRequest = typeof(Decimal);
             var sut = new NumericSequenceGenerator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(decimalRequest, dummyContainer);
+            var result = sut.Create(request, dummyContainer);
             // Verify outcome
-            Assert.IsType<Decimal>(result);
+            Assert.IsType(request, result);
             // Teardown
         }
 
         [Fact]
-        public void CreateWithDoubleRequestReturnsDoubleValue()
+        public void CreateWith256ByteRequestsReturnsByteSpecimens()
         {
             // Fixture setup
-            var doubleRequest = typeof(Double);
+            var sequence = Enumerable.Range(0, Byte.MaxValue + 1);
+            var request = typeof(Byte);
             var sut = new NumericSequenceGenerator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(doubleRequest, dummyContainer);
+            var result = sequence.Select(i => sut.Create(request, dummyContainer));
             // Verify outcome
-            Assert.IsType<Double>(result);
+            Assert.True(result.All(i => i.GetType() == request));
             // Teardown
         }
 
         [Fact]
-        public void CreateWithInt16RequestReturnsInt16Value()
+        public void CreateWith128SByteRequestsReturnsSByteSpecimens()
         {
             // Fixture setup
-            var shortRequest = typeof(Int16);
+            var sequence = Enumerable.Range(0, SByte.MaxValue + 1);
+            var request = typeof(SByte);
             var sut = new NumericSequenceGenerator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(shortRequest, dummyContainer);
+            var result = sequence.Select(i => sut.Create(request, dummyContainer));
             // Verify outcome
-            Assert.IsType<Int16>(result);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithInt32RequestReturnsInt32Value()
-        {
-            // Fixture setup
-            var intRequest = typeof(Int32);
-            var sut = new NumericSequenceGenerator();
-            // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(intRequest, dummyContainer);
-            // Verify outcome
-            Assert.IsType<Int32>(result);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithInt64RequestReturnsInt64Value()
-        {
-            // Fixture setup
-            var longRequest = typeof(Int64);
-            var sut = new NumericSequenceGenerator();
-            // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(longRequest, dummyContainer);
-            // Verify outcome
-            Assert.IsType<Int64>(result);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithSByteRequestReturnsSByteValue()
-        {
-            // Fixture setup
-            var sbyteRequest = typeof(SByte);
-            var sut = new NumericSequenceGenerator();
-            // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(sbyteRequest, dummyContainer);
-            // Verify outcome
-            Assert.IsType<SByte>(result);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithSingleRequestReturnsSingleValue()
-        {
-            // Fixture setup
-            var singleRequest = typeof(Single);
-            var sut = new NumericSequenceGenerator();
-            // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(singleRequest, dummyContainer);
-            // Verify outcome
-            Assert.IsType<Single>(result);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithUInt16RequestReturnsUInt16Value()
-        {
-            // Fixture setup
-            var ushortRequest = typeof(UInt16);
-            var sut = new NumericSequenceGenerator();
-            // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(ushortRequest, dummyContainer);
-            // Verify outcome
-            Assert.IsType<UInt16>(result);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithUInt32RequestReturnsUInt32Value()
-        {
-            // Fixture setup
-            var uintRequest = typeof(UInt32);
-            var sut = new NumericSequenceGenerator();
-            // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(uintRequest, dummyContainer);
-            // Verify outcome
-            Assert.IsType<UInt32>(result);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithUInt64RequestReturnsUInt64Value()
-        {
-            // Fixture setup
-            var ulongRequest = typeof(UInt64);
-            var sut = new NumericSequenceGenerator();
-            // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(ulongRequest, dummyContainer);
-            // Verify outcome
-            Assert.IsType<UInt64>(result);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithByteRequest256TimesDoesNotThrowException()
-        {
-            // Fixture setup
-            var byteRequest = typeof(Byte);
-            var sut = new NumericSequenceGenerator();
-            // Exercise system and verify outcome
-            var dummyContainer = new DelegatingSpecimenContext();
-            Assert.DoesNotThrow(() =>
-            {
-                for (int i = 0; i < Byte.MaxValue + 1; i++)
-                {
-                    sut.Create(byteRequest, dummyContainer);
-                }
-            });
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithSByteRequest128TimesDoesNotThrowException()
-        {
-            // Fixture setup
-            var sbyteRequest = typeof(SByte);
-            var sut = new NumericSequenceGenerator();
-            // Exercise system and verify outcome
-            var dummyContainer = new DelegatingSpecimenContext();
-            Assert.DoesNotThrow(() =>
-            {
-                for (int i = 0; i < SByte.MaxValue + 1; i++)
-                {
-                    sut.Create(sbyteRequest, dummyContainer);
-                }
-            });
+            Assert.True(result.All(i => i.GetType() == request));
             // Teardown
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
@@ -29,43 +30,33 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithAllNumericTypesDoesNotReturnSequence()
+        public void CustomizeAddsSpecializedNumericSpecimenBuildersToFixture()
         {
             // Fixture setup
-            var sequence = new object[]
+            var expectedBuilders = new[]
             {
-                (byte)1,
-                2M,
-                3.0D,
-                (short)4,
-                5,
-                (long)6,
-                (sbyte)7,
-                8.0F,
-                (ushort)9,
-                (uint)10,
-                (ulong)11
+                typeof(ByteSequenceGenerator),
+                typeof(DecimalSequenceGenerator),
+                typeof(DoubleSequenceGenerator),
+                typeof(Int16SequenceGenerator),
+                typeof(Int32SequenceGenerator),
+                typeof(Int64SequenceGenerator),
+                typeof(SByteSequenceGenerator),
+                typeof(SingleSequenceGenerator),
+                typeof(UInt16SequenceGenerator),
+                typeof(UInt32SequenceGenerator),
+                typeof(UInt64SequenceGenerator)
             };
             var fixture = new Fixture();
             var sut = new NumericSequencePerTypeCustomization();
             // Exercise system
             sut.Customize(fixture);
-            var result = new object[]
-            {
-                fixture.CreateAnonymous<byte>(),
-                fixture.CreateAnonymous<decimal>(),
-                fixture.CreateAnonymous<double>(),
-                fixture.CreateAnonymous<short>(),
-                fixture.CreateAnonymous<int>(),
-                fixture.CreateAnonymous<long>(),
-                fixture.CreateAnonymous<sbyte>(),
-                fixture.CreateAnonymous<float>(),
-                fixture.CreateAnonymous<ushort>(),
-                fixture.CreateAnonymous<uint>(),
-                fixture.CreateAnonymous<ulong>()
-            };
+            var result = fixture.Customizations
+                .OfType<CompositeSpecimenBuilder>()
+                .SelectMany(i => i.Builders)
+                .Select(i => i.GetType());
             // Verify outcome
-            Assert.False(sequence.SequenceEqual(result));
+            Assert.True(expectedBuilders.SequenceEqual(result));
             // Teardown
         }
     }
