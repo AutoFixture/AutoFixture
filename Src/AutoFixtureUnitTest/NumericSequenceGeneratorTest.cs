@@ -39,10 +39,9 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new NumericSequenceGenerator();
-            // Exercise system
+            // Exercise system and verify outcome
             var dummyRequest = new object();
-            sut.Create(dummyRequest, null);
-            // Verify outcome (no exception indicates success)
+            Assert.DoesNotThrow(() => sut.Create(dummyRequest, null));
             // Teardown
         }
 
