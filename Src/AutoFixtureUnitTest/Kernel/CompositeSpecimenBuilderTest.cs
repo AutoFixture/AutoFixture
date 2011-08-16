@@ -112,7 +112,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void CreateWillReturnNoSpecimenfAllBuildersReturnNoSpecimen()
+        public void CreateWillReturnNoSpecimenIfAllBuildersReturnNoSpecimen()
         {
             // Fixture setup
             var builders = new ISpecimenBuilder[]
