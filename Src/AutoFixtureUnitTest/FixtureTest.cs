@@ -861,43 +861,54 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithNumericSequencePerTypeCustomizationWillReturnCorrectValues()
+        public void CreateAnonymousWithNumericSequenceCustomizationAndDoubleMixedWholeNumericPropertiesWillAssignSameValue()
         {
             // Fixture setup
-            var expectedValues = new object[]
-            {
-                (byte)1,
-                1M,
-                1.0D,
-                (short)1,
-                1,
-                (long)1,
-                (sbyte)1,
-                1.0F,
-                (ushort)1,
-                (uint)1,
-                (ulong)1
-            };
             var sut = new Fixture();
-            var customization = new NumericSequencePerTypeCustomization();
             // Exercise system
-            sut.Customize(customization);
-            var results = new object[]
-            {
-                sut.CreateAnonymous<byte>(),
-                sut.CreateAnonymous<decimal>(),
-                sut.CreateAnonymous<double>(),
-                sut.CreateAnonymous<short>(),
-                sut.CreateAnonymous<int>(),
-                sut.CreateAnonymous<long>(),
-                sut.CreateAnonymous<sbyte>(),
-                sut.CreateAnonymous<float>(),
-                sut.CreateAnonymous<ushort>(),
-                sut.CreateAnonymous<uint>(),
-                sut.CreateAnonymous<ulong>()
-            };
+            sut.Customize(new NumericSequencePerTypeCustomization());
+            var result = sut.CreateAnonymous<DoublePropertyHolder<int, long>>();
             // Verify outcome
-            Assert.True(expectedValues.SequenceEqual(results));
+            Assert.Equal(result.Property1, result.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithNumericSequenceCustomizationAndDoubleMixedSmallWholeNumericPropertiesWillAssignSameValue()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            sut.Customize(new NumericSequencePerTypeCustomization());
+            var result = sut.CreateAnonymous<DoublePropertyHolder<byte, short>>();
+            // Verify outcome
+            Assert.Equal(result.Property1, result.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithNumericSequenceCustomizationAndDoubleMixedFloatingPointNumericPropertiesWillAssignSameValue()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            sut.Customize(new NumericSequencePerTypeCustomization());
+            var result = sut.CreateAnonymous<DoublePropertyHolder<double, float>>();
+            // Verify outcome
+            Assert.Equal(result.Property1, result.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithNumericSequenceCustomizationAndDoubleMixedNumericPropertiesWillAssignSameValue()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            sut.Customize(new NumericSequencePerTypeCustomization());
+            var result = sut.CreateAnonymous<DoublePropertyHolder<long, float>>();
+            // Verify outcome
+            Assert.Equal(result.Property1, result.Property2);
             // Teardown
         }
 
