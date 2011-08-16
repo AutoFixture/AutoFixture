@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -8,33 +9,30 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class DateTimeGenerator : ISpecimenBuilder
     {
-        #region ISpecimenBuilder Members
+        private int baseValue;
 
         /// <summary>
         /// Creates a new <see cref="DateTime"/> instance.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="context">A context that can be used to create other specimens.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="context"/> is null.</exception>
+        /// <param name="context">Not used.</param>
         /// <returns>
         /// A new <see cref="DateTime"/> instance, if <paramref name="request"/> is a request for a
         /// <see cref="DateTime"/>; otherwise, a <see cref="NoSpecimen"/> instance.
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
-
             if (request != typeof(DateTime))
             {
                 return new NoSpecimen(request);
             }
 
-            return DateTime.Now.AddDays(context.CreateAnonymous<int>());
+            return DateTime.Now.AddDays(this.GetNextNumberInSequence());
         }
 
-        #endregion
+        private int GetNextNumberInSequence()
+        {
+            return Interlocked.Increment(ref this.baseValue);
+        }
     }
 }

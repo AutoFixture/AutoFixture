@@ -970,7 +970,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithDateTimePropertyWillAssignValueWithDifferentDay()
+        public void CreateAnonymousWithDateTimePropertyWillAssignDifferentDateThanToday()
         {
             // Fixture setup
             var today = DateTime.Today;
@@ -983,18 +983,27 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithDateTimePropertyTwiceWillAssignDifferentValuesIfYouWaitLongEnough()
+        public void CreateAnonymousWithDoubleDateTimePropertiesWillAssignDifferentDates()
         {
             // Fixture setup
-            var resolutionOfNow = TimeSpan.FromMilliseconds(10); // according to http://msdn.microsoft.com/en-us/library/system.datetime.now.aspx
-
             var sut = new Fixture();
-            var ph = sut.CreateAnonymous<PropertyHolder<DateTime>>();
-            Thread.Sleep(resolutionOfNow + resolutionOfNow);
             // Exercise system
-            var result = sut.CreateAnonymous<PropertyHolder<DateTime>>();
+            var result = sut.CreateAnonymous<DoublePropertyHolder<DateTime, DateTime>>();
             // Verify outcome
-            Assert.NotEqual<DateTime>(ph.Property, result.Property);
+            Assert.NotEqual<DateTime>(result.Property1.Date, result.Property2.Date);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithDoubleDateTimePropertiesAndFreezedInt32ValueWillAssignDifferentDates()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            sut.Freeze<int>();
+            var result = sut.CreateAnonymous<DoublePropertyHolder<DateTime, DateTime>>();
+            // Verify outcome
+            Assert.NotEqual<DateTime>(result.Property1.Date, result.Property2.Date);
             // Teardown
         }
 

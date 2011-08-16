@@ -33,13 +33,13 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithNullContextThrowsArgumentNullException()
+        public void CreateWithNullContextDoesNotThrow()
         {
             // Fixture setup
-            var sut = new DateTimeGenerator();
+            var sut = new NumericSequenceGenerator();
             // Exercise system and verify outcome
             var dummyRequest = new object();
-            Assert.Throws(typeof(ArgumentNullException), () => sut.Create(dummyRequest, null));
+            Assert.DoesNotThrow(() => sut.Create(dummyRequest, null));
             // Teardown
         }
 
@@ -65,8 +65,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var dateTimeRequest = typeof(DateTime);
             var sut = new DateTimeGenerator();
             // Exercise system
-            var context = new DelegatingSpecimenContext { OnResolve = r => 1 };
-            var result = sut.Create(dateTimeRequest, context);
+            var dummyContainer = new DelegatingSpecimenContext();
+            var result = sut.Create(dateTimeRequest, dummyContainer);
             // Verify outcome
             Assert.IsAssignableFrom<DateTime>(result);
             // Teardown
@@ -80,8 +80,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var dateTimeRequest = typeof(DateTime);
             var sut = new DateTimeGenerator();
             // Exercise system
-            var context = new DelegatingSpecimenContext { OnResolve = r => 1 };
-            var result = sut.Create(dateTimeRequest, context);
+            var dummyContainer = new DelegatingSpecimenContext();
+            var result = sut.Create(dateTimeRequest, dummyContainer);
             // Verify outcome
             Assert.NotEqual(today, ((DateTime)result).Date);
             // Teardown
