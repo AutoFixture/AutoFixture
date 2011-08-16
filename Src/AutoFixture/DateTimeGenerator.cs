@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -17,19 +14,25 @@ namespace Ploeh.AutoFixture
         /// Creates a new <see cref="DateTime"/> instance.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="context">Not used.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="context"/> is null.</exception>
         /// <returns>
         /// A new <see cref="DateTime"/> instance, if <paramref name="request"/> is a request for a
         /// <see cref="DateTime"/>; otherwise, a <see cref="NoSpecimen"/> instance.
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             if (request != typeof(DateTime))
             {
                 return new NoSpecimen(request);
             }
 
-            return DateTime.Now;
+            return DateTime.Now.AddDays(context.CreateAnonymous<int>());
         }
 
         #endregion

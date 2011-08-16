@@ -959,16 +959,15 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithDateTimePropertyWillAssignValueMatchingCurrentTime()
+        public void CreateAnonymousWithDateTimePropertyWillAssignValueWithDifferentDay()
         {
             // Fixture setup
+            var today = DateTime.Today;
             var sut = new Fixture();
-            var before = DateTime.Now;
             // Exercise system
             var result = sut.CreateAnonymous<PropertyHolder<DateTime>>();
             // Verify outcome
-            var after = DateTime.Now;
-            Assert.True(before <= result.Property && result.Property <= after, "Generated DateTime should match current DateTime.");
+            Assert.NotEqual(today, result.Property.Date);
             // Teardown
         }
 

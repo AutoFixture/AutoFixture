@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xunit;
-using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -36,14 +33,13 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithNullContextDoesNotThrow()
+        public void CreateWithNullContextThrowsArgumentNullException()
         {
             // Fixture setup
             var sut = new DateTimeGenerator();
-            // Exercise system
+            // Exercise system and verify outcome
             var dummyRequest = new object();
-            sut.Create(dummyRequest, null);
-            // Verify outcome (no exception indicates success)
+            Assert.Throws(typeof(ArgumentNullException), () => sut.Create(dummyRequest, null));
             // Teardown
         }
 
@@ -63,19 +59,31 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithDateTimeRequestReturnsCorrectResult()
+        public void CreateWithDateTimeRequestReturnsDateTimeValue()
         {
             // Fixture setup
-            var before = DateTime.Now;
             var dateTimeRequest = typeof(DateTime);
             var sut = new DateTimeGenerator();
             // Exercise system
-            var dummyContext = new DelegatingSpecimenContext();
-            var result = sut.Create(dateTimeRequest, dummyContext);
+            var context = new DelegatingSpecimenContext { OnResolve = r => 1 };
+            var result = sut.Create(dateTimeRequest, context);
             // Verify outcome
-            var after = DateTime.Now;
-            var dt = Assert.IsAssignableFrom<DateTime>(result);
-            Assert.True(before <= dt && dt <= after);
+            Assert.IsAssignableFrom<DateTime>(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithDateTimeRequestReturnsDifferentDay()
+        {
+            // Fixture setup
+            var today = DateTime.Today;
+            var dateTimeRequest = typeof(DateTime);
+            var sut = new DateTimeGenerator();
+            // Exercise system
+            var context = new DelegatingSpecimenContext { OnResolve = r => 1 };
+            var result = sut.Create(dateTimeRequest, context);
+            // Verify outcome
+            Assert.NotEqual(today, ((DateTime)result).Date);
             // Teardown
         }
     }
