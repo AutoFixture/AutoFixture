@@ -4,13 +4,10 @@ using Ploeh.AutoFixture.Kernel;
 namespace Ploeh.AutoFixture
 {
     /// <summary>
-    /// Creates new <see cref="DateTime"/> instances.
+    /// Creates new <see cref="DateTime"/> specimens based on the current <see cref="P:DateTime.Now"/> value.
     /// </summary>
-    [Obsolete("Please use 'Ploeh.AutoFixture.CurrentDateTimeGenerator' instead.")]
-    public class DateTimeGenerator : ISpecimenBuilder
+    public class CurrentDateTimeGenerator : ISpecimenBuilder
     {
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new <see cref="DateTime"/> instance.
         /// </summary>
@@ -29,7 +26,5 @@ namespace Ploeh.AutoFixture
 
             return DateTime.Now;
         }
-
-        #endregion
     }
 }

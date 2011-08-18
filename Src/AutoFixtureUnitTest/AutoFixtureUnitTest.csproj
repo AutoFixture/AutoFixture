@@ -83,10 +83,12 @@
     <Compile Include="BehaviorPostprocessComposerTest.cs" />
     <Compile Include="BooleanSwitchTest.cs" />
     <Compile Include="ByteSequenceGeneratorTest.cs" />
+    <Compile Include="CurrentDateTimeCustomizationTest.cs" />
+    <Compile Include="CurrentDateTimeGeneratorTest.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="CollectionFillerTest.cs" />
     <Compile Include="CompositeCustomizationTest.cs" />
-    <Compile Include="DateTimeGeneratorTest.cs" />
+    <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGeneratorTest.cs" />
     <Compile Include="DefaultPrimitiveBuildersTest.cs" />
     <Compile Include="DelegatingCustomization.cs" />
     <Compile Include="DelegatingEqualityComparer.cs" />

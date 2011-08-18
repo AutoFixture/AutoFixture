@@ -1,15 +1,15 @@
-﻿﻿using System;
+﻿using System;
+using System.Threading;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
     /// <summary>
-    /// Creates new <see cref="DateTime"/> instances.
+    /// Creates new <see cref="DateTime"/> specimens based on a incremental sequence of days.
     /// </summary>
-    [Obsolete("Please use 'Ploeh.AutoFixture.CurrentDateTimeGenerator' instead.")]
-    public class DateTimeGenerator : ISpecimenBuilder
+    public class StrictlyMonotonicallyIncreasingDateTimeGenerator : ISpecimenBuilder
     {
-        #region ISpecimenBuilder Members
+        private int baseValue;
 
         /// <summary>
         /// Creates a new <see cref="DateTime"/> instance.
@@ -27,9 +27,12 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            return DateTime.Now;
+            return DateTime.Now.AddDays(this.GetNextNumberInSequence());
         }
 
-        #endregion
+        private int GetNextNumberInSequence()
+        {
+            return Interlocked.Increment(ref this.baseValue);
+        }
     }
 }

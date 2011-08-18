@@ -8,14 +8,14 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    public class NumericSequenceGeneratorTest
+    public class StrictlyMonotonicallyIncreasingDateTimeGeneratorTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-            var sut = new NumericSequenceGenerator();
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNullRequestReturnsNoSpecimen()
         {
             // Fixture setup
-            var sut = new NumericSequenceGenerator();
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
@@ -47,11 +47,12 @@ namespace Ploeh.AutoFixtureUnitTest
 
         [Theory]
         [InlineData("")]
+        [InlineData(default(int))]
         [InlineData(default(bool))]
         public void CreateWithNonTypeRequestReturnsNoSpecimen(object request)
         {
             // Fixture setup
-            var sut = new NumericSequenceGenerator();
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
@@ -64,11 +65,12 @@ namespace Ploeh.AutoFixtureUnitTest
         [Theory]
         [InlineData(typeof(string))]
         [InlineData(typeof(object))]
+        [InlineData(typeof(int))]
         [InlineData(typeof(bool))]
-        public void CreateWithNonNumericTypeRequestReturnsNoSpecimen(Type request)
+        public void CreateWithNonDateTimeTypeRequestReturnsNoSpecimen(Type request)
         {
             // Fixture setup
-            var sut = new NumericSequenceGenerator();
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
@@ -78,57 +80,48 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(byte))]
-        [InlineData(typeof(decimal))]
-        [InlineData(typeof(double))]
-        [InlineData(typeof(short))]
-        [InlineData(typeof(int))]
-        [InlineData(typeof(long))]
-        [InlineData(typeof(sbyte))]
-        [InlineData(typeof(float))]
-        [InlineData(typeof(ushort))]
-        [InlineData(typeof(uint))]
-        [InlineData(typeof(ulong))]
-        public void CreateWithNumericTypeRequestReturnsCorrectValue(Type request)
+        [Fact]
+        public void CreateWithDateTimeRequestReturnsDateTimeValue()
         {
             // Fixture setup
-            var sut = new NumericSequenceGenerator();
+            var dateTimeRequest = typeof(DateTime);
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(request, dummyContainer);
+            var result = sut.Create(dateTimeRequest, dummyContainer);
             // Verify outcome
-            Assert.IsType(request, result);
+            Assert.IsAssignableFrom<DateTime>(result);
             // Teardown
         }
 
         [Fact]
-        public void CreateWith256ByteRequestsReturnsByteSpecimens()
+        public void CreateWithDateTimeRequestReturnsDifferentDay()
         {
             // Fixture setup
-            var sequence = Enumerable.Range(0, Byte.MaxValue + 1);
-            var request = typeof(Byte);
-            var sut = new NumericSequenceGenerator();
+            var today = DateTime.Today;
+            var dateTimeRequest = typeof(DateTime);
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var result = sequence.Select(i => sut.Create(request, dummyContainer));
+            var result = (DateTime)sut.Create(dateTimeRequest, dummyContainer);
             // Verify outcome
-            Assert.True(result.All(i => i.GetType() == request));
+            Assert.NotEqual(today, result.Date);
             // Teardown
         }
 
         [Fact]
-        public void CreateWith128SByteRequestsReturnsSByteSpecimens()
+        public void CreateWithMultipleDateTimeRequestsReturnsSequenceOfDates()
         {
             // Fixture setup
-            var sequence = Enumerable.Range(0, SByte.MaxValue + 1);
-            var request = typeof(SByte);
-            var sut = new NumericSequenceGenerator();
+            var sequence = Enumerable.Range(1, 7);
+            var expectedDates = sequence.Select(i => DateTime.Today.AddDays(i));
+            var dateTimeRequest = typeof(DateTime);
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var result = sequence.Select(i => sut.Create(request, dummyContainer));
+            var results = sequence.Select(i => (DateTime)sut.Create(dateTimeRequest, dummyContainer)).ToArray();
             // Verify outcome
-            Assert.True(result.All(i => i.GetType() == request));
+            Assert.True(expectedDates.SequenceEqual(results.Select(i => i.Date)));
             // Teardown
         }
     }

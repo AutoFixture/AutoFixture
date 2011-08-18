@@ -1008,6 +1008,19 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousWithDoubleDateTimePropertiesAndCurrentDateTimeCustomizationWillAssignSameDate()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            sut.Customize(new CurrentDateTimeCustomization());
+            var result = sut.CreateAnonymous<DoublePropertyHolder<DateTime, DateTime>>();
+            // Verify outcome
+            Assert.Equal<DateTime>(result.Property1.Date, result.Property2.Date);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousWithArrayPropertyCorrectlyAssignsArray()
         {
             // Fixture setup

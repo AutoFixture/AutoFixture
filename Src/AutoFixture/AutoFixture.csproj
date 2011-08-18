@@ -116,7 +116,10 @@
     <Compile Include="BehaviorPostprocessComposer.cs" />
     <Compile Include="CollectionFiller.cs" />
     <Compile Include="CompositeCustomization.cs" />
+    <Compile Include="CurrentDateTimeCustomization.cs" />
+    <Compile Include="CurrentDateTimeGenerator.cs" />
     <Compile Include="DateTimeGenerator.cs" />
+    <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGenerator.cs" />
     <Compile Include="DefaultPrimitiveBuilders.cs" />
     <Compile Include="DictionaryFiller.cs" />
     <Compile Include="DisposableTrackingCustomization.cs" />
