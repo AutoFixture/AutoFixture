@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
@@ -122,6 +123,23 @@ namespace Ploeh.AutoFixtureUnitTest
             var results = sequence.Select(i => (DateTime)sut.Create(dateTimeRequest, dummyContainer)).ToArray();
             // Verify outcome
             Assert.True(expectedDates.SequenceEqual(results.Select(i => i.Date)));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithDateTimeRequestsTwiceWithinMillisecondsReturnsDatesExactlyOneDayApart()
+        {
+            // Fixture setup
+            var nowResolution = TimeSpan.FromMilliseconds(10);
+            var dateTimeRequest = typeof(DateTime);
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
+            // Exercise system
+            var dummyContainer = new DelegatingSpecimenContext();
+            var firstResult = (DateTime)sut.Create(dateTimeRequest, dummyContainer);
+            Thread.Sleep(nowResolution + nowResolution);
+            var secondResult = (DateTime)sut.Create(dateTimeRequest, dummyContainer);
+            // Verify outcome
+            Assert.Equal(firstResult.AddDays(1), secondResult);
             // Teardown
         }
     }

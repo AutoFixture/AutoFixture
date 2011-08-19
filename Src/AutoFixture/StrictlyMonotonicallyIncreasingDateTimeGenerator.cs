@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            return DateTime.Now.AddDays(this.GetNextNumberInSequence());
+            return DateTime.Today.AddDays(this.GetNextNumberInSequence());
         }
 
         private int GetNextNumberInSequence()

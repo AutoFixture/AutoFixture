@@ -995,6 +995,21 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousWithDateTimePropertyTwiceWithinMillisecondsReturnsDatesExactlyOneDayApart()
+        {
+            // Fixture setup
+            var nowResolution = TimeSpan.FromMilliseconds(10);
+            var sut = new Fixture();
+            // Exercise system
+            var firstResult = sut.CreateAnonymous<PropertyHolder<DateTime>>();
+            Thread.Sleep(nowResolution + nowResolution);
+            var secondResult = sut.CreateAnonymous<PropertyHolder<DateTime>>();
+            // Verify outcome
+            Assert.Equal(firstResult.Property.AddDays(1), secondResult.Property);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousWithDoubleDateTimePropertiesAndFreezedInt32ValueWillAssignDifferentDates()
         {
             // Fixture setup
