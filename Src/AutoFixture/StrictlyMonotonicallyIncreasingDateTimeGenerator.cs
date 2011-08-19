@@ -9,7 +9,25 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class StrictlyMonotonicallyIncreasingDateTimeGenerator : ISpecimenBuilder
     {
+        private readonly DateTime seed;
         private int baseValue;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StrictlyMonotonicallyIncreasingDateTimeGenerator"/> class.
+        /// </summary>
+        public StrictlyMonotonicallyIncreasingDateTimeGenerator()
+            : this(DateTime.Today)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StrictlyMonotonicallyIncreasingDateTimeGenerator"/> class.
+        /// </summary>
+        /// <param name="seed">The base <see cref="DateTime"/> value used to generate <see cref="DateTime"/> specimens.</param>
+        public StrictlyMonotonicallyIncreasingDateTimeGenerator(DateTime seed)
+        {
+            this.seed = seed;
+        }
 
         /// <summary>
         /// Creates a new <see cref="DateTime"/> instance.
@@ -27,7 +45,7 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            return DateTime.Today.AddDays(this.GetNextNumberInSequence());
+            return this.seed.AddDays(this.GetNextNumberInSequence());
         }
 
         private int GetNextNumberInSequence()

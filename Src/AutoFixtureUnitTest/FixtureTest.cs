@@ -998,7 +998,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithDateTimePropertyTwiceWithinMillisecondsReturnsDatesExactlyOneDayApart()
         {
             // Fixture setup
-            var nowResolution = TimeSpan.FromMilliseconds(10);
+            var nowResolution = TimeSpan.FromMilliseconds(10); // see http://msdn.microsoft.com/en-us/library/system.datetime.now.aspx
             var sut = new Fixture();
             // Exercise system
             var firstResult = sut.CreateAnonymous<PropertyHolder<DateTime>>();

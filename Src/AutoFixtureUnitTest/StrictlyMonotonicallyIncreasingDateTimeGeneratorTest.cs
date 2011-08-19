@@ -130,7 +130,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithDateTimeRequestsTwiceWithinMillisecondsReturnsDatesExactlyOneDayApart()
         {
             // Fixture setup
-            var nowResolution = TimeSpan.FromMilliseconds(10);
+            var nowResolution = TimeSpan.FromMilliseconds(10); // see http://msdn.microsoft.com/en-us/library/system.datetime.now.aspx
             var dateTimeRequest = typeof(DateTime);
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
             // Exercise system
@@ -140,6 +140,21 @@ namespace Ploeh.AutoFixtureUnitTest
             var secondResult = (DateTime)sut.Create(dateTimeRequest, dummyContainer);
             // Verify outcome
             Assert.Equal(firstResult.AddDays(1), secondResult);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithDateTimeRequestAndSeedValueReturnsSeedValuePlusOneDay()
+        {
+            // Fixture setup
+            var seed = DateTime.Today.AddDays(3);
+            var dateTimeRequest = typeof(DateTime);
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
+            // Exercise system
+            var dummyContainer = new DelegatingSpecimenContext();
+            var result = (DateTime)sut.Create(dateTimeRequest, dummyContainer);
+            // Verify outcome
+            Assert.Equal(seed.AddDays(1), result);
             // Teardown
         }
     }
