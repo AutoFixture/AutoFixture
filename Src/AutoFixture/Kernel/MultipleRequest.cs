@@ -79,7 +79,7 @@ namespace Ploeh.AutoFixture.Kernel
             return this.Request.GetHashCode();
         }
 
-        #region IEquatable<ManyRequest> Members
+        #region IEquatable<MultipleRequest> Members
 
         /// <summary>
         /// Indicates whether the current <see cref="MultipleRequest"/> is equal to another
