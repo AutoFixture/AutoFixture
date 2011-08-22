@@ -15,14 +15,6 @@ namespace Ploeh.AutoFixture
         /// <summary>
         /// Initializes a new instance of the <see cref="StrictlyMonotonicallyIncreasingDateTimeGenerator"/> class.
         /// </summary>
-        public StrictlyMonotonicallyIncreasingDateTimeGenerator()
-            : this(DateTime.Today)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StrictlyMonotonicallyIncreasingDateTimeGenerator"/> class.
-        /// </summary>
         /// <param name="seed">The base <see cref="DateTime"/> value used to generate <see cref="DateTime"/> specimens.</param>
         public StrictlyMonotonicallyIncreasingDateTimeGenerator(DateTime seed)
         {

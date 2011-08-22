@@ -15,8 +15,9 @@ namespace Ploeh.AutoFixtureUnitTest
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
+            var seed = DateTime.Today;
             // Exercise system
-            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -26,23 +27,13 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNullRequestReturnsNoSpecimen()
         {
             // Fixture setup
-            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
+            var seed = DateTime.Today;
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
             // Verify outcome
             Assert.Equal(new NoSpecimen(), result);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithNullContextDoesNotThrow()
-        {
-            // Fixture setup
-            var sut = new NumericSequenceGenerator();
-            // Exercise system and verify outcome
-            var dummyRequest = new object();
-            Assert.DoesNotThrow(() => sut.Create(dummyRequest, null));
             // Teardown
         }
 
@@ -53,7 +44,8 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNonTypeRequestReturnsNoSpecimen(object request)
         {
             // Fixture setup
-            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
+            var seed = DateTime.Today;
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
@@ -71,7 +63,8 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNonDateTimeTypeRequestReturnsNoSpecimen(Type request)
         {
             // Fixture setup
-            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
+            var seed = DateTime.Today;
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContainer);
@@ -85,11 +78,12 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithDateTimeRequestReturnsDateTimeValue()
         {
             // Fixture setup
-            var dateTimeRequest = typeof(DateTime);
-            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
+            var request = typeof(DateTime);
+            var seed = DateTime.Today;
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(dateTimeRequest, dummyContainer);
+            var result = sut.Create(request, dummyContainer);
             // Verify outcome
             Assert.IsAssignableFrom<DateTime>(result);
             // Teardown
@@ -99,14 +93,14 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithDateTimeRequestReturnsDifferentDay()
         {
             // Fixture setup
-            var today = DateTime.Today;
-            var dateTimeRequest = typeof(DateTime);
-            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
+            var request = typeof(DateTime);
+            var seed = DateTime.Today;
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var result = (DateTime)sut.Create(dateTimeRequest, dummyContainer);
+            var result = (DateTime)sut.Create(request, dummyContainer);
             // Verify outcome
-            Assert.NotEqual(today, result.Date);
+            Assert.NotEqual(DateTime.Today, result.Date);
             // Teardown
         }
 
@@ -116,11 +110,12 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sequence = Enumerable.Range(1, 7);
             var expectedDates = sequence.Select(i => DateTime.Today.AddDays(i));
-            var dateTimeRequest = typeof(DateTime);
-            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
+            var request = typeof(DateTime);
+            var seed = DateTime.Today;
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var results = sequence.Select(i => (DateTime)sut.Create(dateTimeRequest, dummyContainer)).ToArray();
+            var results = sequence.Select(i => (DateTime)sut.Create(request, dummyContainer)).ToArray();
             // Verify outcome
             Assert.True(expectedDates.SequenceEqual(results.Select(i => i.Date)));
             // Teardown
@@ -131,13 +126,14 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var nowResolution = TimeSpan.FromMilliseconds(10); // see http://msdn.microsoft.com/en-us/library/system.datetime.now.aspx
-            var dateTimeRequest = typeof(DateTime);
-            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator();
+            var request = typeof(DateTime);
+            var seed = DateTime.Today;
+            var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var firstResult = (DateTime)sut.Create(dateTimeRequest, dummyContainer);
+            var firstResult = (DateTime)sut.Create(request, dummyContainer);
             Thread.Sleep(nowResolution + nowResolution);
-            var secondResult = (DateTime)sut.Create(dateTimeRequest, dummyContainer);
+            var secondResult = (DateTime)sut.Create(request, dummyContainer);
             // Verify outcome
             Assert.Equal(firstResult.AddDays(1), secondResult);
             // Teardown
@@ -147,12 +143,12 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithDateTimeRequestAndSeedValueReturnsSeedValuePlusOneDay()
         {
             // Fixture setup
+            var request = typeof(DateTime);
             var seed = DateTime.Today.AddDays(3);
-            var dateTimeRequest = typeof(DateTime);
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var result = (DateTime)sut.Create(dateTimeRequest, dummyContainer);
+            var result = (DateTime)sut.Create(request, dummyContainer);
             // Verify outcome
             Assert.Equal(seed.AddDays(1), result);
             // Teardown
