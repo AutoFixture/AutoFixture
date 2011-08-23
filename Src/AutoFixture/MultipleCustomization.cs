@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -33,8 +31,6 @@ namespace Ploeh.AutoFixture
     /// </remarks>
     public class MultipleCustomization : ICustomization
     {
-        #region ICustomization Members
-
         /// <summary>
         /// Customizes the specified fixture by adding conventions for populating sequences and
         /// collections.
@@ -76,7 +72,5 @@ namespace Ploeh.AutoFixture
                         new EnumerableFavoringConstructorQuery()),
                     new ListSpecification()));
         }
-
-        #endregion
     }
 }

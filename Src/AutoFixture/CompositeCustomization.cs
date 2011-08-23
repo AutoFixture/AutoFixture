@@ -42,8 +42,6 @@ namespace Ploeh.AutoFixture
             get { return this.customizations; }
         }
 
-        #region ICustomization Members
-
         /// <summary>
         /// Customizes the specified fixture.
         /// </summary>
@@ -55,7 +53,5 @@ namespace Ploeh.AutoFixture
                 c.Customize(fixture);
             }
         }
-
-        #endregion
     }
 }

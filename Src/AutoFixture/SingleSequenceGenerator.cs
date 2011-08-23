@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Ploeh.AutoFixture.Kernel;
+﻿using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
@@ -31,8 +30,6 @@ namespace Ploeh.AutoFixture
             }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates an anonymous number.
         /// </summary>
@@ -51,7 +48,5 @@ namespace Ploeh.AutoFixture
 
             return this.CreateAnonymous();
         }
-
-        #endregion
     }
 }

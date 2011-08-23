@@ -44,8 +44,6 @@ namespace Ploeh.AutoFixture
             get { return this.writer; }
         }
 
-        #region ISpecimenBuilderTransformation Members
-
         /// <summary>
         /// Decorates the supplied builder with a <see cref="TraceWriter"/>.
         /// </summary>
@@ -63,7 +61,5 @@ namespace Ploeh.AutoFixture
 
             return new TraceWriter(this.writer, new TracingBuilder(builder));
         }
-
-        #endregion
     }
 }

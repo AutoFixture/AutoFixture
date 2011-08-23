@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -57,8 +54,6 @@ namespace Ploeh.AutoFixture
             get { return this.query; }
         }
 
-        #region ICustomization Members
-
         /// <summary>
         /// Customizes the specified fixture by modifying <see cref="TargetType"/> to use
         /// <see cref="Query"/> as the strategy for creating new specimens.
@@ -76,7 +71,5 @@ namespace Ploeh.AutoFixture
 
             fixture.Customizations.Insert(0, composer.Compose());
         }
-
-        #endregion
     }
 }

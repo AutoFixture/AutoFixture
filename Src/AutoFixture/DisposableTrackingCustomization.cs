@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -38,8 +35,6 @@ namespace Ploeh.AutoFixture
             get { return this.behavior; }
         }
 
-        #region ICustomization Members
-
         /// <summary>
         /// Customizes the specified fixture by applying <see cref="Behavior"/>.
         /// </summary>
@@ -54,10 +49,6 @@ namespace Ploeh.AutoFixture
             fixture.Behaviors.Add(this.Behavior);
         }
 
-        #endregion
-
-        #region IDisposable Members
-
         /// <summary>
         /// Disposes <see cref="Behavior"/>.
         /// </summary>
@@ -66,8 +57,6 @@ namespace Ploeh.AutoFixture
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-        #endregion
 
         /// <summary>
         /// Disposes <see cref="Behavior"/>.

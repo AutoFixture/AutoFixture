@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -20,8 +16,6 @@ namespace Ploeh.AutoFixture
         {
             return Guid.NewGuid();
         }
-
-        #region ISpecimenBuilder Members
 
         /// <summary>
         /// Creates a new <see cref="Guid"/> instance.
@@ -41,7 +35,5 @@ namespace Ploeh.AutoFixture
 
             return GuidGenerator.CreateAnonymous();
         }
-
-        #endregion
     }
 }

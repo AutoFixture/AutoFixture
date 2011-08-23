@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -11,8 +8,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class TypeGenerator : ISpecimenBuilder
     {
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new specimen based on a request.
         /// </summary>
@@ -31,7 +26,5 @@ namespace Ploeh.AutoFixture
 
             return new NoSpecimen(request);
         }
-
-        #endregion
     }
 }

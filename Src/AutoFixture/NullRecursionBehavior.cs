@@ -8,8 +8,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class NullRecursionBehavior : ISpecimenBuilderTransformation
     {
-        #region ISpecimenBuilderTransformation Members
-
         /// <summary>
         /// Decorates the supplied <see cref="ISpecimenBuilder"/> with a
         /// <see cref="NullRecursionGuard"/>.
@@ -27,7 +25,5 @@ namespace Ploeh.AutoFixture
 
             return new NullRecursionGuard(builder);
         }
-
-        #endregion
     }
 }

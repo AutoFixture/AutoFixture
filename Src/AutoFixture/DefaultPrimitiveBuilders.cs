@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ploeh.AutoFixture.Kernel;
 using System.Collections;
+using System.Collections.Generic;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
@@ -14,8 +12,6 @@ namespace Ploeh.AutoFixture
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "This is not a 'collection' - it can't be modified.")]
     public class DefaultPrimitiveBuilders : IEnumerable<ISpecimenBuilder>
     {
-        #region IEnumerable<ISpecimenBuilder> Members
-
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
@@ -36,10 +32,6 @@ namespace Ploeh.AutoFixture
             yield return new IntPtrGuard();
         }
 
-        #endregion
-
-        #region IEnumerable Members
-
         /// <summary>
         /// Returns an enumerator that iterates through a collection.
         /// </summary>
@@ -51,7 +43,5 @@ namespace Ploeh.AutoFixture
         {
             return this.GetEnumerator();
         }
-
-        #endregion
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
-using System.ComponentModel;
 
 namespace Ploeh.AutoFixture
 {
@@ -243,8 +242,6 @@ namespace Ploeh.AutoFixture
                    select f();
         }
 
-        #region ISpecimenBuilderComposer Members
-
         /// <summary>
         /// Composes a new <see cref="ISpecimenBuilder"/> instance that contains all the relevant
         /// strategies defined for this instance.
@@ -277,8 +274,6 @@ namespace Ploeh.AutoFixture
                 (b, behavior) =>
                     behavior.Transform(b));
         }
-
-        #endregion
 
         private bool EnableAutoProperties
         {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Ploeh.AutoFixture
+﻿namespace Ploeh.AutoFixture
 {
     /// <summary>
     /// Encapsulates a customization of an <see cref="IFixture"/>.

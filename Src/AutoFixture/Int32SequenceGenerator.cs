@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Threading;
+﻿using System.Threading;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -27,8 +26,6 @@ namespace Ploeh.AutoFixture
             return Interlocked.Increment(ref this.i);
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates an anonymous number.
         /// </summary>
@@ -47,7 +44,5 @@ namespace Ploeh.AutoFixture
 
             return this.CreateAnonymous();
         }
-
-        #endregion
     }
 }

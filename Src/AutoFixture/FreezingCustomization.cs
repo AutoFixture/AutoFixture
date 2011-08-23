@@ -32,8 +32,6 @@ namespace Ploeh.AutoFixture
             get { return this.targetType; }
         }
 
-        #region ICustomization Members
-
         /// <summary>
         /// Customizes the fixture by freezing the value of <see cref="TargetType"/>.
         /// </summary>
@@ -52,7 +50,5 @@ namespace Ploeh.AutoFixture
 
             fixture.Customizations.Insert(0, composer.Compose());
         }
-
-        #endregion
     }
 }

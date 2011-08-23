@@ -8,8 +8,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class ThrowingRecursionBehavior : ISpecimenBuilderTransformation
     {
-        #region ISpecimenBuilderTransformation Members
-
         /// <summary>
         /// Decorates the supplied <see cref="ISpecimenBuilder"/> with a
         /// <see cref="ThrowingRecursionGuard"/>.
@@ -27,7 +25,5 @@ namespace Ploeh.AutoFixture
 
             return new ThrowingRecursionGuard(builder);
         }
-
-        #endregion
     }
 }

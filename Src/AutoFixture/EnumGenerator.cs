@@ -23,8 +23,6 @@ namespace Ploeh.AutoFixture
             this.enumerators = new Dictionary<Type, IEnumerator>();
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new enum value based on a request.
         /// </summary>
@@ -56,8 +54,6 @@ namespace Ploeh.AutoFixture
                 return this.CreateValue(t);
             }
         }
-
-        #endregion
 
         private static bool IsEnumType(Type t)
         {
@@ -96,8 +92,6 @@ namespace Ploeh.AutoFixture
                 this.values = Enum.GetValues(enumType).Cast<object>();
             }
 
-            #region IEnumerable Members
-
             public IEnumerator GetEnumerator()
             {
                 while (true)
@@ -108,9 +102,6 @@ namespace Ploeh.AutoFixture
                     }
                 }
             }
-
-            #endregion
         }
-
     }
 }

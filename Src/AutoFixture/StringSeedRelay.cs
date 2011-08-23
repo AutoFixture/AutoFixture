@@ -9,8 +9,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class StringSeedRelay : ISpecimenBuilder
     {
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates an anonymous string based on a seed.
         /// </summary>
@@ -55,7 +53,5 @@ namespace Ploeh.AutoFixture
 
             return seed + containerResult;
         }
-
-        #endregion
     }
 }

@@ -9,8 +9,6 @@ namespace Ploeh.AutoFixture
     [Obsolete("Please use 'Ploeh.AutoFixture.CurrentDateTimeGenerator' instead.")]
     public class DateTimeGenerator : ISpecimenBuilder
     {
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new <see cref="DateTime"/> instance.
         /// </summary>
@@ -29,7 +27,5 @@ namespace Ploeh.AutoFixture
 
             return DateTime.Now;
         }
-
-        #endregion
     }
 }

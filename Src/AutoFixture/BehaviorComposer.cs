@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Linq.Expressions;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
-using System.Linq.Expressions;
 
 namespace Ploeh.AutoFixture
 {
@@ -117,8 +116,6 @@ namespace Ploeh.AutoFixture
 
             return new BehaviorPostprocessComposer<T>(newComposer, this.Behaviors);
         }
-
-        #region IFactoryComposer<T> Members
 
         /// <summary>
         /// Specifies a function that defines how to create a specimen from a seed.
@@ -263,10 +260,6 @@ namespace Ploeh.AutoFixture
             return this.With(this.Composer.FromFactory(factory));
         }
 
-        #endregion
-
-        #region ISpecimenBuilderComposer Members
-
         /// <summary>
         /// Composes a new <see cref="ISpecimenBuilder"/> instance.
         /// </summary>
@@ -287,10 +280,6 @@ namespace Ploeh.AutoFixture
                 (builder, behavior) =>
                     behavior.Transform(builder));
         }
-
-        #endregion
-
-        #region IPostprocessComposer<T> Members
 
         /// <summary>
         /// Performs the specified action on a specimen.
@@ -385,7 +374,5 @@ namespace Ploeh.AutoFixture
         {
             return this.With(this.Composer.Without(propertyPicker));
         }
-
-        #endregion
     }
 }

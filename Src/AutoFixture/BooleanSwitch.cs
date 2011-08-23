@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Ploeh.AutoFixture.Kernel;
+﻿using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
@@ -36,8 +35,6 @@ namespace Ploeh.AutoFixture
             }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Returns an alternating sequence of <see langword="true"/> and <see langword="false"/>
         /// every other time it is invoked.
@@ -58,7 +55,5 @@ namespace Ploeh.AutoFixture
 
             return this.CreateAnonymous();
         }
-
-        #endregion
     }
 }

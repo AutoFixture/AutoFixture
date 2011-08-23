@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Ploeh.AutoFixture.Dsl;
 using System.Linq.Expressions;
+using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -100,8 +99,6 @@ namespace Ploeh.AutoFixture
             return new BehaviorPostprocessComposer<T>(newComposer, this.Behaviors);
         }
 
-        #region IPostprocessComposer<T> Members
-
         /// <summary>
         /// Performs the specified action on a specimen.
         /// </summary>
@@ -196,10 +193,6 @@ namespace Ploeh.AutoFixture
             return this.With(this.Composer.Without(propertyPicker));
         }
 
-        #endregion
-
-        #region ISpecimenBuilderComposer Members
-
         /// <summary>
         /// Composes a new <see cref="ISpecimenBuilder"/> instance.
         /// </summary>
@@ -220,7 +213,5 @@ namespace Ploeh.AutoFixture
                 (builder, behavior) => 
                     behavior.Transform(builder));
         }
-
-        #endregion
     }
 }

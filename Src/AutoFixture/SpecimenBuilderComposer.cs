@@ -1,5 +1,4 @@
 ﻿using System;
-using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using Ploeh.AutoFixture.Kernel;
+﻿using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
@@ -35,8 +30,6 @@ namespace Ploeh.AutoFixture
             }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates an anonymous byte.
         /// </summary>
@@ -55,7 +48,5 @@ namespace Ploeh.AutoFixture
 
             return this.CreateAnonymous();
         }
-
-        #endregion
     }
 }

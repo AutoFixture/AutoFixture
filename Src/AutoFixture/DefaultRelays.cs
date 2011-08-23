@@ -21,8 +21,6 @@ namespace Ploeh.AutoFixture
             this.multiple = new MultipleRelay();
         }
 
-        #region IEnumerable<ISpecimenBuilder> Members
-
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
@@ -45,10 +43,6 @@ namespace Ploeh.AutoFixture
             yield return new SeedIgnoringRelay();
         }
 
-        #endregion
-
-        #region IEnumerable Members
-
         /// <summary>
         /// Returns an enumerator that iterates through a collection.
         /// </summary>
@@ -61,10 +55,6 @@ namespace Ploeh.AutoFixture
             return this.GetEnumerator();
         }
 
-        #endregion
-
-        #region IMultiple Members
-
         /// <summary>
         /// Gets or sets the count that specifies how many <i>Many</i> is.
         /// </summary>
@@ -73,7 +63,5 @@ namespace Ploeh.AutoFixture
             get { return this.multiple.Count; }
             set { this.multiple.Count = value; }
         }
-
-        #endregion
     }
 }
