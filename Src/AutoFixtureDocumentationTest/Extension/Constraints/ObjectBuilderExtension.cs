@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ploeh.AutoFixture;
 using System.Linq.Expressions;
 using Ploeh.AutoFixture.Dsl;
 

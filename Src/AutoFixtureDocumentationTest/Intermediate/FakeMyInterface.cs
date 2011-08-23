@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
 {
@@ -24,8 +22,6 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
 
         public string Text { get; private set; }
 
-        #region IMyInterface Members
-
         public IEnumerable<int> ThingNumbers
         {
             get { return this.things.Select(t => t.Number); }
@@ -35,7 +31,5 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
         {
             this.things.Add(thing);
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
-﻿
-namespace Ploeh.AutoFixtureDocumentationTest.Simple
+﻿namespace Ploeh.AutoFixtureDocumentationTest.Simple
 {
     public class ComplexChild
     {

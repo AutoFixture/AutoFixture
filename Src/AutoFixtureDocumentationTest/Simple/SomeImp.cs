@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixtureDocumentationTest.Simple
 {
@@ -10,8 +7,6 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         private MyClass mc;
         private string message;
         private string transformedMessage;
-
-        #region IBadDesign Members
 
         public string Message
         {
@@ -32,8 +27,6 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         {
             this.mc = mc;
         }
-
-        #endregion
 
         public string TransformedMessage
         {
