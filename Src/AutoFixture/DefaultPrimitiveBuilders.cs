@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture
             yield return new StringGenerator(() => Guid.NewGuid());
             yield return new StringSeedRelay();
             yield return new NumericSequenceGenerator();
-            yield return new StrictlyMonotonicallyIncreasingDateTimeGenerator(DateTime.Today);
+            yield return new StrictlyMonotonicallyIncreasingDateTimeGenerator(DateTime.Now);
             yield return new BooleanSwitch();
             yield return new GuidGenerator();
             yield return new TypeGenerator();

@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
-            var seed = DateTime.Today;
+            var seed = DateTime.Now;
             // Exercise system
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Verify outcome
@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNullRequestReturnsNoSpecimen()
         {
             // Fixture setup
-            var seed = DateTime.Today;
+            var seed = DateTime.Now;
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNonTypeRequestReturnsNoSpecimen(object request)
         {
             // Fixture setup
-            var seed = DateTime.Today;
+            var seed = DateTime.Now;
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
@@ -63,7 +63,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNonDateTimeTypeRequestReturnsNoSpecimen(Type request)
         {
             // Fixture setup
-            var seed = DateTime.Today;
+            var seed = DateTime.Now;
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
@@ -79,7 +79,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var request = typeof(DateTime);
-            var seed = DateTime.Today;
+            var seed = DateTime.Now;
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
@@ -94,7 +94,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var request = typeof(DateTime);
-            var seed = DateTime.Today;
+            var seed = DateTime.Now;
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sequence = Enumerable.Range(1, 7);
             var expectedDates = sequence.Select(i => DateTime.Today.AddDays(i));
             var request = typeof(DateTime);
-            var seed = DateTime.Today;
+            var seed = DateTime.Now;
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
@@ -127,7 +127,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var nowResolution = TimeSpan.FromMilliseconds(10); // see http://msdn.microsoft.com/en-us/library/system.datetime.now.aspx
             var request = typeof(DateTime);
-            var seed = DateTime.Today;
+            var seed = DateTime.Now;
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
@@ -144,7 +144,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var request = typeof(DateTime);
-            var seed = DateTime.Today.AddDays(3);
+            var seed = DateTime.Now.AddDays(3);
             var sut = new StrictlyMonotonicallyIncreasingDateTimeGenerator(seed);
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
