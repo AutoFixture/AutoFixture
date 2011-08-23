@@ -6,16 +6,14 @@ using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    public class DateTimeGeneratorTest
+    public class CurrentDateTimeGeneratorTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-#pragma warning disable 618
-            var sut = new DateTimeGenerator();
-#pragma warning restore 618
+            var sut = new CurrentDateTimeGenerator();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -25,9 +23,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNullRequestWillReturnCorrectResult()
         {
             // Fixture setup
-#pragma warning disable 618
-            var sut = new DateTimeGenerator();
-#pragma warning restore 618
+            var sut = new CurrentDateTimeGenerator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContainer);
@@ -40,9 +36,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNullContextDoesNotThrow()
         {
             // Fixture setup
-#pragma warning disable 618
-            var sut = new DateTimeGenerator();
-#pragma warning restore 618
+            var sut = new CurrentDateTimeGenerator();
             // Exercise system and verify outcome
             var dummyRequest = new object();
             Assert.DoesNotThrow(() => sut.Create(dummyRequest, null));
@@ -54,9 +48,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var nonDateTimeRequest = new object();
-#pragma warning disable 618
-            var sut = new DateTimeGenerator();
-#pragma warning restore 618
+            var sut = new CurrentDateTimeGenerator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonDateTimeRequest, dummyContainer);
@@ -72,9 +64,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var before = DateTime.Now;
             var dateTimeRequest = typeof(DateTime);
-#pragma warning disable 618
-            var sut = new DateTimeGenerator();
-#pragma warning restore 618
+            var sut = new CurrentDateTimeGenerator();
             // Exercise system
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(dateTimeRequest, dummyContext);

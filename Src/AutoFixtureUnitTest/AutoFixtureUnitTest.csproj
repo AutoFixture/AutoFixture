@@ -83,10 +83,13 @@
     <Compile Include="BehaviorPostprocessComposerTest.cs" />
     <Compile Include="BooleanSwitchTest.cs" />
     <Compile Include="ByteSequenceGeneratorTest.cs" />
+    <Compile Include="CurrentDateTimeCustomizationTest.cs" />
+    <Compile Include="CurrentDateTimeGeneratorTest.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="CollectionFillerTest.cs" />
     <Compile Include="CompositeCustomizationTest.cs" />
     <Compile Include="DateTimeGeneratorTest.cs" />
+    <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGeneratorTest.cs" />
     <Compile Include="DefaultPrimitiveBuildersTest.cs" />
     <Compile Include="DelegatingCustomization.cs" />
     <Compile Include="DelegatingEqualityComparer.cs" />
@@ -182,6 +185,8 @@
     <Compile Include="Kernel\SpecimenFactoryWithTripleParameterFuncTest.cs" />
     <Compile Include="Kernel\TerminatingSpecimenBuilderTest.cs" />
     <Compile Include="StableFiniteSequenceCustomizationTest.cs" />
+    <Compile Include="NumericSequenceGeneratorTest.cs" />
+    <Compile Include="NumericSequencePerTypeCustomizationTest.cs" />
     <Compile Include="TestConsole.cs" />
     <Compile Include="ThrowingRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\TracingBuilderTest.cs" />

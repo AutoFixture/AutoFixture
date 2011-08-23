@@ -813,6 +813,106 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousWithDoubleMixedWholeNumericPropertiesWillAssignDifferentValues()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<DoublePropertyHolder<int, long>>();
+            // Verify outcome
+            Assert.NotEqual(result.Property1, result.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithDoubleMixedSmallWholeNumericPropertiesWillAssignDifferentValues()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<DoublePropertyHolder<byte, short>>();
+            // Verify outcome
+            Assert.NotEqual(result.Property1, result.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithDoubleMixedFloatingPointNumericPropertiesWillAssignDifferentValues()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<DoublePropertyHolder<double, float>>();
+            // Verify outcome
+            Assert.NotEqual(result.Property1, result.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithDoubleMixedNumericPropertiesWillAssignDifferentValues()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.CreateAnonymous<DoublePropertyHolder<long, float>>();
+            // Verify outcome
+            Assert.NotEqual(result.Property1, result.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithNumericSequenceCustomizationAndDoubleMixedWholeNumericPropertiesWillAssignSameValue()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            sut.Customize(new NumericSequencePerTypeCustomization());
+            var result = sut.CreateAnonymous<DoublePropertyHolder<int, long>>();
+            // Verify outcome
+            Assert.Equal(result.Property1, result.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithNumericSequenceCustomizationAndDoubleMixedSmallWholeNumericPropertiesWillAssignSameValue()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            sut.Customize(new NumericSequencePerTypeCustomization());
+            var result = sut.CreateAnonymous<DoublePropertyHolder<byte, short>>();
+            // Verify outcome
+            Assert.Equal(result.Property1, result.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithNumericSequenceCustomizationAndDoubleMixedFloatingPointNumericPropertiesWillAssignSameValue()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            sut.Customize(new NumericSequencePerTypeCustomization());
+            var result = sut.CreateAnonymous<DoublePropertyHolder<double, float>>();
+            // Verify outcome
+            Assert.Equal(result.Property1, result.Property2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithNumericSequenceCustomizationAndDoubleMixedNumericPropertiesWillAssignSameValue()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            sut.Customize(new NumericSequencePerTypeCustomization());
+            var result = sut.CreateAnonymous<DoublePropertyHolder<long, float>>();
+            // Verify outcome
+            Assert.Equal(result.Property1, result.Property2);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousWithGuidProperyWillAssignNonDefaultValue()
         {
             // Fixture setup
@@ -870,32 +970,68 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithDateTimePropertyWillAssignValueMatchingCurrentTime()
+        public void CreateAnonymousWithDateTimePropertyWillAssignDifferentDateThanToday()
         {
             // Fixture setup
+            var today = DateTime.Today;
             var sut = new Fixture();
-            var before = DateTime.Now;
             // Exercise system
             var result = sut.CreateAnonymous<PropertyHolder<DateTime>>();
             // Verify outcome
-            var after = DateTime.Now;
-            Assert.True(before <= result.Property && result.Property <= after, "Generated DateTime should match current DateTime.");
+            Assert.NotEqual(today, result.Property.Date);
             // Teardown
         }
 
         [Fact]
-        public void CreateAnonymousWithDateTimePropertyTwiceWillAssignDifferentValuesIfYouWaitLongEnough()
+        public void CreateAnonymousWithDoubleDateTimePropertiesWillAssignDifferentDates()
         {
             // Fixture setup
-            var resolutionOfNow = TimeSpan.FromMilliseconds(10); // according to http://msdn.microsoft.com/en-us/library/system.datetime.now.aspx
-
             var sut = new Fixture();
-            var ph = sut.CreateAnonymous<PropertyHolder<DateTime>>();
-            Thread.Sleep(resolutionOfNow + resolutionOfNow);
             // Exercise system
-            var result = sut.CreateAnonymous<PropertyHolder<DateTime>>();
+            var result = sut.CreateAnonymous<DoublePropertyHolder<DateTime, DateTime>>();
             // Verify outcome
-            Assert.NotEqual<DateTime>(ph.Property, result.Property);
+            Assert.NotEqual<DateTime>(result.Property1.Date, result.Property2.Date);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithDateTimePropertyTwiceWithinMillisecondsReturnsDatesExactlyOneDayApart()
+        {
+            // Fixture setup
+            var nowResolution = TimeSpan.FromMilliseconds(10); // see http://msdn.microsoft.com/en-us/library/system.datetime.now.aspx
+            var sut = new Fixture();
+            // Exercise system
+            var firstResult = sut.CreateAnonymous<PropertyHolder<DateTime>>();
+            Thread.Sleep(nowResolution + nowResolution);
+            var secondResult = sut.CreateAnonymous<PropertyHolder<DateTime>>();
+            // Verify outcome
+            Assert.Equal(firstResult.Property.AddDays(1), secondResult.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithDoubleDateTimePropertiesAndFreezedInt32ValueWillAssignDifferentDates()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            sut.Freeze<int>();
+            var result = sut.CreateAnonymous<DoublePropertyHolder<DateTime, DateTime>>();
+            // Verify outcome
+            Assert.NotEqual<DateTime>(result.Property1.Date, result.Property2.Date);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithDoubleDateTimePropertiesAndCurrentDateTimeCustomizationWillAssignSameDate()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            sut.Customize(new CurrentDateTimeCustomization());
+            var result = sut.CreateAnonymous<DoublePropertyHolder<DateTime, DateTime>>();
+            // Verify outcome
+            Assert.Equal<DateTime>(result.Property1.Date, result.Property2.Date);
             // Teardown
         }
 
