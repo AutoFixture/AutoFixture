@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -79,8 +76,6 @@ namespace Ploeh.AutoFixture.Kernel
             return this.Request == null ? 0 : this.Request.GetHashCode();
         }
 
-        #region IEquatable<NoSpecimen> Members
-
         /// <summary>
         /// Indicates whether the current instance is equal to another <see cref="NoSpecimen"/>
         /// instance.
@@ -101,7 +96,5 @@ namespace Ploeh.AutoFixture.Kernel
         
             return object.Equals(this.Request, other.Request);
         }
-
-        #endregion
     }
 }

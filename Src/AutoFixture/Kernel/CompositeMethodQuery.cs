@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -43,8 +42,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.queries; }
         }
 
-        #region IMethodQuery Members
-
         /// <summary>
         /// Selects the methods for the supplied type.
         /// </summary>
@@ -56,7 +53,5 @@ namespace Ploeh.AutoFixture.Kernel
                    from m in q.SelectMethods(type)
                    select m;
         }
-
-        #endregion
     }
 }

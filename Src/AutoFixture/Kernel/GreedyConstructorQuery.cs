@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -12,8 +11,6 @@ namespace Ploeh.AutoFixture.Kernel
     public class GreedyConstructorQuery : IMethodQuery, IConstructorQuery
 #pragma warning restore 618
     {
-        #region IConstructorQuery Members
-
         /// <summary>
         /// Selects the constructors for the supplied type.
         /// </summary>
@@ -38,10 +35,6 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return this.SelectMethods(type);
         }
-
-        #endregion
-
-        #region IMethodQuery Members
 
         /// <summary>
         /// Selects the constructors for the supplied type.
@@ -75,7 +68,5 @@ namespace Ploeh.AutoFixture.Kernel
                    orderby parameters.Length descending
                    select new ConstructorMethod(ci) as IMethod;
         }
-
-        #endregion
     }
 }

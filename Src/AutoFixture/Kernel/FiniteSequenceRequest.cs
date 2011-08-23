@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Globalization;
+using System.Linq;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -76,8 +75,6 @@ namespace Ploeh.AutoFixture.Kernel
             return Enumerable.Repeat(this.request, this.count);
         }
 
-        #region IEquatable<ManyRequest> Members
-
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
@@ -96,7 +93,5 @@ namespace Ploeh.AutoFixture.Kernel
             return this.request.Equals(other.request)
                 && this.count == other.count;
         }
-
-        #endregion
     }
 }

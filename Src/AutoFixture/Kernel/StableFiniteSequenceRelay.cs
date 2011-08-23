@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -22,8 +21,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// <seealso cref="FiniteSequenceRelay" />
     public class StableFiniteSequenceRelay : ISpecimenBuilder
     {
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new specimen based on a request.
         /// </summary>
@@ -55,7 +52,5 @@ namespace Ploeh.AutoFixture.Kernel
             return (from r in manyRequest.CreateRequests()
                     select context.Resolve(r)).ToList();
         }
-
-        #endregion
     }
 }

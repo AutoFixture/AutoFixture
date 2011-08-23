@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -11,8 +11,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class EnumerableRelay : ISpecimenBuilder
     {
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new sequence of items based on a request.
         /// </summary>
@@ -48,8 +46,6 @@ namespace Ploeh.AutoFixture.Kernel
                     .Single();
         }
 
-        #endregion
-
         private class ConvertedEnumerable<T> : IEnumerable<T>
         {
             private readonly IEnumerable<object> enumerable;
@@ -64,8 +60,6 @@ namespace Ploeh.AutoFixture.Kernel
                 this.enumerable = enumerable;
             }
 
-            #region IEnumerable<T> Members
-
             public IEnumerator<T> GetEnumerator()
             {
                 foreach (var item in this.enumerable)
@@ -74,16 +68,10 @@ namespace Ploeh.AutoFixture.Kernel
                 }
             }
 
-            #endregion
-
-            #region IEnumerable Members
-
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            IEnumerator IEnumerable.GetEnumerator()
             {
                 return this.GetEnumerator();
             }
-
-            #endregion
         }
     }
 }

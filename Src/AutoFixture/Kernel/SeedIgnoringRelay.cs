@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -12,8 +8,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class SeedIgnoringRelay : ISpecimenBuilder
     {
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates an anonymous value by unwrapping a seeded request and ignoring the seed.
         /// </summary>
@@ -50,7 +44,5 @@ namespace Ploeh.AutoFixture.Kernel
 
             return context.Resolve(seededRequest.Request);
         }
-
-        #endregion
     }
 }

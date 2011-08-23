@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -45,8 +44,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.specifications; }
         }
 
-        #region IRequestSpecification Members
-
         /// <summary>
         /// Evaluates a request for a specimen.
         /// </summary>
@@ -62,7 +59,5 @@ namespace Ploeh.AutoFixture.Kernel
                 .DefaultIfEmpty(true)
                 .Any(b => b);
         }
-
-        #endregion
     }
 }

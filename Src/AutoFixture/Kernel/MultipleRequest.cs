@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -79,8 +76,6 @@ namespace Ploeh.AutoFixture.Kernel
             return this.Request.GetHashCode();
         }
 
-        #region IEquatable<MultipleRequest> Members
-
         /// <summary>
         /// Indicates whether the current <see cref="MultipleRequest"/> is equal to another
         /// MultipleRequest instance.
@@ -99,7 +94,5 @@ namespace Ploeh.AutoFixture.Kernel
         
             return object.Equals(this.Request, other.Request);
         }
-
-        #endregion
     }
 }

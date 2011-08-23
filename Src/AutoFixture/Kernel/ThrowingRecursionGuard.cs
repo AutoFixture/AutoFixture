@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Globalization;
-using System.Text;
 using System.Linq;
+using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {

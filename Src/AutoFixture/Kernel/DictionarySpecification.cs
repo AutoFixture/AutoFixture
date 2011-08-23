@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -10,8 +8,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class DictionarySpecification : IRequestSpecification
     {
-        #region IRequestSpecification Members
-
         /// <summary>
         /// Evaluates a request for a specimen to determine whether it's a request for a
         /// dictionary.
@@ -32,7 +28,5 @@ namespace Ploeh.AutoFixture.Kernel
             return type.IsGenericType
                 && typeof(Dictionary<,>) == type.GetGenericTypeDefinition();
         }
-
-        #endregion
     }
 }

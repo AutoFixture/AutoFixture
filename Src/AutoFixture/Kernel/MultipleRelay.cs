@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -21,8 +18,6 @@ namespace Ploeh.AutoFixture.Kernel
             this.count = 3;
         }
 
-        #region IMultiple Members
-
         /// <summary>
         /// Gets or sets the count that specifies how many specimens will be requested.
         /// </summary>
@@ -38,10 +33,6 @@ namespace Ploeh.AutoFixture.Kernel
                 this.count = value;
             }
         }
-
-        #endregion
-
-        #region ISpecimenBuilder Members
 
         /// <summary>
         /// Creates many new specimens based on a request.
@@ -71,7 +62,5 @@ namespace Ploeh.AutoFixture.Kernel
 
             return context.Resolve(new FiniteSequenceRequest(manyRequest.Request, this.Count));
         }
-
-        #endregion
     }
 }

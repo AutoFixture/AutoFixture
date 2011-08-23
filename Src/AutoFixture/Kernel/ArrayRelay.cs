@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections;
 
 namespace Ploeh.AutoFixture.Kernel
@@ -12,8 +9,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class ArrayRelay : ISpecimenBuilder
     {
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new array based on a request.
         /// </summary>
@@ -52,8 +47,6 @@ namespace Ploeh.AutoFixture.Kernel
 
             return ArrayRelay.ToArray(e, elementType);
         }
-
-        #endregion
 
         private static Type GetElementType(object request)
         {

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Globalization;
 
 namespace Ploeh.AutoFixture.Kernel
@@ -70,8 +67,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.specification; }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new specimen by delegating to the decorated <see cref="Builder"/>.
         /// </summary>
@@ -98,7 +93,5 @@ namespace Ploeh.AutoFixture.Kernel
             }
             return result;
         }
-
-        #endregion
     }
 }

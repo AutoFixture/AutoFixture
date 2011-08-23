@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -71,8 +69,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.disposables; }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new specimen based on a request.
         /// </summary>
@@ -101,10 +97,6 @@ namespace Ploeh.AutoFixture.Kernel
             return specimen;
         }
 
-        #endregion
-
-        #region IDisposable Members
-
         /// <summary>
         /// Disposes all items in the <see cref="Disposables"/> list and removes them from the
         /// list.
@@ -114,8 +106,6 @@ namespace Ploeh.AutoFixture.Kernel
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-        #endregion
 
         /// <summary>
         /// Disposes all items in the <see cref="Disposables"/> list and removes them from the

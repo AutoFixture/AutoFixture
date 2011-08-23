@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections.ObjectModel;
 
 namespace Ploeh.AutoFixture.Kernel
@@ -12,8 +9,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class CollectionSpecification : IRequestSpecification
     {
-        #region IRequestSpecification Members
-
         /// <summary>
         /// Evaluates a request for a specimen to determine whether it's a request for a
         /// <see cref="Collection{T}"/>.
@@ -34,7 +29,5 @@ namespace Ploeh.AutoFixture.Kernel
             return type.IsGenericType
                 && typeof(Collection<>) == type.GetGenericTypeDefinition();
         }
-
-        #endregion
     }
 }

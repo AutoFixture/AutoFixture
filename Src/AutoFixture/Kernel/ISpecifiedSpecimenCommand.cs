@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Ploeh.AutoFixture.Kernel
+﻿namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
     /// A Command that performs an action on a specimen and knows whether that action matches a

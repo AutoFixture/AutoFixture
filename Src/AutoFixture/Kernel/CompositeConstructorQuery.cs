@@ -43,8 +43,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.queries; }
         }
 
-        #region IConstructorQuery Members
-
         /// <summary>
         /// Selects the constructors for the supplied type by delegating to <see cref="Queries"/>.
         /// </summary>
@@ -69,7 +67,5 @@ namespace Ploeh.AutoFixture.Kernel
                     from result in query.SelectConstructors(type)
                     select result);
         }
-
-        #endregion
     }
 }

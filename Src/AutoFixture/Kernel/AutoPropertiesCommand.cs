@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
 
 namespace Ploeh.AutoFixture.Kernel
@@ -116,8 +115,6 @@ namespace Ploeh.AutoFixture.Kernel
             this.specification = specification;
         }
 
-        #region ISpecifiedSpecimenCommand<T> Members
-
         /// <summary>
         /// Assigns anonymous values to properties and fields on a specimen
         /// </summary>
@@ -150,10 +147,6 @@ namespace Ploeh.AutoFixture.Kernel
                 fi.SetValue(specimen, fieldValue);
             }
         }
-
-        #endregion
-
-        #region IRequestSpecification Members
 
         /// <summary>
         /// Evaluates whether a request matches a property or field affected by this command.
@@ -216,7 +209,5 @@ namespace Ploeh.AutoFixture.Kernel
                    && this.specification.IsSatisfiedBy(pi)
                    select pi;
         }
-
-        #endregion
     }
 }

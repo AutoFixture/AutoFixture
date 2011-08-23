@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -11,8 +10,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class DictionaryRelay : ISpecimenBuilder
     {
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new specimen based on a request.
         /// </summary>
@@ -45,7 +42,5 @@ namespace Ploeh.AutoFixture.Kernel
                     .DefaultIfEmpty(new NoSpecimen(request))
                     .Single();
         }
-
-        #endregion
     }
 }

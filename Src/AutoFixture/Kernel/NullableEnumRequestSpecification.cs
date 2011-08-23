@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -10,8 +8,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class NullableEnumRequestSpecification : IRequestSpecification
     {
-        #region IRequestSpecification Members
-
         /// <summary>
         /// Evaluates a request for a specimen.
         /// </summary>
@@ -30,7 +26,5 @@ namespace Ploeh.AutoFixture.Kernel
                     where ga.Length == 1
                     select ga.Single().IsEnum).DefaultIfEmpty(false).Single();
         }
-
-        #endregion
     }
 }

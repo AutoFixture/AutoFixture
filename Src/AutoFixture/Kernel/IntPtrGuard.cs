@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -25,8 +22,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </remarks>
     public class IntPtrGuard : ISpecimenBuilder
     {
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Guards against requests for <see cref="IntPtr"/>.
         /// </summary>
@@ -49,7 +44,5 @@ namespace Ploeh.AutoFixture.Kernel
 
             throw new IllegalRequestException("A request for an IntPtr was detected. This is an unsafe resource that will crash the process if used, so the request is denied. A common source of IntPtr requests are requests for delegates such as Func<T> or Action<T>. If this is the case, the expected workaround is to Customize (Register or Inject) the offending type by specifying a proper creational strategy.");
         }
-
-        #endregion
     }
 }

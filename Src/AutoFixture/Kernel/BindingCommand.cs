@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Collections;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Globalization;
-using System.Collections;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -106,8 +103,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.createBindingValue; }
         }
 
-        #region ISpecifiedSpecimenCommand<T> Members
-
         /// <summary>
         /// Executes the command on the supplied specimen by assigning the property of field the
         /// correct value.
@@ -152,10 +147,6 @@ namespace Ploeh.AutoFixture.Kernel
             }
         }
 
-        #endregion
-
-        #region IRequestSpecification Members
-
         /// <summary>
         /// Evaluates whether a request matches the property or field affected by this command.
         /// </summary>
@@ -175,8 +166,6 @@ namespace Ploeh.AutoFixture.Kernel
             IEqualityComparer comparer = new MemberInfoEqualityComparer();
             return comparer.Equals(this.member, request);
         }
-
-        #endregion
 
         private TProperty CreateAnonymousValue(ISpecimenContext container)
         {

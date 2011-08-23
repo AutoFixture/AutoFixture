@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -42,8 +39,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.spec; }
         }
 
-        #region IRequestSpecification Members
-
         /// <summary>
         /// Returns the opposite result as the decorated <see cref="IRequestSpecification"/>.
         /// </summary>
@@ -56,7 +51,5 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return !this.spec.IsSatisfiedBy(request);
         }
-
-        #endregion
     }
 }

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Collections;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Collections;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -47,8 +44,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.member; }
         }
 
-        #region ISpecifiedSpecimenCommand<T> Members
-
         /// <summary>
         /// Does nothing.
         /// </summary>
@@ -57,10 +52,6 @@ namespace Ploeh.AutoFixture.Kernel
         public void Execute(T specimen, ISpecimenContext context)
         {
         }
-
-        #endregion
-
-        #region IRequestSpecification Members
 
         /// <summary>
         /// Evaluates whether a request matches the property or field reserved by this command.
@@ -81,7 +72,5 @@ namespace Ploeh.AutoFixture.Kernel
             IEqualityComparer comparer = new MemberInfoEqualityComparer();
             return comparer.Equals(this.member, request);
         }
-
-        #endregion
     }
 }

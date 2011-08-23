@@ -12,8 +12,6 @@ namespace Ploeh.AutoFixture.Kernel
     public class FactoryMethodQuery : IMethodQuery, IConstructorQuery
 #pragma warning restore 618
     {
-        #region IConstructorQuery Members
-
         /// <summary>
         /// Selects the public factory methods for the supplied type.
         /// </summary>
@@ -37,10 +35,6 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return this.SelectMethods(type);
         }
-
-        #endregion
-
-        #region IMethodQuery Members
 
         /// <summary>
         /// Selects the public factory methods for the supplied type.
@@ -74,7 +68,5 @@ namespace Ploeh.AutoFixture.Kernel
                    orderby parameters.Length ascending
                    select new StaticMethod(mi) as IMethod;
         }
-
-        #endregion
     }
 }

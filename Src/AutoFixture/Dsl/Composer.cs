@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Ploeh.AutoFixture.Kernel;
 using System.Linq.Expressions;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Dsl
 {
@@ -109,8 +108,6 @@ namespace Ploeh.AutoFixture.Dsl
 
             return new Composer<T>(this.Factory, this.postprocessors.Concat(new[] { postprocessor }), this.EnableAutoProperties);
         }
-
-        #region IFactoryComposer<T> Members
 
         /// <summary>
         /// Specifies a function that defines how to create a specimen from a seed.
@@ -289,10 +286,6 @@ namespace Ploeh.AutoFixture.Dsl
             return this.WithFactory(new SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T>(factory));
         }
 
-        #endregion
-
-        #region IPostprocessComposer<T> Members
-
         /// <summary>
         /// Performs the specified action on a specimen.
         /// </summary>
@@ -405,8 +398,6 @@ namespace Ploeh.AutoFixture.Dsl
             return this.WithPostprocessor(postprocessor);
         }
 
-        #endregion
-
         /// <summary>
         /// Gets the transformations that will be applied to
         /// <see cref="TypedBuilderComposer.Factory"/> during
@@ -453,8 +444,6 @@ namespace Ploeh.AutoFixture.Dsl
                 this.postprocessors = postprocessors;
             }
 
-            #region ISpecimenBuilderTransformation Members
-
             /// <summary>
             /// Transforms the supplied builder into another.
             /// </summary>
@@ -467,8 +456,6 @@ namespace Ploeh.AutoFixture.Dsl
                 return this.postprocessors.Aggregate(builder, (b, p) =>
                     new Postprocessor<T>(b, p.Execute));
             }
-
-            #endregion
         }
 
         /// <summary>
@@ -506,8 +493,6 @@ namespace Ploeh.AutoFixture.Dsl
                 this.enableAutoProperties = enableAutoProperties;
             }
 
-            #region ISpecimenBuilderTransformation Members
-
             /// <summary>
             /// Transforms the supplied builder into another.
             /// </summary>
@@ -532,8 +517,6 @@ namespace Ploeh.AutoFixture.Dsl
                     new AutoPropertiesCommand<T>(allowedProperties).Execute,
                     this.inputFilter);
             }
-
-            #endregion
         }
     }
 }

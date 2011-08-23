@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -32,8 +30,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.trackers; }
         }
 
-        #region ISpecimenBuilderTransformation Members
-
         /// <summary>
         /// Decorates the supplied builder with a <see cref="DisposableTracker"/>.
         /// </summary>
@@ -54,10 +50,6 @@ namespace Ploeh.AutoFixture.Kernel
             return tracker;
         }
 
-        #endregion
-
-        #region IDisposable Members
-
         /// <summary>
         /// Disposes all <see cref="Trackers"/> and clears the list.
         /// </summary>
@@ -66,8 +58,6 @@ namespace Ploeh.AutoFixture.Kernel
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-        #endregion
 
         /// <summary>
         /// Disposes all <see cref="Trackers"/> and clears the list.

@@ -66,8 +66,6 @@ namespace Ploeh.AutoFixture.Kernel
             return this.Constructor.GetHashCode();
         }
 
-        #region IMethod Members
-
         /// <summary>
         /// Gets information about the parameters of the method.
         /// </summary>
@@ -86,10 +84,6 @@ namespace Ploeh.AutoFixture.Kernel
             return this.constructor.Invoke(parameters.ToArray());
         }
 
-        #endregion
-
-        #region IEquatable<ConstructorMethod> Members
-
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
@@ -107,7 +101,5 @@ namespace Ploeh.AutoFixture.Kernel
 
             return this.Constructor.Equals(other.Constructor);
         }
-
-        #endregion
     }
 }

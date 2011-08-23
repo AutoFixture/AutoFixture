@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ploeh.AutoFixture.Kernel;
 using System.Linq.Expressions;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Dsl
 {
@@ -65,8 +62,6 @@ namespace Ploeh.AutoFixture.Dsl
 
             this.compose = factory;
         }
-
-        #region IFactoryComposer<T> Members
 
         /// <summary>
         /// Does nothing.
@@ -138,10 +133,6 @@ namespace Ploeh.AutoFixture.Dsl
             return this;
         }
 
-        #endregion
-
-        #region IPostprocessComposer<T> Members
-
         /// <summary>
         /// Does nothing
         /// </summary>
@@ -201,10 +192,6 @@ namespace Ploeh.AutoFixture.Dsl
             return this;
         }
 
-        #endregion
-
-        #region ISpecimenBuilderComposer Members
-
         /// <summary>
         /// Composes a new <see cref="ISpecimenBuilder"/> instance.
         /// </summary>
@@ -221,7 +208,5 @@ namespace Ploeh.AutoFixture.Dsl
         {
             return this.compose();
         }
-
-        #endregion
     }
 }

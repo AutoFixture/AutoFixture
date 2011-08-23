@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Linq.Expressions;
 using Ploeh.AutoFixture.Kernel;
 
@@ -47,8 +46,6 @@ namespace Ploeh.AutoFixture.Dsl
         {
             get { return this.composers; }
         }
-
-        #region IPostprocessComposer<T> Members
 
         /// <summary>
         /// Performs the specified action on a specimen.
@@ -150,10 +147,6 @@ namespace Ploeh.AutoFixture.Dsl
                                                        select c.Without(propertyPicker));
         }
 
-        #endregion
-
-        #region ISpecimenBuilderComposer Members
-
         /// <summary>
         /// Composes a new <see cref="ISpecimenBuilder"/> instance.
         /// </summary>
@@ -165,7 +158,5 @@ namespace Ploeh.AutoFixture.Dsl
             return new CompositeSpecimenBuilder(from c in this.composers
                                                 select c.Compose());
         }
-
-        #endregion
     }
 }

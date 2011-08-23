@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -35,8 +32,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.builder; }
         }
 
-        #region ISpecimenContext Members
-
         /// <summary>
         /// Creates an anonymous variable (specimen) based on a request by delegating the request
         /// to its contained <see cref="Builder"/>.
@@ -47,7 +42,5 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return this.Builder.Create(request, this);
         }
-
-        #endregion
     }
 }

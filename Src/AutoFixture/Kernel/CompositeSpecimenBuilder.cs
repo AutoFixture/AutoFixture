@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -53,8 +52,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.builders; }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new specimen by delegating to <see cref="Builders"/>.
         /// </summary>
@@ -68,7 +65,5 @@ namespace Ploeh.AutoFixture.Kernel
                     where !(result is NoSpecimen)
                     select result).DefaultIfEmpty(new NoSpecimen()).FirstOrDefault();
         }
-
-        #endregion
     }
 }

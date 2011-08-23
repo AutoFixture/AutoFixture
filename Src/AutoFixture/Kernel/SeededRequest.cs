@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -73,8 +69,6 @@ namespace Ploeh.AutoFixture.Kernel
             return this.Request.GetHashCode() ^ (this.Seed == null ? 0 : this.Seed.GetHashCode());
         }
 
-        #region IEquatable<Seed> Members
-
         /// <summary>
         /// Determines whether this instance equals another instance.
         /// </summary>
@@ -93,7 +87,5 @@ namespace Ploeh.AutoFixture.Kernel
             return this.Request == other.Request
                 && object.Equals(this.Seed, other.Seed);
         }
-
-        #endregion
     }
 }

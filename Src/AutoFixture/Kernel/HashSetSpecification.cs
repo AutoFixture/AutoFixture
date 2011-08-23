@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -11,8 +9,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class HashSetSpecification : IRequestSpecification
     {
-        #region IRequestSpecification Members
-
         /// <summary>
         /// Evaluates a request for a specimen to determine whether it's a request for a
         /// <see cref="HashSet{T}"/>.
@@ -33,7 +29,5 @@ namespace Ploeh.AutoFixture.Kernel
             return type.IsGenericType
                 && typeof(HashSet<>) == type.GetGenericTypeDefinition();
         }
-
-        #endregion
     }
 }

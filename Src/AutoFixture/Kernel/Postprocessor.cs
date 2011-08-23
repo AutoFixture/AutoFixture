@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Globalization;
-using System.Linq.Expressions;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -136,8 +132,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.specification; }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new specimen based on a request and performs an action on the created
         /// specimen.
@@ -178,7 +172,5 @@ namespace Ploeh.AutoFixture.Kernel
             this.action(s, context);
             return specimen;
         }
-
-        #endregion
     }
 }

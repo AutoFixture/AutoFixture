@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -19,8 +15,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </remarks>
     public class TerminatingSpecimenBuilder : ISpecimenBuilder
     {
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Throws an <see cref="ObjectCreationException"/>.
         /// </summary>
@@ -42,7 +36,5 @@ namespace Ploeh.AutoFixture.Kernel
                     )
                 );
         }
-
-        #endregion
     }
 }

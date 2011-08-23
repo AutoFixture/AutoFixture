@@ -81,8 +81,6 @@ namespace Ploeh.AutoFixture.Kernel
             }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new specimen based on a request by delegating to its decorated builder.
         /// </summary>
@@ -95,7 +93,5 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return this.tracer.Create(request, context);
         }
-
-        #endregion
     }
 }

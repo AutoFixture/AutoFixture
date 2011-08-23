@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -10,8 +7,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class AnyTypeSpecification : IRequestSpecification
     {
-        #region IRequestSpecification Members
-
         /// <summary>
         /// Evaluates a request for a specimen.
         /// </summary>
@@ -29,7 +24,5 @@ namespace Ploeh.AutoFixture.Kernel
 
             return request is Type;
         }
-
-        #endregion
     }
 }

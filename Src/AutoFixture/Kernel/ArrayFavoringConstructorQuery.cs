@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
 
 namespace Ploeh.AutoFixture.Kernel
@@ -16,8 +15,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </remarks>
     public class ArrayFavoringConstructorQuery : IMethodQuery
     {
-        #region IMethodQuery Members
-
         /// <summary>
         /// Selects the constructors for the supplied type.
         /// </summary>
@@ -48,8 +45,6 @@ namespace Ploeh.AutoFixture.Kernel
                    select new ConstructorMethod(ci) as IMethod;
         }
 
-        #endregion
-
         private class ArrayParameterScore : IComparable<ArrayParameterScore>
         {
             private readonly int score;
@@ -62,8 +57,6 @@ namespace Ploeh.AutoFixture.Kernel
                 this.score = ArrayParameterScore.CalculateScore(parameters);
             }
 
-            #region IComparable<ArrayParameterScore> Members
-
             public int CompareTo(ArrayParameterScore other)
             {
                 if (other == null)
@@ -73,8 +66,6 @@ namespace Ploeh.AutoFixture.Kernel
 
                 return this.score.CompareTo(other.score);
             }
-
-            #endregion
 
             private static int CalculateScore(IEnumerable<ParameterInfo> parameters)
             {

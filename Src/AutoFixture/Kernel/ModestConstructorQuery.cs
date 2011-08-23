@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Reflection;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -13,8 +11,6 @@ namespace Ploeh.AutoFixture.Kernel
     public class ModestConstructorQuery : IMethodQuery, IConstructorQuery
 #pragma warning restore 618
     {
-        #region IConstructorPicker Members
-
         /// <summary>
         /// Selects the constructors for the supplied type.
         /// </summary>
@@ -39,10 +35,6 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return this.SelectMethods(type);
         }
-
-        #endregion
-
-        #region IMethodQuery Members
 
         /// <summary>
         /// Selects the constructors for the supplied type.
@@ -76,7 +68,5 @@ namespace Ploeh.AutoFixture.Kernel
                    orderby parameters.Length ascending
                    select new ConstructorMethod(ci) as IMethod;
         }
-
-        #endregion
     }
 }

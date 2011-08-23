@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
 
 namespace Ploeh.AutoFixture.Kernel
@@ -97,8 +96,6 @@ namespace Ploeh.AutoFixture.Kernel
             return this.Method.GetHashCode() ^ this.Owner.GetHashCode();
         }
 
-        #region IMethod Members
-
         /// <summary>
         /// Gets information about the parameters of the method.
         /// </summary>
@@ -116,10 +113,6 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return this.method.Invoke(this.owner, parameters.ToArray());
         }
-
-        #endregion
-
-        #region IEquatable<InstanceMethod> Members
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
@@ -139,7 +132,5 @@ namespace Ploeh.AutoFixture.Kernel
             return object.Equals(this.Method, other.Method) 
                 && object.Equals(this.Owner, other.Owner);
         }
-
-        #endregion
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Reflection;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -41,8 +39,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.query; }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a specimen of the requested type by invoking the first constructor it can
         /// satisfy.
@@ -79,8 +75,6 @@ namespace Ploeh.AutoFixture.Kernel
 
             return new NoSpecimen(request);
         }
-
-        #endregion
 
         private IEnumerable<IMethod> GetConstructors(object request)
         {

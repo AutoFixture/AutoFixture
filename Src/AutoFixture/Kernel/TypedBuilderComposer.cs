@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -59,8 +58,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.targetType; }
         }
 
-        #region ISpecimenBuilderComposer Members
-
         /// <summary>
         /// Composes a new <see cref="ISpecimenBuilder"/> instance.
         /// </summary>
@@ -72,8 +69,6 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return this.Transformations.Aggregate(this.Factory, (b, t) => t.Transform(b));
         }
-
-        #endregion
 
         /// <summary>
         /// Gets the input filter.
@@ -119,8 +114,6 @@ namespace Ploeh.AutoFixture.Kernel
                 this.targetType = targetType;
             }
 
-            #region ISpecimenBuilderTransformation Members
-
             /// <summary>
             /// Transforms the supplied builder into another.
             /// </summary>
@@ -143,8 +136,6 @@ namespace Ploeh.AutoFixture.Kernel
                 var throwSpec = new InverseRequestSpecification(allowedNoSpecimenFilter);
                 return new NoSpecimenOutputGuard(builder, throwSpec);
             }
-
-            #endregion
         }
 
         /// <summary>
@@ -153,8 +144,6 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         protected class CombineWithSeedRelayTransformation : ISpecimenBuilderTransformation
         {
-            #region ISpecimenBuilderTransformation Members
-
             /// <summary>
             /// Transforms the supplied builder into another.
             /// </summary>
@@ -174,8 +163,6 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 return new CompositeSpecimenBuilder(builder, new SeedIgnoringRelay());
             }
-
-            #endregion
         }
 
         /// <summary>
@@ -200,8 +187,6 @@ namespace Ploeh.AutoFixture.Kernel
                 this.inputFilter = inputFilter;
             }
 
-            #region ISpecimenBuilderTransformation Members
-
             /// <summary>
             /// Transforms the supplied builder into another.
             /// </summary>
@@ -213,9 +198,6 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 return new FilteringSpecimenBuilder(builder, this.inputFilter);
             }
-
-            #endregion
         }
-
     }
 }

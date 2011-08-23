@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection;
 
 namespace Ploeh.AutoFixture.Kernel
@@ -12,8 +9,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class ParameterRequestRelay : ISpecimenBuilder
     {
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a specimen based on a requested parameter.
         /// </summary>
@@ -39,7 +34,5 @@ namespace Ploeh.AutoFixture.Kernel
 
             return context.Resolve(new SeededRequest(paramInfo.ParameterType, paramInfo.Name));
         }
-
-        #endregion
     }
 }

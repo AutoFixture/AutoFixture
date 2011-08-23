@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
 using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -12,8 +10,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class MemberInfoEqualityComparer : IEqualityComparer<MemberInfo>, IEqualityComparer
     {
-        #region IEqualityComparer<MemberInfo> Members
-
         /// <summary>
         /// Determines whether the specified objects are equal.
         /// </summary>
@@ -87,10 +83,6 @@ namespace Ploeh.AutoFixture.Kernel
             return obj.DeclaringType.GetHashCode() ^ obj.Name.GetHashCode();
         }
 
-        #endregion
-
-        #region IEqualityComparer Members
-
         bool IEqualityComparer.Equals(object x, object y)
         {
             if ((x == null) && (y == null))
@@ -128,8 +120,6 @@ namespace Ploeh.AutoFixture.Kernel
 
             return obj.GetHashCode();
         }
-
-        #endregion
 
         private static bool AreTypesRelated(Type x, Type y)
         {

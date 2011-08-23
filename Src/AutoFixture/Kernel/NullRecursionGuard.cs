@@ -1,9 +1,7 @@
-﻿namespace Ploeh.AutoFixture.Kernel
-{
-    using System;
-    using System.Collections;
-    using Kernel;
+﻿using System.Collections;
 
+namespace Ploeh.AutoFixture.Kernel
+{
     /// <summary>
     /// Recursion handler that returns null at recursion points.
     /// </summary>

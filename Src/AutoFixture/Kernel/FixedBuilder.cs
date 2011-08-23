@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Ploeh.AutoFixture.Kernel
+﻿namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
     /// A <see cref="ISpecimenBuilder"/> that always returns the same specimen.
@@ -23,8 +18,6 @@ namespace Ploeh.AutoFixture.Kernel
             this.specimen = specimen;
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Returns the same specimen every time.
         /// </summary>
@@ -40,7 +33,5 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return this.specimen;
         }
-
-        #endregion
     }
 }

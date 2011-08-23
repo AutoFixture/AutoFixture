@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -35,8 +32,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.create; }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new specimen based on a request.
         /// </summary>
@@ -55,8 +50,6 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return this.create();
         }
-
-        #endregion
     }
 
     /// <summary>
@@ -96,8 +89,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.create; }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new specimen based on a request.
         /// </summary>
@@ -123,8 +114,6 @@ namespace Ploeh.AutoFixture.Kernel
             var p = (TInput)context.Resolve(typeof(TInput));
             return this.create(p);
         }
-
-        #endregion
     }
 
     /// <summary>
@@ -167,8 +156,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.create; }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new specimen based on a request.
         /// </summary>
@@ -195,8 +182,6 @@ namespace Ploeh.AutoFixture.Kernel
             var p2 = (TInput2)context.Resolve(typeof(TInput2));
             return this.create(p1, p2);
         }
-
-        #endregion
     }
 
     /// <summary>
@@ -240,8 +225,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.create; }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new specimen based on a request.
         /// </summary>
@@ -269,8 +252,6 @@ namespace Ploeh.AutoFixture.Kernel
             var p3 = (TInput3)context.Resolve(typeof(TInput3));
             return this.create(p1, p2, p3);
         }
-
-        #endregion
     }
 
     /// <summary>
@@ -315,8 +296,6 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.create; }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new specimen based on a request.
         /// </summary>
@@ -345,8 +324,5 @@ namespace Ploeh.AutoFixture.Kernel
             var p4 = (TInput4)context.Resolve(typeof(TInput4));
             return this.create(p1, p2, p3, p4);
         }
-
-        #endregion
     }
-
 }
