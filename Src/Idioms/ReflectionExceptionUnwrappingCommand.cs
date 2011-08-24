@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
@@ -12,7 +9,7 @@ namespace Ploeh.AutoFixture.Idioms
     /// </summary>
     public class ReflectionExceptionUnwrappingCommand : IGuardClauseCommand
     {
-        private IGuardClauseCommand command;
+        private readonly IGuardClauseCommand command;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReflectionExceptionUnwrappingCommand" />
@@ -31,8 +28,6 @@ namespace Ploeh.AutoFixture.Idioms
         {
             get { return this.command; }
         }
-
-        #region IContextualCommand Members
 
         /// <summary>
         /// Gets the type of the requested value.
@@ -92,7 +87,5 @@ namespace Ploeh.AutoFixture.Idioms
         {
             return this.Command.CreateException(value, innerException);
         }
-
-        #endregion
     }
 }

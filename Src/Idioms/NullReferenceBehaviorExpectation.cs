@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -20,8 +17,6 @@ namespace Ploeh.AutoFixture.Idioms
     /// </remarks>
     public class NullReferenceBehaviorExpectation : IBehaviorExpectation
     {
-        #region IBehaviorExpectation Members
-
         /// <summary>
         /// Verifies that the command behaves correct when invoked with a null argument.
         /// </summary>
@@ -66,7 +61,5 @@ namespace Ploeh.AutoFixture.Idioms
 
             throw command.CreateException("null");
         }
-
-        #endregion
     }
 }

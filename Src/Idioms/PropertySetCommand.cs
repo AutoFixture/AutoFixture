@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
 using System.Globalization;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -48,8 +45,6 @@ namespace Ploeh.AutoFixture.Idioms
         {
             get { return this.propertyInfo; }
         }
-
-        #region IContextualCommand Members
 
         /// <summary>
         /// Gets the type of the requested value.
@@ -105,8 +100,6 @@ namespace Ploeh.AutoFixture.Idioms
         {
             return new GuardClauseException(this.CreateExceptionMessage(value), innerException);
         }
-
-        #endregion
 
         private string CreateExceptionMessage(string value)
         {

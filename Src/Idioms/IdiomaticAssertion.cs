@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
@@ -23,8 +22,6 @@ namespace Ploeh.AutoFixture.Idioms
     /// </remarks>
     public abstract class IdiomaticAssertion : IIdiomaticAssertion
     {
-        #region IIdiomaticAssertion Members
-
         /// <summary>
         /// Calls <see cref="Verify(Assembly)" /> for each Assembly in
         /// <paramref name="assemblies" />.
@@ -260,8 +257,6 @@ namespace Ploeh.AutoFixture.Idioms
         public virtual void Verify(PropertyInfo propertyInfo)
         {
         }
-
-        #endregion
 
         private static IEnumerable<MethodInfo> GetMethodsExceptPropertyAccessors(Type type)
         {

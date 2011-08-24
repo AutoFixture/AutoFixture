@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -12,8 +9,6 @@ namespace Ploeh.AutoFixture.Idioms
     /// <seealso cref="Verify(IGuardClauseCommand)" />
     public class EmptyGuidBehaviorExpectation : IBehaviorExpectation
     {
-        #region IBehaviorExpectation Members
-
         /// <summary>
         /// Verifies the behavior of the command when invoked with <see cref="Guid.Empty" />.
         /// </summary>
@@ -51,7 +46,5 @@ namespace Ploeh.AutoFixture.Idioms
 
             throw command.CreateException("\"Guid.Empty\"");
         }
-
-        #endregion
     }
 }

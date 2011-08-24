@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xunit;
+using System.Reflection;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.TestTypeFoundation;
-using System.Reflection;
-using Xunit.Extensions;
+using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {

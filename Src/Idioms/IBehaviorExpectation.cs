@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Ploeh.AutoFixture.Idioms
+﻿namespace Ploeh.AutoFixture.Idioms
 {
     /// <summary>
     /// Represents an expectation about the behavior when an <see cref="IGuardClauseCommand" /> is

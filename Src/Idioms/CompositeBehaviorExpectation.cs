@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -36,8 +34,6 @@ namespace Ploeh.AutoFixture.Idioms
         {
         }
 
-        #region IBehaviorExpectation Members
-
         /// <summary>
         /// Verifies the behavior of the command by delegating the implementation to all
         /// <see cref="BehaviorExpectations" />.
@@ -50,8 +46,6 @@ namespace Ploeh.AutoFixture.Idioms
                 be.Verify(command);
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Gets the behavior expectations supplied via the constructor.

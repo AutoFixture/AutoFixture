@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -57,8 +55,6 @@ namespace Ploeh.AutoFixture.Idioms
         {
         }
 
-        #region IExpansion<T> Members
-
         /// <summary>
         /// Replaces the pre-selected element in the source sequence with a new element.
         /// </summary>
@@ -81,8 +77,6 @@ namespace Ploeh.AutoFixture.Idioms
             list[this.replacementIndex] = value;
             return list;
         }
-
-        #endregion
 
         /// <summary>
         /// Gets the index of the element which will be replaced by the <see cref="Expand" />

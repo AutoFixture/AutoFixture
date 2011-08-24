@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using Xunit;
-using Ploeh.AutoFixture.Idioms;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
+using Ploeh.AutoFixture.Idioms;
+using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {

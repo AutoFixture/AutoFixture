@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ploeh.AutoFixture.Idioms;
-using System.Reflection;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -23,8 +19,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         public Func<string, Exception, Exception> OnCreateExceptionWithInner { get; set; }
 
-        #region IContextualCommand Members
-
         public Type RequestedType { get; set; }
 
         public void Execute(object value)
@@ -41,7 +35,5 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             return this.OnCreateExceptionWithInner(value, innerException);
         }
-
-        #endregion
     }
 }

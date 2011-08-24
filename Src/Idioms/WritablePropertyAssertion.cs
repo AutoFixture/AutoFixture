@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ploeh.AutoFixture.Kernel;
 using System.Reflection;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -25,7 +22,7 @@ namespace Ploeh.AutoFixture.Idioms
     /// </remarks>
     public class WritablePropertyAssertion : IdiomaticAssertion
     {
-        private ISpecimenBuilderComposer composer;
+        private readonly ISpecimenBuilderComposer composer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WritablePropertyAssertion"/> class.
