@@ -390,8 +390,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         private class MethodData : IEnumerable<object[]>
         {
-            #region IEnumerable<object[]> Members
-
             public IEnumerator<object[]> GetEnumerator()
             {
                 yield return new object[] { typeof(GuardedMethodHost), 0 };
@@ -416,22 +414,14 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 yield return new object[] { typeof(Version), 10 };
             }
 
-            #endregion
-
-            #region IEnumerable Members
-
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return this.GetEnumerator();
             }
-
-            #endregion
         }
 
         private class ConstructorData : IEnumerable<object[]>
         {
-            #region IEnumerable<object[]> Members
-
             public IEnumerator<object[]> GetEnumerator()
             {
                 yield return new object[] { typeof(GuardedConstructorHost<object>), 0 };
@@ -444,16 +434,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 yield return new object[] { typeof(ConcreteType), 4 };
             }
 
-            #endregion
-
-            #region IEnumerable Members
-
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return this.GetEnumerator();
             }
-
-            #endregion
         }
     }
 }

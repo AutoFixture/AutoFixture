@@ -31,8 +31,6 @@ namespace Ploeh.AutoFixture
             get { return this.value; }
         }
 
-        #region ICustomAttributeProvider Members
-
         /// <summary>
         /// Returns an array of all of the custom attributes defined on this member, excluding
         /// named attributes, or an empty array if there are no custom attributes. 
@@ -82,7 +80,5 @@ namespace Ploeh.AutoFixture
         {
             return false;
         }
-
-        #endregion
     }
 }

@@ -73,8 +73,6 @@ namespace Ploeh.AutoFixture.Kernel
             return this.TargetType.GetHashCode() ^ (this.Value == null ? 0 : this.Value.GetHashCode());
         }
 
-        #region ICustomAttributeProvider Members
-
         /// <summary>
         /// Returns an array of all of the custom attributes defined on this member, excluding
         /// named attributes, or an empty array if there are no custom attributes. 
@@ -125,10 +123,6 @@ namespace Ploeh.AutoFixture.Kernel
             return false;
         }
 
-        #endregion
-
-        #region IEquatable<Seed> Members
-
         /// <summary>
         /// Determines whether this instance equals another instance.
         /// </summary>
@@ -147,7 +141,5 @@ namespace Ploeh.AutoFixture.Kernel
             return this.TargetType == other.TargetType
                 && object.Equals(this.Value, other.Value);
         }
-
-        #endregion
     }
 }

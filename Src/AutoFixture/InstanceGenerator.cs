@@ -36,8 +36,6 @@ namespace Ploeh.AutoFixture
             get { return this.parent; }
         }
 
-        #region IInstanceGenerator Members
-
         /// <summary>
         /// Indicates whether the current instance can generate object instances based on the given
         /// <see cref="ICustomAttributeProvider"/>.
@@ -70,8 +68,6 @@ namespace Ploeh.AutoFixture
             }
             return strategy.Generate();
         }
-
-        #endregion
 
         /// <summary>
         /// Creates a new <see cref="InstanceGenerator.GeneratorStrategy" /> instance that
@@ -164,6 +160,5 @@ namespace Ploeh.AutoFixture
                 return this.Parent.Generate(this.AttributeProvider);
             }
         }
-
     }
 }

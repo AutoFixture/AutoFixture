@@ -13,14 +13,10 @@ namespace Ploeh.AutoFixtureUnitTest
             this.OnCreate = (r, c) => null;
         }
 
-        #region ISpecimenBuilder Members
-
         public object Create(object request, ISpecimenContainer container)
         {
             return this.OnCreate(request, container);
         }
-
-        #endregion
 
         internal Func<object, ISpecimenContainer, object> OnCreate { get; set; }
     }
