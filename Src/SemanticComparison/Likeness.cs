@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Linq.Expressions;
 using System.Globalization;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Ploeh.SemanticComparison
@@ -205,8 +204,6 @@ namespace Ploeh.SemanticComparison
             return this.With(propertyPicker).EqualsWhen((s, d) => true);
         }
 
-        #region IEquatable<TDestination> Members
-
         /// <summary>
         /// Determines whether the specified object is semantically equal to the current
         /// <see cref="Value"/>.
@@ -229,8 +226,6 @@ namespace Ploeh.SemanticComparison
 
             return !this.GetEvaluators().Any(me => !me.Evaluator(this.Value, other));
         }
-
-        #endregion
 
         internal Likeness<TSource, TDestination> AddEvaluator(MemberEvaluator<TSource, TDestination> evaluator)
         {

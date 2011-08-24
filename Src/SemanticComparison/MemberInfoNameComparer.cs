@@ -9,8 +9,6 @@ namespace Ploeh.SemanticComparison
     /// </summary>
     public class MemberInfoNameComparer : IEqualityComparer<MemberInfo>
     {
-        #region IEqualityComparer<MemberInfo> Members
-
         /// <summary>
         /// Compares two <see cref="MemberInfo"/> instances for equality.
         /// </summary>
@@ -42,7 +40,5 @@ namespace Ploeh.SemanticComparison
 
             return obj.Name.GetHashCode();
         }
-
-        #endregion
     }
 }
