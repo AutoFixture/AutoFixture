@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Ploeh.TestTypeFoundation
+﻿namespace Ploeh.TestTypeFoundation
 {
     public class QuadrupleParameterType<T1, T2, T3, T4>
     {
