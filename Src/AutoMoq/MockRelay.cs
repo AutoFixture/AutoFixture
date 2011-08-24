@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ploeh.AutoFixture.Kernel;
 using Moq;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoMoq
 {
@@ -60,8 +57,6 @@ namespace Ploeh.AutoFixture.AutoMoq
             get { return this.shouldBeMocked; }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new specimen based on a request.
         /// </summary>
@@ -92,8 +87,6 @@ namespace Ploeh.AutoFixture.AutoMoq
 
             return m.Object;
         }
-
-        #endregion
 
         private static bool ShouldBeMocked(Type t)
         {

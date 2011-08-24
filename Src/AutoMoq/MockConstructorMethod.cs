@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Globalization;
+using System.Collections.Generic;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Ploeh.AutoFixture.AutoMoq
 {
@@ -27,8 +25,6 @@ namespace Ploeh.AutoFixture.AutoMoq
             this.paramInfos = paramInfos;
         }
 
-        #region IMethod Members
-
         public IEnumerable<ParameterInfo> Parameters
         {
             get { return this.paramInfos; }
@@ -39,7 +35,5 @@ namespace Ploeh.AutoFixture.AutoMoq
             var paramsArray = new object[] { parameters };
             return this.ctor.Invoke(paramsArray);
         }
-
-        #endregion
     }
 }

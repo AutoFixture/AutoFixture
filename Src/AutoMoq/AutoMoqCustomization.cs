@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoMoq
@@ -46,8 +43,6 @@ namespace Ploeh.AutoFixture.AutoMoq
             get { return this.relay; }
         }
 
-        #region ICustomization Members
-
         /// <summary>
         /// Customizes a <see cref="IFixture"/> to enable auto-mocking with Moq.
         /// </summary>
@@ -65,7 +60,5 @@ namespace Ploeh.AutoFixture.AutoMoq
                         new MockConstructorQuery())));
             fixture.ResidueCollectors.Add(this.Relay);
         }
-
-        #endregion
     }
 }

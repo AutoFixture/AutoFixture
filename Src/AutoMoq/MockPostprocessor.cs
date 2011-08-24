@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ploeh.AutoFixture.Kernel;
 using Moq;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoMoq
 {
@@ -40,8 +37,6 @@ namespace Ploeh.AutoFixture.AutoMoq
             get { return this.builder; }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Modifies a <see cref="Mock{T}"/> instance created by <see cref="Builder"/>.
         /// </summary>
@@ -77,18 +72,12 @@ namespace Ploeh.AutoFixture.AutoMoq
             return m;
         }
 
-        #endregion
-
         private class MockConfigurator<T> : IMockConfigurator where T : class
         {
-            #region IMockConfigurator Members
-
             public void Configure(Mock mock)
             {
                 MockConfigurator<T>.Configure((Mock<T>)mock);
             }
-
-            #endregion
 
             private static void Configure(Mock<T> mock)
             {

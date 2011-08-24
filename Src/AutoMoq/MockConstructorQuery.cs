@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoMoq
@@ -13,8 +12,6 @@ namespace Ploeh.AutoFixture.AutoMoq
     public class MockConstructorQuery : IMethodQuery, IConstructorQuery
 #pragma warning restore 618
     {
-        #region IConstructorQuery Members
-
         /// <summary>
         /// Selects constructors for the supplied <see cref="Moq.Mock{T}"/> type.
         /// </summary>
@@ -42,10 +39,6 @@ namespace Ploeh.AutoFixture.AutoMoq
         {
             return this.SelectMethods(type);
         }
-
-        #endregion
-
-        #region IMethodQuery Members
 
         /// <summary>
         /// Selects constructors for the supplied <see cref="Moq.Mock{T}"/> type.
@@ -88,7 +81,5 @@ namespace Ploeh.AutoFixture.AutoMoq
                    orderby paramInfos.Length ascending
                    select new MockConstructorMethod(type.GetParamsConstructor(), paramInfos) as IMethod;
         }
-
-        #endregion
     }
 }
