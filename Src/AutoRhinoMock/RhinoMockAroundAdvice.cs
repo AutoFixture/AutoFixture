@@ -43,8 +43,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
             get { return this.builder; }
         }
 
-        #region ISpecimenBuilder Members
-
         /// <summary>
         /// Creates a new specimen based on a request.
         /// </summary>
@@ -82,7 +80,5 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
 
             return m;
         }
-
-        #endregion
     }
 }

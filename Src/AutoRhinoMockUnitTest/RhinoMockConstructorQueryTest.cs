@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Xunit;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixture.AutoRhinoMock;
-using Xunit.Extensions;
-using Ploeh.TestTypeFoundation;
-using Rhino.Mocks.Interfaces;
 using System.Reflection;
+using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
+using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {

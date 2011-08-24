@@ -58,8 +58,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
             get { return this.mockTargetType; }
         }
 
-        #region IMethod Members
-
         /// <summary>
         /// Gets information about the parameters of the method.
         /// </summary>
@@ -79,8 +77,5 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
         {
             return MockRepository.GenerateMock(this.mockTargetType, new Type[0], parameters.ToArray());
         }
-
-        #endregion
     }
-
 }

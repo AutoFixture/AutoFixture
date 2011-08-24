@@ -1,5 +1,3 @@
-using System;
-
 namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
     public class RhinoMockTestTypes
@@ -7,6 +5,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
         public abstract class AnotherAbstractTypeWithNonDefaultConstructor<T>
         {
             private readonly T value;
+
             protected AnotherAbstractTypeWithNonDefaultConstructor(T value)
             {
                 this.value = value;

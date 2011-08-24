@@ -1,10 +1,10 @@
+using System;
 using System.Linq;
 using System.Reflection;
-using Xunit;
 using Ploeh.AutoFixture.Kernel;
-using System;
-using Xunit.Extensions;
 using Ploeh.TestTypeFoundation;
+using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {

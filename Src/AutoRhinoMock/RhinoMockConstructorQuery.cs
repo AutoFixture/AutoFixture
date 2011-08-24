@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
 using System.Reflection;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoRhinoMock
 {
@@ -13,8 +13,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
     public class RhinoMockConstructorQuery : IMethodQuery, IConstructorQuery
 #pragma warning restore 618
     {
-        #region IConstructorQuery Members
-
         /// <summary>
         /// Selects the constructors for the supplied type.
         /// </summary>
@@ -32,10 +30,6 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
         {
             return this.SelectMethods(type);
         }
-
-        #endregion
-
-        #region IMethodQuery Members
 
         /// <summary>
         /// Selects the constructors for the supplied type.
@@ -67,7 +61,5 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
                    orderby paramInfos.Length ascending
                    select new RhinoMockConstructorMethod(ci.DeclaringType, paramInfos) as IMethod;
         }
-
-        #endregion
     }
 }

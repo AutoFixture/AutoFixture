@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Rhino.Mocks;
-using Ploeh.AutoFixture.AutoRhinoMock;
+using Xunit;
 using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
@@ -65,7 +61,5 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             Assert.Equal(expectedResult, result);
             // Teardown
         }
-
-
     }
 }
