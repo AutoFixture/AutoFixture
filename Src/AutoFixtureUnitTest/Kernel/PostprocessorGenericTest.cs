@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xunit;
 using Ploeh.AutoFixture.Kernel;
-using System.Linq.Expressions;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {

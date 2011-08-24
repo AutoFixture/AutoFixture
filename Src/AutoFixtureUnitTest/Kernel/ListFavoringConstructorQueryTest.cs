@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 using Xunit.Extensions;
-using System.Collections.ObjectModel;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {

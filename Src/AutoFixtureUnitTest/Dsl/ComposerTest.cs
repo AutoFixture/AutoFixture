@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xunit;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Dsl
 {
@@ -380,7 +380,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         {
             // Fixture setup
             Func<string, decimal, byte> expectedFactory = (x, y) => 0;
-            var sut = new SutBuilder<byte>().Create(); ;
+            var sut = new SutBuilder<byte>().Create();
             // Exercise system
             var result = sut.FromFactory(expectedFactory);
             // Verify outcome

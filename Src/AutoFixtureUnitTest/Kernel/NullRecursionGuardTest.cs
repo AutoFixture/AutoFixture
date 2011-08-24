@@ -1,5 +1,4 @@
 using System;
-using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
@@ -26,7 +25,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             builder.OnCreate = (r, c) => c.Resolve(r);
             var sut = new NullRecursionGuard(builder);
             var container = new DelegatingSpecimenContext();
-            container.OnResolve = (r) => sut.Create(r, container); // Provoke recursion
+            container.OnResolve = r => sut.Create(r, container); // Provoke recursion
 
             // Exercise system
             object res = sut.Create(Guid.NewGuid(), container);

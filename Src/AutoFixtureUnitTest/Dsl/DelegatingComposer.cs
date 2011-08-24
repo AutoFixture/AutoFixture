@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
-using System.Linq.Expressions;
 
 namespace Ploeh.AutoFixtureUnitTest.Dsl
 {
@@ -26,8 +26,6 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             this.OnWithout = f => new DelegatingComposer<T>();
             this.OnCompose = () => new DelegatingSpecimenBuilder();
         }
-
-        #region IFactoryComposer<T> Members
 
         public IPostprocessComposer<T> FromSeed(Func<T, T> factory)
         {
@@ -64,10 +62,6 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             return this.OnFromOverloadeFactory(factory);
         }
 
-        #endregion
-
-        #region IPostprocessComposer<T> Members
-
         public IPostprocessComposer<T> Do(Action<T> action)
         {
             return this.OnDo(action);
@@ -98,16 +92,10 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             return this.OnWithout(propertyPicker);
         }
 
-        #endregion
-
-        #region ISpecimenBuilderComposer Members
-
         public ISpecimenBuilder Compose()
         {
             return this.OnCompose();
         }
-
-        #endregion
 
         internal Func<Func<T, T>, IPostprocessComposer<T>> OnFromSeed { get; set; }
         internal Func<ISpecimenBuilder, IPostprocessComposer<T>> OnFromBuilder { get; set; }

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Xunit;
 using Ploeh.AutoFixture.Kernel;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -97,7 +96,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             {
                 (DisposableTracker)sut.Transform(builder),
                 (DisposableTracker)sut.Transform(builder),
-                (DisposableTracker)sut.Transform(builder),
+                (DisposableTracker)sut.Transform(builder)
             };
 
             trackers.ToList().ForEach(dt => Enumerable.Repeat(new object(), 3).Select(r => dt.Create(r, new DelegatingSpecimenContext())).ToList());

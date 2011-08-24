@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -418,14 +415,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        #region IDisposable Members
-
         public void Dispose()
         {
             StaticPropertyHolder<object>.Property = null;
             StaticFieldHolder<object>.Field = null;
         }
-
-        #endregion
     }
 }

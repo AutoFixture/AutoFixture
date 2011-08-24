@@ -1,22 +1,22 @@
 using System;
 using Ploeh.AutoFixture;
-using Xunit;
 using Ploeh.AutoFixture.Kernel;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-	public class ThrowingRecursionGuardTest
-	{
-		[Fact]
-		public void SutIsRecursionGuard()
-		{
-			// Fixture setup
-			// Exercise system
-			var sut = new ThrowingRecursionGuard(new DelegatingSpecimenBuilder());
-			// Verify outcome
-			Assert.IsAssignableFrom<RecursionGuard>(sut);
-			// Teardown
-		}
+    public class ThrowingRecursionGuardTest
+    {
+        [Fact]
+        public void SutIsRecursionGuard()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new ThrowingRecursionGuard(new DelegatingSpecimenBuilder());
+            // Verify outcome
+            Assert.IsAssignableFrom<RecursionGuard>(sut);
+            // Teardown
+        }
 
         [Fact]
         public void BuilderIsCorrect()
@@ -31,18 +31,18 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-		[Fact]
-		public void ThrowsAtRecursionPoint()
-		{
-			// Fixture setup
-			var builder = new DelegatingSpecimenBuilder();
-			builder.OnCreate = (r, c) => c.Resolve(r);
-			var sut = new ThrowingRecursionGuard(builder);
-			var container = new DelegatingSpecimenContext();
-			container.OnResolve = (r) => sut.Create(r, container); // Provoke recursion
+        [Fact]
+        public void ThrowsAtRecursionPoint()
+        {
+            // Fixture setup
+            var builder = new DelegatingSpecimenBuilder();
+            builder.OnCreate = (r, c) => c.Resolve(r);
+            var sut = new ThrowingRecursionGuard(builder);
+            var container = new DelegatingSpecimenContext();
+            container.OnResolve = r => sut.Create(r, container); // Provoke recursion
 
-			// Exercise system
-			Assert.Throws(typeof(ObjectCreationException), () => sut.Create(Guid.NewGuid(), container));
-		}
-	}
+            // Exercise system
+            Assert.Throws(typeof(ObjectCreationException), () => sut.Create(Guid.NewGuid(), container));
+        }
+    }
 }
