@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Text;
-using Xunit.Extensions;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
-using System.Globalization;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.Xunit
 {

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Xunit.UnitTest
@@ -17,8 +15,6 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             this.residueCollectors = new List<ISpecimenBuilder>();
             this.OnCompose = () => new DelegatingSpecimenBuilder();
         }
-
-        #region IFixture Members
 
         public IList<ISpecimenBuilderTransformation> Behaviors
         {
@@ -99,16 +95,10 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             throw new NotImplementedException();
         }
 
-        #endregion
-
-        #region ISpecimenBuilderComposer Members
-
         public ISpecimenBuilder Compose()
         {
             return this.OnCompose();
         }
-
-        #endregion
 
         internal Func<ISpecimenBuilder> OnCompose { get; set; }
     }

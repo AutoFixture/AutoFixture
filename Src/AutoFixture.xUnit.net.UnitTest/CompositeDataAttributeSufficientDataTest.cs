@@ -21,7 +21,6 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             var parameters = method.GetParameters();
             this.parameterTypes = (from pi in parameters
                                    select pi.ParameterType).ToArray();
-
         }
 
         [Theory]
