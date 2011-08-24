@@ -1,10 +1,9 @@
-﻿namespace Ploeh.AutoFixtureUnitTest
-{
-    using System;
-    using System.Collections;
-    using AutoFixture;
-    using AutoFixture.Kernel;
+﻿using System;
+using System.Collections;
+using Ploeh.AutoFixture.Kernel;
 
+namespace Ploeh.AutoFixtureUnitTest
+{
     public class DelegatingRecursionGuard : RecursionGuard
     {
         public DelegatingRecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer) : base(builder, comparer)

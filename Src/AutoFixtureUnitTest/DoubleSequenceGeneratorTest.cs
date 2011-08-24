@@ -1,7 +1,7 @@
 ﻿using Ploeh.AutoFixture;
-using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {

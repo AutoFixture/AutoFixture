@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Ploeh.AutoFixture;
 using Xunit;
 
@@ -9,10 +6,6 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     public class ObjectCreationExceptionTest
     {
-        public ObjectCreationExceptionTest()
-        {
-        }
-
         [Fact]
         public void SutIsException()
         {

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using Ploeh.AutoFixture;
-using Ploeh.TestTypeFoundation;
-using Xunit;
+using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
-using System.IO;
-using Ploeh.AutoFixture.Dsl;
-using System.Collections.ObjectModel;
+using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {

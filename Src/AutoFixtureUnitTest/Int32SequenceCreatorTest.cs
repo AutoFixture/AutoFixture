@@ -7,10 +7,6 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     public class Int32SequenceCreatorTest
     {
-        public Int32SequenceCreatorTest()
-        {
-        }
-
         [Fact]
         public void CreateWillReturnOneOnFirstCall()
         {

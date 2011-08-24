@@ -1,8 +1,8 @@
-﻿namespace Ploeh.AutoFixtureUnitTest
-{
-    using System;
-    using System.Collections;
+﻿using System;
+using System.Collections;
 
+namespace Ploeh.AutoFixtureUnitTest
+{
     public class DelegatingEqualityComparer : IEqualityComparer
     {
         public DelegatingEqualityComparer()

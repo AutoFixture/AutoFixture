@@ -1,20 +1,12 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+﻿using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.AutoFixtureUnitTest.Kernel;
 using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
     public class DecimalSequenceGeneratorTest
     {
-        public DecimalSequenceGeneratorTest()
-        {
-        }
-
         [Fact]
         public void CreateWillReturnOneOnFirstCall()
         {

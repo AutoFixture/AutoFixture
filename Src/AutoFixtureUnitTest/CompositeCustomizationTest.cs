@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Xunit;
 using Ploeh.AutoFixture;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -68,7 +67,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 new DelegatingCustomization(),
                 new DelegatingCustomization(),
                 new DelegatingCustomization()
-            }.Cast<ICustomization>();
+            };
 
             var sut = new CompositeCustomization(customizations);
             // Exercise system

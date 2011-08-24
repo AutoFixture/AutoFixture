@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Xunit;
-using Ploeh.AutoFixtureUnitTest.Dsl;
-using Ploeh.AutoFixture.Dsl;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixtureUnitTest.Kernel;
-using Ploeh.AutoFixture.Kernel;
 using System.Linq.Expressions;
+using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.Dsl;
+using Ploeh.AutoFixture.Kernel;
+using Ploeh.AutoFixtureUnitTest.Dsl;
+using Ploeh.AutoFixtureUnitTest.Kernel;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {

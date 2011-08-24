@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-
-namespace Ploeh.SemanticComparison.Fluent
+﻿namespace Ploeh.SemanticComparison.Fluent
 {
     /// <summary>
     /// Contains extension methods for working with <see cref="Likeness{TSource, TDestination}"/>.
