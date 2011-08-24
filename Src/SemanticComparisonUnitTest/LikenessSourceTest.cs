@@ -6,10 +6,6 @@ namespace Ploeh.SemanticComparison.UnitTest
 {
     public class LikenessSourceTest
     {
-        public LikenessSourceTest()
-        {
-        }
-
         [Fact]
         public void ToLikenessOfNullSourceWillReturnCorrectResult()
         {
