@@ -80,8 +80,8 @@
     <Compile Include="DelegatingSpecimenBuilder.cs" />
     <Compile Include="FavorArraysAttributeTest.cs" />
     <Compile Include="FakeDataAttribute.cs" />
-    <Compile Include="FavorEnumerableAttributeTest.cs" />
-    <Compile Include="FavorListAttributeTest.cs" />
+    <Compile Include="FavorEnumerablesAttributeTest.cs" />
+    <Compile Include="FavorListsAttributeTest.cs" />
     <Compile Include="FrozenAttributeTest.cs" />
     <Compile Include="GreedyAttributeTest.cs" />
     <Compile Include="InlineAutoDataAttributeTest.cs" />

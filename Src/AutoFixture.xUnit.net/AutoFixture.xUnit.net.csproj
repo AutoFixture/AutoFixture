@@ -84,8 +84,8 @@
     <Compile Include="CompositeDataAttribute.cs" />
     <Compile Include="CustomizeAttribute.cs" />
     <Compile Include="FavorArraysAttribute.cs" />
-    <Compile Include="FavorEnumerableAttribute.cs" />
-    <Compile Include="FavorListAttribute.cs" />
+    <Compile Include="FavorEnumerablesAttribute.cs" />
+    <Compile Include="FavorListsAttribute.cs" />
     <Compile Include="FrozenAttribute.cs" />
     <Compile Include="GreedyAttribute.cs" />
     <Compile Include="InlineAutoDataAttribute.cs" />
