@@ -7,6 +7,7 @@ namespace Ploeh.AutoFixture
     public class RangedNumberGenerator : ISpecimenBuilder
     {
         private readonly object syncRoot;
+        private IComparable o;
 
         public RangedNumberGenerator()
         {
@@ -33,45 +34,40 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("context");
             }
 
-            var rangedNumberRequest = request as RangedNumberRequest;
-            if (rangedNumberRequest == null)
+            var range = request as RangedNumberRequest;
+            if (range == null)
             {
                 return new NoSpecimen(request);
             }
 
-            var value = context.Resolve(request);
+            var value = context.Resolve(request) as IComparable;
             if (value == null)
             {
                 return new NoSpecimen(request);
             }
 
-            return CreateAnonymous(rangedNumberRequest, value as IComparable) ?? new NoSpecimen();
+            return this.CreateAnonymous(range, value);
         }
 
         /// <summary>
         /// Creates an anonymous number within a range specified by a RangeNumberRequest.
         /// </summary>
-        /// <param name="request">The request.</param>
+        /// <param name="range">The request.</param>
         /// <param name="value">The context value.</param>
         /// <returns>
         /// The next number in a consequtive sequence within a range specified by a RangeNumberRequest.
         /// </returns>
-        private object CreateAnonymous(RangedNumberRequest request, IComparable value)
+        private object CreateAnonymous(RangedNumberRequest range, IComparable value)
         {
             lock (this.syncRoot)
             {
-                if (value == null)
-                {
-                    return null;
-                }
-
-                var minimum = (IComparable)request.Minimum;
+                var minimum = (IComparable)range.Minimum;
                 if (minimum.CompareTo(value) == 0)
                 {
                     return minimum;
                 }
 
-                var maximum = (IComparable)request.Maximum;
+                var maximum = (IComparable)range.Maximum;
                 if (maximum.CompareTo(value) == 0)
                 {
                     return maximum;
@@ -83,38 +79,29 @@ namespace Ploeh.AutoFixture
                     return minimum;
                 }
 
-                return Add(minimum, value);
+                Type elementType = minimum.GetType();
+
+                Array array = Array.CreateInstance(elementType, 2);
+                array.SetValue(minimum, 0);
+                array.SetValue(value, 1);
+
+                switch (Type.GetTypeCode(elementType))
+                {
+                    case TypeCode.Int32:
+                        return array.Cast<object>().Select(Convert.ToInt32).Sum();
+
+                    case TypeCode.Double:
+                        return array.Cast<object>().Select(Convert.ToDouble).Sum();
+
+                    case TypeCode.Int64:
+                        return array.Cast<object>().Select(Convert.ToInt64).Sum();
+
+                    case TypeCode.Decimal:
+                        return array.Cast<object>().Select(Convert.ToDecimal).Sum();
+                }
+
+                return new NoSpecimen(range);
             }
-        }
-
-        private IComparable Add(IComparable a, IComparable b)
-        {
-
-            if (a.GetType() != b.GetType())
-            {
-                return null;
-            }
-
-            Array array = Array.CreateInstance(a.GetType(), 2);
-            array.SetValue(a, 0);
-            array.SetValue(b, 1);
-
-            switch (Type.GetTypeCode(a.GetType()))
-            {
-                case TypeCode.Int32:
-                    return array.Cast<object>().Select(Convert.ToInt32).Sum();
-
-                case TypeCode.Double:
-                    return array.Cast<object>().Select(Convert.ToDouble).Sum();
-
-                case TypeCode.Int64:
-                    return array.Cast<object>().Select(Convert.ToInt64).Sum();
-
-                case TypeCode.Decimal:
-                    return array.Cast<object>().Select(Convert.ToDecimal).Sum();
-            }
-
-            return null;
         }
     }
 }
