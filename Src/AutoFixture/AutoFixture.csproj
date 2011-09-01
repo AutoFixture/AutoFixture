@@ -101,6 +101,7 @@
     <Compile Include="CurrentDateTimeGenerator.cs" />
     <Compile Include="DateTimeGenerator.cs" />
     <Compile Include="Kernel\RangedNumberRequest.cs" />
+    <Compile Include="RangedNumberGenerator.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGenerator.cs" />
     <Compile Include="DefaultPrimitiveBuilders.cs" />
     <Compile Include="DictionaryFiller.cs" />
