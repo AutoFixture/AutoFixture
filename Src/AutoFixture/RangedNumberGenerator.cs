@@ -6,6 +6,13 @@ namespace Ploeh.AutoFixture
 {
     public class RangedNumberGenerator : ISpecimenBuilder
     {
+        private readonly object syncRoot;
+
+        public RangedNumberGenerator()
+        {
+            this.syncRoot = new object();
+        }
+
         /// <summary>
         /// Creates a new number based on a RangedNumberRequest.
         /// </summary>
@@ -74,23 +81,29 @@ namespace Ploeh.AutoFixture
 
         private object Add(object a, object b)
         {
-            Array array = Array.CreateInstance(a.GetType(), 2);
-            array.SetValue(a, 0);
-            array.SetValue(b, 1);
-
-            switch (Type.GetTypeCode(a.GetType()))
+            lock (this.syncRoot)
             {
-                case TypeCode.Int32:
-                    return array.Cast<object>().Select(Convert.ToInt32).Sum();
+                Array array = Array.CreateInstance(a.GetType(), 2);
+                array.SetValue(a, 0);
+                array.SetValue(b, 1);
 
-                case TypeCode.Double:
-                    return array.Cast<object>().Select(Convert.ToDouble).Sum();
+                switch (Type.GetTypeCode(a.GetType()))
+                {
+                    case TypeCode.Int32:
+                        return array.Cast<object>().Select(Convert.ToInt32).Sum();
 
-                case TypeCode.Int64:
-                    return array.Cast<object>().Select(Convert.ToInt64).Sum();
+                    case TypeCode.Double:
+                        return array.Cast<object>().Select(Convert.ToDouble).Sum();
+
+                    case TypeCode.Int64:
+                        return array.Cast<object>().Select(Convert.ToInt64).Sum();
+
+                    case TypeCode.Decimal:
+                        return array.Cast<object>().Select(Convert.ToDecimal).Sum();
+                }
+
+                return null;
             }
-
-            return null;
         }
     }
 }
