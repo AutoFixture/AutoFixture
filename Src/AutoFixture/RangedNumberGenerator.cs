@@ -1,20 +1,11 @@
 ﻿using System;
+using System.Linq;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
     public class RangedNumberGenerator : ISpecimenBuilder
     {
-        private readonly object syncRoot;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RangedNumberGenerator"/> class.
-        /// </summary>
-        public RangedNumberGenerator()
-        {
-            this.syncRoot = new object();
-        }
-
         /// <summary>
         /// Creates a new number based on a RangedNumberRequest.
         /// </summary>
@@ -78,12 +69,25 @@ namespace Ploeh.AutoFixture
                 return minimum;
             }
 
-            return Add(minimum, value);
+            return Add(minimum, value) ?? new NoSpecimen(request);
         }
 
         private object Add(object a, object b)
         {
-            throw new NotImplementedException();
+            Array array = Array.CreateInstance(a.GetType(), 2);
+            array.SetValue(a, 0);
+            array.SetValue(b, 1);
+
+            switch (Type.GetTypeCode(a.GetType()))
+            {
+                case TypeCode.Int32:
+                    return array.Cast<object>().Select(Convert.ToInt32).Sum();
+
+                case TypeCode.Double:
+                    return array.Cast<object>().Select(Convert.ToDouble).Sum();
+            }
+
+            return null;
         }
     }
 }
