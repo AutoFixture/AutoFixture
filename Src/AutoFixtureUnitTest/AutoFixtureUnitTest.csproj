@@ -84,6 +84,8 @@
     <Compile Include="ByteSequenceGeneratorTest.cs" />
     <Compile Include="CurrentDateTimeCustomizationTest.cs" />
     <Compile Include="CurrentDateTimeGeneratorTest.cs" />
+    <Compile Include="DataAnnotations\RangeAttributeRelayTest.cs" />
+    <Compile Include="DataAnnotations\RangeValidatedType.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="CollectionFillerTest.cs" />
     <Compile Include="CompositeCustomizationTest.cs" />
@@ -255,9 +257,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataAnnotations\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <TestResultsFolderPath>..\TestResults</TestResultsFolderPath>
