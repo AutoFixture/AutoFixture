@@ -85,6 +85,9 @@ namespace Ploeh.AutoFixture
 
                 case TypeCode.Double:
                     return array.Cast<object>().Select(Convert.ToDouble).Sum();
+
+                case TypeCode.Int64:
+                    return array.Cast<object>().Select(Convert.ToInt64).Sum();
             }
 
             return null;

@@ -59,15 +59,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
-        [InlineData(typeof(int), 10, 20, 10, 10)]
-        [InlineData(typeof(int), 10, 20, 20, 20)]
-        [InlineData(typeof(int), 10, 20, 21, 10)]
-        [InlineData(typeof(int), 10, 20, 1, 11)]
-        [InlineData(typeof(int), 10, 20, 2, 12)]
-        [InlineData(typeof(int), 10, 20, 3, 13)]
-        [InlineData(typeof(double), 10.1, 20.0, 1.0, 11.1)]
-        [InlineData(typeof(double), 10.2, 20.0, 2.0, 12.2)]
-        [InlineData(typeof(double), 10.3, 20.0, 3.0, 13.3)]
+        [ClassData(typeof(RangedNumberGeneratorDataTest))]
         public void CreateReturnsCorrectResult(Type operandType, object minimum, object maximum, object contextValue, object expectedResult)
         {
             // Fixture setup
