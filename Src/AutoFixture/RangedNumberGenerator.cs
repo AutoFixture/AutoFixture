@@ -45,7 +45,7 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            return CreateAnonymous(rangedNumberRequest, value);
+            return CreateAnonymous(rangedNumberRequest, value as IComparable) ?? new NoSpecimen();
         }
 
         /// <summary>
@@ -56,54 +56,65 @@ namespace Ploeh.AutoFixture
         /// <returns>
         /// The next number in a consequtive sequence within a range specified by a RangeNumberRequest.
         /// </returns>
-        private object CreateAnonymous(RangedNumberRequest request, object value)
-        {
-            var minimum = (IComparable)request.Minimum;
-            if (minimum.CompareTo(value) == 0)
-            {
-                return minimum;
-            }
-
-            var maximum = (IComparable)request.Maximum;
-            if (maximum.CompareTo(value) == 0)
-            {
-                return maximum;
-            }
-
-            if (minimum.CompareTo(value) <= 0 &&
-                maximum.CompareTo(value) <= 0)
-            {
-                return minimum;
-            }
-
-            return Add(minimum, value) ?? new NoSpecimen(request);
-        }
-
-        private object Add(object a, object b)
+        private object CreateAnonymous(RangedNumberRequest request, IComparable value)
         {
             lock (this.syncRoot)
             {
-                Array array = Array.CreateInstance(a.GetType(), 2);
-                array.SetValue(a, 0);
-                array.SetValue(b, 1);
-
-                switch (Type.GetTypeCode(a.GetType()))
+                if (value == null)
                 {
-                    case TypeCode.Int32:
-                        return array.Cast<object>().Select(Convert.ToInt32).Sum();
-
-                    case TypeCode.Double:
-                        return array.Cast<object>().Select(Convert.ToDouble).Sum();
-
-                    case TypeCode.Int64:
-                        return array.Cast<object>().Select(Convert.ToInt64).Sum();
-
-                    case TypeCode.Decimal:
-                        return array.Cast<object>().Select(Convert.ToDecimal).Sum();
+                    return null;
                 }
 
+                var minimum = (IComparable)request.Minimum;
+                if (minimum.CompareTo(value) == 0)
+                {
+                    return minimum;
+                }
+
+                var maximum = (IComparable)request.Maximum;
+                if (maximum.CompareTo(value) == 0)
+                {
+                    return maximum;
+                }
+
+                if (minimum.CompareTo(value) <= 0 &&
+                    maximum.CompareTo(value) <= 0)
+                {
+                    return minimum;
+                }
+
+                return Add(minimum, value);
+            }
+        }
+
+        private IComparable Add(IComparable a, IComparable b)
+        {
+
+            if (a.GetType() != b.GetType())
+            {
                 return null;
             }
+
+            Array array = Array.CreateInstance(a.GetType(), 2);
+            array.SetValue(a, 0);
+            array.SetValue(b, 1);
+
+            switch (Type.GetTypeCode(a.GetType()))
+            {
+                case TypeCode.Int32:
+                    return array.Cast<object>().Select(Convert.ToInt32).Sum();
+
+                case TypeCode.Double:
+                    return array.Cast<object>().Select(Convert.ToDouble).Sum();
+
+                case TypeCode.Int64:
+                    return array.Cast<object>().Select(Convert.ToInt64).Sum();
+
+                case TypeCode.Decimal:
+                    return array.Cast<object>().Select(Convert.ToDecimal).Sum();
+            }
+
+            return null;
         }
     }
 }
