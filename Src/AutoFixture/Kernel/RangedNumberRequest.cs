@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (((IComparable)converter.ConvertFromString(minimum.ToString())).CompareTo(
                 ((IComparable)converter.ConvertFromString(maximum.ToString()))) >= 0)
             {
-                throw new ArgumentOutOfRangeException("Minimum must be lower than Maximum.");
+                throw new ArgumentOutOfRangeException("minimum", "Minimum must be lower than Maximum.");
             }
 
             this.operandType = operandType;

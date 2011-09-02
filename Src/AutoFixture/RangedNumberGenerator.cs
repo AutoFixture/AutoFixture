@@ -4,14 +4,21 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
+    /// <summary>
+    /// Creates a sequence of ranged numbers, starting at range minimum.
+    /// </summary>
     public class RangedNumberGenerator : ISpecimenBuilder
     {
         private readonly object syncRoot;
-        private IComparable o;
+        private object numberic;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RangedNumberGenerator"/> class.
+        /// </summary>
         public RangedNumberGenerator()
         {
             this.syncRoot = new object();
+            this.numberic = null;
         }
 
         /// <summary>
@@ -40,13 +47,15 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            var value = context.Resolve(request) as IComparable;
+            var value = (this.numberic ?? context.Resolve(request)) as IComparable;
             if (value == null)
             {
                 return new NoSpecimen(request);
             }
 
-            return this.CreateAnonymous(range, value);
+            this.numberic = this.CreateAnonymous(range, value);
+
+            return this.numberic;
         }
 
         /// <summary>
@@ -79,29 +88,46 @@ namespace Ploeh.AutoFixture
                     return minimum;
                 }
 
-                Type elementType = minimum.GetType();
-
-                Array array = Array.CreateInstance(elementType, 2);
-                array.SetValue(minimum, 0);
-                array.SetValue(value, 1);
-
-                switch (Type.GetTypeCode(elementType))
+                object result;
+                if (!RangedNumberGenerator.TryAdd(minimum, value, out result))
                 {
-                    case TypeCode.Int32:
-                        return array.Cast<object>().Select(Convert.ToInt32).Sum();
-
-                    case TypeCode.Double:
-                        return array.Cast<object>().Select(Convert.ToDouble).Sum();
-
-                    case TypeCode.Int64:
-                        return array.Cast<object>().Select(Convert.ToInt64).Sum();
-
-                    case TypeCode.Decimal:
-                        return array.Cast<object>().Select(Convert.ToDecimal).Sum();
+                    return new NoSpecimen(range);
                 }
 
-                return new NoSpecimen(range);
+                return result;
             }
+        }
+
+        private static bool TryAdd(object a, object b, out object result)
+        {
+            Type elementType = a.GetType();
+
+            Array array = Array.CreateInstance(elementType, 2);
+            array.SetValue(a, 0);
+            array.SetValue(b, 1);
+
+            result = null;
+
+            switch (Type.GetTypeCode(elementType))
+            {
+                case TypeCode.Int32:
+                    result = array.Cast<object>().Select(Convert.ToInt32).Sum();
+                    break;
+
+                case TypeCode.Double:
+                    result = array.Cast<object>().Select(Convert.ToDouble).Sum();
+                    break;
+
+                case TypeCode.Int64:
+                    result = array.Cast<object>().Select(Convert.ToInt64).Sum();
+                    break;
+
+                case TypeCode.Decimal:
+                    result = array.Cast<object>().Select(Convert.ToDecimal).Sum();
+                    break;
+            }
+
+            return result != null;
         }
     }
 }
