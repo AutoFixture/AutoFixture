@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture
     public class RangedNumberGenerator : ISpecimenBuilder
     {
         private readonly object syncRoot;
-        private object numberic;
+        private object rangedValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RangedNumberGenerator"/> class.
@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture
         public RangedNumberGenerator()
         {
             this.syncRoot = new object();
-            this.numberic = null;
+            this.rangedValue = null;
         }
 
         /// <summary>
@@ -53,9 +53,9 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            this.numberic = this.CreateAnonymous(range, value);
+            this.rangedValue = this.CreateAnonymous(range, value);
 
-            return this.numberic;
+            return this.rangedValue;
         }
 
         private object CreateAnonymous(RangedNumberRequest range, IComparable value)
@@ -67,9 +67,9 @@ namespace Ploeh.AutoFixture
                 var minimum = (IComparable)range.Minimum;
                 var maximum = (IComparable)range.Maximum;
 
-                if (this.numberic != null && (minimum.CompareTo(this.numberic) <= 0 && maximum.CompareTo(this.numberic) > 0))
+                if (this.rangedValue != null && (minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) > 0))
                 {
-                    RangedNumberGenerator.TryAdd(this.numberic, 1, out result);
+                    RangedNumberGenerator.TryAdd(this.rangedValue, 1, out result);
                     return result;
                 }
 
