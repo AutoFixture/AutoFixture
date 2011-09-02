@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            var value = (this.numberic ?? context.Resolve(request)) as IComparable;
+            var value = context.Resolve(request) as IComparable;
             if (value == null)
             {
                 return new NoSpecimen(request);
@@ -58,25 +58,26 @@ namespace Ploeh.AutoFixture
             return this.numberic;
         }
 
-        /// <summary>
-        /// Creates an anonymous number within a range specified by a RangeNumberRequest.
-        /// </summary>
-        /// <param name="range">The request.</param>
-        /// <param name="value">The context value.</param>
-        /// <returns>
-        /// The next number in a consequtive sequence within a range specified by a RangeNumberRequest.
-        /// </returns>
         private object CreateAnonymous(RangedNumberRequest range, IComparable value)
         {
             lock (this.syncRoot)
             {
+                object result;
+
                 var minimum = (IComparable)range.Minimum;
+                var maximum = (IComparable)range.Maximum;
+
+                if (this.numberic != null && (minimum.CompareTo(this.numberic) <= 0 && maximum.CompareTo(this.numberic) > 0))
+                {
+                    RangedNumberGenerator.TryAdd(this.numberic, 1, out result);
+                    return result;
+                }
+
                 if (minimum.CompareTo(value) == 0)
                 {
                     return minimum;
                 }
 
-                var maximum = (IComparable)range.Maximum;
                 if (maximum.CompareTo(value) == 0)
                 {
                     return maximum;
@@ -88,12 +89,7 @@ namespace Ploeh.AutoFixture
                     return minimum;
                 }
 
-                object result;
-                if (!RangedNumberGenerator.TryAdd(minimum, value, out result))
-                {
-                    return new NoSpecimen(range);
-                }
-
+                RangedNumberGenerator.TryAdd(minimum, value, out result);
                 return result;
             }
         }

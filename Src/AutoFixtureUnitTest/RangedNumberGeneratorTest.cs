@@ -79,5 +79,45 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(expectedResult, result);
             // Teardown
         }
+
+        [Fact]
+        public void CreateReturnsCorrectResultOnSecondCall()
+        {
+            // Fixture setup
+            var dummyNumbers = new Random();
+            var dummyRequest = new RangedNumberRequest(typeof(int), 1, 10);
+            var dummyContext = new DelegatingSpecimenContext
+            {
+                OnResolve = r =>
+                {
+                    Assert.Equal(dummyRequest, r);
+                    return dummyNumbers.Next();
+                }
+            };
+            var loopTest = new LoopTest<RangedNumberGenerator, int>(sut => (int)sut.Create(dummyRequest, dummyContext));
+            // Exercise system and verify outcome
+            loopTest.Execute(2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateReturnsCorrectResultOnTenthCall()
+        {
+            // Fixture setup
+            var dummyNumbers = new Random();
+            var dummyRequest = new RangedNumberRequest(typeof(int), 1, 10);
+            var dummyContext = new DelegatingSpecimenContext
+            {
+                OnResolve = r =>
+                {
+                    Assert.Equal(dummyRequest, r);
+                    return dummyNumbers.Next();
+                }
+            };
+            var loopTest = new LoopTest<RangedNumberGenerator, int>(sut => (int)sut.Create(dummyRequest, dummyContext));
+            // Exercise system and verify outcome
+            loopTest.Execute(10);
+            // Teardown
+        }
     }
 }
