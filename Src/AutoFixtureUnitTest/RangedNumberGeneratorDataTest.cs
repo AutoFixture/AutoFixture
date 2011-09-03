@@ -9,12 +9,12 @@ namespace Ploeh.AutoFixtureUnitTest
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return CreateTestCase(operandType: typeof(int), minimum: -5, maximum: -1, contextValue: 1, expectedResult: -5);
+            yield return CreateTestCase(operandType: typeof(int), minimum: -5, maximum: -1, contextValue:  1, expectedResult: -5);
             yield return CreateTestCase(operandType: typeof(int), minimum: -5, maximum: -1, contextValue: -1, expectedResult: -1);
-            yield return CreateTestCase(operandType: typeof(int), minimum: -5, maximum: -1, contextValue: 0, expectedResult: -5);
-            yield return CreateTestCase(operandType: typeof(int), minimum: 10, maximum: 20, contextValue: 1, expectedResult: 11);
-            yield return CreateTestCase(operandType: typeof(int), minimum: 10, maximum: 20, contextValue: 2, expectedResult: 12);
-            yield return CreateTestCase(operandType: typeof(int), minimum: 10, maximum: 20, contextValue: 3, expectedResult: 13);
+            yield return CreateTestCase(operandType: typeof(int), minimum: -5, maximum: -1, contextValue:  0, expectedResult: -5);
+            yield return CreateTestCase(operandType: typeof(int), minimum: 10, maximum: 20, contextValue:  1, expectedResult: 11);
+            yield return CreateTestCase(operandType: typeof(int), minimum: 10, maximum: 20, contextValue:  2, expectedResult: 12);
+            yield return CreateTestCase(operandType: typeof(int), minimum: 10, maximum: 20, contextValue:  3, expectedResult: 13);
             yield return CreateTestCase(operandType: typeof(int), minimum: 10, maximum: 20, contextValue: 10, expectedResult: 10);
             yield return CreateTestCase(operandType: typeof(int), minimum: 10, maximum: 20, contextValue: 20, expectedResult: 20);
             yield return CreateTestCase(operandType: typeof(int), minimum: 10, maximum: 20, contextValue: 21, expectedResult: 10);

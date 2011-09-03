@@ -119,5 +119,28 @@ namespace Ploeh.AutoFixtureUnitTest
             loopTest.Execute(10);
             // Teardown
         }
+
+        [Theory]
+        [InlineData(11, 1)]
+        [InlineData(12, 2)]
+        [InlineData(13, 3)]
+        public void CreateReturnsCorrectResultWhenRunOutOfNumbers(int loopCount, int expectedResult)
+        {
+            // Fixture setup
+            var dummyNumbers = new Random();
+            var dummyRequest = new RangedNumberRequest(typeof(int), 1, 10);
+            var dummyContext = new DelegatingSpecimenContext
+            {
+                OnResolve = r =>
+                {
+                    Assert.Equal(dummyRequest, r);
+                    return dummyNumbers.Next();
+                }
+            };
+            var loopTest = new LoopTest<RangedNumberGenerator, int>(sut => (int)sut.Create(dummyRequest, dummyContext));
+            // Exercise system and verify outcome
+            loopTest.Execute(loopCount, expectedResult);
+            // Teardown
+        }
     }
 }
