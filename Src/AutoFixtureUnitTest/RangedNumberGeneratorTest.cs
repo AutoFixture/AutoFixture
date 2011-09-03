@@ -142,5 +142,24 @@ namespace Ploeh.AutoFixtureUnitTest
             loopTest.Execute(loopCount, expectedResult);
             // Teardown
         }
+
+        [Fact]
+        public void CreateReturnsNoSpecimenWhenRequestContainsNonNumericValues()
+        {
+            // Fixture setup
+            var dummyRequest = new RangedNumberRequest(typeof(string), "1/1/2001", "1/1/2011");
+            var dummyContext = new DelegatingSpecimenContext
+            {
+                OnResolve = r =>
+                {
+                    Assert.Equal(dummyRequest, r);
+                    return "14/12/1984";
+                }
+            };
+            var loopTest = new LoopTest<RangedNumberGenerator, object>(sut => (object)sut.Create(dummyRequest, dummyContext));
+            // Exercise system and verify outcome
+            loopTest.Execute(2, new NoSpecimen(dummyRequest));
+            // Teardown
+        }
     }
 }

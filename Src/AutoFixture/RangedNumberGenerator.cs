@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixture
 
             this.rangedValue = this.CreateAnonymous(range, value);
 
-            return this.rangedValue;
+            return this.rangedValue ?? new NoSpecimen(request);
         }
 
         private object CreateAnonymous(RangedNumberRequest range, IComparable value)
@@ -96,13 +96,18 @@ namespace Ploeh.AutoFixture
 
         private static bool TryAdd(object a, object b, out object result)
         {
+            result = null;
+
+            if (a.GetType() != b.GetType())
+            {
+                return false;
+            }
+
             Type elementType = a.GetType();
 
             Array array = Array.CreateInstance(elementType, 2);
             array.SetValue(a, 0);
             array.SetValue(b, 1);
-
-            result = null;
 
             switch (Type.GetTypeCode(elementType))
             {
