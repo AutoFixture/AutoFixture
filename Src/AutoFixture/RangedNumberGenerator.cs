@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -103,28 +102,22 @@ namespace Ploeh.AutoFixture
                 return false;
             }
 
-            Type elementType = a.GetType();
-
-            Array array = Array.CreateInstance(elementType, 2);
-            array.SetValue(a, 0);
-            array.SetValue(b, 1);
-
-            switch (Type.GetTypeCode(elementType))
+            switch (Type.GetTypeCode(a.GetType()))
             {
                 case TypeCode.Int32:
-                    result = array.Cast<object>().Select(Convert.ToInt32).Sum();
-                    break;
-
-                case TypeCode.Double:
-                    result = array.Cast<object>().Select(Convert.ToDouble).Sum();
+                    result = (int)a + (int)b;
                     break;
 
                 case TypeCode.Int64:
-                    result = array.Cast<object>().Select(Convert.ToInt64).Sum();
+                    result = (long)a + (long)b;
                     break;
 
                 case TypeCode.Decimal:
-                    result = array.Cast<object>().Select(Convert.ToDecimal).Sum();
+                    result = (decimal)a + (decimal)b;
+                    break;
+
+                case TypeCode.Double:
+                    result = (double)a + (double)b;
                     break;
             }
 
