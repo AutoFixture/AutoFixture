@@ -44,6 +44,15 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
+        public void VerifyBoundariesForTypeWithRefMethod()
+        {
+            var fixture = new Fixture();
+            var assertion = new GuardClauseAssertion(fixture);
+            var type = typeof(TypeWithRefMethod<Version>);
+            assertion.Verify(type);
+        }
+
+        [Fact]
         public void VerifyBoundariesForAllPropertiesOnMutableClass()
         {
             var fixture = new Fixture();

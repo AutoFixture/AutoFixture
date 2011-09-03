@@ -143,7 +143,7 @@ namespace Ploeh.AutoFixture.Idioms
         private void Verify(IMethod method)
         {
             var parameters = (from pi in method.Parameters
-                              select this.Composer.CreateAnonymous(pi.ParameterType)).ToList();
+                              select this.Composer.CreateAnonymous(GuardClauseAssertion.GetParameterType(pi))).ToList();
 
             var i = 0;
             foreach (var pi in method.Parameters)
@@ -154,6 +154,12 @@ namespace Ploeh.AutoFixture.Idioms
                 var unwrapper = new ReflectionExceptionUnwrappingCommand(command);
                 this.BehaviorExpectation.Verify(unwrapper);
             }
+        }
+
+        private static Type GetParameterType(ParameterInfo pi)
+        {
+            var pType = pi.ParameterType;
+            return pType.IsByRef ? pType.GetElementType() : pi.ParameterType;
         }
     }
 }

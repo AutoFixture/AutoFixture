@@ -102,6 +102,7 @@
     <Compile Include="TypeWithIndexer.cs" />
     <Compile Include="TypeWithOverloadedMembers.cs" />
     <Compile Include="TypeWithFactoryProperty.cs" />
+    <Compile Include="TypeWithRefMethod.cs" />
     <Compile Include="UnguardedConstructorHost.cs" />
     <Compile Include="UnguardedMethodHost.cs" />
   </ItemGroup>
