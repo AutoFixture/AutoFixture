@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -33,31 +34,14 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("context");
             }
 
-            var elementType = ArrayRelay.GetElementType(request);
-            if (elementType == null)
-            {
-                return new NoSpecimen(request);
-            }
-
-            var e = context.Resolve(new MultipleRequest(elementType)) as IEnumerable;
-            if (e == null)
-            {
-                return new NoSpecimen(request);
-            }
-
-            return ArrayRelay.ToArray(e, elementType);
-        }
-
-        private static Type GetElementType(object request)
-        {
-            var t = request as Type;
-            if ((t == null)
-                || (!t.IsArray))
-            {
-                return null;
-            }
-
-            return t.GetElementType();
+            return (from t in request.Maybe().OfType<Type>()
+                    where t.IsArray
+                    let elementType = t.GetElementType()
+                    let e = context.Resolve(new MultipleRequest(elementType)) as IEnumerable
+                    where e != null
+                    select ArrayRelay.ToArray(e, elementType))
+                    .DefaultIfEmpty(new NoSpecimen(request))
+                    .Single();
         }
 
         private static object ToArray(IEnumerable e, Type elementType)
