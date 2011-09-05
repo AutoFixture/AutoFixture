@@ -4,7 +4,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
 {
     public class RangeValidatedType
     {
-        [Range(1, 3)]
+        [Range(10, 20)]
         public int Property { get; set; }
     }
 }

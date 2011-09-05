@@ -99,6 +99,7 @@
     <Compile Include="CompositeCustomization.cs" />
     <Compile Include="CurrentDateTimeCustomization.cs" />
     <Compile Include="CurrentDateTimeGenerator.cs" />
+    <Compile Include="DataAnnotations\RangeAttributeCustomization.cs" />
     <Compile Include="DataAnnotations\RangeAttributeRelay.cs" />
     <Compile Include="DateTimeGenerator.cs" />
     <Compile Include="GlobalSuppressions.cs" />

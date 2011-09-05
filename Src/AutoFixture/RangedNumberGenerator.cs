@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            var value = context.Resolve(request) as IComparable;
+            var value = context.Resolve(range.OperandType) as IComparable;
             if (value == null)
             {
                 return new NoSpecimen(request);

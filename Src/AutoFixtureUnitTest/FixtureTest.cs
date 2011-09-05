@@ -5,8 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.DataAnnotations;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.AutoFixtureUnitTest.DataAnnotations;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
@@ -1289,6 +1291,20 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = fixture.CreateAnonymous<TypeWithFactoryProperty>();
             // Verify outcome
             Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithRangeValidatedTypeWillAssignValidValues()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            fixture.Customize(new RangeAttributeCustomization());
+            
+            var result = fixture.CreateAnonymous<RangeValidatedType>();
+            // Verify outcome
+            Assert.NotNull(result);
+            Assert.True(result.Property >= 10 && result.Property <=20);
             // Teardown
         }
 

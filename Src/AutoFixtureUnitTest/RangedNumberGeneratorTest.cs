@@ -71,7 +71,7 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 OnResolve = r =>
                 {
-                    Assert.Equal(dummyRequest, r);
+                    Assert.Equal(dummyRequest.OperandType, r);
                     return contextValue;
                 }
             };
@@ -92,7 +92,7 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 OnResolve = r =>
                 {
-                    Assert.Equal(dummyRequest, r);
+                    Assert.Equal(dummyRequest.OperandType, r);
                     return dummyNumbers.Next();
                 }
             };
@@ -112,7 +112,7 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 OnResolve = r =>
                 {
-                    Assert.Equal(dummyRequest, r);
+                    Assert.Equal(dummyRequest.OperandType, r);
                     return dummyNumbers.Next();
                 }
             };
@@ -135,7 +135,7 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 OnResolve = r =>
                 {
-                    Assert.Equal(dummyRequest, r);
+                    Assert.Equal(dummyRequest.OperandType, r);
                     return dummyNumbers.Next();
                 }
             };
@@ -154,7 +154,7 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 OnResolve = r =>
                 {
-                    Assert.Equal(dummyRequest, r);
+                    Assert.Equal(dummyRequest.OperandType, r);
                     return "14/12/1984";
                 }
             };
