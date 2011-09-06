@@ -1,95 +1,109 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CleanTemporaryNuGetSpecFiles" ToolsVersion="4.0">
-  <PropertyGroup>
-    <XUnitPath>Lib\xUnit.net 1.6.1</XUnitPath>
-  </PropertyGroup>
-  <UsingTask TaskName="xunitproject" AssemblyFile="$(XUnitPath)\xunit.runner.msbuild.dll" />
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CompleteBuild" ToolsVersion="4.0">
+    <PropertyGroup>
+        <XUnitPath>Lib\xUnit.net 1.6.1</XUnitPath>
+    </PropertyGroup>
+    <UsingTask TaskName="xunitproject" AssemblyFile="$(XUnitPath)\xunit.runner.msbuild.dll" />
 
-  <ItemGroup>
-    <ProjectToBuild Include="Src\*.sln" />
-  </ItemGroup>
-  <ItemGroup>
-    <BuildOutput Include="Src\AutoFixture\bin\Release\Ploeh.AutoFixture.dll" />
-    <BuildOutput Include="Src\AutoFixture\bin\Release\Ploeh.AutoFixture.XML" />
-    <BuildOutput Include="Src\SemanticComparison\bin\Release\Ploeh.SemanticComparison.dll" />
-    <BuildOutput Include="Src\SemanticComparison\bin\Release\Ploeh.SemanticComparison.XML" />
-    <BuildOutput Include="Src\AutoMoq\bin\Release\Ploeh.AutoFixture.AutoMoq.dll" />
-    <BuildOutput Include="Src\AutoMoq\bin\Release\Ploeh.AutoFixture.AutoMoq.XML" />
-    <BuildOutput Include="Src\AutoRhinoMock\bin\Release\Ploeh.AutoFixture.AutoRhinoMock.dll" />
-    <BuildOutput Include="Src\AutoRhinoMock\bin\Release\Ploeh.AutoFixture.AutoRhinoMock.XML" />
-    <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.dll" />
-    <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.XML" />
-    <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.dll" />
-    <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.XML" />
-  </ItemGroup>
-  <ItemGroup>
-    <NuSpecFiles Include="NuGet\*.nuspec" />
-  </ItemGroup>
-  <PropertyGroup>
-    <ReleaseFolder>Release</ReleaseFolder>
-  </PropertyGroup>
-  <!--Optional Clean targets-->
-  <Target Name="CleanAll" DependsOnTargets="CleanDebug;CleanVerify;CleanRelease" />
-  <Target Name="CleanDebug">
-    <MSBuild Projects="@(ProjectToBuild)" Targets="Clean" Properties="Configuration=Debug" />
-  </Target>
-  <Target Name="CleanVerify">
-    <MSBuild Projects="@(ProjectToBuild)" Targets="Clean" Properties="Configuration=Verify" />
-  </Target>
-  <Target Name="CleanRelease">
-    <MSBuild Projects="@(ProjectToBuild)" Targets="Clean" Properties="Configuration=Release" />
-  </Target>
-  <!--Build tasks-->
-  <Target Name="DeleteReleaseFolder">
-    <RemoveDir Directories="$(ReleaseFolder)" />
-  </Target>
-  <Target Name="MakeReleaseFolder" DependsOnTargets="DeleteReleaseFolder">
-    <MakeDir Directories="$(ReleaseFolder)" Condition="!Exists($(ReleaseFolder))" />
-  </Target>
-  <Target Name="Verify" DependsOnTargets="MakeReleaseFolder">
-    <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Verify" />
-  </Target>
-  <Target Name="Build" DependsOnTargets="Verify">
-    <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Release" />
-  </Target>
-  <Target Name="Test" DependsOnTargets="Build">
-    <xunitproject ProjectFile="Src\All.xunit" />
-  </Target>
-  <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
-    <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />
-  </Target>  
-  <Target Name="CreateTemporaryNuGetSpecFiles">
     <PropertyGroup>
-      <NuGetOutputFolder>NuGetPackages</NuGetOutputFolder>
+        <MSBuildExtensionsPath>Lib\MSBuildCommunityTasks</MSBuildExtensionsPath>
     </PropertyGroup>
-    <RemoveDir Directories="$(NuGetOutputFolder)" />
-    <Copy SourceFiles="@(NuSpecFiles)" DestinationFolder="$(NuGetOutputFolder)">
-      <Output TaskParameter="CopiedFiles" ItemName="TempNuspecFiles" />
-    </Copy>
-  </Target>  
-  <Target Name="NuGetPrepare" DependsOnTargets="CreateTemporaryNuGetSpecFiles;CopyToReleaseFolder" Outputs="%(TempNuspecFiles.Identity)">
+    <UsingTask TaskName="MSBuild.Community.Tasks.Zip" AssemblyFile="$(MSBuildExtensionsPath)\MSBuild.Community.Tasks.dll" />
+
+    <ItemGroup>
+        <ProjectToBuild Include="Src\*.sln" />
+    </ItemGroup>
+    <ItemGroup>
+        <BuildOutput Include="Src\AutoFixture\bin\Release\Ploeh.AutoFixture.dll" />
+        <BuildOutput Include="Src\AutoFixture\bin\Release\Ploeh.AutoFixture.XML" />
+        <BuildOutput Include="Src\SemanticComparison\bin\Release\Ploeh.SemanticComparison.dll" />
+        <BuildOutput Include="Src\SemanticComparison\bin\Release\Ploeh.SemanticComparison.XML" />
+        <BuildOutput Include="Src\AutoMoq\bin\Release\Ploeh.AutoFixture.AutoMoq.dll" />
+        <BuildOutput Include="Src\AutoMoq\bin\Release\Ploeh.AutoFixture.AutoMoq.XML" />
+        <BuildOutput Include="Src\AutoRhinoMock\bin\Release\Ploeh.AutoFixture.AutoRhinoMock.dll" />
+        <BuildOutput Include="Src\AutoRhinoMock\bin\Release\Ploeh.AutoFixture.AutoRhinoMock.XML" />
+        <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.dll" />
+        <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.XML" />
+        <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.dll" />
+        <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.XML" />
+    </ItemGroup>
+    <ItemGroup>
+        <NuSpecFiles Include="NuGet\*.nuspec" />
+    </ItemGroup>
     <PropertyGroup>
-      <TempNuspecFilePath>%(TempNuspecFiles.FullPath)</TempNuspecFilePath>
-      <AssemblyFile>$(ReleaseFolder)\%(TempNuspecFiles.Filename).dll</AssemblyFile>
+        <ReleaseFolder>Release</ReleaseFolder>
     </PropertyGroup>
-    <GetAssemblyIdentity AssemblyFiles="$(AssemblyFile)">
-      <Output TaskParameter="Assemblies" ItemName="AssemblyInfo" />
-    </GetAssemblyIdentity>
-    <PropertyGroup>
-      <Version>%(AssemblyInfo.Version)</Version>
-      <SemanticVersion>$(Version.Substring(0, $(Version.LastIndexOf('.'))))</SemanticVersion>
-    </PropertyGroup>    
-    <XmlPoke XmlInputPath="$(TempNuspecFilePath)"
-             Query="//metadata/version"
-             Value="$(SemanticVersion)" />
-    <XmlPoke XmlInputPath="$(TempNuspecFilePath)"
-             Query="//metadata/dependencies/dependency[contains(@id, 'autofixture')]/@version"
-             Value="$(SemanticVersion)" />
-  </Target>  
-  <Target Name="NuGetPack" DependsOnTargets="NuGetPrepare">
-    <Exec Command="Lib\NuGet\nuget.exe pack %(TempNuspecFiles.FullPath) -BasePath $(ReleaseFolder) -OutputDirectory $(NuGetOutputFolder)" />
-  </Target>
-  <Target Name="CleanTemporaryNuGetSpecFiles" DependsOnTargets="NuGetPack">
-    <Delete Files="@(TempNuspecFiles)" />
-  </Target>
+    <!--Optional Clean targets-->
+    <Target Name="CleanAll" DependsOnTargets="CleanDebug;CleanVerify;CleanRelease" />
+    <Target Name="CleanDebug">
+        <MSBuild Projects="@(ProjectToBuild)" Targets="Clean" Properties="Configuration=Debug" />
+    </Target>
+    <Target Name="CleanVerify">
+        <MSBuild Projects="@(ProjectToBuild)" Targets="Clean" Properties="Configuration=Verify" />
+    </Target>
+    <Target Name="CleanRelease">
+        <MSBuild Projects="@(ProjectToBuild)" Targets="Clean" Properties="Configuration=Release" />
+    </Target>
+    <!--Build tasks-->
+    <Target Name="DeleteReleaseFolder">
+        <RemoveDir Directories="$(ReleaseFolder)" />
+    </Target>
+    <Target Name="MakeReleaseFolder" DependsOnTargets="DeleteReleaseFolder">
+        <MakeDir Directories="$(ReleaseFolder)" Condition="!Exists($(ReleaseFolder))" />
+    </Target>
+    <Target Name="Verify" DependsOnTargets="MakeReleaseFolder">
+        <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Verify" />
+    </Target>
+    <Target Name="Build" DependsOnTargets="Verify">
+        <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Release" />
+    </Target>
+    <Target Name="Test" DependsOnTargets="Build">
+        <xunitproject ProjectFile="Src\All.xunit" />
+    </Target>
+    <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
+        <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />
+    </Target>
+    <Target Name="ZipReleaseFiles" DependsOnTargets="CopyToReleaseFolder">
+        <ItemGroup>
+            <FilesToZip Include="$(ReleaseFolder)\*.*" />
+        </ItemGroup>
+        <Zip Files="@(FilesToZip)"
+             WorkingDirectory="$(ReleaseFolder)"
+             ZipFileName="$(ReleaseFolder)\AutoFixture.zip" />
+    </Target>
+    <Target Name="CreateTemporaryNuGetSpecFiles">
+        <PropertyGroup>
+            <NuGetOutputFolder>NuGetPackages</NuGetOutputFolder>
+        </PropertyGroup>
+        <RemoveDir Directories="$(NuGetOutputFolder)" />
+        <Copy SourceFiles="@(NuSpecFiles)" DestinationFolder="$(NuGetOutputFolder)">
+            <Output TaskParameter="CopiedFiles" ItemName="TempNuspecFiles" />
+        </Copy>
+    </Target>
+    <Target Name="NuGetPrepare" DependsOnTargets="CreateTemporaryNuGetSpecFiles;CopyToReleaseFolder" Outputs="%(TempNuspecFiles.Identity)">
+        <PropertyGroup>
+            <TempNuspecFilePath>%(TempNuspecFiles.FullPath)</TempNuspecFilePath>
+            <AssemblyFile>$(ReleaseFolder)\%(TempNuspecFiles.Filename).dll</AssemblyFile>
+        </PropertyGroup>
+        <GetAssemblyIdentity AssemblyFiles="$(AssemblyFile)">
+            <Output TaskParameter="Assemblies" ItemName="AssemblyInfo" />
+        </GetAssemblyIdentity>
+        <PropertyGroup>
+            <Version>%(AssemblyInfo.Version)</Version>
+            <SemanticVersion>$(Version.Substring(0, $(Version.LastIndexOf('.'))))</SemanticVersion>
+        </PropertyGroup>
+        <XmlPoke XmlInputPath="$(TempNuspecFilePath)"
+                 Query="//metadata/version"
+                 Value="$(SemanticVersion)" />
+        <XmlPoke XmlInputPath="$(TempNuspecFilePath)"
+                 Query="//metadata/dependencies/dependency[contains(@id, 'autofixture')]/@version"
+                 Value="$(SemanticVersion)" />
+    </Target>
+    <Target Name="NuGetPack" DependsOnTargets="NuGetPrepare">
+        <Exec Command="Lib\NuGet\nuget.exe pack %(TempNuspecFiles.FullPath) -BasePath $(ReleaseFolder) -OutputDirectory $(NuGetOutputFolder)" />
+    </Target>
+    <Target Name="CleanTemporaryNuGetSpecFiles" DependsOnTargets="NuGetPack">
+        <Delete Files="@(TempNuspecFiles)" />
+    </Target>
+    <Target Name="CompleteBuild" DependsOnTargets="ZipReleaseFiles;CleanTemporaryNuGetSpecFiles" />
 </Project>
