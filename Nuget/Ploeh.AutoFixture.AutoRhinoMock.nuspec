@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
-  <metadata>
-    <id>AutoFixture.AutoRhinoMocks</id>
-    <version>2.2</version>
-    <title>AutoFixture with Auto Mocking using Rhino Mocks</title>
-    <authors>Mark Seemann</authors>
-    <owners>Mark Seemann</owners>
-    <dependencies>
-      <dependency id="autofixture" version="2.2" />
-      <dependency id="RhinoMocks" version="3.6" />
-    </dependencies>
-    <summary>Turns AutoFixture into an Auto-Mocking Container based on Rhino Mocks.</summary>
-    <description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by Rhino Mocks. To use it, add the AutoRhinoMockCustomization to your Fixture instance. Read more at http://blog.ploeh.dk/2010/11/13/RhinoMocksbasedAutomockingWithAutoFixture.aspx</description>
-    <language>en-US</language>
-    <licenseUrl>http://autofixture.codeplex.com/license</licenseUrl>
-    <projectUrl>http://autofixture.codeplex.com</projectUrl>
-  </metadata>
-  <files>
-    <file src="Ploeh.AutoFixture.AutoRhinoMock.dll" target="lib" />
-    <file src="Ploeh.AutoFixture.AutoRhinoMock.XML" target="lib" />
-  </files>
+    <metadata>
+        <id>AutoFixture.AutoRhinoMocks</id>
+        <version>2.2</version>
+        <title>AutoFixture with Auto Mocking using Rhino Mocks</title>
+        <authors>Mark Seemann</authors>
+        <owners>Mark Seemann</owners>
+        <dependencies>
+            <dependency id="autofixture" version="2.2" />
+            <dependency id="RhinoMocks" version="3.6" />
+        </dependencies>
+        <summary>Turns AutoFixture into an Auto-Mocking Container based on Rhino Mocks.</summary>
+        <description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by Rhino Mocks. To use it, add the AutoRhinoMockCustomization to your Fixture instance. Read more at http://blog.ploeh.dk/2010/11/13/RhinoMocksbasedAutomockingWithAutoFixture.aspx</description>
+        <iconUrl>http://i3.codeplex.com/Download?ProjectName=autofixture&amp;DownloadId=278049</iconUrl>
+        <language>en-US</language>
+        <licenseUrl>http://autofixture.codeplex.com/license</licenseUrl>
+        <projectUrl>http://autofixture.codeplex.com</projectUrl>
+    </metadata>
+    <files>
+        <file src="Ploeh.AutoFixture.AutoRhinoMock.dll" target="lib" />
+        <file src="Ploeh.AutoFixture.AutoRhinoMock.XML" target="lib" />
+    </files>
 </package>

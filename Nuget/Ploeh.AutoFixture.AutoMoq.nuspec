@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
-  <metadata>
-    <id>AutoFixture.AutoMoq</id>
-    <version>2.2</version>
-    <title>AutoFixture with Auto Mocking using Moq</title>
-    <authors>Mark Seemann</authors>
-    <owners>Mark Seemann</owners>
-    <dependencies>
-      <dependency id="autofixture" version="2.2" />
-      <dependency id="moq" version="3.1" />
-    </dependencies>
-    <summary>Turns AutoFixture into an Auto-Mocking Container based on Moq.</summary>
-    <description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by Moq. To use it, add the AutoMoqCustomization to your Fixture instance. Read more at http://blog.ploeh.dk/2010/08/19/AutoFixtureAsAnAutomockingContainer.aspx</description>
-    <language>en-US</language>
-    <licenseUrl>http://autofixture.codeplex.com/license</licenseUrl>
-    <projectUrl>http://autofixture.codeplex.com</projectUrl>
-  </metadata>
-  <files>
-    <file src="Ploeh.AutoFixture.AutoMoq.dll" target="lib" />
-    <file src="Ploeh.AutoFixture.AutoMoq.XML" target="lib" />
-  </files>
+    <metadata>
+        <id>AutoFixture.AutoMoq</id>
+        <version>2.2</version>
+        <title>AutoFixture with Auto Mocking using Moq</title>
+        <authors>Mark Seemann</authors>
+        <owners>Mark Seemann</owners>
+        <dependencies>
+            <dependency id="autofixture" version="2.2" />
+            <dependency id="moq" version="3.1" />
+        </dependencies>
+        <summary>Turns AutoFixture into an Auto-Mocking Container based on Moq.</summary>
+        <description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by Moq. To use it, add the AutoMoqCustomization to your Fixture instance. Read more at http://blog.ploeh.dk/2010/08/19/AutoFixtureAsAnAutomockingContainer.aspx</description>
+        <iconUrl>http://i3.codeplex.com/Download?ProjectName=autofixture&amp;DownloadId=278049</iconUrl>
+        <language>en-US</language>
+        <licenseUrl>http://autofixture.codeplex.com/license</licenseUrl>
+        <projectUrl>http://autofixture.codeplex.com</projectUrl>
+    </metadata>
+    <files>
+        <file src="Ploeh.AutoFixture.AutoMoq.dll" target="lib" />
+        <file src="Ploeh.AutoFixture.AutoMoq.XML" target="lib" />
+    </files>
 </package>
