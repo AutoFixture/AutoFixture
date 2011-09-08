@@ -1299,8 +1299,6 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            fixture.Customize(new RangeAttributeCustomization());
-            
             var result = fixture.CreateAnonymous<RangeValidatedType>();
             // Verify outcome
             Assert.NotNull(result);

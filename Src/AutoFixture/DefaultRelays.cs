@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Ploeh.AutoFixture.DataAnnotations;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -36,7 +37,8 @@ namespace Ploeh.AutoFixture
                     new ModestConstructorQuery(), 
                     new FactoryMethodQuery()));
             yield return new ParameterRequestRelay();
-            yield return new PropertyRequestRelay();
+            yield return new RangeAttributeRelay();
+            yield return new PropertyRequestRelay();            
             yield return new FieldRequestRelay();
             yield return this.multiple;
             yield return new FiniteSequenceRelay();
