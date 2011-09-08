@@ -89,7 +89,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         public void CreateWithRangeAttributeRequestReturnsCorrectResult(Type type)
         {
             // Fixture setup
-            MemberInfo request = type.GetProperty("Property");
+            ICustomAttributeProvider request = type.GetProperty("Property");
             var rangeAttribute = request.GetCustomAttributes(typeof(RangeAttribute), inherit: true).Cast<RangeAttribute>().FirstOrDefault();
             var expectedRequest = new RangedNumberRequest(rangeAttribute.OperandType, rangeAttribute.Minimum, rangeAttribute.Maximum);
             object rangedResult = new object();

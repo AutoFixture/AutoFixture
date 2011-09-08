@@ -52,76 +52,67 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            this.rangedValue = this.CreateAnonymous(range, value);
+            try
+            {
+                this.CreateAnonymous(range, value);
+            }
+            catch (InvalidOperationException)
+            {
+                return new NoSpecimen(request);
+            }
 
-            return this.rangedValue ?? new NoSpecimen(request);
+            return this.rangedValue;
         }
 
-        private object CreateAnonymous(RangedNumberRequest range, IComparable value)
+        private void CreateAnonymous(RangedNumberRequest range, IComparable value)
         {
             lock (this.syncRoot)
             {
-                object result;
-
                 var minimum = (IComparable)range.Minimum;
                 var maximum = (IComparable)range.Maximum;
 
                 if (this.rangedValue != null && (minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) > 0))
                 {
-                    RangedNumberGenerator.TryAdd(this.rangedValue, 1, out result);
-                    return result;
+                    this.rangedValue = RangedNumberGenerator.Add(this.rangedValue, 1);
                 }
-
-                if (minimum.CompareTo(value) == 0)
+                else if (minimum.CompareTo(value) == 0)
                 {
-                    return minimum;
+                    this.rangedValue = minimum;
                 }
-
-                if (maximum.CompareTo(value) == 0)
+                else if (maximum.CompareTo(value) == 0)
                 {
-                    return maximum;
+                    this.rangedValue = maximum;
                 }
-
-                if (minimum.CompareTo(value) <= 0 &&
-                    maximum.CompareTo(value) <= 0)
+                else if (minimum.CompareTo(value) <= 0 && maximum.CompareTo(value) <= 0)
                 {
-                    return minimum;
+                    this.rangedValue = minimum;
                 }
-
-                RangedNumberGenerator.TryAdd(minimum, value, out result);
-                return result;
+                else
+                {
+                    this.rangedValue = RangedNumberGenerator.Add(minimum, value);
+                }
             }
         }
 
-        private static bool TryAdd(object a, object b, out object result)
+        private static object Add(object a, object b)
         {
-            result = null;
-
-            if (a.GetType() != b.GetType())
-            {
-                return false;
-            }
-
             switch (Type.GetTypeCode(a.GetType()))
             {
                 case TypeCode.Int32:
-                    result = (int)a + (int)b;
-                    break;
+                    return (int)a + (int)b;
 
                 case TypeCode.Int64:
-                    result = (long)a + (long)b;
-                    break;
+                    return (long)a + (long)b;
 
                 case TypeCode.Decimal:
-                    result = (decimal)a + (decimal)b;
-                    break;
+                    return (decimal)a + (decimal)b;
 
                 case TypeCode.Double:
-                    result = (double)a + (double)b;
-                    break;
-            }
+                    return (double)a + (double)b;
 
-            return result != null;
+                default:
+                    throw new InvalidOperationException("The underlying type code of the specified types is not supported.");
+            }
         }
     }
 }

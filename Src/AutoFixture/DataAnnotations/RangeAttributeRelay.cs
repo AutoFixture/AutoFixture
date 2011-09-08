@@ -33,24 +33,19 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 throw new ArgumentNullException("context");
             }
 
-            // On .NET Framework 3.5 RangeAttribute can be applied only on Properties and Fields.
-            // On .NET Framrwork 4.0 RangeAttribute can be applied also on Parameters.
-            var mi = request as MemberInfo;
-            if (mi == null)
+            var customAttributeProvider = request as ICustomAttributeProvider;
+            if (customAttributeProvider == null)
             {
                 return new NoSpecimen(request);
             }
 
-            // Only one instance of the indicated attribute can be specified for a single element.
-            var rangeAttribute = mi.GetCustomAttributes(typeof(RangeAttribute), inherit: true).Cast<RangeAttribute>().FirstOrDefault();
+            var rangeAttribute = customAttributeProvider.GetCustomAttributes(typeof(RangeAttribute), inherit: true).Cast<RangeAttribute>().SingleOrDefault();
             if (rangeAttribute == null)
             {
                 return new NoSpecimen(request);
             }
 
-            var specimen = context.Resolve(new RangedNumberRequest(rangeAttribute.OperandType, rangeAttribute.Minimum, rangeAttribute.Maximum));
-
-            return specimen;
+            return context.Resolve(new RangedNumberRequest(rangeAttribute.OperandType, rangeAttribute.Minimum, rangeAttribute.Maximum));
         }
     }
 }

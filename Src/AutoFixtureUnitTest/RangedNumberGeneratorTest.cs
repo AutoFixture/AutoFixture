@@ -27,9 +27,9 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new RangedNumberGenerator();
-            var dummyContext = new DelegatingSpecimenContext();
+            var context = new DelegatingSpecimenContext();
             // Exercise system
-            var result = sut.Create(null, dummyContext);
+            var result = sut.Create(null, context);
             // Verify outcome
             Assert.Equal(new NoSpecimen(), result);
             // Teardown
@@ -40,9 +40,9 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new RangedNumberGenerator();
-            var dummyRequest = new object();
+            var request = new object();
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => sut.Create(dummyRequest, null));
+            Assert.Throws<ArgumentNullException>(() => sut.Create(request, null));
             // Teardown
         }
 
@@ -51,12 +51,12 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new RangedNumberGenerator();
-            var dummyRequest = new object();
-            var dummyContext = new DelegatingSpecimenContext();
+            var request = new object();
+            var context = new DelegatingSpecimenContext();
             // Exercise system
-            var result = sut.Create(dummyRequest, dummyContext);
+            var result = sut.Create(request, context);
             // Verify outcome
-            Assert.Equal(new NoSpecimen(dummyRequest), result);
+            Assert.Equal(new NoSpecimen(request), result);
             // Teardown
         }
 
@@ -66,59 +66,41 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new RangedNumberGenerator();
-            var dummyRequest = new RangedNumberRequest(operandType, minimum, maximum);
-            var dummyContext = new DelegatingSpecimenContext
+            var request = new RangedNumberRequest(operandType, minimum, maximum);
+            var context = new DelegatingSpecimenContext
             {
                 OnResolve = r =>
                 {
-                    Assert.Equal(dummyRequest.OperandType, r);
+                    Assert.Equal(request.OperandType, r);
                     return contextValue;
                 }
             };
             // Exercise system
-            var result = sut.Create(dummyRequest, dummyContext);
+            var result = sut.Create(request, context);
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
         }
 
-        [Fact]
-        public void CreateReturnsCorrectResultOnSecondCall()
+        [Theory]
+        [InlineData(10, 2)]
+        [InlineData(10, 10)]
+        public void CreateReturnsCorrectResultOnMultipleCall(object maximum, int loopCount)
         {
             // Fixture setup
-            var dummyNumbers = new Random();
-            var dummyRequest = new RangedNumberRequest(typeof(int), 1, 10);
-            var dummyContext = new DelegatingSpecimenContext
+            var numbers = new Random();
+            var request = new RangedNumberRequest(typeof(int), 1, maximum);
+            var context = new DelegatingSpecimenContext
             {
                 OnResolve = r =>
                 {
-                    Assert.Equal(dummyRequest.OperandType, r);
-                    return dummyNumbers.Next();
+                    Assert.Equal(request.OperandType, r);
+                    return numbers.Next();
                 }
             };
-            var loopTest = new LoopTest<RangedNumberGenerator, int>(sut => (int)sut.Create(dummyRequest, dummyContext));
+            var loopTest = new LoopTest<RangedNumberGenerator, int>(sut => (int)sut.Create(request, context));
             // Exercise system and verify outcome
-            loopTest.Execute(2);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateReturnsCorrectResultOnTenthCall()
-        {
-            // Fixture setup
-            var dummyNumbers = new Random();
-            var dummyRequest = new RangedNumberRequest(typeof(int), 1, 10);
-            var dummyContext = new DelegatingSpecimenContext
-            {
-                OnResolve = r =>
-                {
-                    Assert.Equal(dummyRequest.OperandType, r);
-                    return dummyNumbers.Next();
-                }
-            };
-            var loopTest = new LoopTest<RangedNumberGenerator, int>(sut => (int)sut.Create(dummyRequest, dummyContext));
-            // Exercise system and verify outcome
-            loopTest.Execute(10);
+            loopTest.Execute(loopCount);
             // Teardown
         }
 
@@ -129,17 +111,17 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateReturnsCorrectResultWhenRunOutOfNumbers(int loopCount, int expectedResult)
         {
             // Fixture setup
-            var dummyNumbers = new Random();
-            var dummyRequest = new RangedNumberRequest(typeof(int), 1, 10);
-            var dummyContext = new DelegatingSpecimenContext
+            var numbers = new Random();
+            var request = new RangedNumberRequest(typeof(int), 1, 10);
+            var context = new DelegatingSpecimenContext
             {
                 OnResolve = r =>
                 {
-                    Assert.Equal(dummyRequest.OperandType, r);
-                    return dummyNumbers.Next();
+                    Assert.Equal(request.OperandType, r);
+                    return numbers.Next();
                 }
             };
-            var loopTest = new LoopTest<RangedNumberGenerator, int>(sut => (int)sut.Create(dummyRequest, dummyContext));
+            var loopTest = new LoopTest<RangedNumberGenerator, int>(sut => (int)sut.Create(request, context));
             // Exercise system and verify outcome
             loopTest.Execute(loopCount, expectedResult);
             // Teardown
@@ -149,18 +131,18 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateReturnsNoSpecimenWhenRequestContainsNonNumericValues()
         {
             // Fixture setup
-            var dummyRequest = new RangedNumberRequest(typeof(string), "1/1/2001", "1/1/2011");
-            var dummyContext = new DelegatingSpecimenContext
+            var request = new RangedNumberRequest(typeof(string), "1/1/2001", "1/1/2011");
+            var context = new DelegatingSpecimenContext
             {
                 OnResolve = r =>
                 {
-                    Assert.Equal(dummyRequest.OperandType, r);
+                    Assert.Equal(request.OperandType, r);
                     return "14/12/1984";
                 }
             };
-            var loopTest = new LoopTest<RangedNumberGenerator, object>(sut => (object)sut.Create(dummyRequest, dummyContext));
+            var loopTest = new LoopTest<RangedNumberGenerator, object>(sut => (object)sut.Create(request, context));
             // Exercise system and verify outcome
-            loopTest.Execute(2, new NoSpecimen(dummyRequest));
+            loopTest.Execute(2, new NoSpecimen(request));
             // Teardown
         }
 
@@ -215,6 +197,12 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(decimal), minimum: 10.0m, maximum: 20.0m, contextValue: 21.0m, expectedResult: 10.0m);
                 yield return CreateTestCase(operandType: typeof(decimal), minimum: 10.0m, maximum: 20.0m, contextValue: new object(), 
                     expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(decimal), 10.0m, 20.0m)));
+
+                yield return CreateTestCase(operandType: typeof(char), minimum: 'a', maximum: 'b', contextValue: 'a', expectedResult: 'a');
+                yield return CreateTestCase(operandType: typeof(char), minimum: 'a', maximum: 'b', contextValue: 'b', expectedResult: 'b');
+                yield return CreateTestCase(operandType: typeof(char), minimum: 'a', maximum: 'b', contextValue: 'c', expectedResult: 'a');
+                yield return CreateTestCase(operandType: typeof(char), minimum: 'b', maximum: 'c', contextValue: 'a', 
+                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(char), 'b', 'c')));
             }
 
             IEnumerator IEnumerable.GetEnumerator()

@@ -77,14 +77,18 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [InlineData(typeof(int), 2, 0)]
-        [InlineData(typeof(int), 1, 1)]
-        [InlineData(typeof(decimal), 2, 0)]
-        [InlineData(typeof(decimal), 1, 1)]
-        [InlineData(typeof(double), 2, 0)]
-        [InlineData(typeof(double), 1, 1)]
-        [InlineData(typeof(long), 2, 0)]
-        [InlineData(typeof(long), 1, 1)]
+        [InlineData(typeof(int), 20, 10)]
+        [InlineData(typeof(int), 10, 10)]
+        [InlineData(typeof(int), -1, -2)]
+        [InlineData(typeof(decimal), 20, 10)]
+        [InlineData(typeof(decimal), 10, 10)]
+        [InlineData(typeof(decimal), -1, -2)]
+        [InlineData(typeof(double), 20, 10)]
+        [InlineData(typeof(double), 10, 10)]
+        [InlineData(typeof(double), -1, -2)]
+        [InlineData(typeof(long), 20, 10)]
+        [InlineData(typeof(long), 10, 10)]
+        [InlineData(typeof(long), -1, -2)]
         public void CreateWithEqualOrBiggerMinimumThanMaximumWillThrow(Type type, object minimum, object maximum)
         {
             // Fixture setup
@@ -95,10 +99,14 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [InlineData(typeof(int), 1, 2)]
-        [InlineData(typeof(decimal), 1, 2)]
-        [InlineData(typeof(double), 1, 2)]
-        [InlineData(typeof(long), 1, 2)]
+        [InlineData(typeof(int), 10, 20)]
+        [InlineData(typeof(int), -2, -1)]
+        [InlineData(typeof(decimal), 10, 20)]
+        [InlineData(typeof(decimal), -2, -1)]
+        [InlineData(typeof(double), 10, 20)]
+        [InlineData(typeof(double), -2, -1)]
+        [InlineData(typeof(long), 10, 20)]
+        [InlineData(typeof(long), -2, -1)]
         public void CreateWithLowerMinimumThanMaximumDoesNotThrow(Type type, object minimum, object maximum)
         {
             // Fixture setup
