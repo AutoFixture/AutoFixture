@@ -256,12 +256,14 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Theory]
-        [InlineData(typeof(object))]
-        [InlineData(typeof(string))]
-        public void VerifyMethodIgnoresEquals(Type type)
+        [InlineData(typeof(object), typeof(object))]
+        [InlineData(typeof(string), typeof(object))]
+        [InlineData(typeof(string), typeof(string))]
+        [InlineData(typeof(Version), typeof(Version))]
+        public void VerifyMethodIgnoresEquals(Type type, Type argumentType)
         {
             // Fixture setup
-            var method = type.GetMethod("Equals", new[] { typeof(object) });
+            var method = type.GetMethod("Equals", new[] { argumentType });
 
             var invoked = false;
             var expectation = new DelegatingBehaviorExpectation { OnVerify = c => invoked = true };
@@ -385,7 +387,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         private static bool IsNotEqualsMethod(MethodInfo method)
         {
-            return !typeof(object).GetMethod("Equals", new[] { typeof(object) }).Equals(method.GetBaseDefinition());
+            return method.Name != "Equals";
         }
 
         private class MethodData : IEnumerable<object[]>
