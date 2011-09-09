@@ -27,9 +27,9 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new RangedNumberGenerator();
-            var context = new DelegatingSpecimenContext();
+            var dummyContext = new DelegatingSpecimenContext();
             // Exercise system
-            var result = sut.Create(null, context);
+            var result = sut.Create(null, dummyContext);
             // Verify outcome
             Assert.Equal(new NoSpecimen(), result);
             // Teardown
@@ -40,9 +40,9 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new RangedNumberGenerator();
-            var request = new object();
+            var dummyRequest = new object();
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => sut.Create(request, null));
+            Assert.Throws<ArgumentNullException>(() => sut.Create(dummyRequest, null));
             // Teardown
         }
 
@@ -51,12 +51,12 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new RangedNumberGenerator();
-            var request = new object();
-            var context = new DelegatingSpecimenContext();
+            var dummyRequest = new object();
+            var dummyContext = new DelegatingSpecimenContext();
             // Exercise system
-            var result = sut.Create(request, context);
+            var result = sut.Create(dummyRequest, dummyContext);
             // Verify outcome
-            Assert.Equal(new NoSpecimen(request), result);
+            Assert.Equal(new NoSpecimen(dummyRequest), result);
             // Teardown
         }
 

@@ -29,8 +29,8 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             // Fixture setup
             var sut = new RangeAttributeRelay();
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(null, dummyContainer);
+            var dummyContext = new DelegatingSpecimenContext();
+            var result = sut.Create(null, dummyContext);
             // Verify outcome
             Assert.Equal(new NoSpecimen(), result);
             // Teardown
@@ -53,12 +53,12 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         {
             // Fixture setup
             var sut = new MultipleRelay();
-            var request = new object();
+            var dymmyRequest = new object();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(request, dummyContainer);
+            var result = sut.Create(dymmyRequest, dummyContainer);
             // Verify outcome
-            var expectedResult = new NoSpecimen(request);
+            var expectedResult = new NoSpecimen(dymmyRequest);
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -92,16 +92,16 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             ICustomAttributeProvider request = type.GetProperty("Property");
             var rangeAttribute = request.GetCustomAttributes(typeof(RangeAttribute), inherit: true).Cast<RangeAttribute>().FirstOrDefault();
             var expectedRequest = new RangedNumberRequest(rangeAttribute.OperandType, rangeAttribute.Minimum, rangeAttribute.Maximum);
-            object rangedResult = new object();
+            object expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => expectedRequest.Equals(r) ? rangedResult : new NoSpecimen(r)
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen(r)
             };
             var sut = new RangeAttributeRelay();
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome
-            Assert.Equal(rangedResult, result);
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
     }
