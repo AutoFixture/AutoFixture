@@ -85,14 +85,16 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData(typeof(RangeValidatedType))]
-        public void CreateWithRangeAttributeRequestReturnsCorrectResult(Type type)
+        [InlineData(typeof(RangeValidatedType), "Property")]
+        public void CreateWithRangeAttributeRequestReturnsCorrectResult(Type type, string name)
         {
             // Fixture setup
-            ICustomAttributeProvider request = type.GetProperty("Property");
-            var rangeAttribute = request.GetCustomAttributes(typeof(RangeAttribute), inherit: true).Cast<RangeAttribute>().FirstOrDefault();
+            var rangeAttribute = type.GetProperty(name)
+                .GetCustomAttributes(typeof(RangeAttribute), true).Cast<RangeAttribute>().SingleOrDefault();
+            var providedAttribute = new ProvidedAttribute(rangeAttribute, true);
+            ICustomAttributeProvider request = new FakeCustomAttributeProvider(providedAttribute);
             var expectedRequest = new RangedNumberRequest(rangeAttribute.OperandType, rangeAttribute.Minimum, rangeAttribute.Maximum);
-            object expectedResult = new object();
+            var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen(r)
