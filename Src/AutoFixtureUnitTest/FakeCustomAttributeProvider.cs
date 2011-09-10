@@ -30,7 +30,9 @@ namespace Ploeh.AutoFixtureUnitTest
 
         public bool IsDefined(Type attributeType, bool inherit)
         {
-            return typeof(FakeCustomAttributeProvider).IsDefined(attributeType, inherit);
+            return (from p in this.providedAttributes
+                    where p.Attribute.GetType() == attributeType && p.Inherited == inherit
+                    select p.Attribute).Any();
         }
     }
 }

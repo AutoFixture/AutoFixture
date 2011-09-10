@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture.DataAnnotations;
 using Ploeh.AutoFixture.Kernel;
@@ -85,12 +84,18 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData(typeof(RangeValidatedType), "Property")]
-        public void CreateWithRangeAttributeRequestReturnsCorrectResult(Type type, string name)
+        [InlineData(typeof(int), 10, 20)]
+        [InlineData(typeof(int), -2, -1)]
+        [InlineData(typeof(decimal), 10, 20)]
+        [InlineData(typeof(decimal), -2, -1)]
+        [InlineData(typeof(double), 10, 20)]
+        [InlineData(typeof(double), -2, -1)]
+        [InlineData(typeof(long), 10, 20)]
+        [InlineData(typeof(long), -2, -1)]
+        public void CreateWithRangeAttributeRequestReturnsCorrectResult(Type type, object minimum, object maximum)
         {
             // Fixture setup
-            var rangeAttribute = type.GetProperty(name)
-                .GetCustomAttributes(typeof(RangeAttribute), true).Cast<RangeAttribute>().SingleOrDefault();
+            var rangeAttribute = new RangeAttribute(type, minimum.ToString(), maximum.ToString());
             var providedAttribute = new ProvidedAttribute(rangeAttribute, true);
             ICustomAttributeProvider request = new FakeCustomAttributeProvider(providedAttribute);
             var expectedRequest = new RangedNumberRequest(rangeAttribute.OperandType, rangeAttribute.Minimum, rangeAttribute.Maximum);
