@@ -64,6 +64,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -83,11 +84,17 @@
     <Compile Include="ByteSequenceGeneratorTest.cs" />
     <Compile Include="CurrentDateTimeCustomizationTest.cs" />
     <Compile Include="CurrentDateTimeGeneratorTest.cs" />
+    <Compile Include="FakeCustomAttributeProvider.cs" />
+    <Compile Include="DataAnnotations\RangeAttributeRelayTest.cs" />
+    <Compile Include="DataAnnotations\RangeValidatedType.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="CollectionFillerTest.cs" />
     <Compile Include="CompositeCustomizationTest.cs" />
     <Compile Include="DateTimeGeneratorTest.cs" />
     <Compile Include="GeneratorTest.cs" />
+    <Compile Include="Kernel\RangedNumberRequestTest.cs" />
+    <Compile Include="ProvidedAttribute.cs" />
+    <Compile Include="RangedNumberGeneratorTest.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGeneratorTest.cs" />
     <Compile Include="DefaultPrimitiveBuildersTest.cs" />
     <Compile Include="DelegatingCustomization.cs" />

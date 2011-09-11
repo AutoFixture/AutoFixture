@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.DataAnnotations;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
@@ -29,6 +30,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 typeof(ArrayRelay),
                 typeof(MethodInvoker),
                 typeof(ParameterRequestRelay),
+                typeof(RangeAttributeRelay),
                 typeof(PropertyRequestRelay),
                 typeof(FieldRequestRelay),
                 typeof(MultipleRelay),

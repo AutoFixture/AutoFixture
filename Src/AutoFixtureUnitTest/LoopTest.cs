@@ -15,6 +15,11 @@ namespace Ploeh.AutoFixtureUnitTest
 
         public void Execute(int loopCount)
         {
+            Execute(loopCount, (TResult)Convert.ChangeType(loopCount, typeof(TResult)));
+        }
+
+        public void Execute(int loopCount, TResult expectedResult)
+        {
             // Fixture setup
             TSut sut = new TSut();
             // Exercise system
@@ -24,7 +29,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 result = this.create(sut);
             }
             // Verify outcome
-            Assert.Equal<TResult>((TResult)Convert.ChangeType(loopCount, typeof(TResult)), result);
+            Assert.Equal<TResult>(expectedResult, result);
             // Teardown
         }
     }
