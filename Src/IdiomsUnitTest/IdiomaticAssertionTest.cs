@@ -161,7 +161,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var expectedCtors = type.GetConstructors();
             var mockVerified = false;
-            var sut = new DelegatingIdiomaticAssertion { OnConstructorInfoArrayVerify = c => mockVerified = expectedCtors.SequenceEqual(c) };
+            var sut = new DelegatingIdiomaticAssertion { OnConstructorInfoArrayVerify = c => mockVerified = expectedCtors.IsEquivalentTo(c) };
             // Exercise system
             sut.Verify(type);
             // Verify outcome
@@ -179,7 +179,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var expectedMethods = type.GetMethods().Except(type.GetProperties().SelectMany(p => p.GetAccessors()));
             var mockVerified = false;
-            var sut = new DelegatingIdiomaticAssertion { OnMethodInfosVerify = m => mockVerified = expectedMethods.SequenceEqual(m) };
+            var sut = new DelegatingIdiomaticAssertion { OnMethodInfosVerify = m => mockVerified = expectedMethods.IsEquivalentTo(m) };
             // Exercise system
             sut.Verify(type);
             // Verify outcome
@@ -197,7 +197,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var expectedProperties = type.GetProperties();
             var mockVerified = false;
-            var sut = new DelegatingIdiomaticAssertion { OnPropertyInfoArrayVerify = p => mockVerified = expectedProperties.SequenceEqual(p) };
+            var sut = new DelegatingIdiomaticAssertion { OnPropertyInfoArrayVerify = p => mockVerified = expectedProperties.IsEquivalentTo(p) };
             // Exercise system
             sut.Verify(type);
             // Verify outcome
