@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -1294,30 +1295,30 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithRangeValidatedTypeWillAssignValidValues()
+        public void CreateAnonymousWithRangeValidatedTypeReturnsCorrectResult()
         {
             // Fixture setup
             var fixture = new Fixture();
             var result = fixture.CreateAnonymous<RangeValidatedType>();
             // Verify outcome
             Assert.NotNull(result);
-            Assert.True(result.Property >= 10 && result.Property <=20);
+            Assert.True(result.Property >= 10 && result.Property <= 20);
             // Teardown
         }
 
         [Fact]
-        public void CreateAnonymousWithRangeValidatedTypeWillAssignValidValuesMultipleCall()
+        public void CreateAnonymousWithRangeValidatedTypeReturnsCorrectResultMultipleCall()
         {
             // Fixture setup
             var fixture = new Fixture();
-            var numbers = new List<int>();
-            int loopCount = 33;
-            for (int i = 0; i < loopCount; i++)
-            {
-                numbers.Add(fixture.CreateAnonymous<RangeValidatedType>().Property);
-            }
+            var expectedAttribute = typeof(RangeValidatedType).GetProperty("Property")
+               .GetCustomAttributes(typeof(RangeAttribute), true).Cast<RangeAttribute>().SingleOrDefault();
+            // Exercise system
+            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.CreateAnonymous<RangeValidatedType>().Property)
+                          where (n < (int)expectedAttribute.Minimum && n > (int)expectedAttribute.Maximum)
+                          select n);
             // Verify outcome
-            Assert.Equal(loopCount, (from n in numbers where (n > 9 && n < 21) select n).Count());
+            Assert.False(result.Any());
             // Teardown
         }
 
