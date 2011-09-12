@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.DataAnnotations;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.DataAnnotations;
@@ -1303,6 +1302,22 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             Assert.NotNull(result);
             Assert.True(result.Property >= 10 && result.Property <=20);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithRangeValidatedTypeWillAssignValidValuesMultipleCall()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var numbers = new List<int>();
+            int loopCount = 33;
+            for (int i = 0; i < loopCount; i++)
+            {
+                numbers.Add(fixture.CreateAnonymous<RangeValidatedType>().Property);
+            }
+            // Verify outcome
+            Assert.Equal(loopCount, (from n in numbers where (n > 9 && n < 21) select n).Count());
             // Teardown
         }
 

@@ -87,6 +87,10 @@ namespace Ploeh.AutoFixture
                 {
                     this.rangedValue = minimum;
                 }
+                else if (minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) <= 0)
+                {
+                    this.rangedValue = minimum;
+                }
                 else
                 {
                     this.rangedValue = RangedNumberGenerator.Add(minimum, value);

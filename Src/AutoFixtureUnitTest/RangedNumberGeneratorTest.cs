@@ -105,14 +105,17 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
-        [InlineData(11, 1)]
-        [InlineData(12, 2)]
-        [InlineData(13, 3)]
-        public void CreateReturnsCorrectResultWhenRunOutOfNumbers(int loopCount, int expectedResult)
+        [InlineData(1, 10, 11, 1)]
+        [InlineData(1, 10, 12, 2)]
+        [InlineData(1, 10, 13, 3)]
+        [InlineData(10, 20, 11, 20)]
+        [InlineData(10, 20, 12, 10)]
+        [InlineData(10, 20, 13, 11)]
+        public void CreateReturnsCorrectResultWhenRunOutOfNumbers(int minimum, int maximum, int loopCount, int expectedResult)
         {
             // Fixture setup
             var numbers = new Random();
-            var request = new RangedNumberRequest(typeof(int), 1, 10);
+            var request = new RangedNumberRequest(typeof(int), minimum, maximum);
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r =>
