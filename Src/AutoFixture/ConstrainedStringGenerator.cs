@@ -56,7 +56,7 @@ namespace Ploeh.AutoFixture
             lock (this.syncRoot)
             {
                 var s = string.Empty;
-                while (s.Length < 1)
+                while (s.Length >= maximumLength)
                 {
                     s += context.Resolve(typeof(string));
                 }
