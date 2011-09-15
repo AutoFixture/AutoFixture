@@ -7,30 +7,30 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class ConstrainedStringRequest : IEquatable<ConstrainedStringRequest>
     {
-        private readonly int maximum;
+        private readonly int maximumLength;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstrainedStringRequest"/> class.
         /// </summary>
-        /// <param name="maximum">The maximum.</param>
-        public ConstrainedStringRequest(int maximum)
+        /// <param name="maximumLength">The maximum.</param>
+        public ConstrainedStringRequest(int maximumLength)
         {
-            if (maximum < 1)
+            if (maximumLength < 1)
             {
-                throw new ArgumentOutOfRangeException("maximum", "Maximum must be equal or greater than 1.");
+                throw new ArgumentOutOfRangeException("maximumLength", "Maximum length must be equal or greater than 1.");
             }
 
-            this.maximum = maximum;
+            this.maximumLength = maximumLength;
         }
 
         /// <summary>
-        /// Gets the maximum value.
+        /// Gets the maximum length.
         /// </summary>
-        public int Maximum
+        public int MaximumLength
         {
             get
             {
-                return this.maximum;
+                return this.maximumLength;
             }
         }
 
@@ -63,7 +63,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public override int GetHashCode()
         {
-            return this.Maximum.GetHashCode();
+            return this.MaximumLength.GetHashCode();
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return false;
             }
 
-            return this.Maximum == other.Maximum;
+            return this.MaximumLength == other.MaximumLength;
         }
     }
 }

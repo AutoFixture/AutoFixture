@@ -8,15 +8,15 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
     public class ConstrainedStringRequestTest
     {
         [Fact]
-        public void MaximumIsCorrect()
+        public void MaximumLengthIsCorrect()
         {
             // Fixture setup
-            var expectedMaximum = 3;
-            var sut = new ConstrainedStringRequest(expectedMaximum);
+            var expectedMaximumLength = 3;
+            var sut = new ConstrainedStringRequest(expectedMaximumLength);
             // Exercise system
-            var result = sut.Maximum;
+            var result = sut.MaximumLength;
             // Verify outcome
-            Assert.Equal(expectedMaximum, result);
+            Assert.Equal(expectedMaximumLength, result);
             // Teardown
         }
 
@@ -25,12 +25,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(-1)]
         [InlineData(-2)]
         [InlineData(-3)]
-        public void CreateWithMaximumLowerThanOneWillThrow(int maximum)
+        public void CreateWithMaximumLengthLowerThanOneWillThrow(int maximumLength)
         {
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentOutOfRangeException>(() =>
-                new ConstrainedStringRequest(maximum));
+                new ConstrainedStringRequest(maximumLength));
             // Teardown
         }
 
@@ -38,11 +38,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void CreateWithMaximumEqualsOrGreaterThanOneWillDoesNotThrow(int maximum)
+        public void CreateWithMaximumLengthEqualsOrGreaterThanOneWillDoesNotThrow(int maximumLength)
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => new ConstrainedStringRequest(maximum));
+            Assert.DoesNotThrow(() => new ConstrainedStringRequest(maximumLength));
             // Teardown
         }
 
@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void SutDoesNotEqualOtherObjectWhenMaximumsDiffer()
+        public void SutDoesNotEqualOtherObjectWhenMaximumLengthsDiffer()
         {
             // Fixture setup
             var sut = new ConstrainedStringRequest(3);
@@ -110,7 +110,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void SutDoesNotEqualOtherSutWhenMaximumsDiffer()
+        public void SutDoesNotEqualOtherSutWhenMaximumLengthsDiffer()
         {
             // Fixture setup
             var sut = new ConstrainedStringRequest(3);
@@ -126,9 +126,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutEqualsOtherObjectWhenConstructorParametersEquals()
         {
             // Fixture setup
-            int maximum = 3;
-            var sut = new ConstrainedStringRequest(maximum);
-            object other = new ConstrainedStringRequest(maximum);
+            int maximumLength = 3;
+            var sut = new ConstrainedStringRequest(maximumLength);
+            object other = new ConstrainedStringRequest(maximumLength);
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
@@ -140,9 +140,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutEqualsOtherSutWhenConstructorParametersEquals()
         {
             // Fixture setup
-            int maximum = 3;
-            var sut = new ConstrainedStringRequest(maximum);
-            var other = new ConstrainedStringRequest(maximum);
+            int maximumLength = 3;
+            var sut = new ConstrainedStringRequest(maximumLength);
+            var other = new ConstrainedStringRequest(maximumLength);
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
@@ -154,9 +154,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void GetHashCodeWillReturnCorrectResult()
         {
             // Fixture setup
-            int maximum = 3;
-            var sut = new ConstrainedStringRequest(maximum);
-            var expectedHashCode = maximum.GetHashCode();
+            int maximumLength = 3;
+            var sut = new ConstrainedStringRequest(maximumLength);
+            var expectedHashCode = maximumLength.GetHashCode();
             // Exercise system
             var result = sut.GetHashCode();
             // Verify outcome
