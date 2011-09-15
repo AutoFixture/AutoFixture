@@ -97,6 +97,7 @@
     <Compile Include="BehaviorPostprocessComposer.cs" />
     <Compile Include="CollectionFiller.cs" />
     <Compile Include="CompositeCustomization.cs" />
+    <Compile Include="ConstrainedStringGenerator.cs" />
     <Compile Include="CurrentDateTimeCustomization.cs" />
     <Compile Include="CurrentDateTimeGenerator.cs" />
     <Compile Include="DataAnnotations\RangeAttributeRelay.cs" />
