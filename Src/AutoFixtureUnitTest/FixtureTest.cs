@@ -1323,6 +1323,34 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousWithStringLengthValidatedTypeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var result = fixture.CreateAnonymous<StringLengthValidatedType>();
+            // Verify outcome
+            Assert.NotNull(result);
+            Assert.True(result.Property.Length <= 3);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithStringLengthValidatedReturnsCorrectResultMultipleCall()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var expectedAttribute = typeof(StringLengthValidatedType).GetProperty("Property")
+               .GetCustomAttributes(typeof(StringLengthAttribute), true).Cast<StringLengthAttribute>().SingleOrDefault();
+            // Exercise system
+            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.CreateAnonymous<StringLengthValidatedType>().Property.Length)
+                          where (n > expectedAttribute.MaximumLength)
+                          select n);
+            // Verify outcome
+            Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
         public void DefaultRepeatCountIsThree()
         {
             // Fixture setup
