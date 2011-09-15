@@ -51,7 +51,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         public void CreateWithAnonymousRequestReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = new MultipleRelay();
+            var sut = new RangeAttributeRelay();
             var dymmyRequest = new object();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         [InlineData(typeof(string))]
         [InlineData(typeof(int))]
         [InlineData(typeof(Version))]
-        public void CreateWithNoneRangeAttributeRequestReturnsCorrectResult(object request)
+        public void CreateWithNonRangeAttributeRequestReturnsCorrectResult(object request)
         {
             // Fixture setup
             var sut = new RangeAttributeRelay();
