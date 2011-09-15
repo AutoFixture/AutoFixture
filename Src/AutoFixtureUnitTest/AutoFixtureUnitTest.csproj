@@ -84,6 +84,7 @@
     <Compile Include="ByteSequenceGeneratorTest.cs" />
     <Compile Include="CurrentDateTimeCustomizationTest.cs" />
     <Compile Include="CurrentDateTimeGeneratorTest.cs" />
+    <Compile Include="DataAnnotations\StringLengthValidatedType.cs" />
     <Compile Include="FakeCustomAttributeProvider.cs" />
     <Compile Include="DataAnnotations\RangeAttributeRelayTest.cs" />
     <Compile Include="DataAnnotations\RangeValidatedType.cs" />
