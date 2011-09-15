@@ -93,6 +93,7 @@
     <Compile Include="CompositeCustomizationTest.cs" />
     <Compile Include="DateTimeGeneratorTest.cs" />
     <Compile Include="GeneratorTest.cs" />
+    <Compile Include="Kernel\ConstrainedStringRequestTest.cs" />
     <Compile Include="Kernel\RangedNumberRequestTest.cs" />
     <Compile Include="ProvidedAttribute.cs" />
     <Compile Include="RangedNumberGeneratorTest.cs" />
