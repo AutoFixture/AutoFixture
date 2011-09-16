@@ -11,10 +11,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void MaximumLengthIsCorrect(int maximumLength)
+        public void MaximumLengthIsCorrect(int expectedMaximumLength)
         {
             // Fixture setup
-            var expectedMaximumLength = maximumLength;
             var sut = new ConstrainedStringRequest(expectedMaximumLength);
             // Exercise system
             var result = sut.MaximumLength;
