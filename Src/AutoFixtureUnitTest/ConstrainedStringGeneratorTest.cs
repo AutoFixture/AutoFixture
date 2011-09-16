@@ -59,35 +59,85 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(2, 5)]
-        [InlineData(5, 2)]
-        [InlineData(9, 9)]
-        public void CreateReturnsCorrectResultOnMultipleCall(int maximumLength, int loopCount)
+        [Fact]
+        public void CreateReturnsResultWithCorrectType()
         {
             // Fixture setup
-            var dummyString = Guid.NewGuid().ToString();
-            var request = new ConstrainedStringRequest(maximumLength);
+            int maximumLength = new Random().Next(1, 10);
+            var expectedRequest = new ConstrainedStringRequest(maximumLength);
+            Type expectedType = typeof(string);
+            object expectedResult = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r =>
-                {
-                    Assert.Equal(request.MaximumLength, maximumLength);
-                    Assert.Equal(typeof(string), r);
-                    return dummyString;
-                }
+                OnResolve = r => expectedType.Equals(r) ? expectedResult : new NoSpecimen(r)
             };
             var sut = new ConstrainedStringGenerator();
             // Exercise system
-            var result = (from n in Enumerable.Range(1, loopCount)
-                              .Select(i =>
-                              {
-                                  string s = (string)sut.Create(request, context);
-                                  Assert.True(dummyString.Contains(s));
-                                  return s.Length;
-                              })
-                          where (n > request.MaximumLength)
-                          select n);
+            var result = sut.Create(expectedRequest, context);
+            // Verify outcome
+            Assert.IsAssignableFrom(expectedType, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateReturnsStringReceivedFromContext()
+        {
+            // Fixture setup
+            int maximumLength = new Random().Next(1, 10);
+            var expectedRequest = new ConstrainedStringRequest(maximumLength);
+            Type expectedType = typeof(string);
+            object contextValue = Guid.NewGuid().ToString();
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => expectedType.Equals(r) ? contextValue : new NoSpecimen(r)
+            };
+            var sut = new ConstrainedStringGenerator();
+            // Exercise system and verify outcome
+            var result = (string)sut.Create(expectedRequest, context);
+            Assert.True(contextValue.ToString().Contains(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateReturnsStringWithCorrectLength()
+        {
+            // Fixture setup
+            int expectedMaximumLength = new Random().Next(1, 10);
+            var expectedRequest = new ConstrainedStringRequest(expectedMaximumLength);
+            Type expectedType = typeof(string);
+            object expectedResult = Guid.NewGuid().ToString();
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => expectedType.Equals(r) ? expectedResult : new NoSpecimen(r)
+            };
+            var sut = new ConstrainedStringGenerator();
+            // Exercise system
+            var result = (string)sut.Create(expectedRequest, context);
+            // Verify outcome
+            Assert.Equal(expectedMaximumLength, result.Length);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(5)]
+        [InlineData(2)]
+        [InlineData(9)]
+        public void CreateReturnsStringWithCorrectLengthMultipleCall(int loopCount)
+        {
+            // Fixture setup
+            int maximumLength = new Random().Next(1, 10);
+            var expectedRequest = new ConstrainedStringRequest(maximumLength);
+            Type expectedType = typeof(string);
+            object expectedResult = Guid.NewGuid().ToString();
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => expectedType.Equals(r) ? expectedResult : new NoSpecimen(r)
+            };
+            var sut = new ConstrainedStringGenerator();
+            // Exercise system
+            var result = (from s in Enumerable.Range(1, loopCount).Select(i => (string)sut.Create(expectedRequest, context))
+                          where (s.Length > expectedRequest.MaximumLength)
+                          select s);
             // Verify outcome
             Assert.False(result.Any());
             // Teardown
