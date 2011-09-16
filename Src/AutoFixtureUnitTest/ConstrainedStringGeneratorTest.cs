@@ -66,18 +66,26 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateReturnsCorrectResultOnMultipleCall(int maximumLength, int loopCount)
         {
             // Fixture setup
+            var dummyString = Guid.NewGuid().ToString();
             var request = new ConstrainedStringRequest(maximumLength);
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r =>
                 {
                     Assert.Equal(request.MaximumLength, maximumLength);
-                    return maximumLength;
+                    Assert.Equal(typeof(string), r);
+                    return dummyString;
                 }
             };
             var sut = new ConstrainedStringGenerator();
             // Exercise system
-            var result = (from n in Enumerable.Range(1, loopCount).Select(i => ((string)sut.Create(request, context)).Length)
+            var result = (from n in Enumerable.Range(1, loopCount)
+                              .Select(i =>
+                              {
+                                  string s = (string)sut.Create(request, context);
+                                  Assert.True(dummyString.Contains(s));
+                                  return s.Length;
+                              })
                           where (n > request.MaximumLength)
                           select n);
             // Verify outcome

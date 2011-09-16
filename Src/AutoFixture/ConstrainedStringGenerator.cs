@@ -8,18 +8,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class ConstrainedStringGenerator : ISpecimenBuilder
     {
-        private readonly object syncRoot;
-        private string constrainedString;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RangedNumberGenerator"/> class.
-        /// </summary>
-        public ConstrainedStringGenerator()
-        {
-            this.syncRoot = new object();
-            this.constrainedString = string.Empty;
-        }
-
         /// <summary>
         /// Creates a constrained string based on a ConstrainedStringRequest.
         /// </summary>
@@ -46,27 +34,24 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            this.CreateAnonymous(constrain.MaximumLength, context);
-
-            return this.constrainedString;
+            return ConstrainedStringGenerator.CreateAnonymous(constrain.MaximumLength, context);
         }
 
-        private void CreateAnonymous(int maximumLength, ISpecimenContext context)
+        private static string CreateAnonymous(int maximumLength, ISpecimenContext context)
         {
-            lock (this.syncRoot)
-            {
-                var s = string.Empty;
-                while (s.Length >= maximumLength)
-                {
-                    s += context.Resolve(typeof(string));
-                }
-                if (s.Length > maximumLength)
-                {
-                    s = s.Substring(0, maximumLength);
-                }
+            var s = string.Empty;
 
-                this.constrainedString = s;
+            while (s.Length < maximumLength)
+            {
+                s += context.Resolve(typeof(string));
             }
+
+            if (s.Length > maximumLength)
+            {
+                s = s.Substring(0, maximumLength);
+            }
+
+            return s;
         }
     }
 }
