@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -1301,8 +1300,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             var result = fixture.CreateAnonymous<RangeValidatedType>();
             // Verify outcome
-            Assert.NotNull(result);
-            Assert.True(result.Property >= 10 && result.Property <= 20);
+            Assert.True(result.Property >= RangeValidatedType.Minimum && result.Property <= RangeValidatedType.Maximum);
             // Teardown
         }
 
@@ -1311,11 +1309,9 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var expectedAttribute = typeof(RangeValidatedType).GetProperty("Property")
-               .GetCustomAttributes(typeof(RangeAttribute), true).Cast<RangeAttribute>().SingleOrDefault();
             // Exercise system
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.CreateAnonymous<RangeValidatedType>().Property)
-                          where (n < (int)expectedAttribute.Minimum && n > (int)expectedAttribute.Maximum)
+                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
                           select n);
             // Verify outcome
             Assert.False(result.Any());
@@ -1329,8 +1325,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             var result = fixture.CreateAnonymous<StringLengthValidatedType>();
             // Verify outcome
-            Assert.NotNull(result);
-            Assert.True(result.Property.Length <= 3);
+            Assert.True(result.Property.Length <= StringLengthValidatedType.MaximumLength);
             // Teardown
         }
 
@@ -1339,11 +1334,9 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var expectedAttribute = typeof(StringLengthValidatedType).GetProperty("Property")
-               .GetCustomAttributes(typeof(StringLengthAttribute), true).Cast<StringLengthAttribute>().SingleOrDefault();
             // Exercise system
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.CreateAnonymous<StringLengthValidatedType>().Property.Length)
-                          where (n > expectedAttribute.MaximumLength)
+                          where (n > StringLengthValidatedType.MaximumLength)
                           select n);
             // Verify outcome
             Assert.False(result.Any());
@@ -3017,10 +3010,10 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var residueCollector = new DelegatingSpecimenBuilder();
             residueCollector.OnCreate = (r, c) =>
-                {
-                    resolveWasInvoked = true;
-                    return new ConcreteType();
-                };
+            {
+                resolveWasInvoked = true;
+                return new ConcreteType();
+            };
 
             var sut = new Fixture();
             sut.ResidueCollectors.Add(residueCollector);
@@ -3818,4 +3811,3 @@ namespace Ploeh.AutoFixtureUnitTest
         }
     }
 }
-

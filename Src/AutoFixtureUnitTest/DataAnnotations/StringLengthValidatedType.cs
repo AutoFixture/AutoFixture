@@ -4,7 +4,9 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
 {
     public class StringLengthValidatedType
     {
-        [StringLength(3)]
+        public const int MaximumLength = 3;
+
+        [StringLength(MaximumLength)]
         public string Property { get; set; }
     }
 }

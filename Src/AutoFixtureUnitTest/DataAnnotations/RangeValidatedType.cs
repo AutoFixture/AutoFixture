@@ -4,7 +4,10 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
 {
     public class RangeValidatedType
     {
-        [Range(10, 20)]
+        public const int Minimum = 10;
+        public const int Maximum = 20;
+
+        [Range(Minimum, Maximum)]
         public int Property { get; set; }
     }
 }
