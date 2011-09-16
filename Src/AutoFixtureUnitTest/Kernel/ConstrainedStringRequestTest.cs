@@ -7,11 +7,14 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
     public class ConstrainedStringRequestTest
     {
-        [Fact]
-        public void MaximumLengthIsCorrect()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public void MaximumLengthIsCorrect(int maximumLength)
         {
             // Fixture setup
-            var expectedMaximumLength = 3;
+            var expectedMaximumLength = maximumLength;
             var sut = new ConstrainedStringRequest(expectedMaximumLength);
             // Exercise system
             var result = sut.MaximumLength;
@@ -31,18 +34,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system and verify outcome
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 new ConstrainedStringRequest(maximumLength));
-            // Teardown
-        }
-
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public void CreateWithMaximumLengthEqualsOrGreaterThanOneWillDoesNotThrow(int maximumLength)
-        {
-            // Fixture setup
-            // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => new ConstrainedStringRequest(maximumLength));
             // Teardown
         }
 
