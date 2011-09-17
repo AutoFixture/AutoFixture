@@ -44,8 +44,13 @@ namespace Ploeh.AutoFixture
             while (s.Length < maximumLength)
             {
                 s += context.Resolve(typeof(string));
+                
+                if (s.Length > 0)
+                {
+                    break;
+                }
             }
-
+            
             if (s.Length > maximumLength)
             {
                 s = s.Substring(0, maximumLength);
