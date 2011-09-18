@@ -38,6 +38,7 @@ namespace Ploeh.AutoFixture
                     new FactoryMethodQuery()));
             yield return new ParameterRequestRelay();
             yield return new RangeAttributeRelay();
+            yield return new StringLengthAttributeRelay();
             yield return new PropertyRequestRelay();            
             yield return new FieldRequestRelay();
             yield return this.multiple;

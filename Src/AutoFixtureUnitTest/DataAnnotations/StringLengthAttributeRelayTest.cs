@@ -9,14 +9,14 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
 {
-    public class RangeAttributeRelayTest
+    public class StringLengthAttributeRelayTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-            var sut = new RangeAttributeRelay();
+            var sut = new StringLengthAttributeRelay();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         public void CreateWithNullRequestReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = new RangeAttributeRelay();
+            var sut = new StringLengthAttributeRelay();
             // Exercise system
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(null, dummyContext);
@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         public void CreateWithNullContextThrows()
         {
             // Fixture setup
-            var sut = new RangeAttributeRelay();
+            var sut = new StringLengthAttributeRelay();
             var dummyRequest = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
@@ -51,7 +51,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         public void CreateWithAnonymousRequestReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = new RangeAttributeRelay();
+            var sut = new StringLengthAttributeRelay();
             var dymmyRequest = new object();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
@@ -70,10 +70,10 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         [InlineData(typeof(string))]
         [InlineData(typeof(int))]
         [InlineData(typeof(Version))]
-        public void CreateWithNonRangeAttributeRequestReturnsCorrectResult(object request)
+        public void CreateWithNonConstrainedStringRequestReturnsCorrectResult(object request)
         {
             // Fixture setup
-            var sut = new RangeAttributeRelay();
+            var sut = new StringLengthAttributeRelay();
             // Exercise system
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
@@ -84,27 +84,22 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData(typeof(int), 10, 20)]
-        [InlineData(typeof(int), -2, -1)]
-        [InlineData(typeof(decimal), 10, 20)]
-        [InlineData(typeof(decimal), -2, -1)]
-        [InlineData(typeof(double), 10, 20)]
-        [InlineData(typeof(double), -2, -1)]
-        [InlineData(typeof(long), 10, 20)]
-        [InlineData(typeof(long), -2, -1)]
-        public void CreateWithRangeAttributeRequestReturnsCorrectResult(Type type, object minimum, object maximum)
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public void CreateWithConstrainedStringRequestReturnsCorrectResult(int maximum)
         {
             // Fixture setup
-            var rangeAttribute = new RangeAttribute(type, minimum.ToString(), maximum.ToString());
-            var providedAttribute = new ProvidedAttribute(rangeAttribute, true);
+            var stringLengthAttribute = new StringLengthAttribute(maximum);
+            var providedAttribute = new ProvidedAttribute(stringLengthAttribute, true);
             ICustomAttributeProvider request = new FakeCustomAttributeProvider(providedAttribute);
-            var expectedRequest = new RangedNumberRequest(rangeAttribute.OperandType, rangeAttribute.Minimum, rangeAttribute.Maximum);
+            var expectedRequest = new ConstrainedStringRequest(stringLengthAttribute.MaximumLength);
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen(r)
             };
-            var sut = new RangeAttributeRelay();
+            var sut = new StringLengthAttributeRelay();
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome

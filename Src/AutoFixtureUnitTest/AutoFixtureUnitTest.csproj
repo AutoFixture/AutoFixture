@@ -82,8 +82,11 @@
     <Compile Include="BehaviorPostprocessComposerTest.cs" />
     <Compile Include="BooleanSwitchTest.cs" />
     <Compile Include="ByteSequenceGeneratorTest.cs" />
+    <Compile Include="ConstrainedStringGeneratorTest.cs" />
     <Compile Include="CurrentDateTimeCustomizationTest.cs" />
     <Compile Include="CurrentDateTimeGeneratorTest.cs" />
+    <Compile Include="DataAnnotations\StringLengthAttributeRelayTest.cs" />
+    <Compile Include="DataAnnotations\StringLengthValidatedType.cs" />
     <Compile Include="FakeCustomAttributeProvider.cs" />
     <Compile Include="DataAnnotations\RangeAttributeRelayTest.cs" />
     <Compile Include="DataAnnotations\RangeValidatedType.cs" />
@@ -92,6 +95,7 @@
     <Compile Include="CompositeCustomizationTest.cs" />
     <Compile Include="DateTimeGeneratorTest.cs" />
     <Compile Include="GeneratorTest.cs" />
+    <Compile Include="Kernel\ConstrainedStringRequestTest.cs" />
     <Compile Include="Kernel\RangedNumberRequestTest.cs" />
     <Compile Include="ProvidedAttribute.cs" />
     <Compile Include="RangedNumberGeneratorTest.cs" />
