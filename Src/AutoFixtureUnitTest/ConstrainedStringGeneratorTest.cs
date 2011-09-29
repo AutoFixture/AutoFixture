@@ -61,11 +61,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Theory, ClassData(typeof(MaximumLengthTestCases))]
-        public void CreateReturnsResultWithCorrectType(int maximumLength)
+        [Fact]
+        public void CreateReturnsResultWithCorrectType()
         {
             // Fixture setup
-            var request = new ConstrainedStringRequest(maximumLength);
+            var request = new ConstrainedStringRequest(1, 10);
             Type expectedType = typeof(string);
             object contextValue = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
@@ -80,11 +80,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Theory, ClassData(typeof(MaximumLengthTestCases))]
-        public void CreateReturnsStringReceivedFromContext(int maximumLength)
+        [Fact]
+        public void CreateReturnsStringReceivedFromContext()
         {
             // Fixture setup
-            var request = new ConstrainedStringRequest(maximumLength);
+            var request = new ConstrainedStringRequest(1, 10);
             object expectedValue = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
             {
@@ -97,11 +97,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Theory, ClassData(typeof(MaximumLengthTestCases))]
-        public void CreateReturnsStringWithCorrectLength(int expectedMaximumLength)
+        [Theory, ClassData(typeof(MinimumLengthMaximumLengthTestCases))]
+        public void CreateReturnsStringWithCorrectLength(int expectedMinimumLength, int expectedMaximumLength)
         {
             // Fixture setup
-            var request = new ConstrainedStringRequest(expectedMaximumLength);
+            var request = new ConstrainedStringRequest(expectedMinimumLength, expectedMaximumLength);
             object contextValue = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
             {
@@ -111,17 +111,12 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = (string)sut.Create(request, context);
             // Verify outcome
-            Assert.True(result.Length <= expectedMaximumLength);
+            Assert.True(expectedMinimumLength <= result.Length && expectedMaximumLength >= result.Length);
             // Teardown
         }
 
-        [Theory]
-        [InlineData(1, 10)]
-        [InlineData(3, 30)]
-        [InlineData(10, 9)]
-        [InlineData(30, 8)]
-        [InlineData(60, 7)]
-        public void CreateReturnsStringWithCorrectLengthMultipleCall(int maximumLength, int loopCount)
+        [Theory, ClassData(typeof(MinimumLengthMaximumLengthTestCases))]
+        public void CreateReturnsStringWithCorrectLengthMultipleCall(int minimumLength, int maximumLength)
         {
             // Fixture setup
             var request = new ConstrainedStringRequest(maximumLength);
@@ -132,24 +127,35 @@ namespace Ploeh.AutoFixtureUnitTest
             };
             var sut = new ConstrainedStringGenerator();
             // Exercise system
-            var result = (from s in Enumerable.Range(1, loopCount).Select(i => (string)sut.Create(request, context))
-                          where (s.Length > request.MaximumLength)
+            var result = (from s in Enumerable.Range(1, 30).Select(i => (string)sut.Create(request, context))
+                          where (s.Length < request.MinimumLength || s.Length > request.MaximumLength)
                           select s);
             // Verify outcome
             Assert.False(result.Any());
             // Teardown
         }
 
-        private sealed class MaximumLengthTestCases : IEnumerable<object[]>
+        private sealed class MinimumLengthMaximumLengthTestCases : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] { 3 };
-                yield return new object[] { 10 };
-                yield return new object[] { 20 };
-                yield return new object[] { 30 };
-                yield return new object[] { 60 };
-                yield return new object[] { 90 };
+                yield return new object[] {   0,   3 };
+                yield return new object[] {   0,  10 };
+                yield return new object[] {   0,  20 };
+                yield return new object[] {   0,  30 };
+                yield return new object[] {   0,  60 };
+                yield return new object[] {   0,  90 };
+                yield return new object[] {   3,  90 };
+                yield return new object[] {  10, 100 };
+                yield return new object[] {  20, 120 };
+                yield return new object[] {  30, 130 };
+                yield return new object[] {  60, 160 };
+                yield return new object[] {  90, 190 };
+                yield return new object[] { 100, 200 };
+                yield return new object[] { 120, 210 };
+                yield return new object[] { 130, 220 };
+                yield return new object[] { 160, 230 };
+                yield return new object[] { 190, 240 };
             }
 
             IEnumerator IEnumerable.GetEnumerator()
