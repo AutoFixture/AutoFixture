@@ -8,19 +8,52 @@ namespace Ploeh.AutoFixture.Kernel
     public class ConstrainedStringRequest : IEquatable<ConstrainedStringRequest>
     {
         private readonly int maximumLength;
+        private readonly int minimumLength;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConstrainedStringRequest"/> class.
+        /// </summary>
+        /// <param name="minimumLength">The minimum length.</param>
+        /// <param name="maximumLength">The maximum length.</param>
+        public ConstrainedStringRequest(int minimumLength, int maximumLength)
+        {
+            if (minimumLength < 0)
+            {
+                throw new ArgumentOutOfRangeException("minimumLength", "Minimum length must be equal or greater than 0.");
+            }
+
+            if (maximumLength < 0)
+            {
+                throw new ArgumentOutOfRangeException("maximumLength", "Maximum length must be equal or greater than 0.");
+            }
+
+            if (maximumLength < minimumLength)
+            {
+                throw new ArgumentOutOfRangeException("maximumLength", "Maximum length must be equal or greater than Minimum length.");
+            }
+
+            this.minimumLength = minimumLength;
+            this.maximumLength = maximumLength;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstrainedStringRequest"/> class.
         /// </summary>
         /// <param name="maximumLength">The maximum.</param>
         public ConstrainedStringRequest(int maximumLength)
+            : this(0, maximumLength)
         {
-            if (maximumLength < 0)
-            {
-                throw new ArgumentOutOfRangeException("maximumLength", "Maximum length must be equal or greater than 0.");
-            }
+        }
 
-            this.maximumLength = maximumLength;
+        /// <summary>
+        /// Gets the minimum length.
+        /// </summary>
+        public int MinimumLength
+        {
+            get
+            {
+                return this.minimumLength;
+            }
         }
 
         /// <summary>
@@ -63,7 +96,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public override int GetHashCode()
         {
-            return this.MaximumLength.GetHashCode();
+            return this.MinimumLength.GetHashCode() 
+                 ^ this.MaximumLength.GetHashCode();
         }
 
         /// <summary>
@@ -80,7 +114,8 @@ namespace Ploeh.AutoFixture.Kernel
                 return false;
             }
 
-            return this.MaximumLength == other.MaximumLength;
+            return this.MinimumLength == other.MinimumLength 
+                && this.MaximumLength == other.MaximumLength;
         }
     }
 }
