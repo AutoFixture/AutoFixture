@@ -15,9 +15,9 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="maximumLength">The maximum.</param>
         public ConstrainedStringRequest(int maximumLength)
         {
-            if (maximumLength < 1)
+            if (maximumLength < 0)
             {
-                throw new ArgumentOutOfRangeException("maximumLength", "Maximum length must be equal or greater than 1.");
+                throw new ArgumentOutOfRangeException("maximumLength", "Maximum length must be equal or greater than 0.");
             }
 
             this.maximumLength = maximumLength;

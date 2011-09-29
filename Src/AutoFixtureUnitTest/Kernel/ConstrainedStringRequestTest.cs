@@ -23,11 +23,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [InlineData(0)]
         [InlineData(-1)]
         [InlineData(-2)]
         [InlineData(-3)]
-        public void CreateWithMaximumLengthLowerThanOneWillThrow(int maximumLength)
+        public void CreateWithMaximumLengthLowerThanZeroWillThrow(int maximumLength)
         {
             // Fixture setup
             // Exercise system and verify outcome
