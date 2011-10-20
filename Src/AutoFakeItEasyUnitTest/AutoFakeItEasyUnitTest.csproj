@@ -8,8 +8,8 @@
     <ProjectGuid>{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AutoFakeItEasyUnitTest</RootNamespace>
-    <AssemblyName>AutoFakeItEasyUnitTest</AssemblyName>
+    <RootNamespace>Ploeh.AutoFixture.AutoFakeItEasy.UnitTest</RootNamespace>
+    <AssemblyName>Ploeh.AutoFixture.AutoFakeItEasy.UnitTest</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -44,6 +44,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DependencyConstraints.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

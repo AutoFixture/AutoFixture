@@ -8,8 +8,8 @@
     <ProjectGuid>{B6B79E32-EE90-4AE1-BD32-F50B5A0C2B40}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AutoFakeItEasy</RootNamespace>
-    <AssemblyName>AutoFakeItEasy</AssemblyName>
+    <RootNamespace>Ploeh.AutoFixture.AutoFakeItEasy</RootNamespace>
+    <AssemblyName>Ploeh.AutoFixture.AutoFakeItEasy</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -38,6 +38,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoFakeItEasyCustomization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
