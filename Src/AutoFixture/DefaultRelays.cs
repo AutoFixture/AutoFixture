@@ -43,7 +43,6 @@ namespace Ploeh.AutoFixture
             yield return new FieldRequestRelay();
             yield return new FiniteSequenceRelay();
             yield return new SeedIgnoringRelay();
-            yield return this.multiple;
         }
 
         /// <summary>
