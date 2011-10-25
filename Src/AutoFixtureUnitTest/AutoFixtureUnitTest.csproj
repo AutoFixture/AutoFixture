@@ -148,7 +148,6 @@
     <Compile Include="Kernel\ListFavoringConstructorQueryTest.cs" />
     <Compile Include="Kernel\ListRelayTest.cs" />
     <Compile Include="Kernel\ListSpecificationTest.cs" />
-    <Compile Include="Kernel\FakeMultiple.cs" />
     <Compile Include="Kernel\FixedBuilderTest.cs" />
     <Compile Include="Kernel\GreedyConstructorQueryTest.cs" />
     <Compile Include="Kernel\IllegalRequestExceptionTest.cs" />

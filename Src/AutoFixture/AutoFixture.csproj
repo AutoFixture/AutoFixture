@@ -152,7 +152,6 @@
     <Compile Include="Kernel\IConstructorQuery.cs" />
     <Compile Include="Kernel\IllegalRequestException.cs" />
     <Compile Include="Kernel\IMethod.cs" />
-    <Compile Include="Kernel\IMultiple.cs" />
     <Compile Include="Kernel\IntPtrGuard.cs" />
     <Compile Include="Kernel\ISpecimenBuilderComposer.cs" />
     <Compile Include="Dsl\ICustomizationComposer.cs" />
