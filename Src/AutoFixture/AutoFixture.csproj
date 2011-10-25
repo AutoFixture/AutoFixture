@@ -103,9 +103,11 @@
     <Compile Include="DataAnnotations\RangeAttributeRelay.cs" />
     <Compile Include="DataAnnotations\StringLengthAttributeRelay.cs" />
     <Compile Include="DateTimeGenerator.cs" />
+    <Compile Include="DefaultRelaysPipe.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Kernel\ConstrainedStringRequest.cs" />
+    <Compile Include="Kernel\ISpecimenBuilderPipe.cs" />
     <Compile Include="Kernel\RangedNumberRequest.cs" />
     <Compile Include="RangedNumberGenerator.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGenerator.cs" />
