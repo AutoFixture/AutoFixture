@@ -34,9 +34,9 @@ namespace Ploeh.AutoFixtureUnitTest
                 typeof(StringLengthAttributeRelay),
                 typeof(PropertyRequestRelay),
                 typeof(FieldRequestRelay),
-                typeof(MultipleRelay),
                 typeof(FiniteSequenceRelay),
-                typeof(SeedIgnoringRelay)
+                typeof(SeedIgnoringRelay),
+                typeof(MultipleRelay)
             };
             // Exercise system
             var sut = new DefaultRelays();
