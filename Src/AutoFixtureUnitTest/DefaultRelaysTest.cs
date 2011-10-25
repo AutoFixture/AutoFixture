@@ -55,30 +55,5 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.True(sut.Select(b => b.GetType()).SequenceEqual(result.Cast<object>().Select(o => o.GetType())));
             // Teardown
         }
-
-        [Fact]
-        public void SutIsMany()
-        {
-            // Fixture setup
-            // Exercise system
-            var sut = new DefaultRelays();
-            // Verify outcome
-            Assert.IsAssignableFrom<IMultiple>(sut);
-            // Teardown
-        }
-
-        [Fact]
-        public void CountIsProperWritableProperty()
-        {
-            // Fixture setup
-            var sut = new DefaultRelays();
-            var expectedCount = 912;
-            // Exercise system
-            sut.Count = expectedCount;
-            var result = sut.Count;
-            // Verify outcome
-            Assert.Equal(expectedCount, result);
-            // Teardown
-        }
     }
 }
