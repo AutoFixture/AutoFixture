@@ -18,5 +18,10 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return new[] { this.builder }.Concat(builders);
         }
+
+        public ISpecimenBuilder Builder
+        {
+            get { return this.builder; }
+        }
     }
 }

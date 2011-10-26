@@ -53,5 +53,18 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 sut.Pipe(null));
             // Teardown
         }
+
+        [Fact]
+        public void BuilderIsCorrect()
+        {
+            // Fixture setup
+            var expected = new DelegatingSpecimenBuilder();
+            var sut = new FixedPipe(expected);
+            // Exercise system
+            ISpecimenBuilder result = sut.Builder;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
     }
 }
