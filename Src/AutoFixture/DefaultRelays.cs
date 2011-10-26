@@ -32,10 +32,6 @@ namespace Ploeh.AutoFixture
         public virtual IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
             yield return new ArrayRelay();
-            yield return new MethodInvoker(
-                new CompositeMethodQuery(
-                    new ModestConstructorQuery(), 
-                    new FactoryMethodQuery()));
             yield return new ParameterRequestRelay();
             yield return new RangeAttributeRelay();
             yield return new StringLengthAttributeRelay();
@@ -44,6 +40,10 @@ namespace Ploeh.AutoFixture
             yield return new FiniteSequenceRelay();
             yield return new SeedIgnoringRelay();
             yield return this.multiple;
+            yield return new MethodInvoker(
+                new CompositeMethodQuery(
+                    new ModestConstructorQuery(),
+                    new FactoryMethodQuery()));
         }
 
         /// <summary>

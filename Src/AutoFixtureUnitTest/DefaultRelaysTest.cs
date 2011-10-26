@@ -28,7 +28,6 @@ namespace Ploeh.AutoFixtureUnitTest
             var expectedBuilderTypes = new[]
             {                
                 typeof(ArrayRelay),
-                typeof(MethodInvoker),
                 typeof(ParameterRequestRelay),
                 typeof(RangeAttributeRelay),
                 typeof(StringLengthAttributeRelay),
@@ -36,7 +35,8 @@ namespace Ploeh.AutoFixtureUnitTest
                 typeof(FieldRequestRelay),
                 typeof(FiniteSequenceRelay),
                 typeof(SeedIgnoringRelay),
-                typeof(MultipleRelay)
+                typeof(MultipleRelay),
+                typeof(MethodInvoker)
             };
             // Exercise system
             var sut = new DefaultRelays();
