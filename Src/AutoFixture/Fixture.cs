@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixture
         private readonly CompositeSpecimenBuilder customizer;
         private readonly ISpecimenBuilder engine;
         private readonly CompositeSpecimenBuilder residueCollector;
-        private readonly IMultiple multiple;
+        private readonly MultipleRelay multiple;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Fixture"/> class.
@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <param name="engineParts">The engine parts.</param>
         public Fixture(DefaultRelays engineParts)
-            : this(new CompositeSpecimenBuilder(engineParts), engineParts)
+            : this(new CompositeSpecimenBuilder(engineParts), new MultipleRelay())
         {
         }
 
@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <param name="engine">The engine.</param>
         /// <param name="multiple">The definition and implementation of 'many'.</param>
-        public Fixture(ISpecimenBuilder engine, IMultiple multiple)
+        public Fixture(ISpecimenBuilder engine, MultipleRelay multiple)
         {
             if (engine == null)
             {
@@ -253,7 +253,9 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public ISpecimenBuilder Compose()
         {
-            var builder = this.Engine;
+            ISpecimenBuilder builder = new CompositeSpecimenBuilder(
+                this.Engine,
+                this.multiple);
 
             if (this.EnableAutoProperties)
             {

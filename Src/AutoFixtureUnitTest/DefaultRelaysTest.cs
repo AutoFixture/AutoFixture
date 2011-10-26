@@ -35,7 +35,6 @@ namespace Ploeh.AutoFixtureUnitTest
                 typeof(FieldRequestRelay),
                 typeof(FiniteSequenceRelay),
                 typeof(SeedIgnoringRelay),
-                typeof(MultipleRelay),
                 typeof(MethodInvoker)
             };
             // Exercise system
@@ -54,59 +53,6 @@ namespace Ploeh.AutoFixtureUnitTest
             IEnumerable result = sut;
             // Verify outcome
             Assert.True(sut.Select(b => b.GetType()).SequenceEqual(result.Cast<object>().Select(o => o.GetType())));
-            // Teardown
-        }
-
-        [Fact]
-        public void SutIsMany()
-        {
-            // Fixture setup
-            // Exercise system
-            var sut = new DefaultRelays();
-            // Verify outcome
-            Assert.IsAssignableFrom<IMultiple>(sut);
-            // Teardown
-        }
-
-        [Fact]
-        public void CountIsProperWritableProperty()
-        {
-            // Fixture setup
-            var sut = new DefaultRelays();
-            var expectedCount = 912;
-            // Exercise system
-            sut.Count = expectedCount;
-            var result = sut.Count;
-            // Verify outcome
-            Assert.Equal(expectedCount, result);
-            // Teardown
-        }
-
-        [Fact]
-        public void SettingCountSetsCountOnManyRelay()
-        {
-            // Fixture setup
-            var sut = new DefaultRelays();
-            var expectedCount = 76;
-            // Exercise system
-            sut.Count = expectedCount;
-            // Verify outcome
-            var manyRelay = sut.OfType<MultipleRelay>().Single();
-            Assert.Equal(expectedCount, manyRelay.Count);
-            // Teardown
-        }
-
-        [Fact]
-        public void CountMatchesCountOnManyRelay()
-        {
-            // Fixture setup
-            var sut = new DefaultRelays();
-            var expectedCount = 149;
-            sut.OfType<MultipleRelay>().Single().Count = expectedCount;
-            // Exercise system
-            var result = sut.Count;
-            // Verify outcome
-            Assert.Equal(expectedCount, result);
             // Teardown
         }
     }
