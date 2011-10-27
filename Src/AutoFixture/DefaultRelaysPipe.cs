@@ -7,6 +7,7 @@ using Ploeh.AutoFixture.DataAnnotations;
 
 namespace Ploeh.AutoFixture
 {
+#warning Consider removing this class, as it may be redundant
     public class DefaultRelaysPipe : ISpecimenBuilderPipe
     {
         public IEnumerable<ISpecimenBuilder> Pipe(IEnumerable<ISpecimenBuilder> builders)
