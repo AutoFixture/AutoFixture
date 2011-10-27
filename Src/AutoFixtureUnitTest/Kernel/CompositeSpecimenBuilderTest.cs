@@ -126,7 +126,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(anonymousRequest, dummyContainer);
             // Verify outcome
-            Assert.IsAssignableFrom<NoSpecimen>(result);
+            var expected = new NoSpecimen(anonymousRequest);
+            Assert.Equal(expected, result);
             // Teardown
         }
 
