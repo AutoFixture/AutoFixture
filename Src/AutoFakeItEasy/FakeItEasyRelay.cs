@@ -7,7 +7,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
 {
     /// <summary>
     /// Relays a request for an interface or an abstract class to a request for a
-    /// <see cref="A{T}"/> of that class.
+    /// <see cref="Fake{T}"/> of that class.
     /// </summary>
     public class FakeItEasyRelay : ISpecimenBuilder
     {

@@ -1,0 +1,200 @@
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using FakeItEasy;
+using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
+using Xunit;
+using Xunit.Extensions;
+
+namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
+{
+    public class FakeItEasyConstructorQueryTest
+    {
+#pragma warning disable 618
+        [Fact]
+        public void SutIsConstructorQuery()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new FakeItEasyConstructorQuery();
+            // Verify outcome
+            Assert.IsAssignableFrom<IConstructorQuery>(sut);
+            // Teardown
+        }
+#pragma warning restore 618
+
+        [Fact]
+        public void SutIsMethodQuery()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new FakeItEasyConstructorQuery();
+            // Verify outcome
+            Assert.IsAssignableFrom<IMethodQuery>(sut);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(AbstractType))]
+        [InlineData(typeof(IInterface))]
+        [InlineData(typeof(Fake<>))]
+        public void SelectReturnsCorrectResultForNonMockTypes(Type t)
+        {
+            // Fixture setup
+            var sut = new FakeItEasyConstructorQuery();
+            // Exercise system
+            var result = sut.SelectConstructors(t);
+            // Verify outcome
+            Assert.Empty(result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(Fake<AbstractType>))]
+        [InlineData(typeof(Fake<ConcreteType>))]
+        [InlineData(typeof(Fake<MultiUnorderedConstructorType>))]
+        public void SelectReturnsCorrectNumberOfConstructorsForTypesWithConstructors(Type t)
+        {
+            // Fixture setup
+            var mockType = t.GetGenericArguments().Single();
+            var expectedCount = mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
+
+            var sut = new FakeItEasyConstructorQuery();
+            // Exercise system
+            var result = sut.SelectConstructors(t);
+            // Verify outcome
+            Assert.Equal(expectedCount, result.Count());
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(Fake<IInterface>))]
+        [InlineData(typeof(Fake<AbstractType>))]
+        [InlineData(typeof(Fake<ConcreteType>))]
+        [InlineData(typeof(Fake<MultiUnorderedConstructorType>))]
+        public void ConstructorsDefineCorrectParameters(Type t)
+        {
+            // Fixture setup
+            var mockType = t.GetGenericArguments().Single();
+            var mockTypeCtorArgs = from ci in mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                                   select ci.GetParameters();
+
+            var sut = new FakeItEasyConstructorQuery();
+            // Exercise system
+            var result = sut.SelectConstructors(t);
+            // Verify outcome
+            var actualArgs = from ci in result
+                             select ci.Parameters;
+            Assert.True(mockTypeCtorArgs.All(expectedParams =>
+                actualArgs.Any(expectedParams.SequenceEqual)));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(Fake<AbstractType>))]
+        [InlineData(typeof(Fake<ConcreteType>))]
+        [InlineData(typeof(Fake<MultiUnorderedConstructorType>))]
+        public void ConstructorsAreReturnedInCorrectOrder(Type t)
+        {
+            // Fixture setup
+            var mockType = t.GetGenericArguments().Single();
+            var mockTypeCtorArgCounts = from ci in mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                                        let paramCount = ci.GetParameters().Length
+                                        orderby paramCount ascending
+                                        select paramCount;
+
+            var sut = new FakeItEasyConstructorQuery();
+            // Exercise system
+            var result = sut.SelectConstructors(t);
+            // Verify outcome
+            var actualArgCounts = from ci in result
+                                  select ci.Parameters.Count();
+            Assert.True(mockTypeCtorArgCounts.SequenceEqual(actualArgCounts));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(AbstractType))]
+        [InlineData(typeof(IInterface))]
+        [InlineData(typeof(Fake<>))]
+        public void SelectMethodsReturnsCorrectResultForNonMockTypes(Type t)
+        {
+            // Fixture setup
+            var sut = new FakeItEasyConstructorQuery();
+            // Exercise system
+            var result = sut.SelectMethods(t);
+            // Verify outcome
+            Assert.Empty(result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(Fake<AbstractType>))]
+        [InlineData(typeof(Fake<ConcreteType>))]
+        [InlineData(typeof(Fake<MultiUnorderedConstructorType>))]
+        public void SelectMethodsReturnsCorrectNumberOfConstructorsForTypesWithConstructors(Type t)
+        {
+            // Fixture setup
+            var mockType = t.GetGenericArguments().Single();
+            var expectedCount = mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
+
+            var sut = new FakeItEasyConstructorQuery();
+            // Exercise system
+            var result = sut.SelectMethods(t);
+            // Verify outcome
+            Assert.Equal(expectedCount, result.Count());
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(Fake<IInterface>))]
+        [InlineData(typeof(Fake<AbstractType>))]
+        [InlineData(typeof(Fake<ConcreteType>))]
+        [InlineData(typeof(Fake<MultiUnorderedConstructorType>))]
+        public void MethodsDefineCorrectParameters(Type t)
+        {
+            // Fixture setup
+            var mockType = t.GetGenericArguments().Single();
+            var mockTypeCtorArgs = from ci in mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                                   select ci.GetParameters();
+
+            var sut = new FakeItEasyConstructorQuery();
+            // Exercise system
+            var result = sut.SelectMethods(t);
+            // Verify outcome
+            var actualArgs = from ci in result
+                             select ci.Parameters;
+            Assert.True(mockTypeCtorArgs.All(expectedParams =>
+                actualArgs.Any(expectedParams.SequenceEqual)));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(Fake<AbstractType>))]
+        [InlineData(typeof(Fake<ConcreteType>))]
+        [InlineData(typeof(Fake<MultiUnorderedConstructorType>))]
+        public void MethodsAreReturnedInCorrectOrder(Type t)
+        {
+            // Fixture setup
+            var mockType = t.GetGenericArguments().Single();
+            var mockTypeCtorArgCounts = from ci in mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                                        let paramCount = ci.GetParameters().Length
+                                        orderby paramCount ascending
+                                        select paramCount;
+
+            var sut = new FakeItEasyConstructorQuery();
+            // Exercise system
+            var result = sut.SelectMethods(t);
+            // Verify outcome
+            var actualArgCounts = from ci in result
+                                  select ci.Parameters.Count();
+            Assert.True(mockTypeCtorArgCounts.SequenceEqual(actualArgCounts));
+            // Teardown
+        }
+    }
+}
