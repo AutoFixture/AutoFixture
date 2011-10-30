@@ -7,10 +7,11 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
     public class DependencyConstraints
     {
         [Theory]
-        [InlineData("FakeItEasy")]
+        [InlineData("Rhino.Mocks")]
+        [InlineData("Moq")]
         [InlineData("xunit")]
         [InlineData("xunit.extensions")]
-        public void AutoMoqDoesNotReference(string assemblyName)
+        public void AutoFakeItEasyDoesNotReference(string assemblyName)
         {
             // Fixture setup
             // Exercise system
@@ -21,8 +22,9 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Theory]
-        [InlineData("FakeItEasy")]
-        public void AutoFixtureUnitTestsDoNotReference(string assemblyName)
+        [InlineData("Rhino.Mocks")]
+        [InlineData("Moq")]
+        public void AutoFakeItEasyUnitTestsDoNotReference(string assemblyName)
         {
             // Fixture setup
             // Exercise system
