@@ -1,6 +1,5 @@
 ﻿using System;
 using FakeItEasy;
-using FakeItEasy.Configuration;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoFakeItEasy
@@ -86,22 +85,26 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
                 return new NoSpecimen(request);
             }
 
-            return fake;
+            try
+            {
+                return fake.GetType().GetProperty("FakedObject").GetValue(fake, null);
+            }
+            catch
+            {
+                return new NoSpecimen(request);
+            }
         }
 
         private static bool ShouldBeFaked(Type t)
         {
             return (t != null) 
-                && ((t.IsAbstract) || (t.IsInterface));
+               && ((t.IsAbstract) || (t.IsInterface));
         }
 
-        // The Fake class is static and does not relate with Fake<T> type. The only way to cast
-        // to a non-generic type of Fake<T> is by casting to IHideObjectMembers class which the
-        // Fake<T> class implements.
-        private static IHideObjectMembers ResolveFake(Type t, ISpecimenContext context)
+        private static object ResolveFake(Type t, ISpecimenContext context)
         {
             var fakeType = typeof(Fake<>).MakeGenericType(t);
-            return context.Resolve(fakeType) as IHideObjectMembers;
+            return context.Resolve(fakeType);
         }
     }
 }

@@ -92,17 +92,16 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void CreateWithAbstractionRequestReturnsCorrectResult(Type request)
         {
             // Fixture setup
-            var mockType = typeof(Fake<>).MakeGenericType(request);
-
-            var mock = Activator.CreateInstance(mockType);
+            var fakeType = typeof(Fake<>).MakeGenericType(request);
+            var fake = Activator.CreateInstance(fakeType);
             var contextStub = A.Fake<ISpecimenContext>();
-            A.CallTo(() => contextStub.Resolve(mockType)).Returns(mock);
+            A.CallTo(() => contextStub.Resolve(fakeType)).Returns(fake);
 
             var sut = new FakeItEasyRelay();
             // Exercise system
             var result = sut.Create(request, contextStub);
             // Verify outcome
-            Assert.Equal(mock, result);
+            Assert.Equal(fake.GetType().GetProperty("FakedObject").GetValue(fake, null), result);
             // Teardown
         }
 
