@@ -44,6 +44,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoFakeItEasyCustomizationTest.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="FakeItEasyConstructorQueryTest.cs" />
     <Compile Include="FakeItEasyRelayTest.cs" />
