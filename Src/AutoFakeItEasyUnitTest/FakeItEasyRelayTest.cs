@@ -96,7 +96,6 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             var fake = Activator.CreateInstance(fakeType);
             var contextStub = A.Fake<ISpecimenContext>();
             A.CallTo(() => contextStub.Resolve(fakeType)).Returns(fake);
-
             var sut = new FakeItEasyRelay();
             // Exercise system
             var result = sut.Create(request, contextStub);
@@ -110,10 +109,10 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         {
             // Fixture setup
             var request = typeof(IInterface);
-            var mockType = typeof(Fake<>).MakeGenericType(request);
+            var fakeType = typeof(Fake<>).MakeGenericType(request);
 
             var contextStub = A.Fake<ISpecimenContext>();
-            A.CallTo(() => contextStub.Resolve(mockType)).Returns(new object());
+            A.CallTo(() => contextStub.Resolve(fakeType)).Returns(new object());
 
             var sut = new FakeItEasyRelay();
             // Exercise system
@@ -133,13 +132,13 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         {
             // Fixture setup
             var verified = false;
-            Func<Type, bool> mockSpec = t => verified = t == request;
-            var sut = new FakeItEasyRelay(mockSpec);
+            Func<Type, bool> fakeSpec = t => verified = t == request;
+            var sut = new FakeItEasyRelay(fakeSpec);
             // Exercise system
             var contextDummy = A.Fake<ISpecimenContext>();
             sut.Create(request, contextDummy);
             // Verify outcome
-            Assert.True(verified, "Fake verified");
+            Assert.True(verified);
             // Teardown
         }
     }

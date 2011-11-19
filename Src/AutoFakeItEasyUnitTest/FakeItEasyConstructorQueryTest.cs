@@ -59,9 +59,8 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void SelectReturnsCorrectNumberOfConstructorsForTypesWithConstructors(Type t)
         {
             // Fixture setup
-            var mockType = t.GetGenericArguments().Single();
-            var expectedCount = mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
-
+            var fakeType = t.GetGenericArguments().Single();
+            var expectedCount = fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
             var sut = new FakeItEasyConstructorQuery();
             // Exercise system
             var result = sut.SelectConstructors(t);
@@ -78,17 +77,16 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void ConstructorsDefineCorrectParameters(Type t)
         {
             // Fixture setup
-            var mockType = t.GetGenericArguments().Single();
-            var mockTypeCtorArgs = from ci in mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+            var fakeType = t.GetGenericArguments().Single();
+            var fakeTypeCtorArgs = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                                    select ci.GetParameters();
-
             var sut = new FakeItEasyConstructorQuery();
             // Exercise system
             var result = sut.SelectConstructors(t);
             // Verify outcome
             var actualArgs = from ci in result
                              select ci.Parameters;
-            Assert.True(mockTypeCtorArgs.All(expectedParams =>
+            Assert.True(fakeTypeCtorArgs.All(expectedParams =>
                 actualArgs.Any(expectedParams.SequenceEqual)));
             // Teardown
         }
@@ -100,19 +98,18 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void ConstructorsAreReturnedInCorrectOrder(Type t)
         {
             // Fixture setup
-            var mockType = t.GetGenericArguments().Single();
-            var mockTypeCtorArgCounts = from ci in mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+            var fakeType = t.GetGenericArguments().Single();
+            var fakeTypeCtorArgCounts = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                                         let paramCount = ci.GetParameters().Length
                                         orderby paramCount ascending
                                         select paramCount;
-
             var sut = new FakeItEasyConstructorQuery();
             // Exercise system
             var result = sut.SelectConstructors(t);
             // Verify outcome
             var actualArgCounts = from ci in result
                                   select ci.Parameters.Count();
-            Assert.True(mockTypeCtorArgCounts.SequenceEqual(actualArgCounts));
+            Assert.True(fakeTypeCtorArgCounts.SequenceEqual(actualArgCounts));
             // Teardown
         }
 
@@ -140,9 +137,8 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void SelectMethodsReturnsCorrectNumberOfConstructorsForTypesWithConstructors(Type t)
         {
             // Fixture setup
-            var mockType = t.GetGenericArguments().Single();
-            var expectedCount = mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
-
+            var fakeType = t.GetGenericArguments().Single();
+            var expectedCount = fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
             var sut = new FakeItEasyConstructorQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
@@ -159,17 +155,16 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void MethodsDefineCorrectParameters(Type t)
         {
             // Fixture setup
-            var mockType = t.GetGenericArguments().Single();
-            var mockTypeCtorArgs = from ci in mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+            var fakeType = t.GetGenericArguments().Single();
+            var fakeTypeCtorArgs = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                                    select ci.GetParameters();
-
             var sut = new FakeItEasyConstructorQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome
             var actualArgs = from ci in result
                              select ci.Parameters;
-            Assert.True(mockTypeCtorArgs.All(expectedParams =>
+            Assert.True(fakeTypeCtorArgs.All(expectedParams =>
                 actualArgs.Any(expectedParams.SequenceEqual)));
             // Teardown
         }
@@ -181,19 +176,18 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void MethodsAreReturnedInCorrectOrder(Type t)
         {
             // Fixture setup
-            var mockType = t.GetGenericArguments().Single();
-            var mockTypeCtorArgCounts = from ci in mockType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+            var fakeType = t.GetGenericArguments().Single();
+            var fakeTypeCtorArgCounts = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                                         let paramCount = ci.GetParameters().Length
                                         orderby paramCount ascending
                                         select paramCount;
-
             var sut = new FakeItEasyConstructorQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome
             var actualArgCounts = from ci in result
                                   select ci.Parameters.Count();
-            Assert.True(mockTypeCtorArgCounts.SequenceEqual(actualArgCounts));
+            Assert.True(fakeTypeCtorArgCounts.SequenceEqual(actualArgCounts));
             // Teardown
         }
     }

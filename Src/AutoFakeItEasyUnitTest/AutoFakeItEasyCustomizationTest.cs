@@ -73,7 +73,6 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             var residueCollectors = new List<ISpecimenBuilder>();
             var fixtureStub = A.Fake<IFixture>();
             A.CallTo(() => fixtureStub.ResidueCollectors).Returns(residueCollectors);
-
             var sut = new AutoFakeItEasyCustomization();
             // Exercise system
             sut.Customize(fixtureStub);
@@ -89,7 +88,6 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             var customizations = new List<ISpecimenBuilder>();
             var fixtureStub = A.Fake<IFixture>();
             A.CallTo(() => fixtureStub.Customizations).Returns(customizations);
-
             var sut = new AutoFakeItEasyCustomization();
             // Exercise system
             sut.Customize(fixtureStub);

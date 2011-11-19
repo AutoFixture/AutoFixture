@@ -38,12 +38,12 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         }
 
         /// <summary>
-        /// Gets a specification that determines whether a given type should be mocked.
+        /// Gets a specification that determines whether a given type should be faked.
         /// </summary>
         /// <value>The specification.</value>
         /// <remarks>
         /// <para>
-        /// This specification determins whether a given type should be relayed as a request for a
+        /// This specification determines whether a given type should be relayed as a request for a
         /// mock of the same type. By default it only returns <see langword="true"/> for interfaces
         /// and abstract classes, but a different specification can be supplied by using the
         /// <see cref="FakeItEasyRelay(Func{Type, bool})"/> overloaded constructor that takes a
