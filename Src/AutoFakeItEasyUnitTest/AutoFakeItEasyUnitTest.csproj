@@ -46,8 +46,9 @@
   <ItemGroup>
     <Compile Include="AutoFakeItEasyCustomizationTest.cs" />
     <Compile Include="DependencyConstraints.cs" />
-    <Compile Include="FakeItEasyConstructorQueryTest.cs" />
+    <Compile Include="FakeItEasyMethodQueryTest.cs" />
     <Compile Include="FakeItEasyRelayTest.cs" />
+    <Compile Include="FixtureIntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

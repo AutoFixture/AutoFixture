@@ -93,7 +93,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             sut.Customize(fixtureStub);
             // Verify outcome
             var methodInvoker = customizations.OfType<MethodInvoker>().Single();
-            Assert.IsAssignableFrom<FakeItEasyConstructorQuery>(methodInvoker.Query);
+            Assert.IsAssignableFrom<FakeItEasyMethodQuery>(methodInvoker.Query);
             // Teardown
         }
     }

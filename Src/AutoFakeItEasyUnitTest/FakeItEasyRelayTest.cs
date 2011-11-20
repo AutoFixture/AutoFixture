@@ -110,10 +110,8 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Fixture setup
             var request = typeof(IInterface);
             var fakeType = typeof(Fake<>).MakeGenericType(request);
-
             var contextStub = A.Fake<ISpecimenContext>();
             A.CallTo(() => contextStub.Resolve(fakeType)).Returns(new object());
-
             var sut = new FakeItEasyRelay();
             // Exercise system
             var result = sut.Create(request, contextStub);

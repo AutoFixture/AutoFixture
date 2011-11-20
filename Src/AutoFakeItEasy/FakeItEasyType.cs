@@ -16,11 +16,6 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
                 && !type.GetFakedType().IsGenericParameter);
         }
 
-        internal static ConstructorInfo GetDefaultConstructor(this Type type)
-        {
-            return type.GetConstructor(Type.EmptyTypes);
-        }
-
         internal static IEnumerable<ConstructorInfo> GetPublicAndProtectedConstructors(this Type type)
         {
             return type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);

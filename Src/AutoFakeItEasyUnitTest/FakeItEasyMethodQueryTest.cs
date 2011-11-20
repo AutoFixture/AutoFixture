@@ -9,27 +9,14 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
 {
-    public class FakeItEasyConstructorQueryTest
+    public class FakeItEasyMethodQueryTest
     {
-#pragma warning disable 618
-        [Fact]
-        public void SutIsConstructorQuery()
-        {
-            // Fixture setup
-            // Exercise system
-            var sut = new FakeItEasyConstructorQuery();
-            // Verify outcome
-            Assert.IsAssignableFrom<IConstructorQuery>(sut);
-            // Teardown
-        }
-#pragma warning restore 618
-
         [Fact]
         public void SutIsMethodQuery()
         {
             // Fixture setup
             // Exercise system
-            var sut = new FakeItEasyConstructorQuery();
+            var sut = new FakeItEasyMethodQuery();
             // Verify outcome
             Assert.IsAssignableFrom<IMethodQuery>(sut);
             // Teardown
@@ -44,9 +31,9 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void SelectReturnsCorrectResultForNonMockTypes(Type t)
         {
             // Fixture setup
-            var sut = new FakeItEasyConstructorQuery();
+            var sut = new FakeItEasyMethodQuery();
             // Exercise system
-            var result = sut.SelectConstructors(t);
+            var result = sut.SelectMethods(t);
             // Verify outcome
             Assert.Empty(result);
             // Teardown
@@ -61,9 +48,9 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Fixture setup
             var fakeType = t.GetGenericArguments().Single();
             var expectedCount = fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
-            var sut = new FakeItEasyConstructorQuery();
+            var sut = new FakeItEasyMethodQuery();
             // Exercise system
-            var result = sut.SelectConstructors(t);
+            var result = sut.SelectMethods(t);
             // Verify outcome
             Assert.Equal(expectedCount, result.Count());
             // Teardown
@@ -80,9 +67,9 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             var fakeType = t.GetGenericArguments().Single();
             var fakeTypeCtorArgs = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                                    select ci.GetParameters();
-            var sut = new FakeItEasyConstructorQuery();
+            var sut = new FakeItEasyMethodQuery();
             // Exercise system
-            var result = sut.SelectConstructors(t);
+            var result = sut.SelectMethods(t);
             // Verify outcome
             var actualArgs = from ci in result
                              select ci.Parameters;
@@ -103,9 +90,9 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
                                         let paramCount = ci.GetParameters().Length
                                         orderby paramCount ascending
                                         select paramCount;
-            var sut = new FakeItEasyConstructorQuery();
+            var sut = new FakeItEasyMethodQuery();
             // Exercise system
-            var result = sut.SelectConstructors(t);
+            var result = sut.SelectMethods(t);
             // Verify outcome
             var actualArgCounts = from ci in result
                                   select ci.Parameters.Count();
@@ -122,7 +109,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void SelectMethodsReturnsCorrectResultForNonMockTypes(Type t)
         {
             // Fixture setup
-            var sut = new FakeItEasyConstructorQuery();
+            var sut = new FakeItEasyMethodQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome
@@ -139,7 +126,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Fixture setup
             var fakeType = t.GetGenericArguments().Single();
             var expectedCount = fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
-            var sut = new FakeItEasyConstructorQuery();
+            var sut = new FakeItEasyMethodQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome
@@ -158,7 +145,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             var fakeType = t.GetGenericArguments().Single();
             var fakeTypeCtorArgs = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                                    select ci.GetParameters();
-            var sut = new FakeItEasyConstructorQuery();
+            var sut = new FakeItEasyMethodQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome
@@ -181,7 +168,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
                                         let paramCount = ci.GetParameters().Length
                                         orderby paramCount ascending
                                         select paramCount;
-            var sut = new FakeItEasyConstructorQuery();
+            var sut = new FakeItEasyMethodQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome

@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// <remarks>
         /// <para>
         /// This specification determines whether a given type should be relayed as a request for a
-        /// mock of the same type. By default it only returns <see langword="true"/> for interfaces
+        /// fake of the same type. By default it only returns <see langword="true"/> for interfaces
         /// and abstract classes, but a different specification can be supplied by using the
         /// <see cref="FakeItEasyRelay(Func{Type, bool})"/> overloaded constructor that takes a
         /// specification as input. In that case, this property returns the specification supplied
@@ -63,7 +63,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// <param name="request">The request that describes what to create.</param>
         /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
-        /// A dynamic mock instance of the requested interface or abstract class if possible;
+        /// A dynamic fake instance of the requested interface or abstract class if possible;
         /// otherwise a <see cref="NoSpecimen"/> instance.
         /// </returns>
         public object Create(object request, ISpecimenContext context)
@@ -85,14 +85,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
                 return new NoSpecimen(request);
             }
 
-            try
-            {
-                return fake.GetType().GetProperty("FakedObject").GetValue(fake, null);
-            }
-            catch
-            {
-                return new NoSpecimen(request);
-            }
+            return fake;
         }
 
         private static bool ShouldBeFaked(Type t)
@@ -104,7 +97,15 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         private static object ResolveFake(Type t, ISpecimenContext context)
         {
             var fakeType = typeof(Fake<>).MakeGenericType(t);
-            return context.Resolve(fakeType);
+            var specimen = context.Resolve(fakeType);
+
+            var specimenType = specimen.GetType();
+            if (specimenType.BaseType.IsGenericType)
+            {
+                return specimen.GetType().GetProperty("FakedObject").GetValue(specimen, null);
+            }
+            
+            return specimen.GetType().BaseType == t ? specimen : null;
         }
     }
 }
