@@ -100,12 +100,12 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             var specimen = context.Resolve(fakeType);
 
             var specimenType = specimen.GetType();
-            if (specimenType.BaseType.IsGenericType)
+            if (specimenType.IsGenericType || (specimenType.BaseType != null && specimenType.BaseType.IsGenericType))
             {
                 return specimen.GetType().GetProperty("FakedObject").GetValue(specimen, null);
             }
-            
-            return specimen.GetType().BaseType == t ? specimen : null;
+
+            return specimenType.BaseType == t ? specimen : null;
         }
     }
 }
