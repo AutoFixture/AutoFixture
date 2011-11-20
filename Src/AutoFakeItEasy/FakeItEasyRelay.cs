@@ -90,7 +90,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
 
         private static bool ShouldBeFaked(Type t)
         {
-            return (t != null) 
+            return (t != null)
                && ((t.IsAbstract) || (t.IsInterface));
         }
 
@@ -99,10 +99,12 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             var fakeType = typeof(Fake<>).MakeGenericType(t);
             var specimen = context.Resolve(fakeType);
 
-            var specimenType = specimen.GetType();
-            if (specimenType.IsGenericType || (specimenType.BaseType != null && specimenType.BaseType.IsGenericType))
+            Type specimenType = specimen.GetType();
+
+            var fakedObject = specimenType.GetProperty("FakedObject");
+            if (fakedObject != null)
             {
-                return specimen.GetType().GetProperty("FakedObject").GetValue(specimen, null);
+                return fakedObject.GetValue(specimen, null);
             }
 
             return specimenType.BaseType == t ? specimen : null;

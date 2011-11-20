@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
 using Ploeh.TestTypeFoundation;
@@ -57,6 +58,29 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             var result = fixture.CreateAnonymous<IList<ConcreteType>>();
             // Verify outcome
             Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        public void FixtureCanCreateAbstractGenericTypeWithNonDefaultConstructor()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
+            // Exercise system
+            var result = fixture.CreateAnonymous<AbstractGenericType<object>>();
+            // Verify outcome
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void FixtureCanCreateAnonymousGuid()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
+            // Exercise system
+            var result = fixture.CreateAnonymous<Guid>();
+            // Verify outcome
+            Assert.NotEqual(Guid.Empty, result);
             // Teardown
         }
     }
