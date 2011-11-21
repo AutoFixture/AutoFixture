@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
     public class FixtureIntegrationTest
     {
         [Fact]
-        public void FixtureAutoMocksInterface()
+        public void FixtureAutoFakesInterface()
         {
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
@@ -22,7 +22,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Fact]
-        public void FixtureAutoMocksAbstractType()
+        public void FixtureAutoFakesAbstractType()
         {
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
@@ -34,7 +34,31 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Fact]
-        public void FixtureCanFreezeMock()
+        public void FixtureAutoFakesAbstractTypeWithNonDefaultConstructor()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
+            // Exercise system
+            var result = fixture.CreateAnonymous<AbstractTypeWithNonDefaultConstructor<int>>();
+            // Verify outcome
+            Assert.NotEqual(0, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void FixtureCanCreateFake()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
+            // Exercise system
+            var result = fixture.CreateAnonymous<Fake<AbstractType>>();
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void FixtureCanFreezeFake()
         {
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());

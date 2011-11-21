@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using FakeItEasy;
+using FakeItEasy.Creation;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoFakeItEasy
@@ -11,20 +13,22 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         private readonly ParameterInfo[] paramInfos;
         private readonly Type targetType;
 
-        internal FakeItEasyMethod(Type targetType, ParameterInfo[] paramInfos)
+        private IEnumerable<object> parameters;
+
+        internal FakeItEasyMethod(Type fakeTargetType, ParameterInfo[] paramInfos)
         {
+            if (fakeTargetType == null)
+            {
+                throw new ArgumentNullException("fakeTargetType");
+            }
+
             if (paramInfos == null)
             {
                 throw new ArgumentNullException("paramInfos");
             }
 
-            if (targetType == null)
-            {
-                throw new ArgumentNullException("targetType");
-            }
-
             this.paramInfos = paramInfos;
-            this.targetType = targetType;
+            this.targetType = fakeTargetType;
         }
 
         public IEnumerable<ParameterInfo> Parameters
@@ -34,10 +38,28 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
 
         public object Invoke(IEnumerable<object> parameters)
         {
-            return typeof(A)
-                .GetMethod("Fake", new Type[] { })
-                .MakeGenericMethod(new[] { this.targetType })
-                .Invoke(null, null);
+            this.parameters = parameters;
+            MethodInfo fake = typeof(A)
+                .GetMethods().Where(x =>
+                       x.Name.StartsWith("Fake")
+                    && x.ContainsGenericParameters
+                    && x.GetParameters().Count() == 1).Single()
+                .MakeGenericMethod(new[] { this.targetType });
+
+            MethodInfo argumentsForConstructor = this.GetType()
+                .GetMethod("SetArgumentsForConstructor", BindingFlags.Instance | BindingFlags.NonPublic)
+                .MakeGenericMethod(new[] { this.targetType });
+
+            Type actionType = typeof(Action<>).MakeGenericType(
+                 typeof(IFakeOptionsBuilder<>).MakeGenericType(this.targetType));
+            Delegate action = Delegate.CreateDelegate(actionType, this, argumentsForConstructor);
+
+            return fake.Invoke(null, new[] { action });
+        }
+
+        private void SetArgumentsForConstructor<T>(IFakeOptionsBuilder<T> o)
+        {
+            o.WithArgumentsForConstructor(this.parameters);
         }
     }
 }
