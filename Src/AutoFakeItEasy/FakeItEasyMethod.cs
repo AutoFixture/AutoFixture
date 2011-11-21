@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// The parameter information which can be used to identify the signature of the
         /// constructor.
         /// </param>
-        internal FakeItEasyMethod(Type fakeTargetType, ParameterInfo[] parameterInfos)
+        public FakeItEasyMethod(Type fakeTargetType, ParameterInfo[] parameterInfos)
         {
             if (fakeTargetType == null)
             {
