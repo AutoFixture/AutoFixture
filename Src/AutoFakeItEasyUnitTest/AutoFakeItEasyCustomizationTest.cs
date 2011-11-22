@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Exercise system
             sut.Customize(fixtureStub.FakedObject);
             // Verify outcome
-            var postProcessor = residueCollectors.OfType<FakeItEasyRelay>().Single();
+            var postProcessor = residueCollectors.OfType<FakeItEasyBuilder>().Single();
             var ctorInvoker = Assert.IsAssignableFrom<MethodInvoker>(postProcessor.Builder);
             Assert.IsAssignableFrom<FakeItEasyMethodQuery>(ctorInvoker.Query);
             // Teardown

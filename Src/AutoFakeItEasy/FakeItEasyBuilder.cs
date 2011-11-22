@@ -7,12 +7,12 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
     /// Provides pre- and post-condition checks for requests for mock instances.
     /// </summary>
     /// <seealso cref="Create(object, ISpecimenContext)" />
-    public class FakeItEasyRelay : ISpecimenBuilder
+    public class FakeItEasyBuilder : ISpecimenBuilder
     {
         private readonly ISpecimenBuilder builder;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FakeItEasyRelay"/> class with an
+        /// Initializes a new instance of the <see cref="FakeItEasyBuilder"/> class with an
         /// <see cref="ISpecimenBuilder" /> to decorate.
         /// </summary>
         /// <param name="builder">The builder which must build mock instances.</param>
@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// </para>
         /// </remarks>
         /// <seealso cref="Builder" />
-        public FakeItEasyRelay(ISpecimenBuilder builder)
+        public FakeItEasyBuilder(ISpecimenBuilder builder)
         {
             if (builder == null)
             {
@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// <summary>
         /// Gets the decorated builder supplied through the constructor.
         /// </summary>
-        /// <seealso cref="FakeItEasyRelay(ISpecimenBuilder)" />
+        /// <seealso cref="FakeItEasyBuilder(ISpecimenBuilder)" />
         public ISpecimenBuilder Builder
         {
             get { return this.builder; }
@@ -65,7 +65,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (!FakeItEasyRelay.ShouldBeFaked(request))
+            if (!FakeItEasyBuilder.ShouldBeFaked(request))
             {
                 return new NoSpecimen(request);
             }

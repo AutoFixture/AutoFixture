@@ -48,7 +48,7 @@
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="FakeItEasyMethodQueryTest.cs" />
     <Compile Include="FakeItEasyMethodTest.cs" />
-    <Compile Include="FakeItEasyRelayTest.cs" />
+    <Compile Include="FakeItEasyBuilderTest.cs" />
     <Compile Include="FixtureIntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             }
 
             fixture.ResidueCollectors.Add(
-                new FakeItEasyRelay(
+                new FakeItEasyBuilder(
                     new MethodInvoker(
                         new FakeItEasyMethodQuery())));
         }

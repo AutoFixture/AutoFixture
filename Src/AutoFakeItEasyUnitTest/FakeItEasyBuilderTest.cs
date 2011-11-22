@@ -6,7 +6,7 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
 {
-    public class FakeItEasyRelayTest
+    public class FakeItEasyBuilderTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Fixture setup
             var dummyBuilder = A.Fake<ISpecimenBuilder>();
             // Exercise system
-            var sut = new FakeItEasyRelay(dummyBuilder);
+            var sut = new FakeItEasyBuilder(dummyBuilder);
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new FakeItEasyRelay(null));
+                new FakeItEasyBuilder(null));
             // Teardown
         }
 
@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         {
             // Fixture setup
             var expectedBuilder = A.Fake<ISpecimenBuilder>();
-            var sut = new FakeItEasyRelay(expectedBuilder);
+            var sut = new FakeItEasyBuilder(expectedBuilder);
             // Exercise system
             ISpecimenBuilder result = sut.Builder;
             // Verify outcome
@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         {
             // Fixture setup
             var dummyBuilder = A.Fake<ISpecimenBuilder>();
-            var sut = new FakeItEasyRelay(dummyBuilder);
+            var sut = new FakeItEasyBuilder(dummyBuilder);
             // Exercise system
             var dummyContext = A.Fake<ISpecimenContext>();
             var result = sut.Create(request, dummyContext);

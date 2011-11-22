@@ -45,7 +45,7 @@
     <Compile Include="AutoFakeItEasyCustomization.cs" />
     <Compile Include="FakeItEasyMethod.cs" />
     <Compile Include="FakeItEasyMethodQuery.cs" />
-    <Compile Include="FakeItEasyRelay.cs" />
+    <Compile Include="FakeItEasyBuilder.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
