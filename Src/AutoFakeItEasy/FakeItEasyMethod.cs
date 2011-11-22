@@ -21,10 +21,10 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
     /// </remarks>
     public class FakeItEasyMethod : IMethod
     {
-        private readonly ParameterInfo[] paramInfos;
+        private readonly ParameterInfo[] methodParameters;
         private readonly Type targetType;
 
-        private IEnumerable<object> parameters;
+        private IEnumerable<object> argumentsForConstructor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeItEasyMethod"/> class.
@@ -32,24 +32,23 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// <param name="targetType">
         /// The type of which a mock instance should be created.
         /// </param>
-        /// <param name="parameterInfos">
-        /// The parameter information which can be used to identify the signature of the
-        /// constructor.
+        /// <param name="methodParameters">
+        /// The parameter information which can be used to identify the signature of the method.
         /// </param>
-        public FakeItEasyMethod(Type targetType, ParameterInfo[] parameterInfos)
+        public FakeItEasyMethod(Type targetType, ParameterInfo[] methodParameters)
         {
             if (targetType == null)
             {
                 throw new ArgumentNullException("targetType");
             }
 
-            if (parameterInfos == null)
+            if (methodParameters == null)
             {
-                throw new ArgumentNullException("parameterInfos");
+                throw new ArgumentNullException("methodParameters");
             }
 
             this.targetType = targetType;
-            this.paramInfos = parameterInfos;
+            this.methodParameters = methodParameters;
         }
 
         /// <summary>
@@ -66,7 +65,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// </summary>
         public IEnumerable<ParameterInfo> Parameters
         {
-            get { return this.paramInfos; }
+            get { return this.methodParameters; }
         }
 
         /// <summary>
@@ -78,14 +77,16 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// <returns>A mock instance created with FakeItEasy.</returns>
         public object Invoke(IEnumerable<object> parameters)
         {
-            MethodInfo argumentsForConstructor = this.GetType()
+            this.argumentsForConstructor = parameters;
+
+            Type actionType = typeof(Action<>).MakeGenericType(
+                 typeof(IFakeOptionsBuilder<>).MakeGenericType(this.targetType));
+
+            MethodInfo actionMethod = this.GetType()
                 .GetMethod("SetArgumentsForConstructor", BindingFlags.Instance | BindingFlags.NonPublic)
                 .MakeGenericMethod(new[] { this.targetType });
 
-            this.parameters = parameters;
-            Type actionType = typeof(Action<>).MakeGenericType(
-                 typeof(IFakeOptionsBuilder<>).MakeGenericType(this.targetType));
-            Delegate action = Delegate.CreateDelegate(actionType, this, argumentsForConstructor);
+            Delegate action = Delegate.CreateDelegate(actionType, this, actionMethod);
 
             return typeof(Fake<>)
                 .MakeGenericType(this.targetType)
@@ -93,14 +94,15 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
                 .Invoke(new[] { action });
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method is used by Reflection. It describes the method that is passed in the Action<IFakeOptionsBuilder<T>> overload of the Fake<T> constructor.")]
         private void SetArgumentsForConstructor<T>(IFakeOptionsBuilder<T> o)
         {
             if (typeof(T).IsInterface)
             {
                 return;
             }
-            
-            o.WithArgumentsForConstructor(this.parameters);
+
+            o.WithArgumentsForConstructor(this.argumentsForConstructor);
         }
     }
 }
