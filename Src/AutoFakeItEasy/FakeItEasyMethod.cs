@@ -87,6 +87,10 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
                  typeof(IFakeOptionsBuilder<>).MakeGenericType(this.fakeTargetType));
             Delegate action = Delegate.CreateDelegate(actionType, this, argumentsForConstructor);
 
+            var ok = typeof(Fake<>)
+                .MakeGenericType(this.fakeTargetType)
+                .GetConstructors();
+
             return typeof(Fake<>)
                 .MakeGenericType(this.fakeTargetType)
                 .GetConstructors()[1]
@@ -95,6 +99,11 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
 
         private void SetArgumentsForConstructor<T>(IFakeOptionsBuilder<T> o)
         {
+            if (typeof(T).IsInterface)
+            {
+                return;
+            }
+            
             o.WithArgumentsForConstructor(this.parameters);
         }
     }

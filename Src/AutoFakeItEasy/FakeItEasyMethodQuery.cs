@@ -12,32 +12,31 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
     public class FakeItEasyMethodQuery : IMethodQuery
     {
         /// <summary>
-        /// Selects constructors for the supplied <see cref="FakeItEasy.Fake{T}"/> type.
+        /// Selects constructors for the supplied type.
         /// </summary>
-        /// <param name="type">The fake type.</param>
+        /// <param name="type">The type.</param>
         /// <returns>
         /// Constructors for <paramref name="type"/>.
         /// </returns>
         /// <remarks>
         /// <para>
-        /// This method only returns constructors if <paramref name="type"/> is a
-        /// <see cref="FakeItEasy.Fake{T}"/> type. If not, an empty sequence is returned.
+        /// This method returns a sequence of <see cref="FakeItEasyMethod"/> according to
+        /// the public and protected constructors available on <paramref name="type"/>.
         /// </para>
         /// </remarks>
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
-            if (!type.IsFake())
+            if (type == null)
             {
-                return Enumerable.Empty<IMethod>();
+                throw new ArgumentNullException("type");
             }
 
-            var mockType = type.GetFakedType();
-            if (mockType.IsInterface)
+            if (type.IsInterface)
             {
                 return new[] { new FakeItEasyMethod(type, new ParameterInfo[0]) };
             }
 
-            return from ci in mockType.GetPublicAndProtectedConstructors()
+            return from ci in type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                    let paramInfos = ci.GetParameters()
                    orderby paramInfos.Length ascending
                    select new FakeItEasyMethod(ci.DeclaringType, paramInfos) as IMethod;

@@ -42,7 +42,6 @@
     <Compile Include="FakeItEasyMethod.cs" />
     <Compile Include="FakeItEasyMethodQuery.cs" />
     <Compile Include="FakeItEasyRelay.cs" />
-    <Compile Include="FakeItEasyType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

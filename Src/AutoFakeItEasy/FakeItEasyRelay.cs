@@ -1,60 +1,45 @@
 ﻿using System;
-using FakeItEasy;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoFakeItEasy
 {
     /// <summary>
-    /// Relays a request for an interface or an abstract class to a request for a
-    /// <see cref="Fake{T}"/> of that class.
+    /// Provides pre- and post-condition checks for requests for mock instances.
     /// </summary>
+    /// <seealso cref="Create(object, ISpecimenContext)" />
     public class FakeItEasyRelay : ISpecimenBuilder
     {
-        private readonly Func<Type, bool> shouldBeFaked;
+        private readonly ISpecimenBuilder builder;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FakeItEasyRelay"/> class.
+        /// Initializes a new instance of the <see cref="FakeItEasyRelay"/> class with an
+        /// <see cref="ISpecimenBuilder" /> to decorate.
         /// </summary>
-        public FakeItEasyRelay()
-            : this(FakeItEasyRelay.ShouldBeFaked)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FakeItEasyRelay"/> class with a specification
-        /// that determines whether a type should be mocked.
-        /// </summary>
-        /// <param name="fakeableSpecification">
-        /// A specification that determines whether a type should be mocked or not.
-        /// </param>
-        public FakeItEasyRelay(Func<Type, bool> fakeableSpecification)
-        {
-            if (fakeableSpecification == null)
-            {
-                throw new ArgumentNullException("fakeableSpecification");
-            }
-
-            this.shouldBeFaked = fakeableSpecification;
-        }
-
-        /// <summary>
-        /// Gets a specification that determines whether a given type should be faked.
-        /// </summary>
-        /// <value>The specification.</value>
+        /// <param name="builder">The builder which must build mock instances.</param>
         /// <remarks>
         /// <para>
-        /// This specification determines whether a given type should be relayed as a request for a
-        /// fake of the same type. By default it only returns <see langword="true"/> for interfaces
-        /// and abstract classes, but a different specification can be supplied by using the
-        /// <see cref="FakeItEasyRelay(Func{Type, bool})"/> overloaded constructor that takes a
-        /// specification as input. In that case, this property returns the specification supplied
-        /// to the constructor.
+        /// <paramref name="builder" /> is subsequently available through the <see cref="Builder"/>
+        /// property.
         /// </para>
         /// </remarks>
-        /// <seealso cref="FakeItEasyRelay(Func{Type, bool})"/>
-        public Func<Type, bool> FakeableSpecification
+        /// <seealso cref="Builder" />
+        public FakeItEasyRelay(ISpecimenBuilder builder)
         {
-            get { return this.shouldBeFaked; }
+            if (builder == null)
+            {
+                throw new ArgumentNullException("builder");
+            }
+
+            this.builder = builder;
+        }
+
+        /// <summary>
+        /// Gets the decorated builder supplied through the constructor.
+        /// </summary>
+        /// <seealso cref="FakeItEasyRelay(ISpecimenBuilder)" />
+        public ISpecimenBuilder Builder
+        {
+            get { return this.builder; }
         }
 
         /// <summary>
@@ -63,51 +48,46 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// <param name="request">The request that describes what to create.</param>
         /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
-        /// A dynamic fake instance of the requested interface or abstract class if possible;
-        /// otherwise a <see cref="NoSpecimen"/> instance.
+        /// A mock instance created by FakeItEasy if appropriate; otherwise a
+        /// <see cref="NoSpecimen"/> instance.
         /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The Create method checks whether a request is for an interface or abstract class. If so
+        /// it delegates the call to the decorated <see cref="Builder"/>. When the specimen is
+        /// returned from the decorated <see cref="ISpecimenBuilder"/> the method checks whether
+        /// the returned instance is a FakeItEasy instance.
+        /// </para>
+        /// <para>
+        /// If all pre- and post-conditions are satisfied, the mock instance is returned; otherwise
+        /// a <see cref="NoSpecimen" /> instance.
+        /// </para>
+        /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
-
-            var type = request as Type;
-            if (!this.shouldBeFaked(type))
+            if (!FakeItEasyRelay.ShouldBeFaked(request))
             {
                 return new NoSpecimen(request);
             }
 
-            var fake = FakeItEasyRelay.ResolveFake(type, context);
-            if (fake == null)
+            var specimen = this.builder.Create(request, context) as FakeItEasy.Configuration.IHideObjectMembers;
+            if (specimen == null)
             {
                 return new NoSpecimen(request);
             }
 
-            return fake;
+            return specimen.GetType().GetProperty("FakedObject").GetValue(specimen, null);
         }
 
-        private static bool ShouldBeFaked(Type t)
+        private static bool ShouldBeFaked(object request)
         {
-            return (t != null)
-               && ((t.IsAbstract) || (t.IsInterface));
-        }
-
-        private static object ResolveFake(Type t, ISpecimenContext context)
-        {
-            var fakeType = typeof(Fake<>).MakeGenericType(t);
-            var specimen = context.Resolve(fakeType);
-
-            Type specimenType = specimen.GetType();
-
-            var fakedObject = specimenType.GetProperty("FakedObject");
-            if (fakedObject != null)
+            var t = request as Type;
+            if (t == null)
             {
-                return fakedObject.GetValue(specimen, null);
+                return false;
             }
 
-            return specimenType.BaseType == t ? specimen : null;
+            return (t.IsInterface || t.IsAbstract);
         }
     }
 }

@@ -63,13 +63,14 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
             var dummy = new object();
-            var expected = new object();
-            A.CallTo(() => fixture.Freeze<Fake<IInterface>>().FakedObject.MakeIt(dummy))
-                .Returns(expected);
+            var fake = fixture.Freeze<Fake<IInterface>>();
+            fake.CallsTo(x => x.MakeIt(dummy))
+                .Returns(null);
             // Exercise system
             var result = fixture.CreateAnonymous<IInterface>();
+            result.MakeIt(dummy);
             // Verify outcome
-            Assert.Equal(expected, result.MakeIt(dummy));
+            A.CallTo(() => result.MakeIt(dummy)).MustHaveHappened();
             // Teardown
         }
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using FakeItEasy;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
@@ -22,32 +21,25 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(object))]
-        [InlineData(typeof(string))]
-        [InlineData(typeof(AbstractType))]
-        [InlineData(typeof(IInterface))]
-        [InlineData(typeof(Fake<>))]
-        public void SelectReturnsCorrectResultForNonMockTypes(Type t)
+        [Fact]
+        public void SelectConstructorsFromNullTypeThrows()
         {
             // Fixture setup
             var sut = new FakeItEasyMethodQuery();
-            // Exercise system
-            var result = sut.SelectMethods(t);
-            // Verify outcome
-            Assert.Empty(result);
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.SelectMethods(null));
             // Teardown
         }
 
         [Theory]
-        [InlineData(typeof(Fake<AbstractType>))]
-        [InlineData(typeof(Fake<ConcreteType>))]
-        [InlineData(typeof(Fake<MultiUnorderedConstructorType>))]
-        public void SelectReturnsCorrectNumberOfConstructorsForTypesWithConstructors(Type t)
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(AbstractType))]
+        public void SelectReturnsCorrectResultForNonInterfaces(Type t)
         {
             // Fixture setup
-            var fakeType = t.GetGenericArguments().Single();
-            var expectedCount = fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
+            var expectedCount = t.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
             var sut = new FakeItEasyMethodQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
@@ -57,46 +49,63 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Theory]
-        [InlineData(typeof(Fake<IInterface>))]
-        [InlineData(typeof(Fake<AbstractType>))]
-        [InlineData(typeof(Fake<ConcreteType>))]
-        [InlineData(typeof(Fake<MultiUnorderedConstructorType>))]
-        public void ConstructorsDefineCorrectParameters(Type t)
+        [InlineData(typeof(IInterface))]
+        [InlineData(typeof(IComparable<object>))]
+        [InlineData(typeof(IComparable<string>))]
+        [InlineData(typeof(IComparable<int>))]
+        public void SelectReturnsCorrectNumberOfMethodsForInterface(Type t)
         {
             // Fixture setup
-            var fakeType = t.GetGenericArguments().Single();
-            var fakeTypeCtorArgs = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                                   select ci.GetParameters();
             var sut = new FakeItEasyMethodQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome
-            var actualArgs = from ci in result
-                             select ci.Parameters;
-            Assert.True(fakeTypeCtorArgs.All(expectedParams =>
-                actualArgs.Any(expectedParams.SequenceEqual)));
+            Assert.Equal(1, result.Count());
             // Teardown
         }
 
         [Theory]
-        [InlineData(typeof(Fake<AbstractType>))]
-        [InlineData(typeof(Fake<ConcreteType>))]
-        [InlineData(typeof(Fake<MultiUnorderedConstructorType>))]
-        public void ConstructorsAreReturnedInCorrectOrder(Type t)
+        [InlineData(typeof(IInterface))]
+        [InlineData(typeof(IComparable<object>))]
+        [InlineData(typeof(IComparable<string>))]
+        [InlineData(typeof(IComparable<int>))]
+        public void SelectReturnsCorrectResultForInterface(Type t)
         {
             // Fixture setup
-            var fakeType = t.GetGenericArguments().Single();
-            var fakeTypeCtorArgCounts = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                                        let paramCount = ci.GetParameters().Length
-                                        orderby paramCount ascending
-                                        select paramCount;
             var sut = new FakeItEasyMethodQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome
-            var actualArgCounts = from ci in result
-                                  select ci.Parameters.Count();
-            Assert.True(fakeTypeCtorArgCounts.SequenceEqual(actualArgCounts));
+            var method = Assert.IsAssignableFrom<FakeItEasyMethod>(result.Single());
+            Assert.Equal(t, method.FakeTargetType);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(IInterface))]
+        [InlineData(typeof(IComparable<object>))]
+        [InlineData(typeof(IComparable<string>))]
+        [InlineData(typeof(IComparable<int>))]
+        public void SelectReturnsResultWithNoParametersForInterface(Type t)
+        {
+            // Fixture setup
+            var sut = new FakeItEasyMethodQuery();
+            // Exercise system
+            var result = sut.SelectMethods(t);
+            // Verify outcome
+            var method = Assert.IsAssignableFrom<FakeItEasyMethod>(result.Single());
+            Assert.Empty(method.Parameters);
+            // Teardown
+        }
+
+        [Fact]
+        public void SelectMethodsFromNullTypeThrows()
+        {
+            // Fixture setup
+            var sut = new FakeItEasyMethodQuery();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.SelectMethods(null));
             // Teardown
         }
 
@@ -104,28 +113,10 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         [InlineData(typeof(object))]
         [InlineData(typeof(string))]
         [InlineData(typeof(AbstractType))]
-        [InlineData(typeof(IInterface))]
-        [InlineData(typeof(Fake<>))]
-        public void SelectMethodsReturnsCorrectResultForNonMockTypes(Type t)
+        public void SelectMethodsReturnsCorrectResultForNonInterfaces(Type t)
         {
             // Fixture setup
-            var sut = new FakeItEasyMethodQuery();
-            // Exercise system
-            var result = sut.SelectMethods(t);
-            // Verify outcome
-            Assert.Empty(result);
-            // Teardown
-        }
-
-        [Theory]
-        [InlineData(typeof(Fake<AbstractType>))]
-        [InlineData(typeof(Fake<ConcreteType>))]
-        [InlineData(typeof(Fake<MultiUnorderedConstructorType>))]
-        public void SelectMethodsReturnsCorrectNumberOfConstructorsForTypesWithConstructors(Type t)
-        {
-            // Fixture setup
-            var fakeType = t.GetGenericArguments().Single();
-            var expectedCount = fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
+            var expectedCount = t.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
             var sut = new FakeItEasyMethodQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
@@ -135,46 +126,52 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Theory]
-        [InlineData(typeof(Fake<IInterface>))]
-        [InlineData(typeof(Fake<AbstractType>))]
-        [InlineData(typeof(Fake<ConcreteType>))]
-        [InlineData(typeof(Fake<MultiUnorderedConstructorType>))]
-        public void MethodsDefineCorrectParameters(Type t)
+        [InlineData(typeof(IInterface))]
+        [InlineData(typeof(IComparable<object>))]
+        [InlineData(typeof(IComparable<string>))]
+        [InlineData(typeof(IComparable<int>))]
+        public void SelectMethodsReturnsCorrectNumberOfMethodsForInterface(Type t)
         {
             // Fixture setup
-            var fakeType = t.GetGenericArguments().Single();
-            var fakeTypeCtorArgs = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                                   select ci.GetParameters();
             var sut = new FakeItEasyMethodQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome
-            var actualArgs = from ci in result
-                             select ci.Parameters;
-            Assert.True(fakeTypeCtorArgs.All(expectedParams =>
-                actualArgs.Any(expectedParams.SequenceEqual)));
+            Assert.Equal(1, result.Count());
             // Teardown
         }
 
         [Theory]
-        [InlineData(typeof(Fake<AbstractType>))]
-        [InlineData(typeof(Fake<ConcreteType>))]
-        [InlineData(typeof(Fake<MultiUnorderedConstructorType>))]
-        public void MethodsAreReturnedInCorrectOrder(Type t)
+        [InlineData(typeof(IInterface))]
+        [InlineData(typeof(IComparable<object>))]
+        [InlineData(typeof(IComparable<string>))]
+        [InlineData(typeof(IComparable<int>))]
+        public void SelectMethodsReturnsCorrectResultForInterface(Type t)
         {
             // Fixture setup
-            var fakeType = t.GetGenericArguments().Single();
-            var fakeTypeCtorArgCounts = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                                        let paramCount = ci.GetParameters().Length
-                                        orderby paramCount ascending
-                                        select paramCount;
             var sut = new FakeItEasyMethodQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome
-            var actualArgCounts = from ci in result
-                                  select ci.Parameters.Count();
-            Assert.True(fakeTypeCtorArgCounts.SequenceEqual(actualArgCounts));
+            var method = Assert.IsAssignableFrom<FakeItEasyMethod>(result.Single());
+            Assert.Equal(t, method.FakeTargetType);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(IInterface))]
+        [InlineData(typeof(IComparable<object>))]
+        [InlineData(typeof(IComparable<string>))]
+        [InlineData(typeof(IComparable<int>))]
+        public void SelectMethodsReturnsResultWithNoParametersForInterface(Type t)
+        {
+            // Fixture setup
+            var sut = new FakeItEasyMethodQuery();
+            // Exercise system
+            var result = sut.SelectMethods(t);
+            // Verify outcome
+            var method = Assert.IsAssignableFrom<FakeItEasyMethod>(result.Single());
+            Assert.Empty(method.Parameters);
             // Teardown
         }
     }
