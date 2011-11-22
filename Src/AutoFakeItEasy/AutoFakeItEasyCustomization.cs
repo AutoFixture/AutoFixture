@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
     public class AutoFakeItEasyCustomization : ICustomization
     {
         /// <summary>
-        /// Customizes an <see cref="IFixture"/> to enable auto-mocking with Rhino Mocks.
+        /// Customizes an <see cref="IFixture"/> to enable auto-mocking with FakeItEasy.
         /// </summary>
         /// <param name="fixture">The fixture upon which to enable auto-mocking.</param>
         public void Customize(IFixture fixture)

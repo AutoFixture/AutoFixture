@@ -22,25 +22,25 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
     public class FakeItEasyMethod : IMethod
     {
         private readonly ParameterInfo[] paramInfos;
-        private readonly Type fakeTargetType;
+        private readonly Type targetType;
 
         private IEnumerable<object> parameters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeItEasyMethod"/> class.
         /// </summary>
-        /// <param name="fakeTargetType">
+        /// <param name="targetType">
         /// The type of which a mock instance should be created.
         /// </param>
         /// <param name="parameterInfos">
         /// The parameter information which can be used to identify the signature of the
         /// constructor.
         /// </param>
-        public FakeItEasyMethod(Type fakeTargetType, ParameterInfo[] parameterInfos)
+        public FakeItEasyMethod(Type targetType, ParameterInfo[] parameterInfos)
         {
-            if (fakeTargetType == null)
+            if (targetType == null)
             {
-                throw new ArgumentNullException("fakeTargetType");
+                throw new ArgumentNullException("targetType");
             }
 
             if (parameterInfos == null)
@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
                 throw new ArgumentNullException("parameterInfos");
             }
 
-            this.fakeTargetType = fakeTargetType;
+            this.targetType = targetType;
             this.paramInfos = parameterInfos;
         }
 
@@ -56,9 +56,9 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// Gets the type of which a mock instance should be created.
         /// </summary>
         /// <seealso cref="FakeItEasyMethod(Type, ParameterInfo[])" />
-        public Type FakeTargetType
+        public Type TargetType
         {
-            get { return this.fakeTargetType; }
+            get { return this.targetType; }
         }
 
         /// <summary>
@@ -80,19 +80,15 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         {
             MethodInfo argumentsForConstructor = this.GetType()
                 .GetMethod("SetArgumentsForConstructor", BindingFlags.Instance | BindingFlags.NonPublic)
-                .MakeGenericMethod(new[] { this.fakeTargetType });
+                .MakeGenericMethod(new[] { this.targetType });
 
             this.parameters = parameters;
             Type actionType = typeof(Action<>).MakeGenericType(
-                 typeof(IFakeOptionsBuilder<>).MakeGenericType(this.fakeTargetType));
+                 typeof(IFakeOptionsBuilder<>).MakeGenericType(this.targetType));
             Delegate action = Delegate.CreateDelegate(actionType, this, argumentsForConstructor);
 
-            var ok = typeof(Fake<>)
-                .MakeGenericType(this.fakeTargetType)
-                .GetConstructors();
-
             return typeof(Fake<>)
-                .MakeGenericType(this.fakeTargetType)
+                .MakeGenericType(this.targetType)
                 .GetConstructors()[1]
                 .Invoke(new[] { action });
         }

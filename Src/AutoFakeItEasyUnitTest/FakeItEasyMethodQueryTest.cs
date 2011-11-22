@@ -77,7 +77,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             var result = sut.SelectMethods(t);
             // Verify outcome
             var method = Assert.IsAssignableFrom<FakeItEasyMethod>(result.Single());
-            Assert.Equal(t, method.FakeTargetType);
+            Assert.Equal(t, method.TargetType);
             // Teardown
         }
 
@@ -154,7 +154,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             var result = sut.SelectMethods(t);
             // Verify outcome
             var method = Assert.IsAssignableFrom<FakeItEasyMethod>(result.Single());
-            Assert.Equal(t, method.FakeTargetType);
+            Assert.Equal(t, method.TargetType);
             // Teardown
         }
 
