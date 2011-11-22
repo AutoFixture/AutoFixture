@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using FakeItEasy;
 using FakeItEasy.Creation;
@@ -88,10 +89,13 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
 
             Delegate action = Delegate.CreateDelegate(actionType, this, actionMethod);
 
-            return typeof(Fake<>)
-                .MakeGenericType(this.targetType)
-                .GetConstructors()[1]
-                .Invoke(new[] { action });
+            Type fake = typeof(Fake<>).MakeGenericType(this.targetType);
+            ConstructorInfo ctor = (from ci in fake.GetConstructors(BindingFlags.Instance | BindingFlags.Public)
+                                    from pi in ci.GetParameters()
+                                    where pi.ParameterType == actionType
+                                    select ci).First();
+
+            return ctor.Invoke(new[] { action });
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method is used by Reflection. It describes the method that is passed in the Action<IFakeOptionsBuilder<T>> overload of the Fake<T> constructor.")]
