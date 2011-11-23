@@ -125,5 +125,21 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         {
             Assert.True(numbers.SequenceEqual(container.Items));
         }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterAsBaseTypeAssignsSameInstanceToSecondParameterOfThatBaseType(
+            [Frozen(As = typeof(AbstractType))]ConcreteType p1,
+            AbstractType p2)
+        {
+            Assert.Same(p1, p2);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterAsNullTypeAssignsSameInstanceToSecondParameterOfSameType(
+            [Frozen(As = null)]ConcreteType p1,
+            ConcreteType p2)
+        {
+            Assert.Same(p1, p2);
+        }
     }
 }

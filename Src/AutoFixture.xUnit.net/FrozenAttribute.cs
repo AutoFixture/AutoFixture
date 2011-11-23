@@ -11,6 +11,14 @@ namespace Ploeh.AutoFixture.Xunit
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
     public sealed class FrozenAttribute : CustomizeAttribute
     {
+        private FreezingCustomization customization;
+
+        /// <summary>
+        /// Gets or sets the <see cref="Type"/> that the frozen parameter value
+        /// should be mapped to in the <see cref="IFixture"/>.
+        /// </summary>
+        public Type As { get; set; }
+
         /// <summary>
         /// Gets a customization that freezes the <see cref="Type"/> of the parameter.
         /// </summary>
@@ -18,6 +26,9 @@ namespace Ploeh.AutoFixture.Xunit
         /// <returns>
         /// A customization that freezes the <see cref="Type"/> of the parameter.
         /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="parameter"/> is null.
+        /// </exception>
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
             if (parameter == null)
@@ -25,7 +36,31 @@ namespace Ploeh.AutoFixture.Xunit
                 throw new ArgumentNullException("parameter");
             }
 
-            return new FreezingCustomization(parameter.ParameterType);
+            if (FrozenValueShouldBeRegisteredAsDifferentType())
+            {
+                CreateFreezingCustomizationForTargetTypeAsRegisteredType(parameter.ParameterType);
+            }
+            else
+            {
+                CreateFreezingCustomizationForTargetType(parameter.ParameterType);
+            }
+
+            return customization;
+        }
+
+        private bool FrozenValueShouldBeRegisteredAsDifferentType()
+        {
+            return As != null;
+        }
+
+        private void CreateFreezingCustomizationForTargetTypeAsRegisteredType(Type targetType)
+        {
+            customization = new FreezingCustomization(targetType, As);
+        }
+
+        private void CreateFreezingCustomizationForTargetType(Type targetType)
+        {
+            customization = new FreezingCustomization(targetType);
         }
     }
 }

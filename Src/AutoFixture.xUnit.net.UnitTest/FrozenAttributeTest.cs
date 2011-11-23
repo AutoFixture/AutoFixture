@@ -42,5 +42,40 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             Assert.Equal(parameter.ParameterType, freezer.TargetType);
             // Teardown
         }
+
+        [Fact]
+        public void GetCustomizationReturnsTheRegisteredTypeEqualToTheParameterType()
+        {
+            // Fixture setup
+            var sut = new FrozenAttribute();
+            var parameter = typeof(TypeWithOverloadedMembers)
+                .GetMethod("DoSomething", new[] { typeof(object) })
+                .GetParameters()
+                .Single();
+            // Exercise system
+            var result = sut.GetCustomization(parameter);
+            // Verify outcome
+            var freezer = Assert.IsAssignableFrom<FreezingCustomization>(result);
+            Assert.Equal(parameter.ParameterType, freezer.RegisteredType);
+            // Teardown
+        }
+
+        [Fact]
+        public void GetCustomizationWithSpecificRegisteredTypeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var registeredType = typeof(AbstractType);
+            var sut = new FrozenAttribute { As = registeredType };
+            var parameter = typeof(TypeWithConcreteParameterMethod)
+                .GetMethod("DoSomething", new[] { typeof(ConcreteType) })
+                .GetParameters()
+                .Single();
+            // Exercise system
+            var result = sut.GetCustomization(parameter);
+            // Verify outcome
+            var freezer = Assert.IsAssignableFrom<FreezingCustomization>(result);
+            Assert.Equal(registeredType, freezer.RegisteredType);
+            // Teardown
+        }
     }
 }

@@ -98,6 +98,7 @@
     <Compile Include="StaticPropertyHolder.cs" />
     <Compile Include="TripleParameterType.cs" />
     <Compile Include="TriState.cs" />
+    <Compile Include="TypeWithConcreteParameterMethod.cs" />
     <Compile Include="TypeWithFactoryMethod.cs" />
     <Compile Include="TypeWithIndexer.cs" />
     <Compile Include="TypeWithOverloadedMembers.cs" />

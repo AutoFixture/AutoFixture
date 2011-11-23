@@ -19,12 +19,22 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void InitializeWithNullTypeThrows()
+        public void InitializeWithNullTargetTypeThrows()
         {
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new FreezingCustomization(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullRegisteredTypeThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new FreezingCustomization(typeof(object), null));
             // Teardown
         }
 
@@ -38,6 +48,44 @@ namespace Ploeh.AutoFixtureUnitTest
             Type result = sut.TargetType;
             // Verify outcome
             Assert.Equal(expectedType, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void RegisteredTypeIsCorrect()
+        {
+            // Fixture setup
+            var targetType = typeof(string);
+            var registeredType = typeof(object);
+            var sut = new FreezingCustomization(targetType, registeredType);
+            // Exercise system
+            Type result = sut.RegisteredType;
+            // Verify outcome
+            Assert.Equal(registeredType, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void TargetTypeAndRegisteredTypeAreCorrect()
+        {
+            // Fixture setup
+            var targetType = typeof(string);
+            var registeredType = typeof(object);
+            var sut = new FreezingCustomization(targetType, registeredType);
+            // Exercise system and verify outcome
+            Assert.Equal(targetType, sut.TargetType);
+            Assert.Equal(registeredType, sut.RegisteredType);
+            // Teardown
+        }
+
+        [Fact]
+        public void TargetTypeIsTheSameAsRegisteredTypeWhenOnlyTargetTypeIsSpecified()
+        {
+            // Fixture setup
+            var targetType = typeof(string);
+            var sut = new FreezingCustomization(targetType);
+            // Exercise system and verify outcome
+            Assert.Equal(sut.TargetType, sut.RegisteredType);
             // Teardown
         }
 
@@ -67,6 +115,53 @@ namespace Ploeh.AutoFixtureUnitTest
             var i1 = fixture.CreateAnonymous<int>();
             var i2 = fixture.CreateAnonymous<int>();
             Assert.Equal(i1, i2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeWithRegisteredTypeCorrectlyCustomizesFixture()
+        {
+            // Fixture setup
+            var targetType = typeof(int);
+            var registeredType = typeof(object);
+            var fixture = new Fixture();
+            var sut = new FreezingCustomization(targetType, registeredType);
+            // Exercise system
+            sut.Customize(fixture);
+            // Verify outcome
+            object i1 = fixture.CreateAnonymous<int>();
+            object i2 = fixture.CreateAnonymous<object>();
+            Assert.Equal(i1, i2);
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeWithIncompatibleRegisteredTypeDoesNotThrowOnTargetTypeRequest()
+        {
+            // Fixture setup
+            var targetType = typeof(int);
+            var registeredType = typeof(string);
+            var fixture = new Fixture();
+            var sut = new FreezingCustomization(targetType, registeredType);
+            // Exercise system
+            sut.Customize(fixture);
+            // Verify outcome
+            Assert.DoesNotThrow(() => fixture.CreateAnonymous<int>());
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeWithIncompatibleRegisteredTypeThrowsInvalidCastExceptionOnRegisteredTypeRequest()
+        {
+            // Fixture setup
+            var targetType = typeof(int);
+            var registeredType = typeof(string);
+            var fixture = new Fixture();
+            var sut = new FreezingCustomization(targetType, registeredType);
+            // Exercise system
+            sut.Customize(fixture);
+            // Verify outcome
+            Assert.Throws<InvalidCastException>(() => fixture.CreateAnonymous<string>());
             // Teardown
         }
     }
