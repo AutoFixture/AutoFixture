@@ -159,7 +159,8 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Customizes the creation algorithm for a single object.
+        /// Customizes the creation algorithm for a single object, effectively turning off all
+        /// Customizations on the <see cref="IFixture"/>.
         /// </summary>
         /// <typeparam name="T">
         /// The type of object for which the algorithm should be customized.
@@ -168,6 +169,19 @@ namespace Ploeh.AutoFixture
         /// A <see cref="ICustomizationComposer{T}"/> that can be used to customize the creation
         /// algorithm before creating the object.
         /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The Build method kicks off a Fluent API which is usually completed by invoking
+        /// <see cref="SpecimenFactory.CreateAnonymous{T}(IPostprocessComposer{T})"/> on the method
+        /// chain.
+        /// </para>
+        /// <para>
+        /// Note that the Build method chain is best understood as a one-off Customization. It
+        /// bypasses all Customizations on the <see cref="Fixture"/> instance. Instead, it allows
+        /// fine-grained control when building a specific specimen. However, in most cases, adding
+        /// a convention-based <see cref="ICustomization"/> is a better, more flexible option.
+        /// </para>
+        /// </remarks>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public ICustomizationComposer<T> Build<T>()
         {

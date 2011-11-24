@@ -86,5 +86,36 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             Assert.False(result.Any());
             // Teardown
         }
+
+        [Fact]
+        public void TestMethod1()
+        {
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+
+            var instance1 = fixture.CreateAnonymous<Mock<IFoo>>();
+            Assert.NotNull(instance1.Object.Bar);//Passed => OK
+            var instance2 = fixture.Build<Mock<IFoo>>().OmitAutoProperties().CreateAnonymous();
+            Assert.Null(instance2.Object.Bar);//Passed => OK
+            var instance3 = fixture.Build<Mock<IFoo>>().OmitAutoProperties().CreateAnonymous();
+            Assert.Null(instance3.Object.Bar);//Passed => OK
+        }
+
+        [Fact]
+        public void Test2()
+        {
+            var instance2 = new Mock<IFoo>();
+            Assert.Null(instance2.Object.Bar);//Passed => OK
+            var instance3 = new Mock<IFoo>();
+            Assert.Null(instance3.Object.Bar);//Not Failed => ???
+        }
+
+        public interface IFoo
+        {
+            IBar Bar { get; set; }
+        }
+
+        public interface IBar
+        {
+        }
     }
 }
