@@ -4,8 +4,8 @@
         <id>AutoFixture.AutoFakeItEasy</id>
         <version>2.2</version>
         <title>AutoFixture with Auto Mocking using FakeItEasy</title>
-        <authors>Mark Seemann</authors>
-        <owners>Mark Seemann</owners>
+        <authors>Nikos Baxevanis</authors>
+        <owners>Nikos Baxevanis</owners>
         <dependencies>
             <dependency id="autofixture" version="2.2" />
             <dependency id="FakeItEasy" version="1.7" />
