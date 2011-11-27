@@ -7,6 +7,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
     public class DependencyConstraints
     {
         [Theory]
+        [InlineData("FakeItEasy")]
         [InlineData("Rhino.Mocks")]
         [InlineData("xunit")]
         [InlineData("xunit.extensions")]
@@ -21,6 +22,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Theory]
+        [InlineData("FakeItEasy")]
         [InlineData("Rhino.Mocks")]
         public void AutoFixtureUnitTestsDoNotReference(string assemblyName)
         {
