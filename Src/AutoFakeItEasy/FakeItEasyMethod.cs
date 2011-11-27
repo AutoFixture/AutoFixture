@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FakeItEasy;
-using FakeItEasy.Creation;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoFakeItEasy
@@ -24,8 +23,6 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
     {
         private readonly ParameterInfo[] methodParameters;
         private readonly Type targetType;
-
-        private IEnumerable<object> argumentsForConstructor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeItEasyMethod"/> class.
@@ -78,35 +75,22 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// <returns>A mock instance created with FakeItEasy.</returns>
         public object Invoke(IEnumerable<object> parameters)
         {
-            this.argumentsForConstructor = parameters;
+            object fake = typeof(FakeBuilder<>)
+                .MakeGenericType(this.targetType)
+                .GetMethod("Build", BindingFlags.Static | BindingFlags.NonPublic)
+                .Invoke(null, new[] { parameters.ToArray() });
 
-            Type actionType = typeof(Action<>).MakeGenericType(
-                 typeof(IFakeOptionsBuilder<>).MakeGenericType(this.targetType));
-
-            MethodInfo actionMethod = this.GetType()
-                .GetMethod("SetArgumentsForConstructor", BindingFlags.Instance | BindingFlags.NonPublic)
-                .MakeGenericMethod(new[] { this.targetType });
-
-            Delegate action = Delegate.CreateDelegate(actionType, this, actionMethod);
-
-            Type fake = typeof(Fake<>).MakeGenericType(this.targetType);
-            ConstructorInfo ctor = (from ci in fake.GetConstructors(BindingFlags.Instance | BindingFlags.Public)
-                                    from pi in ci.GetParameters()
-                                    where pi.ParameterType == actionType
-                                    select ci).First();
-
-            return ctor.Invoke(new[] { action });
+            return fake;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method is used by Reflection. It describes the method that is passed in the Action<IFakeOptionsBuilder<T>> overload of the Fake<T> constructor.")]
-        private void SetArgumentsForConstructor<T>(IFakeOptionsBuilder<T> o)
+        private sealed class FakeBuilder<T> where T : class
         {
-            if (typeof(T).IsInterface)
+            internal static Fake<T> Build(IEnumerable<object> argumentsForConstructor)
             {
-                return;
+                return typeof(T).IsInterface
+                    ? new Fake<T>()
+                    : new Fake<T>(o => o.WithArgumentsForConstructor(argumentsForConstructor));
             }
-
-            o.WithArgumentsForConstructor(this.argumentsForConstructor);
         }
     }
 }
