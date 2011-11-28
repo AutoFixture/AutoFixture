@@ -10,8 +10,6 @@ namespace Ploeh.AutoFixture
     {
         private readonly Type targetType;
         private readonly Type registeredType;
-        private IFixture currentFixture;
-        private FixedBuilder fixedSpecimenBuilder;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FreezingCustomization"/> class.
@@ -35,6 +33,9 @@ namespace Ploeh.AutoFixture
         /// <exception cref="ArgumentNullException">
         /// Either <paramref name="targetType"/> or <paramref name="registeredType"/> is null.
         /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="registeredType"/> is not assignable from <paramref name="targetType"/>.
+        /// </exception>
         public FreezingCustomization(Type targetType, Type registeredType)
         {
             if (targetType == null)
@@ -45,6 +46,15 @@ namespace Ploeh.AutoFixture
             if (registeredType == null)
             {
                 throw new ArgumentNullException("registeredType");
+            }
+
+            if (!registeredType.IsAssignableFrom(targetType))
+            {
+                var message = String.Format(
+                    "The type '{0}' cannot be frozen as '{1}' because the two types are not compatible.",
+                    targetType,
+                    registeredType);
+                throw new ArgumentException(message);
             }
 
             this.targetType = targetType;
@@ -82,44 +92,43 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            currentFixture = fixture;
-            CreateFixedSpecimenBuilderForTargetType();
-            RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType();
+            var builder = CreateFixedSpecimenBuilderForTargetType(fixture);
+            RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType(builder, fixture);
         }
 
-        private void CreateFixedSpecimenBuilderForTargetType()
+        private FixedBuilder CreateFixedSpecimenBuilderForTargetType(IFixture fixture)
         {
-            var specimen = CreateSpecimenForTargetType();
-            fixedSpecimenBuilder = new FixedBuilder(specimen);
+            var specimen = CreateSpecimenForTargetType(fixture);
+            return new FixedBuilder(specimen);
         }
 
-        private object CreateSpecimenForTargetType()
+        private object CreateSpecimenForTargetType(IFixture fixture)
         {
-            var context = new SpecimenContext(currentFixture.Compose());
+            var context = new SpecimenContext(fixture.Compose());
             return context.Resolve(targetType);
         }
 
-        private void RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType()
+        private void RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType(FixedBuilder builder, IFixture fixture)
         {
-            var targetTypeBuilder = MapFixedSpecimenBuilderToTargetType();
-            var registeredTypeBuilder = MapFixedSpecimenBuilderToRegisteredType();
+            var targetTypeBuilder = MapFixedSpecimenBuilderToTargetType(builder);
+            var registeredTypeBuilder = MapFixedSpecimenBuilderToRegisteredType(builder);
 
             var compositeBuilder = new CompositeSpecimenBuilder(
                 targetTypeBuilder,
                 registeredTypeBuilder);
 
-            currentFixture.Customizations.Insert(0, compositeBuilder);
+            fixture.Customizations.Insert(0, compositeBuilder);
         }
 
-        private ISpecimenBuilder MapFixedSpecimenBuilderToTargetType()
+        private ISpecimenBuilder MapFixedSpecimenBuilderToTargetType(FixedBuilder builder)
         {
-            var builderComposer = new TypedBuilderComposer(targetType, fixedSpecimenBuilder);
+            var builderComposer = new TypedBuilderComposer(targetType, builder);
             return builderComposer.Compose();
         }
 
-        private ISpecimenBuilder MapFixedSpecimenBuilderToRegisteredType()
+        private ISpecimenBuilder MapFixedSpecimenBuilderToRegisteredType(FixedBuilder builder)
         {
-            var builderComposer = new TypedBuilderComposer(registeredType, fixedSpecimenBuilder);
+            var builderComposer = new TypedBuilderComposer(registeredType, builder);
             return builderComposer.Compose();
         }
     }
