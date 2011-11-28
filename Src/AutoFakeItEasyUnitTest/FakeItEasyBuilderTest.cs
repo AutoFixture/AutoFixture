@@ -1,6 +1,7 @@
 ﻿using System;
 using FakeItEasy;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
 
@@ -56,6 +57,44 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Exercise system
             var dummyContext = A.Fake<ISpecimenContext>();
             var result = sut.Create(request, dummyContext);
+            // Verify outcome
+            var expectedResult = new NoSpecimen(request);
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(IInterface))]
+        [InlineData(typeof(AbstractType))]
+        public void CreateWithFakeRequestReturnsCorrectResultWhenContextReturnsFake(Type type)
+        {
+            // Fixture setup
+            var context = new Fake<ISpecimenContext>().FakedObject;
+            var builderStub = new Fake<ISpecimenBuilder>();
+            var fake = Activator.CreateInstance(typeof(Fake<>).MakeGenericType(type));
+            builderStub.CallsTo(b => b.Create(type, context))
+                .Returns(fake);
+            var sut = new FakeItEasyBuilder(builderStub.FakedObject);
+            // Exercise system
+            var result = sut.Create(type, context);
+            // Verify outcome
+            Assert.IsAssignableFrom(type, result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(AbstractType), typeof(object))]
+        [InlineData(typeof(AbstractType), null)]
+        public void CreateWithFakeRequestReturnsCorrectResultWhenContextReturnsNonFake(Type request, object contextValue)
+        {
+            // Fixture setup
+            var context = new Fake<ISpecimenContext>().FakedObject;
+            var builderStub = new Fake<ISpecimenBuilder>();
+            builderStub.CallsTo(b => b.Create(request, context))
+                .Returns(contextValue);
+            var sut = new FakeItEasyBuilder(builderStub.FakedObject);
+            // Exercise system
+            var result = sut.Create(request, context);
             // Verify outcome
             var expectedResult = new NoSpecimen(request);
             Assert.Equal(expectedResult, result);
