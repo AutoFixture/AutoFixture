@@ -112,17 +112,17 @@ namespace Ploeh.AutoFixture
 
             internal void Execute()
             {
-                var builder = 
-                    CreateFixedSpecimenBuilderForTargetType(fixture);
+                var builder =
+                    CreateFixedSpecimenBuilderForTargetType();
                 RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType(
                     builder, fixture);
             }
 
-            private FixedBuilder CreateFixedSpecimenBuilderForTargetType(
-                IFixture fixture)
+            private FixedBuilder CreateFixedSpecimenBuilderForTargetType()
             {
                 var specimen = 
-                    CreateSpecimenForTargetType(fixture);
+                    this.CreateSpecimenForTargetType(
+                        this.fixture);
                 return new FixedBuilder(specimen);
             }
 
