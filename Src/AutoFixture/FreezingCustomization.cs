@@ -114,8 +114,7 @@ namespace Ploeh.AutoFixture
             {
                 var builder =
                     CreateFixedSpecimenBuilderForTargetType();
-                RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType(
-                    builder, fixture);
+                RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType(builder);
             }
 
             private FixedBuilder CreateFixedSpecimenBuilderForTargetType()
@@ -131,8 +130,7 @@ namespace Ploeh.AutoFixture
                 return context.Resolve(this.customization.targetType);
             }
 
-            private void RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType(
-                FixedBuilder builder, IFixture fixture)
+            private void RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType(FixedBuilder builder)
             {
                 var targetTypeBuilder =
                     MapFixedSpecimenBuilderToTargetType(builder);
@@ -143,7 +141,7 @@ namespace Ploeh.AutoFixture
                     targetTypeBuilder,
                     registeredTypeBuilder);
 
-                fixture.Customizations.Insert(0, compositeBuilder);
+                this.fixture.Customizations.Insert(0, compositeBuilder);
             }
 
             private ISpecimenBuilder MapFixedSpecimenBuilderToTargetType(
