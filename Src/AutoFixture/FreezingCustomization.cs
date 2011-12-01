@@ -120,15 +120,14 @@ namespace Ploeh.AutoFixture
 
             private FixedBuilder CreateFixedSpecimenBuilderForTargetType()
             {
-                var specimen = 
-                    this.CreateSpecimenForTargetType(
-                        this.fixture);
+                var specimen =
+                    this.CreateSpecimenForTargetType();
                 return new FixedBuilder(specimen);
             }
 
-            private object CreateSpecimenForTargetType(IFixture fixture)
+            private object CreateSpecimenForTargetType()
             {
-                var context = new SpecimenContext(fixture.Compose());
+                var context = new SpecimenContext(this.fixture.Compose());
                 return context.Resolve(this.customization.targetType);
             }
 
