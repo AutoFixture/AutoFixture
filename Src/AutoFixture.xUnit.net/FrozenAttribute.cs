@@ -12,12 +12,21 @@ namespace Ploeh.AutoFixture.Xunit
     public sealed class FrozenAttribute : CustomizeAttribute
     {
         /// <summary>
+        /// Gets or sets the <see cref="Type"/> that the frozen parameter value
+        /// should be mapped to in the <see cref="IFixture"/>.
+        /// </summary>
+        public Type As { get; set; }
+
+        /// <summary>
         /// Gets a customization that freezes the <see cref="Type"/> of the parameter.
         /// </summary>
         /// <param name="parameter">The parameter for which the customization is requested.</param>
         /// <returns>
         /// A customization that freezes the <see cref="Type"/> of the parameter.
         /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="parameter"/> is null.
+        /// </exception>
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
             if (parameter == null)
@@ -25,7 +34,8 @@ namespace Ploeh.AutoFixture.Xunit
                 throw new ArgumentNullException("parameter");
             }
 
-            return new FreezingCustomization(parameter.ParameterType);
+            var targetType = parameter.ParameterType;
+            return new FreezingCustomization(targetType, As ?? targetType);
         }
     }
 }
