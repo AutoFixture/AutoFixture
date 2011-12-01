@@ -1,5 +1,6 @@
 ﻿using System;
 using Ploeh.AutoFixture.Kernel;
+using System.Globalization;
 
 namespace Ploeh.AutoFixture
 {
@@ -51,6 +52,7 @@ namespace Ploeh.AutoFixture
             if (!registeredType.IsAssignableFrom(targetType))
             {
                 var message = String.Format(
+                    CultureInfo.CurrentCulture,
                     "The type '{0}' cannot be frozen as '{1}' because the two types are not compatible.",
                     targetType,
                     registeredType);
