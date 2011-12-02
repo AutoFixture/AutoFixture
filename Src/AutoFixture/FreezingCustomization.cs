@@ -94,15 +94,15 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            new RegisterFixedBuilderCommand(fixture, this).Execute();
+            new CustomizeCommand(fixture, this).Execute();
         }
 
-        private class RegisterFixedBuilderCommand
+        private class CustomizeCommand
         {
             private readonly IFixture fixture;
             private readonly FreezingCustomization customization;
 
-            internal RegisterFixedBuilderCommand(
+            internal CustomizeCommand(
                 IFixture fixture,
                 FreezingCustomization customization)
             {
