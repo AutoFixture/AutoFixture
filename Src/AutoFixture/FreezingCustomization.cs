@@ -143,15 +143,15 @@ namespace Ploeh.AutoFixture
 
                 internal void Execute()
                 {
-                    this.RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType(this.fixedBuilder);
+                    this.RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType();
                 }
 
-                private void RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType(FixedBuilder builder)
+                private void RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType()
                 {
                     var targetTypeBuilder =
-                        MapFixedSpecimenBuilderToTargetType(builder);
+                        MapFixedSpecimenBuilderToTargetType();
                     var registeredTypeBuilder =
-                        MapFixedSpecimenBuilderToRegisteredType(builder);
+                        MapFixedSpecimenBuilderToRegisteredType();
 
                     var compositeBuilder = new CompositeSpecimenBuilder(
                         targetTypeBuilder,
@@ -160,21 +160,19 @@ namespace Ploeh.AutoFixture
                     this.customizeCmd.fixture.Customizations.Insert(0, compositeBuilder);
                 }
 
-                private ISpecimenBuilder MapFixedSpecimenBuilderToTargetType(
-                    FixedBuilder builder)
+                private ISpecimenBuilder MapFixedSpecimenBuilderToTargetType()
                 {
                     var builderComposer =
                         new TypedBuilderComposer(
-                            this.customizeCmd.customization.targetType, builder);
+                            this.customizeCmd.customization.targetType, this.fixedBuilder);
                     return builderComposer.Compose();
                 }
 
-                private ISpecimenBuilder MapFixedSpecimenBuilderToRegisteredType(
-                    FixedBuilder builder)
+                private ISpecimenBuilder MapFixedSpecimenBuilderToRegisteredType()
                 {
                     var builderComposer =
                         new TypedBuilderComposer(
-                            this.customizeCmd.customization.registeredType, builder);
+                            this.customizeCmd.customization.registeredType, this.fixedBuilder);
                     return builderComposer.Compose();
                 }
             }
