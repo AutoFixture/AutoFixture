@@ -515,6 +515,19 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousWithCharPropertyTwiceWillAssignDifferentValues()
+        {
+            // Fixture setup
+            Fixture sut = new Fixture();
+            PropertyHolder<char> ph = sut.CreateAnonymous<PropertyHolder<char>>();
+            // Exercise system
+            PropertyHolder<char> result = sut.CreateAnonymous<PropertyHolder<char>>();
+            // Verify outcome
+            Assert.NotEqual<char>(ph.Property, result.Property);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousWithBooleanPropertyTwiceWillAssignDifferentValues()
         {
             // Fixture setup

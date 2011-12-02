@@ -25,6 +25,7 @@ namespace Ploeh.AutoFixture
             yield return new ConstrainedStringGenerator();
             yield return new StringSeedRelay();
             yield return new NumericSequenceGenerator();
+            yield return new CharSequenceGenerator();
             yield return new RangedNumberGenerator();
             yield return new StrictlyMonotonicallyIncreasingDateTimeGenerator(DateTime.Now);
             yield return new BooleanSwitch();

@@ -82,6 +82,7 @@
     <Compile Include="BehaviorPostprocessComposerTest.cs" />
     <Compile Include="BooleanSwitchTest.cs" />
     <Compile Include="ByteSequenceGeneratorTest.cs" />
+    <Compile Include="CharSequenceGeneratorTest.cs" />
     <Compile Include="ConstrainedStringGeneratorTest.cs" />
     <Compile Include="CurrentDateTimeCustomizationTest.cs" />
     <Compile Include="CurrentDateTimeGeneratorTest.cs" />

@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="BehaviorComposer.cs" />
     <Compile Include="BehaviorPostprocessComposer.cs" />
+    <Compile Include="CharSequenceGenerator.cs" />
     <Compile Include="CollectionFiller.cs" />
     <Compile Include="CompositeCustomization.cs" />
     <Compile Include="ConstrainedStringGenerator.cs" />
