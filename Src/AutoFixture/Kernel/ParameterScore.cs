@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixture.Kernel
             var genericParameterType = genericParameterTypes.Single();
             var listType = targetType.MakeGenericType(genericParameterType);
 
-            var polymorphismScore = parameters.Count(p => listType.IsAssignableFrom(p.ParameterType));
+            var polymorphismScore = parameters.Count(p => listType == p.ParameterType);
             if (polymorphismScore > 0)
                 return polymorphismScore;
 
@@ -59,6 +59,9 @@ namespace Ploeh.AutoFixture.Kernel
 
         private static bool IsExactMatch(Type targetType, ParameterInfo p)
         {
+            if (!p.ParameterType.IsGenericType)
+                return false;
+
             var genericParameterTypes = p.ParameterType.GetGenericArguments();
             if (genericParameterTypes.Length != 1)
                 return false;
