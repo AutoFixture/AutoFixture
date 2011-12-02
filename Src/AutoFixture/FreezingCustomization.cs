@@ -143,11 +143,6 @@ namespace Ploeh.AutoFixture
 
                 internal void Execute()
                 {
-                    this.RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType();
-                }
-
-                private void RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType()
-                {
                     var targetTypeBuilder =
                         MapFixedSpecimenBuilderToTargetType();
                     var registeredTypeBuilder =
