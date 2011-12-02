@@ -114,7 +114,7 @@ namespace Ploeh.AutoFixture
             {
                 var builder =
                     CreateFixedSpecimenBuilderForTargetType();
-                RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType(builder);
+                new RegisterFixedBuilderCommand(builder, this).Execute();
             }
 
             private FixedBuilder CreateFixedSpecimenBuilderForTargetType()
@@ -130,36 +130,53 @@ namespace Ploeh.AutoFixture
                 return context.Resolve(this.customization.targetType);
             }
 
-            private void RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType(FixedBuilder builder)
+            private class RegisterFixedBuilderCommand
             {
-                var targetTypeBuilder =
-                    MapFixedSpecimenBuilderToTargetType(builder);
-                var registeredTypeBuilder = 
-                    MapFixedSpecimenBuilderToRegisteredType(builder);
+                private readonly CustomizeCommand customizeCmd;
+                private readonly FixedBuilder fixedBuilder;
 
-                var compositeBuilder = new CompositeSpecimenBuilder(
-                    targetTypeBuilder,
-                    registeredTypeBuilder);
+                internal RegisterFixedBuilderCommand(FixedBuilder fixedBuilder, CustomizeCommand customizeCmd)
+                {
+                    this.fixedBuilder = fixedBuilder;
+                    this.customizeCmd = customizeCmd;
+                }
 
-                this.fixture.Customizations.Insert(0, compositeBuilder);
-            }
+                internal void Execute()
+                {
+                    this.RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType(this.fixedBuilder);
+                }
 
-            private ISpecimenBuilder MapFixedSpecimenBuilderToTargetType(
-                FixedBuilder builder)
-            {
-                var builderComposer = 
-                    new TypedBuilderComposer(
-                        this.customization.targetType, builder);
-                return builderComposer.Compose();
-            }
+                private void RegisterFixedSpecimenBuilderForTargetTypeAndRegisteredType(FixedBuilder builder)
+                {
+                    var targetTypeBuilder =
+                        MapFixedSpecimenBuilderToTargetType(builder);
+                    var registeredTypeBuilder =
+                        MapFixedSpecimenBuilderToRegisteredType(builder);
 
-            private ISpecimenBuilder MapFixedSpecimenBuilderToRegisteredType(
-                FixedBuilder builder)
-            {
-                var builderComposer =
-                    new TypedBuilderComposer(
-                        this.customization.registeredType, builder);
-                return builderComposer.Compose();
+                    var compositeBuilder = new CompositeSpecimenBuilder(
+                        targetTypeBuilder,
+                        registeredTypeBuilder);
+
+                    this.customizeCmd.fixture.Customizations.Insert(0, compositeBuilder);
+                }
+
+                private ISpecimenBuilder MapFixedSpecimenBuilderToTargetType(
+                    FixedBuilder builder)
+                {
+                    var builderComposer =
+                        new TypedBuilderComposer(
+                            this.customizeCmd.customization.targetType, builder);
+                    return builderComposer.Compose();
+                }
+
+                private ISpecimenBuilder MapFixedSpecimenBuilderToRegisteredType(
+                    FixedBuilder builder)
+                {
+                    var builderComposer =
+                        new TypedBuilderComposer(
+                            this.customizeCmd.customization.registeredType, builder);
+                    return builderComposer.Compose();
+                }
             }
         }
     }
