@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.Kernel
         }
 
         /// <summary>
-        /// Gets the pattern.
+        /// Gets the regular expression pattern.
         /// </summary>
         public string Pattern
         {

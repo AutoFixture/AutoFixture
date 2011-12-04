@@ -86,6 +86,7 @@
     <Compile Include="CurrentDateTimeCustomizationTest.cs" />
     <Compile Include="CurrentDateTimeGeneratorTest.cs" />
     <Compile Include="DataAnnotations\RegularExpressionAttributeRelayTest.cs" />
+    <Compile Include="DataAnnotations\RegularExpressionValidatedType.cs" />
     <Compile Include="DataAnnotations\StringLengthAttributeRelayTest.cs" />
     <Compile Include="DataAnnotations\StringLengthValidatedType.cs" />
     <Compile Include="FakeCustomAttributeProvider.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Kernel\RegularExpressionRequestTest.cs" />
     <Compile Include="ProvidedAttribute.cs" />
     <Compile Include="RangedNumberGeneratorTest.cs" />
+    <Compile Include="RegularExpressionGeneratorTest.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGeneratorTest.cs" />
     <Compile Include="DefaultPrimitiveBuildersTest.cs" />
     <Compile Include="DelegatingCustomization.cs" />
