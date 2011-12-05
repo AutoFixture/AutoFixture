@@ -46,14 +46,14 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         [InlineData(typeof(IComparable<object>))]
         [InlineData(typeof(IComparable<string>))]
         [InlineData(typeof(IComparable<int>))]
-        public void TargetTypeIsCorrect(Type t)
+        public void TargetTypeIsCorrect(Type expected)
         {
             // Fixture setup
-            var sut = new FakeItEasyMethod(t, new ParameterInfo[0]);
+            var sut = new FakeItEasyMethod(expected, new ParameterInfo[0]);
             // Exercise system
             Type result = sut.TargetType;
             // Verify outcome
-            Assert.Equal(t, result);
+            Assert.Equal(expected, result);
             // Teardown
         }
 
