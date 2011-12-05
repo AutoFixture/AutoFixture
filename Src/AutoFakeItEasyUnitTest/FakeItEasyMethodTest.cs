@@ -94,10 +94,11 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
                 new ParameterInfo[] { }
                 );
             // Exercise system
-            var result = sut.Invoke(new object[] { 1 });
+            int expected = 1;
+            var result = sut.Invoke(new object[] { expected });
             // Verify outcome
             var fake = Assert.IsAssignableFrom<Fake<AbstractTypeWithNonDefaultConstructor<int>>>(result);
-            Assert.Equal(1, fake.FakedObject.Property);
+            Assert.Equal(expected, fake.FakedObject.Property);
             // Teardown
         }
     }
