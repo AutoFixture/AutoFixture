@@ -38,13 +38,12 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             var residueCollectors = new List<ISpecimenBuilder>();
             var fixtureStub = new Fake<IFixture>();
             fixtureStub.CallsTo(c => c.ResidueCollectors).Returns(residueCollectors);
-
             var sut = new AutoFakeItEasyCustomization();
             // Exercise system
             sut.Customize(fixtureStub.FakedObject);
             // Verify outcome
-            var postProcessor = residueCollectors.OfType<FakeItEasyBuilder>().Single();
-            var ctorInvoker = Assert.IsAssignableFrom<MethodInvoker>(postProcessor.Builder);
+            var specimenBuilder = residueCollectors.OfType<FakeItEasyBuilder>().Single();
+            var ctorInvoker = Assert.IsAssignableFrom<MethodInvoker>(specimenBuilder.Builder);
             Assert.IsAssignableFrom<FakeItEasyMethodQuery>(ctorInvoker.Query);
             // Teardown
         }
