@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FakeItEasy;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
@@ -22,117 +22,82 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Teardown
         }
 
-        [Fact]
-        public void SelectMethodsFromNullTypeThrows()
-        {
-            // Fixture setup
-            var sut = new FakeItEasyMethodQuery();
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.SelectMethods(null));
-            // Teardown
-        }
-
         [Theory]
         [InlineData(typeof(object))]
         [InlineData(typeof(string))]
         [InlineData(typeof(AbstractType))]
-        public void SelectReturnsCorrectResultForNonInterfaces(Type t)
+        [InlineData(typeof(IInterface))]
+        [InlineData(typeof(Fake<>))]
+        public void SelectReturnsCorrectResultForNonFakeTypes(Type t)
         {
             // Fixture setup
-            var expectedMethods = (from ci in t.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                                        let paramInfos = ci.GetParameters()
-                                        orderby paramInfos.Length ascending
-                                        select new FakeItEasyMethod(ci.DeclaringType, paramInfos) as IMethod);
             var sut = new FakeItEasyMethodQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome
-            Assert.True(expectedMethods.SequenceEqual(result, new MethodComparer()));
+            Assert.Empty(result);
             // Teardown
         }
 
         [Theory]
-        [InlineData(typeof(IInterface))]
-        [InlineData(typeof(IComparable<object>))]
-        [InlineData(typeof(IComparable<string>))]
-        [InlineData(typeof(IComparable<int>))]
-        public void SelectReturnsCorrectNumberOfMethodsForInterface(Type t)
+        [InlineData(typeof(Fake<AbstractType>))]
+        [InlineData(typeof(Fake<ConcreteType>))]
+        [InlineData(typeof(Fake<MultiUnorderedConstructorType>))]
+        public void SelectMethodsReturnsCorrectNumberOfConstructorsForTypesWithConstructors(Type t)
         {
             // Fixture setup
+            var fakeType = t.GetGenericArguments().Single();
+            var expectedCount = fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
             var sut = new FakeItEasyMethodQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome
-            Assert.Equal(1, result.Count());
+            Assert.Equal(expectedCount, result.Count());
             // Teardown
         }
 
         [Theory]
-        [InlineData(typeof(IInterface))]
-        [InlineData(typeof(IComparable<object>))]
-        [InlineData(typeof(IComparable<string>))]
-        [InlineData(typeof(IComparable<int>))]
-        public void SelectReturnsCorrectResultForInterface(Type t)
+        [InlineData(typeof(Fake<IInterface>))]
+        [InlineData(typeof(Fake<AbstractType>))]
+        [InlineData(typeof(Fake<ConcreteType>))]
+        [InlineData(typeof(Fake<MultiUnorderedConstructorType>))]
+        public void MethodsDefineCorrectParameters(Type t)
         {
             // Fixture setup
+            var fakeType = t.GetGenericArguments().Single();
+            var fakeTypeCtorArgs = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                                   select ci.GetParameters();
             var sut = new FakeItEasyMethodQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome
-            var method = Assert.IsAssignableFrom<FakeItEasyMethod>(result.Single());
-            Assert.Equal(t, method.TargetType);
+            var actualArgs = from ci in result
+                             select ci.Parameters;
+            Assert.True(fakeTypeCtorArgs.All(expectedParams =>
+                actualArgs.Any(expectedParams.SequenceEqual)));
             // Teardown
         }
 
         [Theory]
-        [InlineData(typeof(IInterface))]
-        [InlineData(typeof(IComparable<object>))]
-        [InlineData(typeof(IComparable<string>))]
-        [InlineData(typeof(IComparable<int>))]
-        public void SelectReturnsResultWithNoParametersForInterface(Type t)
+        [InlineData(typeof(Fake<AbstractType>))]
+        [InlineData(typeof(Fake<ConcreteType>))]
+        [InlineData(typeof(Fake<MultiUnorderedConstructorType>))]
+        public void MethodsAreReturnedInCorrectOrder(Type t)
         {
             // Fixture setup
+            var fakeType = t.GetGenericArguments().Single();
+            var fakeTypeCtorArgCounts = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                                        let paramCount = ci.GetParameters().Length
+                                        orderby paramCount ascending
+                                        select paramCount;
             var sut = new FakeItEasyMethodQuery();
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome
-            var method = Assert.IsAssignableFrom<FakeItEasyMethod>(result.Single());
-            Assert.Empty(method.Parameters);
+            var actualArgCounts = from ci in result
+                                  select ci.Parameters.Count();
+            Assert.True(fakeTypeCtorArgCounts.SequenceEqual(actualArgCounts));
             // Teardown
-        }
-
-        private sealed class MethodComparer : IEqualityComparer<IMethod>
-        {
-            /// <summary>
-            /// Determines whether the specified objects are equal.
-            /// </summary>
-            /// <param name="x">The first  IMethod type to compare.</param>
-            /// <param name="y">The second IMethod type to compare.</param>
-            /// <returns>
-            /// true if the specified objects are equal; otherwise, false.
-            /// </returns>
-            public bool Equals(IMethod x, IMethod y)
-            {
-                return x.Parameters.SequenceEqual(y.Parameters);
-            }
-
-            /// <summary>
-            /// Returns a hash code for this instance.
-            /// </summary>
-            /// <param name="obj">The obj.</param>
-            /// <returns>
-            /// A hash code for this instance, suitable for use in hashing algorithms and data 
-            /// structures like a hash table. 
-            /// </returns>
-            /// <exception cref="T:System.ArgumentNullException">
-            /// The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/>
-            /// is null.
-            ///   </exception>
-            public int GetHashCode(IMethod obj)
-            {
-                return obj.Parameters.GetHashCode();
-            }
         }
     }
 }

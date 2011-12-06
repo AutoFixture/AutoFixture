@@ -49,6 +49,7 @@
     <Compile Include="FakeItEasyMethodQueryTest.cs" />
     <Compile Include="FakeItEasyMethodTest.cs" />
     <Compile Include="FakeItEasyBuilderTest.cs" />
+    <Compile Include="FakeItEasyRelayTest.cs" />
     <Compile Include="FixtureIntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

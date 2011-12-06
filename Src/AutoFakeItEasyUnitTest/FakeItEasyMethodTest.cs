@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using FakeItEasy;
 using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
 {
@@ -15,7 +12,8 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void SutImplementsISpecimenBuilder()
         {
             // Exercise system
-            var sut = new FakeItEasyMethod(typeof(FakeItEasyMethod), Enumerable.Empty<ParameterInfo>().ToArray());
+            Action dummyDelegate = delegate { };
+            var sut = new FakeItEasyMethod(dummyDelegate.Method, Enumerable.Empty<ParameterInfo>().ToArray());
             // Verify outcome
             Assert.IsAssignableFrom<IMethod>(sut);
             // Teardown
@@ -33,36 +31,18 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void ConstructorWithNullParameterInfoArray()
         {
             // Exercise system
+            Action dummyDelegate = delegate { };
             Assert.Throws<ArgumentNullException>(() =>
-                new FakeItEasyMethod(typeof(FakeItEasyMethod), null));
-        }
-
-        [Theory]
-        [InlineData(typeof(object))]
-        [InlineData(typeof(string))]
-        [InlineData(typeof(int))]
-        [InlineData(typeof(AbstractType))]
-        [InlineData(typeof(IInterface))]
-        [InlineData(typeof(IComparable<object>))]
-        [InlineData(typeof(IComparable<string>))]
-        [InlineData(typeof(IComparable<int>))]
-        public void TargetTypeIsCorrect(Type expected)
-        {
-            // Fixture setup
-            var sut = new FakeItEasyMethod(expected, new ParameterInfo[0]);
-            // Exercise system
-            Type result = sut.TargetType;
-            // Verify outcome
-            Assert.Equal(expected, result);
-            // Teardown
+                new FakeItEasyMethod(dummyDelegate.Method, null));
         }
 
         [Fact]
         public void ParametersIsCorrect()
         {
             // Fixture setup
+            Action dummyDelegate = delegate { };
             var parameters = Enumerable.Empty<ParameterInfo>();
-            var sut = new FakeItEasyMethod(typeof(object), parameters.ToArray());
+            var sut = new FakeItEasyMethod(dummyDelegate.Method, parameters.ToArray());
             // Exercise system
             var result = sut.Parameters;
             // Verify outcome
@@ -70,35 +50,18 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(IInterface))]
-        [InlineData(typeof(AbstractType))]
-        public void InvokeReturnsCorrectResult(Type type)
-        {
-            // Fixture setup
-            var sut = new FakeItEasyMethod(type, new ParameterInfo[] { });
-            var expectedFake = typeof(Fake<>).MakeGenericType(type);
-            // Exercise system
-            var result = sut.Invoke(Enumerable.Empty<object>());
-            // Verify outcome
-            Assert.IsAssignableFrom(expectedFake, result);
-            // Teardown
-        }
-
         [Fact]
-        public void InvokeOnTypeWithNonDefaultConstructorReturnsCorrectResult()
+        public void InvokeReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = new FakeItEasyMethod(
-                typeof(AbstractTypeWithNonDefaultConstructor<int>),
-                new ParameterInfo[] { }
-                );
+            Func<object[], object[]> func = p => p;
+            var sut = new FakeItEasyMethod(func.Method, Enumerable.Empty<ParameterInfo>().ToArray());
             // Exercise system
-            int expected = 1;
-            var result = sut.Invoke(new object[] { expected });
+            var args = new object[] { "1984" };
+            var result = (object[])sut.Invoke(args);
             // Verify outcome
-            var fake = Assert.IsAssignableFrom<Fake<AbstractTypeWithNonDefaultConstructor<int>>>(result);
-            Assert.Equal(expected, fake.FakedObject.Property);
+            var expected = func(args);
+            Assert.True(expected.SequenceEqual(result));
             // Teardown
         }
     }

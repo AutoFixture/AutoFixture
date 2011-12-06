@@ -2,42 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FakeItEasy;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoFakeItEasy
 {
     /// <summary>
-    /// Encapsulates logic on how to create a mock instance with FakeIteasy, using a constructor with
-    /// appropriate parameters.
+    /// Represents a Fake(OfT) method that can be invoked with a known set of parameters.
     /// </summary>
-    /// <remarks>
-    /// <para>
-    /// The main purpose of FakeItEasyMethod is to support creation of fake instances of
-    /// abstract classes with non-default constructors. In this case FakeItEasy must be supplied
-    /// with the appropriate parameter values to be able to properly initialize the fake instance,
-    /// since it needs to pass those parameters to the base class.
-    /// </para>
-    /// </remarks>
     public class FakeItEasyMethod : IMethod
     {
+        private readonly MethodInfo methodInfo;
         private readonly ParameterInfo[] methodParameters;
-        private readonly Type targetType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeItEasyMethod"/> class.
         /// </summary>
-        /// <param name="targetType">
-        /// The type of which a mock instance should be created.
-        /// </param>
-        /// <param name="methodParameters">
-        /// The parameter information which can be used to identify the signature of the method.
-        /// </param>
-        public FakeItEasyMethod(Type targetType, ParameterInfo[] methodParameters)
+        /// <param name="methodInfo">The method info.</param>
+        /// <param name="methodParameters">The parameter information which can be used to identify the signature of the method.</param>
+        public FakeItEasyMethod(MethodInfo methodInfo, ParameterInfo[] methodParameters)
         {
-            if (targetType == null)
+            if (methodInfo == null)
             {
-                throw new ArgumentNullException("targetType");
+                throw new ArgumentNullException("methodInfo");
             }
 
             if (methodParameters == null)
@@ -45,17 +31,8 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
                 throw new ArgumentNullException("methodParameters");
             }
 
-            this.targetType = targetType;
+            this.methodInfo = methodInfo;
             this.methodParameters = methodParameters;
-        }
-
-        /// <summary>
-        /// Gets the type of which a mock instance should be created.
-        /// </summary>
-        /// <seealso cref="FakeItEasyMethod(Type, ParameterInfo[])" />
-        public Type TargetType
-        {
-            get { return this.targetType; }
         }
 
         /// <summary>
@@ -67,30 +44,15 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         }
 
         /// <summary>
-        /// Creates a mock instance using FakeItEasy.
+        /// Invokes the method with the supplied parameters.
         /// </summary>
-        /// <param name="parameters">
-        /// The parameters which will be supplied to the base constructor.
-        /// </param>
-        /// <returns>A mock instance created with FakeItEasy.</returns>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns>
+        /// The result of the method call.
+        /// </returns>
         public object Invoke(IEnumerable<object> parameters)
         {
-            object fake = typeof(FakeBuilder<>)
-                .MakeGenericType(this.targetType)
-                .GetMethod("Build", BindingFlags.Static | BindingFlags.NonPublic)
-                .Invoke(null, new[] { parameters.ToArray() });
-
-            return fake;
-        }
-
-        private sealed class FakeBuilder<T> where T : class
-        {
-            internal static Fake<T> Build(IEnumerable<object> argumentsForConstructor)
-            {
-                return typeof(T).IsInterface
-                    ? new Fake<T>()
-                    : new Fake<T>(o => o.WithArgumentsForConstructor(argumentsForConstructor));
-            }
+            return this.methodInfo.Invoke(null, new[] { parameters.ToArray() });
         }
     }
 }

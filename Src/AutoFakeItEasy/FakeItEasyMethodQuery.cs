@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoFakeItEasy
@@ -26,20 +25,21 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// </remarks>
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
-            if (type == null)
+            if (!type.IsFake())
             {
-                throw new ArgumentNullException("type");
+                return Enumerable.Empty<IMethod>();
             }
 
-            if (type.IsInterface)
+            var fakeType = type.GetFakedType();
+            if (fakeType.IsInterface)
             {
-                return new[] { new FakeItEasyMethod(type, new ParameterInfo[0]) };
+                return new[] { new ConstructorMethod(type.GetDefaultConstructor()) };
             }
 
-            return from ci in type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+            return from ci in fakeType.GetPublicAndProtectedConstructors()
                    let paramInfos = ci.GetParameters()
                    orderby paramInfos.Length ascending
-                   select new FakeItEasyMethod(ci.DeclaringType, paramInfos) as IMethod;
+                   select new FakeItEasyMethod(type.GetFakedMethod(), paramInfos) as IMethod;
         }
     }
 }

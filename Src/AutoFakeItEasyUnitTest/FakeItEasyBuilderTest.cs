@@ -63,22 +63,21 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(IInterface))]
-        [InlineData(typeof(AbstractType))]
-        public void CreateWithFakeRequestReturnsCorrectResultWhenContextReturnsFake(Type type)
+        [Fact]
+        public void CreateWithFakeRequestReturnsCorrectResult()
         {
             // Fixture setup
+            var request = typeof(Fake<object>);
             var context = new Fake<ISpecimenContext>().FakedObject;
+
             var builderStub = new Fake<ISpecimenBuilder>();
-            var fake = Activator.CreateInstance(typeof(Fake<>).MakeGenericType(type));
-            builderStub.CallsTo(b => b.Create(type, context))
-                .Returns(fake);
+            builderStub.CallsTo(b => b.Create(request, context)).Returns(new Fake<object>());
+
             var sut = new FakeItEasyBuilder(builderStub.FakedObject);
             // Exercise system
-            var result = sut.Create(type, context);
+            var result = sut.Create(request, context);
             // Verify outcome
-            Assert.IsAssignableFrom(type, result);
+            Assert.IsAssignableFrom<Fake<object>>(result);
             // Teardown
         }
 
@@ -92,6 +91,45 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             var builderStub = new Fake<ISpecimenBuilder>();
             builderStub.CallsTo(b => b.Create(request, context))
                 .Returns(contextValue);
+            var sut = new FakeItEasyBuilder(builderStub.FakedObject);
+            // Exercise system
+            var result = sut.Create(request, context);
+            // Verify outcome
+            var expectedResult = new NoSpecimen(request);
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(Fake<object>), "")]
+        [InlineData(typeof(Fake<object>), null)]
+        public void CreateFromFakeRequestWhenDecoratedBuilderReturnsNoFakeReturnsCorrectResult(object request, object innerResult)
+        {
+            // Fixture setup
+            var context = new Fake<ISpecimenContext>().FakedObject;
+
+            var builderStub = new Fake<ISpecimenBuilder>();
+            builderStub.CallsTo(b => b.Create(request, context)).Returns(innerResult);
+
+            var sut = new FakeItEasyBuilder(builderStub.FakedObject);
+            // Exercise system
+            var result = sut.Create(request, context);
+            // Verify outcome
+            var expectedResult = new NoSpecimen(request);
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateFromFakeRequestWhenDecoratedBuilderReturnsFakeOfWrongGenericTypeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var request = typeof(Fake<IInterface>);
+            var context = new Fake<ISpecimenContext>().FakedObject;
+
+            var builderStub = new Fake<ISpecimenBuilder>();
+            builderStub.CallsTo(b => b.Create(request, context)).Returns(new Fake<AbstractType>());
+
             var sut = new FakeItEasyBuilder(builderStub.FakedObject);
             // Exercise system
             var result = sut.Create(request, context);

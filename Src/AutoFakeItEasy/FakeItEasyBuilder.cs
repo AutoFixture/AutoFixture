@@ -4,7 +4,7 @@ using Ploeh.AutoFixture.Kernel;
 namespace Ploeh.AutoFixture.AutoFakeItEasy
 {
     /// <summary>
-    /// Provides pre- and post-condition checks for requests for mock instances.
+    /// Provides pre- and post-condition checks for requests for fake instances.
     /// </summary>
     /// <seealso cref="Create(object, ISpecimenContext)" />
     public class FakeItEasyBuilder : ISpecimenBuilder
@@ -65,29 +65,25 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (!FakeItEasyBuilder.ShouldBeFaked(request))
+            var type = request as Type;
+            if (!type.IsFake())
             {
                 return new NoSpecimen(request);
             }
 
-            var specimen = this.builder.Create(request, context) as FakeItEasy.Configuration.IHideObjectMembers;
-            if (specimen == null)
+            var fake = this.builder.Create(request, context) as FakeItEasy.Configuration.IHideObjectMembers;
+            if (fake == null)
             {
                 return new NoSpecimen(request);
             }
 
-            return specimen.GetType().GetProperty("FakedObject").GetValue(specimen, null);
-        }
-
-        private static bool ShouldBeFaked(object request)
-        {
-            var t = request as Type;
-            if (t == null)
+            var fakeType = type.GetFakedType();
+            if (fake.GetType().GetFakedType() != fakeType)
             {
-                return false;
+                return new NoSpecimen(request);
             }
 
-            return (t.IsInterface || t.IsAbstract);
+            return fake;
         }
     }
 }
