@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             Func<object[], object[]> func = p => p;
             var sut = new FakeItEasyMethod(func.Method, Enumerable.Empty<ParameterInfo>().ToArray());
             // Exercise system
-            var args = new object[] { "1984" };
+            var args = new object[] { "123" };
             var result = (object[])sut.Invoke(args);
             // Verify outcome
             var expected = func(args);
