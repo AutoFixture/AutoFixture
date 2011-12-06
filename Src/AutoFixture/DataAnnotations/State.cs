@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Initializes a new instance of the <see cref="State"/> class. Initially, the new state is a 
         ///   reject state.
         /// </summary>
-        public State()
+        internal State()
         {
             this.ResetTransitions();
             id = Interlocked.Increment(ref nextId);
@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <summary>
         /// Gets the id.
         /// </summary>
-        public int Id
+        internal int Id
         {
             get { return this.id; }
         }
@@ -67,17 +67,17 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <summary>
         /// Gets or sets a value indicating whether this State is Accept.
         /// </summary>
-        public bool Accept { get; set; }
+        internal bool Accept { get; set; }
 
         /// <summary>
         /// Gets or sets this State Number.
         /// </summary>
-        public int Number { get; set; }
+        internal int Number { get; set; }
 
         /// <summary>
         /// Gets or sets this State Transitions.
         /// </summary>
-        public IList<Transition> Transitions { get; set; }
+        internal IList<Transition> Transitions { get; set; }
 
         /// <summary>
         /// Implements the operator ==.
@@ -222,7 +222,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <param name="t">
         /// The transition.
         /// </param>
-        public void AddTransition(Transition t)
+        internal void AddTransition(Transition t)
         {
             this.Transitions.Add(t);
         }
@@ -236,7 +236,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <returns>
         /// The destination state, null if no matching outgoing transition.
         /// </returns>
-        public State Step(char c)
+        internal State Step(char c)
         {
             return (from t in this.Transitions where t.Min <= c && c <= t.Max select t.To).FirstOrDefault();
         }
@@ -250,7 +250,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <param name="dest">
         /// The collection where destination states are stored.
         /// </param>
-        public void Step(char c, List<State> dest)
+        internal void Step(char c, List<State> dest)
         {
             dest.AddRange(from t in this.Transitions where t.Min <= c && c <= t.Max select t.To);
         }
@@ -264,7 +264,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <returns>
         /// The transitions sorted by (min, reverse max, to) or (to, min, reverse max).
         /// </returns>
-        public IList<Transition> GetSortedTransitions(bool toFirst)
+        internal IList<Transition> GetSortedTransitions(bool toFirst)
         {
             Transition[] e = this.Transitions.ToArray();
             Array.Sort(e, new TransitionComparer(toFirst));

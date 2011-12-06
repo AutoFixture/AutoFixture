@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <param name="a">The automaton.</param>
         /// <param name="pairs">A collection of <see cref="StatePair"/> objects representing pairs of
         /// source/destination states where epsilon transitions should be added.</param>
-        public static void AddEpsilons(Automaton a, ICollection<StatePair> pairs)
+        internal static void AddEpsilons(Automaton a, ICollection<StatePair> pairs)
         {
             a.ExpandSingleton();
             var forward = new Dictionary<State, HashSet<State>>();
@@ -130,7 +130,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <remarks>
         /// Complexity: linear in number of states.
         /// </remarks>
-        public static Automaton Union(IList<Automaton> automatons)
+        internal static Automaton Union(IList<Automaton> automatons)
         {
             var ids = new HashSet<int>();
             foreach (Automaton a in automatons)
@@ -171,7 +171,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <remarks>
         /// Complexity: linear in number of states (if already deterministic).
         /// </remarks>
-        public static Automaton Complement(Automaton a)
+        internal static Automaton Complement(Automaton a)
         {
             a = a.CloneExpandedIfRequired();
             a.Determinize();
@@ -185,7 +185,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             return a;
         }
 
-        public static Automaton Concatenate(Automaton a1, Automaton a2)
+        internal static Automaton Concatenate(Automaton a1, Automaton a2)
         {
             if (a1.IsSingleton && a2.IsSingleton)
             {
@@ -221,7 +221,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             return a1;
         }
 
-        public static Automaton Concatenate(IList<Automaton> l)
+        internal static Automaton Concatenate(IList<Automaton> l)
         {
             if (l.Count == 0)
             {
@@ -304,7 +304,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Complexity: exponential in number of states.
         /// </remarks>
         /// <param name="a">The automaton.</param>
-        public static void Determinize(Automaton a)
+        internal static void Determinize(Automaton a)
         {
             if (a.IsDeterministic || a.IsSingleton)
             {
@@ -321,7 +321,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="a">The automaton.</param>
         /// <param name="initialset">The initial states.</param>
-        public static void Determinize(Automaton a, List<State> initialset)
+        internal static void Determinize(Automaton a, List<State> initialset)
         {
             char[] points = a.GetStartPoints();
 
@@ -390,7 +390,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <returns>
         ///   <c>true</c> if the given automaton accepts no strings; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsEmpty(Automaton a)
+        internal static bool IsEmpty(Automaton a)
         {
             if (a.IsSingleton)
             {
@@ -408,7 +408,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         ///   <c>true</c> if the given automaton accepts the empty string and nothing else; otherwise,
         /// <c>false</c>.
         /// </returns>
-        public static bool IsEmptyString(Automaton a)
+        internal static bool IsEmptyString(Automaton a)
         {
             if (a.IsSingleton)
             {
@@ -425,7 +425,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <param name="a1">The a1.</param>
         /// <param name="a2">The a2.</param>
         /// <returns></returns>
-        public static Automaton Intersection(Automaton a1, Automaton a2)
+        internal static Automaton Intersection(Automaton a1, Automaton a2)
         {
             if (a1.IsSingleton)
             {
@@ -512,7 +512,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </remarks>
         /// <returns>An automaton that accepts the union of the empty string and the language of the 
         /// given automaton.</returns>
-        public static Automaton Optional(Automaton a)
+        internal static Automaton Optional(Automaton a)
         {
             a = a.CloneExpandedIfRequired();
             var s = new State();
@@ -537,7 +537,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <remarks>
         /// Complexity: linear in number of states.
         /// </remarks>
-        public static Automaton Repeat(Automaton a)
+        internal static Automaton Repeat(Automaton a)
         {
             a = a.CloneExpanded();
             var s = new State();
@@ -568,7 +568,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <remarks>
         /// Complexity: linear in number of states and in <code>min</code>.
         /// </remarks>
-        public static Automaton Repeat(Automaton a, int min)
+        internal static Automaton Repeat(Automaton a, int min)
         {
             if (min == 0)
             {
@@ -601,7 +601,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <remarks>
         /// Complexity: linear in number of states and in <code>min</code> and <code>max</code>.
         /// </remarks>
-        public static Automaton Repeat(Automaton a, int min, int max)
+        internal static Automaton Repeat(Automaton a, int min, int max)
         {
             if (min > max)
             {
@@ -666,7 +666,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <remarks>
         /// Complexity: linear in the length of the string.
         /// </remarks>
-        public static bool Run(Automaton a, string s)
+        internal static bool Run(Automaton a, string s)
         {
             if (a.IsSingleton)
             {

@@ -105,7 +105,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         ///   Initializes a new instance of the <see cref = "RegExp" /> class from a string.
         /// </summary>
         /// <param name = "s">A string with the regular expression.</param>
-        public RegExp(string s)
+        internal RegExp(string s)
             : this(s, all)
         {
         }
@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name = "s">A string with the regular expression.</param>
         /// <param name = "syntaxFlags">Boolean 'or' of optional syntax constructs to be enabled.</param>
-        public RegExp(string s, int syntaxFlags)
+        internal RegExp(string s, int syntaxFlags)
         {
             this.b = s;
             this.flags = syntaxFlags;
@@ -151,7 +151,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         ///   Same as <code>toAutomaton(null)</code> (empty automaton map).
         /// </summary>
         /// <returns></returns>
-        public Automaton ToAutomaton()
+        internal Automaton ToAutomaton()
         {
             return this.ToAutomatonAllowMutate(null, null, true);
         }
@@ -162,7 +162,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="minimize">if set to <c>true</c> [minimize].</param>
         /// <returns></returns>
-        public Automaton ToAutomaton(bool minimize)
+        internal Automaton ToAutomaton(bool minimize)
         {
             return this.ToAutomatonAllowMutate(null, null, minimize);
         }
@@ -174,7 +174,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name = "automatonProvider">The provider of automata for named identifiers.</param>
         /// <returns></returns>
-        public Automaton ToAutomaton(IAutomatonProvider automatonProvider)
+        internal Automaton ToAutomaton(IAutomatonProvider automatonProvider)
         {
             return this.ToAutomatonAllowMutate(null, automatonProvider, true);
         }
@@ -186,7 +186,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <param name = "automatonProvider">The provider of automata for named identifiers.</param>
         /// <param name = "minimize">if set to <c>true</c> the automaton is minimized and determinized.</param>
         /// <returns></returns>
-        public Automaton ToAutomaton(IAutomatonProvider automatonProvider, bool minimize)
+        internal Automaton ToAutomaton(IAutomatonProvider automatonProvider, bool minimize)
         {
             return this.ToAutomatonAllowMutate(null, automatonProvider, minimize);
         }
@@ -198,7 +198,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name = "automata">The a map from automaton identifiers to automata.</param>
         /// <returns></returns>
-        public Automaton ToAutomaton(IDictionary<string, Automaton> automata)
+        internal Automaton ToAutomaton(IDictionary<string, Automaton> automata)
         {
             return this.ToAutomatonAllowMutate(automata, null, true);
         }
@@ -210,7 +210,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <param name = "automata">The map from automaton identifiers to automata.</param>
         /// <param name = "minimize">if set to <c>true</c> the automaton is minimized and determinized.</param>
         /// <returns></returns>
-        public Automaton ToAutomaton(IDictionary<string, Automaton> automata, bool minimize)
+        internal Automaton ToAutomaton(IDictionary<string, Automaton> automata, bool minimize)
         {
             return this.ToAutomatonAllowMutate(automata, null, minimize);
         }
@@ -222,7 +222,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name = "flag">if set to <c>true</c> the flag is set.</param>
         /// <returns>The previous value of the flag.</returns>
-        public bool SetAllowMutate(bool flag)
+        internal bool SetAllowMutate(bool flag)
         {
             bool @bool = allowMutation;
             allowMutation = flag;
@@ -244,7 +244,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Returns the set of automaton identifiers that occur in this regular expression.
         /// </summary>
         /// <returns>The set of automaton identifiers that occur in this regular expression.</returns>
-        public HashSet<string> GetIdentifiers()
+        internal HashSet<string> GetIdentifiers()
         {
             var set = new HashSet<string>();
             this.GetIdentifiers(set);

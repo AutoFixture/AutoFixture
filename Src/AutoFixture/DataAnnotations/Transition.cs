@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="c">The transition character.</param>
         /// <param name="to">The destination state.</param>
-        public Transition(char c, State to)
+        internal Transition(char c, State to)
         {
             this.min = this.max = c;
             this.to = to;
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <param name="min">The transition interval minimum.</param>
         /// <param name="max">The transition interval maximum.</param>
         /// <param name="to">The destination state.</param>
-        public Transition(char min, char max, State to)
+        internal Transition(char min, char max, State to)
         {
             if (max < min)
             {
@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <summary>
         /// Gets the minimum of this transition interval.
         /// </summary>
-        public char Min
+        internal char Min
         {
             get { return this.min; }
         }
@@ -92,7 +92,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <summary>
         /// Gets the maximum of this transition interval.
         /// </summary>
-        public char Max
+        internal char Max
         {
             get { return this.max; }
         }
@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <summary>
         /// Gets the destination of this transition.
         /// </summary>
-        public State To
+        internal State To
         {
             get { return this.to; }
         }

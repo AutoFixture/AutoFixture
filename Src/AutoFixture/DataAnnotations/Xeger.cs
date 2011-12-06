@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="regex">The regex.</param>
         /// <param name="random">The random.</param>
-        public Xeger(string regex, Random random)
+        internal Xeger(string regex, Random random)
         {
             if (string.IsNullOrEmpty(regex))
             {
@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Initializes a new instance of the <see cref="Xeger"/> class.
         /// </summary>
         /// <param name="regex">The regex.</param>
-        public Xeger(string regex)
+        internal Xeger(string regex)
             : this(regex, new Random())
         {
         }
@@ -66,7 +66,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Generates a random String that is guaranteed to match the regular expression passed to the constructor.
         /// </summary>
         /// <returns></returns>
-        public String Generate()
+        internal String Generate()
         {
             var builder = new StringBuilder();
             this.Generate(builder, automaton.Initial);

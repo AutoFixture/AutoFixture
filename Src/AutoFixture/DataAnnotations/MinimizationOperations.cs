@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Minimizes (and determinizes if not already deterministic) the given automaton.
         /// </summary>
         /// <param name="a">The automaton.</param>
-        public static void Minimize(Automaton a)
+        internal static void Minimize(Automaton a)
         {
             if (!a.IsSingleton)
             {
@@ -66,7 +66,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Minimizes the given automaton using Brzozowski's algorithm.
         /// </summary>
         /// <param name="a">The automaton.</param>
-        public static void MinimizeBrzozowski(Automaton a)
+        internal static void MinimizeBrzozowski(Automaton a)
         {
             if (a.IsSingleton)
             {
@@ -77,7 +77,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             BasicOperations.Determinize(a, SpecialOperations.Reverse(a).ToList());
         }
 
-        public static void MinimizeHopcroft(Automaton a)
+        internal static void MinimizeHopcroft(Automaton a)
         {
             a.Determinize();
             IList<Transition> tr = a.Initial.Transitions;
@@ -304,7 +304,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Minimizes the given automaton using Huffman's algorithm.
         /// </summary>
         /// <param name="a">The automaton.</param>
-        public static void MinimizeHuffman(Automaton a)
+        internal static void MinimizeHuffman(Automaton a)
         {
             a.Determinize();
             a.Totalize();
@@ -539,18 +539,18 @@ namespace Ploeh.AutoFixture.DataAnnotations
             private readonly int n1;
             private readonly int n2;
 
-            public IntPair(int n1, int n2)
+            internal IntPair(int n1, int n2)
             {
                 this.n1 = n1;
                 this.n2 = n2;
             }
 
-            public int N1
+            internal int N1
             {
                 get { return n1; }
             }
 
-            public int N2
+            internal int N2
             {
                 get { return n2; }
             }
@@ -562,13 +562,13 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
         private sealed class StateList
         {
-            public int Size { get; set; }
+            internal int Size { get; set; }
 
-            public StateListNode First { get; set; }
+            internal StateListNode First { get; set; }
 
-            public StateListNode Last { get; set; }
+            internal StateListNode Last { get; set; }
 
-            public StateListNode Add(State q)
+            internal StateListNode Add(State q)
             {
                 return new StateListNode(q, this);
             }
@@ -580,7 +580,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
         private sealed class StateListNode
         {
-            public StateListNode(State q, StateList sl)
+            internal StateListNode(State q, StateList sl)
             {
                 State = q;
                 StateList = sl;
@@ -596,15 +596,15 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 }
             }
 
-            public StateListNode Next { get; private set; }
+            internal StateListNode Next { get; private set; }
 
             private StateListNode Prev { get; set; }
 
-            public StateList StateList { get; private set; }
+            internal StateList StateList { get; private set; }
 
-            public State State { get; private set; }
+            internal State State { get; private set; }
 
-            public void Remove()
+            internal void Remove()
             {
                 StateList.Size--;
                 if (StateList.First == this)

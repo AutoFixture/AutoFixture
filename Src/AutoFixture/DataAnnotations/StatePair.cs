@@ -45,7 +45,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <param name="s">The s.</param>
         /// <param name="s1">The s1.</param>
         /// <param name="s2">The s2.</param>
-        public StatePair(State s, State s1, State s2)
+        internal StatePair(State s, State s1, State s2)
         {
             this.S = s;
             this.FirstState = s1;
@@ -57,12 +57,12 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="s1">The first state.</param>
         /// <param name="s2">The second state.</param>
-        public StatePair(State s1, State s2)
+        internal StatePair(State s1, State s2)
             : this(null, s1, s2)
         {
         }
 
-        public State S { get; set; }
+        internal State S { get; set; }
 
         /// <summary>
         /// Gets or sets the first component of this pair.
@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <value>
         /// The first state.
         /// </value>
-        public State FirstState { get; set; }
+        internal State FirstState { get; set; }
 
         /// <summary>
         /// Gets or sets the second component of this pair.
@@ -78,7 +78,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <value>
         /// The second state.
         /// </value>
-        public State SecondState { get; set; }
+        internal State SecondState { get; set; }
 
         /// <summary>
         /// Implements the operator ==.

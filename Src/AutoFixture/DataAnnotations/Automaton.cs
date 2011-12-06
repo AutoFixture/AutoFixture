@@ -70,20 +70,20 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Minimize using Huffman's O(n<sup>2</sup>) algorithm.
         ///   This is the standard text-book algorithm.
         /// </summary>
-        public const int MinimizeHuffman = 0;
+        internal const int MinimizeHuffman = 0;
 
         /// <summary>
         /// Minimize using Brzozowski's O(2<sup>n</sup>) algorithm. 
         ///   This algorithm uses the reverse-determinize-reverse-determinize trick, which has a bad
         ///   worst-case behavior but often works very well in practice even better than Hopcroft's!).
         /// </summary>
-        public const int MinimizeBrzozowski = 1;
+        internal const int MinimizeBrzozowski = 1;
 
         /// <summary>
         /// Minimize using Hopcroft's O(n log n) algorithm.
         ///   This is regarded as one of the most generally efficient algorithms that exist.
         /// </summary>
-        public const int MinimizeHopcroft = 2;
+        internal const int MinimizeHopcroft = 2;
 
         /// <summary>
         /// Selects whether operations may modify the input automata (default: <code>false</code>).
@@ -110,7 +110,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         ///   language. Using this constructor, automata can be constructed manually from 
         ///   <see cref="State"/> and <see cref="Transition"/> objects.
         /// </summary>
-        public Automaton()
+        internal Automaton()
         {
             this.Initial = new State();
             this.IsDeterministic = true;
@@ -124,7 +124,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </code>
         /// ).
         /// </summary>
-        public static int Minimization
+        internal static int Minimization
         {
             get { return Automaton.MinimizeHopcroft; }
         }
@@ -139,7 +139,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <value>
         /// <c>true</c> if [allow mutation]; otherwise, <c>false</c>.
         /// </value>
-        public static bool AllowMutation { get; set; }
+        internal static bool AllowMutation { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this automaton is definitely deterministic (i.e.,
@@ -149,7 +149,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <c>true</c> then this automaton is definitely deterministic (i.e., there are no 
         ///   choices for any run, but a run may crash)., <c>false</c>.
         /// </value>
-        public bool IsDeterministic { get; set; }
+        internal bool IsDeterministic { get; set; }
 
         /// <summary>
         /// Gets or sets the initial state of this automaton.
@@ -157,7 +157,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <value>
         /// The initial state of this automaton.
         /// </value>
-        public State Initial
+        internal State Initial
         {
             get
             {
@@ -178,7 +178,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// used to obtain the string.
         /// </summary>
         /// <value>The singleton string, null if this automaton is not in singleton mode.</value>
-        public string Singleton { get; set; }
+        internal string Singleton { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance is singleton.
@@ -186,7 +186,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <value>
         /// <c>true</c> if this instance is singleton; otherwise, <c>false</c>.
         /// </value>
-        public bool IsSingleton
+        internal bool IsSingleton
         {
             get { return this.Singleton != null; }
         }
@@ -197,18 +197,18 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <value>
         /// <c>true</c> if this instance is debug; otherwise, <c>false</c>.
         /// </value>
-        public bool IsDebug { get; set; }
+        internal bool IsDebug { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether IsEmpty.
         /// </summary>
-        public bool IsEmpty { get; set; }
+        internal bool IsEmpty { get; set; }
 
         /// <summary>
         /// Gets the number of states in this automaton.
         /// </summary>
         /// Returns the number of states in this automaton.
-        public int NumberOfStates
+        internal int NumberOfStates
         {
             get
             {
@@ -225,7 +225,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Gets the number of transitions in this automaton. This number is counted
         ///   as the total number of edges, where one edge may be a character interval.
         /// </summary>
-        public int NumberOfTransitions
+        internal int NumberOfTransitions
         {
             get
             {
@@ -238,7 +238,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             }
         }
 
-        public static Transition[][] GetSortedTransitions(HashSet<State> states)
+        internal static Transition[][] GetSortedTransitions(HashSet<State> states)
         {
             Automaton.SetStateNumbers(states);
             var transitions = new Transition[states.Count][];
@@ -250,22 +250,22 @@ namespace Ploeh.AutoFixture.DataAnnotations
             return transitions;
         }
 
-        public static Automaton MakeChar(char c)
+        internal static Automaton MakeChar(char c)
         {
             return BasicAutomata.MakeChar(c);
         }
 
-        public static Automaton MakeCharSet(string set)
+        internal static Automaton MakeCharSet(string set)
         {
             return BasicAutomata.MakeCharSet(set);
         }
 
-        public static Automaton MakeString(string s)
+        internal static Automaton MakeString(string s)
         {
             return BasicAutomata.MakeString(s);
         }
 
-        public static Automaton Minimize(Automaton a)
+        internal static Automaton Minimize(Automaton a)
         {
             a.Minimize();
             return a;
@@ -280,7 +280,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// automata given as input; otherwise, operations will always leave input automata 
         /// languages unmodified..</param>
         /// <returns>The previous value of the flag.</returns>
-        public static bool SetAllowMutate(bool flag)
+        internal static bool SetAllowMutate(bool flag)
         {
             bool b = allowMutation;
             allowMutation = flag;
@@ -293,7 +293,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// non-minimal automata. By default, the flag is not set.
         /// </summary>
         /// <param name="flag">The flag if true, the flag is set.</param>
-        public static void SetMinimizeAlways(bool flag)
+        internal static void SetMinimizeAlways(bool flag)
         {
             minimizeAlways = flag;
         }
@@ -302,7 +302,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Assigns consecutive numbers to the given states.
         /// </summary>
         /// <param name="states">The states.</param>
-        public static void SetStateNumbers(IEnumerable<State> states)
+        internal static void SetStateNumbers(IEnumerable<State> states)
         {
             int number = 0;
             foreach (State s in states)
@@ -328,7 +328,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             return this.hashCode;
         }
 
-        public void AddEpsilons(ICollection<StatePair> pairs)
+        internal void AddEpsilons(ICollection<StatePair> pairs)
         {
             BasicOperations.AddEpsilons(this, pairs);
         }
@@ -336,7 +336,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <summary>
         /// The check minimize always.
         /// </summary>
-        public void CheckMinimizeAlways()
+        internal void CheckMinimizeAlways()
         {
             if (minimizeAlways)
             {
@@ -347,7 +347,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <summary>
         /// The clear hash code.
         /// </summary>
-        public void ClearHashCode()
+        internal void ClearHashCode()
         {
             this.hashCode = 0;
         }
@@ -358,7 +358,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <returns>
         /// A shallow copy of the current Automaton.
         /// </returns>
-        public Automaton Clone()
+        internal Automaton Clone()
         {
             var a = (Automaton)this.MemberwiseClone();
             if (!this.IsSingleton)
@@ -398,7 +398,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <returns>
         /// Returns a clone of this automaton, expands if singleton.
         /// </returns>
-        public Automaton CloneExpanded()
+        internal Automaton CloneExpanded()
         {
             Automaton a = this.Clone();
             a.ExpandSingleton();
@@ -419,7 +419,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </code>
         /// is set, expands if singleton.
         /// </returns>
-        public Automaton CloneExpandedIfRequired()
+        internal Automaton CloneExpandedIfRequired()
         {
             if (Automaton.AllowMutation)
             {
@@ -436,7 +436,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <returns>A clone of this automaton, or this automaton itself if <code>allow_mutation</code>
         /// flag is set.</returns>
-        public Automaton CloneIfRequired()
+        internal Automaton CloneIfRequired()
         {
             if (allowMutation)
             {
@@ -446,17 +446,17 @@ namespace Ploeh.AutoFixture.DataAnnotations
             return this.Clone();
         }
 
-        public Automaton Complement()
+        internal Automaton Complement()
         {
             return BasicOperations.Complement(this);
         }
 
-        public Automaton Concatenate(Automaton a)
+        internal Automaton Concatenate(Automaton a)
         {
             return BasicOperations.Concatenate(this, a);
         }
 
-        public void Determinize()
+        internal void Determinize()
         {
             BasicOperations.Determinize(this);
         }
@@ -465,7 +465,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Expands singleton representation to normal representation.
         /// Does nothing if not in singleton representation.
         /// </summary>
-        public void ExpandSingleton()
+        internal void ExpandSingleton()
         {
             if (this.IsSingleton)
             {
@@ -489,7 +489,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <returns>Returns the set of reachable accept states.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "This is not executing immediately nor returns the same value each time it is invoked.")]
-        public HashSet<State> GetAcceptStates()
+        internal HashSet<State> GetAcceptStates()
         {
             this.ExpandSingleton();
 
@@ -532,7 +532,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Returns the set of live states. A state is "live" if an accept state is reachable from it.
         /// </summary>
         /// <returns></returns>
-        public HashSet<State> GetLiveStates()
+        internal HashSet<State> GetLiveStates()
         {
             this.ExpandSingleton();
             return this.GetLiveStates(this.GetStates());
@@ -542,7 +542,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// The sorted array of all interval start points.
         /// </summary>
         /// <returns>Returns sorted array of all interval start points.</returns>
-        public char[] GetStartPoints()
+        internal char[] GetStartPoints()
         {
             var pointSet = new HashSet<char>();
             foreach (State s in this.GetStates())
@@ -576,7 +576,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// The set of states that are reachable from the initial state.
         /// </returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "This is not executing immediately nor returns the same value each time it is invoked.")]
-        public HashSet<State> GetStates()
+        internal HashSet<State> GetStates()
         {
             this.ExpandSingleton();
             HashSet<State> visited;
@@ -617,12 +617,12 @@ namespace Ploeh.AutoFixture.DataAnnotations
             return visited;
         }
 
-        public Automaton Intersection(Automaton a)
+        internal Automaton Intersection(Automaton a)
         {
             return BasicOperations.Intersection(this, a);
         }
 
-        public bool IsEmptyString()
+        internal bool IsEmptyString()
         {
             return BasicOperations.IsEmptyString(this);
         }
@@ -630,12 +630,12 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <summary>
         /// The minimize.
         /// </summary>
-        public void Minimize()
+        internal void Minimize()
         {
             MinimizationOperations.Minimize(this);
         }
 
-        public Automaton Optional()
+        internal Automaton Optional()
         {
             return BasicOperations.Optional(this);
         }
@@ -644,7 +644,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Recomputes the hash code.
         ///   The automaton must be minimal when this operation is performed.
         /// </summary>
-        public void RecomputeHashCode()
+        internal void RecomputeHashCode()
         {
             this.hashCode = (this.NumberOfStates * 3) + (this.NumberOfTransitions * 2);
             if (hashCode == 0)
@@ -658,7 +658,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// An automaton is "reduced" by combining overlapping and adjacent edge intervals with same 
         /// destination.
         /// </summary>
-        public void Reduce()
+        internal void Reduce()
         {
             if (this.IsSingleton)
             {
@@ -721,7 +721,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Removes transitions to dead states and calls Reduce() and ClearHashCode().
         /// (A state is "dead" if no accept state is reachable from it).
         /// </summary>
-        public void RemoveDeadTransitions()
+        internal void RemoveDeadTransitions()
         {
             this.ClearHashCode();
             if (this.IsSingleton)
@@ -754,22 +754,22 @@ namespace Ploeh.AutoFixture.DataAnnotations
             this.Reduce();
         }
 
-        public Automaton Repeat(int min, int max)
+        internal Automaton Repeat(int min, int max)
         {
             return BasicOperations.Repeat(this, min, max);
         }
 
-        public Automaton Repeat()
+        internal Automaton Repeat()
         {
             return BasicOperations.Repeat(this);
         }
 
-        public Automaton Repeat(int min)
+        internal Automaton Repeat(int min)
         {
             return BasicOperations.Repeat(this, min);
         }
 
-        public bool Run(string s)
+        internal bool Run(string s)
         {
             return BasicOperations.Run(this, s);
         }
@@ -777,7 +777,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <summary>
         /// Adds transitions to explicit crash state to ensure that transition function is total.
         /// </summary>
-        public void Totalize()
+        internal void Totalize()
         {
             var s = new State();
             s.Transitions.Add(new Transition(char.MinValue, char.MaxValue, s));

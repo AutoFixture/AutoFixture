@@ -42,7 +42,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Initializes a new instance of the <see cref="TransitionComparer"/> class.
         /// </summary>
         /// <param name="toFirst">if set to <c>true</c> [to first].</param>
-        public TransitionComparer(bool toFirst)
+        internal TransitionComparer(bool toFirst)
         {
             this.toFirst = toFirst;
         }

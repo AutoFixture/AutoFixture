@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Returns a new (deterministic) automaton that accepts any single character.
         /// </summary>
         /// <returns>A new (deterministic) automaton that accepts any single character.</returns>
-        public static Automaton MakeAnyChar()
+        internal static Automaton MakeAnyChar()
         {
             return BasicAutomata.MakeCharRange(char.MinValue, char.MaxValue);
         }
@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <returns>
         /// A new (deterministic) automaton that accepts all strings.
         /// </returns>
-        public static Automaton MakeAnyString()
+        internal static Automaton MakeAnyString()
         {
             var state = new State();
             state.Accept = true;
@@ -71,7 +71,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="c">The c.</param>
         /// <returns>A new (deterministic) automaton that accepts a single character of the given value.</returns>
-        public static Automaton MakeChar(char c)
+        internal static Automaton MakeChar(char c)
         {
             var a = new Automaton();
             a.Singleton = c.ToString();
@@ -89,7 +89,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// A new (deterministic) automaton that accepts a single char whose value is in the
         /// given interval (including both end points).
         /// </returns>
-        public static Automaton MakeCharRange(char min, char max)
+        internal static Automaton MakeCharRange(char min, char max)
         {
             if (min == max)
             {
@@ -116,7 +116,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <returns>
         /// A new (deterministic) automaton with the empty language.
         /// </returns>
-        public static Automaton MakeEmpty()
+        internal static Automaton MakeEmpty()
         {
             var a = new Automaton();
             var s = new State();
@@ -131,7 +131,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <returns>
         /// A new (deterministic) automaton that accepts only the empty string.
         /// </returns>
-        public static Automaton MakeEmptyString()
+        internal static Automaton MakeEmptyString()
         {
             var a = new Automaton();
             a.Singleton = string.Empty;
@@ -150,7 +150,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// to obtain the right length) otherwise, the number of digits is not fixed.</param>
         /// <returns>A new automaton that accepts strings representing decimal non-negative integers 
         /// in the given interval.</returns>
-        public static Automaton MakeInterval(int min, int max, int digits)
+        internal static Automaton MakeInterval(int min, int max, int digits)
         {
             var a = new Automaton();
             string x = Convert.ToString(min);
@@ -202,7 +202,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="s">The string.</param>
         /// <returns>A new (deterministic) automaton that accepts the single given string.</returns>
-        public static Automaton MakeString(string s)
+        internal static Automaton MakeString(string s)
         {
             var a = new Automaton();
             a.Singleton = s;
@@ -346,7 +346,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="set">The set.</param>
         /// <returns></returns>
-        public static Automaton MakeCharSet(string set)
+        internal static Automaton MakeCharSet(string set)
         {
             if (set.Length == 1)
             {
@@ -377,7 +377,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="n">The n string representation of maximum value.</param>
         /// <returns></returns>
-        public static Automaton MakeMaxInteger(String n)
+        internal static Automaton MakeMaxInteger(String n)
         {
             int i = 0;
             while (i < n.Length && n[i] == '0')
@@ -421,7 +421,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="n">The n string representation of minimum value.</param>
         /// <returns></returns>
-        public static Automaton MakeMinInteger(String n) 
+        internal static Automaton MakeMinInteger(String n) 
         {
             int i = 0;
             while (i + 1 < n.Length && n[i] == '0')
@@ -460,7 +460,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="i">The i max number of necessary digits.</param>
         /// <returns></returns>
-        public static Automaton MakeTotalDigits(int i) 
+        internal static Automaton MakeTotalDigits(int i) 
         {
             return
                Automaton.Minimize(
@@ -475,7 +475,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="i">The i max number of necessary fraction digits.</param>
         /// <returns></returns>
-        public static Automaton MakeFractionDigits(int i) 
+        internal static Automaton MakeFractionDigits(int i) 
         {
             return
                 Automaton.Minimize(
@@ -488,7 +488,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="s">The s.</param>
         /// <returns></returns>
-        public static Automaton MakeStringMatcher(String s) 
+        internal static Automaton MakeStringMatcher(String s) 
         {
             var a = new Automaton();
             var states = new State[s.Length + 1];

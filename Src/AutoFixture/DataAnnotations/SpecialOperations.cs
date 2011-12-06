@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="a">The automaton.</param>
         /// <returns></returns>
-        public static HashSet<State> Reverse(Automaton a)
+        internal static HashSet<State> Reverse(Automaton a)
         {
             // Reverse all edges.
             var m = new Dictionary<State, HashSet<Transition>>();
