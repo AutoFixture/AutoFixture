@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright 2009 Wilfred Springer
  * http://github.com/moodmosaic/Fare
  * Original Java code:

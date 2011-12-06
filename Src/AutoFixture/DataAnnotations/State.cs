@@ -197,7 +197,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> describing this state. Normally invoked via <see cref="Automaton.ToString()"/>.
+        /// Returns a <see cref="System.String"/> describing this state.
         /// </summary>
         /// <returns>
         /// A <see cref="System.String"/> describing this state.

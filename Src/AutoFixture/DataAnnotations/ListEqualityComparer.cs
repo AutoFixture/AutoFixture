@@ -35,8 +35,8 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <summary>
         /// Determines whether the specified objects are equal.
         /// </summary>
-        /// <param name="x">The first object of type <paramref name="T"/> to compare.</param>
-        /// <param name="y">The second object of type <paramref name="T"/> to compare.</param>
+        /// <param name="x">The first object to compare.</param>
+        /// <param name="y">The second object to compare.</param>
         /// <returns>
         /// true if the specified objects are equal; otherwise, false.
         /// </returns>
@@ -111,6 +111,18 @@ namespace Ploeh.AutoFixture.DataAnnotations
             }
 
             return this.Equals((ListEqualityComparer<T>)obj);
+        }
+
+        /// <summary>
+        /// Serves as a hash function for a particular type. 
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current <see cref="T:System.Object"/>.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }
