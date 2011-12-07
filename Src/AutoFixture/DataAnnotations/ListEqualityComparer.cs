@@ -42,6 +42,16 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </returns>
         public bool Equals(List<T> x, List<T> y)
         {
+            if (x == y)
+            {
+                return true;
+            }
+
+            if (x == null || y == null)
+            {
+                return false;
+            }
+
             if (x.Count != y.Count)
             {
                 return false;
