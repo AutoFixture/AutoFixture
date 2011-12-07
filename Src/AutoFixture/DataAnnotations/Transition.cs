@@ -31,6 +31,7 @@
  */
 
 using System;
+using System.Globalization;
 using System.Text;
 
 namespace Ploeh.AutoFixture.DataAnnotations
@@ -238,7 +239,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             else
             {
                 sb.Append("\\u");
-                string s = ((int)c).ToString("x");
+                string s = ((int)c).ToString("x", CultureInfo.CurrentCulture);
                 if (c < 0x10)
                 {
                     sb.Append("000").Append(s);

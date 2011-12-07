@@ -183,7 +183,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
         /// <summary>
         /// Compares the current object with another object of the same type.
-        ///   States are ordered by the time of construction.
+        ///  States are ordered by the time of construction.
         /// </summary>
         /// <param name="other">
         /// An object to compare with this object.

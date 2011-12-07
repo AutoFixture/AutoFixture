@@ -185,6 +185,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             return a;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal static Automaton Concatenate(Automaton a1, Automaton a2)
         {
             if (a1.IsSingleton && a2.IsSingleton)
@@ -390,6 +391,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <returns>
         ///   <c>true</c> if the given automaton accepts no strings; otherwise, <c>false</c>.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal static bool IsEmpty(Automaton a)
         {
             if (a.IsSingleton)

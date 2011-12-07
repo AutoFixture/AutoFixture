@@ -53,6 +53,8 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <param name="t1">The first Transition.</param>
         /// <param name="t2">The second Transition.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "This method has been ported as-is.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "This method has been ported as-is.")]
         public int Compare(Transition t1, Transition t2)
         {
             if (this.toFirst)

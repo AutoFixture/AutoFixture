@@ -32,6 +32,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -150,11 +151,12 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// to obtain the right length) otherwise, the number of digits is not fixed.</param>
         /// <returns>A new automaton that accepts strings representing decimal non-negative integers 
         /// in the given interval.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "This method has been ported as-is.")]
         internal static Automaton MakeInterval(int min, int max, int digits)
         {
             var a = new Automaton();
-            string x = Convert.ToString(min);
-            string y = Convert.ToString(max);
+            string x = Convert.ToString(min, CultureInfo.CurrentCulture);
+            string y = Convert.ToString(max, CultureInfo.CurrentCulture);
             if (min > max || (digits > 0 && y.Length > digits))
             {
                 throw new ArgumentException();
@@ -346,6 +348,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="set">The set.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal static Automaton MakeCharSet(string set)
         {
             if (set.Length == 1)
@@ -377,6 +380,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="n">The n string representation of maximum value.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal static Automaton MakeMaxInteger(String n)
         {
             int i = 0;
@@ -397,6 +401,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             return Automaton.Minimize((new RegExp(b.ToString())).ToAutomaton());
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         private static void MaxInteger(String n, int i, StringBuilder b) 
         {
             b.Append('(');
@@ -421,6 +426,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="n">The n string representation of minimum value.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal static Automaton MakeMinInteger(String n) 
         {
             int i = 0;
@@ -436,6 +442,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             return Automaton.Minimize((new RegExp(b.ToString())).ToAutomaton());
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         private static void MinInteger(String n, int i, StringBuilder b) 
         {
             b.Append('(');
@@ -460,6 +467,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="i">The i max number of necessary digits.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal static Automaton MakeTotalDigits(int i) 
         {
             return
@@ -475,6 +483,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="i">The i max number of necessary fraction digits.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal static Automaton MakeFractionDigits(int i) 
         {
             return
@@ -488,6 +497,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="s">The s.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal static Automaton MakeStringMatcher(String s) 
         {
             var a = new Automaton();

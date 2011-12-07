@@ -130,15 +130,12 @@ namespace Ploeh.AutoFixture.DataAnnotations
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether operations may modify the input automata (default:
-        ///   <code>
-        /// false
-        /// </code>
-        /// ).
+        /// Gets or sets a value indicating whether operations may modify the input automata.
         /// </summary>
         /// <value>
         /// <c>true</c> if [allow mutation]; otherwise, <c>false</c>.
         /// </value>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This property has been ported from getters and setters methods.")]
         internal static bool AllowMutation { get; set; }
 
         /// <summary>
@@ -197,11 +194,13 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <value>
         /// <c>true</c> if this instance is debug; otherwise, <c>false</c>.
         /// </value>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This property has been ported from getters and setters methods.")]
         internal bool IsDebug { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether IsEmpty.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This property has been ported from getters and setters methods.")]
         internal bool IsEmpty { get; set; }
 
         /// <summary>
@@ -250,21 +249,25 @@ namespace Ploeh.AutoFixture.DataAnnotations
             return transitions;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal static Automaton MakeChar(char c)
         {
             return BasicAutomata.MakeChar(c);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal static Automaton MakeCharSet(string set)
         {
             return BasicAutomata.MakeCharSet(set);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal static Automaton MakeString(string s)
         {
             return BasicAutomata.MakeString(s);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal static Automaton Minimize(Automaton a)
         {
             a.Minimize();
@@ -280,6 +283,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// automata given as input; otherwise, operations will always leave input automata 
         /// languages unmodified..</param>
         /// <returns>The previous value of the flag.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal static bool SetAllowMutate(bool flag)
         {
             bool b = allowMutation;
@@ -293,6 +297,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// non-minimal automata. By default, the flag is not set.
         /// </summary>
         /// <param name="flag">The flag if true, the flag is set.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal static void SetMinimizeAlways(bool flag)
         {
             minimizeAlways = flag;
@@ -451,6 +456,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             return BasicOperations.Complement(this);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal Automaton Concatenate(Automaton a)
         {
             return BasicOperations.Concatenate(this, a);
@@ -532,6 +538,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Returns the set of live states. A state is "live" if an accept state is reachable from it.
         /// </summary>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal HashSet<State> GetLiveStates()
         {
             this.ExpandSingleton();

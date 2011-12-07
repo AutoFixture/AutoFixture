@@ -30,10 +30,10 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            return this.CreateAnonymous(regularExpressionRequest);
+            return RegularExpressionGenerator.CreateAnonymous(regularExpressionRequest);
         }
 
-        private object CreateAnonymous(RegularExpressionRequest request)
+        private static object CreateAnonymous(RegularExpressionRequest request)
         {
             string pattern = request.Pattern;
             

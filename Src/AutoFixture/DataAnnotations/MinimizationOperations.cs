@@ -77,6 +77,9 @@ namespace Ploeh.AutoFixture.DataAnnotations
             BasicOperations.Determinize(a, SpecialOperations.Reverse(a).ToList());
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", Justification = "This method has been ported as-is.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "This method has been ported as-is.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1809:AvoidExcessiveLocals", Justification = "This method has been ported as-is.")]
         internal static void MinimizeHopcroft(Automaton a)
         {
             a.Determinize();

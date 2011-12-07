@@ -32,6 +32,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -162,6 +163,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name="minimize">if set to <c>true</c> [minimize].</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal Automaton ToAutomaton(bool minimize)
         {
             return this.ToAutomatonAllowMutate(null, null, minimize);
@@ -174,6 +176,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name = "automatonProvider">The provider of automata for named identifiers.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal Automaton ToAutomaton(IAutomatonProvider automatonProvider)
         {
             return this.ToAutomatonAllowMutate(null, automatonProvider, true);
@@ -186,6 +189,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <param name = "automatonProvider">The provider of automata for named identifiers.</param>
         /// <param name = "minimize">if set to <c>true</c> the automaton is minimized and determinized.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal Automaton ToAutomaton(IAutomatonProvider automatonProvider, bool minimize)
         {
             return this.ToAutomatonAllowMutate(null, automatonProvider, minimize);
@@ -198,6 +202,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name = "automata">The a map from automaton identifiers to automata.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal Automaton ToAutomaton(IDictionary<string, Automaton> automata)
         {
             return this.ToAutomatonAllowMutate(automata, null, true);
@@ -210,6 +215,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <param name = "automata">The map from automaton identifiers to automata.</param>
         /// <param name = "minimize">if set to <c>true</c> the automaton is minimized and determinized.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal Automaton ToAutomaton(IDictionary<string, Automaton> automata, bool minimize)
         {
             return this.ToAutomatonAllowMutate(automata, null, minimize);
@@ -222,7 +228,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name = "flag">if set to <c>true</c> the flag is set.</param>
         /// <returns>The previous value of the flag.</returns>
-        internal bool SetAllowMutate(bool flag)
+        internal static bool SetAllowMutate(bool flag)
         {
             bool @bool = allowMutation;
             allowMutation = flag;
@@ -244,6 +250,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Returns the set of automaton identifiers that occur in this regular expression.
         /// </summary>
         /// <returns>The set of automaton identifiers that occur in this regular expression.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal HashSet<string> GetIdentifiers()
         {
             var set = new HashSet<string>();
@@ -441,13 +448,13 @@ namespace Ploeh.AutoFixture.DataAnnotations
             bool @bool = false;
             if (allowMutation)
             {
-                @bool = this.SetAllowMutate(true); // This is not thead safe.
+                @bool = RegExp.SetAllowMutate(true); // This is not thead safe.
             }
 
             Automaton a = this.ToAutomaton(automata, automatonProvider, minimize);
             if (allowMutation)
             {
-                this.SetAllowMutate(@bool);
+                RegExp.SetAllowMutate(@bool);
             }
 
             return a;
@@ -641,8 +648,8 @@ namespace Ploeh.AutoFixture.DataAnnotations
                     sb.Append("<").Append(s).Append(">");
                     break;
                 case Kind.RegexpInterval:
-                    string s1 = Convert.ToDecimal(min).ToString();
-                    string s2 = Convert.ToDecimal(max).ToString();
+                    string s1 = Convert.ToDecimal(min).ToString(CultureInfo.CurrentCulture);
+                    string s2 = Convert.ToDecimal(max).ToString(CultureInfo.CurrentCulture);
                     sb.Append("<");
                     if (digits > 0)
                     {
@@ -668,6 +675,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             return sb;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         private void GetIdentifiers(HashSet<string> set)
         {
             switch (kind)
@@ -785,7 +793,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                         throw new ArgumentException("integer expected at position " + pos);
                     }
 
-                    int n = int.Parse(b.Substring(start, pos - start));
+                    int n = int.Parse(b.Substring(start, pos - start), CultureInfo.CurrentCulture);
                     int m = -1;
                     if (this.Match(','))
                     {
@@ -797,7 +805,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
                         if (start != pos)
                         {
-                            m = int.Parse(b.Substring(start, pos - start));
+                            m = int.Parse(b.Substring(start, pos - start), CultureInfo.CurrentCulture);
                         }
                     }
                     else
@@ -864,6 +872,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             return this.ParseSimpleExp();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "This method has been ported as-is.")]
         private RegExp ParseSimpleExp()
         {
             if (this.Match('.'))
@@ -952,8 +961,8 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
                     string smin = str.Substring(0, i - 0);
                     string smax = str.Substring(i + 1, (str.Length - (i + 1)));
-                    int imin = int.Parse(smin);
-                    int imax = int.Parse(smax);
+                    int imin = int.Parse(smin, CultureInfo.CurrentCulture);
+                    int imax = int.Parse(smax, CultureInfo.CurrentCulture);
                     int numdigits = smin.Length == smax.Length ? smin.Length : 0;
                     if (imin > imax)
                     {
