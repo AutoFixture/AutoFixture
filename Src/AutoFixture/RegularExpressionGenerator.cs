@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using Ploeh.AutoFixture.DataAnnotations;
 using Ploeh.AutoFixture.Kernel;
 
@@ -36,7 +37,7 @@ namespace Ploeh.AutoFixture
         private static object CreateAnonymous(RegularExpressionRequest request)
         {
             string pattern = request.Pattern;
-            
+
             try
             {
                 string regex = new Xeger(pattern).Generate();
@@ -45,7 +46,7 @@ namespace Ploeh.AutoFixture
                     return regex;
                 }
             }
-            catch
+            catch (InvalidOperationException)
             {
                 return new NoSpecimen(request);
             }
