@@ -1,4 +1,5 @@
-﻿using Ploeh.AutoFixture.DataAnnotations;
+﻿using System.Text.RegularExpressions;
+using Ploeh.AutoFixture.DataAnnotations;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -23,18 +24,33 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen();
             }
 
-            var regularExpression = request as RegularExpressionRequest;
-            if (regularExpression == null)
+            var regularExpressionRequest = request as RegularExpressionRequest;
+            if (regularExpressionRequest == null)
             {
                 return new NoSpecimen(request);
             }
 
-            return this.CreateAnonymous(regularExpression.Pattern);
+            return this.CreateAnonymous(regularExpressionRequest);
         }
 
-        private object CreateAnonymous(string pattern)
+        private object CreateAnonymous(RegularExpressionRequest request)
         {
-            return new Xeger(pattern).Generate();
+            string pattern = request.Pattern;
+            
+            try
+            {
+                string regex = new Xeger(pattern).Generate();
+                if (Regex.IsMatch(regex, pattern))
+                {
+                    return regex;
+                }
+            }
+            catch
+            {
+                return new NoSpecimen(request);
+            }
+
+            return new NoSpecimen(request);
         }
     }
 }

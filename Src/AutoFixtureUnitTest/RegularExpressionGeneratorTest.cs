@@ -57,9 +57,23 @@ namespace Ploeh.AutoFixtureUnitTest
             var request = new RegularExpressionRequest(pattern);
             var dummyContext = new DelegatingSpecimenContext();
             // Exercise system
-            var result = (string)sut.Create(request, dummyContext);
+            var result = sut.Create(request, dummyContext);
             // Verify outcome
-            Assert.True(Regex.IsMatch(result, pattern));
+            Assert.True(Regex.IsMatch(result.ToString(), pattern));
+            // Teardown
+        }
+
+        [Theory, ClassData(typeof(NotSupportedRegexPatternTestCases))]
+        public void CreateWithNotSupportedRegularExpressionRequestReturnsCorrectResult(string pattern)
+        {
+            // Fixture setup
+            var sut = new RegularExpressionGenerator();
+            var request = new RegularExpressionRequest(pattern);
+            var dummyContext = new DelegatingSpecimenContext();
+            // Exercise system
+            var result = sut.Create(request, dummyContext);
+            // Verify outcome
+            Assert.Equal(new NoSpecimen(request), result);
             // Teardown
         }
 
@@ -110,6 +124,20 @@ namespace Ploeh.AutoFixtureUnitTest
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return this.GetEnumerator();
+            }
+        }
+
+        private sealed class NotSupportedRegexPatternTestCases : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] { @"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$" };
+                yield return new object[] { "[" };
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                throw new System.NotImplementedException();
             }
         }
     }
