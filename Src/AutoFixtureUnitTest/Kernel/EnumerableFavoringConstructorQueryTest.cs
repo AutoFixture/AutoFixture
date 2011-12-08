@@ -182,16 +182,17 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [InlineData(typeof(ItemHolder<IEnumerable<object>, object[]>))]
-        [InlineData(typeof(ItemHolder<object[], IEnumerable<object>>))]
-        public void SelectMethodsPrefersSpecificEnumerableParameterOverDerivedParameter(Type type)
+        [InlineData(typeof(ItemHolder<IEnumerable<object>, object[]>), typeof(IEnumerable<object>))]
+        [InlineData(typeof(ItemHolder<object[], IEnumerable<object>>), typeof(IEnumerable<object>))]
+        [InlineData(typeof(ItemContainer<SingleParameterType<object>>), typeof(IEnumerable<SingleParameterType<object>>))]
+        public void SelectMethodsPrefersSpecificEnumerableParameterOverDerivedParameter(Type type, Type expected)
         {
             // Fixture setup
             var sut = new EnumerableFavoringConstructorQuery();
             // Exercise system
             var result = sut.SelectMethods(type);
             // Verify outcome
-            Assert.True(result.First().Parameters.Any(p => typeof(IEnumerable<object>) == p.ParameterType));
+            Assert.True(result.First().Parameters.Any(p => expected == p.ParameterType));
             // Teardown
         }
     }
