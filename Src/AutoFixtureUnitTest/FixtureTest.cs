@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Dsl;
@@ -1328,6 +1329,17 @@ namespace Ploeh.AutoFixtureUnitTest
                           select n);
             // Verify outcome
             Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithRegularExpressionValidatedTypeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var result = fixture.CreateAnonymous<RegularExpressionValidatedType>();
+            // Verify outcome
+            Assert.True(Regex.IsMatch(result.Property, RegularExpressionValidatedType.Pattern));
             // Teardown
         }
 

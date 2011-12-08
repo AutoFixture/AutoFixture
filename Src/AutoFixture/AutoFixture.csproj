@@ -67,7 +67,7 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <DocumentationFile>bin\Release\Ploeh.AutoFixture.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AutoFixture.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Verify|AnyCPU' ">
     <OutputPath>bin\Verify\</OutputPath>
@@ -101,14 +101,31 @@
     <Compile Include="ConstrainedStringGenerator.cs" />
     <Compile Include="CurrentDateTimeCustomization.cs" />
     <Compile Include="CurrentDateTimeGenerator.cs" />
+    <Compile Include="DataAnnotations\Automaton.cs" />
+    <Compile Include="DataAnnotations\BasicAutomata.cs" />
+    <Compile Include="DataAnnotations\BasicOperations.cs" />
+    <Compile Include="DataAnnotations\LinkedListExtensions.cs" />
+    <Compile Include="DataAnnotations\ListEqualityComparer.cs" />
+    <Compile Include="DataAnnotations\MinimizationOperations.cs" />
     <Compile Include="DataAnnotations\RangeAttributeRelay.cs" />
+    <Compile Include="DataAnnotations\RegExp.cs" />
+    <Compile Include="DataAnnotations\RegularExpressionAttributeRelay.cs" />
+    <Compile Include="DataAnnotations\SpecialOperations.cs" />
+    <Compile Include="DataAnnotations\State.cs" />
+    <Compile Include="DataAnnotations\StateEqualityComparer.cs" />
+    <Compile Include="DataAnnotations\StatePair.cs" />
     <Compile Include="DataAnnotations\StringLengthAttributeRelay.cs" />
+    <Compile Include="DataAnnotations\Transition.cs" />
+    <Compile Include="DataAnnotations\TransitionComparer.cs" />
+    <Compile Include="DataAnnotations\Xeger.cs" />
     <Compile Include="DateTimeGenerator.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Kernel\ConstrainedStringRequest.cs" />
     <Compile Include="Kernel\RangedNumberRequest.cs" />
+    <Compile Include="Kernel\RegularExpressionRequest.cs" />
     <Compile Include="RangedNumberGenerator.cs" />
+    <Compile Include="RegularExpressionGenerator.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGenerator.cs" />
     <Compile Include="DefaultPrimitiveBuilders.cs" />
     <Compile Include="DictionaryFiller.cs" />

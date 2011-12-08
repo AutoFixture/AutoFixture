@@ -30,6 +30,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 typeof(ArrayRelay),
                 typeof(ParameterRequestRelay),
                 typeof(RangeAttributeRelay),
+                typeof(RegularExpressionAttributeRelay),
                 typeof(StringLengthAttributeRelay),
                 typeof(PropertyRequestRelay),
                 typeof(FieldRequestRelay),
