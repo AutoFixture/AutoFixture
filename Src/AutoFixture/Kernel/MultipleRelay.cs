@@ -6,7 +6,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Relays requests for multiple (an unspecified count) specimens to a request for a specific
     /// number of specimens.
     /// </summary>
-    public class MultipleRelay : ISpecimenBuilder, IMultiple
+    public class MultipleRelay : ISpecimenBuilder
     {
         private int count;
 

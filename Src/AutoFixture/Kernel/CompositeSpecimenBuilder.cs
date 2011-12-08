@@ -14,6 +14,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeSpecimenBuilder"/> class.
         /// </summary>
+#warning Remove when Builders are changed to IEnumerable<ISpecimenBuilder>
         public CompositeSpecimenBuilder()
             : this(Enumerable.Empty<ISpecimenBuilder>())
         {
@@ -47,6 +48,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the child builders.
         /// </summary>
+#warning This should be an IEnumerable<ISpecimenBuilder>
         public IList<ISpecimenBuilder> Builders
         {
             get { return this.builders; }
