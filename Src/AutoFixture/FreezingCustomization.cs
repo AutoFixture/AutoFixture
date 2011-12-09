@@ -169,17 +169,19 @@ namespace Ploeh.AutoFixture
 
                 private ISpecimenBuilder MapFixedSpecimenBuilderToTargetType()
                 {
-                    var builderComposer =
-                        new TypedBuilderComposer(
-                            this.targetType, this.fixedBuilder);
-                    return builderComposer.Compose();
+                    return this.MapFixedSpecimenBuilderTo(this.targetType);
                 }
 
                 private ISpecimenBuilder MapFixedSpecimenBuilderToRegisteredType()
                 {
+                    return this.MapFixedSpecimenBuilderTo(this.registeredType);
+                }
+
+                private ISpecimenBuilder MapFixedSpecimenBuilderTo(Type type)
+                {
                     var builderComposer =
                         new TypedBuilderComposer(
-                            this.registeredType, this.fixedBuilder);
+                            type, this.fixedBuilder);
                     return builderComposer.Compose();
                 }
             }
