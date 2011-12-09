@@ -151,14 +151,9 @@ namespace Ploeh.AutoFixture
 
                 public ISpecimenBuilder Compose()
                 {
-                    var builders = from t in this.types
-                                   select this
-                                   .MapFixedSpecimenBuilderTo(t);
-
-                    var compositeBuilder = 
-                        new CompositeSpecimenBuilder(builders);
-
-                    return compositeBuilder;
+                    return new CompositeSpecimenBuilder(
+                        from t in this.types
+                        select this.MapFixedSpecimenBuilderTo(t));
                 }
 
                 private ISpecimenBuilder MapFixedSpecimenBuilderTo(Type type)
