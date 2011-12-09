@@ -156,25 +156,17 @@ namespace Ploeh.AutoFixture
                 internal void Execute()
                 {
                     var targetTypeBuilder =
-                        MapFixedSpecimenBuilderToTargetType();
+                        this.MapFixedSpecimenBuilderTo(
+                            this.targetType);
                     var registeredTypeBuilder =
-                        MapFixedSpecimenBuilderToRegisteredType();
+                        this.MapFixedSpecimenBuilderTo(
+                            this.registeredType);
 
                     var compositeBuilder = new CompositeSpecimenBuilder(
                         targetTypeBuilder,
                         registeredTypeBuilder);
 
                     this.fixture.Customizations.Insert(0, compositeBuilder);
-                }
-
-                private ISpecimenBuilder MapFixedSpecimenBuilderToTargetType()
-                {
-                    return this.MapFixedSpecimenBuilderTo(this.targetType);
-                }
-
-                private ISpecimenBuilder MapFixedSpecimenBuilderToRegisteredType()
-                {
-                    return this.MapFixedSpecimenBuilderTo(this.registeredType);
                 }
 
                 private ISpecimenBuilder MapFixedSpecimenBuilderTo(Type type)
