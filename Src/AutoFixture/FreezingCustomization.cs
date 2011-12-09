@@ -115,11 +115,12 @@ namespace Ploeh.AutoFixture
             {
                 var fixedBuilder =
                     CreateFixedSpecimenBuilderForTargetType();
-                new RegisterFixedBuilderCommand(
+                var builder = new FixedBuilderComposer(
                     fixedBuilder,
-                    this.fixture,
                     this.customization.targetType,
-                    this.customization.registeredType).Execute();
+                    this.customization.registeredType).Compose();
+                this.fixture.Customizations.Insert(
+                    0, builder);
             }
 
             private FixedBuilder CreateFixedSpecimenBuilderForTargetType()
@@ -135,23 +136,20 @@ namespace Ploeh.AutoFixture
                 return context.Resolve(this.customization.targetType);
             }
 
-            private class RegisterFixedBuilderCommand
+            private class FixedBuilderComposer : ISpecimenBuilderComposer
             {
-                private readonly IFixture fixture;
                 private readonly FixedBuilder fixedBuilder;
                 private readonly Type[] types;
 
-                internal RegisterFixedBuilderCommand(
+                internal FixedBuilderComposer(
                     FixedBuilder fixedBuilder,
-                    IFixture fixture,
                     params Type[] types)
                 {
                     this.fixedBuilder = fixedBuilder;
-                    this.fixture = fixture;
                     this.types = types;
                 }
 
-                internal void Execute()
+                public ISpecimenBuilder Compose()
                 {
                     var builders = from t in this.types
                                    select this
@@ -160,8 +158,7 @@ namespace Ploeh.AutoFixture
                     var compositeBuilder = 
                         new CompositeSpecimenBuilder(builders);
 
-                    this.fixture.Customizations.Insert(
-                        0, compositeBuilder);
+                    return compositeBuilder;
                 }
 
                 private ISpecimenBuilder MapFixedSpecimenBuilderTo(Type type)
