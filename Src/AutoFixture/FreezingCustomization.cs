@@ -114,7 +114,11 @@ namespace Ploeh.AutoFixture
             {
                 var builder =
                     CreateFixedSpecimenBuilderForTargetType();
-                new RegisterFixedBuilderCommand(builder, this.fixture, this.customization).Execute();
+                new RegisterFixedBuilderCommand(
+                    builder, 
+                    this.fixture,
+                    this.customization.targetType,
+                    this.customization.registeredType).Execute();
             }
 
             private FixedBuilder CreateFixedSpecimenBuilderForTargetType()
@@ -132,18 +136,21 @@ namespace Ploeh.AutoFixture
 
             private class RegisterFixedBuilderCommand
             {
-                private readonly FreezingCustomization customization;
                 private readonly IFixture fixture;
                 private readonly FixedBuilder fixedBuilder;
+                private readonly Type targetType;
+                private readonly Type registeredType;
 
                 internal RegisterFixedBuilderCommand(
                     FixedBuilder fixedBuilder,
                     IFixture fixture,
-                    FreezingCustomization customization)
+                    Type targetType,
+                    Type registeredType)
                 {
                     this.fixedBuilder = fixedBuilder;
-                    this.customization = customization;
                     this.fixture = fixture;
+                    this.targetType = targetType;
+                    this.registeredType = registeredType;
                 }
 
                 internal void Execute()
@@ -164,7 +171,7 @@ namespace Ploeh.AutoFixture
                 {
                     var builderComposer =
                         new TypedBuilderComposer(
-                            this.customization.targetType, this.fixedBuilder);
+                            this.targetType, this.fixedBuilder);
                     return builderComposer.Compose();
                 }
 
@@ -172,7 +179,7 @@ namespace Ploeh.AutoFixture
                 {
                     var builderComposer =
                         new TypedBuilderComposer(
-                            this.customization.registeredType, this.fixedBuilder);
+                            this.registeredType, this.fixedBuilder);
                     return builderComposer.Compose();
                 }
             }
