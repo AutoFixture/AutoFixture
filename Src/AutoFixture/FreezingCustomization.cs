@@ -1,6 +1,7 @@
 ﻿using System;
 using Ploeh.AutoFixture.Kernel;
 using System.Globalization;
+using System.Linq;
 
 namespace Ploeh.AutoFixture
 {
@@ -115,7 +116,7 @@ namespace Ploeh.AutoFixture
                 var builder =
                     CreateFixedSpecimenBuilderForTargetType();
                 new RegisterFixedBuilderCommand(
-                    builder, 
+                    builder,
                     this.fixture,
                     this.customization.targetType,
                     this.customization.registeredType).Execute();
@@ -138,35 +139,29 @@ namespace Ploeh.AutoFixture
             {
                 private readonly IFixture fixture;
                 private readonly FixedBuilder fixedBuilder;
-                private readonly Type targetType;
-                private readonly Type registeredType;
+                private readonly Type[] types;
 
                 internal RegisterFixedBuilderCommand(
                     FixedBuilder fixedBuilder,
                     IFixture fixture,
-                    Type targetType,
-                    Type registeredType)
+                    params Type[] types)
                 {
                     this.fixedBuilder = fixedBuilder;
                     this.fixture = fixture;
-                    this.targetType = targetType;
-                    this.registeredType = registeredType;
+                    this.types = types;
                 }
 
                 internal void Execute()
                 {
-                    var targetTypeBuilder =
-                        this.MapFixedSpecimenBuilderTo(
-                            this.targetType);
-                    var registeredTypeBuilder =
-                        this.MapFixedSpecimenBuilderTo(
-                            this.registeredType);
+                    var builders = from t in this.types
+                                   select this
+                                   .MapFixedSpecimenBuilderTo(t);
 
-                    var compositeBuilder = new CompositeSpecimenBuilder(
-                        targetTypeBuilder,
-                        registeredTypeBuilder);
+                    var compositeBuilder = 
+                        new CompositeSpecimenBuilder(builders);
 
-                    this.fixture.Customizations.Insert(0, compositeBuilder);
+                    this.fixture.Customizations.Insert(
+                        0, compositeBuilder);
                 }
 
                 private ISpecimenBuilder MapFixedSpecimenBuilderTo(Type type)
