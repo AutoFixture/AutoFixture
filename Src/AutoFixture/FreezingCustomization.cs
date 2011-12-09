@@ -113,10 +113,10 @@ namespace Ploeh.AutoFixture
 
             internal void Execute()
             {
-                var builder =
+                var fixedBuilder =
                     CreateFixedSpecimenBuilderForTargetType();
                 new RegisterFixedBuilderCommand(
-                    builder,
+                    fixedBuilder,
                     this.fixture,
                     this.customization.targetType,
                     this.customization.registeredType).Execute();
