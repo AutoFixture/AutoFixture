@@ -115,10 +115,17 @@ namespace Ploeh.AutoFixture
             {
                 var fixedBuilder =
                     CreateFixedSpecimenBuilderForTargetType();
-                var builder = new FixedBuilderComposer(
-                    fixedBuilder,
+                var types = new[]
+                {
                     this.customization.targetType,
-                    this.customization.registeredType).Compose();
+                    this.customization.registeredType 
+                };
+
+                var builder = new CompositeSpecimenBuilder(
+                    from t in types
+                    select new TypedBuilderComposer(
+                        t, fixedBuilder).Compose());
+
                 this.fixture.Customizations.Insert(
                     0, builder);
             }
@@ -134,28 +141,6 @@ namespace Ploeh.AutoFixture
             {
                 var context = new SpecimenContext(this.fixture.Compose());
                 return context.Resolve(this.customization.targetType);
-            }
-
-            private class FixedBuilderComposer : ISpecimenBuilderComposer
-            {
-                private readonly FixedBuilder fixedBuilder;
-                private readonly Type[] types;
-
-                internal FixedBuilderComposer(
-                    FixedBuilder fixedBuilder,
-                    params Type[] types)
-                {
-                    this.fixedBuilder = fixedBuilder;
-                    this.types = types;
-                }
-
-                public ISpecimenBuilder Compose()
-                {
-                    return new CompositeSpecimenBuilder(
-                        from t in this.types
-                        select new TypedBuilderComposer(
-                            t, this.fixedBuilder).Compose());
-                }
             }
         }
     }
