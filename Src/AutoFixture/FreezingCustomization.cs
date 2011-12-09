@@ -114,7 +114,10 @@ namespace Ploeh.AutoFixture
             {
                 var builder =
                     CreateFixedSpecimenBuilderForTargetType();
-                new RegisterFixedBuilderCommand(builder, this).Execute();
+                new RegisterFixedBuilderCommand(
+                    builder,
+                    this.customization,
+                    this.fixture).Execute();
             }
 
             private FixedBuilder CreateFixedSpecimenBuilderForTargetType()
@@ -132,13 +135,18 @@ namespace Ploeh.AutoFixture
 
             private class RegisterFixedBuilderCommand
             {
-                private readonly CustomizeCommand customizeCmd;
+                private readonly FreezingCustomization customization;
+                private readonly IFixture fixture;
                 private readonly FixedBuilder fixedBuilder;
 
-                internal RegisterFixedBuilderCommand(FixedBuilder fixedBuilder, CustomizeCommand customizeCmd)
+                internal RegisterFixedBuilderCommand(
+                    FixedBuilder fixedBuilder,
+                    FreezingCustomization customization,
+                    IFixture fixture)
                 {
                     this.fixedBuilder = fixedBuilder;
-                    this.customizeCmd = customizeCmd;
+                    this.customization = customization;
+                    this.fixture = fixture;
                 }
 
                 internal void Execute()
@@ -152,14 +160,14 @@ namespace Ploeh.AutoFixture
                         targetTypeBuilder,
                         registeredTypeBuilder);
 
-                    this.customizeCmd.fixture.Customizations.Insert(0, compositeBuilder);
+                    this.fixture.Customizations.Insert(0, compositeBuilder);
                 }
 
                 private ISpecimenBuilder MapFixedSpecimenBuilderToTargetType()
                 {
                     var builderComposer =
                         new TypedBuilderComposer(
-                            this.customizeCmd.customization.targetType, this.fixedBuilder);
+                            this.customization.targetType, this.fixedBuilder);
                     return builderComposer.Compose();
                 }
 
@@ -167,7 +175,7 @@ namespace Ploeh.AutoFixture
                 {
                     var builderComposer =
                         new TypedBuilderComposer(
-                            this.customizeCmd.customization.registeredType, this.fixedBuilder);
+                            this.customization.registeredType, this.fixedBuilder);
                     return builderComposer.Compose();
                 }
             }
