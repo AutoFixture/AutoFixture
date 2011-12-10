@@ -10,19 +10,25 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
     public class StaticMethodTest
     {
-        [Theory]
-        [InlineData(typeof(TypeWithFactoryMethod))]
-        public void SutIsMethod(Type targetType)
+        [Fact]
+        public void SutIsMethod()
         {
             // Fixture setup
-            var method = (from mi in targetType
-                              .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                          where mi.ReturnType == targetType
-                          select mi).First();
+            Action dummy = delegate { };
             // Exercise system
-            var sut = new StaticMethod(method);
+            var sut = new StaticMethod(dummy.Method);
             // Verify outcome
             Assert.IsAssignableFrom<IMethod>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeOneParamsConstructorWithNullMethodInfoThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new StaticMethod(null));
             // Teardown
         }
 
@@ -38,7 +44,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void InitializeWithNullParameterInfoThrows()
+        public void InitializeWithNullMethodParametersThrows()
         {
             // Fixture setup
             Action dummy = delegate { };
@@ -48,15 +54,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(TypeWithFactoryMethod))]
-        public void MethodIsCorrect(Type targetType)
+        [Fact]
+        public void MethodIsCorrect()
         {
             // Fixture setup
-            var expectedMethod = (from mi in targetType
-                                      .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                                  where mi.ReturnType == targetType
-                                  select mi).First();
+            var expectedMethod = ((Action)delegate { }).Method;
             var sut = new StaticMethod(expectedMethod);
             // Exercise system
             var result = sut.Method;
@@ -65,18 +67,27 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(TypeWithFactoryMethod), 0)]
-        [InlineData(typeof(TypeWithFactoryMethod), 1)]
-        public void ParametersReturnsCorrectResult(Type targetType, int index)
+        [Fact]
+        public void ParametersIsCorrectWhenPassedOnOneParamsConstructor()
         {
             // Fixture setup
-            var method = (from mi in targetType
-                              .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                          where mi.ReturnType == targetType
-                          select mi).ElementAt(index);
-            var expectedParameters = method.GetParameters();
-            var sut = new StaticMethod(method);
+            Action<object> dummy = delegate { };
+            var expectedParameters = dummy.Method.GetParameters();
+            var sut = new StaticMethod(dummy.Method);
+            // Exercise system
+            var result = sut.Parameters;
+            // Verify outcome
+            Assert.True(expectedParameters.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void ParametersIsCorrect()
+        {
+            // Fixture setup
+            Action<int, double> dummy = delegate { };
+            var expectedParameters = dummy.Method.GetParameters();
+            var sut = new StaticMethod(dummy.Method, expectedParameters);
             // Exercise system
             var result = sut.Parameters;
             // Verify outcome
@@ -85,54 +96,24 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [InlineData(typeof(TypeWithFactoryMethod), 0)]
-        [InlineData(typeof(TypeWithFactoryMethod), 1)]
-        public void ParametersWhenPassedFromConstructorReturnsCorrectResult(Type targetType, int index)
+        [InlineData(typeof(TypeWithFactoryMethod), 0, null)]
+        [InlineData(typeof(TypeWithFactoryMethod), 1, "abc")]
+        [InlineData(typeof(TypeWithFactoryMethod), 2, new[] { "ab", "c" })]
+        public void InvokeWithFactoryMethodReturnsCorrectResult(Type targetType, int index, object values)
         {
             // Fixture setup
             var method = (from mi in targetType
                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
                           where mi.ReturnType == targetType
                           select mi).ElementAt(index);
-            var expectedParameters = method.GetParameters();
-            var sut = new StaticMethod(method, expectedParameters);
-            // Exercise system
-            var result = sut.Parameters;
-            // Verify outcome
-            Assert.True(expectedParameters.SequenceEqual(result));
-            // Teardown
-        }
-
-        [Theory]
-        [InlineData(typeof(TypeWithFactoryMethod))]
-        public void InvokeWithParameterlessFactoryMethodReturnsCorrectResult(Type targetType)
-        {
-            // Fixture setup
-            var method = (from mi in targetType
-                              .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                          where mi.ReturnType == targetType
-                          select mi).First();
             var sut = new StaticMethod(method);
-            // Exercise system
-            var result = sut.Invoke(Enumerable.Empty<object>());
-            // Verify outcome
-            Assert.IsAssignableFrom(targetType, result);
-            // Teardown
-        }
 
-        [Theory]
-        [InlineData(typeof(TypeWithFactoryMethod), "abc", 1)]
-        [InlineData(typeof(TypeWithFactoryMethod), new[] { "ab", "c" }, 2)]
-        public void InvokeWithSingleParameterReturnsCorrectResult(Type targetType, object parameter, int index)
-        {
-            // Fixture setup
-            var method = (from mi in targetType
-                              .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                          where mi.ReturnType == targetType
-                          select mi).ElementAt(index); // Index of method with single parameter.
-            var sut = new StaticMethod(method);
+            var parameters = new object[] { };
+            if (values != null) 
+                parameters = new[] { values };
+            
             // Exercise system
-            var result = sut.Invoke(new[] { parameter });
+            var result = sut.Invoke(parameters);
             // Verify outcome
             Assert.IsAssignableFrom(targetType, result);
             // Teardown
@@ -142,9 +123,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutIsEquatable()
         {
             // Fixture setup
-            var method = (from mi in typeof(TypeWithFactoryMethod)
-                              .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                          select mi).First();
+            var method = ((Action<object>)delegate { }).Method;
             // Exercise system
             var sut = new StaticMethod(method);
             // Verify outcome
@@ -156,9 +135,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualNullObject()
         {
             // Fixture setup
-            var method = (from mi in typeof(TypeWithFactoryMethod)
-                              .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                          select mi).First();
+            var method = ((Action<object>)delegate { }).Method;
             var sut = new StaticMethod(method);
             // Exercise system
             var result = sut.Equals((object)null);
@@ -171,9 +148,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualNullSut()
         {
             // Fixture setup
-            var method = (from mi in typeof(TypeWithFactoryMethod)
-                              .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                          select mi).First();
+            var method = ((Action<object>)delegate { }).Method;
             var sut = new StaticMethod(method);
             // Exercise system
             var result = sut.Equals((StaticMethod)null);
@@ -186,9 +161,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualSomeOtherObject()
         {
             // Fixture setup
-            var method = (from mi in typeof(TypeWithFactoryMethod)
-                              .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                          select mi).First();
+            var method = ((Action<object>)delegate { }).Method;
             var sut = new StaticMethod(method);
             // Exercise system
             var result = sut.Equals(new object());
@@ -201,15 +174,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualOtherObjectWithDifferentMethod()
         {
             // Fixture setup
-            var method1 = (from mi in typeof(TypeWithFactoryMethod)
-                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                           select mi).ElementAt(0);
-            var sut = new StaticMethod(method1);
+            var method = ((Action<object>)delegate { }).Method;
+            var sut = new StaticMethod(method);
 
-            var method2 = (from mi in typeof(TypeWithFactoryMethod)
-                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                           select mi).ElementAt(1);
-            object other = new StaticMethod(method2);
+            var otherMethod = ((Action<int>)delegate { }).Method;
+            object other = new StaticMethod(otherMethod);
 
             // Exercise system
             var result = sut.Equals(other);
@@ -222,15 +191,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualOtherObjectWithDifferentParameters()
         {
             // Fixture setup
-            var method = (from mi in typeof(TypeWithFactoryMethod)
-                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                          select mi).ElementAt(0);
+            var method = ((Action<object>)delegate { }).Method;
+            var sut = new StaticMethod(method, method.GetParameters());
 
-            var parameters1 = ((Action<object>)delegate { }).Method.GetParameters();
-            var parameters2 = ((Action<object, object>)delegate { }).Method.GetParameters();
-
-            var sut = new StaticMethod(method, parameters1);
-            object other = new StaticMethod(method, parameters2);
+            var otherParameters = ((Action<int>)delegate { }).Method.GetParameters();
+            object other = new StaticMethod(method, otherParameters);
 
             // Exercise system
             var result = sut.Equals(other);
@@ -242,9 +207,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutEqualsOtherObjectWithSameMethod()
         {
-            var method = (from mi in typeof(TypeWithFactoryMethod)
-                              .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                          select mi).First();
+            var method = ((Action<object>)delegate { }).Method;
             var sut = new StaticMethod(method);
             object other = new StaticMethod(method);
             // Exercise system
@@ -257,10 +220,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [Fact]
         public void SutEqualsOtherObjectWithSameMethodAndSameParameters()
         {
-            var method = (from mi in typeof(TypeWithFactoryMethod)
-                              .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                          select mi).First();
-            var parameters = ((Action<object>)delegate { }).Method.GetParameters();
+            var method = ((Action<object>)delegate { }).Method;
+            var parameters = method.GetParameters();
             var sut = new StaticMethod(method, parameters);
             object other = new StaticMethod(method, parameters);
             // Exercise system
@@ -274,31 +235,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void GetHashCodeReturnsCorrectResult()
         {
             // Fixture setup
-            var method = (from mi in typeof(TypeWithFactoryMethod)
-                              .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                          select mi).First();
+            var method = ((Action<object>)delegate { }).Method;
             var sut = new StaticMethod(method);
             // Exercise system
             var result = sut.GetHashCode();
             // Verify outcome
             var expectedHasCode = method.GetHashCode() ^ method.GetParameters().Aggregate(0, (current, parameter) => current + parameter.GetHashCode());
-            Assert.Equal(expectedHasCode, result);
-            // Teardown
-        }
-
-        [Fact]
-        public void GetHashCodeWhenParametersArePassedFromConstructorReturnsCorrectResult()
-        {
-            // Fixture setup
-            var method = (from mi in typeof(TypeWithFactoryMethod)
-                              .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                          select mi).First();
-            var parameters = method.GetParameters();
-            var sut = new StaticMethod(method, parameters);
-            // Exercise system
-            var result = sut.GetHashCode();
-            // Verify outcome
-            var expectedHasCode = method.GetHashCode() ^ parameters.Aggregate(0, (current, parameter) => current + parameter.GetHashCode());
             Assert.Equal(expectedHasCode, result);
             // Teardown
         }
