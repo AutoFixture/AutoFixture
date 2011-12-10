@@ -31,20 +31,29 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             return type.GetGenericArguments().Single();
         }
 
-        internal static MethodInfo GetFakedMethod(this Type type)
+        internal static MethodInfo GetFakedMethod(this Type type, ParameterInfo[] paramInfos)
         {
-            return typeof(FakeBuilder<>)
-                .MakeGenericType(type.GetGenericArguments())
-                .GetMethod("Build", BindingFlags.Static | BindingFlags.NonPublic);
+            Type builder = typeof(FakeBuilder<>).MakeGenericType(type.GetGenericArguments());
+            var bindings = BindingFlags.Static | BindingFlags.NonPublic;
+
+            if (paramInfos.Any())
+            {
+                return builder.GetMethod("BuildWithArgumentsForConstructor", bindings);
+            }
+
+            return builder.GetMethod("Build", bindings);
         }
 
         private static class FakeBuilder<T> where T : class
         {
-            internal static Fake<T> Build(IEnumerable<object> argumentsForConstructor)
+            internal static Fake<T> BuildWithArgumentsForConstructor(object argumentsForConstructor)
             {
-                return typeof(T).IsInterface
-                    ? new Fake<T>()
-                    : new Fake<T>(o => o.WithArgumentsForConstructor(argumentsForConstructor));
+                return new Fake<T>(o => o.WithArgumentsForConstructor(new[] { argumentsForConstructor }));
+            }
+
+            internal static Fake<T> Build()
+            {
+                return new Fake<T>();
             }
         }
     }

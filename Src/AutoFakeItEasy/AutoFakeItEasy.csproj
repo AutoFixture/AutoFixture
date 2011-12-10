@@ -43,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoFakeItEasyCustomization.cs" />
-    <Compile Include="FakeItEasyMethod.cs" />
     <Compile Include="FakeItEasyMethodQuery.cs" />
     <Compile Include="FakeItEasyBuilder.cs" />
     <Compile Include="FakeItEasyRelay.cs" />

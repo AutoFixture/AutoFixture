@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// </returns>
         /// <remarks>
         /// <para>
-        /// This method returns a sequence of <see cref="FakeItEasyMethod"/> according to
+        /// This method returns a sequence of <see cref="StaticMethod"/> according to
         /// the public and protected constructors available on <paramref name="type"/>.
         /// </para>
         /// </remarks>
@@ -37,9 +37,9 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             }
 
             return from ci in fakeType.GetPublicAndProtectedConstructors()
-                   let paramInfos = ci.GetParameters()
-                   orderby paramInfos.Length ascending
-                   select new FakeItEasyMethod(type.GetFakedMethod(), paramInfos) as IMethod;
+                   let parameters = ci.GetParameters()
+                   orderby parameters.Length ascending
+                   select new StaticMethod(type.GetFakedMethod(parameters), parameters) as IMethod;
         }
     }
 }

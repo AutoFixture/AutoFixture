@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Exercise system
             var result = fixture.CreateAnonymous<IInterface>();
             // Verify outcome
-            Assert.NotNull(result);
+            Assert.IsAssignableFrom<IInterface>(result);
             // Teardown
         }
 
@@ -29,12 +29,12 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Exercise system
             var result = fixture.CreateAnonymous<AbstractType>();
             // Verify outcome
-            Assert.NotNull(result);
+            Assert.IsAssignableFrom<AbstractType>(result);
             // Teardown
         }
 
         [Fact]
-        public void FixtureAutoFakesAbstractTypeWithNonDefaultConstructor()
+        public void FixtureCanPassValuesToAbstractGenericTypeWithNonDefaultConstructor()
         {
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Exercise system
             var result = fixture.CreateAnonymous<Fake<AbstractType>>();
             // Verify outcome
-            Assert.NotNull(result);
+            Assert.IsAssignableFrom<Fake<AbstractType>>(result);
             // Teardown
         }
 
@@ -94,7 +94,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Exercise system
             var result = fixture.CreateAnonymous<AbstractGenericType<object>>();
             // Verify outcome
-            Assert.NotNull(result);
+            Assert.IsAssignableFrom<AbstractGenericType<object>>(result);
         }
 
         [Fact]
