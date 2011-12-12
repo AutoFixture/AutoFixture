@@ -133,11 +133,12 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 yield return new object[] { @"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$" };
                 yield return new object[] { "[" };
+                yield return new object[] { @"(?\[Test\]|\[Foo\]|\[Bar\])?(?:-)?(?\[[()a-zA-Z0-9_\s]+\])?(?:-)?(?\[[a-zA-Z0-9_\s]+\])?(?:-)?(?\[[a-zA-Z0-9_\s]+\])?(?:-)?(?\[[a-zA-Z0-9_\s]+\])?" };
             }
 
             IEnumerator IEnumerable.GetEnumerator()
             {
-                throw new System.NotImplementedException();
+                return this.GetEnumerator();
             }
         }
     }
