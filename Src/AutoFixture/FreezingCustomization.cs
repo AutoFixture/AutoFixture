@@ -113,8 +113,10 @@ namespace Ploeh.AutoFixture
 
             internal void Execute()
             {
-                var fixedBuilder =
-                    CreateFixedSpecimenBuilderForTargetType();
+                var specimen = this.fixture.CreateAnonymous(
+                    this.customization.targetType);
+                var fixedBuilder = new FixedBuilder(specimen);
+
                 var types = new[]
                 {
                     this.customization.targetType,
@@ -128,13 +130,6 @@ namespace Ploeh.AutoFixture
 
                 this.fixture.Customizations.Insert(
                     0, builder);
-            }
-
-            private FixedBuilder CreateFixedSpecimenBuilderForTargetType()
-            {
-                var specimen = this.fixture.CreateAnonymous(
-                    this.customization.targetType);
-                return new FixedBuilder(specimen);
             }
         }
     }
