@@ -1,6 +1,7 @@
 ﻿using System;
 using Ploeh.AutoFixture.Kernel;
 using System.Globalization;
+using System.Linq;
 
 namespace Ploeh.AutoFixture
 {
@@ -94,83 +95,22 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            new CustomizeCommand(fixture, this).Execute();
-        }
+            var specimen = fixture.CreateAnonymous(
+                    this.targetType);
+            var fixedBuilder = new FixedBuilder(specimen);
 
-        private class CustomizeCommand
-        {
-            private readonly IFixture fixture;
-            private readonly FreezingCustomization customization;
-
-            internal CustomizeCommand(
-                IFixture fixture,
-                FreezingCustomization customization)
-            {
-                this.fixture = fixture;
-                this.customization = customization;
-            }
-
-            internal void Execute()
-            {
-                var builder =
-                    CreateFixedSpecimenBuilderForTargetType();
-                new RegisterFixedBuilderCommand(builder, this).Execute();
-            }
-
-            private FixedBuilder CreateFixedSpecimenBuilderForTargetType()
-            {
-                var specimen =
-                    this.CreateSpecimenForTargetType();
-                return new FixedBuilder(specimen);
-            }
-
-            private object CreateSpecimenForTargetType()
-            {
-                var context = new SpecimenContext(this.fixture.Compose());
-                return context.Resolve(this.customization.targetType);
-            }
-
-            private class RegisterFixedBuilderCommand
-            {
-                private readonly CustomizeCommand customizeCmd;
-                private readonly FixedBuilder fixedBuilder;
-
-                internal RegisterFixedBuilderCommand(FixedBuilder fixedBuilder, CustomizeCommand customizeCmd)
+            var types = new[]
                 {
-                    this.fixedBuilder = fixedBuilder;
-                    this.customizeCmd = customizeCmd;
-                }
+                    this.targetType,
+                    this.registeredType 
+                };
 
-                internal void Execute()
-                {
-                    var targetTypeBuilder =
-                        MapFixedSpecimenBuilderToTargetType();
-                    var registeredTypeBuilder =
-                        MapFixedSpecimenBuilderToRegisteredType();
+            var builder = new CompositeSpecimenBuilder(
+                from t in types
+                select new TypedBuilderComposer(
+                    t, fixedBuilder).Compose());
 
-                    var compositeBuilder = new CompositeSpecimenBuilder(
-                        targetTypeBuilder,
-                        registeredTypeBuilder);
-
-                    this.customizeCmd.fixture.Customizations.Insert(0, compositeBuilder);
-                }
-
-                private ISpecimenBuilder MapFixedSpecimenBuilderToTargetType()
-                {
-                    var builderComposer =
-                        new TypedBuilderComposer(
-                            this.customizeCmd.customization.targetType, this.fixedBuilder);
-                    return builderComposer.Compose();
-                }
-
-                private ISpecimenBuilder MapFixedSpecimenBuilderToRegisteredType()
-                {
-                    var builderComposer =
-                        new TypedBuilderComposer(
-                            this.customizeCmd.customization.registeredType, this.fixedBuilder);
-                    return builderComposer.Compose();
-                }
-            }
+            fixture.Customizations.Insert(0, builder);
         }
     }
 }

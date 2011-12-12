@@ -282,6 +282,11 @@ namespace Ploeh.AutoFixture
             return composer.Compose().CreateContext().CreateMany(seed, count);
         }
 
+        internal static object CreateAnonymous(this ISpecimenBuilderComposer composer, Type type)
+        {
+            return composer.Compose().CreateContext().Resolve(type);
+        }
+
         private static ISpecimenContext CreateContext(this ISpecimenBuilder builder)
         {
             return new SpecimenContext(builder);
