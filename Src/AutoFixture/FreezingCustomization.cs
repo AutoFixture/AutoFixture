@@ -95,42 +95,22 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            new CustomizeCommand(fixture, this).Execute();
-        }
+            var specimen = fixture.CreateAnonymous(
+                    this.targetType);
+            var fixedBuilder = new FixedBuilder(specimen);
 
-        private class CustomizeCommand
-        {
-            private readonly IFixture fixture;
-            private readonly FreezingCustomization customization;
-
-            internal CustomizeCommand(
-                IFixture fixture,
-                FreezingCustomization customization)
-            {
-                this.fixture = fixture;
-                this.customization = customization;
-            }
-
-            internal void Execute()
-            {
-                var specimen = this.fixture.CreateAnonymous(
-                    this.customization.targetType);
-                var fixedBuilder = new FixedBuilder(specimen);
-
-                var types = new[]
+            var types = new[]
                 {
-                    this.customization.targetType,
-                    this.customization.registeredType 
+                    this.targetType,
+                    this.registeredType 
                 };
 
-                var builder = new CompositeSpecimenBuilder(
-                    from t in types
-                    select new TypedBuilderComposer(
-                        t, fixedBuilder).Compose());
+            var builder = new CompositeSpecimenBuilder(
+                from t in types
+                select new TypedBuilderComposer(
+                    t, fixedBuilder).Compose());
 
-                this.fixture.Customizations.Insert(
-                    0, builder);
-            }
+            fixture.Customizations.Insert(0, builder);
         }
     }
 }
