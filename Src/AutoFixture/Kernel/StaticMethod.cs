@@ -18,14 +18,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="methodInfo">The methodInfo.</param>
         public StaticMethod(MethodInfo methodInfo)
+            : this(methodInfo, StaticMethod.GetMethodParameters(methodInfo))
         {
-            if (methodInfo == null)
-            {
-                throw new ArgumentNullException("methodInfo");
-            }
-
-            this.methodInfo = methodInfo;
-            this.paramInfos = methodInfo.GetParameters();
         }
 
         /// <summary>
@@ -124,6 +118,16 @@ namespace Ploeh.AutoFixture.Kernel
 
             return this.Method.Equals(other.Method) 
                 && this.Parameters.SequenceEqual(other.Parameters);
+        }
+
+        private static ParameterInfo[] GetMethodParameters(MethodInfo methodInfo)
+        {
+            if (methodInfo == null)
+            {
+                throw new ArgumentNullException("methodInfo");
+            }
+
+            return methodInfo.GetParameters();
         }
     }
 }
