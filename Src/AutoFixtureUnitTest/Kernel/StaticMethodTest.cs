@@ -96,9 +96,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [InlineData(typeof(TypeWithFactoryMethod), 0, null)]
-        [InlineData(typeof(TypeWithFactoryMethod), 1, "abc")]
-        [InlineData(typeof(TypeWithFactoryMethod), 2, new[] { "ab", "c" })]
+        [InlineData(typeof(TypeWithFactoryMethod), 0, new object[] { })]
+        [InlineData(typeof(TypeWithFactoryMethod), 1, new object[] { "abc" })]
+        [InlineData(typeof(TypeWithFactoryMethod), 2, new object[] { new[] { "ab", "c" } })]
         public void InvokeWithFactoryMethodReturnsCorrectResult(Type targetType, int index, object values)
         {
             // Fixture setup
@@ -108,12 +108,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                           select mi).ElementAt(index);
             var sut = new StaticMethod(method);
 
-            var parameters = new object[] { };
-            if (values != null) 
-                parameters = new[] { values };
-            
             // Exercise system
-            var result = sut.Invoke(parameters);
+            var result = sut.Invoke((object[])values);
             // Verify outcome
             Assert.IsAssignableFrom(targetType, result);
             // Teardown
