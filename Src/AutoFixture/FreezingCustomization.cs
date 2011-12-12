@@ -139,8 +139,8 @@ namespace Ploeh.AutoFixture
 
             private object CreateSpecimenForTargetType()
             {
-                var context = new SpecimenContext(this.fixture.Compose());
-                return context.Resolve(this.customization.targetType);
+                return this.fixture.CreateAnonymous(
+                    this.customization.targetType);
             }
         }
     }
