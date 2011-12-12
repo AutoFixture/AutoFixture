@@ -1,4 +1,5 @@
-﻿namespace Ploeh.TestTypeFoundation
+﻿using System.Collections.Generic;
+namespace Ploeh.TestTypeFoundation
 {
     public class TypeWithFactoryMethod
     {
@@ -12,6 +13,11 @@
         }
 
         public static TypeWithFactoryMethod Create(object argument)
+        {
+            return new TypeWithFactoryMethod();
+        }
+
+        public static TypeWithFactoryMethod Create(IEnumerable<object> arguments)
         {
             return new TypeWithFactoryMethod();
         }

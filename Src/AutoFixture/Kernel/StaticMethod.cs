@@ -18,14 +18,29 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="methodInfo">The methodInfo.</param>
         public StaticMethod(MethodInfo methodInfo)
+            : this(methodInfo, StaticMethod.GetMethodParameters(methodInfo))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StaticMethod"/> class.
+        /// </summary>
+        /// <param name="methodInfo">The method info.</param>
+        /// <param name="methodParameters">The method parameters.</param>
+        public StaticMethod(MethodInfo methodInfo, ParameterInfo[] methodParameters)
         {
             if (methodInfo == null)
             {
                 throw new ArgumentNullException("methodInfo");
             }
 
+            if (methodParameters == null)
+            {
+                throw new ArgumentNullException("methodParameters");
+            }
+
             this.methodInfo = methodInfo;
-            this.paramInfos = this.methodInfo.GetParameters();
+            this.paramInfos = methodParameters;
         }
 
         /// <summary>
@@ -34,6 +49,14 @@ namespace Ploeh.AutoFixture.Kernel
         public MethodInfo Method
         {
             get { return this.methodInfo; }
+        }
+
+        /// <summary>
+        /// Gets information about the parameters of the method.
+        /// </summary>
+        public IEnumerable<ParameterInfo> Parameters
+        {
+            get { return this.paramInfos; }
         }
 
         /// <summary>
@@ -65,15 +88,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public override int GetHashCode()
         {
-            return this.Method.GetHashCode();
-        }
-
-        /// <summary>
-        /// Gets information about the parameters of the method.
-        /// </summary>
-        public IEnumerable<ParameterInfo> Parameters
-        {
-            get { return this.paramInfos; }
+            return this.Method.GetHashCode()
+                 ^ this.Parameters.Aggregate(0, (current, parameter) => current + parameter.GetHashCode());
         }
 
         /// <summary>
@@ -100,7 +116,18 @@ namespace Ploeh.AutoFixture.Kernel
                 return false;
             }
 
-            return this.Method.Equals(other.Method);
+            return this.Method.Equals(other.Method) 
+                && this.Parameters.SequenceEqual(other.Parameters);
+        }
+
+        private static ParameterInfo[] GetMethodParameters(MethodInfo methodInfo)
+        {
+            if (methodInfo == null)
+            {
+                throw new ArgumentNullException("methodInfo");
+            }
+
+            return methodInfo.GetParameters();
         }
     }
 }

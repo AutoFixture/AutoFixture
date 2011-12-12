@@ -2,29 +2,29 @@
 using Xunit;
 using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.AutoMoq.UnitTest
+namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
 {
     public class DependencyConstraints
     {
         [Theory]
-        [InlineData("FakeItEasy")]
         [InlineData("Rhino.Mocks")]
+        [InlineData("Moq")]
         [InlineData("xunit")]
         [InlineData("xunit.extensions")]
-        public void AutoMoqDoesNotReference(string assemblyName)
+        public void AutoFakeItEasyDoesNotReference(string assemblyName)
         {
             // Fixture setup
             // Exercise system
-            var references = typeof(AutoMoqCustomization).Assembly.GetReferencedAssemblies();
+            var references = typeof(AutoFakeItEasyCustomization).Assembly.GetReferencedAssemblies();
             // Verify outcome
             Assert.False(references.Any(an => an.Name == assemblyName));
             // Teardown
         }
 
         [Theory]
-        [InlineData("FakeItEasy")]
         [InlineData("Rhino.Mocks")]
-        public void AutoFixtureUnitTestsDoNotReference(string assemblyName)
+        [InlineData("Moq")]
+        public void AutoFakeItEasyUnitTestsDoNotReference(string assemblyName)
         {
             // Fixture setup
             // Exercise system

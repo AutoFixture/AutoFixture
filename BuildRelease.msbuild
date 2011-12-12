@@ -22,6 +22,8 @@
         <BuildOutput Include="Src\AutoMoq\bin\Release\Ploeh.AutoFixture.AutoMoq.XML" />
         <BuildOutput Include="Src\AutoRhinoMock\bin\Release\Ploeh.AutoFixture.AutoRhinoMock.dll" />
         <BuildOutput Include="Src\AutoRhinoMock\bin\Release\Ploeh.AutoFixture.AutoRhinoMock.XML" />
+        <BuildOutput Include="Src\AutoFakeItEasy\bin\Release\Ploeh.AutoFixture.AutoFakeItEasy.dll" />
+        <BuildOutput Include="Src\AutoFakeItEasy\bin\Release\Ploeh.AutoFixture.AutoFakeItEasy.XML" />
         <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.dll" />
         <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.XML" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.dll" />

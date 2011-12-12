@@ -8,5 +8,6 @@
     <assembly filename="IdiomsUnitTest\bin\Release\Ploeh.AutoFixture.IdiomsUnitTest.dll" shadow-copy="true" />
     <assembly filename="SemanticComparisonUnitTest\bin\Release\Ploeh.SemanticComparison.UnitTest.dll" shadow-copy="true" />
     <assembly filename="AutoRhinoMockUnitTest\bin\Release\Ploeh.AutoFixture.AutoRhinoMock.UnitTest.dll" shadow-copy="true" />
+    <assembly filename="AutoFakeItEasyUnitTest\bin\Release\Ploeh.AutoFixture.AutoFakeItEasy.UnitTest.dll" shadow-copy="true" />
   </assemblies>
 </xunit>
