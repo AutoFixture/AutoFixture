@@ -50,6 +50,10 @@ namespace Ploeh.AutoFixture
             {
                 return new NoSpecimen(request);
             }
+            catch (ArgumentException)
+            {
+                return new NoSpecimen(request);
+            }
 
             return new NoSpecimen(request);
         }
