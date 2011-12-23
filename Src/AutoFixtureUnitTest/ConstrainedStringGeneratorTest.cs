@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = (string)sut.Create(request, context);
             // Verify outcome
-            Assert.True(expectedMinimumLength <= result.Length && expectedMaximumLength >= result.Length);
+            Assert.True(expectedMinimumLength < result.Length && expectedMaximumLength >= result.Length);
             // Teardown
         }
 
@@ -128,7 +128,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new ConstrainedStringGenerator();
             // Exercise system
             var result = (from s in Enumerable.Range(1, 30).Select(i => (string)sut.Create(request, context))
-                          where (s.Length < request.MinimumLength || s.Length > request.MaximumLength)
+                          where (s.Length <= request.MinimumLength || s.Length > request.MaximumLength)
                           select s);
             // Verify outcome
             Assert.False(result.Any());

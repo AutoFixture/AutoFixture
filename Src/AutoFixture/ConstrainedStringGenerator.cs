@@ -1,5 +1,6 @@
 ﻿using System;
 using Ploeh.AutoFixture.Kernel;
+using System.Text;
 
 namespace Ploeh.AutoFixture
 {
@@ -39,19 +40,20 @@ namespace Ploeh.AutoFixture
 
         private static string CreateAnonymous(int minimumLength, int maximumLength, ISpecimenContext context)
         {
-            var s = string.Empty;
+            var sb = new StringBuilder();
 
-            while (s.Length < minimumLength)
+            do
             {
-                s += context.Resolve(typeof(string));
+                sb.Append(context.Resolve(typeof(string)));
             }
+            while (sb.Length < minimumLength);
             
-            if (s.Length > maximumLength)
+            if (sb.Length > maximumLength)
             {
-                s = s.Substring(0, maximumLength);
+                return sb.ToString().Substring(0, maximumLength);
             }
 
-            return s;
+            return sb.ToString();
         }
     }
 }
