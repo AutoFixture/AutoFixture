@@ -90,6 +90,7 @@
     <Compile Include="DataAnnotations\RegularExpressionValidatedType.cs" />
     <Compile Include="DataAnnotations\StringLengthAttributeRelayTest.cs" />
     <Compile Include="DataAnnotations\StringLengthValidatedType.cs" />
+    <Compile Include="DefaultRelaysPipeTest.cs" />
     <Compile Include="FakeCustomAttributeProvider.cs" />
     <Compile Include="DataAnnotations\RangeAttributeRelayTest.cs" />
     <Compile Include="DataAnnotations\RangeValidatedType.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="DateTimeGeneratorTest.cs" />
     <Compile Include="GeneratorTest.cs" />
     <Compile Include="Kernel\ConstrainedStringRequestTest.cs" />
+    <Compile Include="Kernel\FixedPipeTest.cs" />
     <Compile Include="Kernel\RangedNumberRequestTest.cs" />
     <Compile Include="Kernel\RegularExpressionRequestTest.cs" />
     <Compile Include="ProvidedAttribute.cs" />
@@ -153,7 +155,6 @@
     <Compile Include="Kernel\ListFavoringConstructorQueryTest.cs" />
     <Compile Include="Kernel\ListRelayTest.cs" />
     <Compile Include="Kernel\ListSpecificationTest.cs" />
-    <Compile Include="Kernel\FakeMultiple.cs" />
     <Compile Include="Kernel\FixedBuilderTest.cs" />
     <Compile Include="Kernel\GreedyConstructorQueryTest.cs" />
     <Compile Include="Kernel\IllegalRequestExceptionTest.cs" />
