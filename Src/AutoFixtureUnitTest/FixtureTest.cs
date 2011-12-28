@@ -64,7 +64,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void InitializeWithNullEngineThrows()
         {
             // Fixture setup
-            var dummyMany = new FakeMultiple();
+            var dummyMany = new MultipleRelay();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new Fixture(null, dummyMany));
@@ -87,7 +87,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var expectedEngine = new DelegatingSpecimenBuilder();
-            var dummyMany = new FakeMultiple();
+            var dummyMany = new MultipleRelay();
             var sut = new Fixture(expectedEngine, dummyMany);
             // Exercise system
             var result = sut.Engine;
@@ -102,7 +102,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var expectedRepeatCount = 187;
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            var many = new FakeMultiple { Count = expectedRepeatCount };
+            var many = new MultipleRelay { Count = expectedRepeatCount };
             var sut = new Fixture(dummyBuilder, many);
             // Exercise system
             var result = sut.RepeatCount;
@@ -116,7 +116,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            var many = new FakeMultiple();
+            var many = new MultipleRelay();
             var sut = new Fixture(dummyBuilder, many);
             // Exercise system
             sut.RepeatCount = 26;
@@ -269,7 +269,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[0]);
             Assert.Equal(sut.Customizations, customizer.Builders);
 
-            Assert.Equal(sut.Engine, composedBuilders[1]);
+            var engineAndMultiple = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[1]);
+            Assert.Equal(sut.Engine, engineAndMultiple.Builders[0]);
 
             var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[2]);
             Assert.Equal(sut.ResidueCollectors, residueCollector.Builders);
@@ -294,7 +295,8 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(sut.Customizations, customizer.Builders);
 
             var postprocessor = Assert.IsAssignableFrom<Postprocessor>(composedBuilders[1]);
-            Assert.Equal(sut.Engine, postprocessor.Builder);
+            var engineAndMultiple = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(postprocessor.Builder);
+            Assert.Equal(sut.Engine, engineAndMultiple.Builders[0]);
             Assert.IsAssignableFrom<AnyTypeSpecification>(postprocessor.Specification);
 
             var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[2]);
