@@ -36,33 +36,33 @@ namespace Ploeh.AutoFixture
             switch (typeCode)
             {
                 case TypeCode.Byte:
-                    return (byte)this.GetNextNumberInSequence();
+                    return (byte)this.GetNextNumber();
                 case TypeCode.Decimal:
-                    return (decimal)this.GetNextNumberInSequence();
+                    return (decimal)this.GetNextNumber();
                 case TypeCode.Double:
-                    return (double)this.GetNextNumberInSequence();
+                    return (double)this.GetNextNumber();
                 case TypeCode.Int16:
-                    return (short)this.GetNextNumberInSequence();
+                    return (short)this.GetNextNumber();
                 case TypeCode.Int32:
-                    return this.GetNextNumberInSequence();
+                    return this.GetNextNumber();
                 case TypeCode.Int64:
-                    return (long)this.GetNextNumberInSequence();
+                    return (long)this.GetNextNumber();
                 case TypeCode.SByte:
-                    return (sbyte)this.GetNextNumberInSequence();
+                    return (sbyte)this.GetNextNumber();
                 case TypeCode.Single:
-                    return (float)this.GetNextNumberInSequence();
+                    return (float)this.GetNextNumber();
                 case TypeCode.UInt16:
-                    return (ushort)this.GetNextNumberInSequence();
+                    return (ushort)this.GetNextNumber();
                 case TypeCode.UInt32:
-                    return (uint)this.GetNextNumberInSequence();
+                    return (uint)this.GetNextNumber();
                 case TypeCode.UInt64:
-                    return (ulong)this.GetNextNumberInSequence();
+                    return (ulong)this.GetNextNumber();
                 default:
                     return new NoSpecimen(request);
             }
         }
 
-        private int GetNextNumberInSequence()
+        private int GetNextNumber()
         {
             return Interlocked.Increment(ref this.baseValue);
         }
