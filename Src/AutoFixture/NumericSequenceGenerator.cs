@@ -23,15 +23,10 @@ namespace Ploeh.AutoFixture
         public object Create(object request, ISpecimenContext context)
         {
             var requestedType = request as Type;
-
             if (requestedType == null)
-            {
                 return new NoSpecimen(request);
-            }
 
-            var specimen = this.CreateNumericSpecimen(requestedType);
-
-            return specimen;
+            return this.CreateNumericSpecimen(requestedType);
         }
 
         private object CreateNumericSpecimen(Type request)
