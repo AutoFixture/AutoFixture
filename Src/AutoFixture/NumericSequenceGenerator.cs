@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class NumericSequenceGenerator : ISpecimenBuilder
     {
-        private int baseValue;
+        private int value;
 
         /// <summary>
         /// Creates an anonymous number.
@@ -64,7 +64,7 @@ namespace Ploeh.AutoFixture
 
         private int GetNextNumber()
         {
-            return Interlocked.Increment(ref this.baseValue);
+            return Interlocked.Increment(ref this.value);
         }
     }
 }
