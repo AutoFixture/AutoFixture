@@ -7,6 +7,7 @@ namespace Ploeh.SemanticComparison.UnitTest
     public class DependencyConstraints
     {
         [Theory]
+        [InlineData("FakeItEasy")]
         [InlineData("Moq")]
         [InlineData("Rhino.Mocks")]
         [InlineData("xunit")]
@@ -22,6 +23,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Theory]
+        [InlineData("FakeItEasy")]
         [InlineData("Moq")]
         [InlineData("Rhino.Mocks")]
         public void SemanticComparisonUnitTestsDoNotReference(string assemblyName)
