@@ -19,11 +19,9 @@ namespace Ploeh.SemanticComparison
     /// The type of the destination value which will be compared for equality against the source
     /// value.
     /// </typeparam>
-    public class Likeness<TSource, TDestination> : IEquatable<TDestination>
+    public class Likeness<TSource, TDestination> : SemanticComparer<TSource, TDestination>, IEquatable<TDestination>
     {
         private readonly TSource value;
-        private readonly IEnumerable<MemberEvaluator<TSource, TDestination>> evaluators;
-        private readonly Func<IEnumerable<MemberInfo>> defaultMembersGenerator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Likeness{TSource, TDestination}"/> class
@@ -33,15 +31,14 @@ namespace Ploeh.SemanticComparison
         /// The source value against which destination values will be compared when
         /// <see cref="Equals(TDestination)"/> is invoked.</param>
         public Likeness(TSource value)
-            : this(value, Enumerable.Empty<MemberEvaluator<TSource, TDestination>>(), DefaultMembers.Generate<TDestination>)
+            : this(value, Enumerable.Empty<MemberEvaluator<TSource, TDestination>>(), SemanticComparer<TSource, TDestination>.DefaultMembers.Generate<TDestination>)
         {
         }
 
         internal Likeness(TSource value, IEnumerable<MemberEvaluator<TSource, TDestination>> evaluators, Func<IEnumerable<MemberInfo>> defaultMembersGenerator)
+            : base(evaluators, defaultMembersGenerator)
         {
             this.value = value;
-            this.evaluators = evaluators;
-            this.defaultMembersGenerator = defaultMembersGenerator;
         }
 
         /// <summary>
@@ -96,7 +93,7 @@ namespace Ploeh.SemanticComparison
         /// </returns>
         public Likeness<TSource, TDestination> OmitAutoComparison()
         {
-            return new Likeness<TSource, TDestination>(this.Value, this.evaluators, Enumerable.Empty<MemberInfo>);
+            return new Likeness<TSource, TDestination>(this.Value, base.Evaluators, Enumerable.Empty<MemberInfo>);
         }
 
         /// <summary>
@@ -118,7 +115,7 @@ namespace Ploeh.SemanticComparison
                 throw new LikenessException("The provided value was null, but an instance was expected.");
             }
 
-            var mismatches = (from me in this.GetEvaluators()
+            var mismatches = (from me in base.GetEvaluators()
                               where !me.Evaluator(this.Value, other)
                               select me).ToList();
             if (mismatches.Any())
@@ -224,37 +221,15 @@ namespace Ploeh.SemanticComparison
                 return false;
             }
 
-            return !this.GetEvaluators().Any(me => !me.Evaluator(this.Value, other));
+            return base.Equals(this.Value, other);
         }
 
         internal Likeness<TSource, TDestination> AddEvaluator(MemberEvaluator<TSource, TDestination> evaluator)
         {
-            return new Likeness<TSource, TDestination>(this.Value, this.evaluators.Concat(new[] { evaluator }), this.defaultMembersGenerator);
+            return new Likeness<TSource, TDestination>(this.Value, base.Evaluators.Concat(new[] { evaluator }), base.DefaultMembersGenerator);
         }
 
-        private IEnumerable<MemberEvaluator<TSource, TDestination>> GetEvaluators()
-        {
-            var defaultMembers = this.defaultMembersGenerator();
-            var undefinedMembers = defaultMembers.Except(this.evaluators.Select(e => e.Member), new MemberInfoNameComparer());
-            var undefinedEvaluators = from mi in undefinedMembers
-                                      select mi.ToEvaluator<TSource, TDestination>();
-            return this.evaluators.Concat(undefinedEvaluators);
-        }
-
-        private static class DefaultMembers
-        {
-            internal static IEnumerable<MemberInfo> Generate<T>()
-            {
-                return typeof(T)
-                    .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                    .Cast<MemberInfo>()
-                    .Concat(typeof(T)
-                        .GetFields(BindingFlags.Public | BindingFlags.Instance)
-                        .Cast<MemberInfo>());
-            }
-        }
-
-        private string CreateMismatchMessage(TDestination other, List<MemberEvaluator<TSource, TDestination>> mismatches)
+        private string CreateMismatchMessage(TDestination other, IEnumerable<MemberEvaluator<TSource, TDestination>> mismatches)
         {
             return string.Concat(
                 new[]
