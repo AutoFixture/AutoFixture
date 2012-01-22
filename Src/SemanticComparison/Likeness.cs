@@ -21,8 +21,8 @@ namespace Ploeh.SemanticComparison
     /// </typeparam>
     public class Likeness<TSource, TDestination> : IEquatable<TDestination>
     {
-        private readonly SemanticComparer<TSource, TDestination> comparer;
         private readonly TSource value;
+        private readonly SemanticComparer<TSource, TDestination> comparer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Likeness{TSource, TDestination}"/> class

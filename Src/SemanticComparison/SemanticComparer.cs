@@ -54,6 +54,9 @@ namespace Ploeh.SemanticComparison
                 return true;
             }
 
+            // Check whether each instance is compatible to the given type.
+            // NOTE: The type parameters 'TSource' and 'TDestination' cannot be used with the 'as'
+            // operator because they do not have a class type constraint nor a 'class' constraint.
             if (x is TSource && y is TDestination)
             {
                 return this.GetEvaluators().All(me => me.Evaluator((TSource)x, (TDestination)y));
