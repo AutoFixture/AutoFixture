@@ -19,8 +19,9 @@ namespace Ploeh.SemanticComparison
     /// The type of the destination value which will be compared for equality against the source
     /// value.
     /// </typeparam>
-    public class Likeness<TSource, TDestination> : SemanticComparer<TSource, TDestination>, IEquatable<TDestination>
+    public class Likeness<TSource, TDestination> : IEquatable<TDestination>
     {
+        private readonly SemanticComparer<TSource, TDestination> comparer;
         private readonly TSource value;
 
         /// <summary>
@@ -36,9 +37,9 @@ namespace Ploeh.SemanticComparison
         }
 
         internal Likeness(TSource value, IEnumerable<MemberEvaluator<TSource, TDestination>> evaluators, Func<IEnumerable<MemberInfo>> defaultMembersGenerator)
-            : base(evaluators, defaultMembersGenerator)
         {
             this.value = value;
+            this.comparer = new SemanticComparer<TSource, TDestination>(evaluators, defaultMembersGenerator);
         }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace Ploeh.SemanticComparison
         /// </returns>
         public Likeness<TSource, TDestination> OmitAutoComparison()
         {
-            return new Likeness<TSource, TDestination>(this.Value, base.Evaluators, Enumerable.Empty<MemberInfo>);
+            return new Likeness<TSource, TDestination>(this.Value, this.comparer.Evaluators, Enumerable.Empty<MemberInfo>);
         }
 
         /// <summary>
@@ -115,7 +116,7 @@ namespace Ploeh.SemanticComparison
                 throw new LikenessException("The provided value was null, but an instance was expected.");
             }
 
-            var mismatches = (from me in base.GetEvaluators()
+            var mismatches = (from me in this.comparer.GetEvaluators()
                               where !me.Evaluator(this.Value, other)
                               select me).ToList();
             if (mismatches.Any())
@@ -221,12 +222,12 @@ namespace Ploeh.SemanticComparison
                 return false;
             }
 
-            return base.Equals(this.Value, other);
+            return this.comparer.Equals(this.Value, other);
         }
 
         internal Likeness<TSource, TDestination> AddEvaluator(MemberEvaluator<TSource, TDestination> evaluator)
         {
-            return new Likeness<TSource, TDestination>(this.Value, base.Evaluators.Concat(new[] { evaluator }), base.DefaultMembersGenerator);
+            return new Likeness<TSource, TDestination>(this.Value, this.comparer.Evaluators.Concat(new[] { evaluator }), this.comparer.DefaultMembersGenerator);
         }
 
         private string CreateMismatchMessage(TDestination other, IEnumerable<MemberEvaluator<TSource, TDestination>> mismatches)

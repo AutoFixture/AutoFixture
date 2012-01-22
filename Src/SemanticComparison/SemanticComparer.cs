@@ -27,7 +27,7 @@ namespace Ploeh.SemanticComparison
             get { return evaluators; }
         }
 
-        public Func<IEnumerable<MemberInfo>> DefaultMembersGenerator
+        internal Func<IEnumerable<MemberInfo>> DefaultMembersGenerator
         {
             get { return defaultMembersGenerator; }
         }
