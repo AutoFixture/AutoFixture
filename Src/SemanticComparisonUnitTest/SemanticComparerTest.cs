@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
@@ -31,7 +32,26 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(new ConcreteType(), anonymousObject);
             // Verify outcome
-            Assert.False(result, "Equals");
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutDoesNotEqualAnonymousObjectSequence()
+        {
+            // Fixture setup
+            var sut = new SemanticComparer<ConcreteType, ConcreteType>();
+
+            object anonymousObject = new object();
+            object[] anonymousObjects = new object[] { anonymousObject, anonymousObject, anonymousObject };
+            
+            ConcreteType concreteType = new ConcreteType();
+            ConcreteType[] concreteTypes = new ConcreteType[] { concreteType, concreteType, concreteType };
+            
+            // Exercise system
+            var result = concreteTypes.SequenceEqual(anonymousObjects, sut);
+            // Verify outcome
+            Assert.False(result);
             // Teardown
         }
 
@@ -46,7 +66,28 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(value, other);
             // Verify outcome
-            Assert.True(result, "Equals");
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutEqualsIdenticalStrongTypeSequence()
+        {
+            // Fixture setup
+            var sut = new SemanticComparer<TimeSpan, TimeSpan>();
+            
+            var ticks = 8293247;
+
+            var value = TimeSpan.FromTicks(ticks);
+            var values = new object[] { value, value, value };
+            
+            var other = TimeSpan.FromTicks(ticks);
+            var others = new object[] { other, other, other };
+            
+            // Exercise system
+            var result = values.SequenceEqual(others, sut);
+            // Verify outcome
+            Assert.True(result);
             // Teardown
         }
 
@@ -61,7 +102,28 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(value, other);
             // Verify outcome
-            Assert.True(result, "Equals");
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutEqualsIdenticalWeakTypeSequence()
+        {
+            // Fixture setup
+            var sut = new SemanticComparer<TimeSpan, TimeSpan>();
+
+            var ticks = 8293247;
+
+            var value = TimeSpan.FromTicks(ticks);
+            var values = new object[] { value, value, value };
+
+            object other = TimeSpan.FromTicks(ticks);
+            object[] others = new object[] { other, other, other };
+
+            // Exercise system
+            var result = values.SequenceEqual(others, sut);
+            // Verify outcome
+            Assert.True(result);
             // Teardown
         }
 
@@ -270,30 +332,6 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void SemanticComparisonAgainstObjectWithHidingPropertyWillNotThrow()
-        {
-            // Fixture setup
-            var likenObject = new A();
-
-            var comparee = new B();
-
-            // The rest of the test
-            SemanticComparerTest.CompareSemantically(likenObject, comparee, false);
-        }
-
-        [Fact]
-        public void SemanticComparisonOfObjectWithHidingPropertyWillNotThrow()
-        {
-            // Fixture setup
-            var likenObject = new B();
-
-            var comparee = new A();
-
-            // The rest of the test
-            SemanticComparerTest.CompareSemantically(likenObject, comparee, false);
-        }
-
-        [Fact]
         public void SutOfAbstractTypeEqualsConcreteInstancesThatDifferOnlyOnMemberNotDefinedByAbstraction()
         {
             // Fixture setup
@@ -310,7 +348,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(value, other);
             // Verify outcome
-            Assert.True(result, "Equals");
+            Assert.True(result);
             // Teardown
         }
 
@@ -330,7 +368,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(value, other);
             // Verify outcome
-            Assert.False(result, "Equals");
+            Assert.False(result);
             // Teardown
         }
 
@@ -346,7 +384,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = sut.Equals(value, other);
             // Verify outcome
-            Assert.True(result, "Equals");
+            Assert.True(result);
             // Teardown
         }
 
@@ -415,16 +453,6 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
-        }
-
-        private class A
-        {
-            public string X { get; set; }
-        }
-
-        private class B : A
-        {
-            public new int X { get; set; }
         }
     }
 }
