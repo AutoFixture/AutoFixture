@@ -1,12 +1,13 @@
 ﻿using System;
 using Ploeh.AutoFixture.Kernel;
+using System.Collections.Generic;
 
 namespace Ploeh.AutoFixture
 {
     /// <summary>
     /// Decorates a <see cref="ISpecimenBuilder"/> with a <see cref="ThrowingRecursionGuard"/>.
     /// </summary>
-    public class ThrowingRecursionBehavior : ISpecimenBuilderTransformation
+    public class ThrowingRecursionBehavior : ISpecimenBuilderPipe, ISpecimenBuilderTransformation
     {
         /// <summary>
         /// Decorates the supplied <see cref="ISpecimenBuilder"/> with a
@@ -24,6 +25,13 @@ namespace Ploeh.AutoFixture
             }
 
             return new ThrowingRecursionGuard(builder);
+        }
+
+        public IEnumerable<ISpecimenBuilder> Pipe(IEnumerable<ISpecimenBuilder> builders)
+        {
+            yield return new ThrowingRecursionGuard(
+                new CompositeSpecimenBuilder(
+                    builders));
         }
     }
 }
