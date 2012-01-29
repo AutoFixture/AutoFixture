@@ -7,7 +7,7 @@ using System.Reflection;
 namespace Ploeh.SemanticComparison
 {
     /// <summary>
-    /// Provides a class with implementations of the System.Collections.Generic.IEqualityComparer<T>
+    /// Provides a class with implementations of the System.Collections.Generic.IEqualityComparer{T}
     /// and System.Collections.Generic.IEqualityComparer interfaces for convention-based object 
     /// equality comparison for use when comparing two semantically equivalent, but different, objects.
     /// </summary>
