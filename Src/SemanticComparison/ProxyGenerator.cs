@@ -40,7 +40,7 @@ namespace Ploeh.SemanticComparison
         private static TypeBuilder BuildType(ModuleBuilder mb)
         {
             TypeBuilder type = mb.DefineType(
-                typeof(Likeness<,>).Namespace + ".Proxies." + typeof(TSource).Name + "Proxy",
+                typeof(TSource).Name + "Proxy" + Guid.NewGuid().ToString().Replace("-", ""),
                 TypeAttributes.Public,
                 typeof(TSource));
             return type;

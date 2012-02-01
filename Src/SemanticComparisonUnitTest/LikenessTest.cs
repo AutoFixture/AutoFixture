@@ -946,6 +946,34 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void ProxyGetHashCodeDoesNotEqualRealGetHashCode()
+        {
+            // Fixture setup
+            var source = new PropertyHolder<string>();
+            int expected = source.GetHashCode();
+            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
+            // Exercise system
+            var result = sut.Proxy;
+            // Verify outcome
+            Assert.NotEqual(expected, result.GetHashCode());
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyToStringDoesNotEqualRealToString()
+        {
+            // Fixture setup
+            var source = new PropertyHolder<string>();
+            string expected = source.ToString();
+            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
+            // Exercise system
+            var result = sut.Proxy;
+            // Verify outcome
+            Assert.NotEqual(expected, result.ToString());
+            // Teardown
+        }
+
         private static void CompareLikenessToObject<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup
