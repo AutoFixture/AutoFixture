@@ -4,24 +4,27 @@ using System.Reflection.Emit;
 
 namespace Ploeh.SemanticComparison
 {
-    internal class ProxyGenerator<TSource>
+    internal class ProxyGenerator<TSource, TDestination>
     {
-        private TSource value;
+        private readonly TSource value;
+        private readonly SemanticComparer<TSource, TDestination> comparer;
 
-        internal ProxyGenerator(TSource value)
+        internal ProxyGenerator(TSource value, SemanticComparer<TSource, TDestination> comparer)
         {
             this.value = value;
+            this.comparer = comparer;
         }
 
         internal TSource OverrideEquals()
         {
-            ModuleBuilder mb = ProxyGenerator<TSource>.BuildModule("SemanticComparisonProxies");
-            TypeBuilder type = ProxyGenerator<TSource>.BuildType(mb);
+            ModuleBuilder mb = ProxyGenerator<TSource, TDestination>.BuildModule("SemanticComparisonProxies");
+            TypeBuilder type = ProxyGenerator<TSource, TDestination>.BuildType(mb);
 
-            return (TSource)Activator.CreateInstance(
-                ProxyGenerator<TSource>
-                    .BuildMethodEquals(type)
+            var proxy = (TSource)Activator.CreateInstance(
+                this.BuildMethodEquals(type)
                     .CreateType());
+            this.CopyPropertiesTo(proxy);
+            return proxy;
         }
 
         private static ModuleBuilder BuildModule(string name)
@@ -42,7 +45,7 @@ namespace Ploeh.SemanticComparison
             return type;
         }
 
-        private static TypeBuilder BuildMethodEquals(TypeBuilder type)
+        private TypeBuilder BuildMethodEquals(TypeBuilder type)
         {
             MethodBuilder method = type.DefineMethod(
                 "Equals",
@@ -63,16 +66,16 @@ namespace Ploeh.SemanticComparison
                 },
                 null);
 
-            ConstructorInfo semanticComparerConstructor = typeof(SemanticComparer<,>)
-                .MakeGenericType(typeof(TSource), typeof(object))
+            ConstructorInfo semanticComparerConstructor = this.comparer
+                .GetType()
                 .GetConstructor(
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null,
                 new Type[] { },
                 null);
 
-            MethodInfo semanticComparerEquals = typeof(SemanticComparer<,>)
-                .MakeGenericType(typeof(TSource), typeof(object))
+            MethodInfo semanticComparerEquals = this.comparer
+                .GetType()
                 .GetMethod(
                 "Equals",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
@@ -133,6 +136,24 @@ namespace Ploeh.SemanticComparison
             gen.Emit(OpCodes.Ret);
 
             return type;
+        }
+
+        private void CopyPropertiesTo(TSource proxy)
+        {
+            Type type = this.value.GetType();
+
+            while (type != null)
+            {
+                FieldInfo[] fields = type.GetFields(
+                      BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+
+                foreach (FieldInfo fi in fields)
+                {
+                    fi.SetValue(proxy, fi.GetValue(this.value));
+                }
+
+                type = type.BaseType;
+            }
         }
     }
 }

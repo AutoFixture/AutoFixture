@@ -826,9 +826,8 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ProxyIsNotNull()
         {
             // Fixture setup
-            var source = new PropertyHolder<int>();
-            source.Property = 9;
-            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
+            var source = new ConcreteType();
+            var sut = source.AsSource().OfLikeness<AbstractType>();
             // Exercise system
             var result = sut.Proxy;
             // Verify outcome
@@ -837,15 +836,14 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyInstanceIsTheSameWhenAccessedMultipleTimes()
+        public void ProxyReturnsTheSameInstanceWhenAccessedMultipleTimes()
         {
             // Fixture setup
-            var source = new PropertyHolder<int>();
-            source.Property = 9;
-            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
-            object[] expectedProxies = new[] { sut.Proxy, sut.Proxy, sut.Proxy };
+            var source = new ConcreteType();
+            var sut = source.AsSource().OfLikeness<AbstractType>();
+            var expectedProxies = new[] { sut.Proxy, sut.Proxy, sut.Proxy };
             // Exercise system
-            object[] result = Enumerable.Range(1, 3)
+            var result = Enumerable.Range(1, 3)
                 .Select(x => sut.Proxy)
                 .ToArray();
             // Verify outcome
@@ -857,9 +855,8 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ProxyInstanceIsDifferentThanSourceInstance()
         {
             // Fixture setup
-            var source = new PropertyHolder<int>();
-            source.Property = 9;
-            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
+            var source = new ConcreteType();
+            var sut = source.AsSource().OfLikeness<AbstractType>();
             // Exercise system
             var result = sut.Proxy;
             // Verify outcome
@@ -871,9 +868,8 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ProxyDoesNotEqualNullObject()
         {
             // Fixture setup
-            var source = new PropertyHolder<int>();
-            source.Property = 9;
-            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
+            var source = new ConcreteType();
+            var sut = source.AsSource().OfLikeness<AbstractType>();
             // Exercise system
             var result = sut.Proxy;
             // Verify outcome
@@ -885,28 +881,55 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ProxyDoesNotEqualNullSource()
         {
             // Fixture setup
-            var source = new PropertyHolder<string>();
-            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
+            var source = new ConcreteType();
+            var sut = source.AsSource().OfLikeness<AbstractType>();
             // Exercise system
             var result = sut.Proxy;
             // Verify outcome
-            Assert.False(result.Equals((PropertyHolder<string>)null));
+            Assert.False(result.Equals((ConcreteType)null));
             // Teardown
         }
 
         [Fact]
-        public void ProxyEqualsSemanticallySameObject()
+        public void ProxyOfAbstractTypeEqualsConcreteInstancesThatDifferOnlyOnMemberNotDefinedByAbstraction()
         {
             // Fixture setup
-            var source = new PropertyHolder<int>();
-            source.Property = 9;
-            var other = new PropertyHolder<string>();
-            other.Property = "9";
-            var sut = source.AsSource().OfLikeness<PropertyHolder<string>>();
+            var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            value.Property5 = "Nikos";
+            
+            var other = new ConcreteType();
+            other.Property1 = value.Property1;
+            other.Property2 = value.Property2;
+            other.Property3 = value.Property3;
+            other.Property4 = value.Property4;
+            other.Property5 = "Fnaah";
+
+            var sut = new Likeness<ConcreteType, AbstractType>(value).Proxy;
             // Exercise system
-            var result = sut.Proxy;
+            var result = sut.Equals(other);
             // Verify outcome
-            Assert.True(result.Equals(other));
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyOfAbstractTypeDoesNotEqualConcreteInstanceWhenPropertyDiffers()
+        {
+            // Fixture setup
+            var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            value.Property4 = "Nikos";
+
+            var other = new ConcreteType();
+            other.Property1 = value.Property1;
+            other.Property2 = value.Property2;
+            other.Property3 = value.Property3;
+            other.Property4 = "Fnaah";
+
+            var sut = new Likeness<ConcreteType, AbstractType>(value).Proxy;
+            // Exercise system
+            var result = sut.Equals(other);
+            // Verify outcome
+            Assert.False(result);
             // Teardown
         }
 
