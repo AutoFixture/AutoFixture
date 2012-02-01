@@ -820,6 +820,96 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void ProxyIsNotNull()
+        {
+            // Fixture setup
+            // Exercise system
+            // Verify outcome
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyIsCorrect()
+        {
+            // Fixture setup
+            // Exercise system
+            // Verify outcome
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyInstanceIsDifferentThanSourceInstance()
+        {
+            // Fixture setup
+            // Exercise system
+            // Verify outcome
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyDoesNotEqualNullObject()
+        {
+            // Fixture setup
+            // Exercise system
+            // Verify outcome
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyDoesNotEqualNullSource()
+        {
+            // Fixture setup
+            // Exercise system
+            // Verify outcome
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyEqualsSemanticallySameObject()
+        {
+            // Fixture setup
+            // Exercise system
+            // Verify outcome
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyEqualsSemanticallySameAnonymousObject()
+        {
+            // Fixture setup
+            // Exercise system
+            // Verify outcome
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyEqualsItSelf()
+        {
+            // Fixture setup
+            // Exercise system
+            // Verify outcome
+            // Teardown
+        }
+
+        [Fact]
+        public void GetHashCodeReturnsHashCodeOfProxiedObject()
+        {
+            // Fixture setup
+            // Exercise system
+            // Verify outcome
+            // Teardown
+        }
+
+        [Fact]
+        public void ToStringReturnsToStringOfProxiedObject()
+        {
+            // Fixture setup
+            // Exercise system
+            // Verify outcome
+            // Teardown
+        }
+
         private static void CompareLikenessToObject<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup
