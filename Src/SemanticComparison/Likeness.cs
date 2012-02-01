@@ -24,6 +24,8 @@ namespace Ploeh.SemanticComparison
         private readonly TSource value;
         private readonly SemanticComparer<TSource, TDestination> comparer;
 
+        private TSource proxy;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Likeness{TSource, TDestination}"/> class
         /// with the supplied source value.
@@ -49,6 +51,19 @@ namespace Ploeh.SemanticComparison
         public TSource Value
         {
             get { return this.value; }
+        }
+
+        public TSource Proxy
+        {
+            get
+            {
+                if (this.proxy == null)
+                {
+                    this.proxy = new ProxyGenerator<TSource>(this.value).OverrideEquals();
+                }
+
+                return this.proxy;
+            }
         }
 
         /// <summary>

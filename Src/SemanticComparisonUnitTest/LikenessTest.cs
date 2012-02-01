@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Ploeh.SemanticComparison.Fluent;
 using Ploeh.TestTypeFoundation;
 using Xunit;
@@ -824,17 +826,30 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ProxyIsNotNull()
         {
             // Fixture setup
+            var source = new PropertyHolder<int>();
+            source.Property = 9;
+            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
             // Exercise system
+            var result = sut.Proxy;
             // Verify outcome
+            Assert.NotNull(result);
             // Teardown
         }
 
         [Fact]
-        public void ProxyIsCorrect()
+        public void ProxyInstanceIsTheSameWhenAccessedMultipleTimes()
         {
             // Fixture setup
+            var source = new PropertyHolder<int>();
+            source.Property = 9;
+            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
+            object[] expectedProxies = new[] { sut.Proxy, sut.Proxy, sut.Proxy };
             // Exercise system
+            object[] result = Enumerable.Range(1, 3)
+                .Select(x => sut.Proxy)
+                .ToArray();
             // Verify outcome
+            Assert.True(expectedProxies.SequenceEqual(result, new ReferenceEqualityComparer()));
             // Teardown
         }
 
@@ -842,8 +857,13 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ProxyInstanceIsDifferentThanSourceInstance()
         {
             // Fixture setup
+            var source = new PropertyHolder<int>();
+            source.Property = 9;
+            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
             // Exercise system
+            var result = sut.Proxy;
             // Verify outcome
+            Assert.False(object.ReferenceEquals(source, result));
             // Teardown
         }
 
@@ -851,8 +871,13 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ProxyDoesNotEqualNullObject()
         {
             // Fixture setup
+            var source = new PropertyHolder<int>();
+            source.Property = 9;
+            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
             // Exercise system
+            var result = sut.Proxy;
             // Verify outcome
+            Assert.False(result.Equals(null));
             // Teardown
         }
 
@@ -860,8 +885,12 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ProxyDoesNotEqualNullSource()
         {
             // Fixture setup
+            var source = new PropertyHolder<string>();
+            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
             // Exercise system
+            var result = sut.Proxy;
             // Verify outcome
+            Assert.False(result.Equals((PropertyHolder<string>)null));
             // Teardown
         }
 
@@ -869,17 +898,15 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ProxyEqualsSemanticallySameObject()
         {
             // Fixture setup
+            var source = new PropertyHolder<int>();
+            source.Property = 9;
+            var other = new PropertyHolder<string>();
+            other.Property = "9";
+            var sut = source.AsSource().OfLikeness<PropertyHolder<string>>();
             // Exercise system
+            var result = sut.Proxy;
             // Verify outcome
-            // Teardown
-        }
-
-        [Fact]
-        public void ProxyEqualsSemanticallySameAnonymousObject()
-        {
-            // Fixture setup
-            // Exercise system
-            // Verify outcome
+            Assert.True(result.Equals(other));
             // Teardown
         }
 
@@ -887,26 +914,12 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ProxyEqualsItSelf()
         {
             // Fixture setup
+            var source = new PropertyHolder<string>();
+            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
             // Exercise system
+            var result = sut.Proxy;
             // Verify outcome
-            // Teardown
-        }
-
-        [Fact]
-        public void GetHashCodeReturnsHashCodeOfProxiedObject()
-        {
-            // Fixture setup
-            // Exercise system
-            // Verify outcome
-            // Teardown
-        }
-
-        [Fact]
-        public void ToStringReturnsToStringOfProxiedObject()
-        {
-            // Fixture setup
-            // Exercise system
-            // Verify outcome
+            Assert.True(result.Equals(result));
             // Teardown
         }
 
@@ -929,6 +942,19 @@ namespace Ploeh.SemanticComparison.UnitTest
         private class B : A
         {
             public new int X { get; set; }
+        }
+
+        private class ReferenceEqualityComparer : IEqualityComparer<object>
+        {
+            public bool Equals(object x, object y)
+            {
+                return object.ReferenceEquals(x, y);
+            }
+
+            public int GetHashCode(object obj)
+            {
+                return obj != null ? obj.GetHashCode() : 0;
+            }
         }
     }
 }
