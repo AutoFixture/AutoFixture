@@ -6,6 +6,8 @@ namespace Ploeh.SemanticComparison
 {
     internal class ProxyGenerator<TSource, TDestination>
     {
+        private const string assemblyName = "SemanticComparisonGeneratedAssembly";
+
         private readonly TSource value;
         private readonly SemanticComparer<TSource, TDestination> comparer;
 
@@ -15,9 +17,9 @@ namespace Ploeh.SemanticComparison
             this.comparer = comparer;
         }
 
-        internal TSource OverrideEquals()
+        internal TSource GenerateEquals()
         {
-            ModuleBuilder mb = ProxyGenerator<TSource, TDestination>.BuildModule("SemanticComparisonProxies");
+            ModuleBuilder mb = ProxyGenerator<TSource, TDestination>.BuildModule();
             TypeBuilder type = ProxyGenerator<TSource, TDestination>.BuildType(mb);
 
             var proxy = (TSource)Activator.CreateInstance(
@@ -27,13 +29,12 @@ namespace Ploeh.SemanticComparison
             return proxy;
         }
 
-        private static ModuleBuilder BuildModule(string name)
+        private static ModuleBuilder BuildModule()
         {
-            ModuleBuilder mb = AppDomain.CurrentDomain
+            return AppDomain.CurrentDomain
                 .DefineDynamicAssembly(
-                    new AssemblyName(name), AssemblyBuilderAccess.RunAndSave)
-                .DefineDynamicModule(name, name + ".dll");
-            return mb;
+                    new AssemblyName(assemblyName), AssemblyBuilderAccess.RunAndSave)
+                .DefineDynamicModule(assemblyName, assemblyName + ".dll");
         }
 
         private static TypeBuilder BuildType(ModuleBuilder mb)
@@ -47,7 +48,7 @@ namespace Ploeh.SemanticComparison
 
         private TypeBuilder BuildMethodEquals(TypeBuilder type)
         {
-            MethodBuilder method = type.DefineMethod(
+            MethodBuilder equals = type.DefineMethod(
                 "Equals",
                 MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig);
 
@@ -71,7 +72,9 @@ namespace Ploeh.SemanticComparison
                 .GetConstructor(
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null,
-                new Type[] { },
+                new Type[] 
+                {
+                },
                 null);
 
             MethodInfo semanticComparerEquals = this.comparer
@@ -87,26 +90,18 @@ namespace Ploeh.SemanticComparison
                 },
                 null);
 
-            // Setting return type
-            method.SetReturnType(typeof(bool));
+            equals.SetReturnType(typeof(bool));
+            equals.SetParameters(typeof(object));
+            equals.DefineParameter(1, ParameterAttributes.None, "obj");
 
-            // Adding parameters
-            method.SetParameters(typeof(object));
+            ILGenerator gen = equals.GetILGenerator();
 
-            // Parameter obj
-            method.DefineParameter(1, ParameterAttributes.None, "obj");
-
-            ILGenerator gen = method.GetILGenerator();
-
-            // Preparing locals
             gen.DeclareLocal(typeof(bool));
             gen.DeclareLocal(typeof(bool));
 
-            // Preparing labels
             Label label1 = gen.DefineLabel();
             Label label2 = gen.DefineLabel();
 
-            // Writing body
             gen.Emit(OpCodes.Nop);
             gen.Emit(OpCodes.Ldarg_0);
             gen.Emit(OpCodes.Ldfld, equalsHasBeenCalled);
@@ -134,7 +129,7 @@ namespace Ploeh.SemanticComparison
             gen.MarkLabel(label2);
             gen.Emit(OpCodes.Ldloc_0);
             gen.Emit(OpCodes.Ret);
-
+            
             return type;
         }
 

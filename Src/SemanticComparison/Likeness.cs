@@ -53,14 +53,16 @@ namespace Ploeh.SemanticComparison
             get { return this.value; }
         }
 
+        /// <summary>
+        /// Gets the dynamic proxy that overrides Equals using Semantic Comparison.
+        /// </summary>
         public TSource Proxy
         {
             get
             {
                 if (this.proxy == null)
                 {
-                    this.proxy = new ProxyGenerator<TSource, TDestination>(this.value, this.comparer)
-                        .OverrideEquals();
+                    this.proxy = new ProxyGenerator<TSource, TDestination>(this.value, this.comparer).GenerateEquals();
                 }
 
                 return this.proxy;
