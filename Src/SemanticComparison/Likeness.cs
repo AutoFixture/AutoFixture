@@ -64,11 +64,15 @@ namespace Ploeh.SemanticComparison
                 {
                     try
                     {
-                        this.proxy = new ProxyGenerator<TSource>().OverrideEquals(this.value, this.comparer);
+                        this.proxy = new ProxyGenerator().OverrideEquals(this.value, this.comparer);
                     }
-                    catch(TypeLoadException e)
+                    catch (TypeLoadException e)
                     {
-                        throw new LikenessException("Access is denied on type, or the parent type is sealed. Please see InnerException for more details.", e);
+                        throw new LikenessException("Access is denied on type, or the base type is sealed. Please see InnerException for more details.", e);
+                    }
+                    catch (NullReferenceException e)
+                    {
+                        throw new LikenessException("The base type does not have an accessible parameterless constructor. Please see InnerException for more details.", e);
                     }
                 }
 

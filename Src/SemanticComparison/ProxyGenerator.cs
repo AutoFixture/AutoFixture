@@ -5,16 +5,16 @@ using System.Reflection.Emit;
 
 namespace Ploeh.SemanticComparison
 {
-    internal class ProxyGenerator<TSource>
+    internal class ProxyGenerator
     {
         private const string assemblyName = "SemanticComparisonGeneratedAssembly";
 
-        internal TSource OverrideEquals(TSource value, IEqualityComparer comparer)
+        internal TSource OverrideEquals<TSource>(TSource value, IEqualityComparer comparer)
         {
-            TypeBuilder builder = BuildType(BuildModule(BuildAssembly(assemblyName)));
+            TypeBuilder builder = BuildType<TSource>(BuildModule(BuildAssembly(assemblyName)));
             FieldBuilder equals = BuildFieldComparer(builder);
 
-            BuildConstructors(builder, equals);
+            BuildConstructors<TSource>(builder, equals);
             BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
 
             var proxy = (TSource)Activator.CreateInstance(
@@ -26,8 +26,9 @@ namespace Ploeh.SemanticComparison
 
         private static AssemblyBuilder BuildAssembly(string assemblyName)
         {
-            return AppDomain.CurrentDomain.DefineDynamicAssembly(
-                new AssemblyName(assemblyName), AssemblyBuilderAccess.RunAndSave);
+            AssemblyName an = new AssemblyName(assemblyName);
+            an.Version = Assembly.GetExecutingAssembly().GetName().Version;
+            return AppDomain.CurrentDomain.DefineDynamicAssembly(an, AssemblyBuilderAccess.RunAndSave);
         }
 
         private static ModuleBuilder BuildModule(AssemblyBuilder ab)
@@ -35,7 +36,7 @@ namespace Ploeh.SemanticComparison
             return ab.DefineDynamicModule(assemblyName, assemblyName + ".dll");
         }
 
-        private static TypeBuilder BuildType(ModuleBuilder mb)
+        private static TypeBuilder BuildType<TSource>(ModuleBuilder mb)
         {
             TypeBuilder type = mb.DefineType(
                 typeof(TSource).Name + "Proxy" + Guid.NewGuid().ToString().Replace("-", ""),
@@ -64,7 +65,7 @@ namespace Ploeh.SemanticComparison
             return field;
         }
 
-        private static MethodBuilder BuildConstructors(TypeBuilder type, FieldInfo comparer)
+        private static MethodBuilder BuildConstructors<TSource>(TypeBuilder type, FieldInfo comparer)
         {
             var methodAttributes = MethodAttributes.Public| MethodAttributes.HideBySig;
             MethodBuilder method = type.DefineMethod(".ctor", methodAttributes);
@@ -157,14 +158,13 @@ namespace Ploeh.SemanticComparison
             return method;
         }
 
-        private static void CopyProperties(TSource source, TSource destination)
+        private static void CopyProperties<TSource>(TSource source, TSource destination)
         {
             Type type = source.GetType();
 
             while (type != null)
             {
-                FieldInfo[] fields = type.GetFields(
-                      BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+                FieldInfo[] fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
 
                 foreach (FieldInfo fi in fields)
                 {

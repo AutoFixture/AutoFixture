@@ -995,6 +995,35 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
+        public void ProxyThrowsWhenRealTypeDoesNotAccessibleParameterlessConstructor()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<LikenessException>(
+                () => new Likeness<AbstractTypeWithNonDefaultConstructor<string>, PropertyHolder<string>>(null).Proxy);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyEqualsIsTrueWhenCorrectMappingHasBeenDefined()
+        {
+            // Fixture setup
+            var value = new PropertyHolder<string>();
+            value.Property = "Foo";
+            var sut = new Likeness<PropertyHolder<string>, FieldHolder<string>>(value)
+                .With(d => d.Field).EqualsWhen((s, d) => s.Property == d.Field)
+                .Proxy;
+
+            var other = new FieldHolder<string>();
+            other.Field = value.Property;
+            // Exercise system
+            var result = sut.Equals(other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
         public void ProxyWithoutPropertyEqualsInstanceEvenIfItDiffersOnThatProperty()
         {
             // Fixture setup
@@ -1011,6 +1040,130 @@ namespace Ploeh.SemanticComparison.UnitTest
             var sut = new Likeness<ConcreteType, ConcreteType>(value).Without(x => x.Property5).Proxy;
             // Exercise system
             var result = sut.Equals(other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyWithoutTwoPropertiesEqualsInstanceEvenThoughThosePropertyValuesDiffer()
+        {
+            // Fixture setup
+            var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            value.Property5 = "amet";
+            var sut = new Likeness<ConcreteType, ConcreteType>(value)
+                .Without(x => x.Property5).Without(x => x.Property1)
+                .Proxy;
+
+            var other = new ConcreteType();
+            other.Property1 = "Ndøh";
+            other.Property2 = value.Property2;
+            other.Property3 = value.Property3;
+            other.Property4 = value.Property4;
+            other.Property5 = "Sqryt";
+            // Exercise system
+            var result = sut.Equals(other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyWithSemanticEqualityWillReturnTrue()
+        {
+            // Fixture setup
+            var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            var sut = new Likeness<ConcreteType, DoublePropertyHolder<object, object>>(value).Proxy;
+
+            var other = new DoublePropertyHolder<object, object>();
+            other.Property1 = value.Property1;
+            other.Property2 = value.Property2;
+            // Exercise system
+            var result = sut.Equals(other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyOmitAutoComparisonWillCauseDifferentObjectsToLookEqual()
+        {
+            // Fixture setup
+            var value = new QuadrupleParameterType<string, string, string, string>("Lorem", "ipsum", "dolor", "sit");
+            var other = new QuadrupleParameterType<string, string, string, string>("amet", "consectetur", "adipisicing", "elit");
+
+            var sut = new Likeness<QuadrupleParameterType<string, string, string, string>, QuadrupleParameterType<string, string, string, string>>(value)
+                .OmitAutoComparison().Proxy;
+            // Exercise system
+            bool result = sut.Equals(other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyWithDefaultEqualityOfNullPropertyThrows()
+        {
+            // Fixture setup
+            var sut = new Likeness<object, object>(new object());
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.WithDefaultEquality<object>(null).Proxy);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyOmitAutoComparisonFollowedByWithDefaultEqualityWillOptInOnThosePropertiesOnlyAndReturnTrueWhenTheyMatch()
+        {
+            // Fixture setup
+            var value = new QuadrupleParameterType<string, string, string, string>("Lorem", "ipsum", "dolor", "sit");
+            var other = new QuadrupleParameterType<string, string, string, string>("Lorem", "ploeh", "dolor", "fnaah");
+
+            var sut = new Likeness<QuadrupleParameterType<string, string, string, string>, QuadrupleParameterType<string, string, string, string>>(value)
+                .OmitAutoComparison()
+                .WithDefaultEquality(d => d.Parameter1)
+                .WithDefaultEquality(d => d.Parameter3)
+                .Proxy;
+            // Exercise system
+            bool result = sut.Equals(other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyOmitAutoComparisonFollowedByWithDefaultEqualityWillOptInOnThosePropertiesOnlyAndReturnFalseWhenTheyDoNotMatch()
+        {
+            // Fixture setup
+            var value = new QuadrupleParameterType<string, string, string, string>("Lorem", "ipsum", "dolor", "sit");
+            var other = new QuadrupleParameterType<string, string, string, string>("Lorem", "ploeh", "dolor", "fnaah");
+
+            var sut = new Likeness<QuadrupleParameterType<string, string, string, string>, QuadrupleParameterType<string, string, string, string>>(value)
+                .OmitAutoComparison()
+                .WithDefaultEquality(d => d.Parameter1)
+                .WithDefaultEquality(d => d.Parameter4)
+                .Proxy;
+            // Exercise system
+            bool result = sut.Equals(other);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyOmitAutoComparisonFollowedByCorrectComboOfDefaultEqualityAndExplictyWithReturnsTrue()
+        {
+            // Fixture setup
+            var value = new QuadrupleParameterType<string, string, string, string>("Lorem", "ipsum", "dolor", "sit");
+            var other = new QuadrupleParameterType<string, string, string, string>("Lorem", "IPSUM", "dolor", "fnaah");
+
+            var sut = new Likeness<QuadrupleParameterType<string, string, string, string>, QuadrupleParameterType<string, string, string, string>>(value)
+                .OmitAutoComparison()
+                .WithDefaultEquality(d => d.Parameter1)
+                .With(d => d.Parameter2).EqualsWhen((s, d) => s.Parameter2.ToUpper() == d.Parameter2)
+                .Proxy;
+            // Exercise system
+            bool result = sut.Equals(other);
             // Verify outcome
             Assert.True(result);
             // Teardown
