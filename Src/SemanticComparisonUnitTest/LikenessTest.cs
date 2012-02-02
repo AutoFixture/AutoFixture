@@ -994,6 +994,28 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void ProxyWithoutPropertyEqualsInstanceEvenIfItDiffersOnThatProperty()
+        {
+            // Fixture setup
+            var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            value.Property5 = "amet";
+            
+            var other = new ConcreteType();
+            other.Property1 = value.Property1;
+            other.Property2 = value.Property2;
+            other.Property3 = value.Property3;
+            other.Property4 = value.Property4;
+            other.Property5 = "Fnaah";
+
+            var sut = new Likeness<ConcreteType, ConcreteType>(value).Without(x => x.Property5).Proxy;
+            // Exercise system
+            var result = sut.Equals(other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
         private static void CompareLikenessToObject<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup

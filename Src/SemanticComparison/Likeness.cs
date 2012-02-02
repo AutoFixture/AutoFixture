@@ -64,7 +64,7 @@ namespace Ploeh.SemanticComparison
                 {
                     try
                     {
-                        this.proxy = new ProxyGenerator<TSource, TDestination>(this.value, this.comparer).GenerateEquals();
+                        this.proxy = new ProxyGenerator<TSource>().OverrideEquals(this.value, this.comparer);
                     }
                     catch(TypeLoadException e)
                     {

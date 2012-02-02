@@ -1,42 +1,38 @@
 ﻿using System;
+using System.Collections;
 using System.Reflection;
 using System.Reflection.Emit;
 
 namespace Ploeh.SemanticComparison
 {
-    internal class ProxyGenerator<TSource, TDestination>
+    internal class ProxyGenerator<TSource>
     {
         private const string assemblyName = "SemanticComparisonGeneratedAssembly";
 
-        private readonly TSource value;
-        private readonly SemanticComparer<TSource, TDestination> comparer;
-
-        internal ProxyGenerator(TSource value, SemanticComparer<TSource, TDestination> comparer)
+        internal TSource OverrideEquals(TSource value, IEqualityComparer comparer)
         {
-            this.value = value;
-            this.comparer = comparer;
-        }
+            TypeBuilder builder = BuildType(BuildModule(BuildAssembly(assemblyName)));
+            FieldBuilder equals = BuildFieldComparer(builder);
 
-        internal TSource GenerateEquals()
-        {
-            ModuleBuilder mb = ProxyGenerator<TSource, TDestination>.BuildModule();
-            TypeBuilder type = ProxyGenerator<TSource, TDestination>.BuildType(mb);
+            BuildConstructors(builder, equals);
+            BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
 
             var proxy = (TSource)Activator.CreateInstance(
-                this.BuildMethodEquals(type)
-                    .CreateType(),
-                new object[] { });
-
-            this.CopyPropertiesTo(proxy);
+                builder.CreateType(),
+                new object[] { comparer });
+            CopyProperties(source: value, destination: proxy);
             return proxy;
         }
 
-        private static ModuleBuilder BuildModule()
+        private static AssemblyBuilder BuildAssembly(string assemblyName)
         {
-            return AppDomain.CurrentDomain
-                .DefineDynamicAssembly(
-                    new AssemblyName(assemblyName), AssemblyBuilderAccess.RunAndSave)
-                .DefineDynamicModule(assemblyName, assemblyName + ".dll");
+            return AppDomain.CurrentDomain.DefineDynamicAssembly(
+                new AssemblyName(assemblyName), AssemblyBuilderAccess.RunAndSave);
+        }
+
+        private static ModuleBuilder BuildModule(AssemblyBuilder ab)
+        {
+            return ab.DefineDynamicModule(assemblyName, assemblyName + ".dll");
         }
 
         private static TypeBuilder BuildType(ModuleBuilder mb)
@@ -48,62 +44,87 @@ namespace Ploeh.SemanticComparison
             return type;
         }
 
-        private TypeBuilder BuildMethodEquals(TypeBuilder type)
+        private static FieldBuilder BuildFieldEqualsHasBeenCalled(TypeBuilder type)
         {
-            MethodBuilder equals = type.DefineMethod(
-                "Equals",
-                MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig);
+            FieldBuilder field = type.DefineField(
+                "equalsHasBeenCalled",
+                typeof(Boolean),
+                  FieldAttributes.Private
+                );
+            return field;
+        }
 
-            FieldBuilder equalsHasBeenCalled = type.DefineField(
-                "equalsHasBeenCalled" + Guid.NewGuid().ToString().Replace("-", ""),
-                typeof(bool),
-                FieldAttributes.Private);
+        private static FieldBuilder BuildFieldComparer(TypeBuilder type)
+        {
+            FieldBuilder field = type.DefineField(
+                "comparer",
+                typeof(IEqualityComparer),
+                  FieldAttributes.Private
+                );
+            return field;
+        }
+
+        private static MethodBuilder BuildConstructors(TypeBuilder type, FieldInfo comparer)
+        {
+            var methodAttributes = MethodAttributes.Public| MethodAttributes.HideBySig;
+            MethodBuilder method = type.DefineMethod(".ctor", methodAttributes);
+            ConstructorInfo ctor = typeof(TSource).GetConstructor(
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                null,
+                new Type[] { },
+                null
+                );
+
+            method.SetReturnType(typeof(void));
+            method.SetParameters(typeof(IEqualityComparer));
+            method.DefineParameter(1, ParameterAttributes.None, "comparer");
+            
+            ILGenerator gen = method.GetILGenerator();
+            gen.Emit(OpCodes.Ldarg_0);
+            gen.Emit(OpCodes.Call, ctor);
+            gen.Emit(OpCodes.Nop);
+            gen.Emit(OpCodes.Nop);
+            gen.Emit(OpCodes.Ldarg_0);
+            gen.Emit(OpCodes.Ldarg_1);
+            gen.Emit(OpCodes.Stfld, comparer);
+            gen.Emit(OpCodes.Nop);
+            gen.Emit(OpCodes.Ret);
+
+            return method;
+        }
+
+        private static MethodBuilder BuildMethodEquals(TypeBuilder type, FieldInfo equalsHasBeenCalled, FieldInfo comparer)
+        {
+            var methodAttributes = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig;
+            MethodBuilder method = type.DefineMethod("Equals", methodAttributes);
 
             MethodInfo objectEquals = typeof(object).GetMethod(
                 "Equals",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null,
-                new[]
-                {
-                    typeof(object) 
-                },
-                null);
+                new Type[] { typeof(object) },
+                null
+                );
 
-            ConstructorInfo semanticComparerConstructor = this.comparer
-                .GetType()
-                .GetConstructor(
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                null,
-                new Type[] 
-                {
-                },
-                null);
-
-            MethodInfo semanticComparerEquals = this.comparer
-                .GetType()
-                .GetMethod(
+            MethodInfo equalityComparerEquals = typeof(IEqualityComparer).GetMethod(
                 "Equals",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null,
-                new[]
-                {
-                    typeof(object),
-                    typeof(object)
-                },
-                null);
-
-            equals.SetReturnType(typeof(bool));
-            equals.SetParameters(typeof(object));
-            equals.DefineParameter(1, ParameterAttributes.None, "obj");
-
-            ILGenerator gen = equals.GetILGenerator();
-
-            gen.DeclareLocal(typeof(bool));
-            gen.DeclareLocal(typeof(bool));
-
+                new Type[] { typeof(object), typeof(object) },
+                null
+                );
+            
+            method.SetReturnType(typeof(bool));
+            method.SetParameters(typeof(object));
+            method.DefineParameter(1, ParameterAttributes.None, "obj");
+            
+            ILGenerator gen = method.GetILGenerator();
+            gen.DeclareLocal(typeof(Boolean));
+            gen.DeclareLocal(typeof(Boolean));
+            
             Label label1 = gen.DefineLabel();
             Label label2 = gen.DefineLabel();
-
+            
             gen.Emit(OpCodes.Nop);
             gen.Emit(OpCodes.Ldarg_0);
             gen.Emit(OpCodes.Ldfld, equalsHasBeenCalled);
@@ -122,22 +143,23 @@ namespace Ploeh.SemanticComparison
             gen.Emit(OpCodes.Ldarg_0);
             gen.Emit(OpCodes.Ldc_I4_1);
             gen.Emit(OpCodes.Stfld, equalsHasBeenCalled);
-            gen.Emit(OpCodes.Newobj, semanticComparerConstructor);
+            gen.Emit(OpCodes.Ldarg_0);
+            gen.Emit(OpCodes.Ldfld, comparer);
             gen.Emit(OpCodes.Ldarg_0);
             gen.Emit(OpCodes.Ldarg_1);
-            gen.Emit(OpCodes.Call, semanticComparerEquals);
+            gen.Emit(OpCodes.Callvirt, equalityComparerEquals);
             gen.Emit(OpCodes.Stloc_0);
             gen.Emit(OpCodes.Br_S, label2);
             gen.MarkLabel(label2);
             gen.Emit(OpCodes.Ldloc_0);
             gen.Emit(OpCodes.Ret);
             
-            return type;
+            return method;
         }
 
-        private void CopyPropertiesTo(TSource proxy)
+        private static void CopyProperties(TSource source, TSource destination)
         {
-            Type type = this.value.GetType();
+            Type type = source.GetType();
 
             while (type != null)
             {
@@ -146,7 +168,7 @@ namespace Ploeh.SemanticComparison
 
                 foreach (FieldInfo fi in fields)
                 {
-                    fi.SetValue(proxy, fi.GetValue(this.value));
+                    fi.SetValue(destination, fi.GetValue(source));
                 }
 
                 type = type.BaseType;
