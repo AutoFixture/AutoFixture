@@ -69,11 +69,15 @@ namespace Ploeh.SemanticComparison
                     }
                     catch (TypeLoadException e)
                     {
-                        throw new LikenessException("Access is denied on type, or the base type is sealed. Please see InnerException for more details.", e);
+                        throw new LikenessException("Access is denied on type, or the base type is sealed. Please see inner exception for more details.", e);
+                    }
+                    catch (ArgumentNullException e)
+                    {
+                        throw new LikenessException("The base type does not have an accessible parameterless constructor. Please see inner exception for more details.", e);
                     }
                     catch (NullReferenceException e)
                     {
-                        throw new LikenessException("The base type does not have an accessible parameterless constructor. Please see InnerException for more details.", e);
+                        throw new LikenessException("The base type does not have an accessible parameterless constructor. Please see inner exception for more details.", e);
                     }
                 }
 
