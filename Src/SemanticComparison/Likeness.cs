@@ -62,7 +62,14 @@ namespace Ploeh.SemanticComparison
             {
                 if (this.proxy == null)
                 {
-                    this.proxy = new ProxyGenerator<TSource, TDestination>(this.value, this.comparer).GenerateEquals();
+                    try
+                    {
+                        this.proxy = new ProxyGenerator<TSource, TDestination>(this.value, this.comparer).GenerateEquals();
+                    }
+                    catch(TypeLoadException e)
+                    {
+                        throw new LikenessException("Access is denied on type, or the parent type is sealed. Please see InnerException for more details.", e);
+                    }
                 }
 
                 return this.proxy;

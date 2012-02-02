@@ -974,6 +974,26 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void ProxyThrowsWhenRealTypeIsSealed()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<LikenessException>(
+                () => new PublicSealedType().AsSource().OfLikeness<AbstractType>().Proxy);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyThrowsWhenRealTypeIsAnonymousType()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<LikenessException>(
+                () => new { }.AsSource().OfLikeness<AbstractType>().Proxy);
+            // Teardown
+        }
+
         private static void CompareLikenessToObject<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup
@@ -997,15 +1017,19 @@ namespace Ploeh.SemanticComparison.UnitTest
 
         private class ReferenceEqualityComparer : IEqualityComparer<object>
         {
-            public bool Equals(object x, object y)
+            bool IEqualityComparer<object>.Equals(object x, object y)
             {
                 return object.ReferenceEquals(x, y);
             }
 
-            public int GetHashCode(object obj)
+            int IEqualityComparer<object>.GetHashCode(object obj)
             {
                 return obj != null ? obj.GetHashCode() : 0;
             }
+        }
+
+        public sealed class PublicSealedType 
+        {
         }
     }
 }

@@ -24,7 +24,9 @@ namespace Ploeh.SemanticComparison
 
             var proxy = (TSource)Activator.CreateInstance(
                 this.BuildMethodEquals(type)
-                    .CreateType());
+                    .CreateType(),
+                new object[] { });
+
             this.CopyPropertiesTo(proxy);
             return proxy;
         }
