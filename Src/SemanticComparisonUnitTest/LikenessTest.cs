@@ -934,19 +934,6 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyEqualsItSelf()
-        {
-            // Fixture setup
-            var source = new PropertyHolder<string>();
-            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
-            // Exercise system
-            var result = sut.Proxy;
-            // Verify outcome
-            Assert.True(result.Equals(result));
-            // Teardown
-        }
-
-        [Fact]
         public void ProxyGetHashCodeDoesNotEqualRealGetHashCode()
         {
             // Fixture setup

@@ -56,6 +56,7 @@ namespace Ploeh.SemanticComparison
         /// <summary>
         /// Gets the dynamic proxy that overrides Equals using Semantic Comparison.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "This property was not converted into a method in order to retain a friendlier API. However, if called multiple times in a row this property method returns the same value each time which is the normal behavior.")]
         public TSource Proxy
         {
             get
@@ -64,7 +65,7 @@ namespace Ploeh.SemanticComparison
                 {
                     try
                     {
-                        this.proxy = new ProxyGenerator().OverrideEquals(this.value, this.comparer);
+                        this.proxy = ProxyGenerator.OverrideEquals(this.value, this.comparer);
                     }
                     catch (TypeLoadException e)
                     {

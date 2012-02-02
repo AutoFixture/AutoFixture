@@ -5,11 +5,11 @@ using System.Reflection.Emit;
 
 namespace Ploeh.SemanticComparison
 {
-    internal class ProxyGenerator
+    internal static class ProxyGenerator
     {
         private const string assemblyName = "SemanticComparisonGeneratedAssembly";
 
-        internal TSource OverrideEquals<TSource>(TSource value, IEqualityComparer comparer)
+        internal static TSource OverrideEquals<TSource>(TSource value, IEqualityComparer comparer)
         {
             TypeBuilder builder = BuildType<TSource>(BuildModule(BuildAssembly(assemblyName)));
             FieldBuilder equals = BuildFieldComparer(builder);
@@ -24,9 +24,9 @@ namespace Ploeh.SemanticComparison
             return proxy;
         }
 
-        private static AssemblyBuilder BuildAssembly(string assemblyName)
+        private static AssemblyBuilder BuildAssembly(string name)
         {
-            AssemblyName an = new AssemblyName(assemblyName);
+            var an = new AssemblyName(name);
             an.Version = Assembly.GetExecutingAssembly().GetName().Version;
             return AppDomain.CurrentDomain.DefineDynamicAssembly(an, AssemblyBuilderAccess.RunAndSave);
         }
@@ -65,7 +65,7 @@ namespace Ploeh.SemanticComparison
             return field;
         }
 
-        private static MethodBuilder BuildConstructors<TSource>(TypeBuilder type, FieldInfo comparer)
+        private static void BuildConstructors<TSource>(TypeBuilder type, FieldInfo comparer)
         {
             var methodAttributes = MethodAttributes.Public| MethodAttributes.HideBySig;
             MethodBuilder method = type.DefineMethod(".ctor", methodAttributes);
@@ -90,11 +90,9 @@ namespace Ploeh.SemanticComparison
             gen.Emit(OpCodes.Stfld, comparer);
             gen.Emit(OpCodes.Nop);
             gen.Emit(OpCodes.Ret);
-
-            return method;
         }
 
-        private static MethodBuilder BuildMethodEquals(TypeBuilder type, FieldInfo equalsHasBeenCalled, FieldInfo comparer)
+        private static void BuildMethodEquals(TypeBuilder type, FieldInfo equalsHasBeenCalled, FieldInfo comparer)
         {
             var methodAttributes = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig;
             MethodBuilder method = type.DefineMethod("Equals", methodAttributes);
@@ -154,8 +152,6 @@ namespace Ploeh.SemanticComparison
             gen.MarkLabel(label2);
             gen.Emit(OpCodes.Ldloc_0);
             gen.Emit(OpCodes.Ret);
-            
-            return method;
         }
 
         private static void CopyProperties<TSource>(TSource source, TSource destination)
