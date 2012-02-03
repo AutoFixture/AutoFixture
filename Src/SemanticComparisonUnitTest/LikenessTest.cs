@@ -948,20 +948,6 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyToStringDoesNotEqualRealToString()
-        {
-            // Fixture setup
-            var source = new PropertyHolder<string>();
-            string expected = source.ToString();
-            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
-            // Exercise system
-            var result = sut.Proxy;
-            // Verify outcome
-            Assert.NotEqual(expected, result.ToString());
-            // Teardown
-        }
-
-        [Fact]
         public void ProxyThrowsWhenRealTypeIsSealed()
         {
             // Fixture setup
@@ -982,7 +968,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyThrowsWhenRealTypeDoesNotAccessibleParameterlessConstructor()
+        public void ProxyThrowsWhenRealTypeDoesNotHaveAnAccessibleParameterlessConstructor()
         {
             // Fixture setup
             // Exercise system and verify outcome

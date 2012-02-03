@@ -49,7 +49,7 @@ namespace Ploeh.SemanticComparison
         {
             FieldBuilder field = type.DefineField(
                 "equalsHasBeenCalled",
-                typeof(Boolean),
+                typeof(bool),
                   FieldAttributes.Private
                 );
             return field;
@@ -118,8 +118,8 @@ namespace Ploeh.SemanticComparison
             method.DefineParameter(1, ParameterAttributes.None, "obj");
             
             ILGenerator gen = method.GetILGenerator();
-            gen.DeclareLocal(typeof(Boolean));
-            gen.DeclareLocal(typeof(Boolean));
+            gen.DeclareLocal(typeof(bool));
+            gen.DeclareLocal(typeof(bool));
             
             Label label1 = gen.DefineLabel();
             Label label2 = gen.DefineLabel();
