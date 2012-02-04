@@ -11,16 +11,16 @@ namespace Ploeh.SemanticComparison
 
         internal static TSource OverrideEquals<TSource>(TSource value, IEqualityComparer comparer)
         {
-            TypeBuilder builder = BuildType<TSource>(BuildModule(BuildAssembly(assemblyName)));
-            FieldBuilder equals = BuildFieldComparer(builder);
+            TypeBuilder builder = ProxyGenerator.BuildType<TSource>(BuildModule(BuildAssembly(assemblyName)));
+            FieldBuilder equals = ProxyGenerator.BuildFieldComparer(builder);
 
-            BuildConstructors<TSource>(builder, equals);
-            BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
+            ProxyGenerator.BuildConstructors<TSource>(builder, equals);
+            ProxyGenerator.BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
 
             var proxy = (TSource)Activator.CreateInstance(
                 builder.CreateType(),
                 new object[] { comparer });
-            CopyProperties(source: value, destination: proxy);
+            ProxyGenerator.CopyProperties(source: value, destination: proxy);
             return proxy;
         }
 
