@@ -9,25 +9,22 @@ namespace Ploeh.SemanticComparison
     {
         private const string assemblyName = "SemanticComparisonGeneratedAssembly";
 
-        internal static TSource OverrideEquals<TSource>(TSource value, IEqualityComparer comparer)
+        internal static TClass OverrideEquals<TClass>(IEqualityComparer comparer)
         {
-            TypeBuilder builder = ProxyGenerator.BuildType<TSource>(BuildModule(BuildAssembly(assemblyName)));
+            TypeBuilder builder = ProxyGenerator.BuildType<TClass>(BuildModule(BuildAssembly(assemblyName)));
             FieldBuilder equals = ProxyGenerator.BuildFieldComparer(builder);
 
-            ProxyGenerator.BuildConstructors<TSource>(builder, equals);
+            ProxyGenerator.BuildConstructors<TClass>(builder, equals);
             ProxyGenerator.BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
 
-            var proxy = (TSource)Activator.CreateInstance(
+            return (TClass)Activator.CreateInstance(
                 builder.CreateType(),
                 new object[] { comparer });
-            ProxyGenerator.CopyProperties(source: value, destination: proxy);
-            return proxy;
         }
 
         private static AssemblyBuilder BuildAssembly(string name)
         {
-            var an = new AssemblyName(name);
-            an.Version = Assembly.GetExecutingAssembly().GetName().Version;
+            var an = new AssemblyName(name) { Version = Assembly.GetExecutingAssembly().GetName().Version };
             return AppDomain.CurrentDomain.DefineDynamicAssembly(an, AssemblyBuilderAccess.RunAndSave);
         }
 
@@ -36,12 +33,12 @@ namespace Ploeh.SemanticComparison
             return ab.DefineDynamicModule(assemblyName, assemblyName + ".dll");
         }
 
-        private static TypeBuilder BuildType<TSource>(ModuleBuilder mb)
+        private static TypeBuilder BuildType<TClass>(ModuleBuilder mb)
         {
             TypeBuilder type = mb.DefineType(
-                typeof(TSource).Name + "Proxy" + Guid.NewGuid().ToString().Replace("-", ""),
+                typeof(TClass).Name + "Proxy" + Guid.NewGuid().ToString().Replace("-", ""),
                 TypeAttributes.Public,
-                typeof(TSource));
+                typeof(TClass));
             return type;
         }
 
@@ -65,11 +62,11 @@ namespace Ploeh.SemanticComparison
             return field;
         }
 
-        private static void BuildConstructors<TSource>(TypeBuilder type, FieldInfo comparer)
+        private static void BuildConstructors<TClass>(TypeBuilder type, FieldInfo comparer)
         {
             var methodAttributes = MethodAttributes.Public| MethodAttributes.HideBySig;
             MethodBuilder method = type.DefineMethod(".ctor", methodAttributes);
-            ConstructorInfo ctor = typeof(TSource).GetConstructor(
+            ConstructorInfo ctor = typeof(TClass).GetConstructor(
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null,
                 new Type[] { },
@@ -101,7 +98,7 @@ namespace Ploeh.SemanticComparison
                 "Equals",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null,
-                new Type[] { typeof(object) },
+                new[] { typeof(object) },
                 null
                 );
 
@@ -109,7 +106,7 @@ namespace Ploeh.SemanticComparison
                 "Equals",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null,
-                new Type[] { typeof(object), typeof(object) },
+                new[] { typeof(object), typeof(object) },
                 null
                 );
             
@@ -152,23 +149,6 @@ namespace Ploeh.SemanticComparison
             gen.MarkLabel(label2);
             gen.Emit(OpCodes.Ldloc_0);
             gen.Emit(OpCodes.Ret);
-        }
-
-        private static void CopyProperties<TSource>(TSource source, TSource destination)
-        {
-            Type type = source.GetType();
-
-            while (type != null)
-            {
-                FieldInfo[] fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-
-                foreach (FieldInfo fi in fields)
-                {
-                    fi.SetValue(destination, fi.GetValue(source));
-                }
-
-                type = type.BaseType;
-            }
         }
     }
 }

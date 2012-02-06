@@ -444,6 +444,34 @@ namespace Ploeh.SemanticComparison.UnitTest
             SemanticComparerTest.CompareSemantically(value, other, false);
         }
 
+        [Fact]
+        public void EqualsIsSummetricWithSemanticallyEqualObjects()
+        {
+            // Fixture setup
+            var source = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            var dest = new DoublePropertyHolder<object, object>();
+            dest.Property1 = source.Property1;
+            dest.Property2 = source.Property2;
+            var sut = new SemanticComparer<ConcreteType, DoublePropertyHolder<object, object>>();
+            // Exercise system and verify outcome
+            Assert.True(sut.Equals(source, dest) && sut.Equals(dest, source));
+            // Teardown
+        }
+
+        [Fact]
+        public void EqualsIsSummetricWithSemanticallyUnequalObjects()
+        {
+            // Fixture setup
+            var source = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            var dest = new DoublePropertyHolder<object, object>();
+            dest.Property1 = source.Property1;
+            dest.Property2 = "abc";
+            var sut = new SemanticComparer<ConcreteType, DoublePropertyHolder<object, object>>();
+            // Exercise system and verify outcome
+            Assert.False(sut.Equals(source, dest) && sut.Equals(dest, source));
+            // Teardown
+        }
+
         private static void CompareSemantically<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup

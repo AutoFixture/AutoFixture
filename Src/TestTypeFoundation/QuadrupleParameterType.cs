@@ -2,10 +2,6 @@
 {
     public class QuadrupleParameterType<T1, T2, T3, T4>
     {
-        public QuadrupleParameterType()
-        {
-        }
-
         public QuadrupleParameterType(T1 parameter1, T2 parameter2, T3 parameter3, T4 parameter4)
         {
             this.Parameter1 = parameter1;
