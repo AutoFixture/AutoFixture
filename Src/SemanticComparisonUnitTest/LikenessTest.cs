@@ -947,9 +947,9 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ProxyGetHashCodeDoesNotEqualRealGetHashCode()
         {
             // Fixture setup
-            var source = new PropertyHolder<string>();
+            var source = new TypeOverridingGetHashCode();
             int expected = source.GetHashCode();
-            var sut = source.AsSource().OfLikeness<PropertyHolder<int>>();
+            var sut = source.AsSource().OfLikeness<TypeOverridingGetHashCode>();
             // Exercise system
             var result = sut.Proxy;
             // Verify outcome
@@ -1179,6 +1179,14 @@ namespace Ploeh.SemanticComparison.UnitTest
 
         public sealed class PublicSealedType 
         {
+        }
+
+        public class TypeOverridingGetHashCode
+        {
+            public override int GetHashCode()
+            {
+                return 14;
+            }
         }
     }
 }

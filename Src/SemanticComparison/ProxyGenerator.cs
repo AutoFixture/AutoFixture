@@ -16,6 +16,7 @@ namespace Ploeh.SemanticComparison
 
             ProxyGenerator.BuildConstructors<TClass>(builder, equals);
             ProxyGenerator.BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
+            ProxyGenerator.BuildMethodGetHashCode<TClass>(builder);
 
             return (TClass)Activator.CreateInstance(
                 builder.CreateType(),
@@ -86,6 +87,38 @@ namespace Ploeh.SemanticComparison
             gen.Emit(OpCodes.Ldarg_1);
             gen.Emit(OpCodes.Stfld, comparer);
             gen.Emit(OpCodes.Nop);
+            gen.Emit(OpCodes.Ret);
+        }
+
+        private static void BuildMethodGetHashCode<TClass>(TypeBuilder type)
+        {
+            var methodAttributes = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig;
+            MethodBuilder method = type.DefineMethod("GetHashCode", methodAttributes);
+            method.SetReturnType(typeof(int));
+
+            int derivedGetHashCode = 135;
+            MethodInfo getHashCode = typeof(TClass).GetMethod(
+                "GetHashCode",
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                null,
+                new Type[] { },
+                null
+                );
+
+            ILGenerator gen = method.GetILGenerator();
+            gen.DeclareLocal(typeof(int));
+            
+            Label label = gen.DefineLabel();
+            
+            gen.Emit(OpCodes.Nop);
+            gen.Emit(OpCodes.Ldarg_0);
+            gen.Emit(OpCodes.Call, getHashCode);
+            gen.Emit(OpCodes.Ldc_I4, derivedGetHashCode);
+            gen.Emit(OpCodes.Add);
+            gen.Emit(OpCodes.Stloc_0);
+            gen.Emit(OpCodes.Br_S, label);
+            gen.MarkLabel(label);
+            gen.Emit(OpCodes.Ldloc_0);
             gen.Emit(OpCodes.Ret);
         }
 
