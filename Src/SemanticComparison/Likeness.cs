@@ -24,8 +24,6 @@ namespace Ploeh.SemanticComparison
         private readonly TSource value;
         private readonly SemanticComparer<TSource, TDestination> comparer;
 
-        private TDestination proxy;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Likeness{TSource, TDestination}"/> class
         /// with the supplied source value.
@@ -54,35 +52,36 @@ namespace Ploeh.SemanticComparison
         }
 
         /// <summary>
-        /// Gets the dynamic proxy that overrides Equals using Likeness.
+        /// Creates a dynamic proxy that overrides Equals using Likeness.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "This property was not converted into a method in order to retain a friendlier API. However, if called multiple times in a row this property method returns the same value each time which is the normal behavior.")]
-        public TDestination Proxy
+        public TDestination CreateProxy()
         {
-            get
+            try
             {
-                if (this.proxy == null)
-                {
-                    try
-                    {
-                        this.proxy = ProxyGenerator.OverrideEquals<TDestination>(this.comparer);
-                    }
-                    catch (TypeLoadException e)
-                    {
-                        throw new LikenessException("Access is denied on type, or the base type is sealed. Please see inner exception for more details.", e);
-                    }
-                    catch (ArgumentNullException e)
-                    {
-                        throw new LikenessException("The base type does not have an accessible parameterless constructor. Please see inner exception for more details.", e);
-                    }
-                    catch (NullReferenceException e)
-                    {
-                        throw new LikenessException("The base type does not have an accessible parameterless constructor. Please see inner exception for more details.", e);
-                    }
-                }
-
-                return this.proxy;
+                return ProxyGenerator.OverrideEquals<TDestination>(this.comparer);
             }
+            catch (TypeLoadException e)
+            {
+                throw new LikenessException("Access is denied on type, or the base type is sealed. Please see inner exception for more details.", e);
+            }
+            catch (ArgumentNullException e)
+            {
+                throw new LikenessException("The base type does not have an accessible parameterless constructor. Please see inner exception for more details.", e);
+            }
+            catch (NullReferenceException e)
+            {
+                throw new LikenessException("The base type does not have an accessible parameterless constructor. Please see inner exception for more details.", e);
+            }
+        }
+
+        public TDestination CreateProxy(Expression<Func<TSource, TDestination>> exp)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TDestination CreateProxy(Func<Type, object> func)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

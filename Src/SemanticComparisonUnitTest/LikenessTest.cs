@@ -829,7 +829,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             var source = new ConcreteType();
             var sut = source.AsSource().OfLikeness<AbstractType>();
             // Exercise system
-            var result = sut.Proxy;
+            var result = sut.CreateProxy();
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
@@ -842,25 +842,25 @@ namespace Ploeh.SemanticComparison.UnitTest
             var source = new ConcreteType();
             var sut = source.AsSource().OfLikeness<AbstractType>();
             // Exercise system
-            var result = sut.Proxy;
+            var result = sut.CreateProxy();
             // Verify outcome
             Assert.IsAssignableFrom<AbstractType>(result);
             // Teardown
         }
 
         [Fact]
-        public void ProxyReturnsTheSameInstanceWhenAccessedMultipleTimes()
+        public void ProxyReturnsDifferentInstanceWhenAccessedMultipleTimes()
         {
             // Fixture setup
             var source = new ConcreteType();
             var sut = source.AsSource().OfLikeness<AbstractType>();
-            var expectedProxies = new[] { sut.Proxy, sut.Proxy, sut.Proxy };
+            var expectedProxies = new[] { sut.CreateProxy(), sut.CreateProxy(), sut.CreateProxy() };
             // Exercise system
             var result = Enumerable.Range(1, expectedProxies.Length)
-                .Select(x => sut.Proxy)
+                .Select(x => sut.CreateProxy())
                 .ToArray();
             // Verify outcome
-            Assert.True(expectedProxies.SequenceEqual(result, new ReferenceEqualityComparer()));
+            Assert.False(expectedProxies.SequenceEqual(result, new ReferenceEqualityComparer()));
             // Teardown
         }
 
@@ -871,7 +871,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             var source = new ConcreteType();
             var sut = source.AsSource().OfLikeness<AbstractType>();
             // Exercise system
-            var result = sut.Proxy;
+            var result = sut.CreateProxy();
             // Verify outcome
             Assert.NotSame(source, result);
             // Teardown
@@ -884,7 +884,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             var source = new ConcreteType();
             var sut = source.AsSource().OfLikeness<AbstractType>();
             // Exercise system
-            var result = sut.Proxy;
+            var result = sut.CreateProxy();
             // Verify outcome
             Assert.False(result.Equals(null));
             // Teardown
@@ -897,7 +897,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             var source = new ConcreteType();
             var sut = source.AsSource().OfLikeness<AbstractType>();
             // Exercise system
-            var result = sut.Proxy;
+            var result = sut.CreateProxy();
             // Verify outcome
             Assert.False(result.Equals((ConcreteType)null));
             // Teardown
@@ -910,7 +910,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             var other = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
             other.Property5 = "ploeh";
 
-            var sut = other.AsSource().OfLikeness<AbstractType>().Proxy;
+            var sut = other.AsSource().OfLikeness<AbstractType>().CreateProxy();
             sut.Property1 = other.Property1;
             sut.Property2 = other.Property2;
             sut.Property3 = other.Property3;
@@ -930,7 +930,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             var other = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
             other.Property4 = "ploeh";
 
-            var sut = other.AsSource().OfLikeness<AbstractType>().Proxy;
+            var sut = other.AsSource().OfLikeness<AbstractType>().CreateProxy();
             sut.Property1 = other.Property1;
             sut.Property2 = other.Property2;
             sut.Property3 = other.Property3;
@@ -951,7 +951,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             int expected = source.GetHashCode();
             var sut = source.AsSource().OfLikeness<TypeOverridingGetHashCode>();
             // Exercise system
-            var result = sut.Proxy;
+            var result = sut.CreateProxy();
             // Verify outcome
             Assert.NotEqual(expected, result.GetHashCode());
             // Teardown
@@ -963,7 +963,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<LikenessException>(
-                () => new ConcreteType().AsSource().OfLikeness<PublicSealedType>().Proxy);
+                () => new ConcreteType().AsSource().OfLikeness<PublicSealedType>().CreateProxy());
             // Teardown
         }
 
@@ -973,7 +973,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<LikenessException>(
-                () => new PropertyHolder<string>().AsSource().OfLikeness<AbstractTypeWithNonDefaultConstructor<string>>().Proxy);
+                () => new PropertyHolder<string>().AsSource().OfLikeness<AbstractTypeWithNonDefaultConstructor<string>>().CreateProxy());
             // Teardown
         }
 
@@ -986,7 +986,7 @@ namespace Ploeh.SemanticComparison.UnitTest
 
             var sut = new Likeness<PropertyHolder<string>, FieldHolder<string>>(other)
                 .With(d => d.Field).EqualsWhen((s, d) => s.Property == d.Field)
-                .Proxy;
+                .CreateProxy();
             sut.Field = other.Property;
 
             // Exercise system
@@ -1005,7 +1005,7 @@ namespace Ploeh.SemanticComparison.UnitTest
 
             var sut = other.AsSource().OfLikeness<ConcreteType>()
                 .Without(x => x.Property5)
-                .Proxy;
+                .CreateProxy();
             sut.Property1 = other.Property1;
             sut.Property2 = other.Property2;
             sut.Property3 = other.Property3;
@@ -1027,7 +1027,7 @@ namespace Ploeh.SemanticComparison.UnitTest
 
             var sut = value.AsSource().OfLikeness<ConcreteType>()
                 .Without(x => x.Property5).Without(x => x.Property1)
-                .Proxy;
+                .CreateProxy();
             sut.Property1 = "Ndøh";
             sut.Property2 = value.Property2;
             sut.Property3 = value.Property3;
@@ -1047,7 +1047,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
 
             var sut = value.AsSource().OfLikeness<DoublePropertyHolder<object, object>>()
-                .Proxy;
+                .CreateProxy();
             sut.Property1 = value.Property1;
             sut.Property2 = value.Property2;
             // Exercise system
@@ -1065,7 +1065,7 @@ namespace Ploeh.SemanticComparison.UnitTest
 
             var sut = value.AsSource().OfLikeness<ConcreteType>()
                 .OmitAutoComparison()
-                .Proxy;
+                .CreateProxy();
             sut.Property1 = "amet";
             sut.Property2 = "consectetur";
             sut.Property3 = "adipisicing";
@@ -1087,7 +1087,7 @@ namespace Ploeh.SemanticComparison.UnitTest
                 .OmitAutoComparison()
                 .WithDefaultEquality(d => d.Property1)
                 .WithDefaultEquality(d => d.Property3)
-                .Proxy;
+                .CreateProxy();
             sut.Property1 = "Lorem";
             sut.Property2 = "ploeh";
             sut.Property3 = "dolor";
@@ -1109,7 +1109,7 @@ namespace Ploeh.SemanticComparison.UnitTest
                 .OmitAutoComparison()
                 .WithDefaultEquality(d => d.Property1)
                 .WithDefaultEquality(d => d.Property4)
-                .Proxy;
+                .CreateProxy();
             sut.Property1 = "Lorem";
             sut.Property2 = "ploeh";
             sut.Property3 = "dolor";
@@ -1131,7 +1131,7 @@ namespace Ploeh.SemanticComparison.UnitTest
                 .OmitAutoComparison()
                 .WithDefaultEquality(d => d.Property1)
                 .With(d => d.Property2).EqualsWhen((s, d) => s.Property2.ToString().ToUpper() == d.Property2.ToString())
-                .Proxy;
+                .CreateProxy();
             sut.Property1 = "Lorem";
             sut.Property2 = "IPSUM";
             sut.Property3 = "dolor";

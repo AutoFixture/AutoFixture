@@ -8,7 +8,7 @@ namespace Ploeh.SemanticComparison
     internal static class ProxyGenerator
     {
         private const string assemblyName = "SemanticComparisonGeneratedAssembly";
-
+        
         internal static TClass OverrideEquals<TClass>(IEqualityComparer comparer)
         {
             TypeBuilder builder = ProxyGenerator.BuildType<TClass>(BuildModule(BuildAssembly(assemblyName)));
@@ -38,7 +38,7 @@ namespace Ploeh.SemanticComparison
         {
             TypeBuilder type = mb.DefineType(
                 typeof(TClass).Name + "Proxy" + Guid.NewGuid().ToString().Replace("-", ""),
-                TypeAttributes.Public,
+                TypeAttributes.NotPublic,
                 typeof(TClass));
             return type;
         }
@@ -58,7 +58,7 @@ namespace Ploeh.SemanticComparison
             FieldBuilder field = type.DefineField(
                 "comparer",
                 typeof(IEqualityComparer),
-                  FieldAttributes.Private
+                  FieldAttributes.Private | FieldAttributes.InitOnly
                 );
             return field;
         }
