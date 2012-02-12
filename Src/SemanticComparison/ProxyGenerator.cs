@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -8,7 +10,7 @@ namespace Ploeh.SemanticComparison
     internal static class ProxyGenerator
     {
         private const string assemblyName = "SemanticComparisonGeneratedAssembly";
-        
+
         internal static TClass OverrideEquals<TClass>(IEqualityComparer comparer)
         {
             TypeBuilder builder = ProxyGenerator.BuildType<TClass>(BuildModule(BuildAssembly(assemblyName)));
@@ -18,9 +20,8 @@ namespace Ploeh.SemanticComparison
             ProxyGenerator.BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
             ProxyGenerator.BuildMethodGetHashCode<TClass>(builder);
 
-            return (TClass)Activator.CreateInstance(
-                builder.CreateType(),
-                new object[] { comparer });
+            var args = new object[] { comparer };
+            return (TClass)Activator.CreateInstance(builder.CreateType(), args);
         }
 
         private static AssemblyBuilder BuildAssembly(string name)
@@ -65,26 +66,58 @@ namespace Ploeh.SemanticComparison
 
         private static void BuildConstructors<TClass>(TypeBuilder type, FieldInfo comparer)
         {
-            var methodAttributes = MethodAttributes.Public| MethodAttributes.HideBySig;
-            MethodBuilder method = type.DefineMethod(".ctor", methodAttributes);
-            ConstructorInfo ctor = typeof(TClass).GetConstructor(
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                null,
-                new Type[] { },
-                null
-                );
+            ConstructorInfo baseConstructor =
+                (from ci in typeof(TClass).GetConstructors(
+                     BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance)
+                 orderby ci.GetParameters().Length ascending
+                 select ci).First();
 
-            method.SetReturnType(typeof(void));
-            method.SetParameters(typeof(IEqualityComparer));
-            method.DefineParameter(1, ParameterAttributes.None, "comparer");
+            List<Type> parameterTypes =
+                (from pi in baseConstructor.GetParameters()
+                 select pi.ParameterType).ToList();
+            parameterTypes.Add(typeof(IEqualityComparer));
             
-            ILGenerator gen = method.GetILGenerator();
-            gen.Emit(OpCodes.Ldarg_0);
-            gen.Emit(OpCodes.Call, ctor);
+            ConstructorBuilder constructor = type.DefineConstructor(
+                MethodAttributes.Public | MethodAttributes.HideBySig,
+                CallingConventions.Standard, 
+                parameterTypes.ToArray());
+
+            for (int position = 1; position <= parameterTypes.Count; position++)
+            {
+                constructor.DefineParameter(position, ParameterAttributes.None, "arg" + position);
+            }
+
+            ILGenerator gen = constructor.GetILGenerator();
+            
+            for (int position = 0; position < parameterTypes.Count; position++)
+            {
+                if (position == 0)
+                {
+                    gen.Emit(OpCodes.Ldarg_0);
+                }
+                else if (position == 1)
+                {
+                    gen.Emit(OpCodes.Ldarg_1);
+                }
+                else if (position == 2)
+                {
+                    gen.Emit(OpCodes.Ldarg_2);
+                }
+                else if (position == 3)
+                {
+                    gen.Emit(OpCodes.Ldarg_3);
+                }
+                else
+                {
+                    gen.Emit(OpCodes.Ldarg_S, position);
+                }
+            }
+
+            gen.Emit(OpCodes.Call, baseConstructor);
             gen.Emit(OpCodes.Nop);
             gen.Emit(OpCodes.Nop);
             gen.Emit(OpCodes.Ldarg_0);
-            gen.Emit(OpCodes.Ldarg_1);
+            gen.Emit(OpCodes.Ldarg_S, parameterTypes.Count);
             gen.Emit(OpCodes.Stfld, comparer);
             gen.Emit(OpCodes.Nop);
             gen.Emit(OpCodes.Ret);

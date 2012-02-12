@@ -967,13 +967,13 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
-        [Fact]
-        public void ProxyThrowsWhenRealTypeDoesNotHaveAnAccessibleParameterlessConstructor()
+        [Fact(Skip = "The ProxyGenerator is ready however the CreateProxy overloads are not.")]
+        public void ProxyDoesNotThrowWhenRealTypeDoesNotHaveAnAccessibleParameterlessConstructor()
         {
             // Fixture setup
+            var sut = new PropertyHolder<string>().AsSource().OfLikeness<AbstractTypeWithNonDefaultConstructor<string>>();
             // Exercise system and verify outcome
-            Assert.Throws<LikenessException>(
-                () => new PropertyHolder<string>().AsSource().OfLikeness<AbstractTypeWithNonDefaultConstructor<string>>().CreateProxy());
+            Assert.DoesNotThrow(() => sut.CreateProxy());
             // Teardown
         }
 
