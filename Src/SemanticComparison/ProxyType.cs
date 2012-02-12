@@ -18,7 +18,7 @@ namespace Ploeh.SemanticComparison
         {
             return type.GetProperty(name)
                 ?? type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                    .First(x => x.Name.StartsWith(name, StringComparison.InvariantCultureIgnoreCase));
+                    .First(x => x.Name.StartsWith(name, StringComparison.OrdinalIgnoreCase));
         }
     }
 }
