@@ -967,14 +967,54 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
-        [Fact(Skip = "The ProxyGenerator is ready however the CreateProxy overloads are not.")]
-        public void ProxyDoesNotThrowWhenRealTypeDoesNotHaveAnAccessibleParameterlessConstructor()
+        [Fact]
+        public void ProxyOfAbstractTypeWithNonDefaultConstructorDoesNotThrow()
         {
             // Fixture setup
-            var sut = new PropertyHolder<string>().AsSource().OfLikeness<AbstractTypeWithNonDefaultConstructor<string>>();
+            var value = new PropertyHolder<string>();
+            value.Property = "Foo";
+            var sut = value.AsSource().OfLikeness<AbstractTypeWithNonDefaultConstructor<string>>();
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.CreateProxy());
             // Teardown
+        }
+
+        [Fact]
+        public void ProxyOfQuadrupleParameterTypeEqualsTripleParameterType()
+        {
+            // Fixture setup
+            var value = new QuadrupleParameterType<int, double, long, string>(1, 2.0, 3, "4");
+            var sut = value.AsSource().OfLikeness<TripleParameterType<int, double, long>>().CreateProxy();
+            // Exercise system
+            var result = sut.Equals(value);
+            // Verify outcome
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void ProxyOfQuadrupleParameterTypeEqualsDoubleParameterType()
+        {
+            // Fixture setup
+            var value = new QuadrupleParameterType<int, double, long, string>(1, 2.0, 3, "4");
+            var sut = value.AsSource().OfLikeness<DoubleParameterType<int, double>>().CreateProxy();
+            // Exercise system
+            var result = sut.Equals(value);
+            // Verify outcome
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void ProxyOfQuadrupleParameterTypeEqualsSingleParameterType()
+        {
+            // Fixture setup
+            var value = new QuadrupleParameterType<int, double, long, string>(1, 2.0, 3, "4");
+            var sut = value.AsSource().OfLikeness<SingleParameterType<int>>()
+                .With(d => d.Parameter).EqualsWhen((s, d) => s.Parameter1 == d.Parameter)
+                .CreateProxy();
+            // Exercise system
+            var result = sut.Equals(value);
+            // Verify outcome
+            Assert.True(result);
         }
 
         [Fact]

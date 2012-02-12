@@ -52,13 +52,15 @@ namespace Ploeh.SemanticComparison
         }
 
         /// <summary>
-        /// Creates a dynamic proxy that overrides Equals using Likeness.
+        /// Creates a dynamic proxy that overrides Equals using Likeness. 
+        /// This method uses the same semantic heuristics, as the default semantic comparison, to map
+        /// values from the source constructor parameters on the destination constructor.
         /// </summary>
         public TDestination CreateProxy()
         {
             try
             {
-                return ProxyGenerator.OverrideEquals<TDestination>(this.comparer);
+                return ProxyGenerator.CreateLikenessProxy<TSource, TDestination>(this.value, this.comparer, SemanticComparer<TSource, TDestination>.DefaultMembers.Generate<TDestination>());
             }
             catch (TypeLoadException e)
             {
@@ -72,16 +74,6 @@ namespace Ploeh.SemanticComparison
             {
                 throw new LikenessException("The base type does not have an accessible parameterless constructor. Please see inner exception for more details.", e);
             }
-        }
-
-        public TDestination CreateProxy(Expression<Func<TSource, TDestination>> exp)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TDestination CreateProxy(Func<Type, object> func)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

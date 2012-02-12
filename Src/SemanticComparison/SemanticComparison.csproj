@@ -95,6 +95,7 @@
     <Compile Include="MemberInfoNameComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyGenerator.cs" />
+    <Compile Include="ProxyType.cs" />
     <Compile Include="SemanticComparer.cs" />
   </ItemGroup>
   <ItemGroup>

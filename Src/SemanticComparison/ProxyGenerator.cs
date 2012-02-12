@@ -11,17 +11,26 @@ namespace Ploeh.SemanticComparison
     {
         private const string assemblyName = "SemanticComparisonGeneratedAssembly";
 
-        internal static TClass OverrideEquals<TClass>(IEqualityComparer comparer)
+        internal static TDestination CreateLikenessProxy<TSource, TDestination>(TSource source, IEqualityComparer comparer, IEnumerable<MemberInfo> members)
         {
-            TypeBuilder builder = ProxyGenerator.BuildType<TClass>(BuildModule(BuildAssembly(assemblyName)));
+            TypeBuilder builder = ProxyGenerator.BuildType<TDestination>(BuildModule(BuildAssembly(assemblyName)));
             FieldBuilder equals = ProxyGenerator.BuildFieldComparer(builder);
 
-            ProxyGenerator.BuildConstructors<TClass>(builder, equals);
+            ProxyGenerator.BuildConstructors<TDestination>(builder, equals);
             ProxyGenerator.BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
-            ProxyGenerator.BuildMethodGetHashCode<TClass>(builder);
+            ProxyGenerator.BuildMethodGetHashCode<TDestination>(builder);
 
-            var args = new object[] { comparer };
-            return (TClass)Activator.CreateInstance(builder.CreateType(), args);
+            Type proxyType = builder.CreateType();
+
+            ConstructorInfo proxyConstructor = proxyType.GetModestConstructor();
+            IEnumerable<Type> parameterTypes = BuildConstructorParameterTypes(proxyConstructor);
+
+            var constructorArguments = (from mi in members
+                                        where parameterTypes.Contains(mi.ToUnderlyingType())
+                                        select typeof(TSource).MatchProperty(mi.Name).GetValue(source, null))
+                                        .Union(new[] { comparer });
+
+            return (TDestination)Activator.CreateInstance(proxyType, constructorArguments.ToArray());
         }
 
         private static AssemblyBuilder BuildAssembly(string name)
@@ -35,12 +44,12 @@ namespace Ploeh.SemanticComparison
             return ab.DefineDynamicModule(assemblyName, assemblyName + ".dll");
         }
 
-        private static TypeBuilder BuildType<TClass>(ModuleBuilder mb)
+        private static TypeBuilder BuildType<TDestination>(ModuleBuilder mb)
         {
             TypeBuilder type = mb.DefineType(
-                typeof(TClass).Name + "Proxy" + Guid.NewGuid().ToString().Replace("-", ""),
+                typeof(TDestination).Name + "Proxy" + Guid.NewGuid().ToString().Replace("-", ""),
                 TypeAttributes.NotPublic,
-                typeof(TClass));
+                typeof(TDestination));
             return type;
         }
 
@@ -64,32 +73,24 @@ namespace Ploeh.SemanticComparison
             return field;
         }
 
-        private static void BuildConstructors<TClass>(TypeBuilder type, FieldInfo comparer)
+        private static void BuildConstructors<TDestination>(TypeBuilder type, FieldInfo comparer)
         {
-            ConstructorInfo baseConstructor =
-                (from ci in typeof(TClass).GetConstructors(
-                     BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance)
-                 orderby ci.GetParameters().Length ascending
-                 select ci).First();
+            ConstructorInfo baseConstructor  = typeof(TDestination).GetModestConstructor();
+            Type[] constructorParameterTypes = BuildConstructorParameterTypes(baseConstructor).ToArray();
 
-            List<Type> parameterTypes =
-                (from pi in baseConstructor.GetParameters()
-                 select pi.ParameterType).ToList();
-            parameterTypes.Add(typeof(IEqualityComparer));
-            
             ConstructorBuilder constructor = type.DefineConstructor(
                 MethodAttributes.Public | MethodAttributes.HideBySig,
-                CallingConventions.Standard, 
-                parameterTypes.ToArray());
+                CallingConventions.Standard,
+                constructorParameterTypes);
 
-            for (int position = 1; position <= parameterTypes.Count; position++)
+            for (int position = 1; position <= constructorParameterTypes.Length; position++)
             {
                 constructor.DefineParameter(position, ParameterAttributes.None, "arg" + position);
             }
 
             ILGenerator gen = constructor.GetILGenerator();
-            
-            for (int position = 0; position < parameterTypes.Count; position++)
+
+            for (int position = 0; position < constructorParameterTypes.Length; position++)
             {
                 if (position == 0)
                 {
@@ -117,20 +118,27 @@ namespace Ploeh.SemanticComparison
             gen.Emit(OpCodes.Nop);
             gen.Emit(OpCodes.Nop);
             gen.Emit(OpCodes.Ldarg_0);
-            gen.Emit(OpCodes.Ldarg_S, parameterTypes.Count);
+            gen.Emit(OpCodes.Ldarg_S, constructorParameterTypes.Length);
             gen.Emit(OpCodes.Stfld, comparer);
             gen.Emit(OpCodes.Nop);
             gen.Emit(OpCodes.Ret);
         }
 
-        private static void BuildMethodGetHashCode<TClass>(TypeBuilder type)
+        private static IEnumerable<Type> BuildConstructorParameterTypes(ConstructorInfo baseConstructor)
+        {
+            return (from pi in baseConstructor.GetParameters()
+                    select pi.ParameterType)
+                    .Union(new[] { typeof(IEqualityComparer) });
+        }
+
+        private static void BuildMethodGetHashCode<TDestination>(TypeBuilder type)
         {
             var methodAttributes = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig;
             MethodBuilder method = type.DefineMethod("GetHashCode", methodAttributes);
             method.SetReturnType(typeof(int));
 
             int derivedGetHashCode = 135;
-            MethodInfo getHashCode = typeof(TClass).GetMethod(
+            MethodInfo getHashCode = typeof(TDestination).GetMethod(
                 "GetHashCode",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null,
