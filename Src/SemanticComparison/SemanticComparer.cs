@@ -82,6 +82,11 @@ namespace Ploeh.SemanticComparison
                 return this.GetEvaluators().All(me => me.Evaluator((TSource)x, (TDestination)y));
             }
             
+            if (x is TDestination && y is TSource)
+            {
+                return this.GetEvaluators().All(me => me.Evaluator((TSource)y, (TDestination)x));
+            }
+
             return false;
         }
 
