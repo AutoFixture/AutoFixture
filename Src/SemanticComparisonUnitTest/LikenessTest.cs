@@ -904,6 +904,37 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
+        public void ProxyWhenCalledMultipleTimesForSemanticallyEqualObjectsReturnsTrue()
+        {
+            // Fixture setup
+            var source = new ConcreteType();
+            var sut = source.AsSource().OfLikeness<AbstractType>().CreateProxy();
+            var expectedResult = Enumerable.Range(1, 3).Select(x => true);
+            // Exercise system
+            var result = Enumerable.Range(1, 3)
+                .Select(x => sut.Equals(new ConcreteType()));
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyWhenCalledMultipleTimesForSemanticallyUnequalObjectsReturnsFalse()
+        {
+            // Fixture setup
+            var source = new ConcreteType("Lorem");
+            var sut = source.AsSource().OfLikeness<AbstractType>().CreateProxy();
+            sut.Property1 = "Fnaah";
+            var expectedResult = Enumerable.Range(1, 3).Select(x => false);
+            // Exercise system
+            var result = Enumerable.Range(1, 3)
+                .Select(x => sut.Equals(new ConcreteType()));
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
         public void ProxyOfAbstractTypeEqualsConcreteInstancesThatDifferOnlyOnMemberNotDefinedByAbstraction()
         {
             // Fixture setup

@@ -24,7 +24,7 @@ namespace Ploeh.SemanticComparison
 
             ConstructorInfo proxyConstructor = proxyType.GetModestConstructor();
             IEnumerable<Type> parameterTypes = ProxyGenerator.BuildConstructorParameterTypes(proxyConstructor);
-
+            
             var constructorArguments = (from mi in members
                                         where parameterTypes.Contains(mi.ToUnderlyingType())
                                         select typeof(TSource).MatchProperty(mi.Name).GetValue(source, null))
@@ -193,7 +193,7 @@ namespace Ploeh.SemanticComparison
             
             Label label1 = gen.DefineLabel();
             Label label2 = gen.DefineLabel();
-            
+
             gen.Emit(OpCodes.Nop);
             gen.Emit(OpCodes.Ldarg_0);
             gen.Emit(OpCodes.Ldfld, equalsHasBeenCalled);
@@ -203,6 +203,9 @@ namespace Ploeh.SemanticComparison
             gen.Emit(OpCodes.Ldloc_1);
             gen.Emit(OpCodes.Brtrue_S, label1);
             gen.Emit(OpCodes.Nop);
+            gen.Emit(OpCodes.Ldarg_0);
+            gen.Emit(OpCodes.Ldc_I4_0);
+            gen.Emit(OpCodes.Stfld, equalsHasBeenCalled);
             gen.Emit(OpCodes.Ldarg_0);
             gen.Emit(OpCodes.Ldarg_1);
             gen.Emit(OpCodes.Call, objectEquals);
