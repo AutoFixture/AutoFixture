@@ -962,8 +962,28 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.Throws<LikenessException>(
+            Assert.Throws<ProxyCreationException>(
                 () => new ConcreteType().AsSource().OfLikeness<PublicSealedType>().CreateProxy());
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyOfTypeWithAccessibleConstructorDoesNotThrowWhenSourceTypeIsAnonymousType()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(
+                () => new { }.AsSource().OfLikeness<AbstractType>().CreateProxy());
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyOfTypeWithNonDefaultConstructorThrowsWhenSourceConstructorValuesDoNotMapToDestinationConstructor()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ProxyCreationException>(
+                () => new { }.AsSource().OfLikeness<AbstractTypeWithNonDefaultConstructor<string>>().CreateProxy());
             // Teardown
         }
 

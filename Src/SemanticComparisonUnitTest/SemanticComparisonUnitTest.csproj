@@ -72,6 +72,7 @@
     <Compile Include="LikenessSourceTest.cs" />
     <Compile Include="MemberInfoNameComparerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProxyCreationExceptionTest.cs" />
     <Compile Include="SemanticComparerTest.cs" />
   </ItemGroup>
   <ItemGroup>

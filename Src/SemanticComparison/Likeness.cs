@@ -54,25 +54,32 @@ namespace Ploeh.SemanticComparison
         /// <summary>
         /// Creates a dynamic proxy that overrides Equals using Likeness. 
         /// This method uses the same semantic heuristics, as the default semantic comparison, to map
-        /// values from the source constructor parameters on the destination constructor.
+        /// values from the source constructor parameters to the destination constructor.
         /// </summary>
         public TDestination CreateProxy()
         {
             try
             {
-                return ProxyGenerator.CreateLikenessProxy<TSource, TDestination>(this.value, this.comparer, SemanticComparer<TSource, TDestination>.DefaultMembers.Generate<TDestination>());
+                return ProxyGenerator.CreateLikenessProxy<TSource, TDestination>(
+                    this.value,
+                    this.comparer,
+                    SemanticComparer<TSource, TDestination>.DefaultMembers.Generate<TDestination>());
             }
             catch (TypeLoadException e)
             {
-                throw new LikenessException("Access is denied on type, or the base type is sealed. Please see inner exception for more details.", e);
+                var message = string.Format(
+                    CultureInfo.CurrentCulture,
+                    "The proxy of {0} could not be created. Access is denied on type, or the base type is sealed. Please see inner exception for more details.",
+                    typeof(TDestination));
+                throw new ProxyCreationException(message, e);
             }
-            catch (ArgumentNullException e)
+            catch (InvalidOperationException e)
             {
-                throw new LikenessException("The base type does not have an accessible parameterless constructor. Please see inner exception for more details.", e);
-            }
-            catch (NullReferenceException e)
-            {
-                throw new LikenessException("The base type does not have an accessible parameterless constructor. Please see inner exception for more details.", e);
+                var message = string.Format(
+                    CultureInfo.CurrentCulture,
+                    "The proxy of {0} could not be created using the same semantic heuristics as the default semantic comparison. In order to create proxies of types with non-parameterless constructor the values from the source constructor must be compatible to the parameters of the destination constructor.",
+                    typeof(TDestination));
+                throw new ProxyCreationException(message, e);
             }
         }
 

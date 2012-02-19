@@ -23,13 +23,12 @@ namespace Ploeh.SemanticComparison
             Type proxyType = builder.CreateType();
 
             ConstructorInfo proxyConstructor = proxyType.GetModestConstructor();
-            IEnumerable<Type> parameterTypes = BuildConstructorParameterTypes(proxyConstructor);
+            IEnumerable<Type> parameterTypes = ProxyGenerator.BuildConstructorParameterTypes(proxyConstructor);
 
             var constructorArguments = (from mi in members
                                         where parameterTypes.Contains(mi.ToUnderlyingType())
                                         select typeof(TSource).MatchProperty(mi.Name).GetValue(source, null))
                                         .Union(new[] { comparer });
-
             return (TDestination)Activator.CreateInstance(proxyType, constructorArguments.ToArray());
         }
 
