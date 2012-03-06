@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture.Kernel
             throw new ObjectCreationException(
                 string.Format(
                     CultureInfo.CurrentCulture,
-                    "AutoFixture was unable to create an instance from {0}, most likely because it has no public constructor.",
+                    "AutoFixture was unable to create an instance from {0}, most likely because it has no public constructor, is an abstract or non-public type.",
                     request
                     )
                 );
