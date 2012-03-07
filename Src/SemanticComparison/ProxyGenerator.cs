@@ -20,16 +20,15 @@ namespace Ploeh.SemanticComparison
             ProxyGenerator.BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
             ProxyGenerator.BuildMethodGetHashCode<TDestination>(builder);
 
-            Type proxyType = builder.CreateType();
+            IEnumerable<Type> parameterTypes = typeof(TDestination)
+                .GetModestConstructor().GetParameters().Select(pi => pi.ParameterType);
 
-            ConstructorInfo proxyConstructor = proxyType.GetModestConstructor();
-            IEnumerable<Type> parameterTypes = ProxyGenerator.BuildConstructorParameterTypes(proxyConstructor);
-            
             var constructorArguments = (from mi in members
                                         where parameterTypes.Contains(mi.ToUnderlyingType())
                                         select typeof(TSource).MatchProperty(mi.Name).GetValue(source, null))
-                                        .Union(new[] { comparer });
-            return (TDestination)Activator.CreateInstance(proxyType, constructorArguments.ToArray());
+                                        .Take(parameterTypes.Count())
+                                        .Concat(new[] { comparer });
+            return (TDestination)Activator.CreateInstance(builder.CreateType(), constructorArguments.ToArray());
         }
 
         private static AssemblyBuilder BuildAssembly(string name)
@@ -127,7 +126,7 @@ namespace Ploeh.SemanticComparison
         {
             return (from pi in baseConstructor.GetParameters()
                     select pi.ParameterType)
-                    .Union(new[] { typeof(IEqualityComparer) });
+                    .Concat(new[] { typeof(IEqualityComparer) });
         }
 
         private static void BuildMethodGetHashCode<TDestination>(TypeBuilder type)

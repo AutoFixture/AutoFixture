@@ -1234,6 +1234,28 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void ProxyOfIdenticalParameterTypesCanBeCreated()
+        {
+            // Fixture setup
+            var sut = new TripleParameterType<long, long, long>(1, 2, 3)
+                .AsSource().OfLikeness<TripleParameterType<long, long, long>>();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.CreateProxy());
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyOfIdenticalParameterTypesWithPropertiesCanBeCreated()
+        {
+            // Fixture setup
+            var sut = new TypeWithIdenticalParameterTypesAndProperties(1, 2, 3)
+                .AsSource().OfLikeness<TypeWithIdenticalParameterTypesAndProperties>();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.CreateProxy());
+            // Teardown
+        }
+
         private static void CompareLikenessToObject<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup
@@ -1277,6 +1299,45 @@ namespace Ploeh.SemanticComparison.UnitTest
             public override int GetHashCode()
             {
                 return 14;
+            }
+        }
+
+        public class TypeWithIdenticalParameterTypesAndProperties
+        {
+            private readonly long field1;
+            private readonly long field2;
+            private readonly long field3;
+            private readonly long field4;
+
+            public TypeWithIdenticalParameterTypesAndProperties(
+                long parameter1,
+                long parameter2,
+                long parameter3)
+            {
+                this.field1 = parameter1;
+                this.field2 = parameter2;
+                this.field3 = parameter3;
+                this.field4 = 400;
+            }
+
+            public long Property1
+            {
+                get { return this.field1; }
+            }
+
+            public long Property2
+            {
+                get { return this.field4; }
+            }
+
+            public long Property3
+            {
+                get { return this.field3; }
+            }
+
+            public long Property4
+            {
+                get { return this.field4; }
             }
         }
     }
