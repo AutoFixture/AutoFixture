@@ -270,7 +270,7 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(sut.Customizations, customizer.Builders);
 
             var engineAndMultiple = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[1]);
-            Assert.Equal(sut.Engine, engineAndMultiple.Builders[0]);
+            Assert.Same(sut.Engine, engineAndMultiple.Builders[0]);
 
             var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[2]);
             Assert.Equal(sut.ResidueCollectors, residueCollector.Builders);
@@ -296,7 +296,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var postprocessor = Assert.IsAssignableFrom<Postprocessor>(composedBuilders[1]);
             var engineAndMultiple = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(postprocessor.Builder);
-            Assert.Equal(sut.Engine, engineAndMultiple.Builders[0]);
+            Assert.Same(sut.Engine, engineAndMultiple.Builders[0]);
             Assert.IsAssignableFrom<AnyTypeSpecification>(postprocessor.Specification);
 
             var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[2]);

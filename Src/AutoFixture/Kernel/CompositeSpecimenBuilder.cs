@@ -7,7 +7,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// Creates specimens by returning the first specimen created by its children.
     /// </summary>
-    public class CompositeSpecimenBuilder : ISpecimenBuilder
+    public class CompositeSpecimenBuilder : ISpecimenBuilder, IEnumerable<ISpecimenBuilder>
     {
         private readonly List<ISpecimenBuilder> builders;
 
@@ -66,6 +66,16 @@ namespace Ploeh.AutoFixture.Kernel
                     let result = b.Create(request, context)
                     where !(result is NoSpecimen)
                     select result).DefaultIfEmpty(new NoSpecimen(request)).FirstOrDefault();
+        }
+
+        public IEnumerator<ISpecimenBuilder> GetEnumerator()
+        {
+            return this.builders.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }

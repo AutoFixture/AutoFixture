@@ -20,6 +20,17 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void SutIsSequenceOfSpecimenBuilders()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new CompositeSpecimenBuilder();
+            // Verify outcome
+            Assert.IsAssignableFrom<IEnumerable<ISpecimenBuilder>>(sut);
+            // Teardown
+        }
+
+        [Fact]
         public void BuildersWillNotBeNullWhenSutIsCreatedWithDefaultConstructor()
         {
             // Fixture setup
@@ -57,6 +68,25 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Builders;
             // Verify outcome
             Assert.True(expectedBuilders.SequenceEqual(result), "Builders");
+            // Teardown
+        }
+
+        [Fact]
+        public void SutYieldsInjectedSequence()
+        {
+            // Fixture setup
+            var expectedBuilders = new ISpecimenBuilder[]
+            {
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder()
+            }.AsEnumerable();
+            var sut = new CompositeSpecimenBuilder(expectedBuilders);
+            // Exercise system
+            // Verify outcome
+            Assert.True(expectedBuilders.SequenceEqual(sut));
+            Assert.True(expectedBuilders.OfType<object>().SequenceEqual(
+                ((System.Collections.IEnumerable)sut).OfType<object>()));
             // Teardown
         }
 
