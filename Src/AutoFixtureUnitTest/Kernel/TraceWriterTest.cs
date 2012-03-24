@@ -89,9 +89,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void ComposeReturnsCorrectResult()
         {
             // Fixture setup
-            var expectedWriter = TextWriter.Null;
-            var expectedTracer = new DelegatingTracingBuilder();
-            var sut = new TraceWriter(expectedWriter, expectedTracer);
+            var writer = TextWriter.Null;
+            var tracer = new DelegatingTracingBuilder();
+            var sut = new TraceWriter(writer, tracer);
             // Exercise system
             var expectedBuilders = new []
             {
@@ -104,6 +104,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var tw = Assert.IsAssignableFrom<TraceWriter>(actual);
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(tw.Tracer.Builder);
             Assert.True(expectedBuilders.SequenceEqual(composite));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeSingleItemReturnsCorrectResult()
+        {
+            // Fixture setup
+            var writer = TextWriter.Null;
+            var tracer = new DelegatingTracingBuilder();
+            var sut = new TraceWriter(writer, tracer);
+            // Exercise system
+            var expected = new DelegatingSpecimenBuilder();
+            var actual = sut.Compose(new[] { expected });
+            // Verify outcome
+            var tw = Assert.IsAssignableFrom<TraceWriter>(actual);
+            Assert.Equal(expected, tw.Tracer.Builder);
             // Teardown
         }
 

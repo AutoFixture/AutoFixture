@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -99,10 +100,12 @@ namespace Ploeh.AutoFixture.Kernel
 
         public ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
         {
+            var builder = TraceWriter.ComposeIfMultiple(builders);
+
             return new TraceWriter(
                 this.writer,
                 new TracingBuilder(
-                    new CompositeSpecimenBuilder(builders)));
+                    builder));
         }
 
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
@@ -113,6 +116,15 @@ namespace Ploeh.AutoFixture.Kernel
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
+        }
+
+        private static ISpecimenBuilder ComposeIfMultiple(IEnumerable<ISpecimenBuilder> builders)
+        {
+            var isSingle = builders.Take(2).Count() == 1;
+            if (isSingle)
+                return builders.Single();
+
+            return new CompositeSpecimenBuilder(builders);
         }
     }
 }
