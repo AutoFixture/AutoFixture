@@ -7,7 +7,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Tracks any returned object from the container and passes it on.
     /// </summary>
     public class TracingBuilder : ISpecimenBuilder
-	{
+    {
         private readonly ISpecimenBuilder builder;
         private IRequestSpecification filter;
         private int depth;
@@ -87,8 +87,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// <see cref="Type"/> or other <see cref="System.Reflection.MemberInfo"/> instances.
         /// </para>
         /// </remarks>
-		public object Create(object request, ISpecimenContext context)
-		{
+        public object Create(object request, ISpecimenContext context)
+        {
             if (this.filter.IsSatisfiedBy(request))
             {
                 this.OnSpecimenRequested(new RequestTraceEventArgs(request, ++this.depth));
@@ -98,8 +98,8 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 this.OnSpecimenCreated(new SpecimenCreatedEventArgs(request, specimen, this.depth--));
             }
-			return specimen;
-		}
+            return specimen;
+        }
 
         /// <summary>
         /// Raises the <see cref="SpecimenCreated"/> event.
@@ -126,5 +126,5 @@ namespace Ploeh.AutoFixture.Kernel
                 handler(this, e);
             }
         }
-	}
+    }
 }
