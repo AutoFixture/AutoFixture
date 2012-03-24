@@ -124,6 +124,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Kernel\ConstrainedStringRequest.cs" />
     <Compile Include="Kernel\FixedPipe.cs" />
+    <Compile Include="Kernel\ISpecimenBuilderNode.cs" />
     <Compile Include="Kernel\ISpecimenBuilderPipe.cs" />
     <Compile Include="Kernel\RangedNumberRequest.cs" />
     <Compile Include="Kernel\RegularExpressionRequest.cs" />
