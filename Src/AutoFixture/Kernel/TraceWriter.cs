@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Ploeh.AutoFixture.Kernel
@@ -7,9 +8,10 @@ namespace Ploeh.AutoFixture.Kernel
     /// Trace writer that will write out a trace of object requests and created objects
     /// in the <see cref="ISpecimenBuilder" /> pipeline.
     /// </summary>
-    public class TraceWriter : ISpecimenBuilder
+    public class TraceWriter : ISpecimenBuilderNode
     {
         private readonly TracingBuilder tracer;
+        private readonly TextWriter writer;
         private Action<TextWriter, object, int> writeRequest;
         private Action<TextWriter, object, int> writeSpecimen;
 
@@ -33,6 +35,7 @@ namespace Ploeh.AutoFixture.Kernel
             this.tracer.SpecimenRequested += (sender, e) => this.writeRequest(writer, e.Request, e.Depth);
             this.tracer.SpecimenCreated += (sender, e) => this.writeSpecimen(writer, e.Specimen, e.Depth);
 
+            this.writer = writer;
             this.TraceRequestFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + "Requested: " + r);
             this.TraceSpecimenFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + "Created: " + r);
         }
@@ -92,6 +95,24 @@ namespace Ploeh.AutoFixture.Kernel
         public object Create(object request, ISpecimenContext context)
         {
             return this.tracer.Create(request, context);
+        }
+
+        public ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
+        {
+            return new TraceWriter(
+                this.writer,
+                new TracingBuilder(
+                    new CompositeSpecimenBuilder(builders)));
+        }
+
+        public IEnumerator<ISpecimenBuilder> GetEnumerator()
+        {
+            yield return this.tracer.Builder;
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }
