@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -34,6 +36,21 @@ namespace Ploeh.AutoFixture.Kernel
         public override object HandleRecursiveRequest(object request)
         {
             return null;
+        }
+
+        public override ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
+        {
+            var builder = NullRecursionGuard.ComposeIfMultiple(builders);
+            return new NullRecursionGuard(builder, this.Comparer);
+        }
+
+        private static ISpecimenBuilder ComposeIfMultiple(IEnumerable<ISpecimenBuilder> builders)
+        {
+            var isSingle = builders.Take(2).Count() == 1;
+            if (isSingle)
+                return builders.Single();
+
+            return new CompositeSpecimenBuilder(builders);
         }
     }
 }
