@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         public override ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
         {
-            var builder = ThrowingRecursionGuard.ComposeIfMultiple(builders);
+            var builder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new ThrowingRecursionGuard(builder, this.Comparer);
         }
 
@@ -65,15 +65,6 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return requestInfos.ToString() + finalRequest;
-        }
-
-        private static ISpecimenBuilder ComposeIfMultiple(IEnumerable<ISpecimenBuilder> builders)
-        {
-            var isSingle = builders.Take(2).Count() == 1;
-            if (isSingle)
-                return builders.Single();
-
-            return new CompositeSpecimenBuilder(builders);
         }
     }
 }
