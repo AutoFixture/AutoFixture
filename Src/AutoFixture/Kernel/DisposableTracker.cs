@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// <see cref="Dispose()"/> is invoked on the instance.
     /// </para>
     /// </remarks>
-    public class DisposableTracker : ISpecimenBuilder, IDisposable
+    public class DisposableTracker : ISpecimenBuilderNode, IDisposable
     {
         private readonly ISpecimenBuilder builder;
         private readonly HashSet<IDisposable> disposables;
@@ -95,6 +95,22 @@ namespace Ploeh.AutoFixture.Kernel
                 this.disposables.Add(d);
             }
             return specimen;
+        }
+
+        public ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
+        {
+            var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
+            return new DisposableTracker(composedBuilder);
+        }
+
+        public IEnumerator<ISpecimenBuilder> GetEnumerator()
+        {
+            yield return this.builder;
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
 
         /// <summary>

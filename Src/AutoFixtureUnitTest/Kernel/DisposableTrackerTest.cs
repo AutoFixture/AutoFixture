@@ -21,6 +21,18 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void SutIsNode()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            // Exercise system
+            var sut = new DisposableTracker(dummyBuilder);
+            // Verify outcome
+            Assert.IsAssignableFrom<ISpecimenBuilderNode>(sut);
+            // Teardown
+        }
+
+        [Fact]
         public void InitializeWithNullBuilderThrows()
         {
             // Fixture setup
@@ -44,6 +56,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void SutYieldsInjectedBuilder()
+        {
+            // Fixture setup
+            var expected = new DelegatingSpecimenBuilder();
+            var sut = new DisposableTracker(expected);
+            // Exercise system
+            // Verify outcome
+            Assert.Equal(expected, sut.Single());
+            Assert.Equal(expected, ((System.Collections.IEnumerable)sut).Cast<object>().Single());
+            // Teardown
+        }
+
+        [Fact]
         public void CreateReturnsResultFromDecoratedBuilder()
         {
             // Fixture setup
@@ -61,6 +86,42 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Create(request, ctx);
             // Verify outcome
             Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var sut = new DisposableTracker(dummyBuilder);
+            // Exercise system
+            var expectedBuilders = new[]
+            {
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder()
+            };
+            var actual = sut.Compose(expectedBuilders);
+            // Verify outcome
+            var dt = Assert.IsAssignableFrom<DisposableTracker>(actual);
+            var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(dt.Builder);
+            Assert.True(expectedBuilders.SequenceEqual(composite));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeSingleItemReturnsCorrectResult()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var sut = new DisposableTracker(dummyBuilder);
+            // Exercise system
+            var expected = new DelegatingSpecimenBuilder();
+            var actual = sut.Compose(new[] { expected });
+            // Verify outcome
+            var dt = Assert.IsAssignableFrom<DisposableTracker>(actual);
+            Assert.Equal(expected, dt.Builder);
             // Teardown
         }
 
