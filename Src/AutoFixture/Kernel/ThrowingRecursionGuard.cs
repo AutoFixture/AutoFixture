@@ -3,6 +3,7 @@ using System.Collections;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Collections.Generic;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -43,6 +44,12 @@ namespace Ploeh.AutoFixture.Kernel
                 "AutoFixture was unable to create an instance of type {0} because the traversed object graph contains a circular reference. Path: {1}.",
                 this.RecordedRequests.Cast<object>().First().GetType(),
                 this.GetFlattenedRequests(request)));
+        }
+
+        public override ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
+        {
+            var builder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
+            return new ThrowingRecursionGuard(builder, this.Comparer);
         }
 
         private string GetFlattenedRequests(object finalRequest)

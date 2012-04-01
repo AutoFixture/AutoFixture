@@ -118,16 +118,5 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(expectedResult, result);
             // Teardown
         }
-
-        [Fact]
-        public void SutIsMany()
-        {
-            // Fixture setup
-            // Exercise system
-            var sut = new MultipleRelay();
-            // Verify outcome
-            Assert.IsAssignableFrom<IMultiple>(sut);
-            // Teardown
-        }
     }
 }

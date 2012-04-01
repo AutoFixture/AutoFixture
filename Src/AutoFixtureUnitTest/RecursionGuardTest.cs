@@ -1,11 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Ploeh.AutoFixture.Kernel;
+using Ploeh.AutoFixtureUnitTest.Kernel;
+using Xunit;
+using System.Collections;
+
 namespace Ploeh.AutoFixtureUnitTest
 {
-    using System;
-    using System.Collections.Generic;
-    using AutoFixture.Kernel;
-    using Kernel;
-    using Xunit;
-
     public class RecursionGuardTest
     {
         [Fact]
@@ -17,6 +19,18 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new DelegatingRecursionGuard(dummyBuilder);
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutIsNode()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            // Exercise system
+            var sut = new DelegatingRecursionGuard(dummyBuilder);
+            // Verify outcome
+            Assert.IsAssignableFrom<ISpecimenBuilderNode>(sut);
             // Teardown
         }
 
@@ -36,6 +50,33 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyBuilder = new DelegatingSpecimenBuilder();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() => new DelegatingRecursionGuard(dummyBuilder, null));
+            // Teardown
+        }
+
+        [Fact]
+        public void SutYieldsInjectedBuilder()
+        {
+            // Fixture setup
+            var expected = new DelegatingSpecimenBuilder();
+            var sut = new DelegatingRecursionGuard(expected);
+            // Exercise system
+            // Verify outcome
+            Assert.Equal(expected, sut.Single());
+            Assert.Equal(expected, ((System.Collections.IEnumerable)sut).Cast<object>().Single());
+            // Teardown
+        }
+
+        [Fact]
+        public void ComparerIsCorrect()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var expected = new DelegatingEqualityComparer();
+            var sut = new DelegatingRecursionGuard(dummyBuilder, expected);
+            // Exercise system
+            IEqualityComparer actual = sut.Comparer;
+            // Verify outcome
+            Assert.Equal(expected, actual);
             // Teardown
         }
 
