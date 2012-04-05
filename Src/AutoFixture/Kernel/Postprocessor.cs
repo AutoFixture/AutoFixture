@@ -45,6 +45,12 @@ namespace Ploeh.AutoFixture.Kernel
             : base(builder, action, specification)
         {
         }
+
+        public override ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
+        {
+            var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
+            return new Postprocessor(composedBuilder, this.Action, this.Specification);
+        }
     }
 
     /// <summary>
