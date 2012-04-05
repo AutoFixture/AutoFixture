@@ -120,12 +120,12 @@ namespace Ploeh.AutoFixture
         private ISpecimenBuilderNode ReplaceAdaptedWith(ISpecimenBuilderNode graph, IEnumerable<ISpecimenBuilder> builders)
         {
             if (this.isAdaptedBuilder(graph))
-                return (ISpecimenBuilderNode)graph.Compose(builders);
+                return graph.Compose(builders);
 
             var nodes = from g in graph
                         let n = g as ISpecimenBuilderNode
                         select n != null ? this.ReplaceAdaptedWith(n, builders) : g;
-            return (ISpecimenBuilderNode)graph.Compose(nodes);
+            return graph.Compose(nodes);
         }
     }
 }
