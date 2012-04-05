@@ -120,6 +120,7 @@
     <Compile Include="DataAnnotations\Xeger.cs" />
     <Compile Include="DateTimeGenerator.cs" />
     <Compile Include="DefaultRelaysPipe.cs" />
+    <Compile Include="EnumerableList.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Kernel\ConstrainedStringRequest.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Kernel\RegularExpressionRequest.cs" />
     <Compile Include="RangedNumberGenerator.cs" />
     <Compile Include="RegularExpressionGenerator.cs" />
+    <Compile Include="SpecimenBuilderNodeCollection.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGenerator.cs" />
     <Compile Include="DefaultPrimitiveBuilders.cs" />
     <Compile Include="DictionaryFiller.cs" />

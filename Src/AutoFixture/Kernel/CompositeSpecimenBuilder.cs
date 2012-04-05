@@ -68,7 +68,7 @@ namespace Ploeh.AutoFixture.Kernel
                     select result).DefaultIfEmpty(new NoSpecimen(request)).FirstOrDefault();
         }
 
-        public ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
+        public virtual ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             return new CompositeSpecimenBuilder(builders);
         }
