@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixture.Kernel
             return specimen;
         }
 
-        public ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
+        public virtual ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new DisposableTracker(composedBuilder);
