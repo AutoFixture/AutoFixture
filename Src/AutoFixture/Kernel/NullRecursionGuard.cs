@@ -38,7 +38,7 @@ namespace Ploeh.AutoFixture.Kernel
             return null;
         }
 
-        public override ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
+        public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             var builder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new NullRecursionGuard(builder, this.Comparer);

@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixture.Kernel
                 this.GetFlattenedRequests(request)));
         }
 
-        public override ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
+        public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             var builder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new ThrowingRecursionGuard(builder, this.Comparer);

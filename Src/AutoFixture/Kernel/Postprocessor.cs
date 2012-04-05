@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
         }
 
-        public override ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
+        public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new Postprocessor(composedBuilder, this.Action, this.Specification);
@@ -180,7 +180,7 @@ namespace Ploeh.AutoFixture.Kernel
             return specimen;
         }
 
-        public virtual ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
+        public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new Postprocessor<T>(composedBuilder, this.action, this.specification);

@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixtureUnitTest
             {
             }
 
-            public override ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
+            public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
             {
                 return new MarkedNode(builders);
             }

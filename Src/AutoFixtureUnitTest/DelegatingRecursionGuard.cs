@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixtureUnitTest
             return this.OnHandleRecursiveRequest(request);
         }
 
-        public override ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders)
+        public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             return new DelegatingRecursionGuard(new CompositeSpecimenBuilder(builders));
         }

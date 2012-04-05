@@ -7,6 +7,6 @@ namespace Ploeh.AutoFixture.Kernel
 {
     public interface ISpecimenBuilderNode : ISpecimenBuilder, IEnumerable<ISpecimenBuilder>
     {
-        ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders);
+        ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders);
     }
 }

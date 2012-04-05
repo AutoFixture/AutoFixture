@@ -104,7 +104,7 @@ namespace Ploeh.AutoFixture.Kernel
             return specimen;
         }
 
-        public abstract ISpecimenBuilder Compose(IEnumerable<ISpecimenBuilder> builders);
+        public abstract ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders);
 
         public virtual IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
