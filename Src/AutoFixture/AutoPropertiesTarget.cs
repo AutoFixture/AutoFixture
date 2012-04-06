@@ -6,21 +6,21 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
-    public class AutoPropertiesTargetNode : CompositeSpecimenBuilder
+    public class AutoPropertiesTarget : CompositeSpecimenBuilder
     {
-        public AutoPropertiesTargetNode(params ISpecimenBuilder[] builders)
+        public AutoPropertiesTarget(params ISpecimenBuilder[] builders)
             : base(builders)
         {
         }
 
-        public AutoPropertiesTargetNode(IEnumerable<ISpecimenBuilder> builders)
+        public AutoPropertiesTarget(IEnumerable<ISpecimenBuilder> builders)
             : base(builders)
         {
         }
 
         public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
-            return new AutoPropertiesTargetNode(builders);
+            return new AutoPropertiesTarget(builders);
         }
     }
 }

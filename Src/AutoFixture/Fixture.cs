@@ -66,7 +66,7 @@ namespace Ploeh.AutoFixture
                         new FilteringSpecimenBuilder(new MethodInvoker(new ModestConstructorQuery()), new NullableEnumRequestSpecification()),
                         new EnumGenerator()),
                     new Postprocessor(
-                        new AutoPropertiesTargetNode(
+                        new AutoPropertiesTarget(
                             engine,
                             multiple),
                         new AutoPropertiesCommand().Execute,
@@ -137,7 +137,7 @@ namespace Ploeh.AutoFixture
         {
             get 
             {
-                return !this.graph.Parents(b => b is AutoPropertiesTargetNode).Any(n => n is Postprocessor);
+                return !this.graph.Parents(b => b is AutoPropertiesTarget).Any(n => n is Postprocessor);
             }
             set
             {
@@ -147,11 +147,11 @@ namespace Ploeh.AutoFixture
                 var g = this.graph;
                 if (value)
                 {                    
-                    foreach (var p in this.graph.Parents(b => b is AutoPropertiesTargetNode))
+                    foreach (var p in this.graph.Parents(b => b is AutoPropertiesTarget))
                     {
                         foreach (var b in p)
                         {
-                            var aptn = b as AutoPropertiesTargetNode;
+                            var aptn = b as AutoPropertiesTarget;
                             if (aptn != null)
                                 g = g.ReplaceNode(with: aptn, when: p.Equals);
                         }
@@ -159,7 +159,7 @@ namespace Ploeh.AutoFixture
                 }
                 else
                 {
-                    foreach (var p in this.graph.Parents(b => b is AutoPropertiesTargetNode))
+                    foreach (var p in this.graph.Parents(b => b is AutoPropertiesTarget))
                     {
                         var pps = p
                             .Select(b => new Postprocessor(

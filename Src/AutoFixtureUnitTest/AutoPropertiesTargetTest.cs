@@ -9,12 +9,12 @@ using Ploeh.AutoFixtureUnitTest.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    public class AutoPropertiesTargetNodeTest
+    public class AutoPropertiesTargetTest
     {
         [Fact]
         public void SutIsCompositeSpecimenBuilder()
         {
-            var sut = new AutoPropertiesTargetNode();
+            var sut = new AutoPropertiesTarget();
             Assert.IsAssignableFrom<CompositeSpecimenBuilder>(sut);
         }
 
@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 new DelegatingSpecimenBuilder(),
                 new DelegatingSpecimenBuilder()
             };
-            var sut = new AutoPropertiesTargetNode(expected);
+            var sut = new AutoPropertiesTarget(expected);
 
             Assert.True(expected.SequenceEqual(sut));
         }
@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 new DelegatingSpecimenBuilder(),
                 new DelegatingSpecimenBuilder()
             }.AsEnumerable();
-            var sut = new AutoPropertiesTargetNode(expected);
+            var sut = new AutoPropertiesTarget(expected);
 
             Assert.True(expected.SequenceEqual(sut));
         }
@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void ComposeReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = new AutoPropertiesTargetNode();
+            var sut = new AutoPropertiesTarget();
             // Exercise system
             var expected = new[]
             {
@@ -60,7 +60,7 @@ namespace Ploeh.AutoFixtureUnitTest
             };
             var actual = sut.Compose(expected);
             // Verify outcome
-            var aptn = Assert.IsAssignableFrom<AutoPropertiesTargetNode>(actual);
+            var aptn = Assert.IsAssignableFrom<AutoPropertiesTarget>(actual);
             Assert.True(expected.SequenceEqual(aptn));
             // Teardown
         }
