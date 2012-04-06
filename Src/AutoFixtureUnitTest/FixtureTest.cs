@@ -267,13 +267,13 @@ namespace Ploeh.AutoFixtureUnitTest
             var composedBuilders = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(guard.Builder).Builders.ToList();
 
             var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[0]);
-            Assert.Equal(sut.Customizations, customizer.Builders);
+            Assert.True(sut.Customizations.SequenceEqual(customizer.Builders));
 
             var engineAndMultiple = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[1]);
             Assert.Same(sut.Engine, engineAndMultiple.Builders[0]);
 
             var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[2]);
-            Assert.Equal(sut.ResidueCollectors, residueCollector.Builders);
+            Assert.True(sut.ResidueCollectors.SequenceEqual(residueCollector.Builders));
 
             Assert.IsAssignableFrom<TerminatingSpecimenBuilder>(composedBuilders[3]);
             // Teardown
@@ -292,7 +292,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var composedBuilders = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(guard.Builder).Builders.ToList();
 
             var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[0]);
-            Assert.Equal(sut.Customizations, customizer.Builders);
+            Assert.True(sut.Customizations.SequenceEqual(customizer.Builders));
 
             var postprocessor = Assert.IsAssignableFrom<Postprocessor>(composedBuilders[1]);
             var engineAndMultiple = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(postprocessor.Builder);
@@ -300,7 +300,7 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.IsAssignableFrom<AnyTypeSpecification>(postprocessor.Specification);
 
             var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[2]);
-            Assert.Equal(sut.ResidueCollectors, residueCollector.Builders);
+            Assert.True(sut.ResidueCollectors.SequenceEqual(residueCollector.Builders));
 
             Assert.IsAssignableFrom<TerminatingSpecimenBuilder>(composedBuilders[3]);
             // Teardown

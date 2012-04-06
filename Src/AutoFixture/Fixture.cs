@@ -12,9 +12,9 @@ namespace Ploeh.AutoFixture
     public class Fixture : IFixture
     {
         private readonly List<ISpecimenBuilderTransformation> behaviors;
-        private readonly CompositeSpecimenBuilder customizer;
+        private SpecimenBuilderNodeCollection customizer;
         private readonly ISpecimenBuilder engine;
-        private readonly CompositeSpecimenBuilder residueCollector;
+        private SpecimenBuilderNodeCollection residueCollector;
         private readonly MultipleRelay multiple;
 
         private ISpecimenBuilderNode graph;
@@ -54,12 +54,12 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("multiple");
             }
 
-            this.customizer = new CompositeSpecimenBuilder();
+            //this.customizer = new CompositeSpecimenBuilder();
             this.engine = engine;
-            this.residueCollector = new CompositeSpecimenBuilder();
+            //this.residueCollector = new CompositeSpecimenBuilder();            
 
-            this.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new ModestConstructorQuery()), new NullableEnumRequestSpecification()));
-            this.Customizations.Add(new EnumGenerator());
+            //this.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new ModestConstructorQuery()), new NullableEnumRequestSpecification()));
+            //this.Customizations.Add(new EnumGenerator());
 
             this.multiple = multiple;
 
@@ -73,13 +73,30 @@ namespace Ploeh.AutoFixture
                         new FilteringSpecimenBuilder(new MethodInvoker(new ModestConstructorQuery()), new NullableEnumRequestSpecification()),
                         new EnumGenerator()),
                     new Postprocessor(
-                        new CompositeSpecimenBuilder(
+                        new AutoPropertiesTargetNode(
                             engine,
                             multiple),
                         new AutoPropertiesCommand().Execute,
                         new AnyTypeSpecification()),
                     new ResidueCollectorNode(),
-                    new TerminatingSpecimenBuilder());                
+                    new TerminatingSpecimenBuilder());
+
+            this.customizer = new SpecimenBuilderNodeCollection(this.graph, n => n is CustomizationNode);
+            this.customizer.GraphChanged += this.OnGraphChanged;
+
+            this.residueCollector = new SpecimenBuilderNodeCollection(this.graph, n => n is ResidueCollectorNode);
+            this.residueCollector.GraphChanged += this.OnGraphChanged;
+        }
+
+        private void OnGraphChanged(object sender, SpecimenBuilderNodeEventArgs e)
+        {
+            this.graph = e.Graph;
+
+            this.customizer = new SpecimenBuilderNodeCollection(this.graph, n => n is CustomizationNode);
+            this.customizer.GraphChanged += this.OnGraphChanged;
+
+            this.residueCollector = new SpecimenBuilderNodeCollection(this.graph, n => n is ResidueCollectorNode);
+            this.residueCollector.GraphChanged += this.OnGraphChanged;
         }
 
         /// <summary>
@@ -107,7 +124,8 @@ namespace Ploeh.AutoFixture
         /// <seealso cref="ResidueCollectors"/>
         public IList<ISpecimenBuilder> Customizations
         {
-            get { return this.customizer.Builders; }
+            //get { return this.customizer.Builders; }
+            get { return this.customizer; }
         }
 
         /// <summary>
@@ -137,7 +155,50 @@ namespace Ploeh.AutoFixture
         /// The default value is false.
         /// </para>
         /// </remarks>
-        public bool OmitAutoProperties { get; set; }
+        public bool OmitAutoProperties
+        {
+            get 
+            {
+                return !this.graph.Parents(b => b is AutoPropertiesTargetNode).Any(n => n is Postprocessor);
+            }
+            set
+            {
+                if (value == this.OmitAutoProperties)
+                    return;
+
+                if (value)
+                {
+                    var g = this.graph;
+                    foreach (var p in this.graph.Parents(b => b is AutoPropertiesTargetNode))
+                    {
+                        foreach (var b in p)
+                        {
+                            var aptn = b as AutoPropertiesTargetNode;
+                            if (aptn != null)
+                            {
+                                g = g.ReplaceNode(with: aptn, when: n => p.Equals(n));
+                            }
+                        }
+                    }
+                    this.graph = g;
+                }
+                else
+                {
+                    var g = this.graph;
+                    foreach (var p in this.graph.Parents(b => b is AutoPropertiesTargetNode))
+                    {
+                        var pps = p
+                            .Select(b => new Postprocessor(
+                                b,
+                                new AutoPropertiesCommand().Execute,
+                                new AnyTypeSpecification()))
+                            .Cast<ISpecimenBuilder>();
+                        g = g.ReplaceNode(with: pps, when: n => p.Equals(n));
+                    }
+                    this.graph = g;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets a number that controls how many objects are created when a
@@ -172,7 +233,8 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         public IList<ISpecimenBuilder> ResidueCollectors
         {
-            get { return this.residueCollector.Builders; }
+            //get { return this.residueCollector.Builders; }
+            get { return this.residueCollector; }
         }
 
         /// <summary>
@@ -248,7 +310,7 @@ namespace Ploeh.AutoFixture
             }
 
             var c = composerTransformation(new Composer<T>().WithAutoProperties(this.EnableAutoProperties));
-            this.customizer.Builders.Insert(0, c.Compose());
+            this.customizer.Insert(0, c.Compose());
         }
 
         /// <summary>
@@ -284,23 +346,25 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public ISpecimenBuilder Compose()
         {
-            ISpecimenBuilder builder = new CompositeSpecimenBuilder(
-                this.Engine,
-                this.multiple);
+            //ISpecimenBuilder builder = new CompositeSpecimenBuilder(
+            //    this.Engine,
+            //    this.multiple);
 
-            if (this.EnableAutoProperties)
-            {
-                builder = new Postprocessor(
-                    builder,
-                    new AutoPropertiesCommand().Execute,
-                    new AnyTypeSpecification());
-            }
+            //if (this.EnableAutoProperties)
+            //{
+            //    builder = new Postprocessor(
+            //        builder,
+            //        new AutoPropertiesCommand().Execute,
+            //        new AnyTypeSpecification());
+            //}
 
-            builder = new CompositeSpecimenBuilder(
-                this.customizer,
-                builder,
-                this.residueCollector,
-                new TerminatingSpecimenBuilder());
+            //builder = new CompositeSpecimenBuilder(
+            //    this.customizer,
+            //    builder,
+            //    this.residueCollector,
+            //    new TerminatingSpecimenBuilder());
+
+            ISpecimenBuilder builder = this.graph;
 
             return this.Behaviors.Aggregate(
                 builder,
