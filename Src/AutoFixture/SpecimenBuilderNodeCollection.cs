@@ -89,7 +89,12 @@ namespace Ploeh.AutoFixture
 
         public bool Remove(ISpecimenBuilder item)
         {
-            throw new NotImplementedException();
+            var contained = this.Contains(item);
+
+            var index = this.IndexOf(item);
+            this.RemoveAt(index);
+
+            return contained;
         }
 
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
