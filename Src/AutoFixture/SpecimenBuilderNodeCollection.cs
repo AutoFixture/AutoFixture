@@ -56,7 +56,9 @@ namespace Ploeh.AutoFixture
             }
             set
             {
-                throw new NotImplementedException();
+                var builders = this.adaptedNode.SetItem(index, value);
+                this.graph = this.ReplaceAdaptedWith(this.graph, builders);
+                this.adaptedNode = this.SelectAdaptedNodes(this.graph).Single();
             }
         }
 

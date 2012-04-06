@@ -155,6 +155,47 @@ namespace Ploeh.AutoFixtureUnitTest
                 this.sut[1337]);
         }
 
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void SetItemCorrectlyAddesItem(int expected)
+        {
+            // Fixture setup
+            var item = new DelegatingSpecimenBuilder();
+            // Exercise system
+            this.sut[expected] = item;
+            // Verify outcome
+            Assert.Equal(expected, this.sut.IndexOf(item));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void SetItemCorrectlyRemovesExistingItem(int index)
+        {
+            // Fixture setup
+            var itemToReplace = 
+                this.graph.OfType<MarkedNode>().Single().ElementAt(index);
+            // Exercise system
+            this.sut[index] = new DelegatingSpecimenBuilder();
+            // Verify outcome
+            Assert.False(this.sut.Contains(itemToReplace));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(42)]
+        [InlineData(3)]
+        public void SetItemForIncorrectIndexThrows(int invalidIndex)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                this.sut[invalidIndex] = new DelegatingSpecimenBuilder());
+        }
+
         private class MarkedNode : CompositeSpecimenBuilder
         {
             public MarkedNode(params ISpecimenBuilder[] builders)
