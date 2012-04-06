@@ -93,6 +93,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoPropertiesTargetNode.cs" />
     <Compile Include="BehaviorComposer.cs" />
     <Compile Include="BehaviorPostprocessComposer.cs" />
     <Compile Include="CharSequenceGenerator.cs" />
