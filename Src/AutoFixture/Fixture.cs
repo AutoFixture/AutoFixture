@@ -17,6 +17,8 @@ namespace Ploeh.AutoFixture
         private readonly CompositeSpecimenBuilder residueCollector;
         private readonly MultipleRelay multiple;
 
+        private ISpecimenBuilderNode graph;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Fixture"/> class.
         /// </summary>
@@ -63,6 +65,21 @@ namespace Ploeh.AutoFixture
 
             this.behaviors = new List<ISpecimenBuilderTransformation>();
             this.behaviors.Add(new ThrowingRecursionBehavior());
+
+
+            this.graph =
+                new CompositeSpecimenBuilder(
+                    new CustomizationNode(
+                        new FilteringSpecimenBuilder(new MethodInvoker(new ModestConstructorQuery()), new NullableEnumRequestSpecification()),
+                        new EnumGenerator()),
+                    new Postprocessor(
+                        new CompositeSpecimenBuilder(
+                            engine,
+                            multiple),
+                        new AutoPropertiesCommand().Execute,
+                        new AnyTypeSpecification()),
+                    new ResidueCollectorNode(),
+                    new TerminatingSpecimenBuilder());                
         }
 
         /// <summary>
