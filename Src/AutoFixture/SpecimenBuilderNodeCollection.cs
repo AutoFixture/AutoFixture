@@ -64,12 +64,15 @@ namespace Ploeh.AutoFixture
 
         public void Add(ISpecimenBuilder item)
         {
-            throw new NotImplementedException();
+            var builders = this.adaptedNode.Concat(new[] { item });
+            this.graph = this.ReplaceAdaptedWith(this.graph, builders);
+            this.adaptedNode = this.SelectAdaptedNodes(this.graph).Single();
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            this.graph = this.ReplaceAdaptedWith(this.graph, Enumerable.Empty<ISpecimenBuilder>());
+            this.adaptedNode = this.SelectAdaptedNodes(this.graph).Single();
         }
 
         public bool Contains(ISpecimenBuilder item)
@@ -84,7 +87,7 @@ namespace Ploeh.AutoFixture
 
         public int Count
         {
-            get { throw new NotImplementedException(); }
+            get { return this.adaptedNode.Count(); }
         }
 
         public bool IsReadOnly
@@ -99,12 +102,12 @@ namespace Ploeh.AutoFixture
 
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.adaptedNode.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.GetEnumerator();
         }
 
         private IEnumerable<ISpecimenBuilderNode> SelectAdaptedNodes(ISpecimenBuilderNode graph)

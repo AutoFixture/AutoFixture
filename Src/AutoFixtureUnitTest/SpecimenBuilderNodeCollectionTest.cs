@@ -196,6 +196,52 @@ namespace Ploeh.AutoFixtureUnitTest
                 this.sut[invalidIndex] = new DelegatingSpecimenBuilder());
         }
 
+        [Fact]
+        public void SutYieldsCorrectItems()
+        {
+            var expected = this.graph.OfType<MarkedNode>().Single();
+            Assert.True(expected.SequenceEqual(this.sut));
+            Assert.True(expected.Cast<object>().SequenceEqual(((System.Collections.IEnumerable)this.sut).Cast<object>()));
+        }
+
+        [Fact]
+        public void CountReturnsCorrectResult()
+        {
+            // Fixture setup
+            // Exercise system
+            var actual = this.sut.Count;
+            // Verify outcome
+            var expected =
+                this.graph.OfType<MarkedNode>().Single().Count();
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void ClearRemovesAllItems()
+        {
+            // Fixture setup
+            // Exercise system
+            this.sut.Clear();
+            // Verify outcome
+            Assert.Empty(this.sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void AddAddsItemToEndOfNode()
+        {
+            // Fixture setup
+            var item = new DelegatingSpecimenBuilder();
+            var expected =
+                this.graph.OfType<MarkedNode>().Single().Concat(new[] { item });
+            // Exercise system
+            this.sut.Add(item);
+            // Verify outcome
+            Assert.True(expected.SequenceEqual(this.sut));
+            // Teardown
+        }
+
         private class MarkedNode : CompositeSpecimenBuilder
         {
             public MarkedNode(params ISpecimenBuilder[] builders)
