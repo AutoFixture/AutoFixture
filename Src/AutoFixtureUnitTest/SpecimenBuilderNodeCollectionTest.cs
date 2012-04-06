@@ -259,6 +259,12 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void IsReadOnlyReturnsCorrectResult()
+        {
+            Assert.False(this.sut.IsReadOnly);
+        }
+
         private class MarkedNode : CompositeSpecimenBuilder
         {
             public MarkedNode(params ISpecimenBuilder[] builders)

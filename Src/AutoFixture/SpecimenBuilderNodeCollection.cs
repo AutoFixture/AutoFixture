@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixture
 
         public bool IsReadOnly
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
         }
 
         public bool Remove(ISpecimenBuilder item)
