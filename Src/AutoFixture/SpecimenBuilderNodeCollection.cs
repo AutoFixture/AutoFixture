@@ -30,20 +30,12 @@ namespace Ploeh.AutoFixture
 
         public void Insert(int index, ISpecimenBuilder item)
         {
-            var builders = this.adaptedNode.Insert(index, item);
-            this.graph = this.ReplaceAdaptedWith(this.graph, builders);
-            this.adaptedNode = this.SelectAdaptedNodes(this.graph).Single();
-
-            this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
+            this.Mutate(this.adaptedNode.Insert(index, item));
         }
 
         public void RemoveAt(int index)
         {
-            var builders = this.adaptedNode.RemoveAt(index);
-            this.graph = this.ReplaceAdaptedWith(this.graph, builders);
-            this.adaptedNode = this.SelectAdaptedNodes(this.graph).Single();
-
-            this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
+            this.Mutate(this.adaptedNode.RemoveAt(index));
         }
 
         public ISpecimenBuilder this[int index]
@@ -54,29 +46,18 @@ namespace Ploeh.AutoFixture
             }
             set
             {
-                var builders = this.adaptedNode.SetItem(index, value);
-                this.graph = this.ReplaceAdaptedWith(this.graph, builders);
-                this.adaptedNode = this.SelectAdaptedNodes(this.graph).Single();
-
-                this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
+                this.Mutate(this.adaptedNode.SetItem(index, value));
             }
         }
 
         public void Add(ISpecimenBuilder item)
         {
-            var builders = this.adaptedNode.Concat(new[] { item });
-            this.graph = this.ReplaceAdaptedWith(this.graph, builders);
-            this.adaptedNode = this.SelectAdaptedNodes(this.graph).Single();
-
-            this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
+            this.Mutate(this.adaptedNode.Concat(new[] { item }));
         }
 
         public void Clear()
         {
-            this.graph = this.ReplaceAdaptedWith(this.graph, Enumerable.Empty<ISpecimenBuilder>());
-            this.adaptedNode = this.SelectAdaptedNodes(this.graph).Single();
-
-            this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
+            this.Mutate(Enumerable.Empty<ISpecimenBuilder>());
         }
 
         public bool Contains(ISpecimenBuilder item)
@@ -129,6 +110,14 @@ namespace Ploeh.AutoFixture
             var handler = this.GraphChanged;
             if (handler != null)
                 handler(this, e);
+        }
+
+        private void Mutate(IEnumerable<ISpecimenBuilder> builders)
+        {
+            this.graph = this.ReplaceAdaptedWith(this.graph, builders);
+            this.adaptedNode = this.SelectAdaptedNodes(this.graph).Single();
+
+            this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
         }
 
         private IEnumerable<ISpecimenBuilderNode> SelectAdaptedNodes(ISpecimenBuilderNode graph)
