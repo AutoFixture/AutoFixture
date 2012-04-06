@@ -7,6 +7,19 @@ namespace Ploeh.AutoFixture
 {
     internal static class EnumerableList
     {
+        internal static int IndexOf<T>(this IEnumerable<T> items, T item)
+        {
+            int i = 0;
+            foreach (var s in items)
+            {
+                if (item.Equals(s))
+                    return i;
+                i++;
+            }
+
+            return -1;
+        }
+
         internal static IEnumerable<T> Insert<T>(this IEnumerable<T> items, int index, T item)
         {
             return items.Take(index).Concat(new[] { item }).Concat(items.Skip(index));

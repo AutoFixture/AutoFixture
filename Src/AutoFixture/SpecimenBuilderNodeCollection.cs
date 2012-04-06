@@ -23,15 +23,7 @@ namespace Ploeh.AutoFixture
 
         public int IndexOf(ISpecimenBuilder item)
         {
-            int i = 0;
-            foreach (var s in this.adaptedNode)
-            {
-                if (item.Equals(s))
-                    return i;
-                i++;
-            }
-
-            return -1;
+            return this.adaptedNode.IndexOf(item);
         }
 
         public void Insert(int index, ISpecimenBuilder item)
