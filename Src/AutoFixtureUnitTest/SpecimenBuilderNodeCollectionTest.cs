@@ -13,7 +13,6 @@ namespace Ploeh.AutoFixtureUnitTest
     public class SpecimenBuilderNodeCollectionTest
     {
         private readonly ISpecimenBuilderNode graph;
-        private readonly Func<ISpecimenBuilderNode, bool> adaptedCompositePredicate;
         private readonly SpecimenBuilderNodeCollection sut;
 
         public SpecimenBuilderNodeCollectionTest()
@@ -31,8 +30,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     new DelegatingSpecimenBuilder(),
                     new DelegatingSpecimenBuilder(),
                     new DelegatingSpecimenBuilder()));
-            this.adaptedCompositePredicate = s => s is MarkedNode;
-            this.sut = new SpecimenBuilderNodeCollection(this.graph, this.adaptedCompositePredicate);
+            this.sut = new SpecimenBuilderNodeCollection(this.graph, s => s is MarkedNode);
         }
 
         [Fact]
