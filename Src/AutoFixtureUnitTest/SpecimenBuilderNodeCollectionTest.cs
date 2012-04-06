@@ -132,6 +132,29 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void GetItemReturnsCorrectResult(int index)
+        {
+            // Fixture setup
+            var expected = 
+                this.graph.OfType<MarkedNode>().Single().ElementAt(index);
+            // Exercise system
+            var actual = this.sut[index];
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void GetItemForIncorrectIndexThrows()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                this.sut[1337]);
+        }
+
         private class MarkedNode : CompositeSpecimenBuilder
         {
             public MarkedNode(params ISpecimenBuilder[] builders)

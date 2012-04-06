@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixture
         {
             get
             {
-                throw new NotImplementedException();
+                return this.adaptedNode.ElementAt(index);
             }
             set
             {
