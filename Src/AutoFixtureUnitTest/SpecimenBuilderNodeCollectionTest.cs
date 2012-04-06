@@ -307,6 +307,107 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void InitialGraphIsCorrect()
+        {
+            // Fixture setup
+            // Exercise system
+            ISpecimenBuilderNode actual = this.sut.Graph;
+            // Verify outcome
+            Assert.Equal(this.graph, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void InsertRaisesGraphChanged()
+        {
+            // Fixture setup
+            var verified = false;
+            this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
+            // Exercise system
+            var dummyIndex = 1;
+            var dummyItem = new DelegatingSpecimenBuilder();
+            this.sut.Insert(dummyIndex, dummyItem);
+            // Verify outcome
+            Assert.True(verified);
+            // Teardown
+        }
+
+        [Fact]
+        public void RemoveAtRaisesGraphChanged()
+        {
+            // Fixture setup
+            var verified = false;
+            this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
+            // Exercise system
+            var dummyIndex = 1;
+            this.sut.RemoveAt(dummyIndex);
+            // Verify outcome
+            Assert.True(verified);
+            // Teardown
+        }
+
+        [Fact]
+        public void SetItemRaisesGraphChanged()
+        {
+            // Fixture setup
+            var verified = false;
+            this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
+            // Exercise system
+            var dummyIndex = 1;
+            var dummyItem = new DelegatingSpecimenBuilder();
+            this.sut[dummyIndex] = dummyItem;
+            // Verify outcome
+            Assert.True(verified);
+            // Teardown
+        }
+
+        [Fact]
+        public void AddRaisesGraphChanged()
+        {
+            // Fixture setup
+            var verified = false;
+            this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
+            // Exercise system
+            var dummyItem = new DelegatingSpecimenBuilder();
+            this.sut.Add(dummyItem);
+            // Verify outcome
+            Assert.True(verified);
+            // Teardown
+        }
+
+        [Fact]
+        public void ClearRaisesGraphChanged()
+        {
+            // Fixture setup
+            var verified = false;
+            this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
+            // Exercise system
+            this.sut.Clear();
+            // Verify outcome
+            Assert.True(verified);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void RemoveRaisesGraphChanged(int index)
+        {
+            // Fixture setup
+            var verified = false;
+            this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
+
+            var item =
+                this.graph.OfType<MarkedNode>().Single().ElementAt(index);
+            // Exercise system
+            this.sut.Remove(item);
+            // Verify outcome
+            Assert.True(verified);
+            // Teardown
+        }
+
         private class MarkedNode : CompositeSpecimenBuilder
         {
             public MarkedNode(params ISpecimenBuilder[] builders)
