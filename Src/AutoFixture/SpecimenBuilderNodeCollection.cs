@@ -74,7 +74,7 @@ namespace Ploeh.AutoFixture
 
         public void CopyTo(ISpecimenBuilder[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            this.adaptedNode.ToArray().CopyTo(array, arrayIndex);
         }
 
         public int Count

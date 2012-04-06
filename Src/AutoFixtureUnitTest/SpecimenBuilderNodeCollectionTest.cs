@@ -242,6 +242,23 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void CopyToCorrectlyCopiesItems(int index)
+        {
+            // Fixture setup
+            var expected =
+                this.graph.OfType<MarkedNode>().Single().ToArray();
+            var a = new ISpecimenBuilder[expected.Length + index];
+            // Exercise system
+            this.sut.CopyTo(a, index);
+            // Verify outcome
+            Assert.True(expected.SequenceEqual(a.Skip(index)));
+            // Teardown
+        }
+
         private class MarkedNode : CompositeSpecimenBuilder
         {
             public MarkedNode(params ISpecimenBuilder[] builders)
