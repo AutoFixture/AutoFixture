@@ -54,18 +54,11 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("multiple");
             }
 
-            //this.customizer = new CompositeSpecimenBuilder();
             this.engine = engine;
-            //this.residueCollector = new CompositeSpecimenBuilder();            
-
-            //this.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new ModestConstructorQuery()), new NullableEnumRequestSpecification()));
-            //this.Customizations.Add(new EnumGenerator());
-
             this.multiple = multiple;
 
             this.behaviors = new List<ISpecimenBuilderTransformation>();
             this.behaviors.Add(new ThrowingRecursionBehavior());
-
 
             this.graph =
                 new CompositeSpecimenBuilder(
@@ -81,22 +74,8 @@ namespace Ploeh.AutoFixture
                     new ResidueCollectorNode(),
                     new TerminatingSpecimenBuilder());
 
-            this.customizer = new SpecimenBuilderNodeCollection(this.graph, n => n is CustomizationNode);
-            this.customizer.GraphChanged += this.OnGraphChanged;
-
-            this.residueCollector = new SpecimenBuilderNodeCollection(this.graph, n => n is ResidueCollectorNode);
-            this.residueCollector.GraphChanged += this.OnGraphChanged;
-        }
-
-        private void OnGraphChanged(object sender, SpecimenBuilderNodeEventArgs e)
-        {
-            this.graph = e.Graph;
-
-            this.customizer = new SpecimenBuilderNodeCollection(this.graph, n => n is CustomizationNode);
-            this.customizer.GraphChanged += this.OnGraphChanged;
-
-            this.residueCollector = new SpecimenBuilderNodeCollection(this.graph, n => n is ResidueCollectorNode);
-            this.residueCollector.GraphChanged += this.OnGraphChanged;
+            this.UpdateCustomizer();
+            this.UpdateResidueCollector();
         }
 
         /// <summary>
@@ -124,7 +103,6 @@ namespace Ploeh.AutoFixture
         /// <seealso cref="ResidueCollectors"/>
         public IList<ISpecimenBuilder> Customizations
         {
-            //get { return this.customizer.Builders; }
             get { return this.customizer; }
         }
 
@@ -229,7 +207,6 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         public IList<ISpecimenBuilder> ResidueCollectors
         {
-            //get { return this.residueCollector.Builders; }
             get { return this.residueCollector; }
         }
 
@@ -371,6 +348,26 @@ namespace Ploeh.AutoFixture
         private bool EnableAutoProperties
         {
             get { return !this.OmitAutoProperties; }
+        }
+
+        private void OnGraphChanged(object sender, SpecimenBuilderNodeEventArgs e)
+        {
+            this.graph = e.Graph;
+
+            this.UpdateCustomizer();
+            this.UpdateResidueCollector();
+        }
+
+        private void UpdateCustomizer()
+        {
+            this.customizer = new SpecimenBuilderNodeCollection(this.graph, n => n is CustomizationNode);
+            this.customizer.GraphChanged += this.OnGraphChanged;
+        }
+
+        private void UpdateResidueCollector()
+        {
+            this.residueCollector = new SpecimenBuilderNodeCollection(this.graph, n => n is ResidueCollectorNode);
+            this.residueCollector.GraphChanged += this.OnGraphChanged;
         }
     }
 }
