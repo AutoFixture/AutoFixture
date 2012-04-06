@@ -43,7 +43,9 @@ namespace Ploeh.AutoFixture
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            var builders = this.adaptedNode.RemoveAt(index);
+            this.graph = this.ReplaceAdaptedWith(this.graph, builders);
+            this.adaptedNode = this.SelectAdaptedNodes(this.graph).Single();
         }
 
         public ISpecimenBuilder this[int index]
@@ -70,7 +72,7 @@ namespace Ploeh.AutoFixture
 
         public bool Contains(ISpecimenBuilder item)
         {
-            throw new NotImplementedException();
+            return this.adaptedNode.Contains(item);
         }
 
         public void CopyTo(ISpecimenBuilder[] array, int arrayIndex)

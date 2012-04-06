@@ -11,5 +11,10 @@ namespace Ploeh.AutoFixture
         {
             return items.Take(index).Concat(new[] { item }).Concat(items.Skip(index));
         }
+
+        internal static IEnumerable<T> RemoveAt<T>(this IEnumerable<T> items, int index)
+        {
+            return items.Take(index).Concat(items.Skip(index + 1));
+        }
     }
 }

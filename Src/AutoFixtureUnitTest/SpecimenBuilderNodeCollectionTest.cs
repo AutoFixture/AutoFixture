@@ -88,6 +88,50 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void ContainsReturnsTrueForContainedItem(int index)
+        {
+            // Fixture setup
+            var item = 
+                this.graph.OfType<MarkedNode>().Single().ElementAt(index);
+            // Exercise system
+            var actual = this.sut.Contains(item);
+            // Verify outcome
+            Assert.True(actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void ContainsReturnFalseForUncontainedItem()
+        {
+            // Fixture setup
+            var uncontainedItem = new DelegatingSpecimenBuilder();
+            // Exercise system
+            var actual = this.sut.Contains(uncontainedItem);
+            // Verify outcome
+            Assert.False(actual);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void RemoveAtCorrectlyRemovesItem(int index)
+        {
+            // Fixture setup
+            var itemToBeRemoved =
+                this.graph.OfType<MarkedNode>().Single().ElementAt(index);
+            // Exercise system
+            this.sut.RemoveAt(index);
+            // Verify outcome
+            Assert.False(this.sut.Contains(itemToBeRemoved));
+            // Teardown
+        }
+
         private class MarkedNode : CompositeSpecimenBuilder
         {
             public MarkedNode(params ISpecimenBuilder[] builders)
