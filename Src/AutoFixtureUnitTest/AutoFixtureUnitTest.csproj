@@ -86,6 +86,7 @@
     <Compile Include="ConstrainedStringGeneratorTest.cs" />
     <Compile Include="CurrentDateTimeCustomizationTest.cs" />
     <Compile Include="CurrentDateTimeGeneratorTest.cs" />
+    <Compile Include="CustomizationNodeTest.cs" />
     <Compile Include="DataAnnotations\RegularExpressionAttributeRelayTest.cs" />
     <Compile Include="DataAnnotations\RegularExpressionValidatedType.cs" />
     <Compile Include="DataAnnotations\StringLengthAttributeRelayTest.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="ProvidedAttribute.cs" />
     <Compile Include="RangedNumberGeneratorTest.cs" />
     <Compile Include="RegularExpressionGeneratorTest.cs" />
+    <Compile Include="ResidueCollectorNodeTest.cs" />
     <Compile Include="SpecimenBuilderNodeCollectionTest.cs" />
     <Compile Include="SpecimenBuilderNodeEventArgsTest.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGeneratorTest.cs" />
