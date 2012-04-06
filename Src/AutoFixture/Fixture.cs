@@ -166,25 +166,21 @@ namespace Ploeh.AutoFixture
                 if (value == this.OmitAutoProperties)
                     return;
 
+                var g = this.graph;
                 if (value)
-                {
-                    var g = this.graph;
+                {                    
                     foreach (var p in this.graph.Parents(b => b is AutoPropertiesTargetNode))
                     {
                         foreach (var b in p)
                         {
                             var aptn = b as AutoPropertiesTargetNode;
                             if (aptn != null)
-                            {
-                                g = g.ReplaceNode(with: aptn, when: n => p.Equals(n));
-                            }
+                                g = g.ReplaceNode(with: aptn, when: p.Equals);
                         }
                     }
-                    this.graph = g;
                 }
                 else
                 {
-                    var g = this.graph;
                     foreach (var p in this.graph.Parents(b => b is AutoPropertiesTargetNode))
                     {
                         var pps = p
@@ -193,10 +189,10 @@ namespace Ploeh.AutoFixture
                                 new AutoPropertiesCommand().Execute,
                                 new AnyTypeSpecification()))
                             .Cast<ISpecimenBuilder>();
-                        g = g.ReplaceNode(with: pps, when: n => p.Equals(n));
-                    }
-                    this.graph = g;
+                        g = g.ReplaceNode(with: pps, when: p.Equals);
+                    }                    
                 }
+                this.graph = g;
             }
         }
 
