@@ -153,7 +153,7 @@ namespace Ploeh.AutoFixture
                         {
                             var aptn = b as AutoPropertiesTarget;
                             if (aptn != null)
-                                g = g.ReplaceNode(with: aptn, when: p.Equals);
+                                g = g.ReplaceNodes(with: aptn, when: p.Equals);
                         }
                     }
                 }
@@ -167,7 +167,7 @@ namespace Ploeh.AutoFixture
                                 new AutoPropertiesCommand().Execute,
                                 new AnyTypeSpecification()))
                             .Cast<ISpecimenBuilder>();
-                        g = g.ReplaceNode(with: pps, when: p.Equals);
+                        g = g.ReplaceNodes(with: pps, when: p.Equals);
                     }                    
                 }
                 this.graph = g;

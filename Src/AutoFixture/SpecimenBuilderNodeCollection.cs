@@ -114,7 +114,7 @@ namespace Ploeh.AutoFixture
 
         private void Mutate(IEnumerable<ISpecimenBuilder> builders)
         {
-            this.graph = this.graph.ReplaceNode(with: builders, when: this.isAdaptedBuilder);
+            this.graph = this.graph.ReplaceNodes(with: builders, when: this.isAdaptedBuilder);
             this.adaptedBuilders = this.graph.SelectNodes(this.isAdaptedBuilder).Single();
 
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));

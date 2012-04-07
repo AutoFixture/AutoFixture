@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture
 {
     internal static class SpecimenBuilderNode
     {
-        internal static ISpecimenBuilderNode ReplaceNode(
+        internal static ISpecimenBuilderNode ReplaceNodes(
             this ISpecimenBuilderNode graph,
             IEnumerable<ISpecimenBuilder> with,
             Func<ISpecimenBuilderNode, bool> when)
@@ -18,11 +18,11 @@ namespace Ploeh.AutoFixture
 
             var nodes = from b in graph
                         let n = b as ISpecimenBuilderNode
-                        select n != null ? n.ReplaceNode(with, when) : b;
+                        select n != null ? n.ReplaceNodes(with, when) : b;
             return graph.Compose(nodes);
         }
 
-        internal static ISpecimenBuilderNode ReplaceNode(
+        internal static ISpecimenBuilderNode ReplaceNodes(
             this ISpecimenBuilderNode graph,
             ISpecimenBuilderNode with,
             Func<ISpecimenBuilderNode, bool> when)
@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixture
 
             var nodes = from b in graph
                         let n = b as ISpecimenBuilderNode
-                        select n != null ? n.ReplaceNode(with, when) : b;
+                        select n != null ? n.ReplaceNodes(with, when) : b;
             return graph.Compose(nodes);
         }
 
