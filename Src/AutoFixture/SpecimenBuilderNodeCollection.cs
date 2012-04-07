@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture
     {
         private ISpecimenBuilderNode graph;
         private readonly Func<ISpecimenBuilderNode, bool> isAdaptedBuilder;
-        private ISpecimenBuilderNode adaptedNode;
+        private IEnumerable<ISpecimenBuilder> adaptedBuilders;
 
         public SpecimenBuilderNodeCollection(
             ISpecimenBuilderNode graph,
@@ -18,41 +18,41 @@ namespace Ploeh.AutoFixture
         {
             this.graph = graph;
             this.isAdaptedBuilder = adaptedBuilderPredicate;
-            this.adaptedNode = this.SelectAdaptedNodes(this.graph).Single();
+            this.adaptedBuilders = this.SelectAdaptedNodes(this.graph).Single();
         }
 
         public event EventHandler<SpecimenBuilderNodeEventArgs> GraphChanged;
 
         public int IndexOf(ISpecimenBuilder item)
         {
-            return this.adaptedNode.IndexOf(item);
+            return this.adaptedBuilders.IndexOf(item);
         }
 
         public void Insert(int index, ISpecimenBuilder item)
         {
-            this.Mutate(this.adaptedNode.Insert(index, item));
+            this.Mutate(this.adaptedBuilders.Insert(index, item));
         }
 
         public void RemoveAt(int index)
         {
-            this.Mutate(this.adaptedNode.RemoveAt(index));
+            this.Mutate(this.adaptedBuilders.RemoveAt(index));
         }
 
         public ISpecimenBuilder this[int index]
         {
             get
             {
-                return this.adaptedNode.ElementAt(index);
+                return this.adaptedBuilders.ElementAt(index);
             }
             set
             {
-                this.Mutate(this.adaptedNode.SetItem(index, value));
+                this.Mutate(this.adaptedBuilders.SetItem(index, value));
             }
         }
 
         public void Add(ISpecimenBuilder item)
         {
-            this.Mutate(this.adaptedNode.Concat(new[] { item }));
+            this.Mutate(this.adaptedBuilders.Concat(new[] { item }));
         }
 
         public void Clear()
@@ -62,17 +62,17 @@ namespace Ploeh.AutoFixture
 
         public bool Contains(ISpecimenBuilder item)
         {
-            return this.adaptedNode.Contains(item);
+            return this.adaptedBuilders.Contains(item);
         }
 
         public void CopyTo(ISpecimenBuilder[] array, int arrayIndex)
         {
-            this.adaptedNode.ToArray().CopyTo(array, arrayIndex);
+            this.adaptedBuilders.ToArray().CopyTo(array, arrayIndex);
         }
 
         public int Count
         {
-            get { return this.adaptedNode.Count(); }
+            get { return this.adaptedBuilders.Count(); }
         }
 
         public bool IsReadOnly
@@ -92,7 +92,7 @@ namespace Ploeh.AutoFixture
 
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            return this.adaptedNode.GetEnumerator();
+            return this.adaptedBuilders.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixture
         private void Mutate(IEnumerable<ISpecimenBuilder> builders)
         {
             this.graph = this.graph.ReplaceNode(with: builders, when: this.isAdaptedBuilder);
-            this.adaptedNode = this.SelectAdaptedNodes(this.graph).Single();
+            this.adaptedBuilders = this.SelectAdaptedNodes(this.graph).Single();
 
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
         }
@@ -125,9 +125,9 @@ namespace Ploeh.AutoFixture
             if (this.isAdaptedBuilder(graph))
                 yield return graph;
 
-            foreach (var g in graph)
+            foreach (var b in graph)
             {
-                var n = g as ISpecimenBuilderNode;
+                var n = b as ISpecimenBuilderNode;
                 if (n != null)
                     foreach (var n1 in this.SelectAdaptedNodes(n))
                         yield return n1;
