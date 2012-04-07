@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture
         {
             this.graph = graph;
             this.isAdaptedBuilder = adaptedBuilderPredicate;
-            this.adaptedBuilders = this.SelectAdaptedNodes(this.graph).Single();
+            this.adaptedBuilders = this.graph.SelectNodes(this.isAdaptedBuilder).Single();
         }
 
         public event EventHandler<SpecimenBuilderNodeEventArgs> GraphChanged;
@@ -115,23 +115,9 @@ namespace Ploeh.AutoFixture
         private void Mutate(IEnumerable<ISpecimenBuilder> builders)
         {
             this.graph = this.graph.ReplaceNode(with: builders, when: this.isAdaptedBuilder);
-            this.adaptedBuilders = this.SelectAdaptedNodes(this.graph).Single();
+            this.adaptedBuilders = this.graph.SelectNodes(this.isAdaptedBuilder).Single();
 
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
-        }
-
-        private IEnumerable<ISpecimenBuilderNode> SelectAdaptedNodes(ISpecimenBuilderNode graph)
-        {
-            if (this.isAdaptedBuilder(graph))
-                yield return graph;
-
-            foreach (var b in graph)
-            {
-                var n = b as ISpecimenBuilderNode;
-                if (n != null)
-                    foreach (var n1 in this.SelectAdaptedNodes(n))
-                        yield return n1;
-            }
         }
     }
 }
