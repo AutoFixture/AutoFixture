@@ -256,6 +256,7 @@
     <Compile Include="UInt16SequenceGenerator.cs" />
     <Compile Include="UInt32SequenceGenerator.cs" />
     <Compile Include="UInt64SequenceGenerator.cs" />
+    <Compile Include="UriScheme.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml">
