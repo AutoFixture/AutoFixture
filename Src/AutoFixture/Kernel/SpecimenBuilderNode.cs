@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace Ploeh.AutoFixture.Kernel
 {
     internal static class SpecimenBuilderNode
     {
