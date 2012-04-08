@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public override int GetHashCode()
         {
-            return this.Scheme == null ? 0 : this.Scheme.GetHashCode();
+            return this.Scheme.GetHashCode();
         }
 
         /// <summary>

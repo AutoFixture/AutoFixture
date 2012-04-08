@@ -241,6 +241,7 @@
     <Compile Include="UInt16SequenceGeneratorTest.cs" />
     <Compile Include="UInt32SequenceGeneratorTest.cs" />
     <Compile Include="UInt64SequenceGeneratorTest.cs" />
+    <Compile Include="UriGeneratorTest.cs" />
     <Compile Include="UriSchemeGeneratorTest.cs" />
     <Compile Include="UriSchemeTest.cs" />
   </ItemGroup>
