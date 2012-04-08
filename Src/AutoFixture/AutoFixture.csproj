@@ -134,6 +134,7 @@
     <Compile Include="RangedNumberGenerator.cs" />
     <Compile Include="RegularExpressionGenerator.cs" />
     <Compile Include="ResidueCollectorNode.cs" />
+    <Compile Include="SingletonSpecimenBuilderNodeStackCollectionAdapter.cs" />
     <Compile Include="SpecimenBuilderNode.cs" />
     <Compile Include="SpecimenBuilderNodeCollectionAdapter.cs" />
     <Compile Include="SpecimenBuilderNodeEventArgs.cs" />
