@@ -33,13 +33,13 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithNullContextDoesNotThrow()
+        public void CreateWithNullContextThrows()
         {
             // Fixture setup
             var sut = new UriGenerator();
             var dummyRequest = new object();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Create(dummyRequest, null));
+            Assert.Throws<ArgumentNullException>(() => sut.Create(dummyRequest, null));
             // Teardown
         }
 

@@ -18,6 +18,11 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             if (request != typeof(Uri))
             {
                 return new NoSpecimen(request);
