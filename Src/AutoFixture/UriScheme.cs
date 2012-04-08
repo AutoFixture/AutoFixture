@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture
     /// with a letter and followed by any combination of letters, digits, plus ('+'), period ('.'),
     /// or hyphen ('-').
     /// </summary>
-    public class UriScheme
+    public class UriScheme : IEquatable<UriScheme>
     {
         private readonly string scheme;
 
@@ -41,14 +41,50 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="System.String"/> that represents the URI scheme name for this 
+        /// instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
+        /// A <see cref="System.String"/> that represents the URI scheme name for this instance.
         /// </returns>
         public override string ToString()
         {
             return this.scheme;
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.
+        /// </param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; 
+        /// otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="T:System.NullReferenceException">
+        /// The <paramref name="obj"/> parameter is null.
+        ///   </exception>
+        public override bool Equals(object obj)
+        {
+            var other = obj as UriScheme;
+            if (other != null)
+            {
+                return this.Equals(other);
+            }
+
+            return base.Equals(obj);
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data 
+        /// structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return this.Scheme == null ? 0 : this.Scheme.GetHashCode();
         }
 
         /// <summary>
@@ -57,6 +93,23 @@ namespace Ploeh.AutoFixture
         public string Scheme
         {
             get { return this.scheme; }
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>
+        /// true if the current object is equal to the other parameter; otherwise, false.
+        /// </returns>
+        public bool Equals(UriScheme other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return this.Scheme.Equals(other.Scheme, StringComparison.CurrentCulture);
         }
 
         private static bool IsValid(string scheme)
