@@ -1369,6 +1369,22 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousWithUriReturnsValidResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            Uri result;
+            bool succeed = Uri.TryCreate(
+                fixture.CreateAnonymous<Uri>().OriginalString,
+                UriKind.Absolute,
+                out result);
+            // Verify outcome
+            Assert.True(succeed && result != null);
+            // Teardown
+        }
+
+        [Fact]
         public void DefaultRepeatCountIsThree()
         {
             // Fixture setup
