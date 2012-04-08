@@ -6,13 +6,13 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
-    public class SpecimenBuilderNodeCollection : IList<ISpecimenBuilder>
+    public class SpecimenBuilderNodeCollectionAdapter : IList<ISpecimenBuilder>
     {
         private ISpecimenBuilderNode graph;
         private readonly Func<ISpecimenBuilderNode, bool> isAdaptedBuilder;
         private IEnumerable<ISpecimenBuilder> adaptedBuilders;
 
-        public SpecimenBuilderNodeCollection(
+        public SpecimenBuilderNodeCollectionAdapter(
             ISpecimenBuilderNode graph,
             Func<ISpecimenBuilderNode, bool> adaptedBuilderPredicate)
         {

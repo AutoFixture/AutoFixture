@@ -10,12 +10,12 @@ using Ploeh.AutoFixtureUnitTest.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    public class SpecimenBuilderNodeCollectionTest
+    public class SpecimenBuilderNodeCollectionAdapterTest
     {
         private readonly ISpecimenBuilderNode graph;
-        private readonly SpecimenBuilderNodeCollection sut;
+        private readonly SpecimenBuilderNodeCollectionAdapter sut;
 
-        public SpecimenBuilderNodeCollectionTest()
+        public SpecimenBuilderNodeCollectionAdapterTest()
         {
             this.graph = new CompositeSpecimenBuilder(
                 new CompositeSpecimenBuilder(
@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     new DelegatingSpecimenBuilder(),
                     new DelegatingSpecimenBuilder(),
                     new DelegatingSpecimenBuilder()));
-            this.sut = new SpecimenBuilderNodeCollection(this.graph, s => s is MarkedNode);
+            this.sut = new SpecimenBuilderNodeCollectionAdapter(this.graph, s => s is MarkedNode);
         }
 
         [Fact]

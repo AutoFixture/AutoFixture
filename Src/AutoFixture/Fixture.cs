@@ -12,9 +12,9 @@ namespace Ploeh.AutoFixture
     public class Fixture : IFixture
     {
         private readonly List<ISpecimenBuilderTransformation> behaviors;
-        private SpecimenBuilderNodeCollection customizer;
+        private SpecimenBuilderNodeCollectionAdapter customizer;
         private readonly ISpecimenBuilder engine;
-        private SpecimenBuilderNodeCollection residueCollector;
+        private SpecimenBuilderNodeCollectionAdapter residueCollector;
         private readonly MultipleRelay multiple;
 
         private ISpecimenBuilderNode graph;
@@ -360,13 +360,13 @@ namespace Ploeh.AutoFixture
 
         private void UpdateCustomizer()
         {
-            this.customizer = new SpecimenBuilderNodeCollection(this.graph, n => n is CustomizationNode);
+            this.customizer = new SpecimenBuilderNodeCollectionAdapter(this.graph, n => n is CustomizationNode);
             this.customizer.GraphChanged += this.OnGraphChanged;
         }
 
         private void UpdateResidueCollector()
         {
-            this.residueCollector = new SpecimenBuilderNodeCollection(this.graph, n => n is ResidueCollectorNode);
+            this.residueCollector = new SpecimenBuilderNodeCollectionAdapter(this.graph, n => n is ResidueCollectorNode);
             this.residueCollector.GraphChanged += this.OnGraphChanged;
         }
     }

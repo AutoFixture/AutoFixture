@@ -135,7 +135,7 @@
     <Compile Include="RegularExpressionGenerator.cs" />
     <Compile Include="ResidueCollectorNode.cs" />
     <Compile Include="SpecimenBuilderNode.cs" />
-    <Compile Include="SpecimenBuilderNodeCollection.cs" />
+    <Compile Include="SpecimenBuilderNodeCollectionAdapter.cs" />
     <Compile Include="SpecimenBuilderNodeEventArgs.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGenerator.cs" />
     <Compile Include="DefaultPrimitiveBuilders.cs" />
