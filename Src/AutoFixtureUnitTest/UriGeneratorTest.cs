@@ -143,7 +143,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var request = typeof(Uri);
-            object expectedValue = Guid.NewGuid().ToString();
+            object expectedAuthority = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r =>
@@ -155,7 +155,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
                     if (typeof(string).Equals(r))
                     {
-                        return expectedValue;
+                        return expectedAuthority;
                     }
 
                     return new NoSpecimen(r);
@@ -165,7 +165,6 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = (Uri)sut.Create(request, context);
             // Verify outcome
-            string expectedAuthority = expectedValue + ".com";
             Assert.Equal(expectedAuthority, result.Authority);
             // Teardown
         }
@@ -198,7 +197,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = (Uri)sut.Create(request, context);
             // Verify outcome
-            var expectedUri = new Uri(expectedUriScheme + "://" + expectedAuthority + ".com");
+            var expectedUri = new Uri(expectedUriScheme + "://" + expectedAuthority);
             Assert.Equal(expectedUri, result);
             // Teardown
         }

@@ -45,7 +45,7 @@ namespace Ploeh.AutoFixture
 
         private static Uri CreateAnonymous(UriScheme scheme, string authority)
         {
-            return new Uri(scheme + "://" + authority + ".com");
+            return new Uri(scheme + "://" + authority);
         }
     }
 }
