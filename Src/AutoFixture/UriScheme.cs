@@ -27,9 +27,14 @@ namespace Ploeh.AutoFixture
         /// <param name="scheme">The scheme name.</param>
         public UriScheme(string scheme)
         {
-            if (string.IsNullOrEmpty(scheme))
+            if (scheme == null)
             {
                 throw new ArgumentNullException("scheme");
+            }
+
+            if (scheme == string.Empty)
+            {
+                throw new ArgumentException("The provided scheme is empty.");
             }
 
             if (!UriScheme.IsValid(scheme))

@@ -29,19 +29,18 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        public void InitializeWithNullOrEmptySchemeThrows(string scheme)
+        [Fact]
+        public void InitializeWithNullOrEmptySchemeThrows()
         {
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(
-                () => new UriScheme(scheme));
+                () => new UriScheme(null));
             // Teardown
         }
 
         [Theory]
+        [InlineData("")]
         [InlineData("scheme:")]
         [InlineData("scheme/")]
         [InlineData("scheme:/")]
