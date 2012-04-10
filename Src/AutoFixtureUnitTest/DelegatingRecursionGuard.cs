@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Ploeh.AutoFixture.Kernel;
+using System.Collections.Generic;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -17,6 +18,11 @@ namespace Ploeh.AutoFixtureUnitTest
         public override object HandleRecursiveRequest(object request)
         {
             return this.OnHandleRecursiveRequest(request);
+        }
+
+        public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
+        {
+            return new DelegatingRecursionGuard(new CompositeSpecimenBuilder(builders));
         }
 
         internal Func<object, object> OnHandleRecursiveRequest { get; set; }

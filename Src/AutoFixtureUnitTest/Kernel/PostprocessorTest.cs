@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
@@ -173,6 +174,72 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
             Assert.True(verified, "Mock verified");
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var sut = new Postprocessor(dummyBuilder, _ => { });
+            // Exercise system
+            var expectedBuilders = new[]
+            {
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder()
+            };
+            var actual = sut.Compose(expectedBuilders);
+            // Verify outcome
+            var pp = Assert.IsAssignableFrom<Postprocessor>(actual);
+            var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(pp.Builder);
+            Assert.True(expectedBuilders.SequenceEqual(composite));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeSingleItemReturnsCorrectResult()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var sut = new Postprocessor(dummyBuilder, _ => { });
+            // Exercise system
+            var expected = new DelegatingSpecimenBuilder();
+            var actual = sut.Compose(new[] { expected });
+            // Verify outcome
+            var pp = Assert.IsAssignableFrom<Postprocessor>(actual);
+            Assert.Equal(expected, pp.Builder);
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposePreservesAction()
+        {
+            // Fixture setup
+            Action<object, ISpecimenContext> expected = (x, y) => { };
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var sut = new Postprocessor(dummyBuilder, expected);
+            // Exercise system
+            var actual = sut.Compose(new ISpecimenBuilder[0]);
+            // Verify outcome
+            var pp = Assert.IsAssignableFrom<Postprocessor>(actual);
+            Assert.Equal(expected, pp.Action);
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposePreservesSpecification()
+        {
+            // Fixture setup
+            var expected = new DelegatingRequestSpecification();
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var sut = new Postprocessor(dummyBuilder, (x, y) => { }, expected);
+            // Exercise system
+            var actual = sut.Compose(new ISpecimenBuilder[0]);
+            // Verify outcome
+            var pp = Assert.IsAssignableFrom<Postprocessor>(actual);
+            Assert.Equal(expected, pp.Specification);
             // Teardown
         }
     }
