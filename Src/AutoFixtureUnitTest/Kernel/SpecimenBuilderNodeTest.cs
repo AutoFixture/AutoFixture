@@ -134,6 +134,62 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Theory]
+        [ClassData(typeof(SimilarTaggedGraphs))]
+        public void SimilarNodesAreEqualAccordingToTags(
+            ISpecimenBuilderNode first,
+            ISpecimenBuilderNode second)
+        {
+            // Fixture setup
+            var tagComparer = new DelegatingEqualityComparer<ISpecimenBuilder>
+            {
+                OnEquals = (x, y) =>
+                {
+                    var n1 = x as MarkerNode;
+                    if (n1 != null)
+                    {
+                        var n2 = y as MarkerNode;
+                        if (n2 != null)
+                            return n1.Tag.Equals(n2.Tag);
+                    }
+                    return x.Equals(y);
+                }
+            };
+            // Exercise system
+            var actual = first.GraphEquals(second, tagComparer);
+            // Verify outcome
+            Assert.True(actual);
+            // Teardown
+        }
+
+        [Theory]
+        [ClassData(typeof(DifferentTaggedGraphs))]
+        public void DifferentNodesAreNotEqualAccordingToTags(
+            ISpecimenBuilderNode first,
+            ISpecimenBuilderNode second)
+        {
+            // Fixture setup
+            var tagComparer = new DelegatingEqualityComparer<ISpecimenBuilder>
+            {
+                OnEquals = (x, y) =>
+                {
+                    var n1 = x as MarkerNode;
+                    if (n1 != null)
+                    {
+                        var n2 = y as MarkerNode;
+                        if (n2 != null)
+                            return n1.Tag.Equals(n2.Tag);
+                    }
+                    return x.Equals(y);
+                }
+            };
+            // Exercise system
+            var actual = first.GraphEquals(second, tagComparer);
+            // Verify outcome
+            Assert.False(actual);
+            // Teardown
+        }
+
         private class IdenticallyShapedGraphs : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
@@ -233,6 +289,72 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 var g2 = new CompositeSpecimenBuilder(
                     new DelegatingSpecimenBuilder());
                 yield return new object[] { g2, g2 };
+            }
+
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
+        private class SimilarTaggedGraphs : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[]
+                {
+                    new MarkerNode { Tag = 1 },
+                    new MarkerNode { Tag = 1 }
+                };
+                yield return new object[]
+                {
+                    new MarkerNode(
+                        new MarkerNode { Tag = 2 },
+                        new MarkerNode { Tag = 3 }){ Tag = 1 },
+                    new MarkerNode(
+                        new MarkerNode { Tag = 2 },
+                        new MarkerNode { Tag = 3 }){ Tag = 1 }
+                };
+
+                var leaf = new DelegatingSpecimenBuilder();
+                yield return new object[]
+                {
+                    new MarkerNode(leaf) { Tag = 1 },
+                    new MarkerNode(leaf) { Tag = 1 }
+                };
+            }
+
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
+        private class DifferentTaggedGraphs : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[]
+                {
+                    new MarkerNode { Tag = 1 },
+                    new MarkerNode { Tag = "A" }
+                };
+                yield return new object[]
+                {
+                    new MarkerNode(
+                        new MarkerNode { Tag = 2 },
+                        new MarkerNode { Tag = 3 }) { Tag = 1 },
+                    new MarkerNode(
+                        new MarkerNode { Tag = 2 },
+                        new MarkerNode { Tag = "A" }) { Tag = 1 }
+                };
+                yield return new object[]
+                {
+                    new MarkerNode(
+                        new DelegatingSpecimenBuilder()) { Tag = 1 },
+                    new MarkerNode(
+                        new DelegatingSpecimenBuilder()) { Tag = 1 }
+                };
             }
 
             System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

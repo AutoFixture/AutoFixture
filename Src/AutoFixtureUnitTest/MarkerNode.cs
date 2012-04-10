@@ -11,16 +11,20 @@ namespace Ploeh.AutoFixtureUnitTest
         public MarkerNode(params ISpecimenBuilder[] builders)
             : base(builders)
         {
+            this.Tag = new object();
         }
 
         public MarkerNode(IEnumerable<ISpecimenBuilder> builders)
             : base(builders)
         {
+            this.Tag = new object();
         }
 
         public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             return new MarkerNode(builders);
         }
+
+        public object Tag { get; set; }
     }
 }
