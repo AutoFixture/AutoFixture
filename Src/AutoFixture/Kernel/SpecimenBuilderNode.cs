@@ -5,8 +5,65 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
-    internal static class SpecimenBuilderNode
+    public static class SpecimenBuilderNode
     {
+        public static bool GraphEquals(this ISpecimenBuilderNode first, ISpecimenBuilderNode second)
+        {
+            if (first == null)
+                throw new ArgumentNullException("first");
+            if (second == null)
+                throw new ArgumentNullException("second");
+            
+            throw new NotImplementedException();
+        }
+
+        public static bool GraphEquals(this ISpecimenBuilderNode first, ISpecimenBuilderNode second, IEqualityComparer<ISpecimenBuilder> comparer)
+        {
+            if (first == null)
+                throw new ArgumentNullException("first");
+            if (second == null)
+                throw new ArgumentNullException("second");
+            if (comparer == null)
+                throw new ArgumentNullException("comparer");
+
+            if (!comparer.Equals(first, second))
+                return false;
+
+            using (IEnumerator<ISpecimenBuilder> e1 = first.GetEnumerator(),
+                e2 = second.GetEnumerator())
+            {
+                while (e1.MoveNext())
+                {
+                    if (!e2.MoveNext())
+                        return false;
+
+                    var n1 = e1.Current as ISpecimenBuilderNode;
+                    if (n1 != null)
+                    {
+                        var n2 = e2.Current as ISpecimenBuilderNode;
+                        if (n2 != null)
+                        {
+                            if (!n1.GraphEquals(n2))
+                                return false;
+                        }
+                    }
+                    else
+                    {
+                        var n2 = e2.Current as ISpecimenBuilderNode;
+                        if (n2 != null)
+                        {
+                            if (n2.Any())
+                                return false;
+                        }
+                    }
+                }
+                if (e2.MoveNext())
+                    return false;
+            }
+
+            return true;
+        }
+
         internal static ISpecimenBuilderNode ReplaceNodes(
             this ISpecimenBuilderNode graph,
             IEnumerable<ISpecimenBuilder> with,

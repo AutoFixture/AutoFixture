@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -21,5 +22,25 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         internal Func<object, object, bool> OnEquals { get; set; }
+    }
+
+    internal class DelegatingEqualityComparer<T> : IEqualityComparer<T>
+    {
+        public DelegatingEqualityComparer()
+        {
+            this.OnEquals = (x, y) => false;
+        }
+
+        public bool Equals(T x, T y)
+        {
+            return this.OnEquals(x, y);
+        }
+
+        public int GetHashCode(T obj)
+        {
+            return obj.GetHashCode();
+        }
+
+        internal Func<T, T, bool> OnEquals { get; set; }
     }
 }

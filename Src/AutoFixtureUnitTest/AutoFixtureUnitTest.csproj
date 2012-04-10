@@ -105,6 +105,7 @@
     <Compile Include="Kernel\FixedPipeTest.cs" />
     <Compile Include="Kernel\RangedNumberRequestTest.cs" />
     <Compile Include="Kernel\RegularExpressionRequestTest.cs" />
+    <Compile Include="Kernel\SpecimenBuilderNodeTest.cs" />
     <Compile Include="ProvidedAttribute.cs" />
     <Compile Include="RangedNumberGeneratorTest.cs" />
     <Compile Include="RegularExpressionGeneratorTest.cs" />
