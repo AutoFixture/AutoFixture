@@ -27,9 +27,9 @@ namespace Ploeh.AutoFixture
         /// <param name="scheme">The scheme name.</param>
         public UriScheme(string scheme)
         {
-            if (string.IsNullOrEmpty(scheme))
+            if (scheme == null)
             {
-                throw new ArgumentException("The provided scheme is null or an empty string.");
+                throw new ArgumentNullException("scheme");
             }
 
             if (!UriScheme.IsValid(scheme))
@@ -114,7 +114,7 @@ namespace Ploeh.AutoFixture
 
         private static bool IsValid(string scheme)
         {
-            return Regex.IsMatch(scheme, "^[a-zA-Z0-9+-.]*$");
+            return scheme.Length > 0 && Regex.IsMatch(scheme, "^[a-zA-Z0-9+-.]*$");
         }
     }
 }
