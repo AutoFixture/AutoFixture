@@ -106,6 +106,34 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Theory, ClassData(typeof(SameGraphs))]
+        public void IdenticalNodesAreEqual(
+            ISpecimenBuilderNode first,
+            ISpecimenBuilderNode second)
+        {
+            // Fixture setup
+            // Exercise system
+            var actual = first.GraphEquals(second);
+            // Verify outcome
+            Assert.True(actual);
+            // Teardown
+        }
+
+        [Theory]
+        [ClassData(typeof(DifferentlyShapedGraphs))]
+        [ClassData(typeof(IdenticallyShapedGraphs))]
+        public void DifferentNodesAreNotEqualWhenComparerIsOmitted(
+            ISpecimenBuilderNode first,
+            ISpecimenBuilderNode second)
+        {
+            // Fixture setup
+            // Exercise system
+            var actual = first.GraphEquals(second);
+            // Verify outcome
+            Assert.False(actual);
+            // Teardown
+        }
+
         private class IdenticallyShapedGraphs : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
@@ -114,6 +142,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 {
                     new CompositeSpecimenBuilder(),
                     new CompositeSpecimenBuilder()
+                };
+                yield return new object[]
+                {
+                    new CompositeSpecimenBuilder(
+                        new DelegatingSpecimenBuilder()),
+                    new CompositeSpecimenBuilder(
+                        new[] { new CompositeSpecimenBuilder() })
+                };
+                yield return new object[]
+                {
+                    new CompositeSpecimenBuilder(
+                        new DelegatingSpecimenBuilder(),
+                        new DelegatingSpecimenBuilder()),
+                    new CompositeSpecimenBuilder(
+                        new DelegatingSpecimenBuilder(),
+                        new CompositeSpecimenBuilder())
                 };
             }
 
@@ -139,7 +183,56 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                         new DelegatingSpecimenBuilder()),
                     new CompositeSpecimenBuilder(new []{
                         new CompositeSpecimenBuilder(
-                            new DelegatingSpecimenBuilder())})                };
+                            new DelegatingSpecimenBuilder())})
+                };
+                yield return new object[]
+                {
+                    new CompositeSpecimenBuilder(
+                        new DelegatingSpecimenBuilder(),
+                        new CompositeSpecimenBuilder(
+                            new DelegatingSpecimenBuilder())),
+                    new CompositeSpecimenBuilder(
+                        new DelegatingSpecimenBuilder(),
+                        new CompositeSpecimenBuilder())
+                };
+                yield return new object[]
+                {
+                    new CompositeSpecimenBuilder(
+                        new DelegatingSpecimenBuilder(),
+                        new DelegatingSpecimenBuilder(),
+                        new DelegatingSpecimenBuilder()),
+                    new CompositeSpecimenBuilder(
+                        new DelegatingSpecimenBuilder(),
+                        new DelegatingSpecimenBuilder())
+                };
+                yield return new object[]
+                {
+                    new CompositeSpecimenBuilder(
+                        new DelegatingSpecimenBuilder(),
+                        new DelegatingSpecimenBuilder()),
+                    new CompositeSpecimenBuilder(
+                        new DelegatingSpecimenBuilder(),
+                        new DelegatingSpecimenBuilder(),
+                        new DelegatingSpecimenBuilder())
+                };
+            }
+
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
+        private class SameGraphs : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                var g1 = new CompositeSpecimenBuilder();
+                yield return new object[] { g1, g1 };
+
+                var g2 = new CompositeSpecimenBuilder(
+                    new DelegatingSpecimenBuilder());
+                yield return new object[] { g2, g2 };
             }
 
             System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

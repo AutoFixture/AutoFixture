@@ -13,8 +13,8 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("first");
             if (second == null)
                 throw new ArgumentNullException("second");
-            
-            throw new NotImplementedException();
+
+            return first.GraphEquals(second, EqualityComparer<ISpecimenBuilder>.Default);
         }
 
         public static bool GraphEquals(this ISpecimenBuilderNode first, ISpecimenBuilderNode second, IEqualityComparer<ISpecimenBuilder> comparer)
@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture.Kernel
                         var n2 = e2.Current as ISpecimenBuilderNode;
                         if (n2 != null)
                         {
-                            if (!n1.GraphEquals(n2))
+                            if (!n1.GraphEquals(n2, comparer))
                                 return false;
                         }
                     }
