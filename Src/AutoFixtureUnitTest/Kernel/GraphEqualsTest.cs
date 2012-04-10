@@ -8,7 +8,7 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class SpecimenBuilderNodeTest
+    public class GraphEqualsTest
     {
         [Fact]
         public void GraphEqualsNullFirstThrows()
