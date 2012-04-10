@@ -195,23 +195,5 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(expected.GetType(), this.sut.Graph.GetType());
             // Teardown
         }
-
-        private class MarkerNode : CompositeSpecimenBuilder
-        {
-            public MarkerNode(params ISpecimenBuilder[] builders)
-                : base(builders)
-            {
-            }
-
-            public MarkerNode(IEnumerable<ISpecimenBuilder> builders)
-                : base(builders)
-            {
-            }
-
-            public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
-            {
-                return new MarkerNode(builders);
-            }
-        }
     }
 }
