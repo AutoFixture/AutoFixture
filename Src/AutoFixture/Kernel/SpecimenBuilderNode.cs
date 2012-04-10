@@ -38,15 +38,11 @@ namespace Ploeh.AutoFixture.Kernel
                         return false;
 
                     var n1 = e1.Current as ISpecimenBuilderNode;
-                    if (n1 != null)
-                    {
-                        var n2 = e2.Current as ISpecimenBuilderNode;
-                        if (n2 != null && (!n1.GraphEquals(n2, comparer)))
-                            return false;
-                    }
+                    var n2 = e2.Current as ISpecimenBuilderNode;
+                    if (n1 != null && n2 != null && (!n1.GraphEquals(n2, comparer)))
+                        return false;
                     else
                     {
-                        var n2 = e2.Current as ISpecimenBuilderNode;
                         if (n2 != null && n2.Any())
                             return false;
                         if (!comparer.Equals(e1.Current, e2.Current))
