@@ -61,7 +61,7 @@ namespace Ploeh.AutoFixture
             this.behaviors.Add(new ThrowingRecursionBehavior());
 
             this.graph =
-                new CompositeSpecimenBuilder(
+                new BehaviorRoot(
                     new CustomizationNode(
                         new FilteringSpecimenBuilder(new MethodInvoker(new ModestConstructorQuery()), new NullableEnumRequestSpecification()),
                         new EnumGenerator()),
