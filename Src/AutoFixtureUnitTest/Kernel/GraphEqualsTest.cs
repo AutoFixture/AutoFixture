@@ -267,6 +267,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             public IEnumerator<object[]> GetEnumerator()
             {
+                var leaf = new DelegatingSpecimenBuilder();
+
                 yield return new object[]
                 {
                     new TaggedNode(1),
@@ -281,12 +283,31 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                         new TaggedNode(2),
                         new TaggedNode(3))
                 };
-
-                var leaf = new DelegatingSpecimenBuilder();
                 yield return new object[]
                 {
                     new TaggedNode(1, leaf),
                     new TaggedNode(1, leaf)
+                };
+                yield return new object[]
+                {
+                    new TaggedNode(1,
+                        new TaggedNode(2,
+                            leaf,
+                            leaf,
+                            leaf),
+                        new TaggedNode(3,
+                            leaf,
+                            leaf,
+                            leaf)),
+                    new TaggedNode(1,
+                        new TaggedNode(2,
+                            leaf,
+                            leaf,
+                            leaf),
+                        new TaggedNode(3,
+                            leaf,
+                            leaf,
+                            leaf))
                 };
             }
 
