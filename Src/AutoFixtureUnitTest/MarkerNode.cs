@@ -13,14 +13,9 @@ namespace Ploeh.AutoFixtureUnitTest
         {
         }
 
-        public MarkerNode(IEnumerable<ISpecimenBuilder> builders)
-            : base(builders)
-        {
-        }
-
         public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
-            return new MarkerNode(builders);
+            return new MarkerNode(builders.ToArray());
         }
     }
 }
