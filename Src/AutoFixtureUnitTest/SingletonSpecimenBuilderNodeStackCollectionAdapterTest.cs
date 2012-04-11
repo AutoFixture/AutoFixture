@@ -180,18 +180,18 @@ namespace Ploeh.AutoFixtureUnitTest
         public void InsertItemCorrectlyChangesGraph(int index)
         {
             // Fixture setup
-            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new MarkerNode(b) { Tag = "A" } });
-            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new MarkerNode(b) { Tag = "B" } });
-            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new MarkerNode(b) { Tag = "C" } });            
+            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
+            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
+            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });            
             // Exercise system
-            var item = new DelegatingSpecimenBuilderTransformation { OnTransform = b => new MarkerNode(b) { Tag = index } };
+            var item = new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode(index, b) };
             this.sut.Insert(index, item);
             // Verify outcome
             var expected = this.sut.Aggregate(
                 this.graph,
                 (b, t) => (ISpecimenBuilderNode)t.Transform(b));
 
-            Assert.True(expected.GraphEquals(this.sut.Graph, MarkerNode.Comparer));
+            Assert.True(expected.GraphEquals(this.sut.Graph, TaggedNode.Comparer));
             // Teardown
         }
     }

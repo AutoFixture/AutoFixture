@@ -211,6 +211,7 @@
     <Compile Include="StableFiniteSequenceCustomizationTest.cs" />
     <Compile Include="NumericSequenceGeneratorTest.cs" />
     <Compile Include="NumericSequencePerTypeCustomizationTest.cs" />
+    <Compile Include="TaggedNode.cs" />
     <Compile Include="TestConsole.cs" />
     <Compile Include="ThrowingRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\TracingBuilderTest.cs" />

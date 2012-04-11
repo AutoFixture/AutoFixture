@@ -142,7 +142,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system
-            var actual = first.GraphEquals(second, MarkerNode.Comparer);
+            var actual = first.GraphEquals(second, TaggedNode.Comparer);
             // Verify outcome
             Assert.True(actual);
             // Teardown
@@ -156,7 +156,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system
-            var actual = first.GraphEquals(second, MarkerNode.Comparer);
+            var actual = first.GraphEquals(second, TaggedNode.Comparer);
             // Verify outcome
             Assert.False(actual);
             // Teardown
@@ -275,24 +275,24 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             {
                 yield return new object[]
                 {
-                    new MarkerNode { Tag = 1 },
-                    new MarkerNode { Tag = 1 }
+                    new TaggedNode(1),
+                    new TaggedNode(1)
                 };
                 yield return new object[]
                 {
-                    new MarkerNode(
-                        new MarkerNode { Tag = 2 },
-                        new MarkerNode { Tag = 3 }){ Tag = 1 },
-                    new MarkerNode(
-                        new MarkerNode { Tag = 2 },
-                        new MarkerNode { Tag = 3 }){ Tag = 1 }
+                    new TaggedNode(1,
+                        new TaggedNode(2),
+                        new TaggedNode(3)),
+                    new TaggedNode(1,
+                        new TaggedNode(2),
+                        new TaggedNode(3))
                 };
 
                 var leaf = new DelegatingSpecimenBuilder();
                 yield return new object[]
                 {
-                    new MarkerNode(leaf) { Tag = 1 },
-                    new MarkerNode(leaf) { Tag = 1 }
+                    new TaggedNode(1, leaf),
+                    new TaggedNode(1, leaf)
                 };
             }
 
@@ -308,24 +308,24 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             {
                 yield return new object[]
                 {
-                    new MarkerNode { Tag = 1 },
-                    new MarkerNode { Tag = "A" }
+                    new TaggedNode(1),
+                    new TaggedNode("A")
                 };
                 yield return new object[]
                 {
-                    new MarkerNode(
-                        new MarkerNode { Tag = 2 },
-                        new MarkerNode { Tag = 3 }) { Tag = 1 },
-                    new MarkerNode(
-                        new MarkerNode { Tag = 2 },
-                        new MarkerNode { Tag = "A" }) { Tag = 1 }
+                    new TaggedNode(1,
+                        new TaggedNode(2),
+                        new TaggedNode(3)),
+                    new TaggedNode(1,
+                        new TaggedNode(2),
+                        new TaggedNode("A"))
                 };
                 yield return new object[]
                 {
-                    new MarkerNode(
-                        new DelegatingSpecimenBuilder()) { Tag = 1 },
-                    new MarkerNode(
-                        new DelegatingSpecimenBuilder()) { Tag = 1 }
+                    new TaggedNode(1,
+                        new DelegatingSpecimenBuilder()),
+                    new TaggedNode(1,
+                        new DelegatingSpecimenBuilder())
                 };
             }
 
