@@ -53,6 +53,11 @@ namespace Ploeh.AutoFixture
         protected override void RemoveItem(int index)
         {
             base.RemoveItem(index);
+
+            ISpecimenBuilder g = this.graph.SelectNodes(this.isWrappedGraph).First();
+            var builder = this.Aggregate(g, (b, t) => t.Transform(b));
+            this.graph = (ISpecimenBuilderNode)builder;
+
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
         }
 

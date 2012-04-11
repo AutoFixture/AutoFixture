@@ -210,5 +210,27 @@ namespace Ploeh.AutoFixtureUnitTest
                 new TrueComparer<ISpecimenBuilder>()));
             // Teardown
         }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void RemoveAtCorrectlyChangesGraph(int index)
+        {
+            // Fixture setup
+            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
+            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
+            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });
+            // Exercise system
+            this.sut.RemoveAt(index);
+            // Verify outcome
+            var expected = this.sut.Aggregate(
+                this.graph,
+                (b, t) => (ISpecimenBuilderNode)t.Transform(b));
+
+            Assert.True(expected.GraphEquals(this.sut.Graph,
+                new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>())));
+            // Teardown
+        }
     }
 }
