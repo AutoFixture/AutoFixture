@@ -182,7 +182,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
             this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
-            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });            
+            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });
             // Exercise system
             var item = new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode(index, b) };
             this.sut.Insert(index, item);
@@ -193,6 +193,21 @@ namespace Ploeh.AutoFixtureUnitTest
 
             Assert.True(expected.GraphEquals(this.sut.Graph,
                 new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>())));
+            // Teardown
+        }
+
+        [Fact]
+        public void ClearCorrectlyChangesGraph()
+        {
+            // Fixture setup
+            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("A", b) });
+            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("B", b) });
+            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode("C", b) });
+            // Exercise system
+            this.sut.Clear();
+            // Verify outcome
+            Assert.True(this.graph.GraphEquals(this.sut.Graph,
+                new TrueComparer<ISpecimenBuilder>()));
             // Teardown
         }
     }

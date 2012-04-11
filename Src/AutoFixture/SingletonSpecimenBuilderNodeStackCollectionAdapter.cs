@@ -28,7 +28,13 @@ namespace Ploeh.AutoFixture
         protected override void ClearItems()
         {
             var wasNotEmpty = this.Count > 0;
+
             base.ClearItems();
+
+            ISpecimenBuilder g = this.graph.SelectNodes(this.isWrappedGraph).First();
+            var builder = this.Aggregate(g, (b, t) => t.Transform(b));
+            this.graph = (ISpecimenBuilderNode)builder;
+
             if (wasNotEmpty)
                 this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
         }
