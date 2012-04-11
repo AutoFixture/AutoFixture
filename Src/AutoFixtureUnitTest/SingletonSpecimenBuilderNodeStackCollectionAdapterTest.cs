@@ -173,7 +173,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Theory(Skip = "Waiting for a bit of test refactoring before this can be implement, because a bit more test setup is necessary.")]
+        [Theory]
         [InlineData(0)]
         [InlineData(1)]
         [InlineData(2)]
@@ -191,7 +191,8 @@ namespace Ploeh.AutoFixtureUnitTest
                 this.graph,
                 (b, t) => (ISpecimenBuilderNode)t.Transform(b));
 
-            Assert.True(expected.GraphEquals(this.sut.Graph, new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>())));
+            Assert.True(expected.GraphEquals(this.sut.Graph,
+                new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>())));
             // Teardown
         }
     }
