@@ -64,6 +64,11 @@ namespace Ploeh.AutoFixture
         protected override void SetItem(int index, ISpecimenBuilderTransformation item)
         {
             base.SetItem(index, item);
+
+            ISpecimenBuilder g = this.graph.SelectNodes(this.isWrappedGraph).First();
+            var builder = this.Aggregate(g, (b, t) => t.Transform(b));
+            this.graph = (ISpecimenBuilderNode)builder;
+
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
         }
 
