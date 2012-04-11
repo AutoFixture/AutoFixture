@@ -81,6 +81,7 @@
     <Compile Include="AutoPropertiesTargetTest.cs" />
     <Compile Include="BehaviorComposerTest.cs" />
     <Compile Include="BehaviorPostprocessComposerTest.cs" />
+    <Compile Include="BehaviorRootTest.cs" />
     <Compile Include="BooleanSwitchTest.cs" />
     <Compile Include="ByteSequenceGeneratorTest.cs" />
     <Compile Include="CharSequenceGeneratorTest.cs" />

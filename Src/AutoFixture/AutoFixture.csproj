@@ -96,6 +96,7 @@
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorComposer.cs" />
     <Compile Include="BehaviorPostprocessComposer.cs" />
+    <Compile Include="BehaviorRoot.cs" />
     <Compile Include="CharSequenceGenerator.cs" />
     <Compile Include="CollectionFiller.cs" />
     <Compile Include="CompositeCustomization.cs" />
