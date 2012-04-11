@@ -34,7 +34,6 @@ namespace Ploeh.AutoFixture
         protected override void InsertItem(int index, ISpecimenBuilderTransformation item)
         {
             base.InsertItem(index, item);
-            this.graph = (ISpecimenBuilderNode)item.Transform(this.graph);
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
         }
 

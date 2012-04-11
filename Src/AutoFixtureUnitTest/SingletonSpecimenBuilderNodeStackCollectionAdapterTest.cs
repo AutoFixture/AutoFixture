@@ -173,26 +173,25 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Theory]
+        [Theory(Skip = "Waiting for a bit of test refactoring before this can be implement, because a bit more test setup is necessary.")]
         [InlineData(0)]
         [InlineData(1)]
         [InlineData(2)]
         public void InsertItemCorrectlyChangesGraph(int index)
         {
             // Fixture setup
-            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new CompositeSpecimenBuilder(b) });
-            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new CompositeSpecimenBuilder(b) });
-            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new CompositeSpecimenBuilder(b) });            
+            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new MarkerNode(b) { Tag = "A" } });
+            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new MarkerNode(b) { Tag = "B" } });
+            this.sut.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new MarkerNode(b) { Tag = "C" } });            
             // Exercise system
-            var item = new DelegatingSpecimenBuilderTransformation { OnTransform = b => new CompositeSpecimenBuilder(b) };
+            var item = new DelegatingSpecimenBuilderTransformation { OnTransform = b => new MarkerNode(b) { Tag = index } };
             this.sut.Insert(index, item);
             // Verify outcome
             var expected = this.sut.Aggregate(
                 this.graph,
                 (b, t) => (ISpecimenBuilderNode)t.Transform(b));
 
-#warning Placeholder assertion waiting for a proper implementation of GraphEquals
-            Assert.Equal(expected.GetType(), this.sut.Graph.GetType());
+            Assert.True(expected.GraphEquals(this.sut.Graph, MarkerNode.Comparer));
             // Teardown
         }
     }
