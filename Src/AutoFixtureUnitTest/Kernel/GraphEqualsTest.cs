@@ -78,10 +78,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             ISpecimenBuilderNode second)
         {
             // Fixture setup
-            var trueComparer = new DelegatingEqualityComparer<ISpecimenBuilder>
-            {
-                OnEquals = (x, y) => true
-            };
+            var trueComparer = new TrueComparer<ISpecimenBuilder>();
             // Exercise system
             var actual = first.GraphEquals(second, trueComparer);
             // Verify outcome
@@ -95,10 +92,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             ISpecimenBuilderNode second)
         {
             // Fixture setup
-            var trueComparer = new DelegatingEqualityComparer<ISpecimenBuilder>
-            {
-                OnEquals = (x, y) => true
-            };
+            var trueComparer = new TrueComparer<ISpecimenBuilder>();
             // Exercise system
             var actual = first.GraphEquals(second, trueComparer);
             // Verify outcome
@@ -142,7 +136,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system
-            var actual = first.GraphEquals(second, TaggedNode.Comparer);
+            var actual = first.GraphEquals(second, new TaggedNodeComparer());
             // Verify outcome
             Assert.True(actual);
             // Teardown
@@ -156,7 +150,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system
-            var actual = first.GraphEquals(second, TaggedNode.Comparer);
+            var actual = first.GraphEquals(second, new TaggedNodeComparer());
             // Verify outcome
             Assert.False(actual);
             // Teardown

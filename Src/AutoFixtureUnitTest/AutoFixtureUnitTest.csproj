@@ -212,6 +212,7 @@
     <Compile Include="NumericSequenceGeneratorTest.cs" />
     <Compile Include="NumericSequencePerTypeCustomizationTest.cs" />
     <Compile Include="TaggedNode.cs" />
+    <Compile Include="TaggedNodeComparer.cs" />
     <Compile Include="TestConsole.cs" />
     <Compile Include="ThrowingRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\TracingBuilderTest.cs" />
@@ -247,6 +248,7 @@
     <Compile Include="Kernel\TraceWriterTest.cs" />
     <Compile Include="DefaultRelaysTest.cs" />
     <Compile Include="TracingBehaviorTest.cs" />
+    <Compile Include="TrueComparer.cs" />
     <Compile Include="TypeGeneratorTest.cs" />
     <Compile Include="UInt16SequenceGeneratorTest.cs" />
     <Compile Include="UInt32SequenceGeneratorTest.cs" />

@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 new CompositeSpecimenBuilder(new DelegatingSpecimenBuilder(),
                     new DelegatingSpecimenBuilder(),
                     new DelegatingSpecimenBuilder()));
-            this.sut = new SingletonSpecimenBuilderNodeStackCollectionAdapter(this.graph);
+            this.sut = new SingletonSpecimenBuilderNodeStackCollectionAdapter(this.graph, n => n is MarkerNode);
         }
 
         [Fact]
@@ -191,7 +191,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 this.graph,
                 (b, t) => (ISpecimenBuilderNode)t.Transform(b));
 
-            Assert.True(expected.GraphEquals(this.sut.Graph, TaggedNode.Comparer));
+            Assert.True(expected.GraphEquals(this.sut.Graph, new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>())));
             // Teardown
         }
     }

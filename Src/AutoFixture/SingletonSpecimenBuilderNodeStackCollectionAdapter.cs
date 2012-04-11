@@ -10,10 +10,12 @@ namespace Ploeh.AutoFixture
     public class SingletonSpecimenBuilderNodeStackCollectionAdapter : Collection<ISpecimenBuilderTransformation>
     {
         private ISpecimenBuilderNode graph;
+        private readonly Func<ISpecimenBuilderNode, bool> isWrappedGraph;
 
-        public SingletonSpecimenBuilderNodeStackCollectionAdapter(ISpecimenBuilderNode graph)
+        public SingletonSpecimenBuilderNodeStackCollectionAdapter(ISpecimenBuilderNode graph, Func<ISpecimenBuilderNode, bool> wrappedGraphPredicate)
         {
             this.graph = graph;
+            this.isWrappedGraph = wrappedGraphPredicate;
         }
 
         public event EventHandler<SpecimenBuilderNodeEventArgs> GraphChanged;
@@ -34,6 +36,11 @@ namespace Ploeh.AutoFixture
         protected override void InsertItem(int index, ISpecimenBuilderTransformation item)
         {
             base.InsertItem(index, item);
+
+            ISpecimenBuilder g = this.graph.SelectNodes(this.isWrappedGraph).First();
+            var builder = this.Aggregate(g, (b, t) => t.Transform(b));
+            this.graph = (ISpecimenBuilderNode)builder;
+
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
         }
 
