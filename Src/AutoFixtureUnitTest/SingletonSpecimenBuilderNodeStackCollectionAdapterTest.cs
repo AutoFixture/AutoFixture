@@ -255,5 +255,20 @@ namespace Ploeh.AutoFixtureUnitTest
                 new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>())));
             // Teardown
         }
+
+        [Fact]
+        public void SutContainsItemsFromConstructor()
+        {
+            // Fixture setup
+            var x = new DelegatingSpecimenBuilderTransformation();
+            var y = new DelegatingSpecimenBuilderTransformation();
+            var z = new DelegatingSpecimenBuilderTransformation();
+            // Exercise system
+            var s = new SingletonSpecimenBuilderNodeStackCollectionAdapter(
+                this.graph, n => n is MarkerNode, x, y, z);
+            // Verify outcome
+            Assert.True(new[] { x, y, z }.SequenceEqual(s));
+            // Teardown
+        }
     }
 }

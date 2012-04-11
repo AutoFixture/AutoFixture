@@ -12,10 +12,18 @@ namespace Ploeh.AutoFixture
         private ISpecimenBuilderNode graph;
         private readonly Func<ISpecimenBuilderNode, bool> isWrappedGraph;
 
-        public SingletonSpecimenBuilderNodeStackCollectionAdapter(ISpecimenBuilderNode graph, Func<ISpecimenBuilderNode, bool> wrappedGraphPredicate)
+        public SingletonSpecimenBuilderNodeStackCollectionAdapter(
+            ISpecimenBuilderNode graph,
+            Func<ISpecimenBuilderNode, bool> wrappedGraphPredicate,
+            params ISpecimenBuilderTransformation[] transformations)
         {
             this.graph = graph;
             this.isWrappedGraph = wrappedGraphPredicate;
+
+            foreach (var t in transformations)
+            {
+                base.Add(t);
+            }
         }
 
         public event EventHandler<SpecimenBuilderNodeEventArgs> GraphChanged;
