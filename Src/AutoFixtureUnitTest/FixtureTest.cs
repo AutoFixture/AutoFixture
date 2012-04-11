@@ -241,16 +241,15 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
 
-            var builder1 = new DelegatingSpecimenBuilder();
-            var builder2 = new DelegatingSpecimenBuilder();
+            var comparer = new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>());
 
             sut.Behaviors.Clear();
-            sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => builder1 });
-            sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => b == builder1 ? builder2 : new DelegatingSpecimenBuilder() });
+            sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode(1, b) });
+            sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => comparer.Equals(new TaggedNode(1), b) ? new TaggedNode(2, b) : new TaggedNode(3, b) });
             // Exercise system
             var result = sut.Compose();
             // Verify outcome
-            Assert.Equal(builder2, result);
+            Assert.Equal(new TaggedNode(2), result, comparer);
             // Teardown
         }
 
@@ -3392,15 +3391,16 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Behaviors.Clear();
+            sut.Behaviors.Clear();            
 
             var expectedBuilder = new DelegatingSpecimenBuilder();
-            sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => expectedBuilder });
+            sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode(1, b) });
             // Exercise system
             var result = sut.Build<object>().Compose();
             // Verify outcome
+            var comparer = new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>());
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result);
-            Assert.Equal(expectedBuilder, composite.Builders.First());
+            Assert.Equal(new TaggedNode(1), composite.Builders.First(), comparer);
             // Teardown
         }
 

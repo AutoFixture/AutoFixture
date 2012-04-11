@@ -70,7 +70,12 @@ namespace Ploeh.AutoFixture
         {
             ISpecimenBuilder g = this.graph.SelectNodes(this.isWrappedGraph).First();
             var builder = this.Aggregate(g, (b, t) => t.Transform(b));
-            this.graph = (ISpecimenBuilderNode)builder;
+
+            var node = builder as ISpecimenBuilderNode;
+            if (node == null)
+                throw new InvalidOperationException("An ISpecimenBuilderTransformation returned a result which cannot be converted to an ISpecimenBuilderNode. To be used in the current context, all ISpecimenBuilderTransformation Transform methods must return an ISpecimenBuilderNode instance.");
+
+            this.graph = node;
 
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
         }

@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class Fixture : IFixture
     {
-        private readonly List<ISpecimenBuilderTransformation> behaviors;
+        private SingletonSpecimenBuilderNodeStackCollectionAdapter behaviors;
         private SpecimenBuilderNodeCollectionAdapter customizer;
         private readonly ISpecimenBuilder engine;
         private SpecimenBuilderNodeCollectionAdapter residueCollector;
@@ -57,9 +57,6 @@ namespace Ploeh.AutoFixture
             this.engine = engine;
             this.multiple = multiple;
 
-            this.behaviors = new List<ISpecimenBuilderTransformation>();
-            this.behaviors.Add(new ThrowingRecursionBehavior());
-
             this.graph =
                 new BehaviorRoot(
                     new CustomizationNode(
@@ -76,6 +73,9 @@ namespace Ploeh.AutoFixture
 
             this.UpdateCustomizer();
             this.UpdateResidueCollector();
+            this.UpdateBehaviors(new ISpecimenBuilderTransformation[0]);
+
+            this.behaviors.Add(new ThrowingRecursionBehavior());
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         public bool OmitAutoProperties
         {
-            get 
+            get
             {
                 return !this.graph.Parents(b => b is AutoPropertiesTarget).Any(n => n is Postprocessor);
             }
@@ -146,7 +146,7 @@ namespace Ploeh.AutoFixture
 
                 var g = this.graph;
                 if (value)
-                {                    
+                {
                     foreach (var p in this.graph.Parents(b => b is AutoPropertiesTarget))
                     {
                         foreach (var b in p)
@@ -168,7 +168,7 @@ namespace Ploeh.AutoFixture
                                 new AnyTypeSpecification()))
                             .Cast<ISpecimenBuilder>();
                         g = g.ReplaceNodes(with: pps, when: p.Equals);
-                    }                    
+                    }
                 }
                 this.graph = g;
             }
@@ -319,30 +319,7 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public ISpecimenBuilder Compose()
         {
-            //ISpecimenBuilder builder = new CompositeSpecimenBuilder(
-            //    this.Engine,
-            //    this.multiple);
-
-            //if (this.EnableAutoProperties)
-            //{
-            //    builder = new Postprocessor(
-            //        builder,
-            //        new AutoPropertiesCommand().Execute,
-            //        new AnyTypeSpecification());
-            //}
-
-            //builder = new CompositeSpecimenBuilder(
-            //    this.customizer,
-            //    builder,
-            //    this.residueCollector,
-            //    new TerminatingSpecimenBuilder());
-
-            ISpecimenBuilder builder = this.graph;
-
-            return this.Behaviors.Aggregate(
-                builder,
-                (b, behavior) =>
-                    behavior.Transform(b));
+            return this.graph;
         }
 
         private bool EnableAutoProperties
@@ -352,10 +329,13 @@ namespace Ploeh.AutoFixture
 
         private void OnGraphChanged(object sender, SpecimenBuilderNodeEventArgs e)
         {
+            var transformations = this.Behaviors.ToArray();
+
             this.graph = e.Graph;
 
             this.UpdateCustomizer();
             this.UpdateResidueCollector();
+            this.UpdateBehaviors(transformations);
         }
 
         private void UpdateCustomizer()
@@ -368,6 +348,12 @@ namespace Ploeh.AutoFixture
         {
             this.residueCollector = new SpecimenBuilderNodeCollectionAdapter(this.graph, n => n is ResidueCollectorNode);
             this.residueCollector.GraphChanged += this.OnGraphChanged;
+        }
+
+        private void UpdateBehaviors(ISpecimenBuilderTransformation[] transformations)
+        {
+            this.behaviors = new SingletonSpecimenBuilderNodeStackCollectionAdapter(this.graph, n => n is BehaviorRoot, transformations);
+            this.behaviors.GraphChanged += this.OnGraphChanged;
         }
     }
 }
