@@ -138,13 +138,15 @@ namespace Ploeh.AutoFixture.Kernel
             foreach (var pi in this.GetProperties(specimen))
             {
                 var propertyValue = context.Resolve(pi);
-                pi.SetValue(specimen, propertyValue, null);
+                if (!(propertyValue is OmitSpecimen))
+                    pi.SetValue(specimen, propertyValue, null);
             }
 
             foreach (var fi in this.GetFields(specimen))
             {
                 var fieldValue = context.Resolve(fi);
-                fi.SetValue(specimen, fieldValue);
+                if (!(fieldValue is OmitSpecimen))
+                    fi.SetValue(specimen, fieldValue);
             }
         }
 

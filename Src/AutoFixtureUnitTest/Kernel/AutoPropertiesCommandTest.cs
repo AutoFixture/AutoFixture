@@ -187,6 +187,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void ExecuteWillNotAssignPropertyWhenContextReturnsOmitSpecimen()
+        {
+            // Fixture setup
+            var sut = new AutoPropertiesCommand<PropertyHolder<object>>();
+            var specimen = new PropertyHolder<object>();
+            var context = new DelegatingSpecimenContext 
+            {
+                OnResolve = r => new OmitSpecimen()
+            };
+            // Exercise system
+            sut.Execute(specimen, context);
+            // Verify outcome
+            Assert.Null(specimen.Property);
+            // Teardown
+        }
+
+        [Fact]
         public void ExecuteDoesNotAssignFieldWhenSpecificationIsNotSatisfied()
         {
             // Fixture setup
@@ -215,6 +232,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             sut.Execute(specimen, dummyContainer);
             // Verify outcome
             Assert.True(verified, "Mock verified");
+            // Teardown
+        }
+
+        [Fact]
+        public void ExecuteWillNotAssignFieldWhenContextReturnsOmitSpecimen()
+        {
+            // Fixture setup
+            var sut = new AutoPropertiesCommand<FieldHolder<object>>();
+            var specimen = new FieldHolder<object>();
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => new OmitSpecimen()
+            };
+            // Exercise system
+            sut.Execute(specimen, context);
+            // Verify outcome
+            Assert.Null(specimen.Field);
             // Teardown
         }
 
