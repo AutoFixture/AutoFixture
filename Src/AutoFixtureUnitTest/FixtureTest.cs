@@ -266,7 +266,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var composedBuilders = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(guard.Builder).Builders.ToList();
 
             var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[0]);
-            Assert.True(sut.Customizations.SequenceEqual(customizer.Builders));
+            Assert.True(sut.Customizations.SequenceEqual(customizer.Builders, new TypeBasedComparer<ISpecimenBuilder>()));
 
             var engineAndMultiple = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[1]);
             Assert.Same(sut.Engine, engineAndMultiple.Builders[0]);

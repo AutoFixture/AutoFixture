@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -6,7 +7,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Decorates an <see cref="ISpecimenBuilder"/> and filters requests so that only some requests
     /// are passed through to the decorated builder.
     /// </summary>
-    public class FilteringSpecimenBuilder : ISpecimenBuilder
+    public class FilteringSpecimenBuilder : ISpecimenBuilderNode
     {
         private readonly ISpecimenBuilder builder;
         private readonly IRequestSpecification specification;
@@ -67,6 +68,22 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return this.builder.Create(request, context);
+        }
+
+        public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
+        {
+            var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
+            return new FilteringSpecimenBuilder(composedBuilder, this.specification);
+        }
+
+        public IEnumerator<ISpecimenBuilder> GetEnumerator()
+        {
+            yield return this.builder;
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }
