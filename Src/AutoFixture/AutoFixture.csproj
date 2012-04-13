@@ -130,6 +130,7 @@
     <Compile Include="Kernel\FixedPipe.cs" />
     <Compile Include="Kernel\ISpecimenBuilderNode.cs" />
     <Compile Include="Kernel\ISpecimenBuilderPipe.cs" />
+    <Compile Include="Kernel\OmitSpecimen.cs" />
     <Compile Include="Kernel\RangedNumberRequest.cs" />
     <Compile Include="Kernel\RegularExpressionRequest.cs" />
     <Compile Include="RangedNumberGenerator.cs" />
