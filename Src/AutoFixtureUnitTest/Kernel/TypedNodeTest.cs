@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
     public class TypedNodeTest
     {
         [Fact]
-        public void SutIsNode()
+        public void SutIsFilter()
         {
             // Fixture setup
             var dummyType = typeof(object);
@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var sut = new TypedNode(dummyType, dummyBuilder);
             // Verify outcome
-            Assert.IsAssignableFrom<ISpecimenBuilderNode>(sut);
+            Assert.IsAssignableFrom<FilteringSpecimenBuilder>(sut);
             // Teardown
         }
 
@@ -96,8 +96,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     new SeedRequestSpecification(targetType),
                     new ExactTypeSpecification(targetType)));
 
-            Assert.True(expected.GraphEquals(((ISpecimenBuilderNode)sut.Single()), new TypedNodeComparer()));
-            Assert.True(expected.GraphEquals(((System.Collections.IEnumerable)sut).Cast<ISpecimenBuilderNode>().Single(), new TypedNodeComparer()));
+            Assert.True(expected.GraphEquals(sut, new TypedNodeComparer()));
             // Teardown
         }
 

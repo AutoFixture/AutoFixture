@@ -5,54 +5,18 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
-    public class TypedNode : ISpecimenBuilderNode
+    public class TypedNode : FilteringSpecimenBuilder
     {
         private readonly Type targetType;
         private readonly ISpecimenBuilder factory;
-        private readonly ISpecimenBuilderNode graph;
 
         public TypedNode(Type targetType, ISpecimenBuilder factory)
+            : base(DecorateFactory(targetType, factory), CreateSpecification(targetType))
         {
-            if (targetType == null)
-                throw new ArgumentNullException("targetType");
-            if (factory == null)
-                throw new ArgumentNullException("factory");
-
             this.targetType = targetType;
             this.factory = factory;
-            this.graph = new FilteringSpecimenBuilder(
-                new CompositeSpecimenBuilder(
-                    new NoSpecimenOutputGuard(
-                        factory,
-                        new InverseRequestSpecification(
-                            new SeedRequestSpecification(
-                                targetType))),
-                    new SeedIgnoringRelay()),
-                new OrRequestSpecification(
-                    new SeedRequestSpecification(targetType),
-                    new ExactTypeSpecification(targetType)));
         }
-
-        public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object Create(object request, ISpecimenContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerator<ISpecimenBuilder> GetEnumerator()
-        {
-            yield return graph;
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
+        
         public Type TargetType
         {
             get { return this.targetType; }
@@ -61,6 +25,26 @@ namespace Ploeh.AutoFixture.Kernel
         public ISpecimenBuilder Factory
         {
             get { return this.factory; }
+        }
+
+        private static ISpecimenBuilder DecorateFactory(
+            Type targetType, ISpecimenBuilder factory)
+        {
+            return new CompositeSpecimenBuilder(
+                new NoSpecimenOutputGuard(
+                    factory,
+                    new InverseRequestSpecification(
+                        new SeedRequestSpecification(
+                            targetType))),
+                new SeedIgnoringRelay());
+        }
+
+        private static IRequestSpecification CreateSpecification(
+            Type targetType)
+        {
+            return new OrRequestSpecification(
+                new SeedRequestSpecification(targetType),
+                new ExactTypeSpecification(targetType));
         }
     }
 }
