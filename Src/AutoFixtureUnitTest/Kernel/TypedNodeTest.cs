@@ -71,7 +71,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        [Theory(Skip = "Waiting for builders to be turned into nodes.")]
+        [Theory]
         [InlineData(typeof(object))]
         [InlineData(typeof(string))]
         [InlineData(typeof(int))]
@@ -95,7 +95,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new OrRequestSpecification(
                     new SeedRequestSpecification(targetType),
                     new ExactTypeSpecification(targetType)));
-            Assert.True(false, "Unspecified assertion");
+
+            Assert.True(expected.GraphEquals(((ISpecimenBuilderNode)sut.Single()), new TypedNodeComparer()));
+            Assert.True(expected.GraphEquals(((System.Collections.IEnumerable)sut).Cast<ISpecimenBuilderNode>().Single(), new TypedNodeComparer()));
             // Teardown
         }
 
@@ -112,21 +114,26 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             {
                 var fx = x as FilteringSpecimenBuilder;
                 var fy = y as FilteringSpecimenBuilder;
-                if (fx != null && fy != null)
-                {
-                    if (this.specificationComparer.Equals(fx.Specification, fy.Specification))
-                        return true;
-                }
+                if (fx != null &&
+                    fy != null &&
+                    this.specificationComparer.Equals(fx.Specification, fy.Specification))
+                    return true;
 
                 if (x is CompositeSpecimenBuilder && y is CompositeSpecimenBuilder)
                     return true;
 
                 var gx = x as NoSpecimenOutputGuard;
                 var gy = y as NoSpecimenOutputGuard;
-                if (gx != null && gy != null)
+                if (gx != null &&
+                    gy != null &&
+                    this.specificationComparer.Equals(gx.Specification, gy.Specification))
+                    return true;
+
+                var sirx = x as SeedIgnoringRelay;
+                var siry = y as SeedIgnoringRelay;
+                if (sirx != null && siry != null)
                 {
-                    if (this.specificationComparer.Equals(gx.Specification, gy.Specification))
-                        return true;
+                    return true;
                 }
 
                 return EqualityComparer<ISpecimenBuilder>.Default.Equals(x, y);
@@ -143,19 +150,17 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 {
                     var invx = x as InverseRequestSpecification;
                     var invy = y as InverseRequestSpecification;
-                    if (invx != null && invy != null)
-                    {
-                        if (this.Equals(invx.Specification, invy.Specification))
-                            return true;
-                    }
+                    if (invx != null &&
+                        invy != null &&
+                        this.Equals(invx.Specification, invy.Specification))
+                        return true;
 
                     var ox = x as OrRequestSpecification;
                     var oy = y as OrRequestSpecification;
-                    if (ox != null && oy != null)
-                    {
-                        if (ox.Specifications.SequenceEqual(oy.Specifications, this))
-                            return true;
-                    }
+                    if (ox != null &&
+                        oy != null &&
+                        ox.Specifications.SequenceEqual(oy.Specifications, this))
+                        return true;
 
                     var sx = x as SeedRequestSpecification;
                     var sy = y as SeedRequestSpecification;

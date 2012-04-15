@@ -9,6 +9,7 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly Type targetType;
         private readonly ISpecimenBuilder factory;
+        private readonly ISpecimenBuilderNode graph;
 
         public TypedNode(Type targetType, ISpecimenBuilder factory)
         {
@@ -19,6 +20,17 @@ namespace Ploeh.AutoFixture.Kernel
 
             this.targetType = targetType;
             this.factory = factory;
+            this.graph = new FilteringSpecimenBuilder(
+                new CompositeSpecimenBuilder(
+                    new NoSpecimenOutputGuard(
+                        factory,
+                        new InverseRequestSpecification(
+                            new SeedRequestSpecification(
+                                targetType))),
+                    new SeedIgnoringRelay()),
+                new OrRequestSpecification(
+                    new SeedRequestSpecification(targetType),
+                    new ExactTypeSpecification(targetType)));
         }
 
         public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
@@ -33,12 +45,12 @@ namespace Ploeh.AutoFixture.Kernel
 
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            throw new NotImplementedException();
+            yield return graph;
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.GetEnumerator();
         }
 
         public Type TargetType
