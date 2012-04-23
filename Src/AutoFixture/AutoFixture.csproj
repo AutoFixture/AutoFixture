@@ -123,6 +123,7 @@
     <Compile Include="DataAnnotations\Xeger.cs" />
     <Compile Include="DateTimeGenerator.cs" />
     <Compile Include="DefaultRelaysPipe.cs" />
+    <Compile Include="Dsl\NodeComposer.cs" />
     <Compile Include="EnumerableList.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
