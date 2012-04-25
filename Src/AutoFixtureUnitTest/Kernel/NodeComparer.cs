@@ -125,26 +125,26 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
         private static class GenericComparer
         {
+            private static readonly Dictionary<Type, Type> equatables =
+                new Dictionary<Type, Type>
+                {
+                    { typeof(SeededFactory<>), typeof(SeededFactoryEquatable<>) },
+                    { typeof(SpecimenFactory<>), typeof(SpecimenFactoryEquatable<>) },
+                    { typeof(SpecimenFactory<,>), typeof(SpecimenFactoryEquatable<,>) }
+                };
+
             public static object CreateFromTemplate(object obj)
             {
                 var t = obj.GetType();
                 if (!t.IsGenericType)
                     return new object();
 
-                if (t.GetGenericTypeDefinition() == typeof(SeededFactory<>))
+                Type equatableType;
+                if (equatables.TryGetValue(t.GetGenericTypeDefinition(),
+                    out equatableType))
                 {
-                    var typeArgument = t.GetGenericArguments().Single();
-                    return typeof(SeededFactoryEquatable<>)
-                        .MakeGenericType(typeArgument)
-                        .GetConstructors().Single()
-                        .Invoke(new[] { obj });
-                }
-
-                if (t.GetGenericTypeDefinition() == typeof(SpecimenFactory<>))
-                {
-                    var typeArgument = t.GetGenericArguments().Single();
-                    return typeof(SpecimenFactoryEquatable<>)
-                        .MakeGenericType(typeArgument)
+                    var typeArguments = t.GetGenericArguments();
+                    return equatableType.MakeGenericType(typeArguments)
                         .GetConstructors().Single()
                         .Invoke(new[] { obj });
                 }
@@ -152,37 +152,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 return new object();
             }
         }
-
-        //private class SeededFactoryComparer<T> : IEquatable<SeededFactory<T>>
-        //{
-        //    private readonly SeededFactory<T> sf;
-
-        //    public SeededFactoryComparer(SeededFactory<T> sf)
-        //    {
-        //        this.sf = sf;
-        //    }
-
-        //    public override bool Equals(object obj)
-        //    {
-        //        var other = obj as SeededFactory<T>;
-        //        if (other != null)
-        //            return this.Equals(other);
-        //        return base.Equals(obj);
-        //    }
-
-        //    public override int GetHashCode()
-        //    {
-        //        return this.sf.GetHashCode();
-        //    }
-
-        //    public bool Equals(SeededFactory<T> other)
-        //    {
-        //        if (other == null)
-        //            return false;
-
-        //        return this.sf.Factory.Equals(other.Factory);
-        //    }
-        //}
 
         private class SeededFactoryEquatable<T> : GenericEquatable<SeededFactory<T>>
         {
@@ -192,6 +161,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             }
 
             protected override bool EqualsInstance(SeededFactory<T> other)
+            {
+                return this.Item.Factory.Equals(other.Factory);
+            }
+        }
+
+        private class SpecimenFactoryEquatable<TInput, T> : GenericEquatable<SpecimenFactory<TInput, T>>
+        {
+            public SpecimenFactoryEquatable(SpecimenFactory<TInput, T> sf)
+                : base(sf)
+            {
+            }
+
+            protected override bool EqualsInstance(SpecimenFactory<TInput, T> other)
             {
                 return this.Item.Factory.Equals(other.Factory);
             }
@@ -247,6 +229,5 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             protected abstract bool EqualsInstance(T other);
         }
-
     }
 }
