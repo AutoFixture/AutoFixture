@@ -95,6 +95,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                         return true;
                 }
 
+                var tx = x as TrueRequestSpecification;
+                var ty = x as TrueRequestSpecification;
+                if (tx != null && ty != null)
+                    return true;
+
                 return EqualityComparer<IRequestSpecification>.Default.Equals(x, y);
             }
 
@@ -133,7 +138,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     { typeof(SpecimenFactory<,>), typeof(SpecimenFactoryEquatable<,>) },
                     { typeof(SpecimenFactory<,,>), typeof(SpecimenFactoryEquatable<,,>) },
                     { typeof(SpecimenFactory<,,,>), typeof(SpecimenFactoryEquatable<,,,>) },
-                    { typeof(SpecimenFactory<,,,,>), typeof(SpecimenFactoryEquatable<,,,,>) }
+                    { typeof(SpecimenFactory<,,,,>), typeof(SpecimenFactoryEquatable<,,,,>) },
+                    { typeof(Postprocessor<>), typeof(PostprocessorEquatable<>) }
                 };
 
             public static object CreateFromTemplate(object obj)
@@ -153,6 +159,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 }
 
                 return new object();
+            }
+        }
+
+        private class PostprocessorEquatable<T> : GenericEquatable<Postprocessor<T>>
+        {
+            private readonly IEqualityComparer<IRequestSpecification> specificationComparer;
+
+            public PostprocessorEquatable(Postprocessor<T> pp)
+                : base(pp)
+            {
+                this.specificationComparer = new SpecificationComparer();
+            }
+
+            protected override bool EqualsInstance(Postprocessor<T> other)
+            {
+                return this.Item.Action.Method.Equals(other.Action.Method)
+                    && this.specificationComparer.Equals(this.Item.Specification, other.Specification);
             }
         }
 

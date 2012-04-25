@@ -165,7 +165,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void ComposeReturnsCorrectResult()
+        public void LegacyComposeReturnsCorrectResult()
         {
             // Fixture setup
             var sut = new NodeComposer<UTF8Encoding>();
@@ -173,6 +173,69 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var actual = sut.Compose();
             // Verify outcome
             Assert.Equal(sut, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new NodeComposer<GenericUriParser>();
+            // Exercise system
+            var expectedBuilders = new[]
+            {
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder()
+            };
+            var actual = sut.Compose(expectedBuilders);
+            // Verify outcome
+            var nc = Assert.IsAssignableFrom<NodeComposer<GenericUriParser>>(actual);
+            var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(nc.Builder);
+            Assert.True(expectedBuilders.SequenceEqual(composite));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeSingleItemReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new NodeComposer<GenericUriParser>();
+            var expected = new DelegatingSpecimenBuilder();
+            // Exercise system
+            var actual = sut.Compose(new[] { expected });
+            // Verify outcome
+            var f = Assert.IsAssignableFrom<NodeComposer<GenericUriParser>>(actual);
+            Assert.Equal(expected, f.Builder);
+            // Teardown
+        }
+
+        [Fact]
+        public void DoReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new NodeComposer<AppDomainSetup>();
+            Action<AppDomainSetup> a = ads => ads.DisallowApplicationBaseProbing = false;
+            // Exercise system
+            var actual = sut.Do(a);
+            // Verify outcome
+            var expected = new FilteringSpecimenBuilder(
+                new CompositeSpecimenBuilder(
+                    new Postprocessor<AppDomainSetup>(
+                        new NoSpecimenOutputGuard(
+                            new MethodInvoker(
+                                new ModestConstructorQuery()),
+                            new InverseRequestSpecification(
+                                new SeedRequestSpecification(
+                                    typeof(AppDomainSetup)))),
+                        a),
+                    new SeedIgnoringRelay()),
+                new OrRequestSpecification(
+                    new SeedRequestSpecification(typeof(AppDomainSetup)),
+                    new ExactTypeSpecification(typeof(AppDomainSetup))));
+
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
             // Teardown
         }
     }

@@ -87,6 +87,20 @@ namespace Ploeh.AutoFixture.Kernel
             return graph.Compose(nodes);
         }
 
+        internal static ISpecimenBuilderNode ReplaceNodes(
+            this ISpecimenBuilderNode graph,
+            Func<ISpecimenBuilderNode, ISpecimenBuilderNode> with,
+            Func<ISpecimenBuilderNode, bool> when)
+        {
+            if (when(graph))
+                return with(graph);
+
+            var nodes = from b in graph
+                        let n = b as ISpecimenBuilderNode
+                        select n != null ? n.ReplaceNodes(with, when) : b;
+            return graph.Compose(nodes);
+        }
+
         internal static IEnumerable<ISpecimenBuilderNode> Parents(
             this ISpecimenBuilderNode graph,
             Func<ISpecimenBuilder, bool> predicate)

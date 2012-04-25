@@ -10,50 +10,55 @@ namespace Ploeh.AutoFixture.Dsl
     public class NodeComposer<T> : FilteringSpecimenBuilder, ICustomizationComposer<T>
     {
         public NodeComposer()
-            : this(new MethodInvoker(new ModestConstructorQuery()))
+            : this(DecorateFactory(new MethodInvoker(new ModestConstructorQuery())))
         {
         }
 
-        public NodeComposer(ISpecimenBuilder factory)
-            : base(
-                DecorateFactory(factory),
-                CreateSpecification())
+        //public NodeComposer(ISpecimenBuilder factory)
+        //    : base(
+        //        DecorateFactory(factory),
+        //        CreateSpecification())
+        //{
+        //}
+
+        protected NodeComposer(ISpecimenBuilder builder)
+            : base(builder, CreateSpecification())
         {
         }
 
         public IPostprocessComposer<T> FromSeed(Func<T, T> factory)
         {
-            return new NodeComposer<T>(new SeededFactory<T>(factory));
+            return this.WithFactory(new SeededFactory<T>(factory));
         }
 
         public IPostprocessComposer<T> FromFactory(ISpecimenBuilder factory)
         {
-            return new NodeComposer<T>(factory);
+            return this.WithFactory(factory);
         }
 
         public IPostprocessComposer<T> FromFactory(Func<T> factory)
         {
-            return new NodeComposer<T>(new SpecimenFactory<T>(factory));
+            return this.WithFactory(new SpecimenFactory<T>(factory));
         }
 
         public IPostprocessComposer<T> FromFactory<TInput>(Func<TInput, T> factory)
         {
-            return new NodeComposer<T>(new SpecimenFactory<TInput, T>(factory));
+            return this.WithFactory(new SpecimenFactory<TInput, T>(factory));
         }
 
         public IPostprocessComposer<T> FromFactory<TInput1, TInput2>(Func<TInput1, TInput2, T> factory)
         {
-            return new NodeComposer<T>(new SpecimenFactory<TInput1, TInput2, T>(factory));
+            return this.WithFactory(new SpecimenFactory<TInput1, TInput2, T>(factory));
         }
 
         public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3>(Func<TInput1, TInput2, TInput3, T> factory)
         {
-            return new NodeComposer<T>(new SpecimenFactory<TInput1, TInput2, TInput3, T>(factory));
+            return this.WithFactory(new SpecimenFactory<TInput1, TInput2, TInput3, T>(factory));
         }
 
         public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3, TInput4>(Func<TInput1, TInput2, TInput3, TInput4, T> factory)
         {
-            return new NodeComposer<T>(new SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T>(factory));
+            return this.WithFactory(new SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T>(factory));
         }
 
         public ISpecimenBuilder Compose()
@@ -61,9 +66,17 @@ namespace Ploeh.AutoFixture.Dsl
             return this;
         }
 
+        public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
+        {
+            var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
+            return new NodeComposer<T>(composedBuilder);
+        }
+
         public IPostprocessComposer<T> Do(Action<T> action)
         {
-            throw new NotImplementedException();
+            return (NodeComposer<T>)this.ReplaceNodes(
+                with: n => new Postprocessor<T>(n, action),
+                when: n => n is NoSpecimenOutputGuard);
         }
 
         public IPostprocessComposer<T> OmitAutoProperties()
@@ -89,6 +102,11 @@ namespace Ploeh.AutoFixture.Dsl
         public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
             throw new NotImplementedException();
+        }
+
+        private NodeComposer<T> WithFactory(ISpecimenBuilder builder)
+        {
+            return new NodeComposer<T>(DecorateFactory(builder));
         }
 
         private static ISpecimenBuilder DecorateFactory(
