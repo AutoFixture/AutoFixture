@@ -50,6 +50,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 this.queryComparer.Equals(mix.Query, miy.Query))
                 return true;
 
+            if (SeededFactoryComparer.CreateFromTemplate(x).Equals(y))
+                return true;
+
             return EqualityComparer<ISpecimenBuilder>.Default.Equals(x, y);
         }
 
@@ -117,6 +120,56 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             public int GetHashCode(IMethodQuery obj)
             {
                 return EqualityComparer<IMethodQuery>.Default.GetHashCode(obj);
+            }
+        }
+
+        private static class SeededFactoryComparer
+        {
+            public static object CreateFromTemplate(object obj)
+            {
+                var t = obj.GetType();
+                if (t.IsGenericType &&
+                    t.GetGenericTypeDefinition() == typeof(SeededFactory<>))
+                {
+                    var typeArgument = t.GetGenericArguments().Single();
+                    return typeof(SeededFactoryComparer<>)
+                        .MakeGenericType(typeArgument)
+                        .GetConstructors().Single()
+                        .Invoke(new[] { obj });
+                }
+
+                return new object();
+            }
+        }
+
+        private class SeededFactoryComparer<T> : IEquatable<SeededFactory<T>>
+        {
+            private readonly SeededFactory<T> sf;
+
+            public SeededFactoryComparer(SeededFactory<T> sf)
+            {
+                this.sf = sf;
+            }
+
+            public override bool Equals(object obj)
+            {
+                var other = obj as SeededFactory<T>;
+                if (other != null)
+                    return this.Equals(other);
+                return base.Equals(obj);
+            }
+
+            public override int GetHashCode()
+            {
+                return this.sf.GetHashCode();
+            }
+
+            public bool Equals(SeededFactory<T> other)
+            {
+                if (other == null)
+                    return false;
+
+                return this.sf.Factory.Equals(other.Factory);
             }
         }
     }
