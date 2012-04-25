@@ -131,7 +131,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     { typeof(SeededFactory<>), typeof(SeededFactoryEquatable<>) },
                     { typeof(SpecimenFactory<>), typeof(SpecimenFactoryEquatable<>) },
                     { typeof(SpecimenFactory<,>), typeof(SpecimenFactoryEquatable<,>) },
-                    { typeof(SpecimenFactory<,,>), typeof(SpecimenFactoryEquatable<,,>) }
+                    { typeof(SpecimenFactory<,,>), typeof(SpecimenFactoryEquatable<,,>) },
+                    { typeof(SpecimenFactory<,,,>), typeof(SpecimenFactoryEquatable<,,,>) }
                 };
 
             public static object CreateFromTemplate(object obj)
@@ -201,6 +202,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             }
 
             protected override bool EqualsInstance(SpecimenFactory<TInput1, TInput2, T> other)
+            {
+                return this.Item.Factory.Equals(other.Factory);
+            }
+        }
+
+        private class SpecimenFactoryEquatable<TInput1, TInput2, TInput3, T> : GenericEquatable<SpecimenFactory<TInput1, TInput2, TInput3, T>>
+        {
+            public SpecimenFactoryEquatable(SpecimenFactory<TInput1, TInput2, TInput3, T> sf)
+                : base(sf)
+            {
+            }
+
+            protected override bool EqualsInstance(SpecimenFactory<TInput1, TInput2, TInput3, T> other)
             {
                 return this.Item.Factory.Equals(other.Factory);
             }
