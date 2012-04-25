@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 this.queryComparer.Equals(mix.Query, miy.Query))
                 return true;
 
-            if (SeededFactoryComparer.CreateFromTemplate(x).Equals(y))
+            if (GenericComparer.CreateFromTemplate(x).Equals(y))
                 return true;
 
             return EqualityComparer<ISpecimenBuilder>.Default.Equals(x, y);
@@ -123,16 +123,27 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             }
         }
 
-        private static class SeededFactoryComparer
+        private static class GenericComparer
         {
             public static object CreateFromTemplate(object obj)
             {
                 var t = obj.GetType();
-                if (t.IsGenericType &&
-                    t.GetGenericTypeDefinition() == typeof(SeededFactory<>))
+                if (!t.IsGenericType)
+                    return new object();
+
+                if (t.GetGenericTypeDefinition() == typeof(SeededFactory<>))
                 {
                     var typeArgument = t.GetGenericArguments().Single();
-                    return typeof(SeededFactoryComparer<>)
+                    return typeof(SeededFactoryEquatable<>)
+                        .MakeGenericType(typeArgument)
+                        .GetConstructors().Single()
+                        .Invoke(new[] { obj });
+                }
+
+                if (t.GetGenericTypeDefinition() == typeof(SpecimenFactory<>))
+                {
+                    var typeArgument = t.GetGenericArguments().Single();
+                    return typeof(SpecimenFactoryEquatable<>)
                         .MakeGenericType(typeArgument)
                         .GetConstructors().Single()
                         .Invoke(new[] { obj });
@@ -142,18 +153,80 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             }
         }
 
-        private class SeededFactoryComparer<T> : IEquatable<SeededFactory<T>>
-        {
-            private readonly SeededFactory<T> sf;
+        //private class SeededFactoryComparer<T> : IEquatable<SeededFactory<T>>
+        //{
+        //    private readonly SeededFactory<T> sf;
 
-            public SeededFactoryComparer(SeededFactory<T> sf)
+        //    public SeededFactoryComparer(SeededFactory<T> sf)
+        //    {
+        //        this.sf = sf;
+        //    }
+
+        //    public override bool Equals(object obj)
+        //    {
+        //        var other = obj as SeededFactory<T>;
+        //        if (other != null)
+        //            return this.Equals(other);
+        //        return base.Equals(obj);
+        //    }
+
+        //    public override int GetHashCode()
+        //    {
+        //        return this.sf.GetHashCode();
+        //    }
+
+        //    public bool Equals(SeededFactory<T> other)
+        //    {
+        //        if (other == null)
+        //            return false;
+
+        //        return this.sf.Factory.Equals(other.Factory);
+        //    }
+        //}
+
+        private class SeededFactoryEquatable<T> : GenericEquatable<SeededFactory<T>>
+        {
+            public SeededFactoryEquatable(SeededFactory<T> sf)
+                : base(sf)
             {
-                this.sf = sf;
+            }
+
+            protected override bool EqualsInstance(SeededFactory<T> other)
+            {
+                return this.Item.Factory.Equals(other.Factory);
+            }
+        }
+
+        private class SpecimenFactoryEquatable<T> : GenericEquatable<SpecimenFactory<T>>
+        {
+            public SpecimenFactoryEquatable(SpecimenFactory<T> sf)
+                : base(sf)
+            {
+            }
+
+            protected override bool EqualsInstance(SpecimenFactory<T> other)
+            {
+                return this.Item.Factory.Equals(other.Factory);
+            }
+        }
+
+        private abstract class GenericEquatable<T> : IEquatable<T> where T : class
+        {
+            private readonly T item;
+
+            public GenericEquatable(T item)
+            {
+                this.item = item;
+            }
+
+            public T Item
+            {
+                get { return this.item; }
             }
 
             public override bool Equals(object obj)
             {
-                var other = obj as SeededFactory<T>;
+                var other = obj as T;
                 if (other != null)
                     return this.Equals(other);
                 return base.Equals(obj);
@@ -161,16 +234,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             public override int GetHashCode()
             {
-                return this.sf.GetHashCode();
+                return this.item.GetHashCode();
             }
 
-            public bool Equals(SeededFactory<T> other)
+            public bool Equals(T other)
             {
                 if (other == null)
                     return false;
 
-                return this.sf.Factory.Equals(other.Factory);
+                return this.EqualsInstance(other);
             }
+
+            protected abstract bool EqualsInstance(T other);
         }
+
     }
 }
