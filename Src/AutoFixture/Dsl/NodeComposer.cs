@@ -56,9 +56,9 @@ namespace Ploeh.AutoFixture.Dsl
             return new NodeComposer<T>(new SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T>(factory));
         }
 
-        public Kernel.ISpecimenBuilder Compose()
+        public ISpecimenBuilder Compose()
         {
-            throw new NotImplementedException();
+            return this;
         }
 
         public IPostprocessComposer<T> Do(Action<T> action)
