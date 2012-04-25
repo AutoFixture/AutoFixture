@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ploeh.AutoFixture.Kernel;
+using System.Linq.Expressions;
 
 namespace Ploeh.AutoFixture.Dsl
 {
@@ -22,7 +23,7 @@ namespace Ploeh.AutoFixture.Dsl
             throw new NotImplementedException();
         }
 
-        public IPostprocessComposer<T> FromFactory(Kernel.ISpecimenBuilder factory)
+        public IPostprocessComposer<T> FromFactory(ISpecimenBuilder factory)
         {
             throw new NotImplementedException();
         }
@@ -67,12 +68,12 @@ namespace Ploeh.AutoFixture.Dsl
             throw new NotImplementedException();
         }
 
-        public IPostprocessComposer<T> With<TProperty>(System.Linq.Expressions.Expression<Func<T, TProperty>> propertyPicker)
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
             throw new NotImplementedException();
         }
 
-        public IPostprocessComposer<T> With<TProperty>(System.Linq.Expressions.Expression<Func<T, TProperty>> propertyPicker, TProperty value)
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
             throw new NotImplementedException();
         }
@@ -82,7 +83,7 @@ namespace Ploeh.AutoFixture.Dsl
             throw new NotImplementedException();
         }
 
-        public IPostprocessComposer<T> Without<TProperty>(System.Linq.Expressions.Expression<Func<T, TProperty>> propertyPicker)
+        public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
             throw new NotImplementedException();
         }
