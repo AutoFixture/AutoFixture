@@ -62,5 +62,21 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
             // Teardown
         }
+
+        [Fact]
+        public void FromSpecimenBuilderFactoryReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new NodeComposer<Guid>();
+            var builder = new DelegatingSpecimenBuilder();
+            // Exercise system
+            var actual = sut.FromFactory(builder);
+            // Verify outcome
+            var expected = new TypedNode(typeof(Guid), builder);
+
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
     }
 }

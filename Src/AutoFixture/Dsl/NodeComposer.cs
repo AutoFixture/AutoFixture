@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.Dsl
 
         public IPostprocessComposer<T> FromFactory(ISpecimenBuilder factory)
         {
-            throw new NotImplementedException();
+            return new NodeComposer<T>(factory);
         }
 
         public IPostprocessComposer<T> FromFactory(Func<T> factory)
