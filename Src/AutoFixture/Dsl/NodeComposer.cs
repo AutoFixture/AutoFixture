@@ -10,11 +10,7 @@ namespace Ploeh.AutoFixture.Dsl
     public class NodeComposer<T> : FilteringSpecimenBuilder, ICustomizationComposer<T>
     {
         public NodeComposer()
-            : base(
-                DecorateFactory(
-                    new MethodInvoker(
-                        new ModestConstructorQuery())),
-                CreateSpecification())
+            : this(new MethodInvoker(new ModestConstructorQuery()))
         {
         }
 
