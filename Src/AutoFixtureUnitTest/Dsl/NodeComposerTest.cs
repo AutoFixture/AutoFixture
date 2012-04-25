@@ -112,5 +112,22 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
             // Teardown
         }
+
+        [Fact]
+        public void FromDoubleArgFuncReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new NodeComposer<string>();
+            Func<int, Version, string> f = (i, _) => i.ToString();
+            // Exercise system
+            var actual = sut.FromFactory(f);
+            // Verify outcome
+            var factory = new SpecimenFactory<int, Version, string>(f);
+            var expected = new TypedNode(typeof(string), factory);
+
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
     }
 }

@@ -130,7 +130,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 {
                     { typeof(SeededFactory<>), typeof(SeededFactoryEquatable<>) },
                     { typeof(SpecimenFactory<>), typeof(SpecimenFactoryEquatable<>) },
-                    { typeof(SpecimenFactory<,>), typeof(SpecimenFactoryEquatable<,>) }
+                    { typeof(SpecimenFactory<,>), typeof(SpecimenFactoryEquatable<,>) },
+                    { typeof(SpecimenFactory<,,>), typeof(SpecimenFactoryEquatable<,,>) }
                 };
 
             public static object CreateFromTemplate(object obj)
@@ -166,6 +167,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             }
         }
 
+        private class SpecimenFactoryEquatable<T> : GenericEquatable<SpecimenFactory<T>>
+        {
+            public SpecimenFactoryEquatable(SpecimenFactory<T> sf)
+                : base(sf)
+            {
+            }
+
+            protected override bool EqualsInstance(SpecimenFactory<T> other)
+            {
+                return this.Item.Factory.Equals(other.Factory);
+            }
+        }
+
         private class SpecimenFactoryEquatable<TInput, T> : GenericEquatable<SpecimenFactory<TInput, T>>
         {
             public SpecimenFactoryEquatable(SpecimenFactory<TInput, T> sf)
@@ -179,14 +193,14 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             }
         }
 
-        private class SpecimenFactoryEquatable<T> : GenericEquatable<SpecimenFactory<T>>
+        private class SpecimenFactoryEquatable<TInput1, TInput2, T> : GenericEquatable<SpecimenFactory<TInput1, TInput2, T>>
         {
-            public SpecimenFactoryEquatable(SpecimenFactory<T> sf)
+            public SpecimenFactoryEquatable(SpecimenFactory<TInput1, TInput2, T> sf)
                 : base(sf)
             {
             }
 
-            protected override bool EqualsInstance(SpecimenFactory<T> other)
+            protected override bool EqualsInstance(SpecimenFactory<TInput1, TInput2, T> other)
             {
                 return this.Item.Factory.Equals(other.Factory);
             }
