@@ -14,13 +14,6 @@ namespace Ploeh.AutoFixture.Dsl
         {
         }
 
-        //public NodeComposer(ISpecimenBuilder factory)
-        //    : base(
-        //        DecorateFactory(factory),
-        //        CreateSpecification())
-        //{
-        //}
-
         protected NodeComposer(ISpecimenBuilder builder)
             : base(builder, CreateSpecification())
         {
