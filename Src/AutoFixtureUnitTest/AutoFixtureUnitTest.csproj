@@ -105,6 +105,7 @@
     <Compile Include="GeneratorTest.cs" />
     <Compile Include="Kernel\ConstrainedStringRequestTest.cs" />
     <Compile Include="Kernel\FixedPipeTest.cs" />
+    <Compile Include="Kernel\OmitRecursionGuardTest.cs" />
     <Compile Include="Kernel\NodeComparer.cs" />
     <Compile Include="Kernel\OmitSpecimenTest.cs" />
     <Compile Include="Kernel\RangedNumberRequestTest.cs" />
