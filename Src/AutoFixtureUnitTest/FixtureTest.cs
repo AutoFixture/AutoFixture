@@ -2627,6 +2627,20 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void BuildWithOmitRecursionGuardWillOmitPropertyOnRecursionPoint()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Behaviors.Clear();
+            sut.Behaviors.Add(new OmitOnRecursionBehavior());
+            // Exercise system
+            var actual = sut.CreateAnonymous<RecursionTestObjectWithReferenceOutA>();
+            // Verify outcome
+            Assert.Null(actual.ReferenceToB.ReferenceToA);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousOnRegisteredInstanceWillReturnInstanceWithoutAutoProperties()
         {
             // Fixture setup
