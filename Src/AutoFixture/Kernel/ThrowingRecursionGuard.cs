@@ -3,6 +3,7 @@ using System.Collections;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Collections.Generic;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -46,6 +47,12 @@ namespace Ploeh.AutoFixture.Kernel
                 this.RecordedRequests.Cast<object>().First().GetType(),
                 this.GetFlattenedRequests(request),
                 Environment.NewLine));
+        }
+
+        public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
+        {
+            var builder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
+            return new ThrowingRecursionGuard(builder, this.Comparer);
         }
 
         private string GetFlattenedRequests(object finalRequest)

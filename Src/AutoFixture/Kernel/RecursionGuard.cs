@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Base class for recursion handling. Tracks requests and reacts when a recursion point in the
     /// specimen creation process is detected.
     /// </summary>
-    public abstract class RecursionGuard : ISpecimenBuilder
+    public abstract class RecursionGuard : ISpecimenBuilderNode
     {
         private readonly ISpecimenBuilder builder;
         private readonly IEqualityComparer comparer;
@@ -57,6 +57,11 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.builder; }
         }
 
+        public IEqualityComparer Comparer
+        {
+            get { return this.comparer; }
+        }
+
         /// <summary>
         /// Gets the recorded requests so far.
         /// </summary>
@@ -97,6 +102,18 @@ namespace Ploeh.AutoFixture.Kernel
             var specimen = this.builder.Create(request, context);
             this.monitoredRequests.Pop();
             return specimen;
+        }
+
+        public abstract ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders);
+
+        public virtual IEnumerator<ISpecimenBuilder> GetEnumerator()
+        {
+            yield return this.builder;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }

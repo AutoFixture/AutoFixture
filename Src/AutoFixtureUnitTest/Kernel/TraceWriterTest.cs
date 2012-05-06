@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
@@ -17,6 +18,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new TraceWriter(dummyWriter, dummyBuilder);
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutIsSpecimenBuilderNode()
+        {
+            // Fixture setup
+            var dummyWriter = TextWriter.Null;
+            var dummyBuilder = new DelegatingTracingBuilder();
+            // Exercise system
+            var sut = new TraceWriter(dummyWriter, dummyBuilder);
+            // Verify outcome
+            Assert.IsAssignableFrom<ISpecimenBuilderNode>(sut);
             // Teardown
         }
 
@@ -53,6 +67,59 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             TracingBuilder result = sut.Tracer;
             // Verify outcome
             Assert.Equal(expectedTracer, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutYieldsCorrectSequence()
+        {
+            // Fixture setup
+            var dummyWriter = TextWriter.Null;
+            var expected = new DelegatingSpecimenBuilder();
+            var tracer = new DelegatingTracingBuilder(expected);
+            var sut = new TraceWriter(dummyWriter, tracer);
+            // Exercise system
+            // Verify outcome
+            Assert.Equal(expected, sut.Single());
+            Assert.Equal(expected, ((System.Collections.IEnumerable)sut).Cast<object>().Single());
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var writer = TextWriter.Null;
+            var tracer = new DelegatingTracingBuilder();
+            var sut = new TraceWriter(writer, tracer);
+            // Exercise system
+            var expectedBuilders = new []
+            {
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder()
+            };
+            var actual = sut.Compose(expectedBuilders);
+            // Verify outcome
+            var tw = Assert.IsAssignableFrom<TraceWriter>(actual);
+            var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(tw.Tracer.Builder);
+            Assert.True(expectedBuilders.SequenceEqual(composite));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeSingleItemReturnsCorrectResult()
+        {
+            // Fixture setup
+            var writer = TextWriter.Null;
+            var tracer = new DelegatingTracingBuilder();
+            var sut = new TraceWriter(writer, tracer);
+            // Exercise system
+            var expected = new DelegatingSpecimenBuilder();
+            var actual = sut.Compose(new[] { expected });
+            // Verify outcome
+            var tw = Assert.IsAssignableFrom<TraceWriter>(actual);
+            Assert.Equal(expected, tw.Tracer.Builder);
             // Teardown
         }
 

@@ -64,7 +64,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void InitializeWithNullEngineThrows()
         {
             // Fixture setup
-            var dummyMany = new FakeMultiple();
+            var dummyMany = new MultipleRelay();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new Fixture(null, dummyMany));
@@ -87,7 +87,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var expectedEngine = new DelegatingSpecimenBuilder();
-            var dummyMany = new FakeMultiple();
+            var dummyMany = new MultipleRelay();
             var sut = new Fixture(expectedEngine, dummyMany);
             // Exercise system
             var result = sut.Engine;
@@ -102,7 +102,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var expectedRepeatCount = 187;
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            var many = new FakeMultiple { Count = expectedRepeatCount };
+            var many = new MultipleRelay { Count = expectedRepeatCount };
             var sut = new Fixture(dummyBuilder, many);
             // Exercise system
             var result = sut.RepeatCount;
@@ -116,7 +116,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            var many = new FakeMultiple();
+            var many = new MultipleRelay();
             var sut = new Fixture(dummyBuilder, many);
             // Exercise system
             sut.RepeatCount = 26;
@@ -241,16 +241,15 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
 
-            var builder1 = new DelegatingSpecimenBuilder();
-            var builder2 = new DelegatingSpecimenBuilder();
+            var comparer = new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>());
 
             sut.Behaviors.Clear();
-            sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => builder1 });
-            sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => b == builder1 ? builder2 : new DelegatingSpecimenBuilder() });
+            sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode(1, b) });
+            sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => comparer.Equals(new TaggedNode(1), b) ? new TaggedNode(2, b) : new TaggedNode(3, b) });
             // Exercise system
             var result = sut.Compose();
             // Verify outcome
-            Assert.Equal(builder2, result);
+            Assert.Equal(new TaggedNode(2), result, comparer);
             // Teardown
         }
 
@@ -267,12 +266,13 @@ namespace Ploeh.AutoFixtureUnitTest
             var composedBuilders = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(guard.Builder).Builders.ToList();
 
             var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[0]);
-            Assert.Equal(sut.Customizations, customizer.Builders);
+            Assert.True(sut.Customizations.SequenceEqual(customizer.Builders, new TypeBasedComparer<ISpecimenBuilder>()));
 
-            Assert.Equal(sut.Engine, composedBuilders[1]);
+            var engineAndMultiple = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[1]);
+            Assert.Same(sut.Engine, engineAndMultiple.Builders[0]);
 
             var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[2]);
-            Assert.Equal(sut.ResidueCollectors, residueCollector.Builders);
+            Assert.True(sut.ResidueCollectors.SequenceEqual(residueCollector.Builders));
 
             Assert.IsAssignableFrom<TerminatingSpecimenBuilder>(composedBuilders[3]);
             // Teardown
@@ -291,14 +291,15 @@ namespace Ploeh.AutoFixtureUnitTest
             var composedBuilders = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(guard.Builder).Builders.ToList();
 
             var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[0]);
-            Assert.Equal(sut.Customizations, customizer.Builders);
+            Assert.True(sut.Customizations.SequenceEqual(customizer.Builders));
 
             var postprocessor = Assert.IsAssignableFrom<Postprocessor>(composedBuilders[1]);
-            Assert.Equal(sut.Engine, postprocessor.Builder);
+            var engineAndMultiple = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(postprocessor.Builder);
+            Assert.Same(sut.Engine, engineAndMultiple.Builders[0]);
             Assert.IsAssignableFrom<AnyTypeSpecification>(postprocessor.Specification);
 
             var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[2]);
-            Assert.Equal(sut.ResidueCollectors, residueCollector.Builders);
+            Assert.True(sut.ResidueCollectors.SequenceEqual(residueCollector.Builders));
 
             Assert.IsAssignableFrom<TerminatingSpecimenBuilder>(composedBuilders[3]);
             // Teardown
@@ -3404,15 +3405,16 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Behaviors.Clear();
+            sut.Behaviors.Clear();            
 
             var expectedBuilder = new DelegatingSpecimenBuilder();
-            sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => expectedBuilder });
+            sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode(1, b) });
             // Exercise system
             var result = sut.Build<object>().Compose();
             // Verify outcome
+            var comparer = new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>());
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result);
-            Assert.Equal(expectedBuilder, composite.Builders.First());
+            Assert.Equal(new TaggedNode(1), composite.Builders.First(), comparer);
             // Teardown
         }
 

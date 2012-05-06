@@ -47,5 +47,13 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return new OmitSpecimen();
         }
+
+        public override ISpecimenBuilderNode Compose(
+            IEnumerable<ISpecimenBuilder> builders)
+        {
+            var composedBuilder = 
+                CompositeSpecimenBuilder.ComposeIfMultiple(builders);
+            return new OmitOnRecursionGuard(composedBuilder, this.Comparer);
+        }
     }
 }

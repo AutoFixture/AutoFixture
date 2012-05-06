@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Collections.Generic;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -44,13 +45,19 @@ namespace Ploeh.AutoFixture.Kernel
             : base(builder, action, specification)
         {
         }
+
+        public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
+        {
+            var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
+            return new Postprocessor(composedBuilder, this.Action, this.Specification);
+        }
     }
 
     /// <summary>
     /// Performs post-processing on a created specimen.
     /// </summary>
     /// <typeparam name="T">The type of specimen.</typeparam>
-    public class Postprocessor<T> : ISpecimenBuilder
+    public class Postprocessor<T> : ISpecimenBuilderNode
     {
         private readonly ISpecimenBuilder builder;
         private readonly Action<T, ISpecimenContext> action;
@@ -171,6 +178,22 @@ namespace Ploeh.AutoFixture.Kernel
             var s = (T)specimen;
             this.action(s, context);
             return specimen;
+        }
+
+        public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
+        {
+            var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
+            return new Postprocessor<T>(composedBuilder, this.action, this.specification);
+        }
+
+        public IEnumerator<ISpecimenBuilder> GetEnumerator()
+        {
+            yield return this.builder;
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }

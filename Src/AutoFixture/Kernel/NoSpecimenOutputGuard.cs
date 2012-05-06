@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Collections.Generic;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -7,7 +8,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Prevents a decorated <see cref="ISpecimenBuilder"/> from returning a
     /// <see cref="NoSpecimen"/> instance.
     /// </summary>
-    public class NoSpecimenOutputGuard : ISpecimenBuilder
+    public class NoSpecimenOutputGuard : ISpecimenBuilderNode
     {
         private readonly ISpecimenBuilder builder;
         private readonly IRequestSpecification specification;
@@ -92,6 +93,22 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ObjectCreationException(string.Format(CultureInfo.CurrentCulture, "The decorated ISpecimenBuilder could not create a specimen based on the request: {0}. This can happen if the request represents an interface or abstract class; if this is the case, register an ISpecimenBuilder that can create specimens based on the request. If this happens in a strongly typed Build<T> expression, try supplying a factory using one of the IFactoryComposer<T> methods.", request));
             }
             return result;
+        }
+
+        public ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
+        {
+            var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
+            return new NoSpecimenOutputGuard(composedBuilder, this.specification);
+        }
+
+        public IEnumerator<ISpecimenBuilder> GetEnumerator()
+        {
+            yield return this.builder;
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }
