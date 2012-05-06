@@ -6,14 +6,14 @@ using System.Collections;
 
 namespace Ploeh.AutoFixture.Kernel
 {
-    public class OmitRecursionGuard : RecursionGuard
+    public class OmitOnRecursionGuard : RecursionGuard
     {
-        public OmitRecursionGuard(ISpecimenBuilder builder)
+        public OmitOnRecursionGuard(ISpecimenBuilder builder)
             : base(builder)
         {
         }
 
-        public OmitRecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
+        public OmitOnRecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
             : base(builder, comparer)
         {
         }

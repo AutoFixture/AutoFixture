@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture
             if (builder == null)
                 throw new ArgumentNullException("builder");
 
-            return new OmitRecursionGuard(builder);
+            return new OmitOnRecursionGuard(builder);
         }
     }
 }

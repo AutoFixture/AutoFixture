@@ -42,7 +42,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var result = sut.Transform(dummyBuilder);
             // Verify outcome
-            Assert.IsAssignableFrom<OmitRecursionGuard>(result);
+            Assert.IsAssignableFrom<OmitOnRecursionGuard>(result);
             // Teardown
         }
 
@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Transform(expectedBuilder);
             // Verify outcome
-            var guard = Assert.IsAssignableFrom<OmitRecursionGuard>(result);
+            var guard = Assert.IsAssignableFrom<OmitOnRecursionGuard>(result);
             Assert.Equal(expectedBuilder, guard.Builder);
             // Teardown
         }

@@ -7,7 +7,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class OmitRecursionGuardTest
+    public class OmitOnRecursionGuardTest
     {
         [Fact]
         public void SutIsRecursionGuard()
@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             // Exercise system
             var dummy = new DelegatingSpecimenBuilder();
-            var sut = new OmitRecursionGuard(dummy);
+            var sut = new OmitOnRecursionGuard(dummy);
             // Verify outcome
             Assert.IsAssignableFrom<RecursionGuard>(sut);
             // Teardown
@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            var sut = new OmitRecursionGuard(dummyBuilder);
+            var sut = new OmitOnRecursionGuard(dummyBuilder);
             // Exercise system
             var dummyRequest = new object();
             var actual = sut.HandleRecursiveRequest(dummyRequest);
@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummy = new DelegatingSpecimenBuilder();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new OmitRecursionGuard(dummy, null));
+                new OmitOnRecursionGuard(dummy, null));
             // Teardown
         }
     }
