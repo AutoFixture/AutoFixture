@@ -99,6 +99,7 @@
     <Compile Include="DateTimeGeneratorTest.cs" />
     <Compile Include="GeneratorTest.cs" />
     <Compile Include="Kernel\ConstrainedStringRequestTest.cs" />
+    <Compile Include="Kernel\OmitRecursionGuardTest.cs" />
     <Compile Include="Kernel\OmitSpecimenTest.cs" />
     <Compile Include="Kernel\RangedNumberRequestTest.cs" />
     <Compile Include="Kernel\RegularExpressionRequestTest.cs" />
