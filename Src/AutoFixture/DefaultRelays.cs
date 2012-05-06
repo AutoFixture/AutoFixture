@@ -10,18 +10,8 @@ namespace Ploeh.AutoFixture
     /// 'transmission'. Without those builders, very little is likely to work.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "This is not a 'collection' - it can't be modified.")]
-    public class DefaultRelays : IEnumerable<ISpecimenBuilder>, IMultiple
+    public class DefaultRelays : IEnumerable<ISpecimenBuilder>
     {
-        private readonly MultipleRelay multiple;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultRelays"/> class.
-        /// </summary>
-        public DefaultRelays()
-        {
-            this.multiple = new MultipleRelay();
-        }
-
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
@@ -40,7 +30,6 @@ namespace Ploeh.AutoFixture
             yield return new FieldRequestRelay();
             yield return new FiniteSequenceRelay();
             yield return new SeedIgnoringRelay();
-            yield return this.multiple;
             yield return new MethodInvoker(
                 new CompositeMethodQuery(
                     new ModestConstructorQuery(),
@@ -57,15 +46,6 @@ namespace Ploeh.AutoFixture
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Gets or sets the count that specifies how many <i>Many</i> is.
-        /// </summary>
-        public int Count
-        {
-            get { return this.multiple.Count; }
-            set { this.multiple.Count = value; }
         }
     }
 }

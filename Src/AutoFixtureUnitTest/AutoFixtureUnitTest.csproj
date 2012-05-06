@@ -78,18 +78,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoPropertiesTargetTest.cs" />
     <Compile Include="BehaviorComposerTest.cs" />
     <Compile Include="BehaviorPostprocessComposerTest.cs" />
+    <Compile Include="BehaviorRootTest.cs" />
     <Compile Include="BooleanSwitchTest.cs" />
     <Compile Include="ByteSequenceGeneratorTest.cs" />
     <Compile Include="CharSequenceGeneratorTest.cs" />
     <Compile Include="ConstrainedStringGeneratorTest.cs" />
     <Compile Include="CurrentDateTimeCustomizationTest.cs" />
     <Compile Include="CurrentDateTimeGeneratorTest.cs" />
+    <Compile Include="CustomizationNodeTest.cs" />
     <Compile Include="DataAnnotations\RegularExpressionAttributeRelayTest.cs" />
     <Compile Include="DataAnnotations\RegularExpressionValidatedType.cs" />
     <Compile Include="DataAnnotations\StringLengthAttributeRelayTest.cs" />
     <Compile Include="DataAnnotations\StringLengthValidatedType.cs" />
+    <Compile Include="DefaultRelaysPipeTest.cs" />
+    <Compile Include="Dsl\NodeComposerTest.cs" />
     <Compile Include="FakeCustomAttributeProvider.cs" />
     <Compile Include="DataAnnotations\RangeAttributeRelayTest.cs" />
     <Compile Include="DataAnnotations\RangeValidatedType.cs" />
@@ -99,14 +104,23 @@
     <Compile Include="DateTimeGeneratorTest.cs" />
     <Compile Include="GeneratorTest.cs" />
     <Compile Include="Kernel\ConstrainedStringRequestTest.cs" />
+    <Compile Include="Kernel\FixedPipeTest.cs" />
     <Compile Include="Kernel\OmitOnRecursionGuardTest.cs" />
+    <Compile Include="Kernel\NodeComparer.cs" />
     <Compile Include="Kernel\OmitSpecimenTest.cs" />
     <Compile Include="Kernel\RangedNumberRequestTest.cs" />
     <Compile Include="Kernel\RegularExpressionRequestTest.cs" />
+    <Compile Include="Kernel\GraphEqualsTest.cs" />
     <Compile Include="OmitOnRecursionBehaviorTest.cs" />
+    <Compile Include="Kernel\TypedNodeTest.cs" />
+    <Compile Include="MarkerNode.cs" />
     <Compile Include="ProvidedAttribute.cs" />
     <Compile Include="RangedNumberGeneratorTest.cs" />
     <Compile Include="RegularExpressionGeneratorTest.cs" />
+    <Compile Include="ResidueCollectorNodeTest.cs" />
+    <Compile Include="SingletonSpecimenBuilderNodeStackCollectionAdapterTest.cs" />
+    <Compile Include="SpecimenBuilderNodeCollectionAdapterTest.cs" />
+    <Compile Include="SpecimenBuilderNodeEventArgsTest.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGeneratorTest.cs" />
     <Compile Include="DefaultPrimitiveBuildersTest.cs" />
     <Compile Include="DelegatingCustomization.cs" />
@@ -156,7 +170,6 @@
     <Compile Include="Kernel\ListFavoringConstructorQueryTest.cs" />
     <Compile Include="Kernel\ListRelayTest.cs" />
     <Compile Include="Kernel\ListSpecificationTest.cs" />
-    <Compile Include="Kernel\FakeMultiple.cs" />
     <Compile Include="Kernel\FixedBuilderTest.cs" />
     <Compile Include="Kernel\GreedyConstructorQueryTest.cs" />
     <Compile Include="Kernel\IllegalRequestExceptionTest.cs" />
@@ -205,6 +218,8 @@
     <Compile Include="StableFiniteSequenceCustomizationTest.cs" />
     <Compile Include="NumericSequenceGeneratorTest.cs" />
     <Compile Include="NumericSequencePerTypeCustomizationTest.cs" />
+    <Compile Include="TaggedNode.cs" />
+    <Compile Include="TaggedNodeComparer.cs" />
     <Compile Include="TestConsole.cs" />
     <Compile Include="ThrowingRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\TracingBuilderTest.cs" />
@@ -240,6 +255,8 @@
     <Compile Include="Kernel\TraceWriterTest.cs" />
     <Compile Include="DefaultRelaysTest.cs" />
     <Compile Include="TracingBehaviorTest.cs" />
+    <Compile Include="TrueComparer.cs" />
+    <Compile Include="TypeBasedComparer.cs" />
     <Compile Include="TypeGeneratorTest.cs" />
     <Compile Include="UInt16SequenceGeneratorTest.cs" />
     <Compile Include="UInt32SequenceGeneratorTest.cs" />

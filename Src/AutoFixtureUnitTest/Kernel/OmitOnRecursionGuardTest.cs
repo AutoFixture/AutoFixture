@@ -46,5 +46,58 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new OmitOnRecursionGuard(dummy, null));
             // Teardown
         }
+
+        [Fact]
+        public void ComposeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var sut = new OmitOnRecursionGuard(dummyBuilder);
+
+            var expectedBuilders = new[]
+            {
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder()
+            };
+            // Exercise system
+            var actual = sut.Compose(expectedBuilders);
+            // Verify outcome
+            var rg = Assert.IsAssignableFrom<OmitOnRecursionGuard>(actual);
+            var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(rg.Builder);
+            Assert.True(expectedBuilders.SequenceEqual(composite));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeSingleItemReturnsCorrectResult()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var sut = new OmitOnRecursionGuard(dummyBuilder);
+
+            var expected = new DelegatingSpecimenBuilder();
+            // Exercise system
+            var actual = sut.Compose(new[] { expected });
+            // Verify outcome
+            var rg = Assert.IsAssignableFrom<OmitOnRecursionGuard>(actual);
+            Assert.Equal(expected, rg.Builder);
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeRetainsComparer()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var expected = new DelegatingEqualityComparer();
+            var sut = new OmitOnRecursionGuard(dummyBuilder, expected);
+            // Exercise system
+            var actual = sut.Compose(new ISpecimenBuilder[0]);
+            // Verify outcome
+            var rg = Assert.IsAssignableFrom<OmitOnRecursionGuard>(actual);
+            Assert.Equal(expected, rg.Comparer);
+            // Teardown
+        }
     }
 }

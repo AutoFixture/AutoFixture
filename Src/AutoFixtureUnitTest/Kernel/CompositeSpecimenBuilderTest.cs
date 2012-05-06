@@ -20,6 +20,28 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void SutIsSequenceOfSpecimenBuilders()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new CompositeSpecimenBuilder();
+            // Verify outcome
+            Assert.IsAssignableFrom<IEnumerable<ISpecimenBuilder>>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutIsNode()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new CompositeSpecimenBuilder();
+            // Verify outcome
+            Assert.IsAssignableFrom<ISpecimenBuilderNode>(sut);
+            // Teardown
+        }
+
+        [Fact]
         public void BuildersWillNotBeNullWhenSutIsCreatedWithDefaultConstructor()
         {
             // Fixture setup
@@ -61,6 +83,25 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void SutYieldsInjectedSequence()
+        {
+            // Fixture setup
+            var expectedBuilders = new ISpecimenBuilder[]
+            {
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder()
+            }.AsEnumerable();
+            var sut = new CompositeSpecimenBuilder(expectedBuilders);
+            // Exercise system
+            // Verify outcome
+            Assert.True(expectedBuilders.SequenceEqual(sut));
+            Assert.True(expectedBuilders.OfType<object>().SequenceEqual(
+                ((System.Collections.IEnumerable)sut).OfType<object>()));
+            // Teardown
+        }
+
+        [Fact]
         public void CreateWithNullArrayWillThrow()
         {
             // Fixture setup
@@ -86,6 +127,25 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Builders;
             // Verify outcome
             Assert.True(expectedBuilders.SequenceEqual(result), "Builders");
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new CompositeSpecimenBuilder();            
+            // Exercise system
+            var expectedBuilders = new[]
+            {
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder()
+            };
+            var actual = sut.Compose(expectedBuilders);
+            // Verify outcome
+            var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(actual);
+            Assert.True(expectedBuilders.SequenceEqual(composite));
             // Teardown
         }
 

@@ -93,14 +93,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorComposer.cs" />
     <Compile Include="BehaviorPostprocessComposer.cs" />
+    <Compile Include="BehaviorRoot.cs" />
     <Compile Include="CharSequenceGenerator.cs" />
     <Compile Include="CollectionFiller.cs" />
     <Compile Include="CompositeCustomization.cs" />
     <Compile Include="ConstrainedStringGenerator.cs" />
     <Compile Include="CurrentDateTimeCustomization.cs" />
     <Compile Include="CurrentDateTimeGenerator.cs" />
+    <Compile Include="CustomizationNode.cs" />
     <Compile Include="DataAnnotations\Automaton.cs" />
     <Compile Include="DataAnnotations\BasicAutomata.cs" />
     <Compile Include="DataAnnotations\BasicOperations.cs" />
@@ -119,16 +122,28 @@
     <Compile Include="DataAnnotations\TransitionComparer.cs" />
     <Compile Include="DataAnnotations\Xeger.cs" />
     <Compile Include="DateTimeGenerator.cs" />
+    <Compile Include="DefaultRelaysPipe.cs" />
+    <Compile Include="Dsl\NodeComposer.cs" />
+    <Compile Include="EnumerableList.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Kernel\ConstrainedStringRequest.cs" />
+    <Compile Include="Kernel\FixedPipe.cs" />
     <Compile Include="Kernel\OmitOnRecursionGuard.cs" />
+    <Compile Include="Kernel\ISpecimenBuilderNode.cs" />
+    <Compile Include="Kernel\ISpecimenBuilderPipe.cs" />
     <Compile Include="Kernel\OmitSpecimen.cs" />
     <Compile Include="Kernel\RangedNumberRequest.cs" />
     <Compile Include="Kernel\RegularExpressionRequest.cs" />
+    <Compile Include="Kernel\TypedNode.cs" />
     <Compile Include="OmitOnRecursionBehavior.cs" />
     <Compile Include="RangedNumberGenerator.cs" />
     <Compile Include="RegularExpressionGenerator.cs" />
+    <Compile Include="ResidueCollectorNode.cs" />
+    <Compile Include="SingletonSpecimenBuilderNodeStackCollectionAdapter.cs" />
+    <Compile Include="Kernel\SpecimenBuilderNode.cs" />
+    <Compile Include="SpecimenBuilderNodeCollectionAdapter.cs" />
+    <Compile Include="SpecimenBuilderNodeEventArgs.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGenerator.cs" />
     <Compile Include="DefaultPrimitiveBuilders.cs" />
     <Compile Include="DictionaryFiller.cs" />
@@ -173,7 +188,6 @@
     <Compile Include="Kernel\IConstructorQuery.cs" />
     <Compile Include="Kernel\IllegalRequestException.cs" />
     <Compile Include="Kernel\IMethod.cs" />
-    <Compile Include="Kernel\IMultiple.cs" />
     <Compile Include="Kernel\IntPtrGuard.cs" />
     <Compile Include="Kernel\ISpecimenBuilderComposer.cs" />
     <Compile Include="Dsl\ICustomizationComposer.cs" />

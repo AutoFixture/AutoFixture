@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
@@ -151,6 +152,82 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             var expectedResult = new NoSpecimen(request);
             Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutIsNode()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            // Exercise system
+            var sut = new NoSpecimenOutputGuard(dummyBuilder);
+            // Verify outcome
+            Assert.IsAssignableFrom<ISpecimenBuilderNode>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutYieldsDecoratedBuilder()
+        {
+            // Fixture setup
+            var expected = new DelegatingSpecimenBuilder();
+            // Exercise system
+            var sut = new NoSpecimenOutputGuard(expected);
+            // Verify outcome
+            Assert.True(new[] { expected }.SequenceEqual(sut));
+            Assert.True(new object[] { expected }.SequenceEqual(((System.Collections.IEnumerable)sut).Cast<object>()));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var sut = new NoSpecimenOutputGuard(dummyBuilder);
+            // Exercise system
+            var expectedBuilders = new[]
+            {
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder()
+            };
+            var actual = sut.Compose(expectedBuilders);
+            // Verify outcome
+            var g = Assert.IsAssignableFrom<NoSpecimenOutputGuard>(actual);
+            var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(g.Builder);
+            Assert.True(expectedBuilders.SequenceEqual(composite));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposeSingleItemReturnsCorrectResult()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var sut = new NoSpecimenOutputGuard(dummyBuilder);
+            // Exercise system
+            var expected = new DelegatingSpecimenBuilder();
+            var actual = sut.Compose(new[] { expected });
+            // Verify outcome
+            var g = Assert.IsAssignableFrom<NoSpecimenOutputGuard>(actual);
+            Assert.Equal(expected, g.Builder);
+            // Teardown
+        }
+
+        [Fact]
+        public void ComposePreservesSpecification()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var expected = new DelegatingRequestSpecification();
+            var sut = new NoSpecimenOutputGuard(dummyBuilder, expected);
+            // Exercise system
+            var actual = sut.Compose(new ISpecimenBuilder[0]);
+            // Verify outcome
+            var g = Assert.IsAssignableFrom<NoSpecimenOutputGuard>(actual);
+            Assert.Equal(expected, g.Specification);
             // Teardown
         }
     }
