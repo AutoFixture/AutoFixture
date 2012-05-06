@@ -41,9 +41,10 @@ namespace Ploeh.AutoFixture.Kernel
         {
             throw new ObjectCreationException(string.Format(
                 CultureInfo.InvariantCulture,
-                "AutoFixture was unable to create an instance of type {0} because the traversed object graph contains a circular reference. Path: {1}.",
+                "AutoFixture was unable to create an instance of type {0} because the traversed object graph contains a circular reference. Information about the circular path follows below. This is the correct behavior when a Fixture is equipped with a ThrowingRecursionBehavior, which is the default. This ensures that you are being made aware of circular references in your code. Your first reaction should be to redesign your API in order to get rid of all circular references. However, if this is not possible (most likely because parts or all of the API is delivered by a third party), you can replace this default behaviour with a different behavior: on the Fixture instance, remove the ThrowingRecursionBehavior from Fixture.Behaviors, and instead add an instance of OmitOnRecursionBehavior.{2}\tPath:{2}{1}",
                 this.RecordedRequests.Cast<object>().First().GetType(),
-                this.GetFlattenedRequests(request)));
+                this.GetFlattenedRequests(request),
+                Environment.NewLine));
         }
 
         public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
@@ -60,11 +61,16 @@ namespace Ploeh.AutoFixture.Kernel
                 Type type = request.GetType();
                 if (type.Assembly != typeof(RecursionGuard).Assembly)
                 {
-                    requestInfos.Append(request + " --> ");
+                    requestInfos.Append("\t\t");
+                    requestInfos.Append(request);
+                    requestInfos.AppendLine(" --> ");
                 }
             }
 
-            return requestInfos.ToString() + finalRequest;
+            requestInfos.Append("\t\t");
+            requestInfos.AppendLine(finalRequest.ToString());
+
+            return requestInfos.ToString();
         }
     }
 }
