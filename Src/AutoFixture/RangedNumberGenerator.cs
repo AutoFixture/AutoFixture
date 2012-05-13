@@ -73,7 +73,7 @@ namespace Ploeh.AutoFixture
 
                 if (this.rangedValue != null && (minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) > 0))
                 {
-                    this.rangedValue = RangedNumberGenerator.Add(this.rangedValue, 1);
+                    this.rangedValue = RangedNumberGenerator.Add(this.rangedValue, GetOneInType(range.OperandType));
                 }
                 else if (minimum.CompareTo(value) == 0)
                 {
@@ -96,6 +96,11 @@ namespace Ploeh.AutoFixture
                     this.rangedValue = RangedNumberGenerator.Add(minimum, value);
                 }
             }
+        }
+
+        private static object GetOneInType(Type type)
+        {
+            return Convert.ChangeType(1, type);
         }
 
         private static object Add(object a, object b)

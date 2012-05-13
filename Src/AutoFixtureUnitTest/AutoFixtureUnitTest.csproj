@@ -86,6 +86,7 @@
     <Compile Include="ConstrainedStringGeneratorTest.cs" />
     <Compile Include="CurrentDateTimeCustomizationTest.cs" />
     <Compile Include="CurrentDateTimeGeneratorTest.cs" />
+    <Compile Include="DataAnnotations\RangeAttributeOnDecimalHandlingTest.cs" />
     <Compile Include="DataAnnotations\RegularExpressionAttributeRelayTest.cs" />
     <Compile Include="DataAnnotations\RegularExpressionValidatedType.cs" />
     <Compile Include="DataAnnotations\StringLengthAttributeRelayTest.cs" />

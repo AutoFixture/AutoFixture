@@ -45,7 +45,17 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 return new NoSpecimen(request);
             }
 
-            return context.Resolve(new RangedNumberRequest(rangeAttribute.OperandType, rangeAttribute.Minimum, rangeAttribute.Maximum));
+            return context.Resolve(GetRequestFrom(rangeAttribute, request));
+        }
+
+        private RangedNumberRequest GetRequestFrom(RangeAttribute rangeAttribute, object request)
+        {
+            var operandType = rangeAttribute.OperandType;
+            if (request is PropertyInfo)
+                operandType = (request as PropertyInfo).PropertyType;
+            var minimum = Convert.ChangeType(rangeAttribute.Minimum, operandType);
+            var maximum = Convert.ChangeType(rangeAttribute.Maximum, operandType);
+            return new RangedNumberRequest(operandType, minimum, maximum);
         }
     }
 }
