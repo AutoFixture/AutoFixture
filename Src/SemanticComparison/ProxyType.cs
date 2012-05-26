@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -6,11 +7,15 @@ namespace Ploeh.SemanticComparison
 {
     internal static class ProxyType
     {
-        internal static ConstructorInfo GetModestConstructor(this Type type)
+        internal static ConstructorInfo GetCompatibleConstructor(this Type type)
         {
+            List<Type> propertyTypes = type.GetProperties().Select(x => x.PropertyType).ToList();
+
             return (from ci in type.GetConstructors(
-                     BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance)
-                    orderby ci.GetParameters().Length ascending
+                        BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance)
+                    let parameterTypes = ci.GetParameters().Select(x => x.ParameterType).ToList()
+                    where parameterTypes.All(propertyTypes.Contains)
+                    orderby parameterTypes.Count ascending
                     select ci).First();
         }
 
