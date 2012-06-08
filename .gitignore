@@ -18,6 +18,7 @@ Packages.dgml
 *.testrunconfig
 *.docstates
 *.[Rr]e[Ss]harper*
+*.dotCover
 *.ncrunchsolution
 *.ncrunchproject
 *.crunchsolution.local.xml
