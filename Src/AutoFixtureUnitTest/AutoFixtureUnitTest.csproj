@@ -107,6 +107,7 @@
     <Compile Include="ProvidedAttribute.cs" />
     <Compile Include="RangedNumberGeneratorTest.cs" />
     <Compile Include="RegularExpressionGeneratorTest.cs" />
+    <Compile Include="StaticFactoryWithClosureOfOperationsBugRepro.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGeneratorTest.cs" />
     <Compile Include="DefaultPrimitiveBuildersTest.cs" />
     <Compile Include="DelegatingCustomization.cs" />
