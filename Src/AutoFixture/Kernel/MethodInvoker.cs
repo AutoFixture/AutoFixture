@@ -88,7 +88,8 @@ namespace Ploeh.AutoFixture.Kernel
 
         private static bool IsValueValid(object value)
         {
-            return !(value is NoSpecimen);
+            return !(value is NoSpecimen)
+                && !(value is OmitSpecimen);
         }
     }
 }
