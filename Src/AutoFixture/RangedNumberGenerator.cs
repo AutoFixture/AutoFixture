@@ -71,6 +71,11 @@ namespace Ploeh.AutoFixture
                 var minimum = (IComparable)range.Minimum;
                 var maximum = (IComparable)range.Maximum;
 
+                if (this.rangedValue != null)
+                {
+                    this.rangedValue = Convert.ChangeType(this.rangedValue, range.OperandType);
+                }
+
                 if (this.rangedValue != null && (minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) > 0))
                 {
                     this.rangedValue = RangedNumberGenerator.Add(this.rangedValue, Convert.ChangeType(1, range.OperandType));

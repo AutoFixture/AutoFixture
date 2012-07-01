@@ -149,6 +149,53 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Theory]
+        [InlineData("1.1", "3.3")]
+        [InlineData(100.1, 300.3)]
+        [InlineData(10001, 30003)]
+        [InlineData(-30003, -10001)]
+        [InlineData(-300.3, -100.1)]
+        [InlineData("-3.3", "-1.1")]
+        public void CreateWithDifferentOperandTypeDoesNotThrowOnMultipleCall(object minimum, object maximum)
+        {
+            // Fixture setup
+            var numbers = new Random();
+            var request = new[]
+            {
+                new RangedNumberRequest(
+                    typeof(decimal),
+                    Convert.ChangeType(minimum, typeof(decimal)), 
+                    Convert.ChangeType(maximum, typeof(decimal))
+                    ),
+                new RangedNumberRequest(
+                    typeof(double),
+                    Convert.ChangeType(minimum, typeof(double)), 
+                    Convert.ChangeType(maximum, typeof(double))
+                    ),
+                new RangedNumberRequest(
+                    typeof(decimal),
+                    Convert.ChangeType(minimum, typeof(decimal)), 
+                    Convert.ChangeType(maximum, typeof(decimal))
+                    )
+            };
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r =>
+                {
+                    if (r == typeof(double))
+                        return numbers.NextDouble();
+                    if (r == typeof(decimal))
+                        return Convert.ToDecimal(numbers.Next());
+
+                    return new NoSpecimen(r);
+                }
+            };
+            var sut = new RangedNumberGenerator();
+            // Exercise system and verify outcome
+            Array.ForEach(request, r => Assert.DoesNotThrow(() => sut.Create(r, context)));
+            // Teardown
+        }
+
         private sealed class RangedNumberRequestTestCases : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
