@@ -1308,7 +1308,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithRangeValidatedTypeReturnsCorrectResult()
+        public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForIntegerRange()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -1319,12 +1319,137 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithRangeValidatedTypeReturnsCorrectResultMultipleCall()
+        public void CreateAnonymousWithRangeValidatedDecimalFieldReturnsCorrectResultForIntegerRange()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var result = fixture.CreateAnonymous<RangeValidatedType>();
+            // Verify outcome
+            Assert.True(result.Field >= RangeValidatedType.Minimum && result.Field <= RangeValidatedType.Maximum);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithRangeValidatedDoublePropertyReturnsCorrectResultForDoubleRange()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var result = fixture.CreateAnonymous<RangeValidatedType>();
+            // Verify outcome
+            Assert.True(result.Property2 >= RangeValidatedType.DoubleMinimum && result.Property2 <= RangeValidatedType.DoubleMaximum);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForDoubleRange()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var result = fixture.CreateAnonymous<RangeValidatedType>();
+            // Verify outcome
+            Assert.True(result.Property3 >= Convert.ToDecimal(RangeValidatedType.DoubleMinimum) && result.Property3 <= Convert.ToDecimal(RangeValidatedType.DoubleMaximum));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForStringRange()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var result = fixture.CreateAnonymous<RangeValidatedType>();
+            // Verify outcome
+            Assert.True(result.Property4 >= Convert.ToDecimal(RangeValidatedType.StringMinimum) && result.Property4 <= Convert.ToDecimal(RangeValidatedType.StringMaximum));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithRangeValidatedIntegerPropertyReturnsCorrectResultForIntegerRange()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var result = fixture.CreateAnonymous<RangeValidatedType>();
+            // Verify outcome
+            Assert.True(result.Property5 >= RangeValidatedType.Minimum && result.Property5 <= RangeValidatedType.Maximum);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
         {
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.CreateAnonymous<RangeValidatedType>().Property)
+                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
+                          select n);
+            // Verify outcome
+            Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithRangeValidatedDecimalFieldReturnsCorrectResultForIntegerRangeOnMultipleCall()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.CreateAnonymous<RangeValidatedType>().Field)
+                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
+                          select n);
+            // Verify outcome
+            Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithRangeValidatedDoublePropertyReturnsCorrectResultForDoubleRangeOnMultipleCall()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.CreateAnonymous<RangeValidatedType>().Property2)
+                          where (n < RangeValidatedType.DoubleMinimum && n > RangeValidatedType.DoubleMaximum)
+                          select n);
+            // Verify outcome
+            Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForDoubleRangeOnMultipleCall()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.CreateAnonymous<RangeValidatedType>().Property3)
+                          where (n < Convert.ToDecimal(RangeValidatedType.DoubleMinimum) && n > Convert.ToDecimal(RangeValidatedType.DoubleMaximum))
+                          select n);
+            // Verify outcome
+            Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForStringRangeOnMultipleCall()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.CreateAnonymous<RangeValidatedType>().Property4)
+                          where (n < Convert.ToDecimal(RangeValidatedType.StringMinimum) && n > Convert.ToDecimal(RangeValidatedType.StringMaximum))
+                          select n);
+            // Verify outcome
+            Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithRangeValidatedIntegerPropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.CreateAnonymous<RangeValidatedType>().Property5)
                           where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
                           select n);
             // Verify outcome
