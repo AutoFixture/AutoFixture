@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Reflection;
 using Ploeh.AutoFixture.DataAnnotations;
 using Ploeh.AutoFixture.Kernel;
@@ -98,7 +99,12 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             var rangeAttribute = new RangeAttribute(type, minimum.ToString(), maximum.ToString());
             var providedAttribute = new ProvidedAttribute(rangeAttribute, true);
             ICustomAttributeProvider request = new FakeCustomAttributeProvider(providedAttribute);
-            var expectedRequest = new RangedNumberRequest(rangeAttribute.OperandType, rangeAttribute.Minimum, rangeAttribute.Maximum);
+            Type conversionType = rangeAttribute.OperandType;
+            var expectedRequest = new RangedNumberRequest(
+                conversionType,
+                Convert.ChangeType(rangeAttribute.Minimum, conversionType, CultureInfo.CurrentCulture),
+                Convert.ChangeType(rangeAttribute.Maximum, conversionType, CultureInfo.CurrentCulture)
+                );
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
@@ -132,8 +138,8 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
 
             var expectedRequest = new RangedNumberRequest(
                 target,
-                Convert.ChangeType(RangeValidatedType.Minimum, target),
-                Convert.ChangeType(RangeValidatedType.Maximum, target)
+                Convert.ChangeType(RangeValidatedType.Minimum, target, CultureInfo.CurrentCulture),
+                Convert.ChangeType(RangeValidatedType.Maximum, target, CultureInfo.CurrentCulture)
                 );
            
             var expectedResult = new object();
@@ -169,8 +175,8 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
 
             var expectedRequest = new RangedNumberRequest(
                 target,
-                Convert.ChangeType(RangeValidatedType.Minimum, target),
-                Convert.ChangeType(RangeValidatedType.Maximum, target)
+                Convert.ChangeType(RangeValidatedType.Minimum, target, CultureInfo.CurrentCulture),
+                Convert.ChangeType(RangeValidatedType.Maximum, target, CultureInfo.CurrentCulture)
                 );
 
             var expectedResult = new object();

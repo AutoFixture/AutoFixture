@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
@@ -68,8 +69,8 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
             return new RangedNumberRequest(
                 conversionType,
-                Convert.ChangeType(rangeAttribute.Minimum, conversionType),
-                Convert.ChangeType(rangeAttribute.Maximum, conversionType)
+                Convert.ChangeType(rangeAttribute.Minimum, conversionType, CultureInfo.CurrentCulture),
+                Convert.ChangeType(rangeAttribute.Maximum, conversionType, CultureInfo.CurrentCulture)
                 );
         }
     }

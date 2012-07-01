@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
@@ -164,18 +165,18 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 new RangedNumberRequest(
                     typeof(decimal),
-                    Convert.ChangeType(minimum, typeof(decimal)), 
-                    Convert.ChangeType(maximum, typeof(decimal))
+                    Convert.ChangeType(minimum, typeof(decimal), CultureInfo.CurrentCulture), 
+                    Convert.ChangeType(maximum, typeof(decimal), CultureInfo.CurrentCulture)
                     ),
                 new RangedNumberRequest(
                     typeof(double),
-                    Convert.ChangeType(minimum, typeof(double)), 
-                    Convert.ChangeType(maximum, typeof(double))
+                    Convert.ChangeType(minimum, typeof(double), CultureInfo.CurrentCulture), 
+                    Convert.ChangeType(maximum, typeof(double), CultureInfo.CurrentCulture)
                     ),
                 new RangedNumberRequest(
                     typeof(decimal),
-                    Convert.ChangeType(minimum, typeof(decimal)), 
-                    Convert.ChangeType(maximum, typeof(decimal))
+                    Convert.ChangeType(minimum, typeof(decimal), CultureInfo.CurrentCulture), 
+                    Convert.ChangeType(maximum, typeof(decimal), CultureInfo.CurrentCulture)
                     )
             };
             var context = new DelegatingSpecimenContext
