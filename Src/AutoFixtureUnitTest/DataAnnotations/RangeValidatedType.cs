@@ -8,6 +8,9 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         public const int Maximum = 20;
 
         [Range(Minimum, Maximum)]
+        public decimal Field;
+
+        [Range(Minimum, Maximum)]
         public decimal Property { get; set; }
     }
 }

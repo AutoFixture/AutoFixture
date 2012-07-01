@@ -111,5 +111,79 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             Assert.Equal(expectedResult, result);
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(int), 10, 20)]
+        [InlineData(typeof(int), -2, -1)]
+        [InlineData(typeof(decimal), "10.1", "20.2")]
+        [InlineData(typeof(decimal), "-2.2", "-1.1")]
+        [InlineData(typeof(double), 10.0, 20.0)]
+        [InlineData(typeof(double), -2.0, -1.0)]
+        [InlineData(typeof(long), 10, 20)]
+        [InlineData(typeof(long), -2, -1)]
+        public void CreateWithPropertyDecoratedWithRangeAttributeReturnsCorrectResult(
+            Type attributeType, 
+            object attributeMinimum, 
+            object attributeMaximum)
+        {
+            // Fixture setup
+            var request = typeof(RangeValidatedType).GetProperty("Property");
+            Type target = request.PropertyType;
+
+            var expectedRequest = new RangedNumberRequest(
+                target,
+                Convert.ChangeType(RangeValidatedType.Minimum, target),
+                Convert.ChangeType(RangeValidatedType.Maximum, target)
+                );
+           
+            var expectedResult = new object();
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen(r)
+            };
+            var sut = new RangeAttributeRelay();
+            // Exercise system
+            var result = sut.Create(request, context);
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(int), 10, 20)]
+        [InlineData(typeof(int), -2, -1)]
+        [InlineData(typeof(decimal), "10.1", "20.2")]
+        [InlineData(typeof(decimal), "-2.2", "-1.1")]
+        [InlineData(typeof(double), 10.0, 20.0)]
+        [InlineData(typeof(double), -2.0, -1.0)]
+        [InlineData(typeof(long), 10, 20)]
+        [InlineData(typeof(long), -2, -1)]
+        public void CreateWithFieldDecoratedWithRangeAttributeReturnsCorrectResult(
+            Type attributeType,
+            object attributeMinimum,
+            object attributeMaximum)
+        {
+            // Fixture setup
+            var request = typeof(RangeValidatedType).GetField("Field");
+            Type target = request.FieldType;
+
+            var expectedRequest = new RangedNumberRequest(
+                target,
+                Convert.ChangeType(RangeValidatedType.Minimum, target),
+                Convert.ChangeType(RangeValidatedType.Maximum, target)
+                );
+
+            var expectedResult = new object();
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen(r)
+            };
+            var sut = new RangeAttributeRelay();
+            // Exercise system
+            var result = sut.Create(request, context);
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
     }
 }

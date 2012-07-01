@@ -45,17 +45,32 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 return new NoSpecimen(request);
             }
 
-            return context.Resolve(GetRequestFrom(rangeAttribute, request));
+            return context.Resolve(RangeAttributeRelay.Create(rangeAttribute, request));
         }
 
-        private RangedNumberRequest GetRequestFrom(RangeAttribute rangeAttribute, object request)
+        private static RangedNumberRequest Create(RangeAttribute rangeAttribute, object request)
         {
-            var operandType = rangeAttribute.OperandType;
-            if (request is PropertyInfo)
-                operandType = (request as PropertyInfo).PropertyType;
-            var minimum = Convert.ChangeType(rangeAttribute.Minimum, operandType);
-            var maximum = Convert.ChangeType(rangeAttribute.Maximum, operandType);
-            return new RangedNumberRequest(operandType, minimum, maximum);
+            var conversionType = rangeAttribute.OperandType;
+
+            var pi = request as PropertyInfo;
+            if (pi != null)
+            {
+                conversionType = pi.PropertyType;
+            }
+            else
+            {
+                var fi = request as FieldInfo;
+                if (fi != null)
+                {
+                    conversionType = fi.FieldType;
+                }
+            }
+
+            return new RangedNumberRequest(
+                conversionType,
+                Convert.ChangeType(rangeAttribute.Minimum, conversionType),
+                Convert.ChangeType(rangeAttribute.Maximum, conversionType)
+                );
         }
     }
 }
