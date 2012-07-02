@@ -248,6 +248,7 @@
     <Compile Include="UriGeneratorTest.cs" />
     <Compile Include="UriSchemeGeneratorTest.cs" />
     <Compile Include="UriSchemeTest.cs" />
+    <Compile Include="UseCultureAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

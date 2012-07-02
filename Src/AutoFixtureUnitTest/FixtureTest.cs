@@ -1308,6 +1308,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForIntegerRange()
         {
             // Fixture setup
@@ -1319,6 +1320,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalFieldReturnsCorrectResultForIntegerRange()
         {
             // Fixture setup
@@ -1330,6 +1332,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDoublePropertyReturnsCorrectResultForDoubleRange()
         {
             // Fixture setup
@@ -1341,6 +1344,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForDoubleRange()
         {
             // Fixture setup
@@ -1352,6 +1356,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForStringRange()
         {
             // Fixture setup
@@ -1363,6 +1368,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedIntegerPropertyReturnsCorrectResultForIntegerRange()
         {
             // Fixture setup
@@ -1374,6 +1380,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
         {
             // Fixture setup
@@ -1388,6 +1395,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalFieldReturnsCorrectResultForIntegerRangeOnMultipleCall()
         {
             // Fixture setup
@@ -1402,6 +1410,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDoublePropertyReturnsCorrectResultForDoubleRangeOnMultipleCall()
         {
             // Fixture setup
@@ -1416,6 +1425,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForDoubleRangeOnMultipleCall()
         {
             // Fixture setup
@@ -1430,6 +1440,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForStringRangeOnMultipleCall()
         {
             // Fixture setup
@@ -1444,6 +1455,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedIntegerPropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
         {
             // Fixture setup
