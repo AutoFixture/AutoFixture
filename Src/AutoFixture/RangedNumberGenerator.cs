@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -71,9 +72,14 @@ namespace Ploeh.AutoFixture
                 var minimum = (IComparable)range.Minimum;
                 var maximum = (IComparable)range.Maximum;
 
+                if (this.rangedValue != null)
+                {
+                    this.rangedValue = Convert.ChangeType(this.rangedValue, range.OperandType, CultureInfo.CurrentCulture);
+                }
+
                 if (this.rangedValue != null && (minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) > 0))
                 {
-                    this.rangedValue = RangedNumberGenerator.Add(this.rangedValue, 1);
+                    this.rangedValue = RangedNumberGenerator.Add(this.rangedValue, Convert.ChangeType(1, range.OperandType, CultureInfo.CurrentCulture));
                 }
                 else if (minimum.CompareTo(value) == 0)
                 {

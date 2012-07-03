@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
@@ -146,6 +147,53 @@ namespace Ploeh.AutoFixtureUnitTest
             var loopTest = new LoopTest<RangedNumberGenerator, object>(sut => (object)sut.Create(request, context));
             // Exercise system and verify outcome
             loopTest.Execute(2, new NoSpecimen(request));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData("1.1", "3.3")]
+        [InlineData(100.1, 300.3)]
+        [InlineData(10001, 30003)]
+        [InlineData(-30003, -10001)]
+        [InlineData(-300.3, -100.1)]
+        [InlineData("-3.3", "-1.1")]
+        public void CreateWithDifferentOperandTypeDoesNotThrowOnMultipleCall(object minimum, object maximum)
+        {
+            // Fixture setup
+            var numbers = new Random();
+            var request = new[]
+            {
+                new RangedNumberRequest(
+                    typeof(decimal),
+                    Convert.ChangeType(minimum, typeof(decimal), CultureInfo.CurrentCulture), 
+                    Convert.ChangeType(maximum, typeof(decimal), CultureInfo.CurrentCulture)
+                    ),
+                new RangedNumberRequest(
+                    typeof(double),
+                    Convert.ChangeType(minimum, typeof(double), CultureInfo.CurrentCulture), 
+                    Convert.ChangeType(maximum, typeof(double), CultureInfo.CurrentCulture)
+                    ),
+                new RangedNumberRequest(
+                    typeof(decimal),
+                    Convert.ChangeType(minimum, typeof(decimal), CultureInfo.CurrentCulture), 
+                    Convert.ChangeType(maximum, typeof(decimal), CultureInfo.CurrentCulture)
+                    )
+            };
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r =>
+                {
+                    if (r == typeof(double))
+                        return numbers.NextDouble();
+                    if (r == typeof(decimal))
+                        return Convert.ToDecimal(numbers.Next());
+
+                    return new NoSpecimen(r);
+                }
+            };
+            var sut = new RangedNumberGenerator();
+            // Exercise system and verify outcome
+            Array.ForEach(request, r => Assert.DoesNotThrow(() => sut.Create(r, context)));
             // Teardown
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
@@ -45,7 +46,32 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 return new NoSpecimen(request);
             }
 
-            return context.Resolve(new RangedNumberRequest(rangeAttribute.OperandType, rangeAttribute.Minimum, rangeAttribute.Maximum));
+            return context.Resolve(RangeAttributeRelay.Create(rangeAttribute, request));
+        }
+
+        private static RangedNumberRequest Create(RangeAttribute rangeAttribute, object request)
+        {
+            var conversionType = rangeAttribute.OperandType;
+
+            var pi = request as PropertyInfo;
+            if (pi != null)
+            {
+                conversionType = pi.PropertyType;
+            }
+            else
+            {
+                var fi = request as FieldInfo;
+                if (fi != null)
+                {
+                    conversionType = fi.FieldType;
+                }
+            }
+
+            return new RangedNumberRequest(
+                conversionType,
+                Convert.ChangeType(rangeAttribute.Minimum, conversionType, CultureInfo.CurrentCulture),
+                Convert.ChangeType(rangeAttribute.Maximum, conversionType, CultureInfo.CurrentCulture)
+                );
         }
     }
 }
