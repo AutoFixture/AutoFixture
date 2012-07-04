@@ -44,42 +44,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
     internal sealed class RegExp
     {
         private readonly string b;
-        private readonly int flags;
-
-        /// <summary>
-        ///   Syntax flag, enables intersection.
-        /// </summary>
-        private static int intersection = 0x0001;
-
-        /// <summary>
-        ///   Syntax flag, enables complement.
-        /// </summary>
-        private static int complement = 0x0002;
-
-        /// <summary>
-        ///   Syntax flag, enables empty language.
-        /// </summary>
-        private static int empty = 0x0004;
-
-        /// <summary>
-        ///   Syntax flag, enables anystring.
-        /// </summary>
-        private static int anystring = 0x0008;
-
-        /// <summary>
-        ///   Syntax flag, enables named automata.
-        /// </summary>
-        private static int automaton = 0x0010;
-
-        /// <summary>
-        ///   Syntax flag, enables numerical intervals.
-        /// </summary>
-        private static int interval = 0x0020;
-
-        /// <summary>
-        ///   Syntax flag, enables all optional regexp syntax.
-        /// </summary>
-        private static int all = 0xffff;
+        private readonly RegExpSyntaxOptions flags;
 
         private static bool allowMutation;
 
@@ -107,7 +72,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name = "s">A string with the regular expression.</param>
         internal RegExp(string s)
-            : this(s, all)
+            : this(s, RegExpSyntaxOptions.All)
         {
         }
 
@@ -116,7 +81,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </summary>
         /// <param name = "s">A string with the regular expression.</param>
         /// <param name = "syntaxFlags">Boolean 'or' of optional syntax constructs to be enabled.</param>
-        internal RegExp(string s, int syntaxFlags)
+        internal RegExp(string s, RegExpSyntaxOptions syntaxFlags)
         {
             this.b = s;
             this.flags = syntaxFlags;
@@ -729,7 +694,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         private RegExp ParseInterExp()
         {
             RegExp e = this.ParseConcatExp();
-            if (this.Check(intersection) && this.Match('&'))
+            if (this.Check(RegExpSyntaxOptions.Intersection) && this.Match('&'))
             {
                 e = RegExp.MakeIntersection(e, this.ParseInterExp());
             }
@@ -737,7 +702,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             return e;
         }
 
-        private bool Check(int flag)
+        private bool Check(RegExpSyntaxOptions flag)
         {
             return (flags & flag) != 0;
         }
@@ -745,7 +710,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         private RegExp ParseConcatExp()
         {
             RegExp e = this.ParseRepeatExp();
-            if (this.More() && !this.Peek(")|") && (!this.Check(intersection) || !this.Peek("&")))
+            if (this.More() && !this.Peek(")|") && (!this.Check(RegExpSyntaxOptions.Intersection) || !this.Peek("&")))
             {
                 e = RegExp.MakeConcatenation(e, this.ParseConcatExp());
             }
@@ -837,7 +802,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
         private RegExp ParseComplExp()
         {
-            if (this.Check(complement) && this.Match('~'))
+            if (this.Check(RegExpSyntaxOptions.Complement) && this.Match('~'))
             {
                 return RegExp.MakeComplement(this.ParseComplExp());
             }
@@ -880,12 +845,12 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 return RegExp.MakeAnyChar();
             }
 
-            if (this.Check(empty) && this.Match('#'))
+            if (this.Check(RegExpSyntaxOptions.Empty) && this.Match('#'))
             {
                 return RegExp.MakeEmpty();
             }
 
-            if (this.Check(anystring) && this.Match('@'))
+            if (this.Check(RegExpSyntaxOptions.Anystring) && this.Match('@'))
             {
                 return RegExp.MakeAnyString();
             }
@@ -922,7 +887,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 return e;
             }
 
-            if ((this.Check(automaton) || this.Check(interval)) && this.Match('<'))
+            if ((this.Check(RegExpSyntaxOptions.Automaton) || this.Check(RegExpSyntaxOptions.Interval)) && this.Match('<'))
             {
                 int start = pos;
                 while (this.More() && !this.Peek(">"))
@@ -939,7 +904,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 int i = str.IndexOf('-');
                 if (i == -1)
                 {
-                    if (!this.Check(automaton))
+                    if (!this.Check(RegExpSyntaxOptions.Automaton))
                     {
                         throw new ArgumentException("interval syntax error at position " + (pos - 1));
                     }
@@ -947,7 +912,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                     return RegExp.MakeAutomaton(str);
                 }
 
-                if (!this.Check(interval))
+                if (!this.Check(RegExpSyntaxOptions.Interval))
                 {
                     throw new ArgumentException("illegal identifier at position " + (pos - 1));
                 }
