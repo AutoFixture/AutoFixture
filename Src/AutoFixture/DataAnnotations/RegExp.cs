@@ -71,6 +71,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         ///   Initializes a new instance of the <see cref = "RegExp" /> class from a string.
         /// </summary>
         /// <param name = "s">A string with the regular expression.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         internal RegExp(string s)
             : this(s, RegExpSyntaxOptions.All)
         {
