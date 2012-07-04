@@ -109,6 +109,7 @@
     <Compile Include="DataAnnotations\MinimizationOperations.cs" />
     <Compile Include="DataAnnotations\RangeAttributeRelay.cs" />
     <Compile Include="DataAnnotations\RegExp.cs" />
+    <Compile Include="DataAnnotations\RegExpSyntaxOptions.cs" />
     <Compile Include="DataAnnotations\RegularExpressionAttributeRelay.cs" />
     <Compile Include="DataAnnotations\SpecialOperations.cs" />
     <Compile Include="DataAnnotations\State.cs" />
