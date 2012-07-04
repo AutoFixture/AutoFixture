@@ -24,7 +24,7 @@ Packages.dgml
 *.crunchsolution.local.xml
 *.crunchproject.local.xml
 *_mm_cache.bin
-character.design
+AutoFixture character.design
 AutoFixtureLogo1.png
 AutoFixtureLogo200x200.png
 AutoFixtureLogo100x100.png
