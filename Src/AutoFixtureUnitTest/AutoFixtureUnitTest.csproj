@@ -78,6 +78,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractRecursionIssue\FunkyItem.cs" />
+    <Compile Include="AbstractRecursionIssue\ItemBase.cs" />
+    <Compile Include="AbstractRecursionIssue\ItemLocation.cs" />
+    <Compile Include="AbstractRecursionIssue\Repro.cs" />
     <Compile Include="BehaviorComposerTest.cs" />
     <Compile Include="BehaviorPostprocessComposerTest.cs" />
     <Compile Include="BooleanSwitchTest.cs" />
