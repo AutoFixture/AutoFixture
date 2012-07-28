@@ -53,32 +53,12 @@ namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
             fixture.Behaviors.Clear();
             fixture.Behaviors.Add(new NullRecursionBehavior());
 
-            fixture.Customizations.Add(new Mapping(typeof(ItemBase), typeof(FunkyItem)));
+            fixture.Customizations.Add(
+                new TypeRelay(
+                    typeof(ItemBase),
+                    typeof(FunkyItem)));
 
             Assert.DoesNotThrow(() => fixture.CreateAnonymous<FunkyItem>());
-        }
-
-        private class Mapping : ISpecimenBuilder
-        {
-            private readonly Type from;
-            private readonly Type to;
-
-            public Mapping(Type from, Type to)
-            {
-                this.from = from;
-                this.to = to;
-            }
-
-            public object Create(object request, ISpecimenContext context)
-            {
-                var t = request as Type;
-                if (t == null || t != this.to)
-                {
-                    return new NoSpecimen(request);
-                }
-
-                return context.Resolve(this.to);
-            }
         }
     }
 }
