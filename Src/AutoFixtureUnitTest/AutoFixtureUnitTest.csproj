@@ -79,6 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoPropertiesTargetTest.cs" />
+    <Compile Include="AbstractRecursionIssue\FunkyItem.cs" />
+    <Compile Include="AbstractRecursionIssue\ItemBase.cs" />
+    <Compile Include="AbstractRecursionIssue\ItemLocation.cs" />
+    <Compile Include="AbstractRecursionIssue\Repro.cs" />
     <Compile Include="BehaviorComposerTest.cs" />
     <Compile Include="BehaviorPostprocessComposerTest.cs" />
     <Compile Include="BehaviorRootTest.cs" />
@@ -111,6 +115,7 @@
     <Compile Include="Kernel\RangedNumberRequestTest.cs" />
     <Compile Include="Kernel\RegularExpressionRequestTest.cs" />
     <Compile Include="Kernel\GraphEqualsTest.cs" />
+    <Compile Include="Kernel\TypeRelayTests.cs" />
     <Compile Include="OmitOnRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\TypedNodeTest.cs" />
     <Compile Include="MarkerNode.cs" />
