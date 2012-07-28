@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
         /// This test reproduces the issue exactly as reported at
         /// https://github.com/AutoFixture/AutoFixture/issues/3
         /// </summary>
-        [Fact(Skip = "Waiting for fix")]
+        [Fact(Skip = "Waiting for fix. Most likely this is best fixed in AutoFixture 3.0 - at least no clear fix for AutoFixture 2.x is immediately apparent.")]
         public void IssueAsReported()
         {
             var fixture = new Fixture().Customize(new MultipleCustomization());
@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
         /// This test reduces the issue to essentials. Despite the fewer lines of code, it exhibits
         /// the same behavior as the test above.
         /// </summary>
-        [Fact(Skip = "Waiting for fix")]
+        [Fact(Skip = "Waiting for fix. Most likely this is best fixed in AutoFixture 3.0 - at least no clear fix for AutoFixture 2.x is immediately apparent.")]
         public void IssueReduced()
         {
             var fixture = new Fixture().Customize(new MultipleCustomization());
