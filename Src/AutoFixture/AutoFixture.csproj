@@ -127,6 +127,7 @@
     <Compile Include="Kernel\OmitSpecimen.cs" />
     <Compile Include="Kernel\RangedNumberRequest.cs" />
     <Compile Include="Kernel\RegularExpressionRequest.cs" />
+    <Compile Include="Kernel\TypeRelay.cs" />
     <Compile Include="OmitOnRecursionBehavior.cs" />
     <Compile Include="RangedNumberGenerator.cs" />
     <Compile Include="RegularExpressionGenerator.cs" />
