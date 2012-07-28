@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Xunit;
 using Ploeh.AutoFixture;
+using System.Collections;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
 {
@@ -41,6 +43,42 @@ namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
             fixture.Register<ItemBase>(fixture.CreateAnonymous<FunkyItem>);
 
             Assert.DoesNotThrow(() => fixture.CreateAnonymous<FunkyItem>());
+        }
+
+        [Fact]
+        public void Workaround()
+        {
+            var fixture = new Fixture().Customize(new MultipleCustomization());
+            fixture.RepeatCount = 3;
+            fixture.Behaviors.Clear();
+            fixture.Behaviors.Add(new NullRecursionBehavior());
+
+            fixture.Customizations.Add(new Mapping(typeof(ItemBase), typeof(FunkyItem)));
+
+            Assert.DoesNotThrow(() => fixture.CreateAnonymous<FunkyItem>());
+        }
+
+        private class Mapping : ISpecimenBuilder
+        {
+            private readonly Type from;
+            private readonly Type to;
+
+            public Mapping(Type from, Type to)
+            {
+                this.from = from;
+                this.to = to;
+            }
+
+            public object Create(object request, ISpecimenContext context)
+            {
+                var t = request as Type;
+                if (t == null || t != this.to)
+                {
+                    return new NoSpecimen(request);
+                }
+
+                return context.Resolve(this.to);
+            }
         }
     }
 }
