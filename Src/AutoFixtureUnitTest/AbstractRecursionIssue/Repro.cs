@@ -45,6 +45,9 @@ namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
             Assert.DoesNotThrow(() => fixture.CreateAnonymous<FunkyItem>());
         }
 
+        /// <summary>
+        /// This test presents one possible workaround to the issue reported above.
+        /// </summary>
         [Fact]
         public void Workaround()
         {
