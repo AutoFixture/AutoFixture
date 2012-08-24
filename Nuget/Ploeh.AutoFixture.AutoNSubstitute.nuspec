@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+    <metadata>
+        <id>AutoFixture.AutoNSubstitute</id>
+        <version>2.2</version>
+        <title>AutoFixture with Auto Mocking using NSubstitute</title>
+        <authors>Roman Krivoruchko</authors>
+        <owners>Roman Krivoruchko</owners>
+        <dependencies>
+            <dependency id="autofixture" version="2.2" />
+            <dependency id="nsubstitute" version="1.4" />
+        </dependencies>
+        <summary>Turns AutoFixture into an Auto-Mocking Container based on NSubstitute.</summary>
+        <description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by Moq. To use it, add the AutoNSubstituteCustomization to your Fixture instance. Read more at http://blog.ploeh.dk/2010/08/19/AutoFixtureAsAnAutomockingContainer.aspx</description>
+        <iconUrl>http://i3.codeplex.com/Download?ProjectName=autofixture&amp;DownloadId=278049</iconUrl>
+        <language>en-US</language>
+        <licenseUrl>http://autofixture.codeplex.com/license</licenseUrl>
+        <projectUrl>http://autofixture.codeplex.com</projectUrl>
+    </metadata>
+    <files>
+        <file src="Ploeh.AutoFixture.AutoNSubstitute.dll" target="lib" />
+        <file src="Ploeh.AutoFixture.AutoNSubstitute.XML" target="lib" />
+    </files>
+</package>
