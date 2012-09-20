@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Xunit;
 using Xunit.Extensions;
 
@@ -260,12 +261,48 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Theory]
+        [ClassData(typeof(RandomNumericSequenceBoundariesTestCases))]
+        public void CreateAsynchronouslyMultipleTimesReturnsUniqueNumbers(int[] boundaries)
+        {
+            // Fixture setup
+            const int iterations = 5;
+            int completed = 0;
+            var done = new ManualResetEvent(false);
+            int repeatCount = boundaries.Max() / iterations;
+            var sut = new RandomNumericSequenceGenerator(boundaries);
+            var dummyContext = new DelegatingSpecimenContext();
+            // Exercise system
+            var numbers = new List<int[]>();
+            for (int i = 0; i < iterations; i++)
+            {
+                ThreadPool.QueueUserWorkItem(_ =>
+                {
+                    numbers.Add(
+                        Enumerable
+                            .Range(0, repeatCount)
+                            .Select(x => sut.Create(typeof(int), dummyContext))
+                            .Cast<int>()
+                            .ToArray());
+
+                    if (Interlocked.Increment(ref completed) == iterations)
+                        done.Set();
+                });
+            }
+            done.WaitOne();
+            IEnumerable<int> result = numbers.First().Intersect(numbers.Last()); 
+            // Verify outcome
+            var expectedResult = Enumerable.Empty<int>();
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
         private sealed class RandomNumericSequenceBoundariesTestCases : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] { new[] { 2, 5, 9 } };
-                yield return new object[] { new[] { 2, 5, 9, 30 } };
+                yield return new object[] { new[] { 2, 5, 9, 30} };
+                yield return new object[] { new[] { 2, 5, 9, 30, 255 } };
                 yield return new object[] { new[] { 2, 5, 9, 30, 255, 512 } };
             }
 
