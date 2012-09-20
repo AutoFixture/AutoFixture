@@ -12,7 +12,7 @@ namespace Ploeh.AutoFixture
         private readonly object syncRoot;
         private readonly Random random;
         private readonly List<int> numbers;
-        private readonly MinMax minMax;
+        private readonly Limit limit;
 
         public RandomNumericSequenceGenerator()
             : this(Byte.MaxValue, Int16.MaxValue, Int32.MaxValue)
@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture
             this.syncRoot = new object();
             this.random = new Random();
             this.numbers = new List<int>();
-            this.minMax = new MinMax(boundaries);
+            this.limit = new Limit(boundaries);
         }
 
         public IEnumerable<int> Boundaries
@@ -112,10 +112,9 @@ namespace Ploeh.AutoFixture
         {
             lock (this.syncRoot)
             {
-                MinMax current;
                 try
                 {
-                    current = this.minMax.Calculate(this.numbers.Count);
+                    this.limit.Calculate(this.numbers.Count);
                 }
                 catch (ArgumentException)
                 {
@@ -123,7 +122,7 @@ namespace Ploeh.AutoFixture
                         "The upper bound has been reached. Either increase the boundaries or use the default constructor to generate up to 2147483647 random numbers.");
                 }
 
-                if (current.GetIsBoundFromAbove())
+                if (this.limit.GetIsBoundFromAbove())
                 {
                     int upperBound = this.boundaries.Last();
                     this.numbers.Add(upperBound);
@@ -133,7 +132,7 @@ namespace Ploeh.AutoFixture
                 int result;
                 do
                 {
-                    result = this.random.Next(current.Minimum, current.Maximum);
+                    result = this.random.Next(this.limit.Minimum, this.limit.Maximum);
                 }
                 while (this.numbers.Contains(result));
 
@@ -142,7 +141,7 @@ namespace Ploeh.AutoFixture
             }
         }
 
-        private sealed class MinMax
+        private sealed class Limit
         {
             private readonly int[] boundaries;
             private readonly int upperBound;
@@ -150,7 +149,7 @@ namespace Ploeh.AutoFixture
             private int minimum;
             private int maximum;
 
-            private MinMax(int[] boundaries, int minimum, int maximum)
+            private Limit(int[] boundaries, int minimum, int maximum)
             {
                 this.boundaries = boundaries;
                 this.upperBound = boundaries[boundaries.Length - 1];
@@ -159,7 +158,7 @@ namespace Ploeh.AutoFixture
                 this.maximum = maximum;
             }
 
-            internal MinMax(int[] boundaries)
+            internal Limit(int[] boundaries)
                 : this(boundaries, 1, boundaries[0] + 1)
             {
             }
@@ -174,7 +173,7 @@ namespace Ploeh.AutoFixture
                 get { return this.maximum; }
             }
 
-            internal MinMax Calculate(int number)
+            internal void Calculate(int number)
             {
                 if (number == this.upperBound)
                 {
@@ -187,8 +186,6 @@ namespace Ploeh.AutoFixture
                     this.minimum = this.maximum;
                     this.maximum = this.boundaries.FirstOrDefault(x => x > this.minimum);
                 }
-
-                return new MinMax(this.boundaries, this.minimum, this.maximum);
             }
 
             internal bool GetIsBoundFromAbove()
