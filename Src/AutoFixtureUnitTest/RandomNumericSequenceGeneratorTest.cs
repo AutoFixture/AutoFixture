@@ -290,10 +290,10 @@ namespace Ploeh.AutoFixtureUnitTest
                 });
             }
             done.WaitOne();
-            IEnumerable<int> result = numbers.First().Intersect(numbers.Last()); 
+            int result = numbers.SelectMany(x => x).Distinct().Count();
             // Verify outcome
-            var expectedResult = Enumerable.Empty<int>();
-            Assert.True(expectedResult.SequenceEqual(result));
+            var expectedResult = repeatCount * iterations;
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
