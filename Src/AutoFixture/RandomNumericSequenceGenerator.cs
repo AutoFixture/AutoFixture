@@ -5,25 +5,53 @@ using System.Linq;
 
 namespace Ploeh.AutoFixture
 {
+    /// <summary>Creates a sequence of random, unique, numbers starting at 1.</summary>
+    /// <remarks>
+    /// <para>
+    /// The purpose of this class is to create truly constrained non-deterministic numbers.
+    /// It starts by picking random numbers from the set [1, 255], and when that set is depleted,
+    /// then random numbers from the set [256, 32767] and so on. The maximum is 2147483647, however
+    /// it is possible to customize the boundaries by passing a sequence of limits.
+    /// </para>
+    /// </remarks>
     public class RandomNumericSequenceGenerator : ISpecimenBuilder
     {
         private readonly IEnumerable<int> boundaries;
-
         private readonly object syncRoot;
         private readonly Random random;
         private readonly List<int> numbers;
         private readonly Limit limit;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RandomNumericSequenceGenerator" /> class
+        /// using the boundaries [255, 32767, 2147483647].
+        /// </summary>
         public RandomNumericSequenceGenerator()
             : this(Byte.MaxValue, Int16.MaxValue, Int32.MaxValue)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RandomNumericSequenceGenerator" /> class
+        /// using the specified boundaries.
+        /// </summary>
+        /// <param name="boundaries">
+        /// A sequence of limits where random numbers can be generated.
+        /// </param>
         public RandomNumericSequenceGenerator(IEnumerable<int> boundaries)
             : this(boundaries.ToArray())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RandomNumericSequenceGenerator" /> class
+        /// using the speified boundaries.
+        /// </summary>
+        /// <param name="boundaries">
+        /// A sequence of limits where random numbers can be generated.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="boundaries"/> is null.
+        /// </exception>
         public RandomNumericSequenceGenerator(params int[] boundaries)
         {
             if (boundaries == null)
@@ -32,18 +60,32 @@ namespace Ploeh.AutoFixture
             }
 
             this.boundaries = boundaries;
-
             this.syncRoot = new object();
             this.random = new Random();
             this.numbers = new List<int>();
             this.limit = new Limit(boundaries);
         }
 
+        /// <summary>
+        /// Gets the boundaries where random numbers can be generated.
+        /// </summary>
+        /// <value>
+        /// The boundaries where random numbers can be generated.
+        /// </value>
         public IEnumerable<int> Boundaries
         {
             get { return this.boundaries; }
         }
 
+        /// <summary>
+        /// Creates an anonymous number in the specified boundaries.
+        /// </summary>
+        /// <param name="request">The request that describes what to create.</param>
+        /// <param name="context">Not used.</param>
+        /// <returns>
+        /// The next random number in a sequence, if <paramref name="request"/> is a request
+        /// for a numeric value; otherwise, a <see cref="NoSpecimen"/> instance.
+        /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
             var type = request as Type;
