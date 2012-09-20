@@ -292,7 +292,7 @@ namespace Ploeh.AutoFixtureUnitTest
             done.WaitOne();
             int result = numbers.SelectMany(x => x).Distinct().Count();
             // Verify outcome
-            var expectedResult = repeatCount * iterations;
+            int expectedResult = repeatCount * iterations;
             Assert.Equal(expectedResult, result);
             // Teardown
         }
