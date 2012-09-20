@@ -141,5 +141,46 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(expectedResult, result);
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(bool))]
+        public void CreateWithNonNumericTypeRequestReturnsNoSpecimen(Type request)
+        {
+            // Fixture setup
+            var sut = new RandomNumericSequenceGenerator();
+            var expectedResult = new NoSpecimen(request);
+            // Exercise system
+            var dummyContext = new DelegatingSpecimenContext();
+            object result = sut.Create(request, dummyContext);
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(byte))]
+        [InlineData(typeof(decimal))]
+        [InlineData(typeof(double))]
+        [InlineData(typeof(short))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(long))]
+        [InlineData(typeof(sbyte))]
+        [InlineData(typeof(float))]
+        [InlineData(typeof(ushort))]
+        [InlineData(typeof(uint))]
+        [InlineData(typeof(ulong))]
+        public void CreateWithNumericTypeRequestReturnsValueOfSameType(Type request)
+        {
+            // Fixture setup
+            var sut = new RandomNumericSequenceGenerator();
+            // Exercise system
+            var dummyContext = new DelegatingSpecimenContext();
+            object result = sut.Create(request, dummyContext);
+            // Verify outcome
+            Assert.IsType(request, result);
+            // Teardown
+        }
     }
 }

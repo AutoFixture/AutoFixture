@@ -110,6 +110,7 @@
     <Compile Include="Kernel\TypeRelayTests.cs" />
     <Compile Include="OmitOnRecursionBehaviorTest.cs" />
     <Compile Include="ProvidedAttribute.cs" />
+    <Compile Include="RandomNumericSequenceGeneratorTest.cs" />
     <Compile Include="RangedNumberGeneratorTest.cs" />
     <Compile Include="RegularExpressionGeneratorTest.cs" />
     <Compile Include="StaticFactoryWithClosureOfOperationsBugRepro.cs" />
