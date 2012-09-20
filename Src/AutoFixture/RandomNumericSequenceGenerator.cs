@@ -9,6 +9,7 @@ namespace Ploeh.AutoFixture
     {
         private readonly IEnumerable<int> boundaries;
 
+        private readonly object syncRoot;
         private readonly Random random;
         private readonly List<int> numbers;
         private readonly MinMax minMax;
@@ -32,6 +33,7 @@ namespace Ploeh.AutoFixture
 
             this.boundaries = boundaries;
 
+            this.syncRoot = new object();
             this.random = new Random();
             this.numbers = new List<int>();
             this.minMax = new MinMax(boundaries);
@@ -108,33 +110,36 @@ namespace Ploeh.AutoFixture
 
         private int GetNextRandom()
         {
-            MinMax current;
-            try
+            lock (this.syncRoot)
             {
-                current = this.minMax.Calculate(this.numbers.Count);
-            }
-            catch (ArgumentException)
-            {
-                throw new InvalidOperationException(
-                    "The upper bound has been reached. Either increase the boundaries or use the default constructor to generate up to 2147483647 random numbers.");
-            }
+                MinMax current;
+                try
+                {
+                    current = this.minMax.Calculate(this.numbers.Count);
+                }
+                catch (ArgumentException)
+                {
+                    throw new InvalidOperationException(
+                        "The upper bound has been reached. Either increase the boundaries or use the default constructor to generate up to 2147483647 random numbers.");
+                }
 
-            if (current.GetIsBoundFromAbove())
-            {
-                int upperBound = this.boundaries.Last();
-                this.numbers.Add(upperBound);
-                return upperBound;
-            }
+                if (current.GetIsBoundFromAbove())
+                {
+                    int upperBound = this.boundaries.Last();
+                    this.numbers.Add(upperBound);
+                    return upperBound;
+                }
 
-            int result;
-            do
-            {
-                result = this.random.Next(current.Minimum, current.Maximum);
-            }
-            while (this.numbers.Contains(result));
+                int result;
+                do
+                {
+                    result = this.random.Next(current.Minimum, current.Maximum);
+                }
+                while (this.numbers.Contains(result));
 
-            this.numbers.Add(result);
-            return result;
+                this.numbers.Add(result);
+                return result;
+            }
         }
 
         private sealed class MinMax
