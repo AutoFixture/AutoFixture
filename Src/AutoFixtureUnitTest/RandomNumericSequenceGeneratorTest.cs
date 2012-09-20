@@ -2,6 +2,7 @@
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -181,6 +182,97 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             Assert.IsType(request, result);
             // Teardown
+        }
+
+        [Theory]
+        [ClassData(typeof(RandomNumericSequenceBoundariesTestCases))]
+        public void CreateMultipleTimesWhenPassTheUpperBoundWillThrow(int[] boundaries)
+        {
+            // Fixture setup
+            var sut = new RandomNumericSequenceGenerator(boundaries);
+            int boundFromAbove = boundaries.Max() + 1;
+            var dummyContext = new DelegatingSpecimenContext();
+            // Exercise system and verify outcome
+            Assert.Throws<InvalidOperationException>(() =>
+                Enumerable
+                    .Range(0, boundFromAbove)
+                    .Select(i => sut.Create(typeof(int), dummyContext))
+                    .ToList()
+                );
+            // Teardown
+        }
+
+        [Theory]
+        [ClassData(typeof(RandomNumericSequenceBoundariesTestCases))]
+        public void CreateMultipleTimesReturnsNumbersInBoundaries(int[] boundaries)
+        {
+            // Fixture setup
+            var sut = new RandomNumericSequenceGenerator(boundaries);
+            int repeatCount = boundaries.Max();
+            var dummyContext = new DelegatingSpecimenContext();
+            // Exercise system
+            var result = Enumerable
+                .Range(0, repeatCount)
+                .Select(i => sut.Create(typeof(int), dummyContext))
+                .Cast<int>();
+            // Verify outcome
+            Assert.True(
+                result.All(x => x >= 1 && x <= boundaries.Max())
+                );
+            // Teardown
+        }
+
+        [Theory]
+        [ClassData(typeof(RandomNumericSequenceBoundariesTestCases))]
+        public void CreateMultipleTimesReturnsAsManyNumbersAsTheUpperBound(int[] boundaries)
+        {
+            // Fixture setup
+            var sut = new RandomNumericSequenceGenerator(boundaries);
+            int expectedCount = boundaries.Max();
+            var dummyContext = new DelegatingSpecimenContext();
+            // Exercise system
+            var result = Enumerable
+                .Range(0, expectedCount)
+                .Select(i => sut.Create(typeof(int), dummyContext))
+                .Cast<int>();
+            // Verify outcome
+            Assert.Equal(expectedCount, result.Count());
+            // Teardown
+        }
+
+        [Theory]
+        [ClassData(typeof(RandomNumericSequenceBoundariesTestCases))]
+        public void CreateMultipleTimesReturnsUniqueNumbers(int[] boundaries)
+        {
+            // Fixture setup
+            var sut = new RandomNumericSequenceGenerator(boundaries);
+            int repeatCount = boundaries.Max();
+            var dummyContext = new DelegatingSpecimenContext();
+            // Exercise system
+            var result = Enumerable
+                .Range(0, repeatCount)
+                .Select(i => sut.Create(typeof(int), dummyContext))
+                .Cast<int>()
+                .OrderBy(x => x);
+            // Verify outcome
+            var expectedResult = Enumerable.Range(1, repeatCount);
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        private sealed class RandomNumericSequenceBoundariesTestCases : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] { new[] { 2, 5, 9 } };
+                yield return new object[] { new[] { 2, 5, 9, 30 } };
+                yield return new object[] { new[] { 2, 5, 9, 30, 255, 512 } };
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
         }
     }
 }
