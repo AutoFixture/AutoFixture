@@ -1,7 +1,7 @@
 ﻿using Ploeh.AutoFixture.Kernel;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ploeh.AutoFixture
 {
@@ -37,7 +37,65 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            return null;
+            return CreateRandom(type);
+        }
+
+        private object CreateRandom(Type request)
+        {
+            switch (Type.GetTypeCode(request))
+            {
+                case TypeCode.Byte:
+                    return (byte)
+                        this.GetNextRandom();
+
+                case TypeCode.Decimal:
+                    return (decimal)
+                        this.GetNextRandom();
+
+                case TypeCode.Double:
+                    return (double)
+                        this.GetNextRandom();
+
+                case TypeCode.Int16:
+                    return (short)
+                        this.GetNextRandom();
+
+                case TypeCode.Int32:
+                    return
+                        this.GetNextRandom();
+
+                case TypeCode.Int64:
+                    return (long)
+                        this.GetNextRandom();
+
+                case TypeCode.SByte:
+                    return (sbyte)
+                        this.GetNextRandom();
+
+                case TypeCode.Single:
+                    return (float)
+                        this.GetNextRandom();
+
+                case TypeCode.UInt16:
+                    return (ushort)
+                        this.GetNextRandom();
+
+                case TypeCode.UInt32:
+                    return (uint)
+                        this.GetNextRandom();
+
+                case TypeCode.UInt64:
+                    return (ulong)
+                        this.GetNextRandom();
+
+                default:
+                    return new NoSpecimen(request);
+            }
+        }
+
+        private int GetNextRandom()
+        {
+            return 1;
         }
     }
 }
