@@ -5,13 +5,15 @@ using System.Linq;
 
 namespace Ploeh.AutoFixture
 {
-    /// <summary>Creates a sequence of random, unique, numbers starting at 1.</summary>
+    /// <summary>
+    /// Creates a sequence of random, unique, numbers starting at 1.
+    /// </summary>
     /// <remarks>
     /// <para>
-    /// The purpose of this class is to create truly constrained non-deterministic numbers.
+    /// The purpose of this class is to create constrained non-deterministic numbers.
     /// It starts by picking random numbers from the set [1, 255], and when that set is depleted,
-    /// then random numbers from the set [256, 32767] and so on. The maximum is 2147483647, however
-    /// it is possible to customize the boundaries by passing a sequence of limits.
+    /// then random numbers from the set [256, 32767] and so on. The maximum is 2147483647, 
+    /// however it is possible to customize the boundaries by passing a sequence of limits.
     /// </para>
     /// </remarks>
     public class RandomNumericSequenceGenerator : ISpecimenBuilder

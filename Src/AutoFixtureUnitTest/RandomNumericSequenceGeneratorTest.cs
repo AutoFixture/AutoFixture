@@ -301,7 +301,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] { new[] { 2, 5, 9, 30} };
+                yield return new object[] { new[] { 2, 5, 9, 30 } };
                 yield return new object[] { new[] { 2, 5, 9, 30, 255 } };
                 yield return new object[] { new[] { 2, 5, 9, 30, 255, 512 } };
             }
