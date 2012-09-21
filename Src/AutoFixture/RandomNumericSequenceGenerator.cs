@@ -164,13 +164,6 @@ namespace Ploeh.AutoFixture
                         "The upper bound has been reached. Either increase the boundaries or use the default constructor to generate up to 2147483647 random numbers.");
                 }
 
-                if (this.limit.GetIsBoundFromAbove())
-                {
-                    int upperBound = this.boundaries.Last();
-                    this.numbers.Add(upperBound);
-                    return upperBound;
-                }
-
                 int result;
                 do
                 {
@@ -191,18 +184,13 @@ namespace Ploeh.AutoFixture
             private int minimum;
             private int maximum;
 
-            private Limit(int[] boundaries, int minimum, int maximum)
+            internal Limit(int[] boundaries)
             {
                 this.boundaries = boundaries;
                 this.upperBound = boundaries[boundaries.Length - 1];
 
-                this.minimum = minimum;
-                this.maximum = maximum;
-            }
-
-            internal Limit(int[] boundaries)
-                : this(boundaries, 1, boundaries[0] + 1)
-            {
+                this.minimum = 1;
+                this.maximum = boundaries[0] + 1;
             }
 
             internal int Minimum
@@ -225,14 +213,9 @@ namespace Ploeh.AutoFixture
 
                 if (number == this.maximum - 1)
                 {
-                    this.minimum = this.maximum;
-                    this.maximum = this.boundaries.FirstOrDefault(x => x > this.minimum);
+                    this.minimum = this.maximum - 1;
+                    this.maximum = this.boundaries.FirstOrDefault(x => x > this.minimum) + 1;
                 }
-            }
-
-            internal bool GetIsBoundFromAbove()
-            {
-                return this.maximum == 0 && this.minimum == this.upperBound;
             }
         }
     }
