@@ -1,89 +1,33 @@
 ﻿using Ploeh.AutoFixture.Kernel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Ploeh.AutoFixture
 {
     /// <summary>
     /// Creates a sequence of random, unique, numbers starting at 1.
     /// </summary>
-    /// <remarks>
-    /// <para>
-    /// The purpose of this class is to create constrained non-deterministic numbers.
-    /// It starts by picking random numbers from the set [1, 255], and when that set is depleted,
-    /// then random numbers from the set [256, 32767] and so on. The maximum is 2147483647, 
-    /// however it is possible to customize the boundaries by passing a sequence of limits.
-    /// </para>
-    /// </remarks>
     public class RandomNumericSequenceGenerator : ISpecimenBuilder
     {
-        private readonly IEnumerable<int> boundaries;
         private readonly object syncRoot;
         private readonly Random random;
-        private readonly List<int> numbers;
-        private readonly Limit limit;
+        private readonly List<int> randomNumbers;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RandomNumericSequenceGenerator" /> class
-        /// using the boundaries [255, 32767, 2147483647].
+        /// Initializes a new instance of the <see cref="RandomNumericSequenceGenerator" /> class.
         /// </summary>
         public RandomNumericSequenceGenerator()
-            : this(Byte.MaxValue, Int16.MaxValue, Int32.MaxValue)
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RandomNumericSequenceGenerator" /> class
-        /// using the specified boundaries.
-        /// </summary>
-        /// <param name="boundaries">
-        /// A sequence of limits where random numbers can be generated.
-        /// </param>
-        public RandomNumericSequenceGenerator(IEnumerable<int> boundaries)
-            : this(boundaries.ToArray())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RandomNumericSequenceGenerator" /> class
-        /// using the speified boundaries.
-        /// </summary>
-        /// <param name="boundaries">
-        /// A sequence of limits where random numbers can be generated.
-        /// </param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="boundaries"/> is null.
-        /// </exception>
-        public RandomNumericSequenceGenerator(params int[] boundaries)
-        {
-            if (boundaries == null)
-            {
-                throw new ArgumentNullException("boundaries");
-            }
-
-            this.boundaries = boundaries;
             this.syncRoot = new object();
             this.random = new Random();
-            this.numbers = new List<int>();
-            this.limit = new Limit(boundaries);
+            this.randomNumbers = new List<int>();
         }
 
         /// <summary>
-        /// Gets the boundaries where random numbers can be generated.
-        /// </summary>
-        /// <value>
-        /// The boundaries where random numbers can be generated.
-        /// </value>
-        public IEnumerable<int> Boundaries
-        {
-            get { return this.boundaries; }
-        }
-
-        /// <summary>
-        /// Creates an anonymous number in the specified boundaries.
+        /// Creates an anonymous number.
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
-        /// <param name="context">Not used.</param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
         /// The next random number in a sequence, if <paramref name="request"/> is a request
         /// for a numeric value; otherwise, a <see cref="NoSpecimen"/> instance.
@@ -96,128 +40,96 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            return this.CreateRandom(type);
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+            
+            var limit = context.Resolve(typeof(RandomNumericSequenceLimit)) as RandomNumericSequenceLimit;
+            if (limit == null)
+            {
+                return new NoSpecimen(request);
+            }
+
+            return this.CreateRandom(type, limit);
         }
 
-        private object CreateRandom(Type request)
+        private object CreateRandom(Type request, RandomNumericSequenceLimit limit)
         {
             switch (Type.GetTypeCode(request))
             {
                 case TypeCode.Byte:
                     return (byte)
-                        this.GetNextRandom();
+                        this.GetNextRandom(limit);
 
                 case TypeCode.Decimal:
                     return (decimal)
-                        this.GetNextRandom();
+                        this.GetNextRandom(limit);
 
                 case TypeCode.Double:
                     return (double)
-                        this.GetNextRandom();
+                        this.GetNextRandom(limit);
 
                 case TypeCode.Int16:
                     return (short)
-                        this.GetNextRandom();
+                        this.GetNextRandom(limit);
 
                 case TypeCode.Int32:
                     return
-                        this.GetNextRandom();
+                        this.GetNextRandom(limit);
 
                 case TypeCode.Int64:
                     return (long)
-                        this.GetNextRandom();
+                        this.GetNextRandom(limit);
 
                 case TypeCode.SByte:
                     return (sbyte)
-                        this.GetNextRandom();
+                        this.GetNextRandom(limit);
 
                 case TypeCode.Single:
                     return (float)
-                        this.GetNextRandom();
+                        this.GetNextRandom(limit);
 
                 case TypeCode.UInt16:
                     return (ushort)
-                        this.GetNextRandom();
+                        this.GetNextRandom(limit);
 
                 case TypeCode.UInt32:
                     return (uint)
-                        this.GetNextRandom();
+                        this.GetNextRandom(limit);
 
                 case TypeCode.UInt64:
                     return (ulong)
-                        this.GetNextRandom();
+                        this.GetNextRandom(limit);
 
                 default:
                     return new NoSpecimen(request);
             }
         }
 
-        private int GetNextRandom()
+        private int GetNextRandom(RandomNumericSequenceLimit limit)
         {
             lock (this.syncRoot)
             {
                 try
                 {
-                    this.limit.Calculate(this.numbers.Count);
+                    limit.Evaluate();
                 }
                 catch (ArgumentException)
                 {
                     throw new InvalidOperationException(
-                        "The upper bound has been reached. Either increase the boundaries or use the default constructor to generate up to 2147483647 random numbers.");
+                        "The upper limit has been reached. You may increase the limits by injecting a custom instance of the RandomNumericSequenceLimit class.");
                 }
-
+               
                 int result;
                 do
                 {
-                    result = this.random.Next(this.limit.Minimum, this.limit.Maximum);
+                    result = this.random.Next(limit.Lower, limit.Upper);
                 }
-                while (this.numbers.Contains(result));
+                while (this.randomNumbers.Contains(result));
 
-                this.numbers.Add(result);
+                this.randomNumbers.Add(result);
                 return result;
-            }
-        }
-
-        private sealed class Limit
-        {
-            private readonly int[] boundaries;
-            private readonly int upperBound;
-
-            private int minimum;
-            private int maximum;
-
-            internal Limit(int[] boundaries)
-            {
-                this.boundaries = boundaries;
-                this.upperBound = boundaries[boundaries.Length - 1];
-
-                this.minimum = 1;
-                this.maximum = boundaries[0] + 1;
-            }
-
-            internal int Minimum
-            {
-                get { return this.minimum; }
-            }
-
-            internal int Maximum
-            {
-                get { return this.maximum; }
-            }
-
-            internal void Calculate(int number)
-            {
-                if (number == this.upperBound)
-                {
-                    throw new ArgumentException(
-                        "Number must be lower than the upper bound.");
-                }
-
-                if (number == this.maximum - 1)
-                {
-                    this.minimum = this.maximum - 1;
-                    this.maximum = this.boundaries.FirstOrDefault(x => x > this.minimum) + 1;
-                }
             }
         }
     }
