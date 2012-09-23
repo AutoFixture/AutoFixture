@@ -129,6 +129,7 @@
     <Compile Include="Kernel\RegularExpressionRequest.cs" />
     <Compile Include="Kernel\TypeRelay.cs" />
     <Compile Include="OmitOnRecursionBehavior.cs" />
+    <Compile Include="RandomNumericSequenceCustomization.cs" />
     <Compile Include="RandomNumericSequenceGenerator.cs" />
     <Compile Include="RandomNumericSequenceLimitGenerator.cs" />
     <Compile Include="RangedNumberGenerator.cs" />
