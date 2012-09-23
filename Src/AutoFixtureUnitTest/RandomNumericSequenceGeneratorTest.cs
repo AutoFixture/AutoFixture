@@ -133,13 +133,12 @@ namespace Ploeh.AutoFixtureUnitTest
 
         [Theory]
         [ClassData(typeof(UpperLimitSequenceTestCases))]
-        public void CreateReturnsNumberInCorrectRange(int[] upperLimits)
+        public void CreateReturnsNumberInCorrectRange(int[] expectedUpperLimits)
         {
             // Fixture setup
-            var expectedLimit = new RandomNumericSequenceLimit(upperLimits);
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? (object)expectedLimit : new NoSpecimen(r)
+                OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? (object)new RandomNumericSequenceLimit(expectedUpperLimits) : new NoSpecimen(r)
             };
             var dummyRequest = typeof(double);
             var sut = new RandomNumericSequenceGenerator();
@@ -147,7 +146,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = (double)sut.Create(dummyRequest, context);
             // Verify outcome
             Assert.True(
-                result >= 1 && result < upperLimits.Max()
+                result >= 1 && result < expectedUpperLimits.Max()
                 );
             // Teardown
         }
@@ -186,12 +185,12 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? contextResult : new NoSpecimen(r)
             };
-            int boundFromAbove = upperLimits.Max() + 1;
+            int repeatCount = upperLimits.Max() + 1;
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system and verify outcome
             Assert.Throws<InvalidOperationException>(() =>
                 Enumerable
-                    .Range(0, boundFromAbove)
+                    .Range(0, repeatCount)
                     .Select(i => sut.Create(typeof(int), context))
                     .ToList()
                 );
