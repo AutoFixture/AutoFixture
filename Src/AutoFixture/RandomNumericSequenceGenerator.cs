@@ -1,6 +1,7 @@
 ﻿using Ploeh.AutoFixture.Kernel;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Ploeh.AutoFixture
 {
@@ -118,7 +119,10 @@ namespace Ploeh.AutoFixture
                 catch (ArgumentException)
                 {
                     throw new InvalidOperationException(
-                        "The upper limit has been reached. You may increase the limits by injecting a custom instance of the RandomNumericSequenceLimit class.");
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            "The upper limit has been reached. You may increase the limits by injecting a custom instance of the {0} type.", typeof(RandomNumericSequenceLimit).Name)
+                            );
                 }
                
                 int result;
