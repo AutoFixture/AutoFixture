@@ -34,17 +34,17 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             var type = request as Type;
             if (type == null)
             {
                 return new NoSpecimen(request);
             }
 
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
-            
             var limit = context.Resolve(typeof(RandomNumericSequenceLimit)) as RandomNumericSequenceLimit;
             if (limit == null)
             {

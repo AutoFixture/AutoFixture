@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixture
             if (limit.Any(x => x <= 1))
             {
                 throw new ArgumentException(
-                    "The value of the lower limit must be lower than any of upper limits.");
+                    "The value of the upper limits must be greater than 1.");
             }
 
             this.limit = limit;
@@ -117,7 +117,7 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public bool Equals(RandomNumericSequenceLimit other)
         {
-            if (ReferenceEquals(null, other))
+            if (object.ReferenceEquals(null, other))
             {
                 return false;
             }
@@ -148,11 +148,11 @@ namespace Ploeh.AutoFixture
         private void MoveToNextRange()
         {
             this.lower = this.upper;
-            this.upper = this.GetRightLimit();
+            this.upper = this.GetNextUpperLimit();
             this.count = 0;
         }
 
-        private int GetRightLimit()
+        private int GetNextUpperLimit()
         {
             int[] remaining = limit.Where(x => x > this.upper - 1).ToArray();
             if (remaining.Any())
@@ -160,8 +160,7 @@ namespace Ploeh.AutoFixture
                 return remaining.Min() + 1;
             }
 
-            throw new ArgumentException(
-                "The upper limit has been reached.");
+            throw new ArgumentException("The upper limit has been reached.");
         }
     }
 }
