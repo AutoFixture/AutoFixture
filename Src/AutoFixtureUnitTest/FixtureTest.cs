@@ -928,6 +928,47 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousWithRandomNumericSequenceCustomizationReturnsRandomNumbers()
+        {
+            // Fixture setup
+            var sut = new Fixture()
+                .Customize(new RandomNumericSequenceCustomization());
+            var initial = new object[]
+            {
+                1,
+                (uint)2,
+                (byte)3,
+                (sbyte)4,
+                (long)5,
+                (ulong)6,
+                (short)7,
+                (ushort)8,
+                9.0F,
+                10.0D,
+                11M
+            };
+            // Exercise system
+            var result = new object[]
+            {
+                sut.CreateAnonymous<int>(),
+                sut.CreateAnonymous<uint>(),
+                sut.CreateAnonymous<byte>(),
+                sut.CreateAnonymous<sbyte>(),
+                sut.CreateAnonymous<long>(),
+                sut.CreateAnonymous<ulong>(),
+                sut.CreateAnonymous<short>(),
+                sut.CreateAnonymous<ushort>(),
+                sut.CreateAnonymous<float>(),
+                sut.CreateAnonymous<double>(),
+                sut.CreateAnonymous<decimal>()
+            };
+            var intersection = initial.Intersect(result);
+            // Verify outcome
+            Assert.True(intersection.Count() < initial.Count());
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousWithGuidProperyWillAssignNonDefaultValue()
         {
             // Fixture setup
