@@ -38,8 +38,10 @@ namespace Ploeh.AutoFixture.Kernel
                 return new NoSpecimen(request);
             }
 
-            return from r in manyRequest.CreateRequests()
-                   select context.Resolve(r);
+            return from req in manyRequest.CreateRequests()
+                   let res = context.Resolve(req)
+                   where !(res is OmitSpecimen)
+                   select res;
         }
     }
 }

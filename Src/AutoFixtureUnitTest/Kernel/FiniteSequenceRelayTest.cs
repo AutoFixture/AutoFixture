@@ -83,5 +83,35 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.True(actual.All(expectedResult.Equals));
             // Teardown
         }
+
+        [Fact]
+        public void CreateFiltersOmitSpecimenInstances()
+        {
+            // Fixture setup
+            var request = new object();
+            var count = 3;
+            var manyRequest = new FiniteSequenceRequest(request, count);
+
+            var results = new object[]
+            {
+                new object(),
+                new OmitSpecimen(),
+                new object()
+            };
+            var q = new Queue<object>(results);
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => request.Equals(r) ? q.Dequeue() : new NoSpecimen(r)
+            };
+
+            var sut = new FiniteSequenceRelay();
+            // Exercise system
+            var actual = sut.Create(manyRequest, context);
+            // Verify outcome
+            var iter = Assert.IsAssignableFrom<IEnumerable<object>>(actual);
+            Assert.True(
+                results.Where(x => !(x is OmitSpecimen)).SequenceEqual(iter));
+            // Teardown
+        }
     }
 }
