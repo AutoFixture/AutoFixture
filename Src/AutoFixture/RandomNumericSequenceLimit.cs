@@ -82,17 +82,18 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (object.ReferenceEquals(null, obj))
+            if (obj == null)
             {
                 return false;
             }
 
-            if (obj.GetType() != this.GetType())
+            var other = obj as RandomNumericSequenceLimit;
+            if (other == null)
             {
                 return false;
             }
 
-            return this.Equals((RandomNumericSequenceLimit)obj);
+            return this.Equals(other);
         }
 
         /// <summary>
@@ -117,12 +118,15 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public bool Equals(RandomNumericSequenceLimit other)
         {
-            if (object.ReferenceEquals(null, other))
+            if (other == null)
             {
                 return false;
             }
-
-            return this.limit.SequenceEqual(other.limit);
+            
+            return this.limit.SequenceEqual(other.limit)
+                && this.lower == other.lower
+                && this.upper == other.upper
+                && this.count == other.count;
         }
 
         internal int Lower
