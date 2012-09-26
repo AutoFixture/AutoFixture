@@ -51,12 +51,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void LimitMatchListParameter()
         {
             // Fixture setup
-            IEnumerable<int> expectedResult = new[]
-            { 
-                Byte.MaxValue, 
-                Int16.MaxValue, 
-                Int32.MaxValue 
-            }.AsEnumerable();
+            var expectedResult = new[] { 10, 20, 30 }.AsEnumerable();
             var sut = new RandomNumericSequenceLimit(expectedResult);
             // Exercise system
             IEnumerable<int> result = sut.Limit;
@@ -91,15 +86,10 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void ListMatchParamsArray()
+        public void LimitMatchParamsArray()
         {
             // Fixture setup
-            var expectedResult = new[]
-            { 
-                Byte.MaxValue, 
-                Int16.MaxValue, 
-                Int32.MaxValue
-            };
+            var expectedResult = new[] { 10, 20, 30 };
             var sut = new RandomNumericSequenceLimit(expectedResult);
             // Exercise system
             IEnumerable<int> result = sut.Limit;
@@ -126,21 +116,21 @@ namespace Ploeh.AutoFixtureUnitTest
         public void LimitDoesNotMatchParamsArray()
         {
             // Fixture setup
-            var expectedLimit = new[]
+            var unexpectedLimit = new[]
             { 
                 Byte.MaxValue, 
                 Int16.MaxValue, 
                 Int32.MaxValue
             };
             var sut = new RandomNumericSequenceLimit(
-                expectedLimit[0],
-                expectedLimit[2],
-                expectedLimit[1]
+                unexpectedLimit[0],
+                unexpectedLimit[2],
+                unexpectedLimit[1]
                 );
             // Exercise system
             IEnumerable<int> result = sut.Limit;
             // Verify outcome
-            Assert.False(expectedLimit.SequenceEqual(result));
+            Assert.False(unexpectedLimit.SequenceEqual(result));
             // Teardown
         }
 
