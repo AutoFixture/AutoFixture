@@ -140,10 +140,10 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? (object)new RandomNumericSequenceLimit(expectedUpperLimits) : new NoSpecimen(r)
             };
-            var dummyRequest = typeof(double);
+            var request = typeof(double);
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system
-            var result = (double)sut.Create(dummyRequest, context);
+            var result = (double)sut.Create(request, context);
             // Verify outcome
             Assert.True(
                 result >= 1 && result < expectedUpperLimits.Max()
