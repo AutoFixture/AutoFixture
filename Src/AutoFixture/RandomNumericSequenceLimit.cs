@@ -162,9 +162,10 @@ namespace Ploeh.AutoFixture
                 }
                 catch(InvalidOperationException)
                 {
-                    this.OnCurrentRangeExceeded();
                     this.SetInitialRange();
                 }
+
+                this.OnCurrentRangeExceeded();
             }
 
             this.currentCount++;
@@ -178,7 +179,7 @@ namespace Ploeh.AutoFixture
 
         private void SetNextRange()
         {
-            var remaining = limit.Where(x => x > this.currentUpper - 1).ToArray();
+            var remaining = this.limit.Where(x => x > this.currentUpper - 1).ToArray();
             if (remaining.Any())
             {
                 this.currentLower = this.currentUpper;
