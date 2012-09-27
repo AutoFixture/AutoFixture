@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -25,6 +24,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new RandomNumericSequenceLimit();
             var expectedResult = new[]
             {
+                1,
                 Byte.MaxValue,
                 Int16.MaxValue,
                 Int32.MaxValue
@@ -60,20 +60,6 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(new[] { -3,  5,  9 })]
-        [InlineData(new[] {  3, -5,  9 })]
-        [InlineData(new[] {  3,  5, -9 })]
-        [InlineData(new[] {  1,  5,  9 })]
-        public void InitializeWithInvalidUpperLimitListParameterThrows(int[] upperLimits)
-        {
-            // Fixture setup
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentException>(() =>
-                new RandomNumericSequenceLimit(upperLimits.AsEnumerable()));
-            // Teardown
-        }
-
         [Fact]
         public void InitializeWithNullArrayThrows()
         {
@@ -95,20 +81,6 @@ namespace Ploeh.AutoFixtureUnitTest
             IEnumerable<int> result = sut.Limit;
             // Verify outcome
             Assert.True(expectedResult.SequenceEqual(result));
-            // Teardown
-        }
-
-        [Theory]
-        [InlineData(new[] { -3,  5,  9 })]
-        [InlineData(new[] {  3, -5,  9 })]
-        [InlineData(new[] {  3,  5, -9 })]
-        [InlineData(new[] {  1,  5,  9 })]
-        public void InitializeWithInvalidUpperLimitParamsArrayThrows(int[] upperLimits)
-        {
-            // Fixture setup
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentException>(() =>
-                new RandomNumericSequenceLimit(upperLimits));
             // Teardown
         }
 

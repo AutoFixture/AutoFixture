@@ -5,33 +5,36 @@ using System.Linq;
 namespace Ploeh.AutoFixture
 {
     /// <summary>
-    /// Represents a sequence of upper limits. Upper limits consist of a sequence of integers
-    /// beginning with any positive number optionally followed by a series of greater numbers.
+    /// Represents a sequence of limits. Limits consist of a sequence of integers beginning
+    /// with two positive or negative number optionally followed by a series of greater numbers.
     /// </summary>
     /// <remarks>
     /// The default upper limits are 255, 32767, and 2147483647.
     /// </remarks>
     public class RandomNumericSequenceLimit : IEquatable<RandomNumericSequenceLimit>
     {
-        private readonly IEnumerable<int> limit;
+        private readonly int[] limit;
 
-        private int lower;
-        private int upper;
-        private int count;
+        private int currentLower;
+        private int currentUpper;
+        private int currentCount;
+
+        internal event EventHandler CurrentRangeExceeded;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomNumericSequenceLimit" /> class
-        /// with the default upper limits, 255, 32767, and 2147483647.
+        /// with the default limits, 255, 32767, and 2147483647.
         /// </summary>
         public RandomNumericSequenceLimit()
-            : this(Byte.MaxValue, Int16.MaxValue, Int32.MaxValue)
+            : this(1, Byte.MaxValue, Int16.MaxValue, Int32.MaxValue)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomNumericSequenceLimit" /> class.
         /// </summary>
-        /// <param name="limit">The limit.</param>
+        /// <param name="limit">A sequence of integers beginning with two positive or negative 
+        /// number optionally followed by a series of greater numbers.</param>
         public RandomNumericSequenceLimit(IEnumerable<int> limit)
             : this(limit.ToArray())
         {
@@ -40,7 +43,8 @@ namespace Ploeh.AutoFixture
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomNumericSequenceLimit" /> class.
         /// </summary>
-        /// <param name="limit">The limit.</param>
+        /// <param name="limit">An array of integers beginning with two positive or negative 
+        /// number optionally followed by a series of greater numbers.</param>
         /// <exception cref="System.ArgumentNullException"></exception>
         /// <exception cref="System.ArgumentException"></exception>
         public RandomNumericSequenceLimit(params int[] limit)
@@ -50,22 +54,20 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("limit");
             }
 
-            if (limit.Any(x => x <= 1))
+            if (limit.Length < 2)
             {
-                throw new ArgumentException(
-                    "The value of the upper limits must be greater than 1.");
+                throw new ArgumentException("The limit must be a sequence of two or more integers.");
             }
 
             this.limit = limit;
-            this.upper = 1;
-            this.Evaluate();
+            this.SetInitialRange();
         }
 
         /// <summary>
-        /// Gets the sequence of upper limits.
+        /// Gets the sequence of limits.
         /// </summary>
         /// <value>
-        /// The sequence of upper limits.
+        /// The sequence of limits.
         /// </value>
         public IEnumerable<int> Limit
         {
@@ -124,47 +126,68 @@ namespace Ploeh.AutoFixture
             }
             
             return this.limit.SequenceEqual(other.limit)
-                && this.lower == other.lower
-                && this.upper == other.upper
-                && this.count == other.count;
+                && this.currentLower == other.currentLower
+                && this.currentUpper == other.currentUpper
+                && this.currentCount == other.currentCount;
         }
 
-        internal int Lower
+        internal int CurrentLower
         {
-            get { return this.lower; }
+            get { return this.currentLower; }
         }
 
-        internal int Upper
+        internal int CurrentUpper
         {
-            get { return this.upper; }
+            get { return this.currentUpper; }
+        }
+
+        internal virtual void OnCurrentRangeExceeded()
+        {
+            EventHandler handler = this.CurrentRangeExceeded;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
         }
 
         internal void Evaluate()
         {
-            if (this.count == (this.upper - this.lower))
+            if (this.currentCount == (this.currentUpper - this.currentLower))
             {
-                this.MoveToNextRange();
+                this.currentCount = 0;
+
+                try
+                {
+                    this.SetNextRange();
+                }
+                catch(InvalidOperationException)
+                {
+                    this.OnCurrentRangeExceeded();
+                    this.SetInitialRange();
+                }
             }
 
-            this.count++;
+            this.currentCount++;
         }
 
-        private void MoveToNextRange()
+        private void SetInitialRange()
         {
-            this.lower = this.upper;
-            this.upper = this.GetNextUpperLimit();
-            this.count = 0;
+            this.currentLower = limit[0];
+            this.currentUpper = limit[1];
         }
 
-        private int GetNextUpperLimit()
+        private void SetNextRange()
         {
-            int[] remaining = limit.Where(x => x > this.upper - 1).ToArray();
+            var remaining = limit.Where(x => x > this.currentUpper - 1).ToArray();
             if (remaining.Any())
             {
-                return remaining.Min() + 1;
+                this.currentLower = this.currentUpper;
+                this.currentUpper = remaining.Min() + 1;
             }
-
-            throw new ArgumentException("The upper limit has been reached.");
+            else
+            {
+                throw new InvalidOperationException("The upper limit has been reached.");
+            }
         }
     }
 }

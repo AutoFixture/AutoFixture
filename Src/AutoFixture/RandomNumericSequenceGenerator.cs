@@ -1,7 +1,6 @@
 ﻿using Ploeh.AutoFixture.Kernel;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace Ploeh.AutoFixture
 {
@@ -51,6 +50,8 @@ namespace Ploeh.AutoFixture
             {
                 return new NoSpecimen(request);
             }
+
+            limit.CurrentRangeExceeded += (sender, e) => this.randomNumbers.Clear();
 
             return this.CreateRandom(type, limit);
         }
@@ -112,23 +113,12 @@ namespace Ploeh.AutoFixture
         {
             lock (this.syncRoot)
             {
-                try
-                {
-                    limit.Evaluate();
-                }
-                catch (ArgumentException)
-                {
-                    throw new InvalidOperationException(
-                        string.Format(
-                            CultureInfo.CurrentCulture,
-                            "The upper limit has been reached. You may increase the limits by injecting a custom instance of the {0} type.", typeof(RandomNumericSequenceLimit).Name)
-                            );
-                }
-               
+                limit.Evaluate();
+
                 int result;
                 do
                 {
-                    result = this.random.Next(limit.Lower, limit.Upper);
+                    result = this.random.Next(limit.CurrentLower, limit.CurrentUpper);
                 }
                 while (this.randomNumbers.Contains(result));
 
