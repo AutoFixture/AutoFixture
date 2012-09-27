@@ -132,104 +132,96 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
-        [ClassData(typeof(UpperLimitSequenceTestCases))]
-        public void CreateReturnsNumberInCorrectRange(int[] expectedUpperLimits)
+        [ClassData(typeof(LimitSequenceTestCases))]
+        public void CreateReturnsNumberInCorrectRange(int[] limits)
         {
             // Fixture setup
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? (object)new RandomNumericSequenceLimit(expectedUpperLimits) : new NoSpecimen(r)
+                OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? (object)new RandomNumericSequenceLimit(limits) : new NoSpecimen(r)
             };
             var request = typeof(double);
+            int expectedMin = limits.Min();
+            int expectedMax = limits.Max();
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system
             var result = (double)sut.Create(request, context);
             // Verify outcome
             Assert.True(
-                result >= 1 && result < expectedUpperLimits.Max()
+                result >= expectedMin && result <= expectedMax
                 );
             // Teardown
         }
 
         [Theory]
-        [ClassData(typeof(UpperLimitSequenceTestCases))]
-        public void CreateReturnsNumbersInCorrectRangeOnMultipleCall(int[] upperLimits)
+        [ClassData(typeof(LimitSequenceTestCases))]
+        public void CreateReturnsNumbersInCorrectRangeOnMultipleCall(int[] limits)
         {
             // Fixture setup
-            object contextResult = new RandomNumericSequenceLimit(upperLimits);
+            object contextResult = new RandomNumericSequenceLimit(limits);
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? contextResult : new NoSpecimen(r)
             };
-            int repeatCount = upperLimits.Max();
+            var request = typeof(int);
+            int expectedMin = limits.Min();
+            int expectedMax = limits.Max();
+            int repeatCount = (expectedMax - expectedMin) + 1;
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system
             var result = Enumerable
                 .Range(0, repeatCount)
-                .Select(i => sut.Create(typeof(int), context))
+                .Select(i => sut.Create(request, context))
                 .Cast<int>();
             // Verify outcome
             Assert.True(
-                result.All(x => x >= 1 && x <= upperLimits.Max())
+                result.All(x => x >= expectedMin && x <= expectedMax)
                 );
             // Teardown
         }
 
         [Theory]
-        [ClassData(typeof(UpperLimitSequenceTestCases))]
-        public void CreateWhenPassTheUpperLimitThrowsOnMultipleCall(int[] upperLimits)
+        [ClassData(typeof(LimitSequenceTestCases))]
+        public void CreateWhenLimitIsReachedStartsFromTheBeginning(int[] limits)
         {
             // Fixture setup
-            object contextResult = new RandomNumericSequenceLimit(upperLimits);
+            object contextResult = new RandomNumericSequenceLimit(limits);
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? contextResult : new NoSpecimen(r)
             };
-            int repeatCount = upperLimits.Max() + 1;
+            int min = limits.Min();
+            int max = limits.Max();
+            int repeatCount = (max - min) + 1;
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system and verify outcome
-            Assert.Throws<InvalidOperationException>(() =>
-                Enumerable
+            var expectedResult = Enumerable.Range(min, repeatCount).ToArray();
+            for (int iteration = 0; iteration < 3; iteration++)
+            {
+                var result = Enumerable
                     .Range(0, repeatCount)
                     .Select(i => sut.Create(typeof(int), context))
-                    .ToList()
-                );
+                    .Cast<int>()
+                    .OrderBy(x => x);
+
+                Assert.True(expectedResult.SequenceEqual(result));
+            }
             // Teardown
         }
 
         [Theory]
-        [ClassData(typeof(UpperLimitSequenceTestCases))]
-        public void CreateReturnsAsManyNumbersAsTheUpperLimitOnMultipleCall(int[] upperLimits)
+        [ClassData(typeof(LimitSequenceTestCases))]
+        public void CreateReturnsUniqueNumbersOnMultipleCall(int[] limits)
         {
             // Fixture setup
-            object contextResult = new RandomNumericSequenceLimit(upperLimits);
+            object contextResult = new RandomNumericSequenceLimit(limits);
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? contextResult : new NoSpecimen(r)
             };
-            int expectedCount = upperLimits.Max();
-            var sut = new RandomNumericSequenceGenerator();
-            // Exercise system
-            var result = Enumerable
-                .Range(0, expectedCount)
-                .Select(i => sut.Create(typeof(int), context))
-                .Cast<int>();
-            // Verify outcome
-            Assert.Equal(expectedCount, result.Count());
-            // Teardown
-        }
-
-        [Theory]
-        [ClassData(typeof(UpperLimitSequenceTestCases))]
-        public void CreateReturnsUniqueNumbersOnMultipleCall(int[] upperLimits)
-        {
-            // Fixture setup
-            object contextResult = new RandomNumericSequenceLimit(upperLimits);
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? contextResult : new NoSpecimen(r)
-            };
-            int repeatCount = upperLimits.Max();
+            int min = limits.Min();
+            int max = limits.Max();
+            int repeatCount = (max - min) + 1;
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system
             var result = Enumerable
@@ -238,17 +230,17 @@ namespace Ploeh.AutoFixtureUnitTest
                 .Cast<int>()
                 .OrderBy(x => x);
             // Verify outcome
-            var expectedResult = Enumerable.Range(1, repeatCount);
+            var expectedResult = Enumerable.Range(min, repeatCount);
             Assert.True(expectedResult.SequenceEqual(result));
             // Teardown
         }
 
         [Theory]
-        [ClassData(typeof(UpperLimitSequenceTestCases))]
-        public void CreateReturnsUniqueNumbersOnMultipleCallAsynchronously(int[] upperLimits)
+        [ClassData(typeof(LimitSequenceTestCases))]
+        public void CreateReturnsUniqueNumbersOnMultipleCallAsynchronously(int[] limits)
         {
             // Fixture setup
-            object contextResult = new RandomNumericSequenceLimit(upperLimits);
+            object contextResult = new RandomNumericSequenceLimit(limits);
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? contextResult : new NoSpecimen(r)
@@ -256,7 +248,9 @@ namespace Ploeh.AutoFixtureUnitTest
             int iterations = 5;
             int completed = 0;
             var done = new ManualResetEvent(false);
-            int repeatCount = upperLimits.Max() / iterations;
+            int min = limits.Min();
+            int max = limits.Max();
+            int repeatCount = ((max - min) + 1) / iterations;
             int expectedResult = repeatCount * iterations;
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system
@@ -283,13 +277,13 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        private sealed class UpperLimitSequenceTestCases : IEnumerable<object[]>
+        private sealed class LimitSequenceTestCases : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] { new[] { 2, 5, 9, 30 } };
                 yield return new object[] { new[] { 2, 5, 9, 30, 255 } };
                 yield return new object[] { new[] { 2, 5, 9, 30, 255, 512 } };
+                yield return new object[] { new[] { -30, -9, -5, 2, 5, 9, 30 } };
             }
 
             IEnumerator IEnumerable.GetEnumerator()
