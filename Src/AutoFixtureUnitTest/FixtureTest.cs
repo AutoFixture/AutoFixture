@@ -931,9 +931,9 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithRandomNumericSequenceCustomizationReturnsRandomNumbers()
         {
             // Fixture setup
-            var sut = new Fixture()
-                .Customize(new RandomNumericSequenceCustomization());
-            var initial = new object[]
+            var sut = new Fixture();
+            sut.Customizations.Add(new RandomNumericSequenceGenerator(15, 30));
+            var definedNumbers = new object[]
             {
                 1,
                 (uint)2,
@@ -948,7 +948,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 11M
             };
             // Exercise system
-            var result = new object[]
+            var randomNumbers = new object[]
             {
                 sut.CreateAnonymous<int>(),
                 sut.CreateAnonymous<uint>(),
@@ -962,9 +962,9 @@ namespace Ploeh.AutoFixtureUnitTest
                 sut.CreateAnonymous<double>(),
                 sut.CreateAnonymous<decimal>()
             };
-            var intersection = initial.Intersect(result);
+            var result = randomNumbers.Intersect(definedNumbers);
             // Verify outcome
-            Assert.True(intersection.Count() < initial.Count());
+            Assert.Empty(result);
             // Teardown
         }
 
