@@ -131,10 +131,8 @@
     <Compile Include="OmitOnRecursionBehavior.cs" />
     <Compile Include="RandomNumericSequenceCustomization.cs" />
     <Compile Include="RandomNumericSequenceGenerator.cs" />
-    <Compile Include="RandomNumericSequenceLimitGenerator.cs" />
     <Compile Include="RangedNumberGenerator.cs" />
     <Compile Include="RegularExpressionGenerator.cs" />
-    <Compile Include="RandomNumericSequenceLimit.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGenerator.cs" />
     <Compile Include="DefaultPrimitiveBuilders.cs" />
     <Compile Include="DictionaryFiller.cs" />

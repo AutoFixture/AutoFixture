@@ -14,6 +14,104 @@ namespace Ploeh.AutoFixtureUnitTest
     public class RandomNumericSequenceGeneratorTest
     {
         [Fact]
+        public void InitializeWithDefaultConstructorDoesNotThrow()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => new RandomNumericSequenceGenerator());
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithDefaultConstructorSetsCorrectLimits()
+        {
+            // Fixture setup
+            var sut = new RandomNumericSequenceGenerator();
+            var expectedResult = new[]
+            {
+                1,
+                Byte.MaxValue,
+                Int16.MaxValue,
+                Int32.MaxValue
+            };
+            // Exercise system
+            IEnumerable<int> result = sut.Limits;
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullEnumerableThrows()
+        {
+            // Fixture setup
+            IEnumerable<int> nullEnumerable = null;
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new RandomNumericSequenceGenerator(nullEnumerable));
+            // Teardown
+        }
+
+        [Fact]
+        public void LimitsMatchListParameter()
+        {
+            // Fixture setup
+            var expectedResult = new[] { 10, 20, 30 }.AsEnumerable();
+            var sut = new RandomNumericSequenceGenerator(expectedResult);
+            // Exercise system
+            IEnumerable<int> result = sut.Limits;
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullArrayThrows()
+        {
+            // Fixture setup
+            int[] nullArray = null;
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new RandomNumericSequenceGenerator(nullArray));
+            // Teardown
+        }
+
+        [Fact]
+        public void LimitsMatchParamsArray()
+        {
+            // Fixture setup
+            var expectedResult = new[] { 10, 20, 30 };
+            var sut = new RandomNumericSequenceGenerator(expectedResult);
+            // Exercise system
+            IEnumerable<int> result = sut.Limits;
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void LimitsDoesNotMatchParamsArray()
+        {
+            // Fixture setup
+            var unexpectedLimits = new[]
+            { 
+                Byte.MaxValue, 
+                Int16.MaxValue, 
+                Int32.MaxValue
+            };
+            var sut = new RandomNumericSequenceGenerator(
+                unexpectedLimits[0],
+                unexpectedLimits[2],
+                unexpectedLimits[1]
+                );
+            // Exercise system
+            IEnumerable<int> result = sut.Limits;
+            // Verify outcome
+            Assert.False(unexpectedLimits.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
@@ -38,13 +136,13 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithNullContextThrows()
+        public void CreateWithNullContexDoesNotThrow()
         {
             // Fixture setup
             var dummyRequest = typeof(byte);
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(
+            Assert.DoesNotThrow(
                 () => sut.Create(dummyRequest, null));
             // Teardown
         }
@@ -65,25 +163,6 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
-        public void CreateWhenContextReturnValueIsNullReturnsCorrectResult()
-        {
-            // Fixture setup
-            object expectedContextValue = null;
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? expectedContextValue : new NoSpecimen(r)
-            };
-            var dummyRequest = typeof(int);
-            var expectedResult = new NoSpecimen(dummyRequest);
-            var sut = new RandomNumericSequenceGenerator();
-            // Exercise system
-            var result = sut.Create(dummyRequest, context);
-            // Verify outcome
-            Assert.Equal(expectedResult, result);
-            // Teardown
-        }
-
         [Theory]
         [InlineData(typeof(string))]
         [InlineData(typeof(object))]
@@ -91,14 +170,11 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNonNumericTypeRequestReturnsNoSpecimen(Type request)
         {
             // Fixture setup
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? (object)new RandomNumericSequenceLimit() : new NoSpecimen(r)
-            };
+            var dummyContext = new DelegatingSpecimenContext();
             var expectedResult = new NoSpecimen(request);
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system
-            object result = sut.Create(request, context);
+            object result = sut.Create(request, dummyContext);
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
@@ -119,13 +195,10 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNumericTypeRequestReturnsValueOfSameType(Type request)
         {
             // Fixture setup
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? (object)new RandomNumericSequenceLimit() : new NoSpecimen(r)
-            };
+            var dummyContext = new DelegatingSpecimenContext();
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system
-            object result = sut.Create(request, context);
+            object result = sut.Create(request, dummyContext);
             // Verify outcome
             Assert.IsType(request, result);
             // Teardown
@@ -136,16 +209,13 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateReturnsNumberInCorrectRange(int[] limits)
         {
             // Fixture setup
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? (object)new RandomNumericSequenceLimit(limits) : new NoSpecimen(r)
-            };
             var request = typeof(double);
+            var dummyContext = new DelegatingSpecimenContext();
             int expectedMin = limits.Min();
             int expectedMax = limits.Max();
-            var sut = new RandomNumericSequenceGenerator();
+            var sut = new RandomNumericSequenceGenerator(limits);
             // Exercise system
-            var result = (double)sut.Create(request, context);
+            var result = (double)sut.Create(request, dummyContext);
             // Verify outcome
             Assert.True(
                 result >= expectedMin && result <= expectedMax
@@ -158,20 +228,16 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateReturnsNumbersInCorrectRangeOnMultipleCall(int[] limits)
         {
             // Fixture setup
-            object contextResult = new RandomNumericSequenceLimit(limits);
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? contextResult : new NoSpecimen(r)
-            };
             var request = typeof(int);
+            var dummyContext = new DelegatingSpecimenContext();
             int expectedMin = limits.Min();
             int expectedMax = limits.Max();
             int repeatCount = (expectedMax - expectedMin) + 1;
-            var sut = new RandomNumericSequenceGenerator();
+            var sut = new RandomNumericSequenceGenerator(limits);
             // Exercise system
             var result = Enumerable
                 .Range(0, repeatCount)
-                .Select(i => sut.Create(request, context))
+                .Select(i => sut.Create(request, dummyContext))
                 .Cast<int>();
             // Verify outcome
             Assert.True(
@@ -185,22 +251,18 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWhenLimitIsReachedStartsFromTheBeginning(int[] limits)
         {
             // Fixture setup
-            object contextResult = new RandomNumericSequenceLimit(limits);
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? contextResult : new NoSpecimen(r)
-            };
+            var dummyContext = new DelegatingSpecimenContext();
             int min = limits.Min();
             int max = limits.Max();
             int repeatCount = (max - min) + 1;
-            var sut = new RandomNumericSequenceGenerator();
+            var sut = new RandomNumericSequenceGenerator(limits);
             // Exercise system and verify outcome
             var expectedResult = Enumerable.Range(min, repeatCount).ToArray();
             for (int iteration = 0; iteration < 3; iteration++)
             {
                 var result = Enumerable
                     .Range(0, repeatCount)
-                    .Select(i => sut.Create(typeof(int), context))
+                    .Select(i => sut.Create(typeof(int), dummyContext))
                     .Cast<int>()
                     .OrderBy(x => x);
 
@@ -214,19 +276,15 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateReturnsUniqueNumbersOnMultipleCall(int[] limits)
         {
             // Fixture setup
-            object contextResult = new RandomNumericSequenceLimit(limits);
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? contextResult : new NoSpecimen(r)
-            };
+            var dummyContext = new DelegatingSpecimenContext();
             int min = limits.Min();
             int max = limits.Max();
             int repeatCount = (max - min) + 1;
-            var sut = new RandomNumericSequenceGenerator();
+            var sut = new RandomNumericSequenceGenerator(limits);
             // Exercise system
             var result = Enumerable
                 .Range(0, repeatCount)
-                .Select(i => sut.Create(typeof(int), context))
+                .Select(i => sut.Create(typeof(int), dummyContext))
                 .Cast<int>()
                 .OrderBy(x => x);
             // Verify outcome
@@ -240,11 +298,6 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateReturnsUniqueNumbersOnMultipleCallAsynchronously(int[] limits)
         {
             // Fixture setup
-            object contextResult = new RandomNumericSequenceLimit(limits);
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r => typeof(RandomNumericSequenceLimit).Equals(r) ? contextResult : new NoSpecimen(r)
-            };
             int iterations = 5;
             int completed = 0;
             var done = new ManualResetEvent(false);
@@ -252,7 +305,8 @@ namespace Ploeh.AutoFixtureUnitTest
             int max = limits.Max();
             int repeatCount = ((max - min) + 1) / iterations;
             int expectedResult = repeatCount * iterations;
-            var sut = new RandomNumericSequenceGenerator();
+            var dummyContext = new DelegatingSpecimenContext();
+            var sut = new RandomNumericSequenceGenerator(limits);
             // Exercise system
             var numbers = new List<int[]>();
             for (int i = 0; i < iterations; i++)
@@ -262,7 +316,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     numbers.Add(
                         Enumerable
                             .Range(0, repeatCount)
-                            .Select(x => sut.Create(typeof(int), context))
+                            .Select(x => sut.Create(typeof(int), dummyContext))
                             .Cast<int>()
                             .ToArray());
 

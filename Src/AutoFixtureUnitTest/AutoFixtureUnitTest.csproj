@@ -112,8 +112,6 @@
     <Compile Include="ProvidedAttribute.cs" />
     <Compile Include="RandomNumericSequenceCustomizationTest.cs" />
     <Compile Include="RandomNumericSequenceGeneratorTest.cs" />
-    <Compile Include="RandomNumericSequenceLimitGeneratorTest.cs" />
-    <Compile Include="RandomNumericSequenceLimitTest.cs" />
     <Compile Include="RangedNumberGeneratorTest.cs" />
     <Compile Include="RegularExpressionGeneratorTest.cs" />
     <Compile Include="StaticFactoryWithClosureOfOperationsBugRepro.cs" />

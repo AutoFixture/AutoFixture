@@ -972,11 +972,10 @@ namespace Ploeh.AutoFixtureUnitTest
         public void InjectCustomUpperLimitWillCauseSutToReturnNumbersInLimit()
         {
             // Fixture setup
-            int lower = 10;
-            int upper = 99;
-            var sut = new Fixture()
-                .Customize(new RandomNumericSequenceCustomization());
-            sut.Inject(new RandomNumericSequenceLimit(lower, upper));
+            int lower = -9;
+            int upper = -1;
+            var sut = new Fixture();
+            sut.Customizations.Add(new RandomNumericSequenceGenerator(lower, upper));
             // Exercise system
             var result = sut.CreateAnonymous<DoublePropertyHolder<int, long>>();
             // Verify outcome

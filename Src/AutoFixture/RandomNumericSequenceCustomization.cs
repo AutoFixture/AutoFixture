@@ -9,8 +9,7 @@ namespace Ploeh.AutoFixture
     public class RandomNumericSequenceCustomization : ICustomization
     {
         /// <summary>
-        /// Customizes the specified fixture by adding a 
-        /// <see cref="RandomNumericSequenceLimitGenerator"/> and a <see cref="RandomNumericSequenceGenerator"/>
+        /// Customizes the specified fixture by adding a <see cref="RandomNumericSequenceGenerator"/>
         /// so that the <see cref="ISpecimenBuilderComposer.Compose"/> will take them into accout.
         /// </summary>
         /// <param name="fixture">The fixture to customize.</param>
@@ -22,10 +21,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            fixture.Customizations.Add(
-                new CompositeSpecimenBuilder(
-                    new RandomNumericSequenceLimitGenerator(),
-                    new RandomNumericSequenceGenerator()));
+            fixture.Customizations.Add(new RandomNumericSequenceGenerator());
         }
     }
 }

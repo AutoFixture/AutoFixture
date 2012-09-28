@@ -1,5 +1,4 @@
 ﻿using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
 using System;
 using System.Linq;
 using Xunit;
@@ -31,24 +30,18 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CustomizeAddsCorrectBuildersToFixture()
+        public void CustomizeAddsCorrectBuilderToFixture()
         {
             // Fixture setup
-            var expectedResult = new[]
-            {
-                typeof(RandomNumericSequenceLimitGenerator),
-                typeof(RandomNumericSequenceGenerator)
-            };
             var fixture = new Fixture();
             var sut = new RandomNumericSequenceCustomization();
             // Exercise system
             sut.Customize(fixture);
             var result = fixture.Customizations
-                .OfType<CompositeSpecimenBuilder>()
-                .SelectMany(i => i.Builders)
-                .Select(i => i.GetType());
+                .OfType<RandomNumericSequenceGenerator>()
+                .SingleOrDefault();
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result));
+            Assert.NotNull(result);
             // Teardown
         }
     }
