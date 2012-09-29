@@ -52,6 +52,19 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Theory]
+        [InlineData(new[] { 1 })]
+        [InlineData(new[] { 20 })]
+        [InlineData(new[] { 300 })]
+        public void InitializeWithSingleLimitThrows(int[] limits)
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentException>(() =>
+                new RandomNumericSequenceGenerator(limits));
+            // Teardown
+        }
+
         [Fact]
         public void LimitsMatchListParameter()
         {
