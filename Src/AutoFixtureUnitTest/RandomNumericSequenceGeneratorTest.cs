@@ -280,10 +280,10 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyContext = new DelegatingSpecimenContext();
-            long min = limits.Min();
-            long max = limits.Max();
+            long expectedMin = limits.Min();
+            long expectedMax = limits.Max();
             int repeatCount = 300;
-            var sut = new RandomNumericSequenceGenerator(min, max);
+            var sut = new RandomNumericSequenceGenerator(expectedMin, expectedMax);
             // Exercise system
             var result = Enumerable
                 .Range(0, repeatCount)
@@ -291,7 +291,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .Cast<long>();
             // Verify outcome
             Assert.True(
-                result.All(x => x >= min && x <= max)
+                result.All(x => x >= expectedMin && x <= expectedMax)
                 );
             // Teardown
         }
