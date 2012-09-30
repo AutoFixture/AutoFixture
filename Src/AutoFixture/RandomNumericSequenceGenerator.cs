@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using Ploeh.AutoFixture.Kernel;
+﻿using Ploeh.AutoFixture.Kernel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ploeh.AutoFixture
 {
@@ -10,13 +10,13 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class RandomNumericSequenceGenerator : ISpecimenBuilder
     {
-        private readonly int[] limits;
+        private readonly long[] limits;
         private readonly object syncRoot;
         private readonly Random random;
-        private readonly List<int> numbers;
-        private int lower;
-        private int upper;
-        private int count;
+        private readonly List<long> numbers;
+        private long lower;
+        private long upper;
+        private long count;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomNumericSequenceGenerator" /> class
@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <param name="limits">A sequence of integers beginning with two positive or negative 
         /// number optionally followed by a series of greater numbers.</param>
-        public RandomNumericSequenceGenerator(IEnumerable<int> limits)
+        public RandomNumericSequenceGenerator(IEnumerable<long> limits)
             : this(limits.ToArray())
         {
         }
@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixture
         /// number optionally followed by a series of greater numbers.</param>
         /// <exception cref="System.ArgumentNullException"></exception>
         /// <exception cref="System.ArgumentException"></exception>
-        public RandomNumericSequenceGenerator(params int[] limits)
+        public RandomNumericSequenceGenerator(params long[] limits)
         {
             if (limits == null)
             {
@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixture
             this.limits = limits;
             this.syncRoot = new object();
             this.random = new Random();
-            this.numbers = new List<int>();
+            this.numbers = new List<long>();
             this.CreateRange();
         }
 
@@ -69,7 +69,7 @@ namespace Ploeh.AutoFixture
         /// <value>
         /// The sequence of limits.
         /// </value>
-        public IEnumerable<int> Limits
+        public IEnumerable<long> Limits
         {
             get { return this.limits; }
         }
@@ -115,11 +115,11 @@ namespace Ploeh.AutoFixture
                         this.GetNextRandom();
 
                 case TypeCode.Int32:
-                    return
+                    return (int)
                         this.GetNextRandom();
 
                 case TypeCode.Int64:
-                    return (long)
+                    return
                         this.GetNextRandom();
 
                 case TypeCode.SByte:
@@ -147,16 +147,24 @@ namespace Ploeh.AutoFixture
             }
         }
 
-        private int GetNextRandom()
+        private long GetNextRandom()
         {
             lock (this.syncRoot)
             {
                 this.EvaluateRange();
 
-                int result;
+                long result;
                 do
                 {
-                    result = this.random.Next(this.lower, this.upper);
+                    if (this.lower >= int.MinValue && 
+                        this.upper <= int.MaxValue)
+                    {
+                        result = this.random.Next((int)this.lower, (int)this.upper);
+                    }
+                    else
+                    {
+                        result = this.GetNextInt64InRange();
+                    }
                 }
                 while (this.numbers.Contains(result));
 
@@ -191,6 +199,20 @@ namespace Ploeh.AutoFixture
             }
 
             this.numbers.Clear();
+        }
+
+        private long GetNextInt64InRange()
+        {
+            var range = (ulong)(this.upper - this.lower);
+            ulong limit = ulong.MaxValue - ulong.MaxValue % range;
+            ulong number;
+            do
+            {
+                var buffer = new byte[8];
+                this.random.NextBytes(buffer);
+                number = BitConverter.ToUInt64(buffer, 0);
+            } while (number > limit);
+            return (long)(number % range + (ulong)this.lower);
         }
     }
 }
