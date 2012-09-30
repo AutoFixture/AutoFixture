@@ -34,7 +34,7 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 throw new ArgumentNullException("context");
             }
-            
+
             return (from t in request.Maybe().OfType<Type>()
                     let typeArguments = t.GetGenericArguments()
                     where typeArguments.Length == 1
@@ -63,9 +63,8 @@ namespace Ploeh.AutoFixture.Kernel
             public IEnumerator<T> GetEnumerator()
             {
                 foreach (var item in this.enumerable)
-                {
-                    yield return (T)item;
-                }
+                    if (item is T)
+                        yield return (T)item;
             }
 
             IEnumerator IEnumerable.GetEnumerator()
