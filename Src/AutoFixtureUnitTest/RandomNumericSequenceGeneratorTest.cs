@@ -238,7 +238,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
         [Theory]
         [ClassData(typeof(LimitSequenceTestCases))]
-        public void CreateReturnsNumbersInCorrectRangeOnMultipleCall(long[] limits)
+        public void CreateReturnsNumberInCorrectRangeOnMultipleCall(long[] limits)
         {
             // Fixture setup
             var request = typeof(int);
@@ -293,6 +293,33 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.True(
                 result.All(x => x >= expectedMin && x <= expectedMax)
                 );
+            // Teardown
+        }
+
+        [Theory]
+        [ClassData(typeof(LimitSequenceTestCases))]
+        public void CreateReturnsNumberInCorrectRangeProgressivelyOnMultipleCall(long[] limits)
+        {
+            // Fixture setup
+            var dummyContext = new DelegatingSpecimenContext();
+            var sut = new RandomNumericSequenceGenerator(limits);
+            for (int i = 0; i < limits.Length - 1; i++)
+            {
+                var expectedMin = (int)limits[i];
+                var expectedMax = (int)limits[i + 1];
+                int repeatCount = i > 0 
+                    ? (expectedMax - expectedMin) 
+                    : (expectedMax - expectedMin) + 1;
+                // Exercise system
+                var result = Enumerable
+                    .Range(0, repeatCount)
+                    .Select(_ => sut.Create(typeof(int), dummyContext))
+                    .Cast<int>();
+                // Verify outcome
+                Assert.True(
+                    result.All(x => x >= expectedMin && x <= expectedMax)
+                    );
+            }
             // Teardown
         }
 
