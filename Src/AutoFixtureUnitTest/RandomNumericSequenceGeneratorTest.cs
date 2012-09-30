@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new RandomNumericSequenceGenerator();
-            var expectedResult = new[]
+            var expectedResult = new long[]
             {
                 1,
                 Byte.MaxValue,
@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 Int32.MaxValue
             };
             // Exercise system
-            IEnumerable<int> result = sut.Limits;
+            IEnumerable<long> result = sut.Limits;
             // Verify outcome
             Assert.True(expectedResult.SequenceEqual(result));
             // Teardown
@@ -45,7 +45,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void InitializeWithNullEnumerableThrows()
         {
             // Fixture setup
-            IEnumerable<int> nullEnumerable = null;
+            IEnumerable<long> nullEnumerable = null;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new RandomNumericSequenceGenerator(nullEnumerable));
@@ -53,10 +53,10 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
-        [InlineData(new[] { 1 })]
-        [InlineData(new[] { 20 })]
-        [InlineData(new[] { 300 })]
-        public void InitializeWithSingleLimitThrows(int[] limits)
+        [InlineData(new long[] { 1 })]
+        [InlineData(new long[] { 20 })]
+        [InlineData(new long[] { 300 })]
+        public void InitializeWithSingleLimitThrows(long[] limits)
         {
             // Fixture setup
             // Exercise system and verify outcome
@@ -69,10 +69,10 @@ namespace Ploeh.AutoFixtureUnitTest
         public void LimitsMatchListParameter()
         {
             // Fixture setup
-            var expectedResult = new[] { 10, 20, 30 }.AsEnumerable();
+            var expectedResult = new long[] { 10, 20, 30 }.AsEnumerable();
             var sut = new RandomNumericSequenceGenerator(expectedResult);
             // Exercise system
-            IEnumerable<int> result = sut.Limits;
+            IEnumerable<long> result = sut.Limits;
             // Verify outcome
             Assert.True(expectedResult.SequenceEqual(result));
             // Teardown
@@ -82,7 +82,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void InitializeWithNullArrayThrows()
         {
             // Fixture setup
-            int[] nullArray = null;
+            long[] nullArray = null;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new RandomNumericSequenceGenerator(nullArray));
@@ -93,10 +93,10 @@ namespace Ploeh.AutoFixtureUnitTest
         public void LimitsMatchParamsArray()
         {
             // Fixture setup
-            var expectedResult = new[] { 10, 20, 30 };
+            var expectedResult = new long[] { 10, 20, 30 };
             var sut = new RandomNumericSequenceGenerator(expectedResult);
             // Exercise system
-            IEnumerable<int> result = sut.Limits;
+            IEnumerable<long> result = sut.Limits;
             // Verify outcome
             Assert.True(expectedResult.SequenceEqual(result));
             // Teardown
@@ -106,7 +106,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void LimitsDoesNotMatchParamsArray()
         {
             // Fixture setup
-            var unexpectedLimits = new[]
+            var unexpectedLimits = new long[]
             { 
                 Byte.MaxValue, 
                 Int16.MaxValue, 
@@ -118,7 +118,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 unexpectedLimits[1]
                 );
             // Exercise system
-            IEnumerable<int> result = sut.Limits;
+            IEnumerable<long> result = sut.Limits;
             // Verify outcome
             Assert.False(unexpectedLimits.SequenceEqual(result));
             // Teardown
@@ -219,13 +219,13 @@ namespace Ploeh.AutoFixtureUnitTest
 
         [Theory]
         [ClassData(typeof(LimitSequenceTestCases))]
-        public void CreateReturnsNumberInCorrectRange(int[] limits)
+        public void CreateReturnsNumberInCorrectRange(long[] limits)
         {
             // Fixture setup
             var request = typeof(double);
             var dummyContext = new DelegatingSpecimenContext();
-            int expectedMin = limits.Min();
-            int expectedMax = limits.Max();
+            var expectedMin = (int)limits.Min();
+            var expectedMax = (int)limits.Max();
             var sut = new RandomNumericSequenceGenerator(limits);
             // Exercise system
             var result = (double)sut.Create(request, dummyContext);
@@ -238,13 +238,13 @@ namespace Ploeh.AutoFixtureUnitTest
 
         [Theory]
         [ClassData(typeof(LimitSequenceTestCases))]
-        public void CreateReturnsNumbersInCorrectRangeOnMultipleCall(int[] limits)
+        public void CreateReturnsNumbersInCorrectRangeOnMultipleCall(long[] limits)
         {
             // Fixture setup
             var request = typeof(int);
             var dummyContext = new DelegatingSpecimenContext();
-            int expectedMin = limits.Min();
-            int expectedMax = limits.Max();
+            var expectedMin = (int)limits.Min();
+            var expectedMax = (int)limits.Max();
             int repeatCount = (expectedMax - expectedMin) + 1;
             var sut = new RandomNumericSequenceGenerator(limits);
             // Exercise system
@@ -260,13 +260,50 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
-        [ClassData(typeof(LimitSequenceTestCases))]
-        public void CreateWhenLimitIsReachedStartsFromTheBeginning(int[] limits)
+        [InlineData(new[] { long.MinValue, long.MaxValue })]
+        [InlineData(new[] { 900000, (long)int.MaxValue + 3 })]
+        [InlineData(new[] { int.MinValue, long.MaxValue - 3 })]
+        [InlineData(new[] { long.MinValue, long.MaxValue - 3 })]
+        [InlineData(new[] { int.MinValue + 100, long.MaxValue })]
+        [InlineData(new[] { long.MinValue + 200, long.MaxValue })]
+        [InlineData(new[] { long.MinValue, int.MinValue + 90000 })]
+        [InlineData(new[] { byte.MaxValue + 10000, long.MaxValue })]
+        [InlineData(new[] { long.MinValue + 200000, long.MaxValue })]
+        [InlineData(new[] { (long)int.MaxValue + 10, long.MaxValue })]
+        [InlineData(new[] { (long)int.MaxValue + 200, long.MaxValue })]
+        [InlineData(new[] { (long)int.MaxValue + 3000, long.MaxValue })]
+        [InlineData(new[] { -byte.MaxValue, (long)(int.MaxValue) + 10 })]
+        [InlineData(new[] { -byte.MaxValue, (long)(int.MaxValue) + 200 })]
+        [InlineData(new[] { -byte.MaxValue, (long)(int.MaxValue) + 3000 })]
+        [InlineData(new[] { long.MinValue + byte.MaxValue, byte.MaxValue })]
+        public void CreateReturnsNumberInCorrectRangeForInt64OnMultipleCall(long[] limits)
         {
             // Fixture setup
             var dummyContext = new DelegatingSpecimenContext();
-            int min = limits.Min();
-            int max = limits.Max();
+            long min = limits.Min();
+            long max = limits.Max();
+            int repeatCount = 300;
+            var sut = new RandomNumericSequenceGenerator(min, max);
+            // Exercise system
+            var result = Enumerable
+                .Range(0, repeatCount)
+                .Select(i => sut.Create(typeof(long), dummyContext))
+                .Cast<long>();
+            // Verify outcome
+            Assert.True(
+                result.All(x => x >= min && x <= max)
+                );
+            // Teardown
+        }
+
+        [Theory]
+        [ClassData(typeof(LimitSequenceTestCases))]
+        public void CreateWhenLimitIsReachedStartsFromTheBeginning(long[] limits)
+        {
+            // Fixture setup
+            var dummyContext = new DelegatingSpecimenContext();
+            var min = (int)limits.Min();
+            var max = (int)limits.Max();
             int repeatCount = (max - min) + 1;
             var sut = new RandomNumericSequenceGenerator(limits);
             // Exercise system and verify outcome
@@ -286,12 +323,12 @@ namespace Ploeh.AutoFixtureUnitTest
 
         [Theory]
         [ClassData(typeof(LimitSequenceTestCases))]
-        public void CreateReturnsUniqueNumbersOnMultipleCall(int[] limits)
+        public void CreateReturnsUniqueNumbersOnMultipleCall(long[] limits)
         {
             // Fixture setup
             var dummyContext = new DelegatingSpecimenContext();
-            int min = limits.Min();
-            int max = limits.Max();
+            var min = (int)limits.Min();
+            var max = (int)limits.Max();
             int repeatCount = (max - min) + 1;
             var sut = new RandomNumericSequenceGenerator(limits);
             // Exercise system
@@ -308,14 +345,14 @@ namespace Ploeh.AutoFixtureUnitTest
 
         [Theory]
         [ClassData(typeof(LimitSequenceTestCases))]
-        public void CreateReturnsUniqueNumbersOnMultipleCallAsynchronously(int[] limits)
+        public void CreateReturnsUniqueNumbersOnMultipleCallAsynchronously(long[] limits)
         {
             // Fixture setup
             int iterations = 5;
             int completed = 0;
             var done = new ManualResetEvent(false);
-            int min = limits.Min();
-            int max = limits.Max();
+            var min = (int)limits.Min();
+            var max = (int)limits.Max();
             int repeatCount = ((max - min) + 1) / iterations;
             int expectedResult = repeatCount * iterations;
             var dummyContext = new DelegatingSpecimenContext();
@@ -348,9 +385,9 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] { new[] { 2, 5, 9, 30, 255 } };
-                yield return new object[] { new[] { 2, 5, 9, 30, 255, 512 } };
-                yield return new object[] { new[] { -30, -9, -5, 2, 5, 9, 30 } };
+                yield return new object[] { new long[] { 2, 5, 9, 30, 255 } };
+                yield return new object[] { new long[] { 2, 5, 9, 30, 255, 512 } };
+                yield return new object[] { new long[] { -30, -9, -5, 2, 5, 9, 30 } };
             }
 
             IEnumerator IEnumerable.GetEnumerator()
