@@ -297,29 +297,34 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
-        [ClassData(typeof(LimitSequenceTestCases))]
-        public void CreateReturnsNumberInCorrectRangeProgressivelyOnMultipleCall(long[] limits)
+        [InlineData(new object[] { new long[] { -30, -9, -5, 2, 9, 15 }, 0, 1 })]
+        [InlineData(new object[] { new long[] { -30, -9, -5, 2, 9, 15 }, 1, 2 })]
+        [InlineData(new object[] { new long[] { -30, -9, -5, 2, 9, 15 }, 2, 3 })]
+        [InlineData(new object[] { new long[] { -30, -9, -5, 2, 9, 15 }, 3, 4 })]
+        [InlineData(new object[] { new long[] { -30, -9, -5, 2, 9, 15 }, 4, 5 })]
+        [InlineData(new object[] { new long[] { 1, 5, 9, 30, 128, 255 }, 0, 1 })]
+        [InlineData(new object[] { new long[] { 1, 5, 9, 30, 128, 255 }, 1, 2 })]
+        [InlineData(new object[] { new long[] { 1, 5, 9, 30, 128, 255 }, 2, 3 })]
+        [InlineData(new object[] { new long[] { 1, 5, 9, 30, 128, 255 }, 3, 5 })]
+        [InlineData(new object[] { new long[] { 1, 5, 9, 30, 128, 255 }, 4, 5 })]
+        public void CreateReturnsNumberInCorrectRangeProgressivelyOnMultipleCall(
+            long[] limits, int indexOfLower, int indexOfUpper)
         {
             // Fixture setup
             var dummyContext = new DelegatingSpecimenContext();
             var sut = new RandomNumericSequenceGenerator(limits);
-            for (int i = 0; i < limits.Length - 1; i++)
-            {
-                var expectedMin = (int)limits[i];
-                var expectedMax = (int)limits[i + 1];
-                int repeatCount = i > 0 
-                    ? (expectedMax - expectedMin) 
-                    : (expectedMax - expectedMin) + 1;
-                // Exercise system
-                var result = Enumerable
-                    .Range(0, repeatCount)
-                    .Select(_ => sut.Create(typeof(int), dummyContext))
-                    .Cast<int>();
-                // Verify outcome
-                Assert.True(
-                    result.All(x => x >= expectedMin && x <= expectedMax)
-                    );
-            }
+            var expectedMin = (int)limits[indexOfLower];
+            var expectedMax = (int)limits[indexOfUpper];
+            int repeatCount = expectedMax - expectedMin;
+            int lowerBounds = Math.Abs((int)limits.Min() + expectedMin);
+            // Exercise system
+            var result = Enumerable
+                .Range(0, repeatCount)
+                .Select(i => sut.Create(typeof(int), dummyContext))
+                .Skip(lowerBounds)
+                .Cast<int>();
+            // Verify outcome
+            Assert.True(result.All(x => x >= expectedMin && x <= expectedMax));
             // Teardown
         }
 
