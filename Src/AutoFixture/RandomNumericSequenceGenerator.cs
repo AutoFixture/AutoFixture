@@ -208,7 +208,7 @@ namespace Ploeh.AutoFixture
             ulong number;
             do
             {
-                var buffer = new byte[8];
+                var buffer = new byte[sizeof(ulong)];
                 this.random.NextBytes(buffer);
                 number = BitConverter.ToUInt64(buffer, 0);
             } while (number > limit);
