@@ -139,6 +139,8 @@
     <Compile Include="Kernel\TypedNode.cs" />
     <Compile Include="Kernel\TypeRelay.cs" />
     <Compile Include="OmitOnRecursionBehavior.cs" />
+    <Compile Include="RandomNumericSequenceCustomization.cs" />
+    <Compile Include="RandomNumericSequenceGenerator.cs" />
     <Compile Include="RangedNumberGenerator.cs" />
     <Compile Include="RegularExpressionGenerator.cs" />
     <Compile Include="ResidueCollectorNode.cs" />

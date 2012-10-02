@@ -116,10 +116,15 @@
     <Compile Include="Kernel\RegularExpressionRequestTest.cs" />
     <Compile Include="Kernel\GraphEqualsTest.cs" />
     <Compile Include="Kernel\TypeRelayTests.cs" />
+    <Compile Include="NavigationPropertyRecursionIssue\Language.cs" />
+    <Compile Include="NavigationPropertyRecursionIssue\Repro.cs" />
+    <Compile Include="NavigationPropertyRecursionIssue\Session.cs" />
     <Compile Include="OmitOnRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\TypedNodeTest.cs" />
     <Compile Include="MarkerNode.cs" />
     <Compile Include="ProvidedAttribute.cs" />
+    <Compile Include="RandomNumericSequenceCustomizationTest.cs" />
+    <Compile Include="RandomNumericSequenceGeneratorTest.cs" />
     <Compile Include="RangedNumberGeneratorTest.cs" />
     <Compile Include="RegularExpressionGeneratorTest.cs" />
     <Compile Include="ResidueCollectorNodeTest.cs" />

@@ -929,6 +929,64 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousWithRandomNumericSequenceCustomizationReturnsRandomNumbers()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            sut.Customizations.Add(new RandomNumericSequenceGenerator(15, 30));
+            var definedNumbers = new object[]
+            {
+                1,
+                (uint)2,
+                (byte)3,
+                (sbyte)4,
+                (long)5,
+                (ulong)6,
+                (short)7,
+                (ushort)8,
+                9.0F,
+                10.0D,
+                11M
+            };
+            // Exercise system
+            var randomNumbers = new object[]
+            {
+                sut.CreateAnonymous<int>(),
+                sut.CreateAnonymous<uint>(),
+                sut.CreateAnonymous<byte>(),
+                sut.CreateAnonymous<sbyte>(),
+                sut.CreateAnonymous<long>(),
+                sut.CreateAnonymous<ulong>(),
+                sut.CreateAnonymous<short>(),
+                sut.CreateAnonymous<ushort>(),
+                sut.CreateAnonymous<float>(),
+                sut.CreateAnonymous<double>(),
+                sut.CreateAnonymous<decimal>()
+            };
+            var result = randomNumbers.Intersect(definedNumbers);
+            // Verify outcome
+            Assert.Empty(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void InjectCustomUpperLimitWillCauseSutToReturnNumbersInLimit()
+        {
+            // Fixture setup
+            int lower = -9;
+            int upper = -1;
+            var sut = new Fixture();
+            sut.Customizations.Add(new RandomNumericSequenceGenerator(lower, upper));
+            // Exercise system
+            var result = sut.CreateAnonymous<DoublePropertyHolder<int, long>>();
+            // Verify outcome
+            Assert.True(
+                (result.Property1 >= lower && result.Property1 < upper) &&
+                (result.Property2 >= lower && result.Property2 < upper)
+                );
+        }
+
+        [Fact]
         public void CreateAnonymousWithGuidProperyWillAssignNonDefaultValue()
         {
             // Fixture setup

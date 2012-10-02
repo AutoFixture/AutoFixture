@@ -117,5 +117,34 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(expectedResult, result);
             // Teardown
         }
+
+        [Fact]
+        public void CreateFiltersOmitSpecimenInstances()
+        {
+            // Fixture setup
+            var request = typeof(IEnumerable<int>);
+            var expectedRequest = new MultipleRequest(typeof(int));
+
+            var enumerable = new object[]
+            {
+                1,
+                new OmitSpecimen(),
+                3
+            };
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => expectedRequest.Equals(r) ? (object)enumerable : new NoSpecimen(r)
+            };
+
+            var sut = new EnumerableRelay();
+            // Exercise system
+            var actual = sut.Create(request, context);
+            // Verify outcome
+            var iter = Assert.IsAssignableFrom<IEnumerable<int>>(actual);
+            Assert.True(
+                enumerable.OfType<int>().SequenceEqual(iter),
+                "Actual sequence is not equal to expected sequence.");
+            // Teardown
+        }
     }
 }
