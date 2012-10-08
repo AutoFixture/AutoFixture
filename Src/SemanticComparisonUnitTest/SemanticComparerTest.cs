@@ -59,7 +59,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void SutEqualsIdenticalStrongType()
         {
             // Fixture setup
-            var ticks = 8293247;
+            const int ticks = 8293247;
             var value = TimeSpan.FromTicks(ticks);
             var sut = new SemanticComparer<TimeSpan, TimeSpan>();
             var other = TimeSpan.FromTicks(ticks);
@@ -76,7 +76,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Fixture setup
             var sut = new SemanticComparer<TimeSpan, TimeSpan>();
             
-            var ticks = 8293247;
+            const int ticks = 8293247;
 
             var value = TimeSpan.FromTicks(ticks);
             var values = new object[] { value, value, value };
@@ -95,7 +95,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void SutEqualsIdenticalWeakType()
         {
             // Fixture setup
-            var ticks = 8293247;
+            const int ticks = 8293247;
             var value = TimeSpan.FromTicks(ticks);
             var sut = new SemanticComparer<TimeSpan, TimeSpan>();
             object other = TimeSpan.FromTicks(ticks);
@@ -112,7 +112,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Fixture setup
             var sut = new SemanticComparer<TimeSpan, TimeSpan>();
 
-            var ticks = 8293247;
+            const int ticks = 8293247;
 
             var value = TimeSpan.FromTicks(ticks);
             var values = new object[] { value, value, value };
@@ -131,7 +131,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ComparingStringPropertyHolderSemanticallyToRealStringPropertyHolderWillIndicateEquality()
         {
             // Fixture setup
-            string anonymousText = "Anonymous text";
+            const string anonymousText = "Anonymous text";
 
             PropertyHolder<string> likenObject = new PropertyHolder<string>();
             likenObject.Property = anonymousText;
@@ -147,8 +147,8 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ComparingStringPropertyHoldersWithDifferentValuesWillIndicateDifference()
         {
             // Fixture setup
-            string anonymousText1 = "Anonymous text";
-            string anonymousText2 = "Some other text";
+            const string anonymousText1 = "Anonymous text";
+            const string anonymousText2 = "Some other text";
 
             PropertyHolder<string> likenObject = new PropertyHolder<string>();
             likenObject.Property = anonymousText1;
@@ -164,7 +164,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ComparingStringFieldHolderSemanticallyToRealStringFieldHolderWillIndicateEquality()
         {
             // Fixture setup
-            string anonymousText = "Anonymous text";
+            const string anonymousText = "Anonymous text";
 
             FieldHolder<string> likenObject = new FieldHolder<string>();
             likenObject.Field = anonymousText;
@@ -180,8 +180,8 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ComparingStringFieldHoldersWithDifferentValuesWillIndicateDifference()
         {
             // Fixture setup
-            string anonymousText1 = "Anonymous text";
-            string anonymousText2 = "Some other text";
+            const string anonymousText1 = "Anonymous text";
+            const string anonymousText2 = "Some other text";
 
             FieldHolder<string> likenObject = new FieldHolder<string>();
             likenObject.Field = anonymousText1;
@@ -197,7 +197,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void CompareAnonymousTypeSemanticallyToStringFieldHolderWillIndicateEqualityWhenValuesAreEqual()
         {
             // Fixture setup
-            string anonymousText = "Anonymou text";
+            const string anonymousText = "Anonymou text";
 
             var likenObject = new
             {
@@ -215,8 +215,8 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void CompareAnonymousTypeSemanticallyToStringPropertyHolderWillIndicateDifferenceWhenValuesAreDifferent()
         {
             // Fixture setup
-            string anonymousText1 = "Anonymous text";
-            string anonymousText2 = "Some other text";
+            const string anonymousText1 = "Anonymous text";
+            const string anonymousText2 = "Some other text";
 
             var likenObject = new
             {
@@ -392,7 +392,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void EqualsWhenOverriddenSourcePropertyEqualsReturnsTrueWillReturnTrue()
         {
             // Fixture setup
-            var equalityResponse = true;
+            const bool equalityResponse = true;
             var value = new PropertyHolder<EqualityResponder>();
             value.Property = new EqualityResponder(equalityResponse);
             var sut = new SemanticComparer<PropertyHolder<EqualityResponder>, PropertyHolder<object>>();
@@ -410,7 +410,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void EqualsWhenOverriddenSourcePropertyEqualsReturnsFalseWillReturnFalse()
         {
             // Fixture setup
-            var equalityResponse = false;
+            const bool equalityResponse = false;
             var value = new PropertyHolder<EqualityResponder>();
             value.Property = new EqualityResponder(equalityResponse);
             var sut = new SemanticComparer<PropertyHolder<EqualityResponder>, PropertyHolder<object>>();

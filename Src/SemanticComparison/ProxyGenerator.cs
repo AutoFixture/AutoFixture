@@ -132,11 +132,11 @@ namespace Ploeh.SemanticComparison
 
         private static void BuildMethodGetHashCode<TDestination>(TypeBuilder type)
         {
-            var methodAttributes = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig;
+            const MethodAttributes methodAttributes = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig;
             MethodBuilder method = type.DefineMethod("GetHashCode", methodAttributes);
             method.SetReturnType(typeof(int));
 
-            int derivedGetHashCode = 135;
+            const int derivedGetHashCode = 135;
             MethodInfo getHashCode = typeof(TDestination).GetMethod(
                 "GetHashCode",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
@@ -164,7 +164,7 @@ namespace Ploeh.SemanticComparison
 
         private static void BuildMethodEquals(TypeBuilder type, FieldInfo equalsHasBeenCalled, FieldInfo comparer)
         {
-            var methodAttributes = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig;
+            const MethodAttributes methodAttributes = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig;
             MethodBuilder method = type.DefineMethod("Equals", methodAttributes);
 
             MethodInfo objectEquals = typeof(object).GetMethod(
