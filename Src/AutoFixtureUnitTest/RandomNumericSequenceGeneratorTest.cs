@@ -282,7 +282,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContext = new DelegatingSpecimenContext();
             long expectedMin = limits.Min();
             long expectedMax = limits.Max();
-            int repeatCount = 300;
+            const int repeatCount = 300;
             var sut = new RandomNumericSequenceGenerator(expectedMin, expectedMax);
             // Exercise system
             var result = Enumerable
@@ -380,7 +380,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateReturnsUniqueNumbersOnMultipleCallAsynchronously(long[] limits)
         {
             // Fixture setup
-            int iterations = 5;
+            const int iterations = 5;
             int completed = 0;
             var done = new ManualResetEvent(false);
             var min = (int)limits.Min();

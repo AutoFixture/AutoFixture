@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void MessageWillMatchConstructorArgument()
         {
             // Fixture setup
-            string expectedMessage = "Anonymous exception message";
+            const string expectedMessage = "Anonymous exception message";
             var sut = new IllegalRequestException(expectedMessage);
             // Exercise system
             var result = sut.Message;

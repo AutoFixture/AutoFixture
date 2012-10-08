@@ -112,7 +112,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var request = typeof(Uri);
-            string expectedScheme = "https";
+            const string expectedScheme = "https";
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r =>

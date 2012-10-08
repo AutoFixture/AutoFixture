@@ -69,7 +69,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var request = new object();
-            var count = 3;
+            const int count = 3;
             var manyRequest = new FiniteSequenceRequest(request, count);
 
             var expectedResult = new object();
@@ -89,7 +89,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var request = new object();
-            var count = 3;
+            const int count = 3;
             var manyRequest = new FiniteSequenceRequest(request, count);
 
             var context = new DelegatingSpecimenContext { OnResolve = r => request.Equals(r) ? new object() : new NoSpecimen(r) };
@@ -108,7 +108,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var request = new object();
-            var count = 3;
+            const int count = 3;
             var manyRequest = new FiniteSequenceRequest(request, count);
 
             var results = new object[]

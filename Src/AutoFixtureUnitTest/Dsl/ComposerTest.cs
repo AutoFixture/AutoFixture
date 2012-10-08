@@ -107,7 +107,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Fixture setup
             var dummyFactory = new DelegatingSpecimenBuilder();
             var dummyPostprocessors = Enumerable.Empty<ISpecifiedSpecimenCommand<HttpStyleUriParser>>();
-            var enableAutoProperties = true;
+            const bool enableAutoProperties = true;
             var sut = new Composer<HttpStyleUriParser>(dummyFactory, dummyPostprocessors, enableAutoProperties);
             // Exercise system
             var result = sut.EnableAutoProperties;
@@ -496,7 +496,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         {
             // Fixture setup
             var expectedMember = typeof(PropertyHolder<decimal>).GetProperty("Property");
-            var expectedValue = 1.3m;
+            const decimal expectedValue = 1.3m;
             var sut = new SutBuilder<PropertyHolder<decimal>>().Create();
             // Exercise system
             var result = sut.With(x => x.Property, expectedValue);

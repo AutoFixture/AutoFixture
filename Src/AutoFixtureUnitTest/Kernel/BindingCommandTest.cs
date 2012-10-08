@@ -126,7 +126,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             Expression<Func<object, string>> methodExpression = obj => obj.ToString();
-            var dummyValue = "Anonymous value";
+            const string dummyValue = "Anonymous value";
             // Exercise system and verify outcome
             Assert.Throws<ArgumentException>(() => new BindingCommand<object, string>(methodExpression, dummyValue));
             // Teardown
@@ -239,7 +239,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void ExecuteWillThrowWhenContainerReturnsIncompatiblePropertyValue()
         {
             // Fixture setup
-            var nonInt = "Anonymous variable";
+            const string nonInt = "Anonymous variable";
             var container = new DelegatingSpecimenContext { OnResolve = r => nonInt };
 
             var sut = new BindingCommand<PropertyHolder<int>, int>(ph => ph.Property);

@@ -137,7 +137,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void GetHashCodeReturnsCorrectResult()
         {
             // Fixture setup
-            string pattern = "[0-9]";
+            const string pattern = "[0-9]";
             var sut = new RegularExpressionRequest(pattern);
             var expectedHashCode = pattern.GetHashCode();
             // Exercise system

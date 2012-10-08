@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void InitializedWithManySutHasCorrectRepeatCount()
         {
             // Fixture setup
-            var expectedRepeatCount = 187;
+            const int expectedRepeatCount = 187;
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var many = new FakeMultiple { Count = expectedRepeatCount };
             var sut = new Fixture(dummyBuilder, many);
@@ -437,7 +437,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousStringWillPrefixName()
         {
             // Fixture setup
-            string expectedText = "Anonymous text";
+            const string expectedText = "Anonymous text";
             Fixture sut = new Fixture();
             // Exercise system
             string result = sut.CreateAnonymous(expectedText);
@@ -451,7 +451,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousStringWillAppendGuid()
         {
             // Fixture setup
-            string anonymousText = "Anonymous text";
+            const string anonymousText = "Anonymous text";
             Fixture sut = new Fixture();
             // Exercise system
             string result = sut.CreateAnonymous(anonymousText);
@@ -478,7 +478,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithStringPropertyWillAppendPropertyNameToString()
         {
             // Fixture setup
-            string expectedName = "Property";
+            const string expectedName = "Property";
             Fixture sut = new Fixture();
             // Exercise system
             PropertyHolder<string> result = sut.CreateAnonymous<PropertyHolder<string>>();
@@ -506,7 +506,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithBooleanPropertyWillAssignTrue()
         {
             // Fixture setup
-            bool unexpectedBoolean = default(bool);
+            const bool unexpectedBoolean = default(bool);
             Fixture sut = new Fixture();
             // Exercise system
             PropertyHolder<bool> result = sut.CreateAnonymous<PropertyHolder<bool>>();
@@ -545,7 +545,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithBytePropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
-            byte unexpectedByte = default(byte);
+            const byte unexpectedByte = default(byte);
             Fixture sut = new Fixture();
             // Exercise system
             PropertyHolder<byte> result = sut.CreateAnonymous<PropertyHolder<byte>>();
@@ -571,7 +571,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithSignedBytePropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
-            sbyte unexpectedSbyte = default(sbyte);
+            const sbyte unexpectedSbyte = default(sbyte);
             Fixture sut = new Fixture();
             // Exercise system
             PropertyHolder<sbyte> result = sut.CreateAnonymous<PropertyHolder<sbyte>>();
@@ -597,7 +597,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithUnsignedInt16PropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
-            ushort unexpectedNumber = default(ushort);
+            const ushort unexpectedNumber = default(ushort);
             Fixture sut = new Fixture();
             // Exercise system
             PropertyHolder<ushort> result = sut.CreateAnonymous<PropertyHolder<ushort>>();
@@ -623,7 +623,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithInt16PropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
-            short unexpectedNumber = default(short);
+            const short unexpectedNumber = default(short);
             Fixture sut = new Fixture();
             // Exercise system
             PropertyHolder<short> result = sut.CreateAnonymous<PropertyHolder<short>>();
@@ -649,7 +649,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithUnsignedInt32PropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
-            uint unexpectedNumber = default(uint);
+            const uint unexpectedNumber = default(uint);
             Fixture sut = new Fixture();
             // Exercise system
             PropertyHolder<uint> result = sut.CreateAnonymous<PropertyHolder<uint>>();
@@ -675,7 +675,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithInt32PropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
-            int unexpectedNumber = default(int);
+            const int unexpectedNumber = default(int);
             Fixture sut = new Fixture();
             // Exercise system
             PropertyHolder<int> result = sut.CreateAnonymous<PropertyHolder<int>>();
@@ -701,7 +701,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithUnsignedInt64PropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
-            ulong unexpectedNumber = default(ulong);
+            const ulong unexpectedNumber = default(ulong);
             Fixture sut = new Fixture();
             // Exercise system
             PropertyHolder<ulong> result = sut.CreateAnonymous<PropertyHolder<ulong>>();
@@ -727,7 +727,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithInt64PropertyWillAssignNonDefaulValue()
         {
             // Fixture setup
-            long unexpectedNumber = default(long);
+            const long unexpectedNumber = default(long);
             Fixture sut = new Fixture();
             // Exercise system
             PropertyHolder<long> result = sut.CreateAnonymous<PropertyHolder<long>>();
@@ -753,7 +753,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithDecimalPropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
-            decimal unexpectedNumber = default(decimal);
+            const decimal unexpectedNumber = default(decimal);
             Fixture sut = new Fixture();
             // Exercise system
             PropertyHolder<decimal> result = sut.CreateAnonymous<PropertyHolder<decimal>>();
@@ -779,7 +779,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithSinglePropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
-            float unexpectedNumber = default(float);
+            const float unexpectedNumber = default(float);
             Fixture sut = new Fixture();
             // Exercise system
             PropertyHolder<float> result = sut.CreateAnonymous<PropertyHolder<float>>();
@@ -805,7 +805,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithDoublePropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
-            double unexpectedNumber = default(double);
+            const double unexpectedNumber = default(double);
             Fixture sut = new Fixture();
             // Exercise system
             PropertyHolder<double> result = sut.CreateAnonymous<PropertyHolder<double>>();
@@ -972,8 +972,8 @@ namespace Ploeh.AutoFixtureUnitTest
         public void InjectCustomUpperLimitWillCauseSutToReturnNumbersInLimit()
         {
             // Fixture setup
-            int lower = -9;
-            int upper = -1;
+            const int lower = -9;
+            const int upper = -1;
             var sut = new Fixture();
             sut.Customizations.Add(new RandomNumericSequenceGenerator(lower, upper));
             // Exercise system
@@ -1032,8 +1032,8 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Build<PropertyHolder<ActivityScope?>>().CreateMany(100);
             // Verify outcome
-            long activityMin = 0;
-            long activityMax = (long)ActivityScope.All;
+            const long activityMin = 0;
+            const long activityMax = (long)ActivityScope.All;
             foreach (var propertyHolder in result)
             {
                 long activityScope = (long)propertyHolder.Property;
@@ -1319,7 +1319,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithReturnObjectParameterlessDelegatePropertyWillAssignDelegateReturningNonDefaultValue()
         {
             // Fixture setup
-            var unexpectedResult = default(string);
+            const string unexpectedResult = default(string);
             var sut = new Fixture();
             // Exercise system
             var result = sut.CreateAnonymous<PropertyHolder<Func<string>>>();
@@ -1333,7 +1333,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousWithReturnValueParameterlessDelegatePropertyWillAssignDelegateReturningNonDefaultValue()
         {
             // Fixture setup
-            var unexpectedResult = default(int);
+            const int unexpectedResult = default(int);
             var sut = new Fixture();
             // Exercise system
             var result = sut.CreateAnonymous<PropertyHolder<Func<int>>>();
@@ -1583,7 +1583,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void DefaultRepeatCountIsThree()
         {
             // Fixture setup
-            int expectedRepeatCount = 3;
+            const int expectedRepeatCount = 3;
             Fixture sut = new Fixture();
             // Exercise system
             int result = sut.RepeatCount;
@@ -1623,7 +1623,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void RepeatWillPerformActionTheSpecifiedNumberOfTimes()
         {
             // Fixture setup
-            int expectedCount = 2;
+            const int expectedCount = 2;
             Fixture sut = new Fixture();
             sut.RepeatCount = expectedCount;
             // Exercise system
@@ -1638,7 +1638,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void RepeatWillReturnTheSpecifiedNumberOfItems()
         {
             // Fixture setup
-            int expectedCount = 13;
+            const int expectedCount = 13;
             Fixture sut = new Fixture();
             sut.RepeatCount = expectedCount;
             // Exercise system
@@ -1652,7 +1652,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void ReplacingStringMappingWillUseNewStringCreationAlgorithm()
         {
             // Fixture setup
-            string expectedText = "Anonymous string";
+            const string expectedText = "Anonymous string";
             Fixture sut = new Fixture();
             // Exercise system
             sut.Customize<string>(c => c.FromSeed(s => expectedText));
@@ -1713,7 +1713,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            int expectedCount = 24;
+            const int expectedCount = 24;
             ICollection<int> collection = new LinkedList<int>();
             // Exercise system
             sut.AddManyTo(collection, expectedCount);
@@ -1757,7 +1757,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            int expectedItemCount = 248;
+            const int expectedItemCount = 248;
             // Exercise system
             IEnumerable<string> result = sut.CreateMany<string>(expectedItemCount);
             // Verify outcome
@@ -1772,7 +1772,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateManyWithSeedWillCreateManyCorrectItems()
         {
             // Fixture setup
-            string anonymousPrefix = "AnonymousPrefix";
+            const string anonymousPrefix = "AnonymousPrefix";
             var sut = new Fixture();
             int expectedItemCount = sut.RepeatCount;
             // Exercise system
@@ -1789,8 +1789,8 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateManyWithSeedWillCreateCorrectNumberOfItems()
         {
             // Fixture setup
-            string anonymousPrefix = "Prefix";
-            int expectedItemCount = 73;
+            const string anonymousPrefix = "Prefix";
+            const int expectedItemCount = 73;
             var sut = new Fixture();
             // Exercise system
             IEnumerable<string> result = sut.CreateMany(anonymousPrefix, expectedItemCount);
@@ -1817,7 +1817,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void RegisterTypeWithPropertyOverrideWillSetPropertyValueCorrectly()
         {
             // Fixture setup
-            string expectedValue = "Anonymous text";
+            const string expectedValue = "Anonymous text";
             Fixture sut = new Fixture();
             // Exercise system
             sut.Customize<PropertyHolder<string>>(f => f.With(ph => ph.Property, expectedValue));
@@ -1831,7 +1831,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CustomizeWithEchoInt32GeneratorWillReturnSeed()
         {
             // Fixture setup
-            int expectedValue = 4;
+            const int expectedValue = 4;
             Fixture sut = new Fixture();
             sut.Customize<int>(c => c.FromSeed(s => s));
             // Exercise system
@@ -1884,7 +1884,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void DoOnCommandWithSingleParameterWillInvokeMethodWithCorrectParameter()
         {
             // Fixture setup
-            int expectedNumber = 94;
+            const int expectedNumber = 94;
 
             var sut = new Fixture();
             sut.Register<int>(() => expectedNumber);
@@ -1928,7 +1928,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void DoOnCommandWithTwoParametersWillInvokeMethodWithCorrectFirstParameter()
         {
             // Fixture setup
-            double expectedNumber = 25364.37;
+            const double expectedNumber = 25364.37;
 
             var sut = new Fixture();
             sut.Register<double>(() => expectedNumber);
@@ -1945,7 +1945,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void DoOnCommandWithTwoParametersWillInvokeMethodWithCorrectSecondParameter()
         {
             // Fixture setup
-            short expectedNumber = 3734;
+            const short expectedNumber = 3734;
 
             var sut = new Fixture();
             sut.Register<short>(() => expectedNumber);
@@ -2023,7 +2023,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void DoOnCommandWithThreeParametersWillInvokeMethodWithCorrectThirdParameter()
         {
             // Fixture setup
-            var expectedText = "Anonymous text";
+            const string expectedText = "Anonymous text";
 
             var sut = new Fixture();
             sut.Register<string>(() => expectedText);
@@ -2067,7 +2067,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void DoOnCommandWithFourParametersWillInvokeMethodWithCorrectFirstParameter()
         {
             // Fixture setup
-            uint expectedNumber = 294;
+            const uint expectedNumber = 294;
 
             var sut = new Fixture();
             sut.Register<uint>(() => expectedNumber);
@@ -2084,7 +2084,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void DoOnCommandWithFourParametersWillInvokeMethodWithCorrectSecondParameter()
         {
             // Fixture setup
-            decimal expectedNumber = 92183.28m;
+            const decimal expectedNumber = 92183.28m;
 
             var sut = new Fixture();
             sut.Register<decimal>(() => expectedNumber);
@@ -2222,7 +2222,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void GetOnQueryWithTwoParametersWillInvokeMethodWithCorrectFirstParameter()
         {
             // Fixture setup
-            byte expectedByte = 213;
+            const byte expectedByte = 213;
 
             var sut = new Fixture();
             sut.Register<byte>(() => expectedByte);
@@ -2239,7 +2239,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void GetOnQueryWithTwoParametersWillInvokeMethodWithCorrectSecondParameter()
         {
             // Fixture setup
-            sbyte expectedByte = -29;
+            const sbyte expectedByte = -29;
 
             var sut = new Fixture();
             sut.Register<sbyte>(() => expectedByte);
@@ -2316,7 +2316,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void GetOnQueryWithThreeParametersWillInvokeMethodWithCorrectSecondParameter()
         {
             // Fixture setup
-            float expectedNumber = -927.2f;
+            const float expectedNumber = -927.2f;
 
             var sut = new Fixture();
             sut.Register<float>(() => expectedNumber);
@@ -2333,7 +2333,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void GetOnQueryWithThreeParametersWillInvokeMethodWithCorrectThirdParameter()
         {
             // Fixture setup
-            var expectedText = "Anonymous text";
+            const string expectedText = "Anonymous text";
 
             var sut = new Fixture();
             sut.Register<string>(() => expectedText);
@@ -2410,7 +2410,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void GetOnQueryWithFourParametersWillInvokeMethodWithCorrectSecondParameter()
         {
             // Fixture setup
-            var expectedDateTimeKind = DateTimeKind.Utc;
+            const DateTimeKind expectedDateTimeKind = DateTimeKind.Utc;
 
             var sut = new Fixture();
             sut.Register<DateTimeKind>(() => expectedDateTimeKind);
@@ -2427,7 +2427,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void GetOnQueryWithFourParametersWillInvokeMethodWithCorrectThirdParameter()
         {
             // Fixture setup
-            var expectedDayOfWeek = DayOfWeek.Friday;
+            const DayOfWeek expectedDayOfWeek = DayOfWeek.Friday;
 
             var sut = new Fixture();
             sut.Register<DayOfWeek>(() => expectedDayOfWeek);
@@ -2444,7 +2444,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void GetOnQueryWithFourParametersWillInvokeMethodWithCorrectFourthParameter()
         {
             // Fixture setup
-            var expectedNumber = 42;
+            const int expectedNumber = 42;
 
             var sut = new Fixture();
             sut.Register<int>(() => expectedNumber);
@@ -2461,7 +2461,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void GetOnQueryWithFourParametersWillReturnCorrectResult()
         {
             // Fixture setup
-            var expectedColor = ConsoleColor.DarkGray;
+            const ConsoleColor expectedColor = ConsoleColor.DarkGray;
             var sut = new Fixture();
 
             var mock = new QueryMock<int, int, int, int, ConsoleColor>();
@@ -2567,7 +2567,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void BuildWillReturnBuilderThatCreatesTheCorrectNumberOfInstances()
         {
             // Fixture setup
-            int expectedRepeatCount = 242;
+            const int expectedRepeatCount = 242;
             var sut = new Fixture();
             sut.RepeatCount = expectedRepeatCount;
             // Exercise system
@@ -3038,7 +3038,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void BuildAndCreateAnonymousWillSetInt32Property()
         {
             // Fixture setup
-            int unexpectedNumber = default(int);
+            const int unexpectedNumber = default(int);
             var sut = new Fixture();
             // Exercise system
             PropertyHolder<int> result = sut.Build<PropertyHolder<int>>().CreateAnonymous();
@@ -3051,7 +3051,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void BuildAndCreateAnonymousWillSetInt32Field()
         {
             // Fixture setup
-            int unexpectedNumber = default(int);
+            const int unexpectedNumber = default(int);
             var sut = new Fixture();
             // Exercise system
             FieldHolder<int> result = sut.Build<FieldHolder<int>>().CreateAnonymous();
@@ -3064,7 +3064,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void BuildAndCreateAnonymousWillNotAttemptToSetReadOnlyProperty()
         {
             // Fixture setup
-            int expectedNumber = default(int);
+            const int expectedNumber = default(int);
             var sut = new Fixture();
             // Exercise system
             ReadOnlyPropertyHolder<int> result = sut.Build<ReadOnlyPropertyHolder<int>>().CreateAnonymous();
@@ -3077,7 +3077,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void BuildAndCreateAnonymousWillNotAttemptToSetReadOnlyField()
         {
             // Fixture setup
-            int expectedNumber = default(int);
+            const int expectedNumber = default(int);
             var sut = new Fixture();
             // Exercise system
             ReadOnlyFieldHolder<int> result = sut.Build<ReadOnlyFieldHolder<int>>().CreateAnonymous();
@@ -3090,7 +3090,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void BuildWithWillSetPropertyOnCreatedObject()
         {
             // Fixture setup
-            string expectedText = "Anonymous text";
+            const string expectedText = "Anonymous text";
             var sut = new Fixture();
             // Exercise system
             PropertyHolder<string> result = sut.Build<PropertyHolder<string>>().With(ph => ph.Property, expectedText).CreateAnonymous();
@@ -3103,7 +3103,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void BuildWithWillSetFieldOnCreatedObject()
         {
             // Fixture setup
-            string expectedText = "Anonymous text";
+            const string expectedText = "Anonymous text";
             var fixture = new Fixture();
             // Exercise system
             FieldHolder<string> result = fixture.Build<FieldHolder<string>>().With(fh => fh.Field, expectedText).CreateAnonymous();
@@ -3116,7 +3116,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void BuildAnonymousWithWillAssignPropertyEvenInCombinationWithOmitAutoProperties()
         {
             // Fixture setup
-            long unexpectedNumber = default(long);
+            const long unexpectedNumber = default(long);
             var sut = new Fixture();
             // Exercise system
             var result = sut.Build<DoublePropertyHolder<long, long>>().With(ph => ph.Property1).OmitAutoProperties().CreateAnonymous();
@@ -3129,7 +3129,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void BuildAnonymousWithWillAssignFieldEvenInCombinationWithOmitAutoProperties()
         {
             // Fixture setup
-            int unexpectedNumber = default(int);
+            const int unexpectedNumber = default(int);
             var sut = new Fixture();
             // Exercise system
             var result = sut.Build<DoubleFieldHolder<int, decimal>>().With(fh => fh.Field1).OmitAutoProperties().CreateAnonymous();
@@ -3240,7 +3240,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            int expectedValue = 3;
+            const int expectedValue = 3;
             // Exercise system
             var result = sut.Build<PropertyHolder<int>>()
                 .With(x => x.Property, 1)
@@ -3358,7 +3358,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var unexpectedProperty = "Anonymous value";
+            const string unexpectedProperty = "Anonymous value";
             var sut = fixture.Build<PropertyHolder<string>>();
             // Exercise system
             sut.With(s => s.Property, unexpectedProperty);
@@ -3414,7 +3414,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void BuildAndCreateManyWillCreateCorrectNumberOfItems()
         {
             // Fixture setup
-            int expectedCount = 401;
+            const int expectedCount = 401;
             var sut = new Fixture();
             // Exercise system
             IEnumerable<PropertyHolder<int>> result = sut.Build<PropertyHolder<int>>().CreateMany(expectedCount);
@@ -3429,7 +3429,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void BuildAndCreateManyWithSeedWillCreateManyCorrectItems()
         {
             // Fixture setup
-            string anonymousPrefix = "AnonymousPrefix";
+            const string anonymousPrefix = "AnonymousPrefix";
             var sut = new Fixture();
             var expectedItemCount = sut.RepeatCount;
             // Exercise system
@@ -3448,8 +3448,8 @@ namespace Ploeh.AutoFixtureUnitTest
         public void BuildAndCreateManyWithSeedWillCreateCorrectNumberOfItems()
         {
             // Fixture setup
-            string anonymousPrefix = "Prefix";
-            int expectedItemCount = 29;
+            const string anonymousPrefix = "Prefix";
+            const int expectedItemCount = 29;
             var sut = new Fixture();
             sut.RepeatCount = expectedItemCount;
             // Exercise system
@@ -3585,7 +3585,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             sut.Customize<string>(c => c.FromFactory(() => "ploeh"));
 
-            var expectedResult = "fnaah";
+            const string expectedResult = "fnaah";
             // Exercise system
             sut.Customize<string>(c => c.FromFactory(() => expectedResult));
             var result = sut.CreateAnonymous<string>();

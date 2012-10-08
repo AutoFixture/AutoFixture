@@ -105,7 +105,7 @@ namespace Ploeh.AutoFixture.Xunit
 
         private void CustomizeFixture(ParameterInfo p)
         {
-            var dummy = false;
+            const bool dummy = false;
             var customizeAttributes = p.GetCustomAttributes(typeof(CustomizeAttribute), dummy).OfType<CustomizeAttribute>();
             foreach (var ca in customizeAttributes)
             {

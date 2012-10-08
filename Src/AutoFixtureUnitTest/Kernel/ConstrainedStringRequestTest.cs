@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var sut = new ConstrainedStringRequest(3);
-            var expectedMinimumLength = 0;
+            const int expectedMinimumLength = 0;
             // Exercise system
             var result = sut.MinimumLength;
             // Verify outcome
@@ -221,8 +221,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void GetHashCodeReturnsCorrectResult()
         {
             // Fixture setup
-            int minimumLength = 0;
-            int maximumLength = 3;
+            const int minimumLength = 0;
+            const int maximumLength = 3;
             var sut = new ConstrainedStringRequest(maximumLength);
             var expectedHashCode = minimumLength.GetHashCode() ^ maximumLength.GetHashCode();
             // Exercise system
@@ -236,8 +236,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void GetHashCodeWhenMinimumLengthIsSpecifiedReturnsCorrectResult()
         {
             // Fixture setup
-            int minimumLength = 1;
-            int maximumLength = 3;
+            const int minimumLength = 1;
+            const int maximumLength = 3;
             var sut = new ConstrainedStringRequest(minimumLength, maximumLength);
             var expectedHashCode = minimumLength.GetHashCode() ^ maximumLength.GetHashCode();
             // Exercise system

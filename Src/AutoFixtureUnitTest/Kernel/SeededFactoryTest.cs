@@ -97,9 +97,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateWithCorrectSeedWillReturnCorrectResult()
         {
             // Fixture setup
-            var seed = 7m;
+            const decimal seed = 7m;
             var seededRequest = new SeededRequest(typeof(decimal), seed);
-            var expectedResult = 3m;
+            const decimal expectedResult = 3m;
 
             Func<decimal, decimal> factoryStub = s => s == seed ? expectedResult : 0m;
 
