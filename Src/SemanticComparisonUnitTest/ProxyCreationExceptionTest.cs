@@ -69,7 +69,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void InitializedWithMessageAndInnerExceptionHasInnerException()
         {
             // Fixture setup
-            var dummeMessage = "Anonymous text";
+            const string dummeMessage = "Anonymous text";
             var expectedException = new Exception();
             var sut = new ProxyCreationException(dummeMessage, expectedException);
             // Exercise system

@@ -12,7 +12,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void InitializeWithNullRequestAndValidNumberThrows()
         {
             // Fixture setup
-            var dummyNumber = 1;
+            const int dummyNumber = 1;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new FiniteSequenceRequest(null, dummyNumber));
@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutIsEquatable()
         {
             // Fixture setup
-            var dummyCount = 3;
+            const int dummyCount = 3;
             // Exercise system
             var sut = new FiniteSequenceRequest(new object(), dummyCount);
             // Verify outcome
@@ -104,7 +104,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualOtherObjectWhenRequestsDifferButCountsMatch()
         {
             // Fixture setup
-            var count = 1;
+            const int count = 1;
             var sut = new FiniteSequenceRequest(new object(), count);
             object other = new FiniteSequenceRequest(new object(), count);
             // Exercise system
@@ -118,7 +118,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualOtherSutWhenRequestsDifferButCountsMatch()
         {
             // Fixture setup
-            var count = 1;
+            const int count = 1;
             var sut = new FiniteSequenceRequest(new object(), count);
             var other = new FiniteSequenceRequest(new object(), count);
             // Exercise system
@@ -161,7 +161,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var request = new object();
-            var count = 4;
+            const int count = 4;
             var sut = new FiniteSequenceRequest(request, count);
             object other = new FiniteSequenceRequest(request, count);
             // Exercise system
@@ -176,7 +176,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var request = new object();
-            var count = 4;
+            const int count = 4;
             var sut = new FiniteSequenceRequest(request, count);
             var other = new FiniteSequenceRequest(request, count);
             // Exercise system
@@ -191,7 +191,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var request = new object();
-            var count = 19;
+            const int count = 19;
             var sut = new FiniteSequenceRequest(request, count);
             // Exercise system
             var result = sut.GetHashCode();

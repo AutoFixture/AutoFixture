@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void MinimumIsCorrect()
         {
             // Fixture setup
-            var expectedMinimum = 1;
+            const int expectedMinimum = 1;
             var sut = new RangedNumberRequest(typeof(int), expectedMinimum, 3);
             // Exercise system
             var result = sut.Minimum;
@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void MaximumIsCorrect()
         {
             // Fixture setup
-            var expectedMaximum = 3;
+            const int expectedMaximum = 3;
             var sut = new RangedNumberRequest(typeof(int), 1, expectedMaximum);
             // Exercise system
             var result = sut.Maximum;

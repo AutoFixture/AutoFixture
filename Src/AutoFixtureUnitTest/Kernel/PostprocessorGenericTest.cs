@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateReturnsCorrectResultOnSutWithSingleAction()
         {
             // Fixture setup
-            var expectedResult = 1m;
+            const decimal expectedResult = 1m;
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedResult };
             Action<decimal> dummyAction = s => { };
             var sut = new Postprocessor<decimal>(builder, dummyAction);
@@ -132,7 +132,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateThrowsWhenBuilderReturnsIncompatibleTypeOnSutWithSingleAction()
         {
             // Fixture setup
-            var nonInt = "Anonymous variable";
+            const string nonInt = "Anonymous variable";
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => nonInt };
 
             Action<int> dummyAction = s => { };
@@ -204,7 +204,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateReturnsCorrectResultOnSutWithDoubleAction()
         {
             // Fixture setup
-            var expectedResult = 1m;
+            const decimal expectedResult = 1m;
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedResult };
             Action<decimal, ISpecimenContext> dummyAction = (s, c) => { };
             var sut = new Postprocessor<decimal>(builder, dummyAction);
@@ -221,7 +221,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateThrowsWhenBuilderReturnsIncompatibleTypeOnSutWithDoubleAction()
         {
             // Fixture setup
-            var nonInt = "Anonymous variable";
+            const string nonInt = "Anonymous variable";
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => nonInt };
 
             Action<int, ISpecimenContext> dummyAction = (s, c) => { };

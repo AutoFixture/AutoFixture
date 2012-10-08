@@ -122,7 +122,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .Cast<char>()
                 .Last();
             // Verify outcome
-            char expectedResult = '!';
+            const char expectedResult = '!';
             Assert.Equal(expectedResult, result);
             // Teardown
         }

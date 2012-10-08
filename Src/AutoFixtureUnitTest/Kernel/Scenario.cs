@@ -181,7 +181,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CombineExplictPropertyWithAutoProperties()
         {
             // Fixture setup
-            var expectedText = "Fnaah";
+            const string expectedText = "Fnaah";
 
             var specifiedCommand = new BindingCommand<DoublePropertyHolder<string, int>, string>(ph => ph.Property1, expectedText);
             var reservedProperty = new InverseRequestSpecification(specifiedCommand);
@@ -285,7 +285,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateManyWithCountReturnsCorrectResult()
         {
             // Fixture setup
-            var count = 8;
+            const int count = 8;
             var container = Scenario.CreateContainer();
             // Exercise system
             var result = container.CreateMany<long>(count);
@@ -298,8 +298,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateManyWithSeedAndCountReturnsCorrectResult()
         {
             // Fixture setup
-            var seed = "Seed";
-            var count = 2;
+            const string seed = "Seed";
+            const int count = 2;
             var container = Scenario.CreateContainer();
             // Exercise system
             var result = container.CreateMany(seed, count).ToList();
@@ -313,7 +313,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void ComposeWithValueReturnsCorrectResult()
         {
             // Fixture setup
-            var expectedValue = 9;
+            const int expectedValue = 9;
             var customBuilder = new Composer<PropertyHolder<int>>().With(x => x.Property, expectedValue).Compose();
             var builder = new CompositeSpecimenBuilder(
                 customBuilder,

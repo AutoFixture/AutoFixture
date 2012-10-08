@@ -179,7 +179,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateManyOnNullSpecimenBuilderComposerWithCountThrows()
         {
             // Fixture setup
-            var dummyCount = 1;
+            const int dummyCount = 1;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 SpecimenFactory.CreateMany<object>((ISpecimenBuilderComposer)null, dummyCount));
@@ -191,7 +191,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummySeed = new object();
-            var dummyCount = 1;
+            const int dummyCount = 1;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 SpecimenFactory.CreateMany<object>((ISpecimenBuilderComposer)null, dummySeed, dummyCount));
@@ -203,7 +203,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummySeed = new object();
-            var dummyCount = 1;
+            const int dummyCount = 1;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 SpecimenFactory.CreateMany<object>((ISpecimenContext)null, dummySeed, dummyCount));
@@ -315,7 +315,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateCountedManyOnContainerReturnsCorrectResult()
         {
             // Fixture setup
-            var count = 19;
+            const int count = 19;
             var expectedResult = Enumerable.Range(1, count).Select(i => new DateTime(i));
             var container = new DelegatingSpecimenContext
             {
@@ -334,7 +334,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateCountedManyOnSpecimenBuilderComposerReturnsCorrectResult()
         {
             // Fixture setup
-            var count = 9;
+            const int count = 9;
             var expectedResult = Enumerable.Range(1, count).Select(i => i.ToString());
             var specimenBuilder = new DelegatingSpecimenBuilder();
             specimenBuilder.OnCreate = (r, c) =>
@@ -356,7 +356,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateCountedManyOnPostprocessComposerReturnsCorrectResult()
         {
             // Fixture setup
-            var count = 9;
+            const int count = 9;
             var expectedResult = Enumerable.Range(1, count).Select(i => i.ToString());
             var specimenBuilder = new DelegatingSpecimenBuilder();
             specimenBuilder.OnCreate = (r, c) =>
@@ -379,7 +379,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var seed = new Version(0, 9);
-            var count = 4;
+            const int count = 4;
             var expectedResult = Enumerable.Range(1, count).Select(i => new Version(i, i));
             var container = new DelegatingSpecimenContext
             {
@@ -399,7 +399,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var seed = TimeSpan.FromDays(3);
-            var count = 6;
+            const int count = 6;
             var expectedResult = Enumerable.Range(1, count).Select(i => TimeSpan.FromHours(i));
             var specimenBuilder = new DelegatingSpecimenBuilder();
             specimenBuilder.OnCreate = (r, c) =>

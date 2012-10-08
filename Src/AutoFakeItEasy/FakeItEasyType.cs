@@ -34,7 +34,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         internal static MethodInfo GetFakedMethod(this Type type, ParameterInfo[] paramInfos)
         {
             Type builder = typeof(FakeBuilder<>).MakeGenericType(type.GetGenericArguments());
-            var bindings = BindingFlags.Static | BindingFlags.NonPublic;
+            const BindingFlags bindings = BindingFlags.Static | BindingFlags.NonPublic;
 
             if (paramInfos.Any())
             {

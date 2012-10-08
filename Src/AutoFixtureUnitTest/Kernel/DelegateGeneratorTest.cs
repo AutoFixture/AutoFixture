@@ -220,7 +220,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var delegateRequest = typeof(Func<int>);
-            var expectedResult = 3;
+            const int expectedResult = 3;
             var sut = new DelegateGenerator();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext

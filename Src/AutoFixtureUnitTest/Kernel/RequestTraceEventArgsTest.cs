@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var dummyRequest = new object();
-            var dummyDepth = 0;
+            const int dummyDepth = 0;
             // Exercise system
             var sut = new RequestTraceEventArgs(dummyRequest, dummyDepth);
             // Verify outcome
@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void ConstructorExplicitlyAllowsTracingNullRequestsIfThatShouldEverBeWarranted()
         {
             // Fixture setup
-            var dummyDepth = 0;
+            const int dummyDepth = 0;
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => new RequestTraceEventArgs(null, dummyDepth));
             // Teardown
@@ -34,7 +34,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedRequest = new object();
-            var dummyDepth = 0;
+            const int dummyDepth = 0;
             var sut = new RequestTraceEventArgs(expectedRequest, dummyDepth);
             // Exercise system
             var result = sut.Request;
@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var dummyRequest = new object();
-            var expectedDepth = 1;
+            const int expectedDepth = 1;
             var sut = new RequestTraceEventArgs(dummyRequest, expectedDepth);
             // Exercise system
             int result = sut.Depth;

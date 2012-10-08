@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyCollection = new List<object>();
-            var dummyRepeatCount = 37;
+            const int dummyRepeatCount = 37;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 CollectionFiller.AddManyTo(null, dummyCollection, dummyRepeatCount));

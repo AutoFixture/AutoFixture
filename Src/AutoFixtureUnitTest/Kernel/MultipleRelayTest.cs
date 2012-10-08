@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var sut = new MultipleRelay();
-            var expectedCount = 1;
+            const int expectedCount = 1;
             // Exercise system
             sut.Count = expectedCount;
             int result = sut.Count;
@@ -106,7 +106,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var request = new MultipleRequest(new object());
-            var count = 7;
+            const int count = 7;
             var expectedTranslation = new FiniteSequenceRequest(request.Request, 7);
             var expectedResult = new object();
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedTranslation.Equals(r) ? expectedResult : new NoSpecimen(r) };

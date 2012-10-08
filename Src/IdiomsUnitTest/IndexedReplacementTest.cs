@@ -51,7 +51,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void SutIsExpansion()
         {
             // Fixture setup
-            var dummyIndex = 0;
+            const int dummyIndex = 0;
             // Exercise system
             var sut = new IndexedReplacement<T>(dummyIndex);
             // Verify outcome
@@ -63,7 +63,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void SourceIsCorrectWhenUsingEnumerableConstructor()
         {
             // Fixture setup
-            var dummyIndex = 0;
+            const int dummyIndex = 0;
             var source = Enumerable.Range(1, 3).Select(i => this.CreateItem()).ToList().AsEnumerable();
             var sut = new IndexedReplacement<T>(dummyIndex, source);
             // Exercise system
@@ -77,7 +77,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void SourceIsCorrectWhenUsingArrayConstructor()
         {
             // Fixture setup
-            var dummyIndex = 0;
+            const int dummyIndex = 0;
             var source = Enumerable.Range(1, 3).Select(i => this.CreateItem()).ToArray();
             var sut = new IndexedReplacement<T>(dummyIndex, source);
             // Exercise system

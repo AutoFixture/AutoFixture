@@ -223,8 +223,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new ConstructorInvoker(picker);
 
             var ctor2Params = ctor2.GetParameters();
-            var expectedText = "Anonymous text";
-            var expectedNumber = 14;
+            const string expectedText = "Anonymous text";
+            const int expectedNumber = 14;
 
             var context = new DelegatingSpecimenContext();
             context.OnResolve = r =>

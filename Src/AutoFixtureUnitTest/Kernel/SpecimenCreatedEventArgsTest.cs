@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var dummyRequest = new object();
             var dummySpecimen = new object();
-            var dummyDepth = 0;
+            const int dummyDepth = 0;
             // Exercise system
             var sut = new SpecimenCreatedEventArgs(dummyRequest, dummySpecimen, dummyDepth);
             // Verify outcome
@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void ConstructorExplicitlyAllowsTracingNullRequestsIfThatShouldEverBeWarranted()
         {
             // Fixture setup
-            var dummyDepth = 0;
+            const int dummyDepth = 0;
             var dummySpecimen = new object();
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => new SpecimenCreatedEventArgs(null, dummySpecimen, dummyDepth));
@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var dummyRequest = new object();
-            var dummyDepth = 0;
+            const int dummyDepth = 0;
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => new SpecimenCreatedEventArgs(dummyRequest, null, dummyDepth));
             // Teardown
@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedRequest = new object();
             var dummySpecimen = new object();
-            var dummyDepth = 0;
+            const int dummyDepth = 0;
             var sut = new SpecimenCreatedEventArgs(expectedRequest, dummySpecimen, dummyDepth);
             // Exercise system
             var result = sut.Request;
@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var dummyRequest = new object();
             var dummySpecimen = new object();
-            var expectedDepth = 1;
+            const int expectedDepth = 1;
             var sut = new SpecimenCreatedEventArgs(dummyRequest, dummySpecimen, expectedDepth);
             // Exercise system
             int result = sut.Depth;
@@ -77,7 +77,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var dummyRequest = new object();
             var expectedSpecimen = new object();
-            var dummyDepth = 0;
+            const int dummyDepth = 0;
             var sut = new SpecimenCreatedEventArgs(dummyRequest, expectedSpecimen, dummyDepth);
             // Exercise system
             object result = sut.Specimen;

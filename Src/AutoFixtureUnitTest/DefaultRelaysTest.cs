@@ -74,7 +74,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new DefaultRelays();
-            var expectedCount = 912;
+            const int expectedCount = 912;
             // Exercise system
             sut.Count = expectedCount;
             var result = sut.Count;
@@ -88,7 +88,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new DefaultRelays();
-            var expectedCount = 76;
+            const int expectedCount = 76;
             // Exercise system
             sut.Count = expectedCount;
             // Verify outcome
@@ -102,7 +102,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new DefaultRelays();
-            var expectedCount = 149;
+            const int expectedCount = 149;
             sut.OfType<MultipleRelay>().Single().Count = expectedCount;
             // Exercise system
             var result = sut.Count;

@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SeedIsCorrect()
         {
             // Fixture setup
-            var expectedSeed = "Anonymous value";
+            const string expectedSeed = "Anonymous value";
             var sut = new SeededRequest(typeof(string), expectedSeed);
             // Exercise system
             var result = sut.Seed;
@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualOtherObjectWhenRequestsDiffer()
         {
             // Fixture setup
-            var anonymousValue = 1;
+            const int anonymousValue = 1;
             var sut = new SeededRequest(new object(), anonymousValue);
             object other = new SeededRequest(typeof(TimeSpan), anonymousValue);
             // Exercise system
@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualOtherSutWhenRequestsDiffer()
         {
             // Fixture setup
-            var anonymousValue = 1;
+            const int anonymousValue = 1;
             var sut = new SeededRequest(new object(), anonymousValue);
             var other = new SeededRequest(typeof(TimeSpan), anonymousValue);
             // Exercise system
@@ -139,7 +139,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutDoesNotEqualOtherSutWhenSeedsDiffer()
         {
             // Fixture setup
-            var anonymousRequest = 1;
+            const int anonymousRequest = 1;
             var sut = new SeededRequest(anonymousRequest, 98);
             var other = new SeededRequest(anonymousRequest, "Anonymous value");
             // Exercise system

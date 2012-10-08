@@ -89,7 +89,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateFromStringRequestWillReturnCorrectResult()
         {
             // Fixture setup
-            var specimen = 1;
+            const int specimen = 1;
             var expectedResult = specimen.ToString();
 
             var sut = new StringGenerator(() => specimen);

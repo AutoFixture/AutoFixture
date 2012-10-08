@@ -21,7 +21,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new UriScheme();
-            string expectedScheme = "scheme";
+            const string expectedScheme = "scheme";
             // Exercise system
             string result = sut.Scheme;
             // Verify outcome
@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void InitializeWithSchemeParameterSetsCorrectScheme()
         {
             // Fixture setup
-            string expectedScheme = "http";
+            const string expectedScheme = "http";
             var sut = new UriScheme("http");
             // Exercise system
             string result = sut.Scheme;
@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void ToStringReturnsCorrectResult()
         {
             // Fixture setup
-            string expected = "http";
+            const string expected = "http";
             var sut = new UriScheme("http");
             // Exercise system
             var result = sut.ToString();
@@ -185,7 +185,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void SutEqualsOtherObjectWhenSchemesAreEqual()
         {
             // Fixture setup
-            var scheme = "https";
+            const string scheme = "https";
             var sut = new UriScheme(scheme);
             object other = new UriScheme(scheme);
             // Exercise system
@@ -199,7 +199,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void SutEqualsOtherSutWhenSchemesAreEqual()
         {
             // Fixture setup
-            var scheme = "https";
+            const string scheme = "https";
             var sut = new UriScheme(scheme);
             var other = new UriScheme(scheme);
             // Exercise system
@@ -226,7 +226,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void GetHashCodeWhenSchemeIsNotDefaultReturnsCorrectResult()
         {
             // Fixture setup
-            var scheme = "https";
+            const string scheme = "https";
             var sut = new UriScheme(scheme);
             // Exercise system
             int result = sut.GetHashCode();

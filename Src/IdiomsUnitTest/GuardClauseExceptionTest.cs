@@ -71,7 +71,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var dummyMember = typeof(object).GetMembers().First();
             var dummyValueType = typeof(object);
-            var dummyMessage = "Anonymous text";
+            const string dummyMessage = "Anonymous text";
             var expectedInner = new Exception();
             var sut = new GuardClauseException(dummyMessage, expectedInner);
             // Exercise system
