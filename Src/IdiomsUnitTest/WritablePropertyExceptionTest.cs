@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var expectedProperty = typeof(Version).GetProperties().First();
-            var dummyMessage = "Anonymous message";
+            const string dummyMessage = "Anonymous message";
             var sut = new WritablePropertyException(expectedProperty, dummyMessage);
             // Exercise system
             PropertyInfo result = sut.PropertyInfo;
@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var expectedProperty = typeof(Version).GetProperties().First();
-            var dummyMessage = "Anonymous message";
+            const string dummyMessage = "Anonymous message";
             var dummyInner = new Exception();
             var sut = new WritablePropertyException(expectedProperty, dummyMessage, dummyInner);
             // Exercise system
