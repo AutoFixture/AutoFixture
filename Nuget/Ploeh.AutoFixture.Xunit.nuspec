@@ -18,8 +18,8 @@
         <projectUrl>http://autofixture.codeplex.com</projectUrl>
     </metadata>
     <files>
-        <file src="Ploeh.AutoFixture.Xunit.dll" target="lib" />
-        <file src="Ploeh.AutoFixture.Xunit.XML" target="lib" />
+        <file src="Ploeh.AutoFixture.Xunit.dll" target="lib\net35" />
+        <file src="Ploeh.AutoFixture.Xunit.XML" target="lib\net35" />
         <file src="Install.ps1" target="tools" />
     </files>
 </package>

@@ -17,7 +17,7 @@
         <iconUrl>http://i3.codeplex.com/Download?ProjectName=autofixture&amp;DownloadId=278049</iconUrl>
     </metadata>
     <files>
-        <file src="Ploeh.AutoFixture.Idioms.dll" target="lib" />
-        <file src="Ploeh.AutoFixture.Idioms.XML" target="lib" />
+        <file src="Ploeh.AutoFixture.Idioms.dll" target="lib\net35" />
+        <file src="Ploeh.AutoFixture.Idioms.XML" target="lib\net35" />
     </files>
 </package>
