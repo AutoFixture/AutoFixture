@@ -31,6 +31,7 @@
     </ItemGroup>
     <ItemGroup>
         <NuSpecFiles Include="NuGet\*.nuspec" />
+        <NuGetPackageScripts Include="NuGet\*.ps1" />
     </ItemGroup>
     <PropertyGroup>
         <ReleaseFolder>Release</ReleaseFolder>
@@ -64,6 +65,7 @@
     </Target>
     <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
         <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />
+        <Copy SourceFiles="@(NuGetPackageScripts)" DestinationFolder="$(ReleaseFolder)" />
     </Target>
     <Target Name="ZipReleaseFiles" DependsOnTargets="CopyToReleaseFolder">
         <ItemGroup>

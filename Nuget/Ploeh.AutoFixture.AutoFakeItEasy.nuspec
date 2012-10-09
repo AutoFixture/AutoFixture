@@ -20,5 +20,6 @@
     <files>
         <file src="Ploeh.AutoFixture.AutoFakeItEasy.dll" target="lib" />
         <file src="Ploeh.AutoFixture.AutoFakeItEasy.XML" target="lib" />
+        <file src="Install.ps1" target="tools" />
     </files>
 </package>
