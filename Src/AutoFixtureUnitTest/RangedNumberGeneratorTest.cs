@@ -157,6 +157,7 @@ namespace Ploeh.AutoFixtureUnitTest
         [InlineData(-30003, -10001)]
         [InlineData(-300.3, -100.1)]
         [InlineData("-3.3", "-1.1")]
+        [UseCulture("en-US")]
         public void CreateWithDifferentOperandTypeDoesNotThrowOnMultipleCall(object minimum, object maximum)
         {
             // Fixture setup
@@ -165,18 +166,18 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 new RangedNumberRequest(
                     typeof(decimal),
-                    Convert.ChangeType(minimum, typeof(decimal), CultureInfo.CurrentCulture), 
-                    Convert.ChangeType(maximum, typeof(decimal), CultureInfo.CurrentCulture)
+                    Convert.ChangeType(minimum, typeof(decimal)),
+                    Convert.ChangeType(maximum, typeof(decimal))
                     ),
                 new RangedNumberRequest(
                     typeof(double),
-                    Convert.ChangeType(minimum, typeof(double), CultureInfo.CurrentCulture), 
-                    Convert.ChangeType(maximum, typeof(double), CultureInfo.CurrentCulture)
+                    Convert.ChangeType(minimum, typeof(double)),
+                    Convert.ChangeType(maximum, typeof(double))
                     ),
                 new RangedNumberRequest(
                     typeof(decimal),
-                    Convert.ChangeType(minimum, typeof(decimal), CultureInfo.CurrentCulture), 
-                    Convert.ChangeType(maximum, typeof(decimal), CultureInfo.CurrentCulture)
+                    Convert.ChangeType(minimum, typeof(decimal)),
+                    Convert.ChangeType(maximum, typeof(decimal))
                     )
             };
             var context = new DelegatingSpecimenContext
