@@ -95,7 +95,16 @@ namespace Ploeh.AutoFixture.Dsl
 
         public IPostprocessComposer<T> WithAutoProperties()
         {
-            throw new NotImplementedException();
+            var targetToDecorate = this
+                .SelectNodes(n => n is NoSpecimenOutputGuard)
+                .First();
+
+            return (NodeComposer<T>)this.ReplaceNodes(
+                with: n => new Postprocessor<T>(
+                    n,
+                    new AutoPropertiesCommand<T>().Execute,
+                    this.Specification),
+                when: targetToDecorate.Equals);
         }
 
         public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)

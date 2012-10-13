@@ -174,8 +174,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             protected override bool EqualsInstance(Postprocessor<T> other)
             {
-                var thisActionMethod = GetActionMethod(this.Item.Action.Target);
-                var otherActionMethod = GetActionMethod(other.Action.Target);
+                var thisActionMethod = GetActionMethod(this.Item.Action);
+                var otherActionMethod = GetActionMethod(other.Action);
 
                 return this.Item.Action.Method.Equals(other.Action.Method)
                     && thisActionMethod.Equals(otherActionMethod)
@@ -201,11 +201,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             /// action wraps another action, that field is itself an Action with a Method
             /// parameter, which is what is being returned from this method.
             /// </para>
+            /// <para>
+            /// However, if there's no "action" field then this is taken as an indication that
+            /// another constructor overload of PostProcesser{T} was used - one which doesn't wrap
+            /// one action in another. In this case, the fallback is the method itself.
+            /// </para>
             /// </remarks>
-            private static object GetActionMethod(object obj)
+            private static object GetActionMethod(Delegate del)
             {
+                var obj = del.Target;
 #warning Consider using dynamic dispatch when on .NET 4.0
                 var actionField = obj.GetType().GetField("action");
+                if (actionField == null)
+                    return del.Method;
                 var action = actionField.GetValue(obj);
                 var methodProperty = action.GetType().GetProperty("Method");
                 return methodProperty.GetValue(action, null);
