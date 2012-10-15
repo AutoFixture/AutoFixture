@@ -80,7 +80,18 @@ namespace Ploeh.AutoFixture.Dsl
 
         public IPostprocessComposer<T> OmitAutoProperties()
         {
-            throw new NotImplementedException();
+            var targetToRemove = this
+                .SelectNodes(n => n is Postprocessor<T>)
+                .FirstOrDefault();
+
+            if (targetToRemove == null)
+                return this;
+
+            var p = this.Parents(targetToRemove.Equals).First();
+
+            return (NodeComposer<T>)this.ReplaceNodes(
+                with: targetToRemove.Concat(p.Where(b => targetToRemove != b)),
+                when: p.Equals);
         }
 
         public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
