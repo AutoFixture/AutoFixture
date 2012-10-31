@@ -35,9 +35,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("maximum");
             }
 
-            TypeConverter converter = TypeDescriptor.GetConverter(operandType);
-            if (((IComparable)converter.ConvertFromString(minimum.ToString())).CompareTo(
-                ((IComparable)converter.ConvertFromString(maximum.ToString()))) >= 0)
+            if (((IComparable)minimum).CompareTo((IComparable)maximum) >= 0)
             {
                 throw new ArgumentOutOfRangeException("minimum", "Minimum must be lower than Maximum.");
             }
