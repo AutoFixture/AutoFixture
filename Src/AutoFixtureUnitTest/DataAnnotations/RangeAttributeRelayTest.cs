@@ -119,22 +119,31 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData(typeof(int), 10, 20)]
-        [InlineData(typeof(int), -2, -1)]
-        [InlineData(typeof(decimal), "10.1", "20.2")]
-        [InlineData(typeof(decimal), "-2.2", "-1.1")]
-        [InlineData(typeof(double), 10.0, 20.0)]
-        [InlineData(typeof(double), -2.0, -1.0)]
-        [InlineData(typeof(long), 10, 20)]
-        [InlineData(typeof(long), -2, -1)]
+        [InlineData("Property", 10, 20)]
+        [InlineData("Property", -2, -1)]
+        [InlineData("Property", "10.1", "20.2")]
+        [InlineData("Property", "-2.2", "-1.1")]
+        [InlineData("Property", 10.0, 20.0)]
+        [InlineData("Property", -2.0, -1.0)]
+        [InlineData("Property", 10, 20)]
+        [InlineData("Property", -2, -1)]
+        [InlineData("NullableTypeProperty", 10, 20)]
+        [InlineData("NullableTypeProperty", -2, -1)]
+        [InlineData("NullableTypeProperty", "10.1", "20.2")]
+        [InlineData("NullableTypeProperty", "-2.2", "-1.1")]
+        [InlineData("NullableTypeProperty", 10.0, 20.0)]
+        [InlineData("NullableTypeProperty", -2.0, -1.0)]
+        [InlineData("NullableTypeProperty", 10, 20)]
+        [InlineData("NullableTypeProperty", -2, -1)]
         public void CreateWithPropertyDecoratedWithRangeAttributeReturnsCorrectResult(
-            Type attributeType, 
+            string name,
             object attributeMinimum, 
             object attributeMaximum)
         {
             // Fixture setup
-            var request = typeof(RangeValidatedType).GetProperty("Property");
-            Type target = request.PropertyType;
+            var request = typeof(RangeValidatedType).GetProperty(name);
+            Type target = Nullable.GetUnderlyingType(request.PropertyType) 
+                ?? request.PropertyType;
 
             var expectedRequest = new RangedNumberRequest(
                 target,
@@ -156,22 +165,31 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData(typeof(int), 10, 20)]
-        [InlineData(typeof(int), -2, -1)]
-        [InlineData(typeof(decimal), "10.1", "20.2")]
-        [InlineData(typeof(decimal), "-2.2", "-1.1")]
-        [InlineData(typeof(double), 10.0, 20.0)]
-        [InlineData(typeof(double), -2.0, -1.0)]
-        [InlineData(typeof(long), 10, 20)]
-        [InlineData(typeof(long), -2, -1)]
+        [InlineData("Field", 10, 20)]
+        [InlineData("Field", -2, -1)]
+        [InlineData("Field", "10.1", "20.2")]
+        [InlineData("Field", "-2.2", "-1.1")]
+        [InlineData("Field", 10.0, 20.0)]
+        [InlineData("Field", -2.0, -1.0)]
+        [InlineData("Field", 10, 20)]
+        [InlineData("Field", -2, -1)]
+        [InlineData("NullableTypeField", 10, 20)]
+        [InlineData("NullableTypeField", -2, -1)]
+        [InlineData("NullableTypeField", "10.1", "20.2")]
+        [InlineData("NullableTypeField", "-2.2", "-1.1")]
+        [InlineData("NullableTypeField", 10.0, 20.0)]
+        [InlineData("NullableTypeField", -2.0, -1.0)]
+        [InlineData("NullableTypeField", 10, 20)]
+        [InlineData("NullableTypeField", -2, -1)]
         public void CreateWithFieldDecoratedWithRangeAttributeReturnsCorrectResult(
-            Type attributeType,
+            string name,
             object attributeMinimum,
             object attributeMaximum)
         {
             // Fixture setup
-            var request = typeof(RangeValidatedType).GetField("Field");
-            Type target = request.FieldType;
+            var request = typeof(RangeValidatedType).GetField(name);
+            Type target = Nullable.GetUnderlyingType(request.FieldType)
+                ?? request.FieldType;
 
             var expectedRequest = new RangedNumberRequest(
                 target,
