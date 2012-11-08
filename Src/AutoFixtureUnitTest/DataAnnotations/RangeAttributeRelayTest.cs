@@ -119,16 +119,15 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData(typeof(int), 10, 20)]
-        [InlineData(typeof(int), -2, -1)]
-        [InlineData(typeof(decimal), "10.1", "20.2")]
-        [InlineData(typeof(decimal), "-2.2", "-1.1")]
-        [InlineData(typeof(double), 10.0, 20.0)]
-        [InlineData(typeof(double), -2.0, -1.0)]
-        [InlineData(typeof(long), 10, 20)]
-        [InlineData(typeof(long), -2, -1)]
-        public void CreateWithPropertyDecoratedWithRangeAttributeReturnsCorrectResult(
-            Type attributeType, 
+        [InlineData(10, 20)]
+        [InlineData(-2, -1)]
+        [InlineData("10.1", "20.2")]
+        [InlineData("-2.2", "-1.1")]
+        [InlineData(10.0, 20.0)]
+        [InlineData(-2.0, -1.0)]
+        [InlineData(10, 20)]
+        [InlineData(-2, -1)]
+        public void CreateWithPropertyDecoratedWithRangeAttributeReturnsCorrectResult( 
             object attributeMinimum, 
             object attributeMaximum)
         {
@@ -156,16 +155,15 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData(typeof(int), 10, 20)]
-        [InlineData(typeof(int), -2, -1)]
-        [InlineData(typeof(decimal), "10.1", "20.2")]
-        [InlineData(typeof(decimal), "-2.2", "-1.1")]
-        [InlineData(typeof(double), 10.0, 20.0)]
-        [InlineData(typeof(double), -2.0, -1.0)]
-        [InlineData(typeof(long), 10, 20)]
-        [InlineData(typeof(long), -2, -1)]
+        [InlineData(10, 20)]
+        [InlineData(-2, -1)]
+        [InlineData("10.1", "20.2")]
+        [InlineData("-2.2", "-1.1")]
+        [InlineData(10.0, 20.0)]
+        [InlineData(-2.0, -1.0)]
+        [InlineData(10, 20)]
+        [InlineData(-2, -1)]
         public void CreateWithFieldDecoratedWithRangeAttributeReturnsCorrectResult(
-            Type attributeType,
             object attributeMinimum,
             object attributeMaximum)
         {
