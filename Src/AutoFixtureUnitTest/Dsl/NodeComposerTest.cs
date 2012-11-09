@@ -332,5 +332,36 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
             // Teardown
         }
+
+        [Fact]
+        public void WithAnonymouValueReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new NodeComposer<PropertyHolder<int>>();
+            // Exercise system
+            var actual = sut.With(x => x.Property);
+            // Verify outcome
+            var expected = new FilteringSpecimenBuilder(
+                new CompositeSpecimenBuilder(
+                    new Postprocessor<PropertyHolder<int>>(
+                        new NoSpecimenOutputGuard(
+                            new MethodInvoker(
+                                new ModestConstructorQuery()),
+                            new InverseRequestSpecification(
+                                new SeedRequestSpecification(
+                                    typeof(PropertyHolder<int>)))),
+                        new BindingCommand<PropertyHolder<int>, int>(x => x.Property).Execute,
+                        new OrRequestSpecification(
+                            new SeedRequestSpecification(typeof(PropertyHolder<int>)),
+                            new ExactTypeSpecification(typeof(PropertyHolder<int>)))),
+                    new SeedIgnoringRelay()),
+                new OrRequestSpecification(
+                    new SeedRequestSpecification(typeof(PropertyHolder<int>)),
+                    new ExactTypeSpecification(typeof(PropertyHolder<int>))));
+
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
     }
 }
