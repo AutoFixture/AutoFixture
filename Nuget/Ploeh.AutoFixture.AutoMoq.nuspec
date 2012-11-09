@@ -15,7 +15,7 @@
         <iconUrl>http://i3.codeplex.com/Download?ProjectName=autofixture&amp;DownloadId=278049</iconUrl>
         <language>en-US</language>
         <licenseUrl>http://autofixture.codeplex.com/license</licenseUrl>
-        <projectUrl>http://autofixture.codeplex.com</projectUrl>
+        <projectUrl>https://github.com/AutoFixture/AutoFixture</projectUrl>
     </metadata>
     <files>
         <file src="Ploeh.AutoFixture.AutoMoq.dll" target="lib\net35" />
