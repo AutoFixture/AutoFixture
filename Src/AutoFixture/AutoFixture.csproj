@@ -123,6 +123,7 @@
     <Compile Include="Generator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Kernel\ConstrainedStringRequest.cs" />
+    <Compile Include="Kernel\EqualRequestSpecification.cs" />
     <Compile Include="Kernel\OmitOnRecursionGuard.cs" />
     <Compile Include="Kernel\OmitSpecimen.cs" />
     <Compile Include="Kernel\Omitter.cs" />
