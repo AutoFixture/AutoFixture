@@ -106,12 +106,22 @@ namespace Ploeh.AutoFixture.Dsl
                     n,
                     new BindingCommand<T, TProperty>(propertyPicker).Execute,
                     this.Specification),
-                when: targetToDecorate.Equals);                 
+                when: targetToDecorate.Equals);
         }
 
-        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
+        public IPostprocessComposer<T> With<TProperty>(
+            Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
-            throw new NotImplementedException();
+            var targetToDecorate = this
+                .SelectNodes(n => n is NoSpecimenOutputGuard)
+                .First();
+
+            return (NodeComposer<T>)this.ReplaceNodes(
+                with: n => new Postprocessor<T>(
+                    n,
+                    new BindingCommand<T, TProperty>(propertyPicker, value).Execute,
+                    this.Specification),
+                when: targetToDecorate.Equals);
         }
 
         public IPostprocessComposer<T> WithAutoProperties()
