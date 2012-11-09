@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,6 +51,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 this.queryComparer.Equals(mix.Query, miy.Query))
                 return true;
 
+            var omx = x as Omitter;
+            var omy = y as Omitter;
+            if (omx != null &&
+                omy != null &&
+                this.specificationComparer.Equals(omx.Specification, omy.Specification))
+                return true;
+
             if (GenericComparer.CreateFromTemplate(x).Equals(y))
                 return true;
 
@@ -63,6 +71,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
         private class SpecificationComparer : IEqualityComparer<IRequestSpecification>
         {
+            private readonly IEqualityComparer<IEqualityComparer> comparerComparer;
+
+            public SpecificationComparer()
+            {
+                this.comparerComparer = new ComparerComparer();
+            }
+
             public bool Equals(IRequestSpecification x, IRequestSpecification y)
             {
                 var invx = x as InverseRequestSpecification;
@@ -100,12 +115,39 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 if (tx != null && ty != null)
                     return true;
 
+                var eqx = x as EqualRequestSpecification;
+                var eqy = y as EqualRequestSpecification;
+                if (eqx != null &&
+                    eqy != null &&
+                    object.Equals(eqx.Target, eqy.Target) &&
+                    this.comparerComparer.Equals(eqx.Comparer, eqy.Comparer))
+                    return true;
+
                 return EqualityComparer<IRequestSpecification>.Default.Equals(x, y);
             }
 
             public int GetHashCode(IRequestSpecification obj)
             {
                 return EqualityComparer<IRequestSpecification>.Default.GetHashCode(obj);
+            }
+
+            private class ComparerComparer : IEqualityComparer<IEqualityComparer>
+            {
+                public bool Equals(IEqualityComparer x, IEqualityComparer y)
+                {
+                    var micx = x as MemberInfoEqualityComparer;
+                    var micy = y as MemberInfoEqualityComparer;
+                    if (micx != null &&
+                        micy != null)
+                        return true;
+
+                    return EqualityComparer<IEqualityComparer>.Default.Equals(x, y);
+                }
+
+                public int GetHashCode(IEqualityComparer obj)
+                {
+                    return 0;
+                }
             }
         }
 

@@ -138,9 +138,19 @@ namespace Ploeh.AutoFixture.Dsl
                 when: targetToDecorate.Equals);
         }
 
-        public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
+        public IPostprocessComposer<T> Without<TProperty>(
+            Expression<Func<T, TProperty>> propertyPicker)
         {
-            throw new NotImplementedException();
+            return (NodeComposer<T>)this.ReplaceNodes(
+                with: n => new CompositeSpecimenBuilder(
+                    new[]
+                    {
+                        new Omitter(
+                            new EqualRequestSpecification(
+                                propertyPicker.GetWritableMember().Member,
+                                new MemberInfoEqualityComparer()))
+                    }.Concat(n)),
+                when: n => n is CompositeSpecimenBuilder);
         }
 
         private NodeComposer<T> WithFactory(ISpecimenBuilder builder)
