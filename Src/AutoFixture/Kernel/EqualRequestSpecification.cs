@@ -79,5 +79,18 @@ namespace Ploeh.AutoFixture.Kernel
         {
             get { return this.target; }
         }
+
+        /// <summary>
+        /// Gets the equality comparer used to compare a request to the
+        /// expected target.
+        /// </summary>
+        /// <value>
+        /// The equality comparer, optionally supplied via a constructor.
+        /// </value>
+        /// <seealso cref="EqualRequestSpecification(object, IEqualityComparer)" />
+        public IEqualityComparer Comparer 
+        {
+            get { return this.comparer; }
+        }
     }
 }

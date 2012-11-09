@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -109,6 +110,20 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             Assert.Throws<ArgumentNullException>(() =>
                 new EqualRequestSpecification(dummyTarget, null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComparerIsCorrect()
+        {
+            // Fixture setup
+            var expected = new DelegatingEqualityComparer();
+            var dummyTarget = new object();
+            var sut = new EqualRequestSpecification(dummyTarget, expected);
+            // Exercise system
+            IEqualityComparer actual = sut.Comparer;
+            // Verify outcome
+            Assert.Equal(expected, actual);
             // Teardown
         }
     }
