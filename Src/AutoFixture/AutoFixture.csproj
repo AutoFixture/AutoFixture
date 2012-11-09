@@ -125,6 +125,7 @@
     <Compile Include="Kernel\ConstrainedStringRequest.cs" />
     <Compile Include="Kernel\OmitOnRecursionGuard.cs" />
     <Compile Include="Kernel\OmitSpecimen.cs" />
+    <Compile Include="Kernel\Omitter.cs" />
     <Compile Include="Kernel\RangedNumberRequest.cs" />
     <Compile Include="Kernel\RegularExpressionRequest.cs" />
     <Compile Include="Kernel\TypeRelay.cs" />
