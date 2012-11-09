@@ -31,6 +31,12 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         [Range(Minimum, Maximum)]
         public int Property5 { get; set; }
 
+        [Range(Minimum, Maximum)]
+        public decimal? NullableTypeField;
+
+        [Range(Minimum, Maximum)]
+        public decimal? NullableTypeProperty { get; set; }
+
         [Range(double.MinValue, Maximum)]
         public double PropertyWithMinimumDoubleMinValue { get; set; }
 

@@ -51,7 +51,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
         private static RangedNumberRequest Create(RangeAttribute rangeAttribute, object request)
         {
-            var conversionType = rangeAttribute.OperandType;
+            Type conversionType = null;
 
             var pi = request as PropertyInfo;
             if (pi != null)
@@ -65,6 +65,16 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 {
                     conversionType = fi.FieldType;
                 }
+                else
+                {
+                    conversionType = rangeAttribute.OperandType;
+                }
+            }
+
+            Type underlyingType = Nullable.GetUnderlyingType(conversionType);
+            if (underlyingType != null)
+            {
+                conversionType = underlyingType;
             }
 
             return new RangedNumberRequest(
