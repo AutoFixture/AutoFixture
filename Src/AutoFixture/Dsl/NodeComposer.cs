@@ -158,9 +158,9 @@ namespace Ploeh.AutoFixture.Dsl
 
         private NodeComposer<T> WithFactory(ISpecimenBuilder builder)
         {
-            return new NodeComposer<T>(
-                NodeComposer.DecorateFactory<T>(
-                    builder));
+            return (NodeComposer<T>)this.ReplaceNodes(
+                with: n => ((NoSpecimenOutputGuard)n).Compose(new[] { builder }),
+                when: n => n is NoSpecimenOutputGuard);
         }        
 
         private static IRequestSpecification CreateSpecification()
@@ -181,7 +181,7 @@ namespace Ploeh.AutoFixture.Dsl
                         new ModestConstructorQuery())));
         }
 
-        internal static ISpecimenBuilder DecorateFactory<T>(
+        private static ISpecimenBuilder DecorateFactory<T>(
             ISpecimenBuilder factory)
         {
             return new CompositeSpecimenBuilder(
