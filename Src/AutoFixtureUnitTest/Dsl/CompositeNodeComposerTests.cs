@@ -82,6 +82,20 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
+        public void SutYieldsDecoratedBuilder()
+        {
+            // Fixture setup
+            var expected = new CompositeSpecimenBuilder();            
+            // Exercise system
+            var sut = new CompositeNodeComposer<uint>(expected);
+            // Verify outcome
+            Assert.True(new[] { expected }.SequenceEqual(sut));
+            Assert.True(new object[] { expected }.SequenceEqual(
+                ((System.Collections.IEnumerable)sut).Cast<object>()));
+            // Teardown
+        }
+
+        [Fact]
         public void NodeIsCorrect()
         {
             // Fixture setup

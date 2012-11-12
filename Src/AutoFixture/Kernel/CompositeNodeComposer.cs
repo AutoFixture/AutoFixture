@@ -103,12 +103,12 @@ namespace Ploeh.AutoFixture.Kernel
 
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            throw new NotImplementedException();
+            yield return this.node;
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.GetEnumerator();
         }
 
         public ISpecimenBuilderNode Node
