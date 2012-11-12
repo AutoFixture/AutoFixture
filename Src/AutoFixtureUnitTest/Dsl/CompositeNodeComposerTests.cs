@@ -7,6 +7,7 @@ using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.TestTypeFoundation;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Dsl
 {
@@ -461,6 +462,35 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                     (ISpecimenBuilder)NodeComposer.Create<PropertyHolder<int>>().With(x => x.Property),
                     NodeComposer.Create<int>(),
                     (ISpecimenBuilder)NodeComposer.Create<PropertyHolder<int>>().With(x => x.Property),
+                    new DelegatingSpecimenBuilder()));
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("foo")]
+        [InlineData("bar")]
+        public void WithExplicitValueReturnsCorrectResult(string value)
+        {
+            // Fixture setup
+            var node = new CompositeSpecimenBuilder(
+                new DelegatingSpecimenBuilder(),
+                NodeComposer.Create<PropertyHolder<string>>(),
+                NodeComposer.Create<Version>(),
+                NodeComposer.Create<PropertyHolder<string>>(),
+                new DelegatingSpecimenBuilder());
+            var sut = new CompositeNodeComposer<PropertyHolder<string>>(node);
+            // Exercise system
+            var actual = sut.With(x => x.Property, value);
+            // Verify outcome
+            var expected = new CompositeNodeComposer<PropertyHolder<string>>(
+                new CompositeSpecimenBuilder(
+                    new DelegatingSpecimenBuilder(),
+                    (ISpecimenBuilder)NodeComposer.Create<PropertyHolder<string>>().With(x => x.Property, value),
+                    NodeComposer.Create<Version>(),
+                    (ISpecimenBuilder)NodeComposer.Create<PropertyHolder<string>>().With(x => x.Property, value),
                     new DelegatingSpecimenBuilder()));
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
