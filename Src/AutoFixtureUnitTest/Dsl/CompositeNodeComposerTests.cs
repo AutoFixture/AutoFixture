@@ -387,5 +387,57 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
             // Teardown
         }
+
+        [Fact]
+        public void OmitAutoPropertiesReturnsCorrectResult()
+        {
+            // Fixture setup
+            var node = new CompositeSpecimenBuilder(
+                new DelegatingSpecimenBuilder(),
+                NodeComposer.Create<Version>(),
+                NodeComposer.Create<UTF8Encoding>(),
+                NodeComposer.Create<Version>(),
+                new DelegatingSpecimenBuilder());
+            var sut = new CompositeNodeComposer<Version>(node);
+            // Exercise system
+            var actual = sut.OmitAutoProperties();
+            // Verify outcome
+            var expected = new CompositeNodeComposer<Version>(
+                new CompositeSpecimenBuilder(
+                    new DelegatingSpecimenBuilder(),
+                    (ISpecimenBuilder)NodeComposer.Create<Version>().OmitAutoProperties(),
+                    NodeComposer.Create<UTF8Encoding>(),
+                    (ISpecimenBuilder)NodeComposer.Create<Version>().OmitAutoProperties(),
+                    new DelegatingSpecimenBuilder()));
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
+
+        [Fact]
+        public void OmitAutoPropertiesAfterAddingAutoPropertiesReturnsCorrectResult()
+        {
+            // Fixture setup
+            var node = new CompositeSpecimenBuilder(
+                new DelegatingSpecimenBuilder(),
+                NodeComposer.Create<Version>(),
+                NodeComposer.Create<string>(),
+                NodeComposer.Create<Version>(),
+                new DelegatingSpecimenBuilder());
+            var sut = new CompositeNodeComposer<Version>(node);
+            // Exercise system
+            var actual = sut.WithAutoProperties().OmitAutoProperties();
+            // Verify outcome
+            var expected = new CompositeNodeComposer<Version>(
+                new CompositeSpecimenBuilder(
+                    new DelegatingSpecimenBuilder(),
+                    (ISpecimenBuilder)NodeComposer.Create<Version>().WithAutoProperties().OmitAutoProperties(),
+                    NodeComposer.Create<string>(),
+                    (ISpecimenBuilder)NodeComposer.Create<Version>().WithAutoProperties().OmitAutoProperties(),
+                    new DelegatingSpecimenBuilder()));
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
     }
 }
