@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
@@ -189,6 +190,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     { typeof(SpecimenFactory<,,,>), typeof(SpecimenFactoryEquatable<,,,>) },
                     { typeof(SpecimenFactory<,,,,>), typeof(SpecimenFactoryEquatable<,,,,>) },
                     { typeof(Postprocessor<>), typeof(PostprocessorEquatable<>) },
+                    { typeof(NodeComposer<>), typeof(NodeComposerEquatable<>) },
                     { typeof(CompositeNodeComposer<>), typeof(CompositeNodeComposerEquatable<>) }
                 };
 
@@ -347,6 +349,20 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 return this.Item.Factory.Equals(other.Factory);
             }
         }
+
+        private class NodeComposerEquatable<T> : GenericEquatable<NodeComposer<T>>
+        {
+            public NodeComposerEquatable(NodeComposer<T> item)
+                : base(item)
+            {
+            }
+
+            protected override bool EqualsInstance(NodeComposer<T> other)
+            {
+                return true;
+            }
+        }
+
 
         private class CompositeNodeComposerEquatable<T> : GenericEquatable<CompositeNodeComposer<T>>
         {

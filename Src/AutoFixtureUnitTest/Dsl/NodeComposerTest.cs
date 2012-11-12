@@ -25,13 +25,40 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void SutIsFilter()
+        public void SutIsSpecimenBuilderNode()
         {
             // Fixture setup
             // Exercise system
             var sut = NodeComposer.Create<string>();
             // Verify outcome
-            Assert.IsAssignableFrom<FilteringSpecimenBuilder>(sut);
+            Assert.IsAssignableFrom<ISpecimenBuilderNode>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutYieldsDecoratedBuilder()
+        {
+            // Fixture setup
+            var expected = new DelegatingSpecimenBuilder();
+            // Exercise system
+            var sut = new NodeComposer<Guid>(expected);
+            // Verify outcome
+            Assert.True(new[] { expected }.SequenceEqual(sut));
+            Assert.True(new object[] { expected }.SequenceEqual(
+                ((System.Collections.IEnumerable)sut).Cast<object>()));
+            // Teardown
+        }
+
+        [Fact]
+        public void BuilderIsCorrect()
+        {
+            // Fixture setup
+            var expected = new DelegatingSpecimenBuilder();
+            var sut = new NodeComposer<Guid>(expected);
+            // Exercise system
+            ISpecimenBuilder actual = sut.Builder;
+            // Verify outcome
+            Assert.Equal(expected, actual);
             // Teardown
         }
 
@@ -43,7 +70,8 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             // Verify outcome
             var factory = new MethodInvoker(new ModestConstructorQuery());
-            var expected = new TypedNode(typeof(int), factory);
+            var expected = new NodeComposer<int>(
+                new TypedNode(typeof(int), factory));
             Assert.True(expected.GraphEquals(sut, new NodeComparer()));
             // Teardown
         }
@@ -58,7 +86,8 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var actual = sut.FromSeed(f);
             // Verify outcome
             var factory = new SeededFactory<decimal>(f);
-            var expected = new TypedNode(typeof(decimal), factory);
+            var expected = new NodeComposer<decimal>(
+                new TypedNode(typeof(decimal), factory));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -74,7 +103,8 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var actual = sut.FromFactory(builder);
             // Verify outcome
-            var expected = new TypedNode(typeof(Guid), builder);
+            var expected = new NodeComposer<Guid>(
+                new TypedNode(typeof(Guid), builder));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -91,7 +121,8 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var actual = sut.FromFactory(f);
             // Verify outcome
             var factory = new SpecimenFactory<long>(f);
-            var expected = new TypedNode(typeof(long), factory);
+            var expected = new NodeComposer<long>(
+                new TypedNode(typeof(long), factory));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -108,7 +139,8 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var actual = sut.FromFactory(f);
             // Verify outcome
             var factory = new SpecimenFactory<int, float>(f);
-            var expected = new TypedNode(typeof(float), factory);
+            var expected = new NodeComposer<float>(
+                new TypedNode(typeof(float), factory));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -125,7 +157,8 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var actual = sut.FromFactory(f);
             // Verify outcome
             var factory = new SpecimenFactory<int, Version, string>(f);
-            var expected = new TypedNode(typeof(string), factory);
+            var expected = new NodeComposer<string>(
+                new TypedNode(typeof(string), factory));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -142,7 +175,8 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var actual = sut.FromFactory(f);
             // Verify outcome
             var factory = new SpecimenFactory<int, Guid, Version, decimal>(f);
-            var expected = new TypedNode(typeof(decimal), factory);
+            var expected = new NodeComposer<decimal>(
+                new TypedNode(typeof(decimal), factory));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -159,7 +193,8 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var actual = sut.FromFactory(f);
             // Verify outcome
             var factory = new SpecimenFactory<int, int, int, int, Version>(f);
-            var expected = new TypedNode(typeof(Version), factory);
+            var expected = new NodeComposer<Version>(
+                new TypedNode(typeof(Version), factory));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -221,20 +256,21 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var actual = sut.Do(a);
             // Verify outcome
-            var expected = new FilteringSpecimenBuilder(
-                new CompositeSpecimenBuilder(
-                    new Postprocessor<AppDomainSetup>(
-                        new NoSpecimenOutputGuard(
-                            new MethodInvoker(
-                                new ModestConstructorQuery()),
-                            new InverseRequestSpecification(
-                                new SeedRequestSpecification(
-                                    typeof(AppDomainSetup)))),
-                        a),
-                    new SeedIgnoringRelay()),
-                new OrRequestSpecification(
-                    new SeedRequestSpecification(typeof(AppDomainSetup)),
-                    new ExactTypeSpecification(typeof(AppDomainSetup))));
+            var expected = new NodeComposer<AppDomainSetup>(
+                new FilteringSpecimenBuilder(
+                    new CompositeSpecimenBuilder(
+                        new Postprocessor<AppDomainSetup>(
+                            new NoSpecimenOutputGuard(
+                                new MethodInvoker(
+                                    new ModestConstructorQuery()),
+                                new InverseRequestSpecification(
+                                    new SeedRequestSpecification(
+                                        typeof(AppDomainSetup)))),
+                            a),
+                        new SeedIgnoringRelay()),
+                    new OrRequestSpecification(
+                        new SeedRequestSpecification(typeof(AppDomainSetup)),
+                        new ExactTypeSpecification(typeof(AppDomainSetup)))));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -251,22 +287,23 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var actual = sut.Do(dummy).Do(a);
             // Verify outcome
-            var expected = new FilteringSpecimenBuilder(
-                new CompositeSpecimenBuilder(
-                    new Postprocessor<PropertyHolder<string>>(
+            var expected = new NodeComposer<PropertyHolder<string>>(
+                new FilteringSpecimenBuilder(
+                    new CompositeSpecimenBuilder(
                         new Postprocessor<PropertyHolder<string>>(
-                            new NoSpecimenOutputGuard(
-                                new MethodInvoker(
-                                    new ModestConstructorQuery()),
-                                new InverseRequestSpecification(
-                                    new SeedRequestSpecification(
-                                        typeof(PropertyHolder<string>)))),
-                            dummy),
-                        a),
-                    new SeedIgnoringRelay()),
-                new OrRequestSpecification(
-                    new SeedRequestSpecification(typeof(PropertyHolder<string>)),
-                    new ExactTypeSpecification(typeof(PropertyHolder<string>))));
+                            new Postprocessor<PropertyHolder<string>>(
+                                new NoSpecimenOutputGuard(
+                                    new MethodInvoker(
+                                        new ModestConstructorQuery()),
+                                    new InverseRequestSpecification(
+                                        new SeedRequestSpecification(
+                                            typeof(PropertyHolder<string>)))),
+                                dummy),
+                            a),
+                        new SeedIgnoringRelay()),
+                    new OrRequestSpecification(
+                        new SeedRequestSpecification(typeof(PropertyHolder<string>)),
+                        new ExactTypeSpecification(typeof(PropertyHolder<string>)))));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -281,23 +318,24 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var actual = sut.WithAutoProperties();
             // Verify outcome
-            var expected = new FilteringSpecimenBuilder(
-                new CompositeSpecimenBuilder(
-                    new Postprocessor<Version>(
-                        new NoSpecimenOutputGuard(
-                            new MethodInvoker(
-                                new ModestConstructorQuery()),
-                            new InverseRequestSpecification(
-                                new SeedRequestSpecification(
-                                    typeof(Version)))),
-                        new AutoPropertiesCommand<Version>().Execute,
-                        new OrRequestSpecification(
-                            new SeedRequestSpecification(typeof(Version)),
-                            new ExactTypeSpecification(typeof(Version)))),
-                    new SeedIgnoringRelay()),
-                new OrRequestSpecification(
-                    new SeedRequestSpecification(typeof(Version)),
-                    new ExactTypeSpecification(typeof(Version))));
+            var expected = new NodeComposer<Version>(
+                new FilteringSpecimenBuilder(
+                    new CompositeSpecimenBuilder(
+                        new Postprocessor<Version>(
+                            new NoSpecimenOutputGuard(
+                                new MethodInvoker(
+                                    new ModestConstructorQuery()),
+                                new InverseRequestSpecification(
+                                    new SeedRequestSpecification(
+                                        typeof(Version)))),
+                            new AutoPropertiesCommand<Version>().Execute,
+                            new OrRequestSpecification(
+                                new SeedRequestSpecification(typeof(Version)),
+                                new ExactTypeSpecification(typeof(Version)))),
+                        new SeedIgnoringRelay()),
+                    new OrRequestSpecification(
+                        new SeedRequestSpecification(typeof(Version)),
+                        new ExactTypeSpecification(typeof(Version)))));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -342,23 +380,24 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var actual = sut.With(x => x.Property);
             // Verify outcome
-            var expected = new FilteringSpecimenBuilder(
-                new CompositeSpecimenBuilder(
-                    new Postprocessor<PropertyHolder<int>>(
-                        new NoSpecimenOutputGuard(
-                            new MethodInvoker(
-                                new ModestConstructorQuery()),
-                            new InverseRequestSpecification(
-                                new SeedRequestSpecification(
-                                    typeof(PropertyHolder<int>)))),
-                        new BindingCommand<PropertyHolder<int>, int>(x => x.Property).Execute,
-                        new OrRequestSpecification(
-                            new SeedRequestSpecification(typeof(PropertyHolder<int>)),
-                            new ExactTypeSpecification(typeof(PropertyHolder<int>)))),
-                    new SeedIgnoringRelay()),
-                new OrRequestSpecification(
-                    new SeedRequestSpecification(typeof(PropertyHolder<int>)),
-                    new ExactTypeSpecification(typeof(PropertyHolder<int>))));
+            var expected = new NodeComposer<PropertyHolder<int>>(
+                new FilteringSpecimenBuilder(
+                    new CompositeSpecimenBuilder(
+                        new Postprocessor<PropertyHolder<int>>(
+                            new NoSpecimenOutputGuard(
+                                new MethodInvoker(
+                                    new ModestConstructorQuery()),
+                                new InverseRequestSpecification(
+                                    new SeedRequestSpecification(
+                                        typeof(PropertyHolder<int>)))),
+                            new BindingCommand<PropertyHolder<int>, int>(x => x.Property).Execute,
+                            new OrRequestSpecification(
+                                new SeedRequestSpecification(typeof(PropertyHolder<int>)),
+                                new ExactTypeSpecification(typeof(PropertyHolder<int>)))),
+                        new SeedIgnoringRelay()),
+                    new OrRequestSpecification(
+                        new SeedRequestSpecification(typeof(PropertyHolder<int>)),
+                        new ExactTypeSpecification(typeof(PropertyHolder<int>)))));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -376,23 +415,24 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var actual = sut.With(x => x.Property, value);
             // Verify outcome
-            var expected = new FilteringSpecimenBuilder(
-                new CompositeSpecimenBuilder(
-                    new Postprocessor<PropertyHolder<string>>(
-                        new NoSpecimenOutputGuard(
-                            new MethodInvoker(
-                                new ModestConstructorQuery()),
-                            new InverseRequestSpecification(
-                                new SeedRequestSpecification(
-                                    typeof(PropertyHolder<string>)))),
-                        new BindingCommand<PropertyHolder<string>, string>(x => x.Property, value).Execute,
-                        new OrRequestSpecification(
-                            new SeedRequestSpecification(typeof(PropertyHolder<string>)),
-                            new ExactTypeSpecification(typeof(PropertyHolder<string>)))),
-                    new SeedIgnoringRelay()),
-                new OrRequestSpecification(
-                    new SeedRequestSpecification(typeof(PropertyHolder<string>)),
-                    new ExactTypeSpecification(typeof(PropertyHolder<string>))));
+            var expected = new NodeComposer<PropertyHolder<string>>(
+                new FilteringSpecimenBuilder(
+                    new CompositeSpecimenBuilder(
+                        new Postprocessor<PropertyHolder<string>>(
+                            new NoSpecimenOutputGuard(
+                                new MethodInvoker(
+                                    new ModestConstructorQuery()),
+                                new InverseRequestSpecification(
+                                    new SeedRequestSpecification(
+                                        typeof(PropertyHolder<string>)))),
+                            new BindingCommand<PropertyHolder<string>, string>(x => x.Property, value).Execute,
+                            new OrRequestSpecification(
+                                new SeedRequestSpecification(typeof(PropertyHolder<string>)),
+                                new ExactTypeSpecification(typeof(PropertyHolder<string>)))),
+                        new SeedIgnoringRelay()),
+                    new OrRequestSpecification(
+                        new SeedRequestSpecification(typeof(PropertyHolder<string>)),
+                        new ExactTypeSpecification(typeof(PropertyHolder<string>)))));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -408,22 +448,23 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var actual = sut.Without(x => x.Field);
             // Verify outcome
-            var expected = new FilteringSpecimenBuilder(
-                new CompositeSpecimenBuilder(
-                    new Omitter(
-                        new EqualRequestSpecification(
-                            fi,
-                            new MemberInfoEqualityComparer())),
-                    new NoSpecimenOutputGuard(
-                        new MethodInvoker(
-                            new ModestConstructorQuery()),
-                        new InverseRequestSpecification(
-                            new SeedRequestSpecification(
-                                typeof(FieldHolder<short>)))),
-                    new SeedIgnoringRelay()),
-                new OrRequestSpecification(
-                    new SeedRequestSpecification(typeof(FieldHolder<short>)),
-                    new ExactTypeSpecification(typeof(FieldHolder<short>))));
+            var expected = new NodeComposer<FieldHolder<short>>(
+                new FilteringSpecimenBuilder(
+                    new CompositeSpecimenBuilder(
+                        new Omitter(
+                            new EqualRequestSpecification(
+                                fi,
+                                new MemberInfoEqualityComparer())),
+                        new NoSpecimenOutputGuard(
+                            new MethodInvoker(
+                                new ModestConstructorQuery()),
+                            new InverseRequestSpecification(
+                                new SeedRequestSpecification(
+                                    typeof(FieldHolder<short>)))),
+                        new SeedIgnoringRelay()),
+                    new OrRequestSpecification(
+                        new SeedRequestSpecification(typeof(FieldHolder<short>)),
+                        new ExactTypeSpecification(typeof(FieldHolder<short>)))));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -439,23 +480,24 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             NodeComposer<Version> actual = 
                 sut.WithAutoProperties(true);
             // Verify outcome
-            var expected = new FilteringSpecimenBuilder(
-                new CompositeSpecimenBuilder(
-                    new Postprocessor<Version>(
-                        new NoSpecimenOutputGuard(
-                            new MethodInvoker(
-                                new ModestConstructorQuery()),
-                            new InverseRequestSpecification(
-                                new SeedRequestSpecification(
-                                    typeof(Version)))),
-                        new AutoPropertiesCommand<Version>().Execute,
-                        new OrRequestSpecification(
-                            new SeedRequestSpecification(typeof(Version)),
-                            new ExactTypeSpecification(typeof(Version)))),
-                    new SeedIgnoringRelay()),
-                new OrRequestSpecification(
-                    new SeedRequestSpecification(typeof(Version)),
-                    new ExactTypeSpecification(typeof(Version))));
+            var expected = new NodeComposer<Version>(
+                new FilteringSpecimenBuilder(
+                    new CompositeSpecimenBuilder(
+                        new Postprocessor<Version>(
+                            new NoSpecimenOutputGuard(
+                                new MethodInvoker(
+                                    new ModestConstructorQuery()),
+                                new InverseRequestSpecification(
+                                    new SeedRequestSpecification(
+                                        typeof(Version)))),
+                            new AutoPropertiesCommand<Version>().Execute,
+                            new OrRequestSpecification(
+                                new SeedRequestSpecification(typeof(Version)),
+                                new ExactTypeSpecification(typeof(Version)))),
+                        new SeedIgnoringRelay()),
+                    new OrRequestSpecification(
+                        new SeedRequestSpecification(typeof(Version)),
+                        new ExactTypeSpecification(typeof(Version)))));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -502,22 +544,23 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var actual = sut.WithAutoProperties(true).FromFactory(f);
             // Verify outcome
-            var expected = new FilteringSpecimenBuilder(
-                new CompositeSpecimenBuilder(
-                    new Postprocessor<PropertyHolder<string>>(
-                        new NoSpecimenOutputGuard(
-                            new SpecimenFactory<PropertyHolder<string>>(f),
-                            new InverseRequestSpecification(
-                                new SeedRequestSpecification(
-                                    typeof(PropertyHolder<string>)))),
-                        new AutoPropertiesCommand<PropertyHolder<string>>().Execute,
-                        new OrRequestSpecification(
-                            new SeedRequestSpecification(typeof(PropertyHolder<string>)),
-                            new ExactTypeSpecification(typeof(PropertyHolder<string>)))),
-                    new SeedIgnoringRelay()),
-                new OrRequestSpecification(
-                    new SeedRequestSpecification(typeof(PropertyHolder<string>)),
-                    new ExactTypeSpecification(typeof(PropertyHolder<string>))));
+            var expected = new NodeComposer<PropertyHolder<string>>(
+                new FilteringSpecimenBuilder(
+                    new CompositeSpecimenBuilder(
+                        new Postprocessor<PropertyHolder<string>>(
+                            new NoSpecimenOutputGuard(
+                                new SpecimenFactory<PropertyHolder<string>>(f),
+                                new InverseRequestSpecification(
+                                    new SeedRequestSpecification(
+                                        typeof(PropertyHolder<string>)))),
+                            new AutoPropertiesCommand<PropertyHolder<string>>().Execute,
+                            new OrRequestSpecification(
+                                new SeedRequestSpecification(typeof(PropertyHolder<string>)),
+                                new ExactTypeSpecification(typeof(PropertyHolder<string>)))),
+                        new SeedIgnoringRelay()),
+                    new OrRequestSpecification(
+                        new SeedRequestSpecification(typeof(PropertyHolder<string>)),
+                        new ExactTypeSpecification(typeof(PropertyHolder<string>)))));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));

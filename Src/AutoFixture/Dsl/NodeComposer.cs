@@ -7,11 +7,15 @@ using System.Linq.Expressions;
 
 namespace Ploeh.AutoFixture.Dsl
 {
-    public class NodeComposer<T> : FilteringSpecimenBuilder, ICustomizationComposer<T>
+    public class NodeComposer<T> : 
+        ICustomizationComposer<T>,
+        ISpecimenBuilderNode
     {
+        private readonly ISpecimenBuilder builder;
+
         public NodeComposer(ISpecimenBuilder builder)
-            : base(builder, CreateSpecification())
         {
+            this.builder = builder;
         }
 
         public IPostprocessComposer<T> FromSeed(Func<T, T> factory)
@@ -52,12 +56,6 @@ namespace Ploeh.AutoFixture.Dsl
         public ISpecimenBuilder Compose()
         {
             return this;
-        }
-
-        public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
-        {
-            var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
-            return new NodeComposer<T>(composedBuilder);
         }
 
         public IPostprocessComposer<T> Do(Action<T> action)
@@ -169,16 +167,46 @@ namespace Ploeh.AutoFixture.Dsl
                 new SeedRequestSpecification(typeof(T)),
                 new ExactTypeSpecification(typeof(T)));
         }
+
+        public ISpecimenBuilderNode Compose(
+            IEnumerable<ISpecimenBuilder> builders)
+        {
+            var composedBuilder =
+                CompositeSpecimenBuilder.ComposeIfMultiple(builders);
+            return new NodeComposer<T>(composedBuilder);
+        }
+
+        public object Create(object request, ISpecimenContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerator<ISpecimenBuilder> GetEnumerator()
+        {
+            yield return this.builder;
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public ISpecimenBuilder Builder
+        {
+            get { return this.builder; }
+        }
     }
 
     public static class NodeComposer
     {
         public static NodeComposer<T> Create<T>()
         {
-            return new NodeComposer<T>(                
-                DecorateFactory<T>(
-                    new MethodInvoker(
-                        new ModestConstructorQuery())));
+            return new NodeComposer<T>(
+                new FilteringSpecimenBuilder(
+                    DecorateFactory<T>(
+                        new MethodInvoker(
+                            new ModestConstructorQuery())),
+                    CreateSpecification<T>()));
         }
 
         private static ISpecimenBuilder DecorateFactory<T>(
@@ -191,6 +219,13 @@ namespace Ploeh.AutoFixture.Dsl
                         new SeedRequestSpecification(
                             typeof(T)))),
                 new SeedIgnoringRelay());
+        }
+
+        private static IRequestSpecification CreateSpecification<T>()
+        {
+            return new OrRequestSpecification(
+                new SeedRequestSpecification(typeof(T)),
+                new ExactTypeSpecification(typeof(T)));
         }
     }
 }
