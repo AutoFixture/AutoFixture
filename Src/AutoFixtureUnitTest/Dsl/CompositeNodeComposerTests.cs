@@ -361,5 +361,31 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
             // Teardown
         }
+
+        [Fact]
+        public void WithAutoPropertiesReturnsCorrectResult()
+        {
+            // Fixture setup
+            var node = new CompositeSpecimenBuilder(
+                new DelegatingSpecimenBuilder(),
+                NodeComposer.Create<Version>(),
+                NodeComposer.Create<Guid>(),
+                NodeComposer.Create<Version>(),
+                new DelegatingSpecimenBuilder());
+            var sut = new CompositeNodeComposer<Version>(node);
+            // Exercise system
+            var actual = sut.WithAutoProperties();
+            // Verify outcome
+            var expected = new CompositeNodeComposer<Version>(
+                new CompositeSpecimenBuilder(
+                    new DelegatingSpecimenBuilder(),
+                    (ISpecimenBuilder)NodeComposer.Create<Version>().WithAutoProperties(),
+                    NodeComposer.Create<Guid>(),
+                    (ISpecimenBuilder)NodeComposer.Create<Version>().WithAutoProperties(),
+                    new DelegatingSpecimenBuilder()));
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
     }
 }
