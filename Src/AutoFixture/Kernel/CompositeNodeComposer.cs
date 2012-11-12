@@ -91,6 +91,14 @@ namespace Ploeh.AutoFixture.Kernel
 
         public ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
+            var isSingle = builders.Take(2).Count() == 1;
+            if (isSingle)
+            {
+                var single = builders.Single() as ISpecimenBuilderNode;
+                if (single != null)
+                    return new CompositeNodeComposer<T>(single);
+            }
+
             return new CompositeNodeComposer<T>(
                 new CompositeSpecimenBuilder(
                     builders));

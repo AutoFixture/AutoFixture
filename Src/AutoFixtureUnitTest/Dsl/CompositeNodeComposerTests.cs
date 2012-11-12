@@ -59,6 +59,22 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
+        public void ComposeSingleNodeReturnsCorrectResult()
+        {            
+            // Fixture setup
+            var dummyNode = new CompositeSpecimenBuilder();
+            var sut = new CompositeNodeComposer<uint>(dummyNode);
+            ISpecimenBuilderNode expected = new CompositeSpecimenBuilder();
+            // Exercise system
+            var actual = sut.Compose(new[] { expected });
+            // Verify outcome
+            var c =
+                Assert.IsAssignableFrom<CompositeNodeComposer<uint>>(actual);
+            Assert.Equal(expected, c.Node);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateReturnsCorrectResult()
         {
             // Fixture setup
