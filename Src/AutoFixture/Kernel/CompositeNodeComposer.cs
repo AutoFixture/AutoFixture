@@ -6,7 +6,9 @@ using Ploeh.AutoFixture.Dsl;
 
 namespace Ploeh.AutoFixture.Kernel
 {
-    public class CompositeNodeComposer<T> : ICustomizationComposer<T>
+    public class CompositeNodeComposer<T> : 
+        ICustomizationComposer<T>,
+        ISpecimenBuilderNode
     {
         private readonly ISpecimenBuilderNode node;
 
@@ -83,6 +85,26 @@ namespace Ploeh.AutoFixture.Kernel
         }
 
         public IPostprocessComposer<T> Without<TProperty>(System.Linq.Expressions.Expression<Func<T, TProperty>> propertyPicker)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Create(object request, ISpecimenContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerator<ISpecimenBuilder> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             throw new NotImplementedException();
         }

@@ -24,6 +24,18 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
+        public void SutIsSpecimenBuilderNode()
+        {
+            // Fixture setup
+            var dummyNode = new CompositeSpecimenBuilder();
+            // Exercise system
+            var sut = new CompositeNodeComposer<float>(dummyNode);
+            // Verify outcome
+            Assert.IsAssignableFrom<ISpecimenBuilderNode>(sut);
+            // Teardown
+        }
+
+        [Fact]
         public void NodeIsCorrect()
         {
             // Fixture setup
