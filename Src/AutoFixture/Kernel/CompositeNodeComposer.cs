@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         public ISpecimenBuilder Compose()
         {
-            throw new NotImplementedException();
+            return this;
         }
 
         public IPostprocessComposer<T> Do(Action<T> action)

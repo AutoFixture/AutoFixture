@@ -320,5 +320,18 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
             // Teardown
         }
+
+        [Fact]
+        public void LegacyComposeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var dummyNode = new CompositeSpecimenBuilder();
+            var sut = new CompositeNodeComposer<UTF8Encoding>(dummyNode);
+            // Exercise system
+            var actual = sut.Compose();
+            // Verify outcome
+            Assert.Equal(sut, actual);
+            // Teardown
+        }
     }
 }
