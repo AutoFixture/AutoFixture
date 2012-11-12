@@ -91,7 +91,9 @@ namespace Ploeh.AutoFixture.Kernel
 
         public ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
-            throw new NotImplementedException();
+            return new CompositeNodeComposer<T>(
+                new CompositeSpecimenBuilder(
+                    builders));
         }
 
         public object Create(object request, ISpecimenContext context)
