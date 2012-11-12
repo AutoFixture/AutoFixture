@@ -178,7 +178,7 @@ namespace Ploeh.AutoFixture.Dsl
 
         public object Create(object request, ISpecimenContext context)
         {
-            throw new NotImplementedException();
+            return this.builder.Create(request, context);
         }
 
         public IEnumerator<ISpecimenBuilder> GetEnumerator()

@@ -63,6 +63,27 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
+        public void CreateReturnsCorrectResult()
+        {
+            // Fixture setup
+            var request = new object();
+            var context = new DelegatingSpecimenContext();
+            var expected = new object();
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => r == request && c == context ?
+                    expected :
+                    new NoSpecimen(r)
+            };
+            var sut = new NodeComposer<object>(builder);
+            // Exercise system
+            var actual = sut.Create(request, context);
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
         public void SutIsCorrectInitialGraph()
         {
             // Fixture setup
