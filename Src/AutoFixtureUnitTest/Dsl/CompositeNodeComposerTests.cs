@@ -265,5 +265,32 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
             // Teardown
         }
+
+        [Fact]
+        public void FromTripleArgFuncReturnsCorrectResult()
+        {
+            // Fixture setup
+            var node = new CompositeSpecimenBuilder(
+                new DelegatingSpecimenBuilder(),
+                NodeComposer.Create<long>(),
+                NodeComposer.Create<Version>(),
+                NodeComposer.Create<long>(),
+                new DelegatingSpecimenBuilder());
+            var sut = new CompositeNodeComposer<long>(node);
+            Func<long, int, short, long> f = (x, y, z) => x;
+            // Exercise system
+            var actual = sut.FromFactory(f);
+            // Verify outcome
+            var expected = new CompositeNodeComposer<long>(
+                new CompositeSpecimenBuilder(
+                    new DelegatingSpecimenBuilder(),
+                    (ISpecimenBuilder)NodeComposer.Create<long>().FromFactory(f),
+                    NodeComposer.Create<Version>(),
+                    (ISpecimenBuilder)NodeComposer.Create<long>().FromFactory(f),
+                    new DelegatingSpecimenBuilder()));
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
     }
 }
