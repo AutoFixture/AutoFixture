@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using Ploeh.AutoFixture.Dsl;
 
@@ -100,12 +101,17 @@ namespace Ploeh.AutoFixture.Kernel
                 when: n => n is NodeComposer<T>);
         }
 
-        public IPostprocessComposer<T> With<TProperty>(System.Linq.Expressions.Expression<Func<T, TProperty>> propertyPicker)
+        public IPostprocessComposer<T> With<TProperty>(
+            Expression<Func<T, TProperty>> propertyPicker)
         {
-            throw new NotImplementedException();
+            return (CompositeNodeComposer<T>)this.ReplaceNodes(
+                with: n =>
+                    (NodeComposer<T>)((NodeComposer<T>)n).With(propertyPicker),
+                when: n => n is NodeComposer<T>);
         }
 
-        public IPostprocessComposer<T> With<TProperty>(System.Linq.Expressions.Expression<Func<T, TProperty>> propertyPicker, TProperty value)
+        public IPostprocessComposer<T> With<TProperty>(
+            Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
             throw new NotImplementedException();
         }

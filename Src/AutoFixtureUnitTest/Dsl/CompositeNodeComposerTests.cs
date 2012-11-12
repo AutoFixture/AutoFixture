@@ -6,6 +6,7 @@ using Ploeh.AutoFixtureUnitTest.Kernel;
 using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixture.Dsl;
+using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixtureUnitTest.Dsl
 {
@@ -434,6 +435,32 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                     (ISpecimenBuilder)NodeComposer.Create<Version>().WithAutoProperties().OmitAutoProperties(),
                     NodeComposer.Create<string>(),
                     (ISpecimenBuilder)NodeComposer.Create<Version>().WithAutoProperties().OmitAutoProperties(),
+                    new DelegatingSpecimenBuilder()));
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
+
+        [Fact]
+        public void WithAnonymouValueReturnsCorrectResult()
+        {
+            // Fixture setup
+            var node = new CompositeSpecimenBuilder(
+                new DelegatingSpecimenBuilder(),
+                NodeComposer.Create<PropertyHolder<int>>(),
+                NodeComposer.Create<int>(),
+                NodeComposer.Create<PropertyHolder<int>>(),
+                new DelegatingSpecimenBuilder());
+            var sut = new CompositeNodeComposer<PropertyHolder<int>>(node);
+            // Exercise system
+            var actual = sut.With(x => x.Property);
+            // Verify outcome
+            var expected = new CompositeNodeComposer<PropertyHolder<int>>(
+                new CompositeSpecimenBuilder(
+                    new DelegatingSpecimenBuilder(),
+                    (ISpecimenBuilder)NodeComposer.Create<PropertyHolder<int>>().With(x => x.Property),
+                    NodeComposer.Create<int>(),
+                    (ISpecimenBuilder)NodeComposer.Create<PropertyHolder<int>>().With(x => x.Property),
                     new DelegatingSpecimenBuilder()));
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
