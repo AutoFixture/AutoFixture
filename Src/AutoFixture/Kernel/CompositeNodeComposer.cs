@@ -8,6 +8,15 @@ namespace Ploeh.AutoFixture.Kernel
 {
     public class CompositeNodeComposer<T> : ICustomizationComposer<T>
     {
+        private readonly ISpecimenBuilderNode node;
+
+        public CompositeNodeComposer(ISpecimenBuilderNode node)
+        {
+            if (node == null)
+                throw new ArgumentNullException("node");
+
+            this.node = node;
+        }
         public IPostprocessComposer<T> FromSeed(Func<T, T> factory)
         {
             throw new NotImplementedException();
@@ -76,6 +85,11 @@ namespace Ploeh.AutoFixture.Kernel
         public IPostprocessComposer<T> Without<TProperty>(System.Linq.Expressions.Expression<Func<T, TProperty>> propertyPicker)
         {
             throw new NotImplementedException();
+        }
+
+        public ISpecimenBuilderNode Node
+        {
+            get { return this.node; }
         }
     }
 }
