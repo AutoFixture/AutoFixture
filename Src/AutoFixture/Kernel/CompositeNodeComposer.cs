@@ -86,7 +86,10 @@ namespace Ploeh.AutoFixture.Kernel
 
         public IPostprocessComposer<T> Do(Action<T> action)
         {
-            throw new NotImplementedException();
+            return (CompositeNodeComposer<T>)this.ReplaceNodes(
+                with: n =>
+                    (NodeComposer<T>)((NodeComposer<T>)n).Do(action),
+                when: n => n is NodeComposer<T>);
         }
 
         public IPostprocessComposer<T> OmitAutoProperties()
