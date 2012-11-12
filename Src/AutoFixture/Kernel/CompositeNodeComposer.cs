@@ -45,7 +45,10 @@ namespace Ploeh.AutoFixture.Kernel
 
         public IPostprocessComposer<T> FromFactory<TInput>(Func<TInput, T> factory)
         {
-            throw new NotImplementedException();
+            return (CompositeNodeComposer<T>)this.ReplaceNodes(
+                with: n =>
+                    (NodeComposer<T>)((NodeComposer<T>)n).FromFactory(factory),
+                when: n => n is NodeComposer<T>);
         }
 
         public IPostprocessComposer<T> FromFactory<TInput1, TInput2>(Func<TInput1, TInput2, T> factory)
