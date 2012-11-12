@@ -429,5 +429,67 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
             // Teardown
         }
+
+        [Fact]
+        public void WithAutoPropertiesTrueReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = NodeComposer.Create<Version>();
+            // Exercise system
+            NodeComposer<Version> actual = 
+                sut.WithAutoProperties(true);
+            // Verify outcome
+            var expected = new FilteringSpecimenBuilder(
+                new CompositeSpecimenBuilder(
+                    new Postprocessor<Version>(
+                        new NoSpecimenOutputGuard(
+                            new MethodInvoker(
+                                new ModestConstructorQuery()),
+                            new InverseRequestSpecification(
+                                new SeedRequestSpecification(
+                                    typeof(Version)))),
+                        new AutoPropertiesCommand<Version>().Execute,
+                        new OrRequestSpecification(
+                            new SeedRequestSpecification(typeof(Version)),
+                            new ExactTypeSpecification(typeof(Version)))),
+                    new SeedIgnoringRelay()),
+                new OrRequestSpecification(
+                    new SeedRequestSpecification(typeof(Version)),
+                    new ExactTypeSpecification(typeof(Version))));
+
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
+
+        [Fact]
+        public void WithAutoPropertiesFalseReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = NodeComposer.Create<Version>();
+            // Exercise system
+            var actual = sut.WithAutoProperties(false);
+            // Verify outcome
+            var expected = sut;
+
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
+
+        [Fact]
+        public void TogglingAutoPropertiesOnAndOffReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = NodeComposer.Create<Version>();
+            // Exercise system
+            var actual = sut.WithAutoProperties(true).WithAutoProperties(false);
+            // Verify outcome
+            var expected = sut;
+
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
     }
 }

@@ -148,6 +148,14 @@ namespace Ploeh.AutoFixture.Dsl
                 when: n => n is CompositeSpecimenBuilder);
         }
 
+        public NodeComposer<T> WithAutoProperties(bool enable)
+        {
+            if (!enable)
+                return (NodeComposer<T>)this.OmitAutoProperties();
+
+            return (NodeComposer<T>)this.WithAutoProperties();
+        }
+
         private NodeComposer<T> WithFactory(ISpecimenBuilder builder)
         {
             return new NodeComposer<T>(
