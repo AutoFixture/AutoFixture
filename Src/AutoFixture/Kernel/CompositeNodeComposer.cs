@@ -21,7 +21,10 @@ namespace Ploeh.AutoFixture.Kernel
         }
         public IPostprocessComposer<T> FromSeed(Func<T, T> factory)
         {
-            throw new NotImplementedException();
+            return (CompositeNodeComposer<T>)this.ReplaceNodes(
+                with: n =>
+                    (NodeComposer<T>)((NodeComposer<T>)n).FromSeed(factory),
+                when: n => n is NodeComposer<T>);
         }
 
         public IPostprocessComposer<T> FromFactory(ISpecimenBuilder factory)

@@ -130,5 +130,32 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.Throws<ArgumentNullException>(() =>
                 new CompositeNodeComposer<Guid>(null));
         }
+
+        [Fact]
+        public void FromSeedReturnsCorrectResult()
+        {
+            // Fixture setup
+            var node = new CompositeSpecimenBuilder(
+                new DelegatingSpecimenBuilder(),
+                NodeComposer.Create<int>(),
+                NodeComposer.Create<string>(),
+                NodeComposer.Create<int>(),
+                new DelegatingSpecimenBuilder());
+            var sut = new CompositeNodeComposer<int>(node);
+            Func<int, int> f = i => i;
+            // Exercise system
+            var actual = sut.FromSeed(f);
+            // Verify outcome
+            var expected = new CompositeNodeComposer<int>(
+                new CompositeSpecimenBuilder(
+                    new DelegatingSpecimenBuilder(),
+                    (ISpecimenBuilder)NodeComposer.Create<int>().FromSeed(f),
+                    NodeComposer.Create<string>(),
+                    (ISpecimenBuilder)NodeComposer.Create<int>().FromSeed(f),
+                    new DelegatingSpecimenBuilder()));
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
     }
 }

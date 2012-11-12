@@ -58,6 +58,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 this.specificationComparer.Equals(omx.Specification, omy.Specification))
                 return true;
 
+            var dx = x as DelegatingSpecimenBuilder;
+            var dy = y as DelegatingSpecimenBuilder;
+            if (dx != null &&
+                dy != null &&
+                object.Equals(dx.OnCreate, dy.OnCreate))
+                return true;
+
             if (GenericComparer.CreateFromTemplate(x).Equals(y))
                 return true;
 
@@ -181,7 +188,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     { typeof(SpecimenFactory<,,>), typeof(SpecimenFactoryEquatable<,,>) },
                     { typeof(SpecimenFactory<,,,>), typeof(SpecimenFactoryEquatable<,,,>) },
                     { typeof(SpecimenFactory<,,,,>), typeof(SpecimenFactoryEquatable<,,,,>) },
-                    { typeof(Postprocessor<>), typeof(PostprocessorEquatable<>) }
+                    { typeof(Postprocessor<>), typeof(PostprocessorEquatable<>) },
+                    { typeof(CompositeNodeComposer<>), typeof(CompositeNodeComposerEquatable<>) }
                 };
 
             public static object CreateFromTemplate(object obj)
@@ -337,6 +345,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             protected override bool EqualsInstance(SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T> other)
             {
                 return this.Item.Factory.Equals(other.Factory);
+            }
+        }
+
+        private class CompositeNodeComposerEquatable<T> : GenericEquatable<CompositeNodeComposer<T>>
+        {
+            public CompositeNodeComposerEquatable(CompositeNodeComposer<T> item)
+                : base(item)
+            {
+            }
+
+            protected override bool EqualsInstance(CompositeNodeComposer<T> other)
+            {
+                return true;
             }
         }
 
