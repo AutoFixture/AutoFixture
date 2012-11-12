@@ -127,9 +127,13 @@ namespace Ploeh.AutoFixture.Kernel
                 when: n => n is NodeComposer<T>);
         }
 
-        public IPostprocessComposer<T> Without<TProperty>(System.Linq.Expressions.Expression<Func<T, TProperty>> propertyPicker)
+        public IPostprocessComposer<T> Without<TProperty>(
+            Expression<Func<T, TProperty>> propertyPicker)
         {
-            throw new NotImplementedException();
+            return (CompositeNodeComposer<T>)this.ReplaceNodes(
+                with: n =>
+                    (NodeComposer<T>)((NodeComposer<T>)n).Without(propertyPicker),
+                when: n => n is NodeComposer<T>);
         }
 
         public ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
