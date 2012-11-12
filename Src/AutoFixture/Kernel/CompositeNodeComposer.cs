@@ -98,7 +98,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         public object Create(object request, ISpecimenContext context)
         {
-            throw new NotImplementedException();
+            return this.node.Create(request, context);
         }
 
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
