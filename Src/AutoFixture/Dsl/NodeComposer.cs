@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixture.Dsl
                 with: n => new Postprocessor<T>(
                     n,
                     new BindingCommand<T, TProperty>(propertyPicker).Execute,
-                    this.Specification),
+                    CreateSpecification()),
                 when: targetToDecorate.Equals);
         }
 
@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixture.Dsl
                 with: n => new Postprocessor<T>(
                     n,
                     new BindingCommand<T, TProperty>(propertyPicker, value).Execute,
-                    this.Specification),
+                    CreateSpecification()),
                 when: targetToDecorate.Equals);
         }
 
@@ -129,7 +129,7 @@ namespace Ploeh.AutoFixture.Dsl
                 with: n => new Postprocessor<T>(
                     n,
                     new AutoPropertiesCommand<T>().Execute,
-                    this.Specification),
+                    CreateSpecification()),
                 when: targetToDecorate.Equals);
         }
 
