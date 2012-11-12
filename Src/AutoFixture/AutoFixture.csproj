@@ -128,6 +128,7 @@
     <Compile Include="EnumerableList.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Kernel\CompositeNodeComposer.cs" />
     <Compile Include="Kernel\ConstrainedStringRequest.cs" />
     <Compile Include="Kernel\FixedPipe.cs" />
     <Compile Include="Kernel\EqualRequestSpecification.cs" />

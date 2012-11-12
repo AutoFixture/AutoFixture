@@ -98,6 +98,7 @@
     <Compile Include="DataAnnotations\StringLengthAttributeRelayTest.cs" />
     <Compile Include="DataAnnotations\StringLengthValidatedType.cs" />
     <Compile Include="DefaultRelaysPipeTest.cs" />
+    <Compile Include="Dsl\CompositeNodeComposerTests.cs" />
     <Compile Include="Dsl\NodeComposerTest.cs" />
     <Compile Include="FakeCustomAttributeProvider.cs" />
     <Compile Include="DataAnnotations\RangeAttributeRelayTest.cs" />
