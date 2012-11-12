@@ -9,12 +9,7 @@ namespace Ploeh.AutoFixture.Dsl
 {
     public class NodeComposer<T> : FilteringSpecimenBuilder, ICustomizationComposer<T>
     {
-        public NodeComposer()
-            : this(DecorateFactory(new MethodInvoker(new ModestConstructorQuery())))
-        {
-        }
-
-        protected NodeComposer(ISpecimenBuilder builder)
+        public NodeComposer(ISpecimenBuilder builder)
             : base(builder, CreateSpecification())
         {
         }
@@ -155,10 +150,30 @@ namespace Ploeh.AutoFixture.Dsl
 
         private NodeComposer<T> WithFactory(ISpecimenBuilder builder)
         {
-            return new NodeComposer<T>(DecorateFactory(builder));
+            return new NodeComposer<T>(
+                NodeComposer.DecorateFactory<T>(
+                    builder));
+        }        
+
+        private static IRequestSpecification CreateSpecification()
+        {
+            return new OrRequestSpecification(
+                new SeedRequestSpecification(typeof(T)),
+                new ExactTypeSpecification(typeof(T)));
+        }
+    }
+
+    public static class NodeComposer
+    {
+        public static NodeComposer<T> Create<T>()
+        {
+            return new NodeComposer<T>(                
+                DecorateFactory<T>(
+                    new MethodInvoker(
+                        new ModestConstructorQuery())));
         }
 
-        private static ISpecimenBuilder DecorateFactory(
+        internal static ISpecimenBuilder DecorateFactory<T>(
             ISpecimenBuilder factory)
         {
             return new CompositeSpecimenBuilder(
@@ -168,13 +183,6 @@ namespace Ploeh.AutoFixture.Dsl
                         new SeedRequestSpecification(
                             typeof(T)))),
                 new SeedIgnoringRelay());
-        }
-
-        private static IRequestSpecification CreateSpecification()
-        {
-            return new OrRequestSpecification(
-                new SeedRequestSpecification(typeof(T)),
-                new ExactTypeSpecification(typeof(T)));
         }
     }
 }
