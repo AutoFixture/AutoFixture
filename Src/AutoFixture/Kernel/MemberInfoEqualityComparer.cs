@@ -52,6 +52,10 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 return false;
             }
+            if (y.DeclaringType == null)
+            {
+                return false;
+            }
 
             return MemberInfoEqualityComparer.AreTypesRelated(x.DeclaringType, y.DeclaringType)
                 && x.Name == y.Name;

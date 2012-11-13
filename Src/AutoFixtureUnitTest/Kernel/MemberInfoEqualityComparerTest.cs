@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(typeof(object), typeof(object), true)]
         [InlineData(typeof(string), typeof(object), false)]
         [InlineData(typeof(string), typeof(string), true)]
-        public void StronglyTypeEqualsReturnsCorrectResult(MemberInfo x, MemberInfo y, bool expectedResult)
+        public void StronglyTypedEqualsReturnsCorrectResult(MemberInfo x, MemberInfo y, bool expectedResult)
         {
             // Fixture setup
             var sut = new MemberInfoEqualityComparer();
@@ -126,6 +126,20 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.Equals(overriddenProperty, declaredProperty);
             // Verify outcome
             Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void EqualsOfPropertyAndTypeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new MemberInfoEqualityComparer();
+            var pi = typeof(ConcreteType).GetProperty("Property4");
+            var t = typeof(object);
+            // Exercise system
+            var actual = sut.Equals(pi, t);
+            // Verify outcome
+            Assert.False(actual);
             // Teardown
         }
 
