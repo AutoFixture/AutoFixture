@@ -476,22 +476,23 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var actual = sut.Without(x => x.Field);
             // Verify outcome
             var expected = new NodeComposer<FieldHolder<short>>(
-                new FilteringSpecimenBuilder(
-                    new CompositeSpecimenBuilder(
-                        new Omitter(
-                            new EqualRequestSpecification(
-                                fi,
-                                new MemberInfoEqualityComparer())),
-                        new NoSpecimenOutputGuard(
-                            new MethodInvoker(
-                                new ModestConstructorQuery()),
-                            new InverseRequestSpecification(
-                                new SeedRequestSpecification(
-                                    typeof(FieldHolder<short>)))),
-                        new SeedIgnoringRelay()),
-                    new OrRequestSpecification(
-                        new SeedRequestSpecification(typeof(FieldHolder<short>)),
-                        new ExactTypeSpecification(typeof(FieldHolder<short>)))));
+                new CompositeSpecimenBuilder(
+                    new Omitter(
+                        new EqualRequestSpecification(
+                            fi,
+                            new MemberInfoEqualityComparer())),
+                    new FilteringSpecimenBuilder(
+                        new CompositeSpecimenBuilder(
+                            new NoSpecimenOutputGuard(
+                                new MethodInvoker(
+                                    new ModestConstructorQuery()),
+                                new InverseRequestSpecification(
+                                    new SeedRequestSpecification(
+                                        typeof(FieldHolder<short>)))),
+                            new SeedIgnoringRelay()),
+                        new OrRequestSpecification(
+                            new SeedRequestSpecification(typeof(FieldHolder<short>)),
+                            new ExactTypeSpecification(typeof(FieldHolder<short>))))));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));

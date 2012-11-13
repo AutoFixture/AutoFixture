@@ -147,7 +147,7 @@ namespace Ploeh.AutoFixture.Dsl
             Expression<Func<T, TProperty>> propertyPicker)
         {
             return (NodeComposer<T>)this.ReplaceNodes(
-                with: n => new CompositeSpecimenBuilder(
+                with: n => ((NodeComposer<T>)n).Compose(
                     new[]
                     {
                         new Omitter(
@@ -155,7 +155,7 @@ namespace Ploeh.AutoFixture.Dsl
                                 propertyPicker.GetWritableMember().Member,
                                 new MemberInfoEqualityComparer()))
                     }.Concat(n)),
-                when: n => n is CompositeSpecimenBuilder);
+                when: n => n is NodeComposer<T>);
         }
 
         public NodeComposer<T> WithAutoProperties(bool enable)
