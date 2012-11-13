@@ -105,16 +105,34 @@ namespace Ploeh.AutoFixture.Dsl
         public IPostprocessComposer<T> With<TProperty>(
             Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
-            var targetToDecorate = this
-                .SelectNodes(n => n is NoSpecimenOutputGuard)
+            //var targetToDecorate = this
+            //    .SelectNodes(n => n is NoSpecimenOutputGuard)
+            //    .First();
+
+            //var g = this.ReplaceNodes(
+            //    with: n => new Postprocessor<T>(
+            //        n,
+            //        new BindingCommand<T, TProperty>(propertyPicker, value).Execute,
+            //        CreateSpecification()),
+            //    when: targetToDecorate.Equals);
+
+            var filter = this
+                .SelectNodes(n => n is FilteringSpecimenBuilder)
                 .First();
+            //var container = filter
+            //    .SelectNodes(n => n is CompositeSpecimenBuilder)
+            //    .First();
 
             var g = this.ReplaceNodes(
-                with: n => new Postprocessor<T>(
-                    n,
-                    new BindingCommand<T, TProperty>(propertyPicker, value).Execute,
-                    CreateSpecification()),
-                when: targetToDecorate.Equals);
+                with: n => ((FilteringSpecimenBuilder)n).Compose(
+                    new[]
+                    {
+                        new Postprocessor<T>(
+                            CompositeSpecimenBuilder.ComposeIfMultiple(n),
+                            new BindingCommand<T, TProperty>(propertyPicker, value).Execute,
+                            CreateSpecification())
+                    }),
+                when: filter.Equals);
 
             return (NodeComposer<T>)g.ReplaceNodes(
                 with: n => ((NodeComposer<T>)n).Compose(
