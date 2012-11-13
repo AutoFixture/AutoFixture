@@ -60,15 +60,49 @@ namespace Ploeh.AutoFixture.Dsl
 
         public IPostprocessComposer<T> Do(Action<T> action)
         {
-            var targetToDecorate = this
-                .SelectNodes(n =>
-                    n is NoSpecimenOutputGuard ||
-                    n is Postprocessor<T>)
+#warning Refactor this bloody mess
+            Expression<Action<AutoPropertiesCommand<T>, T, ISpecimenContext>> exp = (cmd, s, ctx) => cmd.Execute(s, ctx);
+            var m = ((MethodCallExpression)exp.Body).Method;
+
+            var g = this.ReplaceNodes(
+                with: n => CompositeSpecimenBuilder.UnwrapIfSingle(
+                    n.Compose(n.Where(b => !(b is SeedIgnoringRelay)))),
+                when: n => n.OfType<SeedIgnoringRelay>().Any());
+
+            var container = g
+                .SelectNodes(n => n is FilteringSpecimenBuilder)
                 .First();
 
-            return (NodeComposer<T>)this.ReplaceNodes(
-                with: n => new Postprocessor<T>(n, action),
-                when: targetToDecorate.Equals);
+            var autoProperties = container
+                .SelectNodes(n =>
+                {
+                    var pp = n as Postprocessor<T>;
+                    if (pp == null)
+                        return false;
+                    return m.Equals(pp.Action.Method);
+                })
+                .FirstOrDefault();
+
+            if (autoProperties != null)
+                container = autoProperties;            
+
+            var g1 = (NodeComposer<T>)g.ReplaceNodes(
+                with: n => ((ISpecimenBuilderNode)n).Compose(
+                    new []
+                    {
+                        new Postprocessor<T>(
+                            CompositeSpecimenBuilder.ComposeIfMultiple(n),
+                            action)
+                    }),
+                when: container.Equals);
+
+            var filter = g1
+                .SelectNodes(n => n is FilteringSpecimenBuilder)
+                .First();
+
+            return (NodeComposer<T>)g1.ReplaceNodes(
+                with: n => n.Compose(n.Concat(new [] { new SeedIgnoringRelay() })),
+                when: filter.Equals);
         }
 
         public IPostprocessComposer<T> OmitAutoProperties()
@@ -105,36 +139,29 @@ namespace Ploeh.AutoFixture.Dsl
         public IPostprocessComposer<T> With<TProperty>(
             Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
-            //var targetToDecorate = this
-            //    .SelectNodes(n => n is NoSpecimenOutputGuard)
-            //    .First();
+#warning Argh! My eyes! Refactor!
+            var g = this.ReplaceNodes(
+                with: n => CompositeSpecimenBuilder.UnwrapIfSingle(
+                    n.Compose(n.Where(b => !(b is SeedIgnoringRelay)))),
+                when: n => n.OfType<SeedIgnoringRelay>().Any());
 
-            //var g = this.ReplaceNodes(
-            //    with: n => new Postprocessor<T>(
-            //        n,
-            //        new BindingCommand<T, TProperty>(propertyPicker, value).Execute,
-            //        CreateSpecification()),
-            //    when: targetToDecorate.Equals);
-
-            var filter = this
+            var filter = g
                 .SelectNodes(n => n is FilteringSpecimenBuilder)
                 .First();
-            //var container = filter
-            //    .SelectNodes(n => n is CompositeSpecimenBuilder)
-            //    .First();
-
-            var g = this.ReplaceNodes(
+         
+            var g1 = g.ReplaceNodes(
                 with: n => ((FilteringSpecimenBuilder)n).Compose(
-                    new[]
+                    new ISpecimenBuilder[]
                     {
                         new Postprocessor<T>(
                             CompositeSpecimenBuilder.ComposeIfMultiple(n),
                             new BindingCommand<T, TProperty>(propertyPicker, value).Execute,
-                            CreateSpecification())
+                            CreateSpecification()),
+                        new SeedIgnoringRelay()
                     }),
                 when: filter.Equals);
 
-            return (NodeComposer<T>)g.ReplaceNodes(
+            return (NodeComposer<T>)g1.ReplaceNodes(
                 with: n => ((NodeComposer<T>)n).Compose(
                     new []
                     {
@@ -149,16 +176,26 @@ namespace Ploeh.AutoFixture.Dsl
 
         public IPostprocessComposer<T> WithAutoProperties()
         {
-            var targetToDecorate = this
-                .SelectNodes(n => n is NoSpecimenOutputGuard)
+            var g = this.ReplaceNodes(
+                with: n => CompositeSpecimenBuilder.UnwrapIfSingle(
+                    n.Compose(n.Where(b => !(b is SeedIgnoringRelay)))),
+                when: n => n.OfType<SeedIgnoringRelay>().Any());
+
+            var filter = g
+                .SelectNodes(n => n is FilteringSpecimenBuilder)
                 .First();
 
-            return (NodeComposer<T>)this.ReplaceNodes(
-                with: n => new Postprocessor<T>(
-                    n,
-                    new AutoPropertiesCommand<T>().Execute,
-                    CreateSpecification()),
-                when: targetToDecorate.Equals);
+            return (NodeComposer<T>)g.ReplaceNodes(
+                with: n => ((FilteringSpecimenBuilder)n).Compose(
+                    new ISpecimenBuilder[]
+                    {
+                        new Postprocessor<T>(
+                            CompositeSpecimenBuilder.ComposeIfMultiple(n),
+                            new AutoPropertiesCommand<T>().Execute,
+                            CreateSpecification()),
+                        new SeedIgnoringRelay()
+                    }),
+                when: filter.Equals);
         }
 
         public IPostprocessComposer<T> Without<TProperty>(

@@ -91,5 +91,20 @@ namespace Ploeh.AutoFixture.Kernel
 
             return new CompositeSpecimenBuilder(builders);
         }
+
+        internal static ISpecimenBuilderNode UnwrapIfSingle(ISpecimenBuilderNode node)
+        {
+            var c = node as CompositeSpecimenBuilder;
+            if (c == null)
+                return node;
+            var isSingle = c.builders.Take(2).Count() == 1;
+            if (isSingle)
+            {
+                var n = c.builders.Single() as ISpecimenBuilderNode;
+                if (n != null)
+                    return n;
+            }
+            return node;
+        }
     }
 }
