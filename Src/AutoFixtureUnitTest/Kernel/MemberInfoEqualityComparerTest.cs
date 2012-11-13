@@ -130,6 +130,20 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void EqualsOfPropertyAndTypeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new MemberInfoEqualityComparer();
+            var pi = typeof(ConcreteType).GetProperty("Property4");
+            var t = typeof(object);
+            // Exercise system
+            var actual = sut.Equals(pi, t);
+            // Verify outcome
+            Assert.False(actual);
+            // Teardown
+        }
+
+        [Fact]
         public void WeaklyTypedGetHashCodeOfNullThrows()
         {
             // Fixture setup
