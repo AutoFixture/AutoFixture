@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(typeof(object), typeof(object), true)]
         [InlineData(typeof(string), typeof(object), false)]
         [InlineData(typeof(string), typeof(string), true)]
-        public void StronglyTypeEqualsReturnsCorrectResult(MemberInfo x, MemberInfo y, bool expectedResult)
+        public void StronglyTypedEqualsReturnsCorrectResult(MemberInfo x, MemberInfo y, bool expectedResult)
         {
             // Fixture setup
             var sut = new MemberInfoEqualityComparer();
