@@ -3664,8 +3664,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Build<object>().Compose();
             // Verify outcome
             var comparer = new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>());
-            var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result);
-            Assert.Equal(new TaggedNode(1), composite.Builders.First(), comparer);
+            var composite = Assert.IsAssignableFrom<CompositeNodeComposer<object>>(result);
+            Assert.Equal(new TaggedNode(1), composite.Node.First(), comparer);
             // Teardown
         }
 

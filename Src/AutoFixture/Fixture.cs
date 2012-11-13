@@ -237,11 +237,13 @@ namespace Ploeh.AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public ICustomizationComposer<T> Build<T>()
         {
-            return new CompositeComposer<T>(
-                new BehaviorComposer<T>(
-                    new Composer<T>().WithAutoProperties(this.EnableAutoProperties),
-                    this.Behaviors),
-                new NullComposer<T>(this.Compose));
+            var g = this.graph.ReplaceNodes(
+                with: n => new CompositeSpecimenBuilder(
+                    NodeComposer.Create<T>().WithAutoProperties(this.EnableAutoProperties),
+                    n),
+                when: n => n is BehaviorRoot);
+
+            return new CompositeNodeComposer<T>(g);
         }
 
         /// <summary>
