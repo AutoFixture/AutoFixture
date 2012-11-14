@@ -140,6 +140,15 @@ namespace Ploeh.AutoFixture
         /// <returns>A sequence of anonymous object of type <typeparamref name="T"/>.</returns>
         /// <remarks>
         /// <para>
+        /// The CreateMany implementation always returns a new instance of
+        /// <see cref="IEnumerable{T}" />. Even if IEnumerable&lt;T&gt; is
+        /// Frozen by the <see cref="FixtureFreezer.Freeze(IFixture)" /> method
+        /// or explicitly assigned with the
+        /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
+        /// CreateMany method returns a new, independent instance of
+        /// IEnumerable&lt;T&gt;.
+        /// </para>
+        /// <para>
         /// The only purpose of this explicit overload is to support type inferencing.
         /// </para>
         /// </remarks>
@@ -159,6 +168,17 @@ namespace Ploeh.AutoFixture
         /// return value.
         /// </param>
         /// <returns>A sequence of anonymous object of type <typeparamref name="T"/>.</returns>
+        /// <remarks>
+        /// <para>
+        /// The CreateMany implementation always returns a new instance of
+        /// <see cref="IEnumerable{T}" />. Even if IEnumerable&lt;T&gt; is
+        /// Frozen by the <see cref="FixtureFreezer.Freeze(IFixture)" /> method
+        /// or explicitly assigned with the
+        /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
+        /// CreateMany method returns a new, independent instance of
+        /// IEnumerable&lt;T&gt;.
+        /// </para>
+        /// </remarks>
         public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context, T seed)
         {
             if (context == null)
@@ -180,6 +200,17 @@ namespace Ploeh.AutoFixture
         /// return value.
         /// </param>
         /// <returns>A sequence of anonymous object of type <typeparamref name="T"/>.</returns>
+        /// <remarks>
+        /// <para>
+        /// The CreateMany implementation always returns a new instance of
+        /// <see cref="IEnumerable{T}" />. Even if IEnumerable&lt;T&gt; is
+        /// Frozen by the <see cref="FixtureFreezer.Freeze(IFixture)" /> method
+        /// or explicitly assigned with the
+        /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
+        /// CreateMany method returns a new, independent instance of
+        /// IEnumerable&lt;T&gt;.
+        /// </para>
+        /// </remarks>
         public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilderComposer composer, T seed)
         {
             if (composer == null)
@@ -197,6 +228,17 @@ namespace Ploeh.AutoFixture
         /// <param name="context">The context used to resolve the type request.</param>
         /// <param name="count">The number of objects to create.</param>
         /// <returns>A sequence of anonymous objects of type <typeparamref name="T"/>.</returns>
+        /// <remarks>
+        /// <para>
+        /// The CreateMany implementation always returns a new instance of
+        /// <see cref="IEnumerable{T}" />. Even if IEnumerable&lt;T&gt; is
+        /// Frozen by the <see cref="FixtureFreezer.Freeze(IFixture)" /> method
+        /// or explicitly assigned with the
+        /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
+        /// CreateMany method returns a new, independent instance of
+        /// IEnumerable&lt;T&gt;.
+        /// </para>
+        /// </remarks>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context, int count)
         {
@@ -210,6 +252,17 @@ namespace Ploeh.AutoFixture
         /// <param name="composer">The composer used to resolve the type request.</param>
         /// <param name="count">The number of objects to create.</param>
         /// <returns>A sequence of anonymous objects of type <typeparamref name="T"/>.</returns>
+        /// <remarks>
+        /// <para>
+        /// The CreateMany implementation always returns a new instance of
+        /// <see cref="IEnumerable{T}" />. Even if IEnumerable&lt;T&gt; is
+        /// Frozen by the <see cref="FixtureFreezer.Freeze(IFixture)" /> method
+        /// or explicitly assigned with the
+        /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
+        /// CreateMany method returns a new, independent instance of
+        /// IEnumerable&lt;T&gt;.
+        /// </para>
+        /// </remarks>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilderComposer composer, int count)
         {
@@ -229,6 +282,15 @@ namespace Ploeh.AutoFixture
         /// <param name="count">The number of objects to create.</param>
         /// <returns>A sequence of anonymous objects of type <typeparamref name="T"/>.</returns>
         /// <remarks>
+        /// <para>
+        /// The CreateMany implementation always returns a new instance of
+        /// <see cref="IEnumerable{T}" />. Even if IEnumerable&lt;T&gt; is
+        /// Frozen by the <see cref="FixtureFreezer.Freeze(IFixture)" /> method
+        /// or explicitly assigned with the
+        /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
+        /// CreateMany method returns a new, independent instance of
+        /// IEnumerable&lt;T&gt;.
+        /// </para>
         /// <para>
         /// The only purpose of this explicit overload is to support type inferencing.
         /// </para>
@@ -250,6 +312,17 @@ namespace Ploeh.AutoFixture
         /// </param>
         /// <param name="count">The number of objects to create.</param>
         /// <returns>A sequence of anonymous objects of type <typeparamref name="T"/>.</returns>
+        /// <remarks>
+        /// <para>
+        /// The CreateMany implementation always returns a new instance of
+        /// <see cref="IEnumerable{T}" />. Even if IEnumerable&lt;T&gt; is
+        /// Frozen by the <see cref="FixtureFreezer.Freeze(IFixture)" /> method
+        /// or explicitly assigned with the
+        /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
+        /// CreateMany method returns a new, independent instance of
+        /// IEnumerable&lt;T&gt;.
+        /// </para>
+        /// </remarks>
         public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context, T seed, int count)
         {
             if (context == null)
@@ -272,6 +345,17 @@ namespace Ploeh.AutoFixture
         /// </param>
         /// <param name="count">The number of objects to create.</param>
         /// <returns>A sequence of anonymous objects of type <typeparamref name="T"/>.</returns>
+        /// <remarks>
+        /// <para>
+        /// The CreateMany implementation always returns a new instance of
+        /// <see cref="IEnumerable{T}" />. Even if IEnumerable&lt;T&gt; is
+        /// Frozen by the <see cref="FixtureFreezer.Freeze(IFixture)" /> method
+        /// or explicitly assigned with the
+        /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
+        /// CreateMany method returns a new, independent instance of
+        /// IEnumerable&lt;T&gt;.
+        /// </para>
+        /// </remarks>
         public static IEnumerable<T> CreateMany<T>(this ISpecimenBuilderComposer composer, T seed, int count)
         {
             if (composer == null)
