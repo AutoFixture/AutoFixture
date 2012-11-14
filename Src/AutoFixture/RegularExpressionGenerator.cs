@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture
             try
             {
                 string regex = new Xeger(pattern).Generate();
-                if (Regex.IsMatch(regex, pattern))
+                if (Regex.IsMatch(regex, pattern, RegexOptions.Singleline))
                 {
                     return regex;
                 }
