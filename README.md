@@ -1,6 +1,6 @@
 ## Project Description ##
 
-Write maintainable unit tests, faster.
+Write maintainable unit tests, faster and more.
 
 AutoFixture makes it easier for developers to do Test-Driven Development by automating non-relevant Test Fixture Setup, allowing the Test Developer to focus on the essentials of each test case.
 
@@ -51,6 +51,6 @@ AutoFixture is available via NuGet (as *AutoFixture, AutoFixture.AutoMoq, AutoFi
 
 ## Resources ##
 
-[CheatSheet](https://github.com/AutoFixture/AutoFixture/wiki/Cheat-Sheet)  
-[FAQ](https://github.com/AutoFixture/AutoFixture/wiki/FAQ)  
+[CheatSheet](https://github.com/AutoFixture/AutoFixture/wiki/Cheat-Sheet)
+[FAQ](https://github.com/AutoFixture/AutoFixture/wiki/FAQ)
 Read more on [ploeh blog](http://blog.ploeh.dk/CategoryView,category,AutoFixture.aspx).
