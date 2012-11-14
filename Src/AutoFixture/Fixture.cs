@@ -284,7 +284,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("composerTransformation");
             }
 
-            var c = composerTransformation(new Composer<T>().WithAutoProperties(this.EnableAutoProperties));
+            var c = composerTransformation(NodeComposer.Create<T>().WithAutoProperties(this.EnableAutoProperties));
             this.customizer.Insert(0, c.Compose());
         }
 
