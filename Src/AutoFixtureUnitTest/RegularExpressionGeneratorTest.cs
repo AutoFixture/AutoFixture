@@ -102,8 +102,6 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return new object[] { "in[du]" };
                 yield return new object[] { "x[0-9A-Z]" };
                 yield return new object[] { "[^A-M]in" };
-                yield return new object[] { ".gr" };
-                yield return new object[] { @"\(.*l" };
                 yield return new object[] { "W*in" };
                 yield return new object[] { "[xX][0-9a-z]" };
                 yield return new object[] { @"\(\(\(ab\)*c\)*d\)\(ef\)*\(gh\)\{2\}\(ij\)*\(kl\)*\(mn\)*\(op\)*\(qr\)*" };
