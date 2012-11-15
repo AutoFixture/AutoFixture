@@ -68,16 +68,36 @@ namespace Ploeh.AutoFixture.Kernel
                     select result).DefaultIfEmpty(new NoSpecimen(request)).FirstOrDefault();
         }
 
+        /// <summary>Composes the supplied builders.</summary>
+        /// <param name="builders">The builders to compose.</param>
+        /// <returns>
+        /// A new <see cref="ISpecimenBuilderNode" /> instance containing
+        /// <paramref name="builders" /> as child nodes.
+        /// </returns>
         public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             return new CompositeSpecimenBuilder(builders);
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="IEnumerator{T}" /> that can be used to iterate through
+        /// the collection.
+        /// </returns>
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
             return this.builders.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator" /> object that can
+        /// be used to iterate through the collection.
+        /// </returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
