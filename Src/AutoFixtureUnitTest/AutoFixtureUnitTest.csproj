@@ -116,6 +116,7 @@
     <Compile Include="Kernel\RangedNumberRequestTest.cs" />
     <Compile Include="Kernel\RegularExpressionRequestTest.cs" />
     <Compile Include="Kernel\GraphEqualsTest.cs" />
+    <Compile Include="Kernel\SpecimenBuilderNodeFactoryTests.cs" />
     <Compile Include="Kernel\TypeRelayTests.cs" />
     <Compile Include="NavigationPropertyRecursionIssue\Language.cs" />
     <Compile Include="NavigationPropertyRecursionIssue\Repro.cs" />
