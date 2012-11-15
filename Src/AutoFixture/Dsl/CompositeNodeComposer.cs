@@ -433,7 +433,7 @@ namespace Ploeh.AutoFixture.Dsl
 
         /// <summary>Gets the encapsulated node.</summary>
         /// <value>The encapsulated node.</value>
-        /// <seealso cref="CompositeNodeComposer{T}(ISpecimenBuilderNoder}" />
+        /// <seealso cref="CompositeNodeComposer{T}(ISpecimenBuilderNode)" />
         public ISpecimenBuilderNode Node
         {
             get { return this.node; }
