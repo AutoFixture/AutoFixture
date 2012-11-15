@@ -227,7 +227,7 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <param name="item">The item to locate in the collection.</param>
         /// <returns>
-        /// <see cref="langword" /> if <paramref name="item"/> is found in the
+        /// <see langword="true" /> if <paramref name="item"/> is found in the
         /// collection; otherwise, <see langword="false" />.
         /// </returns>
         /// <remarks>
