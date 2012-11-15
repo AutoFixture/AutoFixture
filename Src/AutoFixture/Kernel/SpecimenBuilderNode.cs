@@ -5,8 +5,39 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
+    /// <summary>
+    /// Contains extension methods for working with
+    /// <see cref="ISpecimenBuilderNode" /> instances.
+    /// </summary>
     public static class SpecimenBuilderNode
     {
+        /// <summary>
+        /// Determines whether two <see cref="ISpecimenBuilderNode" />
+        /// instances are define the same graph.
+        /// </summary>
+        /// <param name="first">
+        /// An <see cref="ISpecimenBuilderNode" /> to compare against
+        /// <paramref name="second" />.
+        /// </param>
+        /// <param name="second">
+        /// An <see cref="ISpecimenBuilderNode" /> to cmpare against
+        /// <paramref name="first" />.
+        /// </param>
+        /// <returns>
+        /// <see langword="true" /> if the two
+        /// <see cref="ISpecimenBuilderNode" /> define the same graph;
+        /// otherwise, <see langword="false" />.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Two <see cref="ISpecimenBuilderNode" /> instances define the same
+        /// graph if they themselves are equal to each other, and all their
+        /// child nodes recursively are equal to each other.
+        /// </para>
+        /// </remarks>
+        /// <exception cref="System.ArgumentNullException">first</exception>
+        /// <exception cref="System.ArgumentNullException">second</exception>
+        /// <seealso cref="GraphEquals(ISpecimenBuilderNode, ISpecimenBuilderNode, IEqualityComparer{ISpecimenBuilder})"/>
         public static bool GraphEquals(this ISpecimenBuilderNode first, ISpecimenBuilderNode second)
         {
             if (first == null)
@@ -17,6 +48,38 @@ namespace Ploeh.AutoFixture.Kernel
             return first.GraphEquals(second, EqualityComparer<ISpecimenBuilder>.Default);
         }
 
+        /// <summary>
+        /// Determines whether two <see cref="ISpecimenBuilderNode" />
+        /// instances are define the same graph.
+        /// </summary>
+        /// <param name="first">
+        /// An <see cref="ISpecimenBuilderNode" /> to compare against
+        /// <paramref name="second" />.
+        /// </param>
+        /// <param name="second">
+        /// An <see cref="ISpecimenBuilderNode" /> to cmpare against
+        /// <paramref name="first" />.
+        /// </param>
+        /// <param name="comparer">
+        /// The comparer used to compare each node to another node.
+        /// </param>
+        /// <returns>
+        /// <see langword="true" /> if the two
+        /// <see cref="ISpecimenBuilderNode" /> define the same graph;
+        /// otherwise, <see langword="false" />.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Two <see cref="ISpecimenBuilderNode" /> instances define the same
+        /// graph if they themselves are equal to each other, and all their
+        /// child nodes recursively are equal to each other. Equality is
+        /// defined by <paramref name="comparer" />.
+        /// </para>
+        /// </remarks>
+        /// <exception cref="System.ArgumentNullException">first</exception>
+        /// <exception cref="System.ArgumentNullException">second</exception>
+        /// <exception cref="System.ArgumentNullException">comparer</exception>
+        /// <seealso cref="GraphEquals(ISpecimenBuilderNode, ISpecimenBuilderNode)"/>
         public static bool GraphEquals(this ISpecimenBuilderNode first, ISpecimenBuilderNode second, IEqualityComparer<ISpecimenBuilder> comparer)
         {
             if (first == null)
