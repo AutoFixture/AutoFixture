@@ -57,47 +57,5 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(expectedBuilder, guard.Builder);
             // Teardown
         }
-
-        [Fact]
-        public void SutIsPipe()
-        {
-            // Fixture setup            
-            // Exercise system
-            var sut = new NullRecursionBehavior();
-            // Verify outcome
-            Assert.IsAssignableFrom<ISpecimenBuilderPipe>(sut);
-            // Teardown
-        }
-
-        [Fact]
-        public void PipeReturnsCorrectResult()
-        {
-            // Fixture setup
-            var sut = new NullRecursionBehavior();
-            var builders = new[]
-            {
-                new DelegatingSpecimenBuilder(),
-                new DelegatingSpecimenBuilder(),
-                new DelegatingSpecimenBuilder()
-            };
-            // Exercise system
-            var result = sut.Pipe(builders);
-            // Verify outcome
-            var guard = Assert.IsAssignableFrom<NullRecursionGuard>(result.Single());
-            var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(guard.Builder);
-            Assert.True(builders.SequenceEqual(composite.Builders));
-            // Teardown
-        }
-
-        [Fact]
-        public void PipeNullThrows()
-        {
-            // Fixture setup
-            var sut = new NullRecursionBehavior();
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.Pipe(null).ToList());
-            // Teardown
-        }
     }
 }

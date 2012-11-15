@@ -7,7 +7,7 @@ namespace Ploeh.AutoFixture
     /// <summary>
     /// Decorates a <see cref="ISpecimenBuilder"/> with a <see cref="NullRecursionGuard"/>.
     /// </summary>
-    public class NullRecursionBehavior : ISpecimenBuilderPipe, ISpecimenBuilderTransformation
+    public class NullRecursionBehavior : ISpecimenBuilderTransformation
     {
         /// <summary>
         /// Decorates the supplied <see cref="ISpecimenBuilder"/> with a
@@ -25,13 +25,6 @@ namespace Ploeh.AutoFixture
             }
 
             return new NullRecursionGuard(builder);
-        }
-
-        public IEnumerable<ISpecimenBuilder> Pipe(IEnumerable<ISpecimenBuilder> builders)
-        {
-            yield return new NullRecursionGuard(
-                new CompositeSpecimenBuilder(
-                    builders));
         }
     }
 }

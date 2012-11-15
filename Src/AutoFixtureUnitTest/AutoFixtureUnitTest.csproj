@@ -97,7 +97,6 @@
     <Compile Include="DataAnnotations\RegularExpressionValidatedType.cs" />
     <Compile Include="DataAnnotations\StringLengthAttributeRelayTest.cs" />
     <Compile Include="DataAnnotations\StringLengthValidatedType.cs" />
-    <Compile Include="DefaultRelaysPipeTest.cs" />
     <Compile Include="Dsl\CompositeNodeComposerTests.cs" />
     <Compile Include="Dsl\NodeComposerTest.cs" />
     <Compile Include="FakeCustomAttributeProvider.cs" />
@@ -109,7 +108,6 @@
     <Compile Include="DateTimeGeneratorTest.cs" />
     <Compile Include="GeneratorTest.cs" />
     <Compile Include="Kernel\ConstrainedStringRequestTest.cs" />
-    <Compile Include="Kernel\FixedPipeTest.cs" />
     <Compile Include="Kernel\EqualRequestSpecificationTests.cs" />
     <Compile Include="Kernel\OmitOnRecursionGuardTest.cs" />
     <Compile Include="Kernel\NodeComparer.cs" />
