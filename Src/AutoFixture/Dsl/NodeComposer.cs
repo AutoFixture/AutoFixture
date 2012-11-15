@@ -239,7 +239,7 @@ namespace Ploeh.AutoFixture.Dsl
                 container = autoProperties;            
 
             var g1 = (NodeComposer<T>)g.ReplaceNodes(
-                with: n => ((ISpecimenBuilderNode)n).Compose(
+                with: n => n.Compose(
                     new []
                     {
                         new Postprocessor<T>(
@@ -344,7 +344,7 @@ namespace Ploeh.AutoFixture.Dsl
                 .First();
          
             var g1 = g.ReplaceNodes(
-                with: n => ((FilteringSpecimenBuilder)n).Compose(
+                with: n => n.Compose(
                     new ISpecimenBuilder[]
                     {
                         new Postprocessor<T>(
@@ -356,7 +356,7 @@ namespace Ploeh.AutoFixture.Dsl
                 when: filter.Equals);
 
             return (NodeComposer<T>)g1.ReplaceNodes(
-                with: n => ((NodeComposer<T>)n).Compose(
+                with: n => n.Compose(
                     new []
                     {
                         new Omitter(
@@ -412,7 +412,7 @@ namespace Ploeh.AutoFixture.Dsl
             Expression<Func<T, TProperty>> propertyPicker)
         {
             return (NodeComposer<T>)this.ReplaceNodes(
-                with: n => ((NodeComposer<T>)n).Compose(
+                with: n => n.Compose(
                     new[]
                     {
                         new Omitter(
@@ -445,7 +445,7 @@ namespace Ploeh.AutoFixture.Dsl
         private NodeComposer<T> WithFactory(ISpecimenBuilder builder)
         {
             return (NodeComposer<T>)this.ReplaceNodes(
-                with: n => ((NoSpecimenOutputGuard)n).Compose(new[] { builder }),
+                with: n => n.Compose(new[] { builder }),
                 when: n => n is NoSpecimenOutputGuard);
         }        
 
