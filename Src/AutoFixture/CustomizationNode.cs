@@ -6,18 +6,47 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
+    /// <summary>
+    /// A marker class, used to explicitly identify the <i>customizations</i>
+    /// role in an <see cref="ISpecimenBuilderNode" /> graph.
+    /// </summary>
+    /// <remarks>
+    /// The only purpose of this class is to act as an easily identifiable
+    /// container. This makes it easier to find the collection of
+    /// <i>customization</i> even if it is buried deep in a larger graph.
+    /// </remarks>
     public class CustomizationNode : CompositeSpecimenBuilder
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomizationNode" />
+        /// class.
+        /// </summary>
+        /// <param name="builders">
+        /// The builders contained within the new instance.
+        /// </param>
         public CustomizationNode(params ISpecimenBuilder[] builders)
             : base(builders)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomizationNode" />
+        /// class.
+        /// </summary>
+        /// <param name="builders">
+        /// The builders contained within the new instance.
+        /// </param>
         public CustomizationNode(IEnumerable<ISpecimenBuilder> builders)
             : base(builders)
         {
         }
 
+        /// <summary>Composes the supplied builders.</summary>
+        /// <param name="builders">The builders to compose.</param>
+        /// <returns>
+        /// A new <see cref="ISpecimenBuilderNode" /> instance containing
+        /// <paramref name="builders" /> as child nodes.
+        /// </returns>
         public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             return new CustomizationNode(builders);
