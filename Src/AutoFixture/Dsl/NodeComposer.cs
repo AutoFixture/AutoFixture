@@ -263,36 +263,4 @@ namespace Ploeh.AutoFixture.Dsl
             get { return this.builder; }
         }
     }
-
-    public static class NodeComposer
-    {
-        public static NodeComposer<T> Create<T>()
-        {
-            return new NodeComposer<T>(
-                new FilteringSpecimenBuilder(
-                    DecorateFactory<T>(
-                        new MethodInvoker(
-                            new ModestConstructorQuery())),
-                    CreateSpecification<T>()));
-        }
-
-        private static ISpecimenBuilder DecorateFactory<T>(
-            ISpecimenBuilder factory)
-        {
-            return new CompositeSpecimenBuilder(
-                new NoSpecimenOutputGuard(
-                    factory,
-                    new InverseRequestSpecification(
-                        new SeedRequestSpecification(
-                            typeof(T)))),
-                new SeedIgnoringRelay());
-        }
-
-        private static IRequestSpecification CreateSpecification<T>()
-        {
-            return new OrRequestSpecification(
-                new SeedRequestSpecification(typeof(T)),
-                new ExactTypeSpecification(typeof(T)));
-        }
-    }
 }

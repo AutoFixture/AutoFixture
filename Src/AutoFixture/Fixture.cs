@@ -239,7 +239,7 @@ namespace Ploeh.AutoFixture
         {
             var g = this.graph.ReplaceNodes(
                 with: n => new CompositeSpecimenBuilder(
-                    NodeComposer.Create<T>().WithAutoProperties(this.EnableAutoProperties),
+                    SpecimenBuilderNodeFactory.CreateComposer<T>().WithAutoProperties(this.EnableAutoProperties),
                     n),
                 when: n => n is BehaviorRoot);
 
@@ -284,7 +284,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("composerTransformation");
             }
 
-            var c = composerTransformation(NodeComposer.Create<T>().WithAutoProperties(this.EnableAutoProperties));
+            var c = composerTransformation(SpecimenBuilderNodeFactory.CreateComposer<T>().WithAutoProperties(this.EnableAutoProperties));
             this.customizer.Insert(0, c.Compose());
         }
 

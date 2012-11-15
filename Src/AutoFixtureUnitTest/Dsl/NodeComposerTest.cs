@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         {
             // Fixture setup
             // Exercise system
-            var sut = NodeComposer.Create<object>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<object>();
             // Verify outcome
             Assert.IsAssignableFrom<ICustomizationComposer<object>>(sut);
             // Teardown
@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         {
             // Fixture setup
             // Exercise system
-            var sut = NodeComposer.Create<string>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<string>();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilderNode>(sut);
             // Teardown
@@ -87,7 +87,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void SutIsCorrectInitialGraph()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<int>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<int>();
             // Exercise system
             // Verify outcome
             var factory = new MethodInvoker(new ModestConstructorQuery());
@@ -101,7 +101,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void FromSeedReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<decimal>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<decimal>();
             Func<decimal, decimal> f = d => d;
             // Exercise system
             var actual = sut.FromSeed(f);
@@ -119,7 +119,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void FromSpecimenBuilderFactoryReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<Guid>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<Guid>();
             var builder = new DelegatingSpecimenBuilder();
             // Exercise system
             var actual = sut.FromFactory(builder);
@@ -136,7 +136,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void FromNoArgFuncReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<long>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<long>();
             Func<long> f = () => 0;
             // Exercise system
             var actual = sut.FromFactory(f);
@@ -154,7 +154,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void FromSingleArgFuncReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<float>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<float>();
             Func<int, float> f = i => i;
             // Exercise system
             var actual = sut.FromFactory(f);
@@ -172,7 +172,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void FromDoubleArgFuncReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<string>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<string>();
             Func<int, Version, string> f = (i, _) => i.ToString();
             // Exercise system
             var actual = sut.FromFactory(f);
@@ -190,7 +190,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void FromTripleArgFuncReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<decimal>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<decimal>();
             Func<int, Guid, Version, decimal> f = (i, g, v) => i;
             // Exercise system
             var actual = sut.FromFactory(f);
@@ -208,7 +208,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void FromQuadrupleArgFuncReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<Version>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<Version>();
             Func<int, int, int, int, Version> f = (mj, mn, b, r) => new Version(mj, mn, b, r);
             // Exercise system
             var actual = sut.FromFactory(f);
@@ -226,7 +226,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void LegacyComposeReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<UTF8Encoding>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<UTF8Encoding>();
             // Exercise system
             var actual = sut.Compose();
             // Verify outcome
@@ -238,7 +238,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void ComposeReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<GenericUriParser>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<GenericUriParser>();
             // Exercise system
             var expectedBuilders = new[]
             {
@@ -258,7 +258,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void ComposeSingleItemReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<GenericUriParser>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<GenericUriParser>();
             var expected = new DelegatingSpecimenBuilder();
             // Exercise system
             var actual = sut.Compose(new[] { expected });
@@ -272,7 +272,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void DoReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<AppDomainSetup>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<AppDomainSetup>();
             Action<AppDomainSetup> a = ads => ads.DisallowApplicationBaseProbing = false;
             // Exercise system
             var actual = sut.Do(a);
@@ -302,7 +302,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void SecondDoReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<PropertyHolder<string>>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>();
             Action<PropertyHolder<string>> dummy = _ => { };
             Action<PropertyHolder<string>> a = ph => ph.Property = "";
             // Exercise system
@@ -335,7 +335,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void WithAutoPropertiesReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<Version>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<Version>();
             // Exercise system
             var actual = sut.WithAutoProperties();
             // Verify outcome
@@ -367,7 +367,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void OmitAutoPropertiesIsInitiallyANoOp()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<Version>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<Version>();
             // Exercise system
             var actual = sut.OmitAutoProperties();
             // Verify outcome
@@ -382,7 +382,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void OmitAutoPropertiesAfterAddingAutoPropertiesReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<Version>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<Version>();
             // Exercise system
             var actual = sut.WithAutoProperties().OmitAutoProperties();
             // Verify outcome
@@ -397,7 +397,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void WithAnonymouValueReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<PropertyHolder<int>>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<int>>();
             // Exercise system
             var actual = sut.With(x => x.Property);
             // Verify outcome
@@ -432,7 +432,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void WithExplicitValueReturnsCorrectResult(string value)
         {
             // Fixture setup
-            var sut = NodeComposer.Create<PropertyHolder<string>>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>();
             var pi = typeof(PropertyHolder<string>).GetProperty("Property");
             // Exercise system
             var actual = sut.With(x => x.Property, value);
@@ -477,7 +477,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         {
             // Fixture setup
             var sut = 
-                NodeComposer.Create<DoublePropertyHolder<string, int>>();
+                SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<string, int>>();
             var pi1 = typeof(DoublePropertyHolder<string, int>).GetProperty("Property1");
             var pi2 = typeof(DoublePropertyHolder<string, int>).GetProperty("Property2");
             // Exercise system
@@ -528,7 +528,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void WithoutReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<FieldHolder<short>>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<FieldHolder<short>>();
             var fi = typeof(FieldHolder<short>).GetField("Field");
             // Exercise system
             var actual = sut.Without(x => x.Field);
@@ -561,7 +561,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void WithAutoPropertiesTrueReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<Version>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<Version>();
             // Exercise system
             NodeComposer<Version> actual = 
                 sut.WithAutoProperties(true);
@@ -594,7 +594,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void WithAutoPropertiesFalseReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<Version>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<Version>();
             // Exercise system
             var actual = sut.WithAutoProperties(false);
             // Verify outcome
@@ -609,7 +609,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void TogglingAutoPropertiesOnAndOffReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<Version>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<Version>();
             // Exercise system
             var actual = sut.WithAutoProperties(true).WithAutoProperties(false);
             // Verify outcome
@@ -624,7 +624,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void WithAutoPropertiesTrueFollowedByFromFactoryReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<PropertyHolder<string>>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>();
             Func<PropertyHolder<string>> f =
                 () => new PropertyHolder<string>();
             // Exercise system
@@ -657,7 +657,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void WithAutoPropertiesTrueFollowedByDoReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = NodeComposer.Create<PropertyHolder<int>>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<int>>();
             Action<PropertyHolder<int>> a = ph => ph.Property = 42;
             // Exercise system
             var actual = sut.WithAutoProperties(true).Do(a);
