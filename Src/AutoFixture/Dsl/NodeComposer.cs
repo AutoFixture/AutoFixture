@@ -430,9 +430,9 @@ namespace Ploeh.AutoFixture.Dsl
         /// Set to <see langword="true"/> to enable auto-properties.
         /// </param>
         /// <returns>
-        /// A new instance of <see cref="Composer{T}" /> with
-        /// <see cref="EnableAutoProperties"/> set to the value of
-        /// <paramref name="enable"/>.
+        /// A new instance of <see cref="NodeComposer{T}" /> where
+        /// auto-properties are either enabled or disabled according to
+        /// <paramref name="enable" />.
         /// </returns>
         public NodeComposer<T> WithAutoProperties(bool enable)
         {
