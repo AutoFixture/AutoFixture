@@ -7,57 +7,209 @@ using System.Linq.Expressions;
 
 namespace Ploeh.AutoFixture.Dsl
 {
+    /// <summary>
+    /// Enables composition customization of a single type of specimen.
+    /// </summary>
+    /// <typeparam name="T">The type of specimen.</typeparam>
     public class NodeComposer<T> : 
         ICustomizationComposer<T>,
         ISpecimenBuilderNode
     {
         private readonly ISpecimenBuilder builder;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NodeComposer{T}" />
+        /// class.
+        /// </summary>
+        /// <param name="builder">
+        /// A builder to which specimen creation responsibilities are
+        /// delegated.
+        /// </param>
+        /// <remarks>
+        /// A new <see cref="NodeComposer{T}" /> instance with an appropriate
+        /// initial <paramref name="builder" /> can be easily produced by
+        /// <see cref="SpecimenBuilderNodeFactory.CreateComposer{T}()" />.
+        /// </remarks>
+        /// <seealso cref="SpecimenBuilderNodeFactory.CreateComposer{T}()" />
+        /// <seealso cref="Builder" />
         public NodeComposer(ISpecimenBuilder builder)
         {
             this.builder = builder;
         }
 
+        /// <summary>
+        /// Specifies a function that defines how to create a specimen from a
+        /// seed.
+        /// </summary>
+        /// <param name="factory">
+        /// The factory used to create specimens from seeds.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
         public IPostprocessComposer<T> FromSeed(Func<T, T> factory)
         {
             return this.WithFactory(new SeededFactory<T>(factory));
         }
 
+        /// <summary>
+        /// Specifies an <see cref="ISpecimenBuilder"/> that can create
+        /// specimens of the appropriate type. Mostly for advanced scenarios.
+        /// </summary>
+        /// <param name="factory">
+        /// An <see cref="ISpecimenBuilder"/> that can create specimens of the
+        /// appropriate type.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
         public IPostprocessComposer<T> FromFactory(ISpecimenBuilder factory)
         {
             return this.WithFactory(factory);
         }
 
+        /// <summary>
+        /// Specifies that an anonymous object should be created in a
+        /// particular way; often by using a constructor.
+        /// </summary>
+        /// <param name="factory">
+        /// A function that will be used to create the object. This will often
+        /// be a constructor.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
         public IPostprocessComposer<T> FromFactory(Func<T> factory)
         {
             return this.WithFactory(new SpecimenFactory<T>(factory));
         }
 
+        /// <summary>
+        /// Specifies that a specimen should be created in a particular way, using a single input
+        /// parameter for the factory.
+        /// </summary>
+        /// <typeparam name="TInput">
+        /// The type of input parameter to use when invoking <paramref name="factory"/>
+        /// .</typeparam>
+        /// <param name="factory">
+        /// A function that will be used to create the object. This will often be a constructor
+        /// that takes a single constructor argument of type <typeparamref name="TInput"/>.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to further customize the
+        /// post-processing of created specimens.
+        /// </returns>
         public IPostprocessComposer<T> FromFactory<TInput>(Func<TInput, T> factory)
         {
             return this.WithFactory(new SpecimenFactory<TInput, T>(factory));
         }
 
+        /// <summary>
+        /// Specifies that a specimen should be created in a particular way, using two input
+        /// parameters for the construction.
+        /// </summary>
+        /// <typeparam name="TInput1">
+        /// The type of the first input parameter to use when invoking <paramref name="factory"/>.
+        /// </typeparam>
+        /// <typeparam name="TInput2">
+        /// The type of the second input parameter to use when invoking <paramref name="factory"/>.
+        /// </typeparam>
+        /// <param name="factory">
+        /// A function that will be used to create the object. This will often be a constructor
+        /// that takes two constructor arguments of type <typeparamref name="TInput1"/> and
+        /// <typeparamref name="TInput2"/>.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to further customize the
+        /// post-processing of created specimens.
+        /// </returns>
         public IPostprocessComposer<T> FromFactory<TInput1, TInput2>(Func<TInput1, TInput2, T> factory)
         {
             return this.WithFactory(new SpecimenFactory<TInput1, TInput2, T>(factory));
         }
 
+        /// <summary>
+        /// Specifies that a specimen should be created in a particular way, using three input
+        /// parameters for the construction.
+        /// </summary>
+        /// <typeparam name="TInput1">
+        /// The type of the first input parameter to use when invoking <paramref name="factory"/>.
+        /// </typeparam>
+        /// <typeparam name="TInput2">
+        /// The type of the second input parameter to use when invoking <paramref name="factory"/>.
+        /// </typeparam>
+        /// <typeparam name="TInput3">
+        /// The type of the third input parameter to use when invoking <paramref name="factory"/>.
+        /// </typeparam>
+        /// <param name="factory">
+        /// A function that will be used to create the object. This will often be a constructor
+        /// that takes three constructor arguments of type <typeparamref name="TInput1"/>,
+        /// <typeparamref name="TInput2"/> and <typeparamref name="TInput3"/>.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to further customize the
+        /// post-processing of created specimens.
+        /// </returns>
         public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3>(Func<TInput1, TInput2, TInput3, T> factory)
         {
             return this.WithFactory(new SpecimenFactory<TInput1, TInput2, TInput3, T>(factory));
         }
 
+        /// <summary>
+        /// Specifies that a specimen should be created in a particular way, using four input
+        /// parameters for the construction.
+        /// </summary>
+        /// <typeparam name="TInput1">
+        /// The type of the first input parameter to use when invoking <paramref name="factory"/>.
+        /// </typeparam>
+        /// <typeparam name="TInput2">
+        /// The type of the second input parameter to use when invoking <paramref name="factory"/>.
+        /// </typeparam>
+        /// <typeparam name="TInput3">
+        /// The type of the third input parameter to use when invoking <paramref name="factory"/>.
+        /// </typeparam>
+        /// <typeparam name="TInput4">
+        /// The type of the fourth input parameter to use when invoking <paramref name="factory"/>.
+        /// </typeparam>
+        /// <param name="factory">
+        /// A function that will be used to create the object. This will often be a constructor
+        /// that takes three constructor arguments of type <typeparamref name="TInput1"/>,
+        /// <typeparamref name="TInput2"/>, <typeparamref name="TInput3"/> and
+        /// <typeparamref name="TInput4"/>.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to further customize the
+        /// post-processing of created specimens.
+        /// </returns>
         public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3, TInput4>(Func<TInput1, TInput2, TInput3, TInput4, T> factory)
         {
             return this.WithFactory(new SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T>(factory));
         }
 
+        /// <summary>
+        /// Composes a new <see cref="ISpecimenBuilder"/> instance.
+        /// </summary>
+        /// <returns>
+        /// A new <see cref="ISpecimenBuilder"/> instance which can be used to
+        /// produce specimens according to the behavior specified by previous
+        /// method calls.
+        /// </returns>
         public ISpecimenBuilder Compose()
         {
             return this;
         }
 
+        /// <summary>
+        /// Performs the specified action on a specimen.
+        /// </summary>
+        /// <param name="action">The action to perform.</param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
         public IPostprocessComposer<T> Do(Action<T> action)
         {
 #warning Refactor this bloody mess
@@ -105,6 +257,13 @@ namespace Ploeh.AutoFixture.Dsl
                 when: filter.Equals);
         }
 
+        /// <summary>
+        /// Disables auto-properties for a type of specimen.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
         public IPostprocessComposer<T> OmitAutoProperties()
         {
             var targetToRemove = this
@@ -121,6 +280,22 @@ namespace Ploeh.AutoFixture.Dsl
                 when: p.Equals);
         }
 
+        /// <summary>
+        /// Registers that a writable property or field should be assigned an
+        /// anonymous value as part of specimen post-processing.
+        /// </summary>
+        /// <typeparam name="TProperty">
+        /// The type of the property of field.
+        /// </typeparam>
+        /// <param name="propertyPicker">
+        /// An expression that identifies the property or field that will
+        /// should have a value
+        /// assigned.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
         public IPostprocessComposer<T> With<TProperty>(
             Expression<Func<T, TProperty>> propertyPicker)
         {
@@ -136,6 +311,25 @@ namespace Ploeh.AutoFixture.Dsl
                 when: targetToDecorate.Equals);
         }
 
+        /// <summary>
+        /// Registers that a writable property or field should be assigned a
+        /// specific value as part of specimen post-processing.
+        /// </summary>
+        /// <typeparam name="TProperty">
+        /// The type of the property of field.
+        /// </typeparam>
+        /// <param name="propertyPicker">
+        /// An expression that identifies the property or field that will have
+        /// <paramref name="value"/> assigned.
+        /// </param>
+        /// <param name="value">
+        /// The value to assign to the property or field identified by
+        /// <paramref name="propertyPicker"/>.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
         public IPostprocessComposer<T> With<TProperty>(
             Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
@@ -174,6 +368,13 @@ namespace Ploeh.AutoFixture.Dsl
                 when: n => n is NodeComposer<T>);
         }
 
+        /// <summary>
+        /// Enables auto-properties for a type of specimen.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
         public IPostprocessComposer<T> WithAutoProperties()
         {
             var g = this.ReplaceNodes(
@@ -198,6 +399,15 @@ namespace Ploeh.AutoFixture.Dsl
                 when: filter.Equals);
         }
 
+        /// <summary>
+        /// Withouts the specified property picker.
+        /// </summary>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="propertyPicker">The property picker.</param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
         public IPostprocessComposer<T> Without<TProperty>(
             Expression<Func<T, TProperty>> propertyPicker)
         {
@@ -213,6 +423,17 @@ namespace Ploeh.AutoFixture.Dsl
                 when: n => n is NodeComposer<T>);
         }
 
+        /// <summary>
+        /// Controls whether auto-properties will be enabled or not.
+        /// </summary>
+        /// <param name="enable">
+        /// Set to <see langword="true"/> to enable auto-properties.
+        /// </param>
+        /// <returns>
+        /// A new instance of <see cref="Composer{T}" /> with
+        /// <see cref="EnableAutoProperties"/> set to the value of
+        /// <paramref name="enable"/>.
+        /// </returns>
         public NodeComposer<T> WithAutoProperties(bool enable)
         {
             if (!enable)
@@ -235,6 +456,12 @@ namespace Ploeh.AutoFixture.Dsl
                 new ExactTypeSpecification(typeof(T)));
         }
 
+        /// <summary>Composes the supplied builders.</summary>
+        /// <param name="builders">The builders to compose.</param>
+        /// <returns>
+        /// A new <see cref="ISpecimenBuilderNode" /> instance containing
+        /// <paramref name="builders" /> as child nodes.
+        /// </returns>
         public ISpecimenBuilderNode Compose(
             IEnumerable<ISpecimenBuilder> builders)
         {
@@ -243,21 +470,56 @@ namespace Ploeh.AutoFixture.Dsl
             return new NodeComposer<T>(composedBuilder);
         }
 
+        /// <summary>Creates a new specimen based on a request.</summary>
+        /// <param name="request">
+        /// The request that describes what to create.
+        /// </param>
+        /// <param name="context">
+        /// A context that can be used to create other specimens.
+        /// </param>
+        /// <returns>
+        /// The requested specimen if possible; otherwise a
+        /// <see cref="NoSpecimen" /> instance.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <paramref name="request" /> can be any object, but will often
+        /// be a <see cref="Type" /> or other
+        /// <see cref="System.Reflection.MemberInfo" /> instances.
+        /// </para>
+        /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
             return this.builder.Create(request, context);
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="IEnumerator{T}" /> that can be used to iterate through
+        /// the collection.
+        /// </returns>
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
             yield return this.builder;
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator" /> object that can
+        /// be used to iterate through the collection.
+        /// </returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
+        /// <summary>Gets the encapsulated builder.</summary>
+        /// <value>The encapsulated builder.</value>
+        /// <seealso cref="NodeComposer{T}(ISpecimenBuilder)" />
         public ISpecimenBuilder Builder
         {
             get { return this.builder; }
