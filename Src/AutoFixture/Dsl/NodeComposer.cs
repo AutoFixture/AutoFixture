@@ -212,10 +212,10 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public IPostprocessComposer<T> Do(Action<T> action)
         {
-#warning Refactor this bloody mess
-            Expression<Action<AutoPropertiesCommand<T>, T, ISpecimenContext>> exp = (cmd, s, ctx) => cmd.Execute(s, ctx);
-            var m = ((MethodCallExpression)exp.Body).Method;
+            var m = 
+                ExpressionReflector.CreateAutoPropertiesExecuteMethodInfo<T>();
 
+#warning Refactor this bloody mess
             var g = this.ReplaceNodes(
                 with: n => CompositeSpecimenBuilder.UnwrapIfSingle(
                     n.Compose(n.Where(b => !(b is SeedIgnoringRelay)))),
