@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 SpecimenBuilderNodeFactory.CreateComposer<int>();
             // Verify outcome
             var expected = new NodeComposer<int>(
-                new TypedNode(
+                SpecimenBuilderNodeFactory.CreateTypedNode(
                     typeof(int),
                     new MethodInvoker(
                         new ModestConstructorQuery())));

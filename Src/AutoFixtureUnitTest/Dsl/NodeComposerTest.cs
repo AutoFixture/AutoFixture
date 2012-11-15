@@ -92,7 +92,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Verify outcome
             var factory = new MethodInvoker(new ModestConstructorQuery());
             var expected = new NodeComposer<int>(
-                new TypedNode(typeof(int), factory));
+                SpecimenBuilderNodeFactory.CreateTypedNode(typeof(int), factory));
             Assert.True(expected.GraphEquals(sut, new NodeComparer()));
             // Teardown
         }
@@ -108,7 +108,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Verify outcome
             var factory = new SeededFactory<decimal>(f);
             var expected = new NodeComposer<decimal>(
-                new TypedNode(typeof(decimal), factory));
+                SpecimenBuilderNodeFactory.CreateTypedNode(typeof(decimal), factory));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -125,7 +125,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var actual = sut.FromFactory(builder);
             // Verify outcome
             var expected = new NodeComposer<Guid>(
-                new TypedNode(typeof(Guid), builder));
+                SpecimenBuilderNodeFactory.CreateTypedNode(typeof(Guid), builder));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -143,7 +143,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Verify outcome
             var factory = new SpecimenFactory<long>(f);
             var expected = new NodeComposer<long>(
-                new TypedNode(typeof(long), factory));
+                SpecimenBuilderNodeFactory.CreateTypedNode(typeof(long), factory));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -161,7 +161,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Verify outcome
             var factory = new SpecimenFactory<int, float>(f);
             var expected = new NodeComposer<float>(
-                new TypedNode(typeof(float), factory));
+                SpecimenBuilderNodeFactory.CreateTypedNode(typeof(float), factory));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -179,7 +179,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Verify outcome
             var factory = new SpecimenFactory<int, Version, string>(f);
             var expected = new NodeComposer<string>(
-                new TypedNode(typeof(string), factory));
+                SpecimenBuilderNodeFactory.CreateTypedNode(typeof(string), factory));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -197,7 +197,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Verify outcome
             var factory = new SpecimenFactory<int, Guid, Version, decimal>(f);
             var expected = new NodeComposer<decimal>(
-                new TypedNode(typeof(decimal), factory));
+                SpecimenBuilderNodeFactory.CreateTypedNode(typeof(decimal), factory));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
@@ -215,7 +215,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Verify outcome
             var factory = new SpecimenFactory<int, int, int, int, Version>(f);
             var expected = new NodeComposer<Version>(
-                new TypedNode(typeof(Version), factory));
+                SpecimenBuilderNodeFactory.CreateTypedNode(typeof(Version), factory));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
