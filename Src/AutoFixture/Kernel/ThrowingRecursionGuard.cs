@@ -49,6 +49,12 @@ namespace Ploeh.AutoFixture.Kernel
                 Environment.NewLine));
         }
 
+        /// <summary>Composes the supplied builders.</summary>
+        /// <param name="builders">The builders to compose.</param>
+        /// <returns>
+        /// A new <see cref="ISpecimenBuilderNode" /> instance containing
+        /// <paramref name="builders" /> as child nodes.
+        /// </returns>
         public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             var builder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);

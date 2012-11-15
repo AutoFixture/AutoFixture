@@ -70,6 +70,12 @@ namespace Ploeh.AutoFixture.Kernel
             return this.builder.Create(request, context);
         }
 
+        /// <summary>Composes the supplied builders.</summary>
+        /// <param name="builders">The builders to compose.</param>
+        /// <returns>
+        /// A new <see cref="ISpecimenBuilderNode" /> instance containing
+        /// <paramref name="builders" /> as child nodes.
+        /// </returns>
         public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);

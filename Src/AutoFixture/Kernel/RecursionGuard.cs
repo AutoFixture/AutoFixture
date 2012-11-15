@@ -104,6 +104,29 @@ namespace Ploeh.AutoFixture.Kernel
             return specimen;
         }
 
+        /// <summary>Composes the supplied builders.</summary>
+        /// <param name="builders">The builders to compose.</param>
+        /// <returns>A <see cref="ISpecimenBuilderNode" /> instance.</returns>
+        /// <remarks>
+        /// <para>
+        /// Note to implementers:
+        /// </para>
+        /// <para>
+        /// The intent of this method is to compose the supplied
+        /// <paramref name="builders" /> into a new instance of the type
+        /// implementing <see cref="ISpecimenBuilderNode" />. Thus, the
+        /// concrete return type is expected to the same type as the type
+        /// implementing the method. However, it is not considered a failure to
+        /// deviate from this idiom - it would just not be a mainstream
+        /// implementation.
+        /// </para>
+        /// <para>
+        /// The returned instance is normally expected to contain the builders
+        /// supplied as an argument, but again this is not strictly required.
+        /// The implementation may decide to filter the sequence or add to it
+        /// during composition.
+        /// </para>
+        /// </remarks>
         public abstract ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders);
 
         public virtual IEnumerator<ISpecimenBuilder> GetEnumerator()
