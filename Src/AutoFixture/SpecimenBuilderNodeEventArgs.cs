@@ -6,10 +6,20 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
+    /// <summary>
+    /// Event arguments concerning an <see cref="ISpecimenBuilderNode" />
+    /// instance.
+    /// </summary>
     public class SpecimenBuilderNodeEventArgs : EventArgs
     {
         private readonly ISpecimenBuilderNode graph;
 
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="SpecimenBuilderNodeEventArgs" /> class.
+        /// </summary>
+        /// <param name="graph">The graph associated with an event.</param>
+        /// <exception cref="System.ArgumentNullException">graph</exception>
         public SpecimenBuilderNodeEventArgs(ISpecimenBuilderNode graph)
         {
             if (graph == null)
@@ -18,6 +28,9 @@ namespace Ploeh.AutoFixture
             this.graph = graph;
         }
 
+        /// <summary>
+        /// Gets the graph associated with an event.
+        /// </summary>
         public ISpecimenBuilderNode Graph
         {
             get { return this.graph; }
