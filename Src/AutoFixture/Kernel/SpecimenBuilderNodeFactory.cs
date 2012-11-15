@@ -16,5 +16,22 @@ namespace Ploeh.AutoFixture.Kernel
                     new MethodInvoker(
                         new ModestConstructorQuery())));
         }
+
+        public static FilteringSpecimenBuilder CreateTypedNode(
+            Type targetType,
+            ISpecimenBuilder factory)
+        {
+            return new FilteringSpecimenBuilder(
+                new CompositeSpecimenBuilder(
+                    new NoSpecimenOutputGuard(
+                        factory,
+                        new InverseRequestSpecification(
+                            new SeedRequestSpecification(
+                                targetType))),
+                    new SeedIgnoringRelay()),
+                new OrRequestSpecification(
+                    new SeedRequestSpecification(targetType),
+                    new ExactTypeSpecification(targetType)));
+        }
     }
 }

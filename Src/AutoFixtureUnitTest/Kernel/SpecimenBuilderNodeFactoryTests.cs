@@ -5,6 +5,7 @@ using System.Text;
 using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixture.Dsl;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -23,6 +24,38 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     typeof(int),
                     new MethodInvoker(
                         new ModestConstructorQuery())));
+            Assert.True(expected.GraphEquals(actual, new NodeComparer()));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(Guid))]
+        [InlineData(typeof(Version))]
+        public void CreateTypedNodeReturnsCorrectResult(Type targetType)
+        {
+            // Fixture setup
+            var factory = new DelegatingSpecimenBuilder();
+            // Exercise system
+            FilteringSpecimenBuilder actual =
+                SpecimenBuilderNodeFactory.CreateTypedNode(
+                    targetType,
+                    factory);
+            // Verify outcome
+            var expected = new FilteringSpecimenBuilder(
+                new CompositeSpecimenBuilder(
+                    new NoSpecimenOutputGuard(
+                        factory,
+                        new InverseRequestSpecification(
+                            new SeedRequestSpecification(
+                                targetType))),
+                    new SeedIgnoringRelay()),
+                new OrRequestSpecification(
+                    new SeedRequestSpecification(targetType),
+                    new ExactTypeSpecification(targetType)));
+
             Assert.True(expected.GraphEquals(actual, new NodeComparer()));
             // Teardown
         }
