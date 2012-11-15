@@ -497,8 +497,8 @@ namespace Ploeh.AutoFixture.Dsl
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>
-        /// A <see cref="IEnumerator{T}" /> that can be used to iterate through
-        /// the collection.
+        /// A <see cref="IEnumerator{ISpecimenBuilder}" /> that can be used to
+        /// iterate through the collection.
         /// </returns>
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
