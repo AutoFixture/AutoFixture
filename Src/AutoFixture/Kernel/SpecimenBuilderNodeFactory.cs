@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.Kernel
         public static NodeComposer<T> CreateComposer<T>()
         {
             return new NodeComposer<T>(
-                new TypedNode(
+                SpecimenBuilderNodeFactory.CreateTypedNode(
                     typeof(T),
                     new MethodInvoker(
                         new ModestConstructorQuery())));

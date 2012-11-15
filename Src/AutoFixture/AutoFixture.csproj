@@ -137,7 +137,6 @@
     <Compile Include="Kernel\RangedNumberRequest.cs" />
     <Compile Include="Kernel\RegularExpressionRequest.cs" />
     <Compile Include="Kernel\SpecimenBuilderNodeFactory.cs" />
-    <Compile Include="Kernel\TypedNode.cs" />
     <Compile Include="Kernel\TypeRelay.cs" />
     <Compile Include="OmitOnRecursionBehavior.cs" />
     <Compile Include="RandomNumericSequenceCustomization.cs" />
