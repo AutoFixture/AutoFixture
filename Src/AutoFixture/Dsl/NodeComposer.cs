@@ -339,13 +339,12 @@ namespace Ploeh.AutoFixture.Dsl
         public IPostprocessComposer<T> With<TProperty>(
             Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
-#warning Argh! My eyes! Refactor!
             var graphWithoutSeedIgnoringRelay =
                 this.WithoutSeedIgnoringRelay();
 
-            var filter = FindContainer(graphWithoutSeedIgnoringRelay);
+            var container = FindContainer(graphWithoutSeedIgnoringRelay);
          
-            var g1 = graphWithoutSeedIgnoringRelay.ReplaceNodes(
+            var graphWithProperty = graphWithoutSeedIgnoringRelay.ReplaceNodes(
                 with: n => n.Compose(
                     new ISpecimenBuilder[]
                     {
@@ -355,9 +354,9 @@ namespace Ploeh.AutoFixture.Dsl
                             CreateSpecification()),
                         new SeedIgnoringRelay()
                     }),
-                when: filter.Equals);
+                when: container.Equals);
 
-            return (NodeComposer<T>)g1.ReplaceNodes(
+            return (NodeComposer<T>)graphWithProperty.ReplaceNodes(
                 with: n => n.Compose(
                     new []
                     {
