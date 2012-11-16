@@ -221,9 +221,7 @@ namespace Ploeh.AutoFixture.Dsl
                     n.Compose(n.Where(b => !(b is SeedIgnoringRelay)))),
                 when: n => n.OfType<SeedIgnoringRelay>().Any());
 
-            var container = g
-                .SelectNodes(n => n is FilteringSpecimenBuilder)
-                .First();
+            var container = FindContainer(g);
 
             var autoProperties = container
                 .SelectNodes(n =>
@@ -248,9 +246,7 @@ namespace Ploeh.AutoFixture.Dsl
                     }),
                 when: container.Equals);
 
-            var filter = g1
-                .SelectNodes(n => n is FilteringSpecimenBuilder)
-                .First();
+            var filter = FindContainer(g1);
 
             return (NodeComposer<T>)g1.ReplaceNodes(
                 with: n => n.Compose(n.Concat(new [] { new SeedIgnoringRelay() })),
@@ -339,9 +335,7 @@ namespace Ploeh.AutoFixture.Dsl
                     n.Compose(n.Where(b => !(b is SeedIgnoringRelay)))),
                 when: n => n.OfType<SeedIgnoringRelay>().Any());
 
-            var filter = g
-                .SelectNodes(n => n is FilteringSpecimenBuilder)
-                .First();
+            var filter = FindContainer(g);
          
             var g1 = g.ReplaceNodes(
                 with: n => n.Compose(
@@ -382,9 +376,7 @@ namespace Ploeh.AutoFixture.Dsl
                     n.Compose(n.Where(b => !(b is SeedIgnoringRelay)))),
                 when: n => n.OfType<SeedIgnoringRelay>().Any());
 
-            var filter = g
-                .SelectNodes(n => n is FilteringSpecimenBuilder)
-                .First();
+            var filter = FindContainer(g);
 
             return (NodeComposer<T>)g.ReplaceNodes(
                 with: n => ((FilteringSpecimenBuilder)n).Compose(
@@ -523,6 +515,15 @@ namespace Ploeh.AutoFixture.Dsl
         public ISpecimenBuilder Builder
         {
             get { return this.builder; }
+        }
+
+        private static ISpecimenBuilderNode FindContainer(
+            ISpecimenBuilderNode graph)
+        {
+            var container = graph
+                .SelectNodes(n => n is FilteringSpecimenBuilder)
+                .First();
+            return container;
         }
     }
 }
