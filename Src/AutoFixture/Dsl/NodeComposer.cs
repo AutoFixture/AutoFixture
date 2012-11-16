@@ -212,7 +212,6 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public IPostprocessComposer<T> Do(Action<T> action)
         {
-#warning Refactor this bloody mess
             var graphWithoutSeedIgnoringRelay =
                 this.WithoutSeedIgnoringRelay();
 
@@ -227,7 +226,6 @@ namespace Ploeh.AutoFixture.Dsl
                 container);
 
             var filter = FindContainer(graphWithDoNode);
-
             return (NodeComposer<T>)graphWithDoNode.ReplaceNodes(
                 with: n => n.Compose(n.Concat(new [] { new SeedIgnoringRelay() })),
                 when: filter.Equals);
