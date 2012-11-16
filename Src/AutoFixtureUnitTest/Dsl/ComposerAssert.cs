@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         internal static FilteringSpecimenBuilder ShouldContain(this FilteringSpecimenBuilder filter, Func<ISpecimenBuilder, bool> predicate)
         {
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(filter.Builder);
-            Assert.True(composite.Builders.Any(predicate));
+            Assert.True(composite.Any(predicate));
             return filter;
         }
 

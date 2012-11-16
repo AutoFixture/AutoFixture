@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the child builders.
         /// </summary>
-#warning This should be an IEnumerable<ISpecimenBuilder>
+        [Obsolete("In AutoFixture 3 this property will be weakened to return only IEnumerable<ISpecimenBuilder>. If you want to 'add' a new ISpecimenBuilder to a CompositeSpecimenBuilder, you can use the Compose method and pass in the current instance cancatenated with the new instance. Note that CompositeSpecimenBuilder itself implements IEnumerable<ISpecimenBuilder>, so you can enumerate over all the contained buliders by iterating directly over the instance instead of iterating over the Builders property.")]
         public IList<ISpecimenBuilder> Builders
         {
             get { return this.builders; }
@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>The first result created by <see cref="Builders"/>.</returns>
         public object Create(object request, ISpecimenContext context)
         {
-            return (from b in this.Builders
+            return (from b in this.builders
                     let result = b.Create(request, context)
                     where !(result is NoSpecimen)
                     select result).DefaultIfEmpty(new NoSpecimen(request)).FirstOrDefault();

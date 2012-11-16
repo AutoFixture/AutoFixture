@@ -87,8 +87,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(targetType, orSpec.Specifications.OfType<ExactTypeSpecification>().Single().TargetType);
 
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(filter.Builder);
+#pragma warning disable 618
             var outputGuard = Assert.IsAssignableFrom<NoSpecimenOutputGuard>(composite.Builders.First());
             Assert.IsAssignableFrom<SeedIgnoringRelay>(composite.Builders.Last());
+#pragma warning restore 618
 
             Assert.Equal(factory, outputGuard.Builder);
 

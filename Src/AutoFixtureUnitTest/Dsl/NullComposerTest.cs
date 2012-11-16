@@ -49,7 +49,9 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var result = sut.Compose();
             // Verify outcome
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result);
+#pragma warning disable 618
             Assert.Empty(composite.Builders);
+#pragma warning restore 618
             // Teardown
         }
 

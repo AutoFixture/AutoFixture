@@ -257,7 +257,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
 
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(filter.Builder);
 
-            var pp1 = Assert.IsAssignableFrom<Postprocessor<string>>(composite.Builders.First());
+            var pp1 = Assert.IsAssignableFrom<Postprocessor<string>>(composite.First());
             Assert.Equal(postproc3.Execute, pp1.Action);
 
             var pp2 = Assert.IsAssignableFrom<Postprocessor<string>>(pp1.Builder);
@@ -658,7 +658,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Verify outcome
             var filter = result.IsFilter().ShouldSpecify<decimal>();
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(filter.Builder);
-            var postprocessor = Assert.IsAssignableFrom<Postprocessor<decimal>>(composite.Builders.First());
+            var postprocessor = Assert.IsAssignableFrom<Postprocessor<decimal>>(composite.First());
             var guard = Assert.IsAssignableFrom<NoSpecimenOutputGuard>(postprocessor.Builder);
             Assert.Equal(sut.Factory, guard.Builder);
             // Teardown

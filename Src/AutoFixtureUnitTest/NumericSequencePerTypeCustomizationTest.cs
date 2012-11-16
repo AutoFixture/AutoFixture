@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize(fixture);
             var result = fixture.Customizations
                 .OfType<CompositeSpecimenBuilder>()
-                .SelectMany(i => i.Builders)
+                .SelectMany(i => i)
                 .Select(i => i.GetType());
             // Verify outcome
             Assert.True(expectedBuilders.SequenceEqual(result));

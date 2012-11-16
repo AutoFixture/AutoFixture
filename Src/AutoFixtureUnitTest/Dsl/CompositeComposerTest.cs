@@ -335,7 +335,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var result = sut.Compose();
             // Verify outcome
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result);
-            Assert.True(expectedBuilders.SequenceEqual(composite.Builders));
+            Assert.True(expectedBuilders.SequenceEqual(composite));
             // Teardown
         }
     }

@@ -47,7 +47,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new CompositeSpecimenBuilder();
             // Exercise system
+#pragma warning disable 618
             IList<ISpecimenBuilder> result = sut.Builders;
+#pragma warning restore 618
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
@@ -76,7 +78,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             }.AsEnumerable();
             var sut = new CompositeSpecimenBuilder(expectedBuilders);
             // Exercise system
+#pragma warning disable 618
             var result = sut.Builders;
+#pragma warning restore 618
             // Verify outcome
             Assert.True(expectedBuilders.SequenceEqual(result), "Builders");
             // Teardown
@@ -124,7 +128,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             };
             var sut = new CompositeSpecimenBuilder(expectedBuilders[0], expectedBuilders[1], expectedBuilders[2]);
             // Exercise system
+#pragma warning disable 618
             var result = sut.Builders;
+#pragma warning restore 618
             // Verify outcome
             Assert.True(expectedBuilders.SequenceEqual(result), "Builders");
             // Teardown
