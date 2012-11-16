@@ -213,14 +213,18 @@ namespace Ploeh.AutoFixture.Dsl
         public IPostprocessComposer<T> Do(Action<T> action)
         {
 #warning Refactor this bloody mess
-            var g = this.WithoutSeedIgnoringRelay();
+            var graphWithoutSeedIgnoringRelay =
+                this.WithoutSeedIgnoringRelay();
 
-            var container = FindContainer(g);
+            var container = FindContainer(graphWithoutSeedIgnoringRelay);
             var autoPropertiesNode = FindAutoPropertiesNode(container);
             if (autoPropertiesNode != null)
                 container = autoPropertiesNode;
 
-            var graphWithDoNode = WithDoNode(action, g, container);
+            var graphWithDoNode = WithDoNode(
+                action,
+                graphWithoutSeedIgnoringRelay,
+                container);
 
             var filter = FindContainer(graphWithDoNode);
 
