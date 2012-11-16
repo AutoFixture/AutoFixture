@@ -218,21 +218,13 @@ namespace Ploeh.AutoFixture.Dsl
             var container = FindContainer(g);
             var autoPropertiesNode = FindAutoPropertiesNode(container);
             if (autoPropertiesNode != null)
-                container = autoPropertiesNode;            
+                container = autoPropertiesNode;
 
-            var g1 = (NodeComposer<T>)g.ReplaceNodes(
-                with: n => n.Compose(
-                    new []
-                    {
-                        new Postprocessor<T>(
-                            CompositeSpecimenBuilder.ComposeIfMultiple(n),
-                            action)
-                    }),
-                when: container.Equals);
+            var graphWithDoNode = WithDoNode(action, g, container);
 
-            var filter = FindContainer(g1);
+            var filter = FindContainer(graphWithDoNode);
 
-            return (NodeComposer<T>)g1.ReplaceNodes(
+            return (NodeComposer<T>)graphWithDoNode.ReplaceNodes(
                 with: n => n.Compose(n.Concat(new [] { new SeedIgnoringRelay() })),
                 when: filter.Equals);
         }
@@ -251,6 +243,22 @@ namespace Ploeh.AutoFixture.Dsl
                     return m.Equals(pp.Action.Method);
                 })
                 .FirstOrDefault();
+        }
+
+        private static NodeComposer<T> WithDoNode(
+            Action<T> action,
+            ISpecimenBuilderNode graph,
+            ISpecimenBuilderNode container)
+        {
+            return (NodeComposer<T>)graph.ReplaceNodes(
+                with: n => n.Compose(
+                    new[]
+                    {
+                        new Postprocessor<T>(
+                            CompositeSpecimenBuilder.ComposeIfMultiple(n),
+                            action)
+                    }),
+                when: container.Equals);
         }
 
         /// <summary>
