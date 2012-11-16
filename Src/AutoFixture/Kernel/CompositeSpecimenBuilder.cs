@@ -12,15 +12,6 @@ namespace Ploeh.AutoFixture.Kernel
         private readonly List<ISpecimenBuilder> builders;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CompositeSpecimenBuilder"/> class.
-        /// </summary>
-#warning Remove when Builders are changed to IEnumerable<ISpecimenBuilder>
-        public CompositeSpecimenBuilder()
-            : this(Enumerable.Empty<ISpecimenBuilder>())
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="CompositeSpecimenBuilder"/> class with the
         /// supplied builders.
         /// </summary>
