@@ -212,23 +212,12 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public IPostprocessComposer<T> Do(Action<T> action)
         {
-            var m = 
-                ExpressionReflector.CreateAutoPropertiesExecuteMethodInfo<T>();
-
 #warning Refactor this bloody mess
             var g = this.WithoutSeedIgnoringRelay();
 
             var container = FindContainer(g);
 
-            var autoProperties = container
-                .SelectNodes(n =>
-                {
-                    var pp = n as Postprocessor<T>;
-                    if (pp == null)
-                        return false;
-                    return m.Equals(pp.Action.Method);
-                })
-                .FirstOrDefault();
+            var autoProperties = FindAutoPropertiesNode(container);
 
             if (autoProperties != null)
                 container = autoProperties;            
@@ -248,6 +237,22 @@ namespace Ploeh.AutoFixture.Dsl
             return (NodeComposer<T>)g1.ReplaceNodes(
                 with: n => n.Compose(n.Concat(new [] { new SeedIgnoringRelay() })),
                 when: filter.Equals);
+        }
+
+        private static ISpecimenBuilderNode FindAutoPropertiesNode(
+            ISpecimenBuilderNode graph)
+        {
+            var m =
+                ExpressionReflector.CreateAutoPropertiesExecuteMethodInfo<T>();
+            return graph
+                .SelectNodes(n =>
+                {
+                    var pp = n as Postprocessor<T>;
+                    if (pp == null)
+                        return false;
+                    return m.Equals(pp.Action.Method);
+                })
+                .FirstOrDefault();
         }
 
         /// <summary>
