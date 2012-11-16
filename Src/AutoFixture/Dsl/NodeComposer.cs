@@ -216,11 +216,9 @@ namespace Ploeh.AutoFixture.Dsl
             var g = this.WithoutSeedIgnoringRelay();
 
             var container = FindContainer(g);
-
-            var autoProperties = FindAutoPropertiesNode(container);
-
-            if (autoProperties != null)
-                container = autoProperties;            
+            var autoPropertiesNode = FindAutoPropertiesNode(container);
+            if (autoPropertiesNode != null)
+                container = autoPropertiesNode;            
 
             var g1 = (NodeComposer<T>)g.ReplaceNodes(
                 with: n => n.Compose(
