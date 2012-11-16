@@ -216,10 +216,7 @@ namespace Ploeh.AutoFixture.Dsl
                 ExpressionReflector.CreateAutoPropertiesExecuteMethodInfo<T>();
 
 #warning Refactor this bloody mess
-            var g = this.ReplaceNodes(
-                with: n => CompositeSpecimenBuilder.UnwrapIfSingle(
-                    n.Compose(n.Where(b => !(b is SeedIgnoringRelay)))),
-                when: n => n.OfType<SeedIgnoringRelay>().Any());
+            var g = this.WithoutSeedIgnoringRelay();
 
             var container = FindContainer(g);
 
@@ -330,10 +327,7 @@ namespace Ploeh.AutoFixture.Dsl
             Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
 #warning Argh! My eyes! Refactor!
-            var g = this.ReplaceNodes(
-                with: n => CompositeSpecimenBuilder.UnwrapIfSingle(
-                    n.Compose(n.Where(b => !(b is SeedIgnoringRelay)))),
-                when: n => n.OfType<SeedIgnoringRelay>().Any());
+            var g = this.WithoutSeedIgnoringRelay();
 
             var filter = FindContainer(g);
          
@@ -371,10 +365,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public IPostprocessComposer<T> WithAutoProperties()
         {
-            var g = this.ReplaceNodes(
-                with: n => CompositeSpecimenBuilder.UnwrapIfSingle(
-                    n.Compose(n.Where(b => !(b is SeedIgnoringRelay)))),
-                when: n => n.OfType<SeedIgnoringRelay>().Any());
+            var g = this.WithoutSeedIgnoringRelay();
 
             var filter = FindContainer(g);
 
@@ -515,6 +506,15 @@ namespace Ploeh.AutoFixture.Dsl
         public ISpecimenBuilder Builder
         {
             get { return this.builder; }
+        }
+
+        private ISpecimenBuilderNode WithoutSeedIgnoringRelay()
+        {
+            var g = this.ReplaceNodes(
+                with: n => CompositeSpecimenBuilder.UnwrapIfSingle(
+                    n.Compose(n.Where(b => !(b is SeedIgnoringRelay)))),
+                when: n => n.OfType<SeedIgnoringRelay>().Any());
+            return g;
         }
 
         private static ISpecimenBuilderNode FindContainer(
