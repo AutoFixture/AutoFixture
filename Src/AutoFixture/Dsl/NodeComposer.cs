@@ -340,11 +340,12 @@ namespace Ploeh.AutoFixture.Dsl
             Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
 #warning Argh! My eyes! Refactor!
-            var g = this.WithoutSeedIgnoringRelay();
+            var graphWithoutSeedIgnoringRelay =
+                this.WithoutSeedIgnoringRelay();
 
-            var filter = FindContainer(g);
+            var filter = FindContainer(graphWithoutSeedIgnoringRelay);
          
-            var g1 = g.ReplaceNodes(
+            var g1 = graphWithoutSeedIgnoringRelay.ReplaceNodes(
                 with: n => n.Compose(
                     new ISpecimenBuilder[]
                     {
