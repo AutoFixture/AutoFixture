@@ -146,7 +146,7 @@
     <Compile Include="ResidueCollectorNode.cs" />
     <Compile Include="SingletonSpecimenBuilderNodeStackAdapterCollection.cs" />
     <Compile Include="Kernel\SpecimenBuilderNode.cs" />
-    <Compile Include="SpecimenBuilderNodeCollectionAdapter.cs" />
+    <Compile Include="SpecimenBuilderNodeAdapterCollection.cs" />
     <Compile Include="SpecimenBuilderNodeEventArgs.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGenerator.cs" />
     <Compile Include="DefaultPrimitiveBuilders.cs" />

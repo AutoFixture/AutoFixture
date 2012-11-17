@@ -131,7 +131,7 @@
     <Compile Include="ResidueCollectorNodeTest.cs" />
     <Compile Include="StaticFactoryWithClosureOfOperationsBugRepro.cs" />
     <Compile Include="SingletonSpecimenBuilderNodeStackAdapterCollectionTest.cs" />
-    <Compile Include="SpecimenBuilderNodeCollectionAdapterTest.cs" />
+    <Compile Include="SpecimenBuilderNodeAdapterCollectionTest.cs" />
     <Compile Include="SpecimenBuilderNodeEventArgsTest.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGeneratorTest.cs" />
     <Compile Include="DefaultPrimitiveBuildersTest.cs" />
