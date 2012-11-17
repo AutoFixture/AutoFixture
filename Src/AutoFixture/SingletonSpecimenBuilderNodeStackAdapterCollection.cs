@@ -192,6 +192,7 @@ namespace Ploeh.AutoFixture
                 handler(this, e);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ISpecimenBuilderNode"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ISpecimenBuilderTransformation", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         private void UpdateGraph()
         {
             ISpecimenBuilder g = this.graph.SelectNodes(this.isWrappedGraph).First();
