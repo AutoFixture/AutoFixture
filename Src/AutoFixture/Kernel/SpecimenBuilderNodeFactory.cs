@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// Exposes convenience methods for producing well-known object graphs.
     /// </summary>
-    public class SpecimenBuilderNodeFactory
+    public static class SpecimenBuilderNodeFactory
     {
         /// <summary>
         /// Creates the appropriate initial graph for a
