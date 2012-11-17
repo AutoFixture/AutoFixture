@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -33,11 +34,11 @@ namespace Ploeh.AutoFixture
         internal static IEnumerable<T> SetItem<T>(this IEnumerable<T> items, int index, T item)
         {
             if (index < 0)
-                throw new ArgumentOutOfRangeException("index", string.Format("The supplied index was less than zero ({0}). Only zero and positive index numbers are supported.", index));
+                throw new ArgumentOutOfRangeException("index", string.Format(CultureInfo.CurrentCulture, "The supplied index was less than zero ({0}). Only zero and positive index numbers are supported.", index));
 
             var a = items.ToArray();
             if (a.Length <= index)
-                throw new ArgumentOutOfRangeException("index", string.Format("The supplied index ({0}) exceeds the addressable space of the current sequence. The length of the sequence is only {1}.", index, a.Length));
+                throw new ArgumentOutOfRangeException("index", string.Format(CultureInfo.CurrentCulture, "The supplied index ({0}) exceeds the addressable space of the current sequence. The length of the sequence is only {1}.", index, a.Length));
 
             return a.Take(index).Concat(new[] { item }).Concat(a.Skip(index + 1));
         }
