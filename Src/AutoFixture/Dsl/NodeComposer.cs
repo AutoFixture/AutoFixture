@@ -439,10 +439,10 @@ namespace Ploeh.AutoFixture.Dsl
             return (NodeComposer<T>)this.WithAutoProperties();
         }
 
-        private NodeComposer<T> WithFactory(ISpecimenBuilder builder)
+        private NodeComposer<T> WithFactory(ISpecimenBuilder factory)
         {
             return (NodeComposer<T>)this.ReplaceNodes(
-                with: n => n.Compose(new[] { builder }),
+                with: n => n.Compose(new[] { factory }),
                 when: n => n is NoSpecimenOutputGuard);
         }        
 
