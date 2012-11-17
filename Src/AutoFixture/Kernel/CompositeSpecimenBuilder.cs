@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.Kernel
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class CompositeSpecimenBuilder : ISpecimenBuilderNode
     {
-        private readonly List<ISpecimenBuilder> builders;
+        private readonly List<ISpecimenBuilder> composedBuilders;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeSpecimenBuilder"/> class with the
@@ -34,7 +34,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("builders");
             }
 
-            this.builders = builders.ToList();
+            this.composedBuilders = builders.ToList();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture.Kernel
         [Obsolete("In AutoFixture 3 this property will be weakened to return only IEnumerable<ISpecimenBuilder>. If you want to 'add' a new ISpecimenBuilder to a CompositeSpecimenBuilder, you can use the Compose method and pass in the current instance cancatenated with the new instance. Note that CompositeSpecimenBuilder itself implements IEnumerable<ISpecimenBuilder>, so you can enumerate over all the contained buliders by iterating directly over the instance instead of iterating over the Builders property.")]
         public IList<ISpecimenBuilder> Builders
         {
-            get { return this.builders; }
+            get { return this.composedBuilders; }
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>The first result created by <see cref="Builders"/>.</returns>
         public object Create(object request, ISpecimenContext context)
         {
-            return (from b in this.builders
+            return (from b in this.composedBuilders
                     let result = b.Create(request, context)
                     where !(result is NoSpecimen)
                     select result).DefaultIfEmpty(new NoSpecimen(request)).FirstOrDefault();
@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            return this.builders.GetEnumerator();
+            return this.composedBuilders.GetEnumerator();
         }
 
         /// <summary>
@@ -109,10 +109,10 @@ namespace Ploeh.AutoFixture.Kernel
             var c = node as CompositeSpecimenBuilder;
             if (c == null)
                 return node;
-            var isSingle = c.builders.Take(2).Count() == 1;
+            var isSingle = c.composedBuilders.Take(2).Count() == 1;
             if (isSingle)
             {
-                var n = c.builders.Single() as ISpecimenBuilderNode;
+                var n = c.composedBuilders.Single() as ISpecimenBuilderNode;
                 if (n != null)
                     return n;
             }
