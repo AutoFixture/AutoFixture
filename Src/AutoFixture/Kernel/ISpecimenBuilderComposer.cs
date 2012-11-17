@@ -3,7 +3,6 @@
     /// <summary>
     /// Composes instances of <see cref="ISpecimenBuilder"/>.
     /// </summary>
-#warning Consider whether this becomes redundant
     public interface ISpecimenBuilderComposer
     {
         /// <summary>
