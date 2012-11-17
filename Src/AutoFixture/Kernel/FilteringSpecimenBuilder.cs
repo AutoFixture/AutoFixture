@@ -7,6 +7,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Decorates an <see cref="ISpecimenBuilder"/> and filters requests so that only some requests
     /// are passed through to the decorated builder.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class FilteringSpecimenBuilder : ISpecimenBuilderNode
     {
         private readonly ISpecimenBuilder builder;

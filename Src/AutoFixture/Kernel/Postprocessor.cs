@@ -7,6 +7,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// Performs post-processing on a created specimen.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class Postprocessor : Postprocessor<object>
     {
         /// <summary>
@@ -63,6 +64,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Performs post-processing on a created specimen.
     /// </summary>
     /// <typeparam name="T">The type of specimen.</typeparam>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class Postprocessor<T> : ISpecimenBuilderNode
     {
         private readonly ISpecimenBuilder builder;

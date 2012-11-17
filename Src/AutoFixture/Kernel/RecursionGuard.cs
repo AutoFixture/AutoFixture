@@ -9,6 +9,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Base class for recursion handling. Tracks requests and reacts when a recursion point in the
     /// specimen creation process is detected.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public abstract class RecursionGuard : ISpecimenBuilderNode
     {
         private readonly ISpecimenBuilder builder;

@@ -15,6 +15,7 @@ namespace Ploeh.AutoFixture
     /// container. This makes it easier to find the target for
     /// <i>Auto-properties</i> even if it is buried deep in a larger graph.
     /// </remarks>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class AutoPropertiesTarget : CompositeSpecimenBuilder
     {
         /// <summary>
