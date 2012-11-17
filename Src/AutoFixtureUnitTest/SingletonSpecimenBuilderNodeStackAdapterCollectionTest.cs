@@ -272,6 +272,51 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void ConstructWithNullGraphThrows()
+        {
+            // Fixture setup
+            Func<ISpecimenBuilderNode, bool> dummyPredicate = n => false;
+            var dummyTransformations = new ISpecimenBuilderTransformation[0];
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new SingletonSpecimenBuilderNodeStackAdapterCollection(
+                    null,
+                    dummyPredicate,
+                    dummyTransformations));
+            // Teardown
+        }
+
+        [Fact]
+        public void ConstructWithNullPredicateThrows()
+        {
+            // Fixture setup
+            var dummyGraph = new CompositeSpecimenBuilder();
+            var dummyTransformations = new ISpecimenBuilderTransformation[0];
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new SingletonSpecimenBuilderNodeStackAdapterCollection(
+                    dummyGraph,
+                    null,
+                    dummyTransformations));
+            // Teardown
+        }
+
+        [Fact]
+        public void ConstructWithNullTransformationsThrows()
+        {
+            // Fixture setup
+            var dummyGraph = new CompositeSpecimenBuilder();
+            Func<ISpecimenBuilderNode, bool> dummyPredicate = n => false;
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new SingletonSpecimenBuilderNodeStackAdapterCollection(
+                    dummyGraph,
+                    dummyPredicate,
+                    null));
+            // Teardown
+        }
+
+        [Fact]
         public void AddThrowsOnNonNode()
         {
             var nonNode = new DelegatingSpecimenBuilder();

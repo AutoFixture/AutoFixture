@@ -68,13 +68,18 @@ namespace Ploeh.AutoFixture
             Func<ISpecimenBuilderNode, bool> wrappedGraphPredicate,
             params ISpecimenBuilderTransformation[] transformations)
         {
+            if (graph == null)
+                throw new ArgumentNullException("graph");
+            if (wrappedGraphPredicate == null)
+                throw new ArgumentNullException("wrappedGraphPredicate");
+            if (transformations == null)
+                throw new ArgumentNullException("transformations");
+            
             this.graph = graph;
             this.isWrappedGraph = wrappedGraphPredicate;
 
             foreach (var t in transformations)
-            {
                 base.Add(t);
-            }
         }
 
         /// <summary>
