@@ -107,7 +107,9 @@ namespace Ploeh.AutoFixture.Kernel
         public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
-            return new DisposableTracker(composedBuilder);
+            var d = new DisposableTracker(composedBuilder);
+            this.disposables.Add(d);
+            return d;
         }
 
         /// <summary>

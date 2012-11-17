@@ -240,5 +240,21 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Empty(sut.Disposables);
             // Teardown
         }
+
+        [Fact]
+        public void ComposeAddsReturnedObjectToDisposables()
+        {
+            // Fixture setup
+            var dummy = new DelegatingSpecimenBuilder();
+            var sut = new DisposableTracker(dummy);
+            // Exercise system
+            var dummies = new ISpecimenBuilder[0];
+            var actual = sut.Compose(dummies);
+            // Verify outcome
+            Assert.True(
+                sut.Disposables.Any(actual.Equals),
+                "Returned value not added to disposables.");
+            // Teardown
+        }
     }
 }
