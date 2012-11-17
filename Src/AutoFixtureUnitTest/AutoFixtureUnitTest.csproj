@@ -130,7 +130,7 @@
     <Compile Include="RegularExpressionGeneratorTest.cs" />
     <Compile Include="ResidueCollectorNodeTest.cs" />
     <Compile Include="StaticFactoryWithClosureOfOperationsBugRepro.cs" />
-    <Compile Include="SingletonSpecimenBuilderNodeStackCollectionAdapterTest.cs" />
+    <Compile Include="SingletonSpecimenBuilderNodeStackAdapterCollectionTest.cs" />
     <Compile Include="SpecimenBuilderNodeCollectionAdapterTest.cs" />
     <Compile Include="SpecimenBuilderNodeEventArgsTest.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGeneratorTest.cs" />

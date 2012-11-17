@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class Fixture : IFixture
     {
-        private SingletonSpecimenBuilderNodeStackCollectionAdapter behaviors;
+        private SingletonSpecimenBuilderNodeStackAdapterCollection behaviors;
         private SpecimenBuilderNodeCollectionAdapter customizer;
         private readonly ISpecimenBuilder engine;
         private SpecimenBuilderNodeCollectionAdapter residueCollector;
@@ -354,7 +354,7 @@ namespace Ploeh.AutoFixture
 
         private void UpdateBehaviors(ISpecimenBuilderTransformation[] transformations)
         {
-            this.behaviors = new SingletonSpecimenBuilderNodeStackCollectionAdapter(this.graph, n => n is BehaviorRoot, transformations);
+            this.behaviors = new SingletonSpecimenBuilderNodeStackAdapterCollection(this.graph, n => n is BehaviorRoot, transformations);
             this.behaviors.GraphChanged += this.OnGraphChanged;
         }
     }
