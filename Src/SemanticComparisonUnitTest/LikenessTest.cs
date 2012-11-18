@@ -1267,6 +1267,32 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void ProxyOfTypeAcceptingConcreteTypeAndExposingAbstractTypeCanBeCreated()
+        {
+            // Fixture setup
+            var sut = new TypeAcceptingConcreteTypeAndExposingAbstractType(
+                new ConcreteType())
+                .AsSource()
+                .OfLikeness<TypeAcceptingConcreteTypeAndExposingAbstractType>();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.CreateProxy());
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyOfTypeAcceptingConcreteAndAbstractTypeAndExposingAbstractTypeCanBeCreated()
+        {
+            // Fixture setup
+            var sut = new TypeAcceptingConcreteAndAbstractTypeAndExposingAbstractType(
+                new ConcreteType(), 2, new ConcreteType())
+                .AsSource()
+                .OfLikeness<TypeAcceptingConcreteAndAbstractTypeAndExposingAbstractType>();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.CreateProxy());
+            // Teardown
+        }
+
         private static void CompareLikenessToObject<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup
@@ -1404,6 +1430,63 @@ namespace Ploeh.SemanticComparison.UnitTest
             public Guid Property4
             {
                 get { return this.field4; }
+            }
+        }
+
+        public class TypeAcceptingConcreteTypeAndExposingAbstractType
+        {
+            private readonly AbstractType value;
+
+            public TypeAcceptingConcreteTypeAndExposingAbstractType(
+                ConcreteType value)
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+
+                this.value = value;
+            }
+            
+            public AbstractType Property
+            {
+                get { return this.value; }
+            }
+        }
+
+        public class TypeAcceptingConcreteAndAbstractTypeAndExposingAbstractType
+        {
+            private readonly AbstractType field1;
+            private readonly int field2;
+            private readonly AbstractType field3;
+
+            public TypeAcceptingConcreteAndAbstractTypeAndExposingAbstractType(
+                ConcreteType value1,
+                int value2,
+                AbstractType value3)
+            {
+                if (value1 == null)
+                    throw new ArgumentNullException("value1");
+
+                if (value3 == null)
+                    throw new ArgumentNullException("value3");
+
+                this.field1 = value1;
+                this.field2 = value2;
+                this.field3 = value3;
+            }
+
+            public AbstractType Property1
+            {
+                get { return this.field1; }
+            }
+
+            public int Property2
+            {
+                get { return this.field2; }
+            }
+
+            public AbstractType Property3
+            {
+                get { return this.field3; }
             }
         }
     }
