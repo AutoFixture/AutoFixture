@@ -20,11 +20,11 @@ namespace Ploeh.SemanticComparison
             ProxyGenerator.BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
             ProxyGenerator.BuildMethodGetHashCode<TDestination>(builder);
 
-            IEnumerable<Type> parameterTypes = typeof(TDestination)
-                .GetCompatibleConstructor().GetParameters().Select(pi => pi.ParameterType);
+            List<Type> parameterTypes = typeof(TDestination)
+                .GetCompatibleConstructor().GetParameters().Select(pi => pi.ParameterType).ToList();
 
             var constructorArguments = (from mi in members
-                                        where parameterTypes.Contains(mi.ToUnderlyingType())
+                                        where parameterTypes.Matches(mi.ToUnderlyingType())
                                         select typeof(TSource).MatchProperty(mi.Name).GetValue(source, null))
                                         .Take(parameterTypes.Count())
                                         .Concat(new[] { comparer });
