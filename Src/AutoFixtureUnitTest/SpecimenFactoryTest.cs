@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
@@ -215,6 +216,13 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateManyOnNullSpecimenBuilderThrows()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+                SpecimenFactory.CreateMany<object>((ISpecimenBuilder)null));
+        }
+
+        [Fact]
         public void CreateManyOnNullSpecimenBuilderComposerWithSeedThrows()
         {
             // Fixture setup
@@ -307,6 +315,31 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = composer.CreateMany<string>();
             // Verify outcome
             Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateManyOnSpecimenBuilderReturnsCorrectResult()
+        {
+            // Fixture setup
+            var expected =
+                Enumerable.Range(1337, 42).Select(i => i.ToString());
+            var builder = new DelegatingSpecimenBuilder();
+            builder.OnCreate = (r, c) =>
+            {
+                Assert.NotNull(c);
+                Assert.Equal(
+                    new MultipleRequest(
+                        new SeededRequest(typeof(string), null)),
+                    r);
+                return expected.Cast<object>();
+            };
+            // Exercise system
+            IEnumerable<string> actual = builder.CreateMany<string>();
+            // Verify outcome
+            Assert.True(
+                expected.SequenceEqual(actual),
+                "Sequences not equal.");
             // Teardown
         }
 
