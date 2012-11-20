@@ -136,6 +136,14 @@ namespace Ploeh.AutoFixture
             return builder.CreateContext().CreateAnonymous<T>(seed);
         }
 
+        /// <summary>Creates many anonymous objects.</summary>
+        /// <typeparam name="T">The type of objects to create.</typeparam>
+        /// <param name="builder">
+        /// The builder used to resolve the type request.
+        /// </param>
+        /// <returns>
+        /// A sequence of anonymous object of type <typeparamref name="T"/>.
+        /// </returns>
         public static IEnumerable<T> CreateMany<T>(
             this ISpecimenBuilder builder)
         {
