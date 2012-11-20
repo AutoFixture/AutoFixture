@@ -31,6 +31,13 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateFromNullSpecimenBuilderThrows()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+                SpecimenFactory.Create<object>((ISpecimenBuilder)null));
+        }
+
+        [Fact]
         public void CreateAnonymousFromNullSpecimenBuilderComposerWithSeedThrows()
         {
             // Fixture setup
@@ -49,6 +56,17 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 SpecimenFactory.CreateAnonymous<object>((ISpecimenContext)null, dummySeed));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateFromNullSpecimenBuilderWithSeedThrows()
+        {
+            // Fixture setup
+            var dummySeed = new object();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                SpecimenFactory.Create<object>((ISpecimenBuilder)null, dummySeed));
             // Teardown
         }
 
@@ -83,6 +101,27 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = composer.CreateAnonymous<DateTime>();
             // Verify outcome
             Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateOnSpecimenBuilderReturnsCorrectResult()
+        {
+            // Fixture setup
+            var expected = new DateTime(2012, 11, 20, 9, 45, 51);
+            var builder = new DelegatingSpecimenBuilder();
+            builder.OnCreate = (r, c) =>
+            {
+                Assert.NotNull(c);
+                Assert.Equal(
+                    new SeededRequest(typeof(DateTime), default(DateTime)),
+                    r);
+                return expected;
+            };
+            // Exercise system
+            DateTime actual = builder.Create<DateTime>();
+            // Verify outcome
+            Assert.Equal(expected, actual);
             // Teardown
         }
 
@@ -140,6 +179,28 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = composer.CreateAnonymous(seed);
             // Verify outcome
             Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithSeedOnSpecimenBuilderReturnsCorrectResult()
+        {
+            // Fixture setup
+            var seed = new Version(2, 15);
+            var expected = new Version(3, 0);
+            var builder = new DelegatingSpecimenBuilder();
+            builder.OnCreate = (r, c) =>
+            {
+                Assert.NotNull(c);
+                Assert.Equal(
+                    new SeededRequest(typeof(Version), seed),
+                    r);
+                return expected;
+            };
+            // Exercise system
+            Version actual = builder.Create<Version>(seed);
+            // Verify outcome
+            Assert.Equal(expected, actual);
             // Teardown
         }
 

@@ -46,6 +46,11 @@ namespace Ploeh.AutoFixture
             return composer.Compose().CreateContext().CreateAnonymous<T>();
         }
 
+        public static T Create<T>(this ISpecimenBuilder builder)
+        {
+            return builder.CreateContext().CreateAnonymous<T>();
+        }
+
         /// <summary>
         /// Creates an anonymous variable of the requested type.
         /// </summary>
@@ -101,6 +106,11 @@ namespace Ploeh.AutoFixture
             }
 
             return composer.Compose().CreateContext().CreateAnonymous(seed);
+        }
+
+        public static T Create<T>(this ISpecimenBuilder builder, T seed)
+        {
+            return builder.CreateContext().CreateAnonymous<T>(seed);
         }
 
         /// <summary>
