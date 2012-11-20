@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Ploeh.AutoFixture.Kernel;
 
@@ -19,15 +20,23 @@ namespace Ploeh.AutoFixture
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "A Generator is (or ought to be) a generally known concept, based on the Iterator design pattern.")]
     public class Generator<T> : IEnumerable<T>
     {
-        private readonly ISpecimenBuilderComposer composer;
+        private readonly ISpecimenBuilder builder;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Generator&lt;T&gt;"/> class.
         /// </summary>
         /// <param name="composer">A composer which is used to generate items.</param>
         public Generator(ISpecimenBuilderComposer composer)
+            : this(composer.Compose())
         {
-            this.composer = composer;
+        }
+
+        public Generator(ISpecimenBuilder builder)
+        {
+            if (builder == null)
+                throw new ArgumentNullException("builder");
+
+            this.builder = builder;
         }
 
         /// <summary>
@@ -36,7 +45,7 @@ namespace Ploeh.AutoFixture
         public IEnumerator<T> GetEnumerator()
         {
             while (true)
-                yield return this.composer.CreateAnonymous<T>();
+                yield return this.builder.Create<T>();
         }
 
         /// <summary>

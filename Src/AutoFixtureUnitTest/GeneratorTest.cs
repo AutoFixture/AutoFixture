@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.AutoFixtureUnitTest.Kernel;
 using Xunit;
 using Xunit.Extensions;
 
@@ -73,6 +74,73 @@ namespace Ploeh.AutoFixtureUnitTest
             var actual = sut.OfType<T>().Take(count);
             // Verify outcome
             Assert.Equal(count, actual.Distinct().Count());
+            // Teardown
+        }
+
+        [Fact]
+        public void ConstructWithNullSpecimenBuilderThrows()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+                new Generator<T>((ISpecimenBuilder)null));
+        }
+
+        [Theory, ClassData(typeof(CountTestCases))]
+        public void ConstructedWithSpecimenBuilderStronglyTypedEnumerationYieldsNonDefaultValues(int count)
+        {
+            // Fixture setup
+            var builder = new Fixture().Compose();            
+            var sut = new Generator<T>(builder);
+            // Exercise system
+            var actual = sut.OfType<T>().Take(count);
+            // Verify outcome
+            Assert.Equal(
+                count,
+                actual.Count(x => !object.Equals(default(T), x)));
+            // Teardown
+        }
+
+        [Theory, ClassData(typeof(CountTestCases))]
+        public void ConstructedWithSpecimenBuilderWeaklyTypedEnumerationYieldsNonDefaultValues(int count)
+        {
+            // Fixture setup
+            var builder = new Fixture().Compose();
+            IEnumerable sut = new Generator<T>(builder);
+            // Exercise system
+            var actual = sut.OfType<T>().Take(count);
+            // Verify outcome
+            Assert.Equal(
+                count,
+                actual.Count(x => !object.Equals(default(T), x)));
+            // Teardown
+        }
+
+        [Theory, ClassData(typeof(CountTestCases))]
+        public void ConstructedWithSpecimenBuilderStronglyTypedEnumerationYieldsDistinctValues(int count)
+        {
+            // Fixture setup
+            var builder = new Fixture().Compose();
+            var sut = new Generator<T>(builder);
+            // Exercise system
+            var actual = sut.OfType<T>().Take(count);
+            // Verify outcome
+            Assert.Equal(
+                count,
+                actual.Distinct().Count());
+            // Teardown
+        }
+
+        [Theory, ClassData(typeof(CountTestCases))]
+        public void ConstructedWithSpecimenBuilderWeaklyTypedEnumerationYieldsDistinctValues(int count)
+        {
+            // Fixture setup
+            var builder = new Fixture().Compose();
+            IEnumerable sut = new Generator<T>(builder);
+            // Exercise system
+            var actual = sut.OfType<T>().Take(count);
+            // Verify outcome
+            Assert.Equal(
+                count,
+                actual.Distinct().Count());
             // Teardown
         }
     }
