@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <param name="composer">A composer which is used to generate items.</param>
         public Generator(ISpecimenBuilderComposer composer)
-            : this(composer.Compose())
+            : this(Compose(composer))
         {
         }
 
@@ -68,6 +68,15 @@ namespace Ploeh.AutoFixture
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
+        }
+
+        private static ISpecimenBuilder Compose(
+            ISpecimenBuilderComposer composer)
+        {
+            if (composer == null)
+                throw new ArgumentNullException("composer");
+
+            return composer.Compose();
         }
     }
 }

@@ -143,6 +143,13 @@ namespace Ploeh.AutoFixtureUnitTest
                 actual.Distinct().Count());
             // Teardown
         }
+
+        [Fact]
+        public void ConstructWithNullComposerThrows()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+                new Generator<T>((ISpecimenBuilderComposer)null));
+        }
     }
 
     internal class CountTestCases : IEnumerable<object[]>
