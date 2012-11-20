@@ -148,6 +148,7 @@
     <Compile Include="Kernel\SpecimenBuilderNode.cs" />
     <Compile Include="SpecimenBuilderNodeAdapterCollection.cs" />
     <Compile Include="SpecimenBuilderNodeEventArgs.cs" />
+    <Compile Include="SpecimenCommand.cs" />
     <Compile Include="StrictlyMonotonicallyIncreasingDateTimeGenerator.cs" />
     <Compile Include="DefaultPrimitiveBuilders.cs" />
     <Compile Include="DictionaryFiller.cs" />
