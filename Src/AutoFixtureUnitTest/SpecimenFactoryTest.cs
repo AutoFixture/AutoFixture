@@ -245,6 +245,19 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateManyOnNullSpecimenBuilderWithSeedThrows()
+        {
+            // Fixture setup
+            var dummySeed = new object();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                SpecimenFactory.CreateMany<object>(
+                    (ISpecimenBuilder)null,
+                    dummySeed));
+            // Teardown
+        }
+
+        [Fact]
         public void CreateManyOnNullSpecimenBuilderComposerWithCountThrows()
         {
             // Fixture setup
@@ -402,6 +415,32 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = composer.CreateMany(seed);
             // Verify outcome
             Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateSeededManyOnSpecimenBuilderReturnsCorrectResult()
+        {
+            // Fixture setup
+            var seed = TimeSpan.FromMinutes(21);
+            var expected = 
+                Enumerable.Range(42, 7).Select(i => TimeSpan.FromHours(i));
+            var builder = new DelegatingSpecimenBuilder();
+            builder.OnCreate = (r, c) =>
+            {
+                Assert.NotNull(c);
+                Assert.Equal(
+                    new MultipleRequest(
+                        new SeededRequest(typeof(TimeSpan), seed)),
+                    r);
+                return expected.Cast<object>();
+            };
+            // Exercise system
+            IEnumerable<TimeSpan> actual = builder.CreateMany(seed);
+            // Verify outcome
+            Assert.True(
+                expected.SequenceEqual(actual),
+                "Sequences not equal.");
             // Teardown
         }
 
