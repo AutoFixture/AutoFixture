@@ -396,6 +396,14 @@ namespace Ploeh.AutoFixture
             return ((ISpecimenBuilderComposer)composer).CreateMany<T>(count);
         }
 
+        public static IEnumerable<T> CreateMany<T>(
+            this ISpecimenBuilder builder,
+            T seed,
+            int count)
+        {
+            return builder.CreateContext().CreateMany(seed, count);
+        }
+
         /// <summary>
         /// Creates many anonymous objects.
         /// </summary>
