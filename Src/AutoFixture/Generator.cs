@@ -11,10 +11,11 @@ namespace Ploeh.AutoFixture
     /// <typeparam name="T">The item type.</typeparam>
     /// <remarks>
     /// <para>
-    /// This is a generator that generates a perpetual sequence of items of type
-    /// <typeparamref name="T" />, based on an encapsulated
-    /// <see cref="ISpecimenBuilderComposer" />. This can be useful when zipping a against a finite
-    /// sequence, since this sequence will go on for as long as required.
+    /// This is a generator that generates a perpetual sequence of items of
+    /// type <typeparamref name="T" />, based on an encapsulated
+    /// <see cref="ISpecimenBuilder" />. This can be useful when zipping a
+    /// against a finite sequence, since this sequence will go on for as long
+    /// as required.
     /// </para>
     /// </remarks>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "A Generator is (or ought to be) a generally known concept, based on the Iterator design pattern.")]
@@ -31,6 +32,16 @@ namespace Ploeh.AutoFixture
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Generator{T}" />
+        /// class.
+        /// </summary>
+        /// <param name="builder">
+        /// A builder which is used to generate items.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="builder" /> is null
+        /// </exception>
         public Generator(ISpecimenBuilder builder)
         {
             if (builder == null)
