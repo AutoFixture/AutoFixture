@@ -309,6 +309,26 @@ namespace Ploeh.AutoFixture
             return composer.Compose().CreateContext().CreateMany(seed);
         }
 
+        /// <summary>Creates many anonymous objects.</summary>
+        /// <typeparam name="T">The type of objects to create.</typeparam>
+        /// <param name="builder">
+        /// The builder used to resolve the type request.
+        /// </param>
+        /// <param name="count">The number of objects to create.</param>
+        /// <returns>
+        /// A sequence of anonymous objects of type <typeparamref name="T"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The CreateMany implementation always returns a new instance of
+        /// <see cref="IEnumerable{T}" />. Even if IEnumerable&lt;T&gt; is
+        /// Frozen by the <see cref="FixtureFreezer.Freeze(IFixture)" /> method
+        /// or explicitly assigned with the
+        /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
+        /// CreateMany method returns a new, independent instance of
+        /// IEnumerable&lt;T&gt;.
+        /// </para>
+        /// </remarks>
         public static IEnumerable<T> CreateMany<T>(
             this ISpecimenBuilder builder,
             int count)
@@ -396,6 +416,30 @@ namespace Ploeh.AutoFixture
             return ((ISpecimenBuilderComposer)composer).CreateMany<T>(count);
         }
 
+        /// <summary>Creates many anonymous objects.</summary>
+        /// <typeparam name="T">The type of objects to create.</typeparam>
+        /// <param name="builder">
+        /// The builder used to resolve the type request.
+        /// </param>
+        /// <param name="seed">
+        /// An initial value that may or may not be used as input for the
+        /// algorithm creating the return value.
+        /// </param>
+        /// <param name="count">The number of objects to create.</param>
+        /// <returns>
+        /// A sequence of anonymous objects of type <typeparamref name="T"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The CreateMany implementation always returns a new instance of
+        /// <see cref="IEnumerable{T}" />. Even if IEnumerable&lt;T&gt; is
+        /// Frozen by the <see cref="FixtureFreezer.Freeze(IFixture)" /> method
+        /// or explicitly assigned with the
+        /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
+        /// CreateMany method returns a new, independent instance of
+        /// IEnumerable&lt;T&gt;.
+        /// </para>
+        /// </remarks>
         public static IEnumerable<T> CreateMany<T>(
             this ISpecimenBuilder builder,
             T seed,
