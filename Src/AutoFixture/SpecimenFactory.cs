@@ -46,6 +46,16 @@ namespace Ploeh.AutoFixture
             return composer.Compose().CreateContext().CreateAnonymous<T>();
         }
 
+        /// <summary>
+        /// Creates an anonymous variable of the requested type.
+        /// </summary>
+        /// <typeparam name="T">The type of object to create.</typeparam>
+        /// <param name="builder">
+        /// The builder used to resolve the type request.
+        /// </param>
+        /// <returns>
+        /// An anonymous object of type <typeparamref name="T"/>.
+        /// </returns>
         public static T Create<T>(this ISpecimenBuilder builder)
         {
             return builder.CreateContext().CreateAnonymous<T>();
@@ -108,6 +118,19 @@ namespace Ploeh.AutoFixture
             return composer.Compose().CreateContext().CreateAnonymous(seed);
         }
 
+        /// <summary>
+        /// Creates an anonymous object, potentially using the supplied seed as
+        /// additional information when creating the object.
+        /// </summary>
+        /// <typeparam name="T">The type of object to create.</typeparam>
+        /// <param name="builder">
+        /// The builder used to resolve the type request.
+        /// </param>
+        /// <param name="seed">
+        /// Any data that adds additional information when creating the
+        /// anonymous object.
+        /// </param>
+        /// <returns>An anonymous object.</returns>
         public static T Create<T>(this ISpecimenBuilder builder, T seed)
         {
             return builder.CreateContext().CreateAnonymous<T>(seed);
