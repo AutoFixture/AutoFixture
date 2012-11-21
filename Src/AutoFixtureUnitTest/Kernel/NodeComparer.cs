@@ -262,7 +262,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             private static object GetActionMethod(Delegate del)
             {
                 var obj = del.Target;
-#warning Consider using dynamic dispatch when on .NET 4.0
                 var actionField = obj.GetType().GetField("action");
                 if (actionField == null)
                     return del.Method;
