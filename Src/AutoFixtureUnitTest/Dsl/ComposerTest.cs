@@ -16,7 +16,9 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void InitializeWithDefaultConstructorHasCorrectFactory()
         {
             // Fixture setup
+#pragma warning disable 618
             var sut = new Composer<TypeCode>();
+#pragma warning restore 618
             // Exercise system
             ISpecimenBuilder result = sut.Factory;
             // Verify outcome
@@ -28,7 +30,9 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void InitializeWithDefaultConstructorHasCorrectPostprocessors()
         {
             // Fixture setup
+#pragma warning disable 618
             var sut = new Composer<HttpStyleUriParser>();
+#pragma warning restore 618
             // Exercise system
             IEnumerable<ISpecifiedSpecimenCommand<HttpStyleUriParser>> result = sut.Postprocessors;
             // Verify outcome
@@ -40,7 +44,9 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void InitializeWithDefaultConstructorHasCorrectEnableAutoProperties()
         {
             // Fixture setup
+#pragma warning disable 618
             var sut = new Composer<PlatformID>();
+#pragma warning restore 618
             // Exercise system
             bool result = sut.EnableAutoProperties;
             // Verify outcome
@@ -54,8 +60,10 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Fixture setup
             var dummyCommands = Enumerable.Empty<ISpecifiedSpecimenCommand<UriParser>>();
             // Exercise system and verify outcome
+#pragma warning disable 618
             Assert.Throws<ArgumentNullException>(() =>
                 new Composer<UriParser>(null, dummyCommands, false));
+#pragma warning restore 618
             // Teardown
         }
 
@@ -65,8 +73,10 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Fixture setup
             var dummyFactory = new DelegatingSpecimenBuilder();
             // Exercise system and verify outcome
+#pragma warning disable 618
             Assert.Throws<ArgumentNullException>(() =>
                 new Composer<ParamArrayAttribute>(dummyFactory, null, false));
+#pragma warning restore 618
             // Teardown
         }
 
@@ -76,7 +86,9 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Fixture setup
             var expectedFactory = new DelegatingSpecimenBuilder();
             var dummyCommands = Enumerable.Empty<ISpecifiedSpecimenCommand<byte>>();
+#pragma warning disable 618
             var sut = new Composer<byte>(expectedFactory, dummyCommands, false);
+#pragma warning restore 618
             // Exercise system
             var result = sut.Factory;
             // Verify outcome
@@ -93,7 +105,9 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                 .Select(i => new DelegatingSpecifiedSpecimenCommand<Version>())
                 .Cast<ISpecifiedSpecimenCommand<Version>>()
                 .ToList();
+#pragma warning disable 618
             var sut = new Composer<Version>(dummyFactory, expectedCommands, false);
+#pragma warning restore 618
             // Exercise system
             var result = sut.Postprocessors;
             // Verify outcome
@@ -108,7 +122,9 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var dummyFactory = new DelegatingSpecimenBuilder();
             var dummyPostprocessors = Enumerable.Empty<ISpecifiedSpecimenCommand<HttpStyleUriParser>>();
             var enableAutoProperties = true;
+#pragma warning disable 618
             var sut = new Composer<HttpStyleUriParser>(dummyFactory, dummyPostprocessors, enableAutoProperties);
+#pragma warning restore 618
             // Exercise system
             var result = sut.EnableAutoProperties;
             // Verify outcome
@@ -124,7 +140,9 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var postprocessors = Enumerable.Range(1, 3)
                 .Select(i => new DelegatingSpecifiedSpecimenCommand<Uri>())
                 .Cast<ISpecifiedSpecimenCommand<Uri>>();
+#pragma warning disable 618
             var sut = new Composer<Uri>(dummyFactory, postprocessors, false);
+#pragma warning restore 618
             var expected = sut.Postprocessors;
             // Exercise system
             var result = sut.Postprocessors;
@@ -292,7 +310,9 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var result = sut.FromSeed(expectedFactory);
             // Verify outcome
+#pragma warning disable 618
             var resultingComposer = Assert.IsAssignableFrom<Composer<OperatingSystem>>(result);
+#pragma warning disable 618
             var factory = Assert.IsAssignableFrom<SeededFactory<OperatingSystem>>(resultingComposer.Factory);
             Assert.Equal(expectedFactory, factory.Factory);
             // Teardown

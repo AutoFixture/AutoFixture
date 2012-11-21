@@ -314,7 +314,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedValue = 9;
-            var customBuilder = new Composer<PropertyHolder<int>>().With(x => x.Property, expectedValue).Compose();
+            var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<int>>()
+                .With(x => x.Property, expectedValue)
+                .Compose();
             var builder = new CompositeSpecimenBuilder(
                 customBuilder,
                 Scenario.CreateCoreBuilder());
@@ -329,7 +331,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void ComposeWithAutoPropertiesAndExplicitProperty()
         {
             // Fixture setup
-            var customBuilder = new Composer<DoublePropertyHolder<int, int>>()
+            var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, int>>()
                 .WithAutoProperties()
                 .With(x => x.Property1, 8)
                 .Compose();
@@ -348,7 +350,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void ComposeWithAutoProperties()
         {
             // Fixture setup
-            var customBuilder = new Composer<DoublePropertyHolder<int, int>>()
+            var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, int>>()
                 .WithAutoProperties()
                 .Compose();
             var builder = new CompositeSpecimenBuilder(
@@ -367,15 +369,15 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var builder = new CompositeSpecimenBuilder(
-                new Composer<DoublePropertyHolder<long, long>>()
+                SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<long, long>>()
                     .With(x => x.Property2, 43)
                     .WithAutoProperties()
                     .Compose(),
-                new Composer<DoublePropertyHolder<int, string>>()
+                SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, string>>()
                     .OmitAutoProperties()
                     .With(x => x.Property1)
                     .Compose(),
-                new Composer<DoublePropertyHolder<DoublePropertyHolder<long, long>, DoublePropertyHolder<int, string>>>()
+                SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<DoublePropertyHolder<long, long>, DoublePropertyHolder<int, string>>>()
                     .WithAutoProperties()
                     .Compose(),
                 Scenario.CreateCoreBuilder());
@@ -394,7 +396,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var builder = new CompositeSpecimenBuilder(
-                new Composer<PropertyHolder<decimal>>().OmitAutoProperties().Do(x => x.SetProperty(6789)).Compose(),
+                SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<decimal>>().OmitAutoProperties().Do(x => x.SetProperty(6789)).Compose(),
                 Scenario.CreateCoreBuilder());
             // Exercise system
             var result = new SpecimenContext(builder).CreateAnonymous<SingleParameterType<PropertyHolder<decimal>>>();
@@ -408,7 +410,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var builder = new CompositeSpecimenBuilder(
-                new Composer<DoubleFieldHolder<string, int>>().WithAutoProperties().Without(x => x.Field1).Compose(),
+                SpecimenBuilderNodeFactory.CreateComposer<DoubleFieldHolder<string, int>>().WithAutoProperties().Without(x => x.Field1).Compose(),
                 Scenario.CreateCoreBuilder());
             // Exercise system
             var result = new SpecimenContext(builder).CreateAnonymous<DoubleFieldHolder<string, int>>();
@@ -424,7 +426,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var instance = new PropertyHolder<float> { Property = 89 };
             var builder = new CompositeSpecimenBuilder(
-                new Composer<PropertyHolder<float>>().FromFactory(() => instance).OmitAutoProperties().Compose(),
+                SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<float>>().FromFactory(() => instance).OmitAutoProperties().Compose(),
                 Scenario.CreateCoreBuilder());
             // Exercise system
             var result = new SpecimenContext(builder).CreateAnonymous<PropertyHolder<float>>();
@@ -440,7 +442,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             // Exercise system
             var result = new CompositeComposer<DoublePropertyHolder<int, decimal>>(
-                    new Composer<DoublePropertyHolder<int, decimal>>(),
+                    SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, decimal>>(),
                     new NullComposer<DoublePropertyHolder<int, decimal>>(Scenario.CreateAutoPropertyBuilder)
                     ).With(x => x.Property2, 8m).WithAutoProperties().CreateAnonymous();
             // Verify outcome

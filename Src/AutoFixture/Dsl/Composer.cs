@@ -10,6 +10,7 @@ namespace Ploeh.AutoFixture.Dsl
     /// Enables composition customization of a single type of specimen.
     /// </summary>
     /// <typeparam name="T">The type of specimen.</typeparam>
+    [Obsolete("Use NodeComposer<T> instead.")]
     public class Composer<T> : TypedBuilderComposer, ICustomizationComposer<T>
     {
         private readonly IEnumerable<ISpecifiedSpecimenCommand<T>> postprocessors;
