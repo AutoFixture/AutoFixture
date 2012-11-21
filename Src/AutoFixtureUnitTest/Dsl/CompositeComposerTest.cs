@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Dsl
 {
+#pragma warning disable 618
     public class CompositeComposerTest
     {
         [Fact]
@@ -339,4 +340,5 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Teardown
         }
     }
+#pragma warning restore 618
 }

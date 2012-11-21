@@ -10,6 +10,7 @@ namespace Ploeh.AutoFixture.Dsl
     /// Aggregates an arbitrary number of <see cref="ICustomizationComposer{T}"/> instances.
     /// </summary>
     /// <typeparam name="T">The type of specimen to customize.</typeparam>
+    [Obsolete("Please use CompositeNodeComposer<T> instead.")]
     public class CompositeComposer<T> : ICustomizationComposer<T>
     {
         private readonly IEnumerable<ICustomizationComposer<T>> composers;
