@@ -22,7 +22,9 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             ISpecimenBuilderComposer composer = new Fixture();
+#pragma warning disable 618
             var sut = new Generator<T>(composer);
+#pragma warning restore 618
             // Exercise system
             // Verify outcome
             Assert.IsAssignableFrom<IEnumerable<T>>(sut);
@@ -33,7 +35,9 @@ namespace Ploeh.AutoFixtureUnitTest
         public void StronglyTypedEnumerationYieldsNonDefaultValues(int count)
         {
             // Fixture setup
+#pragma warning disable 618
             var sut = new Generator<T>(new Fixture());
+#pragma warning restore 618
             // Exercise system
             var actual = sut.Take(count);
             // Verify outcome
@@ -45,7 +49,9 @@ namespace Ploeh.AutoFixtureUnitTest
         public void StronglyTypedEnumerationYieldsUniqueValues(int count)
         {
             // Fixture setup
+#pragma warning disable 618
             var sut = new Generator<T>(new Fixture());
+#pragma warning restore 618
             // Exercise system
             var actual = sut.Take(count);
             // Verify outcome
@@ -57,7 +63,9 @@ namespace Ploeh.AutoFixtureUnitTest
         public void WeaklyTypedEnumerationYieldsNonDefaultValues(int count)
         {
             // Fixture setup
+#pragma warning disable 618
             IEnumerable sut = new Generator<T>(new Fixture());
+#pragma warning restore 618
             // Exercise system
             var actual = sut.OfType<T>().Take(count);
             // Verify outcome
@@ -69,7 +77,9 @@ namespace Ploeh.AutoFixtureUnitTest
         public void WeaklyTypedEnumerationYieldsUniqueValues(int count)
         {
             // Fixture setup
+#pragma warning disable 618
             IEnumerable sut = new Generator<T>(new Fixture());
+#pragma warning restore 618
             // Exercise system
             var actual = sut.OfType<T>().Take(count);
             // Verify outcome
@@ -147,8 +157,10 @@ namespace Ploeh.AutoFixtureUnitTest
         [Fact]
         public void ConstructWithNullComposerThrows()
         {
+#pragma warning disable 618
             Assert.Throws<ArgumentNullException>(() =>
                 new Generator<T>((ISpecimenBuilderComposer)null));
+#pragma warning restore 618
         }
     }
 
