@@ -67,9 +67,11 @@ namespace Ploeh.AutoFixture
             }
 
             var factory = new MethodInvoker(this.Query);
-            var composer = new TypedBuilderComposer(this.TargetType, factory);
+            var builder = SpecimenBuilderNodeFactory.CreateTypedNode(
+                this.targetType,
+                factory);
 
-            fixture.Customizations.Insert(0, composer.Compose());
+            fixture.Customizations.Insert(0, builder);
         }
     }
 }
