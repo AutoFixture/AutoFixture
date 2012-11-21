@@ -14,7 +14,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyType = typeof(object);
             var dummyBuilder = new DelegatingSpecimenBuilder();
             // Exercise system
+#pragma warning disable 618
             var sut = new TypedBuilderComposer(dummyType, dummyBuilder);
+#pragma warning restore 618
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilderComposer>(sut);
             // Teardown
@@ -26,8 +28,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
             // Exercise system and verify outcome
+#pragma warning disable 618
             Assert.Throws<ArgumentNullException>(() =>
                 new TypedBuilderComposer(null, dummyBuilder));
+#pragma warning restore 618
             // Teardown
         }
 
@@ -37,8 +41,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var dummyType = typeof(object);
             // Exercise system and verify outcome
+#pragma warning disable 618
             Assert.Throws<ArgumentNullException>(() =>
                 new TypedBuilderComposer(dummyType, null));
+#pragma warning restore 618
             // Teardown
         }
 
@@ -48,7 +54,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedType = typeof(decimal);
             var dummyBuilder = new DelegatingSpecimenBuilder();
+#pragma warning disable 618
             var sut = new TypedBuilderComposer(expectedType, dummyBuilder);
+#pragma warning restore 618
             // Exercise system
             Type result = sut.TargetType;
             // Verify outcome
@@ -62,7 +70,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var dummyType = typeof(string);
             var expectedBuilder = new DelegatingSpecimenBuilder();
+#pragma warning disable 618
             var sut = new TypedBuilderComposer(dummyType, expectedBuilder);
+#pragma warning restore 618
             // Exercise system
             ISpecimenBuilder result = sut.Factory;
             // Verify outcome
@@ -76,7 +86,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var targetType = typeof(string);
             var factory = new DelegatingSpecimenBuilder();
+#pragma warning disable 618
             var sut = new TypedBuilderComposer(targetType, factory);
+#pragma warning restore 618
             // Exercise system
             var result = sut.Compose();
             // Verify outcome

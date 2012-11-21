@@ -7,6 +7,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// Composes a <see cref="ISpecimenBuilder"/> that targets a particular <see cref="Type"/>.
     /// </summary>
+    [Obsolete("Use SpecimenBuilderNodeFactory.CreateTypedNode instead.")]
     public class TypedBuilderComposer : ISpecimenBuilderComposer
     {
         private readonly ISpecimenBuilder factory;

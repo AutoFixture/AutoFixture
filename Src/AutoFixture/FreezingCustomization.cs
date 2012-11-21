@@ -107,8 +107,8 @@ namespace Ploeh.AutoFixture
 
             var builder = new CompositeSpecimenBuilder(
                 from t in types
-                select new TypedBuilderComposer(
-                    t, fixedBuilder).Compose());
+                select SpecimenBuilderNodeFactory.CreateTypedNode(
+                    t, fixedBuilder) as ISpecimenBuilder);
 
             fixture.Customizations.Insert(0, builder);
         }
