@@ -12,6 +12,7 @@ using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
+#pragma warning disable 618
     public class BehaviorComposerTest
     {
         [Fact]
@@ -500,4 +501,5 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
     }
+#pragma warning restore 618
 }

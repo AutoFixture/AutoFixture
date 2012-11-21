@@ -23,6 +23,7 @@ namespace Ploeh.AutoFixture
     /// such as <see cref="ThrowingRecursionGuard"/> or <see cref="TraceWriter"/>.
     /// </para>
     /// </remarks>
+    [Obsolete("Deprecated as no longer used in the AutoFixture kernel. If you, against expectations, have a use for this class, please submit feedback on https://github.com/AutoFixture/AutoFixture/issues")]
     public class BehaviorComposer<T> : ICustomizationComposer<T>
     {
         private readonly ICustomizationComposer<T> composer;
