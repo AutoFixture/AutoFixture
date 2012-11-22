@@ -170,7 +170,7 @@ namespace Ploeh.AutoFixture
                         g = g.ReplaceNodes(with: pps, when: p.Equals);
                     }
                 }
-                this.graph = g;
+                this.OnGraphChanged(this, new SpecimenBuilderNodeEventArgs(g));
             }
         }
 

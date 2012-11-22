@@ -12,6 +12,7 @@ using Ploeh.AutoFixtureUnitTest.DataAnnotations;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -4069,6 +4070,21 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = fixture.CreateAnonymous<Type>();
             // Verify outcome
             Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void InjectDoesNotModifyAutoProperties(bool expected)
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            fixture.OmitAutoProperties = expected;
+            // Exercise system
+            fixture.Inject("dummy");
+            // Verify outcome
+            Assert.Equal(expected, fixture.OmitAutoProperties);
             // Teardown
         }
 
