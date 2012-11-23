@@ -390,21 +390,21 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContext = new DelegatingSpecimenContext();
             var sut = new RandomNumericSequenceGenerator(limits);
             // Exercise system
-            var numbers = new List<int[]>();
+            var numbers = new int[iterations][];
             for (int i = 0; i < iterations; i++)
             {
-                ThreadPool.QueueUserWorkItem(_ =>
+                ThreadPool.QueueUserWorkItem(index =>
                 {
-                    numbers.Add(
+                    numbers[(int)index] =
                         Enumerable
                             .Range(0, repeatCount)
                             .Select(x => sut.Create(typeof(int), dummyContext))
                             .Cast<int>()
-                            .ToArray());
+                            .ToArray();
 
                     if (Interlocked.Increment(ref completed) == iterations)
                         done.Set();
-                });
+                }, i);
             }
             done.WaitOne();
             int result = numbers.SelectMany(x => x).Distinct().Count();
