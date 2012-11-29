@@ -5,25 +5,40 @@ using System.Reflection;
 
 namespace Ploeh.SemanticComparison
 {
-    internal static class ProxyType
+    internal class ProxyType
     {
-        internal static ConstructorInfo GetCompatibleConstructor(this Type type)
-        {
-            List<Type> propertyTypes = type.GetProperties().Select(x => x.PropertyType).ToList();
+        private readonly ConstructorInfo constructor;
+        private readonly IEnumerable<object> parameters;
 
-            return (from ci in type.GetConstructors(
-                        BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance)
-                    let parameterTypes = ci.GetParameters().Select(x => x.ParameterType).ToList()
-                    where parameterTypes.All(propertyTypes.Contains)
-                    orderby parameterTypes.Count ascending
-                    select ci).First();
+        internal ProxyType(
+            ConstructorInfo constructor,
+            IEnumerable<object> parameters)
+            : this(constructor, parameters.ToArray())
+        {
         }
 
-        internal static PropertyInfo MatchProperty(this Type type, string name)
+        internal ProxyType(
+            ConstructorInfo constructor, 
+            params object[] parameters)
         {
-            return type.GetProperty(name)
-                ?? type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                    .First(x => x.Name.StartsWith(name, StringComparison.OrdinalIgnoreCase));
+            if (constructor == null)
+                throw new ArgumentNullException("constructor");
+
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            this.constructor = constructor;
+            this.parameters = parameters;
+        }
+
+        internal ConstructorInfo Constructor
+        {
+            get { return this.constructor; }
+        }
+
+        internal IEnumerable<object> Parameters
+        {
+            get { return this.parameters; }
         }
     }
 }
