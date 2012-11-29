@@ -71,6 +71,7 @@
     <Compile Include="AbstractTypeWithNonDefaultConstructor.cs" />
     <Compile Include="ActivityScope.cs" />
     <Compile Include="CollectionHolder.cs" />
+    <Compile Include="CompositeType.cs" />
     <Compile Include="ConcreteType.cs" />
     <Compile Include="DataErrorInfo.cs" />
     <Compile Include="DoubleFieldHolder.cs" />

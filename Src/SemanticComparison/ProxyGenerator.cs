@@ -13,22 +13,16 @@ namespace Ploeh.SemanticComparison
 
         internal static TDestination CreateLikenessProxy<TSource, TDestination>(TSource source, IEqualityComparer comparer, IEnumerable<MemberInfo> members)
         {
+            ProxyType proxyType = ProxyGenerator.FindCompatibleConstructor<TDestination>(source, members.ToArray());
             TypeBuilder builder = ProxyGenerator.BuildType<TDestination>(BuildModule(BuildAssembly(assemblyName)));
             FieldBuilder equals = ProxyGenerator.BuildFieldComparer(builder);
 
-            ProxyGenerator.BuildConstructors<TDestination>(builder, equals);
+            ProxyGenerator.BuildConstructors<TDestination>(proxyType.Constructor, builder, equals);
             ProxyGenerator.BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
             ProxyGenerator.BuildMethodGetHashCode<TDestination>(builder);
 
-            IEnumerable<Type> parameterTypes = typeof(TDestination)
-                .GetCompatibleConstructor().GetParameters().Select(pi => pi.ParameterType);
-
-            var constructorArguments = (from mi in members
-                                        where parameterTypes.Contains(mi.ToUnderlyingType())
-                                        select typeof(TSource).MatchProperty(mi.Name).GetValue(source, null))
-                                        .Take(parameterTypes.Count())
-                                        .Concat(new[] { comparer });
-
+            var constructorArguments = proxyType.Parameters.Concat(new[] { comparer });
+            
             return (TDestination)Activator.CreateInstance(builder.CreateType(), constructorArguments.ToArray());
         }
 
@@ -72,10 +66,9 @@ namespace Ploeh.SemanticComparison
             return field;
         }
 
-        private static void BuildConstructors<TDestination>(TypeBuilder type, FieldInfo comparer)
+        private static void BuildConstructors<TDestination>(ConstructorInfo ci, TypeBuilder type, FieldInfo comparer)
         {
-            ConstructorInfo baseConstructor  = typeof(TDestination).GetCompatibleConstructor();
-            Type[] constructorParameterTypes = BuildConstructorParameterTypes(baseConstructor).ToArray();
+            Type[] constructorParameterTypes = BuildConstructorParameterTypes(ci).ToArray();
 
             ConstructorBuilder constructor = type.DefineConstructor(
                 MethodAttributes.Public | MethodAttributes.HideBySig,
@@ -113,7 +106,7 @@ namespace Ploeh.SemanticComparison
                 }
             }
 
-            gen.Emit(OpCodes.Call, baseConstructor);
+            gen.Emit(OpCodes.Call, ci);
             gen.Emit(OpCodes.Nop);
             gen.Emit(OpCodes.Nop);
             gen.Emit(OpCodes.Ldarg_0);
@@ -225,6 +218,78 @@ namespace Ploeh.SemanticComparison
             gen.MarkLabel(label2);
             gen.Emit(OpCodes.Ldloc_0);
             gen.Emit(OpCodes.Ret);
+        }
+
+        private static ProxyType FindCompatibleConstructor<TDestination>(
+            object source,
+            MemberInfo[] members)
+        {
+            IEnumerable<ConstructorInfo> constructors = typeof(TDestination)
+                .GetPublicAndProtectedConstructors();
+
+            foreach (ConstructorInfo constructor in constructors)
+            {
+                List<Type> parameterTypes =
+                    constructor.GetParameterTypes().ToList();
+
+                object[] parameters =
+                    members.GetParameters(source, parameterTypes).ToArray();
+
+                if (!parameters.Any())
+                    return new ProxyType(constructor);
+
+                foreach (object parameter in parameters)
+                    if (parameterTypes.Any(x => x.IsInstanceOfType(parameter)))
+                        return new ProxyType(constructor, parameters);
+            }
+
+            throw new InvalidOperationException();
+        }
+
+        private static IEnumerable<ConstructorInfo> GetPublicAndProtectedConstructors(
+            this Type type)
+        {
+            return type.GetConstructors(
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+        }
+
+        private static IEnumerable<Type> GetParameterTypes(
+            this ConstructorInfo ci)
+        {
+            return ci.GetParameters().Select(pi => pi.ParameterType);
+        }
+
+        private static IEnumerable<object> GetParameters(
+            this IEnumerable<MemberInfo> members, 
+            object source, 
+            List<Type> parameterTypes)
+        {
+            return members
+                    .Where(mi => parameterTypes.Matches(mi.ToUnderlyingType()))
+                    .Select(x => source.GetType()
+                        .MatchProperty(x.Name).GetValue(source, null))
+                    .Take(parameterTypes.Count());
+        }
+
+        private static bool Matches(this List<Type> types, Type type)
+        {
+            return types.Contains(type)
+                || types.Any(t => t.IsAssignableFrom(type)
+                    || type.IsAssignableFrom(t));
+        }
+
+        private static PropertyInfo MatchProperty(this Type type, string name)
+        {
+            return type.GetProperty(name) ?? type.FindCompatibleProperty(name);
+        }
+
+        private static PropertyInfo FindCompatibleProperty(this Type type, 
+            string name)
+        {
+            return type.GetProperties(
+                    BindingFlags.Public | BindingFlags.Instance)
+                       .First(x => x.Name.StartsWith(
+                            name, StringComparison.OrdinalIgnoreCase));
         }
     }
 }
