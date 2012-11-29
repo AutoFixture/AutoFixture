@@ -12,13 +12,6 @@ namespace Ploeh.SemanticComparison
 
         internal ProxyType(
             ConstructorInfo constructor,
-            IEnumerable<object> parameters)
-            : this(constructor, parameters.ToArray())
-        {
-        }
-
-        internal ProxyType(
-            ConstructorInfo constructor, 
             params object[] parameters)
         {
             if (constructor == null)
