@@ -1277,8 +1277,10 @@ namespace Ploeh.SemanticComparison.UnitTest
             var sut = value
                 .AsSource()
                 .OfLikeness<TypeWithIncompatibleAndCompatibleConstructor>();
-            // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.CreateProxy());
+            // Exercise system
+            var result = sut.CreateProxy();
+            // Verify outcome
+            Assert.NotNull(result);
             // Teardown
         }
 
@@ -1293,8 +1295,10 @@ namespace Ploeh.SemanticComparison.UnitTest
             var sut = value
                 .AsSource()
                 .OfLikeness<TypeWithIncompatibleAndCompatibleConstructor>();
-            // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.CreateProxy());
+            // Exercise system
+            var result = sut.CreateProxy();
+            // Verify outcome
+            Assert.NotNull(result);
             // Teardown
         }
 
@@ -1310,8 +1314,10 @@ namespace Ploeh.SemanticComparison.UnitTest
             var sut = value
                 .AsSource()
                 .OfLikeness<TypeWithIncompatibleAndCompatibleConstructor>();
-            // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.CreateProxy());
+            // Exercise system
+            var result = sut.CreateProxy();
+            // Verify outcome
+            Assert.NotNull(result);
             // Teardown
         }
 
