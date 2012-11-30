@@ -264,11 +264,17 @@ namespace Ploeh.SemanticComparison
             object source, 
             List<Type> parameterTypes)
         {
-            return members
-                    .Where(mi => parameterTypes.Matches(mi.ToUnderlyingType()))
-                    .Select(x => source.GetType()
-                        .MatchProperty(x.Name).GetValue(source, null))
-                    .Take(parameterTypes.Count());
+            List<object> parameters = members
+                .Where(mi => parameterTypes.Matches(mi.ToUnderlyingType()))
+                .Select(x => source.GetType()
+                    .MatchProperty(x.Name).GetValue(source, null))
+                .Take(parameterTypes.Count())
+                .ToList();
+
+            if (!parameters.AreOrderedBy(parameterTypes))
+                return parameters.OrderByType(parameterTypes);
+
+            return parameters;
         }
 
         private static bool Matches(this List<Type> types, Type type)
@@ -290,6 +296,22 @@ namespace Ploeh.SemanticComparison
                     BindingFlags.Public | BindingFlags.Instance)
                        .First(x => x.Name.StartsWith(
                             name, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private static bool AreOrderedBy(this IEnumerable<object> sequence,
+            IEnumerable<Type> types)
+        {
+            return sequence
+                .Select(x => x.GetType().Name)
+                .SequenceEqual(types.Select(x => x.Name));
+        }
+
+        private static IEnumerable<object> OrderByType(
+            this IEnumerable<object> sequence,
+            IEnumerable<Type> types)
+        {
+            return from t in types
+                   select sequence.First(x => t.IsAssignableFrom(x.GetType()));
         }
     }
 }
