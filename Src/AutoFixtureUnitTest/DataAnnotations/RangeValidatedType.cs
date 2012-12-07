@@ -32,6 +32,9 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         public int Property5 { get; set; }
 
         [Range(Minimum, Maximum)]
+        public byte Property6 { get; set; }
+
+        [Range(Minimum, Maximum)]
         public decimal? NullableTypeField;
 
         [Range(Minimum, Maximum)]
