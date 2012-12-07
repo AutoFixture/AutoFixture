@@ -255,6 +255,15 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(char), minimum: 'a', maximum: 'b', contextValue: 'c', expectedResult: 'a');
                 yield return CreateTestCase(operandType: typeof(char), minimum: 'b', maximum: 'c', contextValue: 'a', 
                     expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(char), 'b', 'c')));
+
+                yield return CreateTestCase(operandType: typeof(byte), minimum: 10, maximum: 20, contextValue:  1, expectedResult: (byte)11);
+                yield return CreateTestCase(operandType: typeof(byte), minimum: 10, maximum: 20, contextValue:  2, expectedResult: (byte)12);
+                yield return CreateTestCase(operandType: typeof(byte), minimum: 10, maximum: 20, contextValue:  3, expectedResult: (byte)13);
+                yield return CreateTestCase(operandType: typeof(byte), minimum: 10, maximum: 20, contextValue: 10, expectedResult: (byte)10);
+                yield return CreateTestCase(operandType: typeof(byte), minimum: 10, maximum: 20, contextValue: 20, expectedResult: (byte)20);
+                yield return CreateTestCase(operandType: typeof(byte), minimum: 10, maximum: 20, contextValue: 21, expectedResult: (byte)10);
+                yield return CreateTestCase(operandType: typeof(byte), minimum: 10, maximum: 20, contextValue: new object(),
+                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(byte), 10, 20)));
             }
 
             IEnumerator IEnumerable.GetEnumerator()

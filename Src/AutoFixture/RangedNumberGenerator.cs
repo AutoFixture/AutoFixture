@@ -101,6 +101,8 @@ namespace Ploeh.AutoFixture
                 {
                     this.rangedValue = RangedNumberGenerator.Add(minimum, value);
                 }
+
+                this.rangedValue = Convert.ChangeType(this.rangedValue, range.OperandType, CultureInfo.CurrentCulture);
             }
         }
 
@@ -119,6 +121,9 @@ namespace Ploeh.AutoFixture
 
                 case TypeCode.Double:
                     return (double)a + (double)b;
+
+                case TypeCode.Byte:
+                    return (byte)a + (byte)b;
 
                 default:
                     throw new InvalidOperationException("The underlying type code of the specified types is not supported.");
