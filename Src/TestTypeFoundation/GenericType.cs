@@ -1,21 +1,10 @@
-using System;
-
 namespace Ploeh.TestTypeFoundation
 {
-    public class GenericType<T> where T : class
+    public class GenericType<T> : AbstractGenericType<T>
+        where T : class
     {
-        private readonly T t;
-
-        public GenericType(T t)
+        public GenericType(T t) : base(t)
         {
-            if (t == null)
-            {
-                throw new ArgumentNullException("t");
-            }
-
-            this.t = t;
         }
-
-        T Value { get { return this.t; }}
     }
 }
