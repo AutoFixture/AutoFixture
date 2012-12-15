@@ -91,6 +91,7 @@
     <Compile Include="LikenessException.cs" />
     <Compile Include="LikenessMember.cs" />
     <Compile Include="MemberEvaluator.cs" />
+    <Compile Include="MemberExpressionExtension.cs" />
     <Compile Include="MemberInfoExtension.cs" />
     <Compile Include="MemberInfoNameComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1235,6 +1235,44 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
+        public void Proxy_OmitAutoComparison_FollowedBy_WithDefaultEquality_OnPropertyOfProperty_ReturnsTrue_WhenOnlySpecifiedSubPropertyMatches()
+        {
+            // Fixture setup
+            var value = new GenericType<ConcreteType>(new ConcreteType("Lorem", "ipsum", "dolor", "sit"));
+
+            var sut = value.AsSource().OfLikeness<AbstractGenericType<ConcreteType>>()
+                .OmitAutoComparison()
+                .WithDefaultEquality(d => d.Value.Property1)
+                .CreateProxy();
+            sut.Value = new ConcreteType("Lorem", "aaa", "bbb", "ccc");
+
+            // Exercise system
+            var result = sut.Equals(value);
+
+            // Verify outcome
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void Proxy_OmitAutoComparison_FollowedBy_WithDefaultEquality_OnPropertyOfProperty_ReturnsFalse_WhenOnlySpecifiedSubPropertyDoesNotMatch()
+        {
+            // Fixture setup
+            var value = new GenericType<ConcreteType>(new ConcreteType("Lorem", "ipsum", "dolor", "sit"));
+
+            var sut = value.AsSource().OfLikeness<AbstractGenericType<ConcreteType>>()
+                .OmitAutoComparison()
+                .WithDefaultEquality(d => d.Value.Property1)
+                .CreateProxy();
+            sut.Value = new ConcreteType("xxx", "ipsum", "dolor", "sit");
+
+            // Exercise system
+            var result = sut.Equals(value);
+
+            // Verify outcome
+            Assert.False(result);
+        }
+
+        [Fact]
         public void ProxyOfIdenticalParameterTypesCanBeCreated()
         {
             // Fixture setup

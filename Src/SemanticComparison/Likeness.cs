@@ -213,8 +213,10 @@ namespace Ploeh.SemanticComparison
             }
 
             var me = (MemberExpression)propertyPicker.Body;
-            var f = me.Member.ToEvaluator<TSource, TDestination>();
-            return this.With(propertyPicker).EqualsWhen(f.Evaluator);
+            var f = me.ToDeepEvaluator<TSource, TDestination>();
+            var destinationMember = me.GetRootMemberExpression().Member;
+
+            return new LikenessMember<TSource, TDestination>(this, destinationMember).EqualsWhen(f.Evaluator);
         }
 
         /// <summary>
