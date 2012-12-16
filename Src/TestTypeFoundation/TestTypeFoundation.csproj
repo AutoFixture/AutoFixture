@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="AbstractGenericType.cs" />
     <Compile Include="AbstractType.cs" />
+    <Compile Include="AbstractTypeWithConstructorWithMultipleParameters.cs" />
     <Compile Include="AbstractTypeWithNonDefaultConstructor.cs" />
     <Compile Include="ActivityScope.cs" />
     <Compile Include="CollectionHolder.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FakeItEasy;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoFakeItEasy
 {
@@ -31,24 +32,24 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             return type.GetGenericArguments().Single();
         }
 
-        internal static MethodInfo GetFakedMethod(this Type type, ParameterInfo[] paramInfos)
+        internal static IMethod GetFakedMethod(this Type type, ParameterInfo[] paramInfos)
         {
             Type builder = typeof(FakeBuilder<>).MakeGenericType(type.GetGenericArguments());
             var bindings = BindingFlags.Static | BindingFlags.NonPublic;
 
             if (paramInfos.Any())
             {
-                return builder.GetMethod("BuildWithArgumentsForConstructor", bindings);
+                return new UnknownParametersCountMethod(new StaticMethod(builder.GetMethod("BuildWithArgumentsForConstructor", bindings)), paramInfos);
             }
 
-            return builder.GetMethod("Build", bindings);
+            return new StaticMethod(builder.GetMethod("Build", bindings));
         }
 
         private static class FakeBuilder<T> where T : class
         {
-            internal static Fake<T> BuildWithArgumentsForConstructor(object argumentsForConstructor)
+            internal static Fake<T> BuildWithArgumentsForConstructor(object[] argumentsForConstructor)
             {
-                return new Fake<T>(o => o.WithArgumentsForConstructor(new[] { argumentsForConstructor }));
+                return new Fake<T>(o => o.WithArgumentsForConstructor(argumentsForConstructor));
             }
 
             internal static Fake<T> Build()
