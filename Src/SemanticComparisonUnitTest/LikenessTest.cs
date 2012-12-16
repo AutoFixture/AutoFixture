@@ -1273,6 +1273,82 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
+        public void Proxy_OmitAutoComparison_FollowedBy_WithDefaultEquality_OnPropertyOfProperty_ReturnsFalse_WhenPropertyIsNullOnProxy()
+        {
+            // Fixture setup
+            var value = new GenericType<ConcreteType>(new ConcreteType("Lorem", "ipsum", "dolor", "sit"));
+
+            var sut = value.AsSource().OfLikeness<AbstractGenericType<ConcreteType>>()
+                .OmitAutoComparison()
+                .WithDefaultEquality(d => d.Value.Property1)
+                .CreateProxy();
+            sut.Value = null;
+
+            // Exercise system
+            var result = sut.Equals(value);
+
+            // Verify outcome
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void Proxy_OmitAutoComparison_FollowedBy_WithDefaultEquality_OnPropertyOfProperty_ReturnsFalse_WhenPropertyIsNullOnValue()
+        {
+            // Fixture setup
+            var value = new GenericType<ConcreteType>(new ConcreteType("Lorem", "ipsum", "dolor", "sit"));
+
+            var sut = value.AsSource().OfLikeness<AbstractGenericType<ConcreteType>>()
+                .OmitAutoComparison()
+                .WithDefaultEquality(d => d.Value.Property1)
+                .CreateProxy();
+            value.Value = null;
+
+            // Exercise system
+            var result = sut.Equals(value);
+
+            // Verify outcome
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void Proxy_OmitAutoComparison_FollowedBy_WithDefaultEquality_OnPropertyOfProperty_ReturnsTrue_WhenPropertyIsNullOnBoth()
+        {
+            // Fixture setup
+            var value = new GenericType<ConcreteType>(new ConcreteType("Lorem", "ipsum", "dolor", "sit"));
+
+            var sut = value.AsSource().OfLikeness<AbstractGenericType<ConcreteType>>()
+                .OmitAutoComparison()
+                .WithDefaultEquality(d => d.Value.Property1)
+                .CreateProxy();
+            value.Value = null;
+            sut.Value = null;
+
+            // Exercise system
+            var result = sut.Equals(value);
+
+            // Verify outcome
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void Proxy_OmitAutoComparison_FollowedBy_WithDefaultEquality_ReturnsFalse_WhenComparedToNull()
+        {
+            // Fixture setup
+            var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+
+            var sut = value.AsSource().OfLikeness<AbstractType>()
+                .OmitAutoComparison()
+                .WithDefaultEquality(d => d.Property1)
+                .CreateProxy();
+
+            // Exercise system
+            var result = sut.Equals(null);
+
+            // Verify outcome
+            Assert.False(result);
+        }
+
+        [Fact]
         public void ProxyOfIdenticalParameterTypesCanBeCreated()
         {
             // Fixture setup
