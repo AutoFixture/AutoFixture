@@ -48,6 +48,7 @@
     <Compile Include="AutoNSubstituteCustomization.cs" />
     <Compile Include="NSubstituteBuilder.cs" />
     <Compile Include="NSubstituteMethodQuery.cs" />
+    <Compile Include="NSubstituteType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
