@@ -13,6 +13,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// <returns>Methods for <paramref name="type"/>.</returns>
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
+            if (type == null)
+                throw new ArgumentNullException("type");
+
             if (type.IsInterface)
                 return new[] { type.GetSubstituteFactoryMethod() };
 
