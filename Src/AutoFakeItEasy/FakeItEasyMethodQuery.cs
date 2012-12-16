@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             return from ci in fakeType.GetPublicAndProtectedConstructors()
                    let parameters = ci.GetParameters()
                    orderby parameters.Length ascending
-                   select new StaticMethod(type.GetFakedMethod(parameters), parameters) as IMethod;
+                   select type.GetFakedMethod(parameters);
         }
     }
 }
