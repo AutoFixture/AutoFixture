@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// <summary>Initializes a new instance of the <see cref="AutoNSubstituteCustomization"/> class.</summary>
         /// <remarks>Uses a new instance of <see cref="NSubstituteBuilder"/> as the builder.</remarks>
         public AutoNSubstituteCustomization()
-            : this(new NSubstituteBuilder())
+            : this(new NSubstituteBuilder(new MethodInvoker(new NSubstituteMethodQuery())))
         {
         }
 
