@@ -32,6 +32,14 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
+        public void InitializeWithNullSpecificationThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() => new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>(), null));
+        }
+
+        [Fact]
         public void BuilderIsCorrect()
         {
             // Fixture setup
@@ -43,6 +51,37 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 
             // Verify outcome
             Assert.Equal(expectedBuilder, result);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecificationIsCorrect()
+        {
+            // Fixture setup
+            Func<Type, bool> specification = x => true;
+            var sut = new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>(), specification);
+
+            // Exercise system
+            var result = sut.SubstitutionSpecification;
+
+            // Verify outcome
+            Assert.Equal(specification, result);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecificationIsNotNullWhenInitializedWithConstructorWithoutSpecificationParameter()
+        {
+            // Fixture setup
+            var sut = new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>());
+
+            // Exercise system
+            var result = sut.SubstitutionSpecification;
+
+            // Verify outcome
+            Assert.NotNull(result);
 
             // Teardown
         }
@@ -86,7 +125,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         [Theory]
         [InlineData(typeof(AbstractType))]
         [InlineData(typeof(IInterface))]
-        public void CreateWithAbstractionRequest_ReturnsResultFromDecoratedBuilder_WhenItDoesNotReturnNull(Type request)
+        public void CreateWithAbstractionRequest_ReturnsResultFromDecoratedBuilder(Type request)
         {
             // Fixture setup
             var builder = Substitute.For<ISpecimenBuilder>();
@@ -102,18 +141,32 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             Assert.Same(expected, result);
         }
 
+        [Fact]
+        public void Create_WithRequestThatDoesNotMatchSpecification_ReturnsNoSpecimen()
+        {
+            // Fixture setup
+            Func<Type, bool> specification = x => false;
+            var sut = new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>(), specification);
+            var context = Substitute.For<ISpecimenContext>();
+            var request = typeof(ConcreteType);
+
+            // Exercise system
+            var result = sut.Create(request, context);
+
+            // Verify outcome
+            var expected = new NoSpecimen(request);
+            Assert.Equal(expected, result);
+        }
+
         [Theory]
         [InlineData(null)]
         [InlineData(1)]
         [InlineData("")]
-        [InlineData(typeof(int))]
-        [InlineData(typeof(string))]
-        [InlineData(typeof(object))]
-        [InlineData(typeof(ConcreteType))]
-        public void Create_WithRequestThatIsNotAnAbstraction_ReturnsNoSpecimen(object request)
+        public void Create_WithRequestThatIsNotAType_ReturnsNoSpecimen(object request)
         {
             // Fixture setup
-            var sut = new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>());
+            Func<Type, bool> specification = x => true;
+            var sut = new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>(), specification);
             var context = Substitute.For<ISpecimenContext>();
 
             // Exercise system
