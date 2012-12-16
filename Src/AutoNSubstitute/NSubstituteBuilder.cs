@@ -11,10 +11,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         ///     <see cref="ISpecimenBuilder"/> to decorate.</summary>
         /// <param name="builder">The builder which must build mock instances.</param>
         /// <remarks>
-        ///     <para>
-        ///         <paramref name="builder"/> is subsequently available through the <see cref="Builder"/>
-        ///         property.
-        ///     </para>
+        ///     <paramref name="builder"/> is subsequently available through the <see cref="Builder"/> property.
         /// </remarks>
         /// <seealso cref="Builder"/>
         public NSubstituteBuilder(ISpecimenBuilder builder)
