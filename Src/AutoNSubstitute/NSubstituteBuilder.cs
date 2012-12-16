@@ -3,6 +3,8 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute
 {
+    /// <summary>Provides pre- and post-condition checks for requests for substituted instances.</summary>
+    /// <seealso cref="Create(object, ISpecimenContext)"/>
     public class NSubstituteBuilder : ISpecimenBuilder
     {
         private readonly ISpecimenBuilder builder;
