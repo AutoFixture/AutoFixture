@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoNSubstituteCustomization.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="NSubstituteBuilder.cs" />
     <Compile Include="NSubstituteMethodQuery.cs" />
     <Compile Include="NSubstituteType.cs" />
@@ -57,6 +58,9 @@
       <Project>{400ac174-9a4a-4c7d-815b-f2a21130a0d1}</Project>
       <Name>AutoFixture</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
