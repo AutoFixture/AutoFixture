@@ -8,7 +8,7 @@ namespace Ploeh.SemanticComparison
 {
     internal static class MemberExpressionExtension
     {
-        private readonly static MethodInfo equalsMember = typeof(object).GetMethod("Equals", BindingFlags.Public | BindingFlags.Static);
+        private static readonly MethodInfo equalsMember = typeof(object).GetMethod("Equals", BindingFlags.Public | BindingFlags.Static);
 
         internal static MemberEvaluator<TSource, TDestination> ToDeepEvaluator<TSource, TDestination>(this MemberExpression memberExpression)
         {
