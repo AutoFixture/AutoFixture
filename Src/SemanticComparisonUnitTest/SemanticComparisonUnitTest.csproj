@@ -66,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumerableEnumeratorTest.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="LikenessExceptionTest.cs" />
     <Compile Include="LikenessTest.cs" />
