@@ -176,8 +176,5 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var expected = new NoSpecimen(request);
             Assert.Equal(expected, result);
         }
-
-        // var actual = Expression.Lambda(Expression.ConvertChecked(Expression.Constant(result), request)).Compile().DynamicInvoke();
-        // Assert.NotNull(actual);
     }
 }
