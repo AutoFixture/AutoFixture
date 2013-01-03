@@ -27,9 +27,11 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// <param name="builder">The builder which must build mock instances.</param>
         /// <param name="substitutionSpecification">A specification that determines whether a substitute should be created for a given type or not.</param>
         /// <remarks>
-        ///     <paramref name="builder"/> is subsequently available through the <see cref="Builder"/> property.
+        ///     <para><paramref name="builder"/> is subsequently available through the <see cref="Builder"/> property.</para>
+        ///     <para><paramref name="substitutionSpecification"/> is subsequently available through the <see cref="SubstitutionSpecification"/> property.</para>
         /// </remarks>
         /// <seealso cref="Builder"/>
+        /// <seealso cref="SubstitutionSpecification"/>
         public NSubstituteBuilder(ISpecimenBuilder builder, Func<Type, bool> substitutionSpecification)
         {
             if (builder == null)
