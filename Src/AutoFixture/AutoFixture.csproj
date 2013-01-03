@@ -128,6 +128,7 @@
     <Compile Include="Generator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Dsl\CompositeNodeComposer.cs" />
+    <Compile Include="Kernel\AbstractTypeSpecification.cs" />
     <Compile Include="Kernel\ConstrainedStringRequest.cs" />
     <Compile Include="Kernel\EqualRequestSpecification.cs" />
     <Compile Include="Kernel\OmitOnRecursionGuard.cs" />

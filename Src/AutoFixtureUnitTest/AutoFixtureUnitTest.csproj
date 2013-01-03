@@ -107,6 +107,7 @@
     <Compile Include="CompositeCustomizationTest.cs" />
     <Compile Include="DateTimeGeneratorTest.cs" />
     <Compile Include="GeneratorTest.cs" />
+    <Compile Include="Kernel\AbstractTypeSpecificationTest.cs" />
     <Compile Include="Kernel\ConstrainedStringRequestTest.cs" />
     <Compile Include="Kernel\EqualRequestSpecificationTests.cs" />
     <Compile Include="Kernel\OmitOnRecursionGuardTest.cs" />
