@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     public class NSubstituteBuilder : ISpecimenBuilder
     {
         private readonly ISpecimenBuilder builder;
-        private readonly Func<Type, bool> substitutionSpecification;
+        private readonly IRequestSpecification substitutionSpecification;
 
         /// <summary>Initializes a new instance of the <see cref="NSubstituteBuilder"/> class with an
         ///     <see cref="ISpecimenBuilder"/> to decorate.</summary>
@@ -18,21 +18,21 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// </remarks>
         /// <seealso cref="Builder"/>
         public NSubstituteBuilder(ISpecimenBuilder builder)
-            : this(builder, t => t != null && (t.IsInterface || t.IsAbstract))
+            : this(builder, new AbstractTypeSpecification())
         {
         }
 
         /// <summary>Initializes a new instance of the <see cref="NSubstituteBuilder"/> class with an
         ///     <see cref="ISpecimenBuilder"/> to decorate.</summary>
         /// <param name="builder">The builder which must build mock instances.</param>
-        /// <param name="substitutionSpecification">A specification that determines whether a substitute should be created for a given type or not.</param>
+        /// <param name="substitutionSpecification">A specification that determines whether a substitute should be created for a given request or not.</param>
         /// <remarks>
         ///     <para><paramref name="builder"/> is subsequently available through the <see cref="Builder"/> property.</para>
         ///     <para><paramref name="substitutionSpecification"/> is subsequently available through the <see cref="SubstitutionSpecification"/> property.</para>
         /// </remarks>
         /// <seealso cref="Builder"/>
         /// <seealso cref="SubstitutionSpecification"/>
-        public NSubstituteBuilder(ISpecimenBuilder builder, Func<Type, bool> substitutionSpecification)
+        public NSubstituteBuilder(ISpecimenBuilder builder, IRequestSpecification substitutionSpecification)
         {
             if (builder == null)
                 throw new ArgumentNullException("builder");
@@ -50,16 +50,16 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             get { return builder; }
         }
 
-        /// <summary>Gets a specification that determines whether a substitute should be created for a given type.</summary>
+        /// <summary>Gets a specification that determines whether a substitute should be created for a given request.</summary>
         /// <remarks>
         ///     <para>
         ///         By default it only returns <see langword="true"/> for interfaces and abstract classes, but a different specification can be supplied by using the
-        ///         <see cref="NSubstituteBuilder(ISpecimenBuilder, Func{Type, bool})"/> overloaded constructor that takes a specification as input. In that case, this
+        ///         <see cref="NSubstituteBuilder(ISpecimenBuilder, IRequestSpecification)"/> overloaded constructor that takes a specification as input. In that case, this
         ///         property returns the specification supplied to the constructor.
         ///     </para>
         /// </remarks>
-        /// <seealso cref="NSubstituteBuilder(ISpecimenBuilder, Func{Type, bool})"/>
-        public Func<Type, bool> SubstitutionSpecification
+        /// <seealso cref="NSubstituteBuilder(ISpecimenBuilder, IRequestSpecification)"/>
+        public IRequestSpecification SubstitutionSpecification
         {
             get { return substitutionSpecification; }
         }
@@ -74,8 +74,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            var type = request as Type;
-            if (!ShouldBeSubstituted(type))
+            if (!SubstitutionSpecification.IsSatisfiedBy(request))
                 return new NoSpecimen(request);
 
             var substitute = Builder.Create(request, context);
@@ -83,11 +82,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 return new NoSpecimen(request);
 
             return substitute;
-        }
-
-        private bool ShouldBeSubstituted(Type type)
-        {
-            return SubstitutionSpecification(type);
         }
     }
 }
