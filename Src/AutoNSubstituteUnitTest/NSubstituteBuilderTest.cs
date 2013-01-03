@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public void SpecificationIsCorrect()
         {
             // Fixture setup
-            Func<Type, bool> specification = x => true;
+            IRequestSpecification specification = new TrueRequestSpecification();
             var sut = new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>(), specification);
 
             // Exercise system
@@ -72,7 +72,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void SpecificationIsNotNullWhenInitializedWithConstructorWithoutSpecificationParameter()
+        public void SpecificationIsAbstractTypeSpecificationWhenInitializedWithConstructorWithoutSpecificationParameter()
         {
             // Fixture setup
             var sut = new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>());
@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var result = sut.SubstitutionSpecification;
 
             // Verify outcome
-            Assert.NotNull(result);
+            Assert.IsType<AbstractTypeSpecification>(result);
 
             // Teardown
         }
@@ -145,7 +145,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public void Create_WithRequestThatDoesNotMatchSpecification_ReturnsNoSpecimen()
         {
             // Fixture setup
-            Func<Type, bool> specification = x => false;
+            var specification = new FalseRequestSpecification();
             var sut = new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>(), specification);
             var context = Substitute.For<ISpecimenContext>();
             var request = typeof(ConcreteType);
@@ -165,7 +165,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public void Create_WithRequestThatIsNotAType_ReturnsNoSpecimen(object request)
         {
             // Fixture setup
-            Func<Type, bool> specification = x => true;
+            var specification = new TrueRequestSpecification();
             var sut = new NSubstituteBuilder(Substitute.For<ISpecimenBuilder>(), specification);
             var context = Substitute.For<ISpecimenContext>();
 
