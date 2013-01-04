@@ -98,6 +98,17 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         }
 
         [Fact]
+        public void FixtureCanCreateAbstractGenericTypeWithConstructorWithMultipleParameters()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
+            // Exercise system
+            var result = fixture.CreateAnonymous<AbstractTypeWithConstructorWithMultipleParameters<int, int>>();
+            // Verify outcome
+            Assert.IsAssignableFrom<AbstractTypeWithConstructorWithMultipleParameters<int, int>>(result);
+        }
+
+        [Fact]
         public void FixtureCanCreateAnonymousGuid()
         {
             // Fixture setup

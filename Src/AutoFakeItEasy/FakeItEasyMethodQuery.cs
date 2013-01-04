@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using FakeItEasy;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoFakeItEasy
@@ -39,7 +41,42 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             return from ci in fakeType.GetPublicAndProtectedConstructors()
                    let parameters = ci.GetParameters()
                    orderby parameters.Length ascending
-                   select new StaticMethod(type.GetFakedMethod(parameters), parameters) as IMethod;
+                   select FakeMethod.Create(fakeType, parameters);
+        }
+
+        private static class FakeMethod
+        {
+            public static IMethod Create(
+                Type type,
+                IEnumerable<ParameterInfo> parameterInfos)
+            {
+                var constructedType = 
+                    typeof(FakeMethod<>).MakeGenericType(type);
+                return (IMethod)Activator.CreateInstance(
+                    constructedType,
+                    parameterInfos);
+            }
+        }
+
+        private class FakeMethod<T> : IMethod
+        {
+            private readonly IEnumerable<ParameterInfo> parameterInfos;
+
+            public FakeMethod(IEnumerable<ParameterInfo> parameterInfos)
+            {
+                this.parameterInfos = parameterInfos;
+            }
+
+            public IEnumerable<ParameterInfo> Parameters
+            {
+                get { return this.parameterInfos; }
+            }
+
+            public object Invoke(IEnumerable<object> parameters)
+            {
+                return new Fake<T>(
+                    b => b.WithArgumentsForConstructor(parameters));
+            }
         }
     }
 }
