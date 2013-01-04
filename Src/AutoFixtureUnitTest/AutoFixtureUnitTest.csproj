@@ -107,6 +107,7 @@
     <Compile Include="CompositeCustomizationTest.cs" />
     <Compile Include="DateTimeGeneratorTest.cs" />
     <Compile Include="GeneratorTest.cs" />
+    <Compile Include="Kernel\AbstractTypeSpecificationTest.cs" />
     <Compile Include="Kernel\ConstrainedStringRequestTest.cs" />
     <Compile Include="Kernel\EqualRequestSpecificationTests.cs" />
     <Compile Include="Kernel\OmitOnRecursionGuardTest.cs" />
@@ -275,6 +276,7 @@
     <Compile Include="UInt16SequenceGeneratorTest.cs" />
     <Compile Include="UInt32SequenceGeneratorTest.cs" />
     <Compile Include="UInt64SequenceGeneratorTest.cs" />
+    <Compile Include="UnknownParametersCountMethodTest.cs" />
     <Compile Include="UriGeneratorTest.cs" />
     <Compile Include="UriSchemeGeneratorTest.cs" />
     <Compile Include="UriSchemeTest.cs" />

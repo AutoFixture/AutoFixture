@@ -128,6 +128,7 @@
     <Compile Include="Generator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Dsl\CompositeNodeComposer.cs" />
+    <Compile Include="Kernel\AbstractTypeSpecification.cs" />
     <Compile Include="Kernel\ConstrainedStringRequest.cs" />
     <Compile Include="Kernel\EqualRequestSpecification.cs" />
     <Compile Include="Kernel\OmitOnRecursionGuard.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Kernel\RegularExpressionRequest.cs" />
     <Compile Include="Kernel\SpecimenBuilderNodeFactory.cs" />
     <Compile Include="Kernel\TypeRelay.cs" />
+    <Compile Include="Kernel\UnknownParametersCountMethod.cs" />
     <Compile Include="OmitOnRecursionBehavior.cs" />
     <Compile Include="RandomNumericSequenceCustomization.cs" />
     <Compile Include="RandomNumericSequenceGenerator.cs" />
