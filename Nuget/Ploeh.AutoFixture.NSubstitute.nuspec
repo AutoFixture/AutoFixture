@@ -5,7 +5,7 @@
         <version>2.2</version>
         <title>AutoFixture with Auto Mocking using NSubstitute</title>
         <authors>Daniel Hilgarth</authors>
-        <owners>Daniel Hilgarth</owners>
+        <owners>Daniel Hilgarth, Mark Seemann</owners>
         <dependencies>
             <dependency id="autofixture" version="2.2" />
             <dependency id="NSubstitute" version="1.4" />
