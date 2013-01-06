@@ -82,6 +82,10 @@ namespace Ploeh.AutoFixture.Kernel
             return Equals(obj as UnknownParametersCountMethod);
         }
 
+        /// <summary>Returns a hash code for this instance.</summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
         public override int GetHashCode()
         {
             return decoratedMethod.GetHashCode() ^ this.Parameters.Aggregate(0, (current, parameter) => current + parameter.GetHashCode());
