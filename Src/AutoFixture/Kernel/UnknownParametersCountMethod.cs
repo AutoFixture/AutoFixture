@@ -12,7 +12,7 @@ namespace Ploeh.AutoFixture.Kernel
     public class UnknownParametersCountMethod : IMethod, IEquatable<UnknownParametersCountMethod>
     {
         private IMethod decoratedMethod;
-        private List<ParameterInfo> parameters;
+        private List<ParameterInfo> parameterInfos;
 
         /// <summary>Initializes a new instance of the <see cref="UnknownParametersCountMethod" /> class.</summary>
         /// <param name="decoratedMethod">The decorated method.</param>
@@ -43,14 +43,14 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             this.decoratedMethod = decoratedMethod;
-            this.parameters = parameters.ToList();
+            this.parameterInfos = parameters.ToList();
         }
 
         /// <summary>Gets information about the parameters of the method.</summary>
         /// <value>The parameters.</value>
         public IEnumerable<ParameterInfo> Parameters
         {
-            get { return parameters; }
+            get { return parameterInfos; }
         }
 
         /// <summary>Invokes the method with the supplied parameters.</summary>
