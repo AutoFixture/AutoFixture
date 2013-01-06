@@ -89,23 +89,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         [Theory]
         [InlineData(typeof(AbstractType))]
         [InlineData(typeof(IInterface))]
-        public void CreateWithAbstractionRequest_DelegatesObjectCreationToDecoratedBuilder(Type request)
-        {
-            // Fixture setup
-            var builder = Substitute.For<ISpecimenBuilder>();
-            var sut = new NSubstituteBuilder(builder);
-            var context = Substitute.For<ISpecimenContext>();
-
-            // Exercise system
-            var result = sut.Create(request, context);
-
-            // Verify outcome
-            builder.Received().Create(request, context);
-        }
-
-        [Theory]
-        [InlineData(typeof(AbstractType))]
-        [InlineData(typeof(IInterface))]
         public void CreateWithAbstractionRequest_ReturnsNoSpecimen_WhenDecoratedBuilderReturnsNull(Type request)
         {
             // Fixture setup
