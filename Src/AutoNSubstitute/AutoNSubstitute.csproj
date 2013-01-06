@@ -34,6 +34,18 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Ploeh.AutoFixture.AutoNSubstitute.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Verify|AnyCPU'">
+    <OutputPath>bin\Verify\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\Ploeh.AutoFixture.AutoNSubstitute.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>..\AutoFixture\AutoFixture.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="NSubstitute">
       <HintPath>..\..\Lib\NSubstitute 1.4.3\NSubstitute.dll</HintPath>
