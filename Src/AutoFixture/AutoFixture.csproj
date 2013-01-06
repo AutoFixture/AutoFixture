@@ -139,7 +139,6 @@
     <Compile Include="Kernel\RegularExpressionRequest.cs" />
     <Compile Include="Kernel\SpecimenBuilderNodeFactory.cs" />
     <Compile Include="Kernel\TypeRelay.cs" />
-    <Compile Include="Kernel\UnknownParametersCountMethod.cs" />
     <Compile Include="OmitOnRecursionBehavior.cs" />
     <Compile Include="RandomNumericSequenceCustomization.cs" />
     <Compile Include="RandomNumericSequenceGenerator.cs" />
