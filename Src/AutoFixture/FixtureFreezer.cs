@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
 
@@ -69,6 +70,7 @@ namespace Ploeh.AutoFixture
         /// <seealso cref="Freeze{T}(IFixture)"/>
         /// <seealso cref="Freeze{T}(IFixture, Func{ICustomizationComposer{T}, ISpecimenBuilderComposer})"/>
         /// <seealso cref="FixtureRegistrar.Inject" />
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static T Freeze<T>(this IFixture fixture, T seed)
         {
             if (fixture == null)
