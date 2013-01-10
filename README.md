@@ -47,7 +47,16 @@ Notice how we can reduce unit tests to state only the relevant parts of the test
 
 Using AutoFixture is as easy as referencing the library and creating a new instance of the Fixture class!
 
-AutoFixture is available via NuGet (as *AutoFixture, AutoFixture.AutoMoq, AutoFixture.AutoRhinoMocks, AutoFixture.AutoFakeItEasy, AutoFixture.AutoNSubstitute* and *AutoFixture.Xunit*).
+AutoFixture is available via NuGet:
+
+* [AutoFixture](http://nuget.org/packages/AutoFixture)
+* [AutoFixture.AutoMoq](http://nuget.org/packages/AutoFixture.AutoMoq)
+* [AutoFixture.AutoRhinoMocks](http://nuget.org/packages/AutoFixture.AutoRhinoMocks)
+* [AutoFixture.AutoFakeItEasy](http://nuget.org/packages/AutoFixture.AutoFakeItEasy)
+* [AutoFixture.AutoNSubstitute](http://nuget.org/packages/AutoFixture.AutoNSubstitute)
+* [AutoFixture.Xunit](http://nuget.org/packages/AutoFixture.Xunit)
+* [AutoFixture.Idioms](http://nuget.org/packages/AutoFixture.Idioms)
+* [SemanticComparison](http://nuget.org/packages/SemanticComparison)
 
 ## Resources ##
 
