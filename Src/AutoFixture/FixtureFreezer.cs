@@ -45,7 +45,9 @@ namespace Ploeh.AutoFixture
         /// <typeparam name="T">The type to freeze.</typeparam>
         /// <param name="fixture">The fixture.</param>
         /// <param name="seed">
-        /// Any data that adds additional information when creating the anonymous object.
+        /// Any data that adds additional information when creating the
+        /// anonymous object. Hypothetically, this value might be the value
+        /// being frozen, but this is not likely.
         /// </param>
         /// <returns>
         /// The value that will subsequently always be created for <typeparamref name="T"/>.
@@ -56,9 +58,17 @@ namespace Ploeh.AutoFixture
         /// same instance whenever an instance of the type is requested either directly, or
         /// indirectly as a nested value of other types.
         /// </para>
+        /// <para>
+        /// Please notice that the <paramref name="seed" /> isn't likely to be
+        /// used as the frozen value, unless you've customized
+        /// <paramref name="fixture" /> to do this. If you wish to inject a
+        /// specific value into the Fixture, you should use the
+        /// <see cref="FixtureRegistrar.Inject" /> method instead.
+        /// </para>
         /// </remarks>
         /// <seealso cref="Freeze{T}(IFixture)"/>
         /// <seealso cref="Freeze{T}(IFixture, Func{ICustomizationComposer{T}, ISpecimenBuilderComposer})"/>
+        /// <seealso cref="FixtureRegistrar.Inject" />
         public static T Freeze<T>(this IFixture fixture, T seed)
         {
             if (fixture == null)
