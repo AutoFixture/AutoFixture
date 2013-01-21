@@ -282,7 +282,8 @@ namespace Ploeh.AutoFixtureUnitTest
                     customizerComposite,
                     new TypeBasedComparer<ISpecimenBuilder>()));
 
-            var engineAndMultiple = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[1]);
+            var autoPropertiesTarget = Assert.IsAssignableFrom<AutoPropertiesTarget>(composedBuilders[1]);
+            var engineAndMultiple = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(autoPropertiesTarget.Builder);
             Assert.Same(sut.Engine, engineAndMultiple.First());
 
             var residueCollector = Assert.IsAssignableFrom<ResidueCollectorNode>(composedBuilders[2]);
@@ -319,7 +320,8 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.True(sut.Customizations.SequenceEqual(customizerComposite));
 
             var postprocessor = Assert.IsAssignableFrom<Postprocessor>(composedBuilders[1]);
-            var engineAndMultiple = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(postprocessor.Builder);
+            var autoPropertiesTarget = Assert.IsAssignableFrom<AutoPropertiesTarget>(postprocessor.Builder);
+            var engineAndMultiple = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(autoPropertiesTarget.Builder);
             Assert.Same(sut.Engine, engineAndMultiple.First());
             Assert.IsAssignableFrom<AnyTypeSpecification>(postprocessor.Specification);
 
