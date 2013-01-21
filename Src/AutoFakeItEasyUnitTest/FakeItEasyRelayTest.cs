@@ -34,12 +34,12 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void SpecificationIsCorrectWhenInitializedWithSpecification()
         {
             // Fixture setup
-            Func<Type, bool> expectedSpec = t => true;
-            var sut = new FakeItEasyRelay(expectedSpec);
+            var expected = new Fake<IRequestSpecification>().FakedObject;
+            var sut = new FakeItEasyRelay(expected);
             // Exercise system
-            Func<Type, bool> result = sut.FakeableSpecification;
+            IRequestSpecification result = sut.FakeableSpecification;
             // Verify outcome
-            Assert.Equal(expectedSpec, result);
+            Assert.Equal(expected, result);
             // Teardown
         }
 
@@ -128,20 +128,31 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
 
         [Theory]
         [InlineData(typeof(object))]
-        [InlineData(typeof(string))]
         [InlineData(typeof(AbstractType))]
         [InlineData(typeof(IInterface))]
-        public void CreateCorrectlyInvokesSpecification(Type request)
+        public void CreateWhenSpecificationIsSatisfiedReturnsCorrectResult(
+            Type request)
         {
             // Fixture setup
-            var verified = false;
-            Func<Type, bool> fakeSpec = t => verified = t == request;
-            var sut = new FakeItEasyRelay(fakeSpec);
+            var specificationStub = A.Fake<IRequestSpecification>();
+            A.CallTo(() => specificationStub.IsSatisfiedBy(request))
+                .Returns(true);
+
+            var expected = typeof(Fake<>)
+                .MakeGenericType(request)
+                .GetConstructor(Type.EmptyTypes)
+                .Invoke(null);
+            var contextStub = A.Fake<ISpecimenContext>();
+            A.CallTo(() => contextStub.Resolve(typeof(Fake<>).MakeGenericType(request)))
+                .Returns(expected);
+
+            var sut = new FakeItEasyRelay(specificationStub);
             // Exercise system
-            var contextDummy = new Fake<ISpecimenContext>();
-            sut.Create(request, contextDummy.FakedObject);
+            var actual = sut.Create(request, contextStub);
             // Verify outcome
-            Assert.True(verified);
+            Assert.Equal(
+                expected.GetType().GetProperty("FakedObject").GetValue(expected, null),
+                actual);
             // Teardown
         }
     }

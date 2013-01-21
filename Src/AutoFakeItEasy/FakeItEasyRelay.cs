@@ -10,13 +10,13 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
     /// </summary>
     public class FakeItEasyRelay : ISpecimenBuilder
     {
-        private readonly Func<Type, bool> shouldBeFaked;
+        private readonly IRequestSpecification shouldBeFaked;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeItEasyRelay"/> class.
         /// </summary>
         public FakeItEasyRelay()
-            : this(FakeItEasyRelay.ShouldBeFaked)
+            : this(new IsFakeableSpecification())
         {
         }
 
@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// <param name="fakeableSpecification">
         /// A specification that determines whether a type should be mocked or not.
         /// </param>
-        public FakeItEasyRelay(Func<Type, bool> fakeableSpecification)
+        public FakeItEasyRelay(IRequestSpecification fakeableSpecification)
         {
             if (fakeableSpecification == null)
             {
@@ -46,13 +46,13 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// This specification determins whether a given type should be relayed as a request for a
         /// mock of the same type. By default it only returns <see langword="true"/> for interfaces
         /// and abstract classes, but a different specification can be supplied by using the
-        /// <see cref="FakeItEasyRelay(Func{Type, bool})"/> overloaded constructor that takes a
-        /// specification as input. In that case, this property returns the specification supplied
-        /// to the constructor.
+        /// overloaded constructor that takes an
+        /// <see cref="IRequestSpecification" /> as input. In that case, this
+        /// property returns the specification supplied to the constructor.
         /// </para>
         /// </remarks>
-        /// <seealso cref="FakeItEasyRelay(Func{Type, bool})"/>
-        public Func<Type, bool> FakeableSpecification
+        /// <seealso cref="FakeItEasyRelay(IRequestSpecification)"/>
+        public IRequestSpecification FakeableSpecification
         {
             get { return this.shouldBeFaked; }
         }
@@ -73,12 +73,12 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
                 throw new ArgumentNullException("context");
             }
 
-            var type = request as Type;
-            if (!this.shouldBeFaked(type))
+            if (!this.shouldBeFaked.IsSatisfiedBy(request))
             {
                 return new NoSpecimen(request);
             }
 
+            var type = request as Type;
             var fakeType = typeof(Fake<>).MakeGenericType(type);
 
             var fake = context.Resolve(fakeType) as FakeItEasy.Configuration.IHideObjectMembers;
@@ -90,9 +90,13 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             return fake.GetType().GetProperty("FakedObject").GetValue(fake, null);
         }
 
-        private static bool ShouldBeFaked(Type t)
+        private class IsFakeableSpecification : IRequestSpecification
         {
-            return (t != null) && ((t.IsAbstract) || (t.IsInterface));
+            public bool IsSatisfiedBy(object request)
+            {
+                var t = request as Type;
+                return (t != null) && ((t.IsAbstract) || (t.IsInterface));
+            }
         }
     }
 }
