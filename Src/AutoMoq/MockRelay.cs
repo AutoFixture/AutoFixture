@@ -87,12 +87,6 @@ namespace Ploeh.AutoFixture.AutoMoq
             return m.Object;
         }
 
-        private static bool ShouldBeMocked(Type t)
-        {
-            return (t != null)
-                && ((t.IsAbstract) || (t.IsInterface));
-        }
-
         private static Mock ResolveMock(Type t, ISpecimenContext context)
         {
             var mockType = typeof(Mock<>).MakeGenericType(t);
