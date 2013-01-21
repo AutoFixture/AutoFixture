@@ -73,11 +73,6 @@ namespace Ploeh.AutoFixture
         /// be a <see cref="Type" /> or other
         /// <see cref="System.Reflection.MemberInfo" /> instances.
         /// </para>
-        /// <para>
-        /// Note to implementers: Implementations are expected to return a
-        /// <see cref="NoSpecimen" /> instance if they can't satisfy the
-        /// request.
-        /// </para>
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
