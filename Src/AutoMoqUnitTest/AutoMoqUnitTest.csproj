@@ -75,7 +75,7 @@
     <Compile Include="FixtureIntegrationTest.cs" />
     <Compile Include="MockConstructorQueryTest.cs" />
     <Compile Include="MockPostprocessorTest.cs" />
-    <Compile Include="MockReleayTest.cs" />
+    <Compile Include="MockRelayTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
