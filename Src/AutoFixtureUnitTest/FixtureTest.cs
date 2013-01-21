@@ -264,7 +264,12 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             var guard = Assert.IsAssignableFrom<RecursionGuard>(result);
 
-            var composedBuilders = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(guard.Builder).ToList();
+            var behaviorRoot =
+                Assert.IsAssignableFrom<BehaviorRoot>(guard.Builder);
+            var composedBuilders = 
+                Assert.IsAssignableFrom<CompositeSpecimenBuilder>(
+                    behaviorRoot.Builder)
+                .ToList();
 
             var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[0]);
             Assert.True(sut.Customizations.SequenceEqual(customizer, new TypeBasedComparer<ISpecimenBuilder>()));
@@ -289,7 +294,12 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             var guard = Assert.IsAssignableFrom<RecursionGuard>(result);
 
-            var composedBuilders = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(guard.Builder).ToList();
+            var behaviorRoot =
+                Assert.IsAssignableFrom<BehaviorRoot>(guard.Builder);
+            var composedBuilders =
+                Assert.IsAssignableFrom<CompositeSpecimenBuilder>(
+                    behaviorRoot.Builder)
+                .ToList();
 
             var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[0]);
             Assert.True(sut.Customizations.SequenceEqual(customizer));
@@ -3684,7 +3694,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Behaviors.Clear();            
+            sut.Behaviors.Clear();
 
             var expectedBuilder = new DelegatingSpecimenBuilder();
             sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode(1, b) });

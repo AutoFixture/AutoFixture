@@ -16,30 +16,13 @@ namespace Ploeh.AutoFixture
     /// <i>behaviors</i> even if it is buried deep in a larger graph.
     /// </remarks>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
-    public class BehaviorRoot : CompositeSpecimenBuilder
+    public class BehaviorRoot : ISpecimenBuilderNode
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BehaviorRoot" />
-        /// class.
-        /// </summary>
-        /// <param name="builders">
-        /// The builders contained within the new instance.
-        /// </param>
-        public BehaviorRoot(params ISpecimenBuilder[] builders)
-            : base(builders)
-        {
-        }
+        private readonly ISpecimenBuilder builder;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BehaviorRoot" />
-        /// class.
-        /// </summary>
-        /// <param name="builders">
-        /// The builders contained within the new instance.
-        /// </param>
-        public BehaviorRoot(IEnumerable<ISpecimenBuilder> builders)
-            : base(builders)
+        public BehaviorRoot(ISpecimenBuilder builder)
         {
+            this.builder = builder;
         }
 
         /// <summary>Composes the supplied builders.</summary>
@@ -48,9 +31,31 @@ namespace Ploeh.AutoFixture
         /// A new <see cref="ISpecimenBuilderNode" /> instance containing
         /// <paramref name="builders" /> as child nodes.
         /// </returns>
-        public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
+        public ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
-            return new BehaviorRoot(builders);
+            var composedBuilder = 
+                CompositeSpecimenBuilder.ComposeIfMultiple(builders);
+            return new BehaviorRoot(composedBuilder);
+        }
+
+        public object Create(object request, ISpecimenContext context)
+        {
+            return this.builder.Create(request, context);
+        }
+
+        public IEnumerator<ISpecimenBuilder> GetEnumerator()
+        {
+            yield return this.builder;
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public ISpecimenBuilder Builder
+        {
+            get { return this.builder; }
         }
     }
 }
