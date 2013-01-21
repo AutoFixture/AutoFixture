@@ -151,4 +151,17 @@ namespace Ploeh.AutoFixtureUnitTest
             return sut.Builder;
         }
     }
+
+    public class AutoPropertiesTargetTests : MarkerNodeTests<AutoPropertiesTarget>
+    {
+        public override AutoPropertiesTarget CreateSut(ISpecimenBuilder builder)
+        {
+            return new AutoPropertiesTarget(builder);
+        }
+
+        public override ISpecimenBuilder GetBuilder(AutoPropertiesTarget sut)
+        {
+            return sut.Builder;
+        }
+    }
 }

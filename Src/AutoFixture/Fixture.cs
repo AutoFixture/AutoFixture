@@ -66,8 +66,9 @@ namespace Ploeh.AutoFixture
                                 new EnumGenerator())),
                         new Postprocessor(
                             new AutoPropertiesTarget(
-                                engine,
-                                multiple),
+                                new CompositeSpecimenBuilder(
+                                    engine,
+                                    multiple)),
                             new AutoPropertiesCommand().Execute,
                             new AnyTypeSpecification()),
                         new ResidueCollectorNode(
