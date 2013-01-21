@@ -31,9 +31,15 @@ namespace Ploeh.AutoFixture
         /// the <see cref="Builder" /> property.
         /// </para>
         /// </remarks>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="builder" /> is null.
+        /// </exception>
         /// <seealso cref="Builder" />
         public BehaviorRoot(ISpecimenBuilder builder)
         {
+            if (builder == null)
+                throw new ArgumentNullException("builder");
+
             this.builder = builder;
         }
 

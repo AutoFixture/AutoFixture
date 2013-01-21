@@ -107,5 +107,12 @@ namespace Ploeh.AutoFixtureUnitTest
                 ((System.Collections.IEnumerable)sut).Cast<object>()));
             // Teardown
         }
+
+        [Fact]
+        public void ConstructWithNullBuilderThrows()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+                new BehaviorRoot(null));
+        }
     }
 }
