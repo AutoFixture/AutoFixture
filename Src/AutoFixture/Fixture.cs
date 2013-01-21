@@ -59,17 +59,18 @@ namespace Ploeh.AutoFixture
 
             this.graph =
                 new BehaviorRoot(
-                    new CustomizationNode(
-                        new FilteringSpecimenBuilder(new MethodInvoker(new ModestConstructorQuery()), new NullableEnumRequestSpecification()),
-                        new EnumGenerator()),
-                    new Postprocessor(
-                        new AutoPropertiesTarget(
-                            engine,
-                            multiple),
-                        new AutoPropertiesCommand().Execute,
-                        new AnyTypeSpecification()),
-                    new ResidueCollectorNode(),
-                    new TerminatingSpecimenBuilder());
+                    new CompositeSpecimenBuilder(
+                        new CustomizationNode(
+                            new FilteringSpecimenBuilder(new MethodInvoker(new ModestConstructorQuery()), new NullableEnumRequestSpecification()),
+                            new EnumGenerator()),
+                        new Postprocessor(
+                            new AutoPropertiesTarget(
+                                engine,
+                                multiple),
+                            new AutoPropertiesCommand().Execute,
+                            new AnyTypeSpecification()),
+                        new ResidueCollectorNode(),
+                        new TerminatingSpecimenBuilder()));
 
             this.UpdateCustomizer();
             this.UpdateResidueCollector();
