@@ -79,6 +79,9 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             }
 
             var type = request as Type;
+            if (type == null)
+                return new NoSpecimen(request);
+
             var fakeType = typeof(Fake<>).MakeGenericType(type);
 
             var fake = context.Resolve(fakeType) as FakeItEasy.Configuration.IHideObjectMembers;
