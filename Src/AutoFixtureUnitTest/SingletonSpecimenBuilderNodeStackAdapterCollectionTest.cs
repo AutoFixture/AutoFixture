@@ -20,15 +20,16 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             this.graph = new MarkerNode(
                 new CompositeSpecimenBuilder(
-                    new DelegatingSpecimenBuilder(),
-                    new DelegatingSpecimenBuilder(),
-                    new DelegatingSpecimenBuilder()),
-                new CompositeSpecimenBuilder(new DelegatingSpecimenBuilder(),
-                    new DelegatingSpecimenBuilder(),
-                    new DelegatingSpecimenBuilder()),
-                new CompositeSpecimenBuilder(new DelegatingSpecimenBuilder(),
-                    new DelegatingSpecimenBuilder(),
-                    new DelegatingSpecimenBuilder()));
+                    new CompositeSpecimenBuilder(
+                        new DelegatingSpecimenBuilder(),
+                        new DelegatingSpecimenBuilder(),
+                        new DelegatingSpecimenBuilder()),
+                    new CompositeSpecimenBuilder(new DelegatingSpecimenBuilder(),
+                        new DelegatingSpecimenBuilder(),
+                        new DelegatingSpecimenBuilder()),
+                    new CompositeSpecimenBuilder(new DelegatingSpecimenBuilder(),
+                        new DelegatingSpecimenBuilder(),
+                        new DelegatingSpecimenBuilder())));
             this.sut = new SingletonSpecimenBuilderNodeStackAdapterCollection(this.graph, n => n is MarkerNode);
         }
 

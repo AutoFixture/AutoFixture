@@ -271,14 +271,23 @@ namespace Ploeh.AutoFixtureUnitTest
                     behaviorRoot.Builder)
                 .ToList();
 
-            var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[0]);
-            Assert.True(sut.Customizations.SequenceEqual(customizer, new TypeBasedComparer<ISpecimenBuilder>()));
+            var customizer = 
+                Assert.IsAssignableFrom<CustomizationNode>(
+                    composedBuilders[0]);
+            var customizerComposite =
+                Assert.IsAssignableFrom<CompositeSpecimenBuilder>(
+                    customizer.Builder);
+            Assert.True(
+                sut.Customizations.SequenceEqual(
+                    customizerComposite,
+                    new TypeBasedComparer<ISpecimenBuilder>()));
 
             var engineAndMultiple = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[1]);
             Assert.Same(sut.Engine, engineAndMultiple.First());
 
-            var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[2]);
-            Assert.True(sut.ResidueCollectors.SequenceEqual(residueCollector));
+            var residueCollector = Assert.IsAssignableFrom<ResidueCollectorNode>(composedBuilders[2]);
+            var residueCollectorComposite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(residueCollector.Builder);
+            Assert.True(sut.ResidueCollectors.SequenceEqual(residueCollectorComposite));
 
             Assert.IsAssignableFrom<TerminatingSpecimenBuilder>(composedBuilders[3]);
             // Teardown
@@ -301,16 +310,22 @@ namespace Ploeh.AutoFixtureUnitTest
                     behaviorRoot.Builder)
                 .ToList();
 
-            var customizer = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[0]);
-            Assert.True(sut.Customizations.SequenceEqual(customizer));
+            var customizer =
+                Assert.IsAssignableFrom<CustomizationNode>(
+                    composedBuilders[0]);
+            var customizerComposite =
+                Assert.IsAssignableFrom<CompositeSpecimenBuilder>(
+                    customizer.Builder);
+            Assert.True(sut.Customizations.SequenceEqual(customizerComposite));
 
             var postprocessor = Assert.IsAssignableFrom<Postprocessor>(composedBuilders[1]);
             var engineAndMultiple = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(postprocessor.Builder);
             Assert.Same(sut.Engine, engineAndMultiple.First());
             Assert.IsAssignableFrom<AnyTypeSpecification>(postprocessor.Specification);
 
-            var residueCollector = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(composedBuilders[2]);
-            Assert.True(sut.ResidueCollectors.SequenceEqual(residueCollector));
+            var residueCollector = Assert.IsAssignableFrom<ResidueCollectorNode>(composedBuilders[2]);
+            var residueCollectorComposite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(residueCollector.Builder);
+            Assert.True(sut.ResidueCollectors.SequenceEqual(residueCollectorComposite));
 
             Assert.IsAssignableFrom<TerminatingSpecimenBuilder>(composedBuilders[3]);
             // Teardown

@@ -23,9 +23,10 @@ namespace Ploeh.AutoFixtureUnitTest
                     new DelegatingSpecimenBuilder(),
                     new DelegatingSpecimenBuilder()),
                 new MarkerNode(
-                    new DelegatingSpecimenBuilder(),
-                    new DelegatingSpecimenBuilder(),
-                    new DelegatingSpecimenBuilder()),
+                    new CompositeSpecimenBuilder(
+                        new DelegatingSpecimenBuilder(),
+                        new DelegatingSpecimenBuilder(),
+                        new DelegatingSpecimenBuilder())),
                 new CompositeSpecimenBuilder(
                     new DelegatingSpecimenBuilder(),
                     new DelegatingSpecimenBuilder(),
@@ -50,7 +51,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void IndexOfReturnsCorrectResult(int expected)
         {
             // Fixture setup
-            var item = this.graph.OfType<MarkerNode>().Single().ElementAt(expected);
+            var item = this.FindMarkedNode().ElementAt(expected);
             // Exercise system
             var actual = this.sut.IndexOf(item);
             // Verify outcome
@@ -93,8 +94,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void ContainsReturnsTrueForContainedItem(int index)
         {
             // Fixture setup
-            var item = 
-                this.graph.OfType<MarkerNode>().Single().ElementAt(index);
+            var item = this.FindMarkedNode().ElementAt(index);
             // Exercise system
             var actual = this.sut.Contains(item);
             // Verify outcome
@@ -121,8 +121,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void RemoveAtCorrectlyRemovesItem(int index)
         {
             // Fixture setup
-            var itemToBeRemoved =
-                this.graph.OfType<MarkerNode>().Single().ElementAt(index);
+            var itemToBeRemoved = this.FindMarkedNode().ElementAt(index);
             // Exercise system
             this.sut.RemoveAt(index);
             // Verify outcome
@@ -137,8 +136,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void GetItemReturnsCorrectResult(int index)
         {
             // Fixture setup
-            var expected = 
-                this.graph.OfType<MarkerNode>().Single().ElementAt(index);
+            var expected = this.FindMarkedNode().ElementAt(index);
             // Exercise system
             var actual = this.sut[index];
             // Verify outcome
@@ -175,8 +173,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void SetItemCorrectlyRemovesExistingItem(int index)
         {
             // Fixture setup
-            var itemToReplace = 
-                this.graph.OfType<MarkerNode>().Single().ElementAt(index);
+            var itemToReplace = this.FindMarkedNode().ElementAt(index);
             // Exercise system
             this.sut[index] = new DelegatingSpecimenBuilder();
             // Verify outcome
@@ -197,7 +194,8 @@ namespace Ploeh.AutoFixtureUnitTest
         [Fact]
         public void SutYieldsCorrectItems()
         {
-            var expected = this.graph.OfType<MarkerNode>().Single();
+            var expected = (ISpecimenBuilderNode)this.graph
+                .OfType<MarkerNode>().Single().Single();
             Assert.True(expected.SequenceEqual(this.sut));
             Assert.True(expected.Cast<object>().SequenceEqual(((System.Collections.IEnumerable)this.sut).Cast<object>()));
         }
@@ -209,8 +207,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var actual = this.sut.Count;
             // Verify outcome
-            var expected =
-                this.graph.OfType<MarkerNode>().Single().Count();
+            var expected = this.FindMarkedNode().Count();
             Assert.Equal(expected, actual);
             // Teardown
         }
@@ -231,8 +228,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var item = new DelegatingSpecimenBuilder();
-            var expected =
-                this.graph.OfType<MarkerNode>().Single().Concat(new[] { item });
+            var expected = this.FindMarkedNode().Concat(new[] { item });
             // Exercise system
             this.sut.Add(item);
             // Verify outcome
@@ -247,8 +243,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CopyToCorrectlyCopiesItems(int index)
         {
             // Fixture setup
-            var expected =
-                this.graph.OfType<MarkerNode>().Single().ToArray();
+            var expected = this.FindMarkedNode().ToArray();
             var a = new ISpecimenBuilder[expected.Length + index];
             // Exercise system
             this.sut.CopyTo(a, index);
@@ -270,8 +265,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void RemoveCorrectlyRemovesItem(int index)
         {
             // Fixture setup
-            var item =
-                this.graph.OfType<MarkerNode>().Single().ElementAt(index);
+            var item = this.FindMarkedNode().ElementAt(index);
             // Exercise system
             this.sut.Remove(item);
             // Verify outcome
@@ -286,8 +280,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void RemoveReturnsTrueForContainedItem(int index)
         {
             // Fixture setup
-            var item =
-                this.graph.OfType<MarkerNode>().Single().ElementAt(index);
+            var item = this.FindMarkedNode().ElementAt(index);
             // Exercise system
             var actual = this.sut.Remove(item);
             // Verify outcome
@@ -399,13 +392,20 @@ namespace Ploeh.AutoFixtureUnitTest
             var verified = false;
             this.sut.GraphChanged += (s, e) => verified = s != null && e != null;
 
-            var item =
-                this.graph.OfType<MarkerNode>().Single().ElementAt(index);
+            var item = this.FindMarkedNode().ElementAt(index);
             // Exercise system
             this.sut.Remove(item);
             // Verify outcome
             Assert.True(verified);
             // Teardown
+        }
+
+        private ISpecimenBuilderNode FindMarkedNode()
+        {
+            return (ISpecimenBuilderNode)this.graph
+                .OfType<MarkerNode>()
+                .Single()
+                .Single();
         }
     }
 }

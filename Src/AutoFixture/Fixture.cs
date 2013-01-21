@@ -61,15 +61,17 @@ namespace Ploeh.AutoFixture
                 new BehaviorRoot(
                     new CompositeSpecimenBuilder(
                         new CustomizationNode(
-                            new FilteringSpecimenBuilder(new MethodInvoker(new ModestConstructorQuery()), new NullableEnumRequestSpecification()),
-                            new EnumGenerator()),
+                            new CompositeSpecimenBuilder(
+                                new FilteringSpecimenBuilder(new MethodInvoker(new ModestConstructorQuery()), new NullableEnumRequestSpecification()),
+                                new EnumGenerator())),
                         new Postprocessor(
                             new AutoPropertiesTarget(
                                 engine,
                                 multiple),
                             new AutoPropertiesCommand().Execute,
                             new AnyTypeSpecification()),
-                        new ResidueCollectorNode(),
+                        new ResidueCollectorNode(
+                            new CompositeSpecimenBuilder()),
                         new TerminatingSpecimenBuilder()));
 
             this.UpdateCustomizer();
@@ -343,13 +345,19 @@ namespace Ploeh.AutoFixture
 
         private void UpdateCustomizer()
         {
-            this.customizer = new SpecimenBuilderNodeAdapterCollection(this.graph, n => n is CustomizationNode);
+            this.customizer =
+                new SpecimenBuilderNodeAdapterCollection(
+                    this.graph,
+                    n => n is CustomizationNode);
             this.customizer.GraphChanged += this.OnGraphChanged;
         }
 
         private void UpdateResidueCollector()
         {
-            this.residueCollector = new SpecimenBuilderNodeAdapterCollection(this.graph, n => n is ResidueCollectorNode);
+            this.residueCollector = 
+                new SpecimenBuilderNodeAdapterCollection(
+                    this.graph,
+                    n => n is ResidueCollectorNode);
             this.residueCollector.GraphChanged += this.OnGraphChanged;
         }
 
