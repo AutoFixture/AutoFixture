@@ -10,13 +10,13 @@ namespace Ploeh.AutoFixture.AutoMoq
     /// </summary>
     public class MockRelay : ISpecimenBuilder
     {
-        private readonly Func<Type, bool> shouldBeMocked;
+        private readonly IRequestSpecification mockableSpecification;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MockRelay"/> class.
         /// </summary>
         public MockRelay()
-            : this(MockRelay.ShouldBeMocked)
+            : this(new IsMockableSpecification())
         {
         }
 
@@ -27,34 +27,36 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// <param name="mockableSpecification">
         /// A specification that determines whether a type should be mocked or not.
         /// </param>
-        public MockRelay(Func<Type, bool> mockableSpecification)
+        public MockRelay(IRequestSpecification mockableSpecification)
         {
             if (mockableSpecification == null)
             {
                 throw new ArgumentNullException("mockableSpecification");
             }
 
-            this.shouldBeMocked = mockableSpecification;
+            this.mockableSpecification = mockableSpecification;
         }
 
         /// <summary>
-        /// Gets a specification that determines whether a given type should be mocked.
+        /// Gets a specification that determines whether a given request should
+        /// be mocked.
         /// </summary>
         /// <value>The specification.</value>
         /// <remarks>
         /// <para>
-        /// This specification determins whether a given type should be relayed as a request for a
-        /// mock of the same type. By default it only returns <see langword="true"/> for interfaces
-        /// and abstract classes, but a different specification can be supplied by using the
-        /// <see cref="MockRelay(Func{Type, bool})"/> overloaded constructor that takes a
-        /// specification as input. In that case, this property returns the specification supplied
-        /// to the constructor.
+        /// This specification determines whether a given type should be
+        /// relayed as a request for a mock of the same type. By default it
+        /// only returns <see langword="true"/> for interfaces and abstract
+        /// classes, but a different specification can be supplied by using the
+        /// overloaded constructor that takes an
+        /// <see cref="IRequestSpecification" /> as input. In that case, this
+        /// property returns the specification supplied to the constructor.
         /// </para>
         /// </remarks>
-        /// <seealso cref="MockRelay(Func{Type, bool})"/>
-        public Func<Type, bool> MockableSpecification
+        /// <seealso cref="MockRelay(IRequestSpecification)" />
+        public IRequestSpecification MockableSpecification
         {
-            get { return this.shouldBeMocked; }
+            get { return this.mockableSpecification; }
         }
 
         /// <summary>
@@ -69,21 +71,15 @@ namespace Ploeh.AutoFixture.AutoMoq
         public object Create(object request, ISpecimenContext context)
         {
             if (context == null)
-            {
                 throw new ArgumentNullException("context");
-            }
+
+            if (!this.mockableSpecification.IsSatisfiedBy(request))
+                return new NoSpecimen(request);
 
             var t = request as Type;
-            if (!this.shouldBeMocked(t))
-            {
-                return new NoSpecimen(request);
-            }
-
             var m = MockRelay.ResolveMock(t, context);
             if (m == null)
-            {
                 return new NoSpecimen(request);
-            }
 
             return m.Object;
         }
@@ -98,6 +94,19 @@ namespace Ploeh.AutoFixture.AutoMoq
         {
             var mockType = typeof(Mock<>).MakeGenericType(t);
             return context.Resolve(mockType) as Mock;
+        }
+
+        private class IsMockableSpecification : IRequestSpecification
+        {
+            public bool IsSatisfiedBy(object request)
+            {
+                var t = request as Type;
+                if (t == null)
+                    return false;
+
+                return (t != null)
+                    && ((t.IsAbstract) || (t.IsInterface));
+            }
         }
     }
 }
