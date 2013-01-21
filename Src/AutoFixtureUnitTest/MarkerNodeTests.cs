@@ -126,4 +126,29 @@ namespace Ploeh.AutoFixtureUnitTest
         }
     }
 
+    public class CustomizationNodeTests : MarkerNodeTests<CustomizationNode>
+    {
+        public override CustomizationNode CreateSut(ISpecimenBuilder builder)
+        {
+            return new CustomizationNode(builder);
+        }
+
+        public override ISpecimenBuilder GetBuilder(CustomizationNode sut)
+        {
+            return sut.Builder;
+        }
+    }
+
+    public class ResidueCollectorNodeTests : MarkerNodeTests<ResidueCollectorNode>
+    {
+        public override ResidueCollectorNode CreateSut(ISpecimenBuilder builder)
+        {
+            return new ResidueCollectorNode(builder);
+        }
+
+        public override ISpecimenBuilder GetBuilder(ResidueCollectorNode sut)
+        {
+            return sut.Builder;
+        }
+    }
 }
