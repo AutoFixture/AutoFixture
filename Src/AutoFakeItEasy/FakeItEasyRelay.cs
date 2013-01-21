@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
     /// </summary>
     public class FakeItEasyRelay : ISpecimenBuilder
     {
-        private readonly IRequestSpecification shouldBeFaked;
+        private readonly IRequestSpecification fakeableSpecification;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeItEasyRelay"/> class.
@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             if (fakeableSpecification == null)
                 throw new ArgumentNullException("fakeableSpecification");
 
-            this.shouldBeFaked = fakeableSpecification;
+            this.fakeableSpecification = fakeableSpecification;
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// <seealso cref="FakeItEasyRelay(IRequestSpecification)"/>
         public IRequestSpecification FakeableSpecification
         {
-            get { return this.shouldBeFaked; }
+            get { return this.fakeableSpecification; }
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             if (context == null)
                 throw new ArgumentNullException("context");
 
-            if (!this.shouldBeFaked.IsSatisfiedBy(request))
+            if (!this.fakeableSpecification.IsSatisfiedBy(request))
                 return new NoSpecimen(request);
 
             var type = request as Type;
