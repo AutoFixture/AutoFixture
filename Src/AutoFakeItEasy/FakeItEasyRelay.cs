@@ -30,9 +30,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         public FakeItEasyRelay(IRequestSpecification fakeableSpecification)
         {
             if (fakeableSpecification == null)
-            {
                 throw new ArgumentNullException("fakeableSpecification");
-            }
 
             this.shouldBeFaked = fakeableSpecification;
         }
@@ -69,14 +67,10 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         public object Create(object request, ISpecimenContext context)
         {
             if (context == null)
-            {
                 throw new ArgumentNullException("context");
-            }
 
             if (!this.shouldBeFaked.IsSatisfiedBy(request))
-            {
                 return new NoSpecimen(request);
-            }
 
             var type = request as Type;
             if (type == null)
@@ -86,9 +80,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
 
             var fake = context.Resolve(fakeType) as FakeItEasy.Configuration.IHideObjectMembers;
             if (fake == null)
-            {
                 return new NoSpecimen(request);
-            }
 
             return fake.GetType().GetProperty("FakedObject").GetValue(fake, null);
         }
