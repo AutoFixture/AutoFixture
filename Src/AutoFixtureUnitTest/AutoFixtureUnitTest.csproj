@@ -85,7 +85,7 @@
     <Compile Include="AbstractRecursionIssue\Repro.cs" />
     <Compile Include="BehaviorComposerTest.cs" />
     <Compile Include="BehaviorPostprocessComposerTest.cs" />
-    <Compile Include="BehaviorRootTest.cs" />
+    <Compile Include="MarkerNodeTests.cs" />
     <Compile Include="BooleanSwitchTest.cs" />
     <Compile Include="ByteSequenceGeneratorTest.cs" />
     <Compile Include="CharSequenceGeneratorTest.cs" />
