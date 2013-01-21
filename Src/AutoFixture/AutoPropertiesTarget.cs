@@ -20,6 +20,21 @@ namespace Ploeh.AutoFixture
     {
         private readonly ISpecimenBuilder builder;
 
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="AutoPropertiesTarget" /> class.
+        /// </summary>
+        /// <param name="builder">The builder to decorate.</param>
+        /// <remarks>
+        /// <para>
+        /// After initialization <paramref name="builder" /> is available via
+        /// the <see cref="Builder" /> property.
+        /// </para>
+        /// </remarks>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="builder" /> is null.
+        /// </exception>
+        /// <seealso cref="Builder"/>
         public AutoPropertiesTarget(ISpecimenBuilder builder)
         {
             if (builder == null)
@@ -41,21 +56,53 @@ namespace Ploeh.AutoFixture
             return new AutoPropertiesTarget(composedBuilder);
         }
 
+        /// <summary>Creates a new specimen based on a request.</summary>
+        /// <param name="request">
+        /// The request that describes what to create.
+        /// </param>
+        /// <param name="context">
+        /// A context that can be used to create other specimens.
+        /// </param>
+        /// <returns>
+        /// The requested specimen if possible; otherwise a
+        /// <see cref="NoSpecimen" /> instance.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// The <paramref name="request" /> can be any object, but will often
+        /// be a <see cref="Type" /> or other
+        /// <see cref="System.Reflection.MemberInfo" /> instances.
+        /// </para>
+        /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
             return this.builder.Create(request, context);
         }
 
+        /// <summary>Returns the decorated builder as a sequence.</summary>
+        /// <returns><see cref="Builder" /> wrappen in an Iterator.</returns>
+        /// <seealso cref="Builder" />
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
             yield return this.builder;
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator" /> object that can
+        /// be used to iterate through the collection.
+        /// </returns>
+        /// <seealso cref="GetEnumerator()" />
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
+        /// <summary>Gets the builder decorated by this instance.</summary>
+        /// <value>The builder originally supplied via the constructor.</value>
+        /// <seealso cref="AutoPropertiesTarget(ISpecimenBuilder)" />
         public ISpecimenBuilder Builder
         {
             get { return this.builder; }
