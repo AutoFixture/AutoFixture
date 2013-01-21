@@ -154,5 +154,26 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             Assert.Equal(expected.Object, actual);
             // Teardown
         }
+
+        [Fact]
+        public void CreateWhenSpecificationIsSatisfiedButRequestIsNotTypeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var specificationStub = new Mock<IRequestSpecification>();
+            specificationStub
+                .Setup(s => s.IsSatisfiedBy(It.IsAny<object>()))
+                .Returns(true);
+
+            var sut = new MockRelay(specificationStub.Object);
+
+            var request = new object();
+            // Exercise system
+            var dummyContext = new Mock<ISpecimenContext>().Object;
+            var actual = sut.Create(request, dummyContext);
+            // Verify outcome
+            var expected = new NoSpecimen(request);
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
     }
 }

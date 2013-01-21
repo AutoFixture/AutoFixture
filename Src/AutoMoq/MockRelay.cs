@@ -77,6 +77,9 @@ namespace Ploeh.AutoFixture.AutoMoq
                 return new NoSpecimen(request);
 
             var t = request as Type;
+            if (t == null)
+                return new NoSpecimen(request);
+
             var m = MockRelay.ResolveMock(t, context);
             if (m == null)
                 return new NoSpecimen(request);
