@@ -47,6 +47,11 @@ namespace Ploeh.AutoFixture.Kernel
         {
         }
 
+        public Postprocessor(ISpecimenBuilder builder, ISpecimenCommand command)
+            : base(builder, new NullCommand())
+        {
+        }
+
         /// <summary>Composes the supplied builders.</summary>
         /// <param name="builders">The builders to compose.</param>
         /// <returns>
@@ -57,6 +62,13 @@ namespace Ploeh.AutoFixture.Kernel
         {
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new Postprocessor(composedBuilder, this.Action, this.Specification);
+        }
+
+        private class NullCommand : ISpecimenCommand
+        {
+            public void Execute(object specimen, ISpecimenContext context)
+            {
+            }
         }
     }
 
