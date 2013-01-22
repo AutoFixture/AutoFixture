@@ -243,7 +243,6 @@
     <Compile Include="Kernel\SeededRequestTest.cs" />
     <Compile Include="Kernel\NullRecursionGuardTest.cs" />
     <Compile Include="RecursionGuardTest.cs" />
-    <Compile Include="SpecimenBuilderComposerTest.cs" />
     <Compile Include="SpecimenFactoryTest.cs" />
     <Compile Include="StringGeneratorTest.cs" />
     <Compile Include="GuidGeneratorTest.cs" />

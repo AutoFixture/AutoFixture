@@ -24,16 +24,6 @@ namespace Ploeh.AutoFixture
         private readonly ISpecimenBuilder builder;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Generator&lt;T&gt;"/> class.
-        /// </summary>
-        /// <param name="composer">A composer which is used to generate items.</param>
-        [Obsolete("The ISpecimenBuilderComposer interface will be removed in AutoFixture 3. User an alternative constructor overload instead.")]
-        public Generator(ISpecimenBuilderComposer composer)
-            : this(Compose(composer))
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Generator{T}" />
         /// class.
         /// </summary>
@@ -69,15 +59,6 @@ namespace Ploeh.AutoFixture
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
-        }
-
-        private static ISpecimenBuilder Compose(
-            ISpecimenBuilderComposer composer)
-        {
-            if (composer == null)
-                throw new ArgumentNullException("composer");
-
-            return composer.Compose();
         }
     }
 }

@@ -12,16 +12,6 @@ namespace Ploeh.AutoFixtureUnitTest
     public class SpecimenFactoryTest
     {
         [Fact]
-        public void CreateAnonymousFromNullSpecimenBuilderComposerThrows()
-        {
-            // Fixture setup
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                SpecimenFactory.CreateAnonymous<object>((ISpecimenBuilderComposer)null));
-            // Teardown
-        }
-
-        [Fact]
         public void CreateAnonymousFromNullSpecimenContextThrows()
         {
             // Fixture setup
@@ -36,17 +26,6 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             Assert.Throws<ArgumentNullException>(() =>
                 SpecimenFactory.Create<object>((ISpecimenBuilder)null));
-        }
-
-        [Fact]
-        public void CreateAnonymousFromNullSpecimenBuilderComposerWithSeedThrows()
-        {
-            // Fixture setup
-            var dummySeed = new object();
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                SpecimenFactory.CreateAnonymous<object>((ISpecimenBuilderComposer)null, dummySeed));
-            // Teardown
         }
 
         [Fact]
@@ -206,31 +185,10 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateManyOnNullSpecimenBuilderComposerThrows()
-        {
-            // Fixture setup
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                SpecimenFactory.CreateMany<object>((ISpecimenBuilderComposer)null));
-            // Teardown
-        }
-
-        [Fact]
         public void CreateManyOnNullSpecimenBuilderThrows()
         {
             Assert.Throws<ArgumentNullException>(() =>
                 SpecimenFactory.CreateMany<object>((ISpecimenBuilder)null));
-        }
-
-        [Fact]
-        public void CreateManyOnNullSpecimenBuilderComposerWithSeedThrows()
-        {
-            // Fixture setup
-            var dummySeed = new object();
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                SpecimenFactory.CreateMany<object>((ISpecimenBuilderComposer)null, dummySeed));
-            // Teardown
         }
 
         [Fact]
@@ -258,17 +216,6 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateManyOnNullSpecimenBuilderComposerWithCountThrows()
-        {
-            // Fixture setup
-            var dummyCount = 1;
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                SpecimenFactory.CreateMany<object>((ISpecimenBuilderComposer)null, dummyCount));
-            // Teardown
-        }
-
-        [Fact]
         public void CreateManyOnNullSpecimenBuilderWithCountThrows()
         {
             // Fixture setup
@@ -278,18 +225,6 @@ namespace Ploeh.AutoFixtureUnitTest
                 SpecimenFactory.CreateMany<string>(
                     (ISpecimenBuilder)null,
                     dummyCount));
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateManyOnNullSpecimenBuilderComposerWithSeedAndCountThrows()
-        {
-            // Fixture setup
-            var dummySeed = new object();
-            var dummyCount = 1;
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                SpecimenFactory.CreateMany<object>((ISpecimenBuilderComposer)null, dummySeed, dummyCount));
             // Teardown
         }
 

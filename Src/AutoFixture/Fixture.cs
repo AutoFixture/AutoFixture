@@ -189,8 +189,6 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         /// <seealso cref="CollectionFiller.AddManyTo{T}(IFixture, ICollection{T})" />
         /// <seealso cref="CollectionFiller.AddManyTo{T}(IFixture, ICollection{T}, Func{T})" />
-        /// <seealso cref="SpecimenFactory.CreateMany{T}(ISpecimenBuilderComposer)" />
-        /// <seealso cref="SpecimenFactory.CreateMany{T}(ISpecimenBuilderComposer, int)" />
         /// <seealso cref="Repeat"/>
         public int RepeatCount
         {
