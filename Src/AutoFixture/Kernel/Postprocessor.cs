@@ -94,6 +94,11 @@ namespace Ploeh.AutoFixture.Kernel
         {
         }
 
+        public Postprocessor(ISpecimenBuilder builder, ISpecimenCommand command)
+        {
+            this.command = command;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Postprocessor{T}"/> class with the
         /// supplied parameters.
@@ -131,6 +136,11 @@ namespace Ploeh.AutoFixture.Kernel
         public Action<T, ISpecimenContext> Action
         {
             get { return this.action; }
+        }
+
+        public ISpecimenCommand Command
+        {
+            get { return this.command; }
         }
 
         /// <summary>
