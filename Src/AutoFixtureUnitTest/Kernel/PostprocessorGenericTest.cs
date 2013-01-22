@@ -175,6 +175,21 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void ComposePreservesCommand()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var expected = new DelegatingSpecimenCommand();
+            var sut = new Postprocessor<object>(dummyBuilder, expected);
+            // Exercise system
+            var actual = sut.Compose(new ISpecimenBuilder[0]);
+            // Verify outcome
+            var pp = Assert.IsAssignableFrom<Postprocessor<object>>(actual);
+            Assert.Equal(expected, pp.Command);
+            // Teardown
+        }
+
+        [Fact]
         public void ComposePreservesSpecification()
         {
             // Fixture setup

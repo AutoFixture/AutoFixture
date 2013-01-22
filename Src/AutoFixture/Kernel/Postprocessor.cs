@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixture.Kernel
     public class Postprocessor<T> : ISpecimenBuilderNode
     {
         private readonly ISpecimenBuilder builder;
-        private readonly Action<T, ISpecimenContext> action;
+        private Action<T, ISpecimenContext> action;
         private readonly ISpecimenCommand command;
         private readonly IRequestSpecification specification;
 
@@ -234,7 +234,9 @@ namespace Ploeh.AutoFixture.Kernel
         public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
-            return new Postprocessor<T>(composedBuilder, this.action, this.specification);
+            var pp = new Postprocessor<T>(composedBuilder, this.command, this.specification);
+            pp.action = this.action;
+            return pp;
         }
 
         /// <summary>
