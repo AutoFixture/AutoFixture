@@ -340,6 +340,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void BuilderIsCorrectWhenConstructedFullyNonGenerically()
+        {
+            // Fixture setup
+            var expected = new DelegatingSpecimenBuilder();
+            var dummyCommand = new DelegatingSpecimenCommand();
+            var dummySpecification = new DelegatingRequestSpecification();
+
+            var sut = new Postprocessor(expected, dummyCommand, dummySpecification);
+            // Exercise system
+            var actual = sut.Builder;
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateInvokesDecoratedBuilderWithCorrectParameters()
         {
             // Fixture setup

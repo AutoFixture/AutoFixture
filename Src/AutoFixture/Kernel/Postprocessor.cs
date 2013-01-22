@@ -52,6 +52,21 @@ namespace Ploeh.AutoFixture.Kernel
         {
         }
 
+        public Postprocessor(
+            ISpecimenBuilder builder,
+            ISpecimenCommand command,
+            IRequestSpecification specification)
+            : base(builder, new NullCommand())
+        {
+        }
+
+        private class NullCommand : ISpecimenCommand
+        {
+            public void Execute(object specimen, ISpecimenContext context)
+            {
+            }
+        }
+
         /// <summary>Composes the supplied builders.</summary>
         /// <param name="builders">The builders to compose.</param>
         /// <returns>
