@@ -4022,6 +4022,15 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CustomizationsContainStableFiniteSequenceRelayByDefault()
+        {
+            var sut = new Fixture();
+            Assert.True(
+                sut.Customizations.OfType<StableFiniteSequenceRelay>().Any(),
+                "Stable finite sequence relay not found.");
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB

@@ -62,6 +62,7 @@ namespace Ploeh.AutoFixture
                     new CompositeSpecimenBuilder(
                         new CustomizationNode(
                             new CompositeSpecimenBuilder(
+                                new StableFiniteSequenceRelay(),
                                 new FilteringSpecimenBuilder(new MethodInvoker(new ModestConstructorQuery()), new NullableEnumRequestSpecification()),
                                 new EnumGenerator())),
                         new Postprocessor(

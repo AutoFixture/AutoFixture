@@ -74,43 +74,52 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
         }
 
         [Fact]
-        public void ManyIsUniqueByDefault()
+        public void ManyIsStableByDefault()
         {
             var fixture = new Fixture();
             var expected = fixture.CreateMany<string>();
-            Assert.False(expected.SequenceEqual(expected));
+            Assert.True(expected.SequenceEqual(expected));
         }
 
         [Fact]
-        public void EnumerablesAreUniqueByDefault()
+        public void EnumerablesAreStableByDefault()
         {
             var fixture = new Fixture()
                 .Customize(new MultipleCustomization());
             var expected =
                 fixture.Create<IEnumerable<string>>();
+            Assert.True(expected.SequenceEqual(expected));
+        }
+
+        [Fact]
+        public void ManyCanBeMadeUniqueByRemovingCustomization()
+        {
+            var fixture = new Fixture();
+            fixture
+                .Customizations
+                .OfType<StableFiniteSequenceRelay>()
+                .ToList()
+                .ForEach(c => fixture.Customizations.Remove(c));
+
+            var expected =
+                fixture.CreateMany<string>();
             Assert.False(expected.SequenceEqual(expected));
         }
 
         [Fact]
-        public void ManyIsStableWithCustomization()
-        {
-            var fixture = new Fixture();
-            var stableRelay = new StableFiniteSequenceRelay();
-            fixture.Customizations.Add(stableRelay);
-
-            var expected =
-                fixture.CreateMany<string>();
-            Assert.True(expected.SequenceEqual(expected));
-        }
-
-        [Fact]
-        public void EnumerablesAreStableWithCustomization()
+        public void EnumerablesCanBeMadeUniqueByRemovingCustomization()
         {
             var fixture = new Fixture()
-                .Customize(new StableMultipeCustomization());
+                .Customize(new MultipleCustomization());
+            fixture
+                .Customizations
+                .OfType<StableFiniteSequenceRelay>()
+                .ToList()
+                .ForEach(c => fixture.Customizations.Remove(c));
+
             var expected =
                 fixture.Create<IEnumerable<string>>();
-            Assert.True(expected.SequenceEqual(expected));
+            Assert.False(expected.SequenceEqual(expected));
         }
     }
 }
