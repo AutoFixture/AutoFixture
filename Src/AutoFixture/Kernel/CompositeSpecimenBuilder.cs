@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.Kernel
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class CompositeSpecimenBuilder : ISpecimenBuilderNode
     {
-        private readonly List<ISpecimenBuilder> composedBuilders;
+        private readonly IEnumerable<ISpecimenBuilder> composedBuilders;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeSpecimenBuilder"/> class with the
@@ -34,14 +34,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("builders");
             }
 
-            this.composedBuilders = builders.ToList();
+            this.composedBuilders = builders;
         }
 
         /// <summary>
         /// Gets the child builders.
         /// </summary>
-        [Obsolete("In AutoFixture 3 this property will be weakened to return only IEnumerable<ISpecimenBuilder>. If you want to 'add' a new ISpecimenBuilder to a CompositeSpecimenBuilder, you can use the Compose method and pass in the current instance cancatenated with the new instance. Note that CompositeSpecimenBuilder itself implements IEnumerable<ISpecimenBuilder>, so you can enumerate over all the contained buliders by iterating directly over the instance instead of iterating over the Builders property.")]
-        public IList<ISpecimenBuilder> Builders
+        public IEnumerable<ISpecimenBuilder> Builders
         {
             get { return this.composedBuilders; }
         }
