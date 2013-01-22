@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture
     /// <summary>
     /// Contains methods for populating dictionaries with specimens.
     /// </summary>
-    public static class DictionaryFiller
+    public class DictionaryFiller : ISpecimenCommand
     {
         /// <summary>
         /// Adds many items to a dictionary.
@@ -55,6 +55,10 @@ namespace Ploeh.AutoFixture
                 var addMethod = typeof(ICollection<>).MakeGenericType(kvpType).GetMethod("Add", new[] { kvpType });
                 addMethod.Invoke(specimen, new[] { item });
             }
+        }
+
+        public void Execute(object specimen, ISpecimenContext context)
+        {
         }
     }
 }

@@ -66,5 +66,12 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.True(expectedResult.SequenceEqual(dictionary));
             // Teardown
         }
+
+        [Fact]
+        public void SutIsSpecimenCommand()
+        {
+            var sut = new DictionaryFiller();
+            Assert.IsAssignableFrom<ISpecimenCommand>(sut);
+        }
     }
 }
