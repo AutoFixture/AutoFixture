@@ -9,11 +9,13 @@ namespace Ploeh.AutoFixture
     public class RandomNumericSequenceCustomization : ICustomization
     {
         /// <summary>
-        /// Customizes the specified fixture by adding a <see cref="RandomNumericSequenceGenerator"/>
-        /// so that the <see cref="ISpecimenBuilderComposer.Compose"/> will take them into accout.
+        /// Customizes the specified fixture by adding a
+        /// <see cref="RandomNumericSequenceGenerator" />.
         /// </summary>
         /// <param name="fixture">The fixture to customize.</param>
-        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="System.ArgumentNullException">
+        /// fixture is null
+        /// </exception>
         public void Customize(IFixture fixture)
         {
             if (fixture == null)

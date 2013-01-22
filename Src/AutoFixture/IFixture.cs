@@ -11,22 +11,15 @@ namespace Ploeh.AutoFixture
     public interface IFixture : ISpecimenBuilder
     {
         /// <summary>
-        /// Gets the behaviors that are applied when <see cref="ISpecimenBuilderComposer.Compose"/>
+        /// Gets the behaviors that are applied as Decorators around other
+        /// parts of a Fixture.
         /// is invoked.
         /// </summary>
         IList<ISpecimenBuilderTransformation> Behaviors { get; }
 
         /// <summary>
-        /// Gets customizations that <see cref="ISpecimenBuilderComposer.Compose"/> will take into
-        /// accout.
+        /// Gets customizations.
         /// </summary>
-        /// <remarks>
-        /// <para>
-        /// It is expected that customizations pre-empt whichever other
-        /// <see cref="ISpecimenBuilder"/> is created by
-        /// <see cref="ISpecimenBuilderComposer.Compose"/>.
-        /// </para>
-        /// </remarks>
         IList<ISpecimenBuilder> Customizations { get; }
 
         /// <summary>
@@ -42,8 +35,7 @@ namespace Ploeh.AutoFixture
         int RepeatCount { get; set; }
 
         /// <summary>
-        /// Gets the residue collectors that <see cref="ISpecimenBuilderComposer.Compose"/> will
-        /// take into account.
+        /// Gets the residue collectors.
         /// </summary>
         /// <remarks>
         /// <para>

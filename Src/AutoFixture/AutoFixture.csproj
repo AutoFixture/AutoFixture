@@ -194,7 +194,6 @@
     <Compile Include="Kernel\IllegalRequestException.cs" />
     <Compile Include="Kernel\IMethod.cs" />
     <Compile Include="Kernel\IntPtrGuard.cs" />
-    <Compile Include="Kernel\ISpecimenBuilderComposer.cs" />
     <Compile Include="Dsl\ICustomizationComposer.cs" />
     <Compile Include="Dsl\NullComposer.cs" />
     <Compile Include="Kernel\AndRequestSpecification.cs" />
@@ -267,7 +266,6 @@
     <Compile Include="SByteSequenceGenerator.cs" />
     <Compile Include="Kernel\SeededRequest.cs" />
     <Compile Include="SingleSequenceGenerator.cs" />
-    <Compile Include="SpecimenBuilderComposer.cs" />
     <Compile Include="SpecimenFactory.cs" />
     <Compile Include="StringGenerator.cs" />
     <Compile Include="Kernel\ThrowingRecursionGuard.cs" />
