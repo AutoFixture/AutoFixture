@@ -80,7 +80,9 @@ namespace Ploeh.AutoFixture.Kernel
     /// A command that assigns anonymous values to all writable properties and fields of a type.
     /// </summary>
     /// <typeparam name="T">The specimen type on which properties are assigned.</typeparam>
+#pragma warning disable 618
     public class AutoPropertiesCommand<T> : ISpecifiedSpecimenCommand<T>, ISpecimenCommand
+#pragma warning restore 618
     {
         private readonly IRequestSpecification specification;
 

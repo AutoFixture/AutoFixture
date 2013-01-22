@@ -1,10 +1,12 @@
-﻿namespace Ploeh.AutoFixture.Kernel
+﻿using System;
+namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
     /// A Command that performs an action on a specimen and knows whether that action matches a
     /// given request.
     /// </summary>
     /// <typeparam name="T">The type of specimen on which the command acts.</typeparam>
+    [Obsolete("Use ISpecimenCommand instead of Execute, and IRequestSpecification for the IsSatisfiedBy functionality.")]
     public interface ISpecifiedSpecimenCommand<T> : IRequestSpecification
     {
         /// <summary>
