@@ -256,7 +256,7 @@ namespace Ploeh.AutoFixture.Dsl
                     {
                         new Postprocessor<T>(
                             CompositeSpecimenBuilder.ComposeIfMultiple(n),
-                            action)
+                            new ActionSpecimenCommand<T>(action))
                     }),
                 when: container.Equals);
         }
