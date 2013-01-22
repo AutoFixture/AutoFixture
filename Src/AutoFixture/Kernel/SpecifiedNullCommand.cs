@@ -16,6 +16,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// with it.
     /// </para>
     /// </remarks>
+    [Obsolete("This class is no longer used, and will be removed in future versions.")]
     public class SpecifiedNullCommand<T, TProperty> : ISpecifiedSpecimenCommand<T>
     {
         private readonly MemberInfo member;

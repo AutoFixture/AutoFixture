@@ -13,7 +13,9 @@ namespace Ploeh.AutoFixture.Kernel
     /// The type of the specimn on which the property or value will be set.
     /// </typeparam>
     /// <typeparam name="TProperty">The type of property or field.</typeparam>
+#pragma warning disable 618
     public class BindingCommand<T, TProperty> : ISpecifiedSpecimenCommand<T>, ISpecimenCommand
+#pragma warning restore 618
     {
         private readonly MemberInfo member;
         private readonly Func<ISpecimenContext, TProperty> createBindingValue;

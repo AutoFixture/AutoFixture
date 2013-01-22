@@ -6,6 +6,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Encapsulates an operation without identifying any property or field.
     /// </summary>
     /// <typeparam name="T">The type of specimen.</typeparam>
+    [Obsolete("This class is no longer used, and will be removed in future versions.")]
     public class UnspecifiedSpecimenCommand<T> : ISpecifiedSpecimenCommand<T>
     {
         private readonly Action<T> action;
