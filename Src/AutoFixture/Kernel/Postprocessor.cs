@@ -98,7 +98,9 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (builder == null)
                 throw new ArgumentNullException("builder");
-
+            if (command == null)
+                throw new ArgumentNullException("command");
+            
             this.builder = builder;
             this.command = command;
             this.action = (s, c) => this.command.Execute(s, c);
