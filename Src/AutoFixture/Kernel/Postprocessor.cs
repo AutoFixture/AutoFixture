@@ -50,11 +50,35 @@ namespace Ploeh.AutoFixture.Kernel
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Postprocessor" />
+        /// class.
+        /// </summary>
+        /// <param name="builder">
+        /// The <see cref="ISpecimenBuilder"/> to decorate.
+        /// </param>
+        /// <param name="command">
+        /// The command to apply to the created specimen.
+        /// </param>
         public Postprocessor(ISpecimenBuilder builder, ISpecimenCommand command)
             : base(builder, command)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Postprocessor" />
+        /// class.
+        /// </summary>
+        /// <param name="builder">
+        /// The <see cref="ISpecimenBuilder"/> to decorate.
+        /// </param>
+        /// <param name="command">
+        /// The command to apply to the created specimen.
+        /// </param>
+        /// A specification which is used to determine whether postprocessing
+        /// should be performed
+        /// <param name="specification">
+        /// </param>
         public Postprocessor(
             ISpecimenBuilder builder,
             ISpecimenCommand command,
@@ -114,6 +138,16 @@ namespace Ploeh.AutoFixture.Kernel
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Postprocessor{T}" />
+        /// class.
+        /// </summary>
+        /// <param name="builder">
+        /// The <see cref="ISpecimenBuilder"/> to decorate.
+        /// </param>
+        /// <param name="command">
+        /// The command to apply to the created specimen.
+        /// </param>
         public Postprocessor(ISpecimenBuilder builder, ISpecimenCommand command)
             : this(builder, command, new TrueRequestSpecification())
         {
@@ -151,6 +185,23 @@ namespace Ploeh.AutoFixture.Kernel
             this.specification = specification;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Postprocessor{T}" />
+        /// class.
+        /// </summary>
+        /// <param name="builder">
+        /// The <see cref="ISpecimenBuilder"/> to decorate.
+        /// </param>
+        /// <param name="command">
+        /// The command to apply to the created specimen.
+        /// </param>
+        /// <param name="specification">
+        /// A specification which is used to determine whether postprocessing
+        /// should be performed for a request.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// builder, command, or specification is null
+        /// </exception>
         public Postprocessor(
             ISpecimenBuilder builder,
             ISpecimenCommand command,
@@ -178,6 +229,10 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.action; }
         }
 
+        /// <summary>
+        /// Gets the command, which is applied during postprocessing.
+        /// </summary>
+        /// <value>The command supplied via one of the constructors.</value>
         public ISpecimenCommand Command
         {
             get { return this.command; }
