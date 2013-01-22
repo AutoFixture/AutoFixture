@@ -106,6 +106,21 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void CommandIsCorrect()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var expected = new DelegatingSpecimenCommand();
+
+            var sut = new Postprocessor<object>(dummyBuilder, expected);
+            // Exercise system
+            ISpecimenCommand actual = sut.Command;
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
         public void SpecificationIsCorrect()
         {
             // Fixture setup
