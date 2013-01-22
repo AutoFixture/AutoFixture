@@ -190,7 +190,6 @@
     <Compile Include="Kernel\EnumerableFavoringConstructorQueryTest.cs" />
     <Compile Include="Kernel\NullableEnumRequestSpecificationTest.cs" />
     <Compile Include="Kernel\StableFiniteSequenceRelayTest.cs" />
-    <Compile Include="Kernel\TypedBuilderComposerTest.cs" />
     <Compile Include="MultipleCustomizationTest.cs" />
     <Compile Include="NullRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\SeedRequestSpecificationTest.cs" />
