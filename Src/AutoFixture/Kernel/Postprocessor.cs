@@ -69,7 +69,9 @@ namespace Ploeh.AutoFixture.Kernel
         public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
-            return new Postprocessor(composedBuilder, this.Action, this.Specification);
+            var pp = new Postprocessor(composedBuilder, this.Command, this.Specification);
+            pp.action = this.action;
+            return pp;
         }
     }
 
@@ -81,7 +83,7 @@ namespace Ploeh.AutoFixture.Kernel
     public class Postprocessor<T> : ISpecimenBuilderNode
     {
         private readonly ISpecimenBuilder builder;
-        private Action<T, ISpecimenContext> action;
+        internal Action<T, ISpecimenContext> action;
         private readonly ISpecimenCommand command;
         private readonly IRequestSpecification specification;
 
