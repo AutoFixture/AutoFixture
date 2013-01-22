@@ -115,8 +115,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var ctorInvoker = new MethodInvoker(new ModestConstructorQuery());
             var strCmd = new BindingCommand<DoublePropertyHolder<string, int>, string>(ph => ph.Property1);
             var intCmd = new BindingCommand<DoublePropertyHolder<string, int>, int>(ph => ph.Property2);
-            var strPostprocessor = new Postprocessor<DoublePropertyHolder<string, int>>(ctorInvoker, strCmd.Execute);
-            var intPostprocessor = new Postprocessor<DoublePropertyHolder<string, int>>(strPostprocessor, intCmd.Execute);
+            var strPostprocessor = new Postprocessor<DoublePropertyHolder<string, int>>(ctorInvoker, strCmd);
+            var intPostprocessor = new Postprocessor<DoublePropertyHolder<string, int>>(strPostprocessor, intCmd);
 
             var builder = new CompositeSpecimenBuilder(
                 new FilteringSpecimenBuilder(intPostprocessor, new ExactTypeSpecification(typeof(DoublePropertyHolder<string, int>))),
@@ -189,7 +189,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var customizedBuilder = new Postprocessor<DoublePropertyHolder<string, int>>(
                 new Postprocessor<DoublePropertyHolder<string, int>>(
                     new MethodInvoker(new ModestConstructorQuery()),
-                    specifiedCommand.Execute),
+                    specifiedCommand),
                 new AutoPropertiesCommand<DoublePropertyHolder<string, int>>(reservedProperty).Execute,
                 new AnyTypeSpecification());
 
