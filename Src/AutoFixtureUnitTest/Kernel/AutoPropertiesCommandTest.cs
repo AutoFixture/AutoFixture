@@ -449,6 +449,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void SutIsSpecimenCommand()
+        {
+            var sut = new AutoPropertiesCommand<object>();
+            Assert.IsAssignableFrom<ISpecimenCommand>(sut);
+        }
+
         public void Dispose()
         {
             StaticPropertyHolder<object>.Property = null;
