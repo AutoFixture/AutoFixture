@@ -69,7 +69,7 @@ namespace Ploeh.AutoFixture
                                 new CompositeSpecimenBuilder(
                                     engine,
                                     multiple)),
-                            new AutoPropertiesCommand().Execute,
+                            new AutoPropertiesCommand(),
                             new AnyTypeSpecification()),
                         new ResidueCollectorNode(
                             new CompositeSpecimenBuilder()),
@@ -168,7 +168,7 @@ namespace Ploeh.AutoFixture
                         var pps = p
                             .Select(b => new Postprocessor(
                                 b,
-                                new AutoPropertiesCommand().Execute,
+                                new AutoPropertiesCommand(),
                                 new AnyTypeSpecification()))
                             .Cast<ISpecimenBuilder>();
                         g = g.ReplaceNodes(with: pps, when: p.Equals);

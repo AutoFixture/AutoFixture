@@ -310,7 +310,7 @@ namespace Ploeh.AutoFixture.Dsl
             return (NodeComposer<T>)this.ReplaceNodes(
                 with: n => new Postprocessor<T>(
                     n,
-                    new BindingCommand<T, TProperty>(propertyPicker).Execute,
+                    new BindingCommand<T, TProperty>(propertyPicker),
                     CreateSpecification()),
                 when: targetToDecorate.Equals);
         }
@@ -348,7 +348,7 @@ namespace Ploeh.AutoFixture.Dsl
                     {
                         new Postprocessor<T>(
                             CompositeSpecimenBuilder.ComposeIfMultiple(n),
-                            new BindingCommand<T, TProperty>(propertyPicker, value).Execute,
+                            new BindingCommand<T, TProperty>(propertyPicker, value),
                             CreateSpecification()),
                         new SeedIgnoringRelay()
                     }),
