@@ -164,6 +164,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the action to perform on created specimens.
         /// </summary>
+        [Obsolete("Use the Command property instead.")]
         public Action<T, ISpecimenContext> Action
         {
             get { return this.action; }
