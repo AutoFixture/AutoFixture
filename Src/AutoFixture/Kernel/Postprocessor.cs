@@ -98,6 +98,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             this.builder = builder;
             this.command = command;
+            this.action = (s, c) => this.command.Execute(s, c);
         }
 
         /// <summary>
