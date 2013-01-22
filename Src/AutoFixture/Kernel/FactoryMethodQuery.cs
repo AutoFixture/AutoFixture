@@ -8,34 +8,8 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// Selects public factory methods ordered by the modest first.
     /// </summary>
-#pragma warning disable 618
-    public class FactoryMethodQuery : IMethodQuery, IConstructorQuery
-#pragma warning restore 618
+    public class FactoryMethodQuery : IMethodQuery
     {
-        /// <summary>
-        /// Selects the public factory methods for the supplied type.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns>
-        /// All public factory methods for <paramref name="type"/>, ordered by the modest first.
-        /// </returns>
-        /// <remarks>
-        /// <para>
-        /// The ordering of the returned methods is based on the number of parameters of the
-        /// method. Methods with fewer parameters are returned before methods with more
-        /// parameters. This means that if a default parameterless factory methods exists, it
-        /// will be the first one returned.
-        /// </para>
-        /// <para>
-        /// In case of two factory methods with an equal number of parameters, the ordering is
-        /// unspecified.
-        /// </para>
-        /// </remarks>
-        public IEnumerable<IMethod> SelectConstructors(Type type)
-        {
-            return this.SelectMethods(type);
-        }
-
         /// <summary>
         /// Selects the public factory methods for the supplied type.
         /// </summary>

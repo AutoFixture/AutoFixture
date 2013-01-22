@@ -6,7 +6,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// Defines a strategy for selecting constructors from a type.
     /// </summary>
-    [Obsolete("Use IMethodQuery instead.")]
+    [Obsolete("Use IMethodQuery instead.", true)]
     public interface IConstructorQuery
     {
         /// <summary>
