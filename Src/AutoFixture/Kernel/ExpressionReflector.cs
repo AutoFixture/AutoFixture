@@ -22,12 +22,5 @@ namespace Ploeh.AutoFixture.Kernel
             }
             return me;
         }
-
-        internal static MethodInfo CreateAutoPropertiesExecuteMethodInfo<T>()
-        {
-            Expression<Action<AutoPropertiesCommand<T>, T, ISpecimenContext>> exp =
-                (cmd, s, ctx) => cmd.Execute(s, ctx);
-            return ((MethodCallExpression)exp.Body).Method;
-        }
     }
 }

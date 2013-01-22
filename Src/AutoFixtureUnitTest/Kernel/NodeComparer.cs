@@ -226,48 +226,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             protected override bool EqualsInstance(Postprocessor<T> other)
             {
-                var thisActionMethod = GetActionMethod(this.Item.Action);
-                var otherActionMethod = GetActionMethod(other.Action);
-
-                return this.Item.Action.Method.Equals(other.Action.Method)
-                    && thisActionMethod.Equals(otherActionMethod)
-                    && this.specificationComparer.Equals(this.Item.Specification, other.Specification);
-            }
-
-            /// <summary>
-            /// Gets the underlying method implementing the target of an action.
-            /// </summary>
-            /// <param name="obj">The Target of an Action.</param>
-            /// <returns>
-            /// The underlying <see cref="MethodInfo" /> object.
-            /// </returns>
-            /// <remarks>
-            /// <para>
-            /// The simple constructor of <see cref="Postprocessor{T}" />, which is the most
-            /// commonly used constructor overload, wraps the injected <see cref="Action{T}" />
-            /// into another <see cref="Action{T, ISpecimenContext}" />. Thus, the
-            /// <see cref="Action{T, ISpecimenContext}.Method" /> property is always the same. What
-            /// really matters is the Target of the Action. However, the immediate Target is alway
-            /// the closure belonging to the Postprocessor instance itself. This closure is really
-            /// a compiler-generated class with a single public field called "action". When the
-            /// action wraps another action, that field is itself an Action with a Method
-            /// parameter, which is what is being returned from this method.
-            /// </para>
-            /// <para>
-            /// However, if there's no "action" field then this is taken as an indication that
-            /// another constructor overload of PostProcesser{T} was used - one which doesn't wrap
-            /// one action in another. In this case, the fallback is the method itself.
-            /// </para>
-            /// </remarks>
-            private static object GetActionMethod(Delegate del)
-            {
-                var obj = del.Target;
-                var actionField = obj.GetType().GetField("action");
-                if (actionField == null)
-                    return del.Method;
-                var action = actionField.GetValue(obj);
-                var methodProperty = action.GetType().GetProperty("Method");
-                return methodProperty.GetValue(action, null);
+                return this.Item.Command.GetType().Equals(other.Command.GetType())
+                    && this.specificationComparer.Equals(this.Item.Specification, other.Specification);                
             }
         }
 
