@@ -147,6 +147,8 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("builder");
             if (command == null)
                 throw new ArgumentNullException("command");
+            if (specification == null)
+                throw new ArgumentNullException("specification");
 
             this.builder = builder;
             this.command = command;
