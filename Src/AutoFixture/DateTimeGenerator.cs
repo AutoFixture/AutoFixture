@@ -6,7 +6,7 @@ namespace Ploeh.AutoFixture
     /// <summary>
     /// Creates new <see cref="DateTime"/> instances.
     /// </summary>
-    [Obsolete("Please use 'Ploeh.AutoFixture.CurrentDateTimeGenerator' instead.")]
+    [Obsolete("Please use 'Ploeh.AutoFixture.CurrentDateTimeGenerator' instead.", true)]
     public class DateTimeGenerator : ISpecimenBuilder
     {
         /// <summary>
