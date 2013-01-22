@@ -73,7 +73,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Throws<ArgumentNullException>(() => new Postprocessor<string>(dummyBuilder, (Action<string, ISpecimenContext>)null));
             // Teardown
         }
-#pragma warning restore 618
 
         [Fact]
         public void InitializeDoubleActionAndSpecificationWithNullBuilderThrows()
@@ -111,6 +110,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Throws<ArgumentNullException>(() => new Postprocessor<object>(dummyBuilder, dummyAction, null));
             // Teardown
         }
+#pragma warning restore 618
 
         [Fact]
         public void SutYieldsInjectedBuilder()
@@ -201,8 +201,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expected = new DelegatingRequestSpecification();
+            var dummyCommand = new DelegatingSpecimenCommand();
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            var sut = new Postprocessor<Version>(dummyBuilder, (v, ctx) => { }, expected);
+            var sut = new Postprocessor<Version>(dummyBuilder, dummyCommand, expected);
             // Exercise system
             var actual = sut.Compose(new ISpecimenBuilder[0]);
             // Verify outcome
@@ -386,8 +387,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new object() };
 
-            var mockInvoked = false;
-            Action<object, ISpecimenContext> mock = (s, c) => mockInvoked = true;
+            var verified = false;
+            var mock = new DelegatingSpecimenCommand
+            {
+                OnExecute = (s, c) => verified = true
+            };
 
             var spec = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => false };
 
@@ -397,7 +401,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
-            Assert.False(mockInvoked, "Mock invoked");
+            Assert.False(verified, "Mock invoked");
             // Teardown
         }
 

@@ -64,7 +64,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Throws<ArgumentNullException>(() => new Postprocessor(dummyBuilder, (Action<object>)null));
             // Teardown
         }
-#pragma warning restore 618
 
         [Fact]
         public void InitializeWithNullSpecificationThrows()
@@ -77,7 +76,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-#pragma warning disable 618
         [Fact]
         public void BuilderIsCorrect()
         {
@@ -107,7 +105,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(expectedAction, result);
             // Teardown
         }
-#pragma warning restore 618
 
         [Fact]
         public void SpecificationIsCorrect()
@@ -124,6 +121,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(expectedSpec, result);
             // Teardown
         }
+#pragma warning restore 618
 
         [Fact]
         public void BuilderIsCorrectWhenConstructedMinimallyNonGenerically()
@@ -337,8 +335,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expected = new DelegatingRequestSpecification();
+            var dummyCommand = new DelegatingSpecimenCommand();
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            var sut = new Postprocessor(dummyBuilder, (x, y) => { }, expected);
+            var sut = new Postprocessor(dummyBuilder, dummyCommand, expected);
             // Exercise system
             var actual = sut.Compose(new ISpecimenBuilder[0]);
             // Verify outcome
