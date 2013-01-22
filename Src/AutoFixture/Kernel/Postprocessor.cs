@@ -138,6 +138,14 @@ namespace Ploeh.AutoFixture.Kernel
             this.specification = specification;
         }
 
+        public Postprocessor(
+            ISpecimenBuilder builder,
+            ISpecimenCommand command,
+            IRequestSpecification specification)
+        {
+            this.builder = builder;
+        }
+
         /// <summary>
         /// Gets the action to perform on created specimens.
         /// </summary>

@@ -91,7 +91,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummySpec = new DelegatingRequestSpecification();
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new Postprocessor<object>(dummyBuilder, null, dummySpec));
+            Assert.Throws<ArgumentNullException>(() => 
+                new Postprocessor<object>(
+                    dummyBuilder,
+                    (Action<object, ISpecimenContext>)null,
+                    dummySpec));
             // Teardown
         }
 
