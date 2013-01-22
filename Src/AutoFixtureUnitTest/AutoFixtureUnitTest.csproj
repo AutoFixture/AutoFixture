@@ -103,7 +103,6 @@
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="CollectionFillerTest.cs" />
     <Compile Include="CompositeCustomizationTest.cs" />
-    <Compile Include="DateTimeGeneratorTest.cs" />
     <Compile Include="GeneratorTest.cs" />
     <Compile Include="Kernel\AbstractTypeSpecificationTest.cs" />
     <Compile Include="Kernel\ConstrainedStringRequestTest.cs" />
