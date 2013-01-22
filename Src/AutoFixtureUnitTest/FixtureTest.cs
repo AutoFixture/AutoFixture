@@ -4007,7 +4007,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new MethodInvoker(new ModestConstructorQuery()), DictionaryFiller.AddMany), new DictionarySpecification()));
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new MethodInvoker(new ModestConstructorQuery()), new DictionaryFiller()), new DictionarySpecification()));
             // Exercise system
             var result = sut.CreateAnonymous<Dictionary<int, string>>();
             // Verify outcome
@@ -4020,7 +4020,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new MethodInvoker(new ModestConstructorQuery()), DictionaryFiller.AddMany), new DictionarySpecification()));
+            sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new MethodInvoker(new ModestConstructorQuery()), new DictionaryFiller()), new DictionarySpecification()));
             sut.ResidueCollectors.Add(new DictionaryRelay());
             // Exercise system
             var result = sut.CreateAnonymous<IDictionary<TimeSpan, Version>>();
