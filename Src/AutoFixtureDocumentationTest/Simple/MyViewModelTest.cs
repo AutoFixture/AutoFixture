@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             // Verify outcome (expected exception)
             Assert.Throws<TargetInvocationException>(() =>
-                fixture.CreateAnonymous<MyViewModel>());
+                fixture.Create<MyViewModel>());
             // Teardown
         }
 
@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system
-            var mc = fixture.CreateAnonymous<MyClass>();
+            var mc = fixture.Create<MyClass>();
             var mvm = fixture.Build<MyViewModel>()
                 .Do(x => x.AvailableItems.Add(mc))
                 .With(x => x.SelectedItem, mc)
@@ -100,12 +100,12 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         {
             // Fixture setup
             var fixture = new Fixture();
-            var mc = fixture.CreateAnonymous<MyClass>();
+            var mc = fixture.Create<MyClass>();
             fixture.Customize<MyViewModel>(ob => ob
                 .Do(x => x.AvailableItems.Add(mc))
                 .With(x => x.SelectedItem, mc));
             // Exercise system
-            var mvm = fixture.CreateAnonymous<MyViewModel>();
+            var mvm = fixture.Create<MyViewModel>();
             // Verify outcome
             Assert.Equal<MyClass>(mc, mvm.SelectedItem);
             // Teardown

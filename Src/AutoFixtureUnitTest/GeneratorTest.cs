@@ -17,20 +17,6 @@ namespace Ploeh.AutoFixtureUnitTest
     public class GeneratorTestOfNetPipeStyleUriParser : GeneratorTest<NetPipeStyleUriParser> { }
     public abstract class GeneratorTest<T>
     {
-        [Fact]
-        public void SutIsEnumerable()
-        {
-            // Fixture setup
-            ISpecimenBuilderComposer composer = new Fixture();
-#pragma warning disable 618
-            var sut = new Generator<T>(composer);
-#pragma warning restore 618
-            // Exercise system
-            // Verify outcome
-            Assert.IsAssignableFrom<IEnumerable<T>>(sut);
-            // Teardown
-        }
-
         [Theory, ClassData(typeof(CountTestCases))]
         public void StronglyTypedEnumerationYieldsNonDefaultValues(int count)
         {
@@ -98,7 +84,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void ConstructedWithSpecimenBuilderStronglyTypedEnumerationYieldsNonDefaultValues(int count)
         {
             // Fixture setup
-            var builder = new Fixture().Compose();            
+            var builder = new Fixture();
             var sut = new Generator<T>(builder);
             // Exercise system
             var actual = sut.OfType<T>().Take(count);
@@ -113,7 +99,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void ConstructedWithSpecimenBuilderWeaklyTypedEnumerationYieldsNonDefaultValues(int count)
         {
             // Fixture setup
-            var builder = new Fixture().Compose();
+            var builder = new Fixture();
             IEnumerable sut = new Generator<T>(builder);
             // Exercise system
             var actual = sut.OfType<T>().Take(count);
@@ -128,7 +114,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void ConstructedWithSpecimenBuilderStronglyTypedEnumerationYieldsDistinctValues(int count)
         {
             // Fixture setup
-            var builder = new Fixture().Compose();
+            var builder = new Fixture();
             var sut = new Generator<T>(builder);
             // Exercise system
             var actual = sut.OfType<T>().Take(count);
@@ -143,7 +129,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void ConstructedWithSpecimenBuilderWeaklyTypedEnumerationYieldsDistinctValues(int count)
         {
             // Fixture setup
-            var builder = new Fixture().Compose();
+            var builder = new Fixture();
             IEnumerable sut = new Generator<T>(builder);
             // Exercise system
             var actual = sut.OfType<T>().Take(count);

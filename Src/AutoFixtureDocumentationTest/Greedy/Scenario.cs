@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Greedy
         public void BastardIsCreatedWithModestConstructorByDefault()
         {
             var fixture = new Fixture();
-            var b = fixture.CreateAnonymous<Bastard>();
+            var b = fixture.Create<Bastard>();
             Assert.IsAssignableFrom<DefaultFoo>(b.Foo);
         }
 
@@ -19,8 +19,8 @@ namespace Ploeh.AutoFixtureDocumentationTest.Greedy
         {
             var fixture = new Fixture();
             fixture.Register<IFoo>(
-                fixture.CreateAnonymous<DummyFoo>);
-            var b = fixture.CreateAnonymous<Bastard>();
+                fixture.Create<DummyFoo>);
+            var b = fixture.Create<Bastard>();
             Assert.IsAssignableFrom<DefaultFoo>(b.Foo);
         }
 
@@ -32,8 +32,8 @@ namespace Ploeh.AutoFixtureDocumentationTest.Greedy
                 new MethodInvoker(
                     new GreedyConstructorQuery())));
             fixture.Register<IFoo>(
-                fixture.CreateAnonymous<DummyFoo>);
-            var b = fixture.CreateAnonymous<Bastard>();
+                fixture.Create<DummyFoo>);
+            var b = fixture.Create<Bastard>();
             Assert.IsAssignableFrom<DummyFoo>(b.Foo);
         }
 
@@ -45,8 +45,8 @@ namespace Ploeh.AutoFixtureDocumentationTest.Greedy
                 new MethodInvoker(
                     new GreedyConstructorQuery()));
             fixture.Register<IFoo>(
-                fixture.CreateAnonymous<DummyFoo>);
-            var b = fixture.CreateAnonymous<Bastard>();
+                fixture.Create<DummyFoo>);
+            var b = fixture.Create<Bastard>();
             Assert.IsAssignableFrom<DummyFoo>(b.Foo);
         }
     }

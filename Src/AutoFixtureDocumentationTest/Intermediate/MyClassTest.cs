@@ -22,7 +22,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
             things.ForEach(t => fake.AddThing(t));
             int expectedSum = things.Select(t => t.Number).Sum();
 
-            MyClass sut = fixture.CreateAnonymous<MyClass>();
+            MyClass sut = fixture.Create<MyClass>();
             // Exercise system
             int result = sut.CalculateSumOfThings();
             // Verify outcome
@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
 
             int expectedSum = 
                 fixture.Things.Select(t => t.Number).Sum();
-            MyClass sut = fixture.CreateAnonymous<MyClass>();
+            MyClass sut = fixture.Create<MyClass>();
             // Exercise system
             int result = sut.CalculateSumOfThings();
             // Verify outcome

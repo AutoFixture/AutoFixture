@@ -461,7 +461,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var fixture = new Fixture();
             fixture.Behaviors.Add(behavior);
 
-            var disp = fixture.CreateAnonymous<DisposableSpy>();
+            var disp = fixture.Create<DisposableSpy>();
             // Exercise system
             behavior.Dispose();
             // Verify outcome
@@ -476,7 +476,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var customization = new DisposableTrackingCustomization();
             var fixture = new Fixture().Customize(customization);
 
-            var disp = fixture.CreateAnonymous<DisposableSpy>();
+            var disp = fixture.Create<DisposableSpy>();
             // Exercise system
             customization.Dispose();
             // Verify outcome

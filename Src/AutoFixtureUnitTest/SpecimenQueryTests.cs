@@ -27,9 +27,8 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture();
             fixture.Inject(number);
-            var builder = fixture.Compose();
             // Exercise system
-            var actual = builder.Get((int x) => -1 * x);
+            var actual = fixture.Get((int x) => -1 * x);
             // Verify outcome
             Assert.Equal(-1 * number, actual);
             // Teardown
@@ -62,9 +61,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             fixture.Inject(number);
             fixture.Inject(text);
-            var builder = fixture.Compose();
             // Exercise system
-            var actual = builder.Get((int x, string y) => x + y);
+            var actual = fixture.Get((int x, string y) => x + y);
             // Verify outcome
             Assert.Equal(number + text, actual);
             // Teardown
@@ -101,9 +99,8 @@ namespace Ploeh.AutoFixtureUnitTest
             fixture.Inject(text);
             fixture.Inject(logical);
             fixture.Inject(number);
-            var builder = fixture.Compose();
             // Exercise system
-            var actual = builder.Get((string x, bool y, long z) => x + y + z);
+            var actual = fixture.Get((string x, bool y, long z) => x + y + z);
             // Verify outcome
             Assert.Equal(text + logical + number, actual);
             // Teardown
@@ -142,9 +139,8 @@ namespace Ploeh.AutoFixtureUnitTest
             fixture.Inject(logical);
             fixture.Inject(number);
             fixture.Inject(text);
-            var builder = fixture.Compose();
             // Exercise system
-            var actual = builder.Get((Type x, bool y, int z, string æ) =>
+            var actual = fixture.Get((Type x, bool y, int z, string æ) =>
                 x.ToString() + y + z + æ);
             // Verify outcome
             Assert.Equal(

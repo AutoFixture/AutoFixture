@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Gets the behaviors that are applied when <see cref="Compose"/> is invoked.
+        /// Gets the behaviors that wrap around the rest of the graph.
         /// </summary>
         public IList<ISpecimenBuilderTransformation> Behaviors
         {
@@ -314,18 +314,27 @@ namespace Ploeh.AutoFixture
                    select f();
         }
 
-        /// <summary>
-        /// Composes a new <see cref="ISpecimenBuilder"/> instance that contains all the relevant
-        /// strategies defined for this instance.
-        /// </summary>
+        /// <summary>Creates a new specimen based on a request.</summary>
+        /// <param name="request">
+        /// The request that describes what to create.
+        /// </param>
+        /// <param name="context">
+        /// A context that can be used to create other specimens.
+        /// </param>
         /// <returns>
-        /// A new <see cref="ISpecimenBuilder"/> instance that contains all the relevant strategies
-        /// for the this <see cref="Fixture"/> instance, including <see cref="Customizations"/>,
-        /// <see cref="Engine"/> and <see cref="ResidueCollectors"/>.
+        /// The requested specimen if possible; otherwise an exception is
+        /// thrown.
         /// </returns>
-        public ISpecimenBuilder Compose()
+        /// <remarks>
+        /// <para>
+        /// The <paramref name="request" /> can be any object, but will often
+        /// be a <see cref="Type" /> or other
+        /// <see cref="System.Reflection.MemberInfo" /> instances.
+        /// </para>
+        /// </remarks>
+        public object Create(object request, ISpecimenContext context)
         {
-            return this.graph;
+            return this.graph.Create(request, context);
         }
 
         private bool EnableAutoProperties

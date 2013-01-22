@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var expectedComposer = new Fixture();
             var sut = new WritablePropertyAssertion(expectedComposer);
             // Exercise system
-            ISpecimenBuilderComposer result = sut.Composer;
+            ISpecimenBuilder result = sut.Builder;
             // Verify outcome
             Assert.Equal(expectedComposer, result);
             // Teardown

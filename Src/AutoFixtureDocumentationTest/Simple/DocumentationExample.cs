@@ -20,8 +20,8 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Fixture setup
             Fixture fixture = new Fixture();
 
-            int expectedNumber = fixture.CreateAnonymous<int>();
-            MyClass sut = fixture.CreateAnonymous<MyClass>();
+            int expectedNumber = fixture.Create<int>();
+            MyClass sut = fixture.Create<MyClass>();
             // Exercise system
             int result = sut.Echo(expectedNumber);
             // Verify outcome
@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             Fixture fixture = new Fixture();
 
             var anonymousParent =
-                fixture.CreateAnonymous<ComplexParent>();
+                fixture.Create<ComplexParent>();
             // Exercise system
             string result = anonymousParent.Child.Name;
             // Verify outcome
@@ -49,7 +49,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         {
             // Fixture setup
             Fixture fixture = new Fixture();
-            var anonymousText = fixture.CreateAnonymous<string>();
+            var anonymousText = fixture.Create<string>();
             // Exercise system
             TestConsole.WriteLine(anonymousText);
             // Verify outcome
@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         {
             // Fixture setup
             Fixture fixture = new Fixture();
-            var anonymousName = fixture.CreateAnonymous("Name");
+            var anonymousName = fixture.Create("Name");
             // Exercise system
             TestConsole.WriteLine(anonymousName);
             // Verify outcome
@@ -76,7 +76,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Fixture setup
             Fixture fixture = new Fixture();
             // Exercise system
-            int anonymousNumber = fixture.CreateAnonymous<int>();
+            int anonymousNumber = fixture.Create<int>();
             // Verify outcome
             Assert.NotEqual<int>(default(int), anonymousNumber);
             // Teardown
@@ -88,7 +88,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Fixture setup
             Fixture fixture = new Fixture();
             // Exercise system
-            int anonymousNumber = fixture.CreateAnonymous(42);
+            int anonymousNumber = fixture.Create(42);
             // Verify outcome
             Assert.NotEqual<int>(default(int), anonymousNumber);
             // Teardown
@@ -101,7 +101,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             Fixture fixture = new Fixture();
             // Exercise system
             decimal anonymousNumber =
-                fixture.CreateAnonymous<decimal>();
+                fixture.Create<decimal>();
             // Verify outcome
             Assert.NotEqual<decimal>(default(decimal), anonymousNumber);
             // Teardown
@@ -115,9 +115,9 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             Fixture fixture = new Fixture();
             List<bool> result = new List<bool>();
             // Exercise system
-            result.Add(fixture.CreateAnonymous<bool>());
-            result.Add(fixture.CreateAnonymous(true));
-            result.Add(fixture.CreateAnonymous(true));
+            result.Add(fixture.Create<bool>());
+            result.Add(fixture.Create(true));
+            result.Add(fixture.Create(true));
             // Verify outcome
             Assert.True(expectedResult.SequenceEqual(result));
             // Teardown
@@ -130,7 +130,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             Fixture fixture = new Fixture();
             fixture.Register<string>(() => "ploeh");
             // Exercise system
-            string result = fixture.CreateAnonymous<string>();
+            string result = fixture.Create<string>();
             // Verify outcome
             Assert.Equal<string>("ploeh", result);
             // Teardown
@@ -143,7 +143,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             Fixture fixture = new Fixture();
             fixture.Customize<string>(c => c.FromSeed(s => "fnaah"));
             // Exercise system
-            string result = fixture.CreateAnonymous<string>();
+            string result = fixture.Create<string>();
             // Verify outcome
             Assert.Equal<string>("fnaah", result);
             // Teardown
@@ -157,7 +157,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
                 c.FromSeed(s =>
                     string.Format(s, new Random().Next(100))));
 
-            string result = fixture.CreateAnonymous("Risk: {0}%");
+            string result = fixture.Create("Risk: {0}%");
 
             TestConsole.WriteLine(result);
         }
@@ -170,8 +170,8 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             fixture.Customize<string>(c =>
                 c.FromFactory((int i) => "foo" + i));
 
-            var s1 = fixture.CreateAnonymous<string>();
-            var s2 = fixture.CreateAnonymous<string>();
+            var s1 = fixture.Create<string>();
+            var s2 = fixture.Create<string>();
 
             Assert.Equal("foo1", s1);
             Assert.Equal("foo2", s2);
@@ -183,7 +183,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             var fixture = new Fixture();
             fixture.Customize<int>(c => c.FromSeed(i => i));
 
-            var result = fixture.CreateAnonymous<int>(42);
+            var result = fixture.Create<int>(42);
 
             Assert.Equal(42, result);
         }
@@ -206,13 +206,13 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             fixture.Register((int i) => (decimal)i);
             fixture.Register((int i) => (float)i);
 
-            Assert.Equal(1, fixture.CreateAnonymous<int>());
-            Assert.Equal(2, fixture.CreateAnonymous<long>());
-            Assert.Equal(3, fixture.CreateAnonymous<int>());
-            Assert.Equal(4, fixture.CreateAnonymous<float>());
-            Assert.Equal(5, fixture.CreateAnonymous<decimal>());
-            Assert.Equal(6, fixture.CreateAnonymous<decimal>());
-            Assert.Equal(7, fixture.CreateAnonymous<int>());
+            Assert.Equal(1, fixture.Create<int>());
+            Assert.Equal(2, fixture.Create<long>());
+            Assert.Equal(3, fixture.Create<int>());
+            Assert.Equal(4, fixture.Create<float>());
+            Assert.Equal(5, fixture.Create<decimal>());
+            Assert.Equal(6, fixture.Create<decimal>());
+            Assert.Equal(7, fixture.Create<int>());
         }
 
         [Fact]
@@ -293,7 +293,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system
-            var mc = fixture.CreateAnonymous<MyClass>();
+            var mc = fixture.Create<MyClass>();
             // Verify outcome
             Assert.NotNull(mc);
             // Teardown
@@ -305,7 +305,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system
-            var mc = fixture.CreateAnonymous<MyClass>();
+            var mc = fixture.Create<MyClass>();
             mc.MyText = "Ploeh";
             // Verify outcome
             string result = mc.MyText;
@@ -335,7 +335,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             var fixture = new Fixture();
             // Exercise system and verify outcome
             Assert.Throws<TargetInvocationException>(()=>
-                fixture.CreateAnonymous<Filter>());
+                fixture.Create<Filter>());
             // Teardown
         }
 
@@ -345,7 +345,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system
-            int min = fixture.CreateAnonymous<int>();
+            int min = fixture.Create<int>();
             int max = min + 1;
             var f = fixture.Build<Filter>()
                 .With(s => s.Max, max)
@@ -388,7 +388,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             var fixture = new Fixture();
             // Exercise system and verify outcome
             Assert.Throws<TargetInvocationException>(() =>
-                fixture.CreateAnonymous<SomeImp>());
+                fixture.Create<SomeImp>());
             // Teardown
         }
 

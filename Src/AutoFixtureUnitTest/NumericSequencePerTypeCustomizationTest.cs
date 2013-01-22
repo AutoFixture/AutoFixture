@@ -84,17 +84,17 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize(customization);
             var results = new object[]
             {
-                sut.CreateAnonymous<byte>(),
-                sut.CreateAnonymous<decimal>(),
-                sut.CreateAnonymous<double>(),
-                sut.CreateAnonymous<short>(),
-                sut.CreateAnonymous<int>(),
-                sut.CreateAnonymous<long>(),
-                sut.CreateAnonymous<sbyte>(),
-                sut.CreateAnonymous<float>(),
-                sut.CreateAnonymous<ushort>(),
-                sut.CreateAnonymous<uint>(),
-                sut.CreateAnonymous<ulong>()
+                sut.Create<byte>(),
+                sut.Create<decimal>(),
+                sut.Create<double>(),
+                sut.Create<short>(),
+                sut.Create<int>(),
+                sut.Create<long>(),
+                sut.Create<sbyte>(),
+                sut.Create<float>(),
+                sut.Create<ushort>(),
+                sut.Create<uint>(),
+                sut.Create<ulong>()
             };
             // Verify outcome
             Assert.True(expectedValues.SequenceEqual(results));

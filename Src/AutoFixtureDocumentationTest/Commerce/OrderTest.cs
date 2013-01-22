@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Commerce
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system
-            var order = fixture.CreateAnonymous<Order>();
+            var order = fixture.Create<Order>();
             order.ShippingAddress.Country = "Denmark";
             // Verify outcome
             Assert.Equal<string>("Denmark", order.ShippingAddress.Country);
@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Commerce
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system
-            var order = fixture.CreateAnonymous<Order>();
+            var order = fixture.Create<Order>();
             fixture.AddManyTo(order.OrderLines);
             Assert.Equal<int>(fixture.RepeatCount, order.OrderLines.Count);
             // Teardown

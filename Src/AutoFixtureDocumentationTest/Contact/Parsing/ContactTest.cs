@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.Parsing
             Fixture fixture = new Fixture();
             // Exercise system and verify outcome
             Assert.Throws<TargetInvocationException>(() =>
-                fixture.CreateAnonymous<Contact>());
+                fixture.Create<Contact>());
             // Teardown
         }
 
@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.Parsing
             // Fixture setup
             Fixture fixture = new Fixture();
             fixture.Register<string>(() => "112");
-            Contact sut = fixture.CreateAnonymous<Contact>();
+            Contact sut = fixture.Create<Contact>();
             // Exercise system
             int result = sut.PhoneNumber;
             // Verify outcome
@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.Parsing
             // Fixture setup
             Fixture fixture = new Fixture();
             fixture.Register<int, string>(i => i.ToString());
-            Contact sut = fixture.CreateAnonymous<Contact>();
+            Contact sut = fixture.Create<Contact>();
             // Exercise system
             int result = sut.PhoneNumber;
             // Verify outcome

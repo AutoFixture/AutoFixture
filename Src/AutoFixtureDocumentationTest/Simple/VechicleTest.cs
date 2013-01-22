@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         {
             // Fixture setup
             var fixture = new Fixture();
-            var sut = fixture.CreateAnonymous<Vehicle>();
+            var sut = fixture.Create<Vehicle>();
             // Exercise system
             var result = sut.Wheels;
             // Verify outcome

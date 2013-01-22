@@ -67,7 +67,6 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             fixture.Inject(expectedNumber);
             fixture.Inject(expectedText);
-            var builder = fixture.Compose();
 
             var verified = false;
             var mock = new CommandMock<int, string>();
@@ -75,7 +74,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 expectedNumber == x &&
                 expectedText == y;
             // Exercise system
-            builder.Do((int x, string y) => mock.Command(x, y));
+            fixture.Do((int x, string y) => mock.Command(x, y));
             // Verify outcome
             Assert.True(verified, "Mock wasn't verified.");
             // Teardown
@@ -112,7 +111,6 @@ namespace Ploeh.AutoFixtureUnitTest
             fixture.Inject(expectedText);
             fixture.Inject(expectedNumber);
             fixture.Inject(expectedBool);
-            var builder = fixture.Compose();
 
             var verified = false;
             var mock = new CommandMock<string, int, bool>();
@@ -121,7 +119,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 expectedNumber == y &&
                 expectedBool == z;
             // Exercise system
-            builder.Do((string x, int y, bool z) => mock.Command(x, y, z));
+            fixture.Do((string x, int y, bool z) => mock.Command(x, y, z));
             // Verify outcome
             Assert.True(verified, "Mock wasn't verified.");
             // Teardown
@@ -160,7 +158,6 @@ namespace Ploeh.AutoFixtureUnitTest
             fixture.Inject(expectedText);
             fixture.Inject(expectedType);
             fixture.Inject(expectedBool);
-            var builder = fixture.Compose();
 
             var verified = false;
             var mock = new CommandMock<int, string, Type, bool>();
@@ -170,7 +167,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 expectedType == z &&
                 expectedBool == æ;
             // Exercise system
-            builder.Do(
+            fixture.Do(
                 (int x, string y, Type z, bool æ) => mock.Command(x, y, z, æ));
             // Verify outcome
             Assert.True(verified, "Mock wasn't verified.");

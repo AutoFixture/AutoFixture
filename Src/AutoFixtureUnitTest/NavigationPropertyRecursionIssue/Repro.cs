@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixtureUnitTest.NavigationPropertyRecursionIssue
                 .ForEach(b => fixture.Behaviors.Remove(b));
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             // Exercise system
-            var session = fixture.CreateAnonymous<Session>();
+            var session = fixture.Create<Session>();
             // Verify outcome
             Assert.Empty(session.Language.Sessions);
             // Teardown

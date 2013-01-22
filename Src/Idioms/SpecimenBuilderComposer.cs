@@ -4,9 +4,9 @@ namespace Ploeh.AutoFixture.Idioms
 {
     internal static class SpecimenBuilderComposer
     {
-        internal static object CreateAnonymous(this ISpecimenBuilderComposer composer, object request)
+        internal static object CreateAnonymous(this ISpecimenBuilder builder, object request)
         {
-            return new SpecimenContext(composer.Compose()).Resolve(request);
+            return new SpecimenContext(builder).Resolve(request);
         }
     }
 }

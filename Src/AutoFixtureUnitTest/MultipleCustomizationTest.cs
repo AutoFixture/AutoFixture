@@ -102,7 +102,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new MultipleCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<IEnumerable<Version>>();
+            var result = fixture.Create<IEnumerable<Version>>();
             // Verify outcome
             Assert.True(result.Any());
             // Teardown
@@ -114,7 +114,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new MultipleCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<List<long>>();
+            var result = fixture.Create<List<long>>();
             // Verify outcome
             Assert.True(result.Any());
             // Teardown
@@ -126,7 +126,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new MultipleCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<HashSet<string>>();
+            var result = fixture.Create<HashSet<string>>();
             // Verify outcome
             Assert.True(result.Any());
             // Teardown
@@ -138,7 +138,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new MultipleCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<IList<DateTime>>();
+            var result = fixture.Create<IList<DateTime>>();
             // Verify outcome
             Assert.True(result.Any());
             // Teardown
@@ -150,7 +150,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new MultipleCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<ICollection<TimeSpan>>();
+            var result = fixture.Create<ICollection<TimeSpan>>();
             // Verify outcome
             Assert.True(result.Any());
             // Teardown
@@ -162,7 +162,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new MultipleCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<Collection<Guid>>();
+            var result = fixture.Create<Collection<Guid>>();
             // Verify outcome
             Assert.True(result.Any());
             // Teardown
@@ -174,7 +174,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new MultipleCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<Dictionary<string, OperatingSystem>>();
+            var result = fixture.Create<Dictionary<string, OperatingSystem>>();
             // Verify outcome
             Assert.True(result.Any());
             // Teardown
@@ -186,7 +186,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new MultipleCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<IDictionary<float, object>>();
+            var result = fixture.Create<IDictionary<float, object>>();
             // Verify outcome
             Assert.True(result.Any());
             // Teardown
