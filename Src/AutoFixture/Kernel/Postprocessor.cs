@@ -69,6 +69,7 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly ISpecimenBuilder builder;
         private readonly Action<T, ISpecimenContext> action;
+        private readonly ISpecimenCommand command;
         private readonly IRequestSpecification specification;
 
         /// <summary>
@@ -120,6 +121,7 @@ namespace Ploeh.AutoFixture.Kernel
 
             this.builder = builder;
             this.action = action;
+            this.command = new ActionSpecimenCommandAdapter(this.action);
             this.specification = specification;
         }
 
@@ -183,8 +185,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                     "The specimen returned by the decorated ISpecimenBuilder is not compatible with {0}.", typeof(T)));
             }
-            var s = (T)specimen;
-            this.action(s, context);
+            this.command.Execute(specimen, context);
             return specimen;
         }
 
@@ -215,6 +216,22 @@ namespace Ploeh.AutoFixture.Kernel
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
+        }
+
+        private class ActionSpecimenCommandAdapter : ISpecimenCommand
+        {
+            private readonly Action<T, ISpecimenContext> action;
+
+            public ActionSpecimenCommandAdapter(Action<T, ISpecimenContext> action)
+            {
+                this.action = action;
+            }
+
+            public void Execute(object specimen, ISpecimenContext context)
+            {
+                var s = (T)specimen;
+                this.action(s, context);
+            }
         }
     }
 }

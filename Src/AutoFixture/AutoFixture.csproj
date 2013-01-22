@@ -131,6 +131,7 @@
     <Compile Include="Kernel\AbstractTypeSpecification.cs" />
     <Compile Include="Kernel\ConstrainedStringRequest.cs" />
     <Compile Include="Kernel\EqualRequestSpecification.cs" />
+    <Compile Include="Kernel\ISpecimenCommand.cs" />
     <Compile Include="Kernel\OmitOnRecursionGuard.cs" />
     <Compile Include="Kernel\ISpecimenBuilderNode.cs" />
     <Compile Include="Kernel\OmitSpecimen.cs" />
