@@ -190,7 +190,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new Postprocessor<DoublePropertyHolder<string, int>>(
                     new MethodInvoker(new ModestConstructorQuery()),
                     specifiedCommand),
-                new AutoPropertiesCommand<DoublePropertyHolder<string, int>>(reservedProperty).Execute,
+                new AutoPropertiesCommand<DoublePropertyHolder<string, int>>(reservedProperty),
                 new AnyTypeSpecification());
 
             var builder = new CompositeSpecimenBuilder(
@@ -494,7 +494,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         private static ISpecimenBuilder CreateAutoPropertyBuilder()
         {
             var builder = Scenario.CreateCoreBuilder();
-            return new Postprocessor(builder, new AutoPropertiesCommand().Execute, new AnyTypeSpecification());
+            return new Postprocessor(builder, new AutoPropertiesCommand(), new AnyTypeSpecification());
         }
 
         private static CompositeSpecimenBuilder CreateCoreBuilder()

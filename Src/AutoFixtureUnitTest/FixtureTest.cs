@@ -4106,7 +4106,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             fixture.Customizations.Add(new Postprocessor(
                 new MethodInvoker(new GreedyConstructorQuery()),
-                new AutoPropertiesCommand().Execute,
+                new AutoPropertiesCommand(),
                 new AnyTypeSpecification()));
             // Exercise system
             var result = fixture.CreateAnonymous<ConcreteType>();
