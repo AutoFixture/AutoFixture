@@ -56,15 +56,8 @@ namespace Ploeh.AutoFixture.Kernel
             ISpecimenBuilder builder,
             ISpecimenCommand command,
             IRequestSpecification specification)
-            : base(builder, new NullCommand())
+            : base(builder, command)
         {
-        }
-
-        private class NullCommand : ISpecimenCommand
-        {
-            public void Execute(object specimen, ISpecimenContext context)
-            {
-            }
         }
 
         /// <summary>Composes the supplied builders.</summary>
