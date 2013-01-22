@@ -145,6 +145,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             this.builder = builder;
             this.command = command;
+            this.specification = specification;
         }
 
         /// <summary>
