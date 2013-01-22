@@ -16,6 +16,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="builder">The <see cref="ISpecimenBuilder"/> to decorate.</param>
         /// <param name="action">The action to perform on the created specimen.</param>
+        [Obsolete("Use Postprocessor(ISpecimenBuilder, ISpecimenCommand) instead")]
         public Postprocessor(ISpecimenBuilder builder, Action<object> action)
             : base(builder, action)
         {

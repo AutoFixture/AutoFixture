@@ -84,6 +84,7 @@
     <Compile Include="AbstractRecursionIssue\Repro.cs" />
     <Compile Include="BehaviorComposerTest.cs" />
     <Compile Include="BehaviorPostprocessComposerTest.cs" />
+    <Compile Include="Kernel\ActionSpecimenCommandTests.cs" />
     <Compile Include="Kernel\DelegatingSpecimenCommand.cs" />
     <Compile Include="MarkerNodeTests.cs" />
     <Compile Include="BooleanSwitchTest.cs" />

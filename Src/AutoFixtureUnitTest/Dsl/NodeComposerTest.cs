@@ -287,7 +287,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(AppDomainSetup)))),
-                            a),
+                            new ActionSpecimenCommand<AppDomainSetup>(a)),
                         new SeedIgnoringRelay()),
                     new OrRequestSpecification(
                         new SeedRequestSpecification(typeof(AppDomainSetup)),
@@ -319,8 +319,8 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                                     new InverseRequestSpecification(
                                         new SeedRequestSpecification(
                                             typeof(PropertyHolder<string>)))),
-                                dummy),
-                            a),
+                                new ActionSpecimenCommand<PropertyHolder<string>>(dummy)),
+                            new ActionSpecimenCommand<PropertyHolder<string>>(a)),
                         new SeedIgnoringRelay()),
                     new OrRequestSpecification(
                         new SeedRequestSpecification(typeof(PropertyHolder<string>)),
@@ -476,7 +476,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             int value2)
         {
             // Fixture setup
-            var sut = 
+            var sut =
                 SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<string, int>>();
             var pi1 = typeof(DoublePropertyHolder<string, int>).GetProperty("Property1");
             var pi2 = typeof(DoublePropertyHolder<string, int>).GetProperty("Property2");
@@ -563,7 +563,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Fixture setup
             var sut = SpecimenBuilderNodeFactory.CreateComposer<Version>();
             // Exercise system
-            NodeComposer<Version> actual = 
+            NodeComposer<Version> actual =
                 sut.WithAutoProperties(true);
             // Verify outcome
             var expected = new NodeComposer<Version>(
@@ -673,7 +673,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                                     new InverseRequestSpecification(
                                         new SeedRequestSpecification(
                                             typeof(PropertyHolder<int>)))),
-                                a),
+                                new ActionSpecimenCommand<PropertyHolder<int>>(a)),
                             new AutoPropertiesCommand<PropertyHolder<int>>(),
                             new OrRequestSpecification(
                                 new SeedRequestSpecification(typeof(PropertyHolder<int>)),
@@ -682,7 +682,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                     new OrRequestSpecification(
                         new SeedRequestSpecification(typeof(PropertyHolder<int>)),
                         new ExactTypeSpecification(typeof(PropertyHolder<int>)))));
-                                
+
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
             // Teardown
