@@ -235,15 +235,12 @@ namespace Ploeh.AutoFixture.Dsl
         private static ISpecimenBuilderNode FindAutoPropertiesNode(
             ISpecimenBuilderNode graph)
         {
-            var m =
-                ExpressionReflector.CreateAutoPropertiesExecuteMethodInfo<T>();
             return graph
                 .SelectNodes(n =>
                 {
                     var pp = n as Postprocessor<T>;
-                    if (pp == null)
-                        return false;
-                    return m.Equals(pp.Action.Method);
+                    return pp != null
+                        && pp.Command is AutoPropertiesCommand<T>;
                 })
                 .FirstOrDefault();
         }
@@ -389,7 +386,7 @@ namespace Ploeh.AutoFixture.Dsl
                     {
                         new Postprocessor<T>(
                             CompositeSpecimenBuilder.ComposeIfMultiple(n),
-                            new AutoPropertiesCommand<T>().Execute,
+                            new AutoPropertiesCommand<T>(),
                             CreateSpecification()),
                         new SeedIgnoringRelay()
                     }),

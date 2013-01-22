@@ -349,7 +349,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(Version)))),
-                            new AutoPropertiesCommand<Version>().Execute,
+                            new AutoPropertiesCommand<Version>(),
                             new OrRequestSpecification(
                                 new SeedRequestSpecification(typeof(Version)),
                                 new ExactTypeSpecification(typeof(Version)))),
@@ -576,7 +576,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(Version)))),
-                            new AutoPropertiesCommand<Version>().Execute,
+                            new AutoPropertiesCommand<Version>(),
                             new OrRequestSpecification(
                                 new SeedRequestSpecification(typeof(Version)),
                                 new ExactTypeSpecification(typeof(Version)))),
@@ -639,7 +639,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(PropertyHolder<string>)))),
-                            new AutoPropertiesCommand<PropertyHolder<string>>().Execute,
+                            new AutoPropertiesCommand<PropertyHolder<string>>(),
                             new OrRequestSpecification(
                                 new SeedRequestSpecification(typeof(PropertyHolder<string>)),
                                 new ExactTypeSpecification(typeof(PropertyHolder<string>)))),
@@ -674,7 +674,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                                         new SeedRequestSpecification(
                                             typeof(PropertyHolder<int>)))),
                                 a),
-                            new AutoPropertiesCommand<PropertyHolder<int>>().Execute,
+                            new AutoPropertiesCommand<PropertyHolder<int>>(),
                             new OrRequestSpecification(
                                 new SeedRequestSpecification(typeof(PropertyHolder<int>)),
                                 new ExactTypeSpecification(typeof(PropertyHolder<int>)))),
