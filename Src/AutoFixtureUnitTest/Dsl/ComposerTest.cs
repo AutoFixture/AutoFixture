@@ -32,9 +32,9 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Fixture setup
 #pragma warning disable 618
             var sut = new Composer<HttpStyleUriParser>();
-#pragma warning restore 618
             // Exercise system
             IEnumerable<ISpecifiedSpecimenCommand<HttpStyleUriParser>> result = sut.Postprocessors;
+#pragma warning restore 618
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
@@ -58,9 +58,9 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void IntializeWithNullFactoryThrows()
         {
             // Fixture setup
+#pragma warning disable 618
             var dummyCommands = Enumerable.Empty<ISpecifiedSpecimenCommand<UriParser>>();
             // Exercise system and verify outcome
-#pragma warning disable 618
             Assert.Throws<ArgumentNullException>(() =>
                 new Composer<UriParser>(null, dummyCommands, false));
 #pragma warning restore 618
@@ -85,8 +85,8 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         {
             // Fixture setup
             var expectedFactory = new DelegatingSpecimenBuilder();
-            var dummyCommands = Enumerable.Empty<ISpecifiedSpecimenCommand<byte>>();
 #pragma warning disable 618
+            var dummyCommands = Enumerable.Empty<ISpecifiedSpecimenCommand<byte>>();
             var sut = new Composer<byte>(expectedFactory, dummyCommands, false);
 #pragma warning restore 618
             // Exercise system
@@ -101,11 +101,11 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         {
             // Fixture setup
             var dummyFactory = new DelegatingSpecimenBuilder();
+#pragma warning disable 618
             var expectedCommands = Enumerable.Range(1, 3)
                 .Select(i => new DelegatingSpecifiedSpecimenCommand<Version>())
                 .Cast<ISpecifiedSpecimenCommand<Version>>()
                 .ToList();
-#pragma warning disable 618
             var sut = new Composer<Version>(dummyFactory, expectedCommands, false);
 #pragma warning restore 618
             // Exercise system
@@ -120,9 +120,9 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         {
             // Fixture setup
             var dummyFactory = new DelegatingSpecimenBuilder();
+#pragma warning disable 618
             var dummyPostprocessors = Enumerable.Empty<ISpecifiedSpecimenCommand<HttpStyleUriParser>>();
             var enableAutoProperties = true;
-#pragma warning disable 618
             var sut = new Composer<HttpStyleUriParser>(dummyFactory, dummyPostprocessors, enableAutoProperties);
 #pragma warning restore 618
             // Exercise system
@@ -137,10 +137,10 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         {
             // Fixture setup
             var dummyFactory = new DelegatingSpecimenBuilder();
+#pragma warning disable 618
             var postprocessors = Enumerable.Range(1, 3)
                 .Select(i => new DelegatingSpecifiedSpecimenCommand<Uri>())
                 .Cast<ISpecifiedSpecimenCommand<Uri>>();
-#pragma warning disable 618
             var sut = new Composer<Uri>(dummyFactory, postprocessors, false);
 #pragma warning restore 618
             var expected = sut.Postprocessors;
@@ -190,10 +190,12 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void WithFactoryReturnsResultWithCorrectPostprocessors()
         {
             // Fixture setup
+#pragma warning disable 618
             var expectedPostprocessors = Enumerable.Range(1, 3)
                 .Select(i => new DelegatingSpecifiedSpecimenCommand<Version>())
                 .Cast<ISpecifiedSpecimenCommand<Version>>()
                 .ToList();
+#pragma warning restore 618
             var sut = new SutBuilder<Version>().With(expectedPostprocessors).Create();
             // Exercise system
             var dummyFactory = new DelegatingSpecimenBuilder();

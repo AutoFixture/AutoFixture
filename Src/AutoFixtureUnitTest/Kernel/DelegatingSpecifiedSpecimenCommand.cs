@@ -3,6 +3,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
+#pragma warning disable 618
     internal class DelegatingSpecifiedSpecimenCommand<T> : DelegatingRequestSpecification, ISpecifiedSpecimenCommand<T>
     {
         public DelegatingSpecifiedSpecimenCommand()
@@ -17,4 +18,5 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
         internal Action<T, ISpecimenContext> OnExecute { get; set; }
     }
+#pragma warning restore 618
 }
