@@ -12,9 +12,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            Action<object> dummyAction = s => { };
+            var dummyCommand = new DelegatingSpecimenCommand();
             // Exercise system
-            var sut = new Postprocessor(dummyBuilder, dummyAction);
+            var sut = new Postprocessor(dummyBuilder, dummyCommand);
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -25,9 +25,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            Action<object> dummyAction = s => { };
+            var dummyCommand = new DelegatingSpecimenCommand();
             // Exercise system
-            var sut = new Postprocessor(dummyBuilder, dummyAction);
+            var sut = new Postprocessor(dummyBuilder, dummyCommand);
             // Verify outcome
             Assert.IsAssignableFrom<Postprocessor<object>>(sut);
             // Teardown
@@ -44,6 +44,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+#pragma warning disable 618
         [Fact]
         public void InitializeWithNullBuilderThrows()
         {
@@ -63,6 +64,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Throws<ArgumentNullException>(() => new Postprocessor(dummyBuilder, (Action<object>)null));
             // Teardown
         }
+#pragma warning restore 618
 
         [Fact]
         public void InitializeWithNullSpecificationThrows()
@@ -75,6 +77,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+#pragma warning disable 618
         [Fact]
         public void BuilderIsCorrect()
         {
@@ -90,7 +93,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-#pragma warning disable 618
         [Fact]
         public void ActionIsCorrect()
         {
@@ -211,8 +213,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var verified = false;
             var builderMock = new DelegatingSpecimenBuilder { OnCreate = (r, c) => verified = r == expectedRequest && c == expectedContainer };
 
-            Action<object> dummyAction = s => { };
-            var sut = new Postprocessor(builderMock, dummyAction);
+            var dummyCommand = new DelegatingSpecimenCommand();
+            var sut = new Postprocessor(builderMock, dummyCommand);
             // Exercise system
             sut.Create(expectedRequest, expectedContainer);
             // Verify outcome
@@ -226,8 +228,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedResult = new object();
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedResult };
-            Action<object> dummyAction = s => { };
-            var sut = new Postprocessor(builder, dummyAction);
+            var dummyCommand = new DelegatingSpecimenCommand();
+            var sut = new Postprocessor(builder, dummyCommand);
             // Exercise system
             var dummyRequest = new object();
             var dummyContainer = new DelegatingSpecimenContext();
@@ -245,7 +247,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => expectedSpecimen };
 
             var verified = false;
-            Action<object> mock = s => verified = s == expectedSpecimen;
+            var mock = new DelegatingSpecimenCommand
+            {
+                OnExecute = (s, c) => verified = expectedSpecimen.Equals(s)
+            };
 
             var sut = new Postprocessor(builder, mock);
             // Exercise system
@@ -262,7 +267,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            var sut = new Postprocessor(dummyBuilder, _ => { });
+            var dummyCommand = new DelegatingSpecimenCommand();
+            var sut = new Postprocessor(dummyBuilder, dummyCommand);
             // Exercise system
             var expectedBuilders = new[]
             {
@@ -283,7 +289,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
-            var sut = new Postprocessor(dummyBuilder, _ => { });
+            var dummyCommand = new DelegatingSpecimenCommand();
+            var sut = new Postprocessor(dummyBuilder, dummyCommand);
             // Exercise system
             var expected = new DelegatingSpecimenBuilder();
             var actual = sut.Compose(new[] { expected });
