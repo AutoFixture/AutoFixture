@@ -371,5 +371,193 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.False(mockInvoked, "Mock invoked");
             // Teardown
         }
+
+        [Fact]
+        public void CommandIsCorrect()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var expected = new DelegatingSpecimenCommand();
+
+            var sut = new Postprocessor<object>(dummyBuilder, expected);
+            // Exercise system
+            ISpecimenCommand actual = sut.Command;
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void BuilderIsCorrectWhenConstructedWithMinimalConstructor()
+        {
+            // Fixture setup
+            var expected = new DelegatingSpecimenBuilder();
+            var dummyCommand = new DelegatingSpecimenCommand();
+
+            var sut = new Postprocessor<object>(expected, dummyCommand);
+            // Exercise system
+            var actual = sut.Builder;
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void ActionIsNotNullWhenConstructedWithMinimalConstructor()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummyCommand = new DelegatingSpecimenCommand();
+
+            var sut = new Postprocessor<object>(dummyBuilder, dummyCommand);
+            // Exercise system
+            var actual = sut.Action;
+            // Verify outcome
+            Assert.NotNull(actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecificationIsCorrectWhenConstructedWithMinimalConstructor()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummyCommand = new DelegatingSpecimenCommand();
+
+            var sut = new Postprocessor<object>(dummyBuilder, dummyCommand);
+            // Exercise system
+            var actual = sut.Specification;
+            // Verify outcome
+            Assert.IsAssignableFrom<TrueRequestSpecification>(actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void ConstructMinimalWithNullBuilderThrows()
+        {
+            var dummyCommand = new DelegatingSpecimenCommand();
+            Assert.Throws<ArgumentNullException>(() =>
+                new Postprocessor<object>(null, dummyCommand));
+        }
+
+        [Fact]
+        public void ConstructMinimalWithNullCommandThrows()
+        {
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            Assert.Throws<ArgumentNullException>(() =>
+                new Postprocessor<object>(dummyBuilder, (ISpecimenCommand)null));
+        }
+
+        [Fact]
+        public void BuilderIsCorrectWhenConstructedWithFullConstructor()
+        {
+            // Fixture setup
+            var expected = new DelegatingSpecimenBuilder();
+            var dummyCommand = new DelegatingSpecimenCommand();
+            var dummySpecification = new DelegatingRequestSpecification();
+
+            var sut = new Postprocessor<object>(
+                expected,
+                dummyCommand,
+                dummySpecification);
+            // Exercise system
+            var actual = sut.Builder;
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CommandIsCorrectWhenConstructedWithFullConstructor()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var expected = new DelegatingSpecimenCommand();
+            var dummySpecification = new DelegatingRequestSpecification();
+
+            var sut = new Postprocessor<object>(
+                dummyBuilder,
+                expected,
+                dummySpecification);
+            // Exercise system
+            var actual = sut.Command;
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void SpecificationIsCorrectWhenConstructedWithFullConstructor()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummyCommand = new DelegatingSpecimenCommand();
+            var expected = new DelegatingRequestSpecification();
+
+            var sut = new Postprocessor<object>(
+                dummyBuilder,
+                dummyCommand,
+                expected);
+            // Exercise system
+            var actual = sut.Specification;
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void ActionIsNotNullWhenConstructedWithFullConstructor()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummyCommand = new DelegatingSpecimenCommand();
+            var dummySpecification = new DelegatingRequestSpecification();
+
+            var sut = new Postprocessor<object>(
+                dummyBuilder,
+                dummyCommand,
+                dummySpecification);
+            // Exercise system
+            var actual = sut.Action;
+            // Verify outcome
+            Assert.NotNull(actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void ConstructFullWithNullBuilderThrows()
+        {
+            var dummyCommand = new DelegatingSpecimenCommand();
+            var dummySpecification = new DelegatingRequestSpecification();
+            Assert.Throws<ArgumentNullException>(() =>
+                new Postprocessor<object>(
+                    null,
+                    dummyCommand,
+                    dummySpecification));
+        }
+
+        [Fact]
+        public void ConstructFullWithNullCommandThrows()
+        {
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummySpecification = new DelegatingRequestSpecification();
+            Assert.Throws<ArgumentNullException>(() =>
+                new Postprocessor<object>(
+                    dummyBuilder,
+                    (ISpecimenCommand)null,
+                    dummySpecification));
+        }
+
+        [Fact]
+        public void ConstructFullWithNullSpecificationThrows()
+        {
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummyCommand = new DelegatingSpecimenCommand();
+            Assert.Throws<ArgumentNullException>(() =>
+                new Postprocessor<object>(
+                    dummyBuilder,
+                    dummyCommand,
+                    null));
+        }
     }
 }
