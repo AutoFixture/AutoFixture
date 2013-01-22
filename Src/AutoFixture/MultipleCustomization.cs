@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixture
                     new Postprocessor(
                         new MethodInvoker(
                             new ModestConstructorQuery()),
-                        DictionaryFiller.AddMany),
+                        new DictionaryFiller()),
                     new DictionarySpecification()));
             fixture.Customizations.Add(
                 new FilteringSpecimenBuilder(
