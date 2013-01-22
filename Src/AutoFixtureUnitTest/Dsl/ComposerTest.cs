@@ -259,6 +259,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Teardown
         }
 
+#pragma warning disable 618
         [Fact]
         public void ComposeWithPostprocessorsReturnsCorrectResult()
         {
@@ -289,6 +290,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.Equal(sut.Factory, guard.Builder);
             // Teardown
         }
+#pragma warning restore 618
 
         [Fact]
         public void FromNullSeedThrows()

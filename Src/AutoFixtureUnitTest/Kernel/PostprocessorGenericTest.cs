@@ -159,6 +159,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+#pragma warning disable 618
         [Fact]
         public void ComposePreservesAction()
         {
@@ -173,6 +174,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(expected, pp.Action);
             // Teardown
         }
+#pragma warning restore 618
 
         [Fact]
         public void ComposePreservesCommand()
@@ -417,6 +419,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+#pragma warning disable 618
         [Fact]
         public void ActionIsNotNullWhenConstructedWithMinimalConstructor()
         {
@@ -431,6 +434,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.NotNull(actual);
             // Teardown
         }
+#pragma warning restore 618
 
         [Fact]
         public void SpecificationIsCorrectWhenConstructedWithMinimalConstructor()
@@ -520,6 +524,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+#pragma warning disable 618
         [Fact]
         public void ActionIsNotNullWhenConstructedWithFullConstructor()
         {
@@ -538,6 +543,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.NotNull(actual);
             // Teardown
         }
+#pragma warning restore 618
 
         [Fact]
         public void ConstructFullWithNullBuilderThrows()
