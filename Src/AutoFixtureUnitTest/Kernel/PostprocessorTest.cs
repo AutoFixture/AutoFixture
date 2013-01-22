@@ -33,6 +33,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+#pragma warning disable 618
         [Fact]
         public void SutCanBeInitializedWithDoubleAction()
         {
@@ -44,7 +45,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-#pragma warning disable 618
         [Fact]
         public void InitializeWithNullBuilderThrows()
         {
