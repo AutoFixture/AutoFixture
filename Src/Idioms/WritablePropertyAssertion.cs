@@ -22,37 +22,37 @@ namespace Ploeh.AutoFixture.Idioms
     /// </remarks>
     public class WritablePropertyAssertion : IdiomaticAssertion
     {
-        private readonly ISpecimenBuilderComposer composer;
+        private readonly ISpecimenBuilder builder;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WritablePropertyAssertion"/> class.
         /// </summary>
-        /// <param name="composer">
+        /// <param name="builder">
         /// A composer which can create instances required to implement the idiomatic unit test,
         /// such as the owner of the property, as well as the value to be assigned and read from
         /// the property.
         /// </param>
         /// <remarks>
         /// <para>
-        /// <paramref name="composer" /> will typically be a <see cref="Fixture" /> instance.
+        /// <paramref name="builder" /> will typically be a <see cref="Fixture" /> instance.
         /// </para>
         /// </remarks>
-        public WritablePropertyAssertion(ISpecimenBuilderComposer composer)
+        public WritablePropertyAssertion(ISpecimenBuilder builder)
         {
-            if (composer == null)
+            if (builder == null)
             {
-                throw new ArgumentNullException("composer");
+                throw new ArgumentNullException("builder");
             }
 
-            this.composer = composer;
+            this.builder = builder;
         }
 
         /// <summary>
-        /// Gets the composer supplied via the constructor.
+        /// Gets the builder supplied via the constructor.
         /// </summary>
-        public ISpecimenBuilderComposer Composer
+        public ISpecimenBuilder Builder
         {
-            get { return this.composer; }
+            get { return this.builder; }
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// <remarks>
         /// <para>
         /// This method verifies that <paramref name="propertyInfo" /> is correctly implemented as
-        /// a writable property. It used the <see cref="Composer" /> to create an instance of the
+        /// a writable property. It used the <see cref="Builder" /> to create an instance of the
         /// Type on which the property is implemented and then assigns to and reads from the
         /// property. The assertion passes if the value read from the property is the same as the
         /// value assigned to it. If this is not the case, a
@@ -81,8 +81,8 @@ namespace Ploeh.AutoFixture.Idioms
             if (propertyInfo.GetSetMethod() == null)
                 return;
 
-            var specimen = this.composer.CreateAnonymous(propertyInfo.ReflectedType);
-            var propertyValue = this.composer.CreateAnonymous(propertyInfo.PropertyType);
+            var specimen = this.builder.CreateAnonymous(propertyInfo.ReflectedType);
+            var propertyValue = this.builder.CreateAnonymous(propertyInfo.PropertyType);
 
             propertyInfo.SetValue(specimen, propertyValue, null);
             var result = propertyInfo.GetValue(specimen, null);

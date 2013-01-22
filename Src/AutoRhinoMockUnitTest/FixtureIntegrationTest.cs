@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<string>();
+            var result = fixture.Create<string>();
             // Verify outcome
             Assert.Throws<InvalidOperationException>( () => result.GetMockRepository());
             // Teardown
@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<IInterface>();
+            var result = fixture.Create<IInterface>();
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<IInterface>();
+            var result = fixture.Create<IInterface>();
             // Verify outcome
             Assert.IsAssignableFrom<IMockedObject>(result);
             // Teardown
@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = (IMockedObject)fixture.CreateAnonymous<IInterface>();
+            var result = (IMockedObject)fixture.Create<IInterface>();
             // Verify outcome
             Assert.DoesNotThrow(() => { var repo = result.Repository; });
             // Teardown
@@ -64,7 +64,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<AbstractType>();
+            var result = fixture.Create<AbstractType>();
             // Verify outcome
             Assert.NotNull(result.GetMockRepository());
             // Teardown
@@ -76,7 +76,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<Guid>();
+            var result = fixture.Create<Guid>();
             // Verify outcome
             Assert.NotEqual(Guid.Empty, result);
             // Teardown
@@ -88,7 +88,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<AbstractTypeWithNonDefaultConstructor<Guid>>();
+            var result = fixture.Create<AbstractTypeWithNonDefaultConstructor<Guid>>();
             // Verify outcome
             Assert.NotEqual(Guid.Empty, result.Property);
             // Teardown
@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<AbstractTypeWithNonDefaultConstructor<int>>();
+            var result = fixture.Create<AbstractTypeWithNonDefaultConstructor<int>>();
             // Verify outcome
             Assert.NotEqual(0, result.Property);
             // Teardown
@@ -112,7 +112,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<AbstractTypeWithNonDefaultConstructor<RhinoMockTestTypes.AnotherAbstractTypeWithNonDefaultConstructor<int>>>();
+            var result = fixture.Create<AbstractTypeWithNonDefaultConstructor<RhinoMockTestTypes.AnotherAbstractTypeWithNonDefaultConstructor<int>>>();
             // Verify outcome
             Assert.NotNull(result.GetMockRepository());
             Assert.NotNull(result.Property.GetMockRepository());
@@ -125,7 +125,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<AbstractTypeWithNonDefaultConstructor<RhinoMockTestTypes.ConcreteGenericType<int>>>();
+            var result = fixture.Create<AbstractTypeWithNonDefaultConstructor<RhinoMockTestTypes.ConcreteGenericType<int>>>();
             // Verify outcome
             Assert.NotNull(result.GetMockRepository());
             Assert.Throws<InvalidOperationException>(() => result.Property.GetMockRepository());
@@ -138,7 +138,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<RhinoMockTestTypes.ConcreteGenericType<AbstractTypeWithNonDefaultConstructor<int>>>();
+            var result = fixture.Create<RhinoMockTestTypes.ConcreteGenericType<AbstractTypeWithNonDefaultConstructor<int>>>();
             // Verify outcome
             Assert.Throws<InvalidOperationException>(() => result.GetMockRepository());
             Assert.NotNull(result.Value.GetMockRepository());
@@ -151,7 +151,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<RhinoMockTestTypes.ConcreteDoublyGenericType<ConcreteType, AbstractTypeWithNonDefaultConstructor<int>>>();
+            var result = fixture.Create<RhinoMockTestTypes.ConcreteDoublyGenericType<ConcreteType, AbstractTypeWithNonDefaultConstructor<int>>>();
             // Verify outcome
             Assert.Throws<InvalidOperationException>(() => result.GetMockRepository());
             Assert.Throws<InvalidOperationException>(() => result.Value1.GetMockRepository());
@@ -165,7 +165,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<AbstractType>();
+            var result = fixture.Create<AbstractType>();
             // Verify outcome
             Assert.NotNull(result.GetMockRepository());
         }
@@ -176,7 +176,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<AbstractGenericType<object>>();
+            var result = fixture.Create<AbstractGenericType<object>>();
             // Verify outcome
             Assert.NotNull(result.GetMockRepository());
         }
@@ -187,7 +187,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<AbstractGenericType<object>>();
+            var result = fixture.Create<AbstractGenericType<object>>();
             // Verify outcome
             Assert.NotNull(result);
         }
@@ -198,7 +198,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<AbstractGenericType<object>>();
+            var result = fixture.Create<AbstractGenericType<object>>();
             // Verify outcome
             Assert.Throws<InvalidOperationException>(() => result.Value.GetMockRepository());
         }
@@ -209,7 +209,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<List<ConcreteType>>();
+            var result = fixture.Create<List<ConcreteType>>();
             // Verify outcome
             Assert.False(result.Any());
             // Teardown
@@ -221,7 +221,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<Stack<ConcreteType>>();
+            var result = fixture.Create<Stack<ConcreteType>>();
             // Verify outcome
             Assert.False(result.Any());
             // Teardown
@@ -233,7 +233,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<HashSet<ConcreteType>>();
+            var result = fixture.Create<HashSet<ConcreteType>>();
             // Verify outcome
             Assert.False(result.Any());
             // Teardown

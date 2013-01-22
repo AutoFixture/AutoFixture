@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<IInterface>();
+            var result = fixture.Create<IInterface>();
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<AbstractType>();
+            var result = fixture.Create<AbstractType>();
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
@@ -38,7 +38,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<AbstractTypeWithNonDefaultConstructor<int>>();
+            var result = fixture.Create<AbstractTypeWithNonDefaultConstructor<int>>();
             // Verify outcome
             Assert.NotEqual(0, result.Property);
             // Teardown
@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<Mock<AbstractType>>();
+            var result = fixture.Create<Mock<AbstractType>>();
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
@@ -68,7 +68,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
                 .Setup(a => a.MakeIt(It.IsAny<object>()))
                 .Returns(expected);
             // Exercise system
-            var result = fixture.CreateAnonymous<IInterface>();
+            var result = fixture.Create<IInterface>();
             // Verify outcome
             var dummy = new object();
             Assert.Equal(expected, result.MakeIt(dummy));
@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<IList<ConcreteType>>();
+            var result = fixture.Create<IList<ConcreteType>>();
             // Verify outcome
             Assert.False(result.Any());
             // Teardown

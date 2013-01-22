@@ -122,8 +122,8 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
-            var i1 = fixture.CreateAnonymous<int>();
-            var i2 = fixture.CreateAnonymous<int>();
+            var i1 = fixture.Create<int>();
+            var i2 = fixture.Create<int>();
             Assert.Equal(i1, i2);
             // Teardown
         }
@@ -139,8 +139,8 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
-            object i1 = fixture.CreateAnonymous<int>();
-            object i2 = fixture.CreateAnonymous<object>();
+            object i1 = fixture.Create<int>();
+            object i2 = fixture.Create<object>();
             Assert.Equal(i1, i2);
             // Teardown
         }

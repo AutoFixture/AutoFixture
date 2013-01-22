@@ -141,7 +141,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
                         return expectedResult;
                     }
             };
-            var composer = new DelegatingFixture { OnCompose = () => builder };
+            var composer = new DelegatingFixture { OnCreate = builder.OnCreate };
 
             var sut = new AutoDataAttribute(composer);
             // Exercise system

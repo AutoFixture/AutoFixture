@@ -11,22 +11,22 @@ namespace Ploeh.AutoFixture.Idioms
     /// </summary>
     public class GuardClauseAssertion : IdiomaticAssertion
     {
-        private readonly ISpecimenBuilderComposer composer;
+        private readonly ISpecimenBuilder builder;
         private readonly IBehaviorExpectation behaviorExpectation;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GuardClauseAssertion"/> class.
         /// </summary>
-        /// <param name="composer">
+        /// <param name="builder">
         /// A composer which can create instances required to implement the idiomatic unit test.
         /// </param>
         /// <remarks>
         /// <para>
-        /// <paramref name="composer" /> will typically be a <see cref="Fixture" /> instance.
+        /// <paramref name="builder" /> will typically be a <see cref="Fixture" /> instance.
         /// </para>
         /// </remarks>
-        public GuardClauseAssertion(ISpecimenBuilderComposer composer)
-            : this(composer, new CompositeBehaviorExpectation(
+        public GuardClauseAssertion(ISpecimenBuilder builder)
+            : this(builder, new CompositeBehaviorExpectation(
                 new NullReferenceBehaviorExpectation(), 
                 new EmptyGuidBehaviorExpectation()))
         {
@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// <summary>
         /// Initializes a new instance of the <see cref="GuardClauseAssertion"/> class.
         /// </summary>
-        /// <param name="composer">
+        /// <param name="builder">
         /// A composer which can create instances required to implement the idiomatic unit test.
         /// </param>
         /// <param name="behaviorExpectation">
@@ -43,21 +43,21 @@ namespace Ploeh.AutoFixture.Idioms
         /// </param>
         /// <remarks>
         /// <para>
-        /// <paramref name="composer" /> will typically be a <see cref="Fixture" /> instance.
+        /// <paramref name="builder" /> will typically be a <see cref="Fixture" /> instance.
         /// </para>
         /// </remarks>
-        public GuardClauseAssertion(ISpecimenBuilderComposer composer, IBehaviorExpectation behaviorExpectation)
+        public GuardClauseAssertion(ISpecimenBuilder builder, IBehaviorExpectation behaviorExpectation)
         {
-            this.composer = composer;
+            this.builder = builder;
             this.behaviorExpectation = behaviorExpectation;
         }
 
         /// <summary>
-        /// Gets the composer supplied via the constructor.
+        /// Gets the builder supplied via the constructor.
         /// </summary>
-        public ISpecimenBuilderComposer Composer
+        public ISpecimenBuilder Builder
         {
-            get { return this.composer; }
+            get { return this.builder; }
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// expectation.
         /// </para>
         /// </remarks>
-        /// <seealso cref="GuardClauseAssertion(ISpecimenBuilderComposer, IBehaviorExpectation)" />
+        /// <seealso cref="GuardClauseAssertion(ISpecimenBuilder, IBehaviorExpectation)" />
         public IBehaviorExpectation BehaviorExpectation
         {
             get { return this.behaviorExpectation; }
@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixture.Idioms
             if (methodInfo.IsEqualsMethod())
                 return;
 
-            var owner = this.Composer.CreateAnonymous(methodInfo.ReflectedType);
+            var owner = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
             var method = new InstanceMethod(methodInfo, owner);
             this.Verify(method);
         }
@@ -134,7 +134,7 @@ namespace Ploeh.AutoFixture.Idioms
             if (propertyInfo.GetSetMethod() == null)
                 return;
 
-            var owner = this.Composer.CreateAnonymous(propertyInfo.ReflectedType);
+            var owner = this.Builder.CreateAnonymous(propertyInfo.ReflectedType);
             var command = new PropertySetCommand(propertyInfo, owner);
             var unwrapper = new ReflectionExceptionUnwrappingCommand(command);
             this.BehaviorExpectation.Verify(unwrapper);
@@ -143,7 +143,7 @@ namespace Ploeh.AutoFixture.Idioms
         private void Verify(IMethod method)
         {
             var parameters = (from pi in method.Parameters
-                              select this.Composer.CreateAnonymous(GuardClauseAssertion.GetParameterType(pi))).ToList();
+                              select this.Builder.CreateAnonymous(GuardClauseAssertion.GetParameterType(pi))).ToList();
 
             var i = 0;
             foreach (var pi in method.Parameters)

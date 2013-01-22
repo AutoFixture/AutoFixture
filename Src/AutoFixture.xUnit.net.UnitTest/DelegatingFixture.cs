@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         {
             this.customizations = new List<ISpecimenBuilder>();
             this.residueCollectors = new List<ISpecimenBuilder>();
-            this.OnCompose = () => new DelegatingSpecimenBuilder();
+            this.OnCreate = (r, s) => new object();
         }
 
         public IList<ISpecimenBuilderTransformation> Behaviors
@@ -95,11 +95,11 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             throw new NotImplementedException();
         }
 
-        public ISpecimenBuilder Compose()
+        public object Create(object request, ISpecimenContext context)
         {
-            return this.OnCompose();
+            return this.OnCreate(request, context);
         }
 
-        internal Func<ISpecimenBuilder> OnCompose { get; set; }
+        internal Func<object, ISpecimenContext, object> OnCreate { get; set; }
     }
 }

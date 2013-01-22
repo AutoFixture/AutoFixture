@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<IInterface>();
+            var result = fixture.Create<IInterface>();
             // Verify outcome
             Assert.IsAssignableFrom<IInterface>(result);
             // Teardown
@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<AbstractType>();
+            var result = fixture.Create<AbstractType>();
             // Verify outcome
             Assert.IsAssignableFrom<AbstractType>(result);
             // Teardown
@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<AbstractTypeWithNonDefaultConstructor<int>>();
+            var result = fixture.Create<AbstractTypeWithNonDefaultConstructor<int>>();
             // Verify outcome
             Assert.NotEqual(0, result.Property);
             // Teardown
@@ -51,7 +51,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<Fake<AbstractType>>();
+            var result = fixture.Create<Fake<AbstractType>>();
             // Verify outcome
             Assert.IsAssignableFrom<Fake<AbstractType>>(result);
             // Teardown
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             fake.CallsTo(x => x.MakeIt(dummy))
                 .Returns(null);
             // Exercise system
-            var result = fixture.CreateAnonymous<IInterface>();
+            var result = fixture.Create<IInterface>();
             result.MakeIt(dummy);
             // Verify outcome
             A.CallTo(() => result.MakeIt(dummy)).MustHaveHappened();
@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<IList<ConcreteType>>();
+            var result = fixture.Create<IList<ConcreteType>>();
             // Verify outcome
             Assert.False(result.Any());
             // Teardown
@@ -92,7 +92,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<AbstractGenericType<object>>();
+            var result = fixture.Create<AbstractGenericType<object>>();
             // Verify outcome
             Assert.IsAssignableFrom<AbstractGenericType<object>>(result);
         }
@@ -103,7 +103,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<AbstractTypeWithConstructorWithMultipleParameters<int, int>>();
+            var result = fixture.Create<AbstractTypeWithConstructorWithMultipleParameters<int, int>>();
             // Verify outcome
             Assert.IsAssignableFrom<AbstractTypeWithConstructorWithMultipleParameters<int, int>>(result);
         }
@@ -114,7 +114,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoFakeItEasyCustomization());
             // Exercise system
-            var result = fixture.CreateAnonymous<Guid>();
+            var result = fixture.Create<Guid>();
             // Verify outcome
             Assert.NotEqual(Guid.Empty, result);
             // Teardown

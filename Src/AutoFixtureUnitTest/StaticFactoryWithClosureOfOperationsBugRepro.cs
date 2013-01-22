@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixtureUnitTest
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             // Exercise system and verify outcome
             Assert.Throws<ObjectCreationException>(() =>
-                fixture.CreateAnonymous<ClosureOfOperationsHost>());
+                fixture.Create<ClosureOfOperationsHost>());
             // Teardown
         }
 

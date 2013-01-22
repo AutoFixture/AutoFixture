@@ -23,9 +23,9 @@ namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
             fixture.Behaviors.Clear();
             fixture.Behaviors.Add(new NullRecursionBehavior());
 
-            fixture.Register<ItemBase>(() => fixture.CreateAnonymous<FunkyItem>());
+            fixture.Register<ItemBase>(() => fixture.Create<FunkyItem>());
 
-            var funkyItem = fixture.CreateAnonymous<FunkyItem>();
+            var funkyItem = fixture.Create<FunkyItem>();
 
             /* No assertion is in place because the above code is a verbatim repro of the issue as
              * reported. When reported, the last line of code (CreateAnonymous<FunkyItem>()) threw
@@ -44,9 +44,9 @@ namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
                 .OfType<ThrowingRecursionBehavior>()
                 .ToList().ForEach(b => fixture.Behaviors.Remove(b));
             fixture.Behaviors.Add(new NullRecursionBehavior());
-            fixture.Register<ItemBase>(fixture.CreateAnonymous<FunkyItem>);
+            fixture.Register<ItemBase>(fixture.Create<FunkyItem>);
 
-            Assert.DoesNotThrow(() => fixture.CreateAnonymous<FunkyItem>());
+            Assert.DoesNotThrow(() => fixture.Create<FunkyItem>());
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
                     typeof(ItemBase),
                     typeof(FunkyItem)));
 
-            Assert.DoesNotThrow(() => fixture.CreateAnonymous<FunkyItem>());
+            Assert.DoesNotThrow(() => fixture.Create<FunkyItem>());
         }
     }
 }

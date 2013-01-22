@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
                 .Customize(new MultipleCustomization());
             // Exercise system
             var integers =
-                fixture.CreateAnonymous<IEnumerable<int>>();
+                fixture.Create<IEnumerable<int>>();
             // Verify outcome
             Assert.True(integers.Any());
             // Teardown
@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
             // Fixture setup
             var fixture = new Fixture().Customize(new MultipleCustomization());
             // Exercise system
-            var list = fixture.CreateAnonymous<List<int>>();
+            var list = fixture.Create<List<int>>();
             // Verify outcome
             Assert.True(list.Any());
             // Teardown
@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
             // Fixture setup
             var fixture = new Fixture().Customize(new MultipleCustomization());
             // Exercise system
-            var list = fixture.CreateAnonymous<IList<int>>();
+            var list = fixture.Create<IList<int>>();
             // Verify outcome
             Assert.True(list.Any());
             // Teardown
@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
             var fixture = new Fixture().Customize(new MultipleCustomization());
             // Exercise system
             var collection =
-                fixture.CreateAnonymous<Collection<int>>();
+                fixture.Create<Collection<int>>();
             // Verify outcome
             Assert.True(collection.Any());
             // Teardown
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
             var fixture = new Fixture().Customize(new MultipleCustomization());
             fixture.RepeatCount = 10;
             // Exercise system
-            var integers = fixture.CreateAnonymous<IEnumerable<int>>();
+            var integers = fixture.Create<IEnumerable<int>>();
             // Verify outcome
             Assert.Equal(fixture.RepeatCount, integers.Count());
             // Teardown
@@ -87,7 +87,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
             var fixture = new Fixture()
                 .Customize(new MultipleCustomization());
             var expected =
-                fixture.CreateAnonymous<IEnumerable<string>>();
+                fixture.Create<IEnumerable<string>>();
             Assert.False(expected.SequenceEqual(expected));
         }
 
@@ -109,7 +109,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
             var fixture = new Fixture()
                 .Customize(new StableMultipeCustomization());
             var expected =
-                fixture.CreateAnonymous<IEnumerable<string>>();
+                fixture.Create<IEnumerable<string>>();
             Assert.True(expected.SequenceEqual(expected));
         }
     }

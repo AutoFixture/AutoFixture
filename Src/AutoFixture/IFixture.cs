@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture
     /// <summary>
     /// Provides anonymous object creation services.
     /// </summary>
-    public interface IFixture : ISpecimenBuilderComposer
+    public interface IFixture : ISpecimenBuilder
     {
         /// <summary>
         /// Gets the behaviors that are applied when <see cref="ISpecimenBuilderComposer.Compose"/>

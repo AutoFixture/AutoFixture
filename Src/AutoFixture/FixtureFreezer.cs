@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            var value = fixture.CreateAnonymous<T>();
+            var value = fixture.Create<T>();
             fixture.Inject(value);
             return value;
         }
@@ -78,7 +78,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            var value = fixture.CreateAnonymous<T>(seed);
+            var value = fixture.Create<T>(seed);
             fixture.Inject(value);
             return value;
         }

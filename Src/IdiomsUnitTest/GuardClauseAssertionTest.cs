@@ -29,12 +29,12 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void ComposerIsCorrectFromModestConstructor()
         {
             // Fixture setup
-            ISpecimenBuilderComposer expectedComposer = new Fixture();
-            var sut = new GuardClauseAssertion(expectedComposer);
+            ISpecimenBuilder expectedBuilder = new Fixture();
+            var sut = new GuardClauseAssertion(expectedBuilder);
             // Exercise system
-            var result = sut.Composer;
+            var result = sut.Builder;
             // Verify outcome
-            Assert.Equal(expectedComposer, result);
+            Assert.Equal(expectedBuilder, result);
             // Teardown
         }
 
@@ -42,13 +42,13 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void ComposerIsCorrectFromGreedyConstructor()
         {
             // Fixture setup
-            ISpecimenBuilderComposer expectedComposer = new Fixture();
+            ISpecimenBuilder expectedBuilder = new Fixture();
             var dummyExpectation = new DelegatingBehaviorExpectation();
-            var sut = new GuardClauseAssertion(expectedComposer, dummyExpectation);
+            var sut = new GuardClauseAssertion(expectedBuilder, dummyExpectation);
             // Exercise system
-            ISpecimenBuilderComposer result = sut.Composer;
+            ISpecimenBuilder result = sut.Builder;
             // Verify outcome
-            Assert.Equal(expectedComposer, result);
+            Assert.Equal(expectedBuilder, result);
             // Teardown
         }
 

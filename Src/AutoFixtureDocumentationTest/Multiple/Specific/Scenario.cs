@@ -12,7 +12,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.Specific
         public void UncustomizedListReturnsEmptyList()
         {
             var fixture = new Fixture();
-            var list = fixture.CreateAnonymous<List<int>>();
+            var list = fixture.Create<List<int>>();
             Assert.False(list.Any());
         }
 
@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.Specific
         public void PopulateListAfterCreation()
         {
             var fixture = new Fixture();
-            var list = fixture.CreateAnonymous<List<int>>();
+            var list = fixture.Create<List<int>>();
             fixture.AddManyTo(list);
             Assert.True(list.Any());
         }
@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.Specific
             var fixture = new Fixture();
             fixture.Register(() => fixture.CreateMany<int>());
             var integers =
-                fixture.CreateAnonymous<IEnumerable<int>>();
+                fixture.Create<IEnumerable<int>>();
             Assert.True(integers.Any());
         }
 
@@ -49,7 +49,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.Specific
             var fixture = new Fixture();
             fixture.Register(() =>
                 fixture.CreateMany<int>().ToList());
-            var list = fixture.CreateAnonymous<List<int>>();
+            var list = fixture.Create<List<int>>();
             Assert.True(list.Any());
         }
 
@@ -60,7 +60,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.Specific
             fixture.Register(() =>
                 new Collection<int>(
                     fixture.CreateMany<int>().ToList()));
-            var collection = fixture.CreateAnonymous<Collection<int>>();
+            var collection = fixture.Create<Collection<int>>();
             Assert.True(collection.Any());
         }
 
@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.Specific
             var fixture = new Fixture();
             fixture.Register<IList<int>>(() => 
                 fixture.CreateMany<int>().ToList());
-            var list = fixture.CreateAnonymous<IList<int>>();
+            var list = fixture.Create<IList<int>>();
             Assert.True(list.Any());
         }
     }

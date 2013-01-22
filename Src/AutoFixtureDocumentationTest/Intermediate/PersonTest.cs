@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
         public void CreateAnonymousWillThrow()
         {
             var fixture = new Fixture();
-            // var person = fixture.CreateAnonymous<Person>();
+            // var person = fixture.Create<Person>();
 
             /* The above call to CreateAnonymous will throw a StackOverflowException, which cannot
              * be caught in .NET 2+.

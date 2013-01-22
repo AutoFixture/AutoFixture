@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.ValidatingValueObject
             Fixture fixture = new Fixture();
             fixture.Register<int>(() => 12345678);
             // Exercise system
-            fixture.CreateAnonymous<Contact>();
+            fixture.Create<Contact>();
             // Verify outcome (no exception indicates success)
             // Teardown
         }
@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.ValidatingValueObject
             Fixture fixture = new Fixture();
             fixture.Register<int, DanishPhoneNumber>(i => 
                 new DanishPhoneNumber(i + 112));
-            Contact sut = fixture.CreateAnonymous<Contact>();
+            Contact sut = fixture.Create<Contact>();
             // Exercise system
             int result = sut.PhoneNumber.RawNumber;
             // Verify outcome
@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.ValidatingValueObject
             fixture.Register<int, DanishPhoneNumber>(i =>
                 new DanishPhoneNumber(i + 
                     DanishPhoneNumber.MinValue));
-            Contact sut = fixture.CreateAnonymous<Contact>();
+            Contact sut = fixture.Create<Contact>();
             // Exercise system
             int result = sut.PhoneNumber.RawNumber;
             // Verify outcome

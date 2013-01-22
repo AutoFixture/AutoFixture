@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Array
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system
-            var mc = fixture.CreateAnonymous<MyClassA>();
+            var mc = fixture.Create<MyClassA>();
             mc.Items = fixture.CreateMany<MyClassB>().ToArray();
             // Verify outcome
             Assert.True(mc.Items.Length > 0);
@@ -49,7 +49,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Array
                 ob.With(x => x.Items, 
                     fixture.CreateMany<MyClassB>().ToArray()));
             // Exercise system
-            var mc = fixture.CreateAnonymous<MyClassA>();
+            var mc = fixture.Create<MyClassA>();
             // Verify outcome
             Assert.True(mc.Items.Length > 0, "Non-empty array");
             Assert.True(mc.Items.All(x => x != null), "No item should be null");
@@ -64,7 +64,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Array
             fixture.Register<MyClassB[]>(() => 
                 fixture.CreateMany<MyClassB>().ToArray());
             // Exercise system
-            var mc = fixture.CreateAnonymous<MyClassA>();
+            var mc = fixture.Create<MyClassA>();
             // Verify outcome
             Assert.True(mc.Items.Length > 0, "Non-empty array");
             Assert.True(mc.Items.All(x => x != null), "No item should be null");

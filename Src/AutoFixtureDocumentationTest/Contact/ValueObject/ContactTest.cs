@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.ValueObject
             // Fixture setup
             Fixture fixture = new Fixture();
             // Exercise system
-            fixture.CreateAnonymous<Contact>();
+            fixture.Create<Contact>();
             // Verify outcome (no exception indicates success)
             // Teardown
         }
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.ValueObject
         {
             // Fixture setup
             Fixture fixture = new Fixture();
-            Contact sut = fixture.CreateAnonymous<Contact>();
+            Contact sut = fixture.Create<Contact>();
             // Exercise system
             int result = sut.PhoneNumber.RawNumber;
             // Verify outcome

@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
-            var specimen = fixture.CreateAnonymous<MultiUnorderedConstructorType>();
+            var specimen = fixture.Create<MultiUnorderedConstructorType>();
             Assert.False(string.IsNullOrEmpty(specimen.Text));
             Assert.NotEqual(0, specimen.Number);
             // Teardown
@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
-            var specimen = fixture.CreateAnonymous<MultiUnorderedConstructorType>();
+            var specimen = fixture.Create<MultiUnorderedConstructorType>();
             Assert.True(string.IsNullOrEmpty(specimen.Text));
             Assert.Equal(0, specimen.Number);
             // Teardown
