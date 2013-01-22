@@ -96,6 +96,9 @@ namespace Ploeh.AutoFixture.Kernel
 
         public Postprocessor(ISpecimenBuilder builder, ISpecimenCommand command)
         {
+            if (builder == null)
+                throw new ArgumentNullException("builder");
+
             this.builder = builder;
             this.command = command;
             this.action = (s, c) => this.command.Execute(s, c);
