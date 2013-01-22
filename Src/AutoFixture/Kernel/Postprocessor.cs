@@ -96,6 +96,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         public Postprocessor(ISpecimenBuilder builder, ISpecimenCommand command)
         {
+            this.builder = builder;
             this.command = command;
         }
 
