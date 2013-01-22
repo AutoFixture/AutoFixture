@@ -220,7 +220,6 @@
     <Compile Include="Kernel\NullableEnumRequestSpecification.cs" />
     <Compile Include="Kernel\ParameterScore.cs" />
     <Compile Include="Kernel\StableFiniteSequenceRelay.cs" />
-    <Compile Include="Kernel\TypedBuilderComposer.cs" />
     <Compile Include="MultipleCustomization.cs" />
     <Compile Include="NullRecursionBehavior.cs" />
     <Compile Include="Kernel\SeedRequestSpecification.cs" />
