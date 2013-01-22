@@ -34,6 +34,25 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void ExecuteCorrectlyInvokeDoubleAction()
+        {
+            // Fixture setup
+            var specimen = this.CreateSpecimen();
+            var context = new DelegatingSpecimenContext();
+
+            var verified = false;
+            Action<T, ISpecimenContext> mock = 
+                (s, c) => verified = specimen.Equals(s) && c == context;
+
+            var sut = new ActionSpecimenCommand<T>(mock);
+            // Exercise system
+            sut.Execute(specimen, context);
+            // Verify outcome
+            Assert.True(verified, "Action not invoked with expected specimen.");
+            // Teardown
+        }
+
         public abstract T CreateSpecimen();
     }
 
