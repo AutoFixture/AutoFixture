@@ -411,7 +411,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
                                         typeof(PropertyHolder<int>)))),
-                            new BindingCommand<PropertyHolder<int>, int>(x => x.Property).Execute,
+                            new BindingCommand<PropertyHolder<int>, int>(x => x.Property),
                             new OrRequestSpecification(
                                 new SeedRequestSpecification(typeof(PropertyHolder<int>)),
                                 new ExactTypeSpecification(typeof(PropertyHolder<int>)))),
@@ -452,7 +452,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                                     new InverseRequestSpecification(
                                         new SeedRequestSpecification(
                                             typeof(PropertyHolder<string>)))),
-                                new BindingCommand<PropertyHolder<string>, string>(x => x.Property, value).Execute,
+                                new BindingCommand<PropertyHolder<string>, string>(x => x.Property, value),
                                 new OrRequestSpecification(
                                     new SeedRequestSpecification(typeof(PropertyHolder<string>)),
                                     new ExactTypeSpecification(typeof(PropertyHolder<string>)))),
@@ -506,11 +506,11 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                                             new InverseRequestSpecification(
                                                 new SeedRequestSpecification(
                                                     typeof(DoublePropertyHolder<string, int>)))),
-                                        new BindingCommand<DoublePropertyHolder<string, int>, string>(x => x.Property1, value1).Execute,
+                                        new BindingCommand<DoublePropertyHolder<string, int>, string>(x => x.Property1, value1),
                                         new OrRequestSpecification(
                                             new SeedRequestSpecification(typeof(DoublePropertyHolder<string, int>)),
                                             new ExactTypeSpecification(typeof(DoublePropertyHolder<string, int>)))),
-                                    new BindingCommand<DoublePropertyHolder<string, int>, int>(x => x.Property2, value2).Execute,
+                                    new BindingCommand<DoublePropertyHolder<string, int>, int>(x => x.Property2, value2),
                                     new OrRequestSpecification(
                                         new SeedRequestSpecification(typeof(DoublePropertyHolder<string, int>)),
                                         new ExactTypeSpecification(typeof(DoublePropertyHolder<string, int>)))),
