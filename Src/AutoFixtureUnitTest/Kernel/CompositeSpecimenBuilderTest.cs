@@ -47,9 +47,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new CompositeSpecimenBuilder();
             // Exercise system
-#pragma warning disable 618
-            IList<ISpecimenBuilder> result = sut.Builders;
-#pragma warning restore 618
+            IEnumerable<ISpecimenBuilder> result = sut.Builders;
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
