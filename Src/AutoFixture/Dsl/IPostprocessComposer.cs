@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture.Dsl
     /// Provides statements that can be used to control how specimens are post-processed.
     /// </summary>
     /// <typeparam name="T">The type of specimen.</typeparam>
-    public interface IPostprocessComposer<T> : ISpecimenBuilderComposer
+    public interface IPostprocessComposer<T> : ISpecimenBuilder
     {
         /// <summary>
         /// Performs the specified action on a specimen.

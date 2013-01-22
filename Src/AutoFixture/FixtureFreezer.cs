@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixture
         /// </para>
         /// </remarks>
         /// <seealso cref="Freeze{T}(IFixture, T)"/>
-        /// <seealso cref="Freeze{T}(IFixture, Func{ICustomizationComposer{T}, ISpecimenBuilderComposer})"/>
+        /// <seealso cref="Freeze{T}(IFixture, Func{ICustomizationComposer{T}, ISpecimenBuilder})"/>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static T Freeze<T>(this IFixture fixture)
         {
@@ -68,7 +68,7 @@ namespace Ploeh.AutoFixture
         /// </para>
         /// </remarks>
         /// <seealso cref="Freeze{T}(IFixture)"/>
-        /// <seealso cref="Freeze{T}(IFixture, Func{ICustomizationComposer{T}, ISpecimenBuilderComposer})"/>
+        /// <seealso cref="Freeze{T}(IFixture, Func{ICustomizationComposer{T}, ISpecimenBuilder})"/>
         /// <seealso cref="FixtureRegistrar.Inject" />
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static T Freeze<T>(this IFixture fixture, T seed)
@@ -106,7 +106,7 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         /// <seealso cref="Freeze{T}(IFixture)"/>
         /// <seealso cref="Freeze{T}(IFixture, T)"/>
-        public static T Freeze<T>(this IFixture fixture, Func<ICustomizationComposer<T>, ISpecimenBuilderComposer> composerTransformation)
+        public static T Freeze<T>(this IFixture fixture, Func<ICustomizationComposer<T>, ISpecimenBuilder> composerTransformation)
         {
             if (fixture == null)
             {
@@ -118,7 +118,7 @@ namespace Ploeh.AutoFixture
             }
 
             var c = fixture.Build<T>();
-            var value = composerTransformation(c).CreateAnonymous<T>();
+            var value = composerTransformation(c).Create<T>();
             fixture.Inject(value);
             return value;
         }

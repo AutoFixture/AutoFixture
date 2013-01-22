@@ -96,6 +96,6 @@ namespace Ploeh.AutoFixture
         /// A function that customizes a given <see cref="ICustomizationComposer{T}"/> and returns
         /// the modified composer.
         /// </param>
-        void Customize<T>(Func<ICustomizationComposer<T>, ISpecimenBuilderComposer> composerTransformation);
+        void Customize<T>(Func<ICustomizationComposer<T>, ISpecimenBuilder> composerTransformation);
     }
 }

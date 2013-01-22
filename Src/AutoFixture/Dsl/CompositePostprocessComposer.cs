@@ -147,16 +147,30 @@ namespace Ploeh.AutoFixture.Dsl
                                                        select c.Without(propertyPicker));
         }
 
-        /// <summary>
-        /// Composes a new <see cref="ISpecimenBuilder"/> instance.
-        /// </summary>
+        /// <summary>Creates a new specimen based on a request.</summary>
+        /// <param name="request">
+        /// The request that describes what to create.
+        /// </param>
+        /// <param name="context">
+        /// A context that can be used to create other specimens.
+        /// </param>
         /// <returns>
-        /// A new <see cref="ISpecimenBuilder"/> instance.
+        /// The requested specimen if possible; otherwise a
+        /// <see cref="NoSpecimen" /> instance.
         /// </returns>
-        public ISpecimenBuilder Compose()
+        /// <remarks>
+        /// <para>
+        /// The <paramref name="request" /> can be any object, but will often be a
+        /// <see cref="Type" /> or other <see cref="System.Reflection.MemberInfo" /> instances.
+        /// </para>
+        /// </remarks>
+        public object Create(object request, ISpecimenContext context)
         {
-            return new CompositeSpecimenBuilder(from c in this.composers
-                                                select c.Compose());
+            return new CompositeSpecimenBuilder(
+                this.composers.Cast<ISpecimenBuilder>())
+                .Create(
+                    request,
+                    context);
         }
     }
 }

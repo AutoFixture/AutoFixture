@@ -60,7 +60,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             throw new NotImplementedException();
         }
 
-        public void Customize<T>(Func<Ploeh.AutoFixture.Dsl.ICustomizationComposer<T>, ISpecimenBuilderComposer> composerTransformation)
+        public void Customize<T>(Func<Ploeh.AutoFixture.Dsl.ICustomizationComposer<T>, ISpecimenBuilder> composerTransformation)
         {
             throw new NotImplementedException();
         }

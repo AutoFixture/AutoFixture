@@ -2704,7 +2704,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                sut.Freeze((Func<ICustomizationComposer<object>, ISpecimenBuilderComposer>)null));
+                sut.Freeze((Func<ICustomizationComposer<object>, ISpecimenBuilder>)null));
             // Teardown
         }
 
@@ -2779,7 +2779,7 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Throws<ObjectCreationException>(() =>
                 new SpecimenContext(
                     new ThrowingRecursionGuard(
-                        sut.Build<RecursionTestObjectWithReferenceOutA>().Compose()
+                        sut.Build<RecursionTestObjectWithReferenceOutA>()
                     )
                 ).CreateAnonymous<RecursionTestObjectWithReferenceOutA>());
         }
@@ -2793,7 +2793,7 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Throws<ObjectCreationException>(() =>
                 new SpecimenContext(
                     new ThrowingRecursionGuard(
-                        sut.Build<RecursionTestObjectWithConstructorReferenceOutA>().Compose()
+                        sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
                     )
                 ).CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>());
         }
@@ -2806,7 +2806,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = new SpecimenContext(
                 new NullRecursionGuard(
-                    sut.Build<RecursionTestObjectWithConstructorReferenceOutA>().Compose()
+                    sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
                 )
             ).CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>();
             // Verify outcome
@@ -3020,7 +3020,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var verified = false;
             Func<object, object> mock = s => verified = seed.Equals(s);
             // Exercise system
-            sut.Build<object>().FromSeed(mock).CreateAnonymous(seed);
+            sut.Build<object>().FromSeed(mock).Create(seed);
             // Verify outcome
             Assert.True(verified, "Mock verified");
             // Teardown
@@ -3596,7 +3596,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var expectedBuilder = new DelegatingSpecimenBuilder();
             sut.Behaviors.Add(new DelegatingSpecimenBuilderTransformation { OnTransform = b => new TaggedNode(1, b) });
             // Exercise system
-            var result = sut.Build<object>().Compose();
+            var result = sut.Build<object>();
             // Verify outcome
             var comparer = new TaggedNodeComparer(new TrueComparer<ISpecimenBuilder>());
             var composite = Assert.IsAssignableFrom<CompositeNodeComposer<object>>(result);

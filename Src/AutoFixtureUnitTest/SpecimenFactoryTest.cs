@@ -97,9 +97,9 @@ namespace Ploeh.AutoFixtureUnitTest
                 return expectedResult;
             };
 
-            ISpecimenBuilderComposer composer = new DelegatingComposer { OnCompose = () => specimenBuilder };
+            ISpecimenBuilder composer = new DelegatingComposer { OnCreate = specimenBuilder.OnCreate };
             // Exercise system
-            var result = composer.CreateAnonymous<DateTime>();
+            var result = composer.Create<DateTime>();
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
@@ -139,7 +139,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 return expectedResult;
             };
 
-            var composer = new DelegatingComposer<DateTime> { OnCompose = () => specimenBuilder };
+            var composer = new DelegatingComposer<DateTime> { OnCreate = specimenBuilder.OnCreate };
             // Exercise system
             var result = composer.CreateAnonymous();
             // Verify outcome
@@ -175,9 +175,9 @@ namespace Ploeh.AutoFixtureUnitTest
                     return expectedResult;
                 };
 
-            var composer = new DelegatingComposer { OnCompose = () => specimenBuilder };
+            var composer = new DelegatingComposer { OnCreate = specimenBuilder.OnCreate };
             // Exercise system
-            var result = composer.CreateAnonymous(seed);
+            var result = composer.Create(seed);
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
@@ -351,7 +351,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     return expectedResult.Cast<object>();
                 };
 
-            ISpecimenBuilderComposer composer = new DelegatingComposer { OnCompose = () => specimenBuilder };
+            ISpecimenBuilder composer = new DelegatingComposer { OnCreate = specimenBuilder.OnCreate };
             // Exercise system
             var result = composer.CreateMany<string>();
             // Verify outcome
@@ -397,7 +397,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 return expectedResult.Cast<object>();
             };
 
-            var composer = new DelegatingComposer<string> { OnCompose = () => specimenBuilder };
+            var composer = new DelegatingComposer<string> { OnCreate = specimenBuilder.OnCreate };
             // Exercise system
             var result = composer.CreateMany();
             // Verify outcome
@@ -438,7 +438,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     return expectedResult.Cast<object>();
                 };
 
-            var composer = new DelegatingComposer { OnCompose = () => specimenBuilder };
+            var composer = new DelegatingComposer { OnCreate = specimenBuilder.OnCreate };
             // Exercise system
             var result = composer.CreateMany(seed);
             // Verify outcome
@@ -505,7 +505,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     return expectedResult.Cast<object>();
                 };
 
-            ISpecimenBuilderComposer composer = new DelegatingComposer { OnCompose = () => specimenBuilder };
+            ISpecimenBuilder composer = new DelegatingComposer { OnCreate = specimenBuilder.OnCreate };
             // Exercise system
             var result = composer.CreateMany<string>(count);
             // Verify outcome
@@ -553,7 +553,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 return expectedResult.Cast<object>();
             };
 
-            var composer = new DelegatingComposer<string> { OnCompose = () => specimenBuilder };
+            var composer = new DelegatingComposer<string> { OnCreate = specimenBuilder.OnCreate };
             // Exercise system
             var result = composer.CreateMany(count);
             // Verify outcome
@@ -596,7 +596,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     return expectedResult.Cast<object>();
                 };
 
-            var composer = new DelegatingComposer { OnCompose = () => specimenBuilder };
+            var composer = new DelegatingComposer { OnCreate = specimenBuilder.OnCreate };
             // Exercise system
             var result = composer.CreateMany(seed, count);
             // Verify outcome
