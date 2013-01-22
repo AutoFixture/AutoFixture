@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// A command that assigns anonymous values to all writable properties and fields of a type.
     /// </summary>
     /// <typeparam name="T">The specimen type on which properties are assigned.</typeparam>
-    public class AutoPropertiesCommand<T> : ISpecifiedSpecimenCommand<T>
+    public class AutoPropertiesCommand<T> : ISpecifiedSpecimenCommand<T>, ISpecimenCommand
     {
         private readonly IRequestSpecification specification;
 
@@ -210,6 +210,28 @@ namespace Ploeh.AutoFixture.Kernel
                    && pi.GetIndexParameters().Length == 0
                    && this.specification.IsSatisfiedBy(pi)
                    select pi;
+        }
+
+        public void Execute(object specimen, ISpecimenContext context)
+        {
+            if (specimen == null)
+                throw new ArgumentNullException("specimen");
+            if (context == null)
+                throw new ArgumentNullException("context");
+
+            foreach (var pi in this.GetProperties(specimen))
+            {
+                var propertyValue = context.Resolve(pi);
+                if (!(propertyValue is OmitSpecimen))
+                    pi.SetValue(specimen, propertyValue, null);
+            }
+
+            foreach (var fi in this.GetFields(specimen))
+            {
+                var fieldValue = context.Resolve(fi);
+                if (!(fieldValue is OmitSpecimen))
+                    fi.SetValue(specimen, fieldValue);
+            }
         }
     }
 }
