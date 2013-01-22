@@ -164,7 +164,6 @@
     <Compile Include="DecimalSequenceGeneratorTest.cs" />
     <Compile Include="Kernel\ConstructorMethodTest.cs" />
     <Compile Include="Kernel\DelegateGeneratorTest.cs" />
-    <Compile Include="Kernel\DelegatingConstructorQuery.cs" />
     <Compile Include="DictionaryFillerTest.cs" />
     <Compile Include="Kernel\DictionaryRelayTest.cs" />
     <Compile Include="Kernel\DictionarySpecificationTest.cs" />
