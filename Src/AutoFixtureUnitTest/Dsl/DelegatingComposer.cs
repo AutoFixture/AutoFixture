@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             this.OnWith = (f, v) => new DelegatingComposer<T>();
             this.OnWithAutoProperties = () => new DelegatingComposer<T>();
             this.OnWithout = f => new DelegatingComposer<T>();
-            this.OnCompose = () => new DelegatingSpecimenBuilder();
+            this.OnCreate = (r, c) => new object();
         }
 
         public IPostprocessComposer<T> FromSeed(Func<T, T> factory)
@@ -92,9 +92,9 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             return this.OnWithout(propertyPicker);
         }
 
-        public ISpecimenBuilder Compose()
+        public object Create(object request, ISpecimenContext context)
         {
-            return this.OnCompose();
+            return this.OnCreate(request, context);
         }
 
         internal Func<Func<T, T>, IPostprocessComposer<T>> OnFromSeed { get; set; }
@@ -107,6 +107,6 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         internal Func<object, object, IPostprocessComposer<T>> OnWith { get; set; }
         internal Func<IPostprocessComposer<T>> OnWithAutoProperties { get; set; }
         internal Func<object, IPostprocessComposer<T>> OnWithout { get; set; }
-        internal Func<ISpecimenBuilder> OnCompose { get; set; }
+        internal Func<object, ISpecimenContext, object> OnCreate { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace Ploeh.AutoFixture.Dsl
     /// Provides statements that can be used to control how specimens are created.
     /// </summary>
     /// <typeparam name="T">The type of specimen.</typeparam>
-    public interface IFactoryComposer<T> : ISpecimenBuilderComposer
+    public interface IFactoryComposer<T> : ISpecimenBuilder
     {
         /// <summary>
         /// Specifies a function that defines how to create a specimen from a seed.

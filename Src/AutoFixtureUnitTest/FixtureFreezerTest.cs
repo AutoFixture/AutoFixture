@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void FreezeCustomWithNullFixtureThrows()
         {
             // Fixture setup
-            Func<ICustomizationComposer<object>, ISpecimenBuilderComposer> dummyTransform = c => c;
+            Func<ICustomizationComposer<object>, ISpecimenBuilder> dummyTransform = c => c;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 FixtureFreezer.Freeze<object>(null, dummyTransform));

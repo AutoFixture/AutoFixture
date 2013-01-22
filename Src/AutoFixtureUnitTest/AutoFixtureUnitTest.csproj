@@ -82,8 +82,6 @@
     <Compile Include="AbstractRecursionIssue\ItemBase.cs" />
     <Compile Include="AbstractRecursionIssue\ItemLocation.cs" />
     <Compile Include="AbstractRecursionIssue\Repro.cs" />
-    <Compile Include="BehaviorComposerTest.cs" />
-    <Compile Include="BehaviorPostprocessComposerTest.cs" />
     <Compile Include="Kernel\ActionSpecimenCommandTests.cs" />
     <Compile Include="Kernel\DelegatingSpecimenCommand.cs" />
     <Compile Include="MarkerNodeTests.cs" />
@@ -142,10 +140,8 @@
     <Compile Include="DelegatingRecursionGuard.cs" />
     <Compile Include="DisposableTrackingCustomizationTest.cs" />
     <Compile Include="Dsl\ComposerAssert.cs" />
-    <Compile Include="Dsl\CompositeComposerTest.cs" />
     <Compile Include="Dsl\CompositePostprocessComposerTest.cs" />
     <Compile Include="Dsl\DelegatingComposer.cs" />
-    <Compile Include="Dsl\ComposerTest.cs" />
     <Compile Include="Dsl\NullComposerTest.cs" />
     <Compile Include="DefaultEnginePartsTest.cs" />
     <Compile Include="EnumGeneratorTest.cs" />

@@ -182,21 +182,5 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.True(expectedComposers.SequenceEqual(composite.Composers));
             // Teardown
         }
-
-        [Fact]
-        public void ComposeReturnsCorrectResult()
-        {
-            // Fixture setup
-            var expectedBuilders = Enumerable.Range(1, 3).Select(i => new DelegatingSpecimenBuilder()).ToArray();
-            var composers = (from b in expectedBuilders
-                             select new DelegatingComposer { OnCompose = () => b }).ToArray();
-            var sut = new CompositePostprocessComposer<object>(composers);
-            // Exercise system
-            var result = sut.Compose();
-            // Verify outcome
-            var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(result);
-            Assert.True(expectedBuilders.SequenceEqual(composite));
-            // Teardown
-        }
     }
 }

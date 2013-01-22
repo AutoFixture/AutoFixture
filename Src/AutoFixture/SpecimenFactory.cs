@@ -75,7 +75,7 @@ namespace Ploeh.AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Supports type inferencing.")]
         public static T CreateAnonymous<T>(this IPostprocessComposer<T> composer)
         {
-            return ((ISpecimenBuilderComposer)composer).CreateAnonymous<T>();
+            return composer.Create<T>();
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace Ploeh.AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Supports type inferencing.")]
         public static IEnumerable<T> CreateMany<T>(this IPostprocessComposer<T> composer)
         {
-            return ((ISpecimenBuilderComposer)composer).CreateMany<T>();
+            return ((ISpecimenBuilder)composer).CreateMany<T>();
         }
 
         /// <summary>Creates many anonymous objects.</summary>
@@ -413,7 +413,7 @@ namespace Ploeh.AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Supports type inferencing.")]
         public static IEnumerable<T> CreateMany<T>(this IPostprocessComposer<T> composer, int count)
         {
-            return ((ISpecimenBuilderComposer)composer).CreateMany<T>(count);
+            return ((ISpecimenBuilder)composer).CreateMany<T>(count);
         }
 
         /// <summary>Creates many anonymous objects.</summary>

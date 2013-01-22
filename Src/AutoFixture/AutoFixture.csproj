@@ -94,8 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoPropertiesTarget.cs" />
-    <Compile Include="BehaviorComposer.cs" />
-    <Compile Include="BehaviorPostprocessComposer.cs" />
     <Compile Include="BehaviorRoot.cs" />
     <Compile Include="CharSequenceGenerator.cs" />
     <Compile Include="CollectionFiller.cs" />
@@ -157,8 +155,6 @@
     <Compile Include="DefaultPrimitiveBuilders.cs" />
     <Compile Include="DictionaryFiller.cs" />
     <Compile Include="DisposableTrackingCustomization.cs" />
-    <Compile Include="Dsl\Composer.cs" />
-    <Compile Include="Dsl\CompositeComposer.cs" />
     <Compile Include="Dsl\CompositePostprocessComposer.cs" />
     <Compile Include="Dsl\IFactoryComposer.cs" />
     <Compile Include="Dsl\IPostprocessComposer.cs" />

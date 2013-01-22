@@ -281,7 +281,7 @@ namespace Ploeh.AutoFixture
         /// The resulting <see cref="ISpecimenBuilder"/> is added to <see cref="Customizations"/>.
         /// </para>
         /// </remarks>
-        public void Customize<T>(Func<ICustomizationComposer<T>, ISpecimenBuilderComposer> composerTransformation)
+        public void Customize<T>(Func<ICustomizationComposer<T>, ISpecimenBuilder> composerTransformation)
         {
             if (composerTransformation == null)
             {
@@ -289,7 +289,7 @@ namespace Ploeh.AutoFixture
             }
 
             var c = composerTransformation(SpecimenBuilderNodeFactory.CreateComposer<T>().WithAutoProperties(this.EnableAutoProperties));
-            this.customizer.Insert(0, c.Compose());
+            this.customizer.Insert(0, c);
         }
 
         /// <summary>
