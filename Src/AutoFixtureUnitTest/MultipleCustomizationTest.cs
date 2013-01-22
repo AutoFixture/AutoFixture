@@ -86,7 +86,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .Where(b => typeof(DictionarySpecification).IsAssignableFrom(b.Specification.GetType()))
                 .Where(b => typeof(Postprocessor).IsAssignableFrom(b.Builder.GetType()))
                 .Select(b => (Postprocessor)b.Builder)
-                .Where(p => p.Action == DictionaryFiller.AddMany)
+                .Where(p => p.Command is DictionaryFiller)
                 .Where(p => typeof(MethodInvoker).IsAssignableFrom(p.Builder.GetType()))
                 .Select(p => (MethodInvoker)p.Builder)
                 .Where(i => typeof(ModestConstructorQuery).IsAssignableFrom(i.Query.GetType()))
