@@ -145,7 +145,6 @@
     <Compile Include="DefaultEnginePartsTest.cs" />
     <Compile Include="EnumGeneratorTest.cs" />
     <Compile Include="Kernel\ArrayFavoringConstructorQueryTest.cs" />
-    <Compile Include="Kernel\CompositeConstructorQueryTest.cs" />
     <Compile Include="Kernel\CompositeMethodQueryTest.cs" />
     <Compile Include="Kernel\DelegatingMethodQuery.cs" />
     <Compile Include="Kernel\FactoryMethodQueryTest.cs" />
