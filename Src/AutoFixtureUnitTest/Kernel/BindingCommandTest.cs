@@ -281,6 +281,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+#pragma warning disable 618
         [Fact]
         public void SutIsSpecifiedSpecimenCommand()
         {
@@ -291,6 +292,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.IsAssignableFrom<ISpecifiedSpecimenCommand<FieldHolder<DateTimeOffset>>>(sut);
             // Teardown
         }
+#pragma warning restore 618
 
         [Fact]
         public void IsSatisfiedByNullThrows()

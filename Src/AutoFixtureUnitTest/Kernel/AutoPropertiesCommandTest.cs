@@ -7,6 +7,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
     public class AutoPropertiesCommandTest : IDisposable
     {
+#pragma warning disable 618
         [Fact]
         public void SutIsSpecifiedSpecimenCommand()
         {
@@ -17,6 +18,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.IsAssignableFrom<ISpecifiedSpecimenCommand<string>>(sut);
             // Teardown
         }
+#pragma warning restore 618
 
         [Fact]
         public void ExecuteWithNullSpecimenThrows()
