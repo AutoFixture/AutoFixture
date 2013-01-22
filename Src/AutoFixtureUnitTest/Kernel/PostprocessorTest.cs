@@ -90,6 +90,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+#pragma warning disable 618
         [Fact]
         public void ActionIsCorrect()
         {
@@ -104,6 +105,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(expectedAction, result);
             // Teardown
         }
+#pragma warning restore 618
 
         [Fact]
         public void SpecificationIsCorrect()
@@ -291,6 +293,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+#pragma warning disable 618
         [Fact]
         public void ComposePreservesAction()
         {
@@ -305,6 +308,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(expected, pp.Action);
             // Teardown
         }
+#pragma warning restore 618
 
         [Fact]
         public void ComposePreservesCommand()
