@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// The type of the specimn on which the property or value will be set.
     /// </typeparam>
     /// <typeparam name="TProperty">The type of property or field.</typeparam>
-    public class BindingCommand<T, TProperty> : ISpecifiedSpecimenCommand<T>
+    public class BindingCommand<T, TProperty> : ISpecifiedSpecimenCommand<T>, ISpecimenCommand
     {
         private readonly MemberInfo member;
         private readonly Func<ISpecimenContext, TProperty> createBindingValue;
@@ -176,6 +176,24 @@ namespace Ploeh.AutoFixture.Kernel
                     "The specimen created for assignment is not compatible with {0}.", typeof(TProperty)));
             }
             return (TProperty)bindingValue;
+        }
+
+        public void Execute(object specimen, ISpecimenContext context)
+        {
+            if (specimen == null)
+                throw new ArgumentNullException("specimen");
+            if (context == null)
+                throw new ArgumentNullException("context");
+
+            var bindingValue = this.createBindingValue(context);
+
+            var pi = this.member as PropertyInfo;
+            if (pi != null)
+                pi.SetValue(specimen, bindingValue, null);
+
+            var fi = this.member as FieldInfo;
+            if (fi != null)
+                fi.SetValue(specimen, bindingValue);
         }
     }
 }

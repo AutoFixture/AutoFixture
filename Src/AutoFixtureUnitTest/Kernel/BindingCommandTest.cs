@@ -353,5 +353,115 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.True(result);
             // Teardown
         }
+
+        [Fact]
+        public void SutIsSpecimenCommand()
+        {
+            var request = typeof(ConcreteType).GetProperty("Property1");
+            var sut = new BindingCommand<AbstractType, object>(x => x.Property1);
+            Assert.IsAssignableFrom<ISpecimenCommand>(sut);
+        }
+
+        [Fact]
+        public void ExecuteWithNullSpecimenThrows()
+        {
+            var sut = new BindingCommand<PropertyHolder<string>, string>(ph => ph.Property);
+            var dummyContext = new DelegatingSpecimenContext();
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Execute((object)null, dummyContext));
+        }
+
+        [Fact]
+        public void ExecuteWithNullContextThrows()
+        {
+            var sut = new BindingCommand<PropertyHolder<string>, string>(ph => ph.Property);
+            object dummySpecimen = new PropertyHolder<string>();
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Execute(dummySpecimen, null));
+        }
+
+        [Fact]
+        public void ExecuteSetsCorrectPropertyOnSpecimenWhenAnonymousValueIsImplied()
+        {
+            // Fixture setup
+            var expectedValue = new object();
+            var expectedRequest = typeof(PropertyHolder<object>).GetProperty("Property");
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() 
+            };
+
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
+            var specimen = new PropertyHolder<object>();
+            // Exercise system
+            sut.Execute((object)specimen, context);
+            // Verify outcome
+            Assert.Equal(expectedValue, specimen.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void ExecuteSetsCorrectFieldOnSpecimenWhenAnonymousValueIsImplied()
+        {
+            // Fixture setup
+            var expectedValue = new object();
+            var expectedRequest = typeof(FieldHolder<object>).GetField("Field");
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => expectedRequest.Equals(r) ? expectedValue : new NoSpecimen() 
+            };
+
+            var sut = new BindingCommand<FieldHolder<object>, object>(ph => ph.Field);
+            var specimen = new FieldHolder<object>();
+            // Exercise system
+            sut.Execute((object)specimen, context);
+            // Verify outcome
+            Assert.Equal(expectedValue, specimen.Field);
+            // Teardown
+        }
+
+        [Fact]
+        public void ExecuteThrowsWhenContainerReturnsIncompatiblePropertyValue()
+        {
+            var nonInt = "Anonymous variable";
+            var context = new DelegatingSpecimenContext { OnResolve = r => nonInt };
+            var sut = new BindingCommand<PropertyHolder<int>, int>(ph => ph.Property);
+
+            object dummySpecimen = new PropertyHolder<int>();
+            Assert.Throws<InvalidOperationException>(() =>
+                sut.Execute(dummySpecimen, context));
+        }
+
+        [Fact]
+        public void ExecuteSetsCorrectPropertyOnSpecimenWhenCreatorIsSupplied()
+        {
+            // Fixture setup
+            var expectedValue = new object();
+            var expectedContext = new DelegatingSpecimenContext();
+
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, c => expectedContext == c ? expectedValue : new NoSpecimen());
+            var specimen = new PropertyHolder<object>();
+            // Exercise system
+            sut.Execute((object)specimen, expectedContext);
+            // Verify outcome
+            Assert.Equal(expectedValue, specimen.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void ExecuteSetsCorrectPropertyOnSpecimenWhenValueIsSupplied()
+        {
+            // Fixture setup
+            var expectedValue = new object();
+
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, expectedValue);
+            var specimen = new PropertyHolder<object>();
+            // Exercise system
+            var dummyContext = new DelegatingSpecimenContext();
+            sut.Execute((object)specimen, dummyContext);
+            // Verify outcome
+            Assert.Equal(expectedValue, specimen.Property);
+            // Teardown
+        }
     }
 }
