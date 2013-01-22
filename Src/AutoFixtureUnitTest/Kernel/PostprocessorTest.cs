@@ -255,6 +255,25 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void ActionIsNotNullWhenConstructedWithFullConstructor()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummyCommand = new DelegatingSpecimenCommand();
+            var dummySpecification = new DelegatingRequestSpecification();
+
+            var sut = new Postprocessor<object>(
+                dummyBuilder,
+                dummyCommand,
+                dummySpecification);
+            // Exercise system
+            var actual = sut.Action;
+            // Verify outcome
+            Assert.NotNull(actual);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateInvokesDecoratedBuilderWithCorrectParameters()
         {
             // Fixture setup
