@@ -7,7 +7,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// An implementation of IConstructorQuery that composes other IConstructorQuery instances.
     /// </summary>
-    [Obsolete("Use CompositeMethodQuery instead.")]
+    [Obsolete("Use CompositeMethodQuery instead.", true)]
     public class CompositeConstructorQuery : IConstructorQuery
     {
         private readonly IEnumerable<IConstructorQuery> queries;
