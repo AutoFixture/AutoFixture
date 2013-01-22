@@ -11,6 +11,7 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     public class DictionaryFillerTest
     {
+#pragma warning disable 618
         [Fact]
         public void AddManyToNullSpecimenThrows()
         {
@@ -66,6 +67,7 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.True(expectedResult.SequenceEqual(dictionary));
             // Teardown
         }
+#pragma warning restore 618
 
         [Fact]
         public void SutIsSpecimenCommand()
