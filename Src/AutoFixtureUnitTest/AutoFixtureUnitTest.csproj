@@ -207,7 +207,6 @@
     <Compile Include="Kernel\FiniteSequenceRelayTest.cs" />
     <Compile Include="Kernel\MultipleRequestTest.cs" />
     <Compile Include="Kernel\MultipleRelayTest.cs" />
-    <Compile Include="Kernel\ConstructorInvokerTest.cs" />
     <Compile Include="Kernel\NoSpecimenTest.cs" />
     <Compile Include="Kernel\SpecifiedNullCommandTest.cs" />
     <Compile Include="Kernel\OrRequestSpecificationTest.cs" />
