@@ -56,7 +56,7 @@ namespace Ploeh.AutoFixture.Kernel
             ISpecimenBuilder builder,
             ISpecimenCommand command,
             IRequestSpecification specification)
-            : base(builder, command)
+            : base(builder, command, specification)
         {
         }
 
