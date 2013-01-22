@@ -44,6 +44,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// A specification which is used to determine whether postprocessing should be performed
         /// for a request.
         /// </param>
+        [Obsolete("Use Postprocessor(ISpecimenBuilder, ISpecimenCommand, IRequestSpecification) instead")]
         public Postprocessor(ISpecimenBuilder builder, Action<object, ISpecimenContext> action, IRequestSpecification specification)
             : base(builder, action, specification)
         {
@@ -128,6 +129,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// A specification which is used to determine whether postprocessing should be performed
         /// for a request.
         /// </param>
+        [Obsolete("Use Postprocessor(ISpecimenBuilder, ISpecimenCommand, IRequestSpecification) instead")]
         public Postprocessor(ISpecimenBuilder builder, Action<T, ISpecimenContext> action, IRequestSpecification specification)
         {
             if (builder == null)
