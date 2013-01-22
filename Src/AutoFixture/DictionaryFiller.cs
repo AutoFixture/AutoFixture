@@ -32,6 +32,14 @@ namespace Ploeh.AutoFixture
             new DictionaryFiller().Execute(specimen, context);
         }
 
+        /// <summary>
+        /// Adds many items to a dictionary.
+        /// </summary>
+        /// <param name="specimen">The dictionary to which items should be added.</param>
+        /// <param name="context">The context which can be used to resolve other specimens.</param>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="specimen"/> is not an instance of <see cref="IDictionary{TKey, TValue}" />.
+        /// </exception>
         public void Execute(object specimen, ISpecimenContext context)
         {
             if (specimen == null)
