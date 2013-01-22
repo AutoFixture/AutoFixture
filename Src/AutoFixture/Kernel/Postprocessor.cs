@@ -143,6 +143,9 @@ namespace Ploeh.AutoFixture.Kernel
             ISpecimenCommand command,
             IRequestSpecification specification)
         {
+            if (builder == null)
+                throw new ArgumentNullException("builder");
+
             this.builder = builder;
             this.command = command;
             this.specification = specification;
