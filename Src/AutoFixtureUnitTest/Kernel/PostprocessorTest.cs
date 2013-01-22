@@ -286,6 +286,18 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void ConstructFullWithNullCommandThrows()
+        {
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummySpecification = new DelegatingRequestSpecification();
+            Assert.Throws<ArgumentNullException>(() =>
+                new Postprocessor<object>(
+                    dummyBuilder,
+                    (ISpecimenCommand)null,
+                    dummySpecification));
+        }
+
+        [Fact]
         public void CreateInvokesDecoratedBuilderWithCorrectParameters()
         {
             // Fixture setup
