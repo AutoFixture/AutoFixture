@@ -144,6 +144,7 @@ namespace Ploeh.AutoFixture.Kernel
             IRequestSpecification specification)
         {
             this.builder = builder;
+            this.command = command;
         }
 
         /// <summary>
