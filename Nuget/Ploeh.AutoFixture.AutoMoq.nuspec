@@ -18,8 +18,8 @@
         <projectUrl>https://github.com/AutoFixture/AutoFixture</projectUrl>
     </metadata>
     <files>
-        <file src="Ploeh.AutoFixture.AutoMoq.dll" target="lib\net35" />
-        <file src="Ploeh.AutoFixture.AutoMoq.XML" target="lib\net35" />
+        <file src="Ploeh.AutoFixture.AutoMoq.dll" target="lib\net40" />
+        <file src="Ploeh.AutoFixture.AutoMoq.XML" target="lib\net40" />
         <file src="Install.ps1" target="tools" />
     </files>
 </package>
