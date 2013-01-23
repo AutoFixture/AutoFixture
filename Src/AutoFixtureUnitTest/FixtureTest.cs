@@ -1282,7 +1282,13 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             var result = fixture.Create<RangeValidatedType>();
             // Verify outcome
-            Assert.True(result.Property >= RangeValidatedType.Minimum && result.Property <= RangeValidatedType.Maximum);
+            Assert.True(
+                RangeValidatedType.Minimum <= result.Property && result.Property <= RangeValidatedType.Maximum,
+                string.Format(
+                    "Expected result to fall into the interval [{0}, {1}], but was {2}",
+                    RangeValidatedType.Minimum,
+                    RangeValidatedType.Maximum,
+                    result.Property));
             // Teardown
         }
 
