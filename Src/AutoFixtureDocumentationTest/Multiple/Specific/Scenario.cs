@@ -9,11 +9,11 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.Specific
     public class Scenario
     {
         [Fact]
-        public void UncustomizedListReturnsEmptyList()
+        public void UncustomizedListReturnsPopulatedList()
         {
             var fixture = new Fixture();
             var list = fixture.Create<List<int>>();
-            Assert.False(list.Any());
+            Assert.True(list.Any());
         }
 
         [Fact]

@@ -43,6 +43,7 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <param name="engine">The engine.</param>
         /// <param name="multiple">The definition and implementation of 'many'.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "This is the Façade that binds everything else together, so being coupled to many other types must follow.")]
         public Fixture(ISpecimenBuilder engine, MultipleRelay multiple)
         {
             if (engine == null)
@@ -63,7 +64,28 @@ namespace Ploeh.AutoFixture
                         new CustomizationNode(
                             new CompositeSpecimenBuilder(
                                 new StableFiniteSequenceRelay(),
-                                new FilteringSpecimenBuilder(new MethodInvoker(new ModestConstructorQuery()), new NullableEnumRequestSpecification()),
+                                new FilteringSpecimenBuilder(
+                                    new Postprocessor(
+                                        new MethodInvoker(
+                                            new ModestConstructorQuery()),
+                                        new DictionaryFiller()),
+                                    new DictionarySpecification()),
+                                new FilteringSpecimenBuilder(
+                                    new MethodInvoker(
+                                        new ListFavoringConstructorQuery()),
+                                    new CollectionSpecification()),
+                                new FilteringSpecimenBuilder(
+                                    new MethodInvoker(
+                                        new EnumerableFavoringConstructorQuery()),
+                                    new HashSetSpecification()),
+                                new FilteringSpecimenBuilder(
+                                    new MethodInvoker(
+                                        new EnumerableFavoringConstructorQuery()),
+                                    new ListSpecification()),
+                                new FilteringSpecimenBuilder(
+                                    new MethodInvoker(
+                                        new ModestConstructorQuery()),
+                                    new NullableEnumRequestSpecification()),
                                 new EnumGenerator())),
                         new Postprocessor(
                             new AutoPropertiesTarget(
@@ -73,7 +95,11 @@ namespace Ploeh.AutoFixture
                             new AutoPropertiesCommand(),
                             new AnyTypeSpecification()),
                         new ResidueCollectorNode(
-                            new CompositeSpecimenBuilder()),
+                            new CompositeSpecimenBuilder(
+                                new DictionaryRelay(),
+                                new CollectionRelay(),
+                                new ListRelay(),
+                                new EnumerableRelay())),
                         new TerminatingSpecimenBuilder()));
 
             this.UpdateCustomizer();

@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             var result = fixture.Create<IList<ConcreteType>>();
             // Verify outcome
-            Assert.False(result.Any());
+            Assert.True(result.Any());
             // Teardown
         }
 

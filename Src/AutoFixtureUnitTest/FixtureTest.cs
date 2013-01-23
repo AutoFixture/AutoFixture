@@ -3773,14 +3773,11 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousEnumerableWithoutCustomizationThrows()
+        public void CreateAnonymousEnumerableWithoutCustomizationWorks()
         {
-            // Fixture setup
             var sut = new Fixture();
-            // Exercise system and verify outcome
-            Assert.Throws<ObjectCreationException>(() =>
-                sut.Create<IEnumerable<decimal>>());
-            // Teardown
+            var actual = sut.Create<IEnumerable<decimal>>();
+            Assert.NotEmpty(actual);
         }
 
         [Fact]
@@ -3797,14 +3794,14 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousListDoesNotFillWithItemsPerDefault()
+        public void CreateAnonymousListDoesFillWithItemsPerDefault()
         {
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
             var result = sut.Create<List<string>>();
             // Verify outcome
-            Assert.False(result.Any());
+            Assert.True(result.Any());
             // Teardown
         }
 
@@ -4029,6 +4026,55 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.True(
                 sut.Customizations.OfType<StableFiniteSequenceRelay>().Any(),
                 "Stable finite sequence relay not found.");
+        }
+
+        [Theory]
+        [InlineData(typeof(EnumerableRelay))]
+        [InlineData(typeof(ListRelay))]
+        [InlineData(typeof(CollectionRelay))]
+        [InlineData(typeof(DictionaryRelay))]
+        public void ResidueCollectorsContainMultipleRelaysByDefault(
+            Type relayType)
+        {
+            var sut = new Fixture();
+            Assert.True(
+                sut.ResidueCollectors.Any(b =>
+                    relayType.IsAssignableFrom(b.GetType())),
+                relayType.Name + " not found.");
+        }
+
+        [Theory]
+        [InlineData(typeof(ListSpecification), typeof(EnumerableFavoringConstructorQuery))]
+        [InlineData(typeof(HashSetSpecification), typeof(EnumerableFavoringConstructorQuery))]
+        [InlineData(typeof(CollectionSpecification), typeof(ListFavoringConstructorQuery))]
+        public void CustomizationsContainBuilderForProperConcreteMultipleTypeByDefault(
+            Type specificationType,
+            Type queryType)
+        {
+            var sut = new Fixture();
+            Assert.True(sut.Customizations
+                .OfType<FilteringSpecimenBuilder>()
+                .Where(b => specificationType.IsAssignableFrom(b.Specification.GetType()))
+                .Where(b => typeof(MethodInvoker).IsAssignableFrom(b.Builder.GetType()))
+                .Select(b => (MethodInvoker)b.Builder)
+                .Where(i => queryType.IsAssignableFrom(i.Query.GetType()))
+                .Any());
+        }
+
+        [Fact]
+        public void CustomizationsContainBuilderForConcreteDictionariesByDefault()
+        {
+            var sut = new Fixture();
+            Assert.True(sut.Customizations
+                .OfType<FilteringSpecimenBuilder>()
+                .Where(b => typeof(DictionarySpecification).IsAssignableFrom(b.Specification.GetType()))
+                .Where(b => typeof(Postprocessor).IsAssignableFrom(b.Builder.GetType()))
+                .Select(b => (Postprocessor)b.Builder)
+                .Where(p => p.Command is DictionaryFiller)
+                .Where(p => typeof(MethodInvoker).IsAssignableFrom(p.Builder.GetType()))
+                .Select(p => (MethodInvoker)p.Builder)
+                .Where(i => typeof(ModestConstructorQuery).IsAssignableFrom(i.Query.GetType()))
+                .Any());
         }
 
         private class RecursionTestObjectWithReferenceOutA
