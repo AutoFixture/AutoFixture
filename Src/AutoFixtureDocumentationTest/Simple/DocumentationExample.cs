@@ -167,6 +167,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         public void ReplacingStringAlgorithmWithSeededFooStrings()
         {
             var fixture = new Fixture();
+            fixture.Customizations.Add(new NumericSequenceGenerator());
             fixture.Customize<string>(c =>
                 c.FromFactory((int i) => "foo" + i));
 
@@ -192,6 +193,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         public void ReplaceDateTimeAlgorithmToReturnRisingUniqueDateTimeInstances()
         {
             var fixture = new Fixture();
+            fixture.Customizations.Add(new NumericSequenceGenerator());
             fixture.Register((long i) => new DateTime(i));
 
             var dateTimes = fixture.CreateMany<DateTime>(20);
@@ -202,6 +204,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         public void CustomizeNumbersToUseASingleRisingSequence()
         {
             var fixture = new Fixture();
+            fixture.Customizations.Add(new NumericSequenceGenerator());
             fixture.Register((int i) => (long)i);
             fixture.Register((int i) => (decimal)i);
             fixture.Register((int i) => (float)i);
@@ -333,6 +336,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         {
             // Fixture setup
             var fixture = new Fixture();
+            fixture.Customizations.Add(new NumericSequenceGenerator());
             // Exercise system and verify outcome
             Assert.Throws<TargetInvocationException>(()=>
                 fixture.Create<Filter>());

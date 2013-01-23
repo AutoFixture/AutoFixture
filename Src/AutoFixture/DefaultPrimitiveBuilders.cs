@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture
             yield return new StringGenerator(() => Guid.NewGuid());
             yield return new ConstrainedStringGenerator();
             yield return new StringSeedRelay();
-            yield return new NumericSequenceGenerator();
+            yield return new RandomNumericSequenceGenerator();
             yield return new CharSequenceGenerator();
             yield return new UriGenerator();
             yield return new UriSchemeGenerator();
