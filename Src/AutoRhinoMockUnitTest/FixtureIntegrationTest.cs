@@ -211,7 +211,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Exercise system
             var result = fixture.Create<List<ConcreteType>>();
             // Verify outcome
-            Assert.False(result.Any());
+            Assert.True(result.Any());
             // Teardown
         }
 
@@ -235,7 +235,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Exercise system
             var result = fixture.Create<HashSet<ConcreteType>>();
             // Verify outcome
-            Assert.False(result.Any());
+            Assert.True(result.Any());
             // Teardown
         }
     }

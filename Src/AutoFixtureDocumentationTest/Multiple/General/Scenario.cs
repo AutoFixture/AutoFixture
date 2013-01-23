@@ -84,8 +84,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
         [Fact]
         public void EnumerablesAreStableByDefault()
         {
-            var fixture = new Fixture()
-                .Customize(new MultipleCustomization());
+            var fixture = new Fixture();
             var expected =
                 fixture.Create<IEnumerable<string>>();
             Assert.True(expected.SequenceEqual(expected));
@@ -109,8 +108,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
         [Fact]
         public void EnumerablesCanBeMadeUniqueByRemovingCustomization()
         {
-            var fixture = new Fixture()
-                .Customize(new MultipleCustomization());
+            var fixture = new Fixture();
             fixture
                 .Customizations
                 .OfType<StableFiniteSequenceRelay>()
