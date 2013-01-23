@@ -9,6 +9,7 @@ namespace Ploeh.AutoFixture
     /// <summary>
     /// Provides anonymous object creation services.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main purpose of Fixture isn't to be a collection of anything. That it implements IEnumerable is just a coincidental side effect of how graphs are implemented in AutoFixture. Besides, fixing this CA error would be a breaking change.")]
     public class Fixture : IFixture, IEnumerable<ISpecimenBuilder>
     {
         private SingletonSpecimenBuilderNodeStackAdapterCollection behaviors;
