@@ -4077,6 +4077,22 @@ namespace Ploeh.AutoFixtureUnitTest
                 .Any());
         }
 
+        [Fact]
+        public void SutIsSequenceOfSpecimenBuilders()
+        {
+            var sut = new Fixture();
+            Assert.IsAssignableFrom<IEnumerable<ISpecimenBuilder>>(sut);
+        }
+
+        [Fact]
+        public void SutYieldsSomething()
+        {
+            var sut = new Fixture();
+
+            Assert.True(sut.Any());
+            Assert.NotEmpty(sut);
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
