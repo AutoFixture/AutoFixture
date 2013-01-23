@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixture
         /// default URI scheme name.
         /// </summary>
         public UriScheme()
-            : this("scheme")
+            : this("http")
         {
         }
 
