@@ -13,7 +13,7 @@
         <language>en-US</language>
     </metadata>
     <files>
-        <file src="Ploeh.AutoFixture.dll" target="lib\net35" />
-        <file src="Ploeh.AutoFixture.XML" target="lib\net35" />
+        <file src="Ploeh.AutoFixture.dll" target="lib\net40" />
+        <file src="Ploeh.AutoFixture.XML" target="lib\net40" />
     </files>
 </package>
