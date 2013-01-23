@@ -366,11 +366,24 @@ namespace Ploeh.AutoFixture
             return this.graph.Create(request, context);
         }
 
+        /// <summary>
+        /// Gets an enumerator over the internal specimen builders used to 
+        /// create objects.
+        /// </summary>
+        /// <returns>
+        /// An enumerator over the internal specimen builders used to create
+        /// objects.
+        /// </returns>
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
             yield return this.graph;
         }
 
+        /// <summary>Returns an enumerator that iterates through a collection.</summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+        /// </returns>
+        /// <seealso cref="GetEnumerator()" />
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
