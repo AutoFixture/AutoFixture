@@ -15,7 +15,5 @@
     <files>
         <file src="Ploeh.AutoFixture.dll" target="lib\net35" />
         <file src="Ploeh.AutoFixture.XML" target="lib\net35" />
-        <file src="Ploeh.SemanticComparison.dll" target="lib\net35" />
-        <file src="Ploeh.SemanticComparison.XML" target="lib\net35" />
     </files>
 </package>
