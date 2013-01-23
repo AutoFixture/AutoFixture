@@ -1324,7 +1324,13 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             var result = fixture.Create<RangeValidatedType>();
             // Verify outcome
-            Assert.True(result.Property3 >= Convert.ToDecimal(RangeValidatedType.DoubleMinimum) && result.Property3 <= Convert.ToDecimal(RangeValidatedType.DoubleMaximum));
+            Assert.True(
+                Convert.ToDecimal(RangeValidatedType.DoubleMinimum) <= result.Property3 && result.Property3 <= Convert.ToDecimal(RangeValidatedType.DoubleMaximum),
+                string.Format(
+                    "Expected result to fall into the interval [{0}, {1}], but was {2}",
+                    RangeValidatedType.DoubleMinimum,
+                    RangeValidatedType.DoubleMaximum,
+                    result.Property3));
             // Teardown
         }
 
