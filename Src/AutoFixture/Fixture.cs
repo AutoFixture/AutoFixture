@@ -107,6 +107,10 @@ namespace Ploeh.AutoFixture
             this.UpdateBehaviors(new ISpecimenBuilderTransformation[0]);
 
             this.behaviors.Add(new ThrowingRecursionBehavior());
+
+            this.Inject(this);
+            this.Inject<IFixture>(this);
+            this.Inject<ISpecimenBuilder>(this);
         }
 
         /// <summary>
