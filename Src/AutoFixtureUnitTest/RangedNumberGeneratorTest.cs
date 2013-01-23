@@ -184,9 +184,9 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 OnResolve = r =>
                 {
-                    if (r == typeof(double))
+                    if (r.Equals(typeof(double)))
                         return numbers.NextDouble();
-                    if (r == typeof(decimal))
+                    if (r.Equals(typeof(decimal)))
                         return Convert.ToDecimal(numbers.Next());
 
                     return new NoSpecimen(r);

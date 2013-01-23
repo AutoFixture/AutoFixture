@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.Kernel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "IntPtr", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public object Create(object request, ISpecimenContext context)
         {
-            if (request != typeof(IntPtr))
+            if (!typeof(IntPtr).Equals(request))
             {
                 return new NoSpecimen(request);
             }

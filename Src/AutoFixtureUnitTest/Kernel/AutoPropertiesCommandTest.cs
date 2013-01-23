@@ -336,7 +336,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedRequest = typeof(PropertyHolder<object>).GetProperty("Property");
             var verified = false;
-            var specMock = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => verified = expectedRequest == r };
+            var specMock = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => verified = expectedRequest.Equals(r) };
             var sut = new AutoPropertiesCommand<PropertyHolder<object>>(specMock);
             // Exercise system
             sut.IsSatisfiedBy(expectedRequest);
@@ -378,7 +378,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedRequest = typeof(FieldHolder<object>).GetField("Field");
             var verified = false;
-            var specMock = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => verified = expectedRequest == r };
+            var specMock = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => verified = expectedRequest.Equals(r) };
             var sut = new AutoPropertiesCommand<FieldHolder<object>>(specMock);
             // Exercise system
             sut.IsSatisfiedBy(expectedRequest);

@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("context");
             }
 
-            if (request != typeof(Uri))
+            if (!typeof(Uri).Equals(request))
             {
                 return new NoSpecimen(request);
             }

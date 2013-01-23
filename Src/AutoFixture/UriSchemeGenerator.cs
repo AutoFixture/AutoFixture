@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (request != typeof(UriScheme))
+            if (!typeof(UriScheme).Equals(request))
             {
                 return new NoSpecimen(request);
             }

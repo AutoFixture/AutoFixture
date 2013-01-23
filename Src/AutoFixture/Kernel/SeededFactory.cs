@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return new NoSpecimen(request);
             }
 
-            if (seededRequest.Request != typeof(T))
+            if (!seededRequest.Request.Equals(typeof(T)))
             {
                 return new NoSpecimen(request);
             }

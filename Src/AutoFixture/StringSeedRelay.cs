@@ -34,7 +34,7 @@ namespace Ploeh.AutoFixture
 
             var seededRequest = request as SeededRequest;
             if (seededRequest == null ||
-                seededRequest.Request != typeof(string))
+                (!seededRequest.Request.Equals(typeof(string))))
             {
                 return new NoSpecimen(request);
             }
