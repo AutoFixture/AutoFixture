@@ -66,7 +66,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var expected = new object();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => r == to ? expected : new object()
+                OnResolve = r => to.Equals(r) ? expected : new object()
             };
             // Exercise system
             var actual = sut.Create(from, context);

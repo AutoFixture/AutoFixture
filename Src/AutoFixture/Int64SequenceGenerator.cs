@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (request != typeof(long))
+            if (!typeof(long).Equals(request))
             {
                 return new NoSpecimen(request);
             }

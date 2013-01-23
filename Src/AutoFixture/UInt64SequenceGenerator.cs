@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (request != typeof(ulong))
+            if (!typeof(ulong).Equals(request))
             {
                 return new NoSpecimen(request);
             }
