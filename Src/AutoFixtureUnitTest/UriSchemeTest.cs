@@ -21,7 +21,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new UriScheme();
-            string expectedScheme = "scheme";
+            string expectedScheme = "http";
             // Exercise system
             string result = sut.Scheme;
             // Verify outcome
@@ -217,7 +217,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             int result = sut.GetHashCode();
             // Verify outcome
-            int expectedHashCode = "scheme".GetHashCode();
+            int expectedHashCode = "http".GetHashCode();
             Assert.Equal(expectedHashCode, result);
             // Teardown
         }
