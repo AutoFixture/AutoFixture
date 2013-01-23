@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture
     /// <summary>
     /// Provides anonymous object creation services.
     /// </summary>
-    public class Fixture : IFixture
+    public class Fixture : IFixture, IEnumerable<ISpecimenBuilder>
     {
         private SingletonSpecimenBuilderNodeStackAdapterCollection behaviors;
         private SpecimenBuilderNodeAdapterCollection customizer;
@@ -364,6 +364,16 @@ namespace Ploeh.AutoFixture
         public object Create(object request, ISpecimenContext context)
         {
             return this.graph.Create(request, context);
+        }
+
+        public IEnumerator<ISpecimenBuilder> GetEnumerator()
+        {
+            yield return this.graph;
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
 
         private bool EnableAutoProperties
