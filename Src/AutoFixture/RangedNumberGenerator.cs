@@ -79,7 +79,24 @@ namespace Ploeh.AutoFixture
 
                 if (this.rangedValue != null && (minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) > 0))
                 {
-                    this.rangedValue = RangedNumberGenerator.Add(this.rangedValue, Convert.ChangeType(1, range.OperandType, CultureInfo.CurrentCulture));
+                    this.rangedValue =
+                        Convert.ChangeType(
+                            RangedNumberGenerator.Add(
+                                this.rangedValue,
+                                Convert.ChangeType(
+                                    1,
+                                    range.OperandType,
+                                    CultureInfo.CurrentCulture)),
+                            range.OperandType,
+                            CultureInfo.CurrentCulture);
+
+                    if (maximum.CompareTo(this.rangedValue) < 0)
+                    {
+                        this.rangedValue = Convert.ChangeType(
+                            maximum, 
+                            range.OperandType,
+                            CultureInfo.CurrentCulture);
+                    }
                 }
                 else if (minimum.CompareTo(value) == 0)
                 {
@@ -97,9 +114,18 @@ namespace Ploeh.AutoFixture
                 {
                     this.rangedValue = minimum;
                 }
+                else if (minimum.CompareTo(value) < 0)
+                {
+                    this.rangedValue = value;
+                }
                 else
                 {
                     this.rangedValue = RangedNumberGenerator.Add(minimum, value);
+
+                    if (minimum.CompareTo(this.rangedValue) > 0)
+                    {
+                        this.rangedValue = minimum;
+                    }
                 }
 
                 this.rangedValue = Convert.ChangeType(this.rangedValue, range.OperandType, CultureInfo.CurrentCulture);
