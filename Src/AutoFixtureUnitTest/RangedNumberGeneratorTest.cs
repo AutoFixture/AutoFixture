@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
@@ -102,6 +103,43 @@ namespace Ploeh.AutoFixtureUnitTest
             var loopTest = new LoopTest<RangedNumberGenerator, int>(sut => (int)sut.Create(request, context));
             // Exercise system and verify outcome
             loopTest.Execute(loopCount);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(10.1, 20.2)]
+        [InlineData(10.0, 20.2)]
+        [InlineData(10.1, 20.0)]
+        [InlineData(-10.1, 10.2)]
+        [InlineData(-10.0, 10.2)]
+        [InlineData(-10.1, 10.0)]
+        public void CreateReturnsCorrectResultWithMininumMaximumOnMultipleCall(
+            double minimum,
+            double maximum)
+        {
+            // Fixture setup
+            var numbers = new Random();
+            var request = new RangedNumberRequest(
+                typeof(double),
+                minimum,
+                maximum);
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r =>
+                {
+                    Assert.Equal(request.OperandType, r);
+                    return (double)numbers.Next();
+                }
+            };
+            var sut = new RangedNumberGenerator();
+            // Exercise system
+            var result = Enumerable
+                .Range(0, 33)
+                .Select(x => sut.Create(request, context))
+                .Cast<double>();
+            // Verify outcome
+            Assert.True(
+                result.All(x => x >= minimum && x <= maximum)); 
             // Teardown
         }
 
