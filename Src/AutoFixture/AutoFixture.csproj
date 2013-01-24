@@ -127,6 +127,7 @@
     <Compile Include="Generator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Dsl\CompositeNodeComposer.cs" />
+    <Compile Include="IncrementingDateTimeCustomization.cs" />
     <Compile Include="Kernel\AbstractTypeSpecification.cs" />
     <Compile Include="Kernel\ActionSpecimenCommand.cs" />
     <Compile Include="Kernel\ConstrainedStringRequest.cs" />
