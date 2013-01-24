@@ -5,10 +5,25 @@ namespace Ploeh.AutoFixture
 {
     public class RandomDateTimeSequenceGenerator : ISpecimenBuilder
     {
+        private readonly DateTime minDate;
+        private readonly DateTime maxDate;
         private readonly Random randomizer;
 
         public RandomDateTimeSequenceGenerator()
+            : this(DateTime.MinValue, DateTime.MaxValue)
         {
+            this.randomizer = new Random();
+        }
+
+        public RandomDateTimeSequenceGenerator(DateTime minDate, DateTime maxDate)
+        {
+            if (minDate > maxDate)
+            {
+                throw new ArgumentException("The 'minDate' argument must be less than or equal to the 'maxDate'.");
+            }
+
+            this.minDate = minDate;
+            this.maxDate = maxDate;
             this.randomizer = new Random();
         }
 
@@ -45,10 +60,10 @@ namespace Ploeh.AutoFixture
             return BitConverter.ToUInt64(buffer, 0);
         }
 
-        private static long ReduceNumberToTicksRange(ulong number)
+        private long ReduceNumberToTicksRange(ulong number)
         {
-            var minTicks = (ulong)DateTime.MinValue.Ticks;
-            var maxTicks = (ulong)DateTime.MaxValue.Ticks;
+            var minTicks = (ulong)this.minDate.Ticks;
+            var maxTicks = (ulong)this.maxDate.Ticks;
             var ticks = ((number % (maxTicks - minTicks + 1)) + minTicks);
             return (long)ticks;
         }
