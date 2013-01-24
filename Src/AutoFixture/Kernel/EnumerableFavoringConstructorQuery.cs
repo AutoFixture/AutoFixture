@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// <see cref="IEnumerable{T}"/> are selected before any other public constructor.
     /// </summary>
     /// <remarks>
-    /// The main target of this <see cref="IConstructorQuery" /> implementation is to pick
+    /// The main target of this <see cref="IMethodQuery" /> implementation is to pick
     /// <see cref="List{T}(IEnumerable{T})" /> before any other constructor. This can be used to
     /// populate a list instance with a sequence of items.
     /// </remarks>
