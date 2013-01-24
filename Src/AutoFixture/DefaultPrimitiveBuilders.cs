@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture
             yield return new UriSchemeGenerator();
             yield return new RangedNumberGenerator();
             yield return new RegularExpressionGenerator();
-            yield return new StrictlyMonotonicallyIncreasingDateTimeGenerator(DateTime.Now);
+            yield return new RandomDateTimeSequenceGenerator();
             yield return new BooleanSwitch();
             yield return new GuidGenerator();
             yield return new TypeGenerator();
