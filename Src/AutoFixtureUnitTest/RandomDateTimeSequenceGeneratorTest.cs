@@ -22,6 +22,18 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void InitializeWithInvertedDateRangeThrowsArgumentException()
+        {
+            // Fixture setup
+            var minDate = DateTime.Now;
+            var maxDate = minDate.AddDays(3);
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentException>(
+                () => new RandomDateTimeSequenceGenerator(maxDate, minDate));
+            // Teardown
+        }
+
+        [Fact]
         public void CreateWithNullRequestReturnsNoSpecimen()
         {
             // Fixture setup
@@ -118,6 +130,35 @@ namespace Ploeh.AutoFixtureUnitTest
                 .Cast<DateTime>();
             // Verify outcome
             Assert.Equal(requestCount, results.Distinct().Count());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithDateTimeRequestAndDateRangeReturnsDateWithinThatRange()
+        {
+            // Fixture setup
+            var minDate = DateTime.Now;
+            var maxDate = minDate.AddDays(3);
+            var sut = new RandomDateTimeSequenceGenerator(minDate, maxDate);
+            // Exercise system
+            var dummyContainer = new DelegatingSpecimenContext();
+            var result = (DateTime)sut.Create(typeof(DateTime), dummyContainer);
+            // Verify outcome
+            Assert.InRange(result, minDate, maxDate);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithDateTimeRequestAndSingleDateRangeReturnsThatSameDate()
+        {
+            // Fixture setup
+            var date = DateTime.Now;
+            var sut = new RandomDateTimeSequenceGenerator(date, date);
+            // Exercise system
+            var dummyContainer = new DelegatingSpecimenContext();
+            var result = (DateTime)sut.Create(typeof(DateTime), dummyContainer);
+            // Verify outcome
+            Assert.Equal(result, date);
             // Teardown
         }
     }
