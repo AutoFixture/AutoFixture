@@ -141,6 +141,7 @@
     <Compile Include="Kernel\SpecimenBuilderNodeFactory.cs" />
     <Compile Include="Kernel\TypeRelay.cs" />
     <Compile Include="OmitOnRecursionBehavior.cs" />
+    <Compile Include="RandomDateTimeSequenceGenerator.cs" />
     <Compile Include="RandomNumericSequenceCustomization.cs" />
     <Compile Include="RandomNumericSequenceGenerator.cs" />
     <Compile Include="RangedNumberGenerator.cs" />
