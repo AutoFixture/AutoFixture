@@ -97,9 +97,18 @@ namespace Ploeh.AutoFixture
                 {
                     this.rangedValue = minimum;
                 }
+                else if (minimum.CompareTo(value) < 0)
+                {
+                    this.rangedValue = value;
+                }
                 else
                 {
                     this.rangedValue = RangedNumberGenerator.Add(minimum, value);
+
+                    if (minimum.CompareTo(this.rangedValue) > 0)
+                    {
+                        this.rangedValue = minimum;
+                    }
                 }
 
                 this.rangedValue = Convert.ChangeType(this.rangedValue, range.OperandType, CultureInfo.CurrentCulture);
