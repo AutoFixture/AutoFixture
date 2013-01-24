@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// <see cref="IList{T}"/> are selected before any other public constructor.
     /// </summary>
     /// <remarks>
-    /// The main target of this <see cref="IConstructorQuery" /> implementation is to pick
+    /// The main target of this <see cref="IMethodQuery" /> implementation is to pick
     /// <see cref="System.Collections.ObjectModel.Collection{T}(IList{T})" /> before any other
     /// constructor. This can be used to populate a Collection instance with a list of items.
     /// </remarks>
