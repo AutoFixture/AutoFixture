@@ -84,6 +84,7 @@
     <Compile Include="AbstractRecursionIssue\ItemLocation.cs" />
     <Compile Include="AbstractRecursionIssue\Repro.cs" />
     <Compile Include="FixtureResolvingItselfTests.cs" />
+    <Compile Include="IncrementingDateTimeCustomizationTest.cs" />
     <Compile Include="Kernel\ActionSpecimenCommandTests.cs" />
     <Compile Include="Kernel\DelegatingSpecimenCommand.cs" />
     <Compile Include="MarkerNodeTests.cs" />
