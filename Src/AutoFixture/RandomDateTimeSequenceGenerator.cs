@@ -34,22 +34,23 @@ namespace Ploeh.AutoFixture
 
         private long GetRandomNumberOfTicks()
         {
-            var ticks = this.GetRandomLongNumber();
-            return ReduceNumberToTicksRange(ticks);
+            var number = this.GetRandomLongPositiveNumber();
+            return ReduceNumberToTicksRange(number);
         }
 
-        private long GetRandomLongNumber()
+        private ulong GetRandomLongPositiveNumber()
         {
             var buffer = new byte[8];
             this.randomizer.NextBytes(buffer);
-            return BitConverter.ToInt64(buffer, 0);
+            return BitConverter.ToUInt64(buffer, 0);
         }
 
-        private static long ReduceNumberToTicksRange(long number)
+        private static long ReduceNumberToTicksRange(ulong number)
         {
-            var minTicks = DateTime.MinValue.Ticks;
-            var maxTicks = DateTime.MaxValue.Ticks;
-            return Math.Abs((number % (maxTicks - minTicks)) + minTicks);
+            var minTicks = (ulong)DateTime.MinValue.Ticks;
+            var maxTicks = (ulong)DateTime.MaxValue.Ticks;
+            var ticks = ((number % (maxTicks - minTicks + 1)) + minTicks);
+            return (long)ticks;
         }
     }
 }
