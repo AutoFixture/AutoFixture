@@ -12,7 +12,6 @@ namespace Ploeh.AutoFixture
         public RandomDateTimeSequenceGenerator()
             : this(DateTime.MinValue, DateTime.MaxValue)
         {
-            this.randomizer = new Random();
         }
 
         public RandomDateTimeSequenceGenerator(DateTime minDate, DateTime maxDate)
