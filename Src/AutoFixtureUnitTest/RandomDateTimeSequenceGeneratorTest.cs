@@ -58,12 +58,12 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithNullContextDoesNotThrow()
+        public void CreateWithNullContextThrowsArgumentNullException()
         {
             // Fixture setup
             var sut = new RandomDateTimeSequenceGenerator();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(
+            Assert.Throws<ArgumentNullException>(
                 () => sut.Create(typeof(DateTime), null));
             // Teardown
         }

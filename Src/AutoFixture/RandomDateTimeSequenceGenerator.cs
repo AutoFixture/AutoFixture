@@ -53,12 +53,14 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (IsNotDateTimeRequest(request))
+            if (context == null)
             {
-                return new NoSpecimen(request);
+                throw new ArgumentNullException("context");
             }
 
-            return CreateRandomDate();
+            return IsNotDateTimeRequest(request)
+                       ? new NoSpecimen(request)
+                       : this.CreateRandomDate(context);
         }
 
         private static bool IsNotDateTimeRequest(object request)
@@ -66,14 +68,14 @@ namespace Ploeh.AutoFixture
             return !typeof(DateTime).IsAssignableFrom(request as Type);
         }
 
-        private object CreateRandomDate()
+        private object CreateRandomDate(ISpecimenContext context)
         {
-            return new DateTime(this.GetRandomNumberOfTicks());
+            return new DateTime(this.GetRandomNumberOfTicks(context));
         }
 
-        private long GetRandomNumberOfTicks()
+        private long GetRandomNumberOfTicks(ISpecimenContext context)
         {
-            return (long)this.randomizer.Create(typeof(long), null);
+            return (long)this.randomizer.Create(typeof(long), context);
         }
     }
 }
