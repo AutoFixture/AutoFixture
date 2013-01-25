@@ -34,6 +34,17 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void InitializeWithEmptyDateRangeThrowsArgumentException()
+        {
+            // Fixture setup
+            var date = DateTime.Now;
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentException>(
+                () => new RandomDateTimeSequenceGenerator(date, date));
+            // Teardown
+        }
+
+        [Fact]
         public void CreateWithNullRequestReturnsNoSpecimen()
         {
             // Fixture setup
@@ -145,20 +156,6 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = (DateTime)sut.Create(typeof(DateTime), dummyContainer);
             // Verify outcome
             Assert.InRange(result, minDate, maxDate);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithDateTimeRequestAndSingleDateRangeReturnsThatSameDate()
-        {
-            // Fixture setup
-            var date = DateTime.Now;
-            var sut = new RandomDateTimeSequenceGenerator(date, date);
-            // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = (DateTime)sut.Create(typeof(DateTime), dummyContainer);
-            // Verify outcome
-            Assert.Equal(result, date);
             // Teardown
         }
     }
