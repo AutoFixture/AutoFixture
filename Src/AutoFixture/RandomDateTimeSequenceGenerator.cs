@@ -13,9 +13,7 @@ namespace Ploeh.AutoFixture
     /// </remarks>
     public class RandomDateTimeSequenceGenerator : ISpecimenBuilder
     {
-        private readonly DateTime minDate;
-        private readonly DateTime maxDate;
-        private readonly Random randomizer;
+        private readonly RandomNumericSequenceGenerator randomizer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomDateTimeSequenceGenerator"/> class.
@@ -36,14 +34,12 @@ namespace Ploeh.AutoFixture
         /// </exception>
         public RandomDateTimeSequenceGenerator(DateTime minDate, DateTime maxDate)
         {
-            if (minDate > maxDate)
+            if (minDate >= maxDate)
             {
-                throw new ArgumentException("The 'minDate' argument must be less than or equal to the 'maxDate'.");
+                throw new ArgumentException("The 'minDate' argument must be less than the 'maxDate'.");
             }
 
-            this.minDate = minDate;
-            this.maxDate = maxDate;
-            this.randomizer = new Random();
+            this.randomizer = new RandomNumericSequenceGenerator(minDate.Ticks, maxDate.Ticks);
         }
 
         /// <summary>
@@ -77,23 +73,7 @@ namespace Ploeh.AutoFixture
 
         private long GetRandomNumberOfTicks()
         {
-            var number = this.GetRandomLongPositiveNumber();
-            return ReduceNumberToTicksRange(number);
-        }
-
-        private ulong GetRandomLongPositiveNumber()
-        {
-            var buffer = new byte[8];
-            this.randomizer.NextBytes(buffer);
-            return BitConverter.ToUInt64(buffer, 0);
-        }
-
-        private long ReduceNumberToTicksRange(ulong number)
-        {
-            var minTicks = (ulong)this.minDate.Ticks;
-            var maxTicks = (ulong)this.maxDate.Ticks;
-            var ticks = ((number % (maxTicks - minTicks + 1)) + minTicks);
-            return (long)ticks;
+            return (long)this.randomizer.Create(typeof(long), null);
         }
     }
 }
