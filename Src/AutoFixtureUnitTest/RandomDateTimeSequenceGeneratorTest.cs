@@ -128,6 +128,21 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateWithDateTimeRequestReturnsADateWithinARangeOfPlusMinusTwoYearsFromToday()
+        {
+            // Fixture setup
+            var twoYearsAgo = DateTime.Today.AddYears(-2);
+            var twoYearsForward = DateTime.Today.AddYears(2);
+            var sut = new RandomDateTimeSequenceGenerator();
+            // Exercise system
+            var dummyContainer = new DelegatingSpecimenContext();
+            var result = (DateTime)sut.Create(typeof(DateTime), dummyContainer);
+            // Verify outcome
+            Assert.InRange(result, twoYearsAgo, twoYearsForward);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateWithMultipleDateTimeRequestsReturnsDifferentDates()
         {
             // Fixture setup
