@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <param name = "syntaxFlags">Boolean 'or' of optional syntax constructs to be enabled.</param>
         internal RegExp(string s, RegExpSyntaxOptions syntaxFlags)
         {
-            this.b = s;
+            this.b = RegExp.ReplaceShorthandCharacterClasses(s);
             this.flags = syntaxFlags;
             RegExp e;
             if (s.Length == 0)
@@ -404,6 +404,11 @@ namespace Ploeh.AutoFixture.DataAnnotations
             }
 
             return RegExp.MakeString(sb.ToString());
+        }
+
+        private static string ReplaceShorthandCharacterClasses(string s)
+        {
+            return s.Replace("\\d", "[0-9]");
         }
 
         private Automaton ToAutomatonAllowMutate(

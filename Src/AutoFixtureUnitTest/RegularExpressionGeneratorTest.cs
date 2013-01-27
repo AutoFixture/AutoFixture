@@ -119,6 +119,8 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return new object[] { @"^[a-zA-Z''-'\s]{1,40}$" };
                 yield return new object[] { @"^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$" };
                 yield return new object[] { @"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$" };
+                yield return new object[] { @"\d{8}" };
+                yield return new object[] { @"\d{5}(-\d{4})?" };
             }
 
             IEnumerator IEnumerable.GetEnumerator()
