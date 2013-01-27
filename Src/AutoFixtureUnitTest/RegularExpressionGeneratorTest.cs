@@ -121,6 +121,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return new object[] { @"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$" };
                 yield return new object[] { @"\d{8}" };
                 yield return new object[] { @"\d{5}(-\d{4})?" };
+                yield return new object[] { @"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}" };
             }
 
             IEnumerator IEnumerable.GetEnumerator()
