@@ -7,8 +7,8 @@ namespace Ploeh.AutoFixture
     /// Creates random <see cref="DateTime"/> specimens.
     /// </summary>
     /// <remarks>
-    /// The generated <see cref="DateTime"/> values will be between
-    /// <see cref="DateTime.MinValue"/> and <see cref="DateTime.MaxValue"/>
+    /// The generated <see cref="DateTime"/> values will be within
+    /// a range of ± two years from today's date,
     /// unless a different range has been specified in the constructor.
     /// </remarks>
     public class RandomDateTimeSequenceGenerator : ISpecimenBuilder
@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixture
         /// Initializes a new instance of the <see cref="RandomDateTimeSequenceGenerator"/> class.
         /// </summary>
         public RandomDateTimeSequenceGenerator()
-            : this(DateTime.MinValue, DateTime.MaxValue)
+            : this(DateTime.Today.AddYears(-2), DateTime.Today.AddYears(2))
         {
         }
 
