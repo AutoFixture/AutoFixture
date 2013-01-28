@@ -115,19 +115,6 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithDateTimeRequestDoesNotReturnTodaysDate()
-        {
-            // Fixture setup
-            var sut = new RandomDateTimeSequenceGenerator();
-            // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = (DateTime)sut.Create(typeof(DateTime), dummyContainer);
-            // Verify outcome
-            Assert.NotEqual(DateTime.Today, result.Date);
-            // Teardown
-        }
-
-        [Fact]
         public void CreateWithDateTimeRequestReturnsADateWithinARangeOfPlusMinusTwoYearsFromToday()
         {
             // Fixture setup
