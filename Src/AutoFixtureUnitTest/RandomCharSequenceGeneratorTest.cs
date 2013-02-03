@@ -152,27 +152,5 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(expected, result);
             // Teardown
         }
-
-        [Fact]
-        public void CreateReturnsPrintableCharsInRandomOrderOnMultipleCall()
-        {
-            // Fixture setup
-            int printableCharactersCount = 94;
-            char c = '!';
-            var expected = Enumerable
-                .Range(1, printableCharactersCount)
-                .Select(x => c++)
-                .Cast<char>();
-            var dummyContext = new DelegatingSpecimenContext();
-            var sut = new RandomCharSequenceGenerator();
-            // Exercise system
-            var result = Enumerable
-                .Range(1, printableCharactersCount)
-                .Select(x => sut.Create(typeof(char), dummyContext))
-                .Cast<char>();
-            // Verify outcome
-            Assert.False(expected.SequenceEqual(result));
-            // Teardown
-        }
     }
 }
