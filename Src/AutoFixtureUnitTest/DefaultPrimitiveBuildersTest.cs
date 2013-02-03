@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     typeof(ConstrainedStringGenerator),
                     typeof(StringSeedRelay),
                     typeof(RandomNumericSequenceGenerator),
-                    typeof(CharSequenceGenerator),
+                    typeof(RandomCharSequenceGenerator),
                     typeof(UriGenerator),
                     typeof(UriSchemeGenerator),
                     typeof(RangedNumberGenerator),
