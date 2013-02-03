@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
 
             return Convert.ToChar(
-                this.randomPrintableCharNumbers.Create(typeof(long), context));
+                this.randomPrintableCharNumbers.Create(typeof(int), context));
         }
     }
 }
