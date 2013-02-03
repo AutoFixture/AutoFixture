@@ -1,5 +1,6 @@
 ﻿using Ploeh.AutoFixture.Kernel;
 using System;
+using System.Globalization;
 
 namespace Ploeh.AutoFixture
 {
@@ -37,7 +38,8 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
 
             return Convert.ToChar(
-                this.randomPrintableCharNumbers.Create(typeof(int), context));
+                this.randomPrintableCharNumbers.Create(typeof(int), context),
+                CultureInfo.CurrentCulture);
         }
     }
 }
