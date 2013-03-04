@@ -122,6 +122,12 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return new object[] { @"\d{8}" };
                 yield return new object[] { @"\d{5}(-\d{4})?" };
                 yield return new object[] { @"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}" };
+                yield return new object[] { @"^(?:[a-z0-9])+$" };
+                yield return new object[] { @"^(?i:[a-z0-9])+$" };
+                yield return new object[] { @"^(?s:[a-z0-9])+$" };
+                yield return new object[] { @"^(?m:[a-z0-9])+$" };
+                yield return new object[] { @"^(?n:[a-z0-9])+$" };
+                yield return new object[] { @"^(?x:[a-z0-9])+$" };
             }
 
             IEnumerator IEnumerable.GetEnumerator()
