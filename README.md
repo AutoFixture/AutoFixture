@@ -58,8 +58,14 @@ AutoFixture is available via NuGet:
 * [AutoFixture.Idioms](http://nuget.org/packages/AutoFixture.Idioms)
 * [SemanticComparison](http://nuget.org/packages/SemanticComparison)
 
-## Resources ##
+## Documentation ##
 
-[CheatSheet](https://github.com/AutoFixture/AutoFixture/wiki/Cheat-Sheet)  
-[FAQ](https://github.com/AutoFixture/AutoFixture/wiki/FAQ)  
-Read more on [ploeh blog](http://blog.ploeh.dk/CategoryView,category,AutoFixture.aspx).
+* [CheatSheet](https://github.com/AutoFixture/AutoFixture/wiki/Cheat-Sheet)
+* [FAQ](https://github.com/AutoFixture/AutoFixture/wiki/FAQ)
+
+## Additional resources ##
+
+* [ploeh blog](http://blog.ploeh.dk/tags.html#AutoFixture-ref)
+* [Nikos Baxevanis' blog](http://nikosbaxevanis.com/categories/AutoFixture)
+* [Enrico Campidoglio's blog] (http://megakemp.com/tag/autofixture)
+* [Questions on Stack Overflow](http://stackoverflow.com/questions/tagged/autofixture)
