@@ -14,20 +14,22 @@ When writing unit tests, you typically need to create some objects that represen
 
 AutoFixture can help by creating such [Anonymous Variables](http://blogs.msdn.com/ploeh/archive/2008/11/17/anonymous-variables.aspx) for you. Here's a simple example:
 
-    [TestMethod]
-    public void IntroductoryTest()
-    {
-        // Fixture setup
-        Fixture fixture = new Fixture();
+```csharp
+[TestMethod]
+public void IntroductoryTest()
+{
+    // Fixture setup
+    Fixture fixture = new Fixture();
 
-        int expectedNumber = fixture.CreateAnonymous<int>();
-        MyClass sut = fixture.CreateAnonymous<MyClass>();
-        // Exercise system
-        int result = sut.Echo(expectedNumber);
-        // Verify outcome
-        Assert.AreEqual<int>(expectedNumber, result, "Echo");
-        // Teardown
-    }
+    int expectedNumber = fixture.CreateAnonymous<int>();
+    MyClass sut = fixture.CreateAnonymous<MyClass>();
+    // Exercise system
+    int result = sut.Echo(expectedNumber);
+    // Verify outcome
+    Assert.AreEqual<int>(expectedNumber, result, "Echo");
+    // Teardown
+}
+```
 
 This example illustrates the basic principle of AutoFixture: It can create values of virtually any type without the need for you to explicitly define which values should be used. The number *expectedNumber* is created by a call to CreateAnonymous<T> - this will create a 'nice', regular integer value, saving you the effort of explicitly coming up with one.
 
@@ -35,13 +37,15 @@ The example also illustrates how AutoFixture can be used as a [SUT Factory](http
 
 Given the right combination of unit testing framework and extensions for AutoFixture, we can [further reduce the above test to be even more declarative](http://blog.ploeh.dk/2010/10/08/AutoDataTheoriesWithAutoFixture.aspx):
 
-    [Theory, AutoData]
-    public void IntroductoryTest(
-        int expectedNumber, MyClass sut)
-    {
-        int result = sut.Echo(expectedNumber);
-        Assert.Equal(expectedNumber, result);
-    }
+```csharp
+[Theory, AutoData]
+public void IntroductoryTest(
+    int expectedNumber, MyClass sut)
+{
+    int result = sut.Echo(expectedNumber);
+    Assert.Equal(expectedNumber, result);
+}
+```
 
 Notice how we can reduce unit tests to state only the relevant parts of the test. The rest (variables, Fixture object) is relegated to attributes and parameter values that are supplied automatically by AutoFixture. The test is now only two lines of code.
 
