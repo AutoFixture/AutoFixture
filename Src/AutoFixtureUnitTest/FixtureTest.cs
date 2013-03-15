@@ -237,6 +237,18 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousCompatibilityExtensionWillCreateSimpleObject()
+        {
+            // Fixture setup
+            Fixture sut = new Fixture();
+            // Exercise system
+            object result = sut.CreateAnonymous<object>();
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateUnregisteredAbstractTypeWillThrow()
         {
             // Fixture setup
