@@ -98,6 +98,7 @@
     <Compile Include="BehaviorRoot.cs" />
     <Compile Include="CharSequenceGenerator.cs" />
     <Compile Include="CollectionFiller.cs" />
+    <Compile Include="CompatibilityExtensions.cs" />
     <Compile Include="CompositeCustomization.cs" />
     <Compile Include="ConstrainedStringGenerator.cs" />
     <Compile Include="CurrentDateTimeCustomization.cs" />
