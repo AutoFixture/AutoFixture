@@ -242,7 +242,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             Fixture sut = new Fixture();
             // Exercise system
+#pragma warning disable 618
             object result = sut.CreateAnonymous<object>();
+#pragma warning restore 618
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
