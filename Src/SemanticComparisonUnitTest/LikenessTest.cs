@@ -1340,6 +1340,26 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void ProxyAndLikenessHaveSameBehavior()
+        {
+            // Fixture setup
+            var original = new ConcreteType
+            {
+                 Property1 = "value1",
+                 Property2 = "value2"
+            };
+
+            var sut = original.AsSource().OfLikeness<ConcreteType>()
+                .Without(x => x.Property1);
+            // Exercise system
+            var result = sut.CreateProxy().Equals(original);
+            // Verify outcome
+            var expected = sut.Equals(original);
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
         private static void CompareLikenessToObject<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup

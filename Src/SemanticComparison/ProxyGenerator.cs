@@ -20,10 +20,11 @@ namespace Ploeh.SemanticComparison
             ProxyGenerator.BuildConstructors<TDestination>(proxyType.Constructor, builder, equals);
             ProxyGenerator.BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
             ProxyGenerator.BuildMethodGetHashCode<TDestination>(builder);
-
-            var constructorArguments = proxyType.Parameters.Concat(new[] { comparer });
             
-            return (TDestination)Activator.CreateInstance(builder.CreateType(), constructorArguments.ToArray());
+            return ProxyGenerator.Map<TDestination>(
+                source,
+                builder.CreateType(),
+                proxyType.Parameters.Concat(new[] { comparer }).ToArray());
         }
 
         private static AssemblyBuilder BuildAssembly(string name)
@@ -312,6 +313,41 @@ namespace Ploeh.SemanticComparison
         {
             return from t in types
                    select sequence.First(x => t.IsAssignableFrom(x.GetType()));
+        }
+
+        private static TDestination Map<TDestination>(
+            object source,
+            Type proxyType,
+            object[] arguments)
+        {
+            object destination = Activator.CreateInstance(proxyType, arguments);
+
+            Type sourceType = source.GetType();
+            Type targetType = typeof(TDestination);
+
+            while (targetType != null)
+            {
+                var fields =
+                    targetType
+                        .GetFields(
+                            BindingFlags.Public |
+                            BindingFlags.Instance |
+                            BindingFlags.NonPublic)
+                        .Intersect(
+                            sourceType
+                                .GetFields(
+                                    BindingFlags.Public |
+                                    BindingFlags.Instance |
+                                    BindingFlags.NonPublic));
+
+                foreach (var field in fields)
+                    field.SetValue(destination, field.GetValue(source));
+
+                targetType = targetType.BaseType;
+                sourceType = sourceType.BaseType;
+            }
+
+            return (TDestination)destination;
         }
     }
 }
