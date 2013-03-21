@@ -320,34 +320,51 @@ namespace Ploeh.SemanticComparison
             Type proxyType,
             object[] arguments)
         {
-            object destination = Activator.CreateInstance(proxyType, arguments);
-
             Type sourceType = source.GetType();
             Type targetType = typeof(TDestination);
 
+            object destination = Activator.CreateInstance(proxyType, arguments);
             while (targetType != null)
             {
-                var fields =
-                    targetType
-                        .GetFields(
-                            BindingFlags.Public |
-                            BindingFlags.Instance |
-                            BindingFlags.NonPublic)
-                        .Intersect(
-                            sourceType
-                                .GetFields(
-                                    BindingFlags.Public |
-                                    BindingFlags.Instance |
-                                    BindingFlags.NonPublic));
+                var sourceFields = 
+                    sourceType.GetFields(
+                        BindingFlags.Public | 
+                        BindingFlags.Instance | 
+                        BindingFlags.NonPublic);
 
-                foreach (var field in fields)
-                    field.SetValue(destination, field.GetValue(source));
+                var targetFields = 
+                    targetType.GetFields(
+                        BindingFlags.Public |
+                        BindingFlags.Instance | 
+                        BindingFlags.NonPublic);
+
+                var intersectingFields = from s in sourceFields
+                                         from t in targetFields
+                                         where s.Match(t)
+                                         select t;
+
+                foreach (var targetField in intersectingFields)
+                {
+                    var sourceField = sourceFields
+                        .FirstOrDefault(s => s.Match(targetField));
+                    if (sourceField != null)
+                        targetField.SetValue(
+                            destination,
+                            sourceField.GetValue(source));
+                }
 
                 targetType = targetType.BaseType;
                 sourceType = sourceType.BaseType;
             }
 
             return (TDestination)destination;
+        }
+
+        private static bool Match(this FieldInfo s, FieldInfo t)
+        {
+            return (s.Name.Contains(t.Name)
+                 || t.Name.Contains(s.Name))
+                 && s.FieldType == t.FieldType;
         }
     }
 }

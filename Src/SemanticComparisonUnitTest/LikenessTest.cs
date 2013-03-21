@@ -1360,6 +1360,36 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void ProxyCanCorrectlyAssignsFieldValues()
+        {
+            // Fixture setup
+            var expected = 3;
+            var value = new FieldHolder<int>() { Field = expected };
+            var sut = value.AsSource().OfLikeness<FieldHolder<int>>()
+                .CreateProxy();
+            // Exercise system
+            var result = sut.Field;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyCanCorrectlyAssignFieldValuesFromAnonymousType()
+        {
+            // Fixture setup
+            var expected = 3.0;
+            var value = new { Field = expected };
+            var sut = value.AsSource().OfLikeness<FieldHolder<double>>()
+                .CreateProxy();
+            // Exercise system
+            var result = sut.Field;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
         private static void CompareLikenessToObject<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup
