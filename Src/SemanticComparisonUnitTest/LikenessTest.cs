@@ -942,10 +942,6 @@ namespace Ploeh.SemanticComparison.UnitTest
             other.Property5 = "ploeh";
 
             var sut = other.AsSource().OfLikeness<AbstractType>().CreateProxy();
-            sut.Property1 = other.Property1;
-            sut.Property2 = other.Property2;
-            sut.Property3 = other.Property3;
-            sut.Property4 = other.Property4;
             
             // Exercise system
             var result = sut.Equals(other);
@@ -962,9 +958,6 @@ namespace Ploeh.SemanticComparison.UnitTest
             other.Property4 = "ploeh";
 
             var sut = other.AsSource().OfLikeness<AbstractType>().CreateProxy();
-            sut.Property1 = other.Property1;
-            sut.Property2 = other.Property2;
-            sut.Property3 = other.Property3;
             sut.Property4 = "Fnaah";
 
             // Exercise system
@@ -1097,10 +1090,6 @@ namespace Ploeh.SemanticComparison.UnitTest
             var sut = other.AsSource().OfLikeness<ConcreteType>()
                 .Without(x => x.Property5)
                 .CreateProxy();
-            sut.Property1 = other.Property1;
-            sut.Property2 = other.Property2;
-            sut.Property3 = other.Property3;
-            sut.Property4 = other.Property4;
             sut.Property5 = "Fnaah";
             // Exercise system
             var result = sut.Equals(other);
@@ -1120,9 +1109,6 @@ namespace Ploeh.SemanticComparison.UnitTest
                 .Without(x => x.Property5).Without(x => x.Property1)
                 .CreateProxy();
             sut.Property1 = "Ndøh";
-            sut.Property2 = value.Property2;
-            sut.Property3 = value.Property3;
-            sut.Property4 = value.Property4;
             sut.Property5 = "Sqryt";
             // Exercise system
             var result = sut.Equals(value);
@@ -1139,8 +1125,6 @@ namespace Ploeh.SemanticComparison.UnitTest
 
             var sut = value.AsSource().OfLikeness<DoublePropertyHolder<object, object>>()
                 .CreateProxy();
-            sut.Property1 = value.Property1;
-            sut.Property2 = value.Property2;
             // Exercise system
             var result = sut.Equals(value);
             // Verify outcome

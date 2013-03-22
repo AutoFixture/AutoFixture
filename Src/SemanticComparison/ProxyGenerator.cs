@@ -323,41 +323,48 @@ namespace Ploeh.SemanticComparison
             Type sourceType = source.GetType();
             Type targetType = typeof(TDestination);
 
+            ISet<FieldInfo> sourceFields = sourceType.FindAllFields();
+            ISet<FieldInfo> targetFields = targetType.FindAllFields();
+
             object destination = Activator.CreateInstance(proxyType, arguments);
-            while (targetType != null)
+            var matchingFields = from s in sourceFields
+                                 from t in targetFields
+                                 where s.Match(t)
+                                 select t;
+            foreach (FieldInfo field in matchingFields)
             {
-                var sourceFields = 
-                    sourceType.GetFields(
-                        BindingFlags.Public | 
-                        BindingFlags.Instance | 
-                        BindingFlags.NonPublic);
-
-                var targetFields = 
-                    targetType.GetFields(
-                        BindingFlags.Public |
-                        BindingFlags.Instance | 
-                        BindingFlags.NonPublic);
-
-                var intersectingFields = from s in sourceFields
-                                         from t in targetFields
-                                         where s.Match(t)
-                                         select t;
-
-                foreach (var targetField in intersectingFields)
-                {
-                    var sourceField = sourceFields
-                        .FirstOrDefault(s => s.Match(targetField));
-                    if (sourceField != null)
-                        targetField.SetValue(
-                            destination,
-                            sourceField.GetValue(source));
-                }
-
-                targetType = targetType.BaseType;
-                sourceType = sourceType.BaseType;
+                var sourceField = sourceFields
+                    .FirstOrDefault(s => s.Match(field));
+                if (sourceField != null)
+                    field.SetValue(
+                        destination,
+                        sourceField.GetValue(source));
             }
 
             return (TDestination)destination;
+        }
+
+        private static ISet<FieldInfo> FindAllFields(this Type t)
+        {
+            var allFields = new HashSet<FieldInfo>();
+            
+            Type type = t;
+            while (type != null)
+            {
+                var fields =
+                    type.GetFields(
+                        BindingFlags.Public |
+                        BindingFlags.Instance |
+                        BindingFlags.NonPublic);
+
+                foreach (FieldInfo field in fields)
+                    if (!allFields.Contains(field))
+                        allFields.Add(field);
+
+                type = type.BaseType;
+            }
+
+            return allFields;
         }
 
         private static bool Match(this FieldInfo s, FieldInfo t)
