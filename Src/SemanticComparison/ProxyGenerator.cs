@@ -20,11 +20,16 @@ namespace Ploeh.SemanticComparison
             ProxyGenerator.BuildConstructors<TDestination>(proxyType.Constructor, builder, equals);
             ProxyGenerator.BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
             ProxyGenerator.BuildMethodGetHashCode<TDestination>(builder);
-            
-            return ProxyGenerator.Map<TDestination>(
-                source,
-                builder.CreateType(),
+
+            Type proxy = builder.CreateType();
+
+            var destination = (TDestination)Activator.CreateInstance(
+                proxy, 
                 proxyType.Parameters.Concat(new[] { comparer }).ToArray());
+
+            ProxyGenerator.Map(source, destination);
+
+            return destination;
         }
 
         private static AssemblyBuilder BuildAssembly(string name)
@@ -315,18 +320,11 @@ namespace Ploeh.SemanticComparison
                    select sequence.First(x => t.IsAssignableFrom(x.GetType()));
         }
 
-        private static TDestination Map<TDestination>(
-            object source,
-            Type proxyType,
-            object[] arguments)
+        private static void Map(object source, object target)
         {
-            Type sourceType = source.GetType();
-            Type targetType = typeof(TDestination);
+            ISet<FieldInfo> sourceFields = source.GetType().FindAllFields();
+            ISet<FieldInfo> targetFields = target.GetType().FindAllFields();
 
-            ISet<FieldInfo> sourceFields = sourceType.FindAllFields();
-            ISet<FieldInfo> targetFields = targetType.FindAllFields();
-
-            object destination = Activator.CreateInstance(proxyType, arguments);
             var matchingFields = from s in sourceFields
                                  from t in targetFields
                                  where s.Match(t)
@@ -337,11 +335,9 @@ namespace Ploeh.SemanticComparison
                     .FirstOrDefault(s => s.Match(field));
                 if (sourceField != null)
                     field.SetValue(
-                        destination,
+                        target,
                         sourceField.GetValue(source));
             }
-
-            return (TDestination)destination;
         }
 
         private static ISet<FieldInfo> FindAllFields(this Type t)
