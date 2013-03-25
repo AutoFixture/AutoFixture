@@ -1330,16 +1330,17 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Fixture setup
             var original = new ConcreteType
             {
-                 Property1 = "value1",
-                 Property2 = "value2"
+                Property1 = "value1",
+                Property2 = "value2"
             };
 
-            var sut = original.AsSource().OfLikeness<ConcreteType>()
+            var likeness = original.AsSource().OfLikeness<ConcreteType>()
                 .Without(x => x.Property1);
+            var expected = likeness.Equals(original);
+            var sut = likeness.CreateProxy();
             // Exercise system
-            var result = sut.CreateProxy().Equals(original);
+            var result = sut.Equals(original);
             // Verify outcome
-            var expected = sut.Equals(original);
             Assert.Equal(expected, result);
             // Teardown
         }
@@ -1349,7 +1350,9 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             var expected = 3;
-            var value = new FieldHolder<int>() { Field = expected };
+            var value = new FieldHolder<int>();
+            value.Field = expected;
+
             var sut = value.AsSource().OfLikeness<FieldHolder<int>>()
                 .CreateProxy();
             // Exercise system
@@ -1362,21 +1365,23 @@ namespace Ploeh.SemanticComparison.UnitTest
         [Fact]
         public void ProxyCanCorrectlyAssignsFieldValuesToTypeWithPublicFieldsAndProperties()
         {
+            // Fixture setup
             var value = new TypeWithPublicFieldsAndProperties();
             value.AutomaticProperty = 1m;
             value.Field = "2";
             value.Number = 3;
-            
+
             var sut = value.AsSource()
                 .OfLikeness<TypeWithPublicFieldsAndProperties>()
                 .CreateProxy();
-
-            var result = 
+            // Exercise system
+            var result =
                    value.AutomaticProperty == sut.AutomaticProperty
-                && value.Field  == sut.Field
+                && value.Field == sut.Field
                 && value.Number == sut.Number;
-
+            // Verify outcome
             Assert.True(result);
+            // Teardown
         }
 
         [Fact]
@@ -1410,7 +1415,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var result = 
                    value.AutomaticProperty == sut.AutomaticProperty 
-                && value.Field  == sut.Field 
+                && value.Field == sut.Field 
                 && value.Number == sut.Number;
             // Verify outcome
             Assert.True(result);
