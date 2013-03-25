@@ -323,18 +323,21 @@ namespace Ploeh.SemanticComparison
         private static void Map(object source, object target)
         {
             ISet<FieldInfo> sourceFields = source.GetType().FindAllFields();
-            ISet<FieldInfo> targetFields = target.GetType().FindAllFields();
+            ISet<FieldInfo> targetFields = target.GetType().BaseType.FindAllFields();
 
-            var matchingFields = from s in sourceFields
-                                 from t in targetFields
-                                 where s.Match(t)
-                                 select t;
-            foreach (FieldInfo field in matchingFields)
+            var matchedTargetFields =
+                (from s in sourceFields
+                 from t in targetFields
+                 where s.Match(t)
+                 select t)
+                 .ToArray();
+
+            foreach (FieldInfo fi in matchedTargetFields)
             {
                 var sourceField = sourceFields
-                    .FirstOrDefault(s => s.Match(field));
+                    .FirstOrDefault(s => s.Match(fi));
                 if (sourceField != null)
-                    field.SetValue(
+                    fi.SetValue(
                         target,
                         sourceField.GetValue(source));
             }
@@ -363,11 +366,28 @@ namespace Ploeh.SemanticComparison
             return allFields;
         }
 
-        private static bool Match(this FieldInfo s, FieldInfo t)
+        private static bool Match(this FieldInfo source, FieldInfo target)
         {
-            return (s.Name.Contains(t.Name)
-                 || t.Name.Contains(s.Name))
-                 && s.FieldType == t.FieldType;
+            var sourceName = ProxyGenerator
+                .TrimCompilerGeneratedText(source.Name)
+                .ToUpperInvariant();
+            
+            var targerName = ProxyGenerator
+                .TrimCompilerGeneratedText(target.Name)
+                .ToUpperInvariant();
+
+            return (sourceName.Contains(targerName)
+                 || targerName.Contains(sourceName))
+                 && source.FieldType == target.FieldType;
+        }
+
+        private static string TrimCompilerGeneratedText(string s)
+        {
+            return s
+                .Replace("i__Field", null)
+                .Replace("<", null)
+                .Replace(">", null)
+                .Replace("k__BackingField", null);
         }
     }
 }

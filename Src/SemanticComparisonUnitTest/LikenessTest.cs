@@ -1360,6 +1360,26 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
+        public void ProxyCanCorrectlyAssignsFieldValuesToTypeWithPublicFieldsAndProperties()
+        {
+            var value = new TypeWithPublicFieldsAndProperties();
+            value.AutomaticProperty = 1m;
+            value.Field = "2";
+            value.Number = 3;
+            
+            var sut = value.AsSource()
+                .OfLikeness<TypeWithPublicFieldsAndProperties>()
+                .CreateProxy();
+
+            var result = 
+                   value.AutomaticProperty == sut.AutomaticProperty
+                && value.Field  == sut.Field
+                && value.Number == sut.Number;
+
+            Assert.True(result);
+        }
+
+        [Fact]
         public void ProxyCanCorrectlyAssignFieldValuesFromAnonymousType()
         {
             // Fixture setup
@@ -1371,6 +1391,29 @@ namespace Ploeh.SemanticComparison.UnitTest
             var result = sut.Field;
             // Verify outcome
             Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyCanCorrectlyAssignFieldValuesFromAnonymousTypeToTypeWithPublicFieldsAndProperties()
+        {
+            // Fixture setup
+            var value = new
+            {
+                AutomaticProperty = 1m,
+                Field = "2",
+                Number = long.MaxValue
+            };
+            var sut = value.AsSource()
+                .OfLikeness<TypeWithPublicFieldsAndProperties>()
+                .CreateProxy();
+            // Exercise system
+            var result = 
+                   value.AutomaticProperty == sut.AutomaticProperty 
+                && value.Field  == sut.Field 
+                && value.Number == sut.Number;
+            // Verify outcome
+            Assert.True(result);
             // Teardown
         }
 
@@ -1580,6 +1623,21 @@ namespace Ploeh.SemanticComparison.UnitTest
             {
                 get { return this.value2; }
             }
+        }
+
+        public class TypeWithPublicFieldsAndProperties
+        {
+            public string Field;
+
+            private long number;
+
+            public long Number
+            {
+                get { return this.number; }
+                set { this.number = value; }
+            }
+
+            public decimal AutomaticProperty { get; set; }
         }
     }
 }
