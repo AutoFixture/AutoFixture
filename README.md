@@ -21,8 +21,8 @@ public void IntroductoryTest()
     // Fixture setup
     Fixture fixture = new Fixture();
 
-    int expectedNumber = fixture.CreateAnonymous<int>();
-    MyClass sut = fixture.CreateAnonymous<MyClass>();
+    int expectedNumber = fixture.Create<int>();
+    MyClass sut = fixture.Create<MyClass>();
     // Exercise system
     int result = sut.Echo(expectedNumber);
     // Verify outcome
