@@ -942,10 +942,6 @@ namespace Ploeh.SemanticComparison.UnitTest
             other.Property5 = "ploeh";
 
             var sut = other.AsSource().OfLikeness<AbstractType>().CreateProxy();
-            sut.Property1 = other.Property1;
-            sut.Property2 = other.Property2;
-            sut.Property3 = other.Property3;
-            sut.Property4 = other.Property4;
             
             // Exercise system
             var result = sut.Equals(other);
@@ -962,9 +958,6 @@ namespace Ploeh.SemanticComparison.UnitTest
             other.Property4 = "ploeh";
 
             var sut = other.AsSource().OfLikeness<AbstractType>().CreateProxy();
-            sut.Property1 = other.Property1;
-            sut.Property2 = other.Property2;
-            sut.Property3 = other.Property3;
             sut.Property4 = "Fnaah";
 
             // Exercise system
@@ -1097,10 +1090,6 @@ namespace Ploeh.SemanticComparison.UnitTest
             var sut = other.AsSource().OfLikeness<ConcreteType>()
                 .Without(x => x.Property5)
                 .CreateProxy();
-            sut.Property1 = other.Property1;
-            sut.Property2 = other.Property2;
-            sut.Property3 = other.Property3;
-            sut.Property4 = other.Property4;
             sut.Property5 = "Fnaah";
             // Exercise system
             var result = sut.Equals(other);
@@ -1120,9 +1109,6 @@ namespace Ploeh.SemanticComparison.UnitTest
                 .Without(x => x.Property5).Without(x => x.Property1)
                 .CreateProxy();
             sut.Property1 = "Ndøh";
-            sut.Property2 = value.Property2;
-            sut.Property3 = value.Property3;
-            sut.Property4 = value.Property4;
             sut.Property5 = "Sqryt";
             // Exercise system
             var result = sut.Equals(value);
@@ -1139,8 +1125,6 @@ namespace Ploeh.SemanticComparison.UnitTest
 
             var sut = value.AsSource().OfLikeness<DoublePropertyHolder<object, object>>()
                 .CreateProxy();
-            sut.Property1 = value.Property1;
-            sut.Property2 = value.Property2;
             // Exercise system
             var result = sut.Equals(value);
             // Verify outcome
@@ -1337,6 +1321,104 @@ namespace Ploeh.SemanticComparison.UnitTest
             var result = sut.CreateProxy();
             // Verify outcome
             Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyAndLikenessHaveSameBehavior()
+        {
+            // Fixture setup
+            var original = new ConcreteType
+            {
+                Property1 = "value1",
+                Property2 = "value2"
+            };
+
+            var likeness = original.AsSource().OfLikeness<ConcreteType>()
+                .Without(x => x.Property1);
+            var expected = likeness.Equals(original);
+            var sut = likeness.CreateProxy();
+            // Exercise system
+            var result = sut.Equals(original);
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyCanCorrectlyAssignsFieldValues()
+        {
+            // Fixture setup
+            var expected = 3;
+            var value = new FieldHolder<int>();
+            value.Field = expected;
+
+            var sut = value.AsSource().OfLikeness<FieldHolder<int>>()
+                .CreateProxy();
+            // Exercise system
+            var result = sut.Field;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyCanCorrectlyAssignsFieldValuesToTypeWithPublicFieldsAndProperties()
+        {
+            // Fixture setup
+            var value = new TypeWithPublicFieldsAndProperties();
+            value.AutomaticProperty = 1m;
+            value.Field = "2";
+            value.Number = 3;
+
+            var sut = value.AsSource()
+                .OfLikeness<TypeWithPublicFieldsAndProperties>()
+                .CreateProxy();
+            // Exercise system
+            var result =
+                   value.AutomaticProperty == sut.AutomaticProperty
+                && value.Field == sut.Field
+                && value.Number == sut.Number;
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyCanCorrectlyAssignFieldValuesFromAnonymousType()
+        {
+            // Fixture setup
+            var expected = 3.0;
+            var value = new { Field = expected };
+            var sut = value.AsSource().OfLikeness<FieldHolder<double>>()
+                .CreateProxy();
+            // Exercise system
+            var result = sut.Field;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyCanCorrectlyAssignFieldValuesFromAnonymousTypeToTypeWithPublicFieldsAndProperties()
+        {
+            // Fixture setup
+            var value = new
+            {
+                AutomaticProperty = 1m,
+                Field = "2",
+                Number = long.MaxValue
+            };
+            var sut = value.AsSource()
+                .OfLikeness<TypeWithPublicFieldsAndProperties>()
+                .CreateProxy();
+            // Exercise system
+            var result = 
+                   value.AutomaticProperty == sut.AutomaticProperty 
+                && value.Field == sut.Field 
+                && value.Number == sut.Number;
+            // Verify outcome
+            Assert.True(result);
             // Teardown
         }
 
@@ -1546,6 +1628,21 @@ namespace Ploeh.SemanticComparison.UnitTest
             {
                 get { return this.value2; }
             }
+        }
+
+        public class TypeWithPublicFieldsAndProperties
+        {
+            public string Field;
+
+            private long number;
+
+            public long Number
+            {
+                get { return this.number; }
+                set { this.number = value; }
+            }
+
+            public decimal AutomaticProperty { get; set; }
         }
     }
 }

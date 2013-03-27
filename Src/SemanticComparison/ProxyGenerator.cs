@@ -21,9 +21,15 @@ namespace Ploeh.SemanticComparison
             ProxyGenerator.BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
             ProxyGenerator.BuildMethodGetHashCode<TDestination>(builder);
 
-            var constructorArguments = proxyType.Parameters.Concat(new[] { comparer });
-            
-            return (TDestination)Activator.CreateInstance(builder.CreateType(), constructorArguments.ToArray());
+            Type proxy = builder.CreateType();
+
+            var destination = (TDestination)Activator.CreateInstance(
+                proxy, 
+                proxyType.Parameters.Concat(new[] { comparer }).ToArray());
+
+            ProxyGenerator.Map(source, destination);
+
+            return destination;
         }
 
         private static AssemblyBuilder BuildAssembly(string name)
@@ -312,6 +318,76 @@ namespace Ploeh.SemanticComparison
         {
             return from t in types
                    select sequence.First(x => t.IsAssignableFrom(x.GetType()));
+        }
+
+        private static void Map(object source, object target)
+        {
+            ISet<FieldInfo> sourceFields = source.GetType().FindAllFields();
+            ISet<FieldInfo> targetFields = target.GetType().BaseType.FindAllFields();
+
+            var matchedTargetFields =
+                (from s in sourceFields
+                 from t in targetFields
+                 where s.Match(t)
+                 select t)
+                 .ToArray();
+
+            foreach (FieldInfo fi in matchedTargetFields)
+            {
+                var sourceField = sourceFields
+                    .FirstOrDefault(s => s.Match(fi));
+                if (sourceField != null)
+                    fi.SetValue(
+                        target,
+                        sourceField.GetValue(source));
+            }
+        }
+
+        private static ISet<FieldInfo> FindAllFields(this Type t)
+        {
+            var allFields = new HashSet<FieldInfo>();
+            
+            Type type = t;
+            while (type != null)
+            {
+                var fields =
+                    type.GetFields(
+                        BindingFlags.Public |
+                        BindingFlags.Instance |
+                        BindingFlags.NonPublic);
+
+                foreach (FieldInfo field in fields)
+                    if (!allFields.Contains(field))
+                        allFields.Add(field);
+
+                type = type.BaseType;
+            }
+
+            return allFields;
+        }
+
+        private static bool Match(this FieldInfo source, FieldInfo target)
+        {
+            var sourceName = ProxyGenerator
+                .TrimCompilerGeneratedText(source.Name)
+                .ToUpperInvariant();
+            
+            var targerName = ProxyGenerator
+                .TrimCompilerGeneratedText(target.Name)
+                .ToUpperInvariant();
+
+            return (sourceName.Contains(targerName)
+                 || targerName.Contains(sourceName))
+                 && source.FieldType == target.FieldType;
+        }
+
+        private static string TrimCompilerGeneratedText(string s)
+        {
+            return s
+                .Replace("i__Field", null)
+                .Replace("<", null)
+                .Replace(">", null)
+                .Replace("k__BackingField", null);
         }
     }
 }
