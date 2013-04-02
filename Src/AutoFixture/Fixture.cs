@@ -64,6 +64,16 @@ namespace Ploeh.AutoFixture
                     new CompositeSpecimenBuilder(
                         new CustomizationNode(
                             new CompositeSpecimenBuilder(
+                                new FilteringSpecimenBuilder(
+                                    new FixedBuilder(
+                                        this),
+                                    new OrRequestSpecification(
+                                        new ExactTypeSpecification(
+                                            typeof(Fixture)),
+                                        new ExactTypeSpecification(
+                                            typeof(IFixture)),
+                                        new ExactTypeSpecification(
+                                            typeof(ISpecimenBuilder)))),
                                 new StableFiniteSequenceRelay(),
                                 new FilteringSpecimenBuilder(
                                     new Postprocessor(
@@ -108,10 +118,6 @@ namespace Ploeh.AutoFixture
             this.UpdateBehaviors(new ISpecimenBuilderTransformation[0]);
 
             this.behaviors.Add(new ThrowingRecursionBehavior());
-
-            this.Inject(this);
-            this.Inject<IFixture>(this);
-            this.Inject<ISpecimenBuilder>(this);
         }
 
         /// <summary>
