@@ -53,7 +53,8 @@ namespace Ploeh.AutoFixture
         {
             this.graph = graph;
             this.isAdaptedBuilder = adaptedBuilderPredicate;
-            this.adaptedBuilders = this.graph.SelectNodes(this.IsTarget).Single();
+            this.adaptedBuilders = 
+                this.graph.SelectNodes(this.TargetMemo.IsSpecifiedBy).Single();
         }
 
         /// <summary>
@@ -419,18 +420,39 @@ namespace Ploeh.AutoFixture
 
         private void Mutate(IEnumerable<ISpecimenBuilder> builders)
         {
-            this.graph = this.graph.ReplaceNodes(with: builders, when: this.IsTarget);
-            this.adaptedBuilders = this.graph.SelectNodes(this.IsTarget).Single();
+            this.graph = this.graph.ReplaceNodes(
+                with: builders,
+                when: this.TargetMemo.IsSpecifiedBy);
+            this.adaptedBuilders = 
+                this.graph.SelectNodes(this.TargetMemo.IsSpecifiedBy).Single();
 
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
         }
 
-        private bool IsTarget(ISpecimenBuilderNode n)
+        private TargetSpecification TargetMemo
         {
-            var markerNode = 
-                this.graph.SelectNodes(this.isAdaptedBuilder).Single();
-            var target = (ISpecimenBuilderNode)markerNode.Single();
-            return object.Equals(target, n);
+            get
+            {
+                var markerNode =
+                    this.graph.SelectNodes(this.isAdaptedBuilder).First();
+                var target = (ISpecimenBuilderNode)markerNode.First();
+                return new TargetSpecification(target);
+            }
+        }
+
+        private class TargetSpecification
+        {
+            private readonly ISpecimenBuilderNode target;
+
+            public TargetSpecification(ISpecimenBuilderNode target)
+            {
+                this.target = target;
+            }
+
+            public bool IsSpecifiedBy(ISpecimenBuilderNode n)
+            {
+                return object.Equals(this.target, n);
+            }
         }
     }
 }
