@@ -284,7 +284,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system
-            var mc = fixture.Build<MyClass>().CreateAnonymous();
+            var mc = fixture.Build<MyClass>().Create();
             // Verify outcome
             Assert.NotNull(mc);
             // Teardown
@@ -324,7 +324,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             var mc = fixture.Build<MyClass>()
                 .With(x => x.MyText, "Ploeh")
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             string result = mc.MyText;
             Assert.Equal<string>("Ploeh", result);
@@ -354,7 +354,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             var f = fixture.Build<Filter>()
                 .With(s => s.Max, max)
                 .With(s => s.Min, min)
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.Equal<int>(min, f.Min);
             Assert.Equal<int>(max, f.Max);
@@ -404,7 +404,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             var imp = fixture.Build<SomeImp>()
                 .Do(s => s.Initialize(new MyClass()))
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.NotNull(imp.TransformedMessage);
             // Teardown

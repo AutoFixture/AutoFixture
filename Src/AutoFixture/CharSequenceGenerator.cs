@@ -33,10 +33,10 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            return this.CreateAnonymous();
+            return this.Create();
         }
 
-        private char CreateAnonymous()
+        private char Create()
         {
             lock (this.syncRoot)
             {

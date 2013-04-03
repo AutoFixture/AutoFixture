@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
             var fixture = new Fixture();
             var person = fixture.Build<Person>()
                 .Without(p => p.Spouse)
-                .CreateAnonymous();
+                .Create();
 
             Assert.NotNull(person);
         }
@@ -37,8 +37,8 @@ namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
         {
             // Fixture setup
             var fixture = new Fixture();
-            var person = fixture.Build<Person>().Without(p => p.Spouse).CreateAnonymous();
-            var sut = fixture.Build<Person>().Without(p => p.Spouse).CreateAnonymous();
+            var person = fixture.Build<Person>().Without(p => p.Spouse).Create();
+            var sut = fixture.Build<Person>().Without(p => p.Spouse).Create();
             // Exercise system
             sut.Spouse = person;
             // Verify outcome

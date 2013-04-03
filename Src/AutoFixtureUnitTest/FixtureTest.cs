@@ -243,7 +243,7 @@ namespace Ploeh.AutoFixtureUnitTest
             Fixture sut = new Fixture();
             // Exercise system
 #pragma warning disable 618
-            object result = sut.CreateAnonymous<object>();
+            object result = sut.Create<object>();
 #pragma warning restore 618
             // Verify outcome
             Assert.NotNull(result);
@@ -2502,7 +2502,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
                 .FromFactory((PropertyHolder<string> ph) => new SingleParameterType<PropertyHolder<string>>(ph))
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.Equal<string>(expectedText, result.Parameter.Property);
             // Teardown
@@ -2518,7 +2518,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
                 .FromFactory((PropertyHolder<string> ph, object dummy) => new SingleParameterType<PropertyHolder<string>>(ph))
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.Equal<string>(expectedText, result.Parameter.Property);
             // Teardown
@@ -2534,7 +2534,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
                 .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2) => new SingleParameterType<PropertyHolder<string>>(ph))
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.Equal<string>(expectedText, result.Parameter.Property);
             // Teardown
@@ -2550,7 +2550,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Build<SingleParameterType<PropertyHolder<string>>>()
                 .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2, object dummy3) => new SingleParameterType<PropertyHolder<string>>(ph))
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.Equal<string>(expectedText, result.Parameter.Property);
             // Teardown
@@ -2771,7 +2771,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Build<DoublePropertyHolder<object, object>>()
                 .OmitAutoProperties()
                 .With(x => x.Property1)
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.Null(result.Property2);
             // Teardown
@@ -2844,7 +2844,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     new ThrowingRecursionGuard(
                         sut.Build<RecursionTestObjectWithReferenceOutA>()
                     )
-                ).CreateAnonymous<RecursionTestObjectWithReferenceOutA>());
+                ).Create<RecursionTestObjectWithReferenceOutA>());
         }
 
         [Fact]
@@ -2858,7 +2858,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     new ThrowingRecursionGuard(
                         sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
                     )
-                ).CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>());
+                ).Create<RecursionTestObjectWithConstructorReferenceOutA>());
         }
 
         [Fact]
@@ -2871,7 +2871,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 new NullRecursionGuard(
                     sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
                 )
-            ).CreateAnonymous<RecursionTestObjectWithConstructorReferenceOutA>();
+            ).Create<RecursionTestObjectWithConstructorReferenceOutA>();
             // Verify outcome
             Assert.Null(result.ReferenceToB.ReferenceToA);
         }
@@ -2993,7 +2993,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture() { OmitAutoProperties = true };
             // Exercise system
             var builder = sut.Build<PropertyHolder<object>>();
-            PropertyHolder<object> result = builder.CreateAnonymous();
+            PropertyHolder<object> result = builder.Create();
             // Verify outcome
             Assert.Null(result.Property);
             // Teardown
@@ -3067,7 +3067,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             var expectedResult = new object();
             // Exercise system
-            var result = sut.Build<object>().FromSeed(s => expectedResult).CreateAnonymous();
+            var result = sut.Build<object>().FromSeed(s => expectedResult).Create();
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
@@ -3096,7 +3096,7 @@ namespace Ploeh.AutoFixtureUnitTest
             int unexpectedNumber = default(int);
             var sut = new Fixture();
             // Exercise system
-            PropertyHolder<int> result = sut.Build<PropertyHolder<int>>().CreateAnonymous();
+            PropertyHolder<int> result = sut.Build<PropertyHolder<int>>().Create();
             // Verify outcome
             Assert.NotEqual<int>(unexpectedNumber, result.Property);
             // Teardown
@@ -3109,7 +3109,7 @@ namespace Ploeh.AutoFixtureUnitTest
             int unexpectedNumber = default(int);
             var sut = new Fixture();
             // Exercise system
-            FieldHolder<int> result = sut.Build<FieldHolder<int>>().CreateAnonymous();
+            FieldHolder<int> result = sut.Build<FieldHolder<int>>().Create();
             // Verify outcome
             Assert.NotEqual<int>(unexpectedNumber, result.Field);
             // Teardown
@@ -3122,7 +3122,7 @@ namespace Ploeh.AutoFixtureUnitTest
             int expectedNumber = default(int);
             var sut = new Fixture();
             // Exercise system
-            ReadOnlyPropertyHolder<int> result = sut.Build<ReadOnlyPropertyHolder<int>>().CreateAnonymous();
+            ReadOnlyPropertyHolder<int> result = sut.Build<ReadOnlyPropertyHolder<int>>().Create();
             // Verify outcome
             Assert.Equal<int>(expectedNumber, result.Property);
             // Teardown
@@ -3135,7 +3135,7 @@ namespace Ploeh.AutoFixtureUnitTest
             int expectedNumber = default(int);
             var sut = new Fixture();
             // Exercise system
-            ReadOnlyFieldHolder<int> result = sut.Build<ReadOnlyFieldHolder<int>>().CreateAnonymous();
+            ReadOnlyFieldHolder<int> result = sut.Build<ReadOnlyFieldHolder<int>>().Create();
             // Verify outcome
             Assert.Equal<int>(expectedNumber, result.Field);
             // Teardown
@@ -3148,7 +3148,7 @@ namespace Ploeh.AutoFixtureUnitTest
             string expectedText = "Anonymous text";
             var sut = new Fixture();
             // Exercise system
-            PropertyHolder<string> result = sut.Build<PropertyHolder<string>>().With(ph => ph.Property, expectedText).CreateAnonymous();
+            PropertyHolder<string> result = sut.Build<PropertyHolder<string>>().With(ph => ph.Property, expectedText).Create();
             // Verify outcome
             Assert.Equal<string>(expectedText, result.Property);
             // Teardown
@@ -3161,7 +3161,7 @@ namespace Ploeh.AutoFixtureUnitTest
             string expectedText = "Anonymous text";
             var fixture = new Fixture();
             // Exercise system
-            FieldHolder<string> result = fixture.Build<FieldHolder<string>>().With(fh => fh.Field, expectedText).CreateAnonymous();
+            FieldHolder<string> result = fixture.Build<FieldHolder<string>>().With(fh => fh.Field, expectedText).Create();
             // Verify outcome
             Assert.Equal<string>(expectedText, result.Field);
             // Teardown
@@ -3174,7 +3174,7 @@ namespace Ploeh.AutoFixtureUnitTest
             long unexpectedNumber = default(long);
             var sut = new Fixture();
             // Exercise system
-            var result = sut.Build<DoublePropertyHolder<long, long>>().With(ph => ph.Property1).OmitAutoProperties().CreateAnonymous();
+            var result = sut.Build<DoublePropertyHolder<long, long>>().With(ph => ph.Property1).OmitAutoProperties().Create();
             // Verify outcome
             Assert.NotEqual<long>(unexpectedNumber, result.Property1);
             // Teardown
@@ -3187,7 +3187,7 @@ namespace Ploeh.AutoFixtureUnitTest
             int unexpectedNumber = default(int);
             var sut = new Fixture();
             // Exercise system
-            var result = sut.Build<DoubleFieldHolder<int, decimal>>().With(fh => fh.Field1).OmitAutoProperties().CreateAnonymous();
+            var result = sut.Build<DoubleFieldHolder<int, decimal>>().With(fh => fh.Field1).OmitAutoProperties().Create();
             // Verify outcome
             Assert.NotEqual<int>(unexpectedNumber, result.Field1);
             // Teardown
@@ -3199,7 +3199,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            var result = sut.Build<DoublePropertyHolder<string, string>>().Without(ph => ph.Property1).CreateAnonymous();
+            var result = sut.Build<DoublePropertyHolder<string, string>>().Without(ph => ph.Property1).Create();
             // Verify outcome
             Assert.Null(result.Property1);
             // Teardown
@@ -3211,7 +3211,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture() { OmitAutoProperties = true };
             // Exercise system
-            var result = sut.Build<DoublePropertyHolder<string, string>>().WithAutoProperties().Without(ph => ph.Property1).CreateAnonymous();
+            var result = sut.Build<DoublePropertyHolder<string, string>>().WithAutoProperties().Without(ph => ph.Property1).Create();
             // Verify outcome
             Assert.Null(result.Property1);
             // Teardown
@@ -3223,7 +3223,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            var result = sut.Build<DoubleFieldHolder<string, string>>().Without(fh => fh.Field1).CreateAnonymous();
+            var result = sut.Build<DoubleFieldHolder<string, string>>().Without(fh => fh.Field1).Create();
             // Verify outcome
             Assert.Null(result.Field1);
             // Teardown
@@ -3235,7 +3235,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            var result = sut.Build<DoublePropertyHolder<string, string>>().Without(ph => ph.Property1).CreateAnonymous();
+            var result = sut.Build<DoublePropertyHolder<string, string>>().Without(ph => ph.Property1).Create();
             // Verify outcome
             Assert.NotNull(result.Property2);
             // Teardown
@@ -3247,7 +3247,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            var result = sut.Build<DoubleFieldHolder<string, string>>().Without(fh => fh.Field1).CreateAnonymous();
+            var result = sut.Build<DoubleFieldHolder<string, string>>().Without(fh => fh.Field1).Create();
             // Verify outcome
             Assert.NotNull(result.Field2);
             // Teardown
@@ -3259,7 +3259,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            PropertyHolder<object> result = sut.Build<PropertyHolder<object>>().OmitAutoProperties().CreateAnonymous();
+            PropertyHolder<object> result = sut.Build<PropertyHolder<object>>().OmitAutoProperties().Create();
             // Verify outcome
             Assert.Null(result.Property);
             // Teardown
@@ -3271,7 +3271,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture { OmitAutoProperties = true };
             // Exercise system
-            PropertyHolder<object> result = sut.Build<PropertyHolder<object>>().WithAutoProperties().CreateAnonymous();
+            PropertyHolder<object> result = sut.Build<PropertyHolder<object>>().WithAutoProperties().Create();
             // Verify outcome
             Assert.NotNull(result.Property);
             // Teardown
@@ -3284,7 +3284,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             var expectedObject = new object();
             // Exercise system
-            var result = sut.Build<CollectionHolder<object>>().Do(x => x.Collection.Add(expectedObject)).CreateAnonymous().Collection.First();
+            var result = sut.Build<CollectionHolder<object>>().Do(x => x.Collection.Add(expectedObject)).Create().Collection.First();
             // Verify outcome
             Assert.Equal<object>(expectedObject, result);
             // Teardown
@@ -3301,7 +3301,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .With(x => x.Property, 1)
                 .Do(x => x.SetProperty(2))
                 .With(x => x.Property, expectedValue)
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.Equal<int>(expectedValue, result.Property);
             // Teardown
@@ -3323,7 +3323,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             sut.ResidueCollectors.Add(residueCollector);
             // Exercise system
-            sut.Build<PropertyHolder<AbstractType>>().CreateAnonymous();
+            sut.Build<PropertyHolder<AbstractType>>().Create();
             // Verify outcome
             Assert.True(resolveWasInvoked, "Resolve");
             // Teardown
@@ -3343,7 +3343,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             sut.ResidueCollectors.Add(residueCollector);
             // Exercise system
-            sut.Build<PropertyHolder<AbstractType>>().CreateAnonymous();
+            sut.Build<PropertyHolder<AbstractType>>().Create();
             // Verify outcome (done by callback)
             // Teardown
         }
@@ -3360,7 +3360,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             sut.ResidueCollectors.Add(residueCollector);
             // Exercise system
-            var result = sut.Build<PropertyHolder<AbstractType>>().CreateAnonymous().Property;
+            var result = sut.Build<PropertyHolder<AbstractType>>().Create().Property;
             // Verify outcome
             Assert.Equal<AbstractType>(expectedValue, result);
             // Teardown
@@ -3375,7 +3375,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.OmitAutoProperties();
             // Verify outcome
-            var instance = sut.CreateAnonymous();
+            var instance = sut.Create();
             Assert.NotNull(instance.Property);
             // Teardown
         }
@@ -3389,7 +3389,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.WithAutoProperties();
             // Verify outcome
-            var instance = sut.CreateAnonymous();
+            var instance = sut.Create();
             Assert.Null(instance.Property);
             // Teardown
         }
@@ -3403,7 +3403,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.With(s => s.Property);
             // Verify outcome
-            var instance = sut.CreateAnonymous();
+            var instance = sut.Create();
             Assert.Null(instance.Property);
             // Teardown
         }
@@ -3418,7 +3418,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.With(s => s.Property, unexpectedProperty);
             // Verify outcome
-            var instance = sut.CreateAnonymous();
+            var instance = sut.Create();
             Assert.NotEqual(unexpectedProperty, instance.Property);
             // Teardown
         }
@@ -3432,7 +3432,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Without(s => s.Property);
             // Verify outcome
-            var instance = sut.CreateAnonymous();
+            var instance = sut.Create();
             Assert.NotNull(instance.Property);
             // Teardown
         }
@@ -3444,7 +3444,7 @@ namespace Ploeh.AutoFixtureUnitTest
             object expectedObject = new object();
             var sut = new Fixture();
             // Exercise system
-            object result = sut.Build<object>().FromSeed(seed => expectedObject).CreateAnonymous();
+            object result = sut.Build<object>().FromSeed(seed => expectedObject).Create();
             // Verify outcome
             Assert.Equal<object>(expectedObject, result);
             // Teardown
@@ -3525,7 +3525,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            object result = sut.Build<object>().CreateAnonymous();
+            object result = sut.Build<object>().Create();
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
@@ -3540,7 +3540,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Build<object>()
                 .FromFactory(() => expectedObject)
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.Equal<object>(expectedObject, result);
             // Teardown
@@ -3555,7 +3555,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Build<SingleParameterType<object>>()
                 .FromFactory<object>(obj => expectedObject)
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.Equal<SingleParameterType<object>>(expectedObject, result);
             // Teardown
@@ -3570,7 +3570,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Build<DoubleParameterType<object, object>>()
                 .FromFactory<object, object>((o1, o2) => expectedObject)
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.Equal<DoubleParameterType<object, object>>(expectedObject, result);
             // Teardown
@@ -3585,7 +3585,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Build<TripleParameterType<object, object, object>>()
                 .FromFactory<object, object, object>((o1, o2, o3) => expectedObject)
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.Equal<TripleParameterType<object, object, object>>(expectedObject, result);
             // Teardown
@@ -3600,7 +3600,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Build<QuadrupleParameterType<object, object, object, object>>()
                 .FromFactory<object, object, object, object>((o1, o2, o3, o4) => expectedObject)
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.Equal<QuadrupleParameterType<object, object, object, object>>(expectedObject, result);
             // Teardown
@@ -3614,7 +3614,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Build<PropertyHolder<string>>()
                 .FromFactory(() => new PropertyHolder<string>())
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.NotNull(result.Property);
             // Teardown
@@ -3627,7 +3627,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             sut.Customize<PropertyHolder<object>>(c => c.FromFactory(() => new PropertyHolder<object>()));
             // Exercise system
-            var result = sut.Build<PropertyHolder<object>>().OmitAutoProperties().CreateAnonymous();
+            var result = sut.Build<PropertyHolder<object>>().OmitAutoProperties().Create();
             // Verify outcome
             Assert.Null(result.Property);
             // Teardown
@@ -3674,7 +3674,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             // Exercise system and verify outcome
             Assert.Throws<ObjectCreationException>(() =>
-                sut.Build<AbstractType>().CreateAnonymous());
+                sut.Build<AbstractType>().Create());
             // Teardown
         }
 
@@ -3684,7 +3684,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            var result = sut.Build<AbstractType>().FromFactory(() => new ConcreteType()).CreateAnonymous();
+            var result = sut.Build<AbstractType>().FromFactory(() => new ConcreteType()).Create();
             // Verify outcome
             Assert.IsAssignableFrom<ConcreteType>(result);
             // Teardown
@@ -3697,7 +3697,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new ConcreteType() };
             // Exercise system
-            var result = sut.Build<AbstractType>().FromFactory(builder).CreateAnonymous();
+            var result = sut.Build<AbstractType>().FromFactory(builder).Create();
             // Verify outcome
             Assert.IsAssignableFrom<ConcreteType>(result);
             // Teardown
@@ -3713,7 +3713,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Build<AbstractType>()
                 .FromFactory(() => new ConcreteType())
                 .With(x => x.Property1, expected)
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.Equal(expected, result.Property1);
             // Teardown
@@ -3726,7 +3726,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             sut.Register(() => (string)null);
             // Exercise system
-            var result = sut.Build<PropertyHolder<string>>().With(p => p.Property).CreateAnonymous();
+            var result = sut.Build<PropertyHolder<string>>().With(p => p.Property).Create();
             // Verify outcome
             Assert.Null(result.Property);
             // Teardown
@@ -3829,7 +3829,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             var expected = Guid.NewGuid();
             // Exercise system
-            var result = sut.Build<ConcreteType>().With(x => x.Property4, expected).CreateAnonymous();
+            var result = sut.Build<ConcreteType>().With(x => x.Property4, expected).Create();
             // Verify outcome
             Assert.Equal(expected, result.Property4);
             // Teardown

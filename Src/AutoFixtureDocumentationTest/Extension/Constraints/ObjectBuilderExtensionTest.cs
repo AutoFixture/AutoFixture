@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
             // Exercise system
             var mc = fixture.Build<MyClass>()
                 .With(x => x.SomeText, minimum, maximum)
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.True(minimum <= mc.SomeText.Length && mc.SomeText.Length <= maximum, "SomeText within constraints.");
             // Teardown
@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
             // Exercise system
             var mc = fixture.Build<MyClass>()
                 .With(x => x.SomeText, 0, 100)
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.True(0 <= mc.SomeText.Length && mc.SomeText.Length <= 100, "SomeText within constraints.");
             // Teardown

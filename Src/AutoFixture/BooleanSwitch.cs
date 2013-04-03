@@ -1,4 +1,5 @@
-﻿using Ploeh.AutoFixture.Kernel;
+﻿using System;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
@@ -26,13 +27,28 @@ namespace Ploeh.AutoFixture
         /// <see langword="true"/>, followed by <see langword="false"/> at the next invocation, and
         /// so on.
         /// </returns>
-        public bool CreateAnonymous()
+        public bool Create()
         {
             lock (this.syncRoot)
             {
                 this.b = !this.b;
                 return this.b;
             }
+        }
+
+        /// <summary>
+        /// Returns an alternating sequence of <see langword="true"/> and <see langword="false"/>
+        /// every other time it is invoked.
+        /// </summary>
+        /// <remarks>Obso</remarks>
+        /// <returns>
+        /// <see langword="true"/>, followed by <see langword="false"/> at the next invocation, and
+        /// so on.
+        /// </returns>
+        [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release")]
+        public bool CreateAnonymous()
+        {
+            return Create();
         }
 
         /// <summary>
@@ -53,7 +69,7 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            return this.CreateAnonymous();
+            return this.Create();
         }
     }
 }

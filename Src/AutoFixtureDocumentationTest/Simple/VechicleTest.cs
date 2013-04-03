@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             var fixture = new Fixture();
             var sut = fixture.Build<Vehicle>()
                 .OmitAutoProperties()
-                .CreateAnonymous();
+                .Create();
             // Exercise system
             var result = sut.Wheels;
             // Verify outcome

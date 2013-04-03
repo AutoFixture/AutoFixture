@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Array
             var mc = fixture.Build<MyClassA>()
                 .With(x => x.Items, 
                     fixture.CreateMany<MyClassB>().ToArray())
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.True(mc.Items.Length > 0, "Non-empty array");
             Assert.True(mc.Items.All(x => x != null), "No item should be null");

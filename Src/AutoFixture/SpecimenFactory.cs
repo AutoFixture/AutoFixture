@@ -19,14 +19,14 @@ namespace Ploeh.AutoFixture
         /// <param name="context">The context used to resolve the type request.</param>
         /// <returns>An anonymous object of type <typeparamref name="T"/>.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
-        public static T CreateAnonymous<T>(this ISpecimenContext context)
+        public static T Create<T>(this ISpecimenContext context)
         {
             if (context == null)
             {
                 throw new ArgumentNullException("context");
             }
 
-            return (T)context.CreateAnonymous(default(T));
+            return (T)context.Create(default(T));
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public static T Create<T>(this ISpecimenBuilder builder)
         {
-            return builder.CreateContext().CreateAnonymous<T>();
+            return builder.CreateContext().Create<T>();
         }
 
         /// <summary>
@@ -72,9 +72,9 @@ namespace Ploeh.AutoFixture
         /// </para>
         /// </remarks>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Supports type inferencing.")]
-        public static T CreateAnonymous<T>(this IPostprocessComposer<T> composer)
+        public static T Create<T>(this IPostprocessComposer<T> composer)
         {
-            return composer.Create<T>();
+            return Create<T>((ISpecimenBuilder) composer);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Ploeh.AutoFixture
         /// </param>
         /// <param name="context">The context used to resolve the type request.</param>
         /// <returns>An anonymous object.</returns>
-        public static T CreateAnonymous<T>(this ISpecimenContext context, T seed)
+        public static T Create<T>(this ISpecimenContext context, T seed)
         {
             if (context == null)
             {
@@ -112,7 +112,7 @@ namespace Ploeh.AutoFixture
         /// <returns>An anonymous object.</returns>
         public static T Create<T>(this ISpecimenBuilder builder, T seed)
         {
-            return builder.CreateContext().CreateAnonymous<T>(seed);
+            return builder.CreateContext().Create<T>(seed);
         }
 
         /// <summary>Creates many anonymous objects.</summary>
@@ -383,6 +383,13 @@ namespace Ploeh.AutoFixture
                    select (T)s;
         }
 
+
+        internal static object Create(this ISpecimenBuilder composer, Type type)
+        {
+            return composer.CreateContext().Resolve(type);
+        }
+
+        [Obsolete("Please move over to using Create<T> as this method will be removed in the next release")]
         internal static object CreateAnonymous(this ISpecimenBuilder composer, Type type)
         {
             return composer.CreateContext().Resolve(type);

@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var unexpectedGuid = default(Guid);
             // Exercise system
-            var result = GuidGenerator.CreateAnonymous();
+            var result = GuidGenerator.Create();
             // Verify outcome
             Assert.NotEqual<Guid>(unexpectedGuid, result);
             // Teardown
@@ -24,9 +24,9 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateAnonymousTwiceWillReturnDifferentValues()
         {
             // Fixture setup
-            var unexpectedGuid = GuidGenerator.CreateAnonymous();
+            var unexpectedGuid = GuidGenerator.Create();
             // Exercise system
-            var result = GuidGenerator.CreateAnonymous();
+            var result = GuidGenerator.Create();
             // Verify outcome
             Assert.NotEqual<Guid>(unexpectedGuid, result);
             // Teardown

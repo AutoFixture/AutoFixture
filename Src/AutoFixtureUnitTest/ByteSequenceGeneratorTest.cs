@@ -10,19 +10,19 @@ namespace Ploeh.AutoFixtureUnitTest
         [Fact]
         public void CreateWillReturnOneOnFirstCall()
         {
-            new LoopTest<ByteSequenceGenerator, byte>(sut => sut.CreateAnonymous()).Execute(1);
+            new LoopTest<ByteSequenceGenerator, byte>(sut => sut.Create()).Execute(1);
         }
 
         [Fact]
         public void CreateWillReturnTwoOnSecondCall()
         {
-            new LoopTest<ByteSequenceGenerator, byte>(sut => sut.CreateAnonymous()).Execute(2);
+            new LoopTest<ByteSequenceGenerator, byte>(sut => sut.Create()).Execute(2);
         }
 
         [Fact]
         public void CreateWillReturnTenOnTenthCall()
         {
-            new LoopTest<ByteSequenceGenerator, byte>(sut => sut.CreateAnonymous()).Execute(10);
+            new LoopTest<ByteSequenceGenerator, byte>(sut => sut.Create()).Execute(10);
         }
 
         [Fact]

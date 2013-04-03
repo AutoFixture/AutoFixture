@@ -12,9 +12,15 @@ namespace Ploeh.AutoFixture
         /// Creates a new <see cref="Guid"/> instance.
         /// </summary>
         /// <returns>A new <see cref="Guid"/> instance.</returns>
-        public static Guid CreateAnonymous()
+        public static Guid Create()
         {
             return Guid.NewGuid();
+        }
+
+        [Obsolete("Please move over to using Create() as this method will be removed in the next release")]
+        public static Guid CreateAnonymous()
+        {
+            return Create();
         }
 
         /// <summary>
@@ -33,7 +39,7 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            return GuidGenerator.CreateAnonymous();
+            return GuidGenerator.Create();
         }
     }
 }

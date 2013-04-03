@@ -19,9 +19,9 @@ namespace Ploeh.AutoFixture
     /// var fixture = new Fixture();
     /// fixture.Customize(new NumericSequencePerTypeCustomization());
     /// 
-    /// Console.WriteLine("Byte specimen is {0}", fixture.CreateAnonymous&lt;byte&gt;());
-    /// Console.WriteLine("Int32 specimen is {0}", fixture.CreateAnonymous&lt;int&gt;());
-    /// Console.WriteLine("Single specimen is {0}", fixture.CreateAnonymous&lt;float&gt;());
+    /// Console.WriteLine("Byte specimen is {0}", fixture.Create&lt;byte&gt;());
+    /// Console.WriteLine("Int32 specimen is {0}", fixture.Create&lt;int&gt;());
+    /// Console.WriteLine("Single specimen is {0}", fixture.Create&lt;float&gt;());
     ///  
     /// // The output of this program will be:
     /// // Byte specimen is 1

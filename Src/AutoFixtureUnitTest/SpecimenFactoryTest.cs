@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                SpecimenFactory.CreateAnonymous<object>((ISpecimenContext)null));
+                SpecimenFactory.Create<object>((ISpecimenContext)null));
             // Teardown
         }
 
@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummySeed = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                SpecimenFactory.CreateAnonymous<object>((ISpecimenContext)null, dummySeed));
+                SpecimenFactory.Create<object>((ISpecimenContext)null, dummySeed));
             // Teardown
         }
 
@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixtureUnitTest
             object expectedResult = 1;
             var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : new NoSpecimen(r) };
             // Exercise system
-            var result = container.CreateAnonymous<int>();
+            var result = container.Create<int>();
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
@@ -120,7 +120,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var composer = new DelegatingComposer<DateTime> { OnCreate = specimenBuilder.OnCreate };
             // Exercise system
-            var result = composer.CreateAnonymous();
+            var result = composer.Create();
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
@@ -134,7 +134,7 @@ namespace Ploeh.AutoFixtureUnitTest
             object expectedResult = TimeSpan.FromHours(2);
             var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(TimeSpan), seed)) ? expectedResult : new NoSpecimen(r) };
             // Exercise system
-            var result = container.CreateAnonymous(seed);
+            var result = container.Create(seed);
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
