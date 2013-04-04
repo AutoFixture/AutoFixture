@@ -236,13 +236,15 @@ namespace Ploeh.AutoFixture.Dsl
             ISpecimenBuilderNode graph)
         {
             return graph
-                .SelectNodes(n =>
-                {
-                    var pp = n as Postprocessor<T>;
-                    return pp != null
-                        && pp.Command is AutoPropertiesCommand<T>;
-                })
+                .SelectNodes(IsAutoPropertyNode)
                 .FirstOrDefault();
+        }
+
+        private static bool IsAutoPropertyNode(ISpecimenBuilderNode n)
+        {
+            var postprocessor = n as Postprocessor<T>;
+            return postprocessor != null
+                && postprocessor.Command is AutoPropertiesCommand<T>;
         }
 
         private static NodeComposer<T> WithDoNode(
@@ -270,9 +272,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public IPostprocessComposer<T> OmitAutoProperties()
         {
-            var targetToRemove = this
-                .SelectNodes(n => n is Postprocessor<T>)
-                .FirstOrDefault();
+            var targetToRemove = FindAutoPropertiesNode(this);
 
             if (targetToRemove == null)
                 return this;

@@ -2778,6 +2778,42 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void OmitAutoPropertiesFollowedByTwoOptInsWillNotSetAnyOtherProperties()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Build<TriplePropertyHolder<int, int, object>>()
+                .OmitAutoProperties()
+                .With(x => x.Property1, 42)
+                .With(x => x.Property2, 1337)
+                .CreateAnonymous();
+            // Verify outcome
+            Assert.Equal(42, result.Property1);
+            Assert.Equal(1337, result.Property2);
+            Assert.Null(result.Property3);
+            // Teardown
+        }
+
+        [Fact]
+        public void WithTwoOptInsFollowedByOmitAutoPropertiesWillNotSetAnyOtherProperties()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Build<TriplePropertyHolder<int, int, object>>()
+                .With(x => x.Property1, 42)
+                .With(x => x.Property2, 1337)
+                .OmitAutoProperties()
+                .CreateAnonymous();
+            // Verify outcome
+            Assert.Equal(42, result.Property1);
+            Assert.Equal(1337, result.Property2);
+            Assert.Null(result.Property3);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousWillThrowOnReferenceRecursionPoint()
         {
             // Fixture setup
