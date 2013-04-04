@@ -29,6 +29,12 @@ namespace Ploeh.AutoFixture
             return (T)context.Create(default(T));
         }
 
+        [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release")]
+         public static T CreateAnonymous<T>(this ISpecimenContext context)
+        {
+            return Create<T>(context);
+        }
+
         /// <summary>
         /// Creates an anonymous variable of the requested type.
         /// </summary>
@@ -77,6 +83,12 @@ namespace Ploeh.AutoFixture
             return Create<T>((ISpecimenBuilder) composer);
         }
 
+        [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release")]
+        public static T CreateAnonymous<T>(this IPostprocessComposer<T> composer)
+        {
+            return Create<T>(composer);
+        }
+
         /// <summary>
         /// Creates an anonymous object, potentially using the supplied seed as additional
         /// information when creating the object.
@@ -95,6 +107,12 @@ namespace Ploeh.AutoFixture
             }
 
             return (T)context.Resolve(new SeededRequest(typeof(T), seed));
+        }
+
+        [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release")]
+        public static T CreateAnonymous<T>(this ISpecimenContext context, T seed)
+        {
+            return Create<T>(context, seed);
         }
 
         /// <summary>

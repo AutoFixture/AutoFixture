@@ -32,7 +32,8 @@ namespace Ploeh.AutoFixture
             }
         }
 
-        [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release")]
+        [Obsolete("Please move over to using Create() as this method will be removed in the next release")]
+        [CLSCompliant(false)]
         public sbyte CreateAnonymous()
         {
             return Create();

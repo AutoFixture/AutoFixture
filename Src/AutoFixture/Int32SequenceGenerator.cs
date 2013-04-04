@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture
             return Interlocked.Increment(ref this.i);
         }
 
-        [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release")]
+        [Obsolete("Please move over to using Create() as this method will be removed in the next release")]
         public int CreateAnonymous()
         {
             return Create();
