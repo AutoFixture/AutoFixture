@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixture
         }
 
         [Obsolete("Please move over to using Create() as this method will be removed in the next release")]
-        public byte CreateAnoymous()
+        public byte CreateAnonymous()
         {
             return Create();
         }

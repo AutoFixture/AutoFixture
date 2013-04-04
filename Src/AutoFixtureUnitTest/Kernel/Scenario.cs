@@ -82,6 +82,32 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact][Obsolete]
+        public void CreateDoubleMixedParameterizedTypeWithNumberBasedStringGeneratorObsolete()
+        {
+            // Fixture setup
+            var intGenerator = new Int32SequenceGenerator();
+            var builder = new CompositeSpecimenBuilder(
+                intGenerator,
+                new StringGenerator(() => intGenerator.CreateAnonymous()),
+                new Int64SequenceGenerator(),
+                new DecimalSequenceGenerator(),
+                new BooleanSwitch(),
+                new GuidGenerator(),
+                new MethodInvoker(new ModestConstructorQuery()),
+                new ParameterRequestRelay(),
+                new StringSeedRelay(),
+                new SeedIgnoringRelay());
+            var container = new SpecimenContext(builder);
+            // Exercise system
+            var result = (TripleParameterType<int, string, int>)container.Resolve(typeof(TripleParameterType<int, string, int>));
+            // Verify outcome
+            Assert.Equal(1, result.Parameter1);
+            Assert.Equal("parameter22", result.Parameter2);
+            Assert.Equal(3, result.Parameter3);
+            // Teardown
+        }
+
         [Fact]
         public void CreateDoubleMixedParameterizedTypeWithNumberBasedStringGenerator()
         {
@@ -232,8 +258,20 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        [Fact]
+        [Fact][Obsolete]
         public void CreateAnonymousReturnsCorrectResult()
+        {
+            // Fixture setup
+            var container = Scenario.CreateContainer();
+            // Exercise system
+            var result = container.CreateAnonymous<int>();
+            // Verify outcome
+            Assert.Equal(1, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateReturnsCorrectResult()
         {
             // Fixture setup
             var container = Scenario.CreateContainer();
@@ -244,8 +282,20 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        [Fact]
+        [Fact][Obsolete]
         public void CreateAnonymousWithSeedReturnsCorrectResult()
+        {
+            // Fixture setup
+            var container = Scenario.CreateContainer();
+            // Exercise system
+            var result = container.CreateAnonymous("Seed");
+            // Verify outcome
+            Assert.Contains("Seed", result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithSeedReturnsCorrectResult()
         {
             // Fixture setup
             var container = Scenario.CreateContainer();
@@ -309,6 +359,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact][Obsolete]
+        public void ComposeWithValueReturnsCorrectResultObsolete()
+        {
+            // Fixture setup
+            var expectedValue = 9;
+            var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<int>>()
+                .With(x => x.Property, expectedValue);
+            var builder = new CompositeSpecimenBuilder(
+                customBuilder,
+                Scenario.CreateCoreBuilder());
+            // Exercise system
+            var result = new SpecimenContext(builder).CreateAnonymous<PropertyHolder<int>>();
+            // Verify outcome
+            Assert.Equal(expectedValue, result.Property);
+            // Teardown
+        }
+
         [Fact]
         public void ComposeWithValueReturnsCorrectResult()
         {
@@ -323,6 +390,24 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = new SpecimenContext(builder).Create<PropertyHolder<int>>();
             // Verify outcome
             Assert.Equal(expectedValue, result.Property);
+            // Teardown
+        }
+
+        [Fact][Obsolete]
+        public void ComposeWithAutoPropertiesAndExplicitPropertyObsolete()
+        {
+            // Fixture setup
+            var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, int>>()
+                .WithAutoProperties()
+                .With(x => x.Property1, 8);
+            var builder = new CompositeSpecimenBuilder(
+                customBuilder,
+                Scenario.CreateCoreBuilder());
+            // Exercise system
+            var result = new SpecimenContext(builder).CreateAnonymous<DoublePropertyHolder<int, int>>();
+            // Verify outcome
+            Assert.Equal(8, result.Property1);
+            Assert.Equal(1, result.Property2);
             // Teardown
         }
 
@@ -344,6 +429,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact][Obsolete]
+        public void ComposeWithAutoPropertiesObsolete()
+        {
+            // Fixture setup
+            var customBuilder = SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, int>>()
+                .WithAutoProperties();
+            var builder = new CompositeSpecimenBuilder(
+                customBuilder,
+                Scenario.CreateCoreBuilder());
+            // Exercise system
+            var result = new SpecimenContext(builder).CreateAnonymous<DoublePropertyHolder<int, int>>();
+            // Verify outcome
+            Assert.Equal(1, result.Property1);
+            Assert.Equal(2, result.Property2);
+            // Teardown
+        }
+
         [Fact]
         public void ComposeWithAutoProperties()
         {
@@ -358,6 +460,30 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             Assert.Equal(1, result.Property1);
             Assert.Equal(2, result.Property2);
+            // Teardown
+        }
+
+        [Fact][Obsolete]
+        public void ComposeComplexObjectWithAutoPropertiesAndSomeCustomizationsObsolete()
+        {
+            // Fixture setup
+            var builder = new CompositeSpecimenBuilder(
+                SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<long, long>>()
+                    .With(x => x.Property2, 43)
+                    .WithAutoProperties(),
+                SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, string>>()
+                    .OmitAutoProperties()
+                    .With(x => x.Property1),
+                SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<DoublePropertyHolder<long, long>, DoublePropertyHolder<int, string>>>()
+                    .WithAutoProperties(),
+                Scenario.CreateCoreBuilder());
+            // Exercise system
+            var result = new SpecimenContext(builder).CreateAnonymous<DoublePropertyHolder<DoublePropertyHolder<long, long>, DoublePropertyHolder<int, string>>>();
+            // Verify outcome
+            Assert.Equal(1, result.Property1.Property1);
+            Assert.Equal(43, result.Property1.Property2);
+            Assert.Equal(1, result.Property2.Property1);
+            Assert.Null(result.Property2.Property2);
             // Teardown
         }
 
@@ -385,6 +511,20 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact][Obsolete]
+        public void CustomDoSetsCorrectPropertyObsolete()
+        {
+            // Fixture setup
+            var builder = new CompositeSpecimenBuilder(
+                SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<decimal>>().OmitAutoProperties().Do(x => x.SetProperty(6789)),
+                Scenario.CreateCoreBuilder());
+            // Exercise system
+            var result = new SpecimenContext(builder).CreateAnonymous<SingleParameterType<PropertyHolder<decimal>>>();
+            // Verify outcome
+            Assert.Equal(6789, result.Parameter.Property);
+            // Teardown
+        }
+
         [Fact]
         public void CustomDoSetsCorrectProperty()
         {
@@ -396,6 +536,21 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = new SpecimenContext(builder).Create<SingleParameterType<PropertyHolder<decimal>>>();
             // Verify outcome
             Assert.Equal(6789, result.Parameter.Property);
+            // Teardown
+        }
+
+        [Fact][Obsolete]
+        public void ComposeWithoutCorrectlyCreatesSpecimenObsolete()
+        {
+            // Fixture setup
+            var builder = new CompositeSpecimenBuilder(
+                SpecimenBuilderNodeFactory.CreateComposer<DoubleFieldHolder<string, int>>().WithAutoProperties().Without(x => x.Field1),
+                Scenario.CreateCoreBuilder());
+            // Exercise system
+            var result = new SpecimenContext(builder).CreateAnonymous<DoubleFieldHolder<string, int>>();
+            // Verify outcome
+            Assert.Null(result.Field1);
+            Assert.Equal(1, result.Field2);
             // Teardown
         }
 
@@ -414,6 +569,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact][Obsolete]
+        public void CustomizeFromFactoryCorrectlyResolvesSpecimenObsolete()
+        {
+            // Fixture setup
+            var instance = new PropertyHolder<float> { Property = 89 };
+            var builder = new CompositeSpecimenBuilder(
+                SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<float>>().FromFactory(() => instance).OmitAutoProperties(),
+                Scenario.CreateCoreBuilder());
+            // Exercise system
+            var result = new SpecimenContext(builder).CreateAnonymous<PropertyHolder<float>>();
+            // Verify outcome
+            Assert.Equal(instance, result);
+            Assert.Equal(89, result.Property);
+            // Teardown
+        }
+
         [Fact]
         public void CustomizeFromFactoryCorrectlyResolvesSpecimen()
         {
@@ -427,6 +598,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             Assert.Equal(instance, result);
             Assert.Equal(89, result.Property);
+            // Teardown
+        }
+
+        [Fact][Obsolete]
+        public void CustomizeAndComposeComplexTypeObsolete()
+        {
+            // Fixture setup
+            // Exercise system
+            var result = new CompositeNodeComposer<DoublePropertyHolder<int, decimal>>(
+                new CompositeSpecimenBuilder(
+                    SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<int, decimal>>(),
+                    Scenario.CreateAutoPropertyBuilder()
+                    )
+                ).With(x => x.Property2, 8m).WithAutoProperties().CreateAnonymous();
+            // Verify outcome
+            Assert.Equal(1, result.Property1);
+            Assert.Equal(8, result.Property2);
             // Teardown
         }
 

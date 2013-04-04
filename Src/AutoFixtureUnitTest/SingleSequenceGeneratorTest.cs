@@ -1,4 +1,5 @@
-﻿using Ploeh.AutoFixture;
+﻿using System;
+using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Xunit;
@@ -7,6 +8,24 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     public class SingleSequenceGeneratorTest
     {
+        [Fact][Obsolete]
+        public void CreateAnonymousWillReturnOneOnFirstCall()
+        {
+            new LoopTest<SingleSequenceGenerator, float>(sut => sut.CreateAnonymous()).Execute(1);
+        }
+
+        [Fact][Obsolete]
+        public void CreateAnonymousWillReturnTwoOnSecondCall()
+        {
+            new LoopTest<SingleSequenceGenerator, float>(sut => sut.CreateAnonymous()).Execute(2);
+        }
+
+        [Fact][Obsolete]
+        public void CreateAnonymousWillReturnTenOnTenthCall()
+        {
+            new LoopTest<SingleSequenceGenerator, float>(sut => sut.CreateAnonymous()).Execute(10);
+        }
+
         [Fact]
         public void CreateWillReturnOneOnFirstCall()
         {
