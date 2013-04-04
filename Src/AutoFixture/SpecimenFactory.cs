@@ -407,12 +407,6 @@ namespace Ploeh.AutoFixture
             return composer.CreateContext().Resolve(type);
         }
 
-        [Obsolete("Please move over to using Create<T> as this method will be removed in the next release")]
-        internal static object CreateAnonymous(this ISpecimenBuilder composer, Type type)
-        {
-            return composer.CreateContext().Resolve(type);
-        }
-
         private static ISpecimenContext CreateContext(this ISpecimenBuilder builder)
         {
             return new SpecimenContext(builder);
