@@ -194,7 +194,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new AutoPropertiesCommand<PropertyHolder<object>>();
             var specimen = new PropertyHolder<object>();
-            var context = new DelegatingSpecimenContext 
+            var context = new DelegatingSpecimenContext
             {
                 OnResolve = r => new OmitSpecimen()
             };
@@ -419,6 +419,16 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void InitializeNonGenericSutWithOnlyNullSpecificationThrow()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(
+                () => new AutoPropertiesCommand((IRequestSpecification)null));
+            // Teardown
+        }
+
+        [Fact]
         public void ExecuteOnNonGenericWillAssignProperty()
         {
             // Fixture setup
@@ -448,6 +458,48 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             sut.Execute(specimen, container);
             // Verify outcome
             Assert.Equal(expectedPropertyValue, specimen.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void ExecuteOnNonGenericTrueSpecifiedAssignsProperty()
+        {
+            // Fixture setup
+            var trueSpecification = new DelegatingRequestSpecification
+            {
+                OnIsSatisfiedBy = x => true 
+            };
+            var sut = new AutoPropertiesCommand(trueSpecification);
+
+            var expectedPropertyValue = new object();
+            var context = new DelegatingSpecimenContext { OnResolve = r => expectedPropertyValue };
+
+            var specimen = new PropertyHolder<object>();
+            // Exercise system
+            sut.Execute(specimen, context);
+            // Verify outcome
+            Assert.Equal(expectedPropertyValue, specimen.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void ExecuteOnNonGenericFalseSpecifiedDoesNotAssignProperty()
+        {
+            // Fixture setup
+            var falseSpecification = new DelegatingRequestSpecification
+            {
+                OnIsSatisfiedBy = x => false
+            };
+            var sut = new AutoPropertiesCommand(falseSpecification);
+
+            var dummyPropertyValue = new object();
+            var context = new DelegatingSpecimenContext { OnResolve = r => dummyPropertyValue };
+
+            var specimen = new PropertyHolder<object>();
+            // Exercise system
+            sut.Execute(specimen, context);
+            // Verify outcome
+            Assert.NotEqual(dummyPropertyValue, specimen.Property);
             // Teardown
         }
 

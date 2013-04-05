@@ -43,6 +43,25 @@ namespace Ploeh.AutoFixture.Kernel
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoPropertiesCommand"/> class with the
+        /// supplied specification.
+        /// </summary>
+        /// <param name="specification">
+        /// A specification that is used as a filter to include properties or fields.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// Only properties or fields satisfied by <paramref name="specification"/> will get
+        /// assigned values.
+        /// </para>
+        /// </remarks>
+        public AutoPropertiesCommand(IRequestSpecification specification)
+            : base(specification)
+        {
+            this.getSpecimenType = s => s.GetType();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoPropertiesCommand"/> class with the
         /// supplied specimen type and specification.
         /// </summary>
         /// <param name="specimenType">The specimen type on which properties are assigned.</param>
