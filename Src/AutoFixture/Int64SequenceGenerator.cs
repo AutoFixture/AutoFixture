@@ -27,6 +27,11 @@ namespace Ploeh.AutoFixture
             return Interlocked.Increment(ref this.l);
         }
 
+        /// <summary>
+        /// Creates an anonymous number.
+        /// </summary>
+        /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release</remarks>
+        /// <returns>The next number in a consequtive sequence.</returns>
         [Obsolete("Please move over to using Create() as this method will be removed in the next release")]
         public long CreateAnonymous()
         {

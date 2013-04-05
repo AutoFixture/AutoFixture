@@ -36,6 +36,15 @@ namespace Ploeh.AutoFixture
             }
         }
 
+        /// <summary>
+        /// Returns an alternating sequence of <see langword="true"/> and <see langword="false"/>
+        /// every other time it is invoked.
+        /// </summary>
+        /// <returns>
+        /// <see langword="true"/>, followed by <see langword="false"/> at the next invocation, and
+        /// so on.
+        /// </returns>
+        /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release</remarks>
         [Obsolete("Please move over to using Create() as this method will be removed in the next release")]
         public bool CreateAnonymous()
         {
