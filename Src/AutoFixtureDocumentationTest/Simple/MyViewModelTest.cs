@@ -61,7 +61,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             var mvm = fixture.Build<MyViewModel>()
                 .Do(x => x.AvailableItems.Add(mc))
                 .With(x => x.SelectedItem, mc)
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.Equal<MyClass>(mc, mvm.SelectedItem);
             // Teardown
@@ -75,7 +75,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             var mvm = fixture.Build<MyViewModel>()
                 .Without(s => s.SelectedItem)
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.NotNull(mvm);
             // Teardown
@@ -89,7 +89,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             var mvm = fixture.Build<MyViewModel>()
                 .OmitAutoProperties()
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.NotNull(mvm);
             // Teardown

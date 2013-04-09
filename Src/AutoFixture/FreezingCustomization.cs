@@ -95,7 +95,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            var specimen = fixture.CreateAnonymous(
+            var specimen = fixture.Create(
                     this.targetType);
             var fixedBuilder = new FixedBuilder(specimen);
 

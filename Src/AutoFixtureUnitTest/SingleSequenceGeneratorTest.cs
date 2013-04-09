@@ -1,4 +1,5 @@
-﻿using Ploeh.AutoFixture;
+﻿using System;
+using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Xunit;
@@ -7,22 +8,40 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     public class SingleSequenceGeneratorTest
     {
+        [Fact][Obsolete]
+        public void CreateAnonymousWillReturnOneOnFirstCall()
+        {
+            new LoopTest<SingleSequenceGenerator, float>(sut => sut.CreateAnonymous()).Execute(1);
+        }
+
+        [Fact][Obsolete]
+        public void CreateAnonymousWillReturnTwoOnSecondCall()
+        {
+            new LoopTest<SingleSequenceGenerator, float>(sut => sut.CreateAnonymous()).Execute(2);
+        }
+
+        [Fact][Obsolete]
+        public void CreateAnonymousWillReturnTenOnTenthCall()
+        {
+            new LoopTest<SingleSequenceGenerator, float>(sut => sut.CreateAnonymous()).Execute(10);
+        }
+
         [Fact]
         public void CreateWillReturnOneOnFirstCall()
         {
-            new LoopTest<SingleSequenceGenerator, float>(sut => sut.CreateAnonymous()).Execute(1);
+            new LoopTest<SingleSequenceGenerator, float>(sut => sut.Create()).Execute(1);
         }
 
         [Fact]
         public void CreateWillReturnTwoOnSecondCall()
         {
-            new LoopTest<SingleSequenceGenerator, float>(sut => sut.CreateAnonymous()).Execute(2);
+            new LoopTest<SingleSequenceGenerator, float>(sut => sut.Create()).Execute(2);
         }
 
         [Fact]
         public void CreateWillReturnTenOnTenthCall()
         {
-            new LoopTest<SingleSequenceGenerator, float>(sut => sut.CreateAnonymous()).Execute(10);
+            new LoopTest<SingleSequenceGenerator, float>(sut => sut.Create()).Execute(10);
         }
 
         [Fact]

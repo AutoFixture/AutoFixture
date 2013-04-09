@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -21,9 +22,20 @@ namespace Ploeh.AutoFixture
         /// Creates an anonymous number.
         /// </summary>
         /// <returns>The next number in a consequtive sequence.</returns>
-        public long CreateAnonymous()
+        public long Create()
         {
             return Interlocked.Increment(ref this.l);
+        }
+
+        /// <summary>
+        /// Creates an anonymous number.
+        /// </summary>
+        /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release</remarks>
+        /// <returns>The next number in a consequtive sequence.</returns>
+        [Obsolete("Please move over to using Create() as this method will be removed in the next release")]
+        public long CreateAnonymous()
+        {
+            return Create();
         }
 
         /// <summary>
@@ -42,7 +54,7 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            return this.CreateAnonymous();
+            return this.Create();
         }
     }
 }

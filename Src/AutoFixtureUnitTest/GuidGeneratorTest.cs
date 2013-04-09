@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     public class GuidGeneratorTest
     {
-        [Fact]
+        [Fact][Obsolete]
         public void CreateAnonymousWillReturnNonDefaultGuid()
         {
             // Fixture setup
@@ -21,12 +21,36 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateWillReturnNonDefaultGuid()
+        {
+            // Fixture setup
+            var unexpectedGuid = default(Guid);
+            // Exercise system
+            var result = GuidGenerator.Create();
+            // Verify outcome
+            Assert.NotEqual<Guid>(unexpectedGuid, result);
+            // Teardown
+        }
+
+        [Fact][Obsolete]
         public void CreateAnonymousTwiceWillReturnDifferentValues()
         {
             // Fixture setup
             var unexpectedGuid = GuidGenerator.CreateAnonymous();
             // Exercise system
             var result = GuidGenerator.CreateAnonymous();
+            // Verify outcome
+            Assert.NotEqual<Guid>(unexpectedGuid, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateTwiceWillReturnDifferentValues()
+        {
+            // Fixture setup
+            var unexpectedGuid = GuidGenerator.Create();
+            // Exercise system
+            var result = GuidGenerator.Create();
             // Verify outcome
             Assert.NotEqual<Guid>(unexpectedGuid, result);
             // Teardown

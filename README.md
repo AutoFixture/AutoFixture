@@ -31,7 +31,7 @@ public void IntroductoryTest()
 }
 ```
 
-This example illustrates the basic principle of AutoFixture: It can create values of virtually any type without the need for you to explicitly define which values should be used. The number *expectedNumber* is created by a call to CreateAnonymous<T> - this will create a 'nice', regular integer value, saving you the effort of explicitly coming up with one.
+This example illustrates the basic principle of AutoFixture: It can create values of virtually any type without the need for you to explicitly define which values should be used. The number *expectedNumber* is created by a call to Create<T> - this will create a 'nice', regular integer value, saving you the effort of explicitly coming up with one.
 
 The example also illustrates how AutoFixture can be used as a [SUT Factory](http://blog.ploeh.dk/2009/02/13/SUTFactory.aspx) that creates the actual System Under Test (the MyClass instance).
 

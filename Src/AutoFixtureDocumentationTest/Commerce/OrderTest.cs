@@ -19,8 +19,8 @@ namespace Ploeh.AutoFixtureDocumentationTest.Commerce
                 .With(o => o.ShippingAddress, 
                     fixture.Build<Address>()
                     .With(a => a.Country, "Denmark")
-                    .CreateAnonymous())
-                .CreateAnonymous();
+                    .Create())
+                .Create();
             // Verify outcome
             Assert.Equal<string>("Denmark", order.ShippingAddress.Country);
             // Teardown
@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Commerce
             // Exercise system
             var order = fixture.Build<Order>()
                 .Do(o => fixture.AddManyTo(o.OrderLines))
-                .CreateAnonymous();
+                .Create();
             // Verify outcome
             Assert.Equal<int>(fixture.RepeatCount, order.OrderLines.Count);
             // Teardown

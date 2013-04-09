@@ -264,7 +264,7 @@ namespace Ploeh.AutoFixture
         /// <remarks>
         /// <para>
         /// The Build method kicks off a Fluent API which is usually completed by invoking
-        /// <see cref="SpecimenFactory.CreateAnonymous{T}(IPostprocessComposer{T})"/> on the method
+        /// <see cref="SpecimenFactory.Create{T}(IPostprocessComposer{T})"/> on the method
         /// chain.
         /// </para>
         /// <para>

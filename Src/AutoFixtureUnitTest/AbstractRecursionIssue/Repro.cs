@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
             var funkyItem = fixture.Create<FunkyItem>();
 
             /* No assertion is in place because the above code is a verbatim repro of the issue as
-             * reported. When reported, the last line of code (CreateAnonymous<FunkyItem>()) threw
+             * reported. When reported, the last line of code (Create<FunkyItem>()) threw
              * a StackOverflowException in CompositeSpecimenBuilder.Create. */
         }
 

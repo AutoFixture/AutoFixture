@@ -24,12 +24,24 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <returns>The next number in a consequtive sequence.</returns>
         [CLSCompliant(false)]
-        public sbyte CreateAnonymous()
+        public sbyte Create()
         {
             lock (this.syncRoot)
             {
                 return ++this.s;
             }
+        }
+
+        /// <summary>
+        /// Creates an anonymous number.
+        /// </summary>
+        /// <returns>The next number in a consequtive sequence.</returns>
+        /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release</remarks>
+        [Obsolete("Please move over to using Create() as this method will be removed in the next release")]
+        [CLSCompliant(false)]
+        public sbyte CreateAnonymous()
+        {
+            return Create();
         }
 
         /// <summary>
@@ -48,7 +60,7 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            return this.CreateAnonymous();
+            return this.Create();
         }
     }
 }

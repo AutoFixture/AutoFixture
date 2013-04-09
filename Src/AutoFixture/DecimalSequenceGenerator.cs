@@ -1,4 +1,5 @@
-﻿using Ploeh.AutoFixture.Kernel;
+﻿using System;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
@@ -22,13 +23,26 @@ namespace Ploeh.AutoFixture
         /// Creates an anonymous number.
         /// </summary>
         /// <returns>The next number in a consequtive sequence.</returns>
-        public decimal CreateAnonymous()
+        public decimal Create()
         {
             lock (this.syncRoot)
             {
                 return ++this.d;
             }
         }
+
+        /// <summary>
+        /// Creates an anonymous number.
+        /// </summary>
+        /// <returns>The next number in a consequtive sequence.</returns>
+        /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release</remarks>
+        [Obsolete("Please move over to using Create() as this method will be removed in the next release")]
+        public decimal CreateAnonymous()
+        {
+            return Create();
+        }
+
+
 
         /// <summary>
         /// Creates an anonymous number.
@@ -46,7 +60,7 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            return this.CreateAnonymous();
+            return this.Create();
         }
     }
 }

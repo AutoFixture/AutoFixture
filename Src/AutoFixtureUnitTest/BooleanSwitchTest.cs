@@ -1,4 +1,5 @@
-﻿using Ploeh.AutoFixture;
+﻿using System;
+using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Xunit;
@@ -8,6 +9,18 @@ namespace Ploeh.AutoFixtureUnitTest
     public class BooleanSwitchTest
     {
         [Fact]
+        public void CreateWillReturnTrueOnFirstCall()
+        {
+            // Fixture setup
+            BooleanSwitch sut = new BooleanSwitch();
+            // Exercise system
+            bool result = sut.Create();
+            // Verify outcome
+            Assert.True(result, "CreateAnonymous called an uneven number of times");
+            // Teardown
+        }
+
+        [Fact][Obsolete]
         public void CreateAnonymousWillReturnTrueOnFirstCall()
         {
             // Fixture setup
@@ -20,6 +33,19 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateWillReturnFalseOnSecondCall()
+        {
+            // Fixture setup
+            BooleanSwitch sut = new BooleanSwitch();
+            sut.Create();
+            // Exercise system
+            bool result = sut.Create();
+            // Verify outcome
+            Assert.False(result, "CreateAnonymous called an even number of times");
+            // Teardown
+        }
+
+        [Fact][Obsolete]
         public void CreateAnonymousWillReturnFalseOnSecondCall()
         {
             // Fixture setup
@@ -32,7 +58,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact][Obsolete]
         public void CreateAnonymousWillReturnTrueOnThirdCall()
         {
             // Fixture setup
@@ -45,8 +71,21 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.True(result, "CreateAnonymous called an uneven number of times");
             // Teardown
         }
-
         [Fact]
+        public void CreateWillReturnTrueOnThirdCall()
+        {
+            // Fixture setup
+            BooleanSwitch sut = new BooleanSwitch();
+            sut.Create();
+            sut.Create();
+            // Exercise system
+            bool result = sut.Create();
+            // Verify outcome
+            Assert.True(result, "CreateAnonymous called an uneven number of times");
+            // Teardown
+        }
+
+        [Fact][Obsolete]
         public void CreateAnonymousWillReturnFalseOnFourthCall()
         {
             // Fixture setup
@@ -56,6 +95,20 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.CreateAnonymous();
             // Exercise system
             bool result = sut.CreateAnonymous();
+            // Verify outcome
+            Assert.False(result, "CreateAnonymous called an even number of times");
+            // Teardown
+        }
+        [Fact]
+        public void CreateWillReturnFalseOnFourthCall()
+        {
+            // Fixture setup
+            BooleanSwitch sut = new BooleanSwitch();
+            sut.Create();
+            sut.Create();
+            sut.Create();
+            // Exercise system
+            bool result = sut.Create();
             // Verify outcome
             Assert.False(result, "CreateAnonymous called an even number of times");
             // Teardown

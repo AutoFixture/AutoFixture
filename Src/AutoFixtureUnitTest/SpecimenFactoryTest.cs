@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     public class SpecimenFactoryTest
     {
-        [Fact]
+        [Fact][Obsolete]
         public void CreateAnonymousFromNullSpecimenContextThrows()
         {
             // Fixture setup
@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 SpecimenFactory.Create<object>((ISpecimenBuilder)null));
         }
 
-        [Fact]
+        [Fact][Obsolete]
         public void CreateAnonymousFromNullSpecimenContextWithSeedThrows()
         {
             // Fixture setup
@@ -36,6 +36,28 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 SpecimenFactory.CreateAnonymous<object>((ISpecimenContext)null, dummySeed));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateFromNullSpecimenContextThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                SpecimenFactory.Create<object>((ISpecimenContext)null));
+            // Teardown
+        }
+
+
+        [Fact]
+        public void CreateFromNullSpecimenContextWithSeedThrows()
+        {
+            // Fixture setup
+            var dummySeed = new object();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                SpecimenFactory.Create<object>((ISpecimenContext)null, dummySeed));
             // Teardown
         }
 
@@ -50,7 +72,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact][Obsolete]
         public void CreateAnonymousOnContainerReturnsCorrectResult()
         {
             // Fixture setup
@@ -58,6 +80,19 @@ namespace Ploeh.AutoFixtureUnitTest
             var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : new NoSpecimen(r) };
             // Exercise system
             var result = container.CreateAnonymous<int>();
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateOnContainerReturnsCorrectResult()
+        {
+            // Fixture setup
+            object expectedResult = 1;
+            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : new NoSpecimen(r) };
+            // Exercise system
+            var result = container.Create<int>();
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
@@ -105,7 +140,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact][Obsolete]
         public void CreateAnonymousOnPostprocessComposerReturnsCorrectResult()
         {
             // Fixture setup
@@ -127,6 +162,27 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateOnPostprocessComposerReturnsCorrectResult()
+        {
+            // Fixture setup
+            var expectedResult = new DateTime(2010, 5, 31, 14, 52, 19);
+            var specimenBuilder = new DelegatingSpecimenBuilder();
+            specimenBuilder.OnCreate = (r, c) =>
+            {
+                Assert.NotNull(c);
+                Assert.Equal(new SeededRequest(typeof(DateTime), default(DateTime)), r);
+                return expectedResult;
+            };
+
+            var composer = new DelegatingComposer<DateTime> { OnCreate = specimenBuilder.OnCreate };
+            // Exercise system
+            var result = composer.Create();
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact][Obsolete]
         public void CreateSeededAnonymousOnContainerReturnsCorrectResult()
         {
             // Fixture setup
@@ -135,6 +191,20 @@ namespace Ploeh.AutoFixtureUnitTest
             var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(TimeSpan), seed)) ? expectedResult : new NoSpecimen(r) };
             // Exercise system
             var result = container.CreateAnonymous(seed);
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateSeededOnContainerReturnsCorrectResult()
+        {
+            // Fixture setup
+            var seed = TimeSpan.FromMinutes(8);
+            object expectedResult = TimeSpan.FromHours(2);
+            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(TimeSpan), seed)) ? expectedResult : new NoSpecimen(r) };
+            // Exercise system
+            var result = container.Create(seed);
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown

@@ -35,10 +35,10 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            return ConstrainedStringGenerator.CreateAnonymous(constrain.MinimumLength, constrain.MaximumLength, context);
+            return ConstrainedStringGenerator.Create(constrain.MinimumLength, constrain.MaximumLength, context);
         }
 
-        private static string CreateAnonymous(int minimumLength, int maximumLength, ISpecimenContext context)
+        private static string Create(int minimumLength, int maximumLength, ISpecimenContext context)
         {
             var sb = new StringBuilder();
 
