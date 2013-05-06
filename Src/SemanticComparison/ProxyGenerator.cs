@@ -11,23 +11,24 @@ namespace Ploeh.SemanticComparison
     {
         private const string assemblyName = "SemanticComparisonGeneratedAssembly";
 
-        internal static TDestination CreateLikenessProxy<TSource, TDestination>(Likeness<TSource, TDestination> source, IEnumerable<MemberInfo> members)
+        internal static TDestination CreateLikenessProxy<TSource, TDestination>(Likeness<TSource, TDestination> source, IEqualityComparer comparer, ProxyBehaviour behaviour, IEnumerable<MemberInfo> members)
         {
             var value = source.Value;
 
             ProxyType proxyType = ProxyGenerator.FindCompatibleConstructor<TDestination>(value, members.ToArray());
             TypeBuilder builder = ProxyGenerator.BuildType<TDestination>(BuildModule(BuildAssembly(assemblyName)));
-            FieldBuilder likeness = ProxyGenerator.BuildFieldLikeness<TSource, TDestination>(builder);
+            FieldBuilder likenessField = ProxyGenerator.BuildFieldLikeness<TSource, TDestination>(builder);
+            FieldBuilder comparerField = ProxyGenerator.BuildFieldComparer(builder);
 
-            ProxyGenerator.BuildConstructors<TSource, TDestination>(proxyType.Constructor, builder, likeness);
-            ProxyGenerator.BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), likeness);
+            ProxyGenerator.BuildConstructors<TSource, TDestination>(proxyType.Constructor, builder, likenessField, comparerField);
+            ProxyGenerator.BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), behaviour, likenessField, comparerField);
             ProxyGenerator.BuildMethodGetHashCode<TDestination>(builder);
 
             Type proxy = builder.CreateType();
 
             var destination = (TDestination)Activator.CreateInstance(
                 proxy, 
-                proxyType.Parameters.Concat(new[] { source }).ToArray());
+                proxyType.Parameters.Concat(new object[] { source, comparer }).ToArray());
 
             ProxyGenerator.Map(value, destination);
 
@@ -74,7 +75,17 @@ namespace Ploeh.SemanticComparison
             return field;
         }
 
-        private static void BuildConstructors<TSource, TDestination>(ConstructorInfo ci, TypeBuilder type, FieldInfo likeness)
+        private static FieldBuilder BuildFieldComparer(TypeBuilder type)
+        {
+            FieldBuilder field = type.DefineField(
+                "comparer",
+                typeof(IEqualityComparer),
+                  FieldAttributes.Private | FieldAttributes.InitOnly
+                );
+            return field;
+        }
+
+        private static void BuildConstructors<TSource, TDestination>(ConstructorInfo ci, TypeBuilder type, FieldInfo likeness, FieldInfo comparer)
         {
             Type[] constructorParameterTypes = BuildConstructorParameterTypes<TSource, TDestination>(ci).ToArray();
 
@@ -90,7 +101,7 @@ namespace Ploeh.SemanticComparison
 
             ILGenerator gen = constructor.GetILGenerator();
 
-            for (int position = 0; position < constructorParameterTypes.Length; position++)
+            for (int position = 0; position <= constructorParameterTypes.Length - 2; position++)
             {
                 if (position == 0)
                 {
@@ -119,6 +130,11 @@ namespace Ploeh.SemanticComparison
             gen.Emit(OpCodes.Nop);
             gen.Emit(OpCodes.Ldarg_0);
             gen.Emit(OpCodes.Ldarg_S, constructorParameterTypes.Length);
+            gen.Emit(OpCodes.Stfld, comparer);
+            gen.Emit(OpCodes.Nop);
+            gen.Emit(OpCodes.Nop);
+            gen.Emit(OpCodes.Ldarg_0);
+            gen.Emit(OpCodes.Ldarg_S, constructorParameterTypes.Length - 1);
             gen.Emit(OpCodes.Stfld, likeness);
             gen.Emit(OpCodes.Nop);
             gen.Emit(OpCodes.Ret);
@@ -128,7 +144,11 @@ namespace Ploeh.SemanticComparison
         {
             return (from pi in baseConstructor.GetParameters()
                     select pi.ParameterType)
-                    .Concat(new[] { typeof(Likeness<TSource, TDestination>) });
+                    .Concat(new[]
+                        {
+                            typeof(Likeness<TSource, TDestination>),
+                            typeof(IEqualityComparer)
+                        });
         }
 
         private static void BuildMethodGetHashCode<TDestination>(TypeBuilder type)
@@ -163,7 +183,7 @@ namespace Ploeh.SemanticComparison
             gen.Emit(OpCodes.Ret);
         }
 
-        private static void BuildMethodEquals(TypeBuilder type, FieldInfo equalsHasBeenCalled, FieldInfo likeness)
+        private static void BuildMethodEquals(TypeBuilder type, FieldInfo equalsHasBeenCalled, ProxyBehaviour behaviour, FieldInfo likeness, FieldInfo comparer)
         {
             var methodAttributes = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig;
             MethodBuilder method = type.DefineMethod("Equals", methodAttributes);
@@ -173,6 +193,14 @@ namespace Ploeh.SemanticComparison
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null,
                 new[] { typeof(object) },
+                null
+                );
+
+            MethodInfo equalityComparerEquals = typeof(IEqualityComparer).GetMethod(
+                "Equals",
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                null,
+                new[] { typeof(object), typeof(object) },
                 null
                 );
 
@@ -208,10 +236,25 @@ namespace Ploeh.SemanticComparison
             gen.Emit(OpCodes.Ldarg_0);
             gen.Emit(OpCodes.Ldc_I4_1);
             gen.Emit(OpCodes.Stfld, equalsHasBeenCalled);
-            gen.Emit(OpCodes.Ldarg_0);
-            gen.Emit(OpCodes.Ldfld, likeness);
-            gen.Emit(OpCodes.Ldarg_1);
-            gen.Emit(OpCodes.Callvirt, objectEquals);
+
+            switch (behaviour)
+            {
+                case ProxyBehaviour.Normal:
+                    gen.Emit(OpCodes.Ldarg_0);
+                    gen.Emit(OpCodes.Ldfld, comparer);
+                    gen.Emit(OpCodes.Ldarg_0);
+                    gen.Emit(OpCodes.Ldarg_1);
+                    gen.Emit(OpCodes.Callvirt, equalityComparerEquals);
+                    break;
+
+                case ProxyBehaviour.Wrap:
+                    gen.Emit(OpCodes.Ldarg_0);
+                    gen.Emit(OpCodes.Ldfld, likeness);
+                    gen.Emit(OpCodes.Ldarg_1);
+                    gen.Emit(OpCodes.Callvirt, objectEquals);
+                    break;
+            }
+
             gen.Emit(OpCodes.Stloc_0);
             gen.Emit(OpCodes.Br_S, label2);
             gen.MarkLabel(label2);

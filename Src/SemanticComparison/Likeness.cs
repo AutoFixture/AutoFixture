@@ -56,12 +56,14 @@ namespace Ploeh.SemanticComparison
         /// This method uses the same semantic heuristics, as the default semantic comparison, to map
         /// values from the source constructor parameters to the destination constructor.
         /// </summary>
-        public TDestination CreateProxy()
+        public TDestination CreateProxy(ProxyBehaviour behaviour = ProxyBehaviour.Normal)
         {
             try
             {
                 return ProxyGenerator.CreateLikenessProxy(
                     this,
+                    this.comparer,
+                    behaviour,
                     SemanticComparer<TSource, TDestination>.DefaultMembers.Generate<TDestination>());
             }
             catch (TypeLoadException e)

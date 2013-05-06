@@ -1325,7 +1325,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyAndLikenessHaveSameBehavior()
+        public void ProxyAndLikenessHaveSameBehavior1()
         {
             // Fixture setup
             var original = new ConcreteType
@@ -1337,12 +1337,134 @@ namespace Ploeh.SemanticComparison.UnitTest
             var likeness = original.AsSource().OfLikeness<ConcreteType>()
                 .Without(x => x.Property1);
             var expected = likeness.Equals(original);
-            var sut = likeness.CreateProxy();
+
+            var sut = likeness.CreateProxy(ProxyBehaviour.Wrap);
             // Exercise system
             var result = sut.Equals(original);
             // Verify outcome
+            Assert.True(result);
             Assert.Equal(expected, result);
             // Teardown
+        }
+
+        [Fact]
+        public void ProxyAndLikenessHaveSameBehavior2()
+        {
+            // Fixture setup
+            var original = new
+            {
+                Property1 = "value1",
+                Property2 = new[] {"A", "B", "C"},
+                Property3 = (object) null,
+                Property4 = (object) null,
+                Property5 = (object) null
+            };
+
+            var other = new ConcreteType
+            {
+                Property1 = "value1",
+                Property2 = "A,B,C",
+                Property3 = null,
+                Property4 = null,
+                Property5 = null
+            };
+
+            var likeness = original
+                .AsSource().OfLikeness<ConcreteType>()
+                .With(x => x.Property2).EqualsWhen((a, b) => string.Join(",", a.Property2) == (string)b.Property2);
+
+            var sut = likeness.CreateProxy(ProxyBehaviour.Wrap);
+
+            var expected = likeness.Equals(other);
+
+            // Exercise system
+            var result = sut.Equals(other);
+            // Verify outcome
+            Assert.True(expected);
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyAndLikenessHaveSameBehavior3()
+        {
+            // Fixture setup
+            var original = new ConcreteType
+            {
+                Property1 = "value1",
+                Property2 = "abc",
+            };
+
+            var other = new ConcreteType
+            {
+                Property1 = "value1",
+                Property2 = "cba"
+            };
+
+            var likeness = original
+                .AsSource().OfLikeness<ConcreteType>()
+                .With(x => x.Property2).EqualsWhen((a, b) =>
+                    {
+                        return ((string) b.Property2).Reverse().SequenceEqual((IEnumerable<char>) a.Property2);
+                    });
+
+            var sut = likeness.CreateProxy(ProxyBehaviour.Wrap);
+
+            var expected = likeness.Equals(other);
+
+            // Exercise system
+            var result = sut.Equals(other);
+            // Verify outcome
+            Assert.True(expected);
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ProxyAndLikenessHaveSameBehavior4()
+        {
+            var obj = new
+            {
+                A = 1,
+                B = "hello",
+                C = new Dictionary<string, string>
+                    {
+                        {"A", "D"},
+                        {"B", "E"},
+                        {"C", "F"},
+                    }
+            };
+
+            var likeness = obj
+                .AsSource().OfLikeness<Test>()
+                .With(x => x.C).EqualsWhen((a, b) => ToQueryString(a.C) == b.C);
+
+            var other = new Test
+            {
+                A = 1,
+                B = "hello",
+                C = "A=D&B=E&C=F"
+            };
+
+            var result1 = likeness.Equals(other);
+            var result2 = likeness.CreateProxy(ProxyBehaviour.Wrap).Equals(other);
+
+            // Verify outcome
+            Assert.True(result1);
+            Assert.Equal(result1, result2);
+            // Teardown
+        }
+
+        public class Test
+        {
+            public int A { get; set; }
+            public string B { get; set; }
+            public string C { get; set; }
+        }
+
+        public static string ToQueryString(IDictionary<string, string> source)
+        {
+            return string.Join("&", source.Select(x => x.Key + "=" + x.Value));
         }
 
         [Fact]
@@ -1371,14 +1493,14 @@ namespace Ploeh.SemanticComparison.UnitTest
             value.Field = "2";
             value.Number = 3;
 
-            var sut = value.AsSource()
-                .OfLikeness<TypeWithPublicFieldsAndProperties>()
-                .CreateProxy();
+            var sut = value.AsSource().OfLikeness<TypeWithPublicFieldsAndProperties>();
+
             // Exercise system
+            var proxy = sut.CreateProxy();
             var result =
-                   value.AutomaticProperty == sut.AutomaticProperty
-                && value.Field == sut.Field
-                && value.Number == sut.Number;
+                   value.AutomaticProperty == proxy.AutomaticProperty
+                && value.Field == proxy.Field
+                && value.Number == proxy.Number;
             // Verify outcome
             Assert.True(result);
             // Teardown
