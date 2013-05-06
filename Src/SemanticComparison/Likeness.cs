@@ -60,9 +60,8 @@ namespace Ploeh.SemanticComparison
         {
             try
             {
-                return ProxyGenerator.CreateLikenessProxy<TSource, TDestination>(
-                    this.value,
-                    this.comparer,
+                return ProxyGenerator.CreateLikenessProxy(
+                    this,
                     SemanticComparer<TSource, TDestination>.DefaultMembers.Generate<TDestination>());
             }
             catch (TypeLoadException e)
