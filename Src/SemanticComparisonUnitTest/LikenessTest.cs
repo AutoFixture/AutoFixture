@@ -919,6 +919,21 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
+        public void ProxyWrapperWhenCalledMultipleTimesForSemanticallyEqualObjectsReturnsTrue()
+        {
+            // Fixture setup
+            var source = new ConcreteType();
+            var sut = source.AsSource().OfLikeness<AbstractType>().CreateProxy(ProxyBehaviour.Wrap);
+            var expectedResult = Enumerable.Range(1, 3).Select(x => true);
+            // Exercise system
+            var result = Enumerable.Range(1, 3)
+                .Select(x => sut.Equals(new ConcreteType()));
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
         public void ProxyWhenCalledMultipleTimesForSemanticallyUnequalObjectsReturnsFalse()
         {
             // Fixture setup

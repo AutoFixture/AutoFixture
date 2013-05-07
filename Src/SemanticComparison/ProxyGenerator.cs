@@ -209,56 +209,54 @@ namespace Ploeh.SemanticComparison
             method.DefineParameter(1, ParameterAttributes.None, "obj");
 
             ILGenerator gen = method.GetILGenerator();
-            gen.DeclareLocal(typeof(bool));
-            gen.DeclareLocal(typeof(bool));
 
-            Label label1 = gen.DefineLabel();
-            Label label2 = gen.DefineLabel();
-
-            gen.Emit(OpCodes.Nop);
-            gen.Emit(OpCodes.Ldarg_0);
-            gen.Emit(OpCodes.Ldfld, equalsHasBeenCalled);
-            gen.Emit(OpCodes.Ldc_I4_0);
-            gen.Emit(OpCodes.Ceq);
-            gen.Emit(OpCodes.Stloc_1);
-            gen.Emit(OpCodes.Ldloc_1);
-            gen.Emit(OpCodes.Brtrue_S, label1);
-            gen.Emit(OpCodes.Nop);
-            gen.Emit(OpCodes.Ldarg_0);
-            gen.Emit(OpCodes.Ldc_I4_0);
-            gen.Emit(OpCodes.Stfld, equalsHasBeenCalled);
-            gen.Emit(OpCodes.Ldarg_0);
-            gen.Emit(OpCodes.Ldarg_1);
-            gen.Emit(OpCodes.Call, objectEquals);
-            gen.Emit(OpCodes.Stloc_0);
-            gen.Emit(OpCodes.Br_S, label2);
-            gen.MarkLabel(label1);
-            gen.Emit(OpCodes.Ldarg_0);
-            gen.Emit(OpCodes.Ldc_I4_1);
-            gen.Emit(OpCodes.Stfld, equalsHasBeenCalled);
-
-            switch (behaviour)
+            if (behaviour == ProxyBehaviour.Normal)
             {
-                case ProxyBehaviour.Normal:
-                    gen.Emit(OpCodes.Ldarg_0);
-                    gen.Emit(OpCodes.Ldfld, comparer);
-                    gen.Emit(OpCodes.Ldarg_0);
-                    gen.Emit(OpCodes.Ldarg_1);
-                    gen.Emit(OpCodes.Callvirt, equalityComparerEquals);
-                    break;
+                gen.DeclareLocal(typeof (bool));
+                gen.DeclareLocal(typeof (bool));
 
-                case ProxyBehaviour.Wrap:
-                    gen.Emit(OpCodes.Ldarg_0);
-                    gen.Emit(OpCodes.Ldfld, likeness);
-                    gen.Emit(OpCodes.Ldarg_1);
-                    gen.Emit(OpCodes.Callvirt, objectEquals);
-                    break;
+                Label label1 = gen.DefineLabel();
+                Label label2 = gen.DefineLabel();
+
+                gen.Emit(OpCodes.Nop);
+                gen.Emit(OpCodes.Ldarg_0);
+                gen.Emit(OpCodes.Ldfld, equalsHasBeenCalled);
+                gen.Emit(OpCodes.Ldc_I4_0);
+                gen.Emit(OpCodes.Ceq);
+                gen.Emit(OpCodes.Stloc_1);
+                gen.Emit(OpCodes.Ldloc_1);
+                gen.Emit(OpCodes.Brtrue_S, label1);
+                gen.Emit(OpCodes.Nop);
+                gen.Emit(OpCodes.Ldarg_0);
+                gen.Emit(OpCodes.Ldc_I4_0);
+                gen.Emit(OpCodes.Stfld, equalsHasBeenCalled);
+                gen.Emit(OpCodes.Ldarg_0);
+                gen.Emit(OpCodes.Ldarg_1);
+                gen.Emit(OpCodes.Call, objectEquals);
+                gen.Emit(OpCodes.Stloc_0);
+                gen.Emit(OpCodes.Br_S, label2);
+                gen.MarkLabel(label1);
+                gen.Emit(OpCodes.Ldarg_0);
+                gen.Emit(OpCodes.Ldc_I4_1);
+                gen.Emit(OpCodes.Stfld, equalsHasBeenCalled);
+                gen.Emit(OpCodes.Ldarg_0);
+                gen.Emit(OpCodes.Ldfld, comparer);
+                gen.Emit(OpCodes.Ldarg_0);
+                gen.Emit(OpCodes.Ldarg_1);
+                gen.Emit(OpCodes.Callvirt, equalityComparerEquals);
+                gen.Emit(OpCodes.Stloc_0);
+                gen.Emit(OpCodes.Br_S, label2);
+                gen.MarkLabel(label2);
+                gen.Emit(OpCodes.Ldloc_0);
+            }
+            else if (behaviour == ProxyBehaviour.Wrap)
+            {
+                gen.Emit(OpCodes.Ldarg_0);
+                gen.Emit(OpCodes.Ldfld, likeness);
+                gen.Emit(OpCodes.Ldarg_1);
+                gen.Emit(OpCodes.Callvirt, objectEquals);
             }
 
-            gen.Emit(OpCodes.Stloc_0);
-            gen.Emit(OpCodes.Br_S, label2);
-            gen.MarkLabel(label2);
-            gen.Emit(OpCodes.Ldloc_0);
             gen.Emit(OpCodes.Ret);
         }
 
