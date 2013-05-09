@@ -823,41 +823,41 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyIsNotNull()
+        public void ResemblanceIsNotNull()
         {
             // Fixture setup
             var source = new ConcreteType();
             var sut = source.AsSource().OfLikeness<AbstractType>();
             // Exercise system
-            var result = sut.CreateProxy();
+            var result = sut.ToResemblance();
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
         }
 
         [Fact]
-        public void ProxyIsCorrectType()
+        public void ResemblanceIsCorrectType()
         {
             // Fixture setup
             var source = new ConcreteType();
             var sut = source.AsSource().OfLikeness<AbstractType>();
             // Exercise system
-            var result = sut.CreateProxy();
+            var result = sut.ToResemblance();
             // Verify outcome
             Assert.IsAssignableFrom<AbstractType>(result);
             // Teardown
         }
 
         [Fact]
-        public void ProxyReturnsDifferentInstanceWhenAccessedMultipleTimes()
+        public void ResemblanceReturnsDifferentInstanceWhenAccessedMultipleTimes()
         {
             // Fixture setup
             var source = new ConcreteType();
             var sut = source.AsSource().OfLikeness<AbstractType>();
-            var expectedProxies = new[] { sut.CreateProxy(), sut.CreateProxy(), sut.CreateProxy() };
+            var expectedProxies = new[] { sut.ToResemblance(), sut.ToResemblance(), sut.ToResemblance() };
             // Exercise system
             var result = Enumerable.Range(1, expectedProxies.Length)
-                .Select(x => sut.CreateProxy())
+                .Select(x => sut.ToResemblance())
                 .ToArray();
             // Verify outcome
             Assert.False(expectedProxies.SequenceEqual(result, new ReferenceEqualityComparer()));
@@ -865,50 +865,50 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyInstanceIsDifferentThanSourceInstance()
+        public void ResemblanceInstanceIsDifferentThanSourceInstance()
         {
             // Fixture setup
             var source = new ConcreteType();
             var sut = source.AsSource().OfLikeness<AbstractType>();
             // Exercise system
-            var result = sut.CreateProxy();
+            var result = sut.ToResemblance();
             // Verify outcome
             Assert.NotSame(source, result);
             // Teardown
         }
 
         [Fact]
-        public void ProxyDoesNotEqualNullObject()
+        public void ResemblanceDoesNotEqualNullObject()
         {
             // Fixture setup
             var source = new ConcreteType();
             var sut = source.AsSource().OfLikeness<AbstractType>();
             // Exercise system
-            var result = sut.CreateProxy();
+            var result = sut.ToResemblance();
             // Verify outcome
             Assert.False(result.Equals(null));
             // Teardown
         }
 
         [Fact]
-        public void ProxyDoesNotEqualNullSource()
+        public void ResemblanceDoesNotEqualNullSource()
         {
             // Fixture setup
             var source = new ConcreteType();
             var sut = source.AsSource().OfLikeness<AbstractType>();
             // Exercise system
-            var result = sut.CreateProxy();
+            var result = sut.ToResemblance();
             // Verify outcome
             Assert.False(result.Equals((ConcreteType)null));
             // Teardown
         }
 
         [Fact]
-        public void ProxyWhenCalledMultipleTimesForSemanticallyEqualObjectsReturnsTrue()
+        public void MutableProxyWhenCalledMultipleTimesForSemanticallyEqualObjectsReturnsTrue()
         {
             // Fixture setup
             var source = new ConcreteType();
-            var sut = source.AsSource().OfLikeness<AbstractType>().CreateProxy();
+            var sut = source.AsSource().OfLikeness<AbstractType>().ToMutableProxy();
             var expectedResult = Enumerable.Range(1, 3).Select(x => true);
             // Exercise system
             var result = Enumerable.Range(1, 3)
@@ -919,11 +919,11 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyWrapperWhenCalledMultipleTimesForSemanticallyEqualObjectsReturnsTrue()
+        public void ResemblanceWhenCalledMultipleTimesForSemanticallyEqualObjectsReturnsTrue()
         {
             // Fixture setup
             var source = new ConcreteType();
-            var sut = source.AsSource().OfLikeness<AbstractType>().CreateProxy(ProxyBehaviour.Wrap);
+            var sut = source.AsSource().OfLikeness<AbstractType>().ToResemblance();
             var expectedResult = Enumerable.Range(1, 3).Select(x => true);
             // Exercise system
             var result = Enumerable.Range(1, 3)
@@ -934,29 +934,29 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyWhenCalledMultipleTimesForSemanticallyUnequalObjectsReturnsFalse()
+        public void ResemblanceWhenCalledMultipleTimesForSemanticallyUnequalObjectsReturnsFalse()
         {
             // Fixture setup
             var source = new ConcreteType("Lorem");
-            var sut = source.AsSource().OfLikeness<AbstractType>().CreateProxy();
-            sut.Property1 = "Fnaah";
+            var sut = source.AsSource().OfLikeness<AbstractType>().ToResemblance();
+
             var expectedResult = Enumerable.Range(1, 3).Select(x => false);
             // Exercise system
             var result = Enumerable.Range(1, 3)
-                .Select(x => sut.Equals(new ConcreteType()));
+                .Select(x => sut.Equals(new ConcreteType("ipsum")));
             // Verify outcome
             Assert.True(expectedResult.SequenceEqual(result));
             // Teardown
         }
 
         [Fact]
-        public void ProxyOfAbstractTypeEqualsConcreteInstancesThatDifferOnlyOnMemberNotDefinedByAbstraction()
+        public void ResemblanceOfAbstractTypeEqualsConcreteInstancesThatDifferOnlyOnMemberNotDefinedByAbstraction()
         {
             // Fixture setup
             var other = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
             other.Property5 = "ploeh";
 
-            var sut = other.AsSource().OfLikeness<AbstractType>().CreateProxy();
+            var sut = other.AsSource().OfLikeness<AbstractType>().ToResemblance();
             
             // Exercise system
             var result = sut.Equals(other);
@@ -966,13 +966,13 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyOfAbstractTypeDoesNotEqualConcreteInstanceWhenPropertyDiffers()
+        public void MutableProxyOfAbstractTypeDoesNotEqualConcreteInstanceWhenPropertyDiffers()
         {
             // Fixture setup
             var other = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
             other.Property4 = "ploeh";
 
-            var sut = other.AsSource().OfLikeness<AbstractType>().CreateProxy();
+            var sut = other.AsSource().OfLikeness<AbstractType>().ToMutableProxy();
             sut.Property4 = "Fnaah";
 
             // Exercise system
@@ -983,110 +983,116 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyGetHashCodeDoesNotEqualRealGetHashCode()
+        public void ResemblanceGetHashCodeDoesNotEqualRealGetHashCode()
         {
             // Fixture setup
             var source = new TypeOverridingGetHashCode();
             int expected = source.GetHashCode();
             var sut = source.AsSource().OfLikeness<TypeOverridingGetHashCode>();
             // Exercise system
-            var result = sut.CreateProxy();
+            var result = sut.ToResemblance();
             // Verify outcome
             Assert.NotEqual(expected, result.GetHashCode());
             // Teardown
         }
 
         [Fact]
-        public void ProxyThrowsWhenRealTypeIsSealed()
+        public void ResemblanceThrowsWhenRealTypeIsSealed()
         {
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ProxyCreationException>(
-                () => new ConcreteType().AsSource().OfLikeness<PublicSealedType>().CreateProxy());
+                () => new ConcreteType().AsSource().OfLikeness<PublicSealedType>().ToResemblance());
             // Teardown
         }
 
         [Fact]
-        public void ProxyOfTypeWithAccessibleConstructorDoesNotThrowWhenSourceTypeIsAnonymousType()
+        public void ResemblanceOfTypeWithAccessibleConstructorDoesNotThrowWhenSourceTypeIsAnonymousType()
         {
             // Fixture setup
             // Exercise system and verify outcome
             Assert.DoesNotThrow(
-                () => new { }.AsSource().OfLikeness<AbstractType>().CreateProxy());
+                () => new { }.AsSource().OfLikeness<AbstractType>().ToResemblance());
             // Teardown
         }
 
         [Fact]
-        public void ProxyOfTypeWithNonDefaultConstructorThrowsWhenSourceConstructorValuesDoNotMapToDestinationConstructor()
+        public void ResemblanceOfTypeWithNonDefaultConstructorThrowsWhenSourceConstructorValuesDoNotMapToDestinationConstructor()
         {
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ProxyCreationException>(
-                () => new { }.AsSource().OfLikeness<AbstractTypeWithNonDefaultConstructor<string>>().CreateProxy());
+                () => new { }.AsSource().OfLikeness<AbstractTypeWithNonDefaultConstructor<string>>().ToResemblance());
             // Teardown
         }
 
         [Fact]
-        public void ProxyOfAbstractTypeWithNonDefaultConstructorDoesNotThrow()
+        public void ResemblanceOfAbstractTypeWithNonDefaultConstructorDoesNotThrow()
         {
             // Fixture setup
             var value = new PropertyHolder<string>();
             value.Property = "Foo";
             var sut = value.AsSource().OfLikeness<AbstractTypeWithNonDefaultConstructor<string>>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.CreateProxy());
+            Assert.DoesNotThrow(() => sut.ToResemblance());
             // Teardown
         }
 
         [Fact]
-        public void ProxyOfQuadrupleParameterTypeEqualsTripleParameterType()
+        public void ResemblanceOfQuadrupleParameterTypeEqualsTripleParameterType()
         {
             // Fixture setup
-            var value = new QuadrupleParameterType<int, double, long, string>(1, 2.0, 3, "4");
-            var sut = value.AsSource().OfLikeness<TripleParameterType<int, double, long>>().CreateProxy();
+            var original = new QuadrupleParameterType<int, double, long, string>(1, 2.0, 3, "4");
+            var other = new TripleParameterType<int, double, long>(1, 2.0, 3);
+
+            var sut = original.AsSource().OfLikeness<TripleParameterType<int, double, long>>().ToResemblance();
             // Exercise system
-            var result = sut.Equals(value);
+            var result = sut.Equals(other);
             // Verify outcome
             Assert.True(result);
         }
 
         [Fact]
-        public void ProxyOfQuadrupleParameterTypeEqualsDoubleParameterType()
+        public void ResemblanceOfQuadrupleParameterTypeEqualsDoubleParameterType()
         {
             // Fixture setup
-            var value = new QuadrupleParameterType<int, double, long, string>(1, 2.0, 3, "4");
-            var sut = value.AsSource().OfLikeness<DoubleParameterType<int, double>>().CreateProxy();
+            var original = new QuadrupleParameterType<int, double, long, string>(1, 2.0, 3, "4");
+            var other = new DoubleParameterType<int, double>(1, 2.0);
+
+            var sut = original.AsSource().OfLikeness<DoubleParameterType<int, double>>().ToResemblance();
             // Exercise system
-            var result = sut.Equals(value);
+            var result = sut.Equals(other);
             // Verify outcome
             Assert.True(result);
         }
 
         [Fact]
-        public void ProxyOfQuadrupleParameterTypeEqualsSingleParameterType()
+        public void ResemblanceOfQuadrupleParameterTypeEqualsSingleParameterType()
         {
             // Fixture setup
-            var value = new QuadrupleParameterType<int, double, long, string>(1, 2.0, 3, "4");
-            var sut = value.AsSource().OfLikeness<SingleParameterType<int>>()
+            var original = new QuadrupleParameterType<int, double, long, string>(1, 2.0, 3, "4");
+            var other = new SingleParameterType<int>(1);
+
+            var sut = original.AsSource().OfLikeness<SingleParameterType<int>>()
                 .With(d => d.Parameter).EqualsWhen((s, d) => s.Parameter1 == d.Parameter)
-                .CreateProxy();
+                .ToResemblance();
             // Exercise system
-            var result = sut.Equals(value);
+            var result = sut.Equals(other);
             // Verify outcome
             Assert.True(result);
         }
 
         [Fact]
-        public void ProxyEqualsIsTrueWhenCorrectMappingHasBeenDefined()
+        public void ResemblanceEqualsIsTrueWhenCorrectMappingHasBeenDefined()
         {
             // Fixture setup
-            var other = new PropertyHolder<string>();
-            other.Property = "Foo";
+            var original = new PropertyHolder<string> {Property = "Foo"};
+            var other = new FieldHolder<string> {Field = "Foo"};
 
-            var sut = new Likeness<PropertyHolder<string>, FieldHolder<string>>(other)
+            var sut = new Likeness<PropertyHolder<string>, FieldHolder<string>>(original)
                 .With(d => d.Field).EqualsWhen((s, d) => s.Property == d.Field)
-                .CreateProxy();
-            sut.Field = other.Property;
+                .ToResemblance();
+            sut.Field = original.Property;
 
             // Exercise system
             var result = sut.Equals(other);
@@ -1096,7 +1102,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyWithoutPropertyEqualsInstanceEvenIfItDiffersOnThatProperty()
+        public void ResemblanceWithoutPropertyEqualsInstanceEvenIfItDiffersOnThatProperty()
         {
             // Fixture setup
             var other = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
@@ -1104,7 +1110,7 @@ namespace Ploeh.SemanticComparison.UnitTest
 
             var sut = other.AsSource().OfLikeness<ConcreteType>()
                 .Without(x => x.Property5)
-                .CreateProxy();
+                .ToResemblance();
             sut.Property5 = "Fnaah";
             // Exercise system
             var result = sut.Equals(other);
@@ -1114,7 +1120,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyWithoutTwoPropertiesEqualsInstanceEvenThoughThosePropertyValuesDiffer()
+        public void ResemblanceWithoutTwoPropertiesEqualsInstanceEvenThoughThosePropertyValuesDiffer()
         {
             // Fixture setup
             var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
@@ -1122,7 +1128,7 @@ namespace Ploeh.SemanticComparison.UnitTest
 
             var sut = value.AsSource().OfLikeness<ConcreteType>()
                 .Without(x => x.Property5).Without(x => x.Property1)
-                .CreateProxy();
+                .ToResemblance();
             sut.Property1 = "Ndøh";
             sut.Property5 = "Sqryt";
             // Exercise system
@@ -1133,29 +1139,34 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyWithSemanticEqualityWillReturnTrue()
+        public void ResemblanceWithSemanticEqualityWillReturnTrue()
         {
             // Fixture setup
-            var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            var original = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            var other = new DoublePropertyHolder<object, object>
+                {
+                    Property1 = "Lorem",
+                    Property2 = "ipsum"
+                };
 
-            var sut = value.AsSource().OfLikeness<DoublePropertyHolder<object, object>>()
-                .CreateProxy();
+            var sut = original.AsSource().OfLikeness<DoublePropertyHolder<object, object>>()
+                .ToResemblance();
             // Exercise system
-            var result = sut.Equals(value);
+            var result = sut.Equals(other);
             // Verify outcome
             Assert.True(result);
             // Teardown
         }
 
         [Fact]
-        public void ProxyOmitAutoComparisonWillCauseDifferentObjectsToLookEqual()
+        public void MutableProxyOmitAutoComparisonWillCauseDifferentObjectsToLookEqual()
         {
             // Fixture setup
             var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
 
             var sut = value.AsSource().OfLikeness<ConcreteType>()
                 .OmitAutoComparison()
-                .CreateProxy();
+                .ToMutableProxy();
             sut.Property1 = "amet";
             sut.Property2 = "consectetur";
             sut.Property3 = "adipisicing";
@@ -1168,7 +1179,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyOmitAutoComparisonFollowedByWithDefaultEqualityWillOptInOnThosePropertiesOnlyAndReturnTrueWhenTheyMatch()
+        public void MutableProxyOmitAutoComparisonFollowedByWithDefaultEqualityWillOptInOnThosePropertiesOnlyAndReturnTrueWhenTheyMatch()
         {
             // Fixture setup
             var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
@@ -1177,7 +1188,7 @@ namespace Ploeh.SemanticComparison.UnitTest
                 .OmitAutoComparison()
                 .WithDefaultEquality(d => d.Property1)
                 .WithDefaultEquality(d => d.Property3)
-                .CreateProxy();
+                .ToMutableProxy();
             sut.Property1 = "Lorem";
             sut.Property2 = "ploeh";
             sut.Property3 = "dolor";
@@ -1190,7 +1201,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyOmitAutoComparisonFollowedByWithDefaultEqualityWillOptInOnThosePropertiesOnlyAndReturnFalseWhenTheyDoNotMatch()
+        public void MutableProxyOmitAutoComparisonFollowedByWithDefaultEqualityWillOptInOnThosePropertiesOnlyAndReturnFalseWhenTheyDoNotMatch()
         {
             // Fixture setup
             var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
@@ -1199,7 +1210,7 @@ namespace Ploeh.SemanticComparison.UnitTest
                 .OmitAutoComparison()
                 .WithDefaultEquality(d => d.Property1)
                 .WithDefaultEquality(d => d.Property4)
-                .CreateProxy();
+                .ToMutableProxy();
             sut.Property1 = "Lorem";
             sut.Property2 = "ploeh";
             sut.Property3 = "dolor";
@@ -1212,7 +1223,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyOmitAutoComparisonFollowedByCorrectComboOfDefaultEqualityAndExplictyWithReturnsTrue()
+        public void MutableProxyOmitAutoComparisonFollowedByCorrectComboOfDefaultEqualityAndExplictyWithReturnsTrue()
         {
             // Fixture setup
             var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
@@ -1221,7 +1232,7 @@ namespace Ploeh.SemanticComparison.UnitTest
                 .OmitAutoComparison()
                 .WithDefaultEquality(d => d.Property1)
                 .With(d => d.Property2).EqualsWhen((s, d) => s.Property2.ToString().ToUpper() == d.Property2.ToString())
-                .CreateProxy();
+                .ToMutableProxy();
             sut.Property1 = "Lorem";
             sut.Property2 = "IPSUM";
             sut.Property3 = "dolor";
@@ -1234,40 +1245,40 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyOfIdenticalParameterTypesCanBeCreated()
+        public void ResemblanceOfIdenticalParameterTypesCanBeCreated()
         {
             // Fixture setup
             var sut = new TripleParameterType<long, long, long>(1, 2, 3)
                 .AsSource().OfLikeness<TripleParameterType<long, long, long>>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.CreateProxy());
+            Assert.DoesNotThrow(() => sut.ToResemblance());
             // Teardown
         }
 
         [Fact]
-        public void ProxyOfIdenticalParameterTypesWithPropertiesCanBeCreated()
+        public void ResemblanceOfIdenticalParameterTypesWithPropertiesCanBeCreated()
         {
             // Fixture setup
             var sut = new TypeWithIdenticalParameterTypesAndProperties(1, 2, 3)
                 .AsSource().OfLikeness<TypeWithIdenticalParameterTypesAndProperties>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.CreateProxy());
+            Assert.DoesNotThrow(() => sut.ToResemblance());
             // Teardown
         }
 
         [Fact]
-        public void ProxyOfTypeWithDifferentParameterTypesAndPropertiesCanBeCreated()
+        public void ResemblanceOfTypeWithDifferentParameterTypesAndPropertiesCanBeCreated()
         {
             // Fixture setup
             var sut = new TypeWithDifferentParameterTypesAndProperties(1, "2", 3)
                 .AsSource().OfLikeness<TypeWithDifferentParameterTypesAndProperties>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.CreateProxy());
+            Assert.DoesNotThrow(() => sut.ToResemblance());
             // Teardown
         }
 
         [Fact]
-        public void ProxyOfTypeWithIncompatibleAndCompatibleConstructorCanBeCreated()
+        public void ResemblanceOfTypeWithIncompatibleAndCompatibleConstructorCanBeCreated()
         {
             // Fixture setup
             var value = new TypeWithIncompatibleAndCompatibleConstructor(
@@ -1277,14 +1288,14 @@ namespace Ploeh.SemanticComparison.UnitTest
                 .AsSource()
                 .OfLikeness<TypeWithIncompatibleAndCompatibleConstructor>();
             // Exercise system
-            var result = sut.CreateProxy();
+            var result = sut.ToResemblance();
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
         }
 
         [Fact]
-        public void ProxyOfTypeWithIncompatibleAndCompatibleConstructorCanBeCreatedSecondOverload()
+        public void ResemblanceOfTypeWithIncompatibleAndCompatibleConstructorCanBeCreatedSecondOverload()
         {
             // Fixture setup
             var value = new TypeWithIncompatibleAndCompatibleConstructor(
@@ -1295,14 +1306,14 @@ namespace Ploeh.SemanticComparison.UnitTest
                 .AsSource()
                 .OfLikeness<TypeWithIncompatibleAndCompatibleConstructor>();
             // Exercise system
-            var result = sut.CreateProxy();
+            var result = sut.ToResemblance();
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
         }
 
         [Fact]
-        public void ProxyOfTypeWithIncompatibleAndCompatibleConstructorCanBeCreatedThirdOverload()
+        public void ResemblanceOfTypeWithIncompatibleAndCompatibleConstructorCanBeCreatedThirdOverload()
         {
             // Fixture setup
             var value = new TypeWithIncompatibleAndCompatibleConstructor(
@@ -1314,14 +1325,14 @@ namespace Ploeh.SemanticComparison.UnitTest
                 .AsSource()
                 .OfLikeness<TypeWithIncompatibleAndCompatibleConstructor>();
             // Exercise system
-            var result = sut.CreateProxy();
+            var result = sut.ToResemblance();
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
         }
 
         [Fact]
-        public void ProxyOfTypeWithUnorderedPropertiesCanBeCreated()
+        public void ResemblanceOfTypeWithUnorderedPropertiesCanBeCreated()
         {
             // Fixture setup
             var value = new TypeWithUnorderedProperties(
@@ -1333,14 +1344,14 @@ namespace Ploeh.SemanticComparison.UnitTest
                 .AsSource()
                 .OfLikeness<TypeWithUnorderedProperties>();
             // Exercise system
-            var result = sut.CreateProxy();
+            var result = sut.ToResemblance();
             // Verify outcome
             Assert.NotNull(result);
             // Teardown
         }
 
         [Fact]
-        public void ProxyAndLikenessHaveSameBehavior1()
+        public void ResemblanceAndLikenessHaveSameBehavior1()
         {
             // Fixture setup
             var original = new ConcreteType
@@ -1348,14 +1359,20 @@ namespace Ploeh.SemanticComparison.UnitTest
                 Property1 = "value1",
                 Property2 = "value2"
             };
+            var other = new ConcreteType
+            {
+                Property1 = "abc",
+                Property2 = "value2"
+            };
 
             var likeness = original.AsSource().OfLikeness<ConcreteType>()
                 .Without(x => x.Property1);
-            var expected = likeness.Equals(original);
 
-            var sut = likeness.CreateProxy(ProxyBehaviour.Wrap);
+            var expected = likeness.Equals(other);
+
+            var sut = likeness.ToResemblance();
             // Exercise system
-            var result = sut.Equals(original);
+            var result = sut.Equals(other);
             // Verify outcome
             Assert.True(result);
             Assert.Equal(expected, result);
@@ -1363,7 +1380,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyAndLikenessHaveSameBehavior2()
+        public void ResemblanceAndLikenessHaveSameBehavior2()
         {
             // Fixture setup
             var original = new
@@ -1388,7 +1405,7 @@ namespace Ploeh.SemanticComparison.UnitTest
                 .AsSource().OfLikeness<ConcreteType>()
                 .With(x => x.Property2).EqualsWhen((a, b) => string.Join(",", a.Property2) == (string)b.Property2);
 
-            var sut = likeness.CreateProxy(ProxyBehaviour.Wrap);
+            var sut = likeness.ToResemblance();
 
             var expected = likeness.Equals(other);
 
@@ -1401,7 +1418,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyAndLikenessHaveSameBehavior3()
+        public void ResemblanceAndLikenessHaveSameBehavior3()
         {
             // Fixture setup
             var original = new ConcreteType
@@ -1423,7 +1440,7 @@ namespace Ploeh.SemanticComparison.UnitTest
                         return ((string) b.Property2).Reverse().SequenceEqual((IEnumerable<char>) a.Property2);
                     });
 
-            var sut = likeness.CreateProxy(ProxyBehaviour.Wrap);
+            var sut = likeness.ToResemblance();
 
             var expected = likeness.Equals(other);
 
@@ -1436,7 +1453,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyAndLikenessHaveSameBehavior4()
+        public void ResemblanceAndLikenessHaveSameBehavior4()
         {
             var obj = new
             {
@@ -1462,7 +1479,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             };
 
             var result1 = likeness.Equals(other);
-            var result2 = likeness.CreateProxy(ProxyBehaviour.Wrap).Equals(other);
+            var result2 = likeness.ToResemblance().Equals(other);
 
             // Verify outcome
             Assert.True(result1);
@@ -1483,7 +1500,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyCanCorrectlyAssignsFieldValues()
+        public void MutableProxyCanCorrectlyAssignsFieldValues()
         {
             // Fixture setup
             var expected = 3;
@@ -1491,7 +1508,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             value.Field = expected;
 
             var sut = value.AsSource().OfLikeness<FieldHolder<int>>()
-                .CreateProxy();
+                .ToMutableProxy();
             // Exercise system
             var result = sut.Field;
             // Verify outcome
@@ -1500,7 +1517,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyCanCorrectlyAssignsFieldValuesToTypeWithPublicFieldsAndProperties()
+        public void MutableProxyCanCorrectlyAssignsFieldValuesToTypeWithPublicFieldsAndProperties()
         {
             // Fixture setup
             var value = new TypeWithPublicFieldsAndProperties();
@@ -1511,7 +1528,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             var sut = value.AsSource().OfLikeness<TypeWithPublicFieldsAndProperties>();
 
             // Exercise system
-            var proxy = sut.CreateProxy();
+            var proxy = sut.ToMutableProxy();
             var result =
                    value.AutomaticProperty == proxy.AutomaticProperty
                 && value.Field == proxy.Field
@@ -1522,13 +1539,13 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyCanCorrectlyAssignFieldValuesFromAnonymousType()
+        public void MutableProxyCanCorrectlyAssignFieldValuesFromAnonymousType()
         {
             // Fixture setup
             var expected = 3.0;
             var value = new { Field = expected };
             var sut = value.AsSource().OfLikeness<FieldHolder<double>>()
-                .CreateProxy();
+                .ToMutableProxy();
             // Exercise system
             var result = sut.Field;
             // Verify outcome
@@ -1537,7 +1554,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyCanCorrectlyAssignFieldValuesFromAnonymousTypeToTypeWithPublicFieldsAndProperties()
+        public void MutableProxyCanCorrectlyAssignFieldValuesFromAnonymousTypeToTypeWithPublicFieldsAndProperties()
         {
             // Fixture setup
             var value = new
@@ -1548,7 +1565,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             };
             var sut = value.AsSource()
                 .OfLikeness<TypeWithPublicFieldsAndProperties>()
-                .CreateProxy();
+                .ToMutableProxy();
             // Exercise system
             var result = 
                    value.AutomaticProperty == sut.AutomaticProperty 
