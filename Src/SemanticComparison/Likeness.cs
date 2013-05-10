@@ -51,19 +51,36 @@ namespace Ploeh.SemanticComparison
             get { return this.value; }
         }
 
+        [Obsolete("Please use ToResemblance or ToMutableProxy instead")]
+        public TDestination CreateProxy()
+        {
+            return ToMutableProxy();
+        }
+
+        /// <summary>
+        /// Creates a dynamic proxy that overrides Equals using Likeness. 
+        /// This method delegates to the Likeness object for comparison
+        /// </summary>
+        public TDestination ToResemblance()
+        {
+            return CatchProxyException(() => ProxyGenerator.CreateResemblanceProxy(this));
+        }
+
         /// <summary>
         /// Creates a dynamic proxy that overrides Equals using Likeness. 
         /// This method uses the same semantic heuristics, as the default semantic comparison, to map
         /// values from the source constructor parameters to the destination constructor.
         /// </summary>
-        public TDestination CreateProxy()
+        public TDestination ToMutableProxy()
+        {
+            return CatchProxyException(() => ProxyGenerator.CreateMutableProxy<TSource, TDestination>(this.value, this.comparer));
+        }
+
+        private TDestination CatchProxyException(Func<TDestination> createProxy)
         {
             try
             {
-                return ProxyGenerator.CreateLikenessProxy<TSource, TDestination>(
-                    this.value,
-                    this.comparer,
-                    SemanticComparer<TSource, TDestination>.DefaultMembers.Generate<TDestination>());
+                return createProxy();
             }
             catch (TypeLoadException e)
             {
