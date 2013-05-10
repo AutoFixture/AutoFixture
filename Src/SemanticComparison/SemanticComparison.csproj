@@ -95,7 +95,6 @@
     <Compile Include="MemberInfoExtension.cs" />
     <Compile Include="MemberInfoNameComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProxyBehaviour.cs" />
     <Compile Include="ProxyCreationException.cs" />
     <Compile Include="ProxyGenerator.cs" />
     <Compile Include="ProxyType.cs" />
