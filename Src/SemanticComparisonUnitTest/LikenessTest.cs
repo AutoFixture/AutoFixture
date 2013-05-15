@@ -1024,6 +1024,17 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
+        public void ProxyOfTypeWithPrivateAndOtherCtorDoesNotThrow()
+        {
+            // Fixture setup
+            var value = new PropertyHolder<string>();
+            value.Property = "Foo";
+            var sut = value.AsSource().OfLikeness<TypeWithPrivateDefaultCtorAndOtherCtor<string>>();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.CreateProxy());
+            // Teardown
+        }
+        [Fact]
         public void ProxyOfQuadrupleParameterTypeEqualsTripleParameterType()
         {
             // Fixture setup

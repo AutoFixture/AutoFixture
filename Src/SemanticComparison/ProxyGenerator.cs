@@ -256,7 +256,7 @@ namespace Ploeh.SemanticComparison
             this Type type)
         {
             return type.GetConstructors(
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(x => x.IsPublic || x.IsFamily);
         }
 
         private static IEnumerable<Type> GetParameterTypes(

@@ -75,6 +75,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyCreationExceptionTest.cs" />
     <Compile Include="SemanticComparerTest.cs" />
+    <Compile Include="TypeWithPrivateDefaultCtorAndOtherCtor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SemanticComparison\SemanticComparison.csproj">
