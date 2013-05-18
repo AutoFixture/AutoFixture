@@ -409,5 +409,21 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             Assert.NotNull(imp.TransformedMessage);
             // Teardown
         }
+
+        [Fact]
+        public void DemonstrateHowInjectWorks()
+        {
+            var fixture = new Fixture();
+            var original = new MyClass();
+            fixture.Inject(original);
+
+            var actual1 = fixture.Create<MyClass>();
+            var actual2 = fixture.Create<MyClass>();
+
+            // actual1 and actual2 are equal, and equal to original
+            Assert.Same(actual1, actual2);
+            Assert.Same(original, actual1);
+            Assert.Same(original, actual2);
+        }
     }
 }
