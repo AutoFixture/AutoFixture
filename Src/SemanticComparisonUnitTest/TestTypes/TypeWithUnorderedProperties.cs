@@ -1,6 +1,6 @@
 ﻿using Ploeh.TestTypeFoundation;
 
-namespace Ploeh.SemanticComparison.UnitTest
+namespace Ploeh.SemanticComparison.UnitTest.TestTypes
 {
     public class TypeWithUnorderedProperties
     {

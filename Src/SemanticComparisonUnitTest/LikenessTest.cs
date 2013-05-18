@@ -1,4 +1,5 @@
 ﻿using Ploeh.SemanticComparison.Fluent;
+using Ploeh.SemanticComparison.UnitTest.TestTypes;
 using Ploeh.TestTypeFoundation;
 using System;
 using System.Collections.Generic;

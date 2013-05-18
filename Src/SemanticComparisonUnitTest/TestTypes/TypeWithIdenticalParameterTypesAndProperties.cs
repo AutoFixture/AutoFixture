@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.SemanticComparison.UnitTest
+namespace Ploeh.SemanticComparison.UnitTest.TestTypes
 {
     public class TypeWithIdenticalParameterTypesAndProperties
     {
