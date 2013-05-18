@@ -74,8 +74,15 @@
     <Compile Include="MemberInfoNameComparerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyCreationExceptionTest.cs" />
+    <Compile Include="PublicSealedType.cs" />
     <Compile Include="SemanticComparerTest.cs" />
+    <Compile Include="TypeOverridingGetHashCode.cs" />
+    <Compile Include="TypeWithDifferentParameterTypesAndProperties.cs" />
+    <Compile Include="TypeWithIdenticalParameterTypesAndProperties.cs" />
+    <Compile Include="TypeWithIncompatibleAndCompatibleConstructor.cs" />
     <Compile Include="TypeWithPrivateDefaultCtorAndOtherCtor.cs" />
+    <Compile Include="TypeWithPublicFieldsAndProperties.cs" />
+    <Compile Include="TypeWithUnorderedProperties.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SemanticComparison\SemanticComparison.csproj">
