@@ -83,6 +83,7 @@
     <Compile Include="AbstractRecursionIssue\ItemBase.cs" />
     <Compile Include="AbstractRecursionIssue\ItemLocation.cs" />
     <Compile Include="AbstractRecursionIssue\Repro.cs" />
+    <Compile Include="RandomBooleanSequenceGeneratorTest.cs" />
     <Compile Include="FixtureResolvingItselfTests.cs" />
     <Compile Include="IncrementingDateTimeCustomizationTest.cs" />
     <Compile Include="Kernel\ActionSpecimenCommandTests.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="ProvidedAttribute.cs" />
     <Compile Include="RandomCharSequenceGeneratorTest.cs" />
     <Compile Include="RandomDateTimeSequenceGeneratorTest.cs" />
+    <Compile Include="RandomBooleanSequenceCustomizationTest.cs" />
     <Compile Include="RandomNumericSequenceCustomizationTest.cs" />
     <Compile Include="RandomNumericSequenceGeneratorTest.cs" />
     <Compile Include="RangedNumberGeneratorTest.cs" />
