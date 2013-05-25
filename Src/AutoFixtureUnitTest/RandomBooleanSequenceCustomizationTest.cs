@@ -37,8 +37,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new RandomBooleanSequenceCustomization();
             // Exercise system
             sut.Customize(fixture);
-            // Verify outcome
-            Assert.True(fixture.Customizations.OfType<RandomBooleanSequenceGenerator>().Any());
+            // Verify outcome (no exception from Single indicates success)
+            fixture.Customizations.OfType<RandomBooleanSequenceGenerator>().Single();
             // Teardown
         }
 
