@@ -14,7 +14,11 @@ As part of the verification build, Visual Studio Code Analysis is executed in a 
 
 ## Pull requests ##
 
-When developing for AutoFixture, please respect the coding style already present. Look around in the source code to get a feel for it. Also, please follow the [Open Source Contribution Etiquette](http://tirania.org/blog/archive/2010/Dec-31.html). AutoFixture is a fairly typical open source project: if you want to contribute, start by [creating a fork](http://help.github.com/fork-a-repo/) and [sending a pull request](http://help.github.com/send-pull-requests/) when you have something you wish to commit. When creating pull requests, please keep the Single Responsibility Principle in mind. A pull request that does a single thing very well is more likely to be accepted.
+When developing for AutoFixture, please respect the coding style already present. Look around in the source code to get a feel for it.
+
+Please keep line lengths under 120 characters. Line lengths over 120 characters doen't fit into the standard GitHub code listing window, so it requires vertical scrolling to review.
+
+Also, please follow the [Open Source Contribution Etiquette](http://tirania.org/blog/archive/2010/Dec-31.html). AutoFixture is a fairly typical open source project: if you want to contribute, start by [creating a fork](http://help.github.com/fork-a-repo/) and [sending a pull request](http://help.github.com/send-pull-requests/) when you have something you wish to commit. When creating pull requests, please keep the Single Responsibility Principle in mind. A pull request that does a single thing very well is more likely to be accepted.
 
 For complex pull requests, you are encouraged to first start a discussion on the [issue list](https://github.com/AutoFixture/AutoFixture/issues). This can save you time, because the AutoFixture regulars can help verify your idea, or point you in the right direction.
 
