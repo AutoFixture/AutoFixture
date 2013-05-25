@@ -96,6 +96,7 @@
   <ItemGroup>
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
+    <Compile Include="RandomBooleanSequenceGenerator.cs" />
     <Compile Include="CharSequenceGenerator.cs" />
     <Compile Include="CollectionFiller.cs" />
     <Compile Include="CompositeCustomization.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="OmitOnRecursionBehavior.cs" />
     <Compile Include="RandomCharSequenceGenerator.cs" />
     <Compile Include="RandomDateTimeSequenceGenerator.cs" />
+    <Compile Include="RandomBooleanSequenceCustomization.cs" />
     <Compile Include="RandomNumericSequenceCustomization.cs" />
     <Compile Include="RandomNumericSequenceGenerator.cs" />
     <Compile Include="RangedNumberGenerator.cs" />
