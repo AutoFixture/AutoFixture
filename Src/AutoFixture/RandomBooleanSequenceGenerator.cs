@@ -8,6 +8,18 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class RandomBooleanSequenceGenerator : ISpecimenBuilder
     {
+        private readonly RandomNumericSequenceGenerator randomBooleanNumbers;
+
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="RandomBooleanSequenceGenerator"/> class.
+        /// </summary>
+        public RandomBooleanSequenceGenerator()
+        {
+            this.randomBooleanNumbers =
+                new RandomNumericSequenceGenerator(0, 2);
+        }
+
         /// <summary>
         /// Returns <see langword="true"/> or <see langword="false"/> randomly.
         /// </summary>
@@ -24,13 +36,12 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            return GenerateBoolean();
+            return this.GenerateBoolean(context);
         }
-        
-        private static bool GenerateBoolean()
+
+        private bool GenerateBoolean(ISpecimenContext context)
         {
-            var r = new Random();
-            return r.Next(0, 2) == 0;
+            return (int)this.randomBooleanNumbers.Create(typeof(int), context) == 0;
         }
     }
 }
