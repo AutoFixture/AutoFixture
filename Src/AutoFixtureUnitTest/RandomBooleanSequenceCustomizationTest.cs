@@ -31,14 +31,14 @@ namespace Ploeh.AutoFixtureUnitTest
         [Fact]
         public void CustomizeProperFixtureCorrectlyCustomizesIt()
         {
-
             // Fixture setup
             var fixture = new Fixture();
             var sut = new RandomBooleanSequenceCustomization();
             // Exercise system
             sut.Customize(fixture);
-            // Verify outcome (no exception from Single indicates success)
-            fixture.Customizations.OfType<RandomBooleanSequenceGenerator>().Single();
+            var result = fixture.Customizations.OfType<RandomBooleanSequenceGenerator>().SingleOrDefault();
+            // Verify outcome
+            Assert.NotNull(result);
             // Teardown
         }
 
