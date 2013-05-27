@@ -99,6 +99,8 @@
     <Compile Include="SingleParameterType.cs" />
     <Compile Include="StaticFieldHolder.cs" />
     <Compile Include="StaticPropertyHolder.cs" />
+    <Compile Include="StructType.cs" />
+    <Compile Include="StructTypeWithoutConstructor.cs" />
     <Compile Include="TripleParameterType.cs" />
     <Compile Include="TriplePropertyHolder.cs" />
     <Compile Include="TriState.cs" />

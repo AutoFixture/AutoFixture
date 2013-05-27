@@ -4894,6 +4894,47 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.NotEmpty(sut);
         }
 
+        [Fact]
+        public void CreateAnonymousStructWithConstructorReturnsInstance()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.Create<StructType>();
+            // Verify outcome
+            Assert.NotNull(result);
+            Assert.NotNull(result.Property1);
+            Assert.NotNull(result.Property2);
+            Assert.NotNull(result.Property3);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousStructWithoutConstructorThrowsExpcetion()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system and verify outcome
+            Assert.Throws<ObjectCreationException>(() => fixture.Create<StructTypeWithoutConstructor>());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousStructWithoutConstructorUsingCustomizationReturnsInstance()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var sut = new SupportStructureDefaultConstructorsCustomization();
+            sut.Customize(fixture);
+            // Exercise system and verify outcome
+            var result = fixture.Create<StructTypeWithoutConstructor>();
+            // Verify outcome
+            Assert.NotNull(result);
+            Assert.NotNull(result.Property1);
+            Assert.NotNull(result.Property2);
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB

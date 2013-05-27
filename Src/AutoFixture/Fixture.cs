@@ -69,11 +69,11 @@ namespace Ploeh.AutoFixture
                                         this),
                                     new OrRequestSpecification(
                                         new ExactTypeSpecification(
-                                            typeof(Fixture)),
+                                            typeof (Fixture)),
                                         new ExactTypeSpecification(
-                                            typeof(IFixture)),
+                                            typeof (IFixture)),
                                         new ExactTypeSpecification(
-                                            typeof(ISpecimenBuilder)))),
+                                            typeof (ISpecimenBuilder)))),
                                 new StableFiniteSequenceRelay(),
                                 new FilteringSpecimenBuilder(
                                     new Postprocessor(
@@ -111,6 +111,11 @@ namespace Ploeh.AutoFixture
                                 new CollectionRelay(),
                                 new ListRelay(),
                                 new EnumerableRelay())),
+                        new FilteringSpecimenBuilder(
+                            new StructureWithoutConstructorSpecimenBuilder(),
+                            new AndRequestSpecification(
+                                new StructureSpecification(), 
+                                new NoConstructorSpecification())),
                         new TerminatingSpecimenBuilder()));
 
             this.UpdateCustomizer();
