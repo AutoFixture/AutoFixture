@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture
             return Activator.CreateInstance(type);
         }
 
-        private bool IsCustomStructure(Type type)
+        private static bool IsCustomStructure(Type type)
         {
             return type.IsValueType && !type.IsEnum && !type.IsPrimitive;
         }

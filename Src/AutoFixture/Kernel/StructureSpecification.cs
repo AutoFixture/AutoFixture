@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture.Kernel
             return type != null && IsStruct(type);
         }
 
-        private bool IsStruct(Type type)
+        private static bool IsStruct(Type type)
         {
             return type.IsValueType && !type.IsEnum && !type.IsPrimitive;
         }

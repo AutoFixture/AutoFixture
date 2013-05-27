@@ -26,12 +26,13 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>
         /// This method never returns. It always throws an <see cref="ObjectCreationException"/>.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public object Create(object request, ISpecimenContext context)
         {
             throw new ObjectCreationException(
                 string.Format(
                     CultureInfo.CurrentCulture,
-                    @"AutoFixture was unable to create an instance from {0}, since it's a value type with no explicit, parameterized constructors. Are you attempting to create an instance of a mutable value type? If so, you should strongly consider changing the design of the value type. However, if you are unable to do so, you can add the SupportValueTypeDefaultConstructors customizations to your Fixture instance:
+                    @"AutoFixture was unable to create an instance from {0}, since it is a value type with no explicit, parameterized constructors. Are you attempting to create an instance of a mutable value type? If so, you should strongly consider changing the design of the value type. However, if you are unable to do so, you can add the SupportValueTypeDefaultConstructors customizations to your Fixture instance:
 var fixture = new Fixture();
 var customization = new {1}();
 customization.Customize(fixture);",

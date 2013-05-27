@@ -10,6 +10,9 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly IMethodQuery modestConstructorQuery;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NoConstructorSpecification"/> class.
+        /// </summary>
         public NoConstructorSpecification()
         {
             modestConstructorQuery = new ModestConstructorQuery();
