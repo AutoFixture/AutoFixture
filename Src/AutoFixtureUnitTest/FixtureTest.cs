@@ -4910,12 +4910,26 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousStructWithoutConstructorThrowsExpcetion()
+        public void CreateAnonymousStructWithoutConstructorThrowsException()
         {
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system and verify outcome
             Assert.Throws<ObjectCreationException>(() => fixture.Create<StructTypeWithoutConstructor>());
+            // Teardown
+        }
+
+        /// <summary>
+        /// This test is just to make sure that edge cases as decimal which is not primitive type and is a structure will not fall within 
+        /// struct checking mechanism.
+        /// </summary>
+        [Fact]
+        public void CreateDecimalDoesNotThrowException()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => fixture.Create<decimal>());
             // Teardown
         }
 

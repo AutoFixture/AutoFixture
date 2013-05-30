@@ -24,12 +24,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             var type = request as Type;
-            return type != null && IsStruct(type);
-        }
-
-        private static bool IsStruct(Type type)
-        {
-            return type.IsValueType && !type.IsEnum && !type.IsPrimitive;
+            return type != null && type.IsStructure();
         }
     }
 }

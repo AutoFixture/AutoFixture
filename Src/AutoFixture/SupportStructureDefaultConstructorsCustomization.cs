@@ -1,4 +1,5 @@
 ﻿using System;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 
@@ -20,7 +21,10 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            fixture.Customizations.Add(new SupportStructureDefaultConstructorsGenerator());
+            fixture.Customizations.Add(
+                new Postprocessor(
+                    new SupportStructureDefaultConstructorsGenerator(),
+                    new AutoPropertiesCommand()));
         }
     }
 }

@@ -19,17 +19,12 @@ namespace Ploeh.AutoFixture
         public object Create(object request, ISpecimenContext context)
         {
             Type type = request as Type;
-            if (type == null || !IsCustomStructure(type))
+            if (type == null || !type.IsStructure())
             {
                 return new NoSpecimen(request);
             }
             
             return Activator.CreateInstance(type);
-        }
-
-        private static bool IsCustomStructure(Type type)
-        {
-            return type.IsValueType && !type.IsEnum && !type.IsPrimitive;
         }
     }
 }

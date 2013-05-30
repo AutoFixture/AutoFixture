@@ -39,6 +39,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(typeof(StructType), true)]
         [InlineData(typeof(char), false)]
         [InlineData(typeof(ActivityScope), false)]
+        [InlineData(typeof(decimal), true)]
+        [InlineData(typeof(Nullable<int>), true)]
         public void IsSatisfiedByReturnsCorrectResult(object request, bool expectedResult)
         {
             // Fixture setup
