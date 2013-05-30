@@ -98,7 +98,7 @@
     <Compile Include="BehaviorRoot.cs" />
     <Compile Include="Kernel\NoConstructorSpecification.cs" />
     <Compile Include="Kernel\StructureSpecification.cs" />
-    <Compile Include="Kernel\StructureWithoutConstructorSpecimenBuilder.cs" />
+    <Compile Include="Kernel\ThrowingOnMutableValueTypes.cs" />
     <Compile Include="RandomBooleanSequenceGenerator.cs" />
     <Compile Include="CharSequenceGenerator.cs" />
     <Compile Include="CollectionFiller.cs" />

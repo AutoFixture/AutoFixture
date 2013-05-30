@@ -5,14 +5,14 @@ using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class StructureWithoutConstructorSpecimenBuilderTest
+    public class ThrowingOnMutableValueTypesTest
     {
         [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-            var sut = new StructureWithoutConstructorSpecimenBuilder();
+            var sut = new ThrowingOnMutableValueTypes();
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -22,7 +22,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateThrowsCorrectException()
         {
             // Fixture setup
-            var sut = new StructureWithoutConstructorSpecimenBuilder();
+            var sut = new ThrowingOnMutableValueTypes();
             var dummyRequest = new object();
             var dummyContext = new DelegatingSpecimenContext();
             // Exercise system and verify outcome
@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void ExceptionContainsInformationAboutRequest()
         {
             // Fixture setup
-            var sut = new StructureWithoutConstructorSpecimenBuilder();
+            var sut = new ThrowingOnMutableValueTypes();
             var request = Guid.NewGuid();
             var dummyContext = new DelegatingSpecimenContext();
             // Exercise system

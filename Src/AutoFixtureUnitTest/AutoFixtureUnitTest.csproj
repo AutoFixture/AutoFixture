@@ -85,7 +85,7 @@
     <Compile Include="AbstractRecursionIssue\Repro.cs" />
     <Compile Include="Kernel\NoConstructorSpecificationTest.cs" />
     <Compile Include="Kernel\StructureSpecificationTest.cs" />
-    <Compile Include="Kernel\StructureWithoutConstructorSpecimenBuilderTest.cs" />
+    <Compile Include="Kernel\ThrowingOnMutableValueTypesTest.cs" />
     <Compile Include="RandomBooleanSequenceGeneratorTest.cs" />
     <Compile Include="FixtureResolvingItselfTests.cs" />
     <Compile Include="IncrementingDateTimeCustomizationTest.cs" />

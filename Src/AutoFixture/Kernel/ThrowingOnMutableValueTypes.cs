@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// request or generic exception being thrown.
     /// </para>
     /// </remarks>
-    public class StructureWithoutConstructorSpecimenBuilder : ISpecimenBuilder
+    public class ThrowingOnMutableValueTypes : ISpecimenBuilder
     {
         /// <summary>
         /// Throws an <see cref="ObjectCreationException"/>.
