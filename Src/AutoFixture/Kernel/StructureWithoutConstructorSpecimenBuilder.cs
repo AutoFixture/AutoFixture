@@ -35,7 +35,9 @@ namespace Ploeh.AutoFixture.Kernel
                     @"AutoFixture was unable to create an instance from {0}, since it is a value type with no explicit, parameterized constructors. Are you attempting to create an instance of a mutable value type? If so, you should strongly consider changing the design of the value type. However, if you are unable to do so, you can add the {1} customizations to your Fixture instance:
 var fixture = new Fixture();
 var customization = new {1}();
-customization.Customize(fixture);",
+customization.Customize(fixture);
+
+For more information about mutable value types please refer to: http://tinyurl.com/pegtw57",
                     request, typeof(SupportStructureDefaultConstructorsCustomization).Name
                     )
                 );
