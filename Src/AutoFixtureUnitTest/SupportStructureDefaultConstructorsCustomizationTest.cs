@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
@@ -36,7 +37,15 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new SupportStructureDefaultConstructorsCustomization();
             // Exercise system
             sut.Customize(fixture);
-            var result = fixture.Customizations.OfType<SupportStructureDefaultConstructorsGenerator>().SingleOrDefault();
+            var result = fixture.Customizations.OfType<Postprocessor>().SingleOrDefault();
+
+            var results = fixture.Customizations
+                                 .OfType<Postprocessor>()
+                                 .Where(
+                                     b =>
+                                     b.Builder is SupportStructureDefaultConstructorsGenerator)
+                                 .Where(b => b.Command is AutoPropertiesCommand)
+                                 .SingleOrDefault();
             // Verify outcome
             Assert.NotNull(result);
             // Teardown

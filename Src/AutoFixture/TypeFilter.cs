@@ -17,6 +17,11 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public static bool IsStructure(this Type type)
         {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
             return type.IsValueType && !type.IsEnum && !type.IsPrimitive;
         }
     }

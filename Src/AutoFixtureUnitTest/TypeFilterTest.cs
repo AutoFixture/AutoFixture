@@ -28,6 +28,14 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
-        }  
+        }
+
+        [Fact]
+        public void IsCustomeStructureThrowsExceptionOnNull()
+        {
+            // Excercise and Verify outcome
+            Assert.Throws<ArgumentNullException>(() => TypeFilter.IsStructure(null));
+            // Teardown
+        }
     }
 }
