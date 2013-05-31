@@ -65,8 +65,7 @@ namespace Ploeh.AutoFixture.Kernel
 
             if (returnType == typeof(void))
             {
-                // Replace with Expression.Empty() when moving to .NET 4.0
-                body = Expression.Constant(null);
+                body = Expression.Empty();
             }
             else
             {
