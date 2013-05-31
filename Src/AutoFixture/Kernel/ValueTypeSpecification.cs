@@ -3,9 +3,9 @@ using System;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// A specification that evaluates whether a request is a request for a value type such as a custom structure.
+    /// A specification that evaluates whether a request is a request for a value type such as a structure.
     /// </summary>
-    public class StructureSpecification : IRequestSpecification
+    public class ValueTypeSpecification : IRequestSpecification
     {
 
         /// <summary>
@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="request">The specimen request.</param>
         /// <returns>
-        /// <see langword="true"/> if <paramref name="request"/> is a <see cref="Type"/> that represents a custom structure;
+        /// <see langword="true"/> if <paramref name="request"/> is a <see cref="Type"/> that represents a structure;
         /// otherwise, <see langword="false"/>.
         /// </returns>
         public bool IsSatisfiedBy(object request)
@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             var type = request as Type;
-            return type != null && type.IsStructure();
+            return type != null && type.IsValueTypeButNotPrimitiveOrEnum();
         }
     }
 }

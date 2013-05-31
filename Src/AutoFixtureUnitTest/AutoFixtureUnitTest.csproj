@@ -83,9 +83,9 @@
     <Compile Include="AbstractRecursionIssue\ItemBase.cs" />
     <Compile Include="AbstractRecursionIssue\ItemLocation.cs" />
     <Compile Include="AbstractRecursionIssue\Repro.cs" />
-    <Compile Include="Kernel\NoConstructorSpecificationTest.cs" />
-    <Compile Include="Kernel\StructureSpecificationTest.cs" />
-    <Compile Include="Kernel\ThrowingOnMutableValueTypesTest.cs" />
+    <Compile Include="Kernel\NoConstructorsSpecificationTest.cs" />
+    <Compile Include="Kernel\ValueTypeSpecificationTest.cs" />
+    <Compile Include="Kernel\ThrowingDescribesMutableValueTypesIssueTest.cs" />
     <Compile Include="RandomBooleanSequenceGeneratorTest.cs" />
     <Compile Include="FixtureResolvingItselfTests.cs" />
     <Compile Include="IncrementingDateTimeCustomizationTest.cs" />
@@ -233,8 +233,8 @@
     <Compile Include="StableFiniteSequenceCustomizationTest.cs" />
     <Compile Include="NumericSequenceGeneratorTest.cs" />
     <Compile Include="NumericSequencePerTypeCustomizationTest.cs" />
-    <Compile Include="SupportStructureDefaultConstructorsCustomizationTest.cs" />
-    <Compile Include="SupportStructureDefaultConstructorsGeneratorTest.cs" />
+    <Compile Include="SupportMutableValueTypesCustomizationTest.cs" />
+    <Compile Include="MutableValueTypeGeneratorTest.cs" />
     <Compile Include="TaggedNode.cs" />
     <Compile Include="TaggedNodeComparer.cs" />
     <Compile Include="TestConsole.cs" />
@@ -273,7 +273,6 @@
     <Compile Include="TracingBehaviorTest.cs" />
     <Compile Include="TrueComparer.cs" />
     <Compile Include="TypeBasedComparer.cs" />
-    <Compile Include="TypeFilterTest.cs" />
     <Compile Include="TypeGeneratorTest.cs" />
     <Compile Include="UInt16SequenceGeneratorTest.cs" />
     <Compile Include="UInt32SequenceGeneratorTest.cs" />

@@ -6,14 +6,14 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// A specification that evaluates whether a request is a request for a type without public constructors.
     /// </summary>
-    public class NoConstructorSpecification : IRequestSpecification
+    public class NoConstructorsSpecification : IRequestSpecification
     {
         private readonly IMethodQuery modestConstructorQuery;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NoConstructorSpecification"/> class.
+        /// Initializes a new instance of the <see cref="NoConstructorsSpecification"/> class.
         /// </summary>
-        public NoConstructorSpecification()
+        public NoConstructorsSpecification()
         {
             modestConstructorQuery = new ModestConstructorQuery();
         }

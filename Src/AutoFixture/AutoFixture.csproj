@@ -96,9 +96,9 @@
   <ItemGroup>
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
-    <Compile Include="Kernel\NoConstructorSpecification.cs" />
-    <Compile Include="Kernel\StructureSpecification.cs" />
-    <Compile Include="Kernel\ThrowingOnMutableValueTypes.cs" />
+    <Compile Include="Kernel\NoConstructorsSpecification.cs" />
+    <Compile Include="Kernel\ValueTypeSpecification.cs" />
+    <Compile Include="Kernel\ThrowingDescribesMutableValueTypesIssue.cs" />
     <Compile Include="RandomBooleanSequenceGenerator.cs" />
     <Compile Include="CharSequenceGenerator.cs" />
     <Compile Include="CollectionFiller.cs" />
@@ -243,8 +243,8 @@
     <Compile Include="StableFiniteSequenceCustomization.cs" />
     <Compile Include="NumericSequenceGenerator.cs" />
     <Compile Include="NumericSequencePerTypeCustomization.cs" />
-    <Compile Include="SupportStructureDefaultConstructorsCustomization.cs" />
-    <Compile Include="SupportStructureDefaultConstructorsGenerator.cs" />
+    <Compile Include="SupportMutableValueTypesCustomization.cs" />
+    <Compile Include="MutableValueTypeGenerator.cs" />
     <Compile Include="ThrowingRecursionBehavior.cs" />
     <Compile Include="Kernel\TraceWriter.cs" />
     <Compile Include="GuidGenerator.cs" />

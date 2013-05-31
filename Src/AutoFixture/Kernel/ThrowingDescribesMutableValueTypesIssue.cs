@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// request or generic exception being thrown.
     /// </para>
     /// </remarks>
-    public class ThrowingOnMutableValueTypes : ISpecimenBuilder
+    public class ThrowingDescribesMutableValueTypesIssue : ISpecimenBuilder
     {
         /// <summary>
         /// Throws an <see cref="ObjectCreationException"/>.
@@ -39,7 +39,7 @@ var customization = new {1}();
 customization.Customize(fixture);
 
 For more information about mutable value types please refer to: http://tinyurl.com/pegtw57",
-                    request, typeof(SupportStructureDefaultConstructorsCustomization).Name
+                    request, typeof(SupportMutableValueTypesCustomization).Name
                     )
                 );
         }

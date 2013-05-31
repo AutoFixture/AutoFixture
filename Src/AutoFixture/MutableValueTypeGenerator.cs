@@ -6,8 +6,20 @@ namespace Ploeh.AutoFixture
     /// <summary>
     /// Creates new <see langword="struct"/>.
     /// </summary>
-    public class SupportStructureDefaultConstructorsGenerator : ISpecimenBuilder
+    public class MutableValueTypeGenerator : ISpecimenBuilder
     {
+        private IRequestSpecification valueTypeWithoutConstructorsSpecification;
+
+        /// <summary>
+        /// Creates new isntance.
+        /// </summary>
+        public MutableValueTypeGenerator()
+        {
+            valueTypeWithoutConstructorsSpecification = new AndRequestSpecification(new ValueTypeSpecification(),
+                                                                                    new NoConstructorsSpecification());
+
+        }
+
         /// <summary>
         /// Creates a new <see langword="struct"/>.
         /// </summary>
@@ -19,7 +31,7 @@ namespace Ploeh.AutoFixture
         public object Create(object request, ISpecimenContext context)
         {
             Type type = request as Type;
-            if (type == null || !type.IsStructure())
+            if (type == null || !valueTypeWithoutConstructorsSpecification.IsSatisfiedBy(type))
             {
                 return new NoSpecimen(request);
             }

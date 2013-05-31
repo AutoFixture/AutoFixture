@@ -4900,7 +4900,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system
-            var result = fixture.Create<StructType>();
+            var result = fixture.Create<MutableValueType>();
             // Verify outcome
             Assert.NotNull(result);
             Assert.NotNull(result.Property1);
@@ -4915,7 +4915,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system and verify outcome
-            Assert.Throws<ObjectCreationException>(() => fixture.Create<StructTypeWithoutConstructor>());
+            Assert.Throws<ObjectCreationException>(() => fixture.Create<MutableValueTypeWithoutConstructor>());
             // Teardown
         }
 
@@ -4938,10 +4938,10 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var sut = new SupportStructureDefaultConstructorsCustomization();
+            var sut = new SupportMutableValueTypesCustomization();
             sut.Customize(fixture);
             // Exercise system and verify outcome
-            var result = fixture.Create<StructTypeWithoutConstructor>();
+            var result = fixture.Create<MutableValueTypeWithoutConstructor>();
             // Verify outcome
             Assert.NotNull(result);
             Assert.NotNull(result.Property1);

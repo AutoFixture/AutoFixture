@@ -1,8 +1,8 @@
 ﻿namespace Ploeh.TestTypeFoundation
 {
-    public struct StructType
+    public struct MutableValueType
     {
-        public StructType(object property1, object property2, object property3): this()
+        public MutableValueType(object property1, object property2, object property3): this()
         {
             Property1 = property1;
             Property2 = property2;

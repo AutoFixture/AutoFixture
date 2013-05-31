@@ -5,17 +5,17 @@ namespace Ploeh.AutoFixture
     /// <summary>
     /// Contains extension methods for <see cref="System.Type"/> class.
     /// </summary>
-    public static class TypeFilter
+    internal static class TypeFilter
     {
         /// <summary>
-        /// Checks if type is a struct. This will exclude primitive types (int, char etc.) considere as <see cref="Type.IsPrimitive"/> 
+        /// Checks if type is a struct. This will exclude primitive types (int, char etc.) considered as <see cref="Type.IsPrimitive"/> as well as enums
         /// but not .net structs. 
         /// </summary>
         /// <param name="type">Type that needs to be checked.</param>
         /// <returns>
-        /// <see langword="true"/> if given type is a custom created struct, <see langword="false" />.
+        /// <see langword="true"/> if given type is a value type (but not enum or primitive type), <see langword="false" />.
         /// </returns>
-        public static bool IsStructure(this Type type)
+        public static bool IsValueTypeButNotPrimitiveOrEnum(this Type type)
         {
             if (type == null)
             {

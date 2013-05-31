@@ -112,10 +112,10 @@ namespace Ploeh.AutoFixture
                                 new ListRelay(),
                                 new EnumerableRelay())),
                         new FilteringSpecimenBuilder(
-                            new ThrowingOnMutableValueTypes(),
+                            new ThrowingDescribesMutableValueTypesIssue(),
                             new AndRequestSpecification(
-                                new StructureSpecification(), 
-                                new NoConstructorSpecification())),
+                                new ValueTypeSpecification(), 
+                                new NoConstructorsSpecification())),
                         new TerminatingSpecimenBuilder()));
 
             this.UpdateCustomizer();
