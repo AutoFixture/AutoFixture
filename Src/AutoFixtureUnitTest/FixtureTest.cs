@@ -260,6 +260,19 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAbstractWithPublicConstructorWillThrow()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            ObjectCreationException exception = (ObjectCreationException)Record.Exception(
+                () => { sut.Create<AbstractTypeWithPublicConstructor>(); }
+            );
+
+            Assert.Equal("abstract classes should never have public constructors", exception.Message);
+        }
+
+        [Fact]
         public void CreateAnonymousWillCreateSingleParameterType()
         {
             // Fixture setup

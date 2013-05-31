@@ -81,6 +81,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>The result of the method call.</returns>
         public object Invoke(IEnumerable<object> parameters)
         {
+            if (this.Constructor.DeclaringType.IsAbstract && this.constructor.IsPublic)
+                throw new ObjectCreationException("abstract classes should never have public constructors");
             return this.constructor.Invoke(parameters.ToArray());
         }
 
