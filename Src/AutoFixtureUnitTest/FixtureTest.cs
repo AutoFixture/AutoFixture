@@ -265,11 +265,8 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
-            ObjectCreationException exception = (ObjectCreationException)Record.Exception(
-                () => { sut.Create<AbstractTypeWithPublicConstructor>(); }
-            );
-
-            Assert.Equal("abstract classes should never have public constructors", exception.Message);
+            Assert.Throws<ObjectCreationException>(() =>
+                sut.Create<AbstractTypeWithPublicConstructor>());
         }
 
         [Fact]
