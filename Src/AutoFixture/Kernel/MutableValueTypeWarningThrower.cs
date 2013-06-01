@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// request or generic exception being thrown.
     /// </para>
     /// </remarks>
-    public class ThrowingDescribesMutableValueTypesIssue : ISpecimenBuilder
+    public class MutableValueTypeWarningThrower : ISpecimenBuilder
     {
         /// <summary>
         /// Throws an <see cref="ObjectCreationException"/>.
@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixture.Kernel
             throw new ObjectCreationException(
                 string.Format(
                     CultureInfo.CurrentCulture,
-                    @"AutoFixture was unable to create an instance from {0}, since it is a value type with no explicit, parameterized constructors. Are you attempting to create an instance of a mutable value type? If so, you should strongly consider changing the design of the value type. However, if you are unable to do so, you can add the {1} customizations to your Fixture instance:
+                    @"AutoFixture was unwilling to create an instance from {0}, since it is a value type with no explicit, parameterized constructors. Are you attempting to create an instance of a mutable value type? If so, you should strongly consider changing the design of the value type. However, if you are unable to do so, you can add the {1} customizations to your Fixture instance:
 var fixture = new Fixture();
 var customization = new {1}();
 customization.Customize(fixture);
