@@ -67,7 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractTypeWithPublicConstructor.cs" />
+    <Compile Include="AbstractClassWithPublicConstructor.cs" />
     <Compile Include="AbstractGenericType.cs" />
     <Compile Include="AbstractType.cs" />
     <Compile Include="AbstractTypeWithConstructorWithMultipleParameters.cs" />

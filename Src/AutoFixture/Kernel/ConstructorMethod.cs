@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
@@ -83,9 +84,15 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (this.Constructor.DeclaringType.IsAbstract && this.Constructor.IsPublic)
             {
-                var message = @"abstract classes should never have public constructors, 
-                    see http://msdn.microsoft.com/en-us/library/vstudio/ms229047.aspx";
-                throw new ObjectCreationException(message);
+                throw new ObjectCreationException(
+                                string.Format(
+                                    CultureInfo.CurrentCulture,
+                                    @"AutoFixture was unwilling to create an instance of {0}, since it is an abstract class with a public constructor. 
+An abstract class with a public constructor represents a design error. For more information please refer to: http://tinyurl.com/lg38t3g",
+                                    this.Constructor.DeclaringType.Name
+                                    )
+                                );
+
             }
             return this.constructor.Invoke(parameters.ToArray());
         }

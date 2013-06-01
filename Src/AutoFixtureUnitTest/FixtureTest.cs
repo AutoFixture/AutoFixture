@@ -266,7 +266,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             // Exercise system
             Assert.Throws<ObjectCreationException>(() =>
-                sut.Create<AbstractTypeWithPublicConstructor>());
+                sut.Create<AbstractClassWithPublicConstructor>());
         }
 
         [Fact]
