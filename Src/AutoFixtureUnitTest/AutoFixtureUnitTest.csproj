@@ -83,9 +83,6 @@
     <Compile Include="AbstractRecursionIssue\ItemBase.cs" />
     <Compile Include="AbstractRecursionIssue\ItemLocation.cs" />
     <Compile Include="AbstractRecursionIssue\Repro.cs" />
-    <Compile Include="Kernel\NoConstructorsSpecificationTest.cs" />
-    <Compile Include="Kernel\ValueTypeSpecificationTest.cs" />
-    <Compile Include="Kernel\MutableValueTypeWarningThrowerTest.cs" />
     <Compile Include="RandomBooleanSequenceGeneratorTest.cs" />
     <Compile Include="FixtureResolvingItselfTests.cs" />
     <Compile Include="IncrementingDateTimeCustomizationTest.cs" />
@@ -233,8 +230,6 @@
     <Compile Include="StableFiniteSequenceCustomizationTest.cs" />
     <Compile Include="NumericSequenceGeneratorTest.cs" />
     <Compile Include="NumericSequencePerTypeCustomizationTest.cs" />
-    <Compile Include="SupportMutableValueTypesCustomizationTest.cs" />
-    <Compile Include="MutableValueTypeGeneratorTest.cs" />
     <Compile Include="TaggedNode.cs" />
     <Compile Include="TaggedNodeComparer.cs" />
     <Compile Include="TestConsole.cs" />

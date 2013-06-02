@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractClassWithPublicConstructor.cs" />
     <Compile Include="AbstractGenericType.cs" />
     <Compile Include="AbstractType.cs" />
     <Compile Include="AbstractTypeWithConstructorWithMultipleParameters.cs" />
@@ -99,8 +100,6 @@
     <Compile Include="SingleParameterType.cs" />
     <Compile Include="StaticFieldHolder.cs" />
     <Compile Include="StaticPropertyHolder.cs" />
-    <Compile Include="MutableValueType.cs" />
-    <Compile Include="MutableValueTypeWithoutConstructor.cs" />
     <Compile Include="TripleParameterType.cs" />
     <Compile Include="TriplePropertyHolder.cs" />
     <Compile Include="TriState.cs" />

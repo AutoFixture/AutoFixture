@@ -96,9 +96,6 @@
   <ItemGroup>
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
-    <Compile Include="Kernel\NoConstructorsSpecification.cs" />
-    <Compile Include="Kernel\ValueTypeSpecification.cs" />
-    <Compile Include="Kernel\MutableValueTypeWarningThrower.cs" />
     <Compile Include="RandomBooleanSequenceGenerator.cs" />
     <Compile Include="CharSequenceGenerator.cs" />
     <Compile Include="CollectionFiller.cs" />
@@ -243,8 +240,6 @@
     <Compile Include="StableFiniteSequenceCustomization.cs" />
     <Compile Include="NumericSequenceGenerator.cs" />
     <Compile Include="NumericSequencePerTypeCustomization.cs" />
-    <Compile Include="SupportMutableValueTypesCustomization.cs" />
-    <Compile Include="MutableValueTypeGenerator.cs" />
     <Compile Include="ThrowingRecursionBehavior.cs" />
     <Compile Include="Kernel\TraceWriter.cs" />
     <Compile Include="GuidGenerator.cs" />
@@ -283,7 +278,6 @@
     <Compile Include="Kernel\ThrowingRecursionGuard.cs" />
     <Compile Include="DefaultRelays.cs" />
     <Compile Include="TracingBehavior.cs" />
-    <Compile Include="TypeFilter.cs" />
     <Compile Include="TypeGenerator.cs" />
     <Compile Include="UInt16SequenceGenerator.cs" />
     <Compile Include="UInt32SequenceGenerator.cs" />
