@@ -81,7 +81,7 @@ namespace Ploeh.SemanticComparison
             {
                 return this.GetEvaluators().All(me => me.Evaluator((TSource)x, (TDestination)y));
             }
-            
+
             if (x is TDestination && y is TSource)
             {
                 return this.GetEvaluators().All(me => me.Evaluator((TSource)y, (TDestination)x));
@@ -157,6 +157,68 @@ namespace Ploeh.SemanticComparison
                         .GetFields(BindingFlags.Public | BindingFlags.Instance)
                         .Cast<MemberInfo>());
             }
+        }
+    }
+
+    public class SemanticComparer<T> : IEqualityComparer<T>
+    {
+        private readonly IEnumerable<IMemberComparer> comparers;
+
+        public SemanticComparer()
+            : this(new MemberComparer(new SemanticComparer<T, T>()))
+        {
+        }
+
+        public SemanticComparer(IEnumerable<IMemberComparer> comparers)
+            : this(comparers.ToArray())
+        {
+        }
+
+        public SemanticComparer(params IMemberComparer[] comparers)
+        {
+            if (comparers == null)
+                throw new ArgumentNullException("comparers");
+
+            this.comparers = comparers;
+        }
+
+        public IEnumerable<IMemberComparer> Comparers
+        {
+            get { return this.comparers; }
+        }
+
+        public bool Equals(T x, T y)
+        {
+            if (x == null && y == null)
+                return true;
+
+            if (x == null || y == null)
+                return false;
+
+            if (x.Equals(y))
+                return true;
+
+            var bindingAttributes = BindingFlags.Public | BindingFlags.Instance;
+            return typeof(T)
+                .GetProperties(bindingAttributes)
+                .Select(property => this.comparers
+                    .Where(c => c.IsSatisfiedBy(property))
+                    .Any(c => c.Equals(
+                        property.GetValue(x, null),
+                        property.GetValue(y, null))))
+                .Concat(typeof(T)
+                    .GetFields(bindingAttributes)
+                    .Select(field => this.comparers
+                        .Where(c => c.IsSatisfiedBy(field))
+                        .Any(c => c.Equals(
+                            field.GetValue(x),
+                            field.GetValue(y)))))
+                .All(equals => equals);
+        }
+
+        public int GetHashCode(T obj)
+        {
+            return obj == null ? 0 : obj.GetHashCode();
         }
     }
 }
