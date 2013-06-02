@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Ploeh.SemanticComparison.UnitTest.TestTypes;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
@@ -472,6 +473,323 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Theory]
+        [InlineData(typeof(object), typeof(IEqualityComparer<object>))]
+        [InlineData(typeof(string), typeof(IEqualityComparer<string>))]
+        public void SutIsAssignableFromCorrectType(
+            Type comparerType, 
+            Type expectedType)
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = Activator.CreateInstance(
+                typeof(SemanticComparer<>).MakeGenericType(comparerType));
+            // Verify outcome
+            Assert.IsAssignableFrom(expectedType, sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void ComparersIsCorrectWhenInitializedWithDefaultConstructor()
+        {
+            // Fixture setup
+            var expected = new[]
+            {
+                new MemberComparer(new SemanticComparer<TimeSpan, TimeSpan>())
+            };
+            var sut = new SemanticComparer<TimeSpan>(expected);
+            // Exercise system
+            var result = sut.Comparers;
+            // Verify outcome
+            Assert.True(expected.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullArrayThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new SemanticComparer<int>(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComparersIsCorrectWhenInitializedWithArray()
+        {
+            // Fixture setup
+            var comparers = new[]
+            {
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer()
+            };
+
+            var sut = new SemanticComparer<string>(comparers);
+            // Exercise system
+            var result = sut.Comparers;
+            // Verify outcome
+            Assert.True(comparers.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullEnumerableThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new SemanticComparer<int>((IEnumerable<IMemberComparer>)null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComparersIsCorrectWhenInitializedWithEnumerable()
+        {
+            // Fixture setup
+            var comparers = new[]
+            {
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer()
+            }.ToList();
+
+            var sut = new SemanticComparer<string>(comparers);
+            // Exercise system
+            var result = sut.Comparers;
+            // Verify outcome
+            Assert.True(comparers.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(null, null, true)]
+        [InlineData("az", "az", true)]
+        [InlineData("az", null, false)]
+        [InlineData(null, "az", false)]
+        public void EqualsReturnsCorrectResult(string x, string y, bool expected)
+        {
+            // Fixture setup
+            var sut = new SemanticComparer<string>();
+            // Exercise system
+            var result = sut.Equals(x, y);
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void EqualsUsesSpecificationForProperties()
+        {
+            // Fixture setup
+            var verified = false;
+            var comparer = new DelegatingMemberComparer
+            {
+                OnIsSatisfiedByProperty = p => verified = true
+            };
+
+            var sut = new SemanticComparer<PropertyHolder<string>>(comparer);
+
+            var value = new PropertyHolder<string>();
+            var other = new PropertyHolder<string>();
+
+            // Exercise system
+            sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(verified);
+            // Teardown
+        }
+
+        [Fact]
+        public void EqualsUsesSpecificationForFields()
+        {
+            // Fixture setup
+            var verified = false;
+            var comparer = new DelegatingMemberComparer
+            {
+                OnIsSatisfiedByField = p => verified = true
+            };
+
+            var sut = new SemanticComparer<FieldHolder<string>>(comparer);
+
+            var value = new FieldHolder<string>();
+            var other = new FieldHolder<string>();
+
+            // Exercise system
+            sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(verified);
+            // Teardown
+        }
+
+        [Fact]
+        public void EqualsIteratesThroughEachComparerForProperties()
+        {
+            // Fixture setup
+            var verified = false;
+            var comparers = new[]
+            {
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer
+                {
+                    OnIsSatisfiedByProperty = p => verified = true
+                }
+            };
+
+            var sut = new SemanticComparer<PropertyHolder<string>>(comparers);
+
+            var value = new PropertyHolder<string>();
+            var other = new PropertyHolder<string>();
+
+            // Exercise system
+            sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(verified);
+            // Teardown
+        }
+
+        [Fact]
+        public void EqualsIteratesThroughEachComparerForFields()
+        {
+            // Fixture setup
+            var verified = false;
+            var comparers = new[]
+            {
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer
+                {
+                    OnIsSatisfiedByField = p => verified = true
+                }
+            };
+
+            var sut = new SemanticComparer<FieldHolder<string>>(comparers);
+
+            var value = new FieldHolder<string>();
+            var other = new FieldHolder<string>();
+
+            // Exercise system
+            sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(verified);
+            // Teardown
+        }
+
+        [Fact]
+        public void EqualsReturnsCorrectResultForProperties()
+        {
+            // Fixture setup
+            var expected = true;
+            var comparers = new[]
+            {
+                new DelegatingMemberComparer
+                {
+                    OnIsSatisfiedByProperty = p => true,
+                    OnEquals = (x, y) => false
+                },
+                new DelegatingMemberComparer
+                {
+                    OnIsSatisfiedByProperty = p => true,
+                    OnEquals = (x, y) => expected
+                },
+                new DelegatingMemberComparer
+                {
+                    OnIsSatisfiedByProperty = p => true,
+                    OnEquals = (x, y) => false
+                }
+            };
+
+            var sut = new SemanticComparer<PropertyHolder<string>>(comparers);
+
+            var value = new PropertyHolder<string>();
+            var other = new PropertyHolder<string>();
+
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void EqualsReturnsCorrectResultForFields()
+        {
+            // Fixture setup
+            var expected = true;
+            var comparers = new[]
+            {
+                new DelegatingMemberComparer
+                {
+                    OnIsSatisfiedByField = p => true,
+                    OnEquals = (x, y) => false
+                },
+                new DelegatingMemberComparer
+                {
+                    OnIsSatisfiedByField = p => true,
+                    OnEquals = (x, y) => expected
+                },
+                new DelegatingMemberComparer
+                {
+                    OnIsSatisfiedByField = p => true,
+                    OnEquals = (x, y) => false
+                }
+            };
+
+            var sut = new SemanticComparer<FieldHolder<string>>(comparers);
+
+            var value = new FieldHolder<string>();
+            var other = new FieldHolder<string>();
+
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void EqualsForwardsCorrectCallToComparers()
+        {
+            // Fixture setup
+            var value = new TypeWithDifferentParameterTypesAndProperties(
+                1, "abc", 3, Guid.NewGuid());
+
+            var other = new TypeWithDifferentParameterTypesAndProperties(
+                1, "ABC", 3, Guid.NewGuid());
+
+            var comparers = new[]
+            {
+                new DelegatingMemberComparer
+                {
+                    OnIsSatisfiedByProperty = x => true,
+                    OnEquals = (x, y) => x.Equals(y)
+                },
+                new DelegatingMemberComparer
+                {
+                    OnIsSatisfiedByProperty = x =>
+                        x.PropertyType == typeof(Guid),
+
+                    OnEquals = (x, y) => true
+                },
+                new DelegatingMemberComparer
+                {
+                    OnIsSatisfiedByProperty = x => 
+                        x.PropertyType == typeof(string),
+
+                    OnEquals = (x, y) => 
+                        StringComparer.OrdinalIgnoreCase.Equals(x, y)
+                }
+            };
+            var sut = new SemanticComparer<TypeWithDifferentParameterTypesAndProperties>(comparers);
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+        
         private static void CompareSemantically<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup
