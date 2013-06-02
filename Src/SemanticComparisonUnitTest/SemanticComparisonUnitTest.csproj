@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DelegatingEqualityComparer.cs" />
+    <Compile Include="DelegatingMemberComparer.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="LikenessExceptionTest.cs" />
     <Compile Include="LikenessTest.cs" />
