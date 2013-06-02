@@ -92,6 +92,7 @@
     <Compile Include="Likeness.cs" />
     <Compile Include="LikenessException.cs" />
     <Compile Include="LikenessMember.cs" />
+    <Compile Include="MemberComparer.cs" />
     <Compile Include="MemberEvaluator.cs" />
     <Compile Include="MemberInfoExtension.cs" />
     <Compile Include="MemberInfoNameComparer.cs" />
