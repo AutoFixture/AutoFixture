@@ -4904,61 +4904,6 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.NotEmpty(sut);
         }
 
-        [Fact]
-        public void CreateAnonymousStructWithConstructorReturnsInstance()
-        {
-            // Fixture setup
-            var fixture = new Fixture();
-            // Exercise system
-            var result = fixture.Create<MutableValueType>();
-            // Verify outcome
-            Assert.NotNull(result);
-            Assert.NotNull(result.Property1);
-            Assert.NotNull(result.Property2);
-            Assert.NotNull(result.Property3);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateAnonymousStructWithoutConstructorThrowsException()
-        {
-            // Fixture setup
-            var fixture = new Fixture();
-            // Exercise system and verify outcome
-            Assert.Throws<ObjectCreationException>(() => fixture.Create<MutableValueTypeWithoutConstructor>());
-            // Teardown
-        }
-
-        /// <summary>
-        /// This test is just to make sure that edge cases as decimal which is not primitive type and is a structure will not fall within 
-        /// struct checking mechanism.
-        /// </summary>
-        [Fact]
-        public void CreateDecimalDoesNotThrowException()
-        {
-            // Fixture setup
-            var fixture = new Fixture();
-            // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<decimal>());
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateAnonymousStructWithoutConstructorUsingCustomizationReturnsInstance()
-        {
-            // Fixture setup
-            var fixture = new Fixture();
-            var sut = new SupportMutableValueTypesCustomization();
-            sut.Customize(fixture);
-            // Exercise system and verify outcome
-            var result = fixture.Create<MutableValueTypeWithoutConstructor>();
-            // Verify outcome
-            Assert.NotNull(result);
-            Assert.NotNull(result.Property1);
-            Assert.NotNull(result.Property2);
-            // Teardown
-        }
-
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
