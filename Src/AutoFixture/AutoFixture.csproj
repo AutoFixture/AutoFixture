@@ -99,6 +99,7 @@
     <Compile Include="Kernel\NoConstructorsSpecification.cs" />
     <Compile Include="Kernel\ValueTypeSpecification.cs" />
     <Compile Include="Kernel\MutableValueTypeWarningThrower.cs" />
+    <Compile Include="NoAutoPropertiesCustomization.cs" />
     <Compile Include="RandomBooleanSequenceGenerator.cs" />
     <Compile Include="CharSequenceGenerator.cs" />
     <Compile Include="CollectionFiller.cs" />
