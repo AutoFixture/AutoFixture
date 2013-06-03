@@ -89,8 +89,18 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ObjectCreationException(
                                 string.Format(
                                     CultureInfo.CurrentCulture,
-                                    @"AutoFixture was unwilling to create an instance of {0}, since it is an abstract class with a public constructor. 
-An abstract class with a public constructor represents a design error. For more information please refer to: http://tinyurl.com/lg38t3g",
+                                    @"AutoFixture was unable to create an instance of {0}, since it's an abstract class with a public constructor. Please consider changing the definition of {0}; while technically possible, an abstract class with a public constructor represents a design error. For more information please refer to: http://tinyurl.com/lg38t3g. If you are unable to modify the {0} class, you can customize AutoFixture by mapping the class to a concrete type. As an example, imagine that AbstractClassWithPublicConstructor is an abstract class with a public constructor, and that you can't change the definition of that class. In order to work around that issue, you can add a test-specific concrete class that derives from AbstractClassWithPublicConstructor:
+
+class TestDouble : AbstractClassWithPublicConstructor
+
+You can map AbstractClassWithPublicConstructor to TestDouble:
+
+fixture.Customizations.Add(
+    new TypeRelay(
+        typeof(AbstractClassWithPublicConstructor),
+        typeof(TestDouble)));
+
+This will cause AutoFixture to create an instance of TestDouble every time AbstractClassWithPublicConstructor is requested. However, please keep in mind that this is only a workaround for the case where you can't address the root cause, which is that an abstract class has a public constructor.",
                                     this.Constructor.DeclaringType.Name
                                     )
                                 );
