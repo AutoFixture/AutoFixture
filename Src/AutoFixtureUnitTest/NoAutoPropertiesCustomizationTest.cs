@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CustomizeCorrectlyCustomizesTheFixture()
+        public void CustomizeCorrectlyDisablesAutoPropertyPopulationForType()
         {
             // Fixture setup
             var targetType = typeof(PropertyHolder<TheAutoProperty>);
@@ -49,8 +49,10 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Customize(fixture);
             var propertyHolder = fixture.Create<PropertyHolder<TheAutoProperty>>();
+            var propertyHolder2 = fixture.Create<PropertyHolder<TheAutoProperty>>();
             // Verify the outcome
             Assert.Equal(null, propertyHolder.Property);
+            Assert.Equal(null, propertyHolder2.Property);
         }
     }
 
