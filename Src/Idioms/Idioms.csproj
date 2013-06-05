@@ -96,6 +96,8 @@
     <Compile Include="ReflectionExceptionUnwrappingCommand.cs" />
     <Compile Include="SpecimenBuilderComposer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueObjectEqualityAssertion.cs" />
+    <Compile Include="ValueObjectEqualityException.cs" />
     <Compile Include="WritablePropertyAssertion.cs" />
     <Compile Include="WritablePropertyException.cs" />
   </ItemGroup>
