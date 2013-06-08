@@ -83,6 +83,7 @@
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="GuardClauseAssertionTest.cs" />
     <Compile Include="IdiomaticAssertionTest.cs" />
+    <Compile Include="ReadOnlyPropertyAssertionTest.cs" />
     <Compile Include="ReflectionExceptionUnwrappingCommandTest.cs" />
     <Compile Include="Scenario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
