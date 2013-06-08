@@ -16,13 +16,13 @@ namespace Ploeh.AutoFixture.Idioms
         /// <summary>
         /// Initializes a new instance of the <see cref="ValueObjectEqualityAssertion"/> class.
         /// </summary>
-        /// <param name="builder">
+        /// <param name="fixture">
         /// A composer which can create instances required to implement the idiomatic unit test,
         /// such as instance of given type to verify if equality works correctly.
         /// </param>
         /// <remarks>
         /// <para>
-        /// <paramref name="builder" /> will typically be a <see cref="Fixture" /> instance.
+        /// <paramref name="fixture" /> will typically be a <see cref="IFixture" /> instance.
         /// </para>
         /// </remarks>
         public ValueObjectEqualityAssertion(IFixture fixture)
@@ -46,138 +46,91 @@ namespace Ploeh.AutoFixture.Idioms
             get { return this.fixture; }
         }
 
+        /// <summary>
+        /// Gets the SpecimenContext built using <see cref="Fixture"/>.
+        /// </summary>
         public ISpecimenContext Engine
         {
             get { return this.engine; }
         }
 
+        /// <summary>
+        /// Gets the query created within constructor.
+        /// </summary>
         public IMethodQuery Query
         {
             get { return this.query; }
         }
 
+        /// <summary>
+        /// Verifies that equality for given type is implemented correctly.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Verification is being done using as follows scenarios:
+        /// a. Two objects of that type are being created using every available constructor with the same parameters. For each pair 
+        /// equality need to return true.
+        /// b. Two objects of that type are being created using every available constructor with the same parameters. After that every possible
+        /// property with setter and public field is set using the same values for both objects. For each pair equality need to return true.
+        /// c. Two objects of that type are being created using every available constructor with the same parameters. After that every possible
+        /// property with setter and public field is set using all the same values except of one (done in loop so that every member gets different 
+        /// value while others have the same). For each pair equality need to return false.
+        /// d. Two objects of that type are being created using every available constructor with different parameters. For each pair 
+        /// equality need to return false.
+        /// </para>
+        /// <para>
+        /// Equality is beinge checked by calling <see cref="IEquatable{T}.Equals(T)"/> if implemented or <see cref="Object.Equals"/> otherwise.
+        /// </para>
+        /// </remarks>
+        /// <param name="type">Type for which equality should be checked.</param>
         public override void Verify(System.Type type)
         {
             if(type == null)
                 throw new ArgumentNullException("type");
 
-            this.VerifyThatAllPropertiesAreEqual(type);
+            this.VerifyCases(type, new EqualValueObjectCreator(this.Fixture, this.Query), null,
+                             new ValueObjectEqualityChecker(true));
 
-            this.VerifyThatIfSomePropertiesAreDifferentEqualsIsFalse(type);
+            this.VerifyCases(type, new EqualValueObjectCreator(this.Fixture, this.Query), new ValueObjectPropertyModificatorUsingTheSameValues(this.Fixture), 
+                             new ValueObjectEqualityChecker(true));
 
-            this.VerifyThatIfSomePropertiesAreDifferentUsingSetterEqualsIsFalse(type);
+            this.VerifyCases(type, new EqualValueObjectCreator(this.Fixture, this.Query), new ValueObjectFieldModificatorUsingTheSameValues(this.Fixture), 
+                             new ValueObjectEqualityChecker(true));
+
+            if (ValueObjectMemberModificator.GetProperties(type).Any())
+                this.VerifyCases(type, new EqualValueObjectCreator(this.Fixture, this.Query), new ValueObjectPropertyModificatorUsingDifferentValues(this.Fixture), 
+                             new ValueObjectEqualityChecker(false));
+
+            if (ValueObjectMemberModificator.GetFields(type).Any())
+                this.VerifyCases(type, new EqualValueObjectCreator(this.Fixture, this.Query), new ValueObjectFieldModificatorUsingDifferentValues(this.Fixture), 
+                             new ValueObjectEqualityChecker(false));
+
+            this.VerifyCases(type, new NotEqualValueObjectCreator(this.Fixture, this.Query), null,
+                             new ValueObjectEqualityChecker(false));
         }
 
-        private void VerifyThatIfSomePropertiesAreDifferentUsingSetterEqualsIsFalse(Type type)
-        {
-            foreach (var selectConstructor in this.query.SelectMethods(type))
-            {
-                var paramValues = (from pi in selectConstructor.Parameters
-                                   select this.Fixture.Create(pi, this.Engine)).ToList();
-
-                if (paramValues.All(x => !(x is NoSpecimen)))
-                {
-                    var propertyInfos = this.GetProperties(type).ToArray();
-                    int count = propertyInfos.Count();
-                    for (int i = 0; i < count; i++)
-                    {
-                        var firstObject = selectConstructor.Invoke(paramValues.ToArray());
-                        var secondObject = selectConstructor.Invoke(paramValues.ToArray());
-
-                        for (int j = 0; j < count; j++)
-                        {
-                            var propertyValue = this.Fixture.Create(propertyInfos[j].PropertyType, this.Engine);
-                            propertyInfos[j].SetValue(firstObject, propertyValue, null);
-                            propertyValue = this.Fixture.Create(propertyInfos[j].PropertyType, this.Engine);
-                            propertyInfos[j].SetValue(secondObject, propertyValue, null);
-                        }
-
-                        CheckEquality(type, firstObject, secondObject, true);
-                    }
-                }
-            }
-        }
-
-        private static void CheckEquality(Type type, object firstObject, object secondObject, bool expectedResult)
-        {
-            bool result;
-            var iequatableInterface = GetIEquatableInterface(type);
-            if (iequatableInterface != null)
-            {
-                var objectResult = iequatableInterface.InvokeMember("Equals", BindingFlags.InvokeMethod,
-                                                                    null, firstObject,
-                                                                    new object[] {secondObject});
-
-                result = objectResult is bool && (bool) objectResult;
-            }
-            else
-            {
-                result = firstObject.Equals(secondObject);
-            }
-
-            if (result == expectedResult)
-                throw new ValueObjectEqualityException();
-        }
-
-        private static Type GetIEquatableInterface(Type type)
-        {
-            var iequatableTypeName = typeof (IEquatable<>).Name;
-            var iequatableInterface = type.GetInterface(iequatableTypeName);
-            return iequatableInterface;
-        }
-
-        private void VerifyThatIfSomePropertiesAreDifferentEqualsIsFalse(Type type)
-        {
-            foreach (var selectConstructor in this.query.SelectMethods(type))
-            {
-                var paramValues = (from pi in selectConstructor.Parameters
-                                   select this.Fixture.Create(pi, this.Engine)).ToList();
-
-                if (paramValues.All(x => !(x is NoSpecimen)))
-                {
-                    int count = paramValues.Count;
-                    for (int i = 0; i < count; i++)
-                    {
-                        var firstObject = selectConstructor.Invoke(paramValues.ToArray());
-                        paramValues[i] = this.Fixture.Create(paramValues[i].GetType(), this.Engine);
-                        var secondObject = selectConstructor.Invoke(paramValues.ToArray());
-
-                        CheckEquality(type, firstObject, secondObject, true);
-                    }
-                }
-            }
-        }
-
-        private void VerifyThatAllPropertiesAreEqual(Type type)
-        {
-            foreach (var selectConstructor in this.query.SelectMethods(type))
-            {
-                var paramValues = (from pi in selectConstructor.Parameters
-                                   select this.Fixture.Create(pi, this.Engine)).ToList();
-
-                if (paramValues.All(x => !(x is NoSpecimen)))
-                {
-                    var firstObject = selectConstructor.Invoke(paramValues.ToArray());
-                    var secondObject = selectConstructor.Invoke(paramValues.ToArray());
-
-                    foreach (var propertyInfo in this.GetProperties(type))
-                    {
-                        var propertyValue = this.Fixture.Create(propertyInfo.PropertyType, this.Engine);
-                        propertyInfo.SetValue(firstObject, propertyValue, null);
-                        propertyInfo.SetValue(secondObject, propertyValue, null);
-                    }
-
-                    CheckEquality(type, firstObject, secondObject, false);
-                }
-            }
-        }
-
-        private IEnumerable<PropertyInfo> GetProperties(Type type)
+        protected IEnumerable<PropertyInfo> GetProperties(Type type)
         {
             return from pi in type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                    where pi.GetSetMethod() != null
                    && pi.GetIndexParameters().Length == 0
                    select pi;
+        }
+
+        private void VerifyCases(Type type, ValueObjectCreator voCreator, ValueObjectMemberModificator voMemberModificator,
+                                 ValueObjectEqualityChecker voEqualityChecker)
+        {
+            var listOfLists = voCreator.BuildType(type, this.Engine);
+
+            if (voMemberModificator != null)
+            {
+                foreach (var listOfValueObjects in listOfLists)
+                {
+                    voMemberModificator.ChangeMembers(listOfValueObjects, type, this.Engine);
+                }
+            }
+
+            voEqualityChecker.CheckEquality(listOfLists, type);
         }
     }
 }

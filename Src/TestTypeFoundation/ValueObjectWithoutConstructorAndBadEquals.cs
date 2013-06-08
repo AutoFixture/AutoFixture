@@ -6,10 +6,12 @@
 
         public string Currency { get; set; }
 
+        public decimal DecimalValue { get; set; }
+
         public override bool Equals(object obj)
         {
-            var objectToCompare = obj as ValueObject;
-            return objectToCompare != null && this.Currency == objectToCompare.Currency;
+            var objectToCompare = obj as ValueObjectWithoutConstructorAndBadEquals;
+            return objectToCompare != null && this.Currency == objectToCompare.Currency & this.DecimalValue == objectToCompare.DecimalValue;
         } 
     }
 }
