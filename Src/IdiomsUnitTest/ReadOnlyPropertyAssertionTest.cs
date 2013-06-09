@@ -136,8 +136,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var dummyComposer = new Fixture();
             var sut = new ReadOnlyPropertyAssertion(dummyComposer);
             var illBehavedType = typeof (ReadOnlyPropertiesIncorrectlyInitialisedViaConstructor<object, object>);
-            var propertyInfo1 = illBehavedType.GetProperty("Field1");
-            var propertyInfo2 = illBehavedType.GetProperty("Field2");
+            var propertyInfo1 = illBehavedType.GetProperty("Property1");
+            var propertyInfo2 = illBehavedType.GetProperty("Property2");
             // Exercise system and verify outcome
             var e1 = Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(propertyInfo1));
             Assert.Equal(propertyInfo1, e1.PropertyInfo);
@@ -241,6 +241,12 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             public ReadOnlyPropertiesInitialisedViaConstructor(T2 property2)
             {
+                this.Property2 = property2;
+            }
+
+            public ReadOnlyPropertiesInitialisedViaConstructor(T1 property1, T2 property2)
+            {
+                this.Property1 = property1;
                 this.Property2 = property2;
             }
 
