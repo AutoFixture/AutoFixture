@@ -114,47 +114,201 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
         
         [Fact]
-        public void VerifyReadOnlyPropertyGetsValuePassedToConstructor()
+        public void VerifyWellBehavedReadOnlyPropertyInitialisedViaConstructorDoesNotThrow()
         {
             // Given a PropertyInfo or FieldInfo, it should verify that for all 
             // constructor having a matching argument, the value should be preserved
             // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
+            var propertyInfo = typeof(ReadOnlyPropertyInitialisedViaConstructor<object>).GetProperty("Property");
             // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(propertyInfo));
             // Teardown
-            Assert.True(false);
         }
 
         [Fact]
-        public void VerifyReadOnlyFieldGetsValuePassedToConstructor()
+        public void VerifyIllBehavedReadOnlyPropertiesInitialisedViaConstructorThrows()
         {
             // Given a PropertyInfo or FieldInfo, it should verify that for all 
             // constructor having a matching argument, the value should be preserved
             // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
+            var illBehavedType = typeof (ReadOnlyPropertiesIncorrectlyInitialisedViaConstructor<object, object>);
+            var propertyInfo1 = illBehavedType.GetProperty("Field1");
+            var propertyInfo2 = illBehavedType.GetProperty("Field2");
             // Exercise system and verify outcome
+            var e1 = Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(propertyInfo1));
+            Assert.Equal(propertyInfo1, e1.PropertyInfo);
+            var e2 = Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(propertyInfo2));
+            Assert.Equal(propertyInfo2, e2.PropertyInfo);
             // Teardown
-            Assert.True(false);
         }
 
         [Fact]
-        public void VerifyConstructorArgumentsAreExposedAsFields()
+        public void VerifyWellBehavedReadOnlyFieldInitialisedViaConstructorDoesNotThrow()
+        {
+            // Given a PropertyInfo or FieldInfo, it should verify that for all 
+            // constructor having a matching argument, the value should be preserved
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
+            var fieldInfo = typeof(ReadOnlyFieldInitialisedViaConstructor<object>).GetField("Field");
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(fieldInfo));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyAllConstructorArgumentsAreExposedAsFieldsDoesNotThrow()
         {
             // Given a ConstructorInfo, it should verify that all constructor arguments 
             // are properly exposed as either fields or Inspection Properties.
             // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
+            var ctor1 = typeof(ReadOnlyFieldsInitialisedViaConstructor<object, int>).GetConstructor(new[] { typeof(object) });
+            var ctor2 = typeof(ReadOnlyFieldsInitialisedViaConstructor<object, int>).GetConstructor(new[] { typeof(int) });
+            var ctor3 = typeof(ReadOnlyFieldsInitialisedViaConstructor<object, int>).GetConstructor(new[] { typeof(object), typeof(int) });
             // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(ctor1));
+            Assert.DoesNotThrow(() => sut.Verify(ctor2));
+            Assert.DoesNotThrow(() => sut.Verify(ctor3));
             // Teardown
-            Assert.True(false);
+        }
+
+        [Fact]
+        public void VerifyWhenNotAllConstructorArgumentsAreExposedAsFieldsThrows()
+        {
+            // Given a ConstructorInfo, it should verify that all constructor arguments 
+            // are properly exposed as either fields or Inspection Properties.
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
+            var ctor = typeof (ReadOnlyFieldsInitialisedViaConstructor<object, int>)
+                .GetConstructor(new[] {typeof (object), typeof (int), typeof (TriState)});
+            // Exercise system and verify outcome
+            Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(ctor));
+            // Teardown
         }
 
         [Fact]
         public void VerifyConstructorArgumentsAreExposedAsProperties()
         {
-            // Given a ConstructorInfo, it should verify that all constructor arguments 
-            // are properly exposed as either fields or Inspection Properties.
             // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
+            var ctor1 = typeof(ReadOnlyPropertiesInitialisedViaConstructor<object, int>).GetConstructor(new[] { typeof(object) });
+            var ctor2 = typeof(ReadOnlyPropertiesInitialisedViaConstructor<object, int>).GetConstructor(new[] { typeof(int) });
+            var ctor3 = typeof(ReadOnlyPropertiesInitialisedViaConstructor<object, int>).GetConstructor(new[] { typeof(object), typeof(int) });
             // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(ctor1));
+            Assert.DoesNotThrow(() => sut.Verify(ctor2));
+            Assert.DoesNotThrow(() => sut.Verify(ctor3));
             // Teardown
-            Assert.True(false);
         }
+
+        [Fact]
+        public void VerifyWhenNotAllConstructorArgumentsAreExposedAsPropertiesThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
+            var ctor = typeof (ReadOnlyPropertiesInitialisedViaConstructor<object, int>)
+                .GetConstructor(new[] {typeof (object), typeof (int), typeof (TriState)});
+            // Exercise system and verify outcome
+            Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(ctor));
+            // Teardown
+        }
+
+        class ReadOnlyFieldInitialisedViaConstructor<T>
+        {
+            public readonly T Field;
+
+            public ReadOnlyFieldInitialisedViaConstructor(T value)
+            {
+                this.Field = value;
+            }
+        }
+
+        class ReadOnlyPropertiesInitialisedViaConstructor<T1, T2>
+        {
+            public ReadOnlyPropertiesInitialisedViaConstructor(T1 property1)
+            {
+                this.Property1 = property1;
+            }
+
+            public ReadOnlyPropertiesInitialisedViaConstructor(T2 property2)
+            {
+                this.Property2 = property2;
+            }
+
+            public ReadOnlyPropertiesInitialisedViaConstructor(T1 property1, T2 property2, TriState noMatchingProperty)
+            {
+                this.Property1 = property1;
+                this.Property2 = property2;
+            }
+
+            public T1 Property1 { get; private set; }
+            public T2 Property2 { get; private set; }
+        }
+
+        class ReadOnlyPropertiesIncorrectlyInitialisedViaConstructor<T1, T2>
+        {
+            public ReadOnlyPropertiesIncorrectlyInitialisedViaConstructor(T1 property1, T2 property2)
+            {
+            }
+
+            public ReadOnlyPropertiesIncorrectlyInitialisedViaConstructor(T1 property1)
+            {
+            }
+
+            public ReadOnlyPropertiesIncorrectlyInitialisedViaConstructor(T2 property2)
+            {
+            }
+
+            public T1 Property1 { get; private set; }
+            public T2 Property2 { get; private set; }
+        }
+
+        class ReadOnlyFieldsInitialisedViaConstructor<T1, T2>
+        {
+            public ReadOnlyFieldsInitialisedViaConstructor(T1 field1)
+            {
+                this.Field1 = field1;
+            }
+
+            public ReadOnlyFieldsInitialisedViaConstructor(T2 field2)
+            {
+                this.Field2 = field2;
+            }
+
+            public ReadOnlyFieldsInitialisedViaConstructor(T1 field1, T2 field2)
+            {
+                this.Field1 = field1;
+                this.Field2 = field2;
+            }
+
+            public ReadOnlyFieldsInitialisedViaConstructor(T1 field1, T2 field2, TriState noMatchingField)
+            {
+                this.Field1 = field1;
+                this.Field2 = field2;
+            }
+
+            public T1 Field1;
+            public T2 Field2;
+        }
+
+        class ReadOnlyPropertyInitialisedViaConstructor<T>
+        {
+            public ReadOnlyPropertyInitialisedViaConstructor(T property)
+            {
+                this.Property = property;
+            }
+
+            public T Property { get; private set; }
+        }
+
     }
 }
