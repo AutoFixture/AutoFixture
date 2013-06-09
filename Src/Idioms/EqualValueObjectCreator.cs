@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Ploeh.AutoFixture.Kernel;
@@ -31,7 +32,7 @@ namespace Ploeh.AutoFixture.Idioms
             return listOfLists;
         }
 
-        private List<Tuple<object, object, StringBuilder>> BuildTwoObjects(Type type, IMethod selectedConstructor, List<object> paramValues)
+        private static List<Tuple<object, object, StringBuilder>> BuildTwoObjects(Type type, IMethod selectedConstructor, List<object> paramValues)
         {
             var listOfObjects = new List<Tuple<object, object, StringBuilder>>();
             var propertyInfos = ValueObjectMemberModificator.GetProperties(type);
@@ -42,7 +43,7 @@ namespace Ploeh.AutoFixture.Idioms
                 var firstObject = selectedConstructor.Invoke(paramValues.ToArray());
                 var secondObject = selectedConstructor.Invoke(paramValues.ToArray());
                 listOfObjects.Add(new Tuple<object, object, StringBuilder>(firstObject, secondObject, new StringBuilder(
-                    string.Format("Building both instances with the same constructor parameters. Constructor used: {0}. ", (selectedConstructor as ConstructorMethod).Constructor.ToString()))));
+                    string.Format(CultureInfo.CurrentCulture, "Building both instances with the same constructor parameters. Constructor used: {0}. ", (selectedConstructor as ConstructorMethod).Constructor.ToString()))));
             }
             return listOfObjects;
         }

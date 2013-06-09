@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 
@@ -7,7 +8,7 @@ namespace Ploeh.AutoFixture.Idioms
 {
     /// <summary>
     /// Checks if two value objects are equal. Uses eiter <see cref="IEquatable{T}.Equals(T)"/> 
-    /// or <see cref="Object.Equals"/> depending which one is implemented.
+    /// or <see cref="Object.Equals(object)"/> depending which one is implemented.
     /// </summary>
     internal class ValueObjectEqualityChecker
     {
@@ -31,19 +32,20 @@ namespace Ploeh.AutoFixture.Idioms
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "IEquatable", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         private void CheckEqualityForIEquatable(object firstObject, object secondObject, string message, Type iequatableInterface)
         {
             bool result;
             var objectResult = iequatableInterface.InvokeMember("Equals", BindingFlags.InvokeMethod,
                                                                 null, firstObject,
-                                                                new object[] { secondObject });
+                                                                new object[] { secondObject }, CultureInfo.CurrentCulture);
 
             result = objectResult is bool && (bool)objectResult;
 
             if (result != this.expectedResult)
                 throw new ValueObjectEqualityException(string.Concat(message,
-                                                                     string.Format(
-                                                                         "For thoose values IEquatable.Equals method was called and returned: {0} while expected was {1}",
+                                                                     string.Format(CultureInfo.CurrentCulture,
+                                                                         "For those values IEquatable.Equals method was called and returned: {0} while expected was {1}",
                                                                          result, this.expectedResult)));
         }
 
@@ -53,8 +55,8 @@ namespace Ploeh.AutoFixture.Idioms
             result = firstObject.Equals(secondObject);
             if (result != this.expectedResult)
                 throw new ValueObjectEqualityException(string.Concat(message,
-                                                                     string.Format(
-                                                                         "For thoose values Equals method was called and returned: {0} wile expected was {1}",
+                                                                     string.Format(CultureInfo.CurrentCulture, 
+                                                                         "For those values Equals method was called and returned: {0} wile expected was {1}",
                                                                          result, this.expectedResult)));
         }
 

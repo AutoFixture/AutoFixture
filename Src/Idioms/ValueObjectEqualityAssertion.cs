@@ -7,6 +7,15 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
 {
+    /// <summary>
+    /// Encapsulates a unit test that verifies that an Equals method is properly implemented for Value Objects.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// According to the design guidelines, two Value Objects are equals when all of theirs properties/fieds 
+    /// are equals. To check that case, this  <see cref="IIdiomaticAssertion" /> was implemented. 
+    /// </para>
+    /// </remarks>
     public class ValueObjectEqualityAssertion : IdiomaticAssertion
     {
         private readonly IFixture fixture;
@@ -79,7 +88,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// equality need to return false.
         /// </para>
         /// <para>
-        /// Equality is beinge checked by calling <see cref="IEquatable{T}.Equals(T)"/> if implemented or <see cref="Object.Equals"/> otherwise.
+        /// Equality is beinge checked by calling <see cref="IEquatable{T}.Equals(T)"/> if implemented or <see cref="Object.Equals(object)"/> otherwise.
         /// </para>
         /// </remarks>
         /// <param name="type">Type for which equality should be checked.</param>

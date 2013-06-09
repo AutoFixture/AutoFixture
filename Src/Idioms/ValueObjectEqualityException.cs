@@ -3,9 +3,21 @@ using System.Runtime.Serialization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
+    /// <summary>
+    /// Represents a verification error when testing whether a equals method is properly implemented for Value Object.
+    /// </summary>
+    [Serializable]
     public class ValueObjectEqualityException : Exception
     {
-     /// <summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ValueObjectEqualityException"/> class.
+        /// </summary>
+        public ValueObjectEqualityException()
+        {
+            
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ValueObjectEqualityException"/> class.
         /// </summary>
         /// <param name="message">

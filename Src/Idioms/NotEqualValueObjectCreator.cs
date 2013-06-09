@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Ploeh.AutoFixture.Kernel;
@@ -32,7 +33,7 @@ namespace Ploeh.AutoFixture.Idioms
                         paramValues[j] = this.Fixture.Create(paramValues[j].GetType(), context);
                         var secondObject = constructors[i].Invoke(paramValues.ToArray());
                         listOfObjects.Add(new Tuple<object, object, StringBuilder>(firstObject, secondObject, new StringBuilder(
-                                                                            string.Format(
+                                                                            string.Format(CultureInfo.CurrentCulture, 
                                                                                 "Building both instances with the one parameter supplied with different value. Constructor used: {0}, parameter name that was suplied with different value {1} of type {2}.",
                                                                                 (constructors[i] as ConstructorMethod).Constructor.ToString(),
                                                                                 constructors[i].Parameters.ElementAt(j)
