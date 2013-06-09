@@ -96,9 +96,7 @@
     <Compile Include="PropertyHolder.cs" />
     <Compile Include="QuadrupleParameterType.cs" />
     <Compile Include="ReadOnlyFieldHolder.cs" />
-    <Compile Include="ReadOnlyFieldInitialisedViaConstructor.cs" />
     <Compile Include="ReadOnlyPropertyHolder.cs" />
-    <Compile Include="ReadOnlyPropertyInitialisedViaConstructor.cs" />
     <Compile Include="SingleParameterType.cs" />
     <Compile Include="StaticFieldHolder.cs" />
     <Compile Include="StaticPropertyHolder.cs" />
