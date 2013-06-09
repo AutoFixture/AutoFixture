@@ -10,15 +10,6 @@ namespace Ploeh.AutoFixture.Idioms
     /// <summary>
     /// Encapsulates a unit test that verifies that a read-only property is correctly implemented.
     /// </summary>
-    /// <remarks>
-    /// <para>
-    /// TODO: Describe logic behind the test here...
-    /// </para>
-    /// <para>
-    /// However, such unit tests become tedious and repetitive to write; together, they form a unit
-    /// testing idiom for .NET. This <see cref="IIdiomaticAssertion" /> encapsulates this idiom.
-    /// </para>
-    /// </remarks>
     public class ReadOnlyPropertyAssertion : IdiomaticAssertion
     {
         private readonly ISpecimenBuilder builder;
@@ -51,15 +42,26 @@ namespace Ploeh.AutoFixture.Idioms
             if (constructorInfo == null)
                 throw new ArgumentNullException("constructorInfo");
 
-            if (constructorInfo.GetParameters().Length == 0)
+            var parameters = constructorInfo.GetParameters();
+
+            if (parameters.Length == 0)
             {
                 // No parameters to verify
                 return;
             }
 
-            // verify that all constructor arguments are properly exposed as either
-            // fields or Inspection Properties.
-            throw new NotImplementedException();
+            var propertiesAndFieldsByName = constructorInfo.DeclaringType
+	            .GetMembers(BindingFlags.Instance | BindingFlags.Public)
+                .Where(m => m.MemberType.HasFlag(MemberTypes.Field) || m.MemberType.HasFlag(MemberTypes.Property))
+                .ToDictionary(m => m.Name.ToLower(CultureInfo.CurrentCulture));
+
+            var firstMissingParameter = parameters.FirstOrDefault(
+                p => !propertiesAndFieldsByName.ContainsKey(p.Name.ToLower(CultureInfo.CurrentCulture)));
+
+            if (firstMissingParameter != null)
+            {
+                throw new ReadOnlyPropertyException(constructorInfo, firstMissingParameter);
+            }
         }
 
         /// <summary>
@@ -94,7 +96,6 @@ namespace Ploeh.AutoFixture.Idioms
 
             var expected = this.builder.CreateAnonymous(propertyInfo.PropertyType);
 
-            // TODO: should this use a specification, MethodInvoker, etc?
             var matchingConstructors = propertyInfo.ReflectedType
                 .GetConstructors()
                 .Where(IsConstructorWithMatchingArgument(propertyInfo))
@@ -109,9 +110,7 @@ namespace Ploeh.AutoFixture.Idioms
             foreach (var ci in matchingConstructors)
             {
                 var paramters = ci.GetParameters();
-
-                var matchingConstructorParameter = paramters
-                    .Single(IsMatchingParameter(propertyInfo));
+                var matchingConstructorParameter = paramters.Single(IsMatchingParameter(propertyInfo));
 
                 var paramValues = (from pi in ci.GetParameters()
                                    let value = pi == matchingConstructorParameter
@@ -120,9 +119,7 @@ namespace Ploeh.AutoFixture.Idioms
                                    select value).ToList();
 
                 var specimen = ci.Invoke(paramValues.ToArray());
-                
                 var result = propertyInfo.GetValue(specimen, null);
-
                 if (!expected.Equals(result))
                 {
                     throw new ReadOnlyPropertyException(propertyInfo);

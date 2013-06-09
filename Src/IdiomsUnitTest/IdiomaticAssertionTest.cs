@@ -367,6 +367,63 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
+        public void VerifyNullFieldInfoArrayThrows()
+        {
+            // Fixture setup
+            var sut = new DelegatingIdiomaticAssertion();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Verify((FieldInfo[])null));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(System.Runtime.Remoting.Messaging.Header))]
+        public void VerifyFieldInfoArrayCorrectlyInvokesNextVerify(Type type)
+        {
+            // Fixture setup
+            var fields = type.GetFields().ToArray();
+            var observedFields = new List<FieldInfo>();
+            var sut = new DelegatingIdiomaticAssertion { OnFieldInfoVerify = observedFields.Add };
+            // Exercise system
+            sut.Verify(fields);
+            // Verify outcome
+            Assert.True(fields.SequenceEqual(observedFields));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(System.Runtime.Remoting.Messaging.Header))]
+        public void VerifyFieldInfosCorrectlyInvokesNextVerify(Type type)
+        {
+            // Fixture setup
+            var fields = type.GetFields().Select(f => f);
+            var observedFields = new List<FieldInfo>();
+            var sut = new DelegatingIdiomaticAssertion { OnFieldInfoVerify = observedFields.Add };
+            // Exercise system
+            sut.Verify(fields);
+            // Verify outcome
+            Assert.True(fields.SequenceEqual(observedFields));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(System.Runtime.Remoting.Messaging.Header))]
+        public void VerifyFieldInfoDoesNotThrow(Type type)
+        {
+            // Fixture setup
+            var field = type.GetFields().First();
+            var sut = new DelegatingIdiomaticAssertion();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.Verify(field));
+            // Teardown
+        }
+
+        [Fact]
         public void VerifyNullMethodInfoArrayThrows()
         {
             // Fixture setup

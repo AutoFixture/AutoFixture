@@ -27,6 +27,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             this.OnPropertyInfoArrayVerify = p => { };
             this.OnPropertyInfosVerify = p => { };
             this.OnPropertyInfoVerify = p => { };
+            this.OnFieldInfoArrayVerify = p => { };
+            this.OnFieldInfosVerify = p => { };
+            this.OnFieldInfoVerify = p => { };
         }
 
         public Action<Assembly[]> OnAssemblyArrayVerify { get; set; }
@@ -64,6 +67,12 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public Action<IEnumerable<PropertyInfo>> OnPropertyInfosVerify { get; set; }
 
         public Action<PropertyInfo> OnPropertyInfoVerify { get; set; }
+
+        public Action<FieldInfo[]> OnFieldInfoArrayVerify { get; set; }
+
+        public Action<IEnumerable<FieldInfo>> OnFieldInfosVerify { get; set; }
+
+        public Action<FieldInfo> OnFieldInfoVerify { get; set; }
 
         public override void Verify(params Assembly[] assemblies)
         {
@@ -171,6 +180,24 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             this.OnPropertyInfoVerify(propertyInfo);
             base.Verify(propertyInfo);
+        }
+
+        public override void Verify(params FieldInfo[] fieldInfos)
+        {
+            this.OnFieldInfoArrayVerify(fieldInfos);
+            base.Verify(fieldInfos);
+        }
+
+        public override void Verify(IEnumerable<FieldInfo> fieldInfos)
+        {
+            this.OnFieldInfosVerify(fieldInfos);
+            base.Verify(fieldInfos);
+        }
+
+        public override void Verify(FieldInfo fieldInfo)
+        {
+            this.OnFieldInfoVerify(fieldInfo);
+            base.Verify(fieldInfo);
         }
     }
 }

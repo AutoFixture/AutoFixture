@@ -154,6 +154,12 @@ namespace Ploeh.AutoFixture.Idioms
             {
                 this.Verify(p);
             }
+
+            var f = memberInfo as FieldInfo;
+            if (f != null)
+            {
+                this.Verify(f);
+            }
         }
 
         /// <summary>
@@ -180,6 +186,40 @@ namespace Ploeh.AutoFixture.Idioms
         public virtual void Verify(IEnumerable<ConstructorInfo> constructorInfos)
         {
             this.Verify(constructorInfos.ToArray());
+        }
+
+        /// <summary>
+        /// Does nothing. Override to implement.
+        /// </summary>
+        /// <param name="fieldInfo">The field.</param>
+        public virtual void Verify(FieldInfo fieldInfo)
+        {
+        }
+
+        /// <summary>
+        /// Calls <see cref="Verify(FieldInfo)" /> for each FieldInfo in
+        /// <paramref name="fieldInfos" />.
+        /// </summary>
+        /// <param name="fieldInfos">The constructors.</param>
+        public virtual void Verify(params FieldInfo[] fieldInfos)
+        {
+            if (fieldInfos == null)
+                throw new ArgumentNullException("fieldInfos");
+
+            foreach (var f in fieldInfos)
+            {
+                this.Verify(f);
+            }
+        }
+
+        /// <summary>
+        /// Calls <see cref="Verify(FieldInfo)" /> for each FieldInfo in
+        /// <paramref name="fieldInfos" />.
+        /// </summary>
+        /// <param name="fieldInfos">The Fields.</param>
+        public virtual void Verify(IEnumerable<FieldInfo> fieldInfos)
+        {
+            this.Verify(fieldInfos.ToArray());
         }
 
         /// <summary>

@@ -15,7 +15,91 @@ namespace Ploeh.AutoFixture.Idioms
     [Serializable]
     public class ReadOnlyPropertyException : Exception
     {
-        private readonly PropertyInfo propertyInfo;
+        private readonly MemberInfo memberInfo;
+        private readonly ParameterInfo missingParameter;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
+        /// </summary>
+        /// <param name="constructorInfo">The Constructor.</param>
+        /// <param name="missingParameter">The parameter that was not exposed as a field or property.</param>
+        public ReadOnlyPropertyException(ConstructorInfo constructorInfo, ParameterInfo missingParameter)
+            : this(constructorInfo, missingParameter,
+                ReadOnlyPropertyException.FormatDefaultMessage(constructorInfo, missingParameter))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
+        /// </summary>
+        /// <param name="constructorInfo">The Constructor.</param>
+        /// <param name="missingParameter">The parameter that was not exposed as a field or property.</param>
+        /// <param name="message">
+        /// The error message that explains the reason for the exception.
+        /// </param>
+        public ReadOnlyPropertyException(ConstructorInfo constructorInfo, ParameterInfo missingParameter, string message)
+            : base(message)
+        {
+            this.memberInfo = constructorInfo;
+            this.missingParameter = missingParameter;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
+        /// </summary>
+        /// <param name="constructorInfo">The Constructor.</param>
+        /// <param name="missingParameter">The parameter that was not exposed as a field or property.</param>
+        /// <param name="message">
+        /// The error message that explains the reason for the exception.
+        /// </param>
+        /// <param name="innerException">
+        /// The exception that is the cause of the current exception.
+        /// </param>
+        public ReadOnlyPropertyException(ConstructorInfo constructorInfo, ParameterInfo missingParameter, string message,
+            Exception innerException)
+            : base(message, innerException)
+        {
+            this.memberInfo = constructorInfo;
+            this.missingParameter = missingParameter;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
+        /// </summary>
+        /// <param name="fieldInfo">The field.</param>
+        public ReadOnlyPropertyException(FieldInfo fieldInfo)
+            : this(fieldInfo, ReadOnlyPropertyException.FormatDefaultMessage(fieldInfo))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
+        /// </summary>
+        /// <param name="fieldInfo">The field.</param>
+        /// <param name="message">
+        /// The error message that explains the reason for the exception.
+        /// </param>
+        public ReadOnlyPropertyException(FieldInfo fieldInfo, string message)
+            : base(message)
+        {
+            this.memberInfo = fieldInfo;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
+        /// </summary>
+        /// <param name="fieldInfo">The field.</param>
+        /// <param name="message">
+        /// The error message that explains the reason for the exception.
+        /// </param>
+        /// <param name="innerException">
+        /// The exception that is the cause of the current exception.
+        /// </param>
+        public ReadOnlyPropertyException(FieldInfo fieldInfo, string message, Exception innerException)
+            : base(message, innerException)
+        {
+            this.memberInfo = fieldInfo;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
@@ -36,7 +120,7 @@ namespace Ploeh.AutoFixture.Idioms
         public ReadOnlyPropertyException(PropertyInfo propertyInfo, string message)
             : base(message)
         {
-            this.propertyInfo = propertyInfo;
+            this.memberInfo = propertyInfo;
         }
 
         /// <summary>
@@ -52,7 +136,7 @@ namespace Ploeh.AutoFixture.Idioms
         public ReadOnlyPropertyException(PropertyInfo propertyInfo, string message, Exception innerException)
             : base(message, innerException)
         {
-            this.propertyInfo = propertyInfo;
+            this.memberInfo = propertyInfo;
         }
 
         /// <summary>
@@ -70,7 +154,15 @@ namespace Ploeh.AutoFixture.Idioms
         protected ReadOnlyPropertyException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            this.propertyInfo = (PropertyInfo)info.GetValue("PropertyInfo", typeof(PropertyInfo));
+            this.memberInfo = (PropertyInfo)info.GetValue("memberInfo", typeof(MemberInfo));
+        }
+
+        /// <summary>
+        /// Gets the property or field supplied via the constructor.
+        /// </summary>
+        public MemberInfo MemberInfo
+        {
+            get { return this.memberInfo; }
         }
 
         /// <summary>
@@ -78,7 +170,31 @@ namespace Ploeh.AutoFixture.Idioms
         /// </summary>
         public PropertyInfo PropertyInfo
         {
-            get { return this.propertyInfo; }
+            get { return this.memberInfo as PropertyInfo; }
+        }
+
+        /// <summary>
+        /// Gets the property supplied via the constructor.
+        /// </summary>
+        public FieldInfo FieldInfo
+        {
+            get { return this.memberInfo as FieldInfo; }
+        }
+
+        /// <summary>
+        /// Gets the constructor which has a <see cref="MissingParameter"/>.
+        /// </summary>
+        public ConstructorInfo ConstructorInfo
+        {
+            get { return this.memberInfo as ConstructorInfo; }
+        }
+
+        /// <summary>
+        /// Gets the parameter that was not exposed as a field or property.
+        /// </summary>
+        public ParameterInfo MissingParameter
+        {
+            get { return this.missingParameter; }
         }
 
         /// <summary>
@@ -98,12 +214,29 @@ namespace Ploeh.AutoFixture.Idioms
         {
             base.GetObjectData(info, context);
 
-            info.AddValue("PropertyInfo", this.propertyInfo);
+            info.AddValue("memberInfo", this.memberInfo);
+        }
+
+        private static string FormatDefaultMessage(ConstructorInfo constructorInfo, ParameterInfo missingParameter)
+        {
+            return string.Format(CultureInfo.CurrentCulture,
+                "The constructor {0} failed a test for having each parameter be exposed as a well-behaved read-only property or field. " +
+                "The field {1} was not exposed publicly.{4}Declaring type: {2}{4}Reflected type: {3}{4}",
+                constructorInfo,
+                missingParameter.Name,
+                constructorInfo.DeclaringType.AssemblyQualifiedName,
+                constructorInfo.ReflectedType.AssemblyQualifiedName,
+                Environment.NewLine);
         }
 
         private static string FormatDefaultMessage(PropertyInfo propertyInfo)
         {
             return string.Format(CultureInfo.CurrentCulture, "The property {0} failed a test for being well-behaved read-only property. The getter does not return the value assigned to the constructor.{3}Declaring type: {1}{3}Reflected type: {2}{3}", propertyInfo, propertyInfo.DeclaringType.AssemblyQualifiedName, propertyInfo.ReflectedType.AssemblyQualifiedName, Environment.NewLine);
+        }
+
+        private static string FormatDefaultMessage(FieldInfo fieldInfo)
+        {
+            return string.Format(CultureInfo.CurrentCulture, "The property {0} failed a test for being well-behaved read-only field. The field does not return the value assigned to the constructor.{3}Declaring type: {1}{3}Reflected type: {2}{3}", fieldInfo, fieldInfo.DeclaringType.AssemblyQualifiedName, fieldInfo.ReflectedType.AssemblyQualifiedName, Environment.NewLine);
         }
     }
 }
