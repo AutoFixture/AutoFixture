@@ -81,12 +81,14 @@
   <ItemGroup>
     <Compile Include="CompositeBehaviorExpectation.cs" />
     <Compile Include="EmptyGuidBehaviorExpectation.cs" />
+    <Compile Include="EqualValueObjectCreator.cs" />
     <Compile Include="IExpansion.cs" />
     <Compile Include="IndexedReplacement.cs" />
     <Compile Include="MethodInfoExtensions.cs" />
     <Compile Include="MethodInvokeCommand.cs" />
     <Compile Include="GuardClauseException.cs" />
     <Compile Include="IBehaviorExpectation.cs" />
+    <Compile Include="NotEqualValueObjectCreator.cs" />
     <Compile Include="NullReferenceBehaviorExpectation.cs" />
     <Compile Include="PropertySetCommand.cs" />
     <Compile Include="GuardClauseAssertion.cs" />
@@ -96,6 +98,15 @@
     <Compile Include="ReflectionExceptionUnwrappingCommand.cs" />
     <Compile Include="SpecimenBuilderComposer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueObjectCreator.cs" />
+    <Compile Include="ValueObjectEqualityChecker.cs" />
+    <Compile Include="ValueObjectEqualityAssertion.cs" />
+    <Compile Include="ValueObjectEqualityException.cs" />
+    <Compile Include="ValueObjectFieldModificatorUsingDifferentValues.cs" />
+    <Compile Include="ValueObjectFieldModificatorUsingTheSameValues.cs" />
+    <Compile Include="ValueObjectMemberModificator.cs" />
+    <Compile Include="ValueObjectPropertyModificatorUsingDifferentValues.cs" />
+    <Compile Include="ValueObjectPropertyModificatorUsingTheSameValues.cs" />
     <Compile Include="WritablePropertyAssertion.cs" />
     <Compile Include="WritablePropertyException.cs" />
   </ItemGroup>

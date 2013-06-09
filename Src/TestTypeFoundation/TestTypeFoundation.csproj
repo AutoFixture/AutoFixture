@@ -92,6 +92,7 @@
     <Compile Include="ItemContainer.cs" />
     <Compile Include="ItemHolder.cs" />
     <Compile Include="MultiUnorderedConstructorType.cs" />
+    <Compile Include="MutableValueObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyHolder.cs" />
     <Compile Include="QuadrupleParameterType.cs" />
@@ -113,6 +114,12 @@
     <Compile Include="TypeWithRefMethod.cs" />
     <Compile Include="UnguardedConstructorHost.cs" />
     <Compile Include="UnguardedMethodHost.cs" />
+    <Compile Include="ValueObject.cs" />
+    <Compile Include="ValueObjectWithBadEquals.cs" />
+    <Compile Include="ValueObjectWithBadIEquatableImplementation.cs" />
+    <Compile Include="ValueObjectWithIEquatableImplemented.cs" />
+    <Compile Include="ValueObjectWithoutConstructorAndBadEquals.cs" />
+    <Compile Include="ValueObjectWithoutEquals.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
