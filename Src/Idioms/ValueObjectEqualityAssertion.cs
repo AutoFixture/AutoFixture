@@ -109,14 +109,6 @@ namespace Ploeh.AutoFixture.Idioms
                              new ValueObjectEqualityChecker(false));
         }
 
-        protected IEnumerable<PropertyInfo> GetProperties(Type type)
-        {
-            return from pi in type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                   where pi.GetSetMethod() != null
-                   && pi.GetIndexParameters().Length == 0
-                   select pi;
-        }
-
         private void VerifyCases(Type type, ValueObjectCreator voCreator, ValueObjectMemberModificator voMemberModificator,
                                  ValueObjectEqualityChecker voEqualityChecker)
         {

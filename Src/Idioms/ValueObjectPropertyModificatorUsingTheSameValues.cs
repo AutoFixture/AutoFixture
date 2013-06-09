@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
@@ -10,7 +11,7 @@ namespace Ploeh.AutoFixture.Idioms
         {
         }
 
-        internal override void ChangeMembers(List<Tuple<object, object>> listOfObjectsToModify, Type type, ISpecimenContext context)
+        internal override void ChangeMembers(List<Tuple<object, object, StringBuilder>> listOfObjectsToModify, Type type, ISpecimenContext context)
         {
             foreach (var objectToModify in listOfObjectsToModify)
             {
@@ -20,6 +21,7 @@ namespace Ploeh.AutoFixture.Idioms
                     propertyInfo.SetValue(objectToModify.Item1, propertyValue, null);
                     propertyInfo.SetValue(objectToModify.Item2, propertyValue, null);
                 }
+                objectToModify.Item3.Append("All settable properties were set with the same values. ");
             }
         }
     }

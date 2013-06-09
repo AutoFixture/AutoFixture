@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
@@ -25,14 +26,6 @@ namespace Ploeh.AutoFixture.Idioms
             get { return this.query; }
         }
 
-        protected IEnumerable<PropertyInfo> GetProperties(Type type)
-        {
-            return from pi in type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                   where pi.GetSetMethod() != null
-                         && pi.GetIndexParameters().Length == 0
-                   select pi;
-        }
-
-        internal abstract List<List<Tuple<object, object>>> BuildType(Type type, ISpecimenContext context);
+        internal abstract List<List<Tuple<object, object, StringBuilder>>> BuildType(Type type, ISpecimenContext context);
     }
 }

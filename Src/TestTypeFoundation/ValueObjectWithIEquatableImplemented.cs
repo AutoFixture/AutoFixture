@@ -6,11 +6,13 @@ namespace Ploeh.TestTypeFoundation
     {
         private readonly int value;
         private readonly string currency;
+        private readonly ValueObject valueObject;
 
-        public ValueObjectWithIEquatableImplemented(int value, string currency)
+        public ValueObjectWithIEquatableImplemented(int value, string currency, ValueObject valueObject)
         {
             this.value = value;
             this.currency = currency;
+            this.valueObject = valueObject;
         }
 
         public int Value
@@ -23,9 +25,14 @@ namespace Ploeh.TestTypeFoundation
             get { return this.currency; }
         }
 
+        public ValueObject ValueObject
+        {
+            get { return this.valueObject; }
+        }
+
         public bool Equals(ValueObjectWithIEquatableImplemented objectToCompare)
         {
-            return this.Value == objectToCompare.Value && this.Currency == objectToCompare.Currency;
+            return this.Value == objectToCompare.Value && this.Currency == objectToCompare.Currency && this.ValueObject.Equals(objectToCompare.ValueObject);
         }
     }
 }

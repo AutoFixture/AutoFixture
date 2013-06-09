@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
@@ -11,9 +12,9 @@ namespace Ploeh.AutoFixture.Idioms
         {
         }
 
-        internal override List<List<Tuple<object, object>>> BuildType(Type type, ISpecimenContext context)
+        internal override List<List<Tuple<object, object, StringBuilder>>> BuildType(Type type, ISpecimenContext context)
         {
-            var listOfLists = new List<List<Tuple<object, object>>>();
+            var listOfLists = new List<List<Tuple<object, object, StringBuilder>>>();
             foreach (var selectedConstructor in this.Query.SelectMethods(type))
             {
                 
@@ -30,17 +31,18 @@ namespace Ploeh.AutoFixture.Idioms
             return listOfLists;
         }
 
-        private List<Tuple<object, object>> BuildTwoObjects(Type type, IMethod selectConstructor, List<object> paramValues)
+        private List<Tuple<object, object, StringBuilder>> BuildTwoObjects(Type type, IMethod selectedConstructor, List<object> paramValues)
         {
-            var listOfObjects = new List<Tuple<object, object>>();
-            var propertyInfos = this.GetProperties(type);
+            var listOfObjects = new List<Tuple<object, object, StringBuilder>>();
+            var propertyInfos = ValueObjectMemberModificator.GetProperties(type);
             var count = propertyInfos.Count();
             count = count == 0 ? 1 : count;
             for (int j = 0; j < count; j++)
             {
-                var firstObject = selectConstructor.Invoke(paramValues.ToArray());
-                var secondObject = selectConstructor.Invoke(paramValues.ToArray());
-                listOfObjects.Add(new Tuple<object, object>(firstObject, secondObject));
+                var firstObject = selectedConstructor.Invoke(paramValues.ToArray());
+                var secondObject = selectedConstructor.Invoke(paramValues.ToArray());
+                listOfObjects.Add(new Tuple<object, object, StringBuilder>(firstObject, secondObject, new StringBuilder(
+                    string.Format("Building both instances with the same constructor parameters. Constructor used: {0}. ", (selectedConstructor as ConstructorMethod).Constructor.ToString()))));
             }
             return listOfObjects;
         }
