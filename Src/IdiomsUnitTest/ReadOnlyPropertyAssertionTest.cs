@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -109,7 +110,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system and verify outcome
             var e = Assert.Throws<ReadOnlyPropertyException>(() =>
                 sut.Verify(propertyInfo));
+            Assert.Equal(propertyInfo, e.MemberInfo);
             Assert.Equal(propertyInfo, e.PropertyInfo);
+            Assert.Null(e.FieldInfo);
             // Teardown
         }
         
@@ -140,17 +143,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var propertyInfo2 = illBehavedType.GetProperty("Property2");
             // Exercise system and verify outcome
             var e1 = Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(propertyInfo1));
+            Assert.Equal(e1.MemberInfo, propertyInfo1);
             Assert.Equal(propertyInfo1, e1.PropertyInfo);
+            Assert.Null(e1.FieldInfo);
             var e2 = Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(propertyInfo2));
+            Assert.Equal(propertyInfo2, e2.MemberInfo);
             Assert.Equal(propertyInfo2, e2.PropertyInfo);
+            Assert.Null(e2.FieldInfo);
             // Teardown
         }
 
         [Fact]
         public void VerifyWellBehavedReadOnlyFieldInitialisedViaConstructorDoesNotThrow()
         {
-            // Given a PropertyInfo or FieldInfo, it should verify that for all 
-            // constructor having a matching argument, the value should be preserved
             // Fixture setup
             var dummyComposer = new Fixture();
             var sut = new ReadOnlyPropertyAssertion(dummyComposer);
@@ -161,10 +166,23 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
+        public void VerifyReadOnlyFieldInitialisedViaConstructorWithDifferentTypeThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
+            var fieldInfo = typeof(ReadOnlyFieldInitialisedViaConstructorWithDifferentType).GetField("Field");
+            // Exercise system and verify outcome
+            var e = Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(fieldInfo));
+            Assert.Equal(fieldInfo, e.MemberInfo);
+            Assert.Equal(fieldInfo, e.FieldInfo);
+            Assert.Null(e.PropertyInfo);
+            // Teardown
+        }
+
+        [Fact]
         public void VerifyAllConstructorArgumentsAreExposedAsFieldsDoesNotThrow()
         {
-            // Given a ConstructorInfo, it should verify that all constructor arguments 
-            // are properly exposed as either fields or Inspection Properties.
             // Fixture setup
             var dummyComposer = new Fixture();
             var sut = new ReadOnlyPropertyAssertion(dummyComposer);
@@ -181,8 +199,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Fact]
         public void VerifyWhenNotAllConstructorArgumentsAreExposedAsFieldsThrows()
         {
-            // Given a ConstructorInfo, it should verify that all constructor arguments 
-            // are properly exposed as either fields or Inspection Properties.
             // Fixture setup
             var dummyComposer = new Fixture();
             var sut = new ReadOnlyPropertyAssertion(dummyComposer);
@@ -215,20 +231,42 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var dummyComposer = new Fixture();
             var sut = new ReadOnlyPropertyAssertion(dummyComposer);
-            var ctor = typeof (ReadOnlyPropertiesInitialisedViaConstructor<object, int>)
-                .GetConstructor(new[] {typeof (object), typeof (int), typeof (TriState)});
+            var ctor = typeof(ReadOnlyPropertiesInitialisedViaConstructor<object, int>)
+                .GetConstructor(new[] { typeof(object), typeof(int), typeof(TriState) });
             // Exercise system and verify outcome
             Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(ctor));
             // Teardown
+        }
+
+        [Fact]
+        public void VerifyWhenConstructorArgumentTypeIsDifferentToFieldThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
+            var ctor = typeof(ReadOnlyFieldInitialisedViaConstructorWithDifferentType).GetConstructors().First();
+            // Exercise system and verify outcome
+            Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(ctor));
+            // Teardown
+        }
+
+        class ReadOnlyFieldInitialisedViaConstructorWithDifferentType
+        {
+            public readonly string Field;
+
+            public ReadOnlyFieldInitialisedViaConstructorWithDifferentType(int value)
+            {
+                this.Field = value.ToString(CultureInfo.CurrentCulture);
+            }
         }
 
         class ReadOnlyFieldInitialisedViaConstructor<T>
         {
             public readonly T Field;
 
-            public ReadOnlyFieldInitialisedViaConstructor(T value)
+            public ReadOnlyFieldInitialisedViaConstructor(T field)
             {
-                this.Field = value;
+                this.Field = field;
             }
         }
 

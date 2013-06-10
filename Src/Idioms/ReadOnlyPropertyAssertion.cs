@@ -43,24 +43,17 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new ArgumentNullException("constructorInfo");
 
             var parameters = constructorInfo.GetParameters();
-
             if (parameters.Length == 0)
-            {
-                // No parameters to verify
                 return;
-            }
 
-            var propertiesAndFieldsByName = constructorInfo.DeclaringType
-	            .GetMembers(BindingFlags.Instance | BindingFlags.Public)
-                .Where(m => m.MemberType.HasFlag(MemberTypes.Field) || m.MemberType.HasFlag(MemberTypes.Property))
-                .ToDictionary(m => m.Name.ToLower(CultureInfo.CurrentCulture));
+            var publicPropertiesAndFields = GetPublicPropertiesAndFields(constructorInfo.DeclaringType).ToArray();
+            
+            var firstParameterNotExposed = parameters.FirstOrDefault(
+                p => !publicPropertiesAndFields.Any(m => IsMatchingParameterAndMember(p, m)));
 
-            var firstMissingParameter = parameters.FirstOrDefault(
-                p => !propertiesAndFieldsByName.ContainsKey(p.Name.ToLower(CultureInfo.CurrentCulture)));
-
-            if (firstMissingParameter != null)
+            if (firstParameterNotExposed != null)
             {
-                throw new ReadOnlyPropertyException(constructorInfo, firstMissingParameter);
+                throw new ReadOnlyPropertyException(constructorInfo, firstParameterNotExposed);
             }
         }
 
@@ -95,46 +88,124 @@ namespace Ploeh.AutoFixture.Idioms
             }
 
             var expected = this.builder.CreateAnonymous(propertyInfo.PropertyType);
-
-            var matchingConstructors = propertyInfo.ReflectedType
-                .GetConstructors()
-                .Where(IsConstructorWithMatchingArgument(propertyInfo))
-                .ToArray();
-
+            var matchingConstructors = GetConstructorsWithInitializerForMember(propertyInfo).ToList();
             if (!matchingConstructors.Any())
             {
                 throw new ReadOnlyPropertyException(propertyInfo, string.Format(CultureInfo.CurrentCulture,
                     "No constructors with an argument that matches {0} were found", propertyInfo.Name));
             }
 
-            foreach (var ci in matchingConstructors)
+            if (matchingConstructors.Select(ci =>
+                BuildSpecimentWithMatchingParameterValue(ci, propertyInfo, expected))
+                .Select(specimen => propertyInfo.GetValue(specimen, null))
+                .Any(result => !expected.Equals(result)))
             {
-                var paramters = ci.GetParameters();
-                var matchingConstructorParameter = paramters.Single(IsMatchingParameter(propertyInfo));
-
-                var paramValues = (from pi in ci.GetParameters()
-                                   let value = pi == matchingConstructorParameter
-                                        ? expected
-                                        : this.builder.CreateAnonymous(pi.ParameterType)
-                                   select value).ToList();
-
-                var specimen = ci.Invoke(paramValues.ToArray());
-                var result = propertyInfo.GetValue(specimen, null);
-                if (!expected.Equals(result))
-                {
-                    throw new ReadOnlyPropertyException(propertyInfo);
-                }                
+                throw new ReadOnlyPropertyException(propertyInfo);
             }
+        }
+
+        /// <summary>
+        /// Verifies that a read-only field is correctly implemented.
+        /// </summary>
+        /// <param name="fieldInfo">The field.</param>
+        /// <remarks>
+        /// <para>
+        /// This method verifies that <paramref name="fieldInfo" /> is correctly implemented as
+        /// a read-only property. It used the <see cref="Builder" /> to create an instance of the
+        /// Type on which the property is implemented and then reads from the property. The 
+        /// assertion passes if the value read from the property is the same as the
+        /// value assigned to the constructor. If this is not the case, a
+        /// <see cref="ReadOnlyPropertyException" /> is thrown.
+        /// </para>
+        /// <para>
+        /// This method does nothing if the property is not a read-only property.
+        /// </para>
+        /// </remarks>
+        /// <exception cref="WritablePropertyException">The verification fails.</exception>
+        public override void Verify(FieldInfo fieldInfo)
+        {
+            if (fieldInfo == null)
+                throw new ArgumentNullException("fieldInfo");
+
+            var expected = this.builder.CreateAnonymous(fieldInfo.FieldType);
+
+            var matchingConstructors = GetConstructorsWithInitializerForMember(fieldInfo).ToList();
+            if (!matchingConstructors.Any())
+            {
+                throw new ReadOnlyPropertyException(fieldInfo, string.Format(CultureInfo.CurrentCulture,
+                    "No constructors with an argument that matches {0} were found", fieldInfo.Name));
+            }
+
+            if (matchingConstructors.Select(ci =>
+                BuildSpecimentWithMatchingParameterValue(ci, fieldInfo, expected))
+                .Select(fieldInfo.GetValue)
+                .Any(result => !expected.Equals(result)))
+            {
+                throw new ReadOnlyPropertyException(fieldInfo);
+            }
+        }
+
+        private object BuildSpecimentWithMatchingParameterValue(ConstructorInfo ci, MemberInfo propertyOrField, object expected)
+        {
+            var paramters = ci.GetParameters();
+            var matchingConstructorParameter = paramters.Single(p => IsMatchingParameterAndMember(p, propertyOrField));
+
+            // Create anonymous values for all parameters, except our 'matched' argument
+            var paramValues = (from pi in ci.GetParameters()
+                let value = pi == matchingConstructorParameter
+                    ? expected
+                    : this.builder.CreateAnonymous(pi.ParameterType)
+                select value).ToList();
+
+            return ci.Invoke(paramValues.ToArray());
+        }
+
+        private static IEnumerable<ConstructorInfo> GetConstructorsWithInitializerForMember(MemberInfo fieldInfo)
+        {
+            return fieldInfo.ReflectedType.GetConstructors().Where(IsConstructorWithMatchingArgument(fieldInfo));
+        }
+
+        private static bool IsMatch(string propertyOrFieldName, Type propertyOrFieldType, string parameterName, Type parameterType)
+        {
+            return propertyOrFieldName.Equals(parameterName, StringComparison.OrdinalIgnoreCase)
+                   && propertyOrFieldType == parameterType;
+        }
+
+        private static bool IsMatchingParameterAndMember(ParameterInfo parameter, MemberInfo fieldOrProperty)
+        {
+            if (!(fieldOrProperty is FieldInfo) && !(fieldOrProperty is PropertyInfo))
+                return false;
+
+            return fieldOrProperty is PropertyInfo
+                ? IsMatchingParameter(fieldOrProperty as PropertyInfo)(parameter)
+                : IsMatchingParameter(fieldOrProperty as FieldInfo)(parameter);
         }
 
         private static Func<ParameterInfo, bool> IsMatchingParameter(PropertyInfo propertyInfo)
         {
-            return p => p.Name.Equals(propertyInfo.Name, StringComparison.OrdinalIgnoreCase);
+            return p => IsMatch(propertyInfo.Name, propertyInfo.PropertyType, p.Name, p.ParameterType);
         }
 
-        private static Func<ConstructorInfo, bool> IsConstructorWithMatchingArgument(PropertyInfo propertyInfo)
+        private static Func<ParameterInfo, bool> IsMatchingParameter(FieldInfo fieldInfo)
         {
-            return c => c.GetParameters().Any(IsMatchingParameter(propertyInfo));
+            return p => IsMatch(fieldInfo.Name, fieldInfo.FieldType, p.Name, p.ParameterType);
+        }
+
+        private static Func<ConstructorInfo, bool> IsConstructorWithMatchingArgument(MemberInfo memberInfo)
+        {
+            if (memberInfo is FieldInfo)
+                return c => c.GetParameters().Any(IsMatchingParameter(memberInfo as FieldInfo));
+
+            if (memberInfo is PropertyInfo)
+                return c => c.GetParameters().Any(IsMatchingParameter(memberInfo as PropertyInfo));
+
+            throw new ArgumentOutOfRangeException("memberInfo", "must be a property or a field");
+        }
+
+        private static IEnumerable<MemberInfo> GetPublicPropertiesAndFields(Type t)
+        {
+            return t.GetMembers(BindingFlags.Instance | BindingFlags.Public)
+                .Where(m => m.MemberType.HasFlag(MemberTypes.Field) || m.MemberType.HasFlag(MemberTypes.Property));
         }
     }
 }

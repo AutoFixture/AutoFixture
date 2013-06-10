@@ -96,5 +96,32 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var members = typeof(GuardedConstructorHost<Version>).GetMembers();
             assertion.Verify(members);
         }
+
+        [Fact]
+        public void VerifyReadOnlyPropertyInitialisedByConstructor()
+        {
+            var fixture = new Fixture();
+            var assertion = new ReadOnlyPropertyAssertion(fixture);
+            var members = typeof (UnguardedConstructorHost<Version>).GetProperties();
+            assertion.Verify(members);
+        }
+
+        [Fact]
+        public void VerifyReadOnlyFieldInitialisedByConstructor()
+        {
+            var fixture = new Fixture();
+            var assertion = new ReadOnlyPropertyAssertion(fixture);
+            var members = typeof(MutableValueType).GetFields();
+            assertion.Verify(members);
+        }
+
+        [Fact]
+        public void VerifyConstructorParametersCorrectlyInitialiseReadOnlyProperties()
+        {
+            var fixture = new Fixture();
+            var assertion = new ReadOnlyPropertyAssertion(fixture);
+            var members = typeof(MutableValueType).GetConstructors();
+            assertion.Verify(members);
+        }
     }
 }
