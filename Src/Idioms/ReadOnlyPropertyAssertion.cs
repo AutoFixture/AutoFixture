@@ -14,6 +14,19 @@ namespace Ploeh.AutoFixture.Idioms
     {
         private readonly ISpecimenBuilder builder;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyPropertyAssertion"/> class.
+        /// </summary>
+        /// <param name="builder">
+        /// A composer which can create instances required to implement the idiomatic unit test,
+        /// such as the owner of the property, as well as the value to be assigned and read from
+        /// the property.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// <paramref name="builder" /> will typically be a <see cref="Fixture" /> instance.
+        /// </para>
+        /// </remarks>
         public ReadOnlyPropertyAssertion(ISpecimenBuilder builder)
         {
             if (builder == null)
@@ -173,12 +186,15 @@ namespace Ploeh.AutoFixture.Idioms
 
         private static bool IsMatchingParameterAndMember(ParameterInfo parameter, MemberInfo fieldOrProperty)
         {
-            if (!(fieldOrProperty is FieldInfo) && !(fieldOrProperty is PropertyInfo))
+            var fieldInfo = fieldOrProperty as FieldInfo;
+            var propertyInfo = fieldOrProperty as PropertyInfo;
+
+            if (fieldInfo == null && propertyInfo == null)
                 return false;
 
-            return fieldOrProperty is PropertyInfo
-                ? IsMatchingParameter(fieldOrProperty as PropertyInfo)(parameter)
-                : IsMatchingParameter(fieldOrProperty as FieldInfo)(parameter);
+            return propertyInfo != null
+                ? IsMatchingParameter(propertyInfo)(parameter)
+                : IsMatchingParameter(fieldInfo)(parameter);
         }
 
         private static Func<ParameterInfo, bool> IsMatchingParameter(PropertyInfo propertyInfo)
