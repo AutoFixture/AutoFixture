@@ -227,5 +227,16 @@ namespace Ploeh.AutoFixtureUnitTest
                 () => new RecursionGuard(null, dummyHandler));
             // Teardown
         }
+
+        [Fact]
+        public void ConstructWithBuilderAndNullRecursionHandlerThrows()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(
+                () => new RecursionGuard(dummyBuilder, (IRecursionHandler)null));
+            // Teardown
+        }
     }
 }
