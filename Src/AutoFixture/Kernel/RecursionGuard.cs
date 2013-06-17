@@ -63,6 +63,14 @@ namespace Ploeh.AutoFixture.Kernel
             this.comparer = comparer;
         }
 
+        public RecursionGuard(
+            ISpecimenBuilder builder, 
+            IRecursionHandler recursionHandler,
+            IEqualityComparer comparer)
+        {
+            this.builder = builder;
+        }
+
         /// <summary>
         /// Gets the decorated builder supplied via the constructor.
         /// </summary>

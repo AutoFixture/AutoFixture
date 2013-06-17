@@ -238,5 +238,20 @@ namespace Ploeh.AutoFixtureUnitTest
                 () => new RecursionGuard(dummyBuilder, (IRecursionHandler)null));
             // Teardown
         }
+
+        [Fact]
+        public void ConstructWithBuilderAndHandlerAndComparerHasCorrectBuilder()
+        {
+            // Fixture setup
+            var expected = new DelegatingSpecimenBuilder();
+            var dummyHandler = new DelegatingRecursionHandler();
+            var dummyComparer = new DelegatingEqualityComparer();
+            var sut = new RecursionGuard(expected, dummyHandler, dummyComparer);
+            // Exercise system
+            var actual = sut.Builder;
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
     }
 }
