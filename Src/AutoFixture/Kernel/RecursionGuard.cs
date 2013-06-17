@@ -68,6 +68,9 @@ namespace Ploeh.AutoFixture.Kernel
             IRecursionHandler recursionHandler,
             IEqualityComparer comparer)
         {
+            if (builder == null)
+                throw new ArgumentNullException("builder");
+
             this.builder = builder;
             this.recursionHandler = recursionHandler;
             this.comparer = comparer;
