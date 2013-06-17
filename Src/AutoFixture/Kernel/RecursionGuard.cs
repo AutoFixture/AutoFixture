@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// specimen creation process is detected.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
-    public abstract class RecursionGuard : ISpecimenBuilderNode
+    public class RecursionGuard : ISpecimenBuilderNode
     {
         private readonly ISpecimenBuilder builder;
         private readonly IEqualityComparer comparer;
@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
         /// </summary>
         /// <param name="builder">The intercepting builder to decorate.</param>
-        protected RecursionGuard(ISpecimenBuilder builder)
+        public RecursionGuard(ISpecimenBuilder builder)
             : this(builder, EqualityComparer<object>.Default)
         {
         }
@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="comparer">
         /// An IEqualitycomparer implementation to use when comparing requests to determine recursion.
         /// </param>
-        protected RecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
+        public RecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
         {
             if (builder == null)
             {
@@ -78,7 +78,10 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="request">The recursion causing request.</param>
         /// <returns>The specimen to return.</returns>
-        public abstract object HandleRecursiveRequest(object request);
+        public virtual object HandleRecursiveRequest(object request)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Creates a new specimen based on a request.
@@ -130,7 +133,10 @@ namespace Ploeh.AutoFixture.Kernel
         /// during composition.
         /// </para>
         /// </remarks>
-        public abstract ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders);
+        public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
