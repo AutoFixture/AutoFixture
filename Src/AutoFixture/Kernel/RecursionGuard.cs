@@ -13,6 +13,7 @@ namespace Ploeh.AutoFixture.Kernel
     public class RecursionGuard : ISpecimenBuilderNode
     {
         private readonly ISpecimenBuilder builder;
+        private readonly IRecursionHandler recursionHandler;
         private readonly IEqualityComparer comparer;
         private readonly Stack<object> monitoredRequests;
 
@@ -23,6 +24,13 @@ namespace Ploeh.AutoFixture.Kernel
         public RecursionGuard(ISpecimenBuilder builder)
             : this(builder, EqualityComparer<object>.Default)
         {
+        }
+
+        public RecursionGuard(
+            ISpecimenBuilder builder,
+            IRecursionHandler recursionHandler)
+        {
+            this.recursionHandler = recursionHandler;
         }
 
         /// <summary>
@@ -56,6 +64,11 @@ namespace Ploeh.AutoFixture.Kernel
         public ISpecimenBuilder Builder
         {
             get { return this.builder; }
+        }
+
+        public IRecursionHandler RecursionHandler
+        {
+            get { return this.recursionHandler; }
         }
 
         /// <summary>Gets the comparer supplied via the constructor.</summary>

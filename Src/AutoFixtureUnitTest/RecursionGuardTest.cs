@@ -174,5 +174,19 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             Assert.Same(subRequest1, recursiveRequest);
         }
+
+        [Fact]
+        public void ConstructWithBuilderAndRecursionHandlerHasCorrectHandler()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var expected = new DelegatingRecursionHandler();
+            var sut = new RecursionGuard(dummyBuilder, expected);
+            // Exercise system
+            IRecursionHandler actual = sut.RecursionHandler;
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
     }
 }

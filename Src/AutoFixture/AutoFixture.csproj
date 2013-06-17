@@ -96,6 +96,7 @@
   <ItemGroup>
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
+    <Compile Include="Kernel\IRecursionHandler.cs" />
     <Compile Include="Kernel\NoConstructorsSpecification.cs" />
     <Compile Include="Kernel\ValueTypeSpecification.cs" />
     <Compile Include="Kernel\MutableValueTypeWarningThrower.cs" />
