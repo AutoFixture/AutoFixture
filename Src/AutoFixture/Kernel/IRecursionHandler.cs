@@ -7,5 +7,6 @@ namespace Ploeh.AutoFixture.Kernel
 {
     public interface IRecursionHandler
     {
+        object HandleRecursiveRequest(object request, IEnumerable<object> recordedRequests);
     }
 }

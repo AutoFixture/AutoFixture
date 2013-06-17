@@ -75,6 +75,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (comparer == null)
                 throw new ArgumentNullException("comparer");
 
+            this.monitoredRequests = new Stack<object>();
             this.builder = builder;
             this.recursionHandler = recursionHandler;
             this.comparer = comparer;
@@ -117,7 +118,9 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>The specimen to return.</returns>
         public virtual object HandleRecursiveRequest(object request)
         {
-            throw new NotImplementedException();
+            return this.recursionHandler.HandleRecursiveRequest(
+                request,
+                this.monitoredRequests);
         }
 
         /// <summary>
