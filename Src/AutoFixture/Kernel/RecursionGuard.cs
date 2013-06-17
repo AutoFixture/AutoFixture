@@ -30,6 +30,9 @@ namespace Ploeh.AutoFixture.Kernel
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler)
         {
+            if (builder == null)
+                throw new ArgumentNullException("builder");
+
             this.builder = builder;
             this.recursionHandler = recursionHandler;
             this.comparer = EqualityComparer<object>.Default;

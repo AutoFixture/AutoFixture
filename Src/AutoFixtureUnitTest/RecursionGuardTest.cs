@@ -216,5 +216,16 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(EqualityComparer<object>.Default, actual);
             // Teardown
         }
+
+        [Fact]
+        public void ConstructWithNullBuilderAndRecursionHandlerThrows()
+        {
+            // Fixture setup
+            var dummyHandler = new DelegatingRecursionHandler();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(
+                () => new RecursionGuard(null, dummyHandler));
+            // Teardown
+        }
     }
 }
