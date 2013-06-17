@@ -30,6 +30,7 @@ namespace Ploeh.AutoFixture.Kernel
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler)
         {
+            this.builder = builder;
             this.recursionHandler = recursionHandler;
         }
 
