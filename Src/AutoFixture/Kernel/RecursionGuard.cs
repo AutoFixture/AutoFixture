@@ -69,6 +69,7 @@ namespace Ploeh.AutoFixture.Kernel
             IEqualityComparer comparer)
         {
             this.builder = builder;
+            this.recursionHandler = recursionHandler;
         }
 
         /// <summary>
