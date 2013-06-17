@@ -268,5 +268,20 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(expected, actual);
             // Teardown
         }
+
+        [Fact]
+        public void ConstructWithBuilderAndHandlerAndComparerHasCorrectComparer()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummyHandler = new DelegatingRecursionHandler();
+            var expected = new DelegatingEqualityComparer();
+            var sut = new RecursionGuard(dummyBuilder, dummyHandler, expected);
+            // Exercise system
+            var actual = sut.Comparer;
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
     }
 }
