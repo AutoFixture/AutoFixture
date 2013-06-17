@@ -72,6 +72,8 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("builder");
             if (recursionHandler == null)
                 throw new ArgumentNullException("recursionHandler");
+            if (comparer == null)
+                throw new ArgumentNullException("comparer");
 
             this.builder = builder;
             this.recursionHandler = recursionHandler;
