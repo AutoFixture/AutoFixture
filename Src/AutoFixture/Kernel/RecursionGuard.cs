@@ -32,6 +32,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             this.builder = builder;
             this.recursionHandler = recursionHandler;
+            this.comparer = EqualityComparer<object>.Default;
         }
 
         /// <summary>
