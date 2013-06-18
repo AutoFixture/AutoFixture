@@ -99,6 +99,7 @@
     <Compile Include="Kernel\IRecursionHandler.cs" />
     <Compile Include="Kernel\NoConstructorsSpecification.cs" />
     <Compile Include="Kernel\NullRecursionHandler.cs" />
+    <Compile Include="Kernel\OmitOnRecursionHandler.cs" />
     <Compile Include="Kernel\ValueTypeSpecification.cs" />
     <Compile Include="Kernel\MutableValueTypeWarningThrower.cs" />
     <Compile Include="RandomBooleanSequenceGenerator.cs" />
