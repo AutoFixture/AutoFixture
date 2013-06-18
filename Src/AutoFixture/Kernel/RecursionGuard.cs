@@ -213,8 +213,12 @@ namespace Ploeh.AutoFixture.Kernel
         public virtual ISpecimenBuilderNode Compose(
             IEnumerable<ISpecimenBuilder> builders)
         {
-            var builder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
-            return new RecursionGuard(builder, this.recursionHandler, this.comparer);
+            var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(
+                builders);
+            return new RecursionGuard(
+                composedBuilder,
+                this.recursionHandler,
+                this.comparer);
         }
 
         /// <summary>
