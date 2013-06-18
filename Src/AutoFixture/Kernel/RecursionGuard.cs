@@ -29,15 +29,11 @@ namespace Ploeh.AutoFixture.Kernel
         public RecursionGuard(
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler)
+            : this(
+                builder, 
+                recursionHandler,
+                EqualityComparer<object>.Default)
         {
-            if (builder == null)
-                throw new ArgumentNullException("builder");
-            if (recursionHandler == null)
-                throw new ArgumentNullException("recursionHandler");
-            
-            this.builder = builder;
-            this.recursionHandler = recursionHandler;
-            this.comparer = EqualityComparer<object>.Default;
         }
 
         /// <summary>
@@ -64,7 +60,7 @@ namespace Ploeh.AutoFixture.Kernel
         }
 
         public RecursionGuard(
-            ISpecimenBuilder builder, 
+            ISpecimenBuilder builder,
             IRecursionHandler recursionHandler,
             IEqualityComparer comparer)
         {
