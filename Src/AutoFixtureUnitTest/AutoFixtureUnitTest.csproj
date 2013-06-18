@@ -86,6 +86,7 @@
     <Compile Include="CreatingAbstractClassWithPublicConstructorTests.cs" />
     <Compile Include="DelegatingRecursionHandler.cs" />
     <Compile Include="Kernel\NoConstructorsSpecificationTest.cs" />
+    <Compile Include="Kernel\NullRecursionHandlerTests.cs" />
     <Compile Include="Kernel\ValueTypeSpecificationTest.cs" />
     <Compile Include="Kernel\MutableValueTypeWarningThrowerTest.cs" />
     <Compile Include="RandomBooleanSequenceGeneratorTest.cs" />
