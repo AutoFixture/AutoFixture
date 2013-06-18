@@ -38,6 +38,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// contains instructions on how to move on.
         /// </para>
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "OmitOnRecursionBehavior", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ThrowingRecursionBehavior", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public object HandleRecursiveRequest(
             object request,
             IEnumerable<object> recordedRequests)
