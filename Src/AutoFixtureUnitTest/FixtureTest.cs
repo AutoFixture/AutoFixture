@@ -2969,8 +2969,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             Assert.Throws<ObjectCreationException>(() =>
                 new SpecimenContext(
-                    new ThrowingRecursionGuard(
-                        sut.Build<RecursionTestObjectWithReferenceOutA>()
+                    new RecursionGuard(
+                        sut.Build<RecursionTestObjectWithReferenceOutA>(),
+                        new ThrowingRecursionHandler()
                     )
                 ).Create<RecursionTestObjectWithReferenceOutA>());
         }
@@ -2997,8 +2998,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             Assert.Throws<ObjectCreationException>(() =>
                 new SpecimenContext(
-                    new ThrowingRecursionGuard(
-                        sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
+                    new RecursionGuard(
+                        sut.Build<RecursionTestObjectWithConstructorReferenceOutA>(),
+                        new ThrowingRecursionHandler()
                     )
                 ).Create<RecursionTestObjectWithConstructorReferenceOutA>());
         }
@@ -3025,8 +3027,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             // Exercise system
             var result = new SpecimenContext(
-                new NullRecursionGuard(
-                    sut.Build<RecursionTestObjectWithConstructorReferenceOutA>()
+                new RecursionGuard(
+                    sut.Build<RecursionTestObjectWithConstructorReferenceOutA>(),
+                    new NullRecursionHandler()
                 )
             ).Create<RecursionTestObjectWithConstructorReferenceOutA>();
             // Verify outcome

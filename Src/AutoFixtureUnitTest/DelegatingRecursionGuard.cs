@@ -15,6 +15,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
         }
 
+        [Obsolete]
         public override object HandleRecursiveRequest(object request)
         {
             return this.OnHandleRecursiveRequest(request);

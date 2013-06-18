@@ -11,6 +11,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// points.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
+    [Obsolete("This class will be removed in a future version of AutoFixture. Instead, use an instance of RecursionGuard, composed with an instance of OmitOnRecursionHandler.")]
     public class OmitOnRecursionGuard : RecursionGuard
     {
         /// <summary>
@@ -44,6 +45,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>
         /// An <see cref="OmitSpecimen" /> instance.
         /// </returns>
+        [Obsolete("This class will be removed in a future version of AutoFixture. Instead, use an instance of RecursionGuard, composed with an instance of OmitOnRecursionHandler.")]
         public override object HandleRecursiveRequest(object request)
         {
             return new OmitSpecimen();

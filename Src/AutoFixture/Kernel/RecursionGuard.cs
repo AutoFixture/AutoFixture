@@ -112,6 +112,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="request">The recursion causing request.</param>
         /// <returns>The specimen to return.</returns>
+        [Obsolete("This method will be removed in a future version of AutoFixture. Use IRecursionHandler.HandleRecursiveRequest instead.")]
         public virtual object HandleRecursiveRequest(object request)
         {
             return this.recursionHandler.HandleRecursiveRequest(
@@ -137,7 +138,9 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (this.monitoredRequests.Any(x => this.comparer.Equals(x, request)))
             {
+#pragma warning disable 618
                 return this.HandleRecursiveRequest(request);
+#pragma warning restore 618
             }
 
             this.monitoredRequests.Push(request);
