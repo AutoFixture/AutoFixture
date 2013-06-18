@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <param name="builder">The builder to decorate.</param>
         /// <returns>
-        /// <paramref name="builder"/> decorated with a <see cref="NullRecursionGuard"/>.
+        /// <paramref name="builder"/> decorated with a <see cref="RecursionGuard"/>.
         /// </returns>
         public ISpecimenBuilder Transform(ISpecimenBuilder builder)
         {

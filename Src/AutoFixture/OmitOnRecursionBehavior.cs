@@ -19,14 +19,14 @@ namespace Ploeh.AutoFixture
         /// <param name="builder">The builder to decorate.</param>
         /// <returns>
         /// <paramref name="builder" /> decorated with an
-        /// <see cref="OmitOnRecursionGuard" />.
+        /// <see cref="RecursionGuard" />.
         /// </returns>
         public ISpecimenBuilder Transform(ISpecimenBuilder builder)
         {
             if (builder == null)
                 throw new ArgumentNullException("builder");
 
-            return new OmitOnRecursionGuard(builder);
+            return new RecursionGuard(builder, new OmitOnRecursionHandler());
         }
     }
 }
