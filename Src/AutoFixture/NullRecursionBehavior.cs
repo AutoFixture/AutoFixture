@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("builder");
             }
 
-            return new NullRecursionGuard(builder);
+            return new RecursionGuard(builder, new NullRecursionHandler());
         }
     }
 }
