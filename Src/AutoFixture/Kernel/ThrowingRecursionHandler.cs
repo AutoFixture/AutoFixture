@@ -6,8 +6,38 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
 {
+    /// <summary>
+    /// Breaks a recursion by throwing a descriptive exception.
+    /// </summary>
+    /// <seealso cref="HandleRecursiveRequest(object, IEnumerable{object})" />
     public class ThrowingRecursionHandler : IRecursionHandler
     {
+        /// <summary>
+        /// Handles a recursive request.
+        /// </summary>
+        /// <param name="request">The request causing the recursion.</param>
+        /// <param name="recordedRequests">
+        /// Previously recorded, and yet unhandled, requests.
+        /// </param>
+        /// <returns>
+        /// An object intended to break the recursion.
+        /// </returns>
+        /// <exception cref="ObjectCreationException">Always</exception>
+        /// <remarks>
+        /// <para>
+        /// This method is called when AutoFixture detects an infinite
+        /// recursion. The <paramref name="request" /> is the request that
+        /// triggered the recursion detection;
+        /// <paramref name="recordedRequests" /> contains all previous, but
+        /// still unhandled requests: the current call stack, if you will.
+        /// </para>
+        /// <para>
+        /// This implementation always throws a descriptive exception,
+        /// instructing the user that the requested type contains a circular
+        /// reference, and that this is bad API design. The message also
+        /// contains instructions on how to move on.
+        /// </para>
+        /// </remarks>
         public object HandleRecursiveRequest(
             object request,
             IEnumerable<object> recordedRequests)

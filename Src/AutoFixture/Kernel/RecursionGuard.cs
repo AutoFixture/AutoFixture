@@ -20,12 +20,21 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
         /// </summary>
-        /// <param name="builder">The intercepting builder to decorate.</param>
+        /// <param name="builder">The intercepted builder to decorate.</param>
         public RecursionGuard(ISpecimenBuilder builder)
             : this(builder, EqualityComparer<object>.Default)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecursionGuard" />
+        /// class.
+        /// </summary>
+        /// <param name="builder">The intercepted builder to decorate.</param>
+        /// <param name="recursionHandler">
+        /// An <see cref="IRecursionHandler" /> that will handle a recursion
+        /// situation, if one is detected.
+        /// </param>
         public RecursionGuard(
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler)
@@ -39,7 +48,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
         /// </summary>
-        /// <param name="builder">The intercepting builder to decorate.</param>
+        /// <param name="builder">The intercepted builder to decorate.</param>
         /// <param name="comparer">
         /// An IEqualitycomparer implementation to use when comparing requests to determine recursion.
         /// </param>
@@ -59,6 +68,26 @@ namespace Ploeh.AutoFixture.Kernel
             this.comparer = comparer;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecursionGuard" />
+        /// class.
+        /// </summary>
+        /// <param name="builder">The intercepted builder to decorate.</param>
+        /// <param name="recursionHandler">
+        /// An <see cref="IRecursionHandler" /> that will handle a recursion
+        /// situation, if one is detected.
+        /// </param>
+        /// <param name="comparer">
+        /// An <see cref="IEqualityComparer" /> implementation to use when
+        /// comparing requests to determine recursion.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// builder
+        /// or
+        /// recursionHandler
+        /// or
+        /// comparer
+        /// </exception>
         public RecursionGuard(
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler,
@@ -87,6 +116,15 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.builder; }
         }
 
+        /// <summary>
+        /// Gets the recursion handler originally supplied as a constructor
+        /// argument.
+        /// </summary>
+        /// <value>
+        /// The recursion handler used to handle recursion situations.
+        /// </value>
+        /// <seealso cref="RecursionGuard(ISpecimenBuilder, IRecursionHandler)" />
+        /// <seealso cref="RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer)" />
         public IRecursionHandler RecursionHandler
         {
             get { return this.recursionHandler; }
