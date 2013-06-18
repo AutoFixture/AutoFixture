@@ -177,7 +177,7 @@ namespace Ploeh.AutoFixture.Kernel
             IEnumerable<ISpecimenBuilder> builders)
         {
             var builder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
-            return new RecursionGuard(builder, this.RecursionHandler);
+            return new RecursionGuard(builder, this.recursionHandler, this.comparer);
         }
 
         /// <summary>

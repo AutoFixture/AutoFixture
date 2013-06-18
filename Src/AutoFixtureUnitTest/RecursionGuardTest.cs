@@ -412,5 +412,21 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(expected, rg.RecursionHandler);
             // Teardown
         }
+
+        [Fact]
+        public void ComposeRetainsComparer()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummyHandler = new DelegatingRecursionHandler();
+            var expected = new DelegatingEqualityComparer();
+            var sut = new RecursionGuard(dummyBuilder, dummyHandler, expected);
+            // Exercise system
+            var actual = sut.Compose(new ISpecimenBuilder[0]);
+            // Verify outcome
+            var rg = Assert.IsAssignableFrom<RecursionGuard>(actual);
+            Assert.Equal(expected, rg.Comparer);
+            // Teardown
+        }
     }
 }
