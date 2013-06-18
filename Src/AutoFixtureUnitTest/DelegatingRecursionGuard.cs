@@ -7,11 +7,11 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     public class DelegatingRecursionGuard : RecursionGuard
     {
-        public DelegatingRecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer) : base(builder, comparer)
+        public DelegatingRecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer) : base(builder, new DelegatingRecursionHandler(), comparer)
         {
         }
 
-        public DelegatingRecursionGuard(ISpecimenBuilder builder) : base(builder)
+        public DelegatingRecursionGuard(ISpecimenBuilder builder) : base(builder, new DelegatingRecursionHandler())
         {
         }
 

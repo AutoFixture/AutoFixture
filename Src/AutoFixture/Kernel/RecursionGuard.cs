@@ -21,6 +21,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
         /// </summary>
         /// <param name="builder">The intercepted builder to decorate.</param>
+        [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler) instead.")]
         public RecursionGuard(ISpecimenBuilder builder)
             : this(builder, EqualityComparer<object>.Default)
         {
@@ -52,6 +53,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="comparer">
         /// An IEqualitycomparer implementation to use when comparing requests to determine recursion.
         /// </param>
+        [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer) instead.")]
         public RecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
         {
             if (builder == null)
