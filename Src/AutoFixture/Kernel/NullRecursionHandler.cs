@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.Kernel
             object request,
             IEnumerable<object> recordedRequests)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }
