@@ -356,5 +356,28 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(expected, actual);
             // Teardown
         }
+
+        [Fact]
+        public void ComposeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummyHandler = new DelegatingRecursionHandler();
+            var dummyComparer = new DelegatingEqualityComparer();
+            var sut = new RecursionGuard(dummyBuilder, dummyHandler, dummyComparer);
+            // Exercise system
+            var expectedBuilders = new[]
+            {
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder(),
+                new DelegatingSpecimenBuilder()
+            };
+            var actual = sut.Compose(expectedBuilders);
+            // Verify outcome
+            var rg = Assert.IsAssignableFrom<RecursionGuard>(actual);
+            var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(rg.Builder);
+            Assert.True(expectedBuilders.SequenceEqual(composite));
+            // Teardown
+        }
     }
 }

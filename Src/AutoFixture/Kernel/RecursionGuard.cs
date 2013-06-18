@@ -173,9 +173,10 @@ namespace Ploeh.AutoFixture.Kernel
         /// during composition.
         /// </para>
         /// </remarks>
-        public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
+        public virtual ISpecimenBuilderNode Compose(
+            IEnumerable<ISpecimenBuilder> builders)
         {
-            throw new NotImplementedException();
+            return new RecursionGuard(new CompositeSpecimenBuilder(builders));
         }
 
         /// <summary>
