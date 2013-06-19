@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.SemanticComparison.UnitTest
 {
@@ -1456,6 +1457,443 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void LikenessInitializedWithNullValueWillHoldCorrectValue()
+        {
+            // Fixture setup
+            var sut = new Likeness<PropertyHolder<string>>(null);
+            // Exercise system
+            PropertyHolder<string> result = sut.Value;
+            // Verify outcome
+            Assert.Null(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessValueIsCorrect()
+        {
+            // Fixture setup
+            var expected = new ConcreteType();
+            var sut = new Likeness<ConcreteType>(expected);
+            // Exercise system
+            var result = sut.Value;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessValueIsCorrectWhenInitializedWithArray()
+        {
+            // Fixture setup
+            var expected = new ConcreteType();
+            var dummyComparers = new[]
+            {
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer()
+            };
+
+            var sut = new Likeness<ConcreteType>(expected, dummyComparers);
+            // Exercise system
+            var result = sut.Value;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessValueIsCorrectWhenInitializedWithEnumerable()
+        {
+            // Fixture setup
+            var expected = new ConcreteType();
+            var dummyComparers = new[]
+            {
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer()
+            }.ToList();
+
+            var sut = new Likeness<ConcreteType>(expected, dummyComparers);
+            // Exercise system
+            var result = sut.Value;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ComparersIsCorrectWhenInitializedWithDefaultConstructor()
+        {
+            // Fixture setup
+            var dummyValue = new TimeSpan();
+            var expected = new[]
+            {
+                new MemberComparer(new SemanticComparer<TimeSpan, TimeSpan>())
+            };
+            var sut = new Likeness<TimeSpan>(dummyValue, expected);
+            // Exercise system
+            var result = sut.Comparers;
+            // Verify outcome
+            Assert.True(expected.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullArrayThrows()
+        {
+            // Fixture setup
+            var dummyValue = new object();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new Likeness<object>(dummyValue, null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComparersIsCorrectWhenInitializedWithArray()
+        {
+            // Fixture setup
+            var dummyValue = new object();
+            var expected = new[]
+            {
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer()
+            };
+
+            var sut = new Likeness<object>(dummyValue, expected);
+            // Exercise system
+            var result = sut.Comparers;
+            // Verify outcome
+            Assert.True(expected.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullEnumerableThrows()
+        {
+            // Fixture setup
+            var dummyValue = new object();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new Likeness<object>(
+                    dummyValue, 
+                    (IEnumerable<IMemberComparer>)null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComparersIsCorrectWhenInitializedWithEnumerable()
+        {
+            // Fixture setup
+            var dummyValue = new object();
+            var expected = new[]
+            {
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer(),
+                new DelegatingMemberComparer()
+            }.ToList();
+
+            var sut = new Likeness<object>(dummyValue, expected);
+            // Exercise system
+            var result = sut.Comparers;
+            // Verify outcome
+            Assert.True(expected.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessIsEquatable()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new Likeness<int>(1);
+            // Verify outcome
+            Assert.IsAssignableFrom<IEquatable<int>>(sut);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(null, null, true)]
+        [InlineData("az", "az", true)]
+        [InlineData("az", null, false)]
+        [InlineData(null, "az", false)]
+        public void LikenessEqualsReturnsCorrectResult(
+            string value, 
+            string other,
+            bool expected)
+        {
+            // Fixture setup
+            var sut = new Likeness<string>(value);
+            // Exercise system
+            var result = sut.Equals(other);
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+
+        }
+
+        [Fact]
+        public void LikenessDoesNotEqualNull()
+        {
+            // Fixture setup
+            var sut = new Likeness<DateTime>(DateTime.Now);
+            // Exercise system
+            var actual = BothEquals(sut, (object)null);
+            // Verify outcome
+            Assert.False(actual.Any(b => b));
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessEqualsNullValueWhenProvidedValueIsNull()
+        {
+            // Fixture setup
+            var sut = new Likeness<PropertyHolder<string>>(null);
+            PropertyHolder<string> nullValue = null;
+            // Exercise system
+            var actual = BothEquals(sut, nullValue);
+            // Verify outcome
+            Assert.True(actual.Any(b => b));
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessWithValueDoesNotEqualNull()
+        {
+            // Fixture setup
+            var sut = new Likeness<ConcreteType>(new ConcreteType());
+            ConcreteType nullValue = null;
+            // Exercise system
+            var actual = BothEquals(sut, nullValue);
+            // Verify outcome
+            Assert.False(actual.Any(b => b));
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessEqualsItself()
+        {
+            // Fixture setup
+            var sut = new Likeness<ConcreteType>(new ConcreteType());
+            // Exercise system
+            var result = sut.Equals(sut);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessGetHashCodeShouldReturnHashCodeOfContainedObject()
+        {
+            // Fixture setup
+            var anonymousDateTime = new DateTime(2010, 1, 3);
+            var sut = new Likeness<DateTime>(anonymousDateTime);
+            // Exercise system
+            var result = sut.GetHashCode();
+            // Verify outcome
+            int expected = anonymousDateTime.GetHashCode();
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessGetHashCodeWhenNullIsContainedWillReturnCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Likeness<string>(null);
+            // Exercise system
+            var result = sut.GetHashCode();
+            // Verify outcome
+            Assert.Equal(0, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessToStringReturnsCorrectResult()
+        {
+            // Fixture setup
+            var anonymousTimeSpan = new TimeSpan(7, 4, 2, 1);
+            var sut = new Likeness<TimeSpan>(anonymousTimeSpan);
+            // Exercise system
+            var result = sut.ToString();
+            // Verify outcome
+            var expectedText = "Likeness of " + anonymousTimeSpan.ToString();
+            Assert.Equal(expectedText, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessToStringOfContainedNullWillReturnCorrectResult()
+        {
+            // Fixture setup
+            var sut = new Likeness<string>(null);
+            // Exercise system
+            var result = sut.ToString();
+            // Verify outcome
+            Assert.Equal("Likeness of null", result);
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessEqualsIdenticalStrongType()
+        {
+            // Fixture setup
+            var ticks = 8293247;
+            var value = TimeSpan.FromTicks(ticks);
+            var sut = new Likeness<TimeSpan>(value);
+            var other = TimeSpan.FromTicks(ticks);
+            // Exercise system
+            var actual = BothEquals(sut, other);
+            // Verify outcome
+            Assert.True(actual.Any(b => b));
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessComparingStringPropertyHolderToRealStringPropertyHolderWillIndicateEquality()
+        {
+            // Fixture setup
+            var anonymousText = "Anonymous text";
+
+            var likenObject = new PropertyHolder<string>();
+            likenObject.Property = anonymousText;
+
+            var comparee = new PropertyHolder<string>();
+            comparee.Property = anonymousText;
+
+            var sut = new Likeness<PropertyHolder<string>>(likenObject);
+
+            // Exercise system
+            bool result = sut.Equals(comparee);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessComparingStringPropertyHoldersWithDifferentValuesWillIndicateDifference()
+        {
+            // Fixture setup
+            var anonymousText1 = "Anonymous text";
+            var anonymousText2 = "Some other text";
+
+            var likenObject = new PropertyHolder<string>();
+            likenObject.Property = anonymousText1;
+
+            var comparee = new PropertyHolder<string>();
+            comparee.Property = anonymousText2;
+
+            var sut = new Likeness<PropertyHolder<string>>(likenObject);
+
+            // Exercise system
+            bool result = sut.Equals(comparee);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessComparingStringFieldHolderToRealStringFieldHolderWillIndicateEquality()
+        {
+            // Fixture setup
+            var anonymousText = "Anonymous text";
+
+            var likenObject = new FieldHolder<string>();
+            likenObject.Field = anonymousText;
+
+            var comparee = new FieldHolder<string>();
+            comparee.Field = anonymousText;
+
+            var sut = new Likeness<FieldHolder<string>>(likenObject);
+
+            // Exercise system
+            bool result = sut.Equals(comparee);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessComparingStringFieldHoldersWithDifferentValuesWillIndicateDifference()
+        {
+            // Fixture setup
+            var anonymousText1 = "Anonymous text";
+            var anonymousText2 = "Some other text";
+
+            var likenObject = new FieldHolder<string>();
+            likenObject.Field = anonymousText1;
+
+            var comparee = new FieldHolder<string>();
+            comparee.Field = anonymousText2;
+
+            var sut = new Likeness<FieldHolder<string>>(likenObject);
+
+            // Exercise system
+            bool result = sut.Equals(comparee);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ObjectsWithNullPropertiesWillHaveCorrectLikeness()
+        {
+            // Fixture setup
+            var likenObject = new PropertyHolder<object>();
+            likenObject.Property = null;
+
+            var comparee = new PropertyHolder<object>();
+            comparee.Property = null;
+
+            var sut = new Likeness<PropertyHolder<object>>(likenObject);
+
+            // Exercise system
+            bool result = sut.Equals(comparee);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessOfObjectWithNullPropertyWillNotBeEqualToSameTypeOfObjectWithValuedProperty()
+        {
+            // Fixture setup
+            var likenObject = new PropertyHolder<object>();
+            likenObject.Property = null;
+
+            var comparee = new PropertyHolder<object>();
+            comparee.Property = new object();
+
+            var sut = new Likeness<PropertyHolder<object>>(likenObject);
+
+            // Exercise system
+            bool result = sut.Equals(comparee);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void LikenessObjectWithValuePropertyWillNotBeEqualToSameTypeOfObjectWithNullProperty()
+        {
+            // Fixture setup
+            var likenObject = new PropertyHolder<object>();
+            likenObject.Property = new object();
+
+            var comparee = new PropertyHolder<object>();
+            comparee.Property = null;
+
+            var sut = new Likeness<PropertyHolder<object>>(likenObject);
+
+            // Exercise system
+            bool result = sut.Equals(comparee);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
         private static void CompareLikenessToObject<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup
@@ -1465,6 +1903,12 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
+        }
+
+        private static IEnumerable<bool> BothEquals<T1, T2>(T1 sut, T2 other)
+        {
+            yield return sut.Equals((object)other);
+            yield return sut.Equals(other);
         }
 
         private class A

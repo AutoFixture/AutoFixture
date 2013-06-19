@@ -273,4 +273,76 @@ namespace Ploeh.SemanticComparison
                 .ToArray());
         }
     }
+
+    public class Likeness<T> : IEquatable<T>
+    {
+        private readonly T value;
+        private readonly IEnumerable<IMemberComparer> comparers;
+        private readonly SemanticComparer<T> semanticComparer;
+
+        public Likeness(T value)
+            : this(value, new MemberComparer(new SemanticComparer<T, T>()))
+        {
+        }
+
+        public Likeness(T value, IEnumerable<IMemberComparer> comparers)
+            : this(value, comparers.ToArray())
+        {
+        }
+
+        public Likeness(T value, params IMemberComparer[] comparers)
+        {
+            if (comparers == null)
+                throw new ArgumentNullException("comparers");
+
+            this.value = value;
+            this.comparers = comparers;
+            this.semanticComparer = new SemanticComparer<T>(comparers);
+        }
+
+        public T Value
+        {
+            get { return this.value; }
+        }
+
+        public IEnumerable<IMemberComparer> Comparers
+        {
+            get { return this.comparers; }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return (this.Value == null && obj == null)
+                ? true
+                : (obj is T
+                    ? this.Equals((T)obj)
+                    : base.Equals(obj));
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Value == null 
+                ? 0 
+                : this.Value.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+                CultureInfo.CurrentCulture, 
+                "Likeness of {0}", 
+                this.Value == null ? "null" : this.Value.ToString());
+        }
+
+        public bool Equals(T other)
+        {
+            if (this.Value == null && other == null)
+                return true;
+
+            if (other == null)
+                return false;
+
+            return this.semanticComparer.Equals(this.Value, other);
+        }
+    }
 }
