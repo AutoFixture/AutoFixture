@@ -123,5 +123,23 @@ namespace Ploeh.AutoFixture.Idioms
         /// </summary>
         /// <param name="propertyInfo">The property.</param>
         void Verify(PropertyInfo propertyInfo);
+
+        /// <summary>
+        /// Verifies that the idiomatic assertion can be verified for the specified field.
+        /// </summary>
+        /// <param name="fieldInfo">The field.</param>
+        void Verify(FieldInfo fieldInfo);
+
+        /// <summary>
+        /// Verifies that the idiomatic assertion can be verified for the specified fields.
+        /// </summary>
+        /// <param name="fieldInfos">The fields.</param>
+        void Verify(params FieldInfo[] fieldInfos);
+
+        /// <summary>
+        /// Verifies that the idiomatic assertion can be verified for the specified fields.
+        /// </summary>
+        /// <param name="fieldInfos">The Fields.</param>
+        void Verify(IEnumerable<FieldInfo> fieldInfos);
     }
 }

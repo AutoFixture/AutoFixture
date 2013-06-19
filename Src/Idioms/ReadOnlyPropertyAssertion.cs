@@ -109,7 +109,7 @@ namespace Ploeh.AutoFixture.Idioms
             }
 
             if (matchingConstructors.Select(ci =>
-                BuildSpecimentWithMatchingParameterValue(ci, propertyInfo, expected))
+                BuildSpecimenWithMatchingParameterValue(ci, propertyInfo, expected))
                 .Select(specimen => propertyInfo.GetValue(specimen, null))
                 .Any(result => !expected.Equals(result)))
             {
@@ -150,7 +150,7 @@ namespace Ploeh.AutoFixture.Idioms
             }
 
             if (matchingConstructors.Select(ci =>
-                BuildSpecimentWithMatchingParameterValue(ci, fieldInfo, expected))
+                BuildSpecimenWithMatchingParameterValue(ci, fieldInfo, expected))
                 .Select(fieldInfo.GetValue)
                 .Any(result => !expected.Equals(result)))
             {
@@ -158,7 +158,7 @@ namespace Ploeh.AutoFixture.Idioms
             }
         }
 
-        private object BuildSpecimentWithMatchingParameterValue(ConstructorInfo ci, MemberInfo propertyOrField, object expected)
+        private object BuildSpecimenWithMatchingParameterValue(ConstructorInfo ci, MemberInfo propertyOrField, object expected)
         {
             var paramters = ci.GetParameters();
             var matchingConstructorParameter = paramters.Single(p => IsMatchingParameterAndMember(p, propertyOrField));
