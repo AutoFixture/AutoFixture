@@ -98,19 +98,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyReadOnlyPropertyInitialisedByConstructor()
+        public void VerifyReadOnlyPropertyInitializedByConstructor()
         {
             var fixture = new Fixture();
-            var assertion = new ReadOnlyPropertyAssertion(fixture);
+            var assertion = new ConstructorInitializedMemberAssertion(fixture);
             var members = typeof (UnguardedConstructorHost<Version>).GetProperties();
             assertion.Verify(members);
         }
 
         [Fact]
-        public void VerifyReadOnlyFieldInitialisedByConstructor()
+        public void VerifyReadOnlyFieldInitializedByConstructor()
         {
             var fixture = new Fixture();
-            var assertion = new ReadOnlyPropertyAssertion(fixture);
+            var assertion = new ConstructorInitializedMemberAssertion(fixture);
             var members = typeof(MutableValueType).GetFields();
             assertion.Verify(members);
         }
@@ -119,7 +119,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void VerifyConstructorParametersCorrectlyInitialiseReadOnlyProperties()
         {
             var fixture = new Fixture();
-            var assertion = new ReadOnlyPropertyAssertion(fixture);
+            var assertion = new ConstructorInitializedMemberAssertion(fixture);
             var members = typeof(MutableValueType).GetConstructors();
             assertion.Verify(members);
         }
