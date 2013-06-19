@@ -8,26 +8,27 @@ using Ploeh.AutoFixture.Kernel;
 namespace Ploeh.AutoFixture.Idioms
 {
     /// <summary>
-    /// Encapsulates a unit test that verifies that a read-only property is correctly implemented.
+    /// Encapsulates a unit test that verifies that a member (property or field) is correctly intialized
+    /// by the constructor.
     /// </summary>
-    public class ReadOnlyPropertyAssertion : IdiomaticAssertion
+    public class ConstructorInitializedMemberAssertion : IdiomaticAssertion
     {
         private readonly ISpecimenBuilder builder;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyPropertyAssertion"/> class.
+        /// Initializes a new instance of the <see cref="ConstructorInitializedMemberAssertion"/> class.
         /// </summary>
         /// <param name="builder">
         /// A composer which can create instances required to implement the idiomatic unit test,
         /// such as the owner of the property, as well as the value to be assigned and read from
-        /// the property.
+        /// the member.
         /// </param>
         /// <remarks>
         /// <para>
         /// <paramref name="builder" /> will typically be a <see cref="Fixture" /> instance.
         /// </para>
         /// </remarks>
-        public ReadOnlyPropertyAssertion(ISpecimenBuilder builder)
+        public ConstructorInitializedMemberAssertion(ISpecimenBuilder builder)
         {
             if (builder == null)
             {
@@ -47,7 +48,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         /// <summary>
         /// Verifies that all constructor arguments are properly exposed as either fields
-        /// or Inspection Properties.
+        /// or properties.
         /// </summary>
         /// <param name="constructorInfo">The constructor.</param>
         public override void Verify(ConstructorInfo constructorInfo)
@@ -66,25 +67,24 @@ namespace Ploeh.AutoFixture.Idioms
 
             if (firstParameterNotExposed != null)
             {
-                throw new ReadOnlyPropertyException(constructorInfo, firstParameterNotExposed);
+                throw new ConstructorInitializedMemberException(constructorInfo, firstParameterNotExposed);
             }
         }
 
         /// <summary>
-        /// Verifies that a read-only property is correctly implemented.
+        /// Verifies that a property is correctly initialized by the constructor.
         /// </summary>
         /// <param name="propertyInfo">The property.</param>
         /// <remarks>
         /// <para>
-        /// This method verifies that <paramref name="propertyInfo" /> is correctly implemented as
-        /// a read-only property. It used the <see cref="Builder" /> to create an instance of the
-        /// Type on which the property is implemented and then reads from the property. The 
-        /// assertion passes if the value read from the property is the same as the
-        /// value assigned to the constructor. If this is not the case, a
-        /// <see cref="ReadOnlyPropertyException" /> is thrown.
-        /// </para>
-        /// <para>
-        /// This method does nothing if the property is not a read-only property.
+        /// This method verifies that the <paramref name="propertyInfo" /> is correctly initialized with
+        /// the value given to the same-named constructor paramter. It uses the <see cref="Builder" /> to
+        /// supply values to the constructor(s) of the Type on which the field is implemented, and then
+        /// reads from the field. The assertion passes if the value read from the field is the same as
+        /// the value passed to the constructor. If more than one constructor has an argument with the
+        /// same name and type, all constructors are checked. If any constructor does not initialise
+        /// the field with the correct value, a <see cref="ConstructorInitializedMemberException" /> 
+        /// is thrown.
         /// </para>
         /// </remarks>
         /// <exception cref="WritablePropertyException">The verification fails.</exception>
@@ -93,18 +93,11 @@ namespace Ploeh.AutoFixture.Idioms
             if (propertyInfo == null)
                 throw new ArgumentNullException("propertyInfo");
             
-            if (propertyInfo.GetGetMethod() == null ||
-                propertyInfo.GetSetMethod() != null)
-            {
-                // Not a read-only property
-                return;
-            }
-
             var expected = this.builder.CreateAnonymous(propertyInfo.PropertyType);
-            var matchingConstructors = GetConstructorsWithInitializerForMember(propertyInfo).ToList();
+            var matchingConstructors = GetConstructorsWithInitializerForMember(propertyInfo).ToArray();
             if (!matchingConstructors.Any())
             {
-                throw new ReadOnlyPropertyException(propertyInfo, string.Format(CultureInfo.CurrentCulture,
+                throw new ConstructorInitializedMemberException(propertyInfo, string.Format(CultureInfo.CurrentCulture,
                     "No constructors with an argument that matches {0} were found", propertyInfo.Name));
             }
 
@@ -113,28 +106,27 @@ namespace Ploeh.AutoFixture.Idioms
                 .Select(specimen => propertyInfo.GetValue(specimen, null))
                 .Any(result => !expected.Equals(result)))
             {
-                throw new ReadOnlyPropertyException(propertyInfo);
+                throw new ConstructorInitializedMemberException(propertyInfo);
             }
         }
 
         /// <summary>
-        /// Verifies that a read-only field is correctly implemented.
+        /// Verifies that a field is correctly initialized by the constructor.
         /// </summary>
         /// <param name="fieldInfo">The field.</param>
         /// <remarks>
         /// <para>
-        /// This method verifies that <paramref name="fieldInfo" /> is correctly implemented as
-        /// a read-only property. It used the <see cref="Builder" /> to create an instance of the
-        /// Type on which the property is implemented and then reads from the property. The 
-        /// assertion passes if the value read from the property is the same as the
-        /// value assigned to the constructor. If this is not the case, a
-        /// <see cref="ReadOnlyPropertyException" /> is thrown.
-        /// </para>
-        /// <para>
-        /// This method does nothing if the property is not a read-only property.
+        /// This method verifies that <paramref name="fieldInfo" /> is correctly initialized with the
+        /// value given to the same-named constructor paramter. It uses the <see cref="Builder" /> to
+        /// supply values to the constructor(s) of the Type on which the field is implemented, and then
+        /// reads from the field. The assertion passes if the value read from the field is the same as
+        /// the value passed to the constructor. If more than one constructor has an argument with the
+        /// same name and type, all constructors are checked. If any constructor does not initialise
+        /// the field with the correct value, a <see cref="ConstructorInitializedMemberException" /> 
+        /// is thrown.
         /// </para>
         /// </remarks>
-        /// <exception cref="WritablePropertyException">The verification fails.</exception>
+        /// <exception cref="ConstructorInitializedMemberException">The verification fails.</exception>
         public override void Verify(FieldInfo fieldInfo)
         {
             if (fieldInfo == null)
@@ -142,10 +134,10 @@ namespace Ploeh.AutoFixture.Idioms
 
             var expected = this.builder.CreateAnonymous(fieldInfo.FieldType);
 
-            var matchingConstructors = GetConstructorsWithInitializerForMember(fieldInfo).ToList();
+            var matchingConstructors = GetConstructorsWithInitializerForMember(fieldInfo).ToArray();
             if (!matchingConstructors.Any())
             {
-                throw new ReadOnlyPropertyException(fieldInfo, string.Format(CultureInfo.CurrentCulture,
+                throw new ConstructorInitializedMemberException(fieldInfo, string.Format(CultureInfo.CurrentCulture,
                     "No constructors with an argument that matches {0} were found", fieldInfo.Name));
             }
 
@@ -154,7 +146,7 @@ namespace Ploeh.AutoFixture.Idioms
                 .Select(fieldInfo.GetValue)
                 .Any(result => !expected.Equals(result)))
             {
-                throw new ReadOnlyPropertyException(fieldInfo);
+                throw new ConstructorInitializedMemberException(fieldInfo);
             }
         }
 
@@ -167,21 +159,21 @@ namespace Ploeh.AutoFixture.Idioms
             var paramValues = (from pi in ci.GetParameters()
                 let value = pi == matchingConstructorParameter
                     ? expected
-                    : this.builder.CreateAnonymous(pi.ParameterType)
-                select value).ToList();
+                    : this.builder.CreateAnonymous(pi)
+                select value).ToArray();
 
             return ci.Invoke(paramValues.ToArray());
         }
 
-        private static IEnumerable<ConstructorInfo> GetConstructorsWithInitializerForMember(MemberInfo fieldInfo)
+        private static IEnumerable<ConstructorInfo> GetConstructorsWithInitializerForMember(MemberInfo member)
         {
-            return fieldInfo.ReflectedType.GetConstructors().Where(IsConstructorWithMatchingArgument(fieldInfo));
+            return member.ReflectedType.GetConstructors().Where(IsConstructorWithMatchingArgument(member));
         }
 
         private static bool IsMatch(string propertyOrFieldName, Type propertyOrFieldType, string parameterName, Type parameterType)
         {
             return propertyOrFieldName.Equals(parameterName, StringComparison.OrdinalIgnoreCase)
-                   && propertyOrFieldType == parameterType;
+                   && propertyOrFieldType.IsAssignableFrom(parameterType);
         }
 
         private static bool IsMatchingParameterAndMember(ParameterInfo parameter, MemberInfo fieldOrProperty)

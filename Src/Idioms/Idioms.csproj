@@ -93,8 +93,8 @@
     <Compile Include="IGuardClauseCommand.cs" />
     <Compile Include="IdiomaticAssertion.cs" />
     <Compile Include="IIdiomaticAssertion.cs" />
-    <Compile Include="ReadOnlyPropertyAssertion.cs" />
-    <Compile Include="ReadOnlyPropertyException.cs" />
+    <Compile Include="ConstructorInitializedMemberAssertion.cs" />
+    <Compile Include="ConstructorInitializedMemberException.cs" />
     <Compile Include="ReflectionExceptionUnwrappingCommand.cs" />
     <Compile Include="SpecimenBuilderComposer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

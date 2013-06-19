@@ -13,31 +13,31 @@ namespace Ploeh.AutoFixture.Idioms
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors", Justification = "This exception's invariants require the propertyInfo to be present. Thus, constructors without the propertyInfo would violate the invarient. However, constructors matching the standard Exception constructors have been implemented.")]
     [Serializable]
-    public class ReadOnlyPropertyException : Exception
+    public class ConstructorInitializedMemberException : Exception
     {
         private readonly MemberInfo memberInfo;
         private readonly ParameterInfo missingParameter;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
+        /// Initializes a new instance of the <see cref="ConstructorInitializedMemberException"/> class.
         /// </summary>
         /// <param name="constructorInfo">The Constructor.</param>
         /// <param name="missingParameter">The parameter that was not exposed as a field or property.</param>
-        public ReadOnlyPropertyException(ConstructorInfo constructorInfo, ParameterInfo missingParameter)
+        public ConstructorInitializedMemberException(ConstructorInfo constructorInfo, ParameterInfo missingParameter)
             : this(constructorInfo, missingParameter,
-                ReadOnlyPropertyException.FormatDefaultMessage(constructorInfo, missingParameter))
+                ConstructorInitializedMemberException.FormatDefaultMessage(constructorInfo, missingParameter))
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
+        /// Initializes a new instance of the <see cref="ConstructorInitializedMemberException"/> class.
         /// </summary>
         /// <param name="constructorInfo">The Constructor.</param>
         /// <param name="missingParameter">The parameter that was not exposed as a field or property.</param>
         /// <param name="message">
         /// The error message that explains the reason for the exception.
         /// </param>
-        public ReadOnlyPropertyException(ConstructorInfo constructorInfo, ParameterInfo missingParameter, string message)
+        public ConstructorInitializedMemberException(ConstructorInfo constructorInfo, ParameterInfo missingParameter, string message)
             : base(message)
         {
             this.memberInfo = constructorInfo;
@@ -45,7 +45,7 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
+        /// Initializes a new instance of the <see cref="ConstructorInitializedMemberException"/> class.
         /// </summary>
         /// <param name="constructorInfo">The Constructor.</param>
         /// <param name="missingParameter">The parameter that was not exposed as a field or property.</param>
@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// <param name="innerException">
         /// The exception that is the cause of the current exception.
         /// </param>
-        public ReadOnlyPropertyException(ConstructorInfo constructorInfo, ParameterInfo missingParameter, string message,
+        public ConstructorInitializedMemberException(ConstructorInfo constructorInfo, ParameterInfo missingParameter, string message,
             Exception innerException)
             : base(message, innerException)
         {
@@ -64,29 +64,29 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
+        /// Initializes a new instance of the <see cref="ConstructorInitializedMemberException"/> class.
         /// </summary>
         /// <param name="fieldInfo">The field.</param>
-        public ReadOnlyPropertyException(FieldInfo fieldInfo)
-            : this(fieldInfo, ReadOnlyPropertyException.FormatDefaultMessage(fieldInfo))
+        public ConstructorInitializedMemberException(FieldInfo fieldInfo)
+            : this(fieldInfo, ConstructorInitializedMemberException.FormatDefaultMessage(fieldInfo))
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
+        /// Initializes a new instance of the <see cref="ConstructorInitializedMemberException"/> class.
         /// </summary>
         /// <param name="fieldInfo">The field.</param>
         /// <param name="message">
         /// The error message that explains the reason for the exception.
         /// </param>
-        public ReadOnlyPropertyException(FieldInfo fieldInfo, string message)
+        public ConstructorInitializedMemberException(FieldInfo fieldInfo, string message)
             : base(message)
         {
             this.memberInfo = fieldInfo;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
+        /// Initializes a new instance of the <see cref="ConstructorInitializedMemberException"/> class.
         /// </summary>
         /// <param name="fieldInfo">The field.</param>
         /// <param name="message">
@@ -95,36 +95,36 @@ namespace Ploeh.AutoFixture.Idioms
         /// <param name="innerException">
         /// The exception that is the cause of the current exception.
         /// </param>
-        public ReadOnlyPropertyException(FieldInfo fieldInfo, string message, Exception innerException)
+        public ConstructorInitializedMemberException(FieldInfo fieldInfo, string message, Exception innerException)
             : base(message, innerException)
         {
             this.memberInfo = fieldInfo;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
+        /// Initializes a new instance of the <see cref="ConstructorInitializedMemberException"/> class.
         /// </summary>
         /// <param name="propertyInfo">The property.</param>
-        public ReadOnlyPropertyException(PropertyInfo propertyInfo)
-            : this(propertyInfo, ReadOnlyPropertyException.FormatDefaultMessage(propertyInfo))
+        public ConstructorInitializedMemberException(PropertyInfo propertyInfo)
+            : this(propertyInfo, ConstructorInitializedMemberException.FormatDefaultMessage(propertyInfo))
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
+        /// Initializes a new instance of the <see cref="ConstructorInitializedMemberException"/> class.
         /// </summary>
         /// <param name="propertyInfo">The property.</param>
         /// <param name="message">
         /// The error message that explains the reason for the exception.
         /// </param>
-        public ReadOnlyPropertyException(PropertyInfo propertyInfo, string message)
+        public ConstructorInitializedMemberException(PropertyInfo propertyInfo, string message)
             : base(message)
         {
             this.memberInfo = propertyInfo;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class.
+        /// Initializes a new instance of the <see cref="ConstructorInitializedMemberException"/> class.
         /// </summary>
         /// <param name="propertyInfo">The property.</param>
         /// <param name="message">
@@ -133,14 +133,14 @@ namespace Ploeh.AutoFixture.Idioms
         /// <param name="innerException">
         /// The exception that is the cause of the current exception.
         /// </param>
-        public ReadOnlyPropertyException(PropertyInfo propertyInfo, string message, Exception innerException)
+        public ConstructorInitializedMemberException(PropertyInfo propertyInfo, string message, Exception innerException)
             : base(message, innerException)
         {
             this.memberInfo = propertyInfo;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyPropertyException"/> class with
+        /// Initializes a new instance of the <see cref="ConstructorInitializedMemberException"/> class with
         /// serialized data.
         /// </summary>
         /// <param name="info">
@@ -151,7 +151,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains
         /// contextual information about the source or destination.
         /// </param>
-        protected ReadOnlyPropertyException(SerializationInfo info, StreamingContext context)
+        protected ConstructorInitializedMemberException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
             this.memberInfo = (PropertyInfo)info.GetValue("memberInfo", typeof(MemberInfo));

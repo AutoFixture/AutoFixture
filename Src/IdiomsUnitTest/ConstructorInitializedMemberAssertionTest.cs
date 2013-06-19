@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
-    public class ReadOnlyPropertyAssertionTest
+    public class ConstructorInitializedMemberAssertionTest
     {
         [Fact]
         public void SutIsIdiomaticAssertion()
@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var dummyComposer = new Fixture();
             // Exercise system
-            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             // Verify outcome
             Assert.IsAssignableFrom<IdiomaticAssertion>(sut);
             // Teardown
@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var expectedComposer = new Fixture();
-            var sut = new ReadOnlyPropertyAssertion(expectedComposer);
+            var sut = new ConstructorInitializedMemberAssertion(expectedComposer);
             // Exercise system
             ISpecimenBuilder result = sut.Builder;
             // Verify outcome
@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new ReadOnlyPropertyAssertion(null));
+                new ConstructorInitializedMemberAssertion(null));
             // Teardown
         }
 
@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyComposer = new Fixture();
-            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Verify((PropertyInfo)null));
@@ -65,7 +65,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyComposer = new Fixture();
-            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Verify((ConstructorInfo)null));
@@ -77,7 +77,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyComposer = new Fixture();
-            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             // Exercise system and verify outcome
             var constructorWithNoParameters = typeof (PropertyHolder<object>).GetConstructors().First();
             Assert.Equal(0, constructorWithNoParameters.GetParameters().Length);
@@ -87,16 +87,18 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyWritablePropertyDoesNotThrow()
+        public void VerifyWritablePropertyWithNoMatchingConstructorThrows()
         {
             // Fixture setup
             var composer = new Fixture();
-            var sut = new ReadOnlyPropertyAssertion(composer);
-
+            var sut = new ConstructorInitializedMemberAssertion(composer);
             var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
+            var e = Assert.Throws<ConstructorInitializedMemberException>(() =>
                 sut.Verify(propertyInfo));
+            Assert.Equal(propertyInfo, e.MemberInfo);
+            Assert.Equal(propertyInfo, e.PropertyInfo);
+            Assert.Null(e.FieldInfo);
             // Teardown
         }
 
@@ -105,10 +107,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyComposer = new Fixture();
-            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var propertyInfo = typeof(ReadOnlyPropertyHolder<object>).GetProperty("Property");
             // Exercise system and verify outcome
-            var e = Assert.Throws<ReadOnlyPropertyException>(() =>
+            var e = Assert.Throws<ConstructorInitializedMemberException>(() =>
                 sut.Verify(propertyInfo));
             Assert.Equal(propertyInfo, e.MemberInfo);
             Assert.Equal(propertyInfo, e.PropertyInfo);
@@ -117,36 +119,32 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
         
         [Fact]
-        public void VerifyWellBehavedReadOnlyPropertyInitialisedViaConstructorDoesNotThrow()
+        public void VerifyWellBehavedReadOnlyPropertyInitializedViaConstructorDoesNotThrow()
         {
-            // Given a PropertyInfo or FieldInfo, it should verify that for all 
-            // constructor having a matching argument, the value should be preserved
             // Fixture setup
             var dummyComposer = new Fixture();
-            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
-            var propertyInfo = typeof(ReadOnlyPropertyInitialisedViaConstructor<object>).GetProperty("Property");
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var propertyInfo = typeof(ReadOnlyPropertyInitializedViaConstructor<object>).GetProperty("Property");
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Verify(propertyInfo));
             // Teardown
         }
 
         [Fact]
-        public void VerifyIllBehavedReadOnlyPropertiesInitialisedViaConstructorThrows()
+        public void VerifyIllBehavedReadOnlyPropertiesInitializedViaConstructorThrows()
         {
-            // Given a PropertyInfo or FieldInfo, it should verify that for all 
-            // constructor having a matching argument, the value should be preserved
             // Fixture setup
             var dummyComposer = new Fixture();
-            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
-            var illBehavedType = typeof (ReadOnlyPropertiesIncorrectlyInitialisedViaConstructor<object, object>);
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var illBehavedType = typeof (PropertiesIncorrectlyInitializedViaConstructor<object, object>);
             var propertyInfo1 = illBehavedType.GetProperty("Property1");
             var propertyInfo2 = illBehavedType.GetProperty("Property2");
             // Exercise system and verify outcome
-            var e1 = Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(propertyInfo1));
+            var e1 = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(propertyInfo1));
             Assert.Equal(e1.MemberInfo, propertyInfo1);
             Assert.Equal(propertyInfo1, e1.PropertyInfo);
             Assert.Null(e1.FieldInfo);
-            var e2 = Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(propertyInfo2));
+            var e2 = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(propertyInfo2));
             Assert.Equal(propertyInfo2, e2.MemberInfo);
             Assert.Equal(propertyInfo2, e2.PropertyInfo);
             Assert.Null(e2.FieldInfo);
@@ -154,26 +152,26 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyWellBehavedReadOnlyFieldInitialisedViaConstructorDoesNotThrow()
+        public void VerifyWellBehavedReadOnlyFieldInitializedViaConstructorDoesNotThrow()
         {
             // Fixture setup
             var dummyComposer = new Fixture();
-            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
-            var fieldInfo = typeof(ReadOnlyFieldInitialisedViaConstructor<object>).GetField("Field");
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var fieldInfo = typeof(ReadOnlyFieldInitializedViaConstructor<object>).GetField("Field");
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Verify(fieldInfo));
             // Teardown
         }
 
         [Fact]
-        public void VerifyReadOnlyFieldInitialisedViaConstructorWithDifferentTypeThrows()
+        public void VerifyReadOnlyFieldInitializedViaConstructorWithDifferentTypeThrows()
         {
             // Fixture setup
             var dummyComposer = new Fixture();
-            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
-            var fieldInfo = typeof(ReadOnlyFieldInitialisedViaConstructorWithDifferentType).GetField("Field");
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var fieldInfo = typeof(ReadOnlyFieldInitializedViaConstructorWithDifferentType).GetField("Field");
             // Exercise system and verify outcome
-            var e = Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(fieldInfo));
+            var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(fieldInfo));
             Assert.Equal(fieldInfo, e.MemberInfo);
             Assert.Equal(fieldInfo, e.FieldInfo);
             Assert.Null(e.PropertyInfo);
@@ -185,10 +183,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyComposer = new Fixture();
-            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
-            var ctor1 = typeof(ReadOnlyFieldsInitialisedViaConstructor<object, int>).GetConstructor(new[] { typeof(object) });
-            var ctor2 = typeof(ReadOnlyFieldsInitialisedViaConstructor<object, int>).GetConstructor(new[] { typeof(int) });
-            var ctor3 = typeof(ReadOnlyFieldsInitialisedViaConstructor<object, int>).GetConstructor(new[] { typeof(object), typeof(int) });
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var ctor1 = typeof(FieldsInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object) });
+            var ctor2 = typeof(FieldsInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(int) });
+            var ctor3 = typeof(FieldsInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object), typeof(int) });
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Verify(ctor1));
             Assert.DoesNotThrow(() => sut.Verify(ctor2));
@@ -201,11 +199,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyComposer = new Fixture();
-            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
-            var ctor = typeof (ReadOnlyFieldsInitialisedViaConstructor<object, int>)
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var ctor = typeof (FieldsInitializedViaConstructor<object, int>)
                 .GetConstructor(new[] {typeof (object), typeof (int), typeof (TriState)});
             // Exercise system and verify outcome
-            Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(ctor));
+            Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
             // Teardown
         }
 
@@ -214,10 +212,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyComposer = new Fixture();
-            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
-            var ctor1 = typeof(ReadOnlyPropertiesInitialisedViaConstructor<object, int>).GetConstructor(new[] { typeof(object) });
-            var ctor2 = typeof(ReadOnlyPropertiesInitialisedViaConstructor<object, int>).GetConstructor(new[] { typeof(int) });
-            var ctor3 = typeof(ReadOnlyPropertiesInitialisedViaConstructor<object, int>).GetConstructor(new[] { typeof(object), typeof(int) });
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var ctor1 = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object) });
+            var ctor2 = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(int) });
+            var ctor3 = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>).GetConstructor(new[] { typeof(object), typeof(int) });
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Verify(ctor1));
             Assert.DoesNotThrow(() => sut.Verify(ctor2));
@@ -230,11 +228,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyComposer = new Fixture();
-            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
-            var ctor = typeof(ReadOnlyPropertiesInitialisedViaConstructor<object, int>)
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var ctor = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>)
                 .GetConstructor(new[] { typeof(object), typeof(int), typeof(TriState) });
             // Exercise system and verify outcome
-            Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(ctor));
+            Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
             // Teardown
         }
 
@@ -243,52 +241,80 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var dummyComposer = new Fixture();
-            var sut = new ReadOnlyPropertyAssertion(dummyComposer);
-            var ctor = typeof(ReadOnlyFieldInitialisedViaConstructorWithDifferentType).GetConstructors().First();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var ctor = typeof(ReadOnlyFieldInitializedViaConstructorWithDifferentType).GetConstructors().First();
             // Exercise system and verify outcome
-            Assert.Throws<ReadOnlyPropertyException>(() => sut.Verify(ctor));
+            Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
             // Teardown
         }
 
-        class ReadOnlyFieldInitialisedViaConstructorWithDifferentType
+        [Fact]
+        public void VerifyWhenPropertyTypeIsAssignableFromParameterTypeDoesNotThrow()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var ctor = typeof(PropertyIsAssignableFromConstructorArgumentType).GetConstructors().First();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.Verify(ctor));
+            // Teardown
+        }
+
+        public class PropertyIsAssignableFromConstructorArgumentType
+        {
+            private readonly IEnumerable<string> bribbets;
+
+            public PropertyIsAssignableFromConstructorArgumentType(params string[] bribbets)
+            {
+                this.bribbets = bribbets;
+            }
+
+            public IEnumerable<string> Bribbets
+            {
+                get { return this.bribbets; }
+            }
+        }
+
+        class ReadOnlyFieldInitializedViaConstructorWithDifferentType
         {
             public readonly string Field;
 
-            public ReadOnlyFieldInitialisedViaConstructorWithDifferentType(int value)
+            public ReadOnlyFieldInitializedViaConstructorWithDifferentType(int value)
             {
                 this.Field = value.ToString(CultureInfo.CurrentCulture);
             }
         }
 
-        class ReadOnlyFieldInitialisedViaConstructor<T>
+        class ReadOnlyFieldInitializedViaConstructor<T>
         {
             public readonly T Field;
 
-            public ReadOnlyFieldInitialisedViaConstructor(T field)
+            public ReadOnlyFieldInitializedViaConstructor(T field)
             {
                 this.Field = field;
             }
         }
 
-        class ReadOnlyPropertiesInitialisedViaConstructor<T1, T2>
+        class ReadOnlyPropertiesInitializedViaConstructor<T1, T2>
         {
-            public ReadOnlyPropertiesInitialisedViaConstructor(T1 property1)
+            public ReadOnlyPropertiesInitializedViaConstructor(T1 property1)
             {
                 this.Property1 = property1;
             }
 
-            public ReadOnlyPropertiesInitialisedViaConstructor(T2 property2)
+            public ReadOnlyPropertiesInitializedViaConstructor(T2 property2)
             {
                 this.Property2 = property2;
             }
 
-            public ReadOnlyPropertiesInitialisedViaConstructor(T1 property1, T2 property2)
+            public ReadOnlyPropertiesInitializedViaConstructor(T1 property1, T2 property2)
             {
                 this.Property1 = property1;
                 this.Property2 = property2;
             }
 
-            public ReadOnlyPropertiesInitialisedViaConstructor(T1 property1, T2 property2, TriState noMatchingProperty)
+            public ReadOnlyPropertiesInitializedViaConstructor(T1 property1, T2 property2, TriState noMatchingProperty)
             {
                 this.Property1 = property1;
                 this.Property2 = property2;
@@ -298,43 +324,43 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             public T2 Property2 { get; private set; }
         }
 
-        class ReadOnlyPropertiesIncorrectlyInitialisedViaConstructor<T1, T2>
+        class PropertiesIncorrectlyInitializedViaConstructor<T1, T2>
         {
-            public ReadOnlyPropertiesIncorrectlyInitialisedViaConstructor(T1 property1, T2 property2)
+            public PropertiesIncorrectlyInitializedViaConstructor(T1 property1, T2 property2)
             {
             }
 
-            public ReadOnlyPropertiesIncorrectlyInitialisedViaConstructor(T1 property1)
+            public PropertiesIncorrectlyInitializedViaConstructor(T1 property1)
             {
             }
 
-            public ReadOnlyPropertiesIncorrectlyInitialisedViaConstructor(T2 property2)
+            public PropertiesIncorrectlyInitializedViaConstructor(T2 property2)
             {
             }
 
-            public T1 Property1 { get; private set; }
-            public T2 Property2 { get; private set; }
+            public T1 Property1 { get; set; }
+            public T2 Property2 { get; set; }
         }
 
-        class ReadOnlyFieldsInitialisedViaConstructor<T1, T2>
+        class FieldsInitializedViaConstructor<T1, T2>
         {
-            public ReadOnlyFieldsInitialisedViaConstructor(T1 field1)
+            public FieldsInitializedViaConstructor(T1 field1)
             {
                 this.Field1 = field1;
             }
 
-            public ReadOnlyFieldsInitialisedViaConstructor(T2 field2)
+            public FieldsInitializedViaConstructor(T2 field2)
             {
                 this.Field2 = field2;
             }
 
-            public ReadOnlyFieldsInitialisedViaConstructor(T1 field1, T2 field2)
+            public FieldsInitializedViaConstructor(T1 field1, T2 field2)
             {
                 this.Field1 = field1;
                 this.Field2 = field2;
             }
 
-            public ReadOnlyFieldsInitialisedViaConstructor(T1 field1, T2 field2, TriState noMatchingField)
+            public FieldsInitializedViaConstructor(T1 field1, T2 field2, TriState noMatchingField)
             {
                 this.Field1 = field1;
                 this.Field2 = field2;
@@ -344,9 +370,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             public T2 Field2;
         }
 
-        class ReadOnlyPropertyInitialisedViaConstructor<T>
+        class ReadOnlyPropertyInitializedViaConstructor<T>
         {
-            public ReadOnlyPropertyInitialisedViaConstructor(T property)
+            public ReadOnlyPropertyInitializedViaConstructor(T property)
             {
                 this.Property = property;
             }
