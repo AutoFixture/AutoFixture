@@ -128,8 +128,8 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         /// <summary>
-        /// Calls <see cref="Verify(ConstructorInfo)" />, <see cref="MethodInfo" /> or
-        /// <see cref="PropertyInfo" />, depending on the subtype of
+        /// Calls <see cref="Verify(ConstructorInfo)" />, <see cref="MethodInfo" />,
+        /// <see cref="PropertyInfo" />, or <see cref="FieldInfo"/>, depending on the subtype of
         /// <paramref name="memberInfo" />.
         /// </summary>
         /// <param name="memberInfo">The member.</param>
@@ -153,6 +153,7 @@ namespace Ploeh.AutoFixture.Idioms
             if (p != null)
             {
                 this.Verify(p);
+                return;
             }
 
             var f = memberInfo as FieldInfo;
@@ -200,7 +201,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// Calls <see cref="Verify(FieldInfo)" /> for each FieldInfo in
         /// <paramref name="fieldInfos" />.
         /// </summary>
-        /// <param name="fieldInfos">The constructors.</param>
+        /// <param name="fieldInfos">The fields.</param>
         public virtual void Verify(params FieldInfo[] fieldInfos)
         {
             if (fieldInfos == null)
