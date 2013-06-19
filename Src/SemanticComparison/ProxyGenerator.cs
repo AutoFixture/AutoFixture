@@ -15,7 +15,7 @@ namespace Ploeh.SemanticComparison
         {
             ProxyType proxyType = ProxyGenerator.FindCompatibleConstructor<TDestination>(source, members.ToArray());
             TypeBuilder builder = ProxyGenerator.BuildType<TDestination>(BuildModule(BuildAssembly(assemblyName)));
-            FieldBuilder equals = ProxyGenerator.BuildFieldComparer(builder);
+            FieldBuilder equals = ProxyGenerator.BuildFieldComparer(builder, comparer.GetType());
 
             ProxyGenerator.BuildConstructors<TDestination>(proxyType.Constructor, builder, equals);
             ProxyGenerator.BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
@@ -30,6 +30,42 @@ namespace Ploeh.SemanticComparison
             ProxyGenerator.Map(source, destination);
 
             return destination;
+        }
+
+        internal static T CreateLikenessResemblance<T>(Likeness<T> likeness)
+        {
+            var members = typeof(T)
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Concat(typeof(T)
+                    .GetFields(BindingFlags.Public | BindingFlags.Instance)
+                    .Cast<MemberInfo>())
+                .ToArray();
+
+            ProxyType proxyType = 
+                ProxyGenerator.FindCompatibleConstructor<T>(
+                    likeness.Value,
+                    members);
+
+            TypeBuilder builder = 
+                ProxyGenerator.BuildType<T>(
+                    ProxyGenerator.BuildModule(
+                        ProxyGenerator.BuildAssembly(assemblyName)));
+
+            FieldBuilder equals =
+                ProxyGenerator.BuildFieldComparer(builder, likeness.GetType());
+
+            ProxyGenerator.BuildConstructors<T>(
+                proxyType.Constructor, 
+                builder,
+                equals);
+
+            ProxyGenerator.BuildMethodEquals(builder, equals);
+            ProxyGenerator.BuildMethodGetHashCode<T>(builder);
+
+            return (T)Activator.CreateInstance(
+                builder.CreateType(),
+                proxyType.Parameters.Concat(
+                    new[] { likeness }).ToArray());
         }
 
         private static AssemblyBuilder BuildAssembly(string name)
@@ -62,19 +98,20 @@ namespace Ploeh.SemanticComparison
             return field;
         }
 
-        private static FieldBuilder BuildFieldComparer(TypeBuilder type)
+        private static FieldBuilder BuildFieldComparer(
+            TypeBuilder type, 
+            Type comparerType)
         {
             FieldBuilder field = type.DefineField(
                 "comparer",
-                typeof(IEqualityComparer),
-                  FieldAttributes.Private | FieldAttributes.InitOnly
-                );
+                comparerType,
+                FieldAttributes.Private | FieldAttributes.InitOnly);
             return field;
         }
 
         private static void BuildConstructors<TDestination>(ConstructorInfo ci, TypeBuilder type, FieldInfo comparer)
         {
-            Type[] constructorParameterTypes = BuildConstructorParameterTypes(ci).ToArray();
+            Type[] constructorParameterTypes = BuildConstructorParameterTypes(ci, comparer.FieldType).ToArray();
 
             ConstructorBuilder constructor = type.DefineConstructor(
                 MethodAttributes.Public | MethodAttributes.HideBySig,
@@ -122,11 +159,11 @@ namespace Ploeh.SemanticComparison
             gen.Emit(OpCodes.Ret);
         }
 
-        private static IEnumerable<Type> BuildConstructorParameterTypes(ConstructorInfo baseConstructor)
+        private static IEnumerable<Type> BuildConstructorParameterTypes(ConstructorInfo baseConstructor, Type comparerType)
         {
             return (from pi in baseConstructor.GetParameters()
                     select pi.ParameterType)
-                    .Concat(new[] { typeof(IEqualityComparer) });
+                    .Concat(new[] { comparerType });
         }
 
         private static void BuildMethodGetHashCode<TDestination>(TypeBuilder type)
@@ -222,6 +259,39 @@ namespace Ploeh.SemanticComparison
             gen.Emit(OpCodes.Stloc_0);
             gen.Emit(OpCodes.Br_S, label2);
             gen.MarkLabel(label2);
+            gen.Emit(OpCodes.Ldloc_0);
+            gen.Emit(OpCodes.Ret);
+        }
+
+        private static void BuildMethodEquals(TypeBuilder type, FieldInfo comparer)
+        {
+            var methodAttributes = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig;
+            MethodBuilder method = type.DefineMethod("Equals", methodAttributes);
+
+            MethodInfo equals = typeof(object).GetMethod(
+                "Equals",
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                null,
+                new[] { typeof(object) },
+                null
+                );
+
+            method.SetReturnType(typeof(bool));
+            method.SetParameters(typeof(object));
+
+            ILGenerator gen = method.GetILGenerator();
+            gen.DeclareLocal(typeof(bool));
+
+            var label = gen.DefineLabel();
+
+            gen.Emit(OpCodes.Nop);
+            gen.Emit(OpCodes.Ldarg_0);
+            gen.Emit(OpCodes.Ldfld, comparer);
+            gen.Emit(OpCodes.Ldarg_1);
+            gen.Emit(OpCodes.Callvirt, equals);
+            gen.Emit(OpCodes.Stloc_0);
+            gen.Emit(OpCodes.Br_S, label);
+            gen.MarkLabel(label);
             gen.Emit(OpCodes.Ldloc_0);
             gen.Emit(OpCodes.Ret);
         }

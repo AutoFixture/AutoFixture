@@ -1894,6 +1894,227 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void ResemblanceIsNotNull()
+        {
+            // Fixture setup
+            var dummyValue = new ConcreteType();
+            var sut = new Likeness<ConcreteType>(dummyValue);
+            // Exercise system
+            var result = sut.ToResemblance();
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ResemblanceIsCorrectType()
+        {
+            // Fixture setup
+            var dummyValue = new ConcreteType();
+            var sut = new Likeness<ConcreteType>(dummyValue);
+            // Exercise system
+            var result = sut.ToResemblance();
+            // Verify outcome
+            Assert.IsAssignableFrom<ConcreteType>(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ResemblanceReturnsDifferentInstanceWhenAccessedMultipleTimes()
+        {
+            // Fixture setup
+            var dummyValue = new ConcreteType();
+            var sut = new Likeness<ConcreteType>(dummyValue);
+            var expectedResemblances = new[] 
+            { 
+                sut.ToResemblance(), 
+                sut.ToResemblance(), 
+                sut.ToResemblance() 
+            };
+            // Exercise system
+            var result = Enumerable
+                .Range(1, expectedResemblances.Length)
+                .Select(x => sut.ToResemblance());
+            // Verify outcome
+            Assert.False(
+                expectedResemblances
+                    .SequenceEqual(
+                        result,
+                        new ReferenceEqualityComparer()));
+            // Teardown
+        }
+
+        [Fact]
+        public void ResemblanceDoesNotEqualNullObject()
+        {
+            // Fixture setup
+            var dummyValue = new ConcreteType();
+            var sut = new Likeness<ConcreteType>(dummyValue);
+            // Exercise system
+            var result = sut.ToResemblance();
+            // Verify outcome
+            Assert.False(result.Equals(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ResemblanceWhenCalledMultipleTimesForSemanticallyEqualObjectsReturnsTrue()
+        {
+            // Fixture setup
+            var dummyValue = new ConcreteType();
+            var sut = new Likeness<ConcreteType>(dummyValue).ToResemblance();
+            // Exercise system
+            var result = Enumerable
+                .Range(1, 3)
+                .Select(x => sut.Equals(new ConcreteType()));
+            // Verify outcome
+            var expectedResult = Enumerable.Range(1, 3).Select(x => true);
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void ResemblanceWhenCalledMultipleTimesForSemanticallyUnequalObjectsReturnsFalse()
+        {
+            // Fixture setup
+            var anonymousText = "Lorem";
+            var value = new ConcreteType(anonymousText);
+            var sut = new Likeness<ConcreteType>(value).ToResemblance();
+            // Exercise system
+            var result = Enumerable
+                .Range(1, 3)
+                .Select(x => sut.Equals(new ConcreteType()));
+            // Verify outcome
+            var expectedResult = Enumerable.Range(1, 3).Select(x => false);
+            Assert.True(expectedResult.SequenceEqual(result));
+            // Teardown
+        }
+
+        [Fact]
+        public void ResemblanceGetHashCodeDoesNotEqualRealGetHashCode()
+        {
+            // Fixture setup
+            var value = new TypeOverridingGetHashCode();
+            int expected = value.GetHashCode();
+            var sut = new Likeness<TypeOverridingGetHashCode>(value);
+            // Exercise system
+            var result = sut.ToResemblance();
+            // Verify outcome
+            Assert.NotEqual(expected, result.GetHashCode());
+            // Teardown
+        }
+
+        [Fact]
+        public void ResemblanceThrowsWhenRealTypeIsSealed()
+        {
+            // Fixture setup
+            var dummyValue = new PublicSealedType();
+            // Exercise system and verify outcome
+            Assert.Throws<ProxyCreationException>(
+                () => new Likeness<PublicSealedType>(dummyValue).ToResemblance());
+            // Teardown
+        }
+
+        [Fact]
+        public void ResemblanceOfTypeWithPrivateAndOtherCtorDoesNotThrow()
+        {
+            // Fixture setup
+            var anonymousText = "Anonymous text";
+            var dummyValue = new TypeWithPrivateDefaultCtorAndOtherCtor<string>(anonymousText);
+            var sut = new Likeness<TypeWithPrivateDefaultCtorAndOtherCtor<string>>(dummyValue);
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.ToResemblance());
+            // Teardown
+        }
+
+        [Fact]
+        public void ResemblanceOfIdenticalParameterTypesAndPropertiesCanBeCreated()
+        {
+            // Fixture setup
+            var dummyValue = new TypeWithIdenticalParameterTypesAndProperties(1, 2, 3);
+            var sut = new Likeness<TypeWithIdenticalParameterTypesAndProperties>(dummyValue);
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.ToResemblance());
+            // Teardown
+        }
+
+        [Fact]
+        public void ResemblanceOfTypeWithDifferentParameterTypesAndPropertiesCanBeCreated()
+        {
+            // Fixture setup
+            var dummyValue = new TypeWithDifferentParameterTypesAndProperties(1, "2", 3);
+                var sut = new Likeness<TypeWithDifferentParameterTypesAndProperties>(dummyValue);
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.ToResemblance());
+            // Teardown
+        }
+
+        [Fact]
+        public void ResemblanceOfTypeWithIncompatibleAndCompatibleConstructorCanBeCreated()
+        {
+            // Fixture setup
+            var value = new TypeWithIncompatibleAndCompatibleConstructor(
+                new ConcreteType());
+
+            var sut = new Likeness<TypeWithIncompatibleAndCompatibleConstructor>(value);
+            // Exercise system
+            var result = sut.ToResemblance();
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ResemblanceOfTypeWithIncompatibleAndCompatibleConstructorCanBeCreatedSecondOverload()
+        {
+            // Fixture setup
+            var value = new TypeWithIncompatibleAndCompatibleConstructor(
+                new ConcreteType(),
+                new byte());
+
+            var sut = new Likeness<TypeWithIncompatibleAndCompatibleConstructor>(value);
+            // Exercise system
+            var result = sut.ToResemblance();
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ResemblanceOfTypeWithIncompatibleAndCompatibleConstructorCanBeCreatedThirdOverload()
+        {
+            // Fixture setup
+            var value = new TypeWithIncompatibleAndCompatibleConstructor(
+                new ConcreteType(),
+                new ConcreteType(),
+                new byte());
+
+            var sut = new Likeness<TypeWithIncompatibleAndCompatibleConstructor>(value);
+            // Exercise system
+            var result = sut.ToResemblance();
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ResemblanceOfTypeWithUnorderedPropertiesCanBeCreated()
+        {
+            // Fixture setup
+            var value = new TypeWithUnorderedProperties(
+                new ConcreteType(),
+                new ConcreteType(),
+                new byte());
+
+            var sut = new Likeness<TypeWithUnorderedProperties>(value);
+            // Exercise system
+            var result = sut.ToResemblance();
+            // Verify outcome
+            Assert.NotNull(result);
+            // Teardown
+        }
+
         private static void CompareLikenessToObject<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup

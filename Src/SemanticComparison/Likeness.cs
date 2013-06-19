@@ -344,5 +344,21 @@ namespace Ploeh.SemanticComparison
 
             return this.semanticComparer.Equals(this.Value, other);
         }
+
+        public T ToResemblance()
+        {
+            try
+            {
+                return ProxyGenerator.CreateLikenessResemblance<T>(this);
+            }
+            catch (TypeLoadException e)
+            {
+                var message = string.Format(
+                    CultureInfo.CurrentCulture,
+                    "The resemblance of {0} could not be created. Access is denied on type, or the base type is sealed. Please see inner exception for more details.",
+                    typeof(T));
+                throw new ProxyCreationException(message, e);
+            }
+        }
     }
 }
