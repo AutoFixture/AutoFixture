@@ -91,6 +91,7 @@
     <Compile Include="GreedyAttribute.cs" />
     <Compile Include="InlineAutoDataAttribute.cs" />
     <Compile Include="ModestAttribute.cs" />
+    <Compile Include="NoAutoPropertiesAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

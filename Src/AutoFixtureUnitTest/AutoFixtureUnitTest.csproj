@@ -91,6 +91,7 @@
     <Compile Include="Kernel\ThrowingRecursionHandlerTests.cs" />
     <Compile Include="Kernel\ValueTypeSpecificationTest.cs" />
     <Compile Include="Kernel\MutableValueTypeWarningThrowerTest.cs" />
+    <Compile Include="NoAutoPropertiesCustomizationTest.cs" />
     <Compile Include="RandomBooleanSequenceGeneratorTest.cs" />
     <Compile Include="FixtureResolvingItselfTests.cs" />
     <Compile Include="IncrementingDateTimeCustomizationTest.cs" />
