@@ -92,8 +92,8 @@ namespace Ploeh.AutoFixture.Idioms
         {
             if (propertyInfo == null)
                 throw new ArgumentNullException("propertyInfo");
-            
-            var expected = this.builder.CreateAnonymous(propertyInfo.PropertyType);
+
+            var expected = this.builder.CreateAnonymous(propertyInfo);
             var matchingConstructors = GetConstructorsWithInitializerForMember(propertyInfo).ToArray();
             if (!matchingConstructors.Any())
             {
@@ -103,7 +103,7 @@ namespace Ploeh.AutoFixture.Idioms
 
             if (matchingConstructors.Select(ci =>
                 BuildSpecimenWithMatchingParameterValue(ci, propertyInfo, expected))
-                .Select(specimen => propertyInfo.GetValue(specimen, null))
+                .Select(specimen => propertyInfo.CanRead ? propertyInfo.GetValue(specimen, null) : expected)
                 .Any(result => !expected.Equals(result)))
             {
                 throw new ConstructorInitializedMemberException(propertyInfo);
@@ -132,7 +132,7 @@ namespace Ploeh.AutoFixture.Idioms
             if (fieldInfo == null)
                 throw new ArgumentNullException("fieldInfo");
 
-            var expected = this.builder.CreateAnonymous(fieldInfo.FieldType);
+            var expected = this.builder.CreateAnonymous(fieldInfo);
 
             var matchingConstructors = GetConstructorsWithInitializerForMember(fieldInfo).ToArray();
             if (!matchingConstructors.Any())
