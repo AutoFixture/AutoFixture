@@ -160,20 +160,56 @@ namespace Ploeh.SemanticComparison
         }
     }
 
+    /// <summary>
+    /// Provides a class which implements the <see cref="IEqualityComparer{T}"/>
+    /// interface for convention-based object equality comparison for use when 
+    /// comparing two semantically equivalent objects.
+    /// </summary>
+    /// <typeparam name="T">
+    /// The type of the value which will be compared for equality.
+    /// </typeparam>
+    /// <remarks>
+    /// This class is a boolean 'And' Composite over <see cref="IMemberComparer"/>
+    /// instances.
+    /// </remarks>
     public class SemanticComparer<T> : IEqualityComparer<T>
     {
         private readonly IEnumerable<IMemberComparer> comparers;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SemanticComparer&lt;T&gt;"/>
+        /// class.
+        /// </summary>
         public SemanticComparer()
             : this(new MemberComparer(new SemanticComparer<T, T>()))
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SemanticComparer&lt;T&gt;"/>
+        /// class.
+        /// </summary>
+        /// <param name="comparers">
+        /// The supplied <see cref="IEnumerable&lt;IMemberComparer&gt;" /> instances.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// comparers is null
+        /// </exception>
         public SemanticComparer(IEnumerable<IMemberComparer> comparers)
             : this(comparers.ToArray())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SemanticComparer&lt;T&gt;"/>
+        /// class.
+        /// </summary>
+        /// <param name="comparers">
+        /// The supplied array of <see cref="IMemberComparer" /> instances.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// comparers is null
+        /// </exception>
         public SemanticComparer(params IMemberComparer[] comparers)
         {
             if (comparers == null)
@@ -182,11 +218,27 @@ namespace Ploeh.SemanticComparison
             this.comparers = comparers;
         }
 
+        /// <summary>
+        /// Gets the supplied <see cref="IEnumerable&lt;IMemberComparer&gt;" /> 
+        /// instances.
+        /// </summary>
+        /// <value>
+        /// The supplied <see cref="IEnumerable&lt;IMemberComparer&gt;" />
+        /// instances.
+        /// </value>
         public IEnumerable<IMemberComparer> Comparers
         {
             get { return this.comparers; }
         }
 
+        /// <summary>
+        /// Determines whether the specified objects are equal.
+        /// </summary>
+        /// <param name="x">The first object to compare.</param>
+        /// <param name="y">The second object to compare.</param>
+        /// <returns>
+        /// true if the specified objects are equal; otherwise, false.
+        /// </returns>
         public bool Equals(T x, T y)
         {
             if (x == null && y == null)
@@ -216,6 +268,14 @@ namespace Ploeh.SemanticComparison
                 .All(equals => equals);
         }
 
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <param name="obj">The obj.</param>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing 
+        /// algorithms and data structures like a hash table. 
+        /// </returns>
         public int GetHashCode(T obj)
         {
             return obj == null ? 0 : obj.GetHashCode();
