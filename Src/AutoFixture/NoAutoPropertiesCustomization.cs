@@ -44,10 +44,10 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            var constructor = new MethodInvoker(new GreedyConstructorQuery());
+            var constructor = new MethodInvoker(new ModestConstructorQuery());
 
             var builder = SpecimenBuilderNodeFactory.CreateTypedNode(
-                this.targetType, constructor) as ISpecimenBuilder;
+                this.targetType, constructor);
 
             fixture.Customizations.Insert(0, builder);
 
