@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -96,9 +97,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system and verify outcome
             var e = Assert.Throws<ConstructorInitializedMemberException>(() =>
                 sut.Verify(propertyInfo));
-            Assert.Equal(propertyInfo, e.MemberInfo);
-            Assert.Equal(propertyInfo, e.PropertyInfo);
-            Assert.Null(e.FieldInfo);
+            AssertExceptionPropertiesEqual(e, propertyInfo);
             // Teardown
         }
 
@@ -112,9 +111,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system and verify outcome
             var e = Assert.Throws<ConstructorInitializedMemberException>(() =>
                 sut.Verify(propertyInfo));
-            Assert.Equal(propertyInfo, e.MemberInfo);
-            Assert.Equal(propertyInfo, e.PropertyInfo);
-            Assert.Null(e.FieldInfo);
+            AssertExceptionPropertiesEqual(e, propertyInfo);
             // Teardown
         }
         
@@ -141,13 +138,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var propertyInfo2 = illBehavedType.GetProperty("Property2");
             // Exercise system and verify outcome
             var e1 = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(propertyInfo1));
-            Assert.Equal(e1.MemberInfo, propertyInfo1);
-            Assert.Equal(propertyInfo1, e1.PropertyInfo);
-            Assert.Null(e1.FieldInfo);
+            AssertExceptionPropertiesEqual(e1, propertyInfo1);
             var e2 = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(propertyInfo2));
-            Assert.Equal(propertyInfo2, e2.MemberInfo);
-            Assert.Equal(propertyInfo2, e2.PropertyInfo);
-            Assert.Null(e2.FieldInfo);
+            AssertExceptionPropertiesEqual(e2, propertyInfo2);
             // Teardown
         }
 
@@ -172,9 +165,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var fieldInfo = typeof(ReadOnlyFieldInitializedViaConstructorWithDifferentType).GetField("Field");
             // Exercise system and verify outcome
             var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(fieldInfo));
-            Assert.Equal(fieldInfo, e.MemberInfo);
-            Assert.Equal(fieldInfo, e.FieldInfo);
-            Assert.Null(e.PropertyInfo);
+            AssertExceptionPropertiesEqual(e, fieldInfo);
             // Teardown
         }
 
@@ -203,7 +194,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var ctor = typeof (FieldsInitializedViaConstructor<object, int>)
                 .GetConstructor(new[] {typeof (object), typeof (int), typeof (TriState)});
             // Exercise system and verify outcome
-            Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
+            var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
+            var expectedMissingParam = ctor.GetParameters().Single(p => p.Name == "noMatchingField");
+            AssertExceptionPropertiesEqual(e, ctor, expectedMissingParam);
             // Teardown
         }
 
@@ -232,7 +225,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var ctor = typeof(ReadOnlyPropertiesInitializedViaConstructor<object, int>)
                 .GetConstructor(new[] { typeof(object), typeof(int), typeof(TriState) });
             // Exercise system and verify outcome
-            Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
+            var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
+            var expectedMissingParam = ctor.GetParameters().Single(p => p.Name == "noMatchingProperty");
+            AssertExceptionPropertiesEqual(e, ctor, expectedMissingParam);
             // Teardown
         }
 
@@ -244,7 +239,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var ctor = typeof(ReadOnlyFieldInitializedViaConstructorWithDifferentType).GetConstructors().First();
             // Exercise system and verify outcome
-            Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
+            var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(ctor));
+            var expectedMissingParam = ctor.GetParameters().Single(p => p.Name == "value");
+            AssertExceptionPropertiesEqual(e, ctor, expectedMissingParam);
             // Teardown
         }
 
@@ -259,6 +256,125 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.DoesNotThrow(() =>
                 sut.Verify(ctor));
             // Teardown
+        }
+
+        [Fact]
+        public void VerifyWhenMemberTypeIsComplexDoesNotThrow()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var ctor = typeof(ReadOnlyPropertiesInitializedViaConstructor<ComplexType, object>)
+                .GetConstructor(new[] { typeof(ComplexType), typeof(object) });
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(ctor));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyWhenMemberTypeIsComplexWithIllBehavedConstructorThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var ctor = typeof(ReadOnlyPropertiesInitializedViaConstructor<ComplexType, object>)
+                .GetConstructor(new[] { typeof(ComplexType), typeof(object), typeof(TriState) });
+            // Exercise system and verify outcome
+            var e = Assert.Throws<ConstructorInitializedMemberException>(
+                () => sut.Verify(ctor));
+            var expectedMissingParameter = ctor.GetParameters().Single(p => p.Name == "noMatchingProperty");
+            AssertExceptionPropertiesEqual(e, ctor, expectedMissingParameter);
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyWhenConstructorArgumentHasWriteOnlyPropertyDoesNotThrow()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var ctor = typeof(WriteOnlyPropertyHolder<ComplexType>).GetConstructors().First();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(
+                () => sut.Verify(ctor));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyWhenPropertyIsWriteOnlyDoesNotThrow()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var propertyInfo = typeof (WriteOnlyPropertyHolder<ComplexType>).GetProperty("WriteOnlyProperty");
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(propertyInfo));
+            // Teardown
+        }
+
+        static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, ConstructorInfo ctor, ParameterInfo param)
+        {
+            Assert.Equal(param, ex.MissingParameter);
+            Assert.Equal(ctor, ex.MemberInfo);
+            Assert.Equal(ctor, ex.ConstructorInfo);
+            Assert.Equal(null, ex.FieldInfo);
+            Assert.Equal(null, ex.PropertyInfo);
+        }
+
+        static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, PropertyInfo pi)
+        {
+            Assert.Equal(null, ex.ConstructorInfo);
+            Assert.Equal(null, ex.MissingParameter);
+            Assert.Equal(pi, ex.MemberInfo);
+            Assert.Equal(null, ex.FieldInfo);
+            Assert.Equal(pi, ex.PropertyInfo);
+        }
+
+        static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, FieldInfo fi)
+        {
+            Assert.Equal(null, ex.ConstructorInfo);
+            Assert.Equal(null, ex.MissingParameter);
+            Assert.Equal(fi, ex.MemberInfo);
+            Assert.Equal(fi, ex.FieldInfo);
+            Assert.Equal(null, ex.PropertyInfo);
+        }
+
+        class WriteOnlyPropertyHolder<T>
+        {
+            private T writeOnlyPropertyBackingField;
+
+            public WriteOnlyPropertyHolder(T writeOnlyProperty)
+            {
+                this.writeOnlyPropertyBackingField = writeOnlyProperty;
+            }
+
+            public T GetWriteOnlyProperty()
+            {
+                return writeOnlyPropertyBackingField;
+            }
+
+            public T WriteOnlyProperty
+            {
+                set
+                {
+                    writeOnlyPropertyBackingField = value;
+                }
+            }
+        }
+
+        class ComplexType
+        {
+            public ComplexType()
+            {
+                Children = new Collection<ComplexTypeChild>();
+            }
+
+            public ICollection<ComplexTypeChild> Children { get; set; }
+        }
+
+        class ComplexTypeChild
+        {
+            public string Name { get; set;  }
         }
 
         public class PropertyIsAssignableFromConstructorArgumentType
