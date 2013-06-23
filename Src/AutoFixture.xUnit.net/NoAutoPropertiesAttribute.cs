@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture.Xunit
     /// when the <see cref="IFixture"/> creates an instance of that type.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public class NoAutoPropertiesAttribute : CustomizeAttribute
+    public sealed class NoAutoPropertiesAttribute : CustomizeAttribute
     {
         /// <summary>
         /// Gets a customization that stops auto population of properties for the type of the parameter.
