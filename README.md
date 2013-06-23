@@ -70,6 +70,6 @@ AutoFixture is available via NuGet:
 ## Additional resources ##
 
 * [ploeh blog](http://blog.ploeh.dk/tags.html#AutoFixture-ref)
-* [Nikos Baxevanis' blog](http://nikosbaxevanis.com/categories/AutoFixture)
+* [Nikos Baxevanis' blog](http://nikosbaxevanis.com/categories/autofixture)
 * [Enrico Campidoglio's blog] (http://megakemp.com/tag/autofixture)
 * [Questions on Stack Overflow](http://stackoverflow.com/questions/tagged/autofixture)
