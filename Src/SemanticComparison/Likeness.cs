@@ -274,22 +274,57 @@ namespace Ploeh.SemanticComparison
         }
     }
 
+    /// <summary>
+    /// Provides convention-based object equality comparison for use when 
+    /// comparing two semantically equivalent objects.
+    /// </summary>
+    /// <typeparam name="T">
+    /// The type of the value which will be compared for equality.
+    /// </typeparam>
     public class Likeness<T> : IEquatable<T>
     {
         private readonly T value;
         private readonly IEnumerable<IMemberComparer> comparers;
         private readonly SemanticComparer<T> semanticComparer;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Likeness&lt;T&gt;"/> 
+        /// class with the supplied value.
+        /// </summary>
+        /// <param name="value">The value which will be compared for equality.
+        /// </param>
         public Likeness(T value)
             : this(value, new MemberComparer(new SemanticComparer<T, T>()))
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Likeness&lt;T&gt;"/> 
+        /// class with the supplied value.
+        /// </summary>
+        /// <param name="value">The value which will be compared for equality.
+        /// </param>
+        /// <param name="comparers">
+        /// The supplied <see cref="IEnumerable&lt;IMemberComparer&gt;" /> 
+        /// instances.
+        /// </param>
         public Likeness(T value, IEnumerable<IMemberComparer> comparers)
             : this(value, comparers.ToArray())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Likeness&lt;T&gt;"/> 
+        /// class with the supplied value.
+        /// </summary>
+        /// <param name="value">The value which will be compared for equality.
+        /// </param>
+        /// <param name="comparers">
+        /// The supplied array of <see cref="IMemberComparer" /> instances.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// comparers is null
+        /// </exception>
         public Likeness(T value, params IMemberComparer[] comparers)
         {
             if (comparers == null)
@@ -300,16 +335,41 @@ namespace Ploeh.SemanticComparison
             this.semanticComparer = new SemanticComparer<T>(comparers);
         }
 
+        /// <summary>
+        /// Gets the supplied value which will be compared for equality.
+        /// </summary>
+        /// <value>
+        /// The supplied value which will be compared for equality.
+        /// </value>
         public T Value
         {
             get { return this.value; }
         }
 
+        /// <summary>
+        /// Gets the supplied <see cref="IEnumerable&lt;IMemberComparer&gt;" /> 
+        /// instances.
+        /// </summary>
+        /// <value>
+        /// The supplied <see cref="IEnumerable&lt;IMemberComparer&gt;" />
+        /// instances.
+        /// </value>
         public IEnumerable<IMemberComparer> Comparers
         {
             get { return this.comparers; }
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="object"/> is semantically
+        /// equal to the current <see cref="Value"/>.
+        /// </summary>
+        /// <param name="obj">
+        /// The object to compare against <see cref="Value"/>.
+        /// </param>
+        /// <returns>
+        /// <see langword="true"/> if <paramref name="obj"/> is semantically
+        /// equal to <see cref="Value"/>; otherwise, <see langword="false"/>.
+        /// </returns>
         public override bool Equals(object obj)
         {
             return (this.Value == null && obj == null)
@@ -319,6 +379,13 @@ namespace Ploeh.SemanticComparison
                     : base.Equals(obj));
         }
 
+        /// <summary>
+        /// Serves as a hash function for <see cref="Likeness&lt;T&gt;"/>.
+        /// </summary>
+        /// <returns>
+        /// The hash code for <see cref="Value"/>, or 0 if the value is 
+        /// <see langword="null"/>.
+        /// </returns>
         public override int GetHashCode()
         {
             return this.Value == null 
@@ -326,6 +393,12 @@ namespace Ploeh.SemanticComparison
                 : this.Value.GetHashCode();
         }
 
+        /// <summary>
+        /// Returns a <see cref="string"/> that represents the contained object.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="string"/> representation of the contained object.
+        /// </returns>
         public override string ToString()
         {
             return string.Format(
@@ -334,6 +407,17 @@ namespace Ploeh.SemanticComparison
                 this.Value == null ? "null" : this.Value.ToString());
         }
 
+        /// <summary>
+        /// Determines whether the specified object is semantically equal to 
+        /// the current <see cref="Value"/>.
+        /// </summary>
+        /// <param name="other">
+        /// The object to compare against <see cref="Value"/>.
+        /// </param>
+        /// <returns>
+        /// <see langword="true"/> if <paramref name="other"/> is semantically
+        /// equal to <see cref="Value"/>; otherwise, <see langword="false"/>.
+        /// </returns>
         public bool Equals(T other)
         {
             if (this.Value == null && other == null)
@@ -345,6 +429,16 @@ namespace Ploeh.SemanticComparison
             return this.semanticComparer.Equals(this.Value, other);
         }
 
+        /// <summary>
+        /// Turns the <see cref="Likeness&lt;T&gt;"/> into a Resemblance by 
+        /// dynamically emitting a derived class that overrides Equals in the 
+        /// way that the <see cref="Likeness&lt;T&gt;"/> (re)defines equality.
+        /// </summary>
+        /// <returns>
+        /// A dynamically emitted derived class that overrides Equals in the 
+        /// way that the <see cref="Likeness&lt;T&gt;"/> (re)defines equality.
+        /// </returns>
+        /// <exception cref="ProxyCreationException"></exception>
         public T ToResemblance()
         {
             try
