@@ -113,6 +113,7 @@
     <Compile Include="TypeWithRefMethod.cs" />
     <Compile Include="UnguardedConstructorHost.cs" />
     <Compile Include="UnguardedMethodHost.cs" />
+    <Compile Include="InternalGetterPropertyHolder.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
