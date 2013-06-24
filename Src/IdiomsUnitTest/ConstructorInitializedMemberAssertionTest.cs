@@ -306,7 +306,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var propertyInfo = typeof (WriteOnlyPropertyHolder<ComplexType>).GetProperty("WriteOnlyProperty");
+            var propertyInfo = typeof(WriteOnlyPropertyHolder<ComplexType>).GetProperty("WriteOnlyProperty");
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(propertyInfo));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyWhenPropertyGetterIsInternalDoesNotThrow()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var propertyInfo = typeof(InternalGetterPropertyHolder<ComplexType>).GetProperty("Property");
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Verify(propertyInfo));
             // Teardown
