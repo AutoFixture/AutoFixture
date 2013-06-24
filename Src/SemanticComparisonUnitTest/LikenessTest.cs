@@ -1531,11 +1531,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             {
                 new MemberComparer(new SemanticComparer<TimeSpan, TimeSpan>())
             };
-            var sut = new Likeness<TimeSpan>(dummyValue, expected);
+            var sut = new Likeness<TimeSpan>(dummyValue);
             // Exercise system
-            var result = sut.Comparers;
+            var result = sut.Comparers.Cast<MemberComparer>();
             // Verify outcome
-            Assert.True(expected.SequenceEqual(result));
+            Assert.True(expected.SequenceEqual(result, new MemberComparerComparer()));
             // Teardown
         }
 
@@ -2152,6 +2152,19 @@ namespace Ploeh.SemanticComparison.UnitTest
             int IEqualityComparer<object>.GetHashCode(object obj)
             {
                 return obj != null ? obj.GetHashCode() : 0;
+            }
+        }
+
+        private class MemberComparerComparer : IEqualityComparer<MemberComparer>
+        {
+            public bool Equals(MemberComparer x, MemberComparer y)
+            {
+                return x.Comparer.GetType() == y.Comparer.GetType();
+            }
+
+            public int GetHashCode(MemberComparer obj)
+            {
+                return obj.GetHashCode();
             }
         }
     }
