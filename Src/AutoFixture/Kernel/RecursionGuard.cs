@@ -68,6 +68,7 @@ namespace Ploeh.AutoFixture.Kernel
             this.monitoredRequests = new Stack<object>();
             this.builder = builder;
             this.comparer = comparer;
+            this.RecursionDepth = 1;
         }
 
         /// <summary>
@@ -106,6 +107,7 @@ namespace Ploeh.AutoFixture.Kernel
             this.builder = builder;
             this.recursionHandler = recursionHandler;
             this.comparer = comparer;
+            this.RecursionDepth = 1;
         }
 
         /// <summary>
@@ -131,6 +133,12 @@ namespace Ploeh.AutoFixture.Kernel
         {
             get { return this.recursionHandler; }
         }
+
+        /// <summary>
+        /// The recursion depth at which the request will be treated as a 
+        /// recursive request
+        /// </summary>
+        public int RecursionDepth { get; set; }
 
         /// <summary>Gets the comparer supplied via the constructor.</summary>
         /// <seealso cref="RecursionGuard(ISpecimenBuilder, IEqualityComparer)" />
@@ -176,7 +184,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (this.monitoredRequests.Any(x => this.comparer.Equals(x, request)))
+            if (this.monitoredRequests.Count(x => this.comparer.Equals(x, request)) >= this.RecursionDepth)
             {
 #pragma warning disable 618
                 return this.HandleRecursiveRequest(request);

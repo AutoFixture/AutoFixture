@@ -5,6 +5,7 @@ using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Xunit;
 using System.Collections;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -175,6 +176,41 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Same(subRequest1, recursiveRequest);
         }
 
+        [Theory]
+        [InlineData(1, 2)]
+        [InlineData(5, 6)]
+        public void CreateWillTriggerHandlingOfDeeperThanRecursionDepthRecursiveRequest(
+            int sutRecursionDepth,
+            int requestRecursionDepth
+            )
+        {
+            // Fixture setup
+            object subRequest1 = Guid.NewGuid();
+            object subRequest2 = Guid.NewGuid();
+
+            var requestScenario = new RecursiveRequestBuilder()
+                .Build(
+                    requestRecursionDepth,
+                    () => { return subRequest1; },
+                    () => { return subRequest2; }
+                );
+
+            var builder = new DelegatingSpecimenBuilder();
+            builder.OnCreate = (r, c) => c.Resolve(requestScenario.Pop());
+
+            var sut = new CapturingItemRecursionGuard(builder, requestRecursionDepth);
+            sut.RecursionDepth = sutRecursionDepth;
+
+            var container = new DelegatingSpecimenContext();
+            container.OnResolve = (r) => sut.Create(r, container);
+
+            // Exercise system
+            sut.Create(Guid.NewGuid(), container);
+
+            // Verify outcome
+            Assert.True(sut.CapturedItem.Equals(subRequest1));
+        }
+
         [Fact]
         public void ConstructWithBuilderAndRecursionHandlerHasCorrectHandler()
         {
@@ -318,6 +354,30 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Throws<ArgumentNullException>(
                 () => new RecursionGuard(dummyBuilder, dummyHandler, null));
             // Teardown
+        }
+
+        [Fact]
+        public void ConstructWithBuildeSetsRecursionDepthToOne()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummyHandler = new DelegatingRecursionHandler();
+            // Exercise system
+            var sut = new RecursionGuard(dummyBuilder);
+            // Verify outcome
+            Assert.Equal(1, sut.RecursionDepth);
+        }
+
+        [Fact]
+        public void ConstructWithBuilderAndHandlerSetsRecursionDepthToOne()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummyHandler = new DelegatingRecursionHandler();
+            // Exercise system
+            var sut = new RecursionGuard(dummyBuilder, dummyHandler);
+            // Verify outcome
+            Assert.Equal(1, sut.RecursionDepth);
         }
 
         [Fact]
