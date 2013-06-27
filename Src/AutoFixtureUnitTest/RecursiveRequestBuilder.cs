@@ -7,23 +7,20 @@ namespace Ploeh.AutoFixtureUnitTest
     {
         internal Stack<RecursiveRequestItem<T>> Build<T>(
             int recursionDepth,
-            Func<T> subRequest1,
-            Func<T> subRequest2
+            Func<T> request
             ) where T : class
         {
 
-            var value1 = subRequest1();
-            var value2 = subRequest2();
-            var request = new Stack<RecursiveRequestItem<T>>();
+            var value = request();
+            var recursiveRequest = new Stack<RecursiveRequestItem<T>>();
 
             while (recursionDepth > 0)
             {
-                request.Push(new RecursiveRequestItem<T>(value2, recursionDepth));
-                request.Push(new RecursiveRequestItem<T>(value1, recursionDepth));
+                recursiveRequest.Push(new RecursiveRequestItem<T>(value, recursionDepth));
                 recursionDepth--;
             }
 
-            return request;
+            return recursiveRequest;
         }
     }
 

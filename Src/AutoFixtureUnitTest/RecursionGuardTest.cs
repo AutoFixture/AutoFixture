@@ -161,7 +161,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var requestScenario = new Stack<object>(new [] { subRequest1, subRequest2, subRequest1 });
             var builder = new DelegatingSpecimenBuilder();
             builder.OnCreate = (r, c) => c.Resolve(requestScenario.Pop());
-            
+
             var sut = new DelegatingRecursionGuard(builder);
             object recursiveRequest = null;
             sut.OnHandleRecursiveRequest = obj => recursiveRequest = obj;
@@ -177,6 +177,46 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
+        [InlineData(1, 1)]
+        [InlineData(5, 5)]
+        [InlineData(2, 1)]
+        [InlineData(6, 5)]
+        public void CreateWillNotTriggerHandlingOfRecursionDepthRecursiveRequest(
+            int sutRecursionDepth,
+            int requestRecursionDepth
+            )
+        {
+            // Fixture setup
+            object request = Guid.NewGuid();
+
+            var requestScenario = new RecursiveRequestBuilder()
+                .Build(
+                    requestRecursionDepth,
+                    () => { return request; }
+                );
+
+            var builder = new DelegatingSpecimenBuilder();
+            builder.OnCreate = (r, c) =>
+            {
+                if (requestScenario.Any())
+                    return c.Resolve(requestScenario.Pop());
+                return null;
+            };
+
+            var sut = new CapturingItemRecursionGuard(builder, requestRecursionDepth);
+            sut.RecursionDepth = sutRecursionDepth;
+
+            var container = new DelegatingSpecimenContext();
+            container.OnResolve = (r) => sut.Create(r, container);
+
+            // Exercise system
+            sut.Create(Guid.NewGuid(), container);
+
+            // Verify outcome
+            Assert.Null(sut.CapturedItem);
+        }
+
+        [Theory]
         [InlineData(1, 2)]
         [InlineData(5, 6)]
         public void CreateWillTriggerHandlingOfDeeperThanRecursionDepthRecursiveRequest(
@@ -185,14 +225,12 @@ namespace Ploeh.AutoFixtureUnitTest
             )
         {
             // Fixture setup
-            object subRequest1 = Guid.NewGuid();
-            object subRequest2 = Guid.NewGuid();
+            object request = Guid.NewGuid();
 
             var requestScenario = new RecursiveRequestBuilder()
                 .Build(
                     requestRecursionDepth,
-                    () => { return subRequest1; },
-                    () => { return subRequest2; }
+                    () => { return request; }
                 );
 
             var builder = new DelegatingSpecimenBuilder();
@@ -208,7 +246,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Create(Guid.NewGuid(), container);
 
             // Verify outcome
-            Assert.True(sut.CapturedItem.Equals(subRequest1));
+            Assert.True(sut.CapturedItem.Equals(request));
         }
 
         [Fact]
