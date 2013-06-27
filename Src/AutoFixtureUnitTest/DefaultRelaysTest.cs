@@ -28,10 +28,10 @@ namespace Ploeh.AutoFixtureUnitTest
             var expectedBuilderTypes = new[]
             {                
                 typeof(ArrayRelay),
+                typeof(StringLengthAttributeRelay),
                 typeof(ParameterRequestRelay),
                 typeof(RangeAttributeRelay),
                 typeof(RegularExpressionAttributeRelay),
-                typeof(StringLengthAttributeRelay),
                 typeof(PropertyRequestRelay),
                 typeof(FieldRequestRelay),
                 typeof(FiniteSequenceRelay),
