@@ -395,7 +395,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void ConstructWithBuildeSetsRecursionDepthToOne()
+        public void ConstructWithBuilderSetsRecursionDepthCorrectly()
         {
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
@@ -407,7 +407,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void ConstructWithBuilderAndHandlerSetsRecursionDepthToOne()
+        public void ConstructWithBuilderAndHandlerSetsRecursionDepthCorrectly()
         {
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
