@@ -107,5 +107,25 @@ namespace Ploeh.SemanticComparison.UnitTest
             Assert.Equal(expected, result);
             // Teardown
         }
+
+        [Theory]
+        [InlineData("a", 1)]
+        [InlineData(123, 2)]
+        public void GetHashCodeForwardsCorrectCallToComparer(
+            object obj,
+            int expected)
+        {
+            // Fixture setup
+            var comparer = new DelegatingEqualityComparer
+            {
+                OnGetHashCode = x => x == obj ? expected : 0
+            };
+            var sut = new MemberComparer(comparer);
+            // Exercise system
+            var result = sut.GetHashCode(obj);
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
     }
 }

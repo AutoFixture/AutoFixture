@@ -8,6 +8,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         internal DelegatingEqualityComparer()
         {
             this.OnEquals = (x, y) => false;
+            this.OnGetHashCode = x => 0;
         }
 
         bool IEqualityComparer.Equals(object x, object y)
@@ -17,9 +18,11 @@ namespace Ploeh.SemanticComparison.UnitTest
 
         int IEqualityComparer.GetHashCode(object obj)
         {
-            return obj.GetHashCode();
+            return this.OnGetHashCode(obj);
         }
 
         internal Func<object, object, bool> OnEquals { get; set; }
+ 
+        internal Func<object, int> OnGetHashCode { get; set; }
     }
 }
