@@ -285,7 +285,7 @@ namespace Ploeh.SemanticComparison
     {
         private readonly T value;
         private readonly IEnumerable<IMemberComparer> comparers;
-        private readonly SemanticComparer<T> semanticComparer;
+        private readonly IEqualityComparer<T> comparer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Likeness&lt;T&gt;"/> 
@@ -332,7 +332,7 @@ namespace Ploeh.SemanticComparison
 
             this.value = value;
             this.comparers = comparers;
-            this.semanticComparer = new SemanticComparer<T>(comparers);
+            this.comparer = new SemanticComparer<T>(comparers);
         }
 
         /// <summary>
@@ -426,7 +426,7 @@ namespace Ploeh.SemanticComparison
             if (other == null)
                 return false;
 
-            return this.semanticComparer.Equals(this.Value, other);
+            return this.comparer.Equals(this.Value, other);
         }
 
         /// <summary>
