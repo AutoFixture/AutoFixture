@@ -789,6 +789,48 @@ namespace Ploeh.SemanticComparison.UnitTest
             Assert.True(result);
             // Teardown
         }
+
+        [Theory]
+        [ClassData(typeof(ComplexClassTestCases))]
+        public void EqualsReturnsCorrectResultForComplexClass(
+            ComplexClass value,
+            ComplexClass other,
+            bool expected)
+        {
+            // Fixture setup
+            var comparerStubs = new[]
+            {
+                new DelegatingMemberComparer
+                {
+                    OnIsSatisfiedByProperty = x => true,
+                    OnEquals = (x, y) => x.Equals(y)
+                },
+                new DelegatingMemberComparer
+                {
+                    OnIsSatisfiedByProperty = x =>
+                        x.PropertyType == typeof(Entity),
+
+                    OnEquals = (x, y) => 
+                        ((Entity)x).Name.Equals(
+                        ((Entity)y).Name)
+                },
+                new DelegatingMemberComparer
+                {
+                    OnIsSatisfiedByProperty = x => 
+                        x.PropertyType == typeof(OperatingSystem),
+
+                    OnEquals = (x, y) => 
+                        ((OperatingSystem)x).Version.Equals(
+                        ((OperatingSystem)y).Version)
+                }
+            };
+            var sut = new SemanticComparer<ComplexClass>(comparerStubs);
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
         
         private static void CompareSemantically<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
@@ -811,6 +853,106 @@ namespace Ploeh.SemanticComparison.UnitTest
             public int GetHashCode(MemberComparer obj)
             {
                 return obj.GetHashCode();
+            }
+        }
+
+        private class ComplexClassTestCases : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return CreateTestCase(
+                    value: new ComplexClass
+                    {
+                        Entity = new Entity("abc"),
+                        OperatingSystem =
+                            new OperatingSystem(
+                                PlatformID.Unix,
+                                new Version(3, 9, 8)),
+                        Number = 1,
+                        Text = "Anonymous Text",
+                        Value = new ValueObject(1, 2),
+                        Version = new Version(4, 0, 0)
+                    },
+                    other: new ComplexClass
+                    {
+                        Entity = new Entity("abc"),
+                        OperatingSystem =
+                            new OperatingSystem(
+                                PlatformID.Xbox,
+                                new Version(3, 9, 8)),
+                        Number = 1,
+                        Text = "Anonymous Text",
+                        Value = new ValueObject(1, 2),
+                        Version = new Version(4, 0, 0)
+                    },
+                    expected: true);
+
+                yield return CreateTestCase(
+                    value: new ComplexClass
+                    {
+                        Entity = new Entity("abc"),
+                        OperatingSystem =
+                            new OperatingSystem(
+                                PlatformID.Unix,
+                                new Version(3, 9, 8)),
+                        Number = 1,
+                        Text = "Anonymous Text",
+                        Value = new ValueObject(1, 2),
+                        Version = new Version(4, 0, 0)
+                    },
+                    other: new ComplexClass
+                    {
+                        Entity = new Entity("ABC"),
+                        OperatingSystem =
+                            new OperatingSystem(
+                                PlatformID.Xbox,
+                                new Version(3, 9, 8)),
+                        Number = 1,
+                        Text = "Anonymous Text",
+                        Value = new ValueObject(1, 2),
+                        Version = new Version(4, 0, 0)
+                    },
+                    expected: false);
+
+                yield return CreateTestCase(
+                    value: new ComplexClass
+                    {
+                        Entity = new Entity("abc"),
+                        OperatingSystem =
+                            new OperatingSystem(
+                                PlatformID.Unix,
+                                new Version(0, 0, 0)),
+                        Number = 1,
+                        Text = "Anonymous Text",
+                        Value = new ValueObject(1, 2),
+                        Version = new Version(4, 0, 0)
+                    },
+                    other: new ComplexClass
+                    {
+                        Entity = new Entity("abc"),
+                        OperatingSystem =
+                            new OperatingSystem(
+                                PlatformID.Xbox,
+                                new Version(3, 9, 8)),
+                        Number = 1,
+                        Text = "Anonymous Text",
+                        Value = new ValueObject(1, 2),
+                        Version = new Version(4, 0, 0)
+                    },
+                    expected: false);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+
+            private static object[] CreateTestCase(
+                ComplexClass value,
+                ComplexClass other,
+                bool expected)
+            {
+                return new object[] { value, other, expected };
             }
         }
     }
