@@ -32,8 +32,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ComparerIsCorrect()
         {
             // Fixture setup
-            var dummyEqualityComparer = new DelegatingEqualityComparer();
-            var expected = new MemberComparer(dummyEqualityComparer);
+            var expected = new DelegatingEqualityComparer();
             var sut = new MemberComparer(expected);
             // Exercise system
             var result = sut.Comparer;
