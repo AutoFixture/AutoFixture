@@ -2023,8 +2023,10 @@ namespace Ploeh.SemanticComparison.UnitTest
             var anonymousText = "Anonymous text";
             var dummyValue = new TypeWithPrivateDefaultCtorAndOtherCtor<string>(anonymousText);
             var sut = new Likeness<TypeWithPrivateDefaultCtorAndOtherCtor<string>>(dummyValue);
-            // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.ToResemblance());
+            // Exercise system
+            var result = sut.ToResemblance();
+            // Verify outcome
+            Assert.IsAssignableFrom<TypeWithPrivateDefaultCtorAndOtherCtor<string>>(result);
             // Teardown
         }
 
@@ -2034,8 +2036,10 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Fixture setup
             var dummyValue = new TypeWithIdenticalParameterTypesAndProperties(1, 2, 3);
             var sut = new Likeness<TypeWithIdenticalParameterTypesAndProperties>(dummyValue);
-            // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.ToResemblance());
+            // Exercise system
+            var result = sut.ToResemblance();
+            // Verify outcome
+            Assert.IsAssignableFrom<TypeWithIdenticalParameterTypesAndProperties>(result);
             // Teardown
         }
 
@@ -2044,9 +2048,11 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             var dummyValue = new TypeWithDifferentParameterTypesAndProperties(1, "2", 3);
-                var sut = new Likeness<TypeWithDifferentParameterTypesAndProperties>(dummyValue);
-            // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.ToResemblance());
+            var sut = new Likeness<TypeWithDifferentParameterTypesAndProperties>(dummyValue);
+            // Exercise system
+            var result = sut.ToResemblance();
+            // Verify outcome
+            Assert.IsAssignableFrom<TypeWithDifferentParameterTypesAndProperties>(result);
             // Teardown
         }
 
