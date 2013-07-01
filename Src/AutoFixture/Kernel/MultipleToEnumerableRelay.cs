@@ -13,10 +13,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (multipleRequest == null)
                 return new NoSpecimen(request);
 
-            var innerRequest = multipleRequest.Request;
-            var seededRequest = innerRequest as SeededRequest;
-            if (seededRequest != null)
-                innerRequest = seededRequest.Request;
+            var innerRequest = GetInnerRequest(multipleRequest);
 
             var itemType = innerRequest as Type;
             if (itemType == null)
@@ -24,6 +21,15 @@ namespace Ploeh.AutoFixture.Kernel
 
             return context.Resolve(
                 typeof(IEnumerable<>).MakeGenericType(itemType));
+        }
+
+        private static object GetInnerRequest(MultipleRequest multipleRequest)
+        {
+            var seededRequest = multipleRequest.Request as SeededRequest;
+            if (seededRequest == null)
+                return multipleRequest.Request;
+
+            return seededRequest.Request;
         }
     }
 }
