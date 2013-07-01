@@ -9,6 +9,9 @@ namespace Ploeh.AutoFixture.Kernel
     {
         public object Create(object request, ISpecimenContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("context");
+            
             var multipleRequest = request as MultipleRequest;
             if (multipleRequest == null)
                 return new NoSpecimen(request);

@@ -145,5 +145,17 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(expected, actual);
             // Teardown
         }
+
+        [Fact]
+        public void CreateWithNullContextThrows()
+        {
+            // Fixture setup
+            var sut = new MultipleToEnumerableRelay();
+            // Exercise system and verify outcome
+            var dummyRequest = new object();
+            Assert.Throws<ArgumentNullException>(
+                () => sut.Create(dummyRequest, null));
+            // Teardown
+        }
     }
 }
