@@ -178,6 +178,10 @@ namespace Ploeh.AutoFixture
         /// CreateMany method returns a new, independent instance of
         /// IEnumerable&lt;T&gt;.
         /// </para>
+        /// <para>
+        /// However, you can change this behaviour, for example by applying the
+        /// <see cref="MapCreateManyToEnumerable" /> customization.
+        /// </para>
         /// </remarks>
         public static IEnumerable<T> CreateMany<T>(
             this ISpecimenBuilder builder)
@@ -191,6 +195,21 @@ namespace Ploeh.AutoFixture
         /// <typeparam name="T">The type of objects to create.</typeparam>
         /// <param name="context">The context used to resolve the type request.</param>
         /// <returns>A sequence of anonymous object of type <typeparamref name="T"/>.</returns>
+        /// <remarks>
+        /// <para>
+        /// The CreateMany implementation always returns a new instance of
+        /// <see cref="IEnumerable{T}" />. Even if IEnumerable&lt;T&gt; is
+        /// Frozen by the <see cref="FixtureFreezer.Freeze(IFixture)" /> method
+        /// or explicitly assigned with the
+        /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
+        /// CreateMany method returns a new, independent instance of
+        /// IEnumerable&lt;T&gt;.
+        /// </para>
+        /// <para>
+        /// However, you can change this behaviour, for example by applying the
+        /// <see cref="MapCreateManyToEnumerable" /> customization.
+        /// </para>
+        /// </remarks>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context)
         {
@@ -212,6 +231,10 @@ namespace Ploeh.AutoFixture
         /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
         /// CreateMany method returns a new, independent instance of
         /// IEnumerable&lt;T&gt;.
+        /// </para>
+        /// <para>
+        /// However, you can change this behaviour, for example by applying the
+        /// <see cref="MapCreateManyToEnumerable" /> customization.
         /// </para>
         /// <para>
         /// The only purpose of this explicit overload is to support type inferencing.
@@ -245,6 +268,10 @@ namespace Ploeh.AutoFixture
         /// CreateMany method returns a new, independent instance of
         /// IEnumerable&lt;T&gt;.
         /// </para>
+        /// <para>
+        /// However, you can change this behaviour, for example by applying the
+        /// <see cref="MapCreateManyToEnumerable" /> customization.
+        /// </para>
         /// </remarks>
         public static IEnumerable<T> CreateMany<T>(
             this ISpecimenBuilder builder,
@@ -272,6 +299,10 @@ namespace Ploeh.AutoFixture
         /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
         /// CreateMany method returns a new, independent instance of
         /// IEnumerable&lt;T&gt;.
+        /// </para>
+        /// <para>
+        /// However, you can change this behaviour, for example by applying the
+        /// <see cref="MapCreateManyToEnumerable" /> customization.
         /// </para>
         /// </remarks>
         public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context, T seed)
@@ -304,6 +335,10 @@ namespace Ploeh.AutoFixture
         /// CreateMany method returns a new, independent instance of
         /// IEnumerable&lt;T&gt;.
         /// </para>
+        /// <para>
+        /// However, you can change this behaviour, for example by applying the
+        /// <see cref="MapCreateManyToEnumerable" /> customization.
+        /// </para>
         /// </remarks>
         public static IEnumerable<T> CreateMany<T>(
             this ISpecimenBuilder builder,
@@ -329,6 +364,10 @@ namespace Ploeh.AutoFixture
         /// CreateMany method returns a new, independent instance of
         /// IEnumerable&lt;T&gt;.
         /// </para>
+        /// <para>
+        /// However, you can change this behaviour, for example by applying the
+        /// <see cref="MapCreateManyToEnumerable" /> customization.
+        /// </para>
         /// </remarks>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Although this CA warning should never be suppressed, this particular usage scenario has been discussed and accepted on the FxCop DL.")]
         public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context, int count)
@@ -352,6 +391,10 @@ namespace Ploeh.AutoFixture
         /// <see cref="FixtureRegistrar.Inject{T}(IFixture, T)" /> method, the
         /// CreateMany method returns a new, independent instance of
         /// IEnumerable&lt;T&gt;.
+        /// </para>
+        /// <para>
+        /// However, you can change this behaviour, for example by applying the
+        /// <see cref="MapCreateManyToEnumerable" /> customization.
         /// </para>
         /// <para>
         /// The only purpose of this explicit overload is to support type inferencing.
@@ -386,6 +429,10 @@ namespace Ploeh.AutoFixture
         /// CreateMany method returns a new, independent instance of
         /// IEnumerable&lt;T&gt;.
         /// </para>
+        /// <para>
+        /// However, you can change this behaviour, for example by applying the
+        /// <see cref="MapCreateManyToEnumerable" /> customization.
+        /// </para>
         /// </remarks>
         public static IEnumerable<T> CreateMany<T>(
             this ISpecimenBuilder builder,
@@ -416,6 +463,10 @@ namespace Ploeh.AutoFixture
         /// CreateMany method returns a new, independent instance of
         /// IEnumerable&lt;T&gt;.
         /// </para>
+        /// <para>
+        /// However, you can change this behaviour, for example by applying the
+        /// <see cref="MapCreateManyToEnumerable" /> customization.
+        /// </para>
         /// </remarks>
         public static IEnumerable<T> CreateMany<T>(this ISpecimenContext context, T seed, int count)
         {
@@ -427,7 +478,6 @@ namespace Ploeh.AutoFixture
             return from s in (IEnumerable<object>)context.Resolve(new FiniteSequenceRequest(new SeededRequest(typeof(T), seed), count))
                    select (T)s;
         }
-
 
         internal static object Create(this ISpecimenBuilder composer, Type type)
         {
