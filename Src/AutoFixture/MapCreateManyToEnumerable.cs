@@ -10,6 +10,9 @@ namespace Ploeh.AutoFixture
     {
         public void Customize(IFixture fixture)
         {
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+
             fixture.Customizations.Insert(0, new MultipleToEnumerableRelay());
         }
     }

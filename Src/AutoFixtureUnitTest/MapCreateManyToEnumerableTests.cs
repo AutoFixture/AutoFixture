@@ -31,5 +31,15 @@ namespace Ploeh.AutoFixtureUnitTest
                 "Appropriate SpecimenBuilder should be added to Fixture.");
             // Teardown
         }
+
+        [Fact]
+        public void CustomizeNullFixtureThrows()
+        {
+            // Fixture setup
+            var sut = new MapCreateManyToEnumerable();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() => sut.Customize(null));
+            // Teardown
+        }
     }
 }
