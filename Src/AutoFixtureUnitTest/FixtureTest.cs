@@ -4952,6 +4952,21 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CustomizingEnumerableCustomizedCreateManyWhenCreateManyIsMappedToEnumerable()
+        {
+            // Fixture setup
+            var fixture = 
+                new Fixture().Customize(new MapCreateManyToEnumerable());
+            var expected = new[] { "a", "b", "c", "d" };
+            fixture.Register<IEnumerable<string>>(() => expected);
+            // Exercise system
+            var actual = fixture.CreateMany<string>();
+            // Verify outcome
+            Assert.Equal(expected, actual.ToArray());
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
