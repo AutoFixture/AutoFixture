@@ -9,7 +9,14 @@ namespace Ploeh.AutoFixture.Kernel
     {
         public object Create(object request, ISpecimenContext context)
         {
-            return new NoSpecimen(request);
+            var multipleRequest = request as MultipleRequest;
+            if (multipleRequest == null)
+                return new NoSpecimen(request);
+
+            var itemType = (Type)multipleRequest.Request;
+
+            return context.Resolve(
+                typeof(IEnumerable<>).MakeGenericType(itemType));
         }
     }
 }

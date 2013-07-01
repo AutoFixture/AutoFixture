@@ -37,5 +37,38 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(expected, actual);
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(object), 1)]
+        [InlineData(typeof(string), 42)]
+        [InlineData(typeof(int), 1337)]
+        public void CreateFromMultipleRequestReturnsCorrectResult(
+            Type itemType,
+            int arrayLength)
+        {
+            // Fixture setup
+            var sut = new MultipleToEnumerableRelay();
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r =>
+                {
+                    Assert.Equal(
+                        typeof(IEnumerable<>).MakeGenericType(itemType),
+                        r);
+                    return Array.CreateInstance((Type)itemType, arrayLength);
+                }
+            };
+            // Exercise system
+            var request = new MultipleRequest(itemType);
+            var actual = sut.Create(request, context);
+            // Verify outcome
+            Assert.IsAssignableFrom(
+                typeof(IEnumerable<>).MakeGenericType(itemType),
+                actual);
+            var enumerable = 
+                Assert.IsAssignableFrom<System.Collections.IEnumerable>(actual);
+            Assert.Equal(arrayLength, enumerable.Cast<object>().Count());
+            // Teardown
+        }
     }
 }
