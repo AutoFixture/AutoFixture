@@ -13,7 +13,9 @@ namespace Ploeh.AutoFixture.Kernel
             if (multipleRequest == null)
                 return new NoSpecimen(request);
 
-            var itemType = (Type)multipleRequest.Request;
+            var itemType = multipleRequest.Request as Type;
+            if (itemType == null)
+                return new NoSpecimen(request);
 
             return context.Resolve(
                 typeof(IEnumerable<>).MakeGenericType(itemType));

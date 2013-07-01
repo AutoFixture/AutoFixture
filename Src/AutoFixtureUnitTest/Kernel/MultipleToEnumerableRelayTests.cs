@@ -70,5 +70,24 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(arrayLength, enumerable.Cast<object>().Count());
             // Teardown
         }
+
+        [Theory]
+        [InlineData("foo")]
+        [InlineData("1")]
+        [InlineData(false)]
+        public void CreateFromMultipleRequestWithNonTypeRequestReturnsCorrectResult(
+            object innerRequest)
+        {
+            // Fixture setup
+            var sut = new MultipleToEnumerableRelay();
+            var request = new MultipleRequest(innerRequest);
+            // Exercise system
+            var dummyContext = new DelegatingSpecimenContext();
+            var actual = sut.Create(request, dummyContext);
+            // Verify outcome
+            var expected = new NoSpecimen(request);
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
     }
 }
