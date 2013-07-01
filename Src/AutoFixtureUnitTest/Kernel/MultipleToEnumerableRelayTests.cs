@@ -65,7 +65,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.IsAssignableFrom(
                 typeof(IEnumerable<>).MakeGenericType(itemType),
                 actual);
-            var enumerable = 
+            var enumerable =
                 Assert.IsAssignableFrom<System.Collections.IEnumerable>(actual);
             Assert.Equal(arrayLength, enumerable.Cast<object>().Count());
             // Teardown
@@ -81,6 +81,62 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new MultipleToEnumerableRelay();
             var request = new MultipleRequest(innerRequest);
+            // Exercise system
+            var dummyContext = new DelegatingSpecimenContext();
+            var actual = sut.Create(request, dummyContext);
+            // Verify outcome
+            var expected = new NoSpecimen(request);
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(bool), true, 53)]
+        [InlineData(typeof(string), "ploeh", 9)]
+        [InlineData(typeof(int), 7, 902)]
+        public void CreateFromMultipleSeededRequestReturnsCorrectResult(
+            Type itemType,
+            object seed,
+            int arrayLength)
+        {
+            // Fixture setup
+            var sut = new MultipleToEnumerableRelay();
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r =>
+                {
+                    Assert.Equal(
+                        typeof(IEnumerable<>).MakeGenericType(itemType),
+                        r);
+                    return Array.CreateInstance((Type)itemType, arrayLength);
+                }
+            };
+            // Exercise system
+            var request = new MultipleRequest(new SeededRequest(itemType, seed));
+            var actual = sut.Create(request, context);
+            // Verify outcome
+            Assert.IsAssignableFrom(
+                typeof(IEnumerable<>).MakeGenericType(itemType),
+                actual);
+            var enumerable =
+                Assert.IsAssignableFrom<System.Collections.IEnumerable>(actual);
+            Assert.Equal(arrayLength, enumerable.Cast<object>().Count());
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData("bar")]
+        [InlineData("9")]
+        [InlineData(true)]
+        public void CreateFromMultipleSeededRequestWithNonTypeRequestReturnsCorrectResult(
+            object innerRequest)
+        {
+            // Fixture setup
+            var sut = new MultipleToEnumerableRelay();
+            var request = new MultipleRequest(
+                new SeededRequest(
+                    innerRequest,
+                    new object()));
             // Exercise system
             var dummyContext = new DelegatingSpecimenContext();
             var actual = sut.Create(request, dummyContext);

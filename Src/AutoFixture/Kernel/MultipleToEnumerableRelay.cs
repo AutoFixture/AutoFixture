@@ -13,7 +13,12 @@ namespace Ploeh.AutoFixture.Kernel
             if (multipleRequest == null)
                 return new NoSpecimen(request);
 
-            var itemType = multipleRequest.Request as Type;
+            var innerRequest = multipleRequest.Request;
+            var seededRequest = innerRequest as SeededRequest;
+            if (seededRequest != null)
+                innerRequest = seededRequest.Request;
+
+            var itemType = innerRequest as Type;
             if (itemType == null)
                 return new NoSpecimen(request);
 
