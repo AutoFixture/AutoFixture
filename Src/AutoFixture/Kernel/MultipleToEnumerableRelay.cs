@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture.Kernel
     {
         public object Create(object request, ISpecimenContext context)
         {
-            throw new NotImplementedException();
+            return new NoSpecimen(request);
         }
     }
 }
