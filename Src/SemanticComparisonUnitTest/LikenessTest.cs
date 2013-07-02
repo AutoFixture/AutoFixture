@@ -1434,6 +1434,28 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void ProxyCanCorrectlyAssignValuesToTypeWithSimilarPropertyNamesAndIdenticalPropertyTypes()
+        {
+            // Fixture setup
+            var expected = 
+                new TypeWithSimilarPropertyNamesAndIdenticalPropertyTypes
+            {
+                Property = 1,
+                Property2 = 2
+            };
+            var sut = expected
+                .AsSource()
+                .OfLikeness<TypeWithSimilarPropertyNamesAndIdenticalPropertyTypes>();
+            // Exercise system
+            var result = sut.CreateProxy();
+            // Verify outcome
+            Assert.True(
+                expected.Property  == result.Property &&
+                expected.Property2 == result.Property2);
+            // Teardown
+        }
+
         private static void CompareLikenessToObject<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup

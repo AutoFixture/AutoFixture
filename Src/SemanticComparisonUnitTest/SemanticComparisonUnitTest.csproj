@@ -82,6 +82,7 @@
     <Compile Include="TestTypes\TypeWithIncompatibleAndCompatibleConstructor.cs" />
     <Compile Include="TestTypes\TypeWithPrivateDefaultCtorAndOtherCtor.cs" />
     <Compile Include="TestTypes\TypeWithPublicFieldsAndProperties.cs" />
+    <Compile Include="TestTypes\TypeWithSimilarPropertyNamesAndIdenticalPropertyTypes.cs" />
     <Compile Include="TestTypes\TypeWithUnorderedProperties.cs" />
   </ItemGroup>
   <ItemGroup>
