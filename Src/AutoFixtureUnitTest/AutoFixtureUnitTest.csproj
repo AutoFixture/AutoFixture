@@ -95,6 +95,7 @@
     <Compile Include="DataAnnotations\StringLengthArgumentSupportTests.cs" />
     <Compile Include="DelegatingRecursionHandler.cs" />
     <Compile Include="Kernel\CompositeSpecimenCommandTest.cs" />
+    <Compile Include="FreezeOnMatchCustomizationTest.cs" />
     <Compile Include="Kernel\ImplementedInterfaceSpecificationTest.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelayTest.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecificationTest.cs" />
