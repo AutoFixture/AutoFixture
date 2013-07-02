@@ -81,7 +81,7 @@ namespace Ploeh.SemanticComparison
             {
                 return this.GetEvaluators().All(me => me.Evaluator((TSource)x, (TDestination)y));
             }
-            
+
             if (x is TDestination && y is TSource)
             {
                 return this.GetEvaluators().All(me => me.Evaluator((TSource)y, (TDestination)x));
@@ -157,6 +157,128 @@ namespace Ploeh.SemanticComparison
                         .GetFields(BindingFlags.Public | BindingFlags.Instance)
                         .Cast<MemberInfo>());
             }
+        }
+    }
+
+    /// <summary>
+    /// Provides a class which implements the <see cref="IEqualityComparer{T}"/>
+    /// interface for convention-based object equality comparison for use when 
+    /// comparing two semantically equivalent objects.
+    /// </summary>
+    /// <typeparam name="T">
+    /// The type of the value which will be compared for equality.
+    /// </typeparam>
+    /// <remarks>
+    /// This class is a boolean 'And' Composite over <see cref="IMemberComparer"/>
+    /// instances.
+    /// </remarks>
+    public class SemanticComparer<T> : IEqualityComparer<T>
+    {
+        private readonly IEnumerable<IMemberComparer> comparers;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SemanticComparer&lt;T&gt;"/>
+        /// class.
+        /// </summary>
+        public SemanticComparer()
+            : this(new MemberComparer(new SemanticComparer<T, T>()))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SemanticComparer&lt;T&gt;"/>
+        /// class.
+        /// </summary>
+        /// <param name="comparers">
+        /// The supplied <see cref="IEnumerable&lt;IMemberComparer&gt;" /> instances.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// comparers is null
+        /// </exception>
+        public SemanticComparer(IEnumerable<IMemberComparer> comparers)
+            : this(comparers.ToArray())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SemanticComparer&lt;T&gt;"/>
+        /// class.
+        /// </summary>
+        /// <param name="comparers">
+        /// The supplied array of <see cref="IMemberComparer" /> instances.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// comparers is null
+        /// </exception>
+        public SemanticComparer(params IMemberComparer[] comparers)
+        {
+            if (comparers == null)
+                throw new ArgumentNullException("comparers");
+
+            this.comparers = comparers;
+        }
+
+        /// <summary>
+        /// Gets the supplied <see cref="IEnumerable&lt;IMemberComparer&gt;" /> 
+        /// instances.
+        /// </summary>
+        /// <value>
+        /// The supplied <see cref="IEnumerable&lt;IMemberComparer&gt;" />
+        /// instances.
+        /// </value>
+        public IEnumerable<IMemberComparer> Comparers
+        {
+            get { return this.comparers; }
+        }
+
+        /// <summary>
+        /// Determines whether the specified objects are equal.
+        /// </summary>
+        /// <param name="x">The first object to compare.</param>
+        /// <param name="y">The second object to compare.</param>
+        /// <returns>
+        /// true if the specified objects are equal; otherwise, false.
+        /// </returns>
+        public bool Equals(T x, T y)
+        {
+            if (x == null && y == null)
+                return true;
+
+            if (x == null || y == null)
+                return false;
+
+            if (x.Equals(y))
+                return true;
+
+            var bindingAttributes = BindingFlags.Public | BindingFlags.Instance;
+            return typeof(T)
+                .GetProperties(bindingAttributes)
+                .Select(property => this.comparers
+                    .Where(c => c.IsSatisfiedBy(property))
+                    .Any(c => c.Equals(
+                        property.GetValue(x, null),
+                        property.GetValue(y, null))))
+                .Concat(typeof(T)
+                    .GetFields(bindingAttributes)
+                    .Select(field => this.comparers
+                        .Where(c => c.IsSatisfiedBy(field))
+                        .Any(c => c.Equals(
+                            field.GetValue(x),
+                            field.GetValue(y)))))
+                .All(equals => equals);
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <param name="obj">The obj.</param>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing 
+        /// algorithms and data structures like a hash table. 
+        /// </returns>
+        public int GetHashCode(T obj)
+        {
+            return 0;
         }
     }
 }

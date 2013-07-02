@@ -13,11 +13,20 @@ namespace Ploeh.SemanticComparison.UnitTest.TestTypes
             double field1,
             string field2,
             int field3)
+            : this(field1, field2, field3, Guid.NewGuid())
+        {
+        }
+
+        public TypeWithDifferentParameterTypesAndProperties(
+            double field1,
+            string field2,
+            int field3,
+            Guid field4)
         {
             this.field1 = field1;
             this.field2 = field2;
             this.field3 = field3;
-            this.field4 = Guid.NewGuid();
+            this.field4 = field4;
         }
 
         protected TypeWithDifferentParameterTypesAndProperties(object source)

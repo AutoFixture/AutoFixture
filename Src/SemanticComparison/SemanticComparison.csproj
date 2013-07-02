@@ -88,9 +88,11 @@
     <Compile Include="Fluent\LikenessSource.cs" />
     <Compile Include="Fluent\LikenessSourceFactory.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IMemberComparer.cs" />
     <Compile Include="Likeness.cs" />
     <Compile Include="LikenessException.cs" />
     <Compile Include="LikenessMember.cs" />
+    <Compile Include="MemberComparer.cs" />
     <Compile Include="MemberEvaluator.cs" />
     <Compile Include="MemberInfoExtension.cs" />
     <Compile Include="MemberInfoNameComparer.cs" />
