@@ -109,6 +109,7 @@
     <Compile Include="Kernel\ValueTypeSpecificationTest.cs" />
     <Compile Include="Kernel\MutableValueTypeWarningThrowerTest.cs" />
     <Compile Include="NoAutoPropertiesCustomizationTest.cs" />
+    <Compile Include="RequireTest.cs" />
     <Compile Include="RandomBooleanSequenceGeneratorTest.cs" />
     <Compile Include="FixtureResolvingItselfTests.cs" />
     <Compile Include="IncrementingDateTimeCustomizationTest.cs" />
