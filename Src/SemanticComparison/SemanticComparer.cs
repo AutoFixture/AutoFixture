@@ -278,7 +278,7 @@ namespace Ploeh.SemanticComparison
         /// </returns>
         public int GetHashCode(T obj)
         {
-            return obj == null ? 0 : obj.GetHashCode();
+            return 0;
         }
     }
 }
