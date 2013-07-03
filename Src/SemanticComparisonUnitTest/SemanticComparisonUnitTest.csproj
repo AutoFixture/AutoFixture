@@ -90,6 +90,7 @@
     <Compile Include="TestTypes\TypeWithSimilarPropertyNamesAndIdenticalPropertyTypes.cs" />
     <Compile Include="TestTypes\TypeWithUnorderedProperties.cs" />
     <Compile Include="TestTypes\ValueObject.cs" />
+    <Compile Include="TrueSpecificationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SemanticComparison\SemanticComparison.csproj">

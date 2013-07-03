@@ -102,6 +102,7 @@
     <Compile Include="ProxyGenerator.cs" />
     <Compile Include="ProxyType.cs" />
     <Compile Include="SemanticComparer.cs" />
+    <Compile Include="TrueSpecification.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
