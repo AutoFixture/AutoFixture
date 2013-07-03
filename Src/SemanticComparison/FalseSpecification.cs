@@ -6,7 +6,7 @@ namespace Ploeh.SemanticComparison
     {
         public bool IsSatisfiedBy(T request)
         {
-            throw new NotImplementedException();
+            return false;
         }
     }
 }
