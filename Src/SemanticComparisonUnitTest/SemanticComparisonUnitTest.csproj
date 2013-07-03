@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FalseSpecificationTest.cs" />
     <Compile Include="DelegatingEqualityComparer.cs" />
     <Compile Include="DelegatingMemberComparer.cs" />
     <Compile Include="DependencyConstraints.cs" />

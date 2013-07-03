@@ -85,6 +85,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FalseSpecification.cs" />
     <Compile Include="Fluent\LikenessSource.cs" />
     <Compile Include="Fluent\LikenessSourceFactory.cs" />
     <Compile Include="GlobalSuppressions.cs" />
