@@ -89,6 +89,7 @@
     <Compile Include="TestTypes\TypeWithPublicFieldsAndProperties.cs" />
     <Compile Include="TestTypes\TypeWithUnorderedProperties.cs" />
     <Compile Include="TestTypes\ValueObject.cs" />
+    <Compile Include="TrueSpecificationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SemanticComparison\SemanticComparison.csproj">
