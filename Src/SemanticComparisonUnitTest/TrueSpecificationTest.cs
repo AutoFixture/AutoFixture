@@ -15,6 +15,19 @@ namespace Ploeh.SemanticComparison.UnitTest
             Assert.IsAssignableFrom<ISpecification<T>>(sut);
             // Teardown
         }
+
+        [Fact]
+        public void IsSatisfiedByReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new TrueSpecification<T>();
+            // Exercise system
+            var dummyRequest = default(T);
+            var result = sut.IsSatisfiedBy(dummyRequest);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
     }
 
     public class TrueSpecificationTestOfFieldInfo : TrueSpecificationTest<FieldInfo> { }
