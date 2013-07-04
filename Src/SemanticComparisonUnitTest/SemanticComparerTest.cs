@@ -519,18 +519,18 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ComparersIsCorrectWhenInitializedWithArray()
         {
             // Fixture setup
-            var comparers = new[]
+            var expected = new[]
             {
                 new DelegatingMemberComparer(),
                 new DelegatingMemberComparer(),
                 new DelegatingMemberComparer()
             };
 
-            var sut = new SemanticComparer<string>(comparers);
+            var sut = new SemanticComparer<string>(expected);
             // Exercise system
             var result = sut.Comparers;
             // Verify outcome
-            Assert.True(comparers.SequenceEqual(result));
+            Assert.True(expected.SequenceEqual(result));
             // Teardown
         }
 
@@ -548,18 +548,18 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ComparersIsCorrectWhenInitializedWithEnumerable()
         {
             // Fixture setup
-            var comparers = new[]
+            var expected = new[]
             {
                 new DelegatingMemberComparer(),
                 new DelegatingMemberComparer(),
                 new DelegatingMemberComparer()
             }.ToList();
 
-            var sut = new SemanticComparer<string>(comparers);
+            var sut = new SemanticComparer<string>(expected);
             // Exercise system
             var result = sut.Comparers;
             // Verify outcome
-            Assert.True(comparers.SequenceEqual(result));
+            Assert.True(expected.SequenceEqual(result));
             // Teardown
         }
 
@@ -584,12 +584,12 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             var verified = false;
-            var comparerStub = new DelegatingMemberComparer
+            var comparerMock = new DelegatingMemberComparer
             {
                 OnIsSatisfiedByProperty = p => verified = true
             };
 
-            var sut = new SemanticComparer<PropertyHolder<string>>(comparerStub);
+            var sut = new SemanticComparer<PropertyHolder<string>>(comparerMock);
 
             var value = new PropertyHolder<string>();
             var other = new PropertyHolder<string>();
@@ -606,12 +606,12 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             var verified = false;
-            var comparerStub = new DelegatingMemberComparer
+            var comparerMock = new DelegatingMemberComparer
             {
                 OnIsSatisfiedByField = p => verified = true
             };
 
-            var sut = new SemanticComparer<FieldHolder<string>>(comparerStub);
+            var sut = new SemanticComparer<FieldHolder<string>>(comparerMock);
 
             var value = new FieldHolder<string>();
             var other = new FieldHolder<string>();
@@ -628,7 +628,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             var verified = false;
-            var comparerStubs = new[]
+            var comparerMocks = new[]
             {
                 new DelegatingMemberComparer(),
                 new DelegatingMemberComparer(),
@@ -638,7 +638,7 @@ namespace Ploeh.SemanticComparison.UnitTest
                 }
             };
 
-            var sut = new SemanticComparer<PropertyHolder<string>>(comparerStubs);
+            var sut = new SemanticComparer<PropertyHolder<string>>(comparerMocks);
 
             var value = new PropertyHolder<string>();
             var other = new PropertyHolder<string>();
@@ -655,7 +655,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             var verified = false;
-            var comparerStubs = new[]
+            var comparerMocks = new[]
             {
                 new DelegatingMemberComparer(),
                 new DelegatingMemberComparer(),
@@ -665,7 +665,7 @@ namespace Ploeh.SemanticComparison.UnitTest
                 }
             };
 
-            var sut = new SemanticComparer<FieldHolder<string>>(comparerStubs);
+            var sut = new SemanticComparer<FieldHolder<string>>(comparerMocks);
 
             var value = new FieldHolder<string>();
             var other = new FieldHolder<string>();
@@ -682,7 +682,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             var expected = true;
-            var comparers = new[]
+            var comparerStubs = new[]
             {
                 new DelegatingMemberComparer
                 {
@@ -701,7 +701,7 @@ namespace Ploeh.SemanticComparison.UnitTest
                 }
             };
 
-            var sut = new SemanticComparer<PropertyHolder<string>>(comparers);
+            var sut = new SemanticComparer<PropertyHolder<string>>(comparerStubs);
 
             var value = new PropertyHolder<string>();
             var other = new PropertyHolder<string>();
@@ -718,7 +718,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             var expected = true;
-            var comparers = new[]
+            var comparerStubs = new[]
             {
                 new DelegatingMemberComparer
                 {
@@ -737,7 +737,7 @@ namespace Ploeh.SemanticComparison.UnitTest
                 }
             };
 
-            var sut = new SemanticComparer<FieldHolder<string>>(comparers);
+            var sut = new SemanticComparer<FieldHolder<string>>(comparerStubs);
 
             var value = new FieldHolder<string>();
             var other = new FieldHolder<string>();
@@ -759,7 +759,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             var other = new TypeWithDifferentParameterTypesAndProperties(
                 1, "ABC", 3, Guid.NewGuid());
 
-            var comparers = new[]
+            var comparerStubs = new[]
             {
                 new DelegatingMemberComparer
                 {
@@ -782,7 +782,7 @@ namespace Ploeh.SemanticComparison.UnitTest
                         StringComparer.OrdinalIgnoreCase.Equals(x, y)
                 }
             };
-            var sut = new SemanticComparer<TypeWithDifferentParameterTypesAndProperties>(comparers);
+            var sut = new SemanticComparer<TypeWithDifferentParameterTypesAndProperties>(comparerStubs);
             // Exercise system
             var result = sut.Equals(value, other);
             // Verify outcome
