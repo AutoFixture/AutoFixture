@@ -10,6 +10,8 @@ namespace Ploeh.SemanticComparison
     public class MemberComparer : IMemberComparer
     {
         private readonly IEqualityComparer comparer;
+        private readonly ISpecification<PropertyInfo> propertySpecification;
+        private readonly ISpecification<FieldInfo> fieldSpecification;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MemberComparer"/> 
@@ -20,11 +22,44 @@ namespace Ploeh.SemanticComparison
         /// The supplied <see cref="IEqualityComparer"/>.
         /// </param>
         public MemberComparer(IEqualityComparer comparer)
+            : this(
+                comparer,
+                new TrueSpecification<PropertyInfo>(),
+                new TrueSpecification<FieldInfo>())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MemberComparer" />
+        /// class with the supplied <see cref="IEqualityComparer" /> to support
+        /// the comparison of properties and fields.
+        /// </summary>
+        /// <param name="comparer">
+        /// The supplied <see cref="IEqualityComparer" />.
+        /// </param>
+        /// <param name="propertySpecification">
+        /// The supplied <see cref="ISpecification&lt;PropertyInfo&gt;" />.
+        /// </param>
+        /// <param name="fieldSpecification">
+        /// The supplied <see cref="ISpecification&lt;FieldInfo&gt;" />.
+        /// </param>
+        public MemberComparer(
+            IEqualityComparer comparer,
+            ISpecification<PropertyInfo> propertySpecification,
+            ISpecification<FieldInfo> fieldSpecification)
         {
             if (comparer == null)
                 throw new ArgumentNullException("comparer");
 
+            if (propertySpecification == null)
+                throw new ArgumentNullException("propertySpecification");
+
+            if (fieldSpecification == null)
+                throw new ArgumentNullException("fieldSpecification");
+
             this.comparer = comparer;
+            this.propertySpecification = propertySpecification;
+            this.fieldSpecification = fieldSpecification;
         }
 
         /// <summary>
@@ -38,6 +73,16 @@ namespace Ploeh.SemanticComparison
             get { return this.comparer; }
         }
 
+        public ISpecification<PropertyInfo> PropertySpecification
+        {
+            get { return this.propertySpecification; }
+        }
+
+        public ISpecification<FieldInfo> FieldSpecification
+        {
+            get { return this.fieldSpecification; }
+        }
+
         /// <summary>
         /// Evaluates a request for comparison of a property.
         /// </summary>
@@ -45,7 +90,7 @@ namespace Ploeh.SemanticComparison
         /// <returns><see langword="true"/>.</returns>
         public bool IsSatisfiedBy(PropertyInfo request)
         {
-            return true;
+            return this.propertySpecification.IsSatisfiedBy(request);
         }
 
         /// <summary>
@@ -55,7 +100,7 @@ namespace Ploeh.SemanticComparison
         /// <returns><see langword="true"/>.</returns>
         public bool IsSatisfiedBy(FieldInfo request)
         {
-            return true;
+            return this.fieldSpecification.IsSatisfiedBy(request);
         }
 
         /// <summary>
