@@ -31,17 +31,21 @@ namespace Ploeh.SemanticComparison
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MemberComparer" />
-        /// class with the supplied <see cref="IEqualityComparer" /> to support
-        /// the comparison of properties and fields.
+        /// class with the supplied <see cref="IEqualityComparer" />,
+        /// <see cref="ISpecification&lt;PropertyInfo&gt;" />, and
+        /// <see cref="ISpecification&lt;FieldInfo&gt;" /> to support the
+        /// comparison of properties and fields.
         /// </summary>
         /// <param name="comparer">
         /// The supplied <see cref="IEqualityComparer" />.
         /// </param>
         /// <param name="propertySpecification">
-        /// The supplied <see cref="ISpecification&lt;PropertyInfo&gt;" />.
+        /// The supplied specification used to control whether or not a property
+        /// should be compared.
         /// </param>
         /// <param name="fieldSpecification">
-        /// The supplied <see cref="ISpecification&lt;FieldInfo&gt;" />.
+        /// The supplied specification used to control whether or not a field 
+        /// should be compared.
         /// </param>
         public MemberComparer(
             IEqualityComparer comparer,
@@ -73,11 +77,27 @@ namespace Ploeh.SemanticComparison
             get { return this.comparer; }
         }
 
+        /// <summary>
+        /// Gets the supplied specification used to control whether or not a property
+        /// should be compared.
+        /// </summary>
+        /// <value>
+        /// The supplied specification used to control whether or not a property should
+        /// be compared.
+        /// </value>
         public ISpecification<PropertyInfo> PropertySpecification
         {
             get { return this.propertySpecification; }
         }
 
+        /// <summary>
+        /// Gets the supplied specification used to control whether or not a field
+        /// should be compared.
+        /// </summary>
+        /// <value>
+        /// The supplied specification used to control whether or not a field should
+        /// be compared.
+        /// </value>
         public ISpecification<FieldInfo> FieldSpecification
         {
             get { return this.fieldSpecification; }
