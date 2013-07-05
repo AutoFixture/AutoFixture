@@ -40,11 +40,11 @@ namespace Ploeh.SemanticComparison
         /// The supplied <see cref="IEqualityComparer" />.
         /// </param>
         /// <param name="propertySpecification">
-        /// The supplied specification used to control whether or not a property
+        /// The supplied Specification used to control whether or not a property
         /// should be compared.
         /// </param>
         /// <param name="fieldSpecification">
-        /// The supplied specification used to control whether or not a field 
+        /// The supplied Specification used to control whether or not a field 
         /// should be compared.
         /// </param>
         public MemberComparer(
@@ -78,11 +78,11 @@ namespace Ploeh.SemanticComparison
         }
 
         /// <summary>
-        /// Gets the supplied specification used to control whether or not a property
+        /// Gets the supplied Specification used to control whether or not a property
         /// should be compared.
         /// </summary>
         /// <value>
-        /// The supplied specification used to control whether or not a property should
+        /// The supplied Specification used to control whether or not a property should
         /// be compared.
         /// </value>
         public ISpecification<PropertyInfo> PropertySpecification
@@ -91,11 +91,11 @@ namespace Ploeh.SemanticComparison
         }
 
         /// <summary>
-        /// Gets the supplied specification used to control whether or not a field
+        /// Gets the supplied Specification used to control whether or not a field
         /// should be compared.
         /// </summary>
         /// <value>
-        /// The supplied specification used to control whether or not a field should
+        /// The supplied Specification used to control whether or not a field should
         /// be compared.
         /// </value>
         public ISpecification<FieldInfo> FieldSpecification
