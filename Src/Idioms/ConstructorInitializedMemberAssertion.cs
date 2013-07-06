@@ -88,6 +88,7 @@ namespace Ploeh.AutoFixture.Idioms
 
             this.Verify(type.GetConstructors());
             this.Verify(GetPublicReadOnlyProperties(type));
+            this.Verify(GetPublicReadWritePropertiesWithMatchingCtorArgument(type));
         }
 
         /// <summary>
@@ -233,6 +234,13 @@ namespace Ploeh.AutoFixture.Idioms
         {
             return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(p => p.CanRead && !p.CanWrite);
+        }
+
+        private IEnumerable<PropertyInfo> GetPublicReadWritePropertiesWithMatchingCtorArgument(Type type)
+        {
+            var allCtorParameters = type.GetConstructors().SelectMany(c => c.GetParameters());
+            return type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .Where(prop => allCtorParameters.Any(param => IsMatchingParameterAndMember(param, prop)));
         }
 
         private static IEnumerable<MemberInfo> GetPublicPropertiesAndFields(Type t)
