@@ -1501,23 +1501,6 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ComparersIsCorrectWhenInitializedWithDefaultConstructor()
-        {
-            // Fixture setup
-            var dummyValue = new TimeSpan();
-            var expected = new[]
-            {
-                new MemberComparer(new SemanticComparer<TimeSpan, TimeSpan>())
-            };
-            var sut = new Likeness<TimeSpan>(dummyValue);
-            // Exercise system
-            var result = sut.Comparers.Cast<MemberComparer>();
-            // Verify outcome
-            Assert.True(expected.SequenceEqual(result, new MemberComparerComparer()));
-            // Teardown
-        }
-
-        [Fact]
         public void InitializeWithNullArrayThrows()
         {
             // Fixture setup
@@ -1525,26 +1508,6 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new Likeness<object>(dummyValue, null));
-            // Teardown
-        }
-
-        [Fact]
-        public void ComparersIsCorrectWhenInitializedWithArray()
-        {
-            // Fixture setup
-            var dummyValue = new object();
-            var expected = new[]
-            {
-                new DelegatingMemberComparer(),
-                new DelegatingMemberComparer(),
-                new DelegatingMemberComparer()
-            };
-
-            var sut = new Likeness<object>(dummyValue, expected);
-            // Exercise system
-            var result = sut.Comparers;
-            // Verify outcome
-            Assert.True(expected.SequenceEqual(result));
             // Teardown
         }
 
@@ -1558,26 +1521,6 @@ namespace Ploeh.SemanticComparison.UnitTest
                 new Likeness<object>(
                     dummyValue, 
                     (IEnumerable<IMemberComparer>)null));
-            // Teardown
-        }
-
-        [Fact]
-        public void ComparersIsCorrectWhenInitializedWithEnumerable()
-        {
-            // Fixture setup
-            var dummyValue = new object();
-            var expected = new[]
-            {
-                new DelegatingMemberComparer(),
-                new DelegatingMemberComparer(),
-                new DelegatingMemberComparer()
-            }.ToList();
-
-            var sut = new Likeness<object>(dummyValue, expected);
-            // Exercise system
-            var result = sut.Comparers;
-            // Verify outcome
-            Assert.True(expected.SequenceEqual(result));
             // Teardown
         }
 

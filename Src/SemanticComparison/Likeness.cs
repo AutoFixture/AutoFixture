@@ -284,7 +284,6 @@ namespace Ploeh.SemanticComparison
     public class Likeness<T> : IEquatable<T>
     {
         private readonly T value;
-        private readonly IEnumerable<IMemberComparer> comparers;
         private readonly IEqualityComparer<T> comparer;
 
         /// <summary>
@@ -331,7 +330,6 @@ namespace Ploeh.SemanticComparison
                 throw new ArgumentNullException("comparers");
 
             this.value = value;
-            this.comparers = comparers;
             this.comparer = new SemanticComparer<T>(comparers);
         }
 
@@ -344,19 +342,6 @@ namespace Ploeh.SemanticComparison
         public T Value
         {
             get { return this.value; }
-        }
-
-        /// <summary>
-        /// Gets the supplied <see cref="IEnumerable&lt;IMemberComparer&gt;" /> 
-        /// instances.
-        /// </summary>
-        /// <value>
-        /// The supplied <see cref="IEnumerable&lt;IMemberComparer&gt;" />
-        /// instances.
-        /// </value>
-        public IEnumerable<IMemberComparer> Comparers
-        {
-            get { return this.comparers; }
         }
 
         /// <summary>
