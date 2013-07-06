@@ -72,6 +72,25 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         /// <summary>
+        /// Calls <see cref="Verify(ConstructorInfo)" />, and <see cref="Verify(PropertyInfo)" /> for each
+        /// constructor, and read-only property in <paramref name="type" />.
+        /// </summary>
+        /// <remarks>
+        /// Public fields and writeable properties are not assumed to be constructor-initialized by
+        /// default when calling this method on a type; those members are most commonly not initialized
+        /// with a value provided by a constructor.
+        /// </remarks>
+        /// <param name="type">The type.</param>
+        public override void Verify(Type type)
+        {
+            if (type == null)
+                throw new ArgumentNullException("type");
+
+            this.Verify(type.GetConstructors());
+            this.Verify(GetPublicReadOnlyProperties(type));
+        }
+
+        /// <summary>
         /// Verifies that a property is correctly initialized by the constructor.
         /// </summary>
         /// <param name="propertyInfo">The property.</param>
@@ -208,6 +227,12 @@ namespace Ploeh.AutoFixture.Idioms
                 return c => c.GetParameters().Any(IsMatchingParameter(memberInfo as PropertyInfo));
 
             throw new ArgumentOutOfRangeException("memberInfo", "must be a property or a field");
+        }
+
+        private static IEnumerable<PropertyInfo> GetPublicReadOnlyProperties(Type type)
+        {
+            return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(p => p.CanRead && !p.CanWrite);
         }
 
         private static IEnumerable<MemberInfo> GetPublicPropertiesAndFields(Type t)

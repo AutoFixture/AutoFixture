@@ -324,6 +324,33 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void VerifyTypeWithNonInitializedWritablePropertyDoesNotThrow()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var typeToVerify = typeof(PropertyHolder<ComplexType>);
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(typeToVerify));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyTypeWithPropertyIllBehavedConstructorThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var typeToVerify = typeof(ReadOnlyPropertiesInitializedViaConstructor<int, string>);
+            // Exercise system and verify outcome
+            var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(typeToVerify));
+            var expectedFailingConstructor = typeToVerify.GetConstructor(new[] { typeof(int), typeof(string), typeof(TriState) });
+            var expectedFailingParameter = expectedFailingConstructor.GetParameters().Single(p => p.Name == "noMatchingProperty");
+            AssertExceptionPropertiesEqual(e, expectedFailingConstructor, expectedFailingParameter);
+            // Teardown
+        }
+
         static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, ConstructorInfo ctor, ParameterInfo param)
         {
             Assert.Equal(param, ex.MissingParameter);
