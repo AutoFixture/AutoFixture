@@ -325,7 +325,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyTypeWithNonInitializedWritablePropertyDoesNotThrow()
+        public void VerifyTypeWithPublicWritablePropertyAndNoMatchingConstructorArgumentDoesNotThrow()
         {
             // Fixture setup
             var dummyComposer = new Fixture();
@@ -337,7 +337,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyTypeWithPropertyIllBehavedConstructorThrows()
+        public void VerifyTypeWithReadOnlyPropertyAndIllBehavedConstructorThrows()
         {
             // Fixture setup
             var dummyComposer = new Fixture();
@@ -348,6 +348,20 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var expectedFailingConstructor = typeToVerify.GetConstructor(new[] { typeof(int), typeof(string), typeof(TriState) });
             var expectedFailingParameter = expectedFailingConstructor.GetParameters().Single(p => p.Name == "noMatchingProperty");
             AssertExceptionPropertiesEqual(e, expectedFailingConstructor, expectedFailingParameter);
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyTypeWithWritablePropertyAndMatchingIllBehavedConstructorArgumentThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var typeToVerify = typeof(WritablePropertyAndIllBehavedConstructor);
+            // Exercise system and verify outcome
+            var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(typeToVerify));
+            var expectedFailingProperty = typeToVerify.GetProperties().Single();
+            AssertExceptionPropertiesEqual(e, expectedFailingProperty);
             // Teardown
         }
 
@@ -376,6 +390,15 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(fi, ex.MemberInfo);
             Assert.Equal(fi, ex.FieldInfo);
             Assert.Equal(null, ex.PropertyInfo);
+        }
+
+        class WritablePropertyAndIllBehavedConstructor
+        {
+            public WritablePropertyAndIllBehavedConstructor(int property)
+            {
+            }
+
+            public int Property { get; set; }
         }
 
         class WriteOnlyPropertyHolder<T>
@@ -416,7 +439,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             public string Name { get; set;  }
         }
 
-        public class PropertyIsAssignableFromConstructorArgumentType
+        class PropertyIsAssignableFromConstructorArgumentType
         {
             private readonly IEnumerable<string> bribbets;
 
