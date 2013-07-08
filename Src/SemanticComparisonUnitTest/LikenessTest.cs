@@ -2,6 +2,7 @@
 using Ploeh.SemanticComparison.UnitTest.TestTypes;
 using Ploeh.TestTypeFoundation;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -1483,66 +1484,15 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void LikenessValueIsCorrectWhenInitializedWithArray()
-        {
-            // Fixture setup
-            var expected = new ConcreteType();
-            var dummyComparers = new[]
-            {
-                new DelegatingMemberComparer(),
-                new DelegatingMemberComparer(),
-                new DelegatingMemberComparer()
-            };
-
-            var sut = new Likeness<ConcreteType>(expected, dummyComparers);
-            // Exercise system
-            var result = sut.Value;
-            // Verify outcome
-            Assert.Equal(expected, result);
-            // Teardown
-        }
-
-        [Fact]
-        public void LikenessValueIsCorrectWhenInitializedWithEnumerable()
-        {
-            // Fixture setup
-            var expected = new ConcreteType();
-            var dummyComparers = new[]
-            {
-                new DelegatingMemberComparer(),
-                new DelegatingMemberComparer(),
-                new DelegatingMemberComparer()
-            }.ToList();
-
-            var sut = new Likeness<ConcreteType>(expected, dummyComparers);
-            // Exercise system
-            var result = sut.Value;
-            // Verify outcome
-            Assert.Equal(expected, result);
-            // Teardown
-        }
-
-        [Fact]
-        public void InitializeWithNullArrayThrows()
-        {
-            // Fixture setup
-            var dummyValue = new object();
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                new Likeness<object>(dummyValue, null));
-            // Teardown
-        }
-
-        [Fact]
-        public void InitializeWithNullEnumerableThrows()
+        public void InitializeWithNullComparerThrows()
         {
             // Fixture setup
             var dummyValue = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new Likeness<object>(
-                    dummyValue, 
-                    (IEnumerable<IMemberComparer>)null));
+                    dummyValue,
+                    (IEqualityComparer<object>)null));
             // Teardown
         }
 
@@ -1834,6 +1784,28 @@ namespace Ploeh.SemanticComparison.UnitTest
             bool result = sut.Equals(comparee);
             // Verify outcome
             Assert.False(result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(123, 123, true)]
+        [InlineData(456, 123, false)]
+        public void LikenessEqualsForwardsCorrectCallToComparer(
+            int value,
+            int other,
+            bool expected)
+        {
+            // Fixture setup
+            var comparerStub = new DelegatingEqualityComparer<int>
+            {
+                OnEquals = (x, y) => x.Equals(y)
+            };
+
+            var sut = new Likeness<int>(value, comparerStub);
+            // Exercise system
+            var result = sut.Equals(other);
+            // Verify outcome
+            Assert.Equal(expected, result);
             // Teardown
         }
 

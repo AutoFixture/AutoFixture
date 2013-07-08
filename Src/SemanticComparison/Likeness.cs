@@ -293,22 +293,7 @@ namespace Ploeh.SemanticComparison
         /// <param name="value">The value which will be compared for equality.
         /// </param>
         public Likeness(T value)
-            : this(value, new MemberComparer(new SemanticComparer<T, T>()))
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Likeness&lt;T&gt;"/> 
-        /// class with the supplied value.
-        /// </summary>
-        /// <param name="value">The value which will be compared for equality.
-        /// </param>
-        /// <param name="comparers">
-        /// The supplied <see cref="IEnumerable&lt;IMemberComparer&gt;" /> 
-        /// instances.
-        /// </param>
-        public Likeness(T value, IEnumerable<IMemberComparer> comparers)
-            : this(value, comparers.ToArray())
+            : this(value, new SemanticComparer<T>())
         {
         }
 
@@ -324,13 +309,13 @@ namespace Ploeh.SemanticComparison
         /// <exception cref="System.ArgumentNullException">
         /// comparers is null
         /// </exception>
-        public Likeness(T value, params IMemberComparer[] comparers)
+        public Likeness(T value, IEqualityComparer<T> comparer)
         {
-            if (comparers == null)
-                throw new ArgumentNullException("comparers");
+            if (comparer == null)
+                throw new ArgumentNullException("comparer");
 
             this.value = value;
-            this.comparer = new SemanticComparer<T>(comparers);
+            this.comparer = comparer;
         }
 
         /// <summary>
