@@ -105,6 +105,7 @@
     <Compile Include="Kernel\OmitEnumerableParameterRequestRelay.cs" />
     <Compile Include="Kernel\TerminatingWithPathSpecimenBuilder.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecification.cs" />
+    <Compile Include="Kernel\PropertyNameSpecification.cs" />
     <Compile Include="MapCreateManyToEnumerable.cs" />
     <Compile Include="Kernel\MultipleToEnumerableRelay.cs" />
     <Compile Include="Kernel\NoConstructorsSpecification.cs" />
