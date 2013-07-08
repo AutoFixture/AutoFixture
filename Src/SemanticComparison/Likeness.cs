@@ -303,12 +303,9 @@ namespace Ploeh.SemanticComparison
         /// </summary>
         /// <param name="value">The value which will be compared for equality.
         /// </param>
-        /// <param name="comparers">
-        /// The supplied array of <see cref="IMemberComparer" /> instances.
+        /// <param name="comparer">
+        /// The comparer to support the comparison of objects for equality.
         /// </param>
-        /// <exception cref="System.ArgumentNullException">
-        /// comparers is null
-        /// </exception>
         public Likeness(T value, IEqualityComparer<T> comparer)
         {
             if (comparer == null)
