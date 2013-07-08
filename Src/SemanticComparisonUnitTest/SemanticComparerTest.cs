@@ -474,6 +474,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Theory]
+        [InlineData(typeof(object), typeof(IEqualityComparer))]
         [InlineData(typeof(object), typeof(IEqualityComparer<object>))]
         [InlineData(typeof(string), typeof(IEqualityComparer<string>))]
         public void SutIsAssignableFromCorrectType(
@@ -573,9 +574,9 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Fixture setup
             var sut = new SemanticComparer<string>();
             // Exercise system
-            var result = sut.Equals(x, y);
+            var result = BothEquals(sut, x, y);
             // Verify outcome
-            Assert.Equal(expected, result);
+            Assert.Equal(expected, result.All(b => b));
             // Teardown
         }
 
@@ -609,9 +610,9 @@ namespace Ploeh.SemanticComparison.UnitTest
             var other = new PropertyHolder<string>();
 
             // Exercise system
-            var result = sut.Equals(value, other);
+            var result = BothEquals(sut, value, other);
             // Verify outcome
-            Assert.Equal(expected, result);
+            Assert.Equal(expected, result.All(b => b));
             // Teardown
         }
 
@@ -645,9 +646,9 @@ namespace Ploeh.SemanticComparison.UnitTest
             var other = new FieldHolder<string>();
 
             // Exercise system
-            var result = sut.Equals(value, other);
+            var result = BothEquals(sut, value, other);
             // Verify outcome
-            Assert.Equal(expected, result);
+            Assert.Equal(expected, result.All(b => b));
             // Teardown
         }
 
@@ -686,9 +687,9 @@ namespace Ploeh.SemanticComparison.UnitTest
             };
             var sut = new SemanticComparer<TypeWithDifferentParameterTypesAndProperties>(comparerStubs);
             // Exercise system
-            var result = sut.Equals(value, other);
+            var result = BothEquals(sut, value, other);
             // Verify outcome
-            Assert.True(result);
+            Assert.True(result.All(b => b));
             // Teardown
         }
 
@@ -728,9 +729,9 @@ namespace Ploeh.SemanticComparison.UnitTest
             };
             var sut = new SemanticComparer<ComplexClass>(comparerStubs);
             // Exercise system
-            var result = sut.Equals(value, other);
+            var result = BothEquals(sut, value, other);
             // Verify outcome
-            Assert.Equal(expected, result);
+            Assert.Equal(expected, result.All(b => b));
             // Teardown
         }
         
@@ -743,6 +744,12 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
+        }
+
+        private static IEnumerable<bool> BothEquals<T>(SemanticComparer<T> sut, T x, T y)
+        {
+            yield return sut.Equals(x, y);
+            yield return ((IEqualityComparer)sut).Equals(x, y);
         }
 
         private class MemberComparerComparer : IEqualityComparer<MemberComparer>

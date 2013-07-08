@@ -172,7 +172,7 @@ namespace Ploeh.SemanticComparison
     /// This class is a boolean 'And' Composite over <see cref="IMemberComparer"/>
     /// instances.
     /// </remarks>
-    public class SemanticComparer<T> : IEqualityComparer<T>
+    public class SemanticComparer<T> : IEqualityComparer<T>, IEqualityComparer
     {
         private readonly IEnumerable<IMemberComparer> comparers;
 
@@ -277,6 +277,35 @@ namespace Ploeh.SemanticComparison
         /// algorithms and data structures like a hash table. 
         /// </returns>
         public int GetHashCode(T obj)
+        {
+            return 0;
+        }
+
+        /// <summary>
+        /// Determines whether the specified objects are equal.
+        /// </summary>
+        /// <param name="x">The first object to compare.</param>
+        /// <param name="y">The second object to compare.</param>
+        /// <returns>
+        /// true if the specified objects are equal; otherwise, false.
+        /// </returns>
+        bool IEqualityComparer.Equals(object x, object y)
+        {
+            if (x == null && y == null)
+                return true;
+
+            return (x is T && y is T) ? this.Equals((T)x, (T)y) : false;
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <param name="obj">The obj.</param>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing
+        /// algorithms and data structures like a hash table. 
+        /// </returns>
+        int IEqualityComparer.GetHashCode(object obj)
         {
             return 0;
         }
