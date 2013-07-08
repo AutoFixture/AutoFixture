@@ -190,23 +190,6 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
-        [Fact]
-        public void EqualsUsesInjectedComparer()
-        {
-            // Fixture setup
-            var verified = false;
-            var comparerMock = new DelegatingEqualityComparer
-            {
-                OnEquals = (x, y) => verified = true
-            };
-            var sut = new MemberComparer(comparerMock);
-            // Exercise system
-            sut.Equals("dummy", "dummy");
-            // Verify outcome
-            Assert.True(verified);
-            // Teardown
-        }
-
         [Theory]
         [InlineData(123, 123, true)]
         [InlineData(123, 321, false)]
