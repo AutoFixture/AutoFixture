@@ -109,6 +109,7 @@
     <Compile Include="Kernel\TerminatingWithPathSpecimenBuilderTest.cs" />
     <Compile Include="Kernel\TypeArgumentsCannotBeInferredExceptionTests.cs" />
     <Compile Include="LazyRelayTest.cs" />
+    <Compile Include="Kernel\PropertyNameSpecificationTest.cs" />
     <Compile Include="MapCreateManyToEnumerableTests.cs" />
     <Compile Include="Kernel\MultipleToEnumerableRelayTests.cs" />
     <Compile Include="Kernel\NoConstructorsSpecificationTest.cs" />
