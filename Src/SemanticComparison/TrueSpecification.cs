@@ -8,11 +8,11 @@ namespace Ploeh.SemanticComparison
     public class TrueSpecification<T> : ISpecification<T>
     {
         /// <summary>
-        /// Determines whether the request is satisfied by the Specification.
+        /// Determines whether a candidate is satisfied by the Specification.
         /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns><see langword="true"/></returns>
-        public bool IsSatisfiedBy(T request)
+        /// <param name="candidate">The candidate.</param>
+        /// <returns><see langword="true" /></returns>
+        public bool IsSatisfiedBy(T candidate)
         {
             return true;
         }

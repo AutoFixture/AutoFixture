@@ -1,19 +1,19 @@
 ﻿namespace Ploeh.SemanticComparison
 {
     /// <summary>
-    /// A Specification that evaluates requests.
+    /// A Specification that evaluates candidates.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of candidate to evaluate.</typeparam>
     public interface ISpecification<T>
     {
         /// <summary>
-        /// Determines whether the request is satisfied by the Specification.
+        /// Determines whether the candidate is satisfied by the Specification.
         /// </summary>
-        /// <param name="request">The request.</param>
+        /// <param name="candidate">The request.</param>
         /// <returns>
-        ///   <c>true</c> if the request is satisfied by the Specification;
-        ///   otherwise, <c>false</c>.
+        /// <see langword="true" /> if the candidate is satisfied by the
+        /// Specification; otherwise, <see langword="false" />.
         /// </returns>
-        bool IsSatisfiedBy(T request);
+        bool IsSatisfiedBy(T candidate);
     }
 }
