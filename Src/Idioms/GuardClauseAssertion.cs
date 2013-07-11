@@ -195,12 +195,16 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
                 this.command.Execute(value);
             }
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "jonskeet", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "msmvps", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
             public Exception CreateException(string value)
             {
                 var e = this.command.CreateException(value);
                 return new GuardClauseException(message, e);
             }
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "jonskeet", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "msmvps", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
             public Exception CreateException(string value, Exception innerException)
             {
                 var e = this.command.CreateException(value, innerException);
