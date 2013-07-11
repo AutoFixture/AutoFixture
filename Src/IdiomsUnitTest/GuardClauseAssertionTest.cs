@@ -441,5 +441,51 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 return this.GetEnumerator();
             }
         }
+
+
+
+        [Theory]
+        [InlineData(typeof(ClassWithDeferredNullGuard))]
+        [InlineData(typeof(ClassWithDeferredGuidGuard))]
+        public void VerifyMethodWithDeferredGuardThrowsExceptionWithExtraHelpfulMessage(
+            Type type)
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            var method = type.GetMethod("GetValues");
+            // Exercise system and verify outcome
+            var e =
+                Assert.Throws<GuardClauseException>(() => sut.Verify(method));
+            Assert.Contains("deferred", e.Message);
+            // Teardown
+        }
+
+        private class ClassWithDeferredNullGuard
+        {
+            public IEnumerable<string> GetValues(string someString)
+            {
+                if (someString == null)
+                    throw new ArgumentNullException("someString");
+
+                yield return someString;
+                yield return someString;
+                yield return someString;
+            }
+        }
+
+        private class ClassWithDeferredGuidGuard
+        {
+            public IEnumerable<Guid> GetValues(Guid someGuid)
+            {
+                if (someGuid == null)
+                    throw new ArgumentException(
+                        "Guid.Empty not allowed.",
+                        "someGuid");
+
+                yield return someGuid;
+                yield return someGuid;
+                yield return someGuid;
+            }
+        }
     }
 }

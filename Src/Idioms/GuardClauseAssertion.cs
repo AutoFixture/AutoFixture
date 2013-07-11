@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// </remarks>
         public GuardClauseAssertion(ISpecimenBuilder builder)
             : this(builder, new CompositeBehaviorExpectation(
-                new NullReferenceBehaviorExpectation(), 
+                new NullReferenceBehaviorExpectation(),
                 new EmptyGuidBehaviorExpectation()))
         {
         }
@@ -90,7 +90,7 @@ namespace Ploeh.AutoFixture.Idioms
         public override void Verify(ConstructorInfo constructorInfo)
         {
             var method = new ConstructorMethod(constructorInfo);
-            this.Verify(method);
+            this.Verify(method, false);
         }
 
         /// <summary>
@@ -113,7 +113,9 @@ namespace Ploeh.AutoFixture.Idioms
 
             var owner = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
             var method = new InstanceMethod(methodInfo, owner);
-            this.Verify(method);
+            this.Verify(
+                method,
+                typeof(System.Collections.IEnumerable).IsAssignableFrom(methodInfo.ReturnType));
         }
 
         /// <summary>
@@ -140,7 +142,7 @@ namespace Ploeh.AutoFixture.Idioms
             this.BehaviorExpectation.Verify(unwrapper);
         }
 
-        private void Verify(IMethod method)
+        private void Verify(IMethod method, bool isReturnValueIterator)
         {
             var parameters = (from pi in method.Parameters
                               select this.Builder.CreateAnonymous(GuardClauseAssertion.GetParameterType(pi))).ToList();
@@ -152,7 +154,13 @@ namespace Ploeh.AutoFixture.Idioms
 
                 var command = new MethodInvokeCommand(method, expansion, pi);
                 var unwrapper = new ReflectionExceptionUnwrappingCommand(command);
-                this.BehaviorExpectation.Verify(unwrapper);
+                if (isReturnValueIterator)
+                {
+                    var iteratorDecorator = new IteratorMethodInvokeCommand(unwrapper);
+                    this.behaviorExpectation.Verify(iteratorDecorator);
+                }
+                else
+                    this.BehaviorExpectation.Verify(unwrapper);
             }
         }
 
@@ -161,5 +169,41 @@ namespace Ploeh.AutoFixture.Idioms
             var pType = pi.ParameterType;
             return pType.IsByRef ? pType.GetElementType() : pi.ParameterType;
         }
+
+        private class IteratorMethodInvokeCommand : IGuardClauseCommand
+        {
+            private const string message = @"A Guard Clause test was performed on a method that may contain a deferred iterator block, but the test failed. See the inner exception for more details. However, because of the deferred nature of the iterator block, this test failure may look like a false positive. Perhaps you already have a Guard Clause in place, but in conjunction with the 'yield' keyword (if you're using C#); if this is the case, the Guard Clause is dormant, and will first be triggered when a client starts looping over the iterator. This doesn't adhere to the Fail Fast principle, so should be addressed.
+See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-blocks-and-parameter-checking.aspx for more details.";
+
+            private readonly IGuardClauseCommand command;
+
+            public IteratorMethodInvokeCommand(IGuardClauseCommand command)
+            {
+                this.command = command;
+            }
+
+            public Type RequestedType
+            {
+                get { return this.command.RequestedType; }
+            }
+
+            public void Execute(object value)
+            {
+                this.command.Execute(value);
+            }
+
+            public Exception CreateException(string value)
+            {
+                var e = this.command.CreateException(value);
+                return new GuardClauseException(message, e);
+            }
+
+            public Exception CreateException(string value, Exception innerException)
+            {
+                var e = this.command.CreateException(value, innerException);
+                return new GuardClauseException(message, e);
+            }
+        }
+
     }
 }
