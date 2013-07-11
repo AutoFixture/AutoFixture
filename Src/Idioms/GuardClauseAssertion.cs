@@ -113,9 +113,12 @@ namespace Ploeh.AutoFixture.Idioms
 
             var owner = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
             var method = new InstanceMethod(methodInfo, owner);
-            this.Verify(
-                method,
-                typeof(System.Collections.IEnumerable).IsAssignableFrom(methodInfo.ReturnType));
+
+            var isReturnValueIterator =
+                typeof(System.Collections.IEnumerable).IsAssignableFrom(methodInfo.ReturnType) ||
+                typeof(System.Collections.IEnumerator).IsAssignableFrom(methodInfo.ReturnType);
+
+            this.Verify(method, isReturnValueIterator);
         }
 
         /// <summary>

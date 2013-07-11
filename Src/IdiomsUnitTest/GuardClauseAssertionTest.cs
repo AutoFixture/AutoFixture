@@ -442,11 +442,10 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             }
         }
 
-
-
         [Theory]
         [InlineData(typeof(ClassWithDeferredNullGuard))]
         [InlineData(typeof(ClassWithDeferredGuidGuard))]
+        [InlineData(typeof(ClassWithDeferredGuidGuardReturningEnumerator))]
         public void VerifyMethodWithDeferredGuardThrowsExceptionWithExtraHelpfulMessage(
             Type type)
         {
@@ -476,6 +475,21 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         private class ClassWithDeferredGuidGuard
         {
             public IEnumerable<Guid> GetValues(Guid someGuid)
+            {
+                if (someGuid == null)
+                    throw new ArgumentException(
+                        "Guid.Empty not allowed.",
+                        "someGuid");
+
+                yield return someGuid;
+                yield return someGuid;
+                yield return someGuid;
+            }
+        }
+
+        private class ClassWithDeferredGuidGuardReturningEnumerator
+        {
+            public IEnumerator<Guid> GetValues(Guid someGuid)
             {
                 if (someGuid == null)
                     throw new ArgumentException(
