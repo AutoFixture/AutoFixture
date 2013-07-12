@@ -311,7 +311,7 @@ namespace Ploeh.SemanticComparison
         }
     }
 
-    public class SemanticComparer : IMemberComparer
+    public class SemanticComparer : IMemberComparer, IEqualityComparer<object>
     {
         public bool IsSatisfiedBy(PropertyInfo request)
         {

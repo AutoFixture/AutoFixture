@@ -744,6 +744,16 @@ namespace Ploeh.SemanticComparison.UnitTest
             Assert.IsAssignableFrom<IMemberComparer>(sut);
             // Teardown
         }
+
+        [Fact]
+        public void SutIsEqualityComparerOfObject()
+        {
+            // Fixture setup
+            var sut = new SemanticComparer();
+            // Exercise system and verify outcome
+            Assert.IsAssignableFrom<IEqualityComparer<object>>(sut);
+            // Teardown
+        }
         
         private static void CompareSemantically<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
