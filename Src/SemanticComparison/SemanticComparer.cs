@@ -310,4 +310,27 @@ namespace Ploeh.SemanticComparison
             return 0;
         }
     }
+
+    public class SemanticComparer : IMemberComparer
+    {
+        public bool IsSatisfiedBy(PropertyInfo request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsSatisfiedBy(FieldInfo request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public new bool Equals(object x, object y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetHashCode(object obj)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
