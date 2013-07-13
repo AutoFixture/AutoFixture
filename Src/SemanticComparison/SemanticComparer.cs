@@ -323,6 +323,17 @@ namespace Ploeh.SemanticComparison
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object" /> is 
+        /// equal to this instance.
+        /// </summary>
+        /// <param name="x">The <see cref="System.Object" /> to compare with
+        /// this instance.</param>
+        /// <param name="y">The y.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object" /> is 
+        ///   equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
         public new bool Equals(object x, object y)
         {
             if (x == null && y == null)
