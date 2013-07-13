@@ -311,6 +311,11 @@ namespace Ploeh.SemanticComparison
         }
     }
 
+    /// <summary>
+    /// Provides a class which implements the <see cref="IEqualityComparer&lt;object&gt;"/>
+    /// interface for convention-based object equality comparison for use when 
+    /// comparing two semantically equivalent objects.
+    /// </summary>
     public class SemanticComparer : IMemberComparer, IEqualityComparer<object>
     {
         public bool IsSatisfiedBy(PropertyInfo request)
