@@ -72,26 +72,6 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         /// <summary>
-        /// Calls <see cref="Verify(ConstructorInfo)" />, and <see cref="Verify(PropertyInfo)" /> for each
-        /// constructor, and read-only property in <paramref name="type" />.
-        /// </summary>
-        /// <remarks>
-        /// Public fields and writeable properties are not assumed to be constructor-initialized by
-        /// default when calling this method on a type; those members are most commonly not initialized
-        /// with a value provided by a constructor.
-        /// </remarks>
-        /// <param name="type">The type.</param>
-        public override void Verify(Type type)
-        {
-            if (type == null)
-                throw new ArgumentNullException("type");
-
-            this.Verify(type.GetConstructors());
-            this.Verify(GetPublicReadOnlyProperties(type));
-            this.Verify(GetPublicReadWritePropertiesWithMatchingCtorArgument(type));
-        }
-
-        /// <summary>
         /// Verifies that a property is correctly initialized by the constructor.
         /// </summary>
         /// <param name="propertyInfo">The property.</param>
@@ -100,11 +80,11 @@ namespace Ploeh.AutoFixture.Idioms
         /// This method verifies that the <paramref name="propertyInfo" /> is correctly initialized with
         /// the value given to the same-named constructor paramter. It uses the <see cref="Builder" /> to
         /// supply values to the constructor(s) of the Type on which the field is implemented, and then
-        /// reads from the field. The assertion passes if the value read from the field is the same as
+        /// reads from the field. The assertion passes if the value read from the property is the same as
         /// the value passed to the constructor. If more than one constructor has an argument with the
-        /// same name and type, all constructors are checked. If any constructor does not initialise
-        /// the field with the correct value, a <see cref="ConstructorInitializedMemberException" /> 
-        /// is thrown.
+        /// same name and type, all constructors are checked. If any constructor (with a matching argument)
+        /// does not initialise the property with the correct value, a 
+        /// <see cref="ConstructorInitializedMemberException" /> is thrown.
         /// </para>
         /// </remarks>
         /// <exception cref="WritablePropertyException">The verification fails.</exception>
@@ -115,10 +95,18 @@ namespace Ploeh.AutoFixture.Idioms
 
             var expected = this.builder.CreateAnonymous(propertyInfo);
             var matchingConstructors = GetConstructorsWithInitializerForMember(propertyInfo).ToArray();
+            
             if (!matchingConstructors.Any())
             {
-                throw new ConstructorInitializedMemberException(propertyInfo, string.Format(CultureInfo.CurrentCulture,
-                    "No constructors with an argument that matches {0} were found", propertyInfo.Name));
+                if (IsMemberThatRequiresConstructorInitialization(propertyInfo))
+                {
+                    throw new ConstructorInitializedMemberException(propertyInfo, string.Format(CultureInfo.CurrentCulture,
+                        "No constructors with an argument that matches the read-only property '{0}' were found", propertyInfo.Name));
+                }
+
+                // For writable properties or fields, having no constructor parameter that initializes
+                // the member is perfectly fine.
+                return;
             }
 
             if (matchingConstructors.Select(ci =>
@@ -157,8 +145,15 @@ namespace Ploeh.AutoFixture.Idioms
             var matchingConstructors = GetConstructorsWithInitializerForMember(fieldInfo).ToArray();
             if (!matchingConstructors.Any())
             {
-                throw new ConstructorInitializedMemberException(fieldInfo, string.Format(CultureInfo.CurrentCulture,
-                    "No constructors with an argument that matches {0} were found", fieldInfo.Name));
+                if (IsMemberThatRequiresConstructorInitialization(fieldInfo))
+                {
+                    throw new ConstructorInitializedMemberException(fieldInfo, string.Format(CultureInfo.CurrentCulture,
+                        "No constructors with an argument that matches the read-only field '{0}' were found", fieldInfo.Name));
+                }
+
+                // For writable properties or fields, having no constructor parameter that initializes
+                // the member is perfectly fine.
+                return;
             }
 
             if (matchingConstructors.Select(ci =>
@@ -230,23 +225,33 @@ namespace Ploeh.AutoFixture.Idioms
             throw new ArgumentOutOfRangeException("memberInfo", "must be a property or a field");
         }
 
-        private static IEnumerable<PropertyInfo> GetPublicReadOnlyProperties(Type type)
-        {
-            return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(p => p.CanRead && !p.CanWrite);
-        }
-
-        private IEnumerable<PropertyInfo> GetPublicReadWritePropertiesWithMatchingCtorArgument(Type type)
-        {
-            var allCtorParameters = type.GetConstructors().SelectMany(c => c.GetParameters());
-            return type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(prop => allCtorParameters.Any(param => IsMatchingParameterAndMember(param, prop)));
-        }
-
         private static IEnumerable<MemberInfo> GetPublicPropertiesAndFields(Type t)
         {
             return t.GetMembers(BindingFlags.Instance | BindingFlags.Public)
                 .Where(m => m.MemberType.HasFlag(MemberTypes.Field) || m.MemberType.HasFlag(MemberTypes.Property));
         }
+
+        private static bool IsMemberThatRequiresConstructorInitialization(MemberInfo member)
+        {
+            var memberAsPropertyInfo = member as PropertyInfo;
+            if (memberAsPropertyInfo != null)
+            {
+                MethodInfo setterMethod = memberAsPropertyInfo.GetSetMethod();
+                bool isReadOnly = memberAsPropertyInfo.CanRead &&
+                    (setterMethod == null || setterMethod.IsPrivate || setterMethod.IsFamilyOrAssembly || setterMethod.IsFamilyAndAssembly);
+
+                return isReadOnly;
+            }
+
+            var memberAsFieldInfo = member as FieldInfo;
+            if (memberAsFieldInfo != null)
+            {
+                bool isReadOnly = memberAsFieldInfo.Attributes.HasFlag(FieldAttributes.InitOnly);
+                return isReadOnly;
+            }
+
+            return false;
+        }
+
     }
 }

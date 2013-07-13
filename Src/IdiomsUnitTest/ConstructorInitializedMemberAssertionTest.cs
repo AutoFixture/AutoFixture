@@ -62,6 +62,18 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
+        public void VerifyNullFieldThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Verify((FieldInfo)null));
+            // Teardown
+        }
+
+        [Fact]
         public void VerifyNullConstructorInfoThrows()
         {
             // Fixture setup
@@ -88,12 +100,38 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyWritablePropertyWithNoMatchingConstructorThrows()
+        public void VerifyWritablePropertyWithNoMatchingConstructorDoesNotThrow()
         {
             // Fixture setup
             var composer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(composer);
             var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.Verify(propertyInfo));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyWritableFieldWithNoMatchingConstructorDoesNotThrow()
+        {
+            // Fixture setup
+            var composer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(composer);
+            var propertyInfo = typeof(FieldHolder<object>).GetField("Field");
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.Verify(propertyInfo));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyReadOnlyPropertyWithPrivateSetterAndNoMatchingConstructorThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var propertyInfo = typeof(ReadOnlyPropertyHolder<int>).GetProperty("Property");
             // Exercise system and verify outcome
             var e = Assert.Throws<ConstructorInitializedMemberException>(() =>
                 sut.Verify(propertyInfo));
@@ -102,19 +140,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyReadOnlyPropertyWithNoMatchingConstructorThrows()
+        public void VerifyReadOnlyPropertyWithNoSetterAndNoMatchingConstructorThrows()
         {
             // Fixture setup
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var propertyInfo = typeof(ReadOnlyPropertyHolder<object>).GetProperty("Property");
+            var propertyInfo = typeof(ReadOnlyPropertyWithNoSetterHolder<int>).GetProperty("Property");
             // Exercise system and verify outcome
             var e = Assert.Throws<ConstructorInitializedMemberException>(() =>
                 sut.Verify(propertyInfo));
             AssertExceptionPropertiesEqual(e, propertyInfo);
             // Teardown
         }
-        
+
         [Fact]
         public void VerifyWellBehavedReadOnlyPropertyInitializedViaConstructorDoesNotThrow()
         {
@@ -128,7 +166,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyIllBehavedReadOnlyPropertiesInitializedViaConstructorThrows()
+        public void VerifyIllBehavedPropertiesInitializedViaConstructorThrows()
         {
             // Fixture setup
             var dummyComposer = new Fixture();
@@ -390,6 +428,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(fi, ex.MemberInfo);
             Assert.Equal(fi, ex.FieldInfo);
             Assert.Equal(null, ex.PropertyInfo);
+        }
+
+        class ReadOnlyPropertyWithNoSetterHolder<T>
+        {
+            public T Property { get { return default(T); } }
         }
 
         class WritablePropertyAndIllBehavedConstructor
