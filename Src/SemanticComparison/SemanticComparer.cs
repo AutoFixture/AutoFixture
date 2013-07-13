@@ -353,11 +353,13 @@ namespace Ploeh.SemanticComparison
         /// </summary>
         /// <param name="obj">The obj.</param>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures 
+        /// A hash code for this instance, suitable for use in hashing 
+        /// algorithms and data structures 
         /// like a hash table. 
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.
+        /// The type of <paramref name="obj"/> is a reference type and
+        /// <paramref name="obj"/> is null.
         ///   </exception>
         public int GetHashCode(object obj)
         {
@@ -365,14 +367,18 @@ namespace Ploeh.SemanticComparison
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// Determines whether the specified <see cref="System.Object"/> is 
+        /// equal to this instance.
         /// </summary>
-        /// <param name="x">The source value (against which the destination value will be compared for
+        /// <param name="x">The source value (against which the destination 
+        /// value will be compared for
         /// equality).</param>
-        /// <param name="y">The destination value which will be compared for equality against the 
+        /// <param name="y">The destination value which will be compared for 
+        /// equality against the 
         /// source value.</param>
         /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; 
+        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal
+        ///   to this instance; 
         ///   otherwise, <c>false</c>.
         /// </returns>
         bool IEqualityComparer.Equals(object x, object y)
@@ -385,11 +391,13 @@ namespace Ploeh.SemanticComparison
         /// </summary>
         /// <param name="obj">The obj.</param>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures 
+        /// A hash code for this instance, suitable for use in hashing 
+        /// algorithms and data structures 
         /// like a hash table. 
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.
+        /// The type of <paramref name="obj"/> is a reference type and
+        /// <paramref name="obj"/> is null.
         ///   </exception>
         int IEqualityComparer.GetHashCode(object obj)
         {
