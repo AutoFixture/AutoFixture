@@ -325,12 +325,96 @@ namespace Ploeh.SemanticComparison
 
         public new bool Equals(object x, object y)
         {
-            throw new NotImplementedException();
+            if (x == null && y == null)
+                return true;
+
+            if (x == null || y == null)
+                return false;
+
+            if (x.Equals(y))
+                return true;
+
+            return this.Compare(x, y);
         }
 
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <param name="obj">The obj.</param>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures 
+        /// like a hash table. 
+        /// </returns>
+        /// <exception cref="T:System.ArgumentNullException">
+        /// The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.
+        ///   </exception>
         public int GetHashCode(object obj)
         {
-            throw new NotImplementedException();
+            return obj == null ? 0 : obj.GetHashCode();
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// </summary>
+        /// <param name="x">The source value (against which the destination value will be compared for
+        /// equality).</param>
+        /// <param name="y">The destination value which will be compared for equality against the 
+        /// source value.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; 
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        bool IEqualityComparer.Equals(object x, object y)
+        {
+            return this.Equals(x, y);
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <param name="obj">The obj.</param>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures 
+        /// like a hash table. 
+        /// </returns>
+        /// <exception cref="T:System.ArgumentNullException">
+        /// The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.
+        ///   </exception>
+        int IEqualityComparer.GetHashCode(object obj)
+        {
+            return this.GetHashCode(obj);
+        }
+
+        private bool Compare(object x, object y)
+        {
+            return (bool)
+                this.GetType()
+                    .GetMethods(BindingFlags.Static | BindingFlags.NonPublic)
+                    .Single(mi => mi.Name == "SymmetricEquals")
+                    .MakeGenericMethod(x.GetType(), y.GetType())
+                    .Invoke(this, new[] { x, y });
+        }
+
+        private static bool SymmetricEquals<TSource, TDestination>(
+            object x,
+            object y)
+        {
+            return SemanticComparer.SemanticEquals<TSource, TDestination>(x, y)
+                && SemanticComparer.SemanticEquals<TDestination, TSource>(y, x);
+        }
+
+        private static bool SemanticEquals<TSource, TDestination>(
+            object x, 
+            object y)
+        {
+            return
+                typeof(TDestination)
+                    .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                    .Concat(typeof(TDestination)
+                        .GetFields(BindingFlags.Public | BindingFlags.Instance)
+                        .Cast<MemberInfo>())
+                    .Select(mi => mi.ToEvaluator<TSource, TDestination>())
+                    .All(me => me.Evaluator((TSource)x, (TDestination)y));
         }
     }
 }
