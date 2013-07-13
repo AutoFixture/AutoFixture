@@ -107,16 +107,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyReadOnlyFieldInitializedByConstructor()
-        {
-            var fixture = new Fixture();
-            var assertion = new ConstructorInitializedMemberAssertion(fixture);
-            var members = typeof(MutableValueType).GetFields();
-            assertion.Verify(members);
-        }
-
-        [Fact]
-        public void VerifyConstructorParametersCorrectlyInitialiseReadOnlyProperties()
+        public void VerifyConstructorParametersCorrectlyInitializeProperties()
         {
             var fixture = new Fixture();
             var assertion = new ConstructorInitializedMemberAssertion(fixture);
