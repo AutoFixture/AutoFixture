@@ -501,5 +501,32 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 yield return someGuid;
             }
         }
+
+        [Fact]
+        public void VerifyGenericConstructorThrowsHelpfulException()
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            // Exercise system and verify outcome
+            var e = Assert.Throws<GuardClauseException>(
+                () => sut.Verify(
+                    typeof(GenericTypeWithNonTrivialConstraint<>).GetConstructors().First()));
+            Assert.Contains(
+                "generic",
+                e.Message,
+                StringComparison.CurrentCultureIgnoreCase);
+            Assert.Contains("GenericTypeWithNonTrivialConstraint`1", e.Message);
+            // Teardown
+        }
+
+        private class GenericTypeWithNonTrivialConstraint<T> 
+            where T : IHaveNoImplementers
+        {
+            public GenericTypeWithNonTrivialConstraint(T item)
+            {
+            }
+        }
+
+        private interface IHaveNoImplementers { }
     }
 }

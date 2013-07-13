@@ -89,6 +89,11 @@ namespace Ploeh.AutoFixture.Idioms
         /// </remarks>
         public override void Verify(ConstructorInfo constructorInfo)
         {
+            if (constructorInfo.ReflectedType.IsGenericTypeDefinition)
+                throw new GuardClauseException(
+                    string.Format(
+                        "AutoFixture was unable to create an instance of {0}, because it's a generic type definition.",
+                        constructorInfo.ReflectedType.Name));
             var method = new ConstructorMethod(constructorInfo);
             this.Verify(method, false);
         }
