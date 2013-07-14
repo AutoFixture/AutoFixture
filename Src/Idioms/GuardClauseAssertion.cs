@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
@@ -95,6 +96,7 @@ namespace Ploeh.AutoFixture.Idioms
             if (constructorInfo.ReflectedType.IsGenericTypeDefinition)
                 throw new GuardClauseException(
                     string.Format(
+                        CultureInfo.CurrentCulture,
                         "AutoFixture was unable to create an instance of {0}, because it's a generic type definition.",
                         constructorInfo.ReflectedType.Name));
 
