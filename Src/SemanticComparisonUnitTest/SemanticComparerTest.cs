@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Ploeh.SemanticComparison.UnitTest.TestTypes;
+using Ploeh.TestTypeFoundation;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.SemanticComparison.UnitTest.TestTypes;
-using Ploeh.TestTypeFoundation;
+using System.Reflection;
 using Xunit;
 using Xunit.Extensions;
 
@@ -1128,6 +1129,141 @@ namespace Ploeh.SemanticComparison.UnitTest
             var result = sut.Equals(value, other);
             // Verify outcome
             Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithDefaultConstructorDoesNotThrow()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => new SemanticComparer());
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullPropertySpecificationThrows()
+        {
+            // Fixture setup
+            var dummySpecification = new DelegatingSpecification<FieldInfo>();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new SemanticComparer(null, dummySpecification));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullFieldSpecificationThrows()
+        {
+            // Fixture setup
+            var dummySpecification = new DelegatingSpecification<PropertyInfo>();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new SemanticComparer(dummySpecification, null));
+            // Teardown
+        }
+
+        [Fact]
+        public void PropertySpecificationIsCorrect()
+        {
+            // Fixture setup
+            var expected = new DelegatingSpecification<PropertyInfo>();
+            var dummySpecification = new DelegatingSpecification<FieldInfo>();
+
+            var sut = new SemanticComparer(expected, dummySpecification);
+            // Exercise system
+            var result = sut.PropertySpecification;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void FieldSpecificationIsCorrect()
+        {
+            // Fixture setup
+            var expected = new DelegatingSpecification<FieldInfo>();
+            var dummySpecification = new DelegatingSpecification<PropertyInfo>();
+
+            var sut = new SemanticComparer(dummySpecification, expected);
+            // Exercise system
+            var result = sut.FieldSpecification;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void IsSatisfiedByWithDefaultSpecificationForPropertyReturnsCorrectResult()
+        {
+            // Fixture setup
+            var property = typeof(PropertyHolder<int>).GetProperty("Property");
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.IsSatisfiedBy(property);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void IsSatisfiedByWithDefaultSpecificationForFieldReturnsCorrectResult()
+        {
+            // Fixture setup
+            var field = typeof(FieldHolder<int>).GetProperty("Field");
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.IsSatisfiedBy(field);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [InlineData(true)]
+        [InlineData(false)]
+        public void IsSatisfiedByForPropertyReturnsCorrectResult(bool expected)
+        {
+            // Fixture setup
+            var property = typeof(PropertyHolder<int>).GetProperty("Property");
+            var dummySpecification = new DelegatingSpecification<FieldInfo>();
+
+            var propertySpecificationStub =
+                new DelegatingSpecification<PropertyInfo>
+                {
+                    OnIsSatisfiedBy = x => expected
+                };
+
+            var sut = new SemanticComparer(
+                propertySpecificationStub,
+                dummySpecification);
+            // Exercise system
+            var result = sut.IsSatisfiedBy(property);
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [InlineData(true)]
+        [InlineData(false)]
+        public void IsSatisfiedByForFieldReturnsCorrectResult(bool expected)
+        {
+            // Fixture setup
+            var field = typeof(FieldHolder<int>).GetField("Field");
+            var dummySpecification = new DelegatingSpecification<PropertyInfo>();
+
+            var fieldSpecificationStub =
+                new DelegatingSpecification<FieldInfo>
+                {
+                    OnIsSatisfiedBy = x => expected
+                };
+
+            var sut = new SemanticComparer(
+                dummySpecification,
+                fieldSpecificationStub);
+            // Exercise system
+            var result = sut.IsSatisfiedBy(field);
+            // Verify outcome
+            Assert.Equal(expected, result);
             // Teardown
         }
 

@@ -318,14 +318,76 @@ namespace Ploeh.SemanticComparison
     /// </summary>
     public class SemanticComparer : IMemberComparer, IEqualityComparer<object>
     {
-        public bool IsSatisfiedBy(PropertyInfo request)
+        private readonly ISpecification<PropertyInfo> propertySpecification;
+        private readonly ISpecification<FieldInfo> fieldSpecification;
+
+        public SemanticComparer()
+            : this(
+                new TrueSpecification<PropertyInfo>(),
+                new TrueSpecification<FieldInfo>())
         {
-            throw new NotImplementedException();
         }
 
+        public SemanticComparer(
+            ISpecification<PropertyInfo> propertySpecification,
+            ISpecification<FieldInfo> fieldSpecification)
+        {
+            if (propertySpecification == null)
+                throw new ArgumentNullException("propertySpecification");
+
+            if (fieldSpecification == null)
+                throw new ArgumentNullException("fieldSpecification");
+
+            this.propertySpecification = propertySpecification;
+            this.fieldSpecification = fieldSpecification;
+        }
+
+        /// <summary>
+        /// Gets the supplied Specification used to control whether or not a property
+        /// should be compared.
+        /// </summary>
+        /// <value>
+        /// The supplied Specification used to control whether or not a property should
+        /// be compared.
+        /// </value>
+        public ISpecification<PropertyInfo> PropertySpecification
+        {
+            get { return this.propertySpecification; }
+        }
+
+        /// <summary>
+        /// Gets the supplied Specification used to control whether or not a 
+        /// field should be compared.
+        /// </summary>
+        /// <value>
+        /// The supplied Specification used to control whether or not a 
+        /// field should be compared.
+        /// </value>
+        public ISpecification<FieldInfo> FieldSpecification
+        {
+            get { return this.fieldSpecification; }
+        }
+
+        /// <summary>
+        /// Evaluates a request for comparison of a property.
+        /// </summary>
+        /// <param name="request">
+        /// The request for comparison of a property.
+        /// </param>
+        public bool IsSatisfiedBy(PropertyInfo request)
+        {
+            return this.propertySpecification.IsSatisfiedBy(request);
+        }
+
+        /// <summary>
+        /// Evaluates a request for comparison of a field.
+        /// </summary>
+        /// <param name="request">
+        /// The request for comparison of a field.
+        /// </param>
         public bool IsSatisfiedBy(FieldInfo request)
         {
-            throw new NotImplementedException();
+            return this.fieldSpecification.IsSatisfiedBy(request);
         }
 
         /// <summary>
