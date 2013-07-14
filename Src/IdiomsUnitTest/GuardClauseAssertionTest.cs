@@ -528,5 +528,16 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         private interface IHaveNoImplementers { }
+
+        [Fact]
+        public void VerifyNullConstructorThrows()
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(
+                () => sut.Verify((ConstructorInfo)null));
+            // Teardown
+        }
     }
 }
