@@ -88,6 +88,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// <see cref="BehaviorExpectation" />.
         /// </para>
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public override void Verify(ConstructorInfo constructorInfo)
         {
             if (constructorInfo == null)
