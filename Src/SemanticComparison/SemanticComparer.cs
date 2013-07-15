@@ -312,7 +312,7 @@ namespace Ploeh.SemanticComparison
     }
 
     /// <summary>
-    /// Provides a class which implements the <see cref="IEqualityComparer&lt;object&gt;"/>
+    /// Provides a class which implements the <see cref="IEqualityComparer&lt;Object&gt;"/>
     /// interface for convention-based object equality comparison for use when 
     /// comparing two semantically equivalent objects.
     /// </summary>
