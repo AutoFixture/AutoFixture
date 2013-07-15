@@ -321,6 +321,10 @@ namespace Ploeh.SemanticComparison
         private readonly ISpecification<PropertyInfo> propertySpecification;
         private readonly ISpecification<FieldInfo> fieldSpecification;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SemanticComparer"/>
+        /// class.
+        /// </summary>
         public SemanticComparer()
             : this(
                 new TrueSpecification<PropertyInfo>(),
@@ -328,6 +332,19 @@ namespace Ploeh.SemanticComparison
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SemanticComparer"/> 
+        /// class with the supplied <see cref="ISpecification&lt;PropertyInfo&gt;" />
+        /// and <see cref="ISpecification&lt;FieldInfo&gt;" />.
+        /// </summary>
+        /// <param name="propertySpecification">
+        /// The supplied Specification used to control whether or not a property
+        /// should be compared.
+        /// </param>
+        /// <param name="fieldSpecification">
+        /// The supplied Specification used to control whether or not a field 
+        /// should be compared.
+        /// </param>
         public SemanticComparer(
             ISpecification<PropertyInfo> propertySpecification,
             ISpecification<FieldInfo> fieldSpecification)
