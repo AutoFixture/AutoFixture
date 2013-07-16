@@ -497,11 +497,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Fixture setup
             var expected = new[]
             {
-                new MemberComparer(new SemanticComparer<TimeSpan, TimeSpan>())
+                new SemanticComparer() 
             };
             var sut = new SemanticComparer<TimeSpan>();
             // Exercise system
-            var result = sut.Comparers.Cast<MemberComparer>();
+            var result = sut.Comparers;
             // Verify outcome
             Assert.True(expected.SequenceEqual(result, new MemberComparerComparer()));
             // Teardown
@@ -1410,14 +1410,14 @@ namespace Ploeh.SemanticComparison.UnitTest
             yield return ((IEqualityComparer)sut).Equals(x, y);
         }
 
-        private class MemberComparerComparer : IEqualityComparer<MemberComparer>
+        private class MemberComparerComparer : IEqualityComparer<IMemberComparer>
         {
-            public bool Equals(MemberComparer x, MemberComparer y)
+            public bool Equals(IMemberComparer x, IMemberComparer y)
             {
-                return x.Comparer.GetType() == y.Comparer.GetType();
+                return x.GetType() == y.GetType();
             }
 
-            public int GetHashCode(MemberComparer obj)
+            public int GetHashCode(IMemberComparer obj)
             {
                 return obj.GetHashCode();
             }

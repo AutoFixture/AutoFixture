@@ -181,7 +181,7 @@ namespace Ploeh.SemanticComparison
         /// class.
         /// </summary>
         public SemanticComparer()
-            : this(new MemberComparer(new SemanticComparer<T, T>()))
+            : this(new SemanticComparer())
         {
         }
 
