@@ -1133,6 +1133,132 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
+        public void SemanticallyComparingWithSemanticEqualityWillReturnTrue()
+        {
+            // Fixture setup
+            var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            
+            var other = new DoublePropertyHolder<object, object>();
+            other.Property1 = value.Property1;
+            other.Property2 = value.Property2;
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingEqualsWhenOverriddenSourcePropertyEqualsReturnsTrueWillReturnTrue()
+        {
+            // Fixture setup
+            var equalityResponse = true;
+            
+            var value = new PropertyHolder<EqualityResponder>();
+            value.Property = new EqualityResponder(equalityResponse);
+            
+            var other = new PropertyHolder<object>();
+            other.Property = new object();
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.Equal(equalityResponse, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingEqualsWhenOverriddenSourcePropertyEqualsReturnsFalseWillReturnFalse()
+        {
+            // Fixture setup
+            var equalityResponse = false;
+            
+            var value = new PropertyHolder<EqualityResponder>();
+            value.Property = new EqualityResponder(equalityResponse);
+            
+            var other = new PropertyHolder<object>();
+            other.Property = new object();
+            
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.Equal(equalityResponse, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingEqualsOfIdenticalObjectsReturnsTrue()
+        {
+            // Fixture setup
+            var value = new QuadrupleParameterType<string, string, string, string>(
+                "Lorem", "ipsum", "dolor", "sit");
+
+            var other = new QuadrupleParameterType<string, string, string, string>(
+                "Lorem", "ipsum", "dolor", "sit");
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingEqualsOfDifferentObjectsReturnFalse()
+        {
+            // Fixture setup
+            var value = new QuadrupleParameterType<string, string, string, string>(
+                "Lorem", "ipsum", "dolor", "sit");
+
+            var other = new QuadrupleParameterType<string, string, string, string>(
+                "amet", "consectetur", "adipisicing", "elit");
+            
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingEqualsIsSummetricWithSemanticallyEqualObjects()
+        {
+            // Fixture setup
+            var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            
+            var other = new DoublePropertyHolder<object, object>();
+            other.Property1 = value.Property1;
+            other.Property2 = value.Property2;
+            
+            var sut = new SemanticComparer();
+            // Exercise system and verify outcome
+            Assert.True(sut.Equals(value, other) && sut.Equals(other, value));
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingEqualsIsSummetricWithSemanticallyUnequalObjects()
+        {
+            // Fixture setup
+            var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            
+            var other = new DoublePropertyHolder<object, object>();
+            other.Property1 = value.Property1;
+            other.Property2 = "abc";
+
+            var sut = new SemanticComparer();
+            // Exercise system and verify outcome
+            Assert.False(sut.Equals(value, other) && sut.Equals(other, value));
+            // Teardown
+        }
+
+        [Fact]
         public void InitializeWithDefaultConstructorDoesNotThrow()
         {
             // Fixture setup

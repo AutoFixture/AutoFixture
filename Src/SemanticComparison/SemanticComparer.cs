@@ -488,22 +488,18 @@ namespace Ploeh.SemanticComparison
             return this.GetHashCode(obj);
         }
 
-        private bool Compare(object x, object y)
+        private static bool Compare<TSource, TDestination>(object x, object y)
         {
-            return (bool)
-                this.GetType()
-                    .GetMethods(BindingFlags.Static | BindingFlags.NonPublic)
-                    .Single(mi => mi.Name == "SymmetricEquals")
-                    .MakeGenericMethod(x.GetType(), y.GetType())
-                    .Invoke(this, new[] { x, y });
-        }
+            var semantic  = 
+                SemanticComparer.SemanticEquals<TSource, TDestination>(x, y);
+            var symmetric =
+                SemanticComparer.SemanticEquals<TDestination, TSource>(y, x);
 
-        private static bool SymmetricEquals<TSource, TDestination>(
-            object x,
-            object y)
-        {
-            return SemanticComparer.SemanticEquals<TSource, TDestination>(x, y)
-                && SemanticComparer.SemanticEquals<TDestination, TSource>(y, x);
+            return 
+                x.GetType() != typeof(object) && 
+                y.GetType() != typeof(object)
+                    ? semantic || symmetric
+                    : semantic == symmetric;
         }
 
         private static bool SemanticEquals<TSource, TDestination>(
@@ -518,6 +514,16 @@ namespace Ploeh.SemanticComparison
                         .Cast<MemberInfo>())
                     .Select(mi => mi.ToEvaluator<TSource, TDestination>())
                     .All(me => me.Evaluator((TSource)x, (TDestination)y));
+        }
+
+        private bool Compare(object x, object y)
+        {
+            return (bool)
+                this.GetType()
+                    .GetMethods(BindingFlags.Static | BindingFlags.NonPublic)
+                    .Single(mi => mi.Name == "Compare")
+                    .MakeGenericMethod(x.GetType(), y.GetType())
+                    .Invoke(this, new[] { x, y });
         }
     }
 }
