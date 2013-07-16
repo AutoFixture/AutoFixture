@@ -488,6 +488,10 @@ namespace Ploeh.SemanticComparison
             return this.GetHashCode(obj);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Microsoft.Performance", 
+            "CA1811:AvoidUncalledPrivateCode", 
+            Justification = "This method is invoked using Reflection.")]
         private static bool Compare<TSource, TDestination>(object x, object y)
         {
             var semantic  = 
@@ -502,6 +506,10 @@ namespace Ploeh.SemanticComparison
                     : semantic == symmetric;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Microsoft.Performance", 
+            "CA1811:AvoidUncalledPrivateCode",
+            Justification = "This method is invoked using Reflection.")]
         private static bool SemanticEquals<TSource, TDestination>(
             object x, 
             object y)
