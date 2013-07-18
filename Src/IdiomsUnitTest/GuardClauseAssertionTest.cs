@@ -519,12 +519,67 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
-        private class GenericTypeWithNonTrivialConstraint<T> 
+        [Fact]
+        public void VerifyGenericTypeThrowsHelpfulException()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+
+            var e =
+                Assert.Throws<GuardClauseException>(
+                    () =>
+                    sut.Verify(typeof(GenericTypeWithNonTrivialConstraint<>)));
+
+            Assert.Contains(
+                "generic", e.Message, StringComparison.CurrentCultureIgnoreCase);
+            Assert.Contains("GenericTypeWithNonTrivialConstraint`1", e.Message);
+        }
+
+        [Fact]
+        public void VerifyMethodOnGenericTypeThrowsHelpfulException()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+
+            var e =
+                Assert.Throws<GuardClauseException>(
+                    () =>
+                    sut.Verify(
+                        typeof(GenericTypeWithNonTrivialConstraint<>).GetMethod(
+                            "MethodWithParameter")));
+
+            Assert.Contains(
+                "generic", e.Message, StringComparison.CurrentCultureIgnoreCase);
+            Assert.Contains("GenericTypeWithNonTrivialConstraint`1", e.Message);
+        }
+
+        [Fact]
+        public void VerifyPropertyOnGenericTypeThrowsHelpfulException()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+
+            var e =
+                Assert.Throws<GuardClauseException>(
+                    () =>
+                    sut.Verify(
+                        typeof(GenericTypeWithNonTrivialConstraint<>).GetProperty(
+                            "Property")));
+
+            Assert.Contains(
+                "generic", e.Message, StringComparison.CurrentCultureIgnoreCase);
+            Assert.Contains("GenericTypeWithNonTrivialConstraint`1", e.Message);
+        }
+
+        private class GenericTypeWithNonTrivialConstraint<T>
             where T : IHaveNoImplementers
         {
             public GenericTypeWithNonTrivialConstraint(T item)
             {
             }
+
+            public void MethodWithParameter(string s)
+            {
+            }
+
+            public string Property { get; set; }
         }
 
         private interface IHaveNoImplementers { }
@@ -538,6 +593,126 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Throws<ArgumentNullException>(
                 () => sut.Verify((ConstructorInfo)null));
             // Teardown
+        }
+
+        [Fact]
+        public void VerifyMethodWithUnknownParameterTypeThrowsHelpfulException()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+
+            var e =
+                Assert.Throws<GuardClauseException>(
+                    () => sut.Verify(typeof(TypeWithMethodWithParameterWithoutImplementers)));
+            Assert.Contains("parameter", e.Message, StringComparison.CurrentCultureIgnoreCase);
+            Assert.Contains("TypeWithMethodWithParameterWithoutImplementers", e.Message);
+            Assert.Contains("MethodWithParameterWithoutImplementers", e.Message);
+            Assert.IsType<ObjectCreationException>(e.InnerException);
+        }
+
+        [Fact]
+        public void VerifyTypeWithPropertyOfUnknownTypeThrowsHelpfulException()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+
+            var e =
+                Assert.Throws<GuardClauseException>(
+                    () => sut.Verify(typeof(TypeWithPropertyOfTypeWithoutImplementers)));
+            Assert.Contains("TypeWithPropertyOfTypeWithoutImplementers", e.Message);
+            Assert.IsType<ObjectCreationException>(e.InnerException);
+        }
+
+        [Fact]
+        public void VerifyMethodOnTypeWithPropertyOfUnknownTypeThrowsHelpfulException()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+
+            var e =
+                Assert.Throws<GuardClauseException>(
+                    () =>
+                    sut.Verify(
+                        typeof(
+                        TypeWithPropertyOfTypeWithoutImplementersAndMethod)
+                        .GetMethod("Method")));
+            Assert.Contains(
+                "TypeWithPropertyOfTypeWithoutImplementersAndMethod", e.Message);
+            Assert.IsType<ObjectCreationException>(e.InnerException);
+        }
+
+        [Fact]
+        public void VerifyPropertyOnTypeWithPropertyOfUnknownTypeThrowsHelpfulException()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+
+            var e =
+                Assert.Throws<GuardClauseException>(
+                    () =>
+                    sut.Verify(
+                        typeof(
+                        TypeWithPropertyOfTypeWithoutImplementersAndMethod)
+                        .GetProperty("Property")));
+            Assert.Contains(
+                "TypeWithPropertyOfTypeWithoutImplementersAndMethod", e.Message);
+            Assert.IsType<ObjectCreationException>(e.InnerException);
+        }
+
+        [Fact]
+        public void VerifyConstructorOnTypeWithPropertyOfUnknownTypeDoesNotThrow()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+
+            Assert.DoesNotThrow(
+                () =>
+                sut.Verify(
+                    typeof(TypeWithPropertyOfTypeWithoutImplementersAndMethod)
+                    .GetConstructors().First()));
+        }
+
+        [Fact]
+        public void VerifyPropertyOfUnknownTypeDoesNotThrowWhenAutoPropertiesAreOmitted()
+        {
+            var fixture = new Fixture();
+            fixture.Customize<TypeWithPropertyOfTypeWithoutImplementers>(
+                x => x.OmitAutoProperties());
+            var sut = new GuardClauseAssertion(fixture);
+
+            Assert.DoesNotThrow(
+                () =>
+                sut.Verify(
+                    typeof(TypeWithPropertyOfTypeWithoutImplementers)
+                    .GetProperty("PropertyOfTypeWithoutImplementers")));
+        }
+
+        private class TypeWithMethodWithParameterWithoutImplementers
+        {
+            public void MethodWithParameterWithoutImplementers(
+                IHaveNoImplementers parameter, string other)
+            {
+            }
+        }
+
+        private class TypeWithPropertyOfTypeWithoutImplementers
+        {
+            private IHaveNoImplementers _propertyOfTypeWithoutImplementers;
+            public IHaveNoImplementers PropertyOfTypeWithoutImplementers
+            {
+                get { return this._propertyOfTypeWithoutImplementers; }
+                set
+                {
+                    if(value == null)
+                        throw new ArgumentNullException("value");
+                    this._propertyOfTypeWithoutImplementers = value;
+                }
+            }
+        }
+
+        private class TypeWithPropertyOfTypeWithoutImplementersAndMethod
+        {
+            public void Method()
+            {
+            }
+
+            public IHaveNoImplementers PropertyOfTypeWithoutImplementers { get; set; }
+            public int Property { get; set; }
         }
     }
 }
