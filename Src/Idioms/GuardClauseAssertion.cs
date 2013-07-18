@@ -94,12 +94,7 @@ namespace Ploeh.AutoFixture.Idioms
             if (constructorInfo == null)
                 throw new ArgumentNullException("constructorInfo");
 
-            if (constructorInfo.ReflectedType.IsGenericTypeDefinition)
-                throw new GuardClauseException(
-                    string.Format(
-                        CultureInfo.CurrentCulture,
-                        "AutoFixture was unable to create an instance of {0}, because it's a generic type definition.",
-                        constructorInfo.ReflectedType.Name));
+            EnsureTypeIsNotGeneric(constructorInfo.ReflectedType);
 
             var method = new ConstructorMethod(constructorInfo);
             this.Verify(method, false);
@@ -122,6 +117,8 @@ namespace Ploeh.AutoFixture.Idioms
 
             if (methodInfo.IsEqualsMethod())
                 return;
+
+            EnsureTypeIsNotGeneric(methodInfo.ReflectedType);
 
             var owner = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
             var method = new InstanceMethod(methodInfo, owner);
@@ -151,6 +148,8 @@ namespace Ploeh.AutoFixture.Idioms
             if (propertyInfo.GetSetMethod() == null)
                 return;
 
+            EnsureTypeIsNotGeneric(propertyInfo.ReflectedType);
+
             var owner = this.Builder.CreateAnonymous(propertyInfo.ReflectedType);
             var command = new PropertySetCommand(propertyInfo, owner);
             var unwrapper = new ReflectionExceptionUnwrappingCommand(command);
@@ -176,6 +175,18 @@ namespace Ploeh.AutoFixture.Idioms
                 }
                 else
                     this.BehaviorExpectation.Verify(unwrapper);
+            }
+        }
+
+        private static void EnsureTypeIsNotGeneric(Type type)
+        {
+            if (type.IsGenericTypeDefinition)
+            {
+                throw new GuardClauseException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        "AutoFixture was unable to create an instance of {0}, because it's a generic type definition.",
+                        type.Name));
             }
         }
 

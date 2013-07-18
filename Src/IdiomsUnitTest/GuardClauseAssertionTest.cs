@@ -519,12 +519,67 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
-        private class GenericTypeWithNonTrivialConstraint<T> 
+        [Fact]
+        public void VerifyGenericTypeThrowsHelpfulException()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+
+            var e =
+                Assert.Throws<GuardClauseException>(
+                    () =>
+                    sut.Verify(typeof(GenericTypeWithNonTrivialConstraint<>)));
+
+            Assert.Contains(
+                "generic", e.Message, StringComparison.CurrentCultureIgnoreCase);
+            Assert.Contains("GenericTypeWithNonTrivialConstraint`1", e.Message);
+        }
+
+        [Fact]
+        public void VerifyMethodOnGenericTypeThrowsHelpfulException()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+
+            var e =
+                Assert.Throws<GuardClauseException>(
+                    () =>
+                    sut.Verify(
+                        typeof(GenericTypeWithNonTrivialConstraint<>).GetMethod(
+                            "MethodWithParameter")));
+
+            Assert.Contains(
+                "generic", e.Message, StringComparison.CurrentCultureIgnoreCase);
+            Assert.Contains("GenericTypeWithNonTrivialConstraint`1", e.Message);
+        }
+
+        [Fact]
+        public void VerifyPropertyOnGenericTypeThrowsHelpfulException()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+
+            var e =
+                Assert.Throws<GuardClauseException>(
+                    () =>
+                    sut.Verify(
+                        typeof(GenericTypeWithNonTrivialConstraint<>).GetProperty(
+                            "Property")));
+
+            Assert.Contains(
+                "generic", e.Message, StringComparison.CurrentCultureIgnoreCase);
+            Assert.Contains("GenericTypeWithNonTrivialConstraint`1", e.Message);
+        }
+
+        private class GenericTypeWithNonTrivialConstraint<T>
             where T : IHaveNoImplementers
         {
             public GenericTypeWithNonTrivialConstraint(T item)
             {
             }
+
+            public void MethodWithParameter(string s)
+            {
+            }
+
+            public string Property { get; set; }
         }
 
         private interface IHaveNoImplementers { }
