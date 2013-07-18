@@ -121,7 +121,7 @@ namespace Ploeh.AutoFixture.Idioms
 
             EnsureTypeIsNotGeneric(methodInfo.ReflectedType);
 
-            var owner = this.Builder.CreateAnonymous(methodInfo.ReflectedType);
+            var owner = CreateOwner(methodInfo.ReflectedType);
             var method = new InstanceMethod(methodInfo, owner);
 
             var isReturnValueIterator =
@@ -151,10 +151,27 @@ namespace Ploeh.AutoFixture.Idioms
 
             EnsureTypeIsNotGeneric(propertyInfo.ReflectedType);
 
-            var owner = this.Builder.CreateAnonymous(propertyInfo.ReflectedType);
+            var owner = CreateOwner(propertyInfo.ReflectedType);
             var command = new PropertySetCommand(propertyInfo, owner);
             var unwrapper = new ReflectionExceptionUnwrappingCommand(command);
             this.BehaviorExpectation.Verify(unwrapper);
+        }
+
+        private object CreateOwner(Type type)
+        {
+            try
+            {
+                return this.Builder.CreateAnonymous(type);
+            }
+            catch (ObjectCreationException e)
+            {
+                throw new GuardClauseException(
+                    string.Format(
+                        @"AutoFixture was unable to create an instance of type {0}. "
+                        + @"Please check the inner exception for more details",
+                        type),
+                    e);
+            }
         }
 
         private void Verify(IMethod method, bool isReturnValueIterator)
