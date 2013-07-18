@@ -88,7 +88,6 @@ namespace Ploeh.AutoFixture.Idioms
         /// <see cref="BehaviorExpectation" />.
         /// </para>
         /// </remarks>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public override void Verify(ConstructorInfo constructorInfo)
         {
             if (constructorInfo == null)
@@ -156,6 +155,7 @@ namespace Ploeh.AutoFixture.Idioms
             this.BehaviorExpectation.Verify(unwrapper);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         private object CreateOwner(Type type)
         {
             try
@@ -166,8 +166,8 @@ namespace Ploeh.AutoFixture.Idioms
             {
                 throw new GuardClauseException(
                     string.Format(
-                        @"AutoFixture was unable to create an instance of type {0}. "
-                        + @"Please check the inner exception for more details",
+                        CultureInfo.CurrentCulture,
+                        "AutoFixture was unable to create an instance of type {0}. Please check the inner exception for more details",
                         type),
                     e);
             }
@@ -194,6 +194,7 @@ namespace Ploeh.AutoFixture.Idioms
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         private List<object> GetParameters(IMethod method)
         {
             var result = new List<object>();
@@ -207,8 +208,8 @@ namespace Ploeh.AutoFixture.Idioms
                 {
                     throw new GuardClauseException(
                         string.Format(
-                            @"AutoFixture was unable to create an instance for parameter ""{1}"" of method ""{2}""."
-                            + @"{0}Method Signature: {3}{0}Declaring Type: {4}{0}Reflected Type: {5}",
+                            CultureInfo.CurrentCulture,
+                            "AutoFixture was unable to create an instance for parameter \"{1}\" of method \"{2}\".{0}Method Signature: {3}{0}Declaring Type: {4}{0}Reflected Type: {5}",
                             Environment.NewLine,
                             pi.Name,
                             pi.Member.Name,
@@ -222,6 +223,7 @@ namespace Ploeh.AutoFixture.Idioms
             return result;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         private static void EnsureTypeIsNotGeneric(Type type)
         {
             if (type.IsGenericTypeDefinition)
