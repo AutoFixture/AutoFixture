@@ -594,5 +594,27 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 () => sut.Verify((ConstructorInfo)null));
             // Teardown
         }
+
+        [Fact]
+        public void VerifyMethodWithUnknownParameterTypeThrowsHelpfulException()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+
+            var e =
+                Assert.Throws<GuardClauseException>(
+                    () => sut.Verify(typeof(TypeWithMethodWithParameterWithoutImplementers)));
+            Assert.Contains("parameter", e.Message, StringComparison.CurrentCultureIgnoreCase);
+            Assert.Contains("TypeWithMethodWithParameterWithoutImplementers", e.Message);
+            Assert.Contains("MethodWithParameterWithoutImplementers", e.Message);
+            Assert.IsType<ObjectCreationException>(e.InnerException);
+        }
+
+        private class TypeWithMethodWithParameterWithoutImplementers
+        {
+            public void MethodWithParameterWithoutImplementers(
+                IHaveNoImplementers parameter, string other)
+            {
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -158,8 +159,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         private void Verify(IMethod method, bool isReturnValueIterator)
         {
-            var parameters = (from pi in method.Parameters
-                              select this.Builder.CreateAnonymous(GuardClauseAssertion.GetParameterType(pi))).ToList();
+            var parameters = GetParameters(method);
 
             var i = 0;
             foreach (var pi in method.Parameters)
@@ -176,6 +176,34 @@ namespace Ploeh.AutoFixture.Idioms
                 else
                     this.BehaviorExpectation.Verify(unwrapper);
             }
+        }
+
+        private List<object> GetParameters(IMethod method)
+        {
+            var result = new List<object>();
+            foreach (var pi in method.Parameters)
+            {
+                try
+                {
+                    result.Add(this.Builder.CreateAnonymous(GetParameterType(pi)));
+                }
+                catch (ObjectCreationException e)
+                {
+                    throw new GuardClauseException(
+                        string.Format(
+                            @"AutoFixture was unable to create an instance for parameter ""{1}"" of method ""{2}""."
+                            + @"{0}Method Signature: {3}{0}Declaring Type: {4}{0}Reflected Type: {5}",
+                            Environment.NewLine,
+                            pi.Name,
+                            pi.Member.Name,
+                            pi.Member,
+                            pi.Member.DeclaringType,
+                            pi.Member.ReflectedType),
+                        e);
+                }
+            }
+
+            return result;
         }
 
         private static void EnsureTypeIsNotGeneric(Type type)
