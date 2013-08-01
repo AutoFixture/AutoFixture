@@ -45,5 +45,11 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
 
         [Range(Minimum, double.MaxValue)]
         public double PropertyWithMaximumDoubleMaxValue { get; set; }
+
+        [Range(float.MinValue, Maximum)]
+        public float PropertyWithMinimumFloatMinValue { get; set; }
+
+        [Range(Minimum, float.MaxValue)]
+        public float PropertyWithMaximumFloatMaxValue { get; set; }
     }
 }

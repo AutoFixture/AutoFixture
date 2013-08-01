@@ -1411,6 +1411,32 @@ namespace Ploeh.AutoFixtureUnitTest
 
         [Fact]
         [UseCulture("en-US")]
+        public void CreateAnonymousWithRangeValidatedFloatPropertyReturnsCorrectResultForPropertyWithMinimumFloatMinValue()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.Create<RangeValidatedType>();
+            // Verify outcome
+            Assert.True(result.PropertyWithMinimumFloatMinValue <= RangeValidatedType.Maximum);
+            // Teardown
+        }
+
+        [Fact]
+        [UseCulture("en-US")]
+        public void CreateAnonymousWithRangeValidatedFloatPropertyReturnsCorrectResultForPropertyWithMaximumFloatMaxValue()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.Create<RangeValidatedType>();
+            // Verify outcome
+            Assert.True(result.PropertyWithMaximumFloatMaxValue >= RangeValidatedType.Minimum);
+            // Teardown
+        }
+
+        [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDecimalPropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
         {
             // Fixture setup
@@ -1538,6 +1564,36 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMaximumDoubleMaxValue)
                           where (n < Convert.ToDouble(RangeValidatedType.Minimum))
+                          select n);
+            // Verify outcome
+            Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        [UseCulture("en-US")]
+        public void CreateAnonymousWithRangeValidatedFloatPropertyReturnsCorrectResultForPropertyWithMinimumFloatMinValueOnMultipleCall()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMinimumFloatMinValue)
+                          where (n > Convert.ToSingle(RangeValidatedType.Maximum))
+                          select n);
+            // Verify outcome
+            Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        [UseCulture("en-US")]
+        public void CreateAnonymousWithRangeValidatedFloatPropertyReturnsCorrectResultForPropertyWithMaximumFloatMaxValueOnMultipleCall()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().PropertyWithMaximumFloatMaxValue)
+                          where (n < Convert.ToSingle(RangeValidatedType.Minimum))
                           select n);
             // Verify outcome
             Assert.False(result.Any());
