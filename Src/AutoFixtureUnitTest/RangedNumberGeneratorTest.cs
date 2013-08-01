@@ -311,6 +311,20 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(byte), minimum: 10, maximum: 20, contextValue: 21, expectedResult: (byte)10);
                 yield return CreateTestCase(operandType: typeof(byte), minimum: 10, maximum: 20, contextValue: new object(),
                     expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(byte), 10, 20)));
+
+                yield return CreateTestCase(operandType: typeof(float), minimum: -5.0f, maximum: -1.0f, contextValue:  1.0f, expectedResult: -5.0f);
+                yield return CreateTestCase(operandType: typeof(float), minimum: -5.0f, maximum: -1.0f, contextValue: -1.0f, expectedResult: -1.0f);
+                yield return CreateTestCase(operandType: typeof(float), minimum: -5.0f, maximum: -1.0f, contextValue:  0.0f, expectedResult: -5.0f);
+                yield return CreateTestCase(operandType: typeof(float), minimum:  1.0f, maximum:  3.0f, contextValue: -9.0f, expectedResult:  1.0f);
+                yield return CreateTestCase(operandType: typeof(float), minimum: 10.0f, maximum: 20.0f, contextValue:  1.0f, expectedResult: 11.0f);
+                yield return CreateTestCase(operandType: typeof(float), minimum: 10.0f, maximum: 20.0f, contextValue:  2.0f, expectedResult: 12.0f);
+                yield return CreateTestCase(operandType: typeof(float), minimum: 10.0f, maximum: 20.0f, contextValue:  3.0f, expectedResult: 13.0f);
+                yield return CreateTestCase(operandType: typeof(float), minimum: 10.0f, maximum: 20.0f, contextValue: 10.0f, expectedResult: 10.0f);
+                yield return CreateTestCase(operandType: typeof(float), minimum: 10.0f, maximum: 20.0f, contextValue: 17.0f, expectedResult: 17.0f);
+                yield return CreateTestCase(operandType: typeof(float), minimum: 10.0f, maximum: 20.0f, contextValue: 20.0f, expectedResult: 20.0f);
+                yield return CreateTestCase(operandType: typeof(float), minimum: 10.0f, maximum: 20.0f, contextValue: 21.0f, expectedResult: 10.0f);
+                yield return CreateTestCase(operandType: typeof(float), minimum: 10.0f, maximum: 20.0f, contextValue: new object(), 
+                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(float), 10.0f, 20.0f)));
             }
 
             IEnumerator IEnumerable.GetEnumerator()
