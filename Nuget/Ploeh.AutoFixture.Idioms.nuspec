@@ -12,7 +12,7 @@
         <summary>Extension to AutoFixture that contains unit testing idioms.</summary>
         <description>Ubiquitous use of AutoFixture for unit testing has given rise to a number of idiomatic unit tests - unit tests that tend to follow common templates. The AutoFixture Idioms library encapsulates these idioms into reusable classes and methods.</description>
         <language>en-US</language>
-        <licenseUrl>http://autofixture.codeplex.com/license</licenseUrl>
+        <licenseUrl>https://github.com/AutoFixture/AutoFixture/blob/master/LICENCE.txt</licenseUrl>
         <projectUrl>https://github.com/AutoFixture/AutoFixture</projectUrl>
         <iconUrl>http://i3.codeplex.com/Download?ProjectName=autofixture&amp;DownloadId=278049</iconUrl>
     </metadata>

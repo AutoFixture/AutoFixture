@@ -14,7 +14,7 @@
         <description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by NSubstitute. To use it, add the AutoNSubstituteCustomization to your Fixture instance. Read more at http://autofixture.codeplex.com/</description>
         <iconUrl>http://i3.codeplex.com/Download?ProjectName=autofixture&amp;DownloadId=278049</iconUrl>
         <language>en-US</language>
-        <licenseUrl>http://autofixture.codeplex.com/license</licenseUrl>
+        <licenseUrl>https://github.com/AutoFixture/AutoFixture/blob/master/LICENCE.txt</licenseUrl>
         <projectUrl>https://github.com/AutoFixture/AutoFixture</projectUrl>
     </metadata>
     <files>

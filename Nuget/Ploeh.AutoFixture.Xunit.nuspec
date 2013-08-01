@@ -14,7 +14,7 @@
         <description>By leveraging the data theory feature of xUnit.net, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</description>
         <iconUrl>http://i3.codeplex.com/Download?ProjectName=autofixture&amp;DownloadId=278049</iconUrl>
         <language>en-US</language>
-        <licenseUrl>http://autofixture.codeplex.com/license</licenseUrl>
+        <licenseUrl>https://github.com/AutoFixture/AutoFixture/blob/master/LICENCE.txt</licenseUrl>
         <projectUrl>https://github.com/AutoFixture/AutoFixture</projectUrl>
     </metadata>
     <files>
