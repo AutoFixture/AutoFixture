@@ -4,6 +4,10 @@ Write maintainable unit tests, faster.
 
 AutoFixture makes it easier for developers to do Test-Driven Development by automating non-relevant Test Fixture Setup, allowing the Test Developer to focus on the essentials of each test case.
 
+> ["saved us quite some time"](#testimonials)
+> 
+> -[Florian Hötzinger, GAB Enterprise IT Solutions GmbH](#testimonials) 
+
 ## Overview ##
 
 (Jump straight to the [CheatSheet](https://github.com/AutoFixture/AutoFixture/wiki/Cheat-Sheet) if you just want to see some code samples right away.)
@@ -73,6 +77,15 @@ If you have questions, feel free to ask. The best places to ask are:
 
 * [Stack Overflow - use the *autofixture* tag](http://stackoverflow.com/questions/tagged/autofixture)
 * [GitHub issues](http://github.com/AutoFixture/AutoFixture/issues)
+
+## Who uses AutoFixture?<a id="testimonials"></a>
+
+AutoFixture is used around the world, as the following quotes testify:
+
+> "I’ve introduced AutoFixture to my developers (at www.gab.de ) some time ago. We’ve been using it successfully with xunit in multiple projects all across the .NET technology stack. We also use it for feeding dummy data to the UI when developing prototypes. That saved us quite some time.
+>
+> -[Florian Hötzinger](https://twitter.com/hoetz), [GAB Enterprise IT Solutions GmbH](http://www.gab.de)
+
 
 ## Additional resources ##
 
