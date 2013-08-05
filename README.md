@@ -67,6 +67,13 @@ AutoFixture is available via NuGet:
 * [CheatSheet](https://github.com/AutoFixture/AutoFixture/wiki/Cheat-Sheet)
 * [FAQ](https://github.com/AutoFixture/AutoFixture/wiki/FAQ)
 
+## Questions ##
+
+If you have questions, feel free to ask. The best places to ask are:
+
+* [Stack Overflow - use the *autofixture* tag](http://stackoverflow.com/questions/tagged/autofixture)
+* [GitHub issues](http://github.com/AutoFixture/AutoFixture/issues)
+
 ## Additional resources ##
 
 * [ploeh blog](http://blog.ploeh.dk/tags.html#AutoFixture-ref)
