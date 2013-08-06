@@ -89,7 +89,7 @@ AutoFixture is used around the world, as the following quotes testify:
 
 > "I have used AutoFixture for 3 years, it's a vital tool in my TDD toolbox, a real time-saver. Setting up maintainable and robust unit tests with AutoFixture is easy and straightforward - highly recommendable"
 >
-> -[Mads Tjørnelund Toustrup](madstt.dk), Senior .Net Developer, [d60 a/s](d60.dk)
+> -[Mads Tjørnelund Toustrup](http://madstt.dk), Senior .Net Developer, [d60 a/s](http://d60.dk)
 
 ## Additional resources ##
 
