@@ -4,9 +4,9 @@ Write maintainable unit tests, faster.
 
 AutoFixture makes it easier for developers to do Test-Driven Development by automating non-relevant Test Fixture Setup, allowing the Test Developer to focus on the essentials of each test case.
 
-> ["saved us quite some time"](#testimonials)
+> ["saved us quite some time"](#who-uses-autofixture)
 > 
-> -[Florian Hötzinger, GAB Enterprise IT Solutions GmbH](#testimonials) 
+> -[Florian Hötzinger, GAB Enterprise IT Solutions GmbH](#who-uses-autofixture) 
 
 ## Overview ##
 
@@ -78,7 +78,7 @@ If you have questions, feel free to ask. The best places to ask are:
 * [Stack Overflow - use the *autofixture* tag](http://stackoverflow.com/questions/tagged/autofixture)
 * [GitHub issues](http://github.com/AutoFixture/AutoFixture/issues)
 
-## Who uses AutoFixture?<a id="testimonials"></a>
+## Who uses AutoFixture? ##
 
 AutoFixture is used around the world, as the following quotes testify:
 
