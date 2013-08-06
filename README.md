@@ -91,6 +91,13 @@ AutoFixture is used around the world, as the following quotes testify:
 >
 > -[Mads Tjørnelund Toustrup](http://madstt.dk), Senior .Net Developer, [d60 a/s](http://d60.dk)
 
+
+> "Autofixture is more than just another test data generator. It helps me to write tests faster, which are robust against changes in my production code. Moreover, with Autofixture I can focus the tests on the behavior I want to check which why they are easier to read and understand."
+>
+> -[Hendrik Lösch](http://www.just-about.net), [Saxonia Systems AG](http://www.saxsys.de)
+
+If you want to add your own testimonial to this list, we (the AutoFixture maintainers) would be very grateful. Send us a pull request to this README.md file.
+
 ## Additional resources ##
 
 * [ploeh blog](http://blog.ploeh.dk/tags.html#AutoFixture-ref)
