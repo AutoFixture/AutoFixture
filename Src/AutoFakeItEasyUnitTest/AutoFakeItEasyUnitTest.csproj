@@ -32,16 +32,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\Packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="FakeItEasy">
-      <HintPath>..\..\Lib\FakeItEasy 1.7.4\FakeItEasy.dll</HintPath>
+      <HintPath>..\..\Packages\FakeItEasy.1.7.4257.42\lib\NET40\FakeItEasy.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="xunit">
-      <HintPath>..\..\Lib\xUnit.net 1.6.1\xunit.dll</HintPath>
+      <HintPath>..\..\Packages\xunit.1.8.0.1549\lib\xunit.dll</HintPath>
     </Reference>
     <Reference Include="xunit.extensions">
-      <HintPath>..\..\Lib\xUnit.net 1.6.1\xunit.extensions.dll</HintPath>
+      <HintPath>..\..\Packages\xunit.extensions.1.8.0.1549\lib\xunit.extensions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +69,9 @@
       <Project>{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}</Project>
       <Name>TestTypeFoundation</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

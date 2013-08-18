@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>RhinoMocks</id>
+    <version>3.6</version>
+    <title>RhinoMocks</title>
+    <authors>Ayende @ Rahien</authors>
+    <owners>Ayende @ Rahien</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A dynamic mock object framework for the .Net platform. It's purpose is to ease testing by allowing the developer to create mock implementations of custom objects and verify the interactions using unit testing.</description>
+    <summary>A dynamic mock object framework for the .Net platform. It's purpose is to ease testing by allowing the developer to create mock implementations of custom objects and verify the interactions using unit testing.</summary>
+  </metadata>
+</package>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>FakeItEasy</id>
+    <version>1.7.4257.42</version>
+    <title>Fake it Easy!</title>
+    <authors>Patrik Hägne</authors>
+    <owners>Patrik Hägne</owners>
+    <licenseUrl>http://www.gnu.org/licenses/lgpl.html</licenseUrl>
+    <projectUrl>http://code.google.com/p/fakeiteasy/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>It's faking amazing! The easy mocking framework for .Net that works great in C# and VB.Net alike. No need
+	to know the difference between a stub, a mock or a spy, everythings a fake! The easy to use, refactoring friendly api makes
+	faking a breeze.</description>
+    <summary>It's faking amazing! The easy mocking framework for .Net that works great in C# and VB.Net alike. No need
+	to know the difference between a stub, a mock or a spy, everythings a fake! The easy to use, refactoring friendly api makes
+	faking a breeze.</summary>
+    <tags>TDD unittesting mocking faking stubbing spy spies doubles</tags>
+    <dependencies>
+      <dependency id="Castle.Core" version="2.5.2" />
+    </dependencies>
+  </metadata>
+</package>
