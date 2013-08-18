@@ -4,7 +4,7 @@ AutoFixture is currently being developed in C# on .NET 4 using Visual Studio 201
 
 ## Dependencies ##
 
-All binaries (such as xUnit.net) are included as binaries in the source control repository under the \Lib folder. All additional binaries not part of .NET 4 must go there as well, so that it would be possible to pull down the repository and immediately be able to compile and run all tests. The reason for this structure is mainly because it predates [NuGet](http://nuget.org/); we might move to NuGet packages in the future.
+All binaries (such as xUnit.net) are included as NuGet packages in the source control repository under the \Packages folder. All additional binaries not part of .NET 4 must go there as well, so that it would be possible to pull down the repository and immediately be able to compile and run all tests.
 
 ## Verification ##
 
