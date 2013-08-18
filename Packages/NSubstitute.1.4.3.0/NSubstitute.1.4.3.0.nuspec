@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>NSubstitute</id>
+    <version>1.4.3.0</version>
+    <authors>Anthony Egerton, David Tchepak</authors>
+    <owners>Anthony Egerton, David Tchepak</owners>
+    <licenseUrl>https://github.com/nsubstitute/NSubstitute/raw/master/LICENSE.txt</licenseUrl>
+    <projectUrl>http://nsubstitute.github.com/</projectUrl>
+    <iconUrl>http://nsubstitute.github.com/images/nsubstitute-100x100.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NSubstitute is a friendly substitute for .NET mocking frameworks. It has a simple, succinct syntax to help developers write clearer tests. NSubstitute is designed for Arrange-Act-Assert (AAA) testing and with Test Driven Development (TDD) in mind.</description>
+    <tags>mocking mocks testing unit-testing TDD AAA</tags>
+  </metadata>
+</package>
