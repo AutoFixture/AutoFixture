@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{68CB2DC1-5CDD-4719-895F-E9BCCD30A7DC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AutoFixture.NUnit.UnitTest</RootNamespace>
+    <AssemblyName>AutoFixture.NUnit.UnitTest</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\Packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CustomizedFixture.cs" />
+    <Compile Include="DelegatingCustomization.cs" />
+    <Compile Include="InitializationCounter.cs" />
+    <Compile Include="InitializationCountTestCaseAttribute.cs" />
+    <Compile Include="MyTestClass.cs" />
+    <Compile Include="TestCases\AutoTestCaseAttributeTests.cs" />
+    <Compile Include="ComposerWithoutADefaultConstructor.cs" />
+    <Compile Include="DelegatingFixture.cs" />
+    <Compile Include="DelegatingSpecimenBuilder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubclassAutoTestCaseAttribute.cs" />
+    <Compile Include="TestCases\CustomizeAttributeTests.cs" />
+    <Compile Include="DelegatingCustomizeAttribute.cs" />
+    <Compile Include="TestCases\FavorArraysAttributeTests.cs" />
+    <Compile Include="TestCases\FavorEnumerablesAttributeTest.cs" />
+    <Compile Include="TestCases\FavorListsAttributeTests.cs" />
+    <Compile Include="TestCases\FrozenAttributeTest.cs" />
+    <Compile Include="TestCases\GreedyAttributeTests.cs" />
+    <Compile Include="TestCases\InitializationCountTests.cs" />
+    <Compile Include="TestCases\ModestAttributeTests.cs" />
+    <Compile Include="TestCases\ParameterStoreTests.cs" />
+    <Compile Include="TestCases\ScenarioTests.cs" />
+    <Compile Include="TypeWithMembers.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AutoFixture.NUnit\AutoFixture.NUnit.csproj">
+      <Project>{2dbc4634-e1d3-47e6-81cb-71ab826a895d}</Project>
+      <Name>AutoFixture.NUnit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
+      <Project>{400ac174-9a4a-4c7d-815b-f2a21130a0d1}</Project>
+      <Name>AutoFixture</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj">
+      <Project>{7ff65787-f462-4204-bb9d-60b0d1bb6cc1}</Project>
+      <Name>TestTypeFoundation</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

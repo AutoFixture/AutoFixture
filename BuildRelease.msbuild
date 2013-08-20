@@ -9,6 +9,7 @@
         <MSBuildExtensionsPath>Lib\MSBuildCommunityTasks</MSBuildExtensionsPath>
     </PropertyGroup>
     <UsingTask TaskName="MSBuild.Community.Tasks.Zip" AssemblyFile="$(MSBuildExtensionsPath)\MSBuild.Community.Tasks.dll" />
+    <UsingTask TaskName="MSBuild.Community.Tasks.NUnit" AssemblyFile="$(MSBuildExtensionsPath)\MSBuild.Community.Tasks.dll" />
 
     <ItemGroup>
         <ProjectToBuild Include="Src\*.sln" />
@@ -28,6 +29,8 @@
         <BuildOutput Include="Src\AutoNSubstitute\bin\Release\Ploeh.AutoFixture.AutoNSubstitute.XML" />
         <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.dll" />
         <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.XML" />
+        <BuildOutput Include="Src\AutoFixture.NUnit\bin\Release\Ploeh.AutoFixture.NUnit.dll" />
+        <BuildOutput Include="Src\AutoFixture.NUnit\bin\Release\Ploeh.AutoFixture.NUnit.XML" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.dll" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.XML" />
     </ItemGroup>
@@ -64,6 +67,8 @@
     </Target>
     <Target Name="Test" DependsOnTargets="Build">
         <xunitproject ProjectFile="Src\All.xunit" />
+        <NUnit Assemblies="Src\AutoFixture.NUnit.UnitTest\bin\Release\AutoFixture.NUnit.UnitTest.dll" 
+               ToolPath="Lib\NUnit-2.6.2\bin" />
     </Target>
     <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
         <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />
