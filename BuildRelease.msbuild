@@ -28,6 +28,8 @@
         <BuildOutput Include="Src\AutoNSubstitute\bin\Release\Ploeh.AutoFixture.AutoNSubstitute.XML" />
         <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.dll" />
         <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.XML" />
+        <BuildOutput Include="Src\AutoFixture.NUnit\bin\Release\Ploeh.AutoFixture.NUnit.dll" />
+        <BuildOutput Include="Src\AutoFixture.NUnit\bin\Release\Ploeh.AutoFixture.NUnit.XML" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.dll" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.XML" />
     </ItemGroup>
