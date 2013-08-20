@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+    <metadata>
+        <id>AutoFixture.NUnit</id>
+        <version>0.1</version>
+        <title>AutoFixture with NUnit</title>
+        <authors>Gert Jansen van Rensburg</authors>
+        <owners>Gert Jansen van Rensburg</owners>
+        <dependencies>
+            <dependency id="autofixture" version="2.2" />
+            <dependency id="nunit" version="2.6.2" />
+        </dependencies>
+        <summary>Extension to AutoFixture that integrates it with NUnit.</summary>
+        <description>By leveraging the some features of NUnit, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</description>
+        <iconUrl>http://i3.codeplex.com/Download?ProjectName=autofixture&amp;DownloadId=278049</iconUrl>
+        <language>en-US</language>
+        <licenseUrl>https://github.com/AutoFixture/AutoFixture/blob/master/LICENCE.txt</licenseUrl>
+        <projectUrl>https://github.com/AutoFixture/AutoFixture</projectUrl>
+    </metadata>
+    <files>
+        <file src="Ploeh.AutoFixture.NUnit.dll" target="lib\net40" />
+        <file src="Ploeh.AutoFixture.NUnit.XML" target="lib\net40" />
+        <file src="Install.ps1" target="tools" />
+    </files>
+</package>
