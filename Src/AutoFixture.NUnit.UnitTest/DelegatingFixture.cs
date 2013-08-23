@@ -60,7 +60,8 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             throw new NotImplementedException();
         }
 
-        public void Customize<T>(Func<Ploeh.AutoFixture.Dsl.ICustomizationComposer<T>, ISpecimenBuilder> composerTransformation)
+        public void Customize<T>(Func<Ploeh.AutoFixture.Dsl.ICustomizationComposer<T>, 
+            ISpecimenBuilder> composerTransformation)
         {
             throw new NotImplementedException();
         }
@@ -90,7 +91,8 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             throw new NotImplementedException();
         }
 
-        public void Register<TInput1, TInput2, TInput3, TInput4, T>(Func<TInput1, TInput2, TInput3, TInput4, T> creator)
+        public void Register<TInput1, TInput2, TInput3, TInput4, T>(
+            Func<TInput1, TInput2, TInput3, TInput4, T> creator)
         {
             throw new NotImplementedException();
         }

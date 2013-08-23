@@ -5,11 +5,13 @@ using System.Reflection;
 namespace Ploeh.AutoFixture.NUnit
 {
     /// <summary>
-    /// Static class to hold the results of AutoFixture parameter generation so that it only gets generated once for each test run.
+    /// Static class to hold the results of AutoFixture parameter generation so that it 
+    /// only gets generated once for each test run.
     /// </summary>
     public static class ParameterStore
     {
-        private static readonly ConcurrentDictionary<string, object> _parameterStore = new ConcurrentDictionary<string, object>();
+        private static readonly ConcurrentDictionary<string, object> _parameterStore = 
+            new ConcurrentDictionary<string, object>();
 
         /// <summary>
         /// Function that will either return the value of a Func or return the previously calculated value.

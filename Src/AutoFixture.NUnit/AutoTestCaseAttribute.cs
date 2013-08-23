@@ -14,8 +14,12 @@ namespace Ploeh.AutoFixture.NUnit
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [CLSCompliant(false)]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "These values are available from the base property 'Arguments'.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", 
+        "CA1813:AvoidUnsealedAttributes",
+        Justification = "This attribute is the root of a potential attribute hierarchy.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", 
+        "CA1019:DefineAccessorsForAttributeArguments", 
+        Justification = "These values are available from the base property 'Arguments'.")]
     public class AutoTestCaseAttribute : TestCaseAttribute
     {
         #region Constants and Static Fields
@@ -38,7 +42,9 @@ namespace Ploeh.AutoFixture.NUnit
         /// </summary>
         /// <param name="testClassType">The type of the test class.</param>
         /// <param name="methodName">The name of the method.</param>
-        /// <param name="manualParameters">An array of N objects that will be used as the first N parameters of the method.</param>
+        /// <param name="manualParameters">
+        /// An array of N objects that will be used  as the first N parameters of the method.
+        /// </param>
         /// <remarks>
         /// <para>
         /// This constructor overload initializes the <see cref="Fixture"/> to an instance of
@@ -60,7 +66,9 @@ namespace Ploeh.AutoFixture.NUnit
         /// <param name="testClassType">The type of the test class.</param>
         /// <param name="methodName">The name of the method.</param>
         /// <param name="fixtureType">The type of the composer.</param>
-        /// <param name="manualParameters">An array of N objects that will be used as the first N parameters of the method.</param>
+        /// <param name="manualParameters">
+        /// An array of N objects that will be used as the first N parameters of the method.
+        /// </param>
         /// <exception cref="ArgumentException">
         /// <paramref name="fixtureType"/> does not implement <see cref="IFixture"/>
         /// or does not have a default constructor.
@@ -68,7 +76,11 @@ namespace Ploeh.AutoFixture.NUnit
         /// <exception cref="ArgumentException">
         /// <paramref name="testClassType"/> does not contain a method <paramref name="methodName"/>.
         /// </exception>
-        public AutoTestCaseAttribute(Type testClassType, string methodName, Type fixtureType, params object[] manualParameters)
+        public AutoTestCaseAttribute(
+            Type testClassType, 
+            string methodName, 
+            Type fixtureType, 
+            params object[] manualParameters)
             : this(testClassType, methodName, CreateFixture(fixtureType), manualParameters)
         {
         }
@@ -80,11 +92,17 @@ namespace Ploeh.AutoFixture.NUnit
         /// <param name="testClassType">The type of the test class.</param>
         /// <param name="methodName">The name of the method.</param>
         /// <param name="fixture">The AutoFixture composer that will be used by this attribute.</param>
-        /// <param name="manualParameters">An array of N objects that will be used as the first N parameters of the method.</param>
+        /// <param name="manualParameters">
+        /// An array of N objects that will be used as the first N parameters of the method.
+        /// </param>
         /// <exception cref="ArgumentException">
         /// <paramref name="testClassType"/> does not contain a method <paramref name="methodName"/>.
         /// </exception>
-        public AutoTestCaseAttribute(Type testClassType, string methodName, IFixture fixture, object[] manualParameters)
+        public AutoTestCaseAttribute(
+            Type testClassType, 
+            string methodName, 
+            IFixture fixture, 
+            object[] manualParameters)
             : base(CreateTestCaseArguments(testClassType, methodName, fixture, manualParameters))
         {
             _fixture = fixture;
@@ -166,7 +184,11 @@ namespace Ploeh.AutoFixture.NUnit
 
         /// <exception cref="ArgumentNullException">fixture</exception>
         /// <exception cref="ArgumentException"></exception>
-        private static object[] CreateTestCaseArguments(Type testClassType, string methodFullName, IFixture fixture, object[] manualParameters)
+        private static object[] CreateTestCaseArguments(
+            Type testClassType, 
+            string methodFullName, 
+            IFixture fixture, 
+            object[] manualParameters)
         {
             if (fixture == null)
                 throw new ArgumentNullException("fixture");
@@ -185,7 +207,11 @@ namespace Ploeh.AutoFixture.NUnit
             return GetArguments(testClassType.FullName, methodInfo,fixture,manualParameters);
         }
 
-        private static object[] GetArguments(string typeName, MethodInfo methodInfo, IFixture fixture, object[] manualParameters)
+        private static object[] GetArguments(
+            string typeName, 
+            MethodInfo methodInfo, 
+            IFixture fixture, 
+            object[] manualParameters)
         {
             var specimens = new List<object>();
             var manualParameterQueue = new Queue<object>(manualParameters);

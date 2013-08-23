@@ -3,7 +3,7 @@
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public class InitializationCountTestCaseAttribute : AutoTestCaseAttribute
+    internal class InitializationCountTestCaseAttribute : AutoTestCaseAttribute
     {
         public InitializationCountTestCaseAttribute(Type testClassType, string methodName)
             : base(testClassType, methodName, CreateFixture(methodName), new object[0])

@@ -2,7 +2,7 @@
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest.TestCases
 {
-    class InitializationCountTests
+    public class InitializationCountTests
     {
         [InitializationCountTestCase(typeof(InitializationCountTests), "CreationOfParameterOnlyHappensOnce")]
         public void CreationOfParameterOnlyHappensOnce(InitializationCounter counter)

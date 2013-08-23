@@ -5,29 +5,30 @@ using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest.TestCases
 {
-    class ScenarioTests
+    internal class ScenarioTests
     {
-        [Test, AutoTestCase(typeof(ScenarioTests),"AutoDataProvidesCorrectInteger")]
+        [AutoTestCase(typeof(ScenarioTests),"AutoDataProvidesCorrectInteger")]
         public void AutoDataProvidesCorrectInteger(int primitiveValue)
         {
             Assert.That(primitiveValue, Is.Not.EqualTo(0));
         }
 
-        [Test, AutoTestCase(typeof(ScenarioTests), "AutoDataProvidesCorrectString")]
+        [AutoTestCase(typeof(ScenarioTests), "AutoDataProvidesCorrectString")]
         public void AutoDataProvidesCorrectString(string text)
         {
             Assert.True(text.StartsWith("text"));
         }
 
-        [Test, AutoTestCase(typeof(ScenarioTests), "AutoDataProvidesCorrectObject")]
+        [AutoTestCase(typeof(ScenarioTests), "AutoDataProvidesCorrectObject")]
         public void AutoDataProvidesCorrectObject(PropertyHolder<Version> ph)
         {
             Assert.NotNull(ph);
             Assert.NotNull(ph.Property);
         }
 
-        [Test, AutoTestCase(typeof(ScenarioTests), "AutoDataProvidesMultipleObjects")]
-        public void AutoDataProvidesMultipleObjects(PropertyHolder<Version> ph, SingleParameterType<OperatingSystem> spt)
+        [AutoTestCase(typeof(ScenarioTests), "AutoDataProvidesMultipleObjects")]
+        public void AutoDataProvidesMultipleObjects(PropertyHolder<Version> ph, 
+            SingleParameterType<OperatingSystem> spt)
         {
             Assert.NotNull(ph);
             Assert.NotNull(ph.Property);
@@ -36,35 +37,39 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest.TestCases
             Assert.NotNull(spt.Parameter);
         }
 
-        [Test, AutoTestCase(typeof(ScenarioTests), "AutoDataProvidesCustomizedObject", typeof(CustomizedFixture))]
+        [AutoTestCase(typeof(ScenarioTests), "AutoDataProvidesCustomizedObject", typeof(CustomizedFixture))]
         public void AutoDataProvidesCustomizedObject(PropertyHolder<string> ph)
         {
             Assert.AreEqual(ph.Property, "Ploeh");
         }
 
-        [Test]
-        [AutoTestCase(typeof(ScenarioTests), "InlineAutoDataUsesSuppliedDataValues", "foo")]
-        [AutoTestCase(typeof(ScenarioTests), "InlineAutoDataUsesSuppliedDataValues", "foo", "bar")]
-        public void InlineAutoDataUsesSuppliedDataValues(string s1, string s2)
+        [AutoTestCase(typeof(ScenarioTests), "AutoTestCaseUsesSuppliedDataValues", "foo")]
+        [AutoTestCase(typeof(ScenarioTests), "AutoTestCaseUsesSuppliedDataValues", "foo", "bar")]
+        public void AutoTestCaseUsesSuppliedDataValues(string s1, string s2)
         {
             Assert.That(s1, Is.EqualTo("foo"));
             Assert.NotNull(s2);
         }
 
-        [Test]
-        [AutoTestCase(typeof(ScenarioTests), "InlineAutoDataSuppliesDataSpecimens", "foo")]
-        [AutoTestCase(typeof(ScenarioTests), "InlineAutoDataSuppliesDataSpecimens", "foo", "bar")]
-        public void InlineAutoDataSuppliesDataSpecimens(string s1, string s2, MyTestClass myClass)
+        [AutoTestCase(typeof(ScenarioTests), "AutoTestCaseSupplyDataSpecimensForNonProvidedValues", "foo")]
+        [AutoTestCase(typeof(ScenarioTests), "AutoTestCaseSupplyDataSpecimensForNonProvidedValues", "foo", "bar")]
+        public void AutoTestCaseSupplyDataSpecimensForNonProvidedValues(string s1, string s2, MyTestClass myClass)
         {
             Assert.AreEqual(s1,"foo");
             Assert.NotNull(s2);
             Assert.NotNull(myClass);
         }
 
-        [Test]
-        [AutoTestCase(typeof(ScenarioTests), "InlineAutoDataSuppliesDataSpecimensOnlyForNonProvidedValues", "foo")]
-        [AutoTestCase(typeof(ScenarioTests), "InlineAutoDataSuppliesDataSpecimensOnlyForNonProvidedValues", "foo", "bar")]
-        public void InlineAutoDataSuppliesDataSpecimensOnlyForNonProvidedValues(string s1, string s2, string s3)
+        [AutoTestCase(
+            typeof(ScenarioTests),
+            "AutoTestCaseSupplyDataSpecimensOnlyForNonProvidedValues", 
+            "foo")]
+        [AutoTestCase(
+            typeof(ScenarioTests),
+            "AutoTestCaseSupplyDataSpecimensOnlyForNonProvidedValues", 
+            "foo", 
+            "bar")]
+        public void AutoTestCaseSupplyDataSpecimensOnlyForNonProvidedValues(string s1, string s2, string s3)
         {
             Assert.AreEqual(s1, "foo");
             Assert.That(s2, Is.Not.Null);
@@ -72,13 +77,13 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest.TestCases
             Assert.AreNotEqual(s3, "bar");
         }
 
-        [Test, AutoTestCase(typeof(ScenarioTests), "FreezeFirstParameter")]
+        [AutoTestCase(typeof(ScenarioTests), "FreezeFirstParameter")]
         public void FreezeFirstParameter([Frozen]Guid g1, Guid g2)
         {
             Assert.AreEqual(g1, g2);
         }
 
-        [Test, AutoTestCase(typeof(ScenarioTests), "FreezeSecondParameterOnlyFreezesSubsequentParameters")]
+        [AutoTestCase(typeof(ScenarioTests), "FreezeSecondParameterOnlyFreezesSubsequentParameters")]
         public void FreezeSecondParameterOnlyFreezesSubsequentParameters(Guid g1, [Frozen]Guid g2, Guid g3)
         {
             Assert.AreNotEqual(g1,g2);
@@ -87,42 +92,51 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest.TestCases
             Assert.AreEqual(g2,g3);
         }
 
-        [Test, AutoTestCase(typeof(ScenarioTests), "IntroductoryTest")]
+        [AutoTestCase(typeof(ScenarioTests), "IntroductoryTest")]
         public void IntroductoryTest(
             int expectedNumber, MyTestClass sut)
         {
+            // Fixture setup
+            // Exercise system
             int result = sut.Echo(expectedNumber);
+            // Verify outcome
             Assert.That(expectedNumber, Is.EqualTo(result));
+            // Teardown
         }
 
-        [Test, AutoTestCase(typeof(ScenarioTests), "ModestCreatesParameterWithModestConstructor")]
+        [AutoTestCase(typeof(ScenarioTests), "ModestCreatesParameterWithModestConstructor")]
         public void ModestCreatesParameterWithModestConstructor([Modest]MultiUnorderedConstructorType p)
         {
             Assert.True(string.IsNullOrEmpty(p.Text));
             Assert.That(p.Number, Is.EqualTo(0));
         }
 
-        [Test, AutoTestCase(typeof(ScenarioTests), "GreedyCreatesParameterWithGreedyConstructor")]
+        [AutoTestCase(typeof(ScenarioTests), "GreedyCreatesParameterWithGreedyConstructor")]
         public void GreedyCreatesParameterWithGreedyConstructor([Greedy]MultiUnorderedConstructorType p)
         {
             Assert.False(string.IsNullOrEmpty(p.Text));
             Assert.AreNotEqual(p.Number, 0);
         }
 
-        [Test, AutoTestCase(typeof(ScenarioTests), "BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter")]
-        public void BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter([Frozen][Greedy]MultiUnorderedConstructorType p1, MultiUnorderedConstructorType p2)
+        [AutoTestCase(typeof(ScenarioTests), "BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter")]
+        public void BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter(
+            [Frozen][Greedy]MultiUnorderedConstructorType p1, 
+            MultiUnorderedConstructorType p2)
         {
             Assert.False(string.IsNullOrEmpty(p2.Text));
             Assert.AreNotEqual(p2.Number, 0);
         }
 
-        [Test, AutoTestCase(typeof(ScenarioTests), "FavorArraysCausesArrayConstructorToBeInjectedWithFrozenItems")]
-        public void FavorArraysCausesArrayConstructorToBeInjectedWithFrozenItems([Frozen]int[] numbers, [FavorArrays]ItemContainer<int> container)
+        [AutoTestCase(typeof(ScenarioTests), "FavorArraysCausesArrayConstructorToBeInjectedWithFrozenItems")]
+        public void FavorArraysCausesArrayConstructorToBeInjectedWithFrozenItems(
+            [Frozen]int[] numbers, 
+            [FavorArrays]ItemContainer<int> container)
         {
             Assert.True(numbers.SequenceEqual(container.Items));
         }
 
-        [Test, AutoTestCase(typeof(ScenarioTests), "FreezeFirstParameterAsBaseTypeAssignsSameInstanceToSecondParameterOfThatBaseType")]
+        [AutoTestCase(typeof(ScenarioTests), 
+            "FreezeFirstParameterAsBaseTypeAssignsSameInstanceToSecondParameterOfThatBaseType")]
         public void FreezeFirstParameterAsBaseTypeAssignsSameInstanceToSecondParameterOfThatBaseType(
             [Frozen(As = typeof(AbstractType))]ConcreteType p1,
             AbstractType p2)
@@ -130,7 +144,8 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest.TestCases
             Assert.AreSame(p1, p2);
         }
 
-        [Test, AutoTestCase(typeof(ScenarioTests), "FreezeFirstParameterAsNullTypeAssignsSameInstanceToSecondParameterOfSameType")]
+        [AutoTestCase(typeof(ScenarioTests), 
+            "FreezeFirstParameterAsNullTypeAssignsSameInstanceToSecondParameterOfSameType")]
         public void FreezeFirstParameterAsNullTypeAssignsSameInstanceToSecondParameterOfSameType(
             [Frozen(As = null)]ConcreteType p1,
             ConcreteType p2)

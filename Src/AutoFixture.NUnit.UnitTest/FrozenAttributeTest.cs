@@ -10,55 +10,65 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest.TestCases
         [Test]
         public void SutIsAttribute()
         {
+            // Fixture setup
+            // Exercise system
             var sut = new FrozenAttribute();
-
+            // Verify outcome
             Assert.IsInstanceOf<CustomizeAttribute>(sut);
+            // Teardown
         }
 
         [Test]
         public void GetCustomizationFromNullParamterThrows()
         {
+            // Fixture setup
             var sut = new FrozenAttribute();
-
+            // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.GetCustomization(null));
+            // Teardown
         }
 
         [Test]
         public void GetCustomizationReturnsCorrectResult()
         {
+            // Fixture setup
             var sut = new FrozenAttribute();
             var parameter = typeof(TypeWithMembers)
                 .GetMethod("DoSomething")
                 .GetParameters()
                 .Single();
-
+            // Exercise system
             var result = sut.GetCustomization(parameter);
-
+            // Verify outcome
             Assert.IsInstanceOf<FreezingCustomization>(result);
             var freezer = (FreezingCustomization)result;
             Assert.That(parameter.ParameterType, Is.EqualTo(freezer.TargetType));
+            // Teardown
         }
 
         [Test]
         public void GetCustomizationReturnsTheRegisteredTypeEqualToTheParameterType()
         {
+            // Fixture setup
             var sut = new FrozenAttribute();
             var parameter = typeof(TypeWithMembers)
                 .GetMethod("DoSomething", new[] { typeof(object) })
                 .GetParameters()
                 .Single();
-            
+            // Exercise system
             var result = sut.GetCustomization(parameter);
-            
+            // Verify outcome
             Assert.IsInstanceOf<FreezingCustomization>(result);
             var freezer = (FreezingCustomization)result;
             Assert.That(parameter.ParameterType, Is.EqualTo(freezer.RegisteredType));
+            // Teardown
         }
 
         [Test]
         public void GetCustomizationWithSpecificRegisteredTypeReturnsCorrectResult()
         {
+            // Fixture setup
             var registeredType = typeof(AbstractType);
             var sut = new FrozenAttribute { As = registeredType };
             var parameter = typeof(TypeWithConcreteParameterMethod)

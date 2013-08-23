@@ -5,7 +5,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest.TestCases
 {
-    class FavorListsAttributeTests
+    public class FavorListsAttributeTests
     {
         [Test]
         public void SutIsAttribute()
@@ -34,7 +34,10 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest.TestCases
         {
             // Fixture setup
             var sut = new FavorListsAttribute();
-            var parameter = typeof(TypeWithMembers).GetMethod("DoSomething", new[] { typeof(object) }).GetParameters().Single();
+            var parameter = typeof(TypeWithMembers)
+                .GetMethod("DoSomething", new[] { typeof(object) })
+                .GetParameters()
+                .Single();
             // Exercise system
             var result = sut.GetCustomization(parameter);
             // Verify outcome

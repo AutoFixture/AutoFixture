@@ -47,28 +47,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoTestCaseAttributeTests.cs" />
+    <Compile Include="CustomizeAttributeTests.cs" />
     <Compile Include="CustomizedFixture.cs" />
     <Compile Include="DelegatingCustomization.cs" />
+    <Compile Include="FavorArraysAttributeTests.cs" />
+    <Compile Include="FavorEnumerablesAttributeTest.cs" />
+    <Compile Include="FavorListsAttributeTests.cs" />
+    <Compile Include="FrozenAttributeTest.cs" />
+    <Compile Include="GreedyAttributeTests.cs" />
     <Compile Include="InitializationCounter.cs" />
     <Compile Include="InitializationCountTestCaseAttribute.cs" />
+    <Compile Include="InitializationCountTests.cs" />
+    <Compile Include="ModestAttributeTests.cs" />
     <Compile Include="MyTestClass.cs" />
-    <Compile Include="TestCases\AutoTestCaseAttributeTests.cs" />
     <Compile Include="ComposerWithoutADefaultConstructor.cs" />
     <Compile Include="DelegatingFixture.cs" />
     <Compile Include="DelegatingSpecimenBuilder.cs" />
+    <Compile Include="ParameterStoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SubclassAutoTestCaseAttribute.cs" />
-    <Compile Include="TestCases\CustomizeAttributeTests.cs" />
+    <Compile Include="ScenarioTests.cs" />
     <Compile Include="DelegatingCustomizeAttribute.cs" />
-    <Compile Include="TestCases\FavorArraysAttributeTests.cs" />
-    <Compile Include="TestCases\FavorEnumerablesAttributeTest.cs" />
-    <Compile Include="TestCases\FavorListsAttributeTests.cs" />
-    <Compile Include="TestCases\FrozenAttributeTest.cs" />
-    <Compile Include="TestCases\GreedyAttributeTests.cs" />
-    <Compile Include="TestCases\InitializationCountTests.cs" />
-    <Compile Include="TestCases\ModestAttributeTests.cs" />
-    <Compile Include="TestCases\ParameterStoreTests.cs" />
-    <Compile Include="TestCases\ScenarioTests.cs" />
     <Compile Include="TypeWithMembers.cs" />
   </ItemGroup>
   <ItemGroup>

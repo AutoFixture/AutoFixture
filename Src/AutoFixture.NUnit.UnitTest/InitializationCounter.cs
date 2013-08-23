@@ -2,7 +2,7 @@
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
-    class InitializationCounter
+    public class InitializationCounter
     {
         private readonly string _countKey;
         private static readonly Dictionary<string,int> CountDictionary = new Dictionary<string, int>();

@@ -1,11 +1,7 @@
 ﻿namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
-    public class MyTestClass
+    internal class MyTestClass
     {
-        public void OneManualParameter(int a, string b)
-        {
-        }
-
         public void TwoStringParameters(string s1, string s2)
         {
         }
