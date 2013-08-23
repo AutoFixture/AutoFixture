@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture.NUnit.org.Addin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture.NUnit.org.UnitTest", "AutoFixture.NUnit.org.UnitTest\AutoFixture.NUnit.org.UnitTest.csproj", "{5CACC229-A5EF-4683-A846-D59230284D66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture.NUnit.org.Addins.UnitTest", "AutoFixture.NUnit.org.Addins.UnitTest\AutoFixture.NUnit.org.Addins.UnitTest.csproj", "{A1AD20D6-81DD-4A10-BADB-6CA5D49D60D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,12 @@ Global
 		{5CACC229-A5EF-4683-A846-D59230284D66}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5CACC229-A5EF-4683-A846-D59230284D66}.Verify|Any CPU.ActiveCfg = Release|Any CPU
 		{5CACC229-A5EF-4683-A846-D59230284D66}.Verify|Any CPU.Build.0 = Release|Any CPU
+		{A1AD20D6-81DD-4A10-BADB-6CA5D49D60D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1AD20D6-81DD-4A10-BADB-6CA5D49D60D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1AD20D6-81DD-4A10-BADB-6CA5D49D60D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1AD20D6-81DD-4A10-BADB-6CA5D49D60D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1AD20D6-81DD-4A10-BADB-6CA5D49D60D6}.Verify|Any CPU.ActiveCfg = Release|Any CPU
+		{A1AD20D6-81DD-4A10-BADB-6CA5D49D60D6}.Verify|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
