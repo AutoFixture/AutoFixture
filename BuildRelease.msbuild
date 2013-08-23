@@ -68,7 +68,7 @@
     <Target Name="Test" DependsOnTargets="Build">
         <xunitproject ProjectFile="Src\All.xunit" />
         <NUnit Assemblies="Src\AutoFixture.NUnit.UnitTest\bin\Release\AutoFixture.NUnit.UnitTest.dll" 
-               ToolPath="Lib\NUnit-2.6.2\runner" />
+               ToolPath="Lib\NUnitRunnerMSBuild\runner" />
     </Target>
     <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
         <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />
