@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ShowCheckBoxes="false">
+  <TopNode>[0-1000]C:\Users\gertj_000\Documents\GitHub\AutoFixture\Src\AutoFixture.NUnit.UnitTest\AutoFixture.NUnit.UnitTest.csproj</TopNode>
+  <SelectedNode>[0-1002]Ploe.AutoFixture.NUnit.UnitTest.CalculatorTests.Test</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1000]C:\Users\gertj_000\Documents\GitHub\AutoFixture\Src\AutoFixture.NUnit.UnitTest\AutoFixture.NUnit.UnitTest.csproj" Expanded="true" />
+    <Node UniqueName="[0-1003]C:\Users\gertj_000\Documents\GitHub\AutoFixture\Src\AutoFixture.NUnit.UnitTest\bin\Debug\Ploe.AutoFixture.NUnit.UnitTest.dll" Expanded="true" />
+    <Node UniqueName="[0-1004]Ploe" Expanded="true" />
+    <Node UniqueName="[0-1005]Ploe.AutoFixture" Expanded="true" />
+    <Node UniqueName="[0-1006]Ploe.AutoFixture.NUnit" Expanded="true" />
+    <Node UniqueName="[0-1007]Ploe.AutoFixture.NUnit.UnitTest" Expanded="true" />
+    <Node UniqueName="[0-1001]Ploe.AutoFixture.NUnit.UnitTest.CalculatorTests" Expanded="true" />
+  </Nodes>
+</VisualState>
