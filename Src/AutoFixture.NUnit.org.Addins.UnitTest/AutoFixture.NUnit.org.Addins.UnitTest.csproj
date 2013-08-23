@@ -54,6 +54,10 @@
       <Project>{DE7CCFB4-BA37-499E-9018-21A95DFCD14D}</Project>
       <Name>AutoFixture.NUnit.org.Addins</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AutoFixture.NUnit.org\AutoFixture.NUnit.org.csproj">
+      <Project>{786AFDB3-B705-49DD-A565-34F44A4A2DAD}</Project>
+      <Name>AutoFixture.NUnit.org</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
