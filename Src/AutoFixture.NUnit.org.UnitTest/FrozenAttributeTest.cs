@@ -46,7 +46,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
             // Verify outcome
             Assert.IsInstanceOf<FreezingCustomization>(result);
             var freezer = (FreezingCustomization)result;
-            Assert.AreEqual(parameter.ParameterType, freezer.TargetType);
+            Assert.AreSame(parameter.ParameterType, freezer.TargetType);
             // Teardown
         }
 
@@ -64,7 +64,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
             // Verify outcome
             Assert.IsInstanceOf<FreezingCustomization>(result);
             var freezer = (FreezingCustomization)result;
-            Assert.AreEqual(parameter.ParameterType, freezer.RegisteredType);
+            Assert.AreSame(parameter.ParameterType, freezer.RegisteredType);
             // Teardown
         }
 
@@ -83,7 +83,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
             // Verify outcome
             Assert.IsAssignableFrom<FreezingCustomization>(result);
             var freezer = (FreezingCustomization)result;
-            Assert.AreEqual(registeredType, freezer.RegisteredType);
+            Assert.AreSame(registeredType, freezer.RegisteredType);
             // Teardown
         }
 

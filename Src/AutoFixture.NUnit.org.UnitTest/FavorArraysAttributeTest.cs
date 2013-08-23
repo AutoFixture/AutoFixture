@@ -43,7 +43,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
             // Verify outcome
             Assert.IsInstanceOf<ConstructorCustomization>(result);
             var invoker = (ConstructorCustomization)result;
-            Assert.AreEqual(parameter.ParameterType, invoker.TargetType);
+            Assert.AreSame(parameter.ParameterType, invoker.TargetType);
             Assert.IsInstanceOf<ArrayFavoringConstructorQuery>(invoker.Query);
             // Teardown
         }
