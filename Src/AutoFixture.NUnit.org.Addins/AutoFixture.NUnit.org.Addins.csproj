@@ -55,7 +55,6 @@
     <Compile Include="Builders\AutoDataBuilder.cs" />
     <Compile Include="Builders\AutoDataProvider.cs" />
     <Compile Include="Builders\Constants.cs" />
-    <Compile Include="AutoTestCaseData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
