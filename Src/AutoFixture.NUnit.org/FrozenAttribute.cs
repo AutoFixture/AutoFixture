@@ -4,7 +4,7 @@ using System.Reflection;
 namespace Ploeh.AutoFixture.NUnit.org
 {
     /// <summary>
-    /// An attribute that can be applied to parameters in an <see cref="AutoDataAttribute"/>-driven
+    /// An attribute that can be applied to parameters in an <see cref="AutoTestCaseAttribute"/>-driven
     /// Theory to indicate that the parameter value should be frozen so that the same instance is
     /// returned every time the <see cref="IFixture"/> creates an instance of that type.
     /// </summary>

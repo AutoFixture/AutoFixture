@@ -14,7 +14,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var references = typeof(AutoDataAttribute).Assembly.GetReferencedAssemblies();
+            var references = typeof(AutoTestCaseAttribute).Assembly.GetReferencedAssemblies();
             // Verify outcome
             Assert.False(references.Any(an => an.Name == assemblyName));
             // Teardown

@@ -15,7 +15,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var sut = new AutoDataAttribute();
+            var sut = new AutoTestCaseAttribute();
             // Verify outcome
             Assert.IsInstanceOf<DataAttribute>(sut);
             // Teardown
@@ -25,7 +25,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
         public void InitializedWithDefaultConstructorHasCorrectFixture()
         {
             // Fixture setup
-            var sut = new AutoDataAttribute();
+            var sut = new AutoTestCaseAttribute();
             // Exercise system
             IFixture result = sut.Fixture;
             // Verify outcome
@@ -39,7 +39,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new AutoDataAttribute((IFixture)null));
+                new AutoTestCaseAttribute((IFixture)null));
             // Teardown
         }
 
@@ -48,7 +48,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
         {
             // Fixture setup
             var expectedComposer = new DelegatingFixture();
-            var sut = new AutoDataAttribute(expectedComposer);
+            var sut = new AutoTestCaseAttribute(expectedComposer);
             // Exercise system
             var result = sut.Fixture;
             // Verify outcome
@@ -62,7 +62,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new AutoDataAttribute((Type)null));
+                new AutoTestCaseAttribute((Type)null));
             // Teardown
         }
 
@@ -72,7 +72,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentException>(() =>
-                new AutoDataAttribute(typeof(object)));
+                new AutoTestCaseAttribute(typeof(object)));
             // Teardown
         }
 
@@ -82,7 +82,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentException>(() =>
-                new AutoDataAttribute(typeof(ComposerWithoutADefaultConstructor)));
+                new AutoTestCaseAttribute(typeof(ComposerWithoutADefaultConstructor)));
             // Teardown
         }
 
@@ -91,7 +91,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
         {
             // Fixture setup
             var composerType = typeof(DelegatingFixture);
-            var sut = new AutoDataAttribute(composerType);
+            var sut = new AutoTestCaseAttribute(composerType);
             // Exercise system
             var result = sut.Fixture;
             // Verify outcome
@@ -104,7 +104,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
         {
             // Fixture setup
             var composerType = typeof(DelegatingFixture);
-            var sut = new AutoDataAttribute(composerType);
+            var sut = new AutoTestCaseAttribute(composerType);
             // Exercise system
             var result = sut.FixtureType;
             // Verify outcome
@@ -116,7 +116,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
         public void GetDataWithNullMethodThrows()
         {
             // Fixture setup
-            var sut = new AutoDataAttribute();
+            var sut = new AutoTestCaseAttribute();
             var dummyTypes = Type.EmptyTypes;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
@@ -145,7 +145,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
             };
             var composer = new DelegatingFixture { OnCreate = builder.OnCreate };
 
-            var sut = new AutoDataAttribute(composer);
+            var sut = new AutoTestCaseAttribute(composer);
             // Exercise system
             var result = sut.GetData(method, parameterTypes);
             // Verify outcome

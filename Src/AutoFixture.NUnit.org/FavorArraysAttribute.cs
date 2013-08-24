@@ -5,7 +5,7 @@ using Ploeh.AutoFixture.Kernel;
 namespace Ploeh.AutoFixture.NUnit.org
 {
     /// <summary>
-    /// An attribute that can be applied to parameters in an <see cref="AutoDataAttribute"/>-driven
+    /// An attribute that can be applied to parameters in an <see cref="AutoTestCaseAttribute"/>-driven
     /// Theory to indicate that the parameter value should be created using a constructor with one
     /// or more array arguments, if applicable.
     /// </summary>

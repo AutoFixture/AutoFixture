@@ -9,26 +9,26 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
     [TestFixture]
     public class Scenario
     {
-        [Test, AutoData]
+        [Test, AutoTestCase]
         public void AutoDataProvidesCorrectInteger(int primitiveValue)
         {
             Assert.AreNotEqual(0, primitiveValue);
         }
 
-        [Test, AutoData]
+        [Test, AutoTestCase]
         public void AutoDataProvidesCorrectString(string text)
         {
             Assert.True(text.StartsWith("text"));
         }
 
-        [Test, AutoData]
+        [Test, AutoTestCase]
         public void AutoDataProvidesCorrectObject(PropertyHolder<Version> ph)
         {
             Assert.NotNull(ph);
             Assert.NotNull(ph.Property);
         }
 
-        [Test, AutoData]
+        [Test, AutoTestCase]
         public void AutoDataProvidesMultipleObjects(PropertyHolder<Version> ph, SingleParameterType<OperatingSystem> spt)
         {
             Assert.NotNull(ph);
@@ -38,19 +38,19 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
             Assert.NotNull(spt.Parameter);
         }
 
-        [Test, AutoData(typeof(CustomizedFixture))]
+        [Test, AutoTestCase(typeof(CustomizedFixture))]
         public void AutoDataProvidesCustomizedObject(PropertyHolder<string> ph)
         {
             Assert.AreEqual("Ploeh", ph.Property);
         }
 
-        [Test, AutoData]
+        [Test, AutoTestCase]
         public void FreezeFirstParameter([Frozen]Guid g1, Guid g2)
         {
             Assert.AreEqual(g1, g2);
         }
 
-        [Test, AutoData]
+        [Test, AutoTestCase]
         public void FreezeSecondParameterOnlyFreezesSubsequentParameters(Guid g1, [Frozen]Guid g2, Guid g3)
         {
             Assert.AreNotEqual(g1, g2);
@@ -59,7 +59,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
             Assert.AreEqual(g2, g3);
         }
 
-        [Test, AutoData]
+        [Test, AutoTestCase]
         public void IntroductoryTest(
             int expectedNumber, MyClass sut)
         {
@@ -71,34 +71,34 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
             // Teardown
         }
 
-        [Test, AutoData]
+        [Test, AutoTestCase]
         public void ModestCreatesParameterWithModestConstructor([Modest]MultiUnorderedConstructorType p)
         {
             Assert.True(string.IsNullOrEmpty(p.Text));
             Assert.AreEqual(0, p.Number);
         }
 
-        [Test, AutoData]
+        [Test, AutoTestCase]
         public void GreedyCreatesParameterWithGreedyConstructor([Greedy]MultiUnorderedConstructorType p)
         {
             Assert.False(string.IsNullOrEmpty(p.Text));
             Assert.AreNotEqual(0, p.Number);
         }
 
-        [Test, AutoData]
+        [Test, AutoTestCase]
         public void BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter([Frozen][Greedy]MultiUnorderedConstructorType p1, MultiUnorderedConstructorType p2)
         {
             Assert.False(string.IsNullOrEmpty(p2.Text));
             Assert.AreNotEqual(0, p2.Number);
         }
 
-        [Test, AutoData]
+        [Test, AutoTestCase]
         public void FavorArraysCausesArrayConstructorToBeInjectedWithFrozenItems([Frozen]int[] numbers, [FavorArrays]ItemContainer<int> container)
         {
             Assert.True(numbers.SequenceEqual(container.Items));
         }
 
-        [Test, AutoData]
+        [Test, AutoTestCase]
         public void FreezeFirstParameterAsBaseTypeAssignsSameInstanceToSecondParameterOfThatBaseType(
             [Frozen(As = typeof(AbstractType))]ConcreteType p1,
             AbstractType p2)
@@ -106,7 +106,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
             Assert.ReferenceEquals(p1, p2);
         }
 
-        [Test, AutoData]
+        [Test, AutoTestCase]
         public void FreezeFirstParameterAsNullTypeAssignsSameInstanceToSecondParameterOfSameType(
             [Frozen(As = null)]ConcreteType p1,
             ConcreteType p2)

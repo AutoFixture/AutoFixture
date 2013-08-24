@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\Users\gertj_000\Documents\GitHub\AutoFixture\Src\AutoFixture.NUnit.org.Addins.UnitTest\AutoFixture.NUnit.org.Addins.UnitTest.csproj" total="2" errors="0" failures="1" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2013-08-25" time="06:28:47">
+  <environment nunit-version="2.6.2.12296" clr-version="4.0.30319.18051" os-version="Microsoft Windows NT 6.2.9200.0" platform="Win32NT" cwd="C:\Users\gertj_000\Documents\GitHub\AutoFixture\Src\AutoFixture.NUnit.org.Addins.UnitTest\bin\Debug" machine-name="ASTRIX" user="gertj_000" user-domain="ASTRIX" />
+  <culture-info current-culture="en-AU" current-uiculture="en-US" />
+  <test-suite type="Project" name="C:\Users\gertj_000\Documents\GitHub\AutoFixture\Src\AutoFixture.NUnit.org.Addins.UnitTest\AutoFixture.NUnit.org.Addins.UnitTest.csproj" executed="True" result="Failure" success="False" time="11.828" asserts="0">
+    <results>
+      <test-suite type="Assembly" name="C:\Users\gertj_000\Documents\GitHub\AutoFixture\Src\AutoFixture.NUnit.org.Addins.UnitTest\bin\Debug\AutoFixture.NUnit.org.Addins.UnitTest.dll" executed="True" result="Failure" success="False" time="11.812" asserts="0">
+        <results>
+          <test-suite type="Namespace" name="AutoFixture" executed="True" result="Failure" success="False" time="11.812" asserts="0">
+            <results>
+              <test-suite type="Namespace" name="NUnit" executed="True" result="Failure" success="False" time="11.812" asserts="0">
+                <results>
+                  <test-suite type="Namespace" name="org" executed="True" result="Failure" success="False" time="11.812" asserts="0">
+                    <results>
+                      <test-suite type="Namespace" name="Addins" executed="True" result="Failure" success="False" time="11.812" asserts="0">
+                        <results>
+                          <test-suite type="Namespace" name="UnitTest" executed="True" result="Failure" success="False" time="11.812" asserts="0">
+                            <results>
+                              <test-suite type="TestFixture" name="AutoDataTestCaseBuilderTest" executed="True" result="Failure" success="False" time="11.812" asserts="0">
+                                <results>
+                                  <test-case name="AutoFixture.NUnit.org.Addins.UnitTest.AutoDataTestCaseBuilderTest.BuildFromAutoDataTestCaseBuilderReturnsCorrectly" executed="True" result="Success" success="True" time="0.078" asserts="0" />
+                                  <test-case name="AutoFixture.NUnit.org.Addins.UnitTest.AutoDataTestCaseBuilderTest.CanBuildFromAutoDataTestCaseBuilder" executed="True" result="Failure" success="False" time="11.609" asserts="1">
+                                    <failure>
+                                      <message><![CDATA[  Expected: True
+  But was:  False
+]]></message>
+                                      <stack-trace><![CDATA[at AutoFixture.NUnit.org.Addins.UnitTest.AutoDataTestCaseBuilderTest.CanBuildFromAutoDataTestCaseBuilder() in c:\Users\gertj_000\Documents\GitHub\AutoFixture\Src\AutoFixture.NUnit.org.Addins.UnitTest\AutoDataTestCaseBuilderTest.cs:line 40
+]]></stack-trace>
+                                    </failure>
+                                  </test-case>
+                                </results>
+                              </test-suite>
+                            </results>
+                          </test-suite>
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

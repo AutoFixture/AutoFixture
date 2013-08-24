@@ -14,12 +14,12 @@ namespace Ploeh.AutoFixture.NUnit.org
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     [CLSCompliant(false)]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
-    public class AutoDataAttribute : DataAttribute
+    public class AutoTestCaseAttribute : DataAttribute
     {
         private readonly IFixture _fixture;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AutoDataAttribute"/> class.
+        /// Initializes a new instance of the <see cref="AutoTestCaseAttribute"/> class.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -27,13 +27,13 @@ namespace Ploeh.AutoFixture.NUnit.org
         /// <see cref="Fixture"/>.
         /// </para>
         /// </remarks>
-        public AutoDataAttribute()
+        public AutoTestCaseAttribute()
             : this(new Fixture())
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AutoDataAttribute"/> class with an
+        /// Initializes a new instance of the <see cref="AutoTestCaseAttribute"/> class with an
         /// <see cref="IFixture"/> of the supplied type.
         /// </summary>
         /// <param name="fixtureType">The type of the composer.</param>
@@ -41,17 +41,17 @@ namespace Ploeh.AutoFixture.NUnit.org
         /// <paramref name="fixtureType"/> does not implement <see cref="IFixture"/>
         /// or does not have a default constructor.
         /// </exception>
-        public AutoDataAttribute(Type fixtureType)
-            : this(AutoDataAttribute.CreateFixture(fixtureType))
+        public AutoTestCaseAttribute(Type fixtureType)
+            : this(AutoTestCaseAttribute.CreateFixture(fixtureType))
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AutoDataAttribute"/> class with the
+        /// Initializes a new instance of the <see cref="AutoTestCaseAttribute"/> class with the
         /// supplied <see cref="IFixture"/>.
         /// </summary>
         /// <param name="fixture">The fixture.</param>
-        public AutoDataAttribute(IFixture fixture)
+        public AutoTestCaseAttribute(IFixture fixture)
         {
             if (fixture == null)
             {
@@ -142,7 +142,7 @@ namespace Ploeh.AutoFixture.NUnit.org
                 throw new ArgumentException(
                     string.Format(
                         CultureInfo.CurrentCulture,
-                        "{0} has no default constructor. Please supply a a Type that implements IFixture and has a default constructor. Alternatively you can supply an IFixture instance through one of the AutoDataAttribute constructor overloads. If used as an attribute, this can be done from a derived class.",
+                        "{0} has no default constructor. Please supply a a Type that implements IFixture and has a default constructor. Alternatively you can supply an IFixture instance through one of the AutoTestCaseAttribute constructor overloads. If used as an attribute, this can be done from a derived class.",
                         type),
                     "type");
             }

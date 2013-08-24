@@ -51,8 +51,8 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AutoDataAddin.cs" />
-    <Compile Include="Builders\AutoDataTestCaseBuilder.cs" />
+    <Compile Include="AutoTestCaseAddin.cs" />
+    <Compile Include="Builders\AutoTestCaseBuilder.cs" />
     <Compile Include="Builders\Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

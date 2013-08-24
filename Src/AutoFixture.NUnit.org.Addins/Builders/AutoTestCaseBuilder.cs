@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.NUnit.org.Addins.Builders
     /// takes a different branch depending on whether any parameters are
     /// provided, but all four cases are dealt with in lower-level methods
     /// </summary>
-    public class AutoDataTestCaseBuilder : ITestCaseBuilder2
+    public class AutoTestCaseBuilder : ITestCaseBuilder2
     {
         #region ITestCaseBuilder Methods
         /// <summary>

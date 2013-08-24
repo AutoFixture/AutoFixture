@@ -46,7 +46,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AutoDataAttribute.cs" />
+    <Compile Include="AutoTestCaseAttribute.cs" />
     <Compile Include="Extensions\ClassDataAttribute.cs" />
     <Compile Include="ModestAttribute.cs" />
     <Compile Include="NoAutoPropertiesAttribute.cs" />
