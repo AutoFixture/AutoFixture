@@ -8,11 +8,8 @@ namespace Ploeh.AutoFixture.NUnit.org.Addins
     {
         public bool Install(IExtensionHost host)
         {
-            var autoDataProviders = host.GetExtensionPoint("TestCaseProviders");
-            autoDataProviders.Install(new AutoDataProvider());
-
             var autoDataBuilders = host.GetExtensionPoint("TestCaseBuilders");
-            autoDataBuilders.Install(new AutoDataBuilder());
+            autoDataBuilders.Install(new AutoDataTestCaseBuilder());
 
             return true;
         }
