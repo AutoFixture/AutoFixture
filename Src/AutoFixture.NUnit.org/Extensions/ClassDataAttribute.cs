@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.NUnit.org
+namespace Ploeh.AutoFixture.NUnit.org.Extensions
 {
     /// <summary>
     /// Provides a data source for a data theory, with the data coming from a class
@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture.NUnit.org
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Ploeh.AutoFixture.NUnit.org.ClassDataAttribute"/> class.
+        /// Initializes a new instance of the <see cref="T:Ploeh.AutoFixture.NUnit.org.Extensions.ClassDataAttribute"/> class.
         /// 
         /// </summary>
         /// <param name="class">The class that provides the data.</param>

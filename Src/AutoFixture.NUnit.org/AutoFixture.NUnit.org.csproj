@@ -47,7 +47,7 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AutoDataAttribute.cs" />
-    <Compile Include="ClassDataAttribute.cs" />
+    <Compile Include="Extensions\ClassDataAttribute.cs" />
     <Compile Include="ModestAttribute.cs" />
     <Compile Include="NoAutoPropertiesAttribute.cs" />
     <Compile Include="GreedyAttribute.cs" />

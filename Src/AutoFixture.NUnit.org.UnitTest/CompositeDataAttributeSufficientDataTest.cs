@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using Ploeh.AutoFixture.NUnit.org;
+using Ploeh.AutoFixture.NUnit.org.Extensions;
 using Ploeh.TestTypeFoundation;
 
 namespace Ploe.AutoFixture.NUnit.org.UnitTest
