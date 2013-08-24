@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
+using NUnit.Framework;
 
 [assembly: AssemblyTitle("AutoFixture.NUnit.org.Addins.UnitTest")]
 [assembly: AssemblyDescription("AutoFixture.NUnit.org.Addins.UnitTest")]
@@ -11,3 +12,5 @@ using System.Runtime.InteropServices;
 
 [assembly: CLSCompliant(true)]
 [assembly: NeutralResourcesLanguage("en")]
+
+[assembly: RequiredAddin("AutoDataAddin")]
