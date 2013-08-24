@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture", "AutoFixture\AutoFixture.csproj", "{400AC174-9A4A-4C7D-815B-F2A21130A0D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixtureUnitTest", "AutoFixtureUnitTest\AutoFixtureUnitTest.csproj", "{01C86B79-C79F-4EC4-B32E-DA5467DBBD31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTypeFoundation", "TestTypeFoundation\TestTypeFoundation.csproj", "{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AutoFoq", "AutoFoq\AutoFoq.fsproj", "{E2D94FAA-A782-4D17-89A0-0F4B5D3BB021}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AutoFoqUnitTest", "AutoFoqUnitTest\AutoFoqUnitTest.fsproj", "{11544D61-62C6-4B24-BBD7-8685D7786AE9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Verify|Any CPU = Verify|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{400AC174-9A4A-4C7D-815B-F2A21130A0D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{400AC174-9A4A-4C7D-815B-F2A21130A0D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{400AC174-9A4A-4C7D-815B-F2A21130A0D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{400AC174-9A4A-4C7D-815B-F2A21130A0D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{400AC174-9A4A-4C7D-815B-F2A21130A0D1}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{400AC174-9A4A-4C7D-815B-F2A21130A0D1}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{01C86B79-C79F-4EC4-B32E-DA5467DBBD31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01C86B79-C79F-4EC4-B32E-DA5467DBBD31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01C86B79-C79F-4EC4-B32E-DA5467DBBD31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01C86B79-C79F-4EC4-B32E-DA5467DBBD31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01C86B79-C79F-4EC4-B32E-DA5467DBBD31}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{01C86B79-C79F-4EC4-B32E-DA5467DBBD31}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Verify|Any CPU.ActiveCfg = Release|Any CPU
+		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Verify|Any CPU.Build.0 = Release|Any CPU
+		{E2D94FAA-A782-4D17-89A0-0F4B5D3BB021}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2D94FAA-A782-4D17-89A0-0F4B5D3BB021}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2D94FAA-A782-4D17-89A0-0F4B5D3BB021}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2D94FAA-A782-4D17-89A0-0F4B5D3BB021}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2D94FAA-A782-4D17-89A0-0F4B5D3BB021}.Verify|Any CPU.ActiveCfg = Release|Any CPU
+		{E2D94FAA-A782-4D17-89A0-0F4B5D3BB021}.Verify|Any CPU.Build.0 = Release|Any CPU
+		{11544D61-62C6-4B24-BBD7-8685D7786AE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11544D61-62C6-4B24-BBD7-8685D7786AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11544D61-62C6-4B24-BBD7-8685D7786AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11544D61-62C6-4B24-BBD7-8685D7786AE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11544D61-62C6-4B24-BBD7-8685D7786AE9}.Verify|Any CPU.ActiveCfg = Release|Any CPU
+		{11544D61-62C6-4B24-BBD7-8685D7786AE9}.Verify|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
