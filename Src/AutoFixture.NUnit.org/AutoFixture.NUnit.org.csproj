@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLR_4_0</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -82,9 +82,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(TargetPath) "$(SolutionDir)..\Packages\NUnit.Runners.2.6.2\tools\addins" /Y
-xcopy $(TargetPath) "C:\Program Files (x86)\JetBrains\ReSharper\v7.1\Bin\addins" /Y
-xcopy $(TargetPath) "C:\Program Files (x86)\JetBrains\ReSharper\v8.0\Bin\addins" /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy $(TargetPath) "$(SolutionDir)..\Packages\NUnit.Runners.2.6.2\tools\addins" /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
