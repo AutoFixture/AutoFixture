@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using NUnit.Framework;
 
 [assembly: AssemblyTitle("AutoFixture.NUnit.org.UnitTest")]
 [assembly: AssemblyDescription("")]
@@ -14,3 +15,5 @@ using System.Runtime.InteropServices;
 
 [assembly: CLSCompliant(true)]
 [assembly: NeutralResourcesLanguage("en")]
+
+[assembly: RequiredAddin("AutoTestCaseExtension")]
