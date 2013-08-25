@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using Ploeh.AutoFixture.NUnit.org;
-using Ploeh.AutoFixture.NUnit.org.Extensions;
 using Ploeh.TestTypeFoundation;
 
 namespace Ploe.AutoFixture.NUnit.org.UnitTest
@@ -26,7 +25,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
         }
 
         [Test]
-        [ClassData(typeof(CompositeDataAttributeInsufficientDataTest))]
+        [TestCaseSource(typeof(CompositeDataAttributeInsufficientDataTest))]
         public void GetDataThrows(IEnumerable<DataAttribute> attributes)
         {
             // Fixture setup
