@@ -1,4 +1,4 @@
-﻿// ****************************************************************
+// ****************************************************************
 // Copyright 2008, Charlie Poole
 // This is free software licensed under the NUnit license. You may
 // obtain a copy of the license at http://nunit.org.
@@ -10,7 +10,7 @@ using System.Reflection;
 using NUnit.Core;
 using NUnit.Core.Extensibility;
 
-namespace Ploeh.AutoFixture.NUnit.org.Addins.Builders
+namespace Ploeh.AutoFixture.NUnit.org.Builders
 {
     /// <summary>
     /// Class to build ether a parameterized or a normal NUnitTestMethod.
@@ -27,6 +27,7 @@ namespace Ploeh.AutoFixture.NUnit.org.Addins.Builders
     public class AutoTestCaseBuilder : ITestCaseBuilder2
     {
         #region ITestCaseBuilder Methods
+
         /// <summary>
         /// Determines if the method can be used to build an NUnit test
         /// test method of some kind. The method must normally be marked
@@ -47,7 +48,7 @@ namespace Ploeh.AutoFixture.NUnit.org.Addins.Builders
         /// <returns>True if the builder can create a test case from this method</returns>
         public bool CanBuildFrom(MethodInfo method)
         {
-            return Reflect.HasAttribute(method, Constants.DataAttribute, false);
+            return Reflect.HasAttribute(method, AutoFixtureNUnitFramework.DataAttribute, false);
         }
 
         /// <summary>
@@ -73,10 +74,11 @@ namespace Ploeh.AutoFixture.NUnit.org.Addins.Builders
 
         public Test BuildFrom(MethodInfo method, Test parentSuite)
         {
-            return BuildParameterizedMethodSuite(method, parentSuite);
-        }
+            if (CanBuildFrom(method))
+                return BuildParameterizedMethodSuite(method, parentSuite);
 
-        #endregion
+            return null;
+        }
 
         /// <summary>
         /// Builds a ParameterizedMetodSuite containing individual
@@ -105,7 +107,7 @@ namespace Ploeh.AutoFixture.NUnit.org.Addins.Builders
                 }
             }
 
-            Attribute[] attrs = Reflect.GetAttributes(method, Constants.DataAttribute, false);
+            Attribute[] attrs = Reflect.GetAttributes(method, AutoFixtureNUnitFramework.DataAttribute, false);
             Type[] parameterTypes = method.GetParameters().Select(p => p.ParameterType).ToArray();
 
             foreach (DataAttribute attr in attrs)
@@ -261,6 +263,7 @@ namespace Ploeh.AutoFixture.NUnit.org.Addins.Builders
 
             if (parms != null)
             {
+                //TODO GJvR these internal fields are the only issue have posted a question / issue on https://answers.launchpad.net/nunitv2/+question/234577 waiting for a response.
                 //testMethod.arguments = parms.Arguments;
                 //testMethod.hasExpectedResult = parms.HasExpectedResult;
                 //if (testMethod.hasExpectedResult)
@@ -369,6 +372,8 @@ namespace Ploeh.AutoFixture.NUnit.org.Addins.Builders
             return typeArguments;
         }
 #endif
+        #endregion
+
         #endregion
     }
 }

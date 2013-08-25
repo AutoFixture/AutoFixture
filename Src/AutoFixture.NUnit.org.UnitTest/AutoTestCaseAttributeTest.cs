@@ -8,7 +8,7 @@ using Ploeh.TestTypeFoundation;
 namespace Ploe.AutoFixture.NUnit.org.UnitTest
 {
     [TestFixture]
-    public class AutoDataAttributeTest
+    public class AutoTestCaseAttributeTest
     {
         [Test]
         public void SutIsDataAttribute()
