@@ -14,7 +14,12 @@ namespace Ploeh.AutoFixture.NUnit.org
                 return false;
 
             listeners.Install(new AutoTestCaseEventListener());
+            
+            var providers = host.GetExtensionPoint("TestCaseProviders");
+            if (providers == null) 
+                return false;
 
+            providers.Install(new AutoTestCaseProvider());
             return true;
         }
     }
