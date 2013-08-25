@@ -51,7 +51,6 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AutoTestCaseAttributeTest.cs" />
-    <Compile Include="AutoTestCaseBuilderTest.cs" />
     <Compile Include="ComposerWithoutADefaultConstructor.cs" />
     <Compile Include="CompositeDataAttributeInsufficientDataTest.cs" />
     <Compile Include="CompositeDataAttributeSufficientDataTest.cs" />

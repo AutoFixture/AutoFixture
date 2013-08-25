@@ -13,13 +13,8 @@ namespace Ploeh.AutoFixture.NUnit.org
             if (listeners == null) 
                 return false;
 
-            var builders = host.GetExtensionPoint("TestCaseBuilders");
-            if (builders == null) 
-                return false;
-
             listeners.Install(new AutoTestCaseEventListener());
 
-            builders.Install(new AutoTestCaseBuilder());
             return true;
         }
     }

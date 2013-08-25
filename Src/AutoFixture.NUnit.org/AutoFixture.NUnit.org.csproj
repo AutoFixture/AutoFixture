@@ -56,7 +56,6 @@
     </Compile>
     <Compile Include="Addin.cs" />
     <Compile Include="AutoTestCaseAttribute.cs" />
-    <Compile Include="Builders\AutoTestCaseBuilder.cs" />
     <Compile Include="AutoFixtureNUnitFramework.cs" />
     <Compile Include="Listeners\AutoTestCaseEventListener.cs" />
     <Compile Include="ModestAttribute.cs" />
