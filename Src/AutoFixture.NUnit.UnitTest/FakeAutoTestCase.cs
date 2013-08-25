@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
-    public class FakeTest
+    public class FakeAutoTestCase
     {
         [AutoTestCase]
         public void DoSomething(int number)

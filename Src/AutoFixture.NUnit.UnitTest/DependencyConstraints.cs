@@ -1,14 +1,14 @@
 ﻿using System.Linq;
-using NUnit.Framework;
+using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
-    [TestFixture]
     public class DependencyConstraints
     {
-        [Test]
-        [TestCase("Moq")]
-        [TestCase("Rhino.Mocks")]
+        [Theory]
+        [InlineData("Moq")]
+        [InlineData("Rhino.Mocks")]
         public void AutoFixtureXunitDoesNotReference(string assemblyName)
         {
             // Fixture setup
@@ -19,14 +19,14 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Test]
-        [TestCase("Moq")]
-        [TestCase("Rhino.Mocks")]
+        [Theory]
+        [InlineData("Moq")]
+        [InlineData("Rhino.Mocks")]
         public void AutoFixtureXunitUnitTestsDoNotReference(string assemblyName)
         {
             // Fixture setup
             // Exercise system
-            var references = GetType().Assembly.GetReferencedAssemblies();
+            var references = this.GetType().Assembly.GetReferencedAssemblies();
             // Verify outcome
             Assert.False(references.Any(an => an.Name == assemblyName));
             // Teardown

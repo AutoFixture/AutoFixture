@@ -1,24 +1,23 @@
-﻿using System;
-using System.Linq;
-using NUnit.Framework;
+﻿using Xunit;
+using System;
 using Ploeh.TestTypeFoundation;
+using System.Linq;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
-    [TestFixture]
     public class NoAutoPropertiesAttributeTest
     {
-        [Test]
+        [Fact]
         public void SutIsAttribute()
         {
             // Fixture setup
             // Exercise system
             var sut = new NoAutoPropertiesAttribute();
             // Verify outcome
-            Assert.IsInstanceOf<CustomizeAttribute>(sut);
+            Assert.IsAssignableFrom<CustomizeAttribute>(sut);
         }
 
-        [Test]
+        [Fact]
         public void GetCustomizationFromNullParameterThrows()
         {
             // Fixture setup
@@ -28,7 +27,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
                 sut.GetCustomization(null));
         }
 
-        [Test]
+        [Fact]
         public void GetCustomizationReturnsTheCorrectResult()
         {
             // Fixture setup
@@ -40,7 +39,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Exercise system
             var result = sut.GetCustomization(parameter);
             // Verify the outcome
-            Assert.IsInstanceOf<NoAutoPropertiesCustomization>(result);
+            Assert.IsAssignableFrom<NoAutoPropertiesCustomization>(result);
         }
     }
 }

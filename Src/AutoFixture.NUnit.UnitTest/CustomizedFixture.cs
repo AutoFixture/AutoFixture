@@ -6,7 +6,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
     {
         public CustomizedFixture()
         {
-            Customize<PropertyHolder<string>>(c => c.With(x => x.Property, "Ploeh"));
+            this.Customize<PropertyHolder<string>>(c => c.With(x => x.Property, "Ploeh"));
         }
     }
 }

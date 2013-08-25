@@ -3,34 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using NUnit.Framework;
 using Ploeh.TestTypeFoundation;
+using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
-    [TestFixture]
     public class CompositeDataAttributeInsufficientDataTest : IEnumerable<object[]>
     {
-        private readonly MethodInfo _method;
-        private readonly Type[] _parameterTypes;
+        private readonly MethodInfo method;
+        private readonly Type[] parameterTypes;
 
         public CompositeDataAttributeInsufficientDataTest()
         {
-            _method = typeof(TypeWithOverloadedMembers)
+            this.method = typeof(TypeWithOverloadedMembers)
                 .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
-            var parameters = _method.GetParameters();
-            _parameterTypes = (from pi in parameters
-                              select pi.ParameterType).ToArray();
+            var parameters = method.GetParameters();
+            this.parameterTypes = (from pi in parameters
+                                    select pi.ParameterType).ToArray();
         }
 
-        [Test]
-        [TestCaseSource(typeof(CompositeDataAttributeInsufficientDataTest))]
+        [Theory]
+        [ClassData(typeof(CompositeDataAttributeInsufficientDataTest))]
         public void GetDataThrows(IEnumerable<DataAttribute> attributes)
         {
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<InvalidOperationException>(
-                () => { new CompositeDataAttribute(attributes).GetData(_method, _parameterTypes).ToList(); }
+                () => { new CompositeDataAttribute(attributes).GetData(this.method, this.parameterTypes).ToList(); }
                 );
             // Teardown
         }
@@ -40,51 +40,51 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             yield return CreateTestCase(
                 data: new[]
                 {
-                    new FakeDataAttribute(_method, _parameterTypes, new[] { new object[] { 1, 2 } }),
-                    new FakeDataAttribute(_method, _parameterTypes, new[] { new object[] { 3, 4 } })
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2 } }),
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 3, 4 } })
                 }
             );
 
             yield return CreateTestCase(
                 data: new[]
                 {
-                    new FakeDataAttribute(_method, _parameterTypes, new[] { new object[] { 1    } }),
-                    new FakeDataAttribute(_method, _parameterTypes, new[] { new object[] { 2, 3 } })
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1    } }),
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2, 3 } })
                 }
             );
 
             yield return CreateTestCase(
                 data: new[]
                 {
-                    new FakeDataAttribute(_method, _parameterTypes, new[] { new object[] { 1    } }),
-                    new FakeDataAttribute(_method, _parameterTypes, new[] { new object[] {      } }),
-                    new FakeDataAttribute(_method, _parameterTypes, new[] { new object[] { 2, 3 } })
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1    } }),
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] {      } }),
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2, 3 } })
                 }
             );
 
             yield return CreateTestCase(
                 data: new[]
                 {
-                    new FakeDataAttribute(_method, _parameterTypes, new[] { new object[] { 1 } }),
-                    new FakeDataAttribute(_method, _parameterTypes, new[] { new object[] { 2 } }),
-                    new FakeDataAttribute(_method, _parameterTypes, new[] { new object[] { 3 } })
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1 } }),
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2 } }),
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 3 } })
                 }
             );
 
             yield return CreateTestCase(
                 data: new[]
                 {
-                    new FakeDataAttribute(_method, _parameterTypes, new[] {  new object[] { 1, 2    },  new object[] {  3,  4     }, new object[] { 5, 6 } }),
-                    new FakeDataAttribute(_method, _parameterTypes, new[] {  new object[] { 7, 8, 9 },  new object[] { 10, 11, 12 }                        })
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] {  new object[] { 1, 2    },  new object[] {  3,  4     }, new object[] { 5, 6 } }),
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] {  new object[] { 7, 8, 9 },  new object[] { 10, 11, 12 }                        })
                 }
             );
 
             yield return CreateTestCase(
                 data: new[]
                 {
-                    new FakeDataAttribute(_method, _parameterTypes, new[] { new object[] {  1,  2     }, new object[] {  3,  4     }, new object[] { 5, 6 } }),
-                    new FakeDataAttribute(_method, _parameterTypes, new[] { new object[] {  7,  8,  9 }, new object[] { 10, 11, 12 }                        }),
-                    new FakeDataAttribute(_method, _parameterTypes, new[] { new object[] { 13, 14, 15 }                                                     })
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] {  1,  2     }, new object[] {  3,  4     }, new object[] { 5, 6 } }),
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] {  7,  8,  9 }, new object[] { 10, 11, 12 }                        }),
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 13, 14, 15 }                                                     })
                 }
             );
         }

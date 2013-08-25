@@ -6,14 +6,14 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
     internal class DelegatingFixture : IFixture
     {
-        private readonly List<ISpecimenBuilder> _customizations;
-        private readonly List<ISpecimenBuilder> _residueCollectors;
+        private readonly List<ISpecimenBuilder> customizations;
+        private readonly List<ISpecimenBuilder> residueCollectors;
 
         public DelegatingFixture()
         {
-            _customizations = new List<ISpecimenBuilder>();
-            _residueCollectors = new List<ISpecimenBuilder>();
-            OnCreate = (r, s) => new object();
+            this.customizations = new List<ISpecimenBuilder>();
+            this.residueCollectors = new List<ISpecimenBuilder>();
+            this.OnCreate = (r, s) => new object();
         }
 
         public IList<ISpecimenBuilderTransformation> Behaviors
@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
 
         public IList<ISpecimenBuilder> Customizations
         {
-            get { return _customizations; }
+            get { return this.customizations; }
         }
 
         public bool OmitAutoProperties { get; set; }
@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
 
         public IList<ISpecimenBuilder> ResidueCollectors
         {
-            get { return _residueCollectors; }
+            get { return this.residueCollectors; }
         }
 
         public void AddManyTo<T>(ICollection<T> collection, Func<T> creator)
@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
 
         public object Create(object request, ISpecimenContext context)
         {
-            return OnCreate(request, context);
+            return this.OnCreate(request, context);
         }
 
         internal Func<object, ISpecimenContext, object> OnCreate { get; set; }

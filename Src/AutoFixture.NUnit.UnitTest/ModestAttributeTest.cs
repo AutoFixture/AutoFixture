@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Linq;
-using NUnit.Framework;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
-    [TestFixture]
     public class ModestAttributeTest
     {
-        [Test]
+        [Fact]
         public void SutIsAttribute()
         {
             // Fixture setup
             // Exercise system
             var sut = new ModestAttribute();
             // Verify outcome
-            Assert.IsInstanceOf<CustomizeAttribute>(sut);
+            Assert.IsAssignableFrom<CustomizeAttribute>(sut);
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void GetCustomizationFromNullParamterThrows()
         {
             // Fixture setup
@@ -31,7 +30,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void GetCustomizationReturnsCorrectResult()
         {
             // Fixture setup
@@ -40,10 +39,9 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Exercise system
             var result = sut.GetCustomization(parameter);
             // Verify outcome
-            Assert.IsInstanceOf<ConstructorCustomization>(result);
-            var invoker = (ConstructorCustomization)result;
-            Assert.AreSame(parameter.ParameterType, invoker.TargetType);
-            Assert.IsInstanceOf<ModestConstructorQuery>(invoker.Query);
+            var invoker = Assert.IsAssignableFrom<ConstructorCustomization>(result);
+            Assert.Equal(parameter.ParameterType, invoker.TargetType);
+            Assert.IsAssignableFrom<ModestConstructorQuery>(invoker.Query);
             // Teardown
         }
     }

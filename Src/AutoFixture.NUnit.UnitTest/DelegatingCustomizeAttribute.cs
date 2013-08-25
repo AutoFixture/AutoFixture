@@ -7,12 +7,12 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
     {
         internal DelegatingCustomizeAttribute()
         {
-            OnGetCustomization = p => new DelegatingCustomization();
+            this.OnGetCustomization = p => new DelegatingCustomization();
         }
 
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-            return OnGetCustomization(parameter);
+            return this.OnGetCustomization(parameter);
         }
 
         internal Func<ParameterInfo, ICustomization> OnGetCustomization { get; set; }

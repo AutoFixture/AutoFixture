@@ -1,34 +1,32 @@
 using System.Reflection;
-using NUnit.Framework;
 using Ploeh.AutoFixture.NUnit.Builders;
+using Xunit;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
-    [TestFixture]
     public class AutoTestCaseProviderTest
     {
-        private MethodInfo _method;
+        private MethodInfo method;
 
-        [TestFixtureSetUp]
-        public void SetUp()
+        public AutoTestCaseProviderTest()
         {
-            _method = typeof(FakeTest).GetMethod("DoSomething");
+            this.method = typeof(FakeAutoTestCase).GetMethod("DoSomething");
         }
 
-        [Test]
+        [Fact]
         public void HasTestCasesForAutoDataTestCaseProvider()
         {
             var sut = new AutoTestCaseProvider();
-            var actual = sut.HasTestCasesFor(_method);
+            var actual = sut.HasTestCasesFor(this.method);
 
-            Assert.IsTrue(actual);
+            Assert.True(actual);
         }
 
-        [Test]
+        [Fact]
         public void GetTestCasesForAutoDataTestCaseBuilderReturnsCorrectly()
         {
             var sut = new AutoTestCaseProvider();
-            var actual = sut.GetTestCasesFor(_method);
+            var actual = sut.GetTestCasesFor(this.method);
         }
     }
 }

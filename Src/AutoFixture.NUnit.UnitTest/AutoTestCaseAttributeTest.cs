@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Linq;
-using NUnit.Framework;
 using Ploeh.TestTypeFoundation;
+using Xunit;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
-    [TestFixture]
     public class AutoTestCaseAttributeTest
     {
-        [Test]
+        [Fact]
         public void SutIsDataAttribute()
         {
             // Fixture setup
             // Exercise system
             var sut = new AutoTestCaseAttribute();
             // Verify outcome
-            Assert.IsInstanceOf<DataAttribute>(sut);
+            Assert.IsAssignableFrom<DataAttribute>(sut);
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void InitializedWithDefaultConstructorHasCorrectFixture()
         {
             // Fixture setup
@@ -31,7 +30,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void InitializeWithNullFixtureThrows()
         {
             // Fixture setup
@@ -41,7 +40,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void InitializedWithComposerHasCorrectComposer()
         {
             // Fixture setup
@@ -50,11 +49,11 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Exercise system
             var result = sut.Fixture;
             // Verify outcome
-            Assert.AreEqual(expectedComposer, result);
+            Assert.Equal(expectedComposer, result);
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void InitializeWithNullTypeThrows()
         {
             // Fixture setup
@@ -64,7 +63,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void InitializeWithNonComposerTypeThrows()
         {
             // Fixture setup
@@ -74,7 +73,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void InitializeWithComposerTypeWithoutDefaultConstructorThrows()
         {
             // Fixture setup
@@ -84,7 +83,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void InitializedWithCorrectComposerTypeHasCorrectComposer()
         {
             // Fixture setup
@@ -97,7 +96,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void FixtureTypeIsCorrect()
         {
             // Fixture setup
@@ -106,11 +105,11 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Exercise system
             var result = sut.FixtureType;
             // Verify outcome
-            Assert.AreEqual(composerType, result);
+            Assert.Equal(composerType, result);
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void GetDataWithNullMethodThrows()
         {
             // Fixture setup
@@ -122,7 +121,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void GetDataReturnsCorrectResult()
         {
             // Fixture setup
@@ -135,11 +134,11 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             var builder = new DelegatingSpecimenBuilder
             {
                 OnCreate = (r, c) =>
-                {
-                    Assert.AreEqual(parameters.Single(), r);
-                    Assert.NotNull(c);
-                    return expectedResult;
-                }
+                    {
+                        Assert.Equal(parameters.Single(), r);
+                        Assert.NotNull(c);
+                        return expectedResult;
+                    }
             };
             var composer = new DelegatingFixture { OnCreate = builder.OnCreate };
 

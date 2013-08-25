@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
+using Xunit;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
-    [TestFixture]
     public class CompositeDataAttributeTest
     {
-        [Test]
+        [Fact]
         public void SutIsDataAttribute()
         {
             // Fixture setup
             // Exercise system
             var sut = new CompositeDataAttribute();
             // Verify outcome
-            Assert.IsInstanceOf<DataAttribute>(sut);
+            Assert.IsAssignableFrom<DataAttribute>(sut);
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void InitializeWithNullArrayThrows()
         {
             // Fixture setup
@@ -29,7 +28,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void AttributesIsCorrectWhenInitializedWithArray()
         {
             // Fixture setup
@@ -54,7 +53,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void InitializeWithNullEnumerableThrows()
         {
             // Fixture setup
@@ -64,7 +63,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void AttributesIsCorrectWhenInitializedWithEnumerable()
         {
             // Fixture setup
@@ -89,7 +88,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void GetDataWithNullMethodThrows()
         {
             // Fixture setup
@@ -101,7 +100,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void GetDataWithNullTypesThrows()
         {
             // Fixture setup
@@ -113,7 +112,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Test]
+        [Fact]
         public void GetDataOnMethodWithNoParametersReturnsNoTheory()
         {
             // Fixture setup
@@ -131,7 +130,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
 
             // Exercise system and verify outcome
             var result = sut.GetData(a.Method, Type.EmptyTypes);
-            Array.ForEach(result.ToArray(), Assert.IsEmpty);
+            Array.ForEach(result.ToArray(), Assert.Empty);
             // Teardown
         }
     }

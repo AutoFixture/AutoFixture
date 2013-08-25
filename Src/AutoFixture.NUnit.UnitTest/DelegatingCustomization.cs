@@ -6,12 +6,12 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
     {
         internal DelegatingCustomization()
         {
-            OnCustomize = f => { };
+            this.OnCustomize = f => { };
         }
 
         public void Customize(IFixture fixture)
         {
-            OnCustomize(fixture);
+            this.OnCustomize(fixture);
         }
 
         internal Action<IFixture> OnCustomize { get; set; }
