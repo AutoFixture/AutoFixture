@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 
-namespace Ploe.AutoFixture.NUnit.UnitTest
+namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
     internal class DelegatingFixture : IFixture
     {

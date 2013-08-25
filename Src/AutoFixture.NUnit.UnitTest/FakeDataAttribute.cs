@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
-using Ploeh.AutoFixture.NUnit;
 
-namespace Ploe.AutoFixture.NUnit.UnitTest
+namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
     public class FakeDataAttribute : DataAttribute
     {

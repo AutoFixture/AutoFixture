@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using Ploeh.AutoFixture.NUnit;
 
-namespace Ploe.AutoFixture.NUnit.UnitTest
+namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
     [TestFixture]
     public class DependencyConstraints

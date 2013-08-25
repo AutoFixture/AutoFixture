@@ -2,7 +2,7 @@ using System.Reflection;
 using NUnit.Framework;
 using Ploeh.AutoFixture.NUnit.Builders;
 
-namespace Ploe.AutoFixture.NUnit.UnitTest
+namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
     [TestFixture]
     public class AutoTestCaseProviderTest

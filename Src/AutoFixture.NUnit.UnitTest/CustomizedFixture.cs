@@ -1,7 +1,6 @@
-﻿using Ploeh.AutoFixture;
-using Ploeh.TestTypeFoundation;
+﻿using Ploeh.TestTypeFoundation;
 
-namespace Ploe.AutoFixture.NUnit.UnitTest
+namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
     internal class CustomizedFixture : Fixture
     {

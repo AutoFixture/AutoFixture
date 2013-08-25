@@ -7,8 +7,8 @@
     <ProjectGuid>{5CACC229-A5EF-4683-A846-D59230284D66}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ploe.AutoFixture.NUnit.UnitTest</RootNamespace>
-    <AssemblyName>Ploe.AutoFixture.NUnit.UnitTest</AssemblyName>
+    <RootNamespace>Ploeh.AutoFixture.NUnit.UnitTest</RootNamespace>
+    <AssemblyName>Ploeh.AutoFixture.NUnit.UnitTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

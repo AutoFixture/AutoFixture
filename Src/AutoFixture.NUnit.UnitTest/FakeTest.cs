@@ -1,7 +1,6 @@
 using NUnit.Framework;
-using Ploeh.AutoFixture.NUnit;
 
-namespace Ploe.AutoFixture.NUnit.UnitTest
+namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
     public class FakeTest
     {

@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
-using Ploeh.AutoFixture.NUnit;
 using Ploeh.TestTypeFoundation;
 
-namespace Ploe.AutoFixture.NUnit.UnitTest
+namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
     [TestFixture]
     public class CompositeDataAttributeInsufficientDataTest : IEnumerable<object[]>
