@@ -39,8 +39,14 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.fs" />
     <None Include="packages.config" />
+    <Compile Include="FoqRelayTest.fs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AutoFoq\AutoFoq.fsproj">
+      <Name>AutoFoq</Name>
+      <Project>{e2d94faa-a782-4d17-89a0-0f4b5d3bb021}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <Reference Include="Foq">
       <HintPath>..\..\Packages\Foq.1.0\Lib\net40\Foq.dll</HintPath>
       <Private>True</Private>
@@ -59,11 +65,6 @@
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
       <Name>AutoFixture</Name>
       <Project>{400ac174-9a4a-4c7d-815b-f2a21130a0d1}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\AutoFoq\AutoFoq.fsproj">
-      <Name>AutoFoq</Name>
-      <Project>{e2d94faa-a782-4d17-89a0-0f4b5d3bb021}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj">

@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.fs" />
     <None Include="packages.config" />
+    <Compile Include="FoqRelay.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Foq">
