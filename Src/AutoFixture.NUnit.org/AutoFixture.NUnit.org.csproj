@@ -58,7 +58,6 @@
     <Compile Include="AutoTestCaseAttribute.cs" />
     <Compile Include="Builders\AutoTestCaseBuilder.cs" />
     <Compile Include="AutoFixtureNUnitFramework.cs" />
-    <Compile Include="ActionsHelper.cs" />
     <Compile Include="Listeners\AutoTestCaseEventListener.cs" />
     <Compile Include="ModestAttribute.cs" />
     <Compile Include="NoAutoPropertiesAttribute.cs" />
