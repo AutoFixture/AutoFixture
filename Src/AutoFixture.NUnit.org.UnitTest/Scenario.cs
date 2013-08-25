@@ -103,7 +103,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
             [Frozen(As = typeof(AbstractType))]ConcreteType p1,
             AbstractType p2)
         {
-            Assert.ReferenceEquals(p1, p2);
+            Assert.AreSame(p1, p2);
         }
 
         [Test, AutoTestCase]
@@ -111,7 +111,7 @@ namespace Ploe.AutoFixture.NUnit.org.UnitTest
             [Frozen(As = null)]ConcreteType p1,
             ConcreteType p2)
         {
-            Assert.ReferenceEquals(p1, p2);
+            Assert.AreSame(p1, p2);
         }
     }
 }
