@@ -14,3 +14,6 @@ using NUnit.Framework;
 [assembly: NeutralResourcesLanguage("en")]
 
 [assembly: RequiredAddin("AutoTestCaseExtension")]
+
+[assembly: AssemblyVersion("3.6.6.0")]
+[assembly: AssemblyFileVersion("3.6.6.0")]

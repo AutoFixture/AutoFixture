@@ -14,3 +14,6 @@ using System.Resources;
 
 [assembly: CLSCompliant(true)]
 [assembly: NeutralResourcesLanguage("en")]
+
+[assembly: AssemblyVersion("3.6.6.0")]
+[assembly: AssemblyFileVersion("3.6.6.0")]
