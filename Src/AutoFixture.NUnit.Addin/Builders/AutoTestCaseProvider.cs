@@ -5,7 +5,7 @@ using System.Reflection;
 using NUnit.Core;
 using NUnit.Core.Extensibility;
 
-namespace Ploeh.AutoFixture.NUnit.Builders
+namespace Ploeh.AutoFixture.NUnit.Addin.Builders
 {
     /// <summary>
     /// TestCaseSourceProvider provides data for methods
@@ -66,10 +66,10 @@ namespace Ploeh.AutoFixture.NUnit.Builders
 
             foreach (DataAttribute attr in attributes)
             {
-                foreach (var data in attr.GetData(method, parameterTypes))
+                foreach (var arguments in attr.GetData(method, parameterTypes))
                 {
                     ParameterSet parms = new ParameterSet();
-                    parms.Arguments = data;
+                    parms.Arguments = arguments;
 
                     parameterList.Add(parms);
                 }

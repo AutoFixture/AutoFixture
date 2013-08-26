@@ -1,8 +1,8 @@
 using System.Reflection;
-using Ploeh.AutoFixture.NUnit.Builders;
+using Ploeh.AutoFixture.NUnit.Addin.Builders;
 using Xunit;
 
-namespace Ploeh.AutoFixture.NUnit.UnitTest
+namespace Ploeh.AutoFixture.NUnit.Addin.UnitTest
 {
     public class AutoTestCaseProviderTest
     {
@@ -27,6 +27,8 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
         {
             var sut = new AutoTestCaseProvider();
             var actual = sut.GetTestCasesFor(this.method);
+
+            Assert.NotNull(actual);
         }
     }
 }

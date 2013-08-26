@@ -30,6 +30,8 @@
         <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.XML" />
         <BuildOutput Include="Src\AutoFixture.NUnit\bin\Release\Ploeh.AutoFixture.NUnit.dll" />
         <BuildOutput Include="Src\AutoFixture.NUnit\bin\Release\Ploeh.AutoFixture.NUnit.XML" />
+        <BuildOutput Include="Src\AutoFixture.NUnit.Addin\bin\Release\Ploeh.AutoFixture.NUnit.Addin.dll" />
+        <BuildOutput Include="Src\AutoFixture.NUnit.Addin\bin\Release\Ploeh.AutoFixture.NUnit.Addin.XML" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.dll" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.XML" />
     </ItemGroup>

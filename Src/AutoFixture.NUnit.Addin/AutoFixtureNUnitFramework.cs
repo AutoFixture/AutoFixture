@@ -1,4 +1,4 @@
-namespace Ploeh.AutoFixture.NUnit
+namespace Ploeh.AutoFixture.NUnit.Addin
 {
     public static class AutoFixtureNUnitFramework
     {

@@ -4,21 +4,20 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{786AFDB3-B705-49DD-A565-34F44A4A2DAD}</ProjectGuid>
+    <ProjectGuid>{A738997B-C20C-4F47-9826-5B4AB6D77251}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ploeh.AutoFixture.NUnit</RootNamespace>
-    <AssemblyName>Ploeh.AutoFixture.NUnit</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>Ploeh.AutoFixture.NUnit.Addin.UnitTest</RootNamespace>
+    <AssemblyName>Ploeh.AutoFixture.NUnit.Addin.UnitTest</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -29,45 +28,44 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Ploeh.AutoFixture.NUnit.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.core.interfaces">
+      <HintPath>..\..\Packages\NUnit.Runners.2.6.2\tools\lib\nunit.core.interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="xunit">
+      <HintPath>..\..\Packages\xunit.1.8.0.1549\lib\xunit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AutoTestCaseAttribute.cs" />
-    <Compile Include="ModestAttribute.cs" />
-    <Compile Include="NoAutoPropertiesAttribute.cs" />
-    <Compile Include="GreedyAttribute.cs" />
-    <Compile Include="FavorListsAttribute.cs" />
-    <Compile Include="FrozenAttribute.cs" />
-    <Compile Include="FavorEnumerablesAttribute.cs" />
-    <Compile Include="FavorArraysAttribute.cs" />
-    <Compile Include="CompositeDataAttribute.cs" />
-    <Compile Include="CustomizeAttribute.cs" />
-    <Compile Include="DataAttribute.cs" />
+    <Compile Include="AutoTestCaseProviderTest.cs" />
+    <Compile Include="FakeAutoTestCase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
-      <Project>{400ac174-9a4a-4c7d-815b-f2a21130a0d1}</Project>
-      <Name>AutoFixture</Name>
+    <ProjectReference Include="..\AutoFixture.NUnit.Addin\AutoFixture.NUnit.Addin.csproj">
+      <Project>{942a0d67-c968-4047-8dde-f03ca8d672f3}</Project>
+      <Name>AutoFixture.NUnit.Addin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoFixture.NUnit\AutoFixture.NUnit.csproj">
+      <Project>{786AFDB3-B705-49DD-A565-34F44A4A2DAD}</Project>
+      <Name>AutoFixture.NUnit</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>xcopy $(TargetPath) "$(SolutionDir)..\Packages\NUnit.Runners.2.6.2\tools\addins" /Y</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

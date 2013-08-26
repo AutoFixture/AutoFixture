@@ -21,5 +21,7 @@
         <file src="Ploeh.AutoFixture.NUnit.dll" target="lib\net40" />
         <file src="Ploeh.AutoFixture.NUnit.XML" target="lib\net40" />
         <file src="Install.ps1" target="tools" />
+        <file src="Ploeh.AutoFixture.NUnit.Addin.dll" target="tools\bin\addins" />
+        <file src="Ploeh.AutoFixture.NUnit.Addin.XML" target="tools\bin\addins" />
     </files>
 </package>

@@ -1,21 +1,22 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using NUnit.Core;
 using NUnit.Core.Extensibility;
-using NUnit.Framework;
 
-namespace Ploeh.AutoFixture.NUnit.Decorators
+namespace Ploeh.AutoFixture.NUnit.Addin.Decorators
 {
     public class CustomDecorator : ITestDecorator
     {
         public Test Decorate(Test test, MemberInfo member)
         {
-            if (test.GetType() == typeof(NUnitTestMethod) && ((NUnitTestMethod)test).Method.GetCustomAttributes(typeof(IgnoreAttribute), true).Length == 0)
+            var hasIgnoreAttribute = Reflect.GetAttributes(((NUnitTestMethod)test).Method, NUnitFramework.IgnoreAttribute, true).Any();
+
+            if (test.GetType() == typeof(NUnitTestMethod) && hasIgnoreAttribute == false)
             {
                 return new TestMethodWrapper((NUnitTestMethod) test);
             }
 
             return test;
         }
-
     }
 }
