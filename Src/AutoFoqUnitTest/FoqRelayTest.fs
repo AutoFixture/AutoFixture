@@ -3,6 +3,7 @@
 open Foq
 open Ploeh.AutoFixture.Kernel
 open Ploeh.AutoFixture.AutoFoq
+open Ploeh.TestTypeFoundation
 open System
 open Xunit
 open Xunit.Extensions
@@ -49,3 +50,57 @@ let InitializedWithDefaultConstructorHasCorrectSpecification() =
     // Verify outcome
     Assert.IsType<AbstractTypeSpecification>(result)
     // Teardown
+
+[<Fact>]
+let CreateWithRequestThatDoesNotMatchSpecificationReturnsNoSpecimen() =
+    // Fixture setup
+    let dummyBuilder = Mock<ISpecimenBuilder>().Create()
+    let specification = FalseRequestSpecification()
+    let sut = FoqRelay(dummyBuilder, specification)
+    let request = typedefof<ConcreteType>
+    let dummyContext = Mock<ISpecimenContext>().Create()
+    // Exercise system
+    let result = sut.Create(request, dummyContext)
+    // Verify outcome
+    let expected = NoSpecimen(request)
+    Assert.Equal(expected, result :?> NoSpecimen)
+
+[<Theory>][<PropertyData("Abstractions")>]
+let CreateWithAbstractionRequestReturnsNoSpecimenWhenDecoratedBuilderReturnsNull requestTypeName =
+    // Fixture setup
+    let request = typeof<IInterface>.Assembly.GetType(requestTypeName)
+    let dummyContext = Mock<ISpecimenContext>().Create()
+    let builder = 
+        Mock<ISpecimenBuilder>()
+            .Setup(fun x -> <@ x.Create(request, dummyContext) @>)
+            .Returns(null)
+            .Create()
+    let sut = FoqRelay(builder)
+    // Exercise system
+    let result = sut.Create(request, dummyContext) :?> NoSpecimen
+    // Verify outcome
+    let expected = NoSpecimen(request)
+    Assert.Equal(expected, result)
+
+[<Theory>][<PropertyData("Abstractions")>]
+let CreateWithAbstractionRequestReturnsResultFromDecoratedBuilder requestTypeName =
+    // Fixture setup
+    let request = typeof<IInterface>.Assembly.GetType(requestTypeName)
+    let dummyContext = Mock<ISpecimenContext>().Create()
+    let expected = new obj()
+    let builderStub = 
+        Mock<ISpecimenBuilder>()
+            .Setup(fun x -> <@ x.Create(request, dummyContext) @>)
+            .Returns(expected)
+            .Create()
+    let sut = FoqRelay(builderStub)
+    // Exercise system
+    let result = sut.Create(request, dummyContext)
+    // Verify outcome
+    Assert.Same(expected, result)
+
+let Abstractions : seq<obj[]> = 
+    seq { 
+            yield [| "Ploeh.TestTypeFoundation.IInterface" |]
+            yield [| "Ploeh.TestTypeFoundation.AbstractType" |]
+        }
