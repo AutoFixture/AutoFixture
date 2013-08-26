@@ -43,6 +43,7 @@
       <HintPath>..\..\Packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -58,8 +59,9 @@
     <Compile Include="AutoTestCaseAttribute.cs" />
     <Compile Include="AutoFixtureNUnitFramework.cs" />
     <Compile Include="Builders\AutoTestCaseProvider.cs" />
-    <Compile Include="Listeners\AutoTestCaseEventListener.cs" />
+    <Compile Include="Listeners\CustomEventListener.cs" />
     <Compile Include="ModestAttribute.cs" />
+    <Compile Include="Decorators\CustomDecorator.cs" />
     <Compile Include="NoAutoPropertiesAttribute.cs" />
     <Compile Include="GreedyAttribute.cs" />
     <Compile Include="FavorListsAttribute.cs" />
@@ -70,6 +72,7 @@
     <Compile Include="CustomizeAttribute.cs" />
     <Compile Include="DataAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestMethodWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
