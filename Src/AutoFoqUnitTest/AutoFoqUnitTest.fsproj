@@ -40,6 +40,7 @@
     <Compile Include="Properties\AssemblyInfo.fs" />
     <None Include="packages.config" />
     <Compile Include="FoqRelayTest.fs" />
+    <Compile Include="FoqMethodQueryTest.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFoq\AutoFoq.fsproj">

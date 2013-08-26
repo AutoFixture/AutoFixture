@@ -40,6 +40,7 @@
     <Compile Include="Properties\AssemblyInfo.fs" />
     <None Include="packages.config" />
     <Compile Include="FoqRelay.fs" />
+    <Compile Include="FoqMethodQuery.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Foq">
