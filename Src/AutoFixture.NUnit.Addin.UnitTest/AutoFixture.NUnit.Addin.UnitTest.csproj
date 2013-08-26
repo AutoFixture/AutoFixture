@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.core, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Packages\NUnit.Runners.2.6.2\tools\lib\nunit.core.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.core.interfaces">
       <HintPath>..\..\Packages\NUnit.Runners.2.6.2\tools\lib\nunit.core.interfaces.dll</HintPath>
     </Reference>
@@ -60,6 +64,10 @@
     <ProjectReference Include="..\AutoFixture.NUnit\AutoFixture.NUnit.csproj">
       <Project>{786AFDB3-B705-49DD-A565-34F44A4A2DAD}</Project>
       <Name>AutoFixture.NUnit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
+      <Project>{400ac174-9a4a-4c7d-815b-f2a21130a0d1}</Project>
+      <Name>AutoFixture</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
