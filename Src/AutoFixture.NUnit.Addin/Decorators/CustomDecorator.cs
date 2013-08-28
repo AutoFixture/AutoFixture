@@ -9,11 +9,10 @@ namespace Ploeh.AutoFixture.NUnit.Addin.Decorators
     {
         public Test Decorate(Test test, MemberInfo member)
         {
-            var hasIgnoreAttribute = Reflect.GetAttributes(((NUnitTestMethod)test).Method, NUnitFramework.IgnoreAttribute, true).Any();
-
-            if (test.GetType() == typeof(NUnitTestMethod) && hasIgnoreAttribute == false)
+            if (test.GetType() == typeof(NUnitTestMethod))
             {
-                return new TestMethodWrapper((NUnitTestMethod) test);
+                if(Reflect.GetAttributes(((NUnitTestMethod)test).Method, NUnitFramework.IgnoreAttribute, true).Any())
+                    return new TestMethodWrapper((NUnitTestMethod) test);
             }
 
             return test;
