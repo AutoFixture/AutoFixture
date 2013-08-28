@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Ploeh.AutoFixture.Kernel;
 
@@ -46,21 +48,30 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         /// <summary>
-        /// Verifies that calling `x.Equals(null)` on an instance of the type returns false.
+        /// Verifies that calling `x.Equals(null)` on the method returns false, if the supplied
+        /// method is an override of the <see cref="object.Equals(object)"/>.
         /// </summary>
-        /// <param name="type">The type.</param>
-        public override void Verify(Type type)
+        /// <param name="methodInfo">The method to verify</param>
+        public override void Verify(MethodInfo methodInfo)
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
+            if (methodInfo == null)
+                throw new ArgumentNullException("methodInfo");
 
-            if (!type.GetMethods().Any(m => m.IsObjectEqualsOverrideMethod()))
+            if (methodInfo.DeclaringType == null || 
+                !methodInfo.IsObjectEqualsOverrideMethod())
             {
-                // The type has no overrides of the Object.Equals(object) method
+                // The method is not an override of the Object.Equals(object) method
                 return;
             }
 
-            throw new NotImplementedException();
+            var instance = this.builder.CreateAnonymous(methodInfo.DeclaringType);
+            var equalsResult = instance.Equals(null);
+            if (equalsResult)
+            {
+                throw new EqualsOverrideException(string.Format(CultureInfo.CurrentCulture,
+                    "The type {0} overrides the object.Equals(object) method incorrectly, calling `x.Equals(null) should return false.",
+                    methodInfo.DeclaringType.FullName));
+            }
         }
 
     }

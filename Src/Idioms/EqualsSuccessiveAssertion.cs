@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Ploeh.AutoFixture.Kernel;
 
@@ -46,17 +47,19 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         /// <summary>
-        /// Verifies that calling `x.Equals(y)` 3 times on an instance of the type returns same value.
+        /// Verifies that `x.Equals(y)` 3 times on an instance of the type returns same
+        /// value, if the supplied method is an override of the 
+        /// <see cref="object.Equals(object)"/>.
         /// </summary>
-        /// <param name="type">The type.</param>
-        public override void Verify(Type type)
+        /// <param name="methodInfo">The method to verify</param>
+        public override void Verify(MethodInfo methodInfo)
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
+            if (methodInfo == null)
+                throw new ArgumentNullException("methodInfo");
 
-            if (!type.GetMethods().Any(m => m.IsObjectEqualsOverrideMethod()))
+            if (!methodInfo.IsObjectEqualsOverrideMethod())
             {
-                // The type has no overrides of the Object.Equals(object) method
+                // The method is not an override of the Object.Equals(object) method
                 return;
             }
 

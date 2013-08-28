@@ -47,14 +47,14 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyNullTypeThrows()
+        public void VerifyNullMethodThrows()
         {
             // Fixture setup
             var dummyComposer = new Fixture();
             var sut = new EqualsSelfAssertion(dummyComposer);
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                sut.Verify((Type)null));
+                sut.Verify((MethodInfo)null));
             // Teardown
         }
 

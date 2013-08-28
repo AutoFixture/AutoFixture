@@ -47,14 +47,14 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyNullTypeThrows()
+        public void VerifyNullMethodThrows()
         {
             // Fixture setup
             var dummyComposer = new Fixture();
             var sut = new EqualsNullAssertion(dummyComposer);
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                sut.Verify((Type)null));
+                sut.Verify((MethodInfo)null));
             // Teardown
         }
 
@@ -68,6 +68,58 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.DoesNotThrow(() =>
                 sut.Verify(typeof(ClassThatDoesNotOverrideObjectEquals)));
             // Teardown
+        }
+
+        [Fact]
+        public void VerifyWellBehavedEqualsNullOverrideDoesNotThrow()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new EqualsNullAssertion(dummyComposer);
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.Verify(typeof(WellBehavedEqualsNullOverride)));
+            // Teardown            
+        }
+
+        [Fact]
+        public void VerifyIllbehavedEqualsNullBehaviourThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new EqualsNullAssertion(dummyComposer);
+            // Exercise system and verify outcome
+            Assert.Throws<EqualsOverrideException>(() =>
+                sut.Verify(typeof(IllbehavedEqualsNullOverride)));
+            // Teardown
+        }
+
+        class IllbehavedEqualsNullOverride
+        {
+#pragma warning disable 659
+            public override bool Equals(object obj)
+#pragma warning restore 659
+            {
+                if (obj == null)
+                {
+                    return true;
+                }
+                throw new Exception();
+            }
+        }
+
+        class WellBehavedEqualsNullOverride
+        {
+#pragma warning disable 659
+            public override bool Equals(object obj)
+#pragma warning restore 659
+            {
+                if (obj == null)
+                {
+                    return false;
+                }
+                throw new Exception();
+            }
         }
 
         class ClassThatDoesNotOverrideObjectEquals
