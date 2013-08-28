@@ -41,6 +41,7 @@
     <None Include="packages.config" />
     <Compile Include="FoqRelay.fs" />
     <Compile Include="FoqMethodQuery.fs" />
+    <Compile Include="AutoFoqCustomization.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Foq">
