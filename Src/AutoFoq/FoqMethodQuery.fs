@@ -29,8 +29,14 @@ type FoqMethodQuery() =
             match targetType with
             | null -> raise (ArgumentNullException("targetType"))
             |  _   -> match targetType.IsInterface with
-                      | true  -> [| FoqMethod.Create(targetType) :?> IMethod |].AsEnumerable()
-                      | false -> Enumerable.Empty<IMethod>()
-
-
-
+                      | true  -> [| FoqMethod.Create(targetType) :?> IMethod |]
+                                    .AsEnumerable()
+                      | _     -> targetType.GetConstructors(
+                                        BindingFlags.Public 
+                                    ||| BindingFlags.Instance 
+                                    ||| BindingFlags.NonPublic)
+                                 |> Seq.sortBy(fun x -> x.GetParameters().Length)
+                                 |> Seq.map(fun ctor -> FoqMethod.Create(
+                                                            targetType, 
+                                                            ctor.GetParameters())
+                                                        :?> IMethod)
