@@ -9,7 +9,7 @@ open System.Reflection
 type private FoqMethod<'T when 'T : not struct>(parameterInfos) =
     interface IMethod with
         member this.Parameters = parameterInfos
-        member this.Invoke parameters = obj()
+        member this.Invoke parameters = Mock<'T>().Create(parameters.ToArray()) :> obj
 
 [<AbstractClass; Sealed>]
 type private FoqMethod() =

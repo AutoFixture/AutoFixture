@@ -42,6 +42,7 @@
     <Compile Include="FoqRelayTest.fs" />
     <Compile Include="FoqMethodQueryTest.fs" />
     <Compile Include="AutoFoqCustomizationTest.fs" />
+    <Compile Include="FixtureIntegrationTest.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFoq\AutoFoq.fsproj">
