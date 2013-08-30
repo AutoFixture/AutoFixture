@@ -99,6 +99,7 @@ namespace Ploeh.AutoFixture.Idioms
             this.Verify(type.GetConstructors());
             this.Verify(IdiomaticAssertion.GetMethodsExceptPropertyAccessors(type));
             this.Verify(type.GetProperties());
+            this.Verify(type.GetFields());
         }
 
         /// <summary>

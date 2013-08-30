@@ -403,6 +403,20 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void VerifyTypeWithPublicReadOnlyFieldsNotInitialisedViaConstructorThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var typeToVerify = typeof (DoubleFieldHolder<int, int>);
+            // Exercise system and verify outcome
+            var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(typeToVerify));
+            var expectedFailingField = typeToVerify.GetFields().First();
+            AssertExceptionPropertiesEqual(e, expectedFailingField);
+            // Teardown
+        }
+
         static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, ConstructorInfo ctor, ParameterInfo param)
         {
             Assert.Equal(param, ex.MissingParameter);
