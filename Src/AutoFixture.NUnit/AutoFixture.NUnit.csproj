@@ -32,6 +32,12 @@
     <DocumentationFile>bin\Release\Ploeh.AutoFixture.NUnit.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.core">
+      <HintPath>..\..\..\HelloWorld\packages\NUnit.Runners.2.6.2\tools\lib\nunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core.interfaces">
+      <HintPath>..\..\..\HelloWorld\packages\NUnit.Runners.2.6.2\tools\lib\nunit.core.interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -45,6 +51,12 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Addins\Addin.cs" />
+    <Compile Include="Addins\AutoFixtureNUnitFramework.cs" />
+    <Compile Include="Addins\Builders\AutoTestCaseProvider.cs" />
+    <Compile Include="Addins\Decorators\CustomDecorator.cs" />
+    <Compile Include="Addins\Listeners\CustomEventListener.cs" />
+    <Compile Include="Addins\TestMethodWrapper.cs" />
     <Compile Include="AutoTestCaseAttribute.cs" />
     <Compile Include="ModestAttribute.cs" />
     <Compile Include="NoAutoPropertiesAttribute.cs" />
@@ -53,9 +65,9 @@
     <Compile Include="FrozenAttribute.cs" />
     <Compile Include="FavorEnumerablesAttribute.cs" />
     <Compile Include="FavorArraysAttribute.cs" />
-    <Compile Include="CompositeDataAttribute.cs" />
+    <Compile Include="CompositeArgumentsAttribute.cs" />
     <Compile Include="CustomizeAttribute.cs" />
-    <Compile Include="DataAttribute.cs" />
+    <Compile Include="ArgumentsAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,8 +78,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)*.dll" "C:\Program Files (x86)\JetBrains\ReSharper\v8.0\Bin\addins" /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
