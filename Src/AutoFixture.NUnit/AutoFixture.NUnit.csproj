@@ -80,8 +80,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)*.dll" "C:\Program Files (x86)\NUnit 2.6.2\bin\addins" /Y
-xcopy "$(TargetDir)*.dll" "C:\Program Files (x86)\JetBrains\ReSharper\v8.0\Bin\addins" /Y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
