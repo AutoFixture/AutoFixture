@@ -1,6 +1,4 @@
 using NUnit.Core.Extensibility;
-using Ploeh.AutoFixture.NUnit.Addins.Builders;
-using Ploeh.AutoFixture.NUnit.Addins.Decorators;
 
 namespace Ploeh.AutoFixture.NUnit.Addins
 {
@@ -13,13 +11,13 @@ namespace Ploeh.AutoFixture.NUnit.Addins
             if (decorators == null) 
                 return false;
             
-            decorators.Install(new CustomDecorator());
+            decorators.Install(new Reharper.TestDecorator());
 
             var providers = host.GetExtensionPoint("TestCaseProviders");
             if (providers == null) 
                 return false;
 
-            providers.Install(new AutoTestCaseProvider());
+            providers.Install(new Builders.AutoTestCaseProvider());
 
             return true;
         }

@@ -48,11 +48,10 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Addins\Addin.cs" />
-    <Compile Include="Addins\AutoFixtureNUnitFramework.cs" />
     <Compile Include="Addins\Builders\AutoTestCaseProvider.cs" />
-    <Compile Include="Addins\Decorators\CustomDecorator.cs" />
-    <Compile Include="Addins\Listeners\CustomEventListener.cs" />
-    <Compile Include="Addins\TestMethodWrapper.cs" />
+    <Compile Include="Addins\Reharper\TestDecorator.cs" />
+    <Compile Include="Addins\Reharper\EventListenerWrapper.cs" />
+    <Compile Include="Addins\Reharper\TestMethodWrapper.cs" />
     <Compile Include="AutoTestCaseAttribute.cs" />
     <Compile Include="ModestAttribute.cs" />
     <Compile Include="NoAutoPropertiesAttribute.cs" />
@@ -72,9 +71,11 @@
       <Name>AutoFixture</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)Ploeh.*.dll" "C:\Program Files (x86)\NUnit 2.6.2\bin\addins" /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)Ploeh.*.dll" "C:\Program Files (x86)\NUnit 2.6.2\bin\addins" /Y
+xcopy "$(TargetDir)Ploeh.*.dll" "C:\Program Files (x86)\JetBrains\ReSharper\v8.0\Bin\addins" /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -22,7 +22,7 @@ namespace Ploeh.AutoFixture.NUnit.Addins.Builders
         /// <returns>True if any cases are available, otherwise false.</returns>
         public bool HasTestCasesFor(MethodInfo method)
         {
-            return Reflect.HasAttribute(method, AutoFixtureNUnitFramework.AutoTestCaseAttribute, false);
+            return Reflect.HasAttribute(method, typeof(AutoTestCaseAttribute).FullName, false);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixture.NUnit.Addins.Builders
             
             ArrayList parameterList = new ArrayList();
 
-            var attributes = Reflect.GetAttributes(method, AutoFixtureNUnitFramework.AutoTestCaseAttribute, false);
+            var attributes = Reflect.GetAttributes(method, typeof(AutoTestCaseAttribute).FullName, false);
 
             foreach (DataAttribute attr in attributes)
             {
