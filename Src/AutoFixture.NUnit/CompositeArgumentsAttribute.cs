@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixture.NUnit
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeArgumentsAttribute"/> class.
         /// </summary>
-        /// <param name="attributes">The attributes representing a data source for a data theory.
+        /// <param name="attributes">The attributes representing a data source for a data testcase.
         /// </param>
         public CompositeArgumentsAttribute(IEnumerable<ArgumentsAttribute> attributes)
             : this(attributes.ToArray())
@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture.NUnit
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeArgumentsAttribute"/> class.
         /// </summary>
-        /// <param name="attributes">The attributes representing a data source for a data theory.
+        /// <param name="attributes">The attributes representing a data source for a data testcase.
         /// </param>
         public CompositeArgumentsAttribute(params ArgumentsAttribute[] attributes)
         {
@@ -50,17 +50,17 @@ namespace Ploeh.AutoFixture.NUnit
         }
 
         /// <summary>
-        /// Returns the composition of data to be used to test the theory. Favors the data returned
+        /// Returns the composition of data to be used to test the testcase. Favors the data returned
         /// by DataAttributes in ascending order. Data already returned is ignored on next
         /// ArgumentsAttribute returned data.
         /// </summary>
         /// <param name="method">The method that is being tested.</param>
         /// <param name="parameterTypes">The types of the parameters for the test method.</param>
         /// <returns>
-        /// Returns the composition of the theory data.
+        /// Returns the composition of the testcase arguments.
         /// </returns>
         /// <remarks>
-        /// The number of test cases is set from the first ArgumentsAttribute theory length.
+        /// The number of test cases is set from the first ArgumentsAttribute testcase length.
         /// </remarks>
         public override IEnumerable<object[]> GetArguments(MethodInfo method, Type[] parameterTypes)
         {
@@ -109,32 +109,32 @@ namespace Ploeh.AutoFixture.NUnit
                         }
                     }
 
-                    var theory = attributeData[iteration];
+                    var testcase = attributeData[iteration];
 
                     int remaining = numberOfParameters - foundData[iteration].Count;
                     if (remaining == numberOfParameters)
                     {
-                        if (theory.Length == numberOfParameters)
+                        if (testcase.Length == numberOfParameters)
                         {
-                            foundData[iteration].AddRange(theory);
+                            foundData[iteration].AddRange(testcase);
                             break;
                         }
 
-                        if (theory.Length > numberOfParameters)
+                        if (testcase.Length > numberOfParameters)
                         {
-                            foundData[iteration].AddRange(theory.Take(numberOfParameters));
+                            foundData[iteration].AddRange(testcase.Take(numberOfParameters));
                             break;
                         }
                     }
 
-                    if (remaining > theory.Length)
+                    if (remaining > testcase.Length)
                     {
-                        foundData[iteration].AddRange(theory);
+                        foundData[iteration].AddRange(testcase);
                     }
                     else
                     {
                         int found = foundData[iteration].Count;
-                        foundData[iteration].AddRange(theory.Skip(found).Take(remaining));
+                        foundData[iteration].AddRange(testcase.Skip(found).Take(remaining));
                     }
                 }
 
