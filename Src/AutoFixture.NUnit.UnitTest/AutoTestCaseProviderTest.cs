@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
         }
 
         [Fact]
-        public void HasTestCasesForAutoDataTestCaseProvider()
+        public void HasTestCasesForAutoTestCaseTestCaseProvider()
         {
             var sut = new AutoTestCaseProvider();
             var actual = sut.HasTestCasesFor(this.method);
@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
         }
 
         [Fact]
-        public void GetTestCasesForAutoDataTestCaseBuilderReturnsCorrectly()
+        public void GetTestCasesForAutoTestCaseTestCaseBuilderReturnsCorrectly()
         {
             var sut = new AutoTestCaseProvider();
             var actual = sut.GetTestCasesFor(this.method);

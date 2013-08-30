@@ -9,26 +9,26 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
     public class Scenario
     {
         [Test, AutoTestCase]
-        public void AutoDataProvidesCorrectInteger(int primitiveValue)
+        public void AutoTestCaseProvidesCorrectInteger(int primitiveValue)
         {
             Assert.AreNotEqual(0, primitiveValue);
         }
 
         [Test, AutoTestCase]
-        public void AutoDataProvidesCorrectString(string text)
+        public void AutoTestCaseProvidesCorrectString(string text)
         {
             Assert.True(text.StartsWith("text"));
         }
 
         [Test, AutoTestCase]
-        public void AutoDataProvidesCorrectObject(PropertyHolder<Version> ph)
+        public void AutoTestCaseProvidesCorrectObject(PropertyHolder<Version> ph)
         {
             Assert.NotNull(ph);
             Assert.NotNull(ph.Property);
         }
 
         [Test, AutoTestCase]
-        public void AutoDataProvidesMultipleObjects(PropertyHolder<Version> ph, SingleParameterType<OperatingSystem> spt)
+        public void AutoTestCaseProvidesMultipleObjects(PropertyHolder<Version> ph, SingleParameterType<OperatingSystem> spt)
         {
             Assert.NotNull(ph);
             Assert.NotNull(ph.Property);
@@ -38,7 +38,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
         }
 
         [Test, AutoTestCase(typeof(CustomizedFixture))]
-        public void AutoDataProvidesCustomizedObject(PropertyHolder<string> ph)
+        public void AutoTestCaseProvidesCustomizedObject(PropertyHolder<string> ph)
         {
             Assert.AreEqual("Ploeh", ph.Property);
         }
