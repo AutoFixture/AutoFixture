@@ -12,9 +12,9 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var sut = new CompositeArgumentsAttribute();
+            var sut = new CompositeDataAttribute();
             // Verify outcome
-            Assert.IsAssignableFrom<ArgumentsAttribute>(sut);
+            Assert.IsAssignableFrom<DataAttribute>(sut);
             // Teardown
         }
 
@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new CompositeArgumentsAttribute(null));
+                new CompositeDataAttribute(null));
             // Teardown
         }
 
@@ -40,14 +40,14 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
 
             var attributes = new[]
             {
-                new FakeArgumentsAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-                new FakeArgumentsAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-                new FakeArgumentsAttribute(method, parameterTypes, Enumerable.Empty<object[]>())
+                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
+                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
+                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>())
             };
 
-            var sut = new CompositeArgumentsAttribute(attributes);
+            var sut = new CompositeDataAttribute(attributes);
             // Exercise system
-            IEnumerable<ArgumentsAttribute> result = sut.Attributes;
+            IEnumerable<DataAttribute> result = sut.Attributes;
             // Verify outcome
             Assert.True(attributes.SequenceEqual(result));
             // Teardown
@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new CompositeArgumentsAttribute((IEnumerable<ArgumentsAttribute>)null));
+                new CompositeDataAttribute((IEnumerable<DataAttribute>)null));
             // Teardown
         }
 
@@ -75,12 +75,12 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
 
             var attributes = new[]
             {
-                new FakeArgumentsAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-                new FakeArgumentsAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-                new FakeArgumentsAttribute(method, parameterTypes, Enumerable.Empty<object[]>())
+                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
+                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
+                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>())
             };
 
-            var sut = new CompositeArgumentsAttribute(attributes);
+            var sut = new CompositeDataAttribute(attributes);
             // Exercise system
             var result = sut.Attributes;
             // Verify outcome
@@ -92,11 +92,11 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
         public void GetDataWithNullMethodThrows()
         {
             // Fixture setup
-            var sut = new CompositeArgumentsAttribute();
+            var sut = new CompositeDataAttribute();
             var dummyTypes = Type.EmptyTypes;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                sut.GetArguments(null, dummyTypes).ToList());
+                sut.GetData(null, dummyTypes).ToList());
             // Teardown
         }
 
@@ -104,11 +104,11 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
         public void GetDataWithNullTypesThrows()
         {
             // Fixture setup
-            var sut = new CompositeArgumentsAttribute();
+            var sut = new CompositeDataAttribute();
             Action a = delegate { };
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                sut.GetArguments(a.Method, null).ToList());
+                sut.GetData(a.Method, null).ToList());
             // Teardown
         }
 
@@ -122,14 +122,14 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             var parameterTypes = (from pi in parameters
                                   select pi.ParameterType).ToArray();
 
-            var sut = new CompositeArgumentsAttribute(
-               new FakeArgumentsAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-               new FakeArgumentsAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-               new FakeArgumentsAttribute(method, parameterTypes, Enumerable.Empty<object[]>())
+            var sut = new CompositeDataAttribute(
+               new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
+               new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
+               new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>())
                );
 
             // Exercise system and verify outcome
-            var result = sut.GetArguments(a.Method, Type.EmptyTypes);
+            var result = sut.GetData(a.Method, Type.EmptyTypes);
             Array.ForEach(result.ToArray(), Assert.Empty);
             // Teardown
         }
