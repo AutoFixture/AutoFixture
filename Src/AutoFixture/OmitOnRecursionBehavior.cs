@@ -8,13 +8,13 @@ namespace Ploeh.AutoFixture
 {
     /// <summary>
     /// Decorates an <see cref="ISpecimenBuilder" /> with a
-    /// <see cref="OmitOnRecursionGuard" />.
+    /// <see cref="RecursionGuard" />.
     /// </summary>
     public class OmitOnRecursionBehavior : ISpecimenBuilderTransformation
     {
         /// <summary>
         /// Decorates the supplied <see cref="ISpecimenBuilder" /> with an
-        /// <see cref="OmitOnRecursionGuard"/>.
+        /// <see cref="RecursionGuard"/>.
         /// </summary>
         /// <param name="builder">The builder to decorate.</param>
         /// <returns>
