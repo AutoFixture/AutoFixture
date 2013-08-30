@@ -5,7 +5,7 @@ namespace Ploeh.AutoFixture.NUnit
 {
     /// <summary>
     /// An attribute that can be applied to parameters in an <see cref="AutoTestCaseAttribute"/>-driven
-    /// Theory to indicate that the parameter value should not have properties auto populated
+    /// TestCase to indicate that the parameter value should not have properties auto populated
     /// when the <see cref="IFixture"/> creates an instance of that type.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]

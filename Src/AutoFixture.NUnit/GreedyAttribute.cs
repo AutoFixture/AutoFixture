@@ -6,7 +6,7 @@ namespace Ploeh.AutoFixture.NUnit
 {
     /// <summary>
     /// An attribute that can be applied to parameters in an <see cref="AutoTestCaseAttribute"/>-driven
-    /// Theory to indicate that the parameter value should be created using the most greedy
+    /// TestCase to indicate that the parameter value should be created using the most greedy
     /// constructor that can be satisfied by an <see cref="IFixture"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]

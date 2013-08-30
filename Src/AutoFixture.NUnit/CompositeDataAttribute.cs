@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixture.NUnit
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
         /// </summary>
-        /// <param name="attributes">The attributes representing a data source for a data theory.
+        /// <param name="attributes">The attributes representing a data source for a testcase.
         /// </param>
         public CompositeDataAttribute(IEnumerable<DataAttribute> attributes)
             : this(attributes.ToArray())
@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture.NUnit
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
         /// </summary>
-        /// <param name="attributes">The attributes representing a data source for a data theory.
+        /// <param name="attributes">The attributes representing a data source for a testcase.
         /// </param>
         public CompositeDataAttribute(params DataAttribute[] attributes)
         {
@@ -50,23 +50,19 @@ namespace Ploeh.AutoFixture.NUnit
         }
 
         /// <summary>
-        /// Returns the composition of data to be used to test the theory. Favors the data returned
-        /// by DataAttributes in ascending order. Data already returned is ignored on next
-        /// DataAttribute returned data.
+        /// Returns the composition of data to be used to test the testcase. Favors the data returned
+        /// by DataAttributes in ascending order. 
         /// </summary>
-        /// <param name="methodUnderTest">The method that is being tested.</param>
+        /// <param name="method">The method that is being tested.</param>
         /// <param name="parameterTypes">The types of the parameters for the test method.</param>
         /// <returns>
-        /// Returns the composition of the theory data.
+        /// Returns the composition of the testcase data.
         /// </returns>
-        /// <remarks>
-        /// The number of test cases is set from the first DataAttribute theory length.
-        /// </remarks>
-        public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
+        public override IEnumerable<object[]> GetData(MethodInfo method, Type[] parameterTypes)
         {
-            if (methodUnderTest == null)
+            if (method == null)
             {
-                throw new ArgumentNullException("methodUnderTest");
+                throw new ArgumentNullException("method");
             }
 
             if (parameterTypes == null)
@@ -74,7 +70,7 @@ namespace Ploeh.AutoFixture.NUnit
                 throw new ArgumentNullException("parameterTypes");
             }
 
-            int numberOfParameters = methodUnderTest.GetParameters().Length;
+            int numberOfParameters = method.GetParameters().Length;
             if (numberOfParameters <= 0)
                 yield break;
 
@@ -86,7 +82,7 @@ namespace Ploeh.AutoFixture.NUnit
             {
                 foreach (var attribute in _attributes)
                 {
-                    var attributeData = attribute.GetData(methodUnderTest, parameterTypes).ToArray();
+                    var attributeData = attribute.GetData(method, parameterTypes).ToArray();
 
                     if (attributeData.Length <= iteration)
                     {
@@ -109,32 +105,32 @@ namespace Ploeh.AutoFixture.NUnit
                         }
                     }
 
-                    var theory = attributeData[iteration];
+                    var testcase = attributeData[iteration];
 
                     int remaining = numberOfParameters - foundData[iteration].Count;
                     if (remaining == numberOfParameters)
                     {
-                        if (theory.Length == numberOfParameters)
+                        if (testcase.Length == numberOfParameters)
                         {
-                            foundData[iteration].AddRange(theory);
+                            foundData[iteration].AddRange(testcase);
                             break;
                         }
 
-                        if (theory.Length > numberOfParameters)
+                        if (testcase.Length > numberOfParameters)
                         {
-                            foundData[iteration].AddRange(theory.Take(numberOfParameters));
+                            foundData[iteration].AddRange(testcase.Take(numberOfParameters));
                             break;
                         }
                     }
 
-                    if (remaining > theory.Length)
+                    if (remaining > testcase.Length)
                     {
-                        foundData[iteration].AddRange(theory);
+                        foundData[iteration].AddRange(testcase);
                     }
                     else
                     {
                         int found = foundData[iteration].Count;
-                        foundData[iteration].AddRange(theory.Skip(found).Take(remaining));
+                        foundData[iteration].AddRange(testcase.Skip(found).Take(remaining));
                     }
                 }
 

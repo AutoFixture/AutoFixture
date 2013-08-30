@@ -20,9 +20,9 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             this.output = output;
         }
 
-        public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
+        public override IEnumerable<object[]> GetData(MethodInfo method, Type[] parameterTypes)
         {
-            Assert.Equal(this.expectedMethod, methodUnderTest);
+            Assert.Equal(this.expectedMethod, method);
             Assert.True(this.expectedTypes.SequenceEqual(parameterTypes));
 
             return this.output;
