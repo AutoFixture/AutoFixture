@@ -6,13 +6,13 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
-    public class FakeDataAttribute : DataAttribute
+    public class FakeArgumentsAttribute : ArgumentsAttribute
     {
         private readonly MethodInfo expectedMethod;
         private readonly Type[] expectedTypes;
         private readonly IEnumerable<object[]> output;
 
-        public FakeDataAttribute(MethodInfo expectedMethod, 
+        public FakeArgumentsAttribute(MethodInfo expectedMethod, 
             Type[] expectedTypes, IEnumerable<object[]> output)
         {
             this.expectedMethod = expectedMethod;
@@ -20,9 +20,9 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             this.output = output;
         }
 
-        public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
+        public override IEnumerable<object[]> GetArguments(MethodInfo method, Type[] parameterTypes)
         {
-            Assert.Equal(this.expectedMethod, methodUnderTest);
+            Assert.Equal(this.expectedMethod, method);
             Assert.True(this.expectedTypes.SequenceEqual(parameterTypes));
 
             return this.output;

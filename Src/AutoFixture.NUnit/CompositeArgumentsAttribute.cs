@@ -7,31 +7,31 @@ using System.Reflection;
 namespace Ploeh.AutoFixture.NUnit
 {
     /// <summary>
-    /// An implementation of DataAttribute that composes other DataAttribute instances.
+    /// An implementation of ArgumentsAttribute that composes other ArgumentsAttribute instances.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [CLSCompliant(false)]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
-    public class CompositeDataAttribute : DataAttribute
+    public class CompositeArgumentsAttribute : ArgumentsAttribute
     {
-        private readonly IEnumerable<DataAttribute> _attributes;
+        private readonly IEnumerable<ArgumentsAttribute> _attributes;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
+        /// Initializes a new instance of the <see cref="CompositeArgumentsAttribute"/> class.
         /// </summary>
         /// <param name="attributes">The attributes representing a data source for a data theory.
         /// </param>
-        public CompositeDataAttribute(IEnumerable<DataAttribute> attributes)
+        public CompositeArgumentsAttribute(IEnumerable<ArgumentsAttribute> attributes)
             : this(attributes.ToArray())
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
+        /// Initializes a new instance of the <see cref="CompositeArgumentsAttribute"/> class.
         /// </summary>
         /// <param name="attributes">The attributes representing a data source for a data theory.
         /// </param>
-        public CompositeDataAttribute(params DataAttribute[] attributes)
+        public CompositeArgumentsAttribute(params ArgumentsAttribute[] attributes)
         {
             if (attributes == null)
             {
@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixture.NUnit
         /// <summary>
         /// Gets the attributes supplied through one of the constructors.
         /// </summary>
-        public IEnumerable<DataAttribute> Attributes
+        public IEnumerable<ArgumentsAttribute> Attributes
         {
             get { return _attributes; }
         }
@@ -52,21 +52,21 @@ namespace Ploeh.AutoFixture.NUnit
         /// <summary>
         /// Returns the composition of data to be used to test the theory. Favors the data returned
         /// by DataAttributes in ascending order. Data already returned is ignored on next
-        /// DataAttribute returned data.
+        /// ArgumentsAttribute returned data.
         /// </summary>
-        /// <param name="methodUnderTest">The method that is being tested.</param>
+        /// <param name="method">The method that is being tested.</param>
         /// <param name="parameterTypes">The types of the parameters for the test method.</param>
         /// <returns>
         /// Returns the composition of the theory data.
         /// </returns>
         /// <remarks>
-        /// The number of test cases is set from the first DataAttribute theory length.
+        /// The number of test cases is set from the first ArgumentsAttribute theory length.
         /// </remarks>
-        public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
+        public override IEnumerable<object[]> GetArguments(MethodInfo method, Type[] parameterTypes)
         {
-            if (methodUnderTest == null)
+            if (method == null)
             {
-                throw new ArgumentNullException("methodUnderTest");
+                throw new ArgumentNullException("method");
             }
 
             if (parameterTypes == null)
@@ -74,7 +74,7 @@ namespace Ploeh.AutoFixture.NUnit
                 throw new ArgumentNullException("parameterTypes");
             }
 
-            int numberOfParameters = methodUnderTest.GetParameters().Length;
+            int numberOfParameters = method.GetParameters().Length;
             if (numberOfParameters <= 0)
                 yield break;
 
@@ -86,7 +86,7 @@ namespace Ploeh.AutoFixture.NUnit
             {
                 foreach (var attribute in _attributes)
                 {
-                    var attributeData = attribute.GetData(methodUnderTest, parameterTypes).ToArray();
+                    var attributeData = attribute.GetArguments(method, parameterTypes).ToArray();
 
                     if (attributeData.Length <= iteration)
                     {

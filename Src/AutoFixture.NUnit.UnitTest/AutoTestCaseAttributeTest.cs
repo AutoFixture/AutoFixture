@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Exercise system
             var sut = new AutoTestCaseAttribute();
             // Verify outcome
-            Assert.IsAssignableFrom<DataAttribute>(sut);
+            Assert.IsAssignableFrom<ArgumentsAttribute>(sut);
             // Teardown
         }
 
@@ -117,7 +117,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             var dummyTypes = Type.EmptyTypes;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                sut.GetData(null, dummyTypes));
+                sut.GetArguments(null, dummyTypes));
             // Teardown
         }
 
@@ -144,7 +144,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
 
             var sut = new AutoTestCaseAttribute(composer);
             // Exercise system
-            var result = sut.GetData(method, parameterTypes);
+            var result = sut.GetArguments(method, parameterTypes);
             // Verify outcome
             Assert.True(new[] { expectedResult }.SequenceEqual(result.Single()));
             // Teardown
