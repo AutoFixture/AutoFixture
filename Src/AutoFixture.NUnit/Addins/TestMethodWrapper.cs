@@ -1,7 +1,7 @@
 ﻿using NUnit.Core;
-using Ploeh.AutoFixture.NUnit.Addin.Listeners;
+using Ploeh.AutoFixture.NUnit.Addins.Listeners;
 
-namespace Ploeh.AutoFixture.NUnit.Addin
+namespace Ploeh.AutoFixture.NUnit.Addins
 {
     public class TestMethodWrapper : NUnitTestMethod
     {

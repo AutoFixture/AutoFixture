@@ -1,7 +1,7 @@
 using System;
 using NUnit.Core;
 
-namespace Ploeh.AutoFixture.NUnit.Addin.Listeners
+namespace Ploeh.AutoFixture.NUnit.Addins.Listeners
 {
     public class CustomEventListener : EventListener
     {

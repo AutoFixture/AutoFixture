@@ -3,7 +3,7 @@ using System.Reflection;
 using NUnit.Core;
 using NUnit.Core.Extensibility;
 
-namespace Ploeh.AutoFixture.NUnit.Addin.Decorators
+namespace Ploeh.AutoFixture.NUnit.Addins.Decorators
 {
     public class CustomDecorator : ITestDecorator
     {

@@ -1,4 +1,4 @@
-namespace Ploeh.AutoFixture.NUnit.Addin.UnitTest
+namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
     public class FakeAutoTestCase
     {

@@ -1,8 +1,8 @@
 using System.Reflection;
-using Ploeh.AutoFixture.NUnit.Addin.Builders;
+using Ploeh.AutoFixture.NUnit.Addins.Builders;
 using Xunit;
 
-namespace Ploeh.AutoFixture.NUnit.Addin.UnitTest
+namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
     public class AutoTestCaseProviderTest
     {

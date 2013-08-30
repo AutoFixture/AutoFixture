@@ -5,7 +5,7 @@ using System.Reflection;
 using NUnit.Core;
 using NUnit.Core.Extensibility;
 
-namespace Ploeh.AutoFixture.NUnit.Addin.Builders
+namespace Ploeh.AutoFixture.NUnit.Addins.Builders
 {
     /// <summary>
     /// TestCaseSourceProvider provides data for methods
