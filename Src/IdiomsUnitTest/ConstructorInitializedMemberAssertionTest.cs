@@ -446,7 +446,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         class PublicReadOnlyFieldNotInitializedByConstructor
         {
+#pragma warning disable 649
             public readonly int Field;
+#pragma warning restore 649
         }
 
         class ReadOnlyPropertyWithNoSetterHolder<T>
