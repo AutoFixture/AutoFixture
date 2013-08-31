@@ -404,12 +404,12 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyTypeWithPublicReadOnlyFieldsNotInitialisedViaConstructorThrows()
+        public void VerifyTypeWithPublicReadOnlyFieldsIncorrectlyInitialisedViaConstructorThrows()
         {
             // Fixture setup
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var typeToVerify = typeof (DoubleFieldHolder<int, int>);
+            var typeToVerify = typeof(PublicReadOnlyFieldNotInitializedByConstructor);
             // Exercise system and verify outcome
             var e = Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(typeToVerify));
             var expectedFailingField = typeToVerify.GetFields().First();
@@ -442,6 +442,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(fi, ex.MemberInfo);
             Assert.Equal(fi, ex.FieldInfo);
             Assert.Equal(null, ex.PropertyInfo);
+        }
+
+        class PublicReadOnlyFieldNotInitializedByConstructor
+        {
+            public readonly int Field;
         }
 
         class ReadOnlyPropertyWithNoSetterHolder<T>
