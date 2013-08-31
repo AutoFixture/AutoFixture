@@ -8,8 +8,14 @@
     <PropertyGroup>
         <MSBuildExtensionsPath>Lib\MSBuildCommunityTasks</MSBuildExtensionsPath>
     </PropertyGroup>
-    <UsingTask TaskName="MSBuild.Community.Tasks.Zip" AssemblyFile="$(MSBuildExtensionsPath)\MSBuild.Community.Tasks.dll" />
 
+    <PropertyGroup>
+    	<NUnitToolsFolder>Packages\NUnit.Runners.2.6.2\tools</NUnitToolsFolder>
+    </PropertyGroup>
+
+    <UsingTask TaskName="MSBuild.Community.Tasks.Zip" AssemblyFile="$(MSBuildExtensionsPath)\MSBuild.Community.Tasks.dll" />
+    <UsingTask TaskName="MSBuild.Community.Tasks.NUnit" AssemblyFile="$(MSBuildExtensionsPath)\MSBuild.Community.Tasks.dll"  />
+    
     <ItemGroup>
         <ProjectToBuild Include="Src\*.sln" />
     </ItemGroup>
@@ -32,6 +38,10 @@
         <BuildOutput Include="Src\AutoFixture.NUnit\bin\Release\Ploeh.AutoFixture.NUnit.XML" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.dll" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.XML" />
+    </ItemGroup>
+    <ItemGroup>
+    	<NUnitAddinFiles Include="Src\AutoFixture\bin\Release\Ploeh.AutoFixture.dll" />
+    	<NUnitAddinFiles Include="Src\AutoFixture.NUnit\bin\Release\Ploeh.AutoFixture.NUnit.dll" />
     </ItemGroup>
     <ItemGroup>
         <NuSpecFiles Include="NuGet\*.nuspec" />
@@ -64,8 +74,12 @@
     <Target Name="Build" DependsOnTargets="Verify">
         <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Release" />
     </Target>
+    <Target Name="CopyToNUnitAddinsFolder" DependsOnTargets="Build">
+        <Copy SourceFiles="$(NUnitAddinFiles)" DestinationFolder="$(NUnitToolsFolder)\addins" />
+    </Target>
     <Target Name="Test" DependsOnTargets="Build">
         <xunitproject ProjectFile="Src\All.xunit" />
+        <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit.UnitTest.dll" ContinueOnError="false" />
     </Target>
     <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
         <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />
