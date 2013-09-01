@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+    <metadata>
+        <id>AutoFixture.AutoFoq</id>
+        <version>3.0</version>
+        <title>AutoFixture with Auto Mocking using Foq</title>
+        <authors>Nikos Baxevanis</authors>
+        <owners>Nikos Baxevanis</owners>
+        <dependencies>
+            <dependency id="AutoFixture" version="3.0" />
+            <dependency id="Foq" version="1.0" />
+        </dependencies>
+        <summary>Turns AutoFixture into an Auto-Mocking Container based on Foq.</summary>
+        <description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by Foq. To use it, add the AutoFoqCustomization to your Fixture instance. Read more at http://github.com/autofixture/autofixture/</description>
+        <iconUrl>http://i3.codeplex.com/Download?ProjectName=autofixture&amp;DownloadId=278049</iconUrl>
+        <language>en-US</language>
+        <licenseUrl>https://github.com/AutoFixture/AutoFixture/blob/master/LICENCE.txt</licenseUrl>
+        <projectUrl>https://github.com/AutoFixture/AutoFixture</projectUrl>
+    </metadata>
+    <files>
+        <file src="Ploeh.AutoFixture.AutoFoq.dll" target="lib\net40" />
+        <file src="Ploeh.AutoFixture.AutoFoq.XML" target="lib\net40" />
+        <file src="Install.ps1" target="tools" />
+    </files>
+</package>
