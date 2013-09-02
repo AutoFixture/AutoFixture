@@ -31,6 +31,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\Release\Ploeh.AutoFixture.AutoFoq.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -39,6 +40,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.fs" />
     <None Include="AutoFoq.ruleset" />
+    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
     <None Include="packages.config" />
     <Compile Include="GlobalSuppressions.fs" />
     <Compile Include="FoqRelay.fs" />
