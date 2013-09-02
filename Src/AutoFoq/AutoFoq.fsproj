@@ -38,7 +38,9 @@
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets')" />
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.fs" />
+    <None Include="AutoFoq.ruleset" />
     <None Include="packages.config" />
+    <Compile Include="GlobalSuppressions.fs" />
     <Compile Include="FoqRelay.fs" />
     <Compile Include="FoqMethod.fs" />
     <Compile Include="FoqMethodQuery.fs" />
