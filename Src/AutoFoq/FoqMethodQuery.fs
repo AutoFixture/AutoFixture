@@ -2,7 +2,6 @@
 
 open Ploeh.AutoFixture.Kernel
 open System
-open System.Linq
 open System.Reflection
 
 type FoqMethodQuery() =
@@ -13,8 +12,7 @@ type FoqMethodQuery() =
             match targetType with
             | null -> raise (ArgumentNullException("targetType"))
             |  _   -> match targetType.IsInterface with
-                      | true  -> [| FoqMethod.Create(targetType) :?> IMethod |]
-                                    .AsEnumerable()
+                      | true  -> seq { yield FoqMethod.Create(targetType) :?> IMethod }
                       | _     -> targetType.GetConstructors(
                                         BindingFlags.Public 
                                     ||| BindingFlags.Instance 

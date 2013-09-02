@@ -4,7 +4,6 @@ open Ploeh.AutoFixture.Kernel
 open Ploeh.AutoFixture.AutoFoq
 open Ploeh.TestTypeFoundation
 open System
-open System.Linq
 open System.Reflection
 open Xunit
 open Xunit.Extensions
@@ -33,7 +32,7 @@ let SelectMethodReturnsMethodForInterface() =
     let requestType = typeof<IInterface>
     let sut = FoqMethodQuery()
     // Exercise system
-    let result = sut.SelectMethods(requestType)
+    let result = sut.SelectMethods(requestType) |> Seq.toArray
     // Verify outcome
     Assert.IsAssignableFrom<IMethod[]>(result)
 
@@ -43,7 +42,7 @@ let SelectMethodReturnsMethodWithoutParametersForInterface() =
     let requestType = typeof<IInterface>
     let sut = FoqMethodQuery()
     // Exercise system
-    let result = sut.SelectMethods(requestType).First().Parameters
+    let result = (sut.SelectMethods(requestType) |> Seq.head).Parameters
     // Verify outcome
     Assert.Empty(result)
 
@@ -62,13 +61,14 @@ let MethodsAreReturnedInCorrectOrder requestTypeName =
     // Exercise system
     let result = 
         sut.SelectMethods(request)
-        |> Seq.map(fun ci -> ci.Parameters.Count())
+        |> Seq.map(fun ci -> ci.Parameters |> Seq.length)
     // Verify outcome
-    Assert.True(expected.SequenceEqual(result))
+    let compareSequences = Seq.compareWith Operators.compare
+    Assert.True((compareSequences expected result = 0))
     // Teardown   
 
 [<Theory>][<PropertyData("TypesWithConstructors")>]
-let MethodsDefineCorrectParameters requestTypeName =
+let SelectMethodsDefineCorrectParameters requestTypeName =
     // Fixture setup
     let request = typeof<IInterface>.Assembly.GetType(requestTypeName)
     let expected =
@@ -84,10 +84,10 @@ let MethodsDefineCorrectParameters requestTypeName =
         |> Seq.map(fun ci -> ci.Parameters)
     // Verify outcome
     Assert.True(
-        expected.All(fun expectedParameters -> 
-            result.Any(fun resultParameters -> 
-                expectedParameters.SequenceEqual(
-                    resultParameters))))
+        expected |> Seq.forall(fun expectedParameters -> 
+            result |> Seq.exists(fun resultParameters -> 
+                expectedParameters = 
+                    (resultParameters |> Seq.toArray))))
     // Teardown
 
 [<Theory>][<PropertyData("TypesWithConstructors")>]
@@ -104,9 +104,9 @@ let SelectMethodsReturnsCorrectNumberOfConstructorsForTypesWithConstructors
             .Length
     let sut = FoqMethodQuery()
     // Exercise system
-    let result = sut.SelectMethods(request)
+    let result = sut.SelectMethods(request) |> Seq.length
     // Verify outcome
-    Assert.Equal(expected, result.Count())
+    Assert.Equal(expected, result)
     // Teardown
 
 let TypesWithConstructors : seq<obj[]> = 
