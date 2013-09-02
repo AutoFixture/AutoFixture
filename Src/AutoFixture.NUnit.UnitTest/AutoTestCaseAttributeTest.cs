@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Exercise system
             var sut = new AutoTestCaseAttribute();
             // Verify outcome
-            Assert.IsAssignableFrom<DataAttribute>(sut);
+            Assert.IsAssignableFrom<TestCaseDataAttribute>(sut);
             // Teardown
         }
 
@@ -110,26 +110,24 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
         }
 
         [Fact]
-        public void GetDataWithNullMethodThrows()
+        public void GetArgumentsWithNullMethodThrows()
         {
             // Fixture setup
             var sut = new AutoTestCaseAttribute();
             var dummyTypes = Type.EmptyTypes;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                sut.GetData(null, dummyTypes));
+                sut.GetArguments(null));
             // Teardown
         }
 
         [Fact]
-        public void GetDataReturnsCorrectResult()
+        public void GetArgumentsReturnsCorrectResult()
         {
             // Fixture setup
             var method = typeof(TypeWithOverloadedMembers).GetMethod("DoSomething", new[] { typeof(object) });
             var parameters = method.GetParameters();
-            var parameterTypes = (from pi in parameters
-                                  select pi.ParameterType).ToArray();
-
+            
             var expectedResult = new object();
             var builder = new DelegatingSpecimenBuilder
             {
@@ -144,7 +142,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
 
             var sut = new AutoTestCaseAttribute(composer);
             // Exercise system
-            var result = sut.GetData(method, parameterTypes);
+            var result = sut.GetArguments(method);
             // Verify outcome
             Assert.True(new[] { expectedResult }.SequenceEqual(result.Single()));
             // Teardown

@@ -12,9 +12,9 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var sut = new CompositeDataAttribute();
+            var sut = new CompositeTestCaseDataAttribute();
             // Verify outcome
-            Assert.IsAssignableFrom<DataAttribute>(sut);
+            Assert.IsAssignableFrom<TestCaseDataAttribute>(sut);
             // Teardown
         }
 
@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new CompositeDataAttribute(null));
+                new CompositeTestCaseDataAttribute(null));
             // Teardown
         }
 
@@ -34,20 +34,17 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Fixture setup
             Action a = delegate { };
             var method = a.Method;
-            var parameters = method.GetParameters();
-            var parameterTypes = (from pi in parameters
-                                  select pi.ParameterType).ToArray();
-
+            
             var attributes = new[]
             {
-                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>())
+                new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>()),
+                new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>()),
+                new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>())
             };
 
-            var sut = new CompositeDataAttribute(attributes);
+            var sut = new CompositeTestCaseDataAttribute(attributes);
             // Exercise system
-            IEnumerable<DataAttribute> result = sut.Attributes;
+            IEnumerable<TestCaseDataAttribute> result = sut.Attributes;
             // Verify outcome
             Assert.True(attributes.SequenceEqual(result));
             // Teardown
@@ -59,7 +56,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new CompositeDataAttribute((IEnumerable<DataAttribute>)null));
+                new CompositeTestCaseDataAttribute((IEnumerable<TestCaseDataAttribute>)null));
             // Teardown
         }
 
@@ -69,18 +66,15 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Fixture setup
             Action a = delegate { };
             var method = a.Method;
-            var parameters = method.GetParameters();
-            var parameterTypes = (from pi in parameters
-                                  select pi.ParameterType).ToArray();
-
+            
             var attributes = new[]
             {
-                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>())
+                new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>()),
+                new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>()),
+                new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>())
             };
 
-            var sut = new CompositeDataAttribute(attributes);
+            var sut = new CompositeTestCaseDataAttribute(attributes);
             // Exercise system
             var result = sut.Attributes;
             // Verify outcome
@@ -89,47 +83,30 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
         }
 
         [Fact]
-        public void GetDataWithNullMethodThrows()
+        public void GetArgumentsWithNullMethodThrows()
         {
             // Fixture setup
-            var sut = new CompositeDataAttribute();
-            var dummyTypes = Type.EmptyTypes;
+            var sut = new CompositeTestCaseDataAttribute();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                sut.GetData(null, dummyTypes).ToList());
+                sut.GetArguments(null).ToList());
             // Teardown
         }
 
-        [Fact]
-        public void GetDataWithNullTypesThrows()
-        {
-            // Fixture setup
-            var sut = new CompositeDataAttribute();
-            Action a = delegate { };
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.GetData(a.Method, null).ToList());
-            // Teardown
-        }
-
-        [Fact]
-        public void GetDataOnMethodWithNoParametersReturnsNoTheory()
+        public void GetArgumentsOnMethodWithNoParametersReturnsNoTheory()
         {
             // Fixture setup
             Action a = delegate { };
             var method = a.Method;
-            var parameters = method.GetParameters();
-            var parameterTypes = (from pi in parameters
-                                  select pi.ParameterType).ToArray();
-
-            var sut = new CompositeDataAttribute(
-               new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-               new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-               new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>())
+            
+            var sut = new CompositeTestCaseDataAttribute(
+               new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>()),
+               new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>()),
+               new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>())
                );
 
             // Exercise system and verify outcome
-            var result = sut.GetData(a.Method, Type.EmptyTypes);
+            var result = sut.GetArguments(a.Method);
             Array.ForEach(result.ToArray(), Assert.Empty);
             // Teardown
         }

@@ -58,15 +58,13 @@ namespace Ploeh.AutoFixture.NUnit.Addins.Builders
         /// <returns></returns>
         public IEnumerable GetTestCasesFor(MethodInfo method, Test parentSuite)
         {
-            Type[] parameterTypes = method.GetParameters().Select(o => o.ParameterType).ToArray();
-            
             ArrayList parameterList = new ArrayList();
 
             var attributes = Reflect.GetAttributes(method, typeof(AutoTestCaseAttribute).FullName, false);
 
-            foreach (DataAttribute attr in attributes)
+            foreach (TestCaseDataAttribute attr in attributes)
             {
-                foreach (var arguments in attr.GetData(method, parameterTypes))
+                foreach (var arguments in attr.GetArguments(method))
                 {
                     ParameterSet parms = new ParameterSet();
                     parms.Arguments = arguments;

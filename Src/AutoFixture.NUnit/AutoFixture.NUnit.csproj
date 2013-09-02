@@ -60,9 +60,9 @@
     <Compile Include="FrozenAttribute.cs" />
     <Compile Include="FavorEnumerablesAttribute.cs" />
     <Compile Include="FavorArraysAttribute.cs" />
-    <Compile Include="CompositeDataAttribute.cs" />
+    <Compile Include="CompositeTestCaseDataAttribute.cs" />
     <Compile Include="CustomizeAttribute.cs" />
-    <Compile Include="DataAttribute.cs" />
+    <Compile Include="TestCaseDataAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

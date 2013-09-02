@@ -7,31 +7,31 @@ using System.Reflection;
 namespace Ploeh.AutoFixture.NUnit
 {
     /// <summary>
-    /// An implementation of DataAttribute that composes other DataAttribute instances.
+    /// An implementation of TestCaseDataAttribute that composes other TestCaseDataAttribute instances.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [CLSCompliant(false)]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
-    public class CompositeDataAttribute : DataAttribute
+    public class CompositeTestCaseDataAttribute : TestCaseDataAttribute
     {
-        private readonly IEnumerable<DataAttribute> _attributes;
+        private readonly IEnumerable<TestCaseDataAttribute> _attributes;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
+        /// Initializes a new instance of the <see cref="CompositeTestCaseDataAttribute"/> class.
         /// </summary>
         /// <param name="attributes">The attributes representing a data source for a testcase.
         /// </param>
-        public CompositeDataAttribute(IEnumerable<DataAttribute> attributes)
+        public CompositeTestCaseDataAttribute(IEnumerable<TestCaseDataAttribute> attributes)
             : this(attributes.ToArray())
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
+        /// Initializes a new instance of the <see cref="CompositeTestCaseDataAttribute"/> class.
         /// </summary>
         /// <param name="attributes">The attributes representing a data source for a testcase.
         /// </param>
-        public CompositeDataAttribute(params DataAttribute[] attributes)
+        public CompositeTestCaseDataAttribute(params TestCaseDataAttribute[] attributes)
         {
             if (attributes == null)
             {
@@ -44,30 +44,24 @@ namespace Ploeh.AutoFixture.NUnit
         /// <summary>
         /// Gets the attributes supplied through one of the constructors.
         /// </summary>
-        public IEnumerable<DataAttribute> Attributes
+        public IEnumerable<TestCaseDataAttribute> Attributes
         {
             get { return _attributes; }
         }
 
         /// <summary>
-        /// Returns the composition of data to be used to test the testcase. Favors the data returned
-        /// by DataAttributes in ascending order. 
+        /// Returns the composition of arguments to be used to test the testcase. Favors the arguments returned
+        /// by TestCaseDataAttributes in ascending order. 
         /// </summary>
         /// <param name="method">The method that is being tested.</param>
-        /// <param name="parameterTypes">The types of the parameters for the test method.</param>
         /// <returns>
-        /// Returns the composition of the testcase data.
+        /// Returns the composition of the testcase arguments.
         /// </returns>
-        public override IEnumerable<object[]> GetData(MethodInfo method, Type[] parameterTypes)
+        public override IEnumerable<object[]> GetArguments(MethodInfo method)
         {
             if (method == null)
             {
                 throw new ArgumentNullException("method");
-            }
-
-            if (parameterTypes == null)
-            {
-                throw new ArgumentNullException("parameterTypes");
             }
 
             int numberOfParameters = method.GetParameters().Length;
@@ -82,7 +76,7 @@ namespace Ploeh.AutoFixture.NUnit
             {
                 foreach (var attribute in _attributes)
                 {
-                    var attributeData = attribute.GetData(method, parameterTypes).ToArray();
+                    var attributeData = attribute.GetArguments(method).ToArray();
 
                     if (attributeData.Length <= iteration)
                     {

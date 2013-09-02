@@ -55,8 +55,8 @@
     <Compile Include="AutoTestCaseAttributeTest.cs" />
     <Compile Include="AutoTestCaseProviderTest.cs" />
     <Compile Include="ComposerWithoutADefaultConstructor.cs" />
-    <Compile Include="CompositeDataAttributeInsufficientDataTest.cs" />
-    <Compile Include="CompositeDataAttributeSufficientDataTest.cs" />
+    <Compile Include="CompositeTestCaseDataAttributeInsufficientArgumentsTest.cs" />
+    <Compile Include="CompositeTestCaseDataAttributeSufficientArgumentsTest.cs" />
     <Compile Include="CompositeDataAttributeTest.cs" />
     <Compile Include="CustomizeAttributeTest.cs" />
     <Compile Include="CustomizedFixture.cs" />
@@ -66,7 +66,7 @@
     <Compile Include="DelegatingSpecimenBuilder.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="FakeAutoTestCase.cs" />
-    <Compile Include="FakeDataAttribute.cs" />
+    <Compile Include="FakeTestCaseDataAttribute.cs" />
     <Compile Include="FavorArraysAttributeTest.cs" />
     <Compile Include="FavorEnumerablesAttributeTest.cs" />
     <Compile Include="FavorListsAttributeTest.cs" />

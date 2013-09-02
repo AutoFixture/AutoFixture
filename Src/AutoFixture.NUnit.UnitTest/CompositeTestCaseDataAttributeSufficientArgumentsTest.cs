@@ -9,27 +9,23 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
-    public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
+    public class CompositeTestCaseDataAttributeSufficientArgumentsTest : IEnumerable<object[]>
     {
         private readonly MethodInfo method;
-        private readonly Type[] parameterTypes;
-
-        public CompositeDataAttributeSufficientDataTest()
+        
+        public CompositeTestCaseDataAttributeSufficientArgumentsTest()
         {
             this.method = typeof(TypeWithOverloadedMembers)
                 .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
-            var parameters = method.GetParameters();
-            this.parameterTypes = (from pi in parameters
-                                   select pi.ParameterType).ToArray();
         }
 
         [Theory]
-        [ClassData(typeof(CompositeDataAttributeSufficientDataTest))]
-        public void GetDataReturnsCorrectResult(IEnumerable<DataAttribute> attributes, IEnumerable<object[]> expectedResult)
+        [ClassData(typeof(CompositeTestCaseDataAttributeSufficientArgumentsTest))]
+        public void GetArgumentsReturnsCorrectResult(IEnumerable<TestCaseDataAttribute> attributes, IEnumerable<object[]> expectedResult)
         {
             // Fixture setup
             // Exercise system
-            var result = new CompositeDataAttribute(attributes).GetData(this.method, this.parameterTypes).ToList();
+            var result = new CompositeTestCaseDataAttribute(attributes).GetArguments(this.method).ToList();
             // Verify outcome 
             Assert.True(expectedResult.SequenceEqual(result, new TheoryComparer()));
             // Teardown
@@ -40,7 +36,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 } })
+                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1, 2, 3 } })
                     },
                 expected: new[] 
                     {
@@ -51,8 +47,8 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 4, 5, 6 } })
+                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1, 2, 3 } }),
+                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 4, 5, 6 } })
                     },
                 expected: new[] 
                     {
@@ -63,7 +59,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3, 4 } })
+                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1, 2, 3, 4 } })
                     },
                 expected: new[] 
                     {
@@ -74,8 +70,8 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1       } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2, 3, 4 } })
+                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1       } }),
+                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 2, 3, 4 } })
                     },
                 expected: new[] 
                     {
@@ -86,8 +82,8 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2    } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 3, 4, 5 } })
+                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1, 2    } }),
+                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 3, 4, 5 } })
                     },
                 expected: new[] 
                     {
@@ -98,7 +94,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } })
+                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } })
                     },
                 expected: new[] 
                     {
@@ -109,8 +105,8 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 }, new object[] { 4,  5, 6 }                          }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 7, 8    }, new object[] { 9, 10    }, new object[] { 11, 12 } })
+                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1, 2, 3 }, new object[] { 4,  5, 6 }                          }),
+                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 7, 8    }, new object[] { 9, 10    }, new object[] { 11, 12 } })
                     },
                 expected: new[] 
                     {
@@ -121,8 +117,8 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2    }, new object[] {  3,  4     }, new object[] {  5,  6     } }),
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 7, 8, 9 }, new object[] { 10, 11, 12 }, new object[] { 13, 14, 15 } })
+                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1, 2    }, new object[] {  3,  4     }, new object[] {  5,  6     } }),
+                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 7, 8, 9 }, new object[] { 10, 11, 12 }, new object[] { 13, 14, 15 } })
                     },
                 expected: new[] 
                     {
