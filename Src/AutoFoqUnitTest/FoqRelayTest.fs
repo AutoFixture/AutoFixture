@@ -87,7 +87,7 @@ let CreateWithAbstractionRequestReturnsResultFromDecoratedBuilder requestTypeNam
     // Fixture setup
     let request = typeof<IInterface>.Assembly.GetType(requestTypeName)
     let dummyContext = Mock<ISpecimenContext>().Create()
-    let expected = new obj()
+    let expected = obj()
     let builderStub = 
         Mock<ISpecimenBuilder>()
             .Setup(fun x -> <@ x.Create(request, dummyContext) @>)
