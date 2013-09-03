@@ -32,9 +32,10 @@ let SelectMethodReturnsMethodForInterface() =
     let requestType = typeof<IInterface>
     let sut = FoqMethodQuery()
     // Exercise system
-    let result = sut.SelectMethods(requestType) |> Seq.toArray
+    let result = sut.SelectMethods(requestType)
     // Verify outcome
-    Assert.IsAssignableFrom<IMethod[]>(result)
+    Assert.IsAssignableFrom<seq<IMethod>>(result)
+    |> ignore
 
 [<Fact>]
 let SelectMethodReturnsMethodWithoutParametersForInterface() =

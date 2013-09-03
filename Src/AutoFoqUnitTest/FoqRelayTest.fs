@@ -35,9 +35,9 @@ let SpecificationIsCorrect() =
     let specification = TrueRequestSpecification()
     let sut = FoqRelay(dummyBuilder, specification)
     // Exercise system
-    let result = sut.Specification
+    let result = sut.Specification :?> TrueRequestSpecification
     // Verify outcome
-    Assert.Equal(specification, result :?> TrueRequestSpecification)
+    Assert.Equal(specification, result)
     // Teardown
 
 [<Fact>]
@@ -60,10 +60,10 @@ let CreateWithRequestThatDoesNotMatchSpecificationReturnsNoSpecimen() =
     let request = typedefof<ConcreteType>
     let dummyContext = Mock<ISpecimenContext>().Create()
     // Exercise system
-    let result = sut.Create(request, dummyContext)
+    let result = sut.Create(request, dummyContext) :?> NoSpecimen
     // Verify outcome
     let expected = NoSpecimen(request)
-    Assert.Equal(expected, result :?> NoSpecimen)
+    Assert.Equal(expected, result)
 
 [<Theory>][<PropertyData("Abstractions")>]
 let CreateWithAbstractionRequestReturnsNoSpecimenWhenDecoratedBuilderReturnsNull requestTypeName =
@@ -87,7 +87,7 @@ let CreateWithAbstractionRequestReturnsResultFromDecoratedBuilder requestTypeNam
     // Fixture setup
     let request = typeof<IInterface>.Assembly.GetType(requestTypeName)
     let dummyContext = Mock<ISpecimenContext>().Create()
-    let expected = new obj()
+    let expected = obj()
     let builderStub = 
         Mock<ISpecimenBuilder>()
             .Setup(fun x -> <@ x.Create(request, dummyContext) @>)

@@ -59,8 +59,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
     <Reference Include="xunit">
       <HintPath>..\..\Packages\xunit.1.8.0.1549\lib\xunit.dll</HintPath>
       <Private>True</Private>

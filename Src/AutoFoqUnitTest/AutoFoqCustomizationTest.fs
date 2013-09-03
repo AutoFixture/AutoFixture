@@ -33,9 +33,9 @@ let RelayIsCorrect() =
             Mock<ISpecimenBuilder>().Create())
     let sut = AutoFoqCustomization(expectedBuilder)
     // Exercise system
-    let result = sut.Relay
+    let result = sut.Relay :?> FoqRelay
     // Verify outcome
-    Assert.Equal(expectedBuilder, result :?> FoqRelay)
+    Assert.Equal(expectedBuilder, result)
     // Teardown
 
 [<Fact>]
