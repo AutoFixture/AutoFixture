@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
 
         public AutoTestCaseProviderTest()
         {
-            this.method = typeof(FakeAutoTestCase).GetMethod("DoSomething");
+            this.method = typeof(FakeAutoTestCaseFixture).GetMethod("DoSomething");
         }
 
         [Fact]

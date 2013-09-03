@@ -57,7 +57,7 @@
     <Compile Include="ComposerWithoutADefaultConstructor.cs" />
     <Compile Include="CompositeTestCaseDataAttributeInsufficientArgumentsTest.cs" />
     <Compile Include="CompositeTestCaseDataAttributeSufficientArgumentsTest.cs" />
-    <Compile Include="CompositeDataAttributeTest.cs" />
+    <Compile Include="CompositeTestCaseDataAttributeTest.cs" />
     <Compile Include="CustomizeAttributeTest.cs" />
     <Compile Include="CustomizedFixture.cs" />
     <Compile Include="DelegatingCustomization.cs" />
@@ -65,7 +65,7 @@
     <Compile Include="DelegatingFixture.cs" />
     <Compile Include="DelegatingSpecimenBuilder.cs" />
     <Compile Include="DependencyConstraints.cs" />
-    <Compile Include="FakeAutoTestCase.cs" />
+    <Compile Include="FakeAutoTestCaseFixture.cs" />
     <Compile Include="FakeTestCaseDataAttribute.cs" />
     <Compile Include="FavorArraysAttributeTest.cs" />
     <Compile Include="FavorEnumerablesAttributeTest.cs" />
@@ -97,8 +97,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)Ploeh*.dll" "C:\Program Files (x86)\NUnit 2.6.2\bin\addins\" /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

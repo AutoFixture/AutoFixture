@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
-    public class CompositeDataAttributeTest
+    public class CompositeTestCaseDataAttributeTest
     {
         [Fact]
         public void SutIsDataAttribute()
@@ -93,6 +93,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
+        [Fact]
         public void GetArgumentsOnMethodWithNoParametersReturnsNoTheory()
         {
             // Fixture setup

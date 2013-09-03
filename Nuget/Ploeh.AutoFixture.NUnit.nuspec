@@ -2,7 +2,7 @@
 <package>
     <metadata>
         <id>AutoFixture.NUnit</id>
-        <version>1.0-alpha</version>
+        <version>2.2</version>
         <title>AutoFixture with NUnit</title>
         <authors>Gert Jansen van Rensburg</authors>
         <owners>Gert Jansen van Rensburg</owners>

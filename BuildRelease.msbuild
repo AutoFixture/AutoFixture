@@ -75,7 +75,7 @@
         <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Release" />
     </Target>
     <Target Name="CopyToNUnitAddinsFolder" DependsOnTargets="Build">
-        <Copy SourceFiles="$(NUnitAddinFiles)" DestinationFolder="$(NUnitToolsFolder)\addins" />
+        <Copy SourceFiles="$(NUnitAddinFiles)" DestinationFolder="$(NUnitToolsFolder)\addins\" />
     </Target>
     <Target Name="Test" DependsOnTargets="Build">
         <xunitproject ProjectFile="Src\All.xunit" />
