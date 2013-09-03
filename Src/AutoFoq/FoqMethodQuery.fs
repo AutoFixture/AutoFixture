@@ -1,5 +1,6 @@
 ﻿namespace Ploeh.AutoFixture.AutoFoq
 
+open Ploeh.AutoFixture.AutoFoq.FoqType
 open Ploeh.AutoFixture.Kernel
 open System
 open System.Reflection
@@ -13,10 +14,7 @@ type FoqMethodQuery() =
             | null -> raise (ArgumentNullException("targetType"))
             |  _   -> match targetType.IsInterface with
                       | true  -> seq { yield FoqMethod.Create(targetType) :?> IMethod }
-                      | _     -> targetType.GetConstructors(
-                                        BindingFlags.Public 
-                                    ||| BindingFlags.Instance 
-                                    ||| BindingFlags.NonPublic)
+                      | _     -> targetType.GetPublicAndProtectedConstructors() 
                                  |> Seq.sortBy(fun x -> x.GetParameters().Length)
                                  |> Seq.map(fun ctor -> FoqMethod.Create(
                                                             targetType, 
