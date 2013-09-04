@@ -44,9 +44,6 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\GlobalAssemblyInfo.cs">
-      <Link>Properties\GlobalAssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="Addins\Addin.cs" />
     <Compile Include="Addins\Builders\AutoTestCaseProvider.cs" />
     <Compile Include="Addins\Reharper\TestDecorator.cs" />
