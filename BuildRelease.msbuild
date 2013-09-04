@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CompleteBuild" ToolsVersion="4.0">
     <PropertyGroup>
         <XUnitPath>Lib\XunitRunnerMSBuild</XUnitPath>
@@ -11,6 +11,7 @@
 
     <PropertyGroup>
     	<NUnitToolsFolder>Packages\NUnit.Runners.2.6.2\tools</NUnitToolsFolder>
+        <NUnitAddinsFolder>Packages\NUnit.Runners.2.6.2\tools\addins</NUnitAddinsFolder>
     </PropertyGroup>
 
     <UsingTask TaskName="MSBuild.Community.Tasks.Zip" AssemblyFile="$(MSBuildExtensionsPath)\MSBuild.Community.Tasks.dll" />
@@ -74,10 +75,18 @@
     <Target Name="Build" DependsOnTargets="Verify">
         <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Release" />
     </Target>
-    <Target Name="CopyToNUnitAddinsFolder" DependsOnTargets="Build">
-        <Copy SourceFiles="$(NUnitAddinFiles)" DestinationFolder="$(NUnitToolsFolder)\addins\" />
+    
+    <Target Name="DeleteAddinsFolder" DependsOnTargets="Build">
+        <RemoveDir Directories="$(NUnitAddinsFolder)" />
     </Target>
-    <Target Name="Test" DependsOnTargets="Build">
+    <Target Name="MakeAddinsFolder" DependsOnTargets="DeleteAddinsFolder">
+        <MakeDir Directories="$(NUnitAddinsFolder)" Condition="!Exists($(NUnitAddinsFolder))" />
+    </Target>
+    <Target Name="CopyToNUnitAddinsFolder" DependsOnTargets="MakeAddinsFolder">
+        <Copy SourceFiles="@(NUnitAddinFiles)" DestinationFolder="$(NUnitAddinsFolder)" />
+    </Target>
+    
+    <Target Name="Test" DependsOnTargets="CopyToNUnitAddinsFolder">
         <xunitproject ProjectFile="Src\All.xunit" />
         <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit.UnitTest.dll" ContinueOnError="false" />
     </Target>
