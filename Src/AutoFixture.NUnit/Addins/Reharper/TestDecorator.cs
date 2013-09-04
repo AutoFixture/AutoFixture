@@ -6,6 +6,10 @@ using NUnit.Core.Extensibility;
 
 namespace Ploeh.AutoFixture.NUnit.Addins.Reharper
 {
+    /// <summary>
+    /// TestDecorator is used to add functionality to
+    /// another Test, which it aggregates.
+    /// </summary>
     internal class TestDecorator : ITestDecorator
     {
         public Test Decorate(Test test, MemberInfo memberInfo)

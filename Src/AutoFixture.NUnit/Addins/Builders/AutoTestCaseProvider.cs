@@ -8,8 +8,8 @@ using NUnit.Core.Extensibility;
 namespace Ploeh.AutoFixture.NUnit.Addins.Builders
 {
     /// <summary>
-    /// TestCaseSourceProvider provides data for methods
-    /// annotated with the TestCaseSourceAttribute.
+    /// AutoTestCaseProvider provides data for methods
+    /// annotated with the AutoTestCaseAttribute.
     /// </summary>
     public class AutoTestCaseProvider : ITestCaseProvider2
     {
@@ -44,6 +44,7 @@ namespace Ploeh.AutoFixture.NUnit.Addins.Builders
         /// Determine whether any test cases are available for a parameterized method.
         /// </summary>
         /// <param name="method">A MethodInfo representing a parameterized test</param>
+        /// <param name="suite">A Suite representing a NUnit TestSuite</param>
         /// <returns>True if any cases are available, otherwise false.</returns>
         public bool HasTestCasesFor(MethodInfo method, Test suite)
         {
@@ -55,6 +56,7 @@ namespace Ploeh.AutoFixture.NUnit.Addins.Builders
         /// running a parameterized test.
         /// </summary>
         /// <param name="method"></param>
+        /// <param name="parentSuite"></param>
         /// <returns></returns>
         public IEnumerable GetTestCasesFor(MethodInfo method, Test parentSuite)
         {

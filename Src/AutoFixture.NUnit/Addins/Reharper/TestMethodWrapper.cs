@@ -4,6 +4,9 @@ using NUnit.Core;
 
 namespace Ploeh.AutoFixture.NUnit.Addins.Reharper
 {
+    /// <summary>
+    /// This class wires the EventListenerWrapper around the existing EventListner
+    /// </summary>
     internal class TestMethodWrapper : NUnitTestMethod
     {
         public TestMethodWrapper(NUnitTestMethod testMethod) 
