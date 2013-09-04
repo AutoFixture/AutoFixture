@@ -18,6 +18,24 @@ let SutIsSpecimenBuilder() =
     // Teardown
 
 [<Fact>]
+let InitializeWithNullBuilderThrows() =
+    // Fixture setup
+    let dummySpecification = Mock<IRequestSpecification>().Create();
+    // Exercise system and verify outcome
+    Assert.Throws<ArgumentNullException>(fun () -> 
+        FoqRelay(null, dummySpecification) |> ignore)
+    // Teardown
+
+[<Fact>]
+let InitializeWithNullSpecificationThrows() =
+    // Fixture setup
+    let dummyBuilder = Mock<ISpecimenBuilder>().Create()
+    // Exercise system and verify outcome
+    Assert.Throws<ArgumentNullException>(fun () -> 
+        FoqRelay(dummyBuilder, null) |> ignore)
+    // Teardown
+
+[<Fact>]
 let BuilderIsCorrect() =
     // Fixture setup
     let expectedBuilder = Mock<ISpecimenBuilder>().Create()

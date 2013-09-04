@@ -3,15 +3,31 @@
 open Ploeh.AutoFixture.Kernel
 open System
 
-type FoqRelay(builder: ISpecimenBuilder, specification: IRequestSpecification) =
+type FoqRelay =
+
     new(builder: ISpecimenBuilder) = 
         FoqRelay(builder, AbstractTypeSpecification())
-    member this.Builder
-        with get() = builder
-    member this.Specification
-        with get() = specification
+
+    new(builder: ISpecimenBuilder, specification: IRequestSpecification) = 
+        { 
+            Builder = 
+                ((if builder = null 
+                  then raise(ArgumentNullException("builder"))); 
+                  builder)
+
+            Specification = 
+                ((if specification = null 
+                  then raise(ArgumentNullException("specification"))); 
+                  specification)
+        }
+
+    val Builder: ISpecimenBuilder
+
+    val Specification: IRequestSpecification
+    
     member this.Create(request, context) = 
         (this :> ISpecimenBuilder).Create(request, context)
+    
     interface ISpecimenBuilder with
         member this.Create(request, context) = 
             match this.Specification.IsSatisfiedBy(request) with
