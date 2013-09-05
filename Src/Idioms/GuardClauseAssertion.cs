@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 
@@ -119,8 +120,10 @@ namespace Ploeh.AutoFixture.Idioms
 
             EnsureTypeIsNotGeneric(methodInfo.ReflectedType);
 
-            var owner = CreateOwner(methodInfo.ReflectedType);
-            var method = new InstanceMethod(methodInfo, owner);
+            var owner = CreateOwner(methodInfo);
+            var method = owner != null
+                ? (IMethod)new InstanceMethod(methodInfo, owner) 
+                : new StaticMethod(methodInfo);
 
             var isReturnValueIterator =
                 typeof(System.Collections.IEnumerable).IsAssignableFrom(methodInfo.ReturnType) ||
@@ -149,10 +152,20 @@ namespace Ploeh.AutoFixture.Idioms
 
             EnsureTypeIsNotGeneric(propertyInfo.ReflectedType);
 
-            var owner = CreateOwner(propertyInfo.ReflectedType);
+            var owner = this.CreateOwner(propertyInfo);
             var command = new PropertySetCommand(propertyInfo, owner);
             var unwrapper = new ReflectionExceptionUnwrappingCommand(command);
             this.BehaviorExpectation.Verify(unwrapper);
+        }
+
+        private object CreateOwner(PropertyInfo property)
+        {
+            return CreateOwner(property.GetSetMethod());
+        }
+
+        private object CreateOwner(MethodBase method)
+        {
+            return method.IsStatic ? null : this.CreateOwner(method.ReflectedType);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
