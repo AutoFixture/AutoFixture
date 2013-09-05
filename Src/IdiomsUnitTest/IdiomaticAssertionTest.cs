@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture.Idioms;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
 
@@ -180,6 +181,24 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var expectedMethods = type.GetMethods().Except(type.GetProperties().SelectMany(p => p.GetAccessors()));
             var mockVerified = false;
             var sut = new DelegatingIdiomaticAssertion { OnMethodInfosVerify = m => mockVerified = expectedMethods.IsEquivalentTo(m) };
+            // Exercise system
+            sut.Verify(type);
+            // Verify outcome
+            Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyStaticTypeCorrectlyInvokesMethodsVerify()
+        {
+            // Fixture setup
+            Type type = typeof(UngardedStaticMethodOnStaticTypeHost);
+            var expectedMethods = new[] { type.GetMethod("Method")};
+            var mockVerified = false;
+            var sut = new DelegatingIdiomaticAssertion
+            {
+                OnMethodInfosVerify = m => mockVerified = expectedMethods.IsEquivalentTo(m)
+            };
             // Exercise system
             sut.Verify(type);
             // Verify outcome
