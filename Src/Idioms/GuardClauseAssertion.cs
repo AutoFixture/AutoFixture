@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 
@@ -80,7 +79,7 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         /// <summary>
-        /// Verifies that a constructor has appripriate Guard Clauses in place.
+        /// Verifies that a constructor has appropriate Guard Clauses in place.
         /// </summary>
         /// <param name="constructorInfo">The constructor.</param>
         /// <remarks>
@@ -101,7 +100,7 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         /// <summary>
-        /// Verifies that a method has appripriate Guard Clauses in place.
+        /// Verifies that a method has appropriate Guard Clauses in place.
         /// </summary>
         /// <param name="methodInfo">The method.</param>
         /// <remarks>
@@ -130,7 +129,7 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         /// <summary>
-        /// Verifies that a property has appripriate Guard Clauses in place.
+        /// Verifies that a property has appropriate Guard Clauses in place.
         /// </summary>
         /// <param name="propertyInfo">The property.</param>
         /// <remarks>
@@ -193,7 +192,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         private void Verify(IMethod method, bool isReturnValueIterator)
         {
-            var parameters = GetParameters(method);
+            var parameters = this.GetParameters(method);
 
             var i = 0;
             foreach (var pi in method.Parameters)
@@ -298,6 +297,5 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
                 return new GuardClauseException(message, e);
             }
         }
-
     }
 }
