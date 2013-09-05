@@ -120,10 +120,7 @@ namespace Ploeh.AutoFixture.Idioms
 
             EnsureTypeIsNotGeneric(methodInfo.ReflectedType);
 
-            var owner = CreateOwner(methodInfo);
-            var method = owner != null
-                ? (IMethod)new InstanceMethod(methodInfo, owner) 
-                : new StaticMethod(methodInfo);
+            var method = this.CreateMethod(methodInfo);
 
             var isReturnValueIterator =
                 typeof(System.Collections.IEnumerable).IsAssignableFrom(methodInfo.ReturnType) ||
@@ -158,9 +155,17 @@ namespace Ploeh.AutoFixture.Idioms
             this.BehaviorExpectation.Verify(unwrapper);
         }
 
+        private IMethod CreateMethod(MethodInfo methodInfo)
+        {
+            var owner = this.CreateOwner(methodInfo);
+            return owner != null
+                       ? (IMethod)new InstanceMethod(methodInfo, owner)
+                       : new StaticMethod(methodInfo);
+        }
+
         private object CreateOwner(PropertyInfo property)
         {
-            return CreateOwner(property.GetSetMethod());
+            return this.CreateOwner(property.GetSetMethod());
         }
 
         private object CreateOwner(MethodBase method)
