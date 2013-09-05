@@ -111,6 +111,8 @@
     <Compile Include="TypeWithOverloadedMembers.cs" />
     <Compile Include="TypeWithFactoryProperty.cs" />
     <Compile Include="TypeWithRefMethod.cs" />
+    <Compile Include="UngardedStaticMethodOnStaticTypeHost.cs" />
+    <Compile Include="UngardedStaticPropertyOnStaticTypeHost.cs" />
     <Compile Include="UnguardedConstructorHost.cs" />
     <Compile Include="UnguardedMethodHost.cs" />
     <Compile Include="InternalGetterPropertyHolder.cs" />
