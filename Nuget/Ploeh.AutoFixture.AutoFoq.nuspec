@@ -2,12 +2,12 @@
 <package>
     <metadata>
         <id>AutoFixture.AutoFoq</id>
-        <version>3.0</version>
+        <version>2.2</version>
         <title>AutoFixture with Auto Mocking using Foq</title>
         <authors>Nikos Baxevanis</authors>
         <owners>Nikos Baxevanis</owners>
         <dependencies>
-            <dependency id="AutoFixture" version="3.0" />
+            <dependency id="AutoFixture" version="2.2" />
             <dependency id="Foq" version="1.0" />
         </dependencies>
         <summary>Turns AutoFixture into an Auto-Mocking Container based on Foq.</summary>

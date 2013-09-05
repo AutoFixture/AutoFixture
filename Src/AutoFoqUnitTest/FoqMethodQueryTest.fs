@@ -20,7 +20,6 @@ let SutIsMethodQuery() =
 [<Fact>]
 let SelectMethodThrowsForNullType() =
     // Fixture setup
-    let requestType = typeof<IInterface>
     let sut = FoqMethodQuery()
     // Exercise system and verify outcome
     Assert.Throws<ArgumentNullException>(fun () -> 
@@ -34,7 +33,7 @@ let SelectMethodReturnsMethodForInterface() =
     // Exercise system
     let result = sut.SelectMethods(requestType)
     // Verify outcome
-    Assert.IsAssignableFrom<seq<IMethod>>(result)
+    Assert.IsAssignableFrom<seq<IMethod>>(result) 
     |> ignore
 
 [<Fact>]
@@ -89,25 +88,6 @@ let SelectMethodsDefineCorrectParameters requestTypeName =
             result |> Seq.exists(fun resultParameters -> 
                 expectedParameters = 
                     (resultParameters |> Seq.toArray))))
-    // Teardown
-
-[<Theory>][<PropertyData("TypesWithConstructors")>]
-let SelectMethodsReturnsCorrectNumberOfConstructorsForTypesWithConstructors 
-    requestTypeName =
-    // Fixture setup
-    let request = typeof<IInterface>.Assembly.GetType(requestTypeName)
-    let expected = 
-        request
-            .GetConstructors(
-                BindingFlags.Public 
-            ||| BindingFlags.Instance
-            ||| BindingFlags.NonPublic)             
-            .Length
-    let sut = FoqMethodQuery()
-    // Exercise system
-    let result = sut.SelectMethods(request) |> Seq.length
-    // Verify outcome
-    Assert.Equal(expected, result)
     // Teardown
 
 let TypesWithConstructors : seq<obj[]> = 
