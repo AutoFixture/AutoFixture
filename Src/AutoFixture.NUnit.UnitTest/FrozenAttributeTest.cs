@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Linq;
+using NUnit.Framework;
 using Ploeh.TestTypeFoundation;
-using Xunit;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
+    [TestFixture]
     public class FrozenAttributeTest
     {
-        [Fact]
+        [Test]
         public void SutIsAttribute()
         {
             // Fixture setup
             // Exercise system
             var sut = new FrozenAttribute();
             // Verify outcome
-            Assert.IsAssignableFrom<CustomizeAttribute>(sut);
+            Assert.IsInstanceOf<CustomizeAttribute>(sut);
             // Teardown
         }
 
-        [Fact]
+        [Test]
         public void GetCustomizationFromNullParamterThrows()
         {
             // Fixture setup
@@ -29,7 +30,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Fact]
+        [Test]
         public void GetCustomizationReturnsCorrectResult()
         {
             // Fixture setup
@@ -41,12 +42,13 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Exercise system
             var result = sut.GetCustomization(parameter);
             // Verify outcome
-            var freezer = Assert.IsAssignableFrom<FreezingCustomization>(result);
-            Assert.Equal(parameter.ParameterType, freezer.TargetType);
+            Assert.IsAssignableFrom<FreezingCustomization>(result);
+            var freezer = (FreezingCustomization)result;
+            Assert.AreEqual(parameter.ParameterType, freezer.TargetType);
             // Teardown
         }
 
-        [Fact]
+        [Test]
         public void GetCustomizationReturnsTheRegisteredTypeEqualToTheParameterType()
         {
             // Fixture setup
@@ -58,12 +60,13 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Exercise system
             var result = sut.GetCustomization(parameter);
             // Verify outcome
-            var freezer = Assert.IsAssignableFrom<FreezingCustomization>(result);
-            Assert.Equal(parameter.ParameterType, freezer.RegisteredType);
+            Assert.IsAssignableFrom<FreezingCustomization>(result);
+            var freezer = (FreezingCustomization)result;
+            Assert.AreEqual(parameter.ParameterType, freezer.RegisteredType);
             // Teardown
         }
 
-        [Fact]
+        [Test]
         public void GetCustomizationWithSpecificRegisteredTypeReturnsCorrectResult()
         {
             // Fixture setup
@@ -76,12 +79,13 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Exercise system
             var result = sut.GetCustomization(parameter);
             // Verify outcome
-            var freezer = Assert.IsAssignableFrom<FreezingCustomization>(result);
-            Assert.Equal(registeredType, freezer.RegisteredType);
+            Assert.IsAssignableFrom<FreezingCustomization>(result);
+            var freezer = (FreezingCustomization)result;
+            Assert.AreEqual(registeredType, freezer.RegisteredType);
             // Teardown
         }
 
-        [Fact]
+        [Test]
         public void GetCustomizationWithIncompatibleRegisteredTypeThrowsArgumentException()
         {
             // Fixture setup

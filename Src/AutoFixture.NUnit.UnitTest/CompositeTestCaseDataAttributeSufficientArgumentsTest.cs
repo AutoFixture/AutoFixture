@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using NUnit.Framework;
 using Ploeh.TestTypeFoundation;
-using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
+    [TestFixture]
     public class CompositeTestCaseDataAttributeSufficientArgumentsTest : IEnumerable<object[]>
     {
         private readonly MethodInfo method;
@@ -19,8 +19,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
                 .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
         }
 
-        [Theory]
-        [ClassData(typeof(CompositeTestCaseDataAttributeSufficientArgumentsTest))]
+        [TestCaseSource(typeof(CompositeTestCaseDataAttributeSufficientArgumentsTest))]
         public void GetArgumentsReturnsCorrectResult(IEnumerable<TestCaseDataAttribute> attributes, IEnumerable<object[]> expectedResult)
         {
             // Fixture setup

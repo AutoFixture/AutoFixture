@@ -1,29 +1,30 @@
 ﻿using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
+    [TestFixture]
     public class CustomizeAttributeTest
     {
-        [Fact]
+        [Test]
         public void TestableSutIsSut()
         {
             // Fixture setup
             // Exercise system
             var sut = new DelegatingCustomizeAttribute();
             // Verify outcome
-            Assert.IsAssignableFrom<CustomizeAttribute>(sut);
+            Assert.IsInstanceOf<CustomizeAttribute>(sut);
             // Teardown
         }
 
-        [Fact]
+        [Test]
         public void SutIsAttribute()
         {
             // Fixture setup
             // Exercise system
             var sut = new DelegatingCustomizeAttribute();
             // Verify outcome
-            Assert.IsAssignableFrom<Attribute>(sut);
+            Assert.IsInstanceOf<Attribute>(sut);
             // Teardown
         }
     }

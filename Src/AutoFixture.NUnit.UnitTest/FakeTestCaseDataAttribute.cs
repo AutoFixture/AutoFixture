@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Xunit;
+using NUnit.Framework;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
 
         public override IEnumerable<object[]> GetArguments(MethodInfo method)
         {
-            Assert.Equal(this.expectedMethod, method);
+            Assert.AreEqual(this.expectedMethod, method);
             
             return this.output;
         }

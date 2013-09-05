@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Linq;
+using NUnit.Framework;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
-using Xunit;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
+    [TestFixture]
     public class FavorEnumerablesAttributeTest
     {
-        [Fact]
+        [Test]
         public void SutIsAttribute()
         {
             // Fixture setup
             // Exercise system
             var sut = new FavorEnumerablesAttribute();
             // Verify outcome
-            Assert.IsAssignableFrom<CustomizeAttribute>(sut);
+            Assert.IsInstanceOf<CustomizeAttribute>(sut);
             // Teardown
         }
 
-        [Fact]
+        [Test]
         public void GetCustomizationFromNullParameterThrows()
         {
             // Fixture setup
@@ -30,7 +31,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Fact]
+        [Test]
         public void GetCustomizationReturnsCorrectResult()
         {
             // Fixture setup
@@ -39,8 +40,9 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Exercise system
             var result = sut.GetCustomization(parameter);
             // Verify outcome
-            var invoker = Assert.IsAssignableFrom<ConstructorCustomization>(result);
-            Assert.Equal(parameter.ParameterType, invoker.TargetType);
+            Assert.IsAssignableFrom<ConstructorCustomization>(result);
+            var invoker = (ConstructorCustomization)result;
+            Assert.AreEqual(parameter.ParameterType, invoker.TargetType);
             Assert.IsAssignableFrom<EnumerableFavoringConstructorQuery>(invoker.Query);
             // Teardown
         }

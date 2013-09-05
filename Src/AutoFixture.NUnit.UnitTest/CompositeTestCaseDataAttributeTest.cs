@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xunit;
+using NUnit.Framework;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
+    [TestFixture]
     public class CompositeTestCaseDataAttributeTest
     {
-        [Fact]
+        [Test]
         public void SutIsDataAttribute()
         {
             // Fixture setup
             // Exercise system
             var sut = new CompositeTestCaseDataAttribute();
             // Verify outcome
-            Assert.IsAssignableFrom<TestCaseDataAttribute>(sut);
+            Assert.IsInstanceOf<TestCaseDataAttribute>(sut);
             // Teardown
         }
 
-        [Fact]
+        [Test]
         public void InitializeWithNullArrayThrows()
         {
             // Fixture setup
@@ -28,7 +29,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Fact]
+        [Test]
         public void AttributesIsCorrectWhenInitializedWithArray()
         {
             // Fixture setup
@@ -50,7 +51,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Fact]
+        [Test]
         public void InitializeWithNullEnumerableThrows()
         {
             // Fixture setup
@@ -60,7 +61,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Fact]
+        [Test]
         public void AttributesIsCorrectWhenInitializedWithEnumerable()
         {
             // Fixture setup
@@ -82,7 +83,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Fact]
+        [Test]
         public void GetArgumentsWithNullMethodThrows()
         {
             // Fixture setup
@@ -93,7 +94,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Fact]
+        [Test]
         public void GetArgumentsOnMethodWithNoParametersReturnsNoTheory()
         {
             // Fixture setup
@@ -108,7 +109,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
 
             // Exercise system and verify outcome
             var result = sut.GetArguments(a.Method);
-            Array.ForEach(result.ToArray(), Assert.Empty);
+            Array.ForEach(result.ToArray(), Assert.IsEmpty);
             // Teardown
         }
     }

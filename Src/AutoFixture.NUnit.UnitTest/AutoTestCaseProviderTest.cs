@@ -1,19 +1,20 @@
 using System.Reflection;
+using NUnit.Framework;
 using Ploeh.AutoFixture.NUnit.Addins.Builders;
-using Xunit;
 
 namespace Ploeh.AutoFixture.NUnit.UnitTest
 {
+    [TestFixture]
     public class AutoTestCaseProviderTest
     {
-        private MethodInfo method;
+        private readonly MethodInfo method;
 
         public AutoTestCaseProviderTest()
         {
             this.method = typeof(FakeAutoTestCaseFixture).GetMethod("DoSomething");
         }
 
-        [Fact]
+        [Test]
         public void HasTestCasesForAutoTestCaseTestCaseProvider()
         {
             // Fixture setup
@@ -25,7 +26,7 @@ namespace Ploeh.AutoFixture.NUnit.UnitTest
             // Teardown
         }
 
-        [Fact]
+        [Test]
         public void GetTestCasesForAutoTestCaseTestCaseBuilderReturnsCorrectly()
         {
             // Fixture setup
