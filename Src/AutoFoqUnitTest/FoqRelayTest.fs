@@ -84,9 +84,8 @@ let CreateWithRequestThatDoesNotMatchSpecificationReturnsNoSpecimen() =
     Assert.Equal(expected, result)
 
 [<Theory>][<PropertyData("Abstractions")>]
-let CreateWithAbstractTypeRequestReturnsNoSpecimenWhenBuilderReturnsNull requestTypeName =
+let CreateWithAbstractTypeRequestReturnsNoSpecimenWhenBuilderReturnsNull (request: Type) =
     // Fixture setup
-    let request = typeof<IInterface>.Assembly.GetType(requestTypeName)
     let dummyContext = Mock<ISpecimenContext>().Create()
     let builderStub = 
         Mock<ISpecimenBuilder>()
@@ -101,9 +100,8 @@ let CreateWithAbstractTypeRequestReturnsNoSpecimenWhenBuilderReturnsNull request
     Assert.Equal(expected, result)
 
 [<Theory>][<PropertyData("Abstractions")>]
-let CreateWithAbstractTypeRequestReturnsCorrectResult requestTypeName =
+let CreateWithAbstractTypeRequestReturnsCorrectResult (request: Type) =
     // Fixture setup
-    let request = typeof<IInterface>.Assembly.GetType(requestTypeName)
     let dummyContext = Mock<ISpecimenContext>().Create()
     let expected = obj()
     let builderStub = 
@@ -117,8 +115,8 @@ let CreateWithAbstractTypeRequestReturnsCorrectResult requestTypeName =
     // Verify outcome
     Assert.Same(expected, result)
 
-let Abstractions : seq<obj[]> = 
+let Abstractions : seq<Type[]> = 
     seq { 
-            yield [| "Ploeh.TestTypeFoundation.IInterface" |]
-            yield [| "Ploeh.TestTypeFoundation.AbstractType" |]
+            yield [| typeof<IInterface> |]
+            yield [| typeof<AbstractType> |]
         }

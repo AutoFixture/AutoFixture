@@ -47,9 +47,8 @@ let SelectMethodReturnsMethodWithoutParametersForInterface() =
     Assert.Empty(result)
 
 [<Theory>][<PropertyData("TypesWithConstructors")>]
-let MethodsAreReturnedInCorrectOrder requestTypeName =
+let MethodsAreReturnedInCorrectOrder (request: Type) =
     // Fixture setup
-    let request = typeof<IInterface>.Assembly.GetType(requestTypeName)
     let expected = 
         request.GetConstructors(
                 BindingFlags.Public 
@@ -68,9 +67,8 @@ let MethodsAreReturnedInCorrectOrder requestTypeName =
     // Teardown   
 
 [<Theory>][<PropertyData("TypesWithConstructors")>]
-let SelectMethodsDefineCorrectParameters requestTypeName =
+let SelectMethodsDefineCorrectParameters (request: Type) =
     // Fixture setup
-    let request = typeof<IInterface>.Assembly.GetType(requestTypeName)
     let expected =
         request.GetConstructors(
                 BindingFlags.Public 
@@ -90,9 +88,9 @@ let SelectMethodsDefineCorrectParameters requestTypeName =
                     (resultParameters |> Seq.toArray))))
     // Teardown
 
-let TypesWithConstructors : seq<obj[]> = 
+let TypesWithConstructors : seq<Type[]> = 
     seq {
-            yield [| "Ploeh.TestTypeFoundation.AbstractType" |]
-            yield [| "Ploeh.TestTypeFoundation.ConcreteType" |]
-            yield [| "Ploeh.TestTypeFoundation.MultiUnorderedConstructorType" |]
+            yield [| typeof<AbstractType> |]
+            yield [| typeof<ConcreteType> |]
+            yield [| typeof<MultiUnorderedConstructorType> |]
         }
