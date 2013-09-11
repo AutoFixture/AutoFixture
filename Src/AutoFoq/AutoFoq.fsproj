@@ -47,7 +47,6 @@
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
     <None Include="packages.config" />
     <Compile Include="GlobalSuppressions.fs" />
-    <Compile Include="FoqRelay.fs" />
     <Compile Include="FoqType.fs" />
     <Compile Include="FoqMethod.fs" />
     <Compile Include="FoqMethodQuery.fs" />

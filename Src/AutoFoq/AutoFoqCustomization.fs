@@ -26,9 +26,10 @@ type AutoFoqCustomization =
     /// </summary>
     new() = 
         AutoFoqCustomization(
-            FoqRelay(
+            FilteringSpecimenBuilder(
                 MethodInvoker(
-                    FoqMethodQuery())))
+                    FoqMethodQuery()),
+                AbstractTypeSpecification()))
 
     /// <summary>
     /// Gets the relay that will be added to 

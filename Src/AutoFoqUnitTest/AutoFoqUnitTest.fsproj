@@ -39,7 +39,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.fs" />
     <None Include="packages.config" />
-    <Compile Include="FoqRelayTest.fs" />
     <Compile Include="FoqMethodQueryTest.fs" />
     <Compile Include="AutoFoqCustomizationTest.fs" />
     <Compile Include="FixtureIntegrationTest.fs" />

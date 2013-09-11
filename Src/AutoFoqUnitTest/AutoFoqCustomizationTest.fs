@@ -28,12 +28,10 @@ let InitializeWithNullRelayThrows() =
 [<Fact>]
 let RelayIsCorrect() =
     // Fixture setup
-    let expectedBuilder = 
-        FoqRelay(
-            Mock<ISpecimenBuilder>().Create())
+    let expectedBuilder = Mock<ISpecimenBuilder>().Create()
     let sut = AutoFoqCustomization(expectedBuilder)
     // Exercise system
-    let result = sut.Relay :?> FoqRelay
+    let result = sut.Relay
     // Verify outcome
     Assert.Equal(expectedBuilder, result)
     // Teardown
@@ -45,7 +43,7 @@ let RelayIsCorrectWhenInitializedWithDefaultConstructor() =
     // Exercise system
     let result = sut.Relay
     // Verify outcome
-    Assert.IsType<FoqRelay>(result)
+    Assert.IsType<FilteringSpecimenBuilder>(result)
     // Teardown
 
 [<Fact>]
