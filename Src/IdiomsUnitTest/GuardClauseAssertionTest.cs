@@ -714,5 +714,53 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             public IHaveNoImplementers PropertyOfTypeWithoutImplementers { get; set; }
             public int Property { get; set; }
         }
+
+        [Fact]
+        public void VerifyStaticPropertyOnNonStaticClassThrowsHelpfulException()
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            var staticProperty = typeof(StaticPropertyHolder<object>).GetProperty("Property");
+            Assert.NotNull(staticProperty);
+            // Exercise system & Verify outcome
+            var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticProperty));
+            Assert.Contains("Are you missing a Guard Clause?", e.Message);
+        }
+
+        [Fact]
+        public void VerifyStaticPropertyOnStaticTypeThrowsHelpfulException()
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            var staticProperty = typeof(UngardedStaticPropertyOnStaticTypeHost).GetProperty("Property");
+            Assert.NotNull(staticProperty);
+            // Exercise system & Verify outcome
+            var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticProperty));
+            Assert.Contains("Are you missing a Guard Clause?", e.Message);
+        }
+
+        [Fact]
+        public void VerifyStaticMethodOnNonStaticTypeThrowsHelpfulException()
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            var staticMethod = typeof(StaticPropertyHolder<object>).GetProperty("Property").GetSetMethod();
+            Assert.NotNull(staticMethod);
+            // Exercise system & Verify outcome
+            var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticMethod));
+            Assert.Contains("Are you missing a Guard Clause?", e.Message);
+        }
+
+        [Fact]
+        public void VerifyStaticMethodOnStaticTypeThrowsHelpfulException()
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            var staticMethod = typeof(UngardedStaticMethodOnStaticTypeHost).GetMethod("Method");
+            Assert.NotNull(staticMethod);
+            // Exercise system & Verify outcome
+            var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticMethod));
+            Assert.Contains("Are you missing a Guard Clause?", e.Message);
+        }
     }
 }

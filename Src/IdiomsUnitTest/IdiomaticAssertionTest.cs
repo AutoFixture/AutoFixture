@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture.Idioms;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
 
@@ -187,6 +188,24 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void VerifyStaticTypeCorrectlyInvokesMethodsVerify()
+        {
+            // Fixture setup
+            Type type = typeof(UngardedStaticMethodOnStaticTypeHost);
+            var expectedMethods = new[] { type.GetMethod("Method")};
+            var mockVerified = false;
+            var sut = new DelegatingIdiomaticAssertion
+            {
+                OnMethodInfosVerify = m => mockVerified = expectedMethods.IsEquivalentTo(m)
+            };
+            // Exercise system
+            sut.Verify(type);
+            // Verify outcome
+            Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
+
         [Theory]
         [InlineData(typeof(object))]
         [InlineData(typeof(string))]
@@ -198,6 +217,23 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var expectedProperties = type.GetProperties();
             var mockVerified = false;
             var sut = new DelegatingIdiomaticAssertion { OnPropertyInfoArrayVerify = p => mockVerified = expectedProperties.IsEquivalentTo(p) };
+            // Exercise system
+            sut.Verify(type);
+            // Verify outcome
+            Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(System.Runtime.Remoting.Messaging.Header))]
+        public void VerifyTypeCorrectlyInvokesFieldsVerify(Type type)
+        {
+            // Fixture setup
+            var expectedFields = type.GetFields();
+            var mockVerified = false;
+            var sut = new DelegatingIdiomaticAssertion { OnFieldInfoArrayVerify = p => mockVerified = expectedFields.IsEquivalentTo(p) };
             // Exercise system
             sut.Verify(type);
             // Verify outcome
@@ -299,6 +335,22 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var member = type.GetProperties().Cast<MemberInfo>().First();
             var mockVerified = false;
             var sut = new DelegatingIdiomaticAssertion { OnPropertyInfoVerify = p => mockVerified = p.Equals(member) };
+            // Exercise system
+            sut.Verify(member);
+            // Verify outcome
+            Assert.True(mockVerified, "Mock verified.");
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(System.Runtime.Remoting.Messaging.Header))]
+        public void VerifyMemberInfoCorrectlyInvokesFieldInfoVerify(Type type)
+        {
+            // Fixture setup
+            var member = type.GetFields().Cast<MemberInfo>().First();
+            var mockVerified = false;
+            var sut = new DelegatingIdiomaticAssertion { OnFieldInfoVerify = f => mockVerified = f.Equals(member) };
             // Exercise system
             sut.Verify(member);
             // Verify outcome

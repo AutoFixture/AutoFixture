@@ -97,8 +97,9 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new ArgumentNullException("type");
 
             this.Verify(type.GetConstructors());
-            this.Verify(IdiomaticAssertion.GetMethodsExceptPropertyAccessors(type));
+            this.Verify(IdiomaticAssertion.GetMethodsForAssertion(type));
             this.Verify(type.GetProperties());
+            this.Verify(type.GetFields());
         }
 
         /// <summary>
@@ -297,6 +298,18 @@ namespace Ploeh.AutoFixture.Idioms
         /// <param name="propertyInfo">The property.</param>
         public virtual void Verify(PropertyInfo propertyInfo)
         {
+        }
+
+        private static IEnumerable<MethodInfo> GetMethodsForAssertion(Type type)
+        {
+            return IdiomaticAssertion.IsStaticClass(type) 
+                ? IdiomaticAssertion.GetMethodsExceptPropertyAccessors(type).Where(m => m.IsStatic) 
+                : IdiomaticAssertion.GetMethodsExceptPropertyAccessors(type);
+        }
+
+        private static bool IsStaticClass(Type type)
+        {
+            return type.IsAbstract && type.IsSealed;
         }
 
         private static IEnumerable<MethodInfo> GetMethodsExceptPropertyAccessors(Type type)
