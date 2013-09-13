@@ -7,18 +7,8 @@ open System
 /// <summary>
 /// Enables auto-mocking with Foq.
 /// </summary>
-type AutoFoqCustomization =
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AutoFoqCustomization"/> 
-    /// class with the specified relay.
-    /// </summary>
-    /// <param name="relay">The relay.</param>
-    new(relay: ISpecimenBuilder) = 
-        { 
-            Relay = ((if relay = null 
-                      then raise(ArgumentNullException("relay"))); 
-                      relay)
-        }
+type AutoFoqCustomization(relay: ISpecimenBuilder) =
+    do if relay = null then raise (ArgumentNullException("relay"))
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AutoFoqCustomization"/> 
@@ -36,7 +26,7 @@ type AutoFoqCustomization =
     /// <see cref="IFixture.ResidueCollectors"/> when <see cref="Customize"/>
     /// is invoked.
     /// </summary>
-    val Relay: ISpecimenBuilder
+    member this.Relay = relay
 
     /// <summary>
     /// Customizes an <see cref="IFixture"/> to enable auto-mocking with Foq.
