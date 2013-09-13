@@ -32,7 +32,7 @@ type FoqMethodQuery() =
             match targetType with
             | null -> raise (ArgumentNullException("targetType"))
             |  _   -> match targetType.IsInterface with
-                      | true  -> seq { yield FoqMethod.Create(targetType) :?> IMethod }
+                      | true  -> seq { yield FoqMethod.Create(targetType, Array.empty) :?> IMethod }
                       | _     -> targetType.GetPublicAndProtectedConstructors() 
                                  |> Seq.sortBy(fun x -> x.GetParameters().Length)
                                  |> Seq.map(fun ctor -> FoqMethod.Create(
