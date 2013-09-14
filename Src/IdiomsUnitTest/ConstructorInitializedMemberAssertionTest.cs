@@ -289,7 +289,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var ctor = typeof(PropertyIsAssignableFromConstructorArgumentType).GetConstructors().First();
+            var ctor = typeof(PropertyIsEnumerableAssignableFromConstructorArgumentType).GetConstructors().First();
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() =>
                 sut.Verify(ctor));
@@ -417,6 +417,65 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
+        private abstract class Abstr1
+        {
+            protected Abstr1(string test)
+            {
+                this.Test = test;
+            }
+
+            public string Test { get; set; }
+        }
+
+        class AbstrImpl1 : Abstr1
+        {
+            public AbstrImpl1() : base("test")
+            {
+            }
+        }
+
+        class ReadOnlyPropertyAndCtorArg<TBase, TArg>
+            where TArg : TBase
+        {
+            private readonly TBase bribbets;
+
+            public ReadOnlyPropertyAndCtorArg(TArg bribbets)
+            {
+                this.bribbets = bribbets;
+            }
+
+            public TBase Bribbets
+            {
+                get { return this.bribbets; }
+            }
+        }
+
+        [Fact]
+        public void VerifyPropertyEnumerableAssignableFromConstructorDoesNotThrow()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var type = typeof (ReadOnlyPropertyAndCtorArg<IEnumerable<string>, string[]>);
+            var property = type.GetProperty("Bribbets");
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(property));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyPropertyInterfaceAssignableFromImplementingClassConstructorDoesNotThrow()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var t2 = typeof(ReadOnlyPropertyAndCtorArg<Abstr1, AbstrImpl1>);
+            var property = t2.GetProperty("Bribbets");
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(property));
+            // Teardown
+        }
+
         static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, ConstructorInfo ctor, ParameterInfo param)
         {
             Assert.Equal(param, ex.MissingParameter);
@@ -503,11 +562,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             public string Name { get; set;  }
         }
 
-        class PropertyIsAssignableFromConstructorArgumentType
+        class PropertyIsEnumerableAssignableFromConstructorArgumentType
         {
             private readonly IEnumerable<string> bribbets;
 
-            public PropertyIsAssignableFromConstructorArgumentType(params string[] bribbets)
+            public PropertyIsEnumerableAssignableFromConstructorArgumentType(params string[] bribbets)
             {
                 this.bribbets = bribbets;
             }

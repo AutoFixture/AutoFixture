@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace Ploeh.AutoFixture.Idioms
     public class ConstructorInitializedMemberAssertion : IdiomaticAssertion
     {
         private readonly ISpecimenBuilder builder;
+        private readonly IEqualityComparer comparer;
+        private readonly Func<ParameterInfo, MemberInfo, bool> isMatchPredicate; 
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstructorInitializedMemberAssertion"/> class.
@@ -29,6 +32,34 @@ namespace Ploeh.AutoFixture.Idioms
         /// </para>
         /// </remarks>
         public ConstructorInitializedMemberAssertion(ISpecimenBuilder builder)
+            : this(builder, null, null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConstructorInitializedMemberAssertion"/>
+        /// class.
+        /// </summary>
+        /// <param name="builder">
+        /// A composer which can create instances required to implement the idiomatic unit test,
+        /// such as the owner of the property, as well as the value to be assigned and read from
+        /// the member.
+        /// </param>
+        /// <param name="comparer">
+        /// An <see cref="IEqualityComparer"/> instance used to determine if the member has the
+        /// same value that was passed to the matching constructor parameter.
+        /// </param>
+        /// <param name="isMatchPredicate">A method which can match constructor parameters to 
+        /// members, returning true for a match, false otherwise.</param>
+        /// <remarks>
+        /// <para>
+        /// <paramref name="builder" /> will typically be a <see cref="Fixture" /> instance.
+        /// </para>
+        /// </remarks>
+        public ConstructorInitializedMemberAssertion(
+            ISpecimenBuilder builder,
+            IEqualityComparer comparer,
+            Func<ParameterInfo, MemberInfo, bool> isMatchPredicate)
         {
             if (builder == null)
             {
@@ -36,6 +67,8 @@ namespace Ploeh.AutoFixture.Idioms
             }
 
             this.builder = builder;
+            this.comparer = comparer ?? new DefaultEqualityComparer();
+            this.isMatchPredicate = isMatchPredicate ?? IsMatchingParameterAndMember;
         }
 
         /// <summary>
@@ -44,6 +77,27 @@ namespace Ploeh.AutoFixture.Idioms
         public ISpecimenBuilder Builder
         {
             get { return this.builder; }
+        }
+
+        /// <summary>
+        /// Gets the comparer supplied to the constructor.
+        /// </summary>
+        /// <remarks>
+        /// This comparer instance is used to determine if the value retreived from
+        /// the member is equal to the value passed to the constructor instance.
+        /// </remarks>
+        public IEqualityComparer Comparer
+        {
+            get { return this.comparer; }
+        }
+
+        /// <summary>
+        /// Gets the predicate used to determine if a constructor parameter matches
+        /// a given member (property or field).
+        /// </summary>
+        public Func<ParameterInfo, MemberInfo, bool> IsMatchPredicate
+        {
+            get { return this.isMatchPredicate; }
         }
 
         /// <summary>
@@ -61,7 +115,7 @@ namespace Ploeh.AutoFixture.Idioms
                 return;
 
             var publicPropertiesAndFields = GetPublicPropertiesAndFields(constructorInfo.DeclaringType).ToArray();
-            
+
             var firstParameterNotExposed = parameters.FirstOrDefault(
                 p => !publicPropertiesAndFields.Any(m => IsMatchingParameterAndMember(p, m)));
 
@@ -93,15 +147,16 @@ namespace Ploeh.AutoFixture.Idioms
             if (propertyInfo == null)
                 throw new ArgumentNullException("propertyInfo");
 
-            var expected = this.builder.CreateAnonymous(propertyInfo);
             var matchingConstructors = GetConstructorsWithInitializerForMember(propertyInfo).ToArray();
-            
+
             if (!matchingConstructors.Any())
             {
                 if (IsMemberThatRequiresConstructorInitialization(propertyInfo))
                 {
-                    throw new ConstructorInitializedMemberException(propertyInfo, string.Format(CultureInfo.CurrentCulture,
-                        "No constructors with an argument that matches the read-only property '{0}' were found", propertyInfo.Name));
+                    throw new ConstructorInitializedMemberException(propertyInfo,
+                        string.Format(CultureInfo.CurrentCulture,
+                            "No constructors with an argument that matches the read-only property '{0}' were found",
+                            propertyInfo.Name));
                 }
 
                 // For writable properties or fields, having no constructor parameter that initializes
@@ -109,10 +164,11 @@ namespace Ploeh.AutoFixture.Idioms
                 return;
             }
 
-            if (matchingConstructors.Select(ci =>
-                BuildSpecimenWithMatchingParameterValue(ci, propertyInfo, expected))
-                .Select(specimen => propertyInfo.CanRead ? propertyInfo.GetValue(specimen, null) : expected)
-                .Any(result => !expected.Equals(result)))
+            var valuesFromSpecimens = matchingConstructors
+                .Select(ci => BuildValuesFromSpecimens(ci, propertyInfo));
+
+            // Compare the value passed into the constructor with the value returned from the property
+            if (valuesFromSpecimens.Any(s => !AreEqualForCima(s.Expected, s.Actual)))
             {
                 throw new ConstructorInitializedMemberException(propertyInfo);
             }
@@ -140,15 +196,14 @@ namespace Ploeh.AutoFixture.Idioms
             if (fieldInfo == null)
                 throw new ArgumentNullException("fieldInfo");
 
-            var expected = this.builder.CreateAnonymous(fieldInfo);
-
             var matchingConstructors = GetConstructorsWithInitializerForMember(fieldInfo).ToArray();
             if (!matchingConstructors.Any())
             {
                 if (IsMemberThatRequiresConstructorInitialization(fieldInfo))
                 {
                     throw new ConstructorInitializedMemberException(fieldInfo, string.Format(CultureInfo.CurrentCulture,
-                        "No constructors with an argument that matches the read-only field '{0}' were found", fieldInfo.Name));
+                        "No constructors with an argument that matches the read-only field '{0}' were found",
+                        fieldInfo.Name));
                 }
 
                 // For writable properties or fields, having no constructor parameter that initializes
@@ -156,28 +211,69 @@ namespace Ploeh.AutoFixture.Idioms
                 return;
             }
 
-            if (matchingConstructors.Select(ci =>
-                BuildSpecimenWithMatchingParameterValue(ci, fieldInfo, expected))
-                .Select(fieldInfo.GetValue)
-                .Any(result => !expected.Equals(result)))
+            var valuesFromSpecimens = matchingConstructors
+                .Select(ctor => BuildValuesFromSpecimens(ctor, fieldInfo));
+
+            // Compare the value passed into the constructor with the value returned from the property
+            if (valuesFromSpecimens.Any(s => !AreEqualForCima(s.Expected, s.Actual)))
             {
                 throw new ConstructorInitializedMemberException(fieldInfo);
             }
         }
 
-        private object BuildSpecimenWithMatchingParameterValue(ConstructorInfo ci, MemberInfo propertyOrField, object expected)
+        private bool AreEqualForCima(object expected, object actual)
         {
-            var paramters = ci.GetParameters();
-            var matchingConstructorParameter = paramters.Single(p => IsMatchingParameterAndMember(p, propertyOrField));
+            return this.comparer.Equals(actual, expected);    
+        }
 
+        private ExpectedAndActual BuildValuesFromSpecimens(
+            ConstructorInfo ci, MemberInfo propertyOrField)
+        {
             // Create anonymous values for all parameters, except our 'matched' argument
-            var paramValues = (from pi in ci.GetParameters()
-                let value = pi == matchingConstructorParameter
-                    ? expected
-                    : this.builder.CreateAnonymous(pi)
-                select value).ToArray();
+            var parametersAndValues =
+                    (from pi in ci.GetParameters()
+                    select new { Parameter = pi, Value = builder.CreateAnonymous(pi) })
+                    .ToArray();
 
-            return ci.Invoke(paramValues.ToArray());
+            // Get the value expected to be assigned to the matching member
+            var expectedValueForMember = parametersAndValues
+                .Single(p => IsMatchingParameterAndMember(p.Parameter, propertyOrField))
+                .Value;
+
+            // Construct an instance of the specimen class
+            var specimen = ci.Invoke(parametersAndValues.Select(pv => pv.Value).ToArray());
+
+            // Get the value from the specimen field/property
+            object actual;
+            if (propertyOrField is FieldInfo)
+            {
+                actual = (propertyOrField as FieldInfo).GetValue(specimen);
+            }
+            else if (propertyOrField is PropertyInfo)
+            {
+                var propertyInfo = propertyOrField as PropertyInfo;
+                actual = propertyInfo.CanRead ? propertyInfo.GetValue(specimen, null) : expectedValueForMember;
+            }
+            else
+            {
+                throw new ArgumentException("Must be a property or field", "propertyOrField");
+            }
+
+            return new ExpectedAndActual(
+                expected: expectedValueForMember,
+                actual: actual);
+        }
+
+        private class ExpectedAndActual
+        {
+            public ExpectedAndActual(object expected, object actual)
+            {
+                this.Expected = expected;
+                this.Actual = actual;
+            }
+
+            public object Expected { get; private set; }
+            public object Actual { get; private set; }
         }
 
         private static IEnumerable<ConstructorInfo> GetConstructorsWithInitializerForMember(MemberInfo member)
@@ -185,7 +281,8 @@ namespace Ploeh.AutoFixture.Idioms
             return member.ReflectedType.GetConstructors().Where(IsConstructorWithMatchingArgument(member));
         }
 
-        private static bool IsMatch(string propertyOrFieldName, Type propertyOrFieldType, string parameterName, Type parameterType)
+        private static bool IsMatch(string propertyOrFieldName, Type propertyOrFieldType, string parameterName,
+            Type parameterType)
         {
             return propertyOrFieldName.Equals(parameterName, StringComparison.OrdinalIgnoreCase)
                    && propertyOrFieldType.IsAssignableFrom(parameterType);
@@ -251,6 +348,35 @@ namespace Ploeh.AutoFixture.Idioms
             }
 
             return false;
+        }
+
+        private sealed class DefaultEqualityComparer : IEqualityComparer
+        {
+            bool IEqualityComparer.Equals(object expected, object actual)
+            {
+                if (expected == null && actual == null)
+                    return true;
+
+                if (expected != null && expected.Equals(actual))
+                    return true; // the objects are equal
+
+                // Handle the scenario where the constructor argument was a more specific type
+                // than what is exposed by the public member field/property
+                // For example: .ctor(string[]) exposed as IEnumerable<string> 
+                // OR .ctor(WoodenChair) exposed as IChair
+                if (actual != null
+                    && actual.GetType().IsInstanceOfType(expected))
+                {
+                    return actual.Equals(expected);
+                }
+
+                return false;
+            }
+
+            int IEqualityComparer.GetHashCode(object obj)
+            {
+                return 0;
+            }
         }
 
     }
