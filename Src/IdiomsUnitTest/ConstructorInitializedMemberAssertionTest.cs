@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -46,6 +47,34 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new ConstructorInitializedMemberAssertion(null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ComparerIsCorrect()
+        {
+            // Fixture setup
+            var expectedComposer = new Fixture();
+            IEqualityComparer expected = new EmptyComparer();
+            // Exercise system
+            var sut = new ConstructorInitializedMemberAssertion(expectedComposer, null, expected);
+            var actual = sut.Comparer;
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void MatcherIsCorrect()
+        {
+            // Fixture setup
+            var expectedComposer = new Fixture();
+            var expected = new DummyMatcherAlwaysReturns(true);
+            // Exercise system
+            var sut = new ConstructorInitializedMemberAssertion(expectedComposer, expected, null);
+            var actual = sut.Matcher;
+            // Verify outcome
+            Assert.Equal(expected, actual);
             // Teardown
         }
 
@@ -417,6 +446,134 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void VerifyPropertyEnumerableAssignableFromConstructorDoesNotThrow()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var type = typeof(ReadOnlyPropertyAndCtorArg<IEnumerable<string>, string[]>);
+            var property = type.GetProperty("Bribbets");
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(property));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyPropertyInterfaceAssignableFromImplementingClassConstructorDoesNotThrow()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var t2 = typeof(ReadOnlyPropertyAndCtorArg<Abstr1, AbstrImpl1>);
+            var property = t2.GetProperty("Bribbets");
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(property));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyPropertyWithAlwaysMatchAndAlwaysNotEqualThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var alwaysNotEqual = new DummyComparerAlwaysReturns(false);
+            var alwaysMatch = new DummyMatcherAlwaysReturns(true);
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer, alwaysMatch, alwaysNotEqual);
+            var specimenType = typeof(ReadOnlyPropertyInitializedViaConstructor<ComplexType>);
+            var propertyToVerify = specimenType.GetProperty("Property");
+            // Exercise system and verify outcome
+            var ex = Assert.Throws<ConstructorInitializedMemberException>(
+                () => sut.Verify(propertyToVerify));
+
+            AssertExceptionPropertiesEqual(ex, propertyToVerify);
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyPropertyWithAlwaysMatchAndAlwaysNotEqualComparerThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var alwaysNotEqual = new DummyComparerAlwaysReturns(false);
+            var alwaysMatch = new DummyMatcherAlwaysReturns(true);
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer, alwaysMatch, alwaysNotEqual);
+            var specimenType = typeof(ReadOnlyPropertyInitializedViaConstructor<ComplexType>);
+            var propertyToVerify = specimenType.GetProperty("Property");
+            // Exercise system and verify outcome
+            var ex = Assert.Throws<ConstructorInitializedMemberException>(
+                () => sut.Verify(propertyToVerify));
+
+            AssertExceptionPropertiesEqual(ex, propertyToVerify);
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyFieldWithAlwaysMatchAndAlwaysNotEqualComparerThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var alwaysNotEqual = new DummyComparerAlwaysReturns(false);
+            var alwaysMatch = new DummyMatcherAlwaysReturns(true);
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer, alwaysMatch, alwaysNotEqual);
+            var fieldToVerify = typeof(ReadOnlyFieldInitializedViaConstructorWithDifferentType).GetField("Field");
+            // Exercise system and verify outcome
+            var ex = Assert.Throws<ConstructorInitializedMemberException>(
+                () => sut.Verify(fieldToVerify));
+            AssertExceptionPropertiesEqual(ex, fieldToVerify);
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyFieldWithAlwaysMatchAndAlwaysEqualComparerDoesNotThrow()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var alwaysEqual = new DummyComparerAlwaysReturns(true);
+            var alwaysMatch = new DummyMatcherAlwaysReturns(true);
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer, alwaysMatch, alwaysEqual);
+            var fieldToVerify = typeof(ReadOnlyFieldInitializedViaConstructorWithDifferentType).GetField("Field");
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(
+                () => sut.Verify(fieldToVerify));
+            // Teardown
+        }
+
+        class DummyComparerAlwaysReturns : IEqualityComparer
+        {
+            private readonly bool returnValue;
+
+            public DummyComparerAlwaysReturns(bool returnValue)
+            {
+                this.returnValue = returnValue;
+            }
+
+            bool IEqualityComparer.Equals(object x, object y)
+            {
+                return this.returnValue;
+            }
+
+            public int GetHashCode(object obj)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        class DummyMatcherAlwaysReturns : IParameterMemberMatcher
+        {
+            private readonly bool returnValue;
+
+            public DummyMatcherAlwaysReturns(bool returnValue)
+            {
+                this.returnValue = returnValue;
+            }
+
+            public bool IsMatch(ParameterInfo parameter, MemberInfo member)
+            {
+                return this.returnValue;
+            }
+        }
+
         private abstract class Abstr1
         {
             protected Abstr1(string test)
@@ -450,30 +607,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             }
         }
 
-        [Fact]
-        public void VerifyPropertyEnumerableAssignableFromConstructorDoesNotThrow()
+        class EmptyComparer : IEqualityComparer
         {
-            // Fixture setup
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var type = typeof (ReadOnlyPropertyAndCtorArg<IEnumerable<string>, string[]>);
-            var property = type.GetProperty("Bribbets");
-            // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Verify(property));
-            // Teardown
-        }
+            public bool Equals(object x, object y)
+            {
+                throw new NotImplementedException();
+            }
 
-        [Fact]
-        public void VerifyPropertyInterfaceAssignableFromImplementingClassConstructorDoesNotThrow()
-        {
-            // Fixture setup
-            var dummyComposer = new Fixture();
-            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
-            var t2 = typeof(ReadOnlyPropertyAndCtorArg<Abstr1, AbstrImpl1>);
-            var property = t2.GetProperty("Bribbets");
-            // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Verify(property));
-            // Teardown
+            public int GetHashCode(object obj)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, ConstructorInfo ctor, ParameterInfo param)
