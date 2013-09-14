@@ -10,5 +10,6 @@
     <assembly filename="AutoRhinoMockUnitTest\bin\Release\Ploeh.AutoFixture.AutoRhinoMock.UnitTest.dll" shadow-copy="true" />
     <assembly filename="AutoFakeItEasyUnitTest\bin\Release\Ploeh.AutoFixture.AutoFakeItEasy.UnitTest.dll" shadow-copy="true" />
     <assembly filename="AutoNSubstituteUnitTest\bin\Release\Ploeh.AutoFixture.AutoNSubstitute.UnitTest.dll" shadow-copy="true" />
+    <assembly filename="AutoFoqUnitTest\bin\Release\Ploeh.AutoFixture.AutoFoq.UnitTest.dll" shadow-copy="true" />
   </assemblies>
 </xunit>

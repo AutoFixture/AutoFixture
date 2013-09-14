@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Dictionary>
+  <Words>
+    <Unrecognized>
+    </Unrecognized>
+    <Recognized>
+      <Word>ploeh</Word>
+      <Word>foq</Word>
+    </Recognized>
+    <Deprecated>
+    </Deprecated>
+    <DiscreteExceptions>
+    </DiscreteExceptions>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>
