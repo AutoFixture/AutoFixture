@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Foq</id>
+    <version>1.0</version>
+    <title>Foq</title>
+    <authors>Phillip Trelford</authors>
+    <owners>Phillip Trelford</owners>
+    <licenseUrl>http://foq.codeplex.com/license</licenseUrl>
+    <projectUrl>http://foq.codeplex.com/</projectUrl>
+    <iconUrl>http://trelford.com/Foq.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Foq is a lightweight thread-safe mocking library for F#, C#, and VB with a similar API to Moq.</description>
+    <releaseNotes>Foq 1.0 adds more support for C# features like protected members and ref and out parameters</releaseNotes>
+    <copyright>Copyright 2012-2013</copyright>
+    <tags>F# C# VB testing unittest unittesting TDD stubs stubbing fakes faking mocks mocking moq</tags>
+  </metadata>
+</package>
