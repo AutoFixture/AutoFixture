@@ -4,7 +4,7 @@ using System.Reflection;
 namespace Ploeh.AutoFixture.NUnit2
 {
     /// <summary>
-    /// An attribute that can be applied to parameters in an <see cref="AutoTestCaseAttribute"/>-driven
+    /// An attribute that can be applied to parameters in an <see cref="AutoDataAttribute"/>-driven
     /// TestCase to indicate that the parameter value should not have properties auto populated
     /// when the <see cref="IFixture"/> creates an instance of that type.
     /// </summary>

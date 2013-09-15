@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.NUnit2
     /// 
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]   
-    public abstract class TestCaseDataAttribute : Attribute
+    public abstract class DataAttribute : Attribute
     {
         /// <summary>
         /// Returns the composition of arguments to be used to test the testcase. Favors the arguments returned
@@ -21,6 +21,6 @@ namespace Ploeh.AutoFixture.NUnit2
         /// <returns>
         /// Returns the composition of the testcase arguments.
         /// </returns>
-        public abstract IEnumerable<object[]> GetArguments(MethodInfo method);
+        public abstract IEnumerable<object[]> GetData(MethodInfo method);
     }
 }

@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Resources;
-using NUnit.Framework;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -37,4 +36,4 @@ using NUnit.Framework;
 [assembly: AssemblyVersion("3.6.8.0")]
 [assembly: AssemblyFileVersion("3.6.8.0")]
 
-[assembly: RequiredAddin("AutoTestCaseExtension")]
+[assembly: NUnit.Framework.RequiredAddin(Ploeh.AutoFixture.NUnit2.Addin.AutoDataExtension)]

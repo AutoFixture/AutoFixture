@@ -12,7 +12,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var references = typeof(AutoTestCaseAttribute).Assembly.GetReferencedAssemblies();
+            var references = typeof(AutoDataAttribute).Assembly.GetReferencedAssemblies();
             // Verify outcome
             Assert.False(references.Any(an => an.Name == assemblyName));
             // Teardown

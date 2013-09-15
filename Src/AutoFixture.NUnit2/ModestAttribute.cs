@@ -5,7 +5,7 @@ using Ploeh.AutoFixture.Kernel;
 namespace Ploeh.AutoFixture.NUnit2
 {
     /// <summary>
-    /// An attribute that can be applied to parameters in an <see cref="AutoTestCaseAttribute"/>-driven
+    /// An attribute that can be applied to parameters in an <see cref="AutoDataAttribute"/>-driven
     /// TestCase to indicate that the parameter value should be created using the most modest
     /// constructor that can be satisfied by an <see cref="IFixture"/>.
     /// </summary>

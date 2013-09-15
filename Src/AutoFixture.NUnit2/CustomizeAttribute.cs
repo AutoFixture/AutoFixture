@@ -5,7 +5,7 @@ namespace Ploeh.AutoFixture.NUnit2
 {
     /// <summary>
     /// Base class for customizing parameters in methods decorated with
-    /// <see cref="AutoTestCaseAttribute"/>.
+    /// <see cref="AutoDataAttribute"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
     public abstract class CustomizeAttribute : Attribute

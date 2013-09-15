@@ -1,8 +1,8 @@
 namespace Ploeh.AutoFixture.NUnit2.UnitTest
 {
-    public class FakeAutoTestCaseFixture
+    public class FakeAutoDataFixture
     {
-        [AutoTestCase]
+        [AutoData]
         public void DoSomething(int number)
         {
         }

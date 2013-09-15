@@ -45,12 +45,12 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoTestCaseAttributeTest.cs" />
-    <Compile Include="AutoTestCaseProviderTest.cs" />
+    <Compile Include="AutoDataAttributeTest.cs" />
+    <Compile Include="AutoDataProviderTest.cs" />
     <Compile Include="ComposerWithoutADefaultConstructor.cs" />
-    <Compile Include="CompositeTestCaseDataAttributeInsufficientArgumentsTest.cs" />
-    <Compile Include="CompositeTestCaseDataAttributeSufficientArgumentsTest.cs" />
-    <Compile Include="CompositeTestCaseDataAttributeTest.cs" />
+    <Compile Include="CompositeDataAttributeInsufficientArgumentsTest.cs" />
+    <Compile Include="CompositeDataAttributeSufficientArgumentsTest.cs" />
+    <Compile Include="CompositeDataAttributeTest.cs" />
     <Compile Include="CustomizeAttributeTest.cs" />
     <Compile Include="CustomizedFixture.cs" />
     <Compile Include="DelegatingCustomization.cs" />
@@ -58,8 +58,8 @@
     <Compile Include="DelegatingFixture.cs" />
     <Compile Include="DelegatingSpecimenBuilder.cs" />
     <Compile Include="DependencyConstraints.cs" />
-    <Compile Include="FakeAutoTestCaseFixture.cs" />
-    <Compile Include="FakeTestCaseDataAttribute.cs" />
+    <Compile Include="FakeAutoDataFixture.cs" />
+    <Compile Include="FakeDataAttribute.cs" />
     <Compile Include="FavorArraysAttributeTest.cs" />
     <Compile Include="FavorEnumerablesAttributeTest.cs" />
     <Compile Include="FavorListsAttributeTest.cs" />

@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture.NUnit2.Builders
     /// AutoTestCaseProvider provides data for methods
     /// annotated with the AutoTestCaseAttribute.
     /// </summary>
-    public class AutoTestCaseProvider : ITestCaseProvider2
+    public class AutoDataProvider : ITestCaseProvider2
     {
         #region ITestCaseProvider Members
 
@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixture.NUnit2.Builders
         /// <returns>True if any cases are available, otherwise false.</returns>
         public bool HasTestCasesFor(MethodInfo method)
         {
-            return Reflect.HasAttribute(method, typeof(AutoTestCaseAttribute).FullName, false);
+            return Reflect.HasAttribute(method, typeof(AutoDataAttribute).FullName, false);
         }
 
         /// <summary>
@@ -60,11 +60,11 @@ namespace Ploeh.AutoFixture.NUnit2.Builders
         {
             ArrayList parameterList = new ArrayList();
 
-            var attributes = Reflect.GetAttributes(method, typeof(AutoTestCaseAttribute).FullName, false);
+            var attributes = Reflect.GetAttributes(method, typeof(AutoDataAttribute).FullName, false);
 
-            foreach (TestCaseDataAttribute attr in attributes)
+            foreach (DataAttribute attr in attributes)
             {
-                foreach (var arguments in attr.GetArguments(method))
+                foreach (var arguments in attr.GetData(method))
                 {
                     ParameterSet parms = new ParameterSet();
                     parms.Arguments = arguments;

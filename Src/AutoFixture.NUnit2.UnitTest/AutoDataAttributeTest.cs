@@ -6,16 +6,16 @@ using Ploeh.TestTypeFoundation;
 namespace Ploeh.AutoFixture.NUnit2.UnitTest
 {
     [TestFixture]
-    public class AutoTestCaseAttributeTest
+    public class AutoDataAttributeTest
     {
         [Test]
         public void SutIsDataAttribute()
         {
             // Fixture setup
             // Exercise system
-            var sut = new AutoTestCaseAttribute();
+            var sut = new AutoDataAttribute();
             // Verify outcome
-            Assert.IsInstanceOf<TestCaseDataAttribute>(sut);
+            Assert.IsInstanceOf<DataAttribute>(sut);
             // Teardown
         }
 
@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         public void InitializedWithDefaultConstructorHasCorrectFixture()
         {
             // Fixture setup
-            var sut = new AutoTestCaseAttribute();
+            var sut = new AutoDataAttribute();
             // Exercise system
             IFixture result = sut.Fixture;
             // Verify outcome
@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new AutoTestCaseAttribute((IFixture)null));
+                new AutoDataAttribute((IFixture)null));
             // Teardown
         }
 
@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         {
             // Fixture setup
             var expectedComposer = new DelegatingFixture();
-            var sut = new AutoTestCaseAttribute(expectedComposer);
+            var sut = new AutoDataAttribute(expectedComposer);
             // Exercise system
             var result = sut.Fixture;
             // Verify outcome
@@ -60,7 +60,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new AutoTestCaseAttribute((Type)null));
+                new AutoDataAttribute((Type)null));
             // Teardown
         }
 
@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentException>(() =>
-                new AutoTestCaseAttribute(typeof(object)));
+                new AutoDataAttribute(typeof(object)));
             // Teardown
         }
 
@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentException>(() =>
-                new AutoTestCaseAttribute(typeof(ComposerWithoutADefaultConstructor)));
+                new AutoDataAttribute(typeof(ComposerWithoutADefaultConstructor)));
             // Teardown
         }
 
@@ -89,7 +89,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         {
             // Fixture setup
             var composerType = typeof(DelegatingFixture);
-            var sut = new AutoTestCaseAttribute(composerType);
+            var sut = new AutoDataAttribute(composerType);
             // Exercise system
             var result = sut.Fixture;
             // Verify outcome
@@ -102,7 +102,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         {
             // Fixture setup
             var composerType = typeof(DelegatingFixture);
-            var sut = new AutoTestCaseAttribute(composerType);
+            var sut = new AutoDataAttribute(composerType);
             // Exercise system
             var result = sut.FixtureType;
             // Verify outcome
@@ -114,10 +114,10 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         public void GetArgumentsWithNullMethodThrows()
         {
             // Fixture setup
-            var sut = new AutoTestCaseAttribute();
+            var sut = new AutoDataAttribute();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                sut.GetArguments(null));
+                sut.GetData(null));
             // Teardown
         }
 
@@ -140,9 +140,9 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             };
             var composer = new DelegatingFixture { OnCreate = builder.OnCreate };
 
-            var sut = new AutoTestCaseAttribute(composer);
+            var sut = new AutoDataAttribute(composer);
             // Exercise system
-            var result = sut.GetArguments(method);
+            var result = sut.GetData(method);
             // Verify outcome
             Assert.True(new[] { expectedResult }.SequenceEqual(result.Single()));
             // Teardown

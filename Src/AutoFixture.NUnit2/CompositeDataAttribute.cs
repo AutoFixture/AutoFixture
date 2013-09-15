@@ -12,26 +12,26 @@ namespace Ploeh.AutoFixture.NUnit2
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [CLSCompliant(false)]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
-    public class CompositeTestCaseDataAttribute : TestCaseDataAttribute
+    public class CompositeDataAttribute : DataAttribute
     {
-        private readonly IEnumerable<TestCaseDataAttribute> _attributes;
+        private readonly IEnumerable<DataAttribute> _attributes;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CompositeTestCaseDataAttribute"/> class.
+        /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
         /// </summary>
         /// <param name="attributes">The attributes representing a data source for a testcase.
         /// </param>
-        public CompositeTestCaseDataAttribute(IEnumerable<TestCaseDataAttribute> attributes)
+        public CompositeDataAttribute(IEnumerable<DataAttribute> attributes)
             : this(attributes.ToArray())
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CompositeTestCaseDataAttribute"/> class.
+        /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
         /// </summary>
         /// <param name="attributes">The attributes representing a data source for a testcase.
         /// </param>
-        public CompositeTestCaseDataAttribute(params TestCaseDataAttribute[] attributes)
+        public CompositeDataAttribute(params DataAttribute[] attributes)
         {
             if (attributes == null)
             {
@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixture.NUnit2
         /// <summary>
         /// Gets the attributes supplied through one of the constructors.
         /// </summary>
-        public IEnumerable<TestCaseDataAttribute> Attributes
+        public IEnumerable<DataAttribute> Attributes
         {
             get { return _attributes; }
         }
@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixture.NUnit2
         /// <returns>
         /// Returns the composition of the testcase arguments.
         /// </returns>
-        public override IEnumerable<object[]> GetArguments(MethodInfo method)
+        public override IEnumerable<object[]> GetData(MethodInfo method)
         {
             if (method == null)
             {
@@ -76,7 +76,7 @@ namespace Ploeh.AutoFixture.NUnit2
             {
                 foreach (var attribute in _attributes)
                 {
-                    var attributeData = attribute.GetArguments(method).ToArray();
+                    var attributeData = attribute.GetData(method).ToArray();
 
                     if (attributeData.Length <= iteration)
                     {

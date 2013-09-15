@@ -6,16 +6,16 @@ using NUnit.Framework;
 namespace Ploeh.AutoFixture.NUnit2.UnitTest
 {
     [TestFixture]
-    public class CompositeTestCaseDataAttributeTest
+    public class CompositeDataAttributeTest
     {
         [Test]
         public void SutIsDataAttribute()
         {
             // Fixture setup
             // Exercise system
-            var sut = new CompositeTestCaseDataAttribute();
+            var sut = new CompositeDataAttribute();
             // Verify outcome
-            Assert.IsInstanceOf<TestCaseDataAttribute>(sut);
+            Assert.IsInstanceOf<DataAttribute>(sut);
             // Teardown
         }
 
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new CompositeTestCaseDataAttribute(null));
+                new CompositeDataAttribute(null));
             // Teardown
         }
 
@@ -38,14 +38,14 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             
             var attributes = new[]
             {
-                new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>()),
-                new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>()),
-                new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>())
+                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+                new FakeDataAttribute(method, Enumerable.Empty<object[]>())
             };
 
-            var sut = new CompositeTestCaseDataAttribute(attributes);
+            var sut = new CompositeDataAttribute(attributes);
             // Exercise system
-            IEnumerable<TestCaseDataAttribute> result = sut.Attributes;
+            IEnumerable<DataAttribute> result = sut.Attributes;
             // Verify outcome
             Assert.True(attributes.SequenceEqual(result));
             // Teardown
@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new CompositeTestCaseDataAttribute((IEnumerable<TestCaseDataAttribute>)null));
+                new CompositeDataAttribute((IEnumerable<DataAttribute>)null));
             // Teardown
         }
 
@@ -70,12 +70,12 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             
             var attributes = new[]
             {
-                new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>()),
-                new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>()),
-                new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>())
+                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+                new FakeDataAttribute(method, Enumerable.Empty<object[]>())
             };
 
-            var sut = new CompositeTestCaseDataAttribute(attributes);
+            var sut = new CompositeDataAttribute(attributes);
             // Exercise system
             var result = sut.Attributes;
             // Verify outcome
@@ -87,10 +87,10 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         public void GetArgumentsWithNullMethodThrows()
         {
             // Fixture setup
-            var sut = new CompositeTestCaseDataAttribute();
+            var sut = new CompositeDataAttribute();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                sut.GetArguments(null).ToList());
+                sut.GetData(null).ToList());
             // Teardown
         }
 
@@ -101,14 +101,14 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             Action a = delegate { };
             var method = a.Method;
             
-            var sut = new CompositeTestCaseDataAttribute(
-               new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>()),
-               new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>()),
-               new FakeTestCaseDataAttribute(method, Enumerable.Empty<object[]>())
+            var sut = new CompositeDataAttribute(
+               new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+               new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+               new FakeDataAttribute(method, Enumerable.Empty<object[]>())
                );
 
             // Exercise system and verify outcome
-            var result = sut.GetArguments(a.Method);
+            var result = sut.GetData(a.Method);
             Array.ForEach(result.ToArray(), Assert.IsEmpty);
             // Teardown
         }

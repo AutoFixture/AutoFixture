@@ -5,21 +5,21 @@ using Ploeh.AutoFixture.NUnit2.Builders;
 namespace Ploeh.AutoFixture.NUnit2.UnitTest
 {
     [TestFixture]
-    public class AutoTestCaseProviderTest
+    public class AutoDataProviderTest
     {
         private readonly MethodInfo method;
 
-        public AutoTestCaseProviderTest()
+        public AutoDataProviderTest()
         {
-            this.method = typeof(FakeAutoTestCaseFixture).GetMethod("DoSomething");
+            this.method = typeof(FakeAutoDataFixture).GetMethod("DoSomething");
         }
 
         [Test]
-        public void HasTestCasesForAutoTestCaseTestCaseProvider()
+        public void HasTestCasesForAutoDataProvider()
         {
             // Fixture setup
             // Exercise system
-            var sut = new AutoTestCaseProvider();
+            var sut = new AutoDataProvider();
             var actual = sut.HasTestCasesFor(this.method);
             // Verify outcome
             Assert.True(actual);
@@ -27,11 +27,11 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         }
 
         [Test]
-        public void GetTestCasesForAutoTestCaseTestCaseBuilderReturnsCorrectly()
+        public void GetTestCasesForAutoDataBuilderReturnsCorrectly()
         {
             // Fixture setup
             // Exercise system
-            var sut = new AutoTestCaseProvider();
+            var sut = new AutoDataProvider();
             var actual = sut.GetTestCasesFor(this.method);
             // Verify outcome
             Assert.NotNull(actual);

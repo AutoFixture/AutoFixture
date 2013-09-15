@@ -9,22 +9,22 @@ using Ploeh.TestTypeFoundation;
 namespace Ploeh.AutoFixture.NUnit2.UnitTest
 {
     [TestFixture]
-    public class CompositeTestCaseDataAttributeSufficientArgumentsTest : IEnumerable<object[]>
+    public class CompositeDataAttributeSufficientArgumentsTest : IEnumerable<object[]>
     {
         private readonly MethodInfo method;
         
-        public CompositeTestCaseDataAttributeSufficientArgumentsTest()
+        public CompositeDataAttributeSufficientArgumentsTest()
         {
             this.method = typeof(TypeWithOverloadedMembers)
                 .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
         }
 
-        [TestCaseSource(typeof(CompositeTestCaseDataAttributeSufficientArgumentsTest))]
-        public void GetArgumentsReturnsCorrectResult(IEnumerable<TestCaseDataAttribute> attributes, IEnumerable<object[]> expectedResult)
+        [TestCaseSource(typeof(CompositeDataAttributeSufficientArgumentsTest))]
+        public void GetArgumentsReturnsCorrectResult(IEnumerable<DataAttribute> attributes, IEnumerable<object[]> expectedResult)
         {
             // Fixture setup
             // Exercise system
-            var result = new CompositeTestCaseDataAttribute(attributes).GetArguments(this.method).ToList();
+            var result = new CompositeDataAttribute(attributes).GetData(this.method).ToList();
             // Verify outcome 
             Assert.True(expectedResult.SequenceEqual(result, new TheoryComparer()));
             // Teardown
@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1, 2, 3 } })
+                        new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 } })
                     },
                 expected: new[] 
                     {
@@ -46,8 +46,8 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1, 2, 3 } }),
-                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 4, 5, 6 } })
+                        new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 } }),
+                        new FakeDataAttribute(this.method, new[] { new object[] { 4, 5, 6 } })
                     },
                 expected: new[] 
                     {
@@ -58,7 +58,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1, 2, 3, 4 } })
+                        new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3, 4 } })
                     },
                 expected: new[] 
                     {
@@ -69,8 +69,8 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1       } }),
-                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 2, 3, 4 } })
+                        new FakeDataAttribute(this.method, new[] { new object[] { 1       } }),
+                        new FakeDataAttribute(this.method, new[] { new object[] { 2, 3, 4 } })
                     },
                 expected: new[] 
                     {
@@ -81,8 +81,8 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1, 2    } }),
-                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 3, 4, 5 } })
+                        new FakeDataAttribute(this.method, new[] { new object[] { 1, 2    } }),
+                        new FakeDataAttribute(this.method, new[] { new object[] { 3, 4, 5 } })
                     },
                 expected: new[] 
                     {
@@ -93,7 +93,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } })
+                        new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } })
                     },
                 expected: new[] 
                     {
@@ -104,8 +104,8 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1, 2, 3 }, new object[] { 4,  5, 6 }                          }),
-                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 7, 8    }, new object[] { 9, 10    }, new object[] { 11, 12 } })
+                        new FakeDataAttribute(this.method, new[] { new object[] { 1, 2, 3 }, new object[] { 4,  5, 6 }                          }),
+                        new FakeDataAttribute(this.method, new[] { new object[] { 7, 8    }, new object[] { 9, 10    }, new object[] { 11, 12 } })
                     },
                 expected: new[] 
                     {
@@ -116,8 +116,8 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 1, 2    }, new object[] {  3,  4     }, new object[] {  5,  6     } }),
-                        new FakeTestCaseDataAttribute(this.method, new[] { new object[] { 7, 8, 9 }, new object[] { 10, 11, 12 }, new object[] { 13, 14, 15 } })
+                        new FakeDataAttribute(this.method, new[] { new object[] { 1, 2    }, new object[] {  3,  4     }, new object[] {  5,  6     } }),
+                        new FakeDataAttribute(this.method, new[] { new object[] { 7, 8, 9 }, new object[] { 10, 11, 12 }, new object[] { 13, 14, 15 } })
                     },
                 expected: new[] 
                     {

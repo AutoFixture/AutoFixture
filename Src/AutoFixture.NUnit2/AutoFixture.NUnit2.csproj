@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <CodeAnalysisRuleSet>Migrated rules for AutoFixture.NUnit2.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\Ploeh.AutoFixture.NUnit2.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -47,7 +48,7 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRules>
     </CodeAnalysisRules>
-    <DocumentationFile>bin\Verify\Ploeh.AutoFixture.Xunit.xml</DocumentationFile>
+    <DocumentationFile>bin\Verify\Ploeh.AutoFixture.NUnit2.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -64,8 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Addin.cs" />
-    <Compile Include="AutoTestCaseAttribute.cs" />
-    <Compile Include="Builders\AutoTestCaseProvider.cs" />
+    <Compile Include="AutoDataAttribute.cs" />
+    <Compile Include="Builders\AutoDataProvider.cs" />
     <Compile Include="ModestAttribute.cs" />
     <Compile Include="NoAutoPropertiesAttribute.cs" />
     <Compile Include="GreedyAttribute.cs" />
@@ -73,12 +74,12 @@
     <Compile Include="FrozenAttribute.cs" />
     <Compile Include="FavorEnumerablesAttribute.cs" />
     <Compile Include="FavorArraysAttribute.cs" />
-    <Compile Include="CompositeTestCaseDataAttribute.cs" />
+    <Compile Include="CompositeDataAttribute.cs" />
     <Compile Include="CustomizeAttribute.cs" />
     <Compile Include="Reharper\EventListenerWrapper.cs" />
     <Compile Include="Reharper\TestDecorator.cs" />
     <Compile Include="Reharper\TestMethodWrapper.cs" />
-    <Compile Include="TestCaseDataAttribute.cs" />
+    <Compile Include="DataAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
