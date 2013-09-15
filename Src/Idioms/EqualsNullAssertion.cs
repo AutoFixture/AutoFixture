@@ -9,8 +9,9 @@ using Ploeh.AutoFixture.Kernel;
 namespace Ploeh.AutoFixture.Idioms
 {
     /// <summary>
-    /// Encapsulates a unit test that verifies that a type which overrides the <see cref="object.Equals(object)"/>
-    /// method is implemented correctly with respect to the rule: calling `x.Equals(null)` returns false.
+    /// Encapsulates a unit test that verifies that a type which overrides the
+    /// <see cref="object.Equals(object)"/> method is implemented correctly with
+    /// respect to the rule: calling `x.Equals(null)` returns false.
     /// </summary>
     public class EqualsNullAssertion : IdiomaticAssertion
     {
@@ -51,25 +52,26 @@ namespace Ploeh.AutoFixture.Idioms
         /// Verifies that calling `x.Equals(null)` on the method returns false, if the supplied
         /// method is an override of the <see cref="object.Equals(object)"/>.
         /// </summary>
-        /// <param name="methodInfo">The method to verify</param>
+        /// <param name="methodInfo">The Equals method to verify</param>
         public override void Verify(MethodInfo methodInfo)
         {
             if (methodInfo == null)
                 throw new ArgumentNullException("methodInfo");
 
-            if (methodInfo.DeclaringType == null || 
+            if (methodInfo.ReflectedType == null || 
                 !methodInfo.IsObjectEqualsOverrideMethod())
             {
                 // The method is not an override of the Object.Equals(object) method
                 return;
             }
 
-            var instance = this.builder.CreateAnonymous(methodInfo.DeclaringType);
+            var instance = this.builder.CreateAnonymous(methodInfo.ReflectedType);
             var equalsResult = instance.Equals(null);
             if (equalsResult)
             {
                 throw new EqualsOverrideException(string.Format(CultureInfo.CurrentCulture,
-                    "The type {0} overrides the object.Equals(object) method incorrectly, calling `x.Equals(null) should return false.",
+                    "The type {0} overrides the object.Equals(object) method incorrectly, " +
+                    "calling x.Equals(null) should return false.",
                     methodInfo.DeclaringType.FullName));
             }
         }

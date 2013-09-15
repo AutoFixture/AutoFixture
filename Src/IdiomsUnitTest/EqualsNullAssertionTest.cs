@@ -94,11 +94,96 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void VerifyAnonymousMethodWithNoDeclaringOrReflectedTypeDoesNothing()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new EqualsNullAssertion(dummyComposer);
+            var method = (MethodInfo)(new MethodInfoWithNullDeclaringAndReflectedType());
+
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.Verify(method));
+            // Teardown
+        }
+
+        class MethodInfoWithNullDeclaringAndReflectedType : MethodInfo
+        {
+            public override Type ReflectedType
+            {
+                get { return null; }
+            }
+
+            public override Type DeclaringType
+            {
+                get { return null; }
+            }
+
+            #region Other
+
+            public override MethodInfo GetBaseDefinition()
+            {
+                throw new NotImplementedException();
+            }
+
+            public override ICustomAttributeProvider ReturnTypeCustomAttributes
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public override MethodAttributes Attributes
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public override MethodImplAttributes GetMethodImplementationFlags()
+            {
+                throw new NotImplementedException();
+            }
+
+            public override ParameterInfo[] GetParameters()
+            {
+                throw new NotImplementedException();
+            }
+
+            public override object Invoke(object obj, BindingFlags invokeAttr, Binder binder, object[] parameters, System.Globalization.CultureInfo culture)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override RuntimeMethodHandle MethodHandle
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public override object[] GetCustomAttributes(Type attributeType, bool inherit)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override object[] GetCustomAttributes(bool inherit)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override bool IsDefined(Type attributeType, bool inherit)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override string Name
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            #endregion
+        }
+
+#pragma warning disable 659
         class IllbehavedEqualsNullOverride
         {
-#pragma warning disable 659
             public override bool Equals(object obj)
-#pragma warning restore 659
             {
                 if (obj == null)
                 {
@@ -110,9 +195,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         class WellBehavedEqualsNullOverride
         {
-#pragma warning disable 659
             public override bool Equals(object obj)
-#pragma warning restore 659
             {
                 if (obj == null)
                 {
@@ -121,6 +204,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 throw new Exception();
             }
         }
+#pragma warning restore 659
 
         class ClassThatDoesNotOverrideObjectEquals
         {
