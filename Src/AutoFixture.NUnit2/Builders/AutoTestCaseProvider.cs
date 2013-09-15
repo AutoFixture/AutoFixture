@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
+﻿using System.Collections;
 using System.Reflection;
 using NUnit.Core;
 using NUnit.Core.Extensibility;
 
-namespace Ploeh.AutoFixture.NUnit2.Addins.Builders
+namespace Ploeh.AutoFixture.NUnit2.Builders
 {
     /// <summary>
     /// AutoTestCaseProvider provides data for methods

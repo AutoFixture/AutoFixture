@@ -63,12 +63,9 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Addins\Addin.cs" />
-    <Compile Include="Addins\Builders\AutoTestCaseProvider.cs" />
-    <Compile Include="Addins\Reharper\TestDecorator.cs" />
-    <Compile Include="Addins\Reharper\EventListenerWrapper.cs" />
-    <Compile Include="Addins\Reharper\TestMethodWrapper.cs" />
+    <Compile Include="Addin.cs" />
     <Compile Include="AutoTestCaseAttribute.cs" />
+    <Compile Include="Builders\AutoTestCaseProvider.cs" />
     <Compile Include="ModestAttribute.cs" />
     <Compile Include="NoAutoPropertiesAttribute.cs" />
     <Compile Include="GreedyAttribute.cs" />
@@ -78,6 +75,9 @@
     <Compile Include="FavorArraysAttribute.cs" />
     <Compile Include="CompositeTestCaseDataAttribute.cs" />
     <Compile Include="CustomizeAttribute.cs" />
+    <Compile Include="Reharper\EventListenerWrapper.cs" />
+    <Compile Include="Reharper\TestDecorator.cs" />
+    <Compile Include="Reharper\TestMethodWrapper.cs" />
     <Compile Include="TestCaseDataAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,6 +1,6 @@
 using NUnit.Core.Extensibility;
 
-namespace Ploeh.AutoFixture.NUnit2.Addins
+namespace Ploeh.AutoFixture.NUnit2
 {
     /// <summary>
     /// The Addin class holds information about an addin.

@@ -1,6 +1,6 @@
 using System.Reflection;
 using NUnit.Framework;
-using Ploeh.AutoFixture.NUnit2.Addins.Builders;
+using Ploeh.AutoFixture.NUnit2.Builders;
 
 namespace Ploeh.AutoFixture.NUnit2.UnitTest
 {
