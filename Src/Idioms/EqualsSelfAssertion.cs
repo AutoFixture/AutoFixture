@@ -4,12 +4,14 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Ploeh.AutoFixture.Kernel;
+using System.Globalization;
 
 namespace Ploeh.AutoFixture.Idioms
 {
     /// <summary>
-    /// Encapsulates a unit test that verifies that a type which overrides the <see cref="object.Equals(object)"/>
-    /// method is implemented correctly with respect to the rule: calling `x.Equals(x)` returns true.
+    /// Encapsulates a unit test that verifies that a type which overrides the
+    /// <see cref="object.Equals(object)"/> method is implemented correctly with
+    /// respect to the rule: calling `x.Equals(x)` returns true.
     /// </summary>
     public class EqualsSelfAssertion : IdiomaticAssertion
     {
@@ -56,15 +58,23 @@ namespace Ploeh.AutoFixture.Idioms
             if (methodInfo == null)
                 throw new ArgumentNullException("methodInfo");
 
-            if (!methodInfo.IsObjectEqualsOverrideMethod())
+            if (methodInfo.ReflectedType == null ||
+                !methodInfo.IsObjectEqualsOverrideMethod())
             {
                 // The method is not an override of the Object.Equals(object) method
                 return;
             }
 
-            throw new NotImplementedException();
+            var instance = this.builder.CreateAnonymous(methodInfo.ReflectedType);
+            var equalsResult = instance.Equals(instance);
+            if (!equalsResult)
+            {
+                throw new EqualsOverrideException(string.Format(CultureInfo.CurrentCulture,
+                    "The type '{0}' overrides the object.Equals(object) method incorrectly, " +
+                    "calling x.Equals(x) should return true.",
+                    methodInfo.ReflectedType.FullName));
+            }
         }
 
     }
-
 }

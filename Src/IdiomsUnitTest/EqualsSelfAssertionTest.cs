@@ -70,6 +70,54 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void VerifyWellBehavedEqualsSelfOverrideDoesNotThrow()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new EqualsSelfAssertion(dummyComposer);
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                sut.Verify(typeof(WellBehavedEqualsSelfObjectOverride)));
+            // Teardown            
+        }
+
+        [Fact]
+        public void VerifyIllbehavedEqualsSelfBehaviourThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new EqualsSelfAssertion(dummyComposer);
+            // Exercise system and verify outcome
+            Assert.Throws<EqualsOverrideException>(() =>
+                sut.Verify(typeof(IllBehavedEqualsSelfObjectOverride)));
+            // Teardown
+        }
+
+#pragma warning disable 659
+        class WellBehavedEqualsSelfObjectOverride
+        {
+            public override bool Equals(object obj)
+            {
+                if (obj != null && Object.ReferenceEquals(this, obj))
+                    return true;
+
+                throw new Exception();
+            }
+        }
+
+        class IllBehavedEqualsSelfObjectOverride
+        {
+            public override bool Equals(object obj)
+            {
+                if (obj != null && Object.ReferenceEquals(this, obj))
+                    return false;
+
+                throw new Exception();
+            }
+        }
+#pragma warning restore 659
+
         class ClassThatDoesNotOverrideObjectEquals
         {
         }

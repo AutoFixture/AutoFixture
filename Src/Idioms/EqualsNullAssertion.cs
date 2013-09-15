@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixture.Idioms
             if (equalsResult)
             {
                 throw new EqualsOverrideException(string.Format(CultureInfo.CurrentCulture,
-                    "The type {0} overrides the object.Equals(object) method incorrectly, " +
+                    "The type '{0}' overrides the object.Equals(object) method incorrectly, " +
                     "calling x.Equals(null) should return false.",
                     methodInfo.DeclaringType.FullName));
             }
