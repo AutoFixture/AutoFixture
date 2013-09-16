@@ -67,6 +67,7 @@
     <Compile Include="Addin.cs" />
     <Compile Include="AutoDataAttribute.cs" />
     <Compile Include="Builders\AutoDataProvider.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="ModestAttribute.cs" />
     <Compile Include="NoAutoPropertiesAttribute.cs" />
     <Compile Include="GreedyAttribute.cs" />

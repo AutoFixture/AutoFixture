@@ -20,6 +20,6 @@
     <files>
         <file src="Ploeh.AutoFixture.NUnit2.dll" target="lib\net40" />
         <file src="Ploeh.AutoFixture.NUnit2.XML" target="lib\net40" />
-        <file src="Install.ps1" target="tools" />
+        <file src="Ploeh.AutoFixture.NUnit2.Install.ps1" target="tools\install.ps1" />
     </files>
 </package>
