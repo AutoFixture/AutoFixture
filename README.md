@@ -62,6 +62,7 @@ AutoFixture is available via NuGet:
 * [AutoFixture.AutoRhinoMocks](http://nuget.org/packages/AutoFixture.AutoRhinoMocks)
 * [AutoFixture.AutoFakeItEasy](http://nuget.org/packages/AutoFixture.AutoFakeItEasy)
 * [AutoFixture.AutoNSubstitute](http://nuget.org/packages/AutoFixture.AutoNSubstitute)
+* [AutoFixture.AutoFoq](http://www.nuget.org/packages/AutoFixture.AutoFoq)
 * [AutoFixture.Xunit](http://nuget.org/packages/AutoFixture.Xunit)
 * [AutoFixture.Idioms](http://nuget.org/packages/AutoFixture.Idioms)
 * [SemanticComparison](http://nuget.org/packages/SemanticComparison)
