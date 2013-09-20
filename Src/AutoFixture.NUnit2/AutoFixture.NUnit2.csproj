@@ -77,9 +77,9 @@
     <Compile Include="FavorArraysAttribute.cs" />
     <Compile Include="CompositeDataAttribute.cs" />
     <Compile Include="CustomizeAttribute.cs" />
-    <Compile Include="Reharper\EventListenerWrapper.cs" />
-    <Compile Include="Reharper\TestDecorator.cs" />
-    <Compile Include="Reharper\TestMethodWrapper.cs" />
+    <Compile Include="ReSharper\EventListenerWrapper.cs" />
+    <Compile Include="ReSharper\TestDecorator.cs" />
+    <Compile Include="ReSharper\TestMethodWrapper.cs" />
     <Compile Include="DataAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
