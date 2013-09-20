@@ -11,8 +11,6 @@ namespace Ploeh.AutoFixture.NUnit2.Builders
     /// </summary>
     public class AutoDataProvider : ITestCaseProvider2
     {
-        #region ITestCaseProvider Members
-
         /// <summary>
         /// Determine whether any test cases are available for a parameterized method.
         /// </summary>
@@ -33,10 +31,6 @@ namespace Ploeh.AutoFixture.NUnit2.Builders
         {
             return GetTestCasesFor(method, null);
         }
-
-        #endregion
-
-        #region ITestCaseProvider2 Members
 
         /// <summary>
         /// Determine whether any test cases are available for a parameterized method.
@@ -75,6 +69,5 @@ namespace Ploeh.AutoFixture.NUnit2.Builders
 
             return parameterList;
         }
-        #endregion
     }
 }
