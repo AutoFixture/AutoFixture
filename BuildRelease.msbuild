@@ -33,6 +33,8 @@
         <BuildOutput Include="Src\AutoFakeItEasy\bin\Release\Ploeh.AutoFixture.AutoFakeItEasy.XML" />
         <BuildOutput Include="Src\AutoNSubstitute\bin\Release\Ploeh.AutoFixture.AutoNSubstitute.dll" />
         <BuildOutput Include="Src\AutoNSubstitute\bin\Release\Ploeh.AutoFixture.AutoNSubstitute.XML" />
+        <BuildOutput Include="Src\AutoFoq\bin\Release\Ploeh.AutoFixture.AutoFoq.dll" />
+        <BuildOutput Include="Src\AutoFoq\bin\Release\Ploeh.AutoFixture.AutoFoq.XML" />
         <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.dll" />
         <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.XML" />
         <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.dll" />

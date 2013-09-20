@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>11544d61-62c6-4b24-bbd7-8685d7786ae9</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ploeh.AutoFixture.AutoFoq.UnitTest</RootNamespace>
+    <AssemblyName>Ploeh.AutoFixture.AutoFoq.UnitTest</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <Name>AutoFoqUnitTest</Name>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <Tailcalls>false</Tailcalls>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <Tailcalls>true</Tailcalls>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets')" />
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.fs" />
+    <None Include="packages.config" />
+    <Compile Include="FoqMethodQueryTest.fs" />
+    <Compile Include="AutoFoqCustomizationTest.fs" />
+    <Compile Include="FixtureIntegrationTest.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AutoFoq\AutoFoq.fsproj">
+      <Name>AutoFoq</Name>
+      <Project>{e2d94faa-a782-4d17-89a0-0f4b5d3bb021}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <Reference Include="Foq">
+      <HintPath>..\..\Packages\Foq.1.0\Lib\net40\Foq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="FSharp.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="xunit">
+      <HintPath>..\..\Packages\xunit.1.8.0.1549\lib\xunit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
+      <Name>AutoFixture</Name>
+      <Project>{400ac174-9a4a-4c7d-815b-f2a21130a0d1}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj">
+      <Name>TestTypeFoundation</Name>
+      <Project>{7ff65787-f462-4204-bb9d-60b0d1bb6cc1}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <Reference Include="xunit.extensions">
+      <HintPath>..\..\Packages\xunit.extensions.1.8.0.1549\lib\xunit.extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
