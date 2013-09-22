@@ -1,12 +1,14 @@
 ﻿param($installPath, $toolsPath, $package, $project)
 
 $projectPath = Split-Path -Parent $project.FullName
-$projAssemblyInfo = Join-Path $projectPath "Properties\AssemblyInfo.cs"
+$assemblyInfo = "Properties\AssemblyInfo.cs"
+$projAssemblyInfo = Join-Path $projectPath $assemblyInfo
 $addinContent = "[assembly: NUnit.Framework.RequiredAddin(Ploeh.AutoFixture.NUnit2.Constants.AutoDataExtension)]";
 
-$c = Get-Content $projAssemblyInfo | Out-String
+$hasAddinContent = Get-Content $projAssemblyInfo | Select-String $addinContent -SimpleMatch -Quiet
 
-if(-not $c.Contains($addinContent)) 
+if(-not $hasAddinContent) 
 {
+	Write-Host "Apended $addinContent to $assemblyInfo"
 	Add-Content $projAssemblyInfo $addinContent
 }
