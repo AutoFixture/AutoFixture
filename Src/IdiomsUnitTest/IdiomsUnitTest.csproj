@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompositeBehaviorExpectationTest.cs" />
+    <Compile Include="CompositeIdiomaticAssertionTest.cs" />
     <Compile Include="DelegatingExpansion.cs" />
     <Compile Include="EmptyGuidBehaviorExpectationTest.cs" />
     <Compile Include="EnumerableComparison.cs" />
@@ -88,6 +89,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WritablePropertyAssertionTest.cs" />
     <Compile Include="WritablePropertyExceptionTest.cs" />
+    <Compile Include="EqualsSuccessiveAssertionTest.cs" />
+    <Compile Include="EqualsNullAssertionTest.cs" />
+    <Compile Include="EqualsNewObjectAssertionTest.cs" />
+    <Compile Include="EqualsSelfAssertionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
