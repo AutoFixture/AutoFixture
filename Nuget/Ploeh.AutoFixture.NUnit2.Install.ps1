@@ -3,7 +3,7 @@
 $projectPath = Split-Path -Parent $project.FullName
 $assemblyInfo = "Properties\AssemblyInfo.cs"
 $projAssemblyInfo = Join-Path $projectPath $assemblyInfo
-$addinContent = "[assembly: NUnit.Framework.RequiredAddin(Ploeh.AutoFixture.NUnit2.Constants.AutoDataExtension)]";
+$addinContent = "[assembly: NUnit.Framework.RequiredAddin(Ploeh.AutoFixture.NUnit2.Addins.Constants.AutoDataExtension)]";
 
 $hasAddinContent = Get-Content $projAssemblyInfo | Select-String $addinContent -SimpleMatch -Quiet
 

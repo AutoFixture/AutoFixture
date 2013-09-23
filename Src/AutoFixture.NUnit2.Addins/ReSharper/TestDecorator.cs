@@ -4,7 +4,7 @@ using System.Reflection;
 using NUnit.Core;
 using NUnit.Core.Extensibility;
 
-namespace Ploeh.AutoFixture.NUnit2.ReSharper
+namespace Ploeh.AutoFixture.NUnit2.Addins.ReSharper
 {
     /// <summary>
     /// TestDecorator is used to add functionality to

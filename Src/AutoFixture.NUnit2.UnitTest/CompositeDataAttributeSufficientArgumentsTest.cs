@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
+using Ploeh.AutoFixture.NUnit2.Addins;
 using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixture.NUnit2.UnitTest

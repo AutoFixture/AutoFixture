@@ -36,4 +36,4 @@ using System.Resources;
 [assembly: AssemblyVersion("3.8.0.0")]
 [assembly: AssemblyFileVersion("3.8.0.0")]
 
-[assembly: NUnit.Framework.RequiredAddin(Ploeh.AutoFixture.NUnit2.Constants.AutoDataExtension)]
+[assembly: NUnit.Framework.RequiredAddin(Ploeh.AutoFixture.NUnit2.Addins.Constants.AutoDataExtension)]

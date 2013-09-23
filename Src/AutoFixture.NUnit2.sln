@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture.NUnit2", "AutoF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture.NUnit2.UnitTest", "AutoFixture.NUnit2.UnitTest\AutoFixture.NUnit2.UnitTest.csproj", "{5CACC229-A5EF-4683-A846-D59230284D66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture.NUnit2.Addins.UnitTest", "AutoFixture.NUnit2.Addins.UnitTest\AutoFixture.NUnit2.Addins.UnitTest.csproj", "{690D5964-19D0-4B53-AFF7-3BB721A805BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture.NUnit2.Addins", "AutoFixture.NUnit2.Addins\AutoFixture.NUnit2.Addins.csproj", "{79D2A714-BEF4-40E2-B1E6-90FEB060093A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +52,18 @@ Global
 		{5CACC229-A5EF-4683-A846-D59230284D66}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5CACC229-A5EF-4683-A846-D59230284D66}.Verify|Any CPU.ActiveCfg = Release|Any CPU
 		{5CACC229-A5EF-4683-A846-D59230284D66}.Verify|Any CPU.Build.0 = Release|Any CPU
+		{690D5964-19D0-4B53-AFF7-3BB721A805BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{690D5964-19D0-4B53-AFF7-3BB721A805BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{690D5964-19D0-4B53-AFF7-3BB721A805BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{690D5964-19D0-4B53-AFF7-3BB721A805BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{690D5964-19D0-4B53-AFF7-3BB721A805BB}.Verify|Any CPU.ActiveCfg = Release|Any CPU
+		{690D5964-19D0-4B53-AFF7-3BB721A805BB}.Verify|Any CPU.Build.0 = Release|Any CPU
+		{79D2A714-BEF4-40E2-B1E6-90FEB060093A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79D2A714-BEF4-40E2-B1E6-90FEB060093A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79D2A714-BEF4-40E2-B1E6-90FEB060093A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79D2A714-BEF4-40E2-B1E6-90FEB060093A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79D2A714-BEF4-40E2-B1E6-90FEB060093A}.Verify|Any CPU.ActiveCfg = Release|Any CPU
+		{79D2A714-BEF4-40E2-B1E6-90FEB060093A}.Verify|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

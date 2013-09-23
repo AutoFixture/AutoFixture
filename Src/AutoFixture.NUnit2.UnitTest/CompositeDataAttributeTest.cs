@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using Ploeh.AutoFixture.NUnit2.Addins;
 
 namespace Ploeh.AutoFixture.NUnit2.UnitTest
 {

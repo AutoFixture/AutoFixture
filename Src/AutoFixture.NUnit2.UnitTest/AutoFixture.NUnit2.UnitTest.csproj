@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoDataAttributeTest.cs" />
-    <Compile Include="AutoDataProviderTest.cs" />
     <Compile Include="ComposerWithoutADefaultConstructor.cs" />
     <Compile Include="CompositeDataAttributeInsufficientArgumentsTest.cs" />
     <Compile Include="CompositeDataAttributeSufficientArgumentsTest.cs" />
@@ -58,7 +57,6 @@
     <Compile Include="DelegatingFixture.cs" />
     <Compile Include="DelegatingSpecimenBuilder.cs" />
     <Compile Include="DependencyConstraints.cs" />
-    <Compile Include="FakeAutoDataFixture.cs" />
     <Compile Include="FakeDataAttribute.cs" />
     <Compile Include="FavorArraysAttributeTest.cs" />
     <Compile Include="FavorEnumerablesAttributeTest.cs" />
@@ -72,6 +70,10 @@
     <Compile Include="Scenario.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AutoFixture.NUnit2.Addins\AutoFixture.NUnit2.Addins.csproj">
+      <Project>{79d2a714-bef4-40e2-b1e6-90feb060093a}</Project>
+      <Name>AutoFixture.NUnit2.Addins</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AutoFixture.NUnit2\AutoFixture.NUnit2.csproj">
       <Project>{786AFDB3-B705-49DD-A565-34F44A4A2DAD}</Project>
       <Name>AutoFixture.NUnit2</Name>

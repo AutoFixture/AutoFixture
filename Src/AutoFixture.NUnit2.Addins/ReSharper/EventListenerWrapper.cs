@@ -1,7 +1,7 @@
 using System;
 using NUnit.Core;
 
-namespace Ploeh.AutoFixture.NUnit2.ReSharper
+namespace Ploeh.AutoFixture.NUnit2.Addins.ReSharper
 {
     /// <summary>
     /// The EventListenerWrapper is used wrap any existing eventlistner and relay the events.

@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.NUnit2
+﻿namespace Ploeh.AutoFixture.NUnit2.Addins
 {
     /// <summary>
     /// Class to contains all static string constants
@@ -9,5 +9,10 @@
         /// The name by which the AutoFixture NUnit2 extension is identified.
         /// </summary>
         public const string AutoDataExtension = "Ploeh.AutoFixture.NUnit2.AutoDataExtension";
+
+        /// <summary>
+        /// The name by which the AutoFixture NUnit2 AutoDataAttribute is identified by.
+        /// </summary>
+        public const string AutoDataAttribute = "Ploeh.AutoFixture.NUnit2.AutoDataAttribute";
     }
 }

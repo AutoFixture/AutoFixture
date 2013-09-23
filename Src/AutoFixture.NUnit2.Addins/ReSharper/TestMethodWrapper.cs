@@ -2,7 +2,7 @@
 
 using NUnit.Core;
 
-namespace Ploeh.AutoFixture.NUnit2.ReSharper
+namespace Ploeh.AutoFixture.NUnit2.Addins.ReSharper
 {
     /// <summary>
     /// This class wires the EventListenerWrapper around the existing EventListner

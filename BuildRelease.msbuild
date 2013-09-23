@@ -39,12 +39,13 @@
         <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.XML" />
         <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.dll" />
         <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.XML" />
+        <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.dll" />
+        <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.XML" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.dll" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.XML" />
     </ItemGroup>
     <ItemGroup>
-    	<NUnitAddinFiles Include="Src\AutoFixture\bin\Release\Ploeh.AutoFixture.dll" />
-    	<NUnitAddinFiles Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.dll" />
+    	<NUnitAddinFiles Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.dll" />
     </ItemGroup>
     <ItemGroup>
         <NuSpecFiles Include="NuGet\*.nuspec" />
@@ -91,6 +92,7 @@
     <Target Name="Test" DependsOnTargets="CopyToNUnitAddinsFolder">
         <xunitproject ProjectFile="Src\All.xunit" />
         <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.UnitTest.dll" ContinueOnError="false" />
+        <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.Addins.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.UnitTest.dll" ContinueOnError="false" />
     </Target>
     <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
         <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />

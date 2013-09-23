@@ -53,21 +53,12 @@
     <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.core">
-      <HintPath>..\..\Packages\NUnit.Runners.2.6.2\tools\lib\nunit.core.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.core.interfaces">
-      <HintPath>..\..\Packages\NUnit.Runners.2.6.2\tools\lib\nunit.core.interfaces.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Addin.cs" />
     <Compile Include="AutoDataAttribute.cs" />
-    <Compile Include="Builders\AutoDataProvider.cs" />
-    <Compile Include="Constants.cs" />
     <Compile Include="ModestAttribute.cs" />
     <Compile Include="NoAutoPropertiesAttribute.cs" />
     <Compile Include="GreedyAttribute.cs" />
@@ -77,16 +68,16 @@
     <Compile Include="FavorArraysAttribute.cs" />
     <Compile Include="CompositeDataAttribute.cs" />
     <Compile Include="CustomizeAttribute.cs" />
-    <Compile Include="ReSharper\EventListenerWrapper.cs" />
-    <Compile Include="ReSharper\TestDecorator.cs" />
-    <Compile Include="ReSharper\TestMethodWrapper.cs" />
-    <Compile Include="DataAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AutoFixture.NUnit2.Addins\AutoFixture.NUnit2.Addins.csproj">
+      <Project>{79d2a714-bef4-40e2-b1e6-90feb060093a}</Project>
+      <Name>AutoFixture.NUnit2.Addins</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
       <Project>{400ac174-9a4a-4c7d-815b-f2a21130a0d1}</Project>
       <Name>AutoFixture</Name>
