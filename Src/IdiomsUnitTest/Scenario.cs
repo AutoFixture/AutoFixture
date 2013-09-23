@@ -2,6 +2,7 @@
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.TestTypeFoundation;
 using Xunit;
+using System.Linq;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -113,6 +114,37 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var assertion = new ConstructorInitializedMemberAssertion(fixture);
             var members = typeof(MutableValueType).GetConstructors();
             assertion.Verify(members);
+        }
+
+        [Fact]
+        public void VerifyCompositeEqualityBehaviourOnManyTypes()
+        {
+            IFixture fixture = new Fixture();
+            var equalityBehaviourAssertion = new CompositeIdiomaticAssertion(
+                new EqualsNewObjectAssertion(fixture),
+                new EqualsNullAssertion(fixture),
+                new EqualsSelfAssertion(fixture),
+                new EqualsSuccessiveAssertion(fixture));
+
+            var typesToExclude = new[] {
+                // Needs parameters of type object to be IComparable
+                typeof(Ploeh.AutoFixture.Kernel.RangedNumberRequest),
+
+                // Constructors needs reflection types (e.g. ConstructorInfo, MethodInfo)
+                typeof(Ploeh.AutoFixture.Kernel.ConstructorMethod),
+                typeof(Ploeh.AutoFixture.Kernel.InstanceMethod),
+                typeof(Ploeh.AutoFixture.Kernel.StaticMethod),
+
+                // Autofixture can't create this
+                typeof(Ploeh.AutoFixture.Kernel.NoSpecimen),
+            };
+
+            var typesToVerify = typeof(IFixture).Assembly
+                .GetExportedTypes()
+                .Except(typesToExclude)
+                .Where(t => !t.IsInterface && !t.IsAbstract);
+
+            equalityBehaviourAssertion.Verify(typesToVerify);
         }
     }
 }
