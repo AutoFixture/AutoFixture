@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CompleteBuild" ToolsVersion="4.0">
     <PropertyGroup>
         <XUnitPath>Lib\XunitRunnerMSBuild</XUnitPath>
@@ -8,8 +8,15 @@
     <PropertyGroup>
         <MSBuildExtensionsPath>Lib\MSBuildCommunityTasks</MSBuildExtensionsPath>
     </PropertyGroup>
-    <UsingTask TaskName="MSBuild.Community.Tasks.Zip" AssemblyFile="$(MSBuildExtensionsPath)\MSBuild.Community.Tasks.dll" />
 
+    <PropertyGroup>
+    	<NUnitToolsFolder>Packages\NUnit.Runners.2.6.2\tools</NUnitToolsFolder>
+        <NUnitAddinsFolder>Packages\NUnit.Runners.2.6.2\tools\addins</NUnitAddinsFolder>
+    </PropertyGroup>
+
+    <UsingTask TaskName="MSBuild.Community.Tasks.Zip" AssemblyFile="$(MSBuildExtensionsPath)\MSBuild.Community.Tasks.dll" />
+    <UsingTask TaskName="MSBuild.Community.Tasks.NUnit" AssemblyFile="$(MSBuildExtensionsPath)\MSBuild.Community.Tasks.dll"  />
+    
     <ItemGroup>
         <ProjectToBuild Include="Src\*.sln" />
     </ItemGroup>
@@ -30,8 +37,15 @@
         <BuildOutput Include="Src\AutoFoq\bin\Release\Ploeh.AutoFixture.AutoFoq.XML" />
         <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.dll" />
         <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.XML" />
+        <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.dll" />
+        <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.XML" />
+        <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.dll" />
+        <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.XML" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.dll" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.XML" />
+    </ItemGroup>
+    <ItemGroup>
+    	<NUnitAddinFiles Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.dll" />
     </ItemGroup>
     <ItemGroup>
         <NuSpecFiles Include="NuGet\*.nuspec" />
@@ -64,8 +78,21 @@
     <Target Name="Build" DependsOnTargets="Verify">
         <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Release" />
     </Target>
-    <Target Name="Test" DependsOnTargets="Build">
+    
+    <Target Name="DeleteAddinsFolder" DependsOnTargets="Build">
+        <RemoveDir Directories="$(NUnitAddinsFolder)" />
+    </Target>
+    <Target Name="MakeAddinsFolder" DependsOnTargets="DeleteAddinsFolder">
+        <MakeDir Directories="$(NUnitAddinsFolder)" Condition="!Exists($(NUnitAddinsFolder))" />
+    </Target>
+    <Target Name="CopyToNUnitAddinsFolder" DependsOnTargets="MakeAddinsFolder">
+        <Copy SourceFiles="@(NUnitAddinFiles)" DestinationFolder="$(NUnitAddinsFolder)" />
+    </Target>
+    
+    <Target Name="Test" DependsOnTargets="CopyToNUnitAddinsFolder">
         <xunitproject ProjectFile="Src\All.xunit" />
+        <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.UnitTest.dll" ContinueOnError="false" />
+        <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.Addins.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.UnitTest.dll" ContinueOnError="false" />
     </Target>
     <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
         <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />
