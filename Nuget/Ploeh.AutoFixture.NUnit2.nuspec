@@ -18,6 +18,7 @@
         <projectUrl>https://github.com/AutoFixture/AutoFixture</projectUrl>
     </metadata>
     <files>
+        <file src="Ploeh.AutoFixture.NUnit2.Readme.txt" target="readme.txt" />
         <file src="Ploeh.AutoFixture.NUnit2.dll" target="lib\net40" />
         <file src="Ploeh.AutoFixture.NUnit2.XML" target="lib\net40" />
         <file src="Ploeh.AutoFixture.NUnit2.Addins.dll" target="lib\net40" />
