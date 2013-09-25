@@ -39,10 +39,23 @@ This example illustrates the basic principle of AutoFixture: It can create value
 
 The example also illustrates how AutoFixture can be used as a [SUT Factory](http://blog.ploeh.dk/2009/02/13/SUTFactory.aspx) that creates the actual System Under Test (the MyClass instance).
 
-Given the right combination of unit testing framework and extensions for AutoFixture, we can [further reduce the above test to be even more declarative](http://blog.ploeh.dk/2010/10/08/AutoDataTheoriesWithAutoFixture.aspx):
+Given the right combination of unit testing framework and extensions for AutoFixture, we can further reduce the above test to be even more declarative: 
 
+[xUnit](http://blog.ploeh.dk/2010/10/08/AutoDataTheoriesWithAutoFixture.aspx) 
 ```csharp
 [Theory, AutoData]
+public void IntroductoryTest(
+    int expectedNumber, MyClass sut)
+{
+    int result = sut.Echo(expectedNumber);
+    Assert.Equal(expectedNumber, result);
+}
+```
+and 
+
+[NUnit](http://gertjvr.wordpress.com/2013/09/25/howto-autofixture-nunit2)
+```csharp
+[Test, AutoData]
 public void IntroductoryTest(
     int expectedNumber, MyClass sut)
 {
@@ -64,6 +77,7 @@ AutoFixture is available via NuGet:
 * [AutoFixture.AutoNSubstitute](http://nuget.org/packages/AutoFixture.AutoNSubstitute)
 * [AutoFixture.AutoFoq](http://www.nuget.org/packages/AutoFixture.AutoFoq)
 * [AutoFixture.Xunit](http://nuget.org/packages/AutoFixture.Xunit)
+* [AutoFixture.NUnit2](http://nuget.org/packages/AutoFixture.NUnit2)
 * [AutoFixture.Idioms](http://nuget.org/packages/AutoFixture.Idioms)
 * [SemanticComparison](http://nuget.org/packages/SemanticComparison)
 
@@ -104,4 +118,5 @@ If you want to add your own testimonial to this list, we (the AutoFixture mainta
 * [ploeh blog](http://blog.ploeh.dk/tags.html#AutoFixture-ref)
 * [Nikos Baxevanis' blog](http://nikosbaxevanis.com/categories/autofixture)
 * [Enrico Campidoglio's blog] (http://megakemp.com/tag/autofixture)
+* [Gert Jansen van Rensburg's blog](http://gertjvr.wordpress.com/category/autofixture)
 * [Questions on Stack Overflow](http://stackoverflow.com/questions/tagged/autofixture)
