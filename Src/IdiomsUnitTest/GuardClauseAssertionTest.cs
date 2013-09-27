@@ -530,7 +530,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                     sut.Verify(typeof(GenericTypeWithNonTrivialConstraint<>)));
 
             Assert.Contains(
-                "generic", e.Message, StringComparison.CurrentCultureIgnoreCase);
+                "generic type definition", e.Message, StringComparison.CurrentCultureIgnoreCase);
             Assert.Contains("GenericTypeWithNonTrivialConstraint`1", e.Message);
         }
 
@@ -547,7 +547,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                             "MethodWithParameter")));
 
             Assert.Contains(
-                "generic", e.Message, StringComparison.CurrentCultureIgnoreCase);
+                "generic type definition", e.Message, StringComparison.CurrentCultureIgnoreCase);
             Assert.Contains("GenericTypeWithNonTrivialConstraint`1", e.Message);
         }
 
@@ -564,7 +564,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                             "Property")));
 
             Assert.Contains(
-                "generic", e.Message, StringComparison.CurrentCultureIgnoreCase);
+                "generic type definition", e.Message, StringComparison.CurrentCultureIgnoreCase);
             Assert.Contains("GenericTypeWithNonTrivialConstraint`1", e.Message);
         }
 
