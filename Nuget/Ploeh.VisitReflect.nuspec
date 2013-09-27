@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+    <metadata>
+        <id>VisitReflect</id>
+        <version>2.2</version>
+        <title>VisitReflect</title>
+        <authors>Mark Seemann</authors>
+        <owners>Mark Seemann</owners>
+        <description>VisitReflect makes it easy to traverse a hierarchy of reflection elements (e.g. Assembly->Types->Members), and perform arbitrary oservations and operations over them.</description>
+        <projectUrl>https://github.com/AutoFixture/AutoFixture</projectUrl>
+        <licenseUrl>https://github.com/AutoFixture/AutoFixture/blob/master/LICENCE.txt</licenseUrl>
+        <iconUrl>http://i3.codeplex.com/Download?ProjectName=autofixture&amp;DownloadId=278049</iconUrl>
+        <language>en-US</language>
+    </metadata>
+    <files>
+        <file src="Ploeh.VisitReflect.dll" target="lib\net40" />
+        <file src="Ploeh.VisitReflect.XML" target="lib\net40" />
+    </files>
+</package>

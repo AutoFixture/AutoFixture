@@ -43,6 +43,8 @@
         <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.XML" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.dll" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.XML" />
+        <BuildOutput Include="Src\VisitReflect\bin\Release\Ploeh.VisitReflect.dll" />
+        <BuildOutput Include="Src\VisitReflect\bin\Release\Ploeh.VisitReflect.XML" />
     </ItemGroup>
     <ItemGroup>
     	<NUnitAddinFiles Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.dll" />
