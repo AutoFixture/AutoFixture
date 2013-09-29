@@ -9,12 +9,40 @@ namespace Ploeh.VisitReflect
 
         public PropertyInfoElement(PropertyInfo propertyInfo)
         {
+            if (propertyInfo == null) throw new ArgumentNullException("propertyInfo");
             PropertyInfo = propertyInfo;
         }
 
         public IReflectionVisitor<T> Accept<T>(IReflectionVisitor<T> visitor)
         {
-            throw new NotImplementedException();
+            if (visitor == null) throw new ArgumentNullException("visitor");
+            return visitor.Visit(this);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (object.ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            return this.PropertyInfo.Equals(((PropertyInfoElement)obj).PropertyInfo);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.PropertyInfo.GetHashCode();
+        }
+
     }
 }

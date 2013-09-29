@@ -66,6 +66,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompositeReflectionElementTest.cs" />
+    <Compile Include="Scenario.cs" />
+    <Compile Include="TypeElementTest.cs" />
+    <Compile Include="PropertyInfoElementTest.cs" />
+    <Compile Include="ParameterInfoElementTest.cs" />
+    <Compile Include="MethodInfoElementTest.cs" />
+    <Compile Include="FieldInfoElementTest.cs" />
+    <Compile Include="ConstructorInfoElementTest.cs" />
+    <Compile Include="AssemblyElementTest.cs" />
+    <Compile Include="DelegatingReflectionVisitor.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

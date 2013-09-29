@@ -93,7 +93,6 @@
     <Compile Include="AssemblyElement.cs" />
     <Compile Include="CompositeReflectionElement.cs" />
     <Compile Include="ConstructorInfoElement.cs" />
-    <Compile Include="ElementComparer.cs" />
     <Compile Include="FieldInfoElement.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IReflectionElement.cs" />
@@ -107,9 +106,6 @@
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="VisitReflect.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

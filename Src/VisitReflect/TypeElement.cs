@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Ploeh.VisitReflect
 {
@@ -8,9 +9,7 @@ namespace Ploeh.VisitReflect
 
         public TypeElement(Type type)
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
-
+            if (type == null) throw new ArgumentNullException("type");
             this.type = type;
         }
 
@@ -23,7 +22,51 @@ namespace Ploeh.VisitReflect
         public IReflectionVisitor<T> Accept<T>(IReflectionVisitor<T> visitor)
         {
             if (visitor == null) throw new ArgumentNullException("visitor");
-            return visitor.Visit(this);
+
+            var visitThis = visitor.EnterType(this);
+
+            visitThis = this.Type.GetConstructors()
+                .Aggregate(visitThis, (current, constructorInfo) =>
+                    new ConstructorInfoElement(constructorInfo).Accept(current));
+
+            visitThis = this.Type.GetMethods()
+                .Aggregate(visitThis, (current, methodInfo) =>
+                    new MethodInfoElement(methodInfo).Accept(current));
+
+            visitThis = this.Type.GetProperties()
+                .Aggregate(visitThis, (current, propertyInfo) =>
+                    new PropertyInfoElement(propertyInfo).Accept(current));
+
+            visitThis = this.Type.GetFields()
+                .Aggregate(visitThis, (current, fieldInfo) =>
+                    new FieldInfoElement(fieldInfo).Accept(current));
+
+            return visitThis.ExitType(this);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (object.ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            return this.Type == ((TypeElement)obj).Type;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.type.GetHashCode();
         }
     }
 }
