@@ -252,19 +252,6 @@ namespace Ploeh.AutoFixture.Idioms
             return result;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
-        private static void EnsureTypeIsNotGeneric(Type type)
-        {
-            if (type.IsGenericTypeDefinition)
-            {
-                throw new GuardClauseException(
-                    string.Format(
-                        CultureInfo.CurrentCulture,
-                        "AutoFixture was unable to create an instance of {0}, because it's a generic type definition.",
-                        type.Name));
-            }
-        }
-
         private static Type GetParameterType(ParameterInfo pi)
         {
             var pType = pi.ParameterType;
