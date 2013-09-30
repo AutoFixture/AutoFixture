@@ -21,6 +21,17 @@ namespace Ploeh.VisitReflect.UnitTest
         }
 
         [Fact]
+        public void SutIsHierarchicalReflectionElement()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new MethodInfoElement(typeof(TypeWithMethod).GetMethods().First());
+            // Verify outcome
+            Assert.IsAssignableFrom<IHierarchicalReflectionElement>(sut);
+            // Teardown
+        }
+
+        [Fact]
         public void MethodInfoIsCorrect()
         {
             // Fixture setup
@@ -53,6 +64,22 @@ namespace Ploeh.VisitReflect.UnitTest
             // Verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Accept((IReflectionVisitor<object>)null));
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Accept((IHierarchicalReflectionVisitor<object>)null));
+            // Teardown
+        }
+
+        [Fact]
+        public void AcceptCallsVisitOnceWithCorrectType()
+        {
+            // Fixture setup
+            var observed = new List<MethodInfoElement>();
+            var dummyVisitor = new DelegatingReflectionVisitor<int> { OnVisitMethodInfoElement = observed.Add };
+            var sut = new MethodInfoElement(typeof(TypeWithMethod).GetMethods().First());
+            // Exercise system
+            sut.Accept(dummyVisitor);
+            // Verify outcome
+            Assert.True(new[] { sut }.SequenceEqual(observed));
             // Teardown
         }
 
@@ -69,7 +96,7 @@ namespace Ploeh.VisitReflect.UnitTest
             expectedVisitedParams.Add(sut);
 
             var observedElements = new List<IReflectionElement>();
-            var dummyVisitor = new DelegatingReflectionVisitor<bool>
+            var dummyVisitor = new DelegatingHierarchicalReflectionVisitor<bool>
             {
                 OnEnterMethodInfoElement = observedElements.Add,
                 OnVisitParameterInfoElement = observedElements.Add,

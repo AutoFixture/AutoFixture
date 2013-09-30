@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 
 namespace Ploeh.VisitReflect.UnitTest
@@ -17,6 +18,17 @@ namespace Ploeh.VisitReflect.UnitTest
             var sut = new FieldInfoElement(typeof(TypeWithField<int>).GetFields().First());
             // Verify outcome
             Assert.IsAssignableFrom<IReflectionElement>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutIsHierarchicalReflectionElement()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new FieldInfoElement(typeof(TypeWithField<int>).GetFields().First());
+            // Verify outcome
+            Assert.IsAssignableFrom<IHierarchicalReflectionElement>(sut);
             // Teardown
         }
 
@@ -52,10 +64,25 @@ namespace Ploeh.VisitReflect.UnitTest
             // Exercise system
             // Verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                sut.Accept((IReflectionVisitor<int>)null));
+                sut.Accept((IReflectionVisitor<object>)null));
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Accept((IHierarchicalReflectionVisitor<object>)null));
             // Teardown
         }
 
+        [Fact]
+        public void AcceptCallsVisitOnceWithCorrectType()
+        {
+            // Fixture setup
+            var observed = new List<FieldInfoElement>();
+            var dummyVisitor = new DelegatingReflectionVisitor<int> { OnVisitFieldInfoElement = observed.Add };
+            var sut = new FieldInfoElement(typeof(TypeWithField<int>).GetFields().First());
+            // Exercise system
+            sut.Accept(dummyVisitor);
+            // Verify outcome
+            Assert.True(new[] { sut }.SequenceEqual(observed));
+            // Teardown
+        }
 
         public class TypeWithField<T>
         {

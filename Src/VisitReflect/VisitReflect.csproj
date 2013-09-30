@@ -91,16 +91,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyElement.cs" />
+    <Compile Include="CompositeHierarchicalReflectionElement.cs" />
     <Compile Include="CompositeReflectionElement.cs" />
     <Compile Include="ConstructorInfoElement.cs" />
     <Compile Include="FieldInfoElement.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IHierarchicalReflectionElement.cs" />
     <Compile Include="IReflectionElement.cs" />
+    <Compile Include="IHierarchicalReflectionVisitor.cs" />
     <Compile Include="IReflectionVisitor.cs" />
     <Compile Include="MethodInfoElement.cs" />
     <Compile Include="ParameterInfoElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyInfoElement.cs" />
+    <Compile Include="HierarchicalReflectionVisitor.cs" />
     <Compile Include="ReflectionVisitor.cs" />
     <Compile Include="TypeElement.cs" />
   </ItemGroup>

@@ -21,6 +21,17 @@ namespace Ploeh.VisitReflect.UnitTest
         }
 
         [Fact]
+        public void SutIsHierarchicalReflectionElement()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new ConstructorInfoElement(this.GetType().GetConstructors().First());
+            // Verify outcome
+            Assert.IsAssignableFrom<IHierarchicalReflectionElement>(sut);
+            // Teardown
+        }
+
+        [Fact]
         public void ConstructorInfoIsCorrect()
         {
             // Fixture setup
@@ -53,11 +64,29 @@ namespace Ploeh.VisitReflect.UnitTest
             // Verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Accept((IReflectionVisitor<object>)null));
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Accept((IHierarchicalReflectionVisitor<object>)null));
             // Teardown
         }
 
         [Fact]
-        public void AcceptEntersItselfThenVisitsAllParametersThenExitsItself()
+        public void AcceptCallsVisitOnceWithCorrectType()
+        {
+            // Fixture setup
+            var observed = new List<ConstructorInfoElement>();
+            var dummyVisitor = new DelegatingReflectionVisitor<int>
+                { OnVisitConstructorInfoElement = observed.Add };
+            var sut = new ConstructorInfoElement(
+                typeof(TypeWithConstructorParameters<int, int, int>).GetConstructors().First());
+            // Exercise system
+            sut.Accept(dummyVisitor);
+            // Verify outcome
+            Assert.True(new[] { sut }.SequenceEqual(observed));
+            // Teardown
+        }
+
+        [Fact]
+        public void AcceptHierachicalEntersItselfThenVisitsAllParametersThenExitsItself()
         {
             // Fixture setup
             var ctor = typeof(TypeWithConstructorParameters<int, string, decimal>).GetConstructors().First();
@@ -68,7 +97,7 @@ namespace Ploeh.VisitReflect.UnitTest
             expectedElements.Add(sut);
 
             var observedElements = new List<IReflectionElement>();
-            var dummyVisitor = new DelegatingReflectionVisitor<bool>
+            var dummyVisitor = new DelegatingHierarchicalReflectionVisitor<bool>
             {
                 OnEnterConstructorInfoElement = observedElements.Add,
                 OnVisitParameterInfoElement = observedElements.Add,

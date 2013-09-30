@@ -3,7 +3,11 @@ using System.Reflection;
 
 namespace Ploeh.VisitReflect
 {
-    public class ParameterInfoElement : IReflectionElement
+    /// <summary>
+    /// An <see cref="IReflectionElement"/> representing a <see cref="ParameterInfo"/> which
+    /// can be visited by an <see cref="IReflectionVisitor{T}"/> implementation.
+    /// </summary>
+    public class ParameterInfoElement : IReflectionElement, IHierarchicalReflectionElement
     {
         public ParameterInfo ParameterInfo { get; private set; }
 
@@ -14,6 +18,12 @@ namespace Ploeh.VisitReflect
         }
 
         public IReflectionVisitor<T> Accept<T>(IReflectionVisitor<T> visitor)
+        {
+            if (visitor == null) throw new ArgumentNullException("visitor");
+            return visitor.Visit(this);
+        }
+
+        public IHierarchicalReflectionVisitor<T> Accept<T>(IHierarchicalReflectionVisitor<T> visitor)
         {
             if (visitor == null) throw new ArgumentNullException("visitor");
             return visitor.Visit(this);

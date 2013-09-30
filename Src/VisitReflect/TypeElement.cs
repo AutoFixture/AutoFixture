@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Ploeh.VisitReflect
 {
-    public class TypeElement : IReflectionElement
+    public class TypeElement : IReflectionElement, IHierarchicalReflectionElement
     {
         private readonly Type type;
 
@@ -22,6 +22,12 @@ namespace Ploeh.VisitReflect
         public IReflectionVisitor<T> Accept<T>(IReflectionVisitor<T> visitor)
         {
             if (visitor == null) throw new ArgumentNullException("visitor");
+            return visitor.Visit(this);
+        }
+
+        public IHierarchicalReflectionVisitor<T> Accept<T>(IHierarchicalReflectionVisitor<T> visitor)
+        {
+            if (visitor == null) throw new ArgumentNullException("visitor");
 
             var visitThis = visitor.EnterType(this);
 
@@ -29,7 +35,7 @@ namespace Ploeh.VisitReflect
                 .Aggregate(visitThis, (current, constructorInfo) =>
                     new ConstructorInfoElement(constructorInfo).Accept(current));
 
-            visitThis = this.Type.GetMethods()
+            visitThis = this.Type.GetMethods().Except(type.GetProperties().SelectMany(p => p.GetAccessors()))
                 .Aggregate(visitThis, (current, methodInfo) =>
                     new MethodInfoElement(methodInfo).Accept(current));
 

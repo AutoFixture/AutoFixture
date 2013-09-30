@@ -8,53 +8,32 @@ namespace Ploeh.VisitReflect.UnitTest
 
         public DelegatingReflectionVisitor()
         {
-            this.OnEnterAssemblyElement = e => { };
-            this.OnExitAssemblyElement = e => { };
-            this.OnEnterTypeElement = e => { };
-            this.OnExitTypeElement = e => { };
+            this.OnVisitAssemblyElement = e => { };
+            this.OnVisitTypeElement = e => { };
             this.OnVisitParameterInfoElement = e => { };
             this.OnVisitPropertyInfoElement = e => { };
             this.OnVisitFieldInfoElement = e => { };
-            this.OnEnterConstructorInfoElement = e => { };
-            this.OnExitConstructorInfoElement = e => { };
-            this.OnEnterMethodInfoElement = e => { };
-            this.OnExitMethodInfoElement = e => { };
+            this.OnVisitConstructorInfoElement = e => { };
+            this.OnVisitMethodInfoElement = e => { };
         }
 
-        public Action<AssemblyElement> OnEnterAssemblyElement { get; set; }
-        public Action<AssemblyElement> OnExitAssemblyElement { get; set; }
-        public Action<TypeElement> OnEnterTypeElement { get; set; }
-        public Action<TypeElement> OnExitTypeElement { get; set; }
+        public Action<AssemblyElement> OnVisitAssemblyElement { get; set; }
+        public Action<TypeElement> OnVisitTypeElement { get; set; }
         public Action<ParameterInfoElement> OnVisitParameterInfoElement { get; set; }
         public Action<PropertyInfoElement> OnVisitPropertyInfoElement { get; set; }
         public Action<FieldInfoElement> OnVisitFieldInfoElement { get; set; }
-        public Action<ConstructorInfoElement> OnEnterConstructorInfoElement { get; set; }
-        public Action<ConstructorInfoElement> OnExitConstructorInfoElement { get; set; }
-        public Action<MethodInfoElement> OnEnterMethodInfoElement { get; set; }
-        public Action<MethodInfoElement> OnExitMethodInfoElement { get; set; }
+        public Action<ConstructorInfoElement> OnVisitConstructorInfoElement { get; set; }
+        public Action<MethodInfoElement> OnVisitMethodInfoElement { get; set; }
 
-
-        public IReflectionVisitor<T> EnterAssembly(AssemblyElement assemblyElement)
+        public IReflectionVisitor<T> Visit(AssemblyElement assemblyElement)
         {
-            OnEnterAssemblyElement(assemblyElement);
+            OnVisitAssemblyElement(assemblyElement);
             return this;
         }
 
-        public IReflectionVisitor<T> ExitAssembly(AssemblyElement assemblyElement)
+        public IReflectionVisitor<T> Visit(TypeElement typeElement)
         {
-            OnExitAssemblyElement(assemblyElement);
-            return this;
-        }
-
-        public IReflectionVisitor<T> EnterType(TypeElement typeElement)
-        {
-            OnEnterTypeElement(typeElement);
-            return this;
-        }
-
-        public IReflectionVisitor<T> ExitType(TypeElement typeElement)
-        {
-            OnExitTypeElement(typeElement);
+            OnVisitTypeElement(typeElement);
             return this;
         }
 
@@ -76,27 +55,15 @@ namespace Ploeh.VisitReflect.UnitTest
             return this;
         }
 
-        public IReflectionVisitor<T> EnterConstructor(ConstructorInfoElement constructorInfoElement)
+        public IReflectionVisitor<T> Visit(ConstructorInfoElement constructorInfoElement)
         {
-            OnEnterConstructorInfoElement(constructorInfoElement);
+            OnVisitConstructorInfoElement(constructorInfoElement);
             return this;
         }
 
-        public IReflectionVisitor<T> ExitConstructor(ConstructorInfoElement constructorInfoElement)
+        public IReflectionVisitor<T> Visit(MethodInfoElement methodInfoElement)
         {
-            OnExitConstructorInfoElement(constructorInfoElement);
-            return this;
-        }
-
-        public IReflectionVisitor<T> EnterMethod(MethodInfoElement methodInfoElement)
-        {
-            OnEnterMethodInfoElement(methodInfoElement);
-            return this;
-        }
-
-        public IReflectionVisitor<T> ExitMethod(MethodInfoElement methodInfoElement)
-        {
-            OnExitMethodInfoElement(methodInfoElement);
+            OnVisitMethodInfoElement(methodInfoElement);
             return this;
         }
     }

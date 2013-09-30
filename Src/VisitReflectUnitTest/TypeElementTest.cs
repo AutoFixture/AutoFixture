@@ -22,6 +22,18 @@ namespace Ploeh.VisitReflect.UnitTest
         }
 
         [Fact]
+        public void SutIsHierarchicalReflectionElement()
+        {
+            // Fixture setup
+            var type = this.GetType();
+            // Exercise system
+            var sut = new TypeElement(type);
+            // Verify outcome
+            Assert.IsAssignableFrom<IHierarchicalReflectionElement>(sut);
+            // Teardown
+        }
+
+        [Fact]
         public void TypeIsCorrect()
         {
             // Fixture setup
@@ -54,11 +66,27 @@ namespace Ploeh.VisitReflect.UnitTest
             // Verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Accept((IReflectionVisitor<object>)null));
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Accept((IHierarchicalReflectionVisitor<object>)null));
             // Teardown
         }
-        
+
         [Fact]
-        public void AcceptEntersItselfThenVisitsChildElementsThenExitsItself()
+        public void AcceptCallsVisitOnceWithCorrectType()
+        {
+            // Fixture setup
+            var observed = new List<TypeElement>();
+            var dummyVisitor = new DelegatingReflectionVisitor<int> { OnVisitTypeElement = observed.Add };
+            var sut = new TypeElement(this.GetType());
+            // Exercise system
+            sut.Accept(dummyVisitor);
+            // Verify outcome
+            Assert.True(new[] { sut }.SequenceEqual(observed));
+            // Teardown
+        }
+
+        [Fact]
+        public void AcceptHierachicalEntersItselfThenVisitsChildElementsThenExitsItself()
         {
             // Fixture setup
             var type = typeof (TypeWithCtorMethodPropertyField);
@@ -69,7 +97,7 @@ namespace Ploeh.VisitReflect.UnitTest
             var method = type.GetMethods().First();
             var methodParameters = method.GetParameters();
 
-            var expectedElements = new List<IReflectionElement>();
+            var expectedElements = new List<IHierarchicalReflectionElement>();
             expectedElements.Add(sut);
             expectedElements.Add(new ConstructorInfoElement(ctor));
             expectedElements.AddRange(ctorParameters.Select(p => new ParameterInfoElement(p)));
@@ -78,8 +106,8 @@ namespace Ploeh.VisitReflect.UnitTest
             expectedElements.AddRange(type.GetProperties().Select(p => new PropertyInfoElement(p)));
             expectedElements.AddRange(type.GetFields().Select(f => new FieldInfoElement(f)));
 
-            var observedElements = new List<IReflectionElement>();
-            var dummyVisitor = new DelegatingReflectionVisitor<bool>
+            var observedElements = new List<IHierarchicalReflectionElement>();
+            var dummyVisitor = new DelegatingHierarchicalReflectionVisitor<bool>
             {
                 OnEnterMethodInfoElement = observedElements.Add,
                 OnEnterConstructorInfoElement = observedElements.Add,
@@ -110,9 +138,10 @@ namespace Ploeh.VisitReflect.UnitTest
 
             public int Property1 { get; set; }
 
+#pragma warning disable 649
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "It's used via reflection.")]
             public int Field1;
-
+#pragma warning restore 649
         }
     }
 }

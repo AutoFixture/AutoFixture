@@ -1,27 +1,20 @@
-﻿using System;
-
-namespace Ploeh.VisitReflect
+﻿namespace Ploeh.VisitReflect
 {
+    /// <summary>
+    /// An implementation of the <see cref="IReflectionVisitor{T}"/> which does
+    /// not visit any type of element, allowing easier implementation when only
+    /// certain element types need to be visited.
+    /// </summary>
     public abstract class ReflectionVisitor<T> : IReflectionVisitor<T>
     {
         public abstract T Value { get; }
 
-        public virtual IReflectionVisitor<T> EnterAssembly(AssemblyElement assemblyElement)
+        public virtual IReflectionVisitor<T> Visit(AssemblyElement assemblyElement)
         {
             return this;
         }
 
-        public virtual IReflectionVisitor<T> ExitAssembly(AssemblyElement assemblyElement)
-        {
-            return this;
-        }
-
-        public virtual IReflectionVisitor<T> EnterType(TypeElement typeElement)
-        {
-            return this;
-        }
-
-        public virtual IReflectionVisitor<T> ExitType(TypeElement typeElement)
+        public virtual IReflectionVisitor<T> Visit(TypeElement typeElement)
         {
             return this;
         }
@@ -41,22 +34,12 @@ namespace Ploeh.VisitReflect
             return this;
         }
 
-        public virtual IReflectionVisitor<T> EnterConstructor(ConstructorInfoElement constructorInfoElement)
+        public virtual IReflectionVisitor<T> Visit(ConstructorInfoElement constructorInfoElement)
         {
             return this;
         }
 
-        public virtual IReflectionVisitor<T> ExitConstructor(ConstructorInfoElement constructorInfoElement)
-        {
-            return this;
-        }
-
-        public virtual IReflectionVisitor<T> EnterMethod(MethodInfoElement methodInfoElement)
-        {
-            return this;
-        }
-
-        public virtual IReflectionVisitor<T> ExitMethod(MethodInfoElement methodInfoElement)
+        public virtual IReflectionVisitor<T> Visit(MethodInfoElement methodInfoElement)
         {
             return this;
         }

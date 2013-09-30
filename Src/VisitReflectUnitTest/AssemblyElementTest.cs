@@ -21,6 +21,17 @@ namespace Ploeh.VisitReflect.UnitTest
         }
 
         [Fact]
+        public void SutIsHierarchicalReflectionElement()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new AssemblyElement(this.GetType().Assembly);
+            // Verify outcome
+            Assert.IsAssignableFrom<IHierarchicalReflectionElement>(sut);
+            // Teardown
+        }
+
+        [Fact]
         public void AssemblyIsCorrect()
         {
             // Fixture setup
@@ -53,11 +64,27 @@ namespace Ploeh.VisitReflect.UnitTest
             // Verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Accept((IReflectionVisitor<object>)null));
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Accept((IHierarchicalReflectionVisitor<object>)null));
             // Teardown
         }
 
         [Fact]
-        public void AcceptEntersItselfThenVisitsAllTypesThenExitsItself()
+        public void AcceptCallsVisitOnceWithCorrectType()
+        {
+            // Fixture setup
+            var observed = new List<AssemblyElement>();
+            var dummyVisitor = new DelegatingReflectionVisitor<int> { OnVisitAssemblyElement = observed.Add };
+            var sut = new AssemblyElement(GetType().Assembly);
+            // Exercise system
+            sut.Accept(dummyVisitor);
+            // Verify outcome
+            Assert.True(new[] { sut }.SequenceEqual(observed));
+            // Teardown
+        }
+
+        [Fact]
+        public void AcceptHierachicalEntersItselfThenVisitsAllTypesThenExitsItself()
         {
             // Fixture setup
             var assembly = this.GetType().Assembly;
@@ -68,7 +95,7 @@ namespace Ploeh.VisitReflect.UnitTest
             expectedElements.Add(sut); // exit
 
             var observedElements = new List<IReflectionElement>();
-            var dummyVisitor = new DelegatingReflectionVisitor<bool>
+            var dummyVisitor = new DelegatingHierarchicalReflectionVisitor<bool>
             {
                 OnEnterAssemblyElement = observedElements.Add,
                 OnEnterTypeElement = observedElements.Add,

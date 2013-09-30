@@ -6,7 +6,11 @@ using System.Text;
 
 namespace Ploeh.VisitReflect
 {
-    public class AssemblyElement : IReflectionElement
+    /// <summary>
+    /// An <see cref="IReflectionElement"/> representing an <see cref="Assembly"/> which
+    /// can be visited by an <see cref="IReflectionVisitor{T}"/> implementation.
+    /// </summary>
+    public class AssemblyElement : IReflectionElement, IHierarchicalReflectionElement
     {
         public Assembly Assembly { get; private set; }
 
@@ -17,6 +21,12 @@ namespace Ploeh.VisitReflect
         }
 
         public IReflectionVisitor<T> Accept<T>(IReflectionVisitor<T> visitor)
+        {
+            if (visitor == null) throw new ArgumentNullException("visitor");
+            return visitor.Visit(this);
+        }
+
+        public IHierarchicalReflectionVisitor<T> Accept<T>(IHierarchicalReflectionVisitor<T> visitor)
         {
             if (visitor == null) throw new ArgumentNullException("visitor");
             var visitThis = visitor.EnterAssembly(this);

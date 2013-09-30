@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using Ploeh.TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.VisitReflect.UnitTest
 {
-    public class CompositeReflectionElementTest
+    public class CompositeHierarchicalReflectionElementTest
     {
         [Fact]
-        public void SutIsReflectionElement()
+        public void SutIsHierarchicalReflectionElement()
         {
             // Fixture setup
             // Exercise system
-            var sut = new CompositeReflectionElement();
+            var sut = new CompositeHierarchicalReflectionElement();
             // Verify outcome
-            Assert.IsAssignableFrom<IReflectionElement>(sut);
+            Assert.IsAssignableFrom<IHierarchicalReflectionElement>(sut);
             // Teardown
         }
 
@@ -26,20 +23,20 @@ namespace Ploeh.VisitReflect.UnitTest
         public void AcceptNullVisitorThrows()
         {
             // Fixture setup
-            var sut = new CompositeReflectionElement();
+            var sut = new CompositeHierarchicalReflectionElement();
             // Exercise system
             // Verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                sut.Accept((IReflectionVisitor<object>) null));
+                sut.Accept((IHierarchicalReflectionVisitor<object>) null));
             // Teardown
         }
 
         [Fact]
-        public void AcceptCallsAcceptOnAllElementTypes()
+        public void AcceptHierachicalCallsAcceptOnAllMultipleElementTypes()
         {
             // Fixture setup
-            var observedElements = new List<IReflectionElement>();
-            var elements = new IReflectionElement[]
+            var observedElements = new List<IHierarchicalReflectionElement>();
+            var elements = new IHierarchicalReflectionElement[]
             {
                 new AssemblyElement(this.GetType().Assembly),
                 new TypeElement(this.GetType()),
@@ -50,25 +47,27 @@ namespace Ploeh.VisitReflect.UnitTest
                 new ParameterInfoElement(typeof (UnguardedMethodHost).GetMethods().First().GetParameters()[0]),
             };
 
-            var expectedElements = new List<IReflectionElement>(elements);
+            var expectedElements = new List<IHierarchicalReflectionElement>(elements);
 
-            var dummyVisitor = new DelegatingReflectionVisitor<int>
+            var dummyVisitor = new DelegatingHierarchicalReflectionVisitor<int>
             {
-                OnVisitAssemblyElement = observedElements.Add,
-                OnVisitTypeElement = observedElements.Add,
-                OnVisitConstructorInfoElement = observedElements.Add,
+                OnEnterAssemblyElement = observedElements.Add,
+                OnEnterTypeElement = observedElements.Add,
+                OnEnterConstructorInfoElement = observedElements.Add,
                 OnVisitFieldInfoElement = observedElements.Add,
-                OnVisitMethodInfoElement = observedElements.Add,
+                OnEnterMethodInfoElement = observedElements.Add,
                 OnVisitParameterInfoElement = observedElements.Add,
                 OnVisitPropertyInfoElement = observedElements.Add,
             };
 
-            var sut = new CompositeReflectionElement(elements);
+            var sut = new CompositeHierarchicalReflectionElement(elements);
             // Exercise system
             sut.Accept(dummyVisitor);
             // Verify outcome
-            Assert.True(expectedElements.SequenceEqual(observedElements));
+            // TODO: do better than just 'contains'
+            Assert.True(expectedElements.All(observedElements.Contains));
             // Teardown
         }
+
     }
 }

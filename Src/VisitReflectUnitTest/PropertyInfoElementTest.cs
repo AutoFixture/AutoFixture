@@ -22,6 +22,18 @@ namespace Ploeh.VisitReflect.UnitTest
         }
 
         [Fact]
+        public void SutIsHierarchicalReflectionElement()
+        {
+            // Fixture setup
+            var property = typeof(TypeWithProperty).GetProperties().First();
+            // Exercise system
+            var sut = new PropertyInfoElement(property);
+            // Verify outcome
+            Assert.IsAssignableFrom<IHierarchicalReflectionElement>(sut);
+            // Teardown
+        }
+
+        [Fact]
         public void PropertyInfoIsCorrect()
         {
             // Fixture setup
@@ -55,6 +67,22 @@ namespace Ploeh.VisitReflect.UnitTest
             // Verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Accept((IReflectionVisitor<object>)null));
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.Accept((IHierarchicalReflectionVisitor<object>)null));
+            // Teardown
+        }
+
+        [Fact]
+        public void AcceptCallsVisitOnceWithCorrectType()
+        {
+            // Fixture setup
+            var observed = new List<PropertyInfoElement>();
+            var dummyVisitor = new DelegatingReflectionVisitor<int> { OnVisitPropertyInfoElement = observed.Add };
+            var sut = new PropertyInfoElement(typeof(TypeWithProperty).GetProperties().First());
+            // Exercise system
+            sut.Accept(dummyVisitor);
+            // Verify outcome
+            Assert.True(new[] { sut }.SequenceEqual(observed));
             // Teardown
         }
 
