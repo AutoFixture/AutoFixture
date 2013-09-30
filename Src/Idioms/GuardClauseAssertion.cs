@@ -599,6 +599,7 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
 
                 if (this.baseTypeConstructorArgumentInfos.Any())
                 {
+                    this.DefineStaticArgumentsFieldBuilder();
                     this.EmitSetPrameterValuesFromStaticArgumentsField(generator);
                     generator.Emit(OpCodes.Call, baseTypeConstructor);
                 }
@@ -625,23 +626,21 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
                 return result;
             }
 
-            private void EmitSetPrameterValuesFromStaticArgumentsField(ILGenerator generator)
-            {
-                this.DefineStaticArgumentsFieldBuilder();
-
-                generator.Emit(OpCodes.Ldarg_0);
-                for (int i = 0; i < this.baseTypeConstructorArgumentInfos.Length; i++)
-                {
-                    this.EmitSetPrameterValueFromStaticArgumentsField(generator, i);
-                }
-            }
-
             private void DefineStaticArgumentsFieldBuilder()
             {
                 this.argumentsFieldBuilder = this.typeBuilder.DefineField(
                     argumentsFieldName,
                     typeof(object[]),
                     FieldAttributes.Private | FieldAttributes.Static | FieldAttributes.InitOnly);
+            }
+
+            private void EmitSetPrameterValuesFromStaticArgumentsField(ILGenerator generator)
+            {
+                generator.Emit(OpCodes.Ldarg_0);
+                for (int i = 0; i < this.baseTypeConstructorArgumentInfos.Length; i++)
+                {
+                    this.EmitSetPrameterValueFromStaticArgumentsField(generator, i);
+                }
             }
 
             private void EmitSetPrameterValueFromStaticArgumentsField(ILGenerator generator, int index)
