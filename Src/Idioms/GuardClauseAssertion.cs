@@ -435,6 +435,11 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
         {
             protected override string GetKeyForItem(AutoGenericArgument item)
             {
+                if (item == null)
+                {
+                    throw new ArgumentNullException("item");
+                }
+
                 return item.GenericArgument.Name;
             }
         }
