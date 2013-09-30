@@ -92,8 +92,8 @@
     
     <Target Name="Test" DependsOnTargets="CopyToNUnitAddinsFolder">
         <xunitproject ProjectFile="Src\All.xunit" />
-        <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.UnitTest.dll" ContinueOnError="false" />
-        <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.Addins.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.UnitTest.dll" ContinueOnError="false" />
+        <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.UnitTest.dll" ContinueOnError="true" />
+        <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.Addins.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.UnitTest.dll" ContinueOnError="true" />
     </Target>
     <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
         <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />
