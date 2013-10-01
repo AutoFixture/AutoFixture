@@ -780,6 +780,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             MethodInfo methodInfo = typeof(AbstractTypeAndInterfacesContraint<>).GetMethod("Method");
             // Exercise system
             // Verify outcome
+
+            // When an instance of the dummy type T of AbstractTypeAndInterfacesContraint<T> is constructed from a
+            // fixture, the fixture sets automatically the property values with anonymous specimens as the
+            // OmitAutoProperties property is false. In this time, NotSupportedException should be thrown with correct
+            // exception message.
             var e = Assert.Throws<TargetInvocationException>(() => sut.Verify(methodInfo));
             var inner = Assert.IsType<NotSupportedException>(e.InnerException);
             Assert.Equal(
@@ -843,6 +848,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 return this.GetEnumerator();
             }
         }
+
         private class ConstructorDataOnGuardedGeneric : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
