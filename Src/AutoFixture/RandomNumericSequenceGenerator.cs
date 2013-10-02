@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture
         private readonly long[] limits;
         private readonly object syncRoot;
         private readonly Random random;
-        private readonly List<long> numbers;
+        private readonly HashSet<long> numbers;
         private long lower;
         private long upper;
         private long count;
@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixture
             this.limits = limits;
             this.syncRoot = new object();
             this.random = new Random();
-            this.numbers = new List<long>();
+            this.numbers = new HashSet<long>();
             this.CreateRange();
         }
 
