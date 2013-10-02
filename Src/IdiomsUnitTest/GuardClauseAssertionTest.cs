@@ -776,20 +776,30 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void DynamicDummyTypeMembersIfCalledThrowsExceptionWithCorrectMessage()
         {
             // Fixture setup
-            var sut = new GuardClauseAssertion(new Fixture());
-            MethodInfo methodInfo = typeof(AbstractTypeAndInterfacesContraint<>).GetMethod("Method");
-            // Exercise system
-            // Verify outcome
+            var behaviorExpectation = new DelegatingBehaviorExpectation()
+            {
+                OnVerify = c =>
+                {
+                    var dummyInstance = (IInterfaceTestType)GetParameters(c).ElementAt(0);
 
-            // When an instance of the dummy type T of AbstractTypeAndInterfacesContraint<T> is constructed from a
-            // fixture, the fixture sets automatically the property values with anonymous specimens as the
-            // OmitAutoProperties property is false. In this time, NotSupportedException should be thrown with correct
-            // exception message.
-            var e = Assert.Throws<TargetInvocationException>(() => sut.Verify(methodInfo));
-            var inner = Assert.IsType<NotSupportedException>(e.InnerException);
-            Assert.Equal(
-                string.Format("Any method in a dynamic type cannot be called."),
-                inner.Message);
+                    var e = Assert.Throws<NotSupportedException>(() => dummyInstance.Method(null));
+                    Assert.Equal(
+                        string.Format("Any method in a dynamic type cannot be called."),
+                        e.Message);
+                }
+            };
+            var sut = new GuardClauseAssertion(new Fixture(), behaviorExpectation);
+            var methodInfo = typeof(InterfacesContraint<>).GetMethod("Method");
+            // Exercise system
+            sut.Verify(methodInfo);
+            // Verify outcome(verified in mock)
+        }
+
+        private static IEnumerable<object> GetParameters(IGuardClauseCommand command)
+        {
+            var methodInvokeCommand = (MethodInvokeCommand)((ReflectionExceptionUnwrappingCommand)command).Command;
+            var indexedReplacement = (IndexedReplacement<object>)methodInvokeCommand.Expansion;
+            return indexedReplacement.Source;
         }
 
         [Fact]
