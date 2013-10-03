@@ -289,7 +289,7 @@ namespace Ploeh.AutoFixture.Idioms
             var autoGenericType = new AutoGenericType(this.Builder, method.ReflectedType);
             return methodSetToMatch(autoGenericType.Value).Single(c => IsMatched(c, method, autoGenericType));
         }
-        
+
         private MethodInfo ResolveUnclosedGenericMethod(MethodInfo methodInfo)
         {
             return methodInfo.ContainsGenericParameters
@@ -363,21 +363,21 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
             public IEnumerable<Type> ResolveGenericParameters(IEnumerable<ParameterInfo> parameterInfos)
             {
                 return parameterInfos.Select(
-                    pi => pi.ParameterType.IsByRef 
-                        ? this.ResolveGenericParameter(pi.ParameterType.GetElementType()).MakeByRefType()
-                        : this.ResolveGenericParameter(pi.ParameterType));
+                    pi => pi.ParameterType.IsByRef
+                              ? this.ResolveGenericParameter(pi.ParameterType.GetElementType()).MakeByRefType()
+                              : this.ResolveGenericParameter(pi.ParameterType));
             }
 
             private Type ResolveGenericParameter(Type parameterType)
             {
-                return this.IsGenericTypeParameter(parameterType) 
-                    ? this.autoGenericArguments[parameterType.Name].Value 
-                    : parameterType;
+                return this.IsGenericTypeParameter(parameterType)
+                           ? this.autoGenericArguments[parameterType.Name].Value
+                           : parameterType;
             }
 
             private bool IsGenericTypeParameter(Type parameterType)
             {
-                return parameterType.IsGenericParameter 
+                return parameterType.IsGenericParameter
                        && this.autoGenericArguments.Contains(parameterType.Name);
             }
 
@@ -404,7 +404,7 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
         {
             private readonly ISpecimenBuilder specimenBuilder;
             private readonly MethodInfo unclosedGenericMethod;
-            
+
             public AutoGenericMethod(ISpecimenBuilder specimenBuilder, MethodInfo unclosedGenericMethod)
             {
                 this.specimenBuilder = specimenBuilder;
@@ -515,7 +515,7 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
 
         private class DynamicDummyType
         {
-            private const string argumentsFieldName = "arguments";
+            private const string specimenBuilderFieldName = "specimenBuilder";
 
             private static readonly AssemblyBuilder assemblyBuilder =
                 AppDomain.CurrentDomain.DefineDynamicAssembly(
@@ -525,6 +525,9 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
             private static readonly ModuleBuilder moduleBuilder =
                 assemblyBuilder.DefineDynamicModule("DynamicProxyModule");
 
+            private static readonly MethodInfo fixtureCreateGenericMethod =
+                typeof(SpecimenFactory).GetMethod("Create", new[] { typeof(ISpecimenBuilder) });
+
             private readonly ISpecimenBuilder specimenBuilder;
             private readonly Type baseType;
             private readonly Type[] interfaces;
@@ -532,8 +535,8 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
             private TypeBuilder typeBuilder;
             private MethodBuilder methodBuilder;
             private MethodInfo methodInfo;
-            private ParameterInfo[] baseTypeConstructorArgumentInfos;
-            private FieldBuilder argumentsFieldBuilder;
+            private FieldBuilder specimenBuilderFieldBuilder;
+            private ConstructorInfo baseTypeConstructor;
 
             public DynamicDummyType(ISpecimenBuilder specimenBuilder, Type baseType, Type[] interfaces)
             {
@@ -551,7 +554,7 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
                     this.ImplementAbstractMethods();
                     this.ImplementInterfaceMethods();
                     var dummyType = this.typeBuilder.CreateType();
-                    this.SetStaticArgumentsField(dummyType);
+                    this.SetStaticSpecimenBuilderField(dummyType);
                     return dummyType;
                 }
             }
@@ -575,83 +578,85 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
 
             private void ImplementDefaultConstructor()
             {
-                this.DefineConstructor();
+                this.DefineConstructorBuilder();
+                this.SetBaseTypeConstructor();
                 this.EmitDefaultConstructor();
             }
 
-            private void DefineConstructor()
+            private void DefineConstructorBuilder()
             {
                 this.constructorBuilder = this.typeBuilder.DefineConstructor(
                     MethodAttributes.Public, CallingConventions.Standard, new Type[0]);
             }
-            
+
+            private void SetBaseTypeConstructor()
+            {
+                this.baseTypeConstructor =
+                    this.baseType
+                        .GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                        .Where(c => c.IsPublic || c.IsFamilyOrAssembly || c.IsFamily)
+                        .OrderBy(c => c.GetParameters().Length)
+                        .FirstOrDefault();
+
+                this.EnsureBaseTypeConstructorIsAccessible();
+            }
+
+            private void EnsureBaseTypeConstructorIsAccessible()
+            {
+                if (this.baseTypeConstructor != null)
+                {
+                    return;
+                }
+
+                var message = "Cannot create a dummy type because the base type '{0}' does not have any accessible " +
+                              "constructor.";
+
+                throw new ArgumentException(string.Format(
+                    CultureInfo.CurrentCulture,
+                    message,
+                    this.typeBuilder.BaseType));
+            }
+
             private void EmitDefaultConstructor()
             {
-                ILGenerator generator = this.constructorBuilder.GetILGenerator();
-                this.EmitCallBaseTypeConstructor(generator);
+                var generator = this.constructorBuilder.GetILGenerator();
+                if (this.baseTypeConstructor.GetParameters().Any())
+                {
+                    this.DefineStaticSpecimenBuilderFieldBuilder();
+                    this.EmitCallBaseTypeConstructor(generator);
+                }
+
                 generator.Emit(OpCodes.Ret);
+            }
+
+            private void DefineStaticSpecimenBuilderFieldBuilder()
+            {
+                if (this.specimenBuilderFieldBuilder != null)
+                {
+                    return;
+                }
+
+                this.specimenBuilderFieldBuilder = this.typeBuilder.DefineField(
+                    specimenBuilderFieldName,
+                    typeof(IFixture),
+                    FieldAttributes.Private | FieldAttributes.Static | FieldAttributes.InitOnly);
             }
 
             private void EmitCallBaseTypeConstructor(ILGenerator generator)
             {
-                var baseTypeConstructor = this.GetBaseTypeConstructor();
-                this.baseTypeConstructorArgumentInfos = baseTypeConstructor.GetParameters();
-
-                if (this.baseTypeConstructorArgumentInfos.Any())
-                {
-                    this.DefineStaticArgumentsFieldBuilder();
-                    this.EmitSetPrameterValuesFromStaticArgumentsField(generator);
-                    generator.Emit(OpCodes.Call, baseTypeConstructor);
-                }
-            }
-
-            private ConstructorInfo GetBaseTypeConstructor()
-            {
-                var result = this.baseType
-                                 .GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                                 .Where(c => c.IsPublic || c.IsFamilyOrAssembly || c.IsFamily)
-                                 .OrderBy(c => c.GetParameters().Length)
-                                 .FirstOrDefault();
-                if (result == null)
-                {
-                    var message = "Cannot create a dummy type because the base type '{0}' does not have any accessible " +
-                                  "constructor.";
-
-                    throw new ArgumentException(string.Format(
-                        CultureInfo.CurrentCulture,
-                        message,
-                        this.typeBuilder.BaseType));
-                }
-
-                return result;
-            }
-
-            private void DefineStaticArgumentsFieldBuilder()
-            {
-                this.argumentsFieldBuilder = this.typeBuilder.DefineField(
-                    argumentsFieldName,
-                    typeof(object[]),
-                    FieldAttributes.Private | FieldAttributes.Static | FieldAttributes.InitOnly);
-            }
-
-            private void EmitSetPrameterValuesFromStaticArgumentsField(ILGenerator generator)
-            {
                 generator.Emit(OpCodes.Ldarg_0);
-                for (int i = 0; i < this.baseTypeConstructorArgumentInfos.Length; i++)
+                foreach (var parameterInfo in this.baseTypeConstructor.GetParameters())
                 {
-                    this.EmitSetPrameterValueFromStaticArgumentsField(generator, i);
+                    this.EmitCallFixtureCreate(generator, parameterInfo.ParameterType);
                 }
+
+                generator.Emit(OpCodes.Call, this.baseTypeConstructor);
             }
 
-            private void EmitSetPrameterValueFromStaticArgumentsField(ILGenerator generator, int index)
+            private void EmitCallFixtureCreate(ILGenerator generator, Type returnType)
             {
-                var argument = this.baseTypeConstructorArgumentInfos[index];
-                generator.Emit(OpCodes.Ldsfld, this.argumentsFieldBuilder);
-                generator.Emit(OpCodes.Ldc_I4_S, index);
-                generator.Emit(OpCodes.Ldelem_Ref);
-                generator.Emit(
-                    argument.ParameterType.IsValueType ? OpCodes.Unbox_Any : OpCodes.Castclass,
-                    argument.ParameterType);
+                generator.Emit(OpCodes.Ldsfld, this.specimenBuilderFieldBuilder);
+                generator.Emit(OpCodes.Call, fixtureCreateGenericMethod.MakeGenericMethod(returnType));
             }
 
             private void ImplementAbstractMethods()
@@ -695,7 +700,8 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
             private void ImplementMethod()
             {
                 this.DefineMethodBuilder();
-                this.EmitThrowNotSupportedException();
+                this.DefineStaticSpecimenBuilderFieldBuilder();
+                this.EmitReturningDefaultValue();
             }
 
             private void DefineMethodBuilder()
@@ -708,31 +714,26 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
                     this.methodInfo.GetParameters().Select(p => p.ParameterType).ToArray());
             }
 
-            private void EmitThrowNotSupportedException()
+            private void EmitReturningDefaultValue()
             {
-                ILGenerator generator = this.methodBuilder.GetILGenerator();
-                var exceptionConstructor = typeof(NotSupportedException).GetConstructor(new[] { typeof(string) });
-                generator.Emit(OpCodes.Ldstr, "Any method in a dynamic type cannot be called.");
-                generator.Emit(OpCodes.Newobj, exceptionConstructor);
-                generator.Emit(OpCodes.Throw);
+                var generator = this.methodBuilder.GetILGenerator();
+                if (this.methodBuilder.ReturnType != typeof(void))
+                {
+                    this.EmitCallFixtureCreate(generator, this.methodInfo.ReturnType);
+                }
+
+                generator.Emit(OpCodes.Ret);
             }
 
-            private void SetStaticArgumentsField(Type dummyType)
+            private void SetStaticSpecimenBuilderField(Type dummyType)
             {
-                if (!this.baseTypeConstructorArgumentInfos.Any())
+                if (this.specimenBuilderFieldBuilder == null)
                 {
                     return;
                 }
 
-                dummyType.GetField(argumentsFieldName, BindingFlags.Static | BindingFlags.NonPublic)
-                         .SetValue(null, this.GetArguments());
-            }
-
-            private object[] GetArguments()
-            {
-                return this.baseTypeConstructorArgumentInfos
-                           .Select(x => this.specimenBuilder.CreateAnonymous(x.ParameterType))
-                           .ToArray();
+                dummyType.GetField(specimenBuilderFieldName, BindingFlags.Static | BindingFlags.NonPublic)
+                         .SetValue(null, this.specimenBuilder);
             }
         }
     }

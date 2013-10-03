@@ -773,33 +773,61 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void DynamicDummyTypeMembersIfCalledThrowsExceptionWithCorrectMessage()
+        public void DynamicDummyTypeIfVoidMethodIsCalledDoesNotThrows()
         {
             // Fixture setup
+            bool mockVerification = false;
             var behaviorExpectation = new DelegatingBehaviorExpectation()
             {
                 OnVerify = c =>
                 {
-                    var dummyInstance = (IInterfaceTestType)GetParameters(c).ElementAt(0);
-
-                    var e = Assert.Throws<NotSupportedException>(() => dummyInstance.Method(null));
-                    Assert.Equal(
-                        string.Format("Any method in a dynamic type cannot be called."),
-                        e.Message);
+                    var dynamicInstance = (IDynamicInstanceTestType)GetParameters(c).ElementAt(0);
+                    Assert.DoesNotThrow(() => dynamicInstance.VoidMethod(null, 123));
+                    Assert.DoesNotThrow(() => { dynamicInstance.Property = new object(); });
+                    mockVerification = true;
                 }
             };
             var sut = new GuardClauseAssertion(new Fixture(), behaviorExpectation);
-            var methodInfo = typeof(InterfacesContraint<>).GetMethod("Method");
+            var methodInfo = typeof(DynamicInstanceTestConstraint<>).GetMethod("Method");
             // Exercise system
             sut.Verify(methodInfo);
-            // Verify outcome(verified in mock)
+            // Verify outcome
+            Assert.True(mockVerification, "mock verification.");
         }
 
-        private static IEnumerable<object> GetParameters(IGuardClauseCommand command)
+        private static IEnumerable<object> GetParameters(IGuardClauseCommand commmand)
         {
-            var methodInvokeCommand = (MethodInvokeCommand)((ReflectionExceptionUnwrappingCommand)command).Command;
+            var methodInvokeCommand = (MethodInvokeCommand)((ReflectionExceptionUnwrappingCommand)commmand).Command;
             var indexedReplacement = (IndexedReplacement<object>)methodInvokeCommand.Expansion;
             return indexedReplacement.Source;
+        }
+
+        [Fact]
+        public void DynamicDummyTypeIfReturnMethodIsCalledReturnsAnonymousValue()
+        {
+            // Fixture setup
+            Fixture fixture = new Fixture();
+            var objectValue = fixture.Freeze<object>();
+            var intValue = fixture.Freeze<int>();
+
+            bool mockVerification = false;
+            var behaviorExpectation = new DelegatingBehaviorExpectation()
+            {
+                OnVerify = c =>
+                {
+                    var dynamicInstance = (IDynamicInstanceTestType)GetParameters(c).ElementAt(0);
+                    Assert.Equal(objectValue, dynamicInstance.Property);
+                    Assert.Equal(intValue, dynamicInstance.ReturnMethod(null, 123));
+                    mockVerification = true;
+                }
+            };
+            
+            var sut = new GuardClauseAssertion(fixture, behaviorExpectation);
+            var methodInfo = typeof(DynamicInstanceTestConstraint<>).GetMethod("Method");
+            // Exercise system
+            sut.Verify(methodInfo);
+            // Verify outcome
+            Assert.True(mockVerification, "mock verification.");
         }
 
         [Fact]
@@ -1201,7 +1229,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         public class ParameterizedConstructorTestType
         {
-            public static object arguments = null; // to test duplicating with the arguments field of a dummy type.
+            // to test duplicating with the specimenBuilder field of a dummy type.
+            public static ISpecimenBuilder specimenBuilder = null;
             private readonly object argument1;
             private readonly string argument2;
 
@@ -1278,6 +1307,26 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             private NoAccessibleConstructorTestType()
             {
             }
+        }
+
+        public class DynamicInstanceTestConstraint<T> where T : IDynamicInstanceTestType
+        {
+            public void Method(T argument)
+            {
+            }
+        }
+
+        public interface IDynamicInstanceTestType
+        {
+            object Property
+            {
+                get;
+                set;
+            }
+
+            int VoidMethod(object argument1, int argument2);
+
+            int ReturnMethod(object argument1, int argument2);
         }
 
         private class UnclosedGenericMethodTestType<T1> where T1 : class
