@@ -40,20 +40,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void ParameterMemberMatcherIsCorrect()
-        {
-            // Fixture setup
-            var dummyComposer = new Fixture();
-            Func<ParameterInfo, MemberInfo, bool> expected = (info, memberInfo) => true;
-            var sut = new CopyAndUpdateAssertion(dummyComposer, expected);
-            // Exercise system
-            Func<ParameterInfo, MemberInfo, bool> actual = sut.ParameterMemberMatcher;
-            // Verify outcome
-            Assert.Equal(expected, actual);
-            // Teardown
-        }
-
-        [Fact]
         public void ComparerIsCorrect()
         {
             // Fixture setup
@@ -84,16 +70,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new CopyAndUpdateAssertion(new Fixture(), comparer: null));
-            // Teardown
-        }
-
-        [Fact]
-        public void ConstructWithNullParameterMemberMatcherThrows()
-        {
-            // Fixture setup
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                new CopyAndUpdateAssertion(new Fixture(), parameterMemberMatcher: null));
             // Teardown
         }
 

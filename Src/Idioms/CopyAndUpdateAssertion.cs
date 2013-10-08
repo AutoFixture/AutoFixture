@@ -32,7 +32,6 @@ namespace Ploeh.AutoFixture.Idioms
     {
         private readonly ISpecimenBuilder builder;
         private readonly IEqualityComparer comparer;
-        private readonly Func<ParameterInfo, MemberInfo, bool> parameterMemberMatcher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CopyAndUpdateAssertion"/> class.
@@ -40,7 +39,6 @@ namespace Ploeh.AutoFixture.Idioms
         /// <param name="builder">
         /// A composer which can create instances required to implement the idiomatic unit test.
         /// </param>
-        /// <param name="parameterMemberMatcher">A method that matches parameters to members</param>
         /// <param name="comparer">A comparer that compares public member values from the
         /// specimen with public member values from the 'copied' and updated' instance</param>
         /// <remarks>
@@ -50,60 +48,17 @@ namespace Ploeh.AutoFixture.Idioms
         /// </remarks>
         public CopyAndUpdateAssertion(
             ISpecimenBuilder builder,
-            Func<ParameterInfo, MemberInfo, bool> parameterMemberMatcher,
             System.Collections.IEqualityComparer comparer)
         {
             if (builder == null)
                 throw new ArgumentNullException("builder");
-            if (parameterMemberMatcher == null)
-                throw new ArgumentNullException("parameterMemberMatcher");
             if (comparer == null)
                 throw new ArgumentNullException("comparer");
 
             this.builder = builder;
             this.comparer = comparer;
-            this.parameterMemberMatcher = parameterMemberMatcher;
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CopyAndUpdateAssertion"/> class.
-        /// </summary>
-        /// <param name="builder">
-        /// A composer which can create instances required to implement the idiomatic unit test.
-        /// </param>
-        /// <param name="parameterMemberMatcher">A method that matches parameters to members</param>
-        /// <remarks>
-        /// <para>
-        /// <paramref name="builder" /> will typically be a <see cref="Fixture" /> instance.
-        /// </para>
-        /// </remarks>
-        public CopyAndUpdateAssertion(
-            ISpecimenBuilder builder,
-            Func<ParameterInfo, MemberInfo, bool> parameterMemberMatcher)
-            : this(builder, parameterMemberMatcher, EqualityComparer<object>.Default)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CopyAndUpdateAssertion"/> class.
-        /// </summary>
-        /// <param name="builder">
-        /// A composer which can create instances required to implement the idiomatic unit test.
-        /// </param>
-        /// <param name="comparer">A comparer that compares public member values from the
-        /// specimen with public member values from the 'copied' and updated' instance</param>
-        /// <remarks>
-        /// <para>
-        /// <paramref name="builder" /> will typically be a <see cref="Fixture" /> instance.
-        /// </para>
-        /// </remarks>
-        public CopyAndUpdateAssertion(
-            ISpecimenBuilder builder,
-            System.Collections.IEqualityComparer comparer)
-            : this(builder, IsMatchingParameterAndMember, comparer)
-        {
-        }
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="CopyAndUpdateAssertion"/> class.
         /// </summary>
@@ -117,7 +72,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// </remarks>
         public CopyAndUpdateAssertion(
             ISpecimenBuilder builder)
-            : this(builder, IsMatchingParameterAndMember, EqualityComparer<object>.Default)
+            : this(builder, EqualityComparer<object>.Default)
         {
         }
 
@@ -127,15 +82,6 @@ namespace Ploeh.AutoFixture.Idioms
         public ISpecimenBuilder Builder
         {
             get { return this.builder; }
-        }
-
-        /// <summary>
-        /// Gets the method used to determine if a parameter and member are matched together.
-        /// By default, parameters and members are matched by name + type.
-        /// </summary>
-        public Func<ParameterInfo, MemberInfo, bool> ParameterMemberMatcher
-        {
-            get { return this.parameterMemberMatcher; }
         }
 
         /// <summary>
@@ -163,7 +109,7 @@ namespace Ploeh.AutoFixture.Idioms
                 select new
                 {
                     Parameter = parameter,
-                    Member = publicMembers.FirstOrDefault(m => this.parameterMemberMatcher(parameter, m)),
+                    Member = publicMembers.FirstOrDefault(m => IsMatchingParameterAndMember(parameter, m)),
                     Value = this.builder.CreateAnonymous(parameter)
                 })
                 .ToArray();
