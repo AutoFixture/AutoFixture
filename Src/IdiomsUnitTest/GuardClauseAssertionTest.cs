@@ -636,7 +636,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyStaticPropertyOnNonStaticClassThrowsHelpfulException()
+        public void VerifyUnguardedStaticPropertyOnNonStaticClassThrowsHelpfulException()
         {
             // Fixture setup
             var sut = new GuardClauseAssertion(new Fixture());
@@ -648,7 +648,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyStaticPropertyOnStaticTypeThrowsHelpfulException()
+        public void VerifyUnguardedStaticPropertyOnStaticTypeThrowsHelpfulException()
         {
             // Fixture setup
             var sut = new GuardClauseAssertion(new Fixture());
@@ -660,7 +660,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyStaticMethodOnNonStaticTypeThrowsHelpfulException()
+        public void VerifyUnguardedStaticMethodOnNonStaticTypeThrowsHelpfulException()
         {
             // Fixture setup
             var sut = new GuardClauseAssertion(new Fixture());
@@ -672,7 +672,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyStaticMethodOnStaticTypeThrowsHelpfulException()
+        public void VerifyUnguardedStaticMethodOnStaticTypeThrowsHelpfulException()
         {
             // Fixture setup
             var sut = new GuardClauseAssertion(new Fixture());
