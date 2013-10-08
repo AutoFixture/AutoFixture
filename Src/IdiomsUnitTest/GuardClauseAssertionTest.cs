@@ -501,87 +501,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 yield return someGuid;
             }
         }
-
-        [Fact]
-        public void VerifyGenericConstructorThrowsHelpfulException()
-        {
-            // Fixture setup
-            var sut = new GuardClauseAssertion(new Fixture());
-            // Exercise system and verify outcome
-            var e = Assert.Throws<GuardClauseException>(
-                () => sut.Verify(
-                    typeof(GenericTypeWithNonTrivialConstraint<>).GetConstructors().First()));
-            Assert.Contains(
-                "generic",
-                e.Message,
-                StringComparison.CurrentCultureIgnoreCase);
-            Assert.Contains("GenericTypeWithNonTrivialConstraint`1", e.Message);
-            // Teardown
-        }
-
-        [Fact]
-        public void VerifyGenericTypeThrowsHelpfulException()
-        {
-            var sut = new GuardClauseAssertion(new Fixture());
-
-            var e =
-                Assert.Throws<GuardClauseException>(
-                    () =>
-                    sut.Verify(typeof(GenericTypeWithNonTrivialConstraint<>)));
-
-            Assert.Contains(
-                "generic", e.Message, StringComparison.CurrentCultureIgnoreCase);
-            Assert.Contains("GenericTypeWithNonTrivialConstraint`1", e.Message);
-        }
-
-        [Fact]
-        public void VerifyMethodOnGenericTypeThrowsHelpfulException()
-        {
-            var sut = new GuardClauseAssertion(new Fixture());
-
-            var e =
-                Assert.Throws<GuardClauseException>(
-                    () =>
-                    sut.Verify(
-                        typeof(GenericTypeWithNonTrivialConstraint<>).GetMethod(
-                            "MethodWithParameter")));
-
-            Assert.Contains(
-                "generic", e.Message, StringComparison.CurrentCultureIgnoreCase);
-            Assert.Contains("GenericTypeWithNonTrivialConstraint`1", e.Message);
-        }
-
-        [Fact]
-        public void VerifyPropertyOnGenericTypeThrowsHelpfulException()
-        {
-            var sut = new GuardClauseAssertion(new Fixture());
-
-            var e =
-                Assert.Throws<GuardClauseException>(
-                    () =>
-                    sut.Verify(
-                        typeof(GenericTypeWithNonTrivialConstraint<>).GetProperty(
-                            "Property")));
-
-            Assert.Contains(
-                "generic", e.Message, StringComparison.CurrentCultureIgnoreCase);
-            Assert.Contains("GenericTypeWithNonTrivialConstraint`1", e.Message);
-        }
-
-        private class GenericTypeWithNonTrivialConstraint<T>
-            where T : IHaveNoImplementers
-        {
-            public GenericTypeWithNonTrivialConstraint(T item)
-            {
-            }
-
-            public void MethodWithParameter(string s)
-            {
-            }
-
-            public string Property { get; set; }
-        }
-
+        
         private interface IHaveNoImplementers { }
 
         [Fact]
@@ -716,7 +636,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyStaticPropertyOnNonStaticClassThrowsHelpfulException()
+        public void VerifyUnguardedStaticPropertyOnNonStaticClassThrowsHelpfulException()
         {
             // Fixture setup
             var sut = new GuardClauseAssertion(new Fixture());
@@ -728,7 +648,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyStaticPropertyOnStaticTypeThrowsHelpfulException()
+        public void VerifyUnguardedStaticPropertyOnStaticTypeThrowsHelpfulException()
         {
             // Fixture setup
             var sut = new GuardClauseAssertion(new Fixture());
@@ -740,7 +660,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyStaticMethodOnNonStaticTypeThrowsHelpfulException()
+        public void VerifyUnguardedStaticMethodOnNonStaticTypeThrowsHelpfulException()
         {
             // Fixture setup
             var sut = new GuardClauseAssertion(new Fixture());
@@ -752,7 +672,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyStaticMethodOnStaticTypeThrowsHelpfulException()
+        public void VerifyUnguardedStaticMethodOnStaticTypeThrowsHelpfulException()
         {
             // Fixture setup
             var sut = new GuardClauseAssertion(new Fixture());
@@ -761,6 +681,748 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system & Verify outcome
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticMethod));
             Assert.Contains("Are you missing a Guard Clause?", e.Message);
+        }
+        
+        [Theory]
+        [ClassData(typeof(ConstructorDataOnGuardedGeneric))]
+        public void VerifyConstructorOnGuardedGenericDoesNotThrow(ConstructorInfo constructorInfo)
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            // Exercise system
+            // Verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(constructorInfo));
+        }
+
+        [Theory]
+        [ClassData(typeof(PropertyDataOnGuardedGeneric))]
+        public void VerifyPropertyOnGuardedGenericDoesNotThrow(PropertyInfo propertyInfo)
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            // Exercise system
+            // Verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(propertyInfo));
+        }
+
+        [Theory]
+        [ClassData(typeof(MethodDataOnGuardedGeneric))]
+        public void VerifyMethodOnGuardedGenericDoesNotThrow(MethodInfo methodInfo)
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            // Exercise system
+            // Verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(methodInfo));
+        }
+
+        [Theory]
+        [ClassData(typeof(ConstructorDataOnUnguardedGeneric))]
+        public void VerifyConstructorOnUnguardedGenericThrows(ConstructorInfo constructorInfo)
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture { OmitAutoProperties = true });
+            // Exercise system
+            // Verify outcome
+            var e = Assert.Throws<GuardClauseException>(() => sut.Verify(constructorInfo));
+            Assert.Contains("Are you missing a Guard Clause?", e.Message);
+        }
+
+        [Theory]
+        [ClassData(typeof(PropertyDataOnUnguardedGeneric))]
+        public void VerifyPropertyOnUnguardedGenericThrows(PropertyInfo propertyInfo)
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture { OmitAutoProperties = true });
+            // Exercise system
+            // Verify outcome
+            var e = Assert.Throws<GuardClauseException>(() => sut.Verify(propertyInfo));
+            Assert.Contains("Are you missing a Guard Clause?", e.Message);
+        }
+
+        [Theory]
+        [ClassData(typeof(MethodDataOnUnguardedGeneric))]
+        public void VerifyMethodOnUnguardedGenericThrows(MethodInfo methodInfo)
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture { OmitAutoProperties = true });
+            // Exercise system
+            // Verify outcome
+            var e = Assert.Throws<GuardClauseException>(() => sut.Verify(methodInfo));
+            Assert.Contains("Are you missing a Guard Clause?", e.Message);
+        }
+
+        [Fact]
+        public void VerifyMethodOnGenericManyTimeLoadsOnlyUniqueAssemblies()
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            MethodInfo methodInfo = typeof(NoContraint<>).GetMethod("Method");
+            // Exercise system
+            sut.Verify(methodInfo);
+            sut.Verify(methodInfo);
+            sut.Verify(methodInfo);
+            // Verify outcome
+            var uniqueAssemblies = new HashSet<string>();
+            Array.ForEach(
+                AppDomain.CurrentDomain.GetAssemblies(),
+                assembly => uniqueAssemblies.Add(assembly.GetName().Name));
+            Assert.True(
+                uniqueAssemblies.Count == AppDomain.CurrentDomain.GetAssemblies().Length,
+                "Should load only unique assemblies.");
+        }
+
+        [Fact]
+        public void DynamicDummyTypeIfVoidMethodIsCalledDoesNotThrows()
+        {
+            // Fixture setup
+            bool mockVerification = false;
+            var behaviorExpectation = new DelegatingBehaviorExpectation()
+            {
+                OnVerify = c =>
+                {
+                    var dynamicInstance = (IDynamicInstanceTestType)GetParameters(c).ElementAt(0);
+                    Assert.DoesNotThrow(() => dynamicInstance.VoidMethod(null, 123));
+                    Assert.DoesNotThrow(() => { dynamicInstance.Property = new object(); });
+                    mockVerification = true;
+                }
+            };
+            var sut = new GuardClauseAssertion(new Fixture(), behaviorExpectation);
+            var methodInfo = typeof(DynamicInstanceTestConstraint<>).GetMethod("Method");
+            // Exercise system
+            sut.Verify(methodInfo);
+            // Verify outcome
+            Assert.True(mockVerification, "mock verification.");
+        }
+
+        private static IEnumerable<object> GetParameters(IGuardClauseCommand commmand)
+        {
+            var methodInvokeCommand = (MethodInvokeCommand)((ReflectionExceptionUnwrappingCommand)commmand).Command;
+            var indexedReplacement = (IndexedReplacement<object>)methodInvokeCommand.Expansion;
+            return indexedReplacement.Source;
+        }
+
+        [Fact]
+        public void DynamicDummyTypeIfReturnMethodIsCalledReturnsAnonymousValue()
+        {
+            // Fixture setup
+            Fixture fixture = new Fixture();
+            var objectValue = fixture.Freeze<object>();
+            var intValue = fixture.Freeze<int>();
+
+            bool mockVerification = false;
+            var behaviorExpectation = new DelegatingBehaviorExpectation()
+            {
+                OnVerify = c =>
+                {
+                    var dynamicInstance = (IDynamicInstanceTestType)GetParameters(c).ElementAt(0);
+                    Assert.Equal(objectValue, dynamicInstance.Property);
+                    Assert.Equal(intValue, dynamicInstance.ReturnMethod(null, 123));
+                    mockVerification = true;
+                }
+            };
+            
+            var sut = new GuardClauseAssertion(fixture, behaviorExpectation);
+            var methodInfo = typeof(DynamicInstanceTestConstraint<>).GetMethod("Method");
+            // Exercise system
+            sut.Verify(methodInfo);
+            // Verify outcome
+            Assert.True(mockVerification, "mock verification.");
+        }
+
+        [Fact]
+        public void VerifyUnguardedConstructorOnGenericHavingNoAccessibleConstructorGenericArgumentThrows()
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            var constructorInfo = typeof(NoAccessibleConstructorTestConstraint<>).GetConstructors().Single();
+            // Exercise system
+            // Verify outcome
+            var e = Assert.Throws<ArgumentException>(() => sut.Verify(constructorInfo));
+            Assert.Equal(
+                "Cannot create a dummy type because the base type " +
+                "'Ploeh.AutoFixture.IdiomsUnitTest.GuardClauseAssertionTest+NoAccessibleConstructorTestType' " +
+                "does not have any accessible constructor.",
+                e.Message);
+        }
+
+        private class GuardedGenericData : IEnumerable<Type>
+        {
+            public IEnumerator<Type> GetEnumerator()
+            {
+                yield return typeof(NoContraint<>);
+                yield return typeof(InterfacesContraint<>);
+                yield return typeof(StructureAndInterfacesContraint<>);
+                yield return typeof(ParameterizedConstructorTestConstraint<>);
+                yield return typeof(UnclosedGenericMethodTestType<>);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
+        private class UnguardedGenericData : IEnumerable<Type>
+        {
+            public IEnumerator<Type> GetEnumerator()
+            {
+                yield return typeof(ClassContraint<>);
+                yield return typeof(CertainClassContraint<>);
+                yield return typeof(CertainClassAndInterfacesContraint<>);
+                yield return typeof(MultipleGenericArguments<,>);
+                yield return typeof(AbstractTypeAndInterfacesContraint<>);
+                yield return typeof(OpenGenericTestType<>).BaseType;
+                yield return typeof(ConstructedGenericTestType<>).BaseType;
+                yield return typeof(InternalProtectedConstructorTestConstraint<>);
+                yield return typeof(ModestConstructorTestConstraint<>);
+                yield return typeof(ConstructorMatchTestType<,>);
+                yield return typeof(MethodMatchTestType<,>);
+                yield return typeof(ByRefTestType<>);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
+        private class ConstructorDataOnGuardedGeneric : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                return new GuardedGenericData().SelectMany(t => t.GetConstructors())
+                                               .Select(c => new object[] { c })
+                                               .GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
+        private class ConstructorDataOnUnguardedGeneric : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                return new UnguardedGenericData().SelectMany(t => t.GetConstructors())
+                                                 .Select(c => new object[] { c })
+                                                 .GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
+        private class PropertyDataOnGuardedGeneric : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                return new GuardedGenericData().SelectMany(t => t.GetProperties())
+                                               .Select(p => new object[] { p })
+                                               .GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
+        private class PropertyDataOnUnguardedGeneric : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                return new UnguardedGenericData().SelectMany(t => t.GetProperties())
+                                                 .Select(p => new object[] { p })
+                                                 .GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
+        private class MethodDataOnGuardedGeneric : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                var bindingFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+                return new GuardedGenericData().SelectMany(t => t.GetMethods(bindingFlags))
+                                               .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_"))
+                                               .Select(m => new object[] { m })
+                                               .GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
+        private class MethodDataOnUnguardedGeneric : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                var bindingFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+                return new UnguardedGenericData().SelectMany(t => t.GetMethods(bindingFlags))
+                                                 .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_"))
+                                                 .Select(m => new object[] { m })
+                                                 .GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
+        private class NoContraint<T>
+        {
+            public NoContraint(T argument)
+            {
+            }
+
+            public T Property
+            {
+                get;
+                set;
+            }
+
+            public void Method(T argument)
+            {
+            }
+        }
+
+        private class InterfacesContraint<T> where T : IInterfaceTestType, IEnumerable<object>
+        {
+            public InterfacesContraint(T argument)
+            {
+            }
+
+            public T Property
+            {
+                get;
+                set;
+            }
+
+            public void Method(T argument)
+            {
+            }
+        }
+
+        private class StructureAndInterfacesContraint<T> where T : struct, IInterfaceTestType, IEnumerable<object>
+        {
+            public StructureAndInterfacesContraint(T argument)
+            {
+            }
+
+            public T Property
+            {
+                get;
+                set;
+            }
+
+            public void Method(T argument)
+            {
+            }
+        }
+
+        public interface IInterfaceTestType
+        {
+            event EventHandler TestEvent;
+
+            object Property
+            {
+                get;
+                set;
+            }
+
+            void Method(object argument);
+        }
+
+        private class ClassContraint<T> where T : class
+        {
+            public ClassContraint(T argument)
+            {
+            }
+
+            public T Property
+            {
+                get;
+                set;
+            }
+
+            public void Method(T argument)
+            {
+            }
+        }
+
+        private class CertainClassContraint<T> where T : ConcreteType
+        {
+            public CertainClassContraint(T argument)
+            {
+            }
+
+            public T Property
+            {
+                get;
+                set;
+            }
+
+            public void Method(T argument)
+            {
+            }
+        }
+
+        private class CertainClassAndInterfacesContraint<T>
+            where T : ConcreteType, IInterfaceTestType, IEnumerable<object>
+        {
+            public CertainClassAndInterfacesContraint(T argument)
+            {
+            }
+
+            public T Property
+            {
+                get;
+                set;
+            }
+
+            public void Method(T argument)
+            {
+            }
+        }
+
+        private class MultipleGenericArguments<T1, T2> where T1 : class
+        {
+            public MultipleGenericArguments(T1 argument1, T2 argument2)
+            {
+            }
+
+            public T1 Property
+            {
+                get;
+                set;
+            }
+
+            public void Method(T1 argument1, T2 argument2)
+            {
+            }
+        }
+
+        private class AbstractTypeAndInterfacesContraint<T>
+            where T : AbstractTestType, IInterfaceTestType, IEnumerable<object>
+        {
+            public AbstractTypeAndInterfacesContraint(T argument)
+            {
+            }
+
+            public T Property
+            {
+                get;
+                set;
+            }
+
+            public void Method(T argument)
+            {
+            }
+        }
+
+        public abstract class AbstractTestType
+        {
+            public abstract event EventHandler TestEvent;
+            protected abstract event EventHandler ProtectedTestEvent;
+
+            public abstract object Property
+            {
+                get;
+                set;
+            }
+
+            protected abstract object ProtectedProperty
+            {
+                get;
+                set;
+            }
+
+            public abstract void Method(object argument);
+            protected abstract void ProtectedMethod(object argument);
+        }
+
+        private class OpenGenericTestType<T> : OpenGenericTestTypeBase<T> where T : class
+        {
+            public OpenGenericTestType(T argument) : base(argument)
+            {
+            }
+        }
+
+        private class OpenGenericTestTypeBase<T>
+        {
+            public OpenGenericTestTypeBase(T argument)
+            {
+            }
+
+            public T Property
+            {
+                get;
+                set;
+            }
+
+            public void Method(T argument)
+            {
+            }
+        }
+
+        private class ConstructedGenericTestType<T> : ConstructedGenericTestTypeBase<string, T> where T : class
+        {
+            public ConstructedGenericTestType(string argument1, T argument2) : base(argument1, argument2)
+            {
+            }
+        }
+
+        private class ConstructedGenericTestTypeBase<T1, T2>
+        {
+            public ConstructedGenericTestTypeBase(T1 argument1, T2 argument2)
+            {
+            }
+
+            public T1 Property1
+            {
+                get;
+                set;
+            }
+
+            public T2 Property2
+            {
+                get;
+                set;
+            }
+
+            public void Method(T1 argument1, T2 argument2)
+            {
+            }
+        }
+
+        private class ParameterizedConstructorTestConstraint<T> where T : ParameterizedConstructorTestType, new()
+        {
+            public void Method(T argument, object test)
+            {
+                if (argument == null)
+                {
+                    throw new ArgumentNullException("argument");
+                }
+                if (argument.Argument1 == null || argument.Argument2 == null)
+                {
+                    throw new ArgumentException(
+                        "The constructor of the base type should be called with anonymous values.");
+                }
+                if (test == null)
+                {
+                    throw new ArgumentNullException("test");
+                }
+            }
+        }
+
+        public class ParameterizedConstructorTestType
+        {
+            // to test duplicating with the specimenBuilder field of a dummy type.
+            public static ISpecimenBuilder specimenBuilder = null;
+            private readonly object argument1;
+            private readonly string argument2;
+
+            public ParameterizedConstructorTestType(object argument1, string argument2)
+            {
+                this.argument1 = argument1;
+                this.argument2 = argument2;
+            }
+
+            public object Argument1
+            {
+                get
+                {
+                    return this.argument1;
+                }
+            }
+
+            public string Argument2
+            {
+                get
+                {
+                    return this.argument2;
+                }
+            }
+        }
+
+        private class InternalProtectedConstructorTestConstraint<T> where T : InternalProtectedConstructorTestType
+        {
+            public InternalProtectedConstructorTestConstraint(T argument)
+            {
+            }
+        }
+
+        public class InternalProtectedConstructorTestType
+        {
+            protected internal InternalProtectedConstructorTestType()
+            {
+            }
+        }
+
+        private class ModestConstructorTestConstraint<T> where T : ModestConstructorTestType
+        {
+            public ModestConstructorTestConstraint(T argument)
+            {
+            }
+        }
+
+        public abstract class ModestConstructorTestType
+        {
+            protected ModestConstructorTestType(object argument1, int argument2)
+            {
+                throw new InvalidOperationException("Should use the modest constructor.");
+            }
+
+            protected ModestConstructorTestType(object argument1, string argument2, int argument3)
+            {
+                throw new InvalidOperationException("Should use the modest constructor.");
+            }
+
+            protected ModestConstructorTestType(object argument)
+            {
+            }
+        }
+
+        private class NoAccessibleConstructorTestConstraint<T> where T : NoAccessibleConstructorTestType
+        {
+            public NoAccessibleConstructorTestConstraint(T argument)
+            {
+            }
+        }
+
+        public class NoAccessibleConstructorTestType
+        {
+            private NoAccessibleConstructorTestType()
+            {
+            }
+        }
+
+        public class DynamicInstanceTestConstraint<T> where T : IDynamicInstanceTestType
+        {
+            public void Method(T argument)
+            {
+            }
+        }
+
+        public interface IDynamicInstanceTestType
+        {
+            object Property
+            {
+                get;
+                set;
+            }
+
+            int VoidMethod(object argument1, int argument2);
+
+            int ReturnMethod(object argument1, int argument2);
+        }
+
+        private class UnclosedGenericMethodTestType<T1> where T1 : class
+        {
+            public void Method<T2, T3, T4>(T1 argument1, int argument2, T2 argument3, T3 argument4, T4 argument5)
+                where T2 : class where T4 : class
+            {
+                if (argument1 == null)
+                {
+                    throw new ArgumentNullException("argument1");
+                }
+                if (argument3 == null)
+                {
+                    throw new ArgumentNullException("argument3");
+                }
+                if (argument5 == null)
+                {
+                    throw new ArgumentNullException("argument5");
+                }
+            }
+        }
+
+        private class ConstructorMatchTestType<T1, T2> where T1 : class
+        {
+            public ConstructorMatchTestType(T1 argument)
+            {
+            }
+
+            public ConstructorMatchTestType(T1 argument1, T2 argument2)
+            {
+            }
+
+            public ConstructorMatchTestType(T1 argument1, T1 argument2)
+            {
+            }
+
+            public ConstructorMatchTestType(T2 argument1, object argument2)
+            {
+            }
+        }
+
+        private class MethodMatchTestType<T1, T2> where T1 : class
+        {
+            public MethodMatchTestType(T1 argument)
+            {
+            }
+
+            public void Method(T1 argument)
+            {
+            }
+
+            public void Method(T1 argument1, T2 argument2)
+            {
+            }
+
+            public void Method(T2 argument1, object argument2)
+            {
+            }
+
+            public void Method<T3>(T1 argument1, object argument2)
+                where T3 : class
+            {
+            }
+
+            public void Method<T3>(int argument1, T3 argument2)
+                where T3 : class
+            {
+            }
+
+            public void Method<T3>(T1 argument1, T3 argument2)
+                where T3 : class
+            {
+            }
+        }
+
+        private class ByRefTestType<T1> where T1 : class
+        {
+            public ByRefTestType(T1 argument)
+            {
+            }
+
+            public void Method(ref T1 argument)
+            {
+            }
+
+            public void Method<T2>(ref T2 argument) where T2 : class
+            {
+            }
+            
+            public void Method(ref T1 argument1, int argument2)
+            {
+            }
+
+            public void Method(T1 argument1, int argument2)
+            {
+            }
         }
     }
 }
