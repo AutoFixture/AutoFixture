@@ -113,6 +113,10 @@
       <Project>{400AC174-9A4A-4C7D-815B-F2A21130A0D1}</Project>
       <Name>AutoFixture</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VisitReflect\VisitReflect.csproj">
+      <Project>{64702394-957d-4101-867a-48381d8822f5}</Project>
+      <Name>VisitReflect</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />

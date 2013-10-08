@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticComparisonUnitTest"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticComparison", "SemanticComparison\SemanticComparison.csproj", "{C5C40C06-264D-4551-AF9E-310BF007F7D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisitReflectUnitTest", "VisitReflectUnitTest\VisitReflectUnitTest.csproj", "{9F1F8576-8C16-4C58-90F7-310220052C19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisitReflect", "VisitReflect\VisitReflect.csproj", "{64702394-957D-4101-867A-48381D8822F5}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTypeFoundation", "TestTypeFoundation\TestTypeFoundation.csproj", "{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}"
 EndProject
 Global
@@ -50,6 +54,18 @@ Global
 		{C5C40C06-264D-4551-AF9E-310BF007F7D1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5C40C06-264D-4551-AF9E-310BF007F7D1}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
 		{C5C40C06-264D-4551-AF9E-310BF007F7D1}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{9F1F8576-8C16-4C58-90F7-310220052C19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F1F8576-8C16-4C58-90F7-310220052C19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F1F8576-8C16-4C58-90F7-310220052C19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F1F8576-8C16-4C58-90F7-310220052C19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F1F8576-8C16-4C58-90F7-310220052C19}.Verify|Any CPU.ActiveCfg = Release|Any CPU
+		{9F1F8576-8C16-4C58-90F7-310220052C19}.Verify|Any CPU.Build.0 = Release|Any CPU
+		{64702394-957D-4101-867A-48381D8822F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64702394-957D-4101-867A-48381D8822F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64702394-957D-4101-867A-48381D8822F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64702394-957D-4101-867A-48381D8822F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64702394-957D-4101-867A-48381D8822F5}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{64702394-957D-4101-867A-48381D8822F5}.Verify|Any CPU.Build.0 = Verify|Any CPU
 		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
