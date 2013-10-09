@@ -1,5 +1,4 @@
 using NUnit.Core.Extensibility;
-using Ploeh.AutoFixture.NUnit2.Addins.ReSharper;
 
 namespace Ploeh.AutoFixture.NUnit2.Addins
 {
