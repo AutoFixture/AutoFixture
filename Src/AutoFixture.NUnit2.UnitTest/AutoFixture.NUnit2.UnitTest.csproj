@@ -63,6 +63,7 @@
     <Compile Include="FavorListsAttributeTest.cs" />
     <Compile Include="FrozenAttributeTest.cs" />
     <Compile Include="GreedyAttributeTest.cs" />
+    <Compile Include="LocalAddin.cs" />
     <Compile Include="ModestAttributeTest.cs" />
     <Compile Include="MyClass.cs" />
     <Compile Include="NoAutoPropertiesAttributeTest.cs" />
