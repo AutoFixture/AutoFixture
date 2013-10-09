@@ -50,6 +50,7 @@
         <NuSpecFiles Include="NuGet\*.nuspec" />
         <NuGetPackageScripts Include="NuGet\*.ps1" />
         <NuGetPackageScripts Include="NuGet\*.txt" />
+        <NuGetPackageScripts Include="NuGet\*.pp" />
     </ItemGroup>
     <PropertyGroup>
         <ReleaseFolder>Release</ReleaseFolder>
