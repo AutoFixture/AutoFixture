@@ -53,9 +53,6 @@
     <Compile Include="Constants.cs" />
     <Compile Include="DataAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReSharper\EventListenerWrapper.cs" />
-    <Compile Include="ReSharper\TestDecorator.cs" />
-    <Compile Include="ReSharper\TestMethodWrapper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,7 +11,6 @@
 
     <PropertyGroup>
     	<NUnitToolsFolder>Packages\NUnit.Runners.2.6.2\tools</NUnitToolsFolder>
-        <NUnitAddinsFolder>Packages\NUnit.Runners.2.6.2\tools\addins</NUnitAddinsFolder>
     </PropertyGroup>
 
     <UsingTask TaskName="MSBuild.Community.Tasks.Zip" AssemblyFile="$(MSBuildExtensionsPath)\MSBuild.Community.Tasks.dll" />
@@ -51,6 +50,7 @@
         <NuSpecFiles Include="NuGet\*.nuspec" />
         <NuGetPackageScripts Include="NuGet\*.ps1" />
         <NuGetPackageScripts Include="NuGet\*.txt" />
+        <NuGetPackageScripts Include="NuGet\*.pp" />
     </ItemGroup>
     <PropertyGroup>
         <ReleaseFolder>Release</ReleaseFolder>
@@ -79,18 +79,7 @@
     <Target Name="Build" DependsOnTargets="Verify">
         <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Release" />
     </Target>
-    
-    <Target Name="DeleteAddinsFolder" DependsOnTargets="Build">
-        <RemoveDir Directories="$(NUnitAddinsFolder)" />
-    </Target>
-    <Target Name="MakeAddinsFolder" DependsOnTargets="DeleteAddinsFolder">
-        <MakeDir Directories="$(NUnitAddinsFolder)" Condition="!Exists($(NUnitAddinsFolder))" />
-    </Target>
-    <Target Name="CopyToNUnitAddinsFolder" DependsOnTargets="MakeAddinsFolder">
-        <Copy SourceFiles="@(NUnitAddinFiles)" DestinationFolder="$(NUnitAddinsFolder)" />
-    </Target>
-    
-    <Target Name="Test" DependsOnTargets="CopyToNUnitAddinsFolder">
+    <Target Name="Test" DependsOnTargets="Build">
         <xunitproject ProjectFile="Src\All.xunit" />
         <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.UnitTest.dll" ContinueOnError="true" />
         <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.Addins.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.UnitTest.dll" ContinueOnError="true" />
