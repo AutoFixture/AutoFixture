@@ -87,6 +87,7 @@
     <Compile Include="DataAnnotations\StringLengthArgumentSupportTests.cs" />
     <Compile Include="DelegatingRecursionHandler.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecificationTest.cs" />
+    <Compile Include="Kernel\TerminatingWithPathSpecimenBuilderTest.cs" />
     <Compile Include="MapCreateManyToEnumerableTests.cs" />
     <Compile Include="Kernel\MultipleToEnumerableRelayTests.cs" />
     <Compile Include="Kernel\NoConstructorsSpecificationTest.cs" />
