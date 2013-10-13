@@ -4641,6 +4641,18 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateAnonymousObservableCollectionWithoutCustomizationWorks()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            // Exercise system
+            var result = sut.Create<ObservableCollection<decimal>>();
+            // Verify outcome
+            Assert.NotEmpty(result);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousEnumerableWhenEnumerableRelayIsPresentReturnsCorrectResult()
         {
             // Fixture setup
@@ -4907,6 +4919,7 @@ namespace Ploeh.AutoFixtureUnitTest
         [InlineData(typeof(ListSpecification), typeof(EnumerableFavoringConstructorQuery))]
         [InlineData(typeof(HashSetSpecification), typeof(EnumerableFavoringConstructorQuery))]
         [InlineData(typeof(CollectionSpecification), typeof(ListFavoringConstructorQuery))]
+        [InlineData(typeof(ObservableCollectionSpecification), typeof(EnumerableFavoringConstructorQuery))]
         public void CustomizationsContainBuilderForProperConcreteMultipleTypeByDefault(
             Type specificationType,
             Type queryType)
