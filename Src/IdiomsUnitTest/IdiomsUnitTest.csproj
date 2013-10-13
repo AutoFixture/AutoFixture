@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="CompositeBehaviorExpectationTest.cs" />
     <Compile Include="CompositeIdiomaticAssertionTest.cs" />
+    <Compile Include="CopyAndUpdateAssertionTest.cs" />
     <Compile Include="DelegatingExpansion.cs" />
     <Compile Include="EmptyGuidBehaviorExpectationTest.cs" />
     <Compile Include="EnumerableComparison.cs" />
