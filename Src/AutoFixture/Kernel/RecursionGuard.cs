@@ -16,6 +16,7 @@ namespace Ploeh.AutoFixture.Kernel
         private readonly IRecursionHandler recursionHandler;
         private readonly IEqualityComparer comparer;
         private readonly Stack<object> monitoredRequests;
+        private readonly int recursionDepth;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
@@ -42,7 +43,31 @@ namespace Ploeh.AutoFixture.Kernel
             : this(
                 builder, 
                 recursionHandler,
-                EqualityComparer<object>.Default)
+                EqualityComparer<object>.Default,
+                1)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecursionGuard" />
+        /// class.
+        /// </summary>
+        /// <param name="builder">The intercepted builder to decorate.</param>
+        /// <param name="recursionHandler">
+        /// An <see cref="IRecursionHandler" /> that will handle a recursion
+        /// situation, if one is detected.
+        /// </param>
+        /// <param name="recursionDepth">The recursion depth at which the request will be treated as a recursive
+        /// request</param>
+        public RecursionGuard(
+            ISpecimenBuilder builder,
+            IRecursionHandler recursionHandler,
+            int recursionDepth)
+            : this(
+                builder, 
+                recursionHandler,
+                EqualityComparer<object>.Default,
+                recursionDepth)
         {
         }
 
@@ -68,7 +93,7 @@ namespace Ploeh.AutoFixture.Kernel
             this.monitoredRequests = new Stack<object>();
             this.builder = builder;
             this.comparer = comparer;
-            this.RecursionDepth = 1;
+            this.recursionDepth = 1;
         }
 
         /// <summary>
@@ -84,6 +109,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// An <see cref="IEqualityComparer" /> implementation to use when
         /// comparing requests to determine recursion.
         /// </param>
+        /// <param name="recursionDepth">The recursion depth at which the request will be treated as a recursive
+        /// request</param>
         /// <exception cref="System.ArgumentNullException">
         /// builder
         /// or
@@ -94,7 +121,8 @@ namespace Ploeh.AutoFixture.Kernel
         public RecursionGuard(
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler,
-            IEqualityComparer comparer)
+            IEqualityComparer comparer,
+            int recursionDepth)
         {
             if (builder == null)
                 throw new ArgumentNullException("builder");
@@ -107,7 +135,7 @@ namespace Ploeh.AutoFixture.Kernel
             this.builder = builder;
             this.recursionHandler = recursionHandler;
             this.comparer = comparer;
-            this.RecursionDepth = 1;
+            this.recursionDepth = recursionDepth;
         }
 
         /// <summary>
@@ -138,7 +166,10 @@ namespace Ploeh.AutoFixture.Kernel
         /// The recursion depth at which the request will be treated as a 
         /// recursive request
         /// </summary>
-        public int RecursionDepth { get; set; }
+        public int RecursionDepth
+        {
+            get { return recursionDepth; }
+        }
 
         /// <summary>Gets the comparer supplied via the constructor.</summary>
         /// <seealso cref="RecursionGuard(ISpecimenBuilder, IEqualityComparer)" />
@@ -228,7 +259,8 @@ namespace Ploeh.AutoFixture.Kernel
             return new RecursionGuard(
                 composedBuilder,
                 this.recursionHandler,
-                this.comparer);
+                this.comparer,
+                this.RecursionDepth);
         }
 
         /// <summary>

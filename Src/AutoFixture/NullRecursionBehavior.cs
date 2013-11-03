@@ -42,9 +42,9 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("builder");
             }
 
-            var recursionGuard = new RecursionGuard(builder, new NullRecursionHandler());
-            if (recursionDepth.HasValue)
-                recursionGuard.RecursionDepth = recursionDepth.Value;
+            var recursionGuard = recursionDepth.HasValue 
+                ? new RecursionGuard(builder, new NullRecursionHandler(), recursionDepth.Value)
+                : new RecursionGuard(builder, new NullRecursionHandler());
             return recursionGuard;
         }
     }
