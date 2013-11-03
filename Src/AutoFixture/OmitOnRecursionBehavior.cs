@@ -12,6 +12,24 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class OmitOnRecursionBehavior : ISpecimenBuilderTransformation
     {
+        private readonly int? recursionDepth;
+
+        /// <summary>
+        /// Initializes new instance of the <see cref="OmitOnRecursionBehavior" /> class with default recursion depth.
+        /// </summary>
+        public OmitOnRecursionBehavior()
+        {            
+        }
+
+        /// <summary>
+        /// Initializes new instance of the <see cref="OmitOnRecursionBehavior" /> class with specific recursion depth.
+        /// </summary>
+        /// <param name="recursionDepth">The recursion depth at which the request will be omitted.</param>
+        public OmitOnRecursionBehavior(int recursionDepth)
+        {
+            this.recursionDepth = recursionDepth;
+        }
+
         /// <summary>
         /// Decorates the supplied <see cref="ISpecimenBuilder" /> with an
         /// <see cref="OmitOnRecursionGuard"/>.
@@ -26,7 +44,10 @@ namespace Ploeh.AutoFixture
             if (builder == null)
                 throw new ArgumentNullException("builder");
 
-            return new RecursionGuard(builder, new OmitOnRecursionHandler());
+            var recursionGuard = new RecursionGuard(builder, new OmitOnRecursionHandler());
+            if (recursionDepth.HasValue)
+                recursionGuard.RecursionDepth = recursionDepth.Value;
+            return recursionGuard;
         }
     }
 }

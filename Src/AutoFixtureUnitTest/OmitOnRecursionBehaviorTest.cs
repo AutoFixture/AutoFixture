@@ -34,7 +34,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void TransformReturnsCorrectResult()
+        public void TransformReturnsCorrectResultForDefaultRecursionDepth()
         {
             // Fixture setup
             var sut = new OmitOnRecursionBehavior();
@@ -44,6 +44,22 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             var rg = Assert.IsAssignableFrom<RecursionGuard>(result);
             Assert.IsAssignableFrom<OmitOnRecursionHandler>(rg.RecursionHandler);
+            Assert.Equal(1, rg.RecursionDepth);
+            // Teardown
+        }
+
+        [Fact]
+        public void TransformReturnsCorrectResultForSpecificRecursionDepth()
+        {
+            // Fixture setup
+            var sut = new OmitOnRecursionBehavior(2);
+            // Exercise system
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var result = sut.Transform(dummyBuilder);
+            // Verify outcome
+            var rg = Assert.IsAssignableFrom<RecursionGuard>(result);
+            Assert.IsAssignableFrom<OmitOnRecursionHandler>(rg.RecursionHandler);
+            Assert.Equal(2, rg.RecursionDepth);
             // Teardown
         }
 
