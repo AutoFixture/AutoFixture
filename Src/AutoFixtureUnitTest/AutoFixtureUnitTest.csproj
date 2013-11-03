@@ -83,7 +83,6 @@
     <Compile Include="AbstractRecursionIssue\ItemBase.cs" />
     <Compile Include="AbstractRecursionIssue\ItemLocation.cs" />
     <Compile Include="AbstractRecursionIssue\Repro.cs" />
-    <Compile Include="CapturingItemRecursionGuard.cs" />
     <Compile Include="CreatingAbstractClassWithPublicConstructorTests.cs" />
     <Compile Include="DataAnnotations\StringLengthArgumentSupportTests.cs" />
     <Compile Include="DelegatingRecursionHandler.cs" />
@@ -143,8 +142,6 @@
     <Compile Include="RandomNumericSequenceCustomizationTest.cs" />
     <Compile Include="RandomNumericSequenceGeneratorTest.cs" />
     <Compile Include="RangedNumberGeneratorTest.cs" />
-    <Compile Include="RecursiveRequestBuilder.cs" />
-    <Compile Include="RecursiveRequestItem.cs" />
     <Compile Include="RegularExpressionGeneratorTest.cs" />
     <Compile Include="SpecimenCommandTests.cs" />
     <Compile Include="SpecimenQueryTests.cs" />

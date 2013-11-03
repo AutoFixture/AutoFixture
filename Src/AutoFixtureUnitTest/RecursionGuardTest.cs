@@ -176,77 +176,33 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Same(subRequest1, recursiveRequest);
         }
 
-        [Theory]
-        [InlineData(1, 1)]
-        [InlineData(5, 5)]
-        [InlineData(2, 1)]
-        [InlineData(6, 5)]
-        public void CreateWillNotTriggerHandlingOfRecursionDepthRecursiveRequest(
-            int sutRecursionDepth,
-            int requestRecursionDepth
-            )
+        [Fact]
+        public void CreateWillNotTriggerHandlingUntilDeeperThanRecursionDepth()
         {
             // Fixture setup
-            object request = Guid.NewGuid();
-
-            var requestScenario = new RecursiveRequestBuilder()
-                .Build(
-                    requestRecursionDepth,
-                    () => { return request; }
-                );
-
+            var requestScenario = new Queue<int>(new[] { 1, 2, 1, 3, 1, 4 });
             var builder = new DelegatingSpecimenBuilder();
-            builder.OnCreate = (r, c) =>
-            {
-                if (requestScenario.Any())
-                    return c.Resolve(requestScenario.Pop());
-                return null;
-            };
+            builder.OnCreate = (r, c) => c.Resolve(requestScenario.Dequeue());
 
-            var sut = new CapturingItemRecursionGuard(builder, requestRecursionDepth);
-            sut.RecursionDepth = sutRecursionDepth;
+            var sut = new DelegatingRecursionGuard(builder);
+            object recursiveRequest = null;
+
+            sut.OnHandleRecursiveRequest = obj => recursiveRequest = obj;
+            
+            // By setting the depth to two we expect the handle to be triggered at the third "1" occurence.
+            sut.RecursionDepth = 2;
 
             var container = new DelegatingSpecimenContext();
-            container.OnResolve = (r) => sut.Create(r, container);
+            container.OnResolve = r => sut.Create(r, container);
 
             // Exercise system
-            sut.Create(Guid.NewGuid(), container);
+            sut.Create(5, container);
 
             // Verify outcome
-            Assert.Null(sut.CapturedItem);
-        }
-
-        [Theory]
-        [InlineData(1, 2)]
-        [InlineData(5, 6)]
-        public void CreateWillTriggerHandlingOfDeeperThanRecursionDepthRecursiveRequest(
-            int sutRecursionDepth,
-            int requestRecursionDepth
-            )
-        {
-            // Fixture setup
-            object request = Guid.NewGuid();
-
-            var requestScenario = new RecursiveRequestBuilder()
-                .Build(
-                    requestRecursionDepth,
-                    () => { return request; }
-                );
-
-            var builder = new DelegatingSpecimenBuilder();
-            builder.OnCreate = (r, c) => c.Resolve(requestScenario.Pop());
-
-            var sut = new CapturingItemRecursionGuard(builder, requestRecursionDepth);
-            sut.RecursionDepth = sutRecursionDepth;
-
-            var container = new DelegatingSpecimenContext();
-            container.OnResolve = (r) => sut.Create(r, container);
-
-            // Exercise system
-            sut.Create(Guid.NewGuid(), container);
-
-            // Verify outcome
-            Assert.True(sut.CapturedItem.Equals(request));
+            // Check that recursion was actually detected as expected
+            Assert.Equal(1, recursiveRequest);
+            // Check that we passed the first recursion, but didn't go any further
+            Assert.Equal(4, requestScenario.Dequeue());
         }
 
         [Fact]
