@@ -50,14 +50,15 @@ namespace Ploeh.AutoFixtureUnitTest
         public void TransformReturnsCorrectResultForSpecificRecursionDepth()
         {
             // Fixture setup
-            var sut = new NullRecursionBehavior(2);
+            const int explicitRecursionDepth = 2;
+            var sut = new NullRecursionBehavior(explicitRecursionDepth);
             // Exercise system
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var result = sut.Transform(dummyBuilder);
             // Verify outcome
             var rg = Assert.IsAssignableFrom<RecursionGuard>(result);
             Assert.IsAssignableFrom<NullRecursionHandler>(rg.RecursionHandler);
-            Assert.Equal(2, rg.RecursionDepth);
+            Assert.Equal(explicitRecursionDepth, rg.RecursionDepth);
             // Teardown
         }
 
