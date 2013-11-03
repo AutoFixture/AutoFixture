@@ -9,6 +9,24 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class NullRecursionBehavior : ISpecimenBuilderTransformation
     {
+        private readonly int? recursionDepth;
+
+        /// <summary>
+        /// Initializes new instance of the <see cref="NullRecursionBehavior" /> class with default recursion depth.
+        /// </summary>
+        public NullRecursionBehavior()
+        {            
+        }
+
+        /// <summary>
+        /// Initializes new instance of the <see cref="NullRecursionBehavior" /> class with specific recursion depth.
+        /// </summary>
+        /// <param name="recursionDepth">The recursion depth at which the request will be assigned null.</param>
+        public NullRecursionBehavior(int recursionDepth)
+        {
+            this.recursionDepth = recursionDepth;
+        }
+
         /// <summary>
         /// Decorates the supplied <see cref="ISpecimenBuilder"/> with a
         /// <see cref="NullRecursionGuard"/>.
@@ -24,7 +42,10 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("builder");
             }
 
-            return new RecursionGuard(builder, new NullRecursionHandler());
+            var recursionGuard = new RecursionGuard(builder, new NullRecursionHandler());
+            if (recursionDepth.HasValue)
+                recursionGuard.RecursionDepth = recursionDepth.Value;
+            return recursionGuard;
         }
     }
 }
