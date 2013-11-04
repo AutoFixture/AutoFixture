@@ -78,7 +78,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="comparer">
         /// An IEqualitycomparer implementation to use when comparing requests to determine recursion.
         /// </param>
-        [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer) instead.")]
+        [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer, int) instead.")]
         public RecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
         {
             if (builder == null)
@@ -96,6 +96,46 @@ namespace Ploeh.AutoFixture.Kernel
             this.recursionDepth = 1;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecursionGuard" />
+        /// class.
+        /// </summary>
+        /// <param name="builder">The intercepted builder to decorate.</param>
+        /// <param name="recursionHandler">
+        /// An <see cref="IRecursionHandler" /> that will handle a recursion
+        /// situation, if one is detected.
+        /// </param>
+        /// <param name="comparer">
+        /// An <see cref="IEqualityComparer" /> implementation to use when
+        /// comparing requests to determine recursion.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// builder
+        /// or
+        /// recursionHandler
+        /// or
+        /// comparer
+        /// </exception>
+        [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer, int) instead.")]
+        public RecursionGuard(
+            ISpecimenBuilder builder,
+            IRecursionHandler recursionHandler,
+            IEqualityComparer comparer)
+        {
+            if (builder == null)
+                throw new ArgumentNullException("builder");
+            if (recursionHandler == null)
+                throw new ArgumentNullException("recursionHandler");
+            if (comparer == null)
+                throw new ArgumentNullException("comparer");
+
+            this.monitoredRequests = new Stack<object>();
+            this.builder = builder;
+            this.recursionHandler = recursionHandler;
+            this.comparer = comparer;
+            this.recursionDepth = 1;
+        }        
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard" />
         /// class.

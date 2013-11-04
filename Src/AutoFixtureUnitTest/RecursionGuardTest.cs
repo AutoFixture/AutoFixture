@@ -394,6 +394,51 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             Assert.Equal(1, sut.RecursionDepth);
         }
+
+        [Fact]
+        public void ConstructWithBuilderAndHandlerAndComparerHasCorrectBuilder()
+        {
+            // Fixture setup
+            var expected = new DelegatingSpecimenBuilder();
+            var dummyHandler = new DelegatingRecursionHandler();
+            var dummyComparer = new DelegatingEqualityComparer();
+            var sut = new RecursionGuard(expected, dummyHandler, dummyComparer);
+            // Exercise system
+            var actual = sut.Builder;
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void ConstructWithBuilderAndHandlerAndComparerHasCorrectHandler()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var expected = new DelegatingRecursionHandler();
+            var dummyComparer = new DelegatingEqualityComparer();
+            var sut = new RecursionGuard(dummyBuilder, expected, dummyComparer);
+            // Exercise system
+            var actual = sut.RecursionHandler;
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void ConstructWithBuilderAndHandlerAndComparerHasCorrectComparer()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummyHandler = new DelegatingRecursionHandler();
+            var expected = new DelegatingEqualityComparer();
+            var sut = new RecursionGuard(dummyBuilder, dummyHandler, expected);
+            // Exercise system
+            var actual = sut.Comparer;
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
         
         [Fact]
         public void ConstructWithBuilderAndHandlerAndRecursionDepthSetsRecursionDepthCorrectly()
