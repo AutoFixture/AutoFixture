@@ -76,7 +76,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="builder">The intercepted builder to decorate.</param>
         /// <param name="comparer">
-        /// An IEqualitycomparer implementation to use when comparing requests to determine recursion.
+        /// An IEqualityComparer implementation to use when comparing requests to determine recursion.
         /// </param>
         [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer, int) instead.")]
         public RecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
@@ -121,19 +121,12 @@ namespace Ploeh.AutoFixture.Kernel
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler,
             IEqualityComparer comparer)
+            : this(
+            builder, 
+            recursionHandler, 
+            comparer, 
+            1)
         {
-            if (builder == null)
-                throw new ArgumentNullException("builder");
-            if (recursionHandler == null)
-                throw new ArgumentNullException("recursionHandler");
-            if (comparer == null)
-                throw new ArgumentNullException("comparer");
-
-            this.monitoredRequests = new Stack<object>();
-            this.builder = builder;
-            this.recursionHandler = recursionHandler;
-            this.comparer = comparer;
-            this.recursionDepth = 1;
         }        
         
         /// <summary>
