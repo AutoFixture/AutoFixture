@@ -84,6 +84,9 @@
         <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.UnitTest.dll" ContinueOnError="true" />
         <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.Addins.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.UnitTest.dll" ContinueOnError="true" />
     </Target>
+    <Target Name="DeleteNUnitTestResultFile" DependsOnTargets="Test">
+        <Delete Files="TestResult.xml" />
+    </Target>
     <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
         <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />
         <Copy SourceFiles="@(NuGetPackageScripts)" DestinationFolder="$(ReleaseFolder)" />
@@ -130,5 +133,5 @@
     <Target Name="CleanTemporaryNuGetSpecFiles" DependsOnTargets="NuGetPack">
         <Delete Files="@(TempNuspecFiles)" />
     </Target>
-    <Target Name="CompleteBuild" DependsOnTargets="ZipReleaseFiles;CleanTemporaryNuGetSpecFiles" />
+    <Target Name="CompleteBuild" DependsOnTargets="ZipReleaseFiles;CleanTemporaryNuGetSpecFiles;DeleteNUnitTestResultFile" />
 </Project>
