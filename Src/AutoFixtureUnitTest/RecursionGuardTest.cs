@@ -378,7 +378,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             // Exercise system
+#pragma warning disable 618
             var sut = new RecursionGuard(dummyBuilder);
+#pragma warning restore 618
             // Verify outcome
             Assert.Equal(1, sut.RecursionDepth);
         }
@@ -402,7 +404,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var expected = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             var dummyComparer = new DelegatingEqualityComparer();
+#pragma warning disable 618
             var sut = new RecursionGuard(expected, dummyHandler, dummyComparer);
+#pragma warning restore 618
             // Exercise system
             var actual = sut.Builder;
             // Verify outcome
@@ -417,7 +421,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var expected = new DelegatingRecursionHandler();
             var dummyComparer = new DelegatingEqualityComparer();
+#pragma warning disable 618
             var sut = new RecursionGuard(dummyBuilder, expected, dummyComparer);
+#pragma warning restore 618
             // Exercise system
             var actual = sut.RecursionHandler;
             // Verify outcome
@@ -432,7 +438,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyBuilder = new DelegatingSpecimenBuilder();
             var dummyHandler = new DelegatingRecursionHandler();
             var expected = new DelegatingEqualityComparer();
+#pragma warning disable 618
             var sut = new RecursionGuard(dummyBuilder, dummyHandler, expected);
+#pragma warning restore 618
             // Exercise system
             var actual = sut.Comparer;
             // Verify outcome
