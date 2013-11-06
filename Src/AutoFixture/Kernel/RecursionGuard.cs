@@ -16,6 +16,7 @@ namespace Ploeh.AutoFixture.Kernel
         private readonly IRecursionHandler recursionHandler;
         private readonly IEqualityComparer comparer;
         private readonly Stack<object> monitoredRequests;
+        private readonly int recursionDepth;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
@@ -42,7 +43,31 @@ namespace Ploeh.AutoFixture.Kernel
             : this(
                 builder, 
                 recursionHandler,
-                EqualityComparer<object>.Default)
+                EqualityComparer<object>.Default,
+                1)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecursionGuard" />
+        /// class.
+        /// </summary>
+        /// <param name="builder">The intercepted builder to decorate.</param>
+        /// <param name="recursionHandler">
+        /// An <see cref="IRecursionHandler" /> that will handle a recursion
+        /// situation, if one is detected.
+        /// </param>
+        /// <param name="recursionDepth">The recursion depth at which the request will be treated as a recursive
+        /// request</param>
+        public RecursionGuard(
+            ISpecimenBuilder builder,
+            IRecursionHandler recursionHandler,
+            int recursionDepth)
+            : this(
+                builder, 
+                recursionHandler,
+                EqualityComparer<object>.Default,
+                recursionDepth)
         {
         }
 
@@ -51,9 +76,9 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="builder">The intercepted builder to decorate.</param>
         /// <param name="comparer">
-        /// An IEqualitycomparer implementation to use when comparing requests to determine recursion.
+        /// An IEqualityComparer implementation to use when comparing requests to determine recursion.
         /// </param>
-        [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer) instead.")]
+        [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer, int) instead.")]
         public RecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
         {
             if (builder == null)
@@ -68,6 +93,7 @@ namespace Ploeh.AutoFixture.Kernel
             this.monitoredRequests = new Stack<object>();
             this.builder = builder;
             this.comparer = comparer;
+            this.recursionDepth = 1;
         }
 
         /// <summary>
@@ -90,10 +116,46 @@ namespace Ploeh.AutoFixture.Kernel
         /// or
         /// comparer
         /// </exception>
+        [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer, int) instead.")]
         public RecursionGuard(
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler,
             IEqualityComparer comparer)
+            : this(
+            builder, 
+            recursionHandler, 
+            comparer, 
+            1)
+        {
+        }        
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecursionGuard" />
+        /// class.
+        /// </summary>
+        /// <param name="builder">The intercepted builder to decorate.</param>
+        /// <param name="recursionHandler">
+        /// An <see cref="IRecursionHandler" /> that will handle a recursion
+        /// situation, if one is detected.
+        /// </param>
+        /// <param name="comparer">
+        /// An <see cref="IEqualityComparer" /> implementation to use when
+        /// comparing requests to determine recursion.
+        /// </param>
+        /// <param name="recursionDepth">The recursion depth at which the request will be treated as a recursive
+        /// request</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// builder
+        /// or
+        /// recursionHandler
+        /// or
+        /// comparer
+        /// </exception>
+        public RecursionGuard(
+            ISpecimenBuilder builder,
+            IRecursionHandler recursionHandler,
+            IEqualityComparer comparer,
+            int recursionDepth)
         {
             if (builder == null)
                 throw new ArgumentNullException("builder");
@@ -106,6 +168,7 @@ namespace Ploeh.AutoFixture.Kernel
             this.builder = builder;
             this.recursionHandler = recursionHandler;
             this.comparer = comparer;
+            this.recursionDepth = recursionDepth;
         }
 
         /// <summary>
@@ -130,6 +193,15 @@ namespace Ploeh.AutoFixture.Kernel
         public IRecursionHandler RecursionHandler
         {
             get { return this.recursionHandler; }
+        }
+
+        /// <summary>
+        /// The recursion depth at which the request will be treated as a 
+        /// recursive request
+        /// </summary>
+        public int RecursionDepth
+        {
+            get { return recursionDepth; }
         }
 
         /// <summary>Gets the comparer supplied via the constructor.</summary>
@@ -176,7 +248,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (this.monitoredRequests.Any(x => this.comparer.Equals(x, request)))
+            if (this.monitoredRequests.Count(x => this.comparer.Equals(x, request)) >= this.RecursionDepth)
             {
 #pragma warning disable 618
                 return this.HandleRecursiveRequest(request);
@@ -220,7 +292,8 @@ namespace Ploeh.AutoFixture.Kernel
             return new RecursionGuard(
                 composedBuilder,
                 this.recursionHandler,
-                this.comparer);
+                this.comparer,
+                this.RecursionDepth);
         }
 
         /// <summary>
