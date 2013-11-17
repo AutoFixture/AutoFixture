@@ -165,7 +165,6 @@ namespace Ploeh.AutoFixture.Idioms
             if (propertyInfo == null)
                 throw new ArgumentNullException("propertyInfo");
 
-            var expected = this.builder.CreateAnonymous(propertyInfo);
             var matchingConstructors = GetConstructorsWithInitializerForMember(propertyInfo).ToArray();
             
             if (!matchingConstructors.Any())
@@ -181,10 +180,11 @@ namespace Ploeh.AutoFixture.Idioms
                 return;
             }
 
-            if (matchingConstructors.Select(ci =>
-                BuildSpecimenWithMatchingParameterValue(ci, propertyInfo, expected))
-                .Select(specimen => propertyInfo.CanRead ? propertyInfo.GetValue(specimen, null) : expected)
-                .Any(result => !expected.Equals(result)))
+            var expectedAndActuals = matchingConstructors
+                .Select(ctor => BuildSpecimenFromConstructor(ctor, propertyInfo));
+
+            // Compare the value passed into the constructor with the value returned from the property
+            if (expectedAndActuals.Any(s => !this.comparer.Equals(s.Expected, s.Actual)))
             {
                 throw new ConstructorInitializedMemberException(propertyInfo);
             }
@@ -212,8 +212,6 @@ namespace Ploeh.AutoFixture.Idioms
             if (fieldInfo == null)
                 throw new ArgumentNullException("fieldInfo");
 
-            var expected = this.builder.CreateAnonymous(fieldInfo);
-
             var matchingConstructors = GetConstructorsWithInitializerForMember(fieldInfo).ToArray();
             if (!matchingConstructors.Any())
             {
@@ -228,33 +226,69 @@ namespace Ploeh.AutoFixture.Idioms
                 return;
             }
 
-            if (matchingConstructors.Select(ci =>
-                BuildSpecimenWithMatchingParameterValue(ci, fieldInfo, expected))
-                .Select(fieldInfo.GetValue)
-                .Any(result => !expected.Equals(result)))
+            var expectedAndActuals = matchingConstructors
+                .Select(ctor => BuildSpecimenFromConstructor(ctor, fieldInfo));
+
+            // Compare the value passed into the constructor with the value returned from the property
+            if (expectedAndActuals.Any(s => !this.comparer.Equals(s.Expected, s.Actual)))
             {
                 throw new ConstructorInitializedMemberException(fieldInfo);
             }
         }
 
-        private object BuildSpecimenWithMatchingParameterValue(ConstructorInfo ci, MemberInfo propertyOrField, object expected)
+        private ExpectedAndActual BuildSpecimenFromConstructor(
+            ConstructorInfo ci, MemberInfo propertyOrField)
         {
-            var paramters = ci.GetParameters();
-            var matchingConstructorParameter = paramters.Single(p => IsMatchingParameterAndMember(p, propertyOrField));
+            var parametersAndValues = ci.GetParameters()
+                .Select(pi => new {Parameter = pi, Value = this.builder.CreateAnonymous(pi)})
+                .ToArray();
 
-            // Create anonymous values for all parameters, except our 'matched' argument
-            var paramValues = (from pi in ci.GetParameters()
-                let value = pi == matchingConstructorParameter
-                    ? expected
-                    : this.builder.CreateAnonymous(pi)
-                select value).ToArray();
+            // Get the value expected to be assigned to the matching member
+            var expectedValueForMember = parametersAndValues
+                .Single(p => IsMatchingParameterAndMember(p.Parameter, propertyOrField))
+                .Value;
 
-            return ci.Invoke(paramValues.ToArray());
+            // Construct an instance of the specimen class
+            var specimen = ci.Invoke(parametersAndValues.Select(pv => pv.Value).ToArray());
+
+            // Get the value from the specimen field/property
+            object actual;
+            if (propertyOrField is FieldInfo)
+            {
+                actual = (propertyOrField as FieldInfo).GetValue(specimen);
+            }
+            else if (propertyOrField is PropertyInfo)
+            {
+                var propertyInfo = propertyOrField as PropertyInfo;
+                actual = propertyInfo.CanRead
+                    ? propertyInfo.GetValue(specimen, null)
+                    : expectedValueForMember;
+            }
+            else
+            {
+                throw new ArgumentException("Must be a property or field", "propertyOrField");
+            }
+
+            return new ExpectedAndActual(expectedValueForMember, actual);
+        }
+
+        private class ExpectedAndActual
+        {
+            public ExpectedAndActual(object expected, object actual)
+            {
+                this.Expected = expected;
+                this.Actual = actual;
+            }
+
+            public object Expected { get; private set; }
+            public object Actual { get; private set; }
         }
 
         private IEnumerable<ConstructorInfo> GetConstructorsWithInitializerForMember(MemberInfo member)
         {
-            return member.ReflectedType.GetConstructors().Where(IsConstructorWithMatchingArgument(member));
+            return member.ReflectedType
+                .GetConstructors()
+                .Where(ci => IsConstructorWithMatchingArgument(ci, member));
         }
 
         private bool IsMatchingParameterAndMember(ParameterInfo parameter, MemberInfo fieldOrProperty)
@@ -263,9 +297,9 @@ namespace Ploeh.AutoFixture.Idioms
                 fieldOrProperty.ToReflectionElement(), parameter.ToReflectionElement());
         }
 
-        private Func<ConstructorInfo, bool> IsConstructorWithMatchingArgument(MemberInfo memberInfo)
+        private bool IsConstructorWithMatchingArgument(ConstructorInfo ci, MemberInfo memberInfo)
         {
-            return ci => ci.GetParameters().Any(parameterElement =>
+            return ci.GetParameters().Any(parameterElement =>
                 IsMatchingParameterAndMember(parameterElement, memberInfo));
         }
 
