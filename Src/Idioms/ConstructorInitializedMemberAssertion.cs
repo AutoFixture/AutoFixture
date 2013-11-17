@@ -82,12 +82,6 @@ namespace Ploeh.AutoFixture.Idioms
                 EqualityComparer<object>.Default,
                 new SemanticElementComparer(new SemanticReflectionVisitor()))
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException("builder");
-            }
-
-            this.builder = builder;
         }
 
         /// <summary>
