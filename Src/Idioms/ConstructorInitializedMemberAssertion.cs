@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixture.Idioms
             : this(
                 builder,
                 EqualityComparer<object>.Default,
-                new SemanticElementComparer(new SemanticReflectionVisitor()))
+                new DefaultParameterMemberMatcher())
         {
         }
 
@@ -297,5 +297,33 @@ namespace Ploeh.AutoFixture.Idioms
             return false;
         }
 
+        private class DefaultParameterMemberMatcher : ReflectionVisitorElementComparer<NameAndType>
+        {
+            private class NameIgnoreCaseAndTypeAssignableComparer
+                : IEqualityComparer<NameAndType>
+            {
+                public bool Equals(NameAndType x, NameAndType y)
+                {
+                    if (x == null) throw new ArgumentNullException("x");
+                    if (y == null) throw new ArgumentNullException("y");
+                    return x.Name.Equals(y.Name, StringComparison.CurrentCultureIgnoreCase)
+                           && (x.Type.IsAssignableFrom(y.Type) || y.Type.IsAssignableFrom(x.Type));
+                }
+
+                public int GetHashCode(NameAndType obj)
+                {
+                    // Forces methods like Distinct() to use the Equals method, because
+                    // the hashcodes will all be equal.
+                    return 0;
+                }
+            }
+
+            public DefaultParameterMemberMatcher()
+                : base(
+                    new NameAndTypeCollectingVisitor(),
+                    new NameIgnoreCaseAndTypeAssignableComparer())
+            {
+            }
+        }
     }
 }

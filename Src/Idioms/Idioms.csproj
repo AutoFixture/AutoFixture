@@ -105,9 +105,9 @@
     <Compile Include="ConstructorInitializedMemberAssertion.cs" />
     <Compile Include="ConstructorInitializedMemberException.cs" />
     <Compile Include="ReflectionExceptionUnwrappingCommand.cs" />
-    <Compile Include="SemanticComparisonValue.cs" />
-    <Compile Include="SemanticElementComparer.cs" />
-    <Compile Include="SemanticReflectionVisitor.cs" />
+    <Compile Include="NameAndType.cs" />
+    <Compile Include="ReflectionVisitorElementComparer.cs" />
+    <Compile Include="NameAndTypeCollectingVisitor.cs" />
     <Compile Include="SpecimenBuilderComposer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WritablePropertyAssertion.cs" />
