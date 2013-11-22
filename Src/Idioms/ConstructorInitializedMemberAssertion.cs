@@ -1,8 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using Ploeh.Albedo;
+using Ploeh.Albedo.Refraction;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
@@ -14,6 +17,55 @@ namespace Ploeh.AutoFixture.Idioms
     public class ConstructorInitializedMemberAssertion : IdiomaticAssertion
     {
         private readonly ISpecimenBuilder builder;
+        private readonly IEqualityComparer comparer;
+        private readonly IEqualityComparer<IReflectionElement> parameterMemberMatcher;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConstructorInitializedMemberAssertion"/> class.
+        /// </summary>
+        /// <param name="builder">
+        /// A composer which can create instances required to implement the idiomatic unit test,
+        /// such as the owner of the property, as well as the value to be assigned and read from
+        /// the member.
+        /// </param>
+        /// <param name="comparer"> An <see cref="IEqualityComparer"/> instance, which is used 
+        /// to determine if each member has the same value which was passed to the matching 
+        /// constructor parameter.
+        /// </param>
+        /// <param name="parameterMemberMatcher">Provides a way to customize the way parameters
+        /// are matched to members. The boolean value returned from
+        /// <see cref="IEqualityComparer{T}.Equals(T,T)"/> indicates if the parameter and member
+        /// are matched.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// <paramref name="builder" /> will typically be a <see cref="Fixture" /> instance.
+        /// </para>
+        /// </remarks>
+        public ConstructorInitializedMemberAssertion(
+            ISpecimenBuilder builder,
+            IEqualityComparer comparer,
+            IEqualityComparer<IReflectionElement> parameterMemberMatcher)
+        {
+            if (builder == null)
+            {
+                throw new ArgumentNullException("builder");
+            }
+
+            if (comparer == null)
+            {
+                throw new ArgumentNullException("comparer");
+            }
+
+            if (parameterMemberMatcher == null)
+            {
+                throw new ArgumentNullException("parameterMemberMatcher");
+            }
+
+            this.builder = builder;
+            this.comparer = comparer;
+            this.parameterMemberMatcher = parameterMemberMatcher;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstructorInitializedMemberAssertion"/> class.
@@ -29,13 +81,11 @@ namespace Ploeh.AutoFixture.Idioms
         /// </para>
         /// </remarks>
         public ConstructorInitializedMemberAssertion(ISpecimenBuilder builder)
+            : this(
+                builder,
+                EqualityComparer<object>.Default,
+                new DefaultParameterMemberMatcher())
         {
-            if (builder == null)
-            {
-                throw new ArgumentNullException("builder");
-            }
-
-            this.builder = builder;
         }
 
         /// <summary>
@@ -44,6 +94,32 @@ namespace Ploeh.AutoFixture.Idioms
         public ISpecimenBuilder Builder
         {
             get { return this.builder; }
+        }
+
+        /// <summary>
+        /// Gets the comparer supplied to the constructor.
+        /// </summary>
+        /// <remarks>
+        /// This comparer instance is used to determine if all of the value retreived from
+        /// the members are equal to their corresponding 'matched' constructor parameter.
+        /// </remarks>
+        public IEqualityComparer Comparer
+        {
+            get { return comparer; }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="IEqualityComparer{IReflectionElement}"/> instance which is
+        /// used to determine if a constructor parameter matches a given member (property
+        /// or field).
+        /// </summary>
+        /// <remarks>
+        /// If the parameter and member are matched, the member is expected to be initialized
+        /// from the value passed into the matching constructor parameter.
+        /// </remarks>
+        public IEqualityComparer<IReflectionElement> ParameterMemberMatcher
+        {
+            get { return parameterMemberMatcher; }
         }
 
         /// <summary>
@@ -61,9 +137,19 @@ namespace Ploeh.AutoFixture.Idioms
                 return;
 
             var publicPropertiesAndFields = GetPublicPropertiesAndFields(constructorInfo.DeclaringType).ToArray();
-            
+
+            // Handle backwards-compatibility by replacing the default
+            // matcher with one that behaves the similar to the previous
+            // behaviour
+            IEqualityComparer<IReflectionElement> matcher =
+                this.parameterMemberMatcher is DefaultParameterMemberMatcher
+                    ? new DefaultParameterMemberMatcher(
+                        new DefaultParameterMemberMatcher.NameIgnoreCaseAndTypeAssignableComparer())
+                    : this.parameterMemberMatcher;
+
             var firstParameterNotExposed = parameters.FirstOrDefault(
-                p => !publicPropertiesAndFields.Any(m => IsMatchingParameterAndMember(p, m)));
+                p => !publicPropertiesAndFields.Any(m =>
+                    matcher.Equals(p.ToReflectionElement(), m.ToReflectionElement())));
 
             if (firstParameterNotExposed != null)
             {
@@ -93,7 +179,6 @@ namespace Ploeh.AutoFixture.Idioms
             if (propertyInfo == null)
                 throw new ArgumentNullException("propertyInfo");
 
-            var expected = this.builder.CreateAnonymous(propertyInfo);
             var matchingConstructors = GetConstructorsWithInitializerForMember(propertyInfo).ToArray();
             
             if (!matchingConstructors.Any())
@@ -109,10 +194,11 @@ namespace Ploeh.AutoFixture.Idioms
                 return;
             }
 
-            if (matchingConstructors.Select(ci =>
-                BuildSpecimenWithMatchingParameterValue(ci, propertyInfo, expected))
-                .Select(specimen => propertyInfo.CanRead ? propertyInfo.GetValue(specimen, null) : expected)
-                .Any(result => !expected.Equals(result)))
+            var expectedAndActuals = matchingConstructors
+                .Select(ctor => BuildSpecimenFromConstructor(ctor, propertyInfo));
+
+            // Compare the value passed into the constructor with the value returned from the property
+            if (expectedAndActuals.Any(s => !this.comparer.Equals(s.Expected, s.Actual)))
             {
                 throw new ConstructorInitializedMemberException(propertyInfo);
             }
@@ -140,8 +226,6 @@ namespace Ploeh.AutoFixture.Idioms
             if (fieldInfo == null)
                 throw new ArgumentNullException("fieldInfo");
 
-            var expected = this.builder.CreateAnonymous(fieldInfo);
-
             var matchingConstructors = GetConstructorsWithInitializerForMember(fieldInfo).ToArray();
             if (!matchingConstructors.Any())
             {
@@ -156,73 +240,81 @@ namespace Ploeh.AutoFixture.Idioms
                 return;
             }
 
-            if (matchingConstructors.Select(ci =>
-                BuildSpecimenWithMatchingParameterValue(ci, fieldInfo, expected))
-                .Select(fieldInfo.GetValue)
-                .Any(result => !expected.Equals(result)))
+            var expectedAndActuals = matchingConstructors
+                .Select(ctor => BuildSpecimenFromConstructor(ctor, fieldInfo));
+
+            // Compare the value passed into the constructor with the value returned from the property
+            if (expectedAndActuals.Any(s => !this.comparer.Equals(s.Expected, s.Actual)))
             {
                 throw new ConstructorInitializedMemberException(fieldInfo);
             }
         }
 
-        private object BuildSpecimenWithMatchingParameterValue(ConstructorInfo ci, MemberInfo propertyOrField, object expected)
+        private ExpectedAndActual BuildSpecimenFromConstructor(
+            ConstructorInfo ci, MemberInfo propertyOrField)
         {
-            var paramters = ci.GetParameters();
-            var matchingConstructorParameter = paramters.Single(p => IsMatchingParameterAndMember(p, propertyOrField));
+            var parametersAndValues = ci.GetParameters()
+                .Select(pi => new {Parameter = pi, Value = this.builder.CreateAnonymous(pi)})
+                .ToArray();
 
-            // Create anonymous values for all parameters, except our 'matched' argument
-            var paramValues = (from pi in ci.GetParameters()
-                let value = pi == matchingConstructorParameter
-                    ? expected
-                    : this.builder.CreateAnonymous(pi)
-                select value).ToArray();
+            // Get the value expected to be assigned to the matching member
+            var expectedValueForMember = parametersAndValues
+                .Single(p => IsMatchingParameterAndMember(p.Parameter, propertyOrField))
+                .Value;
 
-            return ci.Invoke(paramValues.ToArray());
+            // Construct an instance of the specimen class
+            var specimen = ci.Invoke(parametersAndValues.Select(pv => pv.Value).ToArray());
+
+            // Get the value from the specimen field/property
+            object actual;
+            if (propertyOrField is FieldInfo)
+            {
+                actual = (propertyOrField as FieldInfo).GetValue(specimen);
+            }
+            else if (propertyOrField is PropertyInfo)
+            {
+                var propertyInfo = propertyOrField as PropertyInfo;
+                actual = propertyInfo.CanRead
+                    ? propertyInfo.GetValue(specimen, null)
+                    : expectedValueForMember;
+            }
+            else
+            {
+                throw new ArgumentException("Must be a property or field", "propertyOrField");
+            }
+
+            return new ExpectedAndActual(expectedValueForMember, actual);
         }
 
-        private static IEnumerable<ConstructorInfo> GetConstructorsWithInitializerForMember(MemberInfo member)
+        private class ExpectedAndActual
         {
-            return member.ReflectedType.GetConstructors().Where(IsConstructorWithMatchingArgument(member));
+            public ExpectedAndActual(object expected, object actual)
+            {
+                this.Expected = expected;
+                this.Actual = actual;
+            }
+
+            public object Expected { get; private set; }
+            public object Actual { get; private set; }
         }
 
-        private static bool IsMatch(string propertyOrFieldName, Type propertyOrFieldType, string parameterName, Type parameterType)
+        private IEnumerable<ConstructorInfo> GetConstructorsWithInitializerForMember(MemberInfo member)
         {
-            return propertyOrFieldName.Equals(parameterName, StringComparison.OrdinalIgnoreCase)
-                   && propertyOrFieldType.IsAssignableFrom(parameterType);
+            return member.ReflectedType
+                .GetConstructors()
+                .Where(ci => IsConstructorWithMatchingArgument(ci, member));
         }
 
-        private static bool IsMatchingParameterAndMember(ParameterInfo parameter, MemberInfo fieldOrProperty)
+        private bool IsMatchingParameterAndMember(ParameterInfo parameter, MemberInfo fieldOrProperty)
         {
-            var fieldInfo = fieldOrProperty as FieldInfo;
-            var propertyInfo = fieldOrProperty as PropertyInfo;
-
-            if (fieldInfo == null && propertyInfo == null)
-                return false;
-
-            return propertyInfo != null
-                ? IsMatchingParameter(propertyInfo)(parameter)
-                : IsMatchingParameter(fieldInfo)(parameter);
+            return this.parameterMemberMatcher.Equals(
+                fieldOrProperty.ToReflectionElement(), parameter.ToReflectionElement());
         }
 
-        private static Func<ParameterInfo, bool> IsMatchingParameter(PropertyInfo propertyInfo)
+        private bool IsConstructorWithMatchingArgument(ConstructorInfo ci, MemberInfo memberInfo)
         {
-            return p => IsMatch(propertyInfo.Name, propertyInfo.PropertyType, p.Name, p.ParameterType);
-        }
-
-        private static Func<ParameterInfo, bool> IsMatchingParameter(FieldInfo fieldInfo)
-        {
-            return p => IsMatch(fieldInfo.Name, fieldInfo.FieldType, p.Name, p.ParameterType);
-        }
-
-        private static Func<ConstructorInfo, bool> IsConstructorWithMatchingArgument(MemberInfo memberInfo)
-        {
-            if (memberInfo is FieldInfo)
-                return c => c.GetParameters().Any(IsMatchingParameter(memberInfo as FieldInfo));
-
-            if (memberInfo is PropertyInfo)
-                return c => c.GetParameters().Any(IsMatchingParameter(memberInfo as PropertyInfo));
-
-            throw new ArgumentOutOfRangeException("memberInfo", "must be a property or a field");
+            return ci.GetParameters().Any(parameterElement =>
+                IsMatchingParameterAndMember(parameterElement, memberInfo));
         }
 
         private static IEnumerable<MemberInfo> GetPublicPropertiesAndFields(Type t)
@@ -253,5 +345,36 @@ namespace Ploeh.AutoFixture.Idioms
             return false;
         }
 
+        private class DefaultParameterMemberMatcher : ReflectionVisitorElementComparer<NameAndType>
+        {
+            public class NameIgnoreCaseAndTypeAssignableComparer : IEqualityComparer<NameAndType>
+            {
+                public bool Equals(NameAndType x, NameAndType y)
+                {
+                    if (x == null) throw new ArgumentNullException("x");
+                    if (y == null) throw new ArgumentNullException("y");
+                    return x.Name.Equals(y.Name, StringComparison.CurrentCultureIgnoreCase)
+                           && (x.Type.IsAssignableFrom(y.Type) || y.Type.IsAssignableFrom(x.Type));
+                }
+
+                public int GetHashCode(NameAndType obj)
+                {
+                    // Forces methods like Distinct() to use the Equals method, because
+                    // the hashcodes will all be equal.
+                    return 0;
+                }
+            }
+
+            public DefaultParameterMemberMatcher(
+                IEqualityComparer<NameAndType> comparer)
+                : base(new NameAndTypeCollectingVisitor(), comparer)
+            {
+            }
+
+            public DefaultParameterMemberMatcher()
+                : this(null)
+            {
+            }
+        }
     }
 }
