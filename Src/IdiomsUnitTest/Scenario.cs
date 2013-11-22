@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Ploeh.Albedo;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.TestTypeFoundation;
 using Xunit;
@@ -114,6 +116,149 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var assertion = new ConstructorInitializedMemberAssertion(fixture);
             var members = typeof(MutableValueType).GetConstructors();
             assertion.Verify(members);
+        }
+
+        [Fact]
+        public void VerifyPublicPropertiesAssignableFromConstructorAreCorrectlyInitialized()
+        {
+            var fixture = new Fixture();
+
+            var customMatcher = new VisitorEqualityComparer<NameAndType>(
+                new NameAndTypeCollectingVisitor(), new NameAndTypeAssignableComparer());
+
+            var assertion = new ConstructorInitializedMemberAssertion(
+                fixture, EqualityComparer<object>.Default, customMatcher);
+
+            var properties = typeof(PublicPropertiesAreAssignableFromConstructorParameterTypes)
+                .GetProperties();
+
+            assertion.Verify(properties);
+        }
+
+        class PublicPropertiesAreAssignableFromConstructorParameterTypes
+        {
+            public PublicPropertiesAreAssignableFromConstructorParameterTypes(
+                string[] bribbets, int[] numbers)
+            {
+                this.Bribbets = bribbets;
+                this.Numbers = numbers;
+            }
+
+            public IEnumerable<string> Bribbets { get; private set; }
+            public IEnumerable<int> Numbers { get; private set; }
+
+        }
+
+        class NameAndType
+        {
+            public NameAndType(string name, Type type)
+            {
+                this.Name = name;
+                this.Type = type;
+            }
+
+            public string Name { get; private set; }
+            public Type Type { get; private set; }
+        }
+
+        class NameAndTypeAssignableComparer : IEqualityComparer<NameAndType>
+        {
+            public bool Equals(NameAndType x, NameAndType y)
+            {
+                return string.Equals(x.Name, y.Name, StringComparison.OrdinalIgnoreCase)
+                       && (x.Type.IsAssignableFrom(y.Type) || y.Type.IsAssignableFrom(x.Type));
+            }
+
+            public int GetHashCode(NameAndType obj)
+            {
+                return 0;
+            }
+        }
+
+        class NameAndTypeCollectingVisitor
+            : ReflectionVisitor<IEnumerable<NameAndType>>
+        {
+            private readonly NameAndType[] values;
+
+            public NameAndTypeCollectingVisitor(
+                params NameAndType[] values)
+            {
+                this.values = values;
+            }
+
+            public override IEnumerable<NameAndType> Value
+            {
+                get { return this.values; }
+            }
+
+            public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
+                FieldInfoElement fieldInfoElement)
+            {
+                if (fieldInfoElement == null) throw new ArgumentNullException("fieldInfoElement");
+                var v = new NameAndType(
+                    fieldInfoElement.FieldInfo.Name,
+                    fieldInfoElement.FieldInfo.FieldType);
+                return new NameAndTypeCollectingVisitor(
+                    this.values.Concat(new[] { v }).ToArray());
+            }
+
+            public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
+                ParameterInfoElement parameterInfoElement)
+            {
+                if (parameterInfoElement == null) throw new ArgumentNullException("parameterInfoElement");
+                var v = new NameAndType(
+                    parameterInfoElement.ParameterInfo.Name,
+                    parameterInfoElement.ParameterInfo.ParameterType);
+                return new NameAndTypeCollectingVisitor(
+                    this.values.Concat(new[] { v }).ToArray());
+            }
+
+            public override IReflectionVisitor<IEnumerable<NameAndType>> Visit(
+                PropertyInfoElement propertyInfoElement)
+            {
+                if (propertyInfoElement == null) throw new ArgumentNullException("propertyInfoElement");
+                var v = new NameAndType(
+                    propertyInfoElement.PropertyInfo.Name,
+                    propertyInfoElement.PropertyInfo.PropertyType);
+                return new NameAndTypeCollectingVisitor(
+                    this.values.Concat(new[] { v }).ToArray());
+            }
+        }
+
+        class VisitorEqualityComparer<T> : IEqualityComparer<IReflectionElement>
+        {
+            private readonly IReflectionVisitor<IEnumerable<T>> visitor;
+            private readonly IEqualityComparer<T> comparer;
+
+            internal VisitorEqualityComparer(
+                IReflectionVisitor<IEnumerable<T>> visitor,
+                IEqualityComparer<T> comparer)
+            {
+                this.visitor = visitor;
+                this.comparer = comparer;
+            }
+
+            bool IEqualityComparer<IReflectionElement>.Equals(IReflectionElement x, IReflectionElement y)
+            {
+                var values = new CompositeReflectionElement(x, y)
+                    .Accept(this.visitor)
+                    .Value
+                    .ToArray();
+
+                var distinctValues = values.Distinct(this.comparer);
+                return values.Length == 2
+                       && distinctValues.Count() == 1;
+            }
+
+            int IEqualityComparer<IReflectionElement>.GetHashCode(IReflectionElement obj)
+            {
+                if (obj == null) throw new ArgumentNullException("obj");
+                return obj
+                    .Accept(this.visitor)
+                    .Value
+                    .Single()
+                    .GetHashCode();
+            }
         }
 
         [Fact]
