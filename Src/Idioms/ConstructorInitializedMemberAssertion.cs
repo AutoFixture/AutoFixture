@@ -32,7 +32,11 @@ namespace Ploeh.AutoFixture.Idioms
         /// to determine if each member has the same value which was passed to the matching 
         /// constructor parameter.
         /// </param>
-        /// <param name="parameterMemberMatcher"></param>
+        /// <param name="parameterMemberMatcher">Provides a way to customize the way parameters
+        /// are matched to members. The boolean value returned from
+        /// <see cref="IEqualityComparer{T}.Equals(T,T)"/> indicates if the parameter and member
+        /// are matched.
+        /// </param>
         /// <remarks>
         /// <para>
         /// <paramref name="builder" /> will typically be a <see cref="Fixture" /> instance.
@@ -133,7 +137,7 @@ namespace Ploeh.AutoFixture.Idioms
                 return;
 
             var publicPropertiesAndFields = GetPublicPropertiesAndFields(constructorInfo.DeclaringType).ToArray();
-            
+
             // Handle backwards-compatibility by replacing the default
             // matcher with one that behaves the similar to the previous
             // behaviour
