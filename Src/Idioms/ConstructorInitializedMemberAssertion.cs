@@ -134,8 +134,18 @@ namespace Ploeh.AutoFixture.Idioms
 
             var publicPropertiesAndFields = GetPublicPropertiesAndFields(constructorInfo.DeclaringType).ToArray();
             
+            // Handle backwards-compatibility by replacing the default
+            // matcher with one that behaves the similar to the previous
+            // behaviour
+            IEqualityComparer<IReflectionElement> matcher =
+                this.parameterMemberMatcher is DefaultParameterMemberMatcher
+                    ? new DefaultParameterMemberMatcher(
+                        new DefaultParameterMemberMatcher.NameIgnoreCaseAndTypeAssignableComparer())
+                    : this.parameterMemberMatcher;
+
             var firstParameterNotExposed = parameters.FirstOrDefault(
-                p => !publicPropertiesAndFields.Any(m => IsMatchingParameterAndMember(p, m)));
+                p => !publicPropertiesAndFields.Any(m =>
+                    matcher.Equals(p.ToReflectionElement(), m.ToReflectionElement())));
 
             if (firstParameterNotExposed != null)
             {
@@ -333,8 +343,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         private class DefaultParameterMemberMatcher : ReflectionVisitorElementComparer<NameAndType>
         {
-            private class NameIgnoreCaseAndTypeAssignableComparer
-                : IEqualityComparer<NameAndType>
+            public class NameIgnoreCaseAndTypeAssignableComparer : IEqualityComparer<NameAndType>
             {
                 public bool Equals(NameAndType x, NameAndType y)
                 {
@@ -352,10 +361,14 @@ namespace Ploeh.AutoFixture.Idioms
                 }
             }
 
+            public DefaultParameterMemberMatcher(
+                IEqualityComparer<NameAndType> comparer)
+                : base(new NameAndTypeCollectingVisitor(), comparer)
+            {
+            }
+
             public DefaultParameterMemberMatcher()
-                : base(
-                    new NameAndTypeCollectingVisitor(),
-                    new NameIgnoreCaseAndTypeAssignableComparer())
+                : this(null)
             {
             }
         }
