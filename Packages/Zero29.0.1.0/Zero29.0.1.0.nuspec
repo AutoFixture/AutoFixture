@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Zero29</id>
+    <version>0.1.0</version>
+    <authors>Mark Seemann</authors>
+    <owners>Mark Seemann</owners>
+    <licenseUrl>https://github.com/ploeh/ZeroToNine/blob/master/LICENCE</licenseUrl>
+    <projectUrl>https://github.com/ploeh/ZeroToNine</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Zero29 is a command-line tool that help to manage explicit versioning for C# and F# projects, by automating editing of version information in AssemblyInfo files.</description>
+    <copyright>Copyright Mark Seemann 2013</copyright>
+    <tags>ContinuousIntegration Versioning Build</tags>
+  </metadata>
+</package>
