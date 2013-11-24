@@ -5,6 +5,8 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Ploeh.Albedo;
+using Ploeh.Albedo.Refraction;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms
@@ -32,6 +34,42 @@ namespace Ploeh.AutoFixture.Idioms
     {
         private readonly ISpecimenBuilder builder;
         private readonly IEqualityComparer comparer;
+        private readonly IEqualityComparer<IReflectionElement> parameterMemberMatcher;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CopyAndUpdateAssertion"/> class.
+        /// </summary>
+        /// <param name="builder">
+        /// A composer which can create instances required to implement the idiomatic unit test.
+        /// </param>
+        /// <param name="comparer">A comparer that compares public member values from the
+        /// specimen with public member values from the 'copied' and updated' instance</param>
+        /// <param name="parameterMemberMatcher">Allows customizing the way 'updated' parameters
+        /// are matched to members. The boolean value returned from
+        /// <see cref="IEqualityComparer{T}.Equals(T,T)"/> indicates if the parameter and member
+        /// are matched.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// <paramref name="builder" /> will typically be a <see cref="Fixture" /> instance.
+        /// </para>
+        /// </remarks>
+        public CopyAndUpdateAssertion(
+            ISpecimenBuilder builder,
+            System.Collections.IEqualityComparer comparer,
+            IEqualityComparer<IReflectionElement> parameterMemberMatcher)
+        {
+            if (builder == null)
+                throw new ArgumentNullException("builder");
+            if (comparer == null)
+                throw new ArgumentNullException("comparer");
+            if (parameterMemberMatcher == null)
+                throw new ArgumentNullException("parameterMemberMatcher");
+
+            this.builder = builder;
+            this.comparer = comparer;
+            this.parameterMemberMatcher = parameterMemberMatcher;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CopyAndUpdateAssertion"/> class.
@@ -49,14 +87,8 @@ namespace Ploeh.AutoFixture.Idioms
         public CopyAndUpdateAssertion(
             ISpecimenBuilder builder,
             System.Collections.IEqualityComparer comparer)
+            : this(builder, comparer, new DefaultParameterMemberMatcher())
         {
-            if (builder == null)
-                throw new ArgumentNullException("builder");
-            if (comparer == null)
-                throw new ArgumentNullException("comparer");
-
-            this.builder = builder;
-            this.comparer = comparer;
         }
         
         /// <summary>
@@ -72,7 +104,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// </remarks>
         public CopyAndUpdateAssertion(
             ISpecimenBuilder builder)
-            : this(builder, EqualityComparer<object>.Default)
+            : this(builder, EqualityComparer<object>.Default, new DefaultParameterMemberMatcher())
         {
         }
 
@@ -91,6 +123,21 @@ namespace Ploeh.AutoFixture.Idioms
         public IEqualityComparer Comparer
         {
             get { return this.comparer; }
+        }
+
+        /// <summary>
+        /// Gets the comparer instance which is used to determine if a 'copy and update' method 
+        /// parameter matches a given public member (property or field).
+        /// </summary>
+        /// <remarks>
+        /// If the parameter and member are matched, the member is expected to be initialized
+        /// from the value given to the parameter. A return value of <see langword="true"/> from
+        /// the <see cref="IEqualityComparer{T}.Equals(T,T)"/> method means the parameter and 
+        /// member are 'matched'.
+        /// </remarks>
+        public IEqualityComparer<IReflectionElement> ParameterMemberMatcher
+        {
+            get { return parameterMemberMatcher; }
         }
 
         /// <summary>
@@ -212,35 +259,24 @@ namespace Ploeh.AutoFixture.Idioms
                             || m.MemberType.HasFlag(MemberTypes.Property));
         }
 
-        private static bool IsMatch(
-            string propertyOrFieldName, Type propertyOrFieldType, string parameterName, Type parameterType)
+        private bool IsMatchingParameterAndMember(ParameterInfo parameter, MemberInfo fieldOrProperty)
         {
-            return propertyOrFieldName.Equals(parameterName, StringComparison.OrdinalIgnoreCase)
-                   && propertyOrFieldType.IsAssignableFrom(parameterType);
+            return this.parameterMemberMatcher.Equals(
+                parameter.ToReflectionElement(), fieldOrProperty.ToReflectionElement());
         }
 
-        private static bool IsMatchingParameterAndMember(ParameterInfo parameter, MemberInfo fieldOrProperty)
+        private class DefaultParameterMemberMatcher : ReflectionVisitorElementComparer<NameAndType>
         {
-            var fieldInfo = fieldOrProperty as FieldInfo;
-            var propertyInfo = fieldOrProperty as PropertyInfo;
+            public DefaultParameterMemberMatcher(
+                IEqualityComparer<NameAndType> comparer)
+                : base(new NameAndTypeCollectingVisitor(), comparer)
+            {
+            }
 
-            if (fieldInfo == null && propertyInfo == null)
-                return false;
-
-            return propertyInfo != null
-                ? IsMatchingParameter(propertyInfo)(parameter)
-                : IsMatchingParameter(fieldInfo)(parameter);
+            public DefaultParameterMemberMatcher()
+                : this(null)
+            {
+            }
         }
-
-        private static Func<ParameterInfo, bool> IsMatchingParameter(PropertyInfo propertyInfo)
-        {
-            return p => IsMatch(propertyInfo.Name, propertyInfo.PropertyType, p.Name, p.ParameterType);
-        }
-
-        private static Func<ParameterInfo, bool> IsMatchingParameter(FieldInfo fieldInfo)
-        {
-            return p => IsMatch(fieldInfo.Name, fieldInfo.FieldType, p.Name, p.ParameterType);
-        }
-
     }
 }

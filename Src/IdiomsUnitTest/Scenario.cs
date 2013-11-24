@@ -147,6 +147,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             public IEnumerable<string> Bribbets { get; private set; }
             public IEnumerable<int> Numbers { get; private set; }
 
+            /// <summary>
+            /// Implements the 'copy and update' pattern for immutable objects; the current
+            /// object is copied, however a new value for <see cref="Numbers"/> is provided.
+            /// </summary>
+            /// <returns>A new instance where all values except for <see cref="Numbers"/>
+            /// remain the same.</returns>
+            public PublicPropertiesAreAssignableFromConstructorParameterTypes WithNumbers(int[] numbers)
+            {
+                return new PublicPropertiesAreAssignableFromConstructorParameterTypes(
+                    (string[])this.Bribbets, numbers);
+            }
         }
 
         class NameAndType
@@ -259,6 +270,24 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                     .Single()
                     .GetHashCode();
             }
+        }
+
+        [Fact]
+        public void VerifyCopyAndUpdateWhenThePropertyTypeIsAssignableFromTheParameterType()
+        {
+            var fixture = new Fixture();
+
+            var customMatcher = new VisitorEqualityComparer<NameAndType>(
+                new NameAndTypeCollectingVisitor(), new NameAndTypeAssignableComparer());
+
+            var assertion = new CopyAndUpdateAssertion(
+                fixture, EqualityComparer<object>.Default, customMatcher);
+
+            var copyAndUpdateMethod =
+                new Methods<PublicPropertiesAreAssignableFromConstructorParameterTypes>()
+                    .Select(o => o.WithNumbers(default(int[])));
+
+            assertion.Verify(copyAndUpdateMethod);
         }
 
         [Fact]

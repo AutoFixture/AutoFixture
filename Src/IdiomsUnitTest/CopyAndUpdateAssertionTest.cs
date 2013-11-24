@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Ploeh.Albedo;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
@@ -70,6 +71,34 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new CopyAndUpdateAssertion(new Fixture(), comparer: null));
+            // Teardown
+        }
+
+        [Fact]
+        public void ParameterMemberMatcherIsCorrect()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var dummyComparer = new DummyEqualityComparer<object>();
+            var expectedMatcher = new DummyReflectionElementComparer();
+            var sut = new ConstructorInitializedMemberAssertion(
+                dummyComposer, dummyComparer, expectedMatcher);
+            // Exercise system
+            IEqualityComparer<IReflectionElement> result = sut.ParameterMemberMatcher;
+            // Verify outcome
+            Assert.Equal(expectedMatcher, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void ConstructWithNullParameterMemberMatcherThrows()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var dummyComparer = new DummyEqualityComparer<object>();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new ConstructorInitializedMemberAssertion(dummyComposer, dummyComparer, null));
             // Teardown
         }
 
@@ -335,5 +364,30 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(memberWithInvalidValue, ex.MemberWithInvalidValue);
         }
 
+        class DummyReflectionElementComparer : IEqualityComparer<IReflectionElement>
+        {
+            public bool Equals(IReflectionElement x, IReflectionElement y)
+            {
+                throw new NotImplementedException();
+            }
+
+            public int GetHashCode(IReflectionElement obj)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        class DummyEqualityComparer<T> : IEqualityComparer
+        {
+            bool IEqualityComparer.Equals(object x, object y)
+            {
+                throw new NotImplementedException();
+            }
+
+            int IEqualityComparer.GetHashCode(object obj)
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
