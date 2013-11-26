@@ -964,19 +964,6 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithDateTimePropertyWillAssignDifferentDateThanToday()
-        {
-            // Fixture setup
-            var today = DateTime.Today;
-            var sut = new Fixture();
-            // Exercise system
-            var result = sut.Create<PropertyHolder<DateTime>>();
-            // Verify outcome
-            Assert.NotEqual(today, result.Property.Date);
-            // Teardown
-        }
-
-        [Fact]
         public void CreateAnonymousWithDoubleDateTimePropertiesWillAssignDifferentDates()
         {
             // Fixture setup
