@@ -188,6 +188,7 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.InRange(finalValue, minimum, maximum);
 
         }
-     
+
+            
     }
 }
