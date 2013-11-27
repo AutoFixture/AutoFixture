@@ -16,12 +16,25 @@ namespace Ploeh.AutoFixture
     public class RandomRangedNumberGenerator : ISpecimenBuilder
     {
         private readonly IDictionary<RangedNumberRequest, RandomNumericSequenceGenerator> generatorMap;
-       
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RandomRangedNumberGenerator" /> class       
+        /// </summary>
         public RandomRangedNumberGenerator()
         {
             this.generatorMap = new Dictionary<RangedNumberRequest, RandomNumericSequenceGenerator>();          
         }
 
+        /// <summary>
+        /// Creates a random number within the request range.
+        /// </summary>
+        /// <param name="request">The request that describes what to create. Other requests for same type and limits 
+        /// denote the same set. </param>
+        /// <param name="context">A context that can be used to create other specimens.</param>
+        /// <returns>
+        /// The next random number in a range <paramref name="request"/> is a request
+        /// for a numeric value; otherwise, a <see cref="NoSpecimen"/> instance.
+        /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
             if (request == null)
@@ -39,7 +52,7 @@ namespace Ploeh.AutoFixture
             {
                 return SelectGenerator(rangedNumberRequest).Create(rangedNumberRequest.OperandType, context);                
             }
-            catch (Exception ex)
+            catch (ArgumentException)
             {
                 return new NoSpecimen(request);
             }
@@ -72,7 +85,7 @@ namespace Ploeh.AutoFixture
         /// <param name="minimum"></param>
         /// <param name="maximum"></param>
         /// <returns></returns>
-        private long[] ConvertLimits(object minimum, object maximum)
+        private static long[] ConvertLimits(object minimum, object maximum)
         {            
             return new long[] { ConvertLimit(minimum), ConvertLimit(maximum) };           
         }
@@ -82,7 +95,7 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <param name="limit"></param>
         /// <returns></returns>
-        private long ConvertLimit(object limit)
+        private static long ConvertLimit(object limit)
         {
             var limitType = limit.GetType();
 
@@ -124,7 +137,7 @@ namespace Ploeh.AutoFixture
                
             }
 
-            throw new ArgumentException("limit");           
+            throw new ArgumentException("Limit parameter is non-numeric ", "limit");         
         }               
         
     }
