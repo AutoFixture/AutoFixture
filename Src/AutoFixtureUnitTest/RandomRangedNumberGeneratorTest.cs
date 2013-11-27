@@ -68,12 +68,13 @@ namespace Ploeh.AutoFixtureUnitTest
         [InlineData(typeof(long), 'd', 'e')]
         public void CreateWithNonnumericLimitsReturnsNoSpecimen(Type operandType, object minimum, object maximum)            
         {
+            // Fixture setup
             var sut = new RandomRangedNumberGenerator();
             var dummyContext = new DelegatingSpecimenContext();
             var request = new RangedNumberRequest(operandType, minimum, maximum);
-
+            // Exercise system
             var result = sut.Create(request, dummyContext);
-
+            // Verify
             Assert.Equal(new NoSpecimen(request), result);
         }
         
@@ -81,6 +82,7 @@ namespace Ploeh.AutoFixtureUnitTest
         [Fact]
         public void CreateReturnsAllValuesInSetBeforeRepeating()
         {
+            // Fixture setup
             int minimum = 0;
             int maximum = 2;
 
@@ -90,9 +92,11 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var sut = new RandomRangedNumberGenerator();
 
+            // Exercise system
             var generatedValues = Enumerable.Range(0, 3).Select(i => sut.Create(request, dummyContext)).Cast<int>();
             var shouldBeRepeatedValue = (int)sut.Create(request, dummyContext);
 
+            // Verify
             Assert.True(generatedValues.All(a => a >= minimum && a <= maximum));
             Assert.InRange(shouldBeRepeatedValue, minimum, maximum);
 
@@ -101,6 +105,7 @@ namespace Ploeh.AutoFixtureUnitTest
         [Fact]
         public void CreateReturnsRandomDifferentValuesForRequestsOfSameTypeAndDifferentMaximums()
         {
+            // Fixture setup
             int minimum = 0;
             int baseMaximum = 2;
             int totalValuesToRequest = baseMaximum*3+3;
@@ -117,6 +122,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var sut = new RandomRangedNumberGenerator();
             
+            // Exercise system
             results[request1].Add((int)sut.Create(request1, dummyContext));
             results[request2].Add((int)sut.Create(request2, dummyContext));
             results[request3].Add((int)sut.Create(request3, dummyContext));
@@ -130,6 +136,7 @@ namespace Ploeh.AutoFixtureUnitTest
             results[request3].Add((int)sut.Create(request3, dummyContext));
             results[request2].Add((int)sut.Create(request2, dummyContext));
 
+            // Verify
             Assert.True(Enumerable.Range(0, baseMaximum+1).All(a => results[request1].Contains(a)));
             Assert.True(Enumerable.Range(0, baseMaximum+2).All(a => results[request2].Contains(a)));
             Assert.True(Enumerable.Range(0, baseMaximum+3).All(a => results[request3].Contains(a)));
@@ -138,6 +145,7 @@ namespace Ploeh.AutoFixtureUnitTest
         [Fact]
         public void CreateReturnsRandomDifferentValuesForRequestsOfSameTypeAndDifferentMinimums()
         {
+            // Fixture setup
             int baseMinimum = 0;
             int maximum = 2;
             int totalValuesToRequest = maximum * 3 + 3;
@@ -154,6 +162,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var sut = new RandomRangedNumberGenerator();
 
+            // Exercise system
             results[request1].Add((int)sut.Create(request1, dummyContext));
             results[request2].Add((int)sut.Create(request2, dummyContext));
             results[request3].Add((int)sut.Create(request3, dummyContext));
@@ -167,6 +176,7 @@ namespace Ploeh.AutoFixtureUnitTest
             results[request3].Add((int)sut.Create(request3, dummyContext));
             results[request2].Add((int)sut.Create(request2, dummyContext));
 
+            // Verify
             Assert.True(Enumerable.Range(baseMinimum, maximum+1).All(a => results[request1].Contains(a)));
             Assert.True(Enumerable.Range(baseMinimum-1, maximum - (baseMinimum-1)+1).All(a => results[request2].Contains(a)));
             Assert.True(Enumerable.Range(baseMinimum-2, maximum - (baseMinimum - 2) + 1).All(a => results[request3].Contains(a)));
@@ -176,6 +186,7 @@ namespace Ploeh.AutoFixtureUnitTest
         [Fact]
         public void CreateReturnsValuesFromCorrectSetForTwoRequestsOfSameTypeAndDifferentLimits()
         {
+            // Fixture setup
             var request1 = new RangedNumberRequest(typeof(int), 0, 2);
             var request2 = new RangedNumberRequest(typeof(int), 10, 20);
           
@@ -183,10 +194,12 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var sut = new RandomRangedNumberGenerator();
 
+            // Exercise system
             var value1 = (int)sut.Create(request1, dummyContext);
             var value2 = (int)sut.Create(request2, dummyContext);
             var value3 = (int)sut.Create(request1, dummyContext);
 
+            // Verify
             Assert.InRange(value1, 0, 2);
             Assert.InRange(value2, 10, 20);
             Assert.InRange(value3, 0, 2);           
@@ -195,6 +208,7 @@ namespace Ploeh.AutoFixtureUnitTest
         [Fact]
         public void CreateReturnsValuesFromCorrectSetForMultipleRequestsWithInterspersedDifferentRequestOfSameType()
         {
+            // Fixture setup
             var request1 = new RangedNumberRequest(typeof(int), 0, 2);
             var request2 = new RangedNumberRequest(typeof(int), 10, 20);
             var request3 = new RangedNumberRequest(typeof(int), 0, 2);
@@ -203,10 +217,12 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var sut = new RandomRangedNumberGenerator();
 
+            // Exercise system
             var value1 = (int)sut.Create(request1, dummyContext);
             var value2 = (int)sut.Create(request2, dummyContext);
             var value3 = (int)sut.Create(request3, dummyContext);
 
+            // Verify
             Assert.InRange(value1, 0, 2);
             Assert.InRange(value2, 10, 20);
             Assert.InRange(value3, 0, 2);
@@ -217,6 +233,7 @@ namespace Ploeh.AutoFixtureUnitTest
         [Fact]
         public void CreateReturnsValuesFromCorrectSetForRequestsWithDifferentTypesAndSameLimits()
         {
+            // Fixture setup
             var request1 = new RangedNumberRequest(typeof(int), 0, 2);
             var request2 = new RangedNumberRequest(typeof(long), 0, 2);
 
@@ -226,11 +243,13 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var request1Results = new List<int>();
            
+            // Exercise system
             request1Results.Add((int)sut.Create(request1, dummyContext));
             request1Results.Add((int)sut.Create(request1, dummyContext));
             var longResult = ((long)sut.Create(request2, dummyContext));
             request1Results.Add((int)sut.Create(request1, dummyContext));
-
+            
+            // Verify
             Assert.True(request1Results.Distinct().Count()==3);
             Assert.True(request1Results.TrueForAll(a => Enumerable.Range(0, 3).Contains(a)));
             Assert.InRange(longResult, 0, 2);
