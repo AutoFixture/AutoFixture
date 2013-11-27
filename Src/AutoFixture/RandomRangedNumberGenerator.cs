@@ -8,8 +8,10 @@ namespace Ploeh.AutoFixture
 {
     
      /// <summary>
-     /// Creates a random sequence within a given range without repeating in the range until all values are exhausted.
-     /// Once exhausted, will automatically reset the set and continue choosing randomly within the range
+     /// Creates a random sequence for a given type within a given range without repeating in the range until 
+     /// all values are exhausted. Once exhausted, will automatically reset the set and continue choosing randomly 
+     /// within the range.  Multiple requests (whether the same or different object) for the same
+     /// operand type, minimum, and maximum are treated as being drawn from the same set. 
      /// </summary>
     public class RandomRangedNumberGenerator : ISpecimenBuilder
     {
@@ -33,9 +35,6 @@ namespace Ploeh.AutoFixture
             if (rangedNumberRequest == null)
                 return new NoSpecimen(request);
 
-            if (!LimitsAreNumeric(rangedNumberRequest))
-                return new NoSpecimen(request);
-
             try
             {
                 return SelectGenerator(rangedNumberRequest).Create(rangedNumberRequest.OperandType, context);                
@@ -48,8 +47,8 @@ namespace Ploeh.AutoFixture
 
         /// <summary>
         /// Choose the RandomNumericSequenceGenerator to fulfill the request.  Will add the request as a new key
-        /// to generatorMap if the request does not already have a generator for it.  Uses minimum and maximum
-        /// from the request to set up the generator or [0, Byte.MaxValue] if either is non-numeric. 
+        /// to generatorMap if the request does not already have a generator for it.  Throws ArgumentException
+        /// if either of the limits in the request are non-numeric. 
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -65,39 +64,17 @@ namespace Ploeh.AutoFixture
 
         }
 
+       
         /// <summary>
-        /// Returns true if both Minimum and Maximum for the request are numeric types, false otherwise. 
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        private bool LimitsAreNumeric(RangedNumberRequest request)
-        {
-            var validTypes = new List<Type> { typeof(int), typeof(byte), typeof(short), typeof(long), typeof(decimal), 
-               typeof(double), typeof(ushort), typeof(uint), typeof(ulong), typeof(sbyte), typeof(float) };
-
-
-            return (validTypes.Contains(request.Minimum.GetType()) && validTypes.Contains(request.Maximum.GetType()));
-        }
-
-
-        /// <summary>
-        /// Converts provided minimum and maximum into a long array of size 2.  Returns [0, Byte.MaxValue] if
-        /// minimum or maximum are non-numeric. 
+        /// Converts provided minimum and maximum into a long array of size 2.  Throws ArgumentException
+        /// if either value is non-numeric or otherwise fails conversion. 
         /// </summary>
         /// <param name="minimum"></param>
         /// <param name="maximum"></param>
         /// <returns></returns>
         private long[] ConvertLimits(object minimum, object maximum)
-        {
-            try
-            {
-                return new long[] { ConvertLimit(minimum), ConvertLimit(maximum) };
-            }
-            catch
-            {
-                return new long[] { 0, Byte.MaxValue };
-            }
-
+        {            
+            return new long[] { ConvertLimit(minimum), ConvertLimit(maximum) };           
         }
 
         /// <summary>
