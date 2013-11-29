@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -15,14 +16,16 @@ namespace Ploeh.AutoFixture
      /// </summary>
     public class RandomRangedNumberGenerator : ISpecimenBuilder
     {
-        private readonly IDictionary<RangedNumberRequest, RandomNumericSequenceGenerator> generatorMap;
-
+        private readonly IDictionary<RangedNumberRequest, RandomNumericSequenceGenerator> generatorMap;     
+        private readonly object syncRoot;
+      
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomRangedNumberGenerator" /> class       
         /// </summary>
         public RandomRangedNumberGenerator()
         {
-            this.generatorMap = new Dictionary<RangedNumberRequest, RandomNumericSequenceGenerator>();          
+            this.generatorMap = new Dictionary<RangedNumberRequest, RandomNumericSequenceGenerator>();
+            this.syncRoot = new object();           
         }
 
         /// <summary>
@@ -50,12 +53,12 @@ namespace Ploeh.AutoFixture
 
             try
             {
-                return SelectGenerator(rangedNumberRequest).Create(rangedNumberRequest.OperandType, context);                
+                return SelectGenerator(rangedNumberRequest).Create(rangedNumberRequest.OperandType, context);
             }
             catch (ArgumentException)
             {
                 return new NoSpecimen(request);
-            }
+            }           
         }
 
         /// <summary>
@@ -67,14 +70,17 @@ namespace Ploeh.AutoFixture
         /// <returns></returns>
         private RandomNumericSequenceGenerator SelectGenerator(RangedNumberRequest request)
         {
-            if (!this.generatorMap.ContainsKey(request))
+            lock (this.syncRoot)
             {
-                var limits = ConvertLimits(request.Minimum, request.Maximum);
-                this.generatorMap.Add(request, new RandomNumericSequenceGenerator(limits));
+                if (!this.generatorMap.ContainsKey(request))
+                {
+                    var limits = ConvertLimits(request.Minimum, request.Maximum);
+
+                    this.generatorMap.Add(request, new RandomNumericSequenceGenerator(limits));
+                }
             }
 
-            return this.generatorMap[request];
-
+           return this.generatorMap[request];
         }
 
        
@@ -138,9 +144,8 @@ namespace Ploeh.AutoFixture
             }
 
             throw new ArgumentException("Limit parameter is non-numeric ", "limit");         
-        }               
-        
+        }      
+       
     }
-
     
 }
