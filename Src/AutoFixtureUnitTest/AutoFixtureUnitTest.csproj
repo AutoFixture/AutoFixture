@@ -146,6 +146,8 @@
     <Compile Include="RandomBooleanSequenceCustomizationTest.cs" />
     <Compile Include="RandomNumericSequenceCustomizationTest.cs" />
     <Compile Include="RandomNumericSequenceGeneratorTest.cs" />
+    <Compile Include="RandomRangedNumberCustomizationTest.cs" />
+    <Compile Include="RandomRangedNumberGeneratorTest.cs" />
     <Compile Include="RangedNumberGeneratorTest.cs" />
     <Compile Include="RegularExpressionGeneratorTest.cs" />
     <Compile Include="SpecimenCommandTests.cs" />

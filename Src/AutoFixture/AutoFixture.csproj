@@ -43,7 +43,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
-    <CodeAnalysisCulture>en-US</CodeAnalysisCulture> 
+    <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -162,6 +162,8 @@
     <Compile Include="RandomBooleanSequenceCustomization.cs" />
     <Compile Include="RandomNumericSequenceCustomization.cs" />
     <Compile Include="RandomNumericSequenceGenerator.cs" />
+    <Compile Include="RandomRangedNumberCustomization.cs" />
+    <Compile Include="RandomRangedNumberGenerator.cs" />
     <Compile Include="RangedNumberGenerator.cs" />
     <Compile Include="RegularExpressionGenerator.cs" />
     <Compile Include="ResidueCollectorNode.cs" />
