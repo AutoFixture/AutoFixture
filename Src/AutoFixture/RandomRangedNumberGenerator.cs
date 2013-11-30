@@ -78,9 +78,9 @@ namespace Ploeh.AutoFixture
 
                     this.generatorMap.Add(request, new RandomNumericSequenceGenerator(limits));
                 }
-            }
 
-           return this.generatorMap[request];
+                return this.generatorMap[request];
+            }           
         }
 
        
