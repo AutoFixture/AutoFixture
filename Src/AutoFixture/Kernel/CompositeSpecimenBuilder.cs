@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.Kernel
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class CompositeSpecimenBuilder : ISpecimenBuilderNode
     {
-        private readonly IEnumerable<ISpecimenBuilder> composedBuilders;
+        private readonly ISpecimenBuilder[] composedBuilders;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeSpecimenBuilder"/> class with the
@@ -53,10 +53,19 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>The first result created by <see cref="Builders"/>.</returns>
         public object Create(object request, ISpecimenContext context)
         {
-            return (from b in this.composedBuilders
-                    let result = b.Create(request, context)
-                    where !(result is NoSpecimen)
-                    select result).DefaultIfEmpty(new NoSpecimen(request)).FirstOrDefault();
+            if (composedBuilders.Length == 1)
+                return composedBuilders[0].Create(request, context);
+
+            for (int i = 0; i < composedBuilders.Length; i++)
+            {
+                var result = composedBuilders[i].Create(request, context);
+                if (!(result is NoSpecimen))
+                {
+                    return result;
+                }
+            }
+
+            return new NoSpecimen(request);
         }
 
         /// <summary>Composes the supplied builders.</summary>
@@ -79,7 +88,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            return this.composedBuilders.GetEnumerator();
+            return this.composedBuilders.Cast<ISpecimenBuilder>().GetEnumerator();
         }
 
         /// <summary>
