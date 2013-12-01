@@ -33,7 +33,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
-    <CodeAnalysisCulture>en-US</CodeAnalysisCulture> 
+    <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -79,6 +79,7 @@
     <Compile Include="MemberInfoNameComparerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyCreationExceptionTest.cs" />
+    <Compile Include="ProxyGeneratorTest.cs" />
     <Compile Include="TestTypes\ComplexClass.cs" />
     <Compile Include="TestTypes\Entity.cs" />
     <Compile Include="TestTypes\PublicSealedType.cs" />
