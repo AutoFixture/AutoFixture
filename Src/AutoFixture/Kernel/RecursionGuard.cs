@@ -248,11 +248,31 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (this.monitoredRequests.Count(x => this.comparer.Equals(x, request)) >= this.RecursionDepth)
+            if (this.monitoredRequests.Count > 0)
             {
+                var thisRequestHash = this.comparer.GetHashCode(request);
+                var requestsArray = this.monitoredRequests.ToArray();
+                if (requestsArray.Length > 0)
+                {
+                    int numRequestsSameAsThisOne = 0;
+                    for (int i = 0; i < requestsArray.Length; i++)
+                    {
+                        var existingRequest = requestsArray[i];
+                        var existingRequestHash = this.comparer.GetHashCode(existingRequest);
+                        if (existingRequestHash == thisRequestHash
+                            && this.comparer.Equals(existingRequest, request))
+                        {
+                            numRequestsSameAsThisOne++;
+                        }
+
+                        if (numRequestsSameAsThisOne >= this.RecursionDepth)
+                        {
 #pragma warning disable 618
-                return this.HandleRecursiveRequest(request);
+                            return this.HandleRecursiveRequest(request);
 #pragma warning restore 618
+                        }
+                    }
+                }
             }
 
             this.monitoredRequests.Push(request);
