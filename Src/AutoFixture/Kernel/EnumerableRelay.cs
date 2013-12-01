@@ -35,15 +35,25 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("context");
             }
 
-            return (from t in request.Maybe().OfType<Type>()
-                    let typeArguments = t.GetGenericArguments()
-                    where typeArguments.Length == 1
-                    && typeof(IEnumerable<>) == t.GetGenericTypeDefinition()
-                    let enumerable = context.Resolve(new MultipleRequest(typeArguments.Single())) as IEnumerable<object>
-                    where enumerable != null
-                    select typeof(ConvertedEnumerable<>).MakeGenericType(typeArguments).GetConstructor(new[] { typeof(IEnumerable<object>) }).Invoke(new[] { enumerable }))
-                    .DefaultIfEmpty(new NoSpecimen(request))
-                    .Single();
+            var requestType = request as Type;
+            if (requestType != null)
+            {
+                var typeArgs = requestType.GetGenericArguments();
+                if (typeArgs.Length == 1
+                    && typeof(IEnumerable<>) == requestType.GetGenericTypeDefinition())
+                {
+                    var enumerable = context.Resolve(new MultipleRequest(typeArgs[0])) as IEnumerable<object>;
+                    if (enumerable != null)
+                    {
+                        return typeof (ConvertedEnumerable<>)
+                            .MakeGenericType(typeArgs)
+                            .GetConstructor(new[] {typeof (IEnumerable<object>)})
+                            .Invoke(new[] {enumerable});
+                    }
+                }
+            }
+
+            return new NoSpecimen(request);
         }
 
         private class ConvertedEnumerable<T> : IEnumerable<T>
