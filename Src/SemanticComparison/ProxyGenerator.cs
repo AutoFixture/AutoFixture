@@ -302,21 +302,22 @@ namespace Ploeh.SemanticComparison
         {
             IEnumerable<ConstructorInfo> constructors = typeof(TDestination)
                 .GetPublicAndProtectedConstructors();
-
+           
             foreach (ConstructorInfo constructor in constructors)
             {
                 List<Type> parameterTypes =
                     constructor.GetParameterTypes().ToList();
 
-                object[] parameters =
-                    members.GetParameters(source, parameterTypes).ToArray();
+                var parameters = members.GetParameters(source, parameterTypes).ToArray();
+
+                var parameterValues = parameters.Select(a => a.Item2).ToArray();
 
                 if (!parameters.Any())
                     return new ProxyType(constructor);
 
-                foreach (object parameter in parameters)
-                    if (parameterTypes.Any(x => x.IsInstanceOfType(parameter)))
-                        return new ProxyType(constructor, parameters);
+                foreach (var parameter in parameters)                
+                    if (parameterTypes.Any(x => x == parameter.Item1))
+                        return new ProxyType(constructor, parameterValues);              
             }
 
             throw new InvalidOperationException();
@@ -335,23 +336,26 @@ namespace Ploeh.SemanticComparison
             return ci.GetParameters().Select(pi => pi.ParameterType);
         }
 
-        private static IEnumerable<object> GetParameters(
-            this IEnumerable<MemberInfo> members, 
-            object source, 
-            List<Type> parameterTypes)
-        {
-            List<object> parameters = members
-                .Where(mi => parameterTypes.Matches(mi.ToUnderlyingType()))
-                .Select(x => source.GetType()
-                    .MatchProperty(x.Name).GetValue(source, null))
-                .Take(parameterTypes.Count())
-                .ToList();
+      
+       private static IEnumerable<Tuple<Type, object>> GetParameters(
+          this IEnumerable<MemberInfo> members,
+          object source,
+          List<Type> parameterTypes)
+       {
+           List<object> parameters = members
+               .Where(mi => parameterTypes.Matches(mi.ToUnderlyingType()))
+               .Select(x => source.GetType()
+                   .MatchProperty(x.Name).GetValue(source, null))
+               .Take(parameterTypes.Count())
+               .ToList();
 
-            if (!parameters.AreOrderedBy(parameterTypes))
-                return parameters.OrderByType(parameterTypes);
+           var sourceMap = source.GetSourceTypeValueMap();
 
-            return parameters;
-        }
+           return (!sourceMap.AreOrderedBy(parameterTypes)) ? 
+                sourceMap.OrderByType(parameterTypes)
+                   :  sourceMap;
+                      
+       }     
 
         private static bool Matches(this List<Type> types, Type type)
         {
@@ -374,20 +378,26 @@ namespace Ploeh.SemanticComparison
                             name, StringComparison.OrdinalIgnoreCase));
         }
 
-        private static bool AreOrderedBy(this IEnumerable<object> sequence,
-            IEnumerable<Type> types)
+        private static IEnumerable<Tuple<Type, object>> GetSourceTypeValueMap(this object source)
         {
-            return sequence
-                .Select(x => x.GetType().Name)
-                .SequenceEqual(types.Select(x => x.Name));
+            var sourceMap = source.GetType()
+                    .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                    .Select(a => new Tuple<Type, object>(a.PropertyType, a.GetValue(source, null)));
+            return sourceMap;
+        }
+       
+        private static bool AreOrderedBy(this IEnumerable<Tuple<Type, object>> sourceMap, IEnumerable<Type> types)
+        {
+            return sourceMap.Select(a => a.Item1.Name).SequenceEqual(types.Select(b => b.Name));
         }
 
-        private static IEnumerable<object> OrderByType(
-            this IEnumerable<object> sequence,
-            IEnumerable<Type> types)
+        private static IEnumerable<Tuple<Type, object>> OrderByType(
+           this IEnumerable<Tuple<Type, object>> sequence,
+           IEnumerable<Type> types)
         {
             return from t in types
-                   select sequence.First(x => t.IsAssignableFrom(x.GetType()));
+                   select sequence.First(x => x.Item1.IsAssignableFrom(t));
+           
         }
 
         private static void Map(object source, object target)
