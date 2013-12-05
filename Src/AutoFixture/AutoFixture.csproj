@@ -107,6 +107,7 @@
     <Compile Include="Kernel\ObservableCollectionSpecification.cs" />
     <Compile Include="Kernel\PropertyNameSpecification.cs" />
     <Compile Include="Kernel\BaseTypeSpecification.cs" />
+    <Compile Include="Kernel\ParameterNameSpecification.cs" />
     <Compile Include="MapCreateManyToEnumerable.cs" />
     <Compile Include="Kernel\MultipleToEnumerableRelay.cs" />
     <Compile Include="Kernel\NoConstructorsSpecification.cs" />
