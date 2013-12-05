@@ -945,7 +945,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             other.Property5 = "ploeh";
 
             var sut = other.AsSource().OfLikeness<AbstractType>().CreateProxy();
-            
+
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
@@ -1287,7 +1287,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             var value = new TypeWithIncompatibleAndCompatibleConstructor(
-                new ConcreteType(), 
+                new ConcreteType(),
                 new byte());
 
             var sut = value
@@ -1305,8 +1305,8 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             var value = new TypeWithIncompatibleAndCompatibleConstructor(
-                new ConcreteType(), 
-                new ConcreteType(), 
+                new ConcreteType(),
+                new ConcreteType(),
                 new byte());
 
             var sut = value
@@ -1427,9 +1427,9 @@ namespace Ploeh.SemanticComparison.UnitTest
                 .OfLikeness<TypeWithPublicFieldsAndProperties>()
                 .CreateProxy();
             // Exercise system
-            var result = 
-                   value.AutomaticProperty == sut.AutomaticProperty 
-                && value.Field == sut.Field 
+            var result =
+                   value.AutomaticProperty == sut.AutomaticProperty
+                && value.Field == sut.Field
                 && value.Number == sut.Number;
             // Verify outcome
             Assert.True(result);
@@ -1440,7 +1440,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void ProxyCanCorrectlyAssignValuesToTypeWithSimilarPropertyNamesAndIdenticalPropertyTypes()
         {
             // Fixture setup
-            var expected = 
+            var expected =
                 new TypeWithSimilarPropertyNamesAndIdenticalPropertyTypes
             {
                 Property = 1,
@@ -1453,7 +1453,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             var result = sut.CreateProxy();
             // Verify outcome
             Assert.True(
-                expected.Property  == result.Property &&
+                expected.Property == result.Property &&
                 expected.Property2 == result.Property2);
             // Teardown
         }
@@ -1513,7 +1513,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         [InlineData("az", null, false)]
         [InlineData(null, "az", false)]
         public void LikenessEqualsReturnsCorrectResult(
-            string value, 
+            string value,
             string other,
             bool expected)
         {
@@ -2036,6 +2036,68 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateProxyReturnsCorrectForSourceTypeWithAllNullProperties()
+        {
+            // Fixture setup
+            var obj = new TypeWithUnorderedProperties(null, null, (byte)4);
+
+            // Exercise system
+            var proxy = obj.AsSource().OfLikeness<TypeWithIncompatibleAndCompatibleConstructor>().CreateProxy();
+            // Verify outcome
+
+            Assert.NotNull(proxy);
+            Assert.Null(proxy.Property1);
+            Assert.Null(proxy.Property2);
+            Assert.NotNull(proxy.Property3);
+            Assert.Equal(obj.Property3, proxy.Property3);
+            // Teardown
+        }
+
+
+        [Fact]
+        public void CreateProxyReturnsCorrectForSourceTypeWithBothNullAndNonNullProperties()
+        {
+            // Fixture setup
+            var obj = new TypeWithUnorderedProperties(
+                                                    new ConcreteType("a string", "another", "last string"), 
+                                                    null, (byte)4);
+
+            // Exercise system
+            var proxy = obj.AsSource().OfLikeness<TypeWithIncompatibleAndCompatibleConstructor>().CreateProxy();
+
+            // Verify outcome
+            Assert.NotNull(proxy);
+            Assert.NotNull(proxy.Property1);
+            Assert.Null(proxy.Property2);
+            Assert.NotNull(proxy.Property3);
+            Assert.Equal(obj.Property1, proxy.Property1);
+            Assert.Equal(obj.Property3, proxy.Property3);
+            // Teardown
+        }
+
+        [Theory]
+        [ClassData(typeof(PropertiesThatHaveNullValues))]
+        public void CreateProxyReturnsCorrectForSourceTypeWithNonNullPropertiesThatHaveNullProperties
+                                                    (ConcreteType property1, AbstractType property2, byte property3)
+        {
+            // Fixture setup
+            var obj = new TypeWithUnorderedProperties(property1, property2, property3);
+
+            // Exercise system
+            var proxy = obj.AsSource().OfLikeness<TypeWithIncompatibleAndCompatibleConstructor>().CreateProxy();
+
+            // Verify outcome
+            Assert.NotNull(proxy);
+            Assert.NotNull(proxy.Property1);
+            Assert.NotNull(proxy.Property2);
+            Assert.NotNull(proxy.Property3);
+            Assert.Equal(obj.Property1, proxy.Property1);
+            Assert.Equal(obj.Property2, proxy.Property2);
+            Assert.Equal(obj.Property3, proxy.Property3);
+            // Teardown
+        }
+
         private static void CompareLikenessToObject<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup
@@ -2086,6 +2148,42 @@ namespace Ploeh.SemanticComparison.UnitTest
             public int GetHashCode(MemberComparer obj)
             {
                 return obj.GetHashCode();
+            }
+        }
+
+        private sealed class PropertiesThatHaveNullValues : IEnumerable<object[]>
+        {
+
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] {  
+                    new ConcreteType(null,null),  
+                    new ConcreteType(null, null, null), (byte)12 };
+
+                yield return new object[] {  
+                    new ConcreteType(null, Guid.NewGuid().ToString()),  
+                    new ConcreteType(null, 2, RandomString()), (byte)12 };
+
+                yield return new object[] {  
+                    new ConcreteType(Guid.NewGuid().ToString(), null),  
+                    new ConcreteType(null, 2, RandomString()), (byte)12 };
+
+                yield return new object[] {  
+                    new ConcreteType(Guid.NewGuid().ToString(), null),  
+                    new CompositeType(null, 
+                                        new ConcreteType(null, null), 
+                                        new ConcreteType(RandomString(), null),
+                                        new ConcreteType(null, null)), (byte)12 };
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+            private string RandomString()
+            {
+                return Guid.NewGuid().ToString();
             }
         }
     }
