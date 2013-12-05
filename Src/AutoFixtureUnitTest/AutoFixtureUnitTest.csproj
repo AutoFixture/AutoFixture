@@ -103,6 +103,7 @@
     <Compile Include="Kernel\PropertyNameSpecificationTest.cs" />
     <Compile Include="Kernel\BaseTypeSpecificationTest.cs" />
     <Compile Include="Kernel\ParameterNameSpecificationTest.cs" />
+    <Compile Include="Kernel\FieldNameSpecificationTest.cs" />
     <Compile Include="MapCreateManyToEnumerableTests.cs" />
     <Compile Include="Kernel\MultipleToEnumerableRelayTests.cs" />
     <Compile Include="Kernel\NoConstructorsSpecificationTest.cs" />

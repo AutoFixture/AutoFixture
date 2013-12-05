@@ -108,6 +108,7 @@
     <Compile Include="Kernel\PropertyNameSpecification.cs" />
     <Compile Include="Kernel\BaseTypeSpecification.cs" />
     <Compile Include="Kernel\ParameterNameSpecification.cs" />
+    <Compile Include="Kernel\FieldNameSpecification.cs" />
     <Compile Include="MapCreateManyToEnumerable.cs" />
     <Compile Include="Kernel\MultipleToEnumerableRelay.cs" />
     <Compile Include="Kernel\NoConstructorsSpecification.cs" />
