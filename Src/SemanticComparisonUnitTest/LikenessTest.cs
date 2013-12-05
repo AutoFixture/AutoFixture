@@ -2059,7 +2059,9 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void CreateProxyReturnsCorrectForSourceTypeWithBothNullAndNonNullProperties()
         {
             // Fixture setup
-            var obj = new TypeWithUnorderedProperties(new ConcreteType("a string", "another", "last string"), null, (byte)4);
+            var obj = new TypeWithUnorderedProperties(
+                                                    new ConcreteType("a string", "another", "last string"), 
+                                                    null, (byte)4);
 
             // Exercise system
             var proxy = obj.AsSource().OfLikeness<TypeWithIncompatibleAndCompatibleConstructor>().CreateProxy();
@@ -2075,7 +2077,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Theory]
-        [ClassData(typeof(PropertiesThatHaveNullProperties))]
+        [ClassData(typeof(PropertiesThatHaveNullValues))]
         public void CreateProxyReturnsCorrectForSourceTypeWithNonNullPropertiesThatHaveNullProperties
                                                     (ConcreteType property1, AbstractType property2, byte property3)
         {
@@ -2149,7 +2151,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             }
         }
 
-        private sealed class PropertiesThatHaveNullProperties : IEnumerable<object[]>
+        private sealed class PropertiesThatHaveNullValues : IEnumerable<object[]>
         {
 
             public IEnumerator<object[]> GetEnumerator()
