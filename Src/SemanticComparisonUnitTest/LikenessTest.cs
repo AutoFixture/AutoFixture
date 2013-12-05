@@ -2039,30 +2039,39 @@ namespace Ploeh.SemanticComparison.UnitTest
         [Fact]
         public void CreateProxyReturnsCorrectForSourceTypeWithAllNullProperties()
         {
+            // Fixture setup
             var obj = new TypeWithUnorderedProperties(null, null, (byte)4);
 
+            // Exercise system
             var proxy = obj.AsSource().OfLikeness<TypeWithIncompatibleAndCompatibleConstructor>().CreateProxy();
+            // Verify outcome
 
             Assert.NotNull(proxy);
             Assert.Null(proxy.Property1);
             Assert.Null(proxy.Property2);
             Assert.NotNull(proxy.Property3);
             Assert.Equal(obj.Property3, proxy.Property3);
+            // Teardown
         }
 
 
         [Fact]
         public void CreateProxyReturnsCorrectForSourceTypeWithBothNullAndNonNullProperties()
         {
+            // Fixture setup
             var obj = new TypeWithUnorderedProperties(new ConcreteType("a string", "another", "last string"), null, (byte)4);
+
+            // Exercise system
             var proxy = obj.AsSource().OfLikeness<TypeWithIncompatibleAndCompatibleConstructor>().CreateProxy();
 
+            // Verify outcome
             Assert.NotNull(proxy);
             Assert.NotNull(proxy.Property1);
             Assert.Null(proxy.Property2);
             Assert.NotNull(proxy.Property3);
             Assert.Equal(obj.Property1, proxy.Property1);
             Assert.Equal(obj.Property3, proxy.Property3);
+            // Teardown
         }
 
         [Theory]
@@ -2070,9 +2079,13 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void CreateProxyReturnsCorrectForSourceTypeWithNonNullPropertiesThatHaveNullProperties
                                                     (ConcreteType property1, AbstractType property2, byte property3)
         {
+            // Fixture setup
             var obj = new TypeWithUnorderedProperties(property1, property2, property3);
+
+            // Exercise system
             var proxy = obj.AsSource().OfLikeness<TypeWithIncompatibleAndCompatibleConstructor>().CreateProxy();
 
+            // Verify outcome
             Assert.NotNull(proxy);
             Assert.NotNull(proxy.Property1);
             Assert.NotNull(proxy.Property2);
@@ -2080,6 +2093,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             Assert.Equal(obj.Property1, proxy.Property1);
             Assert.Equal(obj.Property2, proxy.Property2);
             Assert.Equal(obj.Property3, proxy.Property3);
+            // Teardown
         }
 
         private static void CompareLikenessToObject<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)

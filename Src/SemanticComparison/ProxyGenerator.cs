@@ -310,13 +310,13 @@ namespace Ploeh.SemanticComparison
 
                 var parameters = members.GetParameters(source, parameterTypes).ToArray();
 
-                var parameterValues = parameters.Select(a => a.Item2).ToArray();
+                var parameterValues = parameters.Select(a => a.Value).ToArray();
 
                 if (!parameters.Any())
                     return new ProxyType(constructor);
 
                 foreach (var parameter in parameters)                
-                    if (parameterTypes.Any(x => x == parameter.Item1))
+                    if (parameterTypes.Any(x => x == parameter.Type))
                         return new ProxyType(constructor, parameterValues);              
             }
 
@@ -337,7 +337,7 @@ namespace Ploeh.SemanticComparison
         }
 
       
-       private static IEnumerable<Tuple<Type, object>> GetParameters(
+       private static IEnumerable<SourceTypeValuePair> GetParameters(
           this IEnumerable<MemberInfo> members,
           object source,
           List<Type> parameterTypes)
@@ -349,7 +349,7 @@ namespace Ploeh.SemanticComparison
                .Take(parameterTypes.Count())
                .ToList();
 
-           var sourceMap = source.GetSourceTypeValueMap();
+           var sourceMap = source.GetSourceTypeValuePairs();
 
            return (!sourceMap.AreOrderedBy(parameterTypes)) ? 
                 sourceMap.OrderByType(parameterTypes)
@@ -378,27 +378,27 @@ namespace Ploeh.SemanticComparison
                             name, StringComparison.OrdinalIgnoreCase));
         }
 
-        private static IEnumerable<Tuple<Type, object>> GetSourceTypeValueMap(this object source)
-        {
-            var sourceMap = source.GetType()
-                    .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                    .Select(a => new Tuple<Type, object>(a.PropertyType, a.GetValue(source, null)));
-            return sourceMap;
-        }
        
-        private static bool AreOrderedBy(this IEnumerable<Tuple<Type, object>> sourceMap, IEnumerable<Type> types)
+        private static IEnumerable<SourceTypeValuePair> GetSourceTypeValuePairs(this object source)
         {
-            return sourceMap.Select(a => a.Item1.Name).SequenceEqual(types.Select(b => b.Name));
+            return source.GetType()
+                    .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                    .Select(a => new SourceTypeValuePair(a.PropertyType, a.GetValue(source, null)));            
+        }       
+      
+        private static bool AreOrderedBy(this IEnumerable<SourceTypeValuePair> sourceMap, IEnumerable<Type> types)
+        {
+            return sourceMap.Select(a => a.Type.Name).SequenceEqual(types.Select(b => b.Name));
         }
 
-        private static IEnumerable<Tuple<Type, object>> OrderByType(
-           this IEnumerable<Tuple<Type, object>> sequence,
-           IEnumerable<Type> types)
+        private static IEnumerable<SourceTypeValuePair> OrderByType(
+         this IEnumerable<SourceTypeValuePair> sequence,
+         IEnumerable<Type> types)
         {
             return from t in types
-                   select sequence.First(x => x.Item1.IsAssignableFrom(t));
-           
+                   select sequence.First(x => x.Type.IsAssignableFrom(t));
         }
+
 
         private static void Map(object source, object target)
         {
@@ -471,6 +471,24 @@ namespace Ploeh.SemanticComparison
                 .Replace("<", null)
                 .Replace(">", null)
                 .Replace("k__BackingField", null);
+        }
+
+        private class SourceTypeValuePair
+        {
+            private readonly Type type;
+            private readonly object value; 
+
+            public SourceTypeValuePair(Type type, object value)
+            {
+                if (type == null)
+                    throw new ArgumentNullException("type");
+
+                this.type = type;
+                this.value = value;
+            }
+
+            public Type Type { get { return this.type; } }
+            public object Value { get { return this.value; } }
         }
     }
 }
