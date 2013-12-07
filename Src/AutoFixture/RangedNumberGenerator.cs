@@ -5,7 +5,8 @@ using Ploeh.AutoFixture.Kernel;
 namespace Ploeh.AutoFixture
 {
     /// <summary>
-    /// Creates a sequence of ranged numbers, starting at range minimum.
+    /// Creates a strictly increasing sequence of ranged numbers, starting at range minimum.  
+    /// Sequence restarts at range minimum when range maximum is exceeded. 
     /// </summary>
     public class RangedNumberGenerator : ISpecimenBuilder
     {
