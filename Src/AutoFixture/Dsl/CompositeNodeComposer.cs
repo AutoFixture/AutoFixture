@@ -338,6 +338,27 @@ namespace Ploeh.AutoFixture.Dsl
         /// An <see cref="IPostprocessComposer{T}"/> which can be used to
         /// further customize the post-processing of created specimens.
         /// </returns>
+        /// <remarks>
+        /// <para>
+        /// Although the default behavior of <see cref="Fixture" /> may make
+        /// this method seem redundant, the purpose of this method is to enable
+        /// an explicit opt-in for certain types, in the case where a Fixture
+        /// instance has been configured to <em>not</em> auto-fille properties
+        /// by default (e.g. if <see cref="Fixture.OmitAutoProperties" /> is
+        /// set to <see langword="true" />).
+        /// </para>
+        /// </remarks>
+        /// <example>
+        /// In this example, result.Property will be assigned a value, even
+        /// though this isn't the default behavior of the Fixture instance.
+        /// <code>
+        /// var fixture = new Fixture { OmitAutoProperties = true };
+        /// PropertyHolder&lt;object&gt; result = fixture
+        ///    .Build&lt;PropertyHolder&lt;object&gt;&gt;()
+        ///    .WithAutoProperties()
+        ///    .Create();
+        /// </code>
+        /// </example>
         public IPostprocessComposer<T> WithAutoProperties()
         {
             return (CompositeNodeComposer<T>)this.ReplaceNodes(
