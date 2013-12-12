@@ -666,19 +666,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        [Fact(Skip = "Work in progress")]
+        [Fact]
         public void CustomizeFactoryWithMatchingByBaseType()
         {
             // Fixture setup
             var fixture = new Fixture();
-            var specimen = new ConcreteType();
+            var expected = new ConcreteType();
             fixture.Customize<ConcreteType>(c => c
-                   .FromFactory(() => specimen)
+                   .FromFactory(() => expected)
                    .MatchBy().BaseType());
             // Exercise system
             var actual = fixture.Create<AbstractType>();
             // Verify outcome
-            Assert.Same(specimen, actual);
+            Assert.Same(expected, actual);
             // Teardown
         }
 
