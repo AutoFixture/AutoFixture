@@ -666,6 +666,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact(Skip = "Work in progress")]
+        public void CustomizeFactoryWithMatchingByBaseType()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var specimen = new ConcreteType();
+            fixture.Customize<ConcreteType>(c => c
+                   .FromFactory(() => specimen)
+                   .MatchBy().BaseType());
+            // Exercise system
+            var actual = fixture.Create<AbstractType>();
+            // Verify outcome
+            Assert.Same(specimen, actual);
+            // Teardown
+        }
+
         private static SpecimenContext CreateContainer()
         {
             var builder = Scenario.CreateAutoPropertyBuilder();

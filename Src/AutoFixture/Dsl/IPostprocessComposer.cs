@@ -88,5 +88,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// post-processing of created specimens.
         /// </returns>
         IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker);
+
+        IMatchComposer<T> MatchBy();
     }
 }

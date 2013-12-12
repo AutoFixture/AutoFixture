@@ -426,6 +426,11 @@ namespace Ploeh.AutoFixture.Dsl
                 when: n => n is NodeComposer<T>);
         }
 
+        public IMatchComposer<T> MatchBy()
+        {
+            return null;
+        }
+
         /// <summary>
         /// Controls whether auto-properties will be enabled or not.
         /// </summary>

@@ -192,6 +192,11 @@ namespace Ploeh.AutoFixture.Dsl
             return this;
         }
 
+        public IMatchComposer<T> MatchBy()
+        {
+            return null;
+        }
+
         /// <summary>
         /// Composes a new <see cref="ISpecimenBuilder"/> instance.
         /// </summary>

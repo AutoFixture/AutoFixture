@@ -97,6 +97,11 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             return this.OnCreate(request, context);
         }
 
+        public IMatchComposer<T> MatchBy()
+        {
+            return this.OnMatch();
+        }
+
         internal Func<Func<T, T>, IPostprocessComposer<T>> OnFromSeed { get; set; }
         internal Func<ISpecimenBuilder, IPostprocessComposer<T>> OnFromBuilder { get; set; }
         internal Func<Func<T>, IPostprocessComposer<T>> OnFromFactory { get; set; }
@@ -108,5 +113,6 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         internal Func<IPostprocessComposer<T>> OnWithAutoProperties { get; set; }
         internal Func<object, IPostprocessComposer<T>> OnWithout { get; set; }
         internal Func<object, ISpecimenContext, object> OnCreate { get; set; }
+        internal Func<IMatchComposer<T>> OnMatch { get; set; }
     }
 }
