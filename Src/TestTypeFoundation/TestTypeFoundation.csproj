@@ -12,7 +12,7 @@
     <AssemblyName>Ploeh.TestTypeFoundation</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>true</SignAssembly>
     <SccProjectName>
     </SccProjectName>
     <SccLocalPath>
@@ -41,7 +41,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
-    <CodeAnalysisCulture>en-US</CodeAnalysisCulture> 
+    <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,6 +64,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -100,6 +101,7 @@
     <Compile Include="ReadOnlyFieldHolder.cs" />
     <Compile Include="ReadOnlyPropertyHolder.cs" />
     <Compile Include="SingleParameterType.cs" />
+    <Compile Include="SpecimenWithEverything.cs" />
     <Compile Include="StaticFieldHolder.cs" />
     <Compile Include="StaticPropertyHolder.cs" />
     <Compile Include="MutableValueType.cs" />

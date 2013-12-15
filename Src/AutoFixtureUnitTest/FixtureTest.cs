@@ -285,6 +285,25 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateOnMultipleThreadsConcurrentlyWorks()
+        {
+            // Fixture setup
+            const int expectedSpecimenCount = 500;
+            const int requestedThreadCount = 8;
+            var sut = new Fixture();
+            // Exercise system
+            var specimens = Enumerable.Range(0, expectedSpecimenCount)
+                .AsParallel().WithDegreeOfParallelism(requestedThreadCount)
+                .Select(x => sut.Create<SpecimenWithEverything>())
+                .Select(swe => swe.IsPopulated())
+                .ToArray();
+            // Verify outcome
+            Assert.Equal(expectedSpecimenCount, specimens.Length);
+            Assert.DoesNotContain(false, specimens);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateAnonymousWillUseRegisteredMappingWithSingleParameter()
         {
             // Fixture setup
