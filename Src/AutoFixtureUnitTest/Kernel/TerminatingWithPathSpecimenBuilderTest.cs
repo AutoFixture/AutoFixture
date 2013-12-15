@@ -210,5 +210,30 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Throws<ObjectCreationException>(() => sut.Create(requests[2], container));
             // Teardown
         }
+
+        [Fact]
+        public void CreateOnMultipleThreadsConcurrentlyWorks()
+        {
+            // Fixture setup
+            var tracer = new DelegatingTracingBuilder(new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => 99
+            });
+            var sut = new TerminatingWithPathSpecimenBuilder(tracer);
+            var dummyContext = new DelegatingSpecimenContext()
+            {
+                OnResolve = (r) => 99
+            };
+            // Exercise system
+            int[] specimens = Enumerable.Range(0, 1000)
+                .AsParallel().WithDegreeOfParallelism(4)
+                .Select(x => (int)sut.Create(typeof(int), dummyContext))
+                .ToArray();
+            // Verify outcome
+            Assert.Equal(1000, specimens.Length);
+            Assert.True(specimens.All(s => s == 99));
+            // Teardown
+        }
+
     }
 }
