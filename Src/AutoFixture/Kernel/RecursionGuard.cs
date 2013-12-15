@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -15,7 +17,21 @@ namespace Ploeh.AutoFixture.Kernel
         private readonly ISpecimenBuilder builder;
         private readonly IRecursionHandler recursionHandler;
         private readonly IEqualityComparer comparer;
-        private readonly Stack<object> monitoredRequests;
+
+        private readonly ConcurrentDictionary<int, Stack<object>>
+            _monitoredRequestsByThreadId= new ConcurrentDictionary<int, Stack<object>>();
+
+        private Stack<object> GetMonitoredRequestsForCurrentThread()
+        {
+            int threadId = Thread.CurrentThread.ManagedThreadId;
+            Stack<object> requests;
+            if (_monitoredRequestsByThreadId.TryGetValue(threadId, out requests))
+                return requests;
+            requests = new Stack<object>();
+            _monitoredRequestsByThreadId[threadId] = requests;
+            return requests;
+        }
+
         private readonly int recursionDepth;
 
         /// <summary>
@@ -90,7 +106,6 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("comparer");
             }
 
-            this.monitoredRequests = new Stack<object>();
             this.builder = builder;
             this.comparer = comparer;
             this.recursionDepth = 1;
@@ -164,7 +179,6 @@ namespace Ploeh.AutoFixture.Kernel
             if (comparer == null)
                 throw new ArgumentNullException("comparer");
 
-            this.monitoredRequests = new Stack<object>();
             this.builder = builder;
             this.recursionHandler = recursionHandler;
             this.comparer = comparer;
@@ -216,7 +230,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         protected IEnumerable RecordedRequests
         {
-            get { return this.monitoredRequests; }
+            get { return GetMonitoredRequestsForCurrentThread(); }
         }
 
         /// <summary>
@@ -229,7 +243,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return this.recursionHandler.HandleRecursiveRequest(
                 request,
-                this.monitoredRequests);
+                GetMonitoredRequestsForCurrentThread());
         }
 
         /// <summary>
@@ -248,7 +262,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (this.monitoredRequests.Count > 0)
+            var requestsForCurrentThread = GetMonitoredRequestsForCurrentThread();
+            if (requestsForCurrentThread.Count > 0)
             {
                 // This is performance-sensitive code when used repeatedly over many requests.
                 // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
@@ -271,9 +286,9 @@ namespace Ploeh.AutoFixture.Kernel
                 }
             }
 
-            this.monitoredRequests.Push(request);
+            requestsForCurrentThread.Push(request);
             var specimen = this.builder.Create(request, context);
-            this.monitoredRequests.Pop();
+            requestsForCurrentThread.Pop();
             return specimen;
         }
 
