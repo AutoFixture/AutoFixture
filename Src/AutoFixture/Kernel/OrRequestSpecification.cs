@@ -54,6 +54,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
+            // This is performance-sensitive code when used repeatedly over many requests.
+            // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
             if (specifications.Length == 0) return true;
             for (int i = 0; i < this.specifications.Length; i++)
             {
