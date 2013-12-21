@@ -231,7 +231,6 @@
     <Compile Include="Kernel\FiniteSequenceRequest.cs" />
     <Compile Include="Kernel\FiniteSequenceRelay.cs" />
     <Compile Include="Kernel\ISpecimenBuilderTransformation.cs" />
-    <Compile Include="Kernel\LightweightMaybe.cs" />
     <Compile Include="Kernel\MultipleRequest.cs" />
     <Compile Include="Kernel\MultipleRelay.cs" />
     <Compile Include="Kernel\MemberInfoEqualityComparer.cs" />

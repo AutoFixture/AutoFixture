@@ -30,17 +30,19 @@ namespace Ploeh.AutoFixture.Kernel
         public object Create(object request, ISpecimenContext context)
         {
             if (context == null)
-            {
                 throw new ArgumentNullException("context");
-            }
 
-            return (from t in request.Maybe().OfType<Type>()
-                    let typeArguments = t.GetGenericArguments()
-                    where typeArguments.Length == 1
-                    && typeof(IList<>) == t.GetGenericTypeDefinition()
-                    select context.Resolve(typeof(List<>).MakeGenericType(typeArguments)))
-                    .DefaultIfEmpty(new NoSpecimen(request))
-                    .Single();
+            var t = request as Type;
+            if (t == null)
+                return new NoSpecimen(request);
+
+            var typeArguments = t.GetGenericArguments();
+            if (typeArguments.Length != 1 ||
+                typeof(IList<>) != t.GetGenericTypeDefinition())
+                return new NoSpecimen(request);
+
+            return context.Resolve(
+                typeof(List<>).MakeGenericType(typeArguments));
         }
     }
 }
