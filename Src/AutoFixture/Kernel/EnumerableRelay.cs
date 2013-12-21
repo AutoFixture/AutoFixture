@@ -35,25 +35,20 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("context");
             }
 
-            var requestType = request as Type;
-            if (requestType != null)
-            {
-                var typeArgs = requestType.GetGenericArguments();
-                if (typeArgs.Length == 1
-                    && typeof(IEnumerable<>) == requestType.GetGenericTypeDefinition())
-                {
-                    var enumerable = context.Resolve(new MultipleRequest(typeArgs[0])) as IEnumerable<object>;
-                    if (enumerable != null)
-                    {
-                        return typeof (ConvertedEnumerable<>)
-                            .MakeGenericType(typeArgs)
-                            .GetConstructor(new[] {typeof (IEnumerable<object>)})
-                            .Invoke(new[] {enumerable});
-                    }
-                }
-            }
+            // This is performance-sensitive code when used repeatedly over many requests.
+            // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
+            var type = request as Type;
+            if (type == null) return new NoSpecimen(request);
+            var typeArgs = type.GetGenericArguments();
+            if (typeArgs.Length != 1) return new NoSpecimen(request);
+            if (type.GetGenericTypeDefinition() != typeof(IEnumerable<>)) return new NoSpecimen(request);
+            var enumerable = context.Resolve(new MultipleRequest(typeArgs[0])) as IEnumerable<object>;
+            if (enumerable == null) return new NoSpecimen(request);
 
-            return new NoSpecimen(request);
+            return typeof (ConvertedEnumerable<>)
+                .MakeGenericType(typeArgs)
+                .GetConstructor(new[] {typeof (IEnumerable<object>)})
+                .Invoke(new[] {enumerable});
         }
 
         private class ConvertedEnumerable<T> : IEnumerable<T>

@@ -53,16 +53,12 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>The first result created by <see cref="Builders"/>.</returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (composedBuilders.Length == 1)
-                return composedBuilders[0].Create(request, context);
-
+            // This is performance-sensitive code when used repeatedly over many requests.
+            // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
             for (int i = 0; i < composedBuilders.Length; i++)
             {
                 var result = composedBuilders[i].Create(request, context);
-                if (!(result is NoSpecimen))
-                {
-                    return result;
-                }
+                if (!(result is NoSpecimen)) return result;
             }
 
             return new NoSpecimen(request);

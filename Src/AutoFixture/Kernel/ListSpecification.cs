@@ -26,16 +26,8 @@ namespace Ploeh.AutoFixture.Kernel
                 return false;
             }
 
-            if (type.IsGenericType)
-            {
-                var genType = type.GetGenericTypeDefinition();
-                if (genType.GetHashCode() != typeof (List<>).GetHashCode())
-                    return false;
-
-                return object.Equals(genType, typeof (List<>));
-            }
-
-            return false;
+            return type.IsGenericType
+                && typeof(List<>) == type.GetGenericTypeDefinition();
         }
     }
 }

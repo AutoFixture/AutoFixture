@@ -34,14 +34,15 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("context");
             }
 
-            return (from t in request.Maybe().OfType<Type>()
-                    where t.IsArray
-                    let elementType = t.GetElementType()
-                    let e = context.Resolve(new MultipleRequest(elementType)) as IEnumerable
-                    where e != null
-                    select ArrayRelay.ToArray(e, elementType))
-                    .DefaultIfEmpty(new NoSpecimen(request))
-                    .Single();
+            // This is performance-sensitive code when used repeatedly over many requests.
+            // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
+            var type = request as Type;
+            if (type == null) return new NoSpecimen(request);
+            if (!type.IsArray) return new NoSpecimen(request);
+            var elementType = type.GetElementType();
+            var elements = context.Resolve(new MultipleRequest(elementType)) as IEnumerable;
+            if (elements == null) return new NoSpecimen(request);
+            return ArrayRelay.ToArray(elements, elementType);
         }
 
         private static object ToArray(IEnumerable e, Type elementType)
