@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class OrRequestSpecification : IRequestSpecification
     {
-        private readonly IEnumerable<IRequestSpecification> specifications;
+        private readonly IRequestSpecification[] specifications;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrRequestSpecification"/> class with the
@@ -54,10 +54,15 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
-            return this.specifications
-                .Select(s => s.IsSatisfiedBy(request))
-                .DefaultIfEmpty(true)
-                .Any(b => b);
+            // This is performance-sensitive code when used repeatedly over many requests.
+            // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
+            if (specifications.Length == 0) return true;
+            for (int i = 0; i < this.specifications.Length; i++)
+            {
+                var satisfied = this.specifications[i].IsSatisfiedBy(request);
+                if (satisfied) return true;
+            }
+            return false;
         }
     }
 }

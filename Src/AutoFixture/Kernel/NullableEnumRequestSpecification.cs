@@ -18,13 +18,15 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
-            return (from t in request.Maybe().OfType<Type>()
-                    where t.IsGenericType
-                    let gtd = t.GetGenericTypeDefinition()
-                    where typeof(Nullable<>).IsAssignableFrom(gtd)
-                    let ga = t.GetGenericArguments()
-                    where ga.Length == 1
-                    select ga.Single().IsEnum).DefaultIfEmpty(false).Single();
+            // This is performance-sensitive code when used repeatedly over many requests.
+            // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
+            var requestType = request as Type;
+            if (requestType == null) return false;
+            if (!requestType.IsGenericType) return false;
+            var gtd = requestType.GetGenericTypeDefinition();
+            if (!typeof(Nullable<>).IsAssignableFrom(gtd)) return false;
+            var ga = requestType.GetGenericArguments();
+            return ga.Length == 1 && ga[0].IsEnum;
         }
     }
 }
