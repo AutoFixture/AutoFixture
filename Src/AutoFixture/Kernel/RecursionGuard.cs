@@ -248,11 +248,27 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (this.monitoredRequests.Count(x => this.comparer.Equals(x, request)) >= this.RecursionDepth)
+            if (this.monitoredRequests.Count > 0)
             {
+                // This is performance-sensitive code when used repeatedly over many requests.
+                // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
+                var requestsArray = this.monitoredRequests.ToArray();
+                int numRequestsSameAsThisOne = 0;
+                for (int i = 0; i < requestsArray.Length; i++)
+                {
+                    var existingRequest = requestsArray[i];
+                    if (this.comparer.Equals(existingRequest, request))
+                    {
+                        numRequestsSameAsThisOne++;
+                    }
+
+                    if (numRequestsSameAsThisOne >= this.RecursionDepth)
+                    {
 #pragma warning disable 618
-                return this.HandleRecursiveRequest(request);
+                        return this.HandleRecursiveRequest(request);
 #pragma warning restore 618
+                    }
+                }
             }
 
             this.monitoredRequests.Push(request);

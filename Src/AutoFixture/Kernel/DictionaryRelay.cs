@@ -34,13 +34,15 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("context");
             }
 
-            return (from t in request.Maybe().OfType<Type>()
-                    let typeArguments = t.GetGenericArguments()
-                    where typeArguments.Length == 2
-                    && typeof(IDictionary<,>) == t.GetGenericTypeDefinition()
-                    select context.Resolve(typeof(Dictionary<,>).MakeGenericType(typeArguments)))
-                    .DefaultIfEmpty(new NoSpecimen(request))
-                    .Single();
+            // This is performance-sensitive code when used repeatedly over many requests.
+            // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
+            var type = request as Type;
+            if (type == null) return new NoSpecimen(request);
+            var typeArguments = type.GetGenericArguments();
+            if (typeArguments.Length != 2) return new NoSpecimen(request);
+            var gtd = type.GetGenericTypeDefinition();
+            if (gtd != typeof(IDictionary<,>)) return new NoSpecimen(request);
+            return context.Resolve(typeof(Dictionary<,>).MakeGenericType(typeArguments));
         }
     }
 }
