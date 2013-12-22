@@ -607,7 +607,9 @@ namespace Ploeh.AutoFixtureUnitTest
             };
             // Exercise system
             int[] specimens = Enumerable.Range(0, 1000)
-                .AsParallel().WithDegreeOfParallelism(4)
+                .AsParallel()
+                    .WithDegreeOfParallelism(8)
+                    .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
                 .Select(x => (int)sut.Create(typeof(int), dummyContext))
                 .ToArray();
             // Verify outcome
