@@ -65,6 +65,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ploeh.Albedo">
+      <HintPath>..\..\Packages\Albedo.0.1.1\lib\net35\Ploeh.Albedo.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core">
@@ -152,6 +155,7 @@
     <Compile Include="RegularExpressionGeneratorTest.cs" />
     <Compile Include="SpecimenCommandTests.cs" />
     <Compile Include="SpecimenQueryTests.cs" />
+    <Compile Include="SpecimenWithEverything.cs" />
     <Compile Include="StaticFactoryWithClosureOfOperationsBugRepro.cs" />
     <Compile Include="SingletonSpecimenBuilderNodeStackAdapterCollectionTest.cs" />
     <Compile Include="SpecimenBuilderNodeAdapterCollectionTest.cs" />
@@ -295,6 +299,7 @@
     <Compile Include="UriSchemeGeneratorTest.cs" />
     <Compile Include="UriSchemeTest.cs" />
     <Compile Include="UseCultureAttribute.cs" />
+    <Compile Include="ValueCollectingVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

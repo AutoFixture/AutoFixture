@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Text;
+using System.Threading;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -18,7 +19,14 @@ namespace Ploeh.AutoFixture.Kernel
     public class TerminatingWithPathSpecimenBuilder : ISpecimenBuilderNode
     {
         private readonly TracingBuilder tracer;
-        private readonly Stack<object> path = new Stack<object>();
+
+        private readonly ConcurrentDictionary<Thread, Stack<object>>
+            _requestPathsByThread = new ConcurrentDictionary<Thread, Stack<object>>();
+
+        private Stack<object> GetPathForCurrentThread()
+        {
+            return _requestPathsByThread.GetOrAdd(Thread.CurrentThread, _ => new Stack<object>());
+        }
 
         /// <summary>
         /// Creates a new <see cref="TerminatingWithPathSpecimenBuilder"/> using the
@@ -39,12 +47,12 @@ namespace Ploeh.AutoFixture.Kernel
         {
             // Keep the final NoSpecimen in the list, even though we're about to throw
             if (!(e.Specimen is NoSpecimen))
-                path.Pop();
+                GetPathForCurrentThread().Pop();
         }
 
         private void OnSpecimenRequested(object sender, RequestTraceEventArgs e)
         {
-            path.Push(e.Request);
+            GetPathForCurrentThread().Push(e.Request);
         }
 
         /// <summary>
@@ -60,7 +68,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         public IEnumerable<object> SpecimenRequests
         {
-            get { return this.path.Reverse(); }
+            get { return this.GetPathForCurrentThread().Reverse(); }
         }
 
         /// <summary>

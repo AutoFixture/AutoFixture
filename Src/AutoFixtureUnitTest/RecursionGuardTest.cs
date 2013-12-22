@@ -590,5 +590,32 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(expected, rg.RecursionDepth);
             // Teardown
         }
+
+        [Fact]
+        public void CreateOnMultipleThreadsConcurrentlyWorks()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, ctx) => ctx.Resolve(r)
+            };
+            var dummyHandler = new DelegatingRecursionHandler();
+            var sut = new RecursionGuard(dummyBuilder, dummyHandler);
+            var dummyContext = new DelegatingSpecimenContext()
+            {
+                OnResolve = (r) => 99
+            };
+            // Exercise system
+            int[] specimens = Enumerable.Range(0, 1000)
+                .AsParallel()
+                    .WithDegreeOfParallelism(8)
+                    .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
+                .Select(x => (int)sut.Create(typeof(int), dummyContext))
+                .ToArray();
+            // Verify outcome
+            Assert.Equal(1000, specimens.Length);
+            Assert.True(specimens.All(s => s == 99));
+            // Teardown
+        }
     }
 }
