@@ -18,18 +18,12 @@ namespace Ploeh.AutoFixture.Kernel
         private readonly IRecursionHandler recursionHandler;
         private readonly IEqualityComparer comparer;
 
-        private readonly ConcurrentDictionary<int, Stack<object>>
-            _monitoredRequestsByThreadId= new ConcurrentDictionary<int, Stack<object>>();
+        private readonly ConcurrentDictionary<Thread, Stack<object>>
+            _requestsByThread = new ConcurrentDictionary<Thread, Stack<object>>();
 
         private Stack<object> GetMonitoredRequestsForCurrentThread()
         {
-            int threadId = Thread.CurrentThread.ManagedThreadId;
-            Stack<object> requests;
-            if (_monitoredRequestsByThreadId.TryGetValue(threadId, out requests))
-                return requests;
-            requests = new Stack<object>();
-            _monitoredRequestsByThreadId[threadId] = requests;
-            return requests;
+            return _requestsByThread.GetOrAdd(Thread.CurrentThread, new Stack<object>());
         }
 
         private readonly int recursionDepth;
@@ -267,7 +261,7 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 // This is performance-sensitive code when used repeatedly over many requests.
                 // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
-                var requestsArray = this.monitoredRequests.ToArray();
+                var requestsArray = requestsForCurrentThread.ToArray();
                 int numRequestsSameAsThisOne = 0;
                 for (int i = 0; i < requestsArray.Length; i++)
                 {

@@ -20,18 +20,12 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly TracingBuilder tracer;
 
-        private readonly ConcurrentDictionary<int, Stack<object>>
-            _requestPathByThreadId = new ConcurrentDictionary<int, Stack<object>>();
+        private readonly ConcurrentDictionary<Thread, Stack<object>>
+            _requestPathsByThread = new ConcurrentDictionary<Thread, Stack<object>>();
 
         private Stack<object> GetPathForCurrentThread()
         {
-            int threadId = Thread.CurrentThread.ManagedThreadId;
-            Stack<object> requests;
-            if (_requestPathByThreadId.TryGetValue(threadId, out requests))
-                return requests;
-            requests = new Stack<object>();
-            _requestPathByThreadId[threadId] = requests;
-            return requests;
+            return _requestPathsByThread.GetOrAdd(Thread.CurrentThread, new Stack<object>());
         }
 
         /// <summary>
