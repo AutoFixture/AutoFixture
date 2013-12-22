@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         private Stack<object> GetMonitoredRequestsForCurrentThread()
         {
-            return _requestsByThread.GetOrAdd(Thread.CurrentThread, new Stack<object>());
+            return _requestsByThread.GetOrAdd(Thread.CurrentThread, _ => new Stack<object>());
         }
 
         private readonly int recursionDepth;

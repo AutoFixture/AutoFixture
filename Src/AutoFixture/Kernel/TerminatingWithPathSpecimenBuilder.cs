@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         private Stack<object> GetPathForCurrentThread()
         {
-            return _requestPathsByThread.GetOrAdd(Thread.CurrentThread, new Stack<object>());
+            return _requestPathsByThread.GetOrAdd(Thread.CurrentThread, _ => new Stack<object>());
         }
 
         /// <summary>
