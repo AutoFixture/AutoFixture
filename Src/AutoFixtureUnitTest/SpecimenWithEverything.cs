@@ -1,47 +1,62 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
+using Ploeh.TestTypeFoundation;
 
-namespace Ploeh.TestTypeFoundation
+namespace Ploeh.AutoFixtureUnitTest
 {
     /// <summary>
     /// A specimen that contains just about everything that AutoFixture can handle
     /// using all the defaults.
     /// </summary>
-    public class SpecimenWithEverything
+    internal class SpecimenWithEverything
     {
         public static SpecimenWithEverything PublicStaticFactoryMethod()
         {
-            return new SpecimenWithEverything("factoryCreated", new List<ConcreteType>
-            {
-                new ConcreteType(new object(), new object(), new object(), new object()),
-                new ConcreteType(1, 2, 3, 4),
-            });
+            return new SpecimenWithEverything(
+                stringReadOnlyFieldAssignedByCtorOnly: "factoryCreated",
+                stringReadOnlyAssignedByCtorOnly: "factoryCreated",
+                listOfConcreteTypesAssignedByCtorOnly: new List<ConcreteType>
+                {
+                    new ConcreteType(new object(), new object(), new object(), new object()),
+                    new ConcreteType(1, 2, 3, 4),
+                });
         }
-        
-        public SpecimenWithEverything(
-            string stringReadOnlyAssignedByCtorOnly,
-            List<ConcreteType> listOfComposConcreteTypesAssignedByCtorOnly)
+
+        public virtual bool PublicVirtualInstanceQueryMethod()
         {
-            this.ListOfComposConcreteTypesAssignedByCtorOnly = listOfComposConcreteTypesAssignedByCtorOnly;
+            return true;
+        }
+
+        public SpecimenWithEverything(
+            string stringReadOnlyFieldAssignedByCtorOnly,
+            string stringReadOnlyAssignedByCtorOnly,
+            List<ConcreteType> listOfConcreteTypesAssignedByCtorOnly)
+        {
+            this.StringReadOnlyFieldAssignedByCtorOnly = stringReadOnlyFieldAssignedByCtorOnly;
             this.StringReadOnlyAssignedByCtorOnly = stringReadOnlyAssignedByCtorOnly;
+            this.ListOfConcreteTypesAssignedByCtorOnly = listOfConcreteTypesAssignedByCtorOnly;
         }
 
         // public fields
+        public readonly string StringReadOnlyFieldAssignedByCtorOnly;
+#pragma warning disable 649
         public int IntWritableField;
-        public int? NullableIntWritableField;
+        public Guid? NullableGuidWritableField;
+#pragma warning restore 649
 
         // ReadOnly property
         public string StringReadOnlyAssignedByCtorOnly { get; private set; }
         
-        // Enumerable, Array, List, ObservableCollection
+        // Enumerable, Array, List, ObservableCollection, Dictionary
         public IEnumerable<string> EnumerableString { get; set; }
         public string[] StringArray { get; set; }
-        public List<ConcreteType> ListOfComposConcreteTypesAssignedByCtorOnly { get; private set; }
-        public ObservableCollection<ConcreteType> ObserviceCollectionOfConcreteTypes { get; set; }
+        public List<ConcreteType> ListOfConcreteTypesAssignedByCtorOnly { get; private set; }
+        public ObservableCollection<ConcreteType> ObserableCollectionOfConcreteTypes { get; set; }
+        public Dictionary<string, ConcreteType> DictionaryOfConcreteTypes { get; set; }
+        public byte[] ArrayOfBytes { get; set; }
+        public char[] ArrayOfChars { get; set; }
 
         // Additional default primitive parts
         public Uri Uri { get; set; }
@@ -67,37 +82,5 @@ namespace Ploeh.TestTypeFoundation
 
         [StringLength(5)]
         public string StringWithStringLengthAttributeOnlyAllowing5Characters { get; set; }
-
-        public bool IsPopulated()
-        {
-            foreach (var prop in this.GetType().GetProperties())
-            {
-                object propValue = prop.GetValue(this, null);
-                
-                // Handle everything
-                if (propValue == null)
-                {
-                    // Null value
-                    return false;
-                }
-
-                // Handle non-nullable primitives
-                if (propValue.GetType().IsPrimitive
-                    && 0.Equals(propValue))
-                {
-                    return false;
-                }
-
-                // Handle enumerables
-                var propValueAsEnumerable = propValue as IEnumerable;
-                if (propValueAsEnumerable != null
-                    && !propValueAsEnumerable.GetEnumerator().MoveNext())
-                {
-                    // Empty enumerable
-                    return false;
-                }
-            }
-            return true;
-        }
     }
 }

@@ -64,7 +64,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -101,7 +100,6 @@
     <Compile Include="ReadOnlyFieldHolder.cs" />
     <Compile Include="ReadOnlyPropertyHolder.cs" />
     <Compile Include="SingleParameterType.cs" />
-    <Compile Include="SpecimenWithEverything.cs" />
     <Compile Include="StaticFieldHolder.cs" />
     <Compile Include="StaticPropertyHolder.cs" />
     <Compile Include="MutableValueType.cs" />
