@@ -18,7 +18,10 @@ namespace Ploeh.AutoFixtureUnitTest
 
         int IEqualityComparer.GetHashCode(object obj)
         {
-            return obj.GetHashCode();
+            // It's not safe to assume anything about how OnEquals is going to [effectively] 
+            // 'bucket' results, so make no assumtions that could lead to false negatives. 
+            // See http://stackoverflow.com/a/3719617
+            return 0;
         }
 
         internal Func<object, object, bool> OnEquals { get; set; }
@@ -31,14 +34,17 @@ namespace Ploeh.AutoFixtureUnitTest
             this.OnEquals = (x, y) => false;
         }
 
-        public bool Equals(T x, T y)
+        bool IEqualityComparer<T>.Equals(T x, T y)
         {
             return this.OnEquals(x, y);
         }
 
-        public int GetHashCode(T obj)
+        int IEqualityComparer<T>.GetHashCode(T obj)
         {
-            return obj.GetHashCode();
+            // It's not safe to assume anything about how OnEquals is going to [effectively] 
+            // 'bucket' results, so make no assumtions that could lead to false negatives. 
+            // See http://stackoverflow.com/a/3719617
+            return 0;
         }
 
         internal Func<T, T, bool> OnEquals { get; set; }
