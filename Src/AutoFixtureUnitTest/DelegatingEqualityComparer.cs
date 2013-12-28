@@ -31,12 +31,12 @@ namespace Ploeh.AutoFixtureUnitTest
             this.OnEquals = (x, y) => false;
         }
 
-        public bool Equals(T x, T y)
+        bool IEqualityComparer<T>.Equals(T x, T y)
         {
             return this.OnEquals(x, y);
         }
 
-        public int GetHashCode(T obj)
+        int IEqualityComparer<T>.GetHashCode(T obj)
         {
             return obj.GetHashCode();
         }
