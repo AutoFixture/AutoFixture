@@ -227,71 +227,7 @@ namespace Ploeh.AutoFixtureUnitTest
                       .Cast<IComparable>()
                       .All(a => primaryResults.Any(b => b.CompareTo(a)==0)));
         }
-
-        [Theory]
-        [InlineData(0, 500, 100)]
-        [InlineData(-20000, 0, 50)]
-        [InlineData(-300, 350, 25)]
-        public void CreateReturnsUniqueNumbersOnMultipleCallAsynchronously(int minimum, int maximum, int timesToTry)
-        {
-            // Fixture setup          
-            int tryCount = 0;           
-
-            while (tryCount++ < timesToTry)
-            {
-
-                int completed = 0;
-                int iterations = 25;
-
-                var done = new ManualResetEvent(false);
-
-                int repeatCount = ((maximum - minimum) + 1) / iterations;
-                int expectedResult = repeatCount * iterations;
-                var dummyContext = new DelegatingSpecimenContext();
-
-                int exceptionCount = 0;
-
-                var sut = new RandomRangedNumberGenerator();
-
-                // Exercise system
-                var numbers = new int[iterations][];
-                for (int i = 0; i < iterations; i++)
-                {
-                    ThreadPool.QueueUserWorkItem(index =>
-                    {
-                        var request = new RangedNumberRequest(typeof(int), minimum, maximum);
-
-                        try
-                        {
-                            numbers[(int)index] =
-                                Enumerable
-                                    .Range(0, repeatCount)
-                                    .Select(x => sut.Create(request, dummyContext))
-                                    .Cast<int>()
-                                    .ToArray();
-
-                            if (Interlocked.Increment(ref completed) == iterations)
-                                done.Set();
-                        }
-                        catch (Exception)
-                        {
-                            Interlocked.Increment(ref exceptionCount);
-                            done.Set();
-                        }
-
-                    }, i);
-                }
-
-                done.WaitOne();
-
-                Assert.True(exceptionCount == 0, "Thread-safety failed - exception thrown by worker thread");
-                int result = numbers.SelectMany(x => x).Distinct().Count();
-                Assert.Equal(expectedResult, result);
-            }
-            // Nothing else to verify
-            // Teardown      
-        }
-
+                
         [Fact]
         public void CreateDoesNotThrowWhenAccessedAcrossThreads()
         {
