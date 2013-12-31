@@ -239,9 +239,9 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var sut = new RandomRangedNumberGenerator();
 
-            // Exercise System
-            try
-            {
+            // Exercise System and Verify
+           Assert.DoesNotThrow(() =>
+               {
                 var numbers = Enumerable
                     .Range(0, numberOfThreads)
                     .AsParallel()
@@ -254,12 +254,9 @@ namespace Ploeh.AutoFixtureUnitTest
                                             .Cast<int>()
                                             .ToArray())
                     .ToArray();
-            }
-            // Verify
-            catch (AggregateException aex)
-            {
-                Assert.True(false, "Thread-safety failed\n" + string.Join("\n", aex.Flatten().InnerExceptions));
-            }
+               }
+            );
+          
             // Nothing else to verify
             // Teardown
         }
