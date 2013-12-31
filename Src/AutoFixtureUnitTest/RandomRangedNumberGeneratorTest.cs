@@ -228,20 +228,22 @@ namespace Ploeh.AutoFixtureUnitTest
                       .All(a => primaryResults.Any(b => b.CompareTo(a)==0)));
         }
                 
-        [Fact]
-        public void CreateDoesNotThrowWhenAccessedAcrossThreads()
+        [Theory]
+        [InlineData(1, 50000, 5)]
+        [InlineData(-50000, -1, 5)]
+        [InlineData(-25000, 24999, 5)]
+        public void CreateReturnsUniqueNumbersOnMultipleCallAsynchronously(int minimum, int maximum, int numberOfThreads)
         {
-            // Fixture setup            
-            int minimum = 1, maximum = 50000;
-            int numberOfThreads = 5;
-            int requestsPerThread = (maximum - minimum + 1) / numberOfThreads;
+            // Fixture setup           
+            int expectedDistinctCount = Math.Abs((maximum - minimum + 1));            
+            int requestsPerThread = expectedDistinctCount / numberOfThreads;
             var dummyContext = new DelegatingSpecimenContext();
 
             var sut = new RandomRangedNumberGenerator();
 
             // Exercise System and Verify
-           Assert.DoesNotThrow(() =>
-               {
+            try
+            {
                 var numbers = Enumerable
                     .Range(0, numberOfThreads)
                     .AsParallel()
@@ -254,8 +256,16 @@ namespace Ploeh.AutoFixtureUnitTest
                                             .Cast<int>()
                                             .ToArray())
                     .ToArray();
-               }
-            );
+
+                // Verify
+                int actualDistinctCount = numbers.SelectMany(a => a).Distinct().Count();
+                Assert.Equal(expectedDistinctCount, actualDistinctCount);
+            }
+            // Verify
+            catch (AggregateException)
+            {
+                Assert.True(false, "Thread-safety failed");
+            }
           
             // Nothing else to verify
             // Teardown
