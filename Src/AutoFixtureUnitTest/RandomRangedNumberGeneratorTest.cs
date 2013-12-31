@@ -238,36 +238,28 @@ namespace Ploeh.AutoFixtureUnitTest
             int expectedDistinctCount = Math.Abs((maximum - minimum + 1));            
             int requestsPerThread = expectedDistinctCount / numberOfThreads;
             var dummyContext = new DelegatingSpecimenContext();
-
+            
             var sut = new RandomRangedNumberGenerator();
 
-            // Exercise System and Verify
-            try
-            {
-                var numbers = Enumerable
-                    .Range(0, numberOfThreads)
-                    .AsParallel()
-                    .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
-                    .WithDegreeOfParallelism(numberOfThreads)
-                    .Select(threadNumber => Enumerable
-                                            .Range(0, requestsPerThread)
-                                            .Select(_ => new RangedNumberRequest(typeof(int), minimum, maximum))
-                                            .Select(request => sut.Create(request, dummyContext))
-                                            .Cast<int>()
-                                            .ToArray())
-                    .ToArray();
+            // Exercise System
 
-                // Verify
-                int actualDistinctCount = numbers.SelectMany(a => a).Distinct().Count();
-                Assert.Equal(expectedDistinctCount, actualDistinctCount);
-            }
+            var numbers = Enumerable
+                .Range(0, numberOfThreads)
+                .AsParallel()
+                .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
+                .WithDegreeOfParallelism(numberOfThreads)
+                .Select(threadNumber => Enumerable
+                                        .Range(0, requestsPerThread)
+                                        .Select(_ => new RangedNumberRequest(typeof(int), minimum, maximum))
+                                        .Select(request => sut.Create(request, dummyContext))
+                                        .Cast<int>()
+                                        .ToArray())
+                .ToArray();
+
             // Verify
-            catch (AggregateException)
-            {
-                Assert.True(false, "Thread-safety failed");
-            }
-          
-            // Nothing else to verify
+            int actualDistinctCount = numbers.SelectMany(a => a).Distinct().Count();
+            Assert.Equal(expectedDistinctCount, actualDistinctCount);
+           
             // Teardown
         }
 
