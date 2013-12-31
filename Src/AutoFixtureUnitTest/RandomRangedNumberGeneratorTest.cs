@@ -292,6 +292,41 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown      
         }
 
+        [Fact]
+        public void CreateDoesNotThrowWhenAccessedAcrossThreads()
+        {
+            // Fixture setup            
+            int minimum = 1, maximum = 50000;
+            int numberOfThreads = 5;
+            int requestsPerThread = (maximum - minimum + 1) / numberOfThreads;
+            var dummyContext = new DelegatingSpecimenContext();
+
+            var sut = new RandomRangedNumberGenerator();
+
+            // Exercise System
+            try
+            {
+                var numbers = Enumerable
+                    .Range(0, numberOfThreads)
+                    .AsParallel()
+                    .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
+                    .WithDegreeOfParallelism(numberOfThreads)
+                    .Select(threadNumber => Enumerable
+                                            .Range(0, requestsPerThread)
+                                            .Select(_ => new RangedNumberRequest(typeof(int), minimum, maximum))
+                                            .Select(request => sut.Create(request, dummyContext))
+                                            .Cast<int>()
+                                            .ToArray())
+                    .ToArray();
+            }
+            // Verify
+            catch (AggregateException aex)
+            {
+                Assert.True(false, "Thread-safety failed\n" + string.Join("\n", aex.Flatten().InnerExceptions));
+            }
+            // Nothing else to verify
+            // Teardown
+        }
 
         private sealed class RandomRangedNumberGeneratorTestCases : IEnumerable<object[]>
         {
