@@ -227,71 +227,41 @@ namespace Ploeh.AutoFixtureUnitTest
                       .Cast<IComparable>()
                       .All(a => primaryResults.Any(b => b.CompareTo(a)==0)));
         }
-
+                
         [Theory]
-        [InlineData(0, 500, 100)]
-        [InlineData(-20000, 0, 50)]
-        [InlineData(-300, 350, 25)]
-        public void CreateReturnsUniqueNumbersOnMultipleCallAsynchronously(int minimum, int maximum, int timesToTry)
+        [InlineData(1, 50000, 5)]
+        [InlineData(-50000, -1, 5)]
+        [InlineData(-25000, 24999, 5)]
+        public void CreateReturnsUniqueNumbersOnMultipleCallAsynchronously(int minimum, int maximum, int numberOfThreads)
         {
-            // Fixture setup          
-            int tryCount = 0;           
+            // Fixture setup           
+            int expectedDistinctCount = Math.Abs((maximum - minimum + 1));            
+            int requestsPerThread = expectedDistinctCount / numberOfThreads;
+            var dummyContext = new DelegatingSpecimenContext();
+            
+            var sut = new RandomRangedNumberGenerator();
 
-            while (tryCount++ < timesToTry)
-            {
+            // Exercise System
 
-                int completed = 0;
-                int iterations = 25;
+            var numbers = Enumerable
+                .Range(0, numberOfThreads)
+                .AsParallel()
+                .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
+                .WithDegreeOfParallelism(numberOfThreads)
+                .Select(threadNumber => Enumerable
+                                        .Range(0, requestsPerThread)
+                                        .Select(_ => new RangedNumberRequest(typeof(int), minimum, maximum))
+                                        .Select(request => sut.Create(request, dummyContext))
+                                        .Cast<int>()
+                                        .ToArray())
+                .ToArray();
 
-                var done = new ManualResetEvent(false);
-
-                int repeatCount = ((maximum - minimum) + 1) / iterations;
-                int expectedResult = repeatCount * iterations;
-                var dummyContext = new DelegatingSpecimenContext();
-
-                int exceptionCount = 0;
-
-                var sut = new RandomRangedNumberGenerator();
-
-                // Exercise system
-                var numbers = new int[iterations][];
-                for (int i = 0; i < iterations; i++)
-                {
-                    ThreadPool.QueueUserWorkItem(index =>
-                    {
-                        var request = new RangedNumberRequest(typeof(int), minimum, maximum);
-
-                        try
-                        {
-                            numbers[(int)index] =
-                                Enumerable
-                                    .Range(0, repeatCount)
-                                    .Select(x => sut.Create(request, dummyContext))
-                                    .Cast<int>()
-                                    .ToArray();
-
-                            if (Interlocked.Increment(ref completed) == iterations)
-                                done.Set();
-                        }
-                        catch (Exception)
-                        {
-                            Interlocked.Increment(ref exceptionCount);
-                            done.Set();
-                        }
-
-                    }, i);
-                }
-
-                done.WaitOne();
-
-                Assert.True(exceptionCount == 0, "Thread-safety failed - exception thrown by worker thread");
-                int result = numbers.SelectMany(x => x).Distinct().Count();
-                Assert.Equal(expectedResult, result);
-            }
-            // Nothing else to verify
-            // Teardown      
+            // Verify
+            int actualDistinctCount = numbers.SelectMany(a => a).Distinct().Count();
+            Assert.Equal(expectedDistinctCount, actualDistinctCount);
+           
+            // Teardown
         }
-
 
         private sealed class RandomRangedNumberGeneratorTestCases : IEnumerable<object[]>
         {
