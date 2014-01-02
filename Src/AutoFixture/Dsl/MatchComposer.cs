@@ -47,5 +47,11 @@ namespace Ploeh.AutoFixture.Dsl
             this.matcher = new PropertyNameSpecification(name);
             return this;
         }
+
+        public IMatchComposer<T> FieldName(string name)
+        {
+            this.matcher = new FieldNameSpecification(name);
+            return this;
+        }
     }
 }

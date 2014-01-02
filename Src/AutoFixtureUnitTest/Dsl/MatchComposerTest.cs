@@ -200,5 +200,41 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.Equal(new NoSpecimen(otherPropertyRequest), actual);
             // Teardown
         }
+
+        [Fact]
+        public void CreateWithMatchingByFieldNameReturnsSpecimenForRequestsOfFieldTypeWithMatchingName()
+        {
+            // Fixture setup
+            var expected = new object();
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => expected
+            };
+            var sut = new MatchComposer<object>(builder).FieldName("Field");
+            // Exercise system
+            var matchingFieldRequest = typeof(FieldHolder<object>).GetField("Field");
+            var actual = sut.Create(matchingFieldRequest, new DelegatingSpecimenContext());
+            // Verify outcome
+            Assert.Same(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithMatchingByFieldNameReturnsNoSpecimenForRequestsOfFieldTypeWithOtherName()
+        {
+            // Fixture setup
+            var expected = new object();
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => expected
+            };
+            var sut = new MatchComposer<object>(builder).FieldName("someOtherName");
+            // Exercise system
+            var otherFieldRequest = typeof(FieldHolder<object>).GetField("Field");
+            var actual = sut.Create(otherFieldRequest, new DelegatingSpecimenContext());
+            // Verify outcome
+            Assert.Equal(new NoSpecimen(otherFieldRequest), actual);
+            // Teardown
+        }
     }
 }

@@ -11,5 +11,7 @@ namespace Ploeh.AutoFixture.Dsl
         IMatchComposer<T> ParameterName(string name);
 
         IMatchComposer<T> PropertyName(string name);
+
+        IMatchComposer<T> FieldName(string name);
     }
 }
