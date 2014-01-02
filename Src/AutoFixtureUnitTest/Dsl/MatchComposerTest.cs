@@ -86,5 +86,40 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.Equal(new NoSpecimen(otherTypeRequest), actual);
             // Teardown
         }
+
+        [Fact]
+        public void CreateWithMatchingByExactTypeReturnsSpecimenForRequestsOfSameType()
+        {
+            // Fixture setup
+            var specimen = new ConcreteType();
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => specimen
+            };
+            var sut = new MatchComposer<ConcreteType>(builder).ExactType();
+            // Exercise system
+            var exactTypeRequest = typeof(ConcreteType);
+            var actual = sut.Create(exactTypeRequest, new DelegatingSpecimenContext());
+            // Verify outcome
+            Assert.Same(specimen, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithMatchingByExactTypeReturnsNoSpecimenForRequestsOfOtherTypes()
+        {
+            // Fixture setup
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => new ConcreteType()
+            };
+            var sut = new MatchComposer<ConcreteType>(builder).ExactType();
+            // Exercise system
+            var otherTypeRequest = typeof(string);
+            var actual = sut.Create(otherTypeRequest, new DelegatingSpecimenContext());
+            // Verify outcome
+            Assert.Equal(new NoSpecimen(otherTypeRequest), actual);
+            // Teardown
+        }
     }
 }
