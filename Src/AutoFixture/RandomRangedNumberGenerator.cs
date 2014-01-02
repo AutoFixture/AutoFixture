@@ -68,10 +68,11 @@ namespace Ploeh.AutoFixture
         /// <param name="request"></param>
         /// <returns></returns>
         private RandomNumericSequenceGenerator SelectGenerator(RangedNumberRequest request)
-        {           
-            var limits = ConvertLimits(request.Minimum, request.Maximum);
-
-            return this.generatorMap.GetOrAdd(request, _ => new RandomNumericSequenceGenerator(limits));
+        {  
+            return this.generatorMap.GetOrAdd(request, _ => 
+                {                    
+                    return new RandomNumericSequenceGenerator(ConvertLimits(request.Minimum, request.Maximum));
+                });
         }
 
        
