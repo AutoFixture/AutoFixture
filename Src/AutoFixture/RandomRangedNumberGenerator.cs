@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,17 +16,15 @@ namespace Ploeh.AutoFixture
      /// operand type, minimum, and maximum are treated as being drawn from the same set. 
      /// </summary>
     public class RandomRangedNumberGenerator : ISpecimenBuilder
-    {
-        private readonly IDictionary<RangedNumberRequest, RandomNumericSequenceGenerator> generatorMap;     
-        private readonly object syncRoot;
-      
+    {        
+        private readonly ConcurrentDictionary<RangedNumberRequest, RandomNumericSequenceGenerator> generatorMap;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomRangedNumberGenerator" /> class       
         /// </summary>
         public RandomRangedNumberGenerator()
-        {
-            this.generatorMap = new Dictionary<RangedNumberRequest, RandomNumericSequenceGenerator>();
-            this.syncRoot = new object();           
+        {           
+            this.generatorMap = new ConcurrentDictionary<RangedNumberRequest, RandomNumericSequenceGenerator>();                  
         }
 
         /// <summary>
@@ -69,18 +68,11 @@ namespace Ploeh.AutoFixture
         /// <param name="request"></param>
         /// <returns></returns>
         private RandomNumericSequenceGenerator SelectGenerator(RangedNumberRequest request)
-        {
-            lock (this.syncRoot)
-            {
-                if (!this.generatorMap.ContainsKey(request))
-                {
-                    var limits = ConvertLimits(request.Minimum, request.Maximum);
-
-                    this.generatorMap.Add(request, new RandomNumericSequenceGenerator(limits));
-                }
-
-                return this.generatorMap[request];
-            }           
+        {  
+            return this.generatorMap.GetOrAdd(request, _ => 
+                {                    
+                    return new RandomNumericSequenceGenerator(ConvertLimits(request.Minimum, request.Maximum));
+                });
         }
 
        
