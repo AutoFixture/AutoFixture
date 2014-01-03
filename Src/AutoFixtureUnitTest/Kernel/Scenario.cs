@@ -699,6 +699,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void CustomizeFactoryWithMatchingByBaseTypeOrExactType()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var expected = new ConcreteType();
+            fixture.Customize<ConcreteType>(c => c
+                .FromFactory(() => expected)
+                .Match().ByBaseType().Or.ByExactType());
+            // Exercise system
+            // Verify outcome
+            Assert.Same(expected, fixture.Create<AbstractType>());
+            Assert.Same(expected, fixture.Create<ConcreteType>());
+            // Teardown
+        }
+
+        [Fact]
         public void CustomizeFactoryWithMatchingByParameterName()
         {
             // Fixture setup
@@ -746,6 +762,31 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var actual = fixture.Create<FieldHolder<object>>().Field;
             // Verify outcome
             Assert.Same(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeFactoryWithMatchingByMultipleMemberNames()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var expected = "frozen";
+            fixture.Customize<ConcreteType>(c => c
+                   .FromFactory(new MethodInvoker(new GreedyConstructorQuery()))
+                   .Without(s => s.Property1)
+                   .Without(s => s.Property2));
+            fixture.Customize<object>(c => c
+                   .FromFactory(() => expected)
+                   .Match()
+                   .ByParameterName("obj1")
+                   .Or.ByParameterName("obj2")
+                   .Or.ByPropertyName("Property3"));
+            // Exercise system
+            var actual = fixture.Create<ConcreteType>();
+            // Verify outcome
+            Assert.Same(expected, actual.Property1);
+            Assert.Same(expected, actual.Property2);
+            Assert.Same(expected, actual.Property3);
             // Teardown
         }
 
