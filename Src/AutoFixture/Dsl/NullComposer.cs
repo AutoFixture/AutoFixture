@@ -192,7 +192,7 @@ namespace Ploeh.AutoFixture.Dsl
             return this;
         }
 
-        public IMatchComposer<T> MatchBy()
+        public IMatchComposer<T> Match()
         {
             return null;
         }

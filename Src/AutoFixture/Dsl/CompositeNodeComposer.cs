@@ -385,7 +385,7 @@ namespace Ploeh.AutoFixture.Dsl
                 when: n => n is NodeComposer<T>);
         }
 
-        public IMatchComposer<T> MatchBy()
+        public IMatchComposer<T> Match()
         {
             return null;
         }

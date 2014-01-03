@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             return this.OnCreate(request, context);
         }
 
-        public IMatchComposer<T> MatchBy()
+        public IMatchComposer<T> Match()
         {
             return this.OnMatch();
         }

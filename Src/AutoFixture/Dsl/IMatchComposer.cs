@@ -4,14 +4,14 @@ namespace Ploeh.AutoFixture.Dsl
 {
     public interface IMatchComposer<T> : ISpecimenBuilder
     {
-        IMatchComposer<T> BaseType();
+        IMatchComposer<T> ByBaseType();
 
-        IMatchComposer<T> ExactType();
+        IMatchComposer<T> ByExactType();
 
-        IMatchComposer<T> ParameterName(string name);
+        IMatchComposer<T> ByParameterName(string name);
 
-        IMatchComposer<T> PropertyName(string name);
+        IMatchComposer<T> ByPropertyName(string name);
 
-        IMatchComposer<T> FieldName(string name);
+        IMatchComposer<T> ByFieldName(string name);
     }
 }

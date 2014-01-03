@@ -24,31 +24,31 @@ namespace Ploeh.AutoFixture.Dsl
                    .Create(request, context);
         }
 
-        public IMatchComposer<T> BaseType()
+        public IMatchComposer<T> ByBaseType()
         {
             this.matcher = new BaseTypeSpecification(typeof(T));
             return this;
         }
 
-        public IMatchComposer<T> ExactType()
+        public IMatchComposer<T> ByExactType()
         {
             this.matcher = new ExactTypeSpecification(typeof(T));
             return this;
         }
 
-        public IMatchComposer<T> ParameterName(string name)
+        public IMatchComposer<T> ByParameterName(string name)
         {
             this.matcher = new ParameterNameSpecification(name);
             return this;
         }
 
-        public IMatchComposer<T> PropertyName(string name)
+        public IMatchComposer<T> ByPropertyName(string name)
         {
             this.matcher = new PropertyNameSpecification(name);
             return this;
         }
 
-        public IMatchComposer<T> FieldName(string name)
+        public IMatchComposer<T> ByFieldName(string name)
         {
             this.matcher = new FieldNameSpecification(name);
             return this;

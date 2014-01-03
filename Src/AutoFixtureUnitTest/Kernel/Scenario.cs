@@ -674,7 +674,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var expected = new ConcreteType();
             fixture.Customize<ConcreteType>(c => c
                    .FromFactory(() => expected)
-                   .MatchBy().BaseType());
+                   .Match().ByBaseType());
             // Exercise system
             var actual = fixture.Create<AbstractType>();
             // Verify outcome
@@ -690,7 +690,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var expected = new ConcreteType();
             fixture.Customize<ConcreteType>(c => c
                    .FromFactory(() => expected)
-                   .MatchBy().ExactType());
+                   .Match().ByExactType());
             // Exercise system
             var actual = fixture.Create<ConcreteType>();
             // Verify outcome
@@ -709,7 +709,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                    .OmitAutoProperties());
             fixture.Customize<object>(c => c
                    .FromFactory(() => expected)
-                   .MatchBy().ParameterName("obj1"));
+                   .Match().ByParameterName("obj1"));
             // Exercise system
             var actual = fixture.Create<ConcreteType>().Property1;
             // Verify outcome
@@ -725,7 +725,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var expected = new object();
             fixture.Customize<object>(c => c
                    .FromFactory(() => expected)
-                   .MatchBy().PropertyName("Property"));
+                   .Match().ByPropertyName("Property"));
             // Exercise system
             var actual = fixture.Create<PropertyHolder<object>>().Property;
             // Verify outcome
@@ -741,7 +741,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var expected = new object();
             fixture.Customize<object>(c => c
                    .FromFactory(() => expected)
-                   .MatchBy().FieldName("Field"));
+                   .Match().ByFieldName("Field"));
             // Exercise system
             var actual = fixture.Create<FieldHolder<object>>().Field;
             // Verify outcome

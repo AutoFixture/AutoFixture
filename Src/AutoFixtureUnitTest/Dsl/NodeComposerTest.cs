@@ -694,7 +694,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Fixture setup
             var sut = SpecimenBuilderNodeFactory.CreateComposer<ConcreteType>();
             // Exercise system and verify outcome
-            Assert.IsType<MatchComposer<ConcreteType>>(sut.MatchBy());
+            Assert.IsType<MatchComposer<ConcreteType>>(sut.Match());
             // Teardown
         }
 
@@ -705,7 +705,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var sut = SpecimenBuilderNodeFactory.CreateComposer<ConcreteType>();
             var expected = ((FilteringSpecimenBuilder)sut.Builder).Builder;
             // Exercise system
-            var builder = ((MatchComposer<ConcreteType>)sut.MatchBy()).Builder;
+            var builder = ((MatchComposer<ConcreteType>)sut.Match()).Builder;
             // Verify outcome
             Assert.Same(expected, builder);
             // Teardown

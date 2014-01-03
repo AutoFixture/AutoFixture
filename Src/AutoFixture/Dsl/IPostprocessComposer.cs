@@ -89,6 +89,6 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker);
 
-        IMatchComposer<T> MatchBy();
+        IMatchComposer<T> Match();
     }
 }

@@ -63,7 +63,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             {
                 OnCreate = (r, c) => specimen
             };
-            var sut = new MatchComposer<ConcreteType>(builder).BaseType();
+            var sut = new MatchComposer<ConcreteType>(builder).ByBaseType();
             // Exercise system
             var actual = sut.Create(request, new DelegatingSpecimenContext());
             // Verify outcome
@@ -79,7 +79,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             {
                 OnCreate = (r, c) => new ConcreteType()
             };
-            var sut = new MatchComposer<ConcreteType>(builder).BaseType();
+            var sut = new MatchComposer<ConcreteType>(builder).ByBaseType();
             // Exercise system
             var otherTypeRequest = typeof(string);
             var actual = sut.Create(otherTypeRequest, new DelegatingSpecimenContext());
@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             {
                 OnCreate = (r, c) => specimen
             };
-            var sut = new MatchComposer<ConcreteType>(builder).ExactType();
+            var sut = new MatchComposer<ConcreteType>(builder).ByExactType();
             // Exercise system
             var exactTypeRequest = typeof(ConcreteType);
             var actual = sut.Create(exactTypeRequest, new DelegatingSpecimenContext());
@@ -114,7 +114,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             {
                 OnCreate = (r, c) => new ConcreteType()
             };
-            var sut = new MatchComposer<ConcreteType>(builder).ExactType();
+            var sut = new MatchComposer<ConcreteType>(builder).ByExactType();
             // Exercise system
             var otherTypeRequest = typeof(string);
             var actual = sut.Create(otherTypeRequest, new DelegatingSpecimenContext());
@@ -132,7 +132,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             {
                 OnCreate = (r, c) => expected
             };
-            var sut = new MatchComposer<object>(builder).ParameterName("obj");
+            var sut = new MatchComposer<object>(builder).ByParameterName("obj");
             // Exercise system
             var matchingParameterRequest = typeof(ConcreteType)
                 .GetConstructor(new[] { typeof(object) })
@@ -153,7 +153,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             {
                 OnCreate = (r, c) => expected
             };
-            var sut = new MatchComposer<object>(builder).ParameterName("someOtherName");
+            var sut = new MatchComposer<object>(builder).ByParameterName("someOtherName");
             // Exercise system
             var otherParameterRequest = typeof(ConcreteType)
                 .GetConstructor(new[] { typeof(object) })
@@ -174,7 +174,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             {
                 OnCreate = (r, c) => expected
             };
-            var sut = new MatchComposer<object>(builder).PropertyName("Property");
+            var sut = new MatchComposer<object>(builder).ByPropertyName("Property");
             // Exercise system
             var matchingPropertyRequest = typeof(PropertyHolder<object>).GetProperty("Property");
             var actual = sut.Create(matchingPropertyRequest, new DelegatingSpecimenContext());
@@ -192,7 +192,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             {
                 OnCreate = (r, c) => expected
             };
-            var sut = new MatchComposer<object>(builder).PropertyName("someOtherName");
+            var sut = new MatchComposer<object>(builder).ByPropertyName("someOtherName");
             // Exercise system
             var otherPropertyRequest = typeof(PropertyHolder<object>).GetProperty("Property");
             var actual = sut.Create(otherPropertyRequest, new DelegatingSpecimenContext());
@@ -210,7 +210,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             {
                 OnCreate = (r, c) => expected
             };
-            var sut = new MatchComposer<object>(builder).FieldName("Field");
+            var sut = new MatchComposer<object>(builder).ByFieldName("Field");
             // Exercise system
             var matchingFieldRequest = typeof(FieldHolder<object>).GetField("Field");
             var actual = sut.Create(matchingFieldRequest, new DelegatingSpecimenContext());
@@ -228,7 +228,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             {
                 OnCreate = (r, c) => expected
             };
-            var sut = new MatchComposer<object>(builder).FieldName("someOtherName");
+            var sut = new MatchComposer<object>(builder).ByFieldName("someOtherName");
             // Exercise system
             var otherFieldRequest = typeof(FieldHolder<object>).GetField("Field");
             var actual = sut.Create(otherFieldRequest, new DelegatingSpecimenContext());
