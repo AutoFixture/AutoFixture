@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 
@@ -17,16 +18,18 @@ namespace Ploeh.AutoFixture.Kernel
         private readonly ISpecimenBuilder builder;
         private readonly IRecursionHandler recursionHandler;
         private readonly IEqualityComparer comparer;
-
-        private readonly ConcurrentDictionary<Thread, Stack<object>>
-            _requestsByThread = new ConcurrentDictionary<Thread, Stack<object>>();
-
-        private Stack<object> GetMonitoredRequestsForCurrentThread()
-        {
-            return _requestsByThread.GetOrAdd(Thread.CurrentThread, _ => new Stack<object>());
-        }
-
         private readonly int recursionDepth;
+
+        private readonly ConcurrentDictionary<Thread, RequestPath>
+            _requestsByThread = new ConcurrentDictionary<Thread, RequestPath>();
+
+
+        private RequestPath GetMonitoredRequestsForCurrentThread()
+        {
+            return _requestsByThread.GetOrAdd(
+                Thread.CurrentThread, _ =>
+                    new RequestPath(this.comparer));
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
@@ -51,7 +54,7 @@ namespace Ploeh.AutoFixture.Kernel
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler)
             : this(
-                builder, 
+                builder,
                 recursionHandler,
                 EqualityComparer<object>.Default,
                 1)
@@ -74,7 +77,7 @@ namespace Ploeh.AutoFixture.Kernel
             IRecursionHandler recursionHandler,
             int recursionDepth)
             : this(
-                builder, 
+                builder,
                 recursionHandler,
                 EqualityComparer<object>.Default,
                 recursionDepth)
@@ -131,13 +134,13 @@ namespace Ploeh.AutoFixture.Kernel
             IRecursionHandler recursionHandler,
             IEqualityComparer comparer)
             : this(
-            builder, 
-            recursionHandler, 
-            comparer, 
+            builder,
+            recursionHandler,
+            comparer,
             1)
         {
-        }        
-        
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard" />
         /// class.
@@ -256,34 +259,18 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            var requestsForCurrentThread = GetMonitoredRequestsForCurrentThread();
-            if (requestsForCurrentThread.Count > 0)
+            var requestsForCurrentThread = this.GetMonitoredRequestsForCurrentThread();
+            if (requestsForCurrentThread.GetCount(request) >= this.recursionDepth)
             {
-                // This is performance-sensitive code when used repeatedly over many requests.
-                // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
-                var requestsArray = requestsForCurrentThread.ToArray();
-                int numRequestsSameAsThisOne = 0;
-                for (int i = 0; i < requestsArray.Length; i++)
-                {
-                    var existingRequest = requestsArray[i];
-                    if (this.comparer.Equals(existingRequest, request))
-                    {
-                        numRequestsSameAsThisOne++;
-                    }
-
-                    if (numRequestsSameAsThisOne >= this.RecursionDepth)
-                    {
 #pragma warning disable 618
-                        return this.HandleRecursiveRequest(request);
+                return this.HandleRecursiveRequest(request);
 #pragma warning restore 618
-                    }
-                }
             }
 
-            requestsForCurrentThread.Push(request);
-            var specimen = this.builder.Create(request, context);
-            requestsForCurrentThread.Pop();
-            return specimen;
+            using (requestsForCurrentThread.BeginChildRequest(request))
+            {
+                return this.builder.Create(request, context);
+            }
         }
 
         /// <summary>Composes the supplied builders.</summary>
