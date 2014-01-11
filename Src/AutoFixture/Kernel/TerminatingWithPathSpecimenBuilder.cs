@@ -90,19 +90,9 @@ namespace Ploeh.AutoFixture.Kernel
                         "public constructor, is an abstract or non-public type.{1}{1}Request path:{1}{2}",
                     request,
                     Environment.NewLine,
-                    BuildRequestPathText(request, this.SpecimenRequests)));
+                    GetPathForCurrentThread().ToRequestPathText(request)));
             }
             return result;
-        }
-
-        private static string BuildRequestPathText(object request, IEnumerable<object> recordedRequests)
-        {
-            var thisAssembly = typeof(TerminatingWithPathSpecimenBuilder).Assembly;
-
-            return new object[0].Concat(recordedRequests).Concat(new[] { request})
-                .Where(r => r.GetType().Assembly != thisAssembly)
-                .Select((r, i) => string.Format(CultureInfo.CurrentCulture, "\t{0} {1}", " ".PadLeft(i+1), r))
-                .Aggregate((s1, s2) => s1 + " --> " + Environment.NewLine + s2);
         }
 
         internal static ISpecimenBuilder ComposeIfMultiple(IEnumerable<ISpecimenBuilder> builders)

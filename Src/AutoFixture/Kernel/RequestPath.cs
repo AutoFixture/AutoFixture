@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
+using System.Linq;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -28,16 +30,28 @@ namespace Ploeh.AutoFixture.Kernel
         private readonly Stack<object> stack;
         private readonly Dictionary<object, int> requestCountByRequest;
 
+        public RequestPath(IEnumerable<object> requests, IEqualityComparer comparer)
+        {
+            if (requests == null) throw new ArgumentNullException("requests");
+            if (comparer == null) throw new ArgumentNullException("comparer");
+
+            this.stack = new Stack<object>();
+            this.requestCountByRequest = new Dictionary<object, int>(
+                new GenericsEqualityComparerAdapter(comparer));
+
+            foreach (var request in requests)
+            {
+                this.Push(request);
+            }
+        }
+
         /// <summary>
         /// Constructs a new empty <see cref="RequestPath"/> instance.
         /// </summary>
         /// <param name="comparer">A comparer of request objects</param>
         public RequestPath(IEqualityComparer comparer)
+            : this(Enumerable.Empty<object>(), comparer)
         {
-            if (comparer == null) throw new ArgumentNullException("comparer");
-            this.stack = new Stack<object>();
-            this.requestCountByRequest = new Dictionary<object, int>(
-                new GenericsEqualityComparerAdapter(comparer));
         }
 
         /// <summary>
@@ -84,6 +98,39 @@ namespace Ploeh.AutoFixture.Kernel
         {
             int count;
             return this.requestCountByRequest.TryGetValue(request, out count) ? count : 0;
+        }
+
+        /// <summary>
+        /// Excludes requests that are only created internally by the AutoFixture engine.
+        /// </summary>
+        public IEnumerable<object> NonAutoFixtureRequests
+        {
+            get
+            {
+                var thisAssembly = this.GetType().Assembly;
+                return new object[0]
+                    .Concat(this)
+                    .Where(r => r.GetType().Assembly != thisAssembly);
+            }
+        }
+
+        internal string ToRequestPathText(object currentRequest)
+        {
+            return BuildRequestPathText(
+                new [] { currentRequest},
+                (o, i) => string.Format(CultureInfo.CurrentCulture, "\t{0} {1}", " ".PadLeft(i + 1), o),
+                " --> " + Environment.NewLine);            
+        }
+
+        internal string BuildRequestPathText(
+            object[] additionalRequests,
+            Func<object, int, string> formatter,
+            string separator)
+        {
+            return NonAutoFixtureRequests
+                .Concat(additionalRequests)
+                .Select(formatter)
+                .Aggregate((s1, s2) => s1 + separator + s2);
         }
     }
 }
