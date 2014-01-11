@@ -97,7 +97,9 @@
   <ItemGroup>
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
+    <Compile Include="Kernel\GenericsEqualityComparerAdapter.cs" />
     <Compile Include="Kernel\IRecursionHandler.cs" />
+    <Compile Include="Kernel\RequestPath.cs" />
     <Compile Include="Kernel\TerminatingWithPathSpecimenBuilder.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecification.cs" />
     <Compile Include="MapCreateManyToEnumerable.cs" />

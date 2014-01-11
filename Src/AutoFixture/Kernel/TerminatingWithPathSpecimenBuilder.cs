@@ -20,12 +20,13 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly TracingBuilder tracer;
 
-        private readonly ConcurrentDictionary<Thread, Stack<object>>
-            _requestPathsByThread = new ConcurrentDictionary<Thread, Stack<object>>();
+        private readonly ConcurrentDictionary<Thread, RequestPath>
+            _requestPathsByThread = new ConcurrentDictionary<Thread, RequestPath>();
 
-        private Stack<object> GetPathForCurrentThread()
+        private RequestPath GetPathForCurrentThread()
         {
-            return _requestPathsByThread.GetOrAdd(Thread.CurrentThread, _ => new Stack<object>());
+            return _requestPathsByThread.GetOrAdd(
+                Thread.CurrentThread, _ => new RequestPath(EqualityComparer<object>.Default));
         }
 
         /// <summary>
@@ -45,9 +46,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         private void OnSpecimenCreated(object sender, SpecimenCreatedEventArgs e)
         {
-            // Keep the final NoSpecimen in the list, even though we're about to throw
-            if (!(e.Specimen is NoSpecimen))
-                GetPathForCurrentThread().Pop();
+            GetPathForCurrentThread().Pop();
         }
 
         private void OnSpecimenRequested(object sender, RequestTraceEventArgs e)
@@ -91,18 +90,9 @@ namespace Ploeh.AutoFixture.Kernel
                         "public constructor, is an abstract or non-public type.{1}{1}Request path:{1}{2}",
                     request,
                     Environment.NewLine,
-                    BuildRequestPathText(this.SpecimenRequests)));
+                    GetPathForCurrentThread().ToRequestPathText(request)));
             }
             return result;
-        }
-
-        private static string BuildRequestPathText(IEnumerable<object> recordedRequests)
-        {
-            var thisAssembly = MethodBase.GetCurrentMethod().DeclaringType.Assembly;
-            return recordedRequests
-                .Where(r => r.GetType().Assembly != thisAssembly)
-                .Select((r, i) => string.Format(CultureInfo.CurrentCulture, "\t{0} {1}", " ".PadLeft(i+1), r))
-                .Aggregate((s1, s2) => s1 + " --> " + Environment.NewLine + s2);
         }
 
         internal static ISpecimenBuilder ComposeIfMultiple(IEnumerable<ISpecimenBuilder> builders)
