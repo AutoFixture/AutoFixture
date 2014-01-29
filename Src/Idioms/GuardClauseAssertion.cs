@@ -204,23 +204,36 @@ namespace Ploeh.AutoFixture.Idioms
 
         private void Verify(IMethod method, bool isReturnValueIterator)
         {
-            var parameters = this.GetParameters(method);
+            if (isReturnValueIterator)
+                VerifyIterator(method);
+            else
+                VerifyNormal(method);
+        }
 
-            var i = 0;
-            foreach (var pi in method.Parameters)
+        private void VerifyIterator(IMethod method)
+        {
+            foreach (var command in GetParameterGuardCommands(method))
             {
-                var expansion = new IndexedReplacement<object>(i++, parameters);
-
-                var command = new MethodInvokeCommand(method, expansion, pi);
-                var unwrapper = new ReflectionExceptionUnwrappingCommand(command);
-                if (isReturnValueIterator)
-                {
-                    var iteratorDecorator = new IteratorMethodInvokeCommand(unwrapper);
-                    this.behaviorExpectation.Verify(iteratorDecorator);
-                }
-                else
-                    this.BehaviorExpectation.Verify(unwrapper);
+                this.BehaviorExpectation.Verify(new IteratorMethodInvokeCommand(command));
             }
+        }
+
+        private void VerifyNormal(IMethod method)
+        {
+            foreach (var command in GetParameterGuardCommands(method))
+            {
+                this.BehaviorExpectation.Verify(command);
+            }
+        }
+
+        private IEnumerable<ReflectionExceptionUnwrappingCommand> GetParameterGuardCommands(IMethod method)
+        {
+            var arguments = this.GetParameters(method);
+            return from pi in method.Parameters
+                   where !pi.IsOut
+                   let expansion = new IndexedReplacement<object>(pi.Position, arguments)
+                   select new MethodInvokeCommand(method, expansion, pi) into command
+                   select new ReflectionExceptionUnwrappingCommand(command);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
