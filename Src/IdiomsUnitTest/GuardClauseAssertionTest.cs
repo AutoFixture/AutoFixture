@@ -846,6 +846,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 e.Message);
         }
 
+        [Fact]
+        public void VerifyIgnoresGuardAssertionForOutParameter()
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            var methodInfo = typeof(OutParameterTestType).GetMethod("Method");
+            // Exercise system
+            // Verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(methodInfo));
+        }
+
         private class GuardedGenericData : IEnumerable<Type>
         {
             public IEnumerator<Type> GetEnumerator()
@@ -1422,6 +1433,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             public void Method(T1 argument1, int argument2)
             {
+            }
+        }
+
+        private class OutParameterTestType
+        {
+            public void Method(string argument1, out object argument2, int argument3)
+            {
+                if (argument1 == null)
+                {
+                    throw new ArgumentNullException("argument1");
+                }
+
+                argument2 = null;
             }
         }
     }
