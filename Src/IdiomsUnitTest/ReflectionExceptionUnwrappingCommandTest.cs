@@ -32,6 +32,18 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Equal(expectedCommand, result);
             // Teardown
         }
+        
+        [Fact]
+        public void RequestedParamNameIsCorrect()
+        {
+            const string expected = "foo";
+            var commandStub = new DelegatingGuardClauseCommand { RequestedParameterName = expected };
+            var sut = new ReflectionExceptionUnwrappingCommand(commandStub);
+
+            var actual = sut.RequestedParameterName;
+
+            Assert.Equal(expected, actual);
+        }
 
         [Fact]
         public void ExecuteExecutesDecoratedCommand()

@@ -78,7 +78,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifySuccedsWhenCommandThrowsCorrectException()
+        public void VerifySucceedsWhenCommandThrowsCorrectException()
         {
             // Fixture setup
             var cmd = new DelegatingGuardClauseCommand { OnExecute = v => { throw new ArgumentNullException(); } };
@@ -87,6 +87,20 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.DoesNotThrow(() =>
                 sut.Verify(cmd));
             // Teardown
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("invalidParamName")]
+        public void VerifyThrowsWhenCommandThrowsArgumentNullExceptionWithInvalidParamName(string invalidParamName)
+        {
+            var cmd = new DelegatingGuardClauseCommand
+            {
+                OnExecute = v => { throw new ArgumentNullException(invalidParamName); }
+            };
+            var sut = new NullReferenceBehaviorExpectation();
+            Assert.Throws<Exception>(() => 
+                sut.Verify(cmd));
         }
 
         [Fact]
