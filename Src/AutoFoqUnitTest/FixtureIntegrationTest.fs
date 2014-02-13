@@ -7,6 +7,8 @@ open System
 open System.Collections.Generic
 open Xunit
 
+let private verify = Swensen.Unquote.Assertions.test
+
 [<Fact>]
 let FixtureAutoMocksInterface() =
     // Fixture setup
@@ -14,7 +16,7 @@ let FixtureAutoMocksInterface() =
     // Exercise system
     let result = fixture.Create<IInterface>()
     // Verify outcome
-    Assert.IsAssignableFrom<IInterface>(result)
+    verify <@ typeof<IInterface>.IsAssignableFrom(result.GetType()) @>
     // Teardown
 
 [<Fact>]
@@ -24,7 +26,7 @@ let FixtureAutoMocksAbstractType() =
     // Exercise system
     let result = fixture.Create<AbstractType>()
     // Verify outcome
-    Assert.IsAssignableFrom<AbstractType>(result)
+    verify <@ typeof<AbstractType>.IsAssignableFrom(result.GetType()) @>
     // Teardown
 
 [<Fact>]
@@ -34,7 +36,7 @@ let FixtureAutoMocksAbstractGenericTypeWithNonDefaultConstructor() =
     // Exercise system
     let result = fixture.Create<AbstractGenericType<obj>>()
     // Verify outcome
-    Assert.IsAssignableFrom<AbstractGenericType<obj>>(result)
+    verify <@ typeof<AbstractGenericType<obj>>.IsAssignableFrom(result.GetType()) @>
 
 [<Fact>]
 let FixtureAutoMocksAbstractGenericTypeWithNonDefaultConstructorWithMultipleParameters() =
@@ -43,7 +45,9 @@ let FixtureAutoMocksAbstractGenericTypeWithNonDefaultConstructorWithMultiplePara
     // Exercise system
     let result = fixture.Create<AbstractTypeWithConstructorWithMultipleParameters<int, int>>()
     // Verify outcome
-    Assert.IsAssignableFrom<AbstractTypeWithConstructorWithMultipleParameters<int, int>>(result)
+    verify 
+        <@ typeof<AbstractTypeWithConstructorWithMultipleParameters<int, int>>
+               .IsAssignableFrom(result.GetType()) @>
 
 [<Fact>]
 let FixtureSuppliesValuesToAbstractGenericTypeWithNonDefaultConstructor() =
@@ -52,7 +56,7 @@ let FixtureSuppliesValuesToAbstractGenericTypeWithNonDefaultConstructor() =
     // Exercise system
     let result = fixture.Create<AbstractTypeWithNonDefaultConstructor<int>>()
     // Verify outcome
-    Assert.NotEqual(Unchecked.defaultof<int>, result.Property)
+    verify <@ not <| (Unchecked.defaultof<int> = result.Property) @>
     // Teardown
 
 [<Fact>]
@@ -62,6 +66,6 @@ let FixtureSuppliesValuesToAbstractGenericTypeWithNonDefaultConstructorWithMulti
     // Exercise system
     let result = fixture.Create<AbstractTypeWithConstructorWithMultipleParameters<int, int>>()
     // Verify outcome
-    Assert.NotEqual(Unchecked.defaultof<int>, result.Property1)
-    Assert.NotEqual(Unchecked.defaultof<int>, result.Property2)
+    verify <@ not <| (Unchecked.defaultof<int> = result.Property1) @>
+    verify <@ not <| (Unchecked.defaultof<int> = result.Property2) @>
     // Teardown
