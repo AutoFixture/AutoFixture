@@ -5,8 +5,11 @@ open Ploeh.AutoFixture.AutoFoq
 open Ploeh.TestTypeFoundation
 open System
 open System.Reflection
+open Swensen.Unquote.Assertions
 open Xunit
 open Xunit.Extensions
+
+let private verify = Swensen.Unquote.Assertions.test
 
 [<Fact>]
 let SutIsMethodQuery() =
@@ -14,7 +17,7 @@ let SutIsMethodQuery() =
     // Exercise system
     let sut = FoqMethodQuery()
     // Verify outcome
-    Assert.IsAssignableFrom<IMethodQuery>(sut)
+    verify <@ typeof<IMethodQuery>.IsAssignableFrom(sut.GetType()) @>
     // Teardown
 
 [<Fact>]
@@ -22,8 +25,7 @@ let SelectMethodThrowsForNullType() =
     // Fixture setup
     let sut = FoqMethodQuery()
     // Exercise system and verify outcome
-    Assert.Throws<ArgumentNullException>(fun () -> 
-        sut.SelectMethods(null)|> ignore)
+    raises<ArgumentNullException> <@ sut.SelectMethods(null)|> ignore @>
 
 [<Fact>]
 let SelectMethodReturnsMethodForInterface() =
@@ -33,8 +35,7 @@ let SelectMethodReturnsMethodForInterface() =
     // Exercise system
     let result = sut.SelectMethods(requestType)
     // Verify outcome
-    Assert.IsAssignableFrom<seq<IMethod>>(result) 
-    |> ignore
+    verify <@ typeof<seq<IMethod>>.IsAssignableFrom(result.GetType()) @>
 
 [<Fact>]
 let SelectMethodReturnsMethodWithoutParametersForInterface() =
@@ -44,7 +45,7 @@ let SelectMethodReturnsMethodWithoutParametersForInterface() =
     // Exercise system
     let result = (sut.SelectMethods(requestType) |> Seq.head).Parameters
     // Verify outcome
-    Assert.Empty(result)
+    verify <@ result |> Seq.isEmpty @>
 
 [<Theory>][<PropertyData("TypesWithConstructors")>]
 let MethodsAreReturnedInCorrectOrder (request: Type) =
@@ -62,8 +63,7 @@ let MethodsAreReturnedInCorrectOrder (request: Type) =
         sut.SelectMethods(request)
         |> Seq.map(fun ci -> ci.Parameters |> Seq.length)
     // Verify outcome
-    let compareSequences = Seq.compareWith Operators.compare
-    Assert.True((compareSequences expected result = 0))
+    verify <@ (expected, result) ||> Seq.forall2 (=) @>
     // Teardown   
 
 [<Theory>][<PropertyData("TypesWithConstructors")>]
@@ -81,11 +81,11 @@ let SelectMethodsDefineCorrectParameters (request: Type) =
         sut.SelectMethods(request)
         |> Seq.map(fun ci -> ci.Parameters)
     // Verify outcome
-    Assert.True(
-        expected |> Seq.forall(fun expectedParameters -> 
-            result |> Seq.exists(fun resultParameters -> 
-                expectedParameters = 
-                    (resultParameters |> Seq.toArray))))
+    verify
+        <@ expected |> Seq.forall(fun expectedParameters -> 
+               result |> Seq.exists(fun resultParameters -> 
+                   expectedParameters = 
+                       (resultParameters |> Seq.toArray))) @>
     // Teardown
 
 let TypesWithConstructors : seq<Type[]> = 
