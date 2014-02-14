@@ -25,7 +25,7 @@ let SelectMethodThrowsForNullType() =
     // Fixture setup
     let sut = FoqMethodQuery()
     // Exercise system and verify outcome
-    raises<ArgumentNullException> <@ sut.SelectMethods(null)|> ignore @>
+    raises<ArgumentNullException> <@ sut.SelectMethods(null) @>
 
 [<Fact>]
 let SelectMethodReturnsMethodForInterface() =
