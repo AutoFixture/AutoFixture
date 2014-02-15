@@ -17,7 +17,7 @@ let SutIsCustomization() =
     // Exercise system
     let sut = AutoFoqCustomization()
     // Verify outcome
-    verify <@ typeof<ICustomization>.IsAssignableFrom(sut.GetType()) @>
+    verify <@ (sut :> ICustomization) :? ICustomization @>
     // Teardown
 
 [<Fact>]
@@ -45,7 +45,7 @@ let RelayIsCorrectWhenInitializedWithDefaultConstructor() =
     // Exercise system
     let result = sut.Relay
     // Verify outcome
-    verify <@ result.GetType() = typeof<FilteringSpecimenBuilder> @>
+    verify <@ result :? FilteringSpecimenBuilder @>
     // Teardown
 
 [<Fact>]

@@ -17,7 +17,7 @@ let SutIsMethodQuery() =
     // Exercise system
     let sut = FoqMethodQuery()
     // Verify outcome
-    verify <@ typeof<IMethodQuery>.IsAssignableFrom(sut.GetType()) @>
+    verify <@ (sut :> IMethodQuery) :? IMethodQuery @>
     // Teardown
 
 [<Fact>]
@@ -35,7 +35,7 @@ let SelectMethodReturnsMethodForInterface() =
     // Exercise system
     let result = sut.SelectMethods(requestType)
     // Verify outcome
-    verify <@ typeof<seq<IMethod>>.IsAssignableFrom(result.GetType()) @>
+    verify <@ result :? seq<IMethod> @>
 
 [<Fact>]
 let SelectMethodReturnsMethodWithoutParametersForInterface() =
