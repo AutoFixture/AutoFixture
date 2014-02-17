@@ -10,6 +10,7 @@ open Xunit
 open Xunit.Extensions
 
 let private verify = Swensen.Unquote.Assertions.test
+let private implements<'T> (sut : obj) = typeof<'T>.IsAssignableFrom(sut.GetType())
 
 [<Fact>]
 let SutIsMethodQuery() =
@@ -17,7 +18,7 @@ let SutIsMethodQuery() =
     // Exercise system
     let sut = FoqMethodQuery()
     // Verify outcome
-    verify <@ (sut :> IMethodQuery) :? IMethodQuery @>
+    verify <@ implements<IMethodQuery>(sut) @>
     // Teardown
 
 [<Fact>]
@@ -35,7 +36,7 @@ let SelectMethodReturnsMethodForInterface() =
     // Exercise system
     let result = sut.SelectMethods(requestType)
     // Verify outcome
-    verify <@ result :? seq<IMethod> @>
+    verify <@ implements<seq<IMethod>>(result) @>
 
 [<Fact>]
 let SelectMethodReturnsMethodWithoutParametersForInterface() =

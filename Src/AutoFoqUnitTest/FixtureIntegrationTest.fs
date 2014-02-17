@@ -8,6 +8,7 @@ open System.Collections.Generic
 open Xunit
 
 let private verify = Swensen.Unquote.Assertions.test
+let private implements<'T> (sut : obj) = typeof<'T>.IsAssignableFrom(sut.GetType())
 
 [<Fact>]
 let FixtureAutoMocksInterface() =
@@ -16,7 +17,7 @@ let FixtureAutoMocksInterface() =
     // Exercise system
     let result = fixture.Create<IInterface>()
     // Verify outcome
-    verify <@ result :? IInterface @>
+    verify <@ implements<IInterface>(result) @>
     // Teardown
 
 [<Fact>]
@@ -26,7 +27,7 @@ let FixtureAutoMocksAbstractType() =
     // Exercise system
     let result = fixture.Create<AbstractType>()
     // Verify outcome
-    verify <@ result :? AbstractType @>
+    verify <@ implements<AbstractType>(result) @>
     // Teardown
 
 [<Fact>]
@@ -36,7 +37,7 @@ let FixtureAutoMocksAbstractGenericTypeWithNonDefaultConstructor() =
     // Exercise system
     let result = fixture.Create<AbstractGenericType<obj>>()
     // Verify outcome
-    verify <@ result :? AbstractGenericType<obj> @>
+    verify <@ implements<AbstractGenericType<obj>>(result) @>
 
 [<Fact>]
 let FixtureAutoMocksAbstractGenericTypeWithNonDefaultConstructorWithMultipleParameters() =
@@ -45,7 +46,7 @@ let FixtureAutoMocksAbstractGenericTypeWithNonDefaultConstructorWithMultiplePara
     // Exercise system
     let result = fixture.Create<AbstractTypeWithConstructorWithMultipleParameters<int, int>>()
     // Verify outcome
-    verify <@ result :? AbstractTypeWithConstructorWithMultipleParameters<int, int> @>
+    verify <@ implements<AbstractTypeWithConstructorWithMultipleParameters<int, int>>(result) @>
 
 [<Fact>]
 let FixtureSuppliesValuesToAbstractGenericTypeWithNonDefaultConstructor() =
