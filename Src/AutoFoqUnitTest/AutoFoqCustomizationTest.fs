@@ -3,26 +3,27 @@
 open Foq
 open Ploeh.AutoFixture
 open Ploeh.AutoFixture.AutoFoq
+open Ploeh.AutoFixture.AutoFoq.UnitTest.TestDsl
 open Ploeh.AutoFixture.Kernel
+open Swensen.Unquote.Assertions
 open Xunit
 open System
 open System.Collections.Generic
- 
+
 [<Fact>]
 let SutIsCustomization() =
     // Fixture setup
     // Exercise system
     let sut = AutoFoqCustomization()
     // Verify outcome
-    Assert.IsAssignableFrom<ICustomization>(sut)
+    verify <@ sut |> implements<ICustomization> @>
     // Teardown
 
 [<Fact>]
 let InitializeWithNullRelayThrows() =
     // Fixture setup
     // Exercise system and verify outcome
-    Assert.Throws<ArgumentNullException>(fun () -> 
-        AutoFoqCustomization(null) |> ignore)
+    raises<ArgumentNullException> <@ AutoFoqCustomization(null) @>
     // Teardown
 
 [<Fact>]
@@ -33,7 +34,7 @@ let RelayIsCorrect() =
     // Exercise system
     let result = sut.Relay
     // Verify outcome
-    Assert.Equal(expectedBuilder, result)
+    verify <@ expectedBuilder = result @>
     // Teardown
 
 [<Fact>]
@@ -43,7 +44,7 @@ let RelayIsCorrectWhenInitializedWithDefaultConstructor() =
     // Exercise system
     let result = sut.Relay
     // Verify outcome
-    Assert.IsType<FilteringSpecimenBuilder>(result)
+    verify <@ result :? FilteringSpecimenBuilder @>
     // Teardown
 
 [<Fact>]
@@ -51,8 +52,7 @@ let CustomizeWithNullFixtureThrows() =
     // Fixture setup
     let sut = AutoFoqCustomization()
     // Exercise system and verify outcome
-    Assert.Throws<ArgumentNullException>(fun () -> 
-        sut.Customize(null))
+    raises<ArgumentNullException> <@ sut.Customize(null) @>
     // Teardown
 
 [<Fact>]
@@ -68,7 +68,7 @@ let CustomizeAddsAppropriateResidueCollector() =
     // Exercise system
     sut.Customize(fixtureStub)
     // Verify outcome
-    Assert.Contains(sut.Relay, residueCollectors)
+    verify <@ Seq.exists ((=) sut.Relay) <| residueCollectors @>
     // Teardown
 
 [<Fact>]
@@ -87,6 +87,6 @@ let CustomizeDoesNotAddCustomizations() =
     // Exercise system
     sut.Customize(fixtureStub)
     // Verify outcome
-    Assert.Empty(customizations)
+    verify <@ customizations |> Seq.isEmpty @>
     // Teardown
 

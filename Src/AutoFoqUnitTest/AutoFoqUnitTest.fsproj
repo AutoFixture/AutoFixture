@@ -53,9 +53,11 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.fs" />
     <None Include="packages.config" />
+    <Compile Include="TestDsl.fs" />
     <Compile Include="FoqMethodQueryTest.fs" />
     <Compile Include="AutoFoqCustomizationTest.fs" />
     <Compile Include="FixtureIntegrationTest.fs" />
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFoq\AutoFoq.fsproj">
@@ -72,6 +74,10 @@
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
+    <Reference Include="Unquote">
+      <HintPath>..\..\Packages\Unquote.2.2.2\lib\net40\Unquote.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="xunit">
       <HintPath>..\..\Packages\xunit.1.8.0.1549\lib\xunit.dll</HintPath>
       <Private>True</Private>

@@ -2,6 +2,7 @@
 
 open Ploeh.AutoFixture
 open Ploeh.AutoFixture.AutoFoq
+open Ploeh.AutoFixture.AutoFoq.UnitTest.TestDsl
 open Ploeh.TestTypeFoundation
 open System
 open System.Collections.Generic
@@ -14,7 +15,7 @@ let FixtureAutoMocksInterface() =
     // Exercise system
     let result = fixture.Create<IInterface>()
     // Verify outcome
-    Assert.IsAssignableFrom<IInterface>(result)
+    verify <@ result |> implements<IInterface> @>
     // Teardown
 
 [<Fact>]
@@ -24,7 +25,7 @@ let FixtureAutoMocksAbstractType() =
     // Exercise system
     let result = fixture.Create<AbstractType>()
     // Verify outcome
-    Assert.IsAssignableFrom<AbstractType>(result)
+    verify <@ result |> implements<AbstractType> @>
     // Teardown
 
 [<Fact>]
@@ -34,7 +35,7 @@ let FixtureAutoMocksAbstractGenericTypeWithNonDefaultConstructor() =
     // Exercise system
     let result = fixture.Create<AbstractGenericType<obj>>()
     // Verify outcome
-    Assert.IsAssignableFrom<AbstractGenericType<obj>>(result)
+    verify <@ result |> implements<AbstractGenericType<obj>> @>
 
 [<Fact>]
 let FixtureAutoMocksAbstractGenericTypeWithNonDefaultConstructorWithMultipleParameters() =
@@ -43,7 +44,7 @@ let FixtureAutoMocksAbstractGenericTypeWithNonDefaultConstructorWithMultiplePara
     // Exercise system
     let result = fixture.Create<AbstractTypeWithConstructorWithMultipleParameters<int, int>>()
     // Verify outcome
-    Assert.IsAssignableFrom<AbstractTypeWithConstructorWithMultipleParameters<int, int>>(result)
+    verify <@ result |> implements<AbstractTypeWithConstructorWithMultipleParameters<int, int>> @>
 
 [<Fact>]
 let FixtureSuppliesValuesToAbstractGenericTypeWithNonDefaultConstructor() =
@@ -52,7 +53,7 @@ let FixtureSuppliesValuesToAbstractGenericTypeWithNonDefaultConstructor() =
     // Exercise system
     let result = fixture.Create<AbstractTypeWithNonDefaultConstructor<int>>()
     // Verify outcome
-    Assert.NotEqual(Unchecked.defaultof<int>, result.Property)
+    verify <@ not <| (Unchecked.defaultof<int> = result.Property) @>
     // Teardown
 
 [<Fact>]
@@ -62,6 +63,6 @@ let FixtureSuppliesValuesToAbstractGenericTypeWithNonDefaultConstructorWithMulti
     // Exercise system
     let result = fixture.Create<AbstractTypeWithConstructorWithMultipleParameters<int, int>>()
     // Verify outcome
-    Assert.NotEqual(Unchecked.defaultof<int>, result.Property1)
-    Assert.NotEqual(Unchecked.defaultof<int>, result.Property2)
+    verify <@ not <| (Unchecked.defaultof<int> = result.Property1) @>
+    verify <@ not <| (Unchecked.defaultof<int> = result.Property2) @>
     // Teardown
