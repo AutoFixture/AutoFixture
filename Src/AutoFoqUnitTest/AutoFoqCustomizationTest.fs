@@ -10,14 +10,15 @@ open System
 open System.Collections.Generic
 
 let private verify = Swensen.Unquote.Assertions.test
- 
+let private implements<'T> (sut : obj) = typeof<'T>.IsAssignableFrom(sut.GetType())
+
 [<Fact>]
 let SutIsCustomization() =
     // Fixture setup
     // Exercise system
     let sut = AutoFoqCustomization()
     // Verify outcome
-    verify <@ (sut :> ICustomization) :? ICustomization @>
+    verify <@ implements<ICustomization>(sut) @>
     // Teardown
 
 [<Fact>]
