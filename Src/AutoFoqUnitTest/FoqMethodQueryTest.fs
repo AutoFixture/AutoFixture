@@ -16,7 +16,7 @@ let SutIsMethodQuery() =
     // Exercise system
     let sut = FoqMethodQuery()
     // Verify outcome
-    verify <@ implements<IMethodQuery>(sut) @>
+    verify <@ sut |> implements<IMethodQuery> @>
     // Teardown
 
 [<Fact>]
@@ -34,7 +34,7 @@ let SelectMethodReturnsMethodForInterface() =
     // Exercise system
     let result = sut.SelectMethods(requestType)
     // Verify outcome
-    verify <@ implements<seq<IMethod>>(result) @>
+    verify <@ result |> implements<seq<IMethod>> @>
 
 [<Fact>]
 let SelectMethodReturnsMethodWithoutParametersForInterface() =

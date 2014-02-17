@@ -15,7 +15,7 @@ let FixtureAutoMocksInterface() =
     // Exercise system
     let result = fixture.Create<IInterface>()
     // Verify outcome
-    verify <@ implements<IInterface>(result) @>
+    verify <@ result |> implements<IInterface> @>
     // Teardown
 
 [<Fact>]
@@ -25,7 +25,7 @@ let FixtureAutoMocksAbstractType() =
     // Exercise system
     let result = fixture.Create<AbstractType>()
     // Verify outcome
-    verify <@ implements<AbstractType>(result) @>
+    verify <@ result |> implements<AbstractType> @>
     // Teardown
 
 [<Fact>]
@@ -35,7 +35,7 @@ let FixtureAutoMocksAbstractGenericTypeWithNonDefaultConstructor() =
     // Exercise system
     let result = fixture.Create<AbstractGenericType<obj>>()
     // Verify outcome
-    verify <@ implements<AbstractGenericType<obj>>(result) @>
+    verify <@ result |> implements<AbstractGenericType<obj>> @>
 
 [<Fact>]
 let FixtureAutoMocksAbstractGenericTypeWithNonDefaultConstructorWithMultipleParameters() =
@@ -44,7 +44,7 @@ let FixtureAutoMocksAbstractGenericTypeWithNonDefaultConstructorWithMultiplePara
     // Exercise system
     let result = fixture.Create<AbstractTypeWithConstructorWithMultipleParameters<int, int>>()
     // Verify outcome
-    verify <@ implements<AbstractTypeWithConstructorWithMultipleParameters<int, int>>(result) @>
+    verify <@ result |> implements<AbstractTypeWithConstructorWithMultipleParameters<int, int>> @>
 
 [<Fact>]
 let FixtureSuppliesValuesToAbstractGenericTypeWithNonDefaultConstructor() =

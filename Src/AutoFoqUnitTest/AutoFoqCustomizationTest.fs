@@ -16,7 +16,7 @@ let SutIsCustomization() =
     // Exercise system
     let sut = AutoFoqCustomization()
     // Verify outcome
-    verify <@ implements<ICustomization>(sut) @>
+    verify <@ sut |> implements<ICustomization> @>
     // Teardown
 
 [<Fact>]
