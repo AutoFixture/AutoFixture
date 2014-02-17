@@ -3,14 +3,12 @@
 open Foq
 open Ploeh.AutoFixture
 open Ploeh.AutoFixture.AutoFoq
+open Ploeh.AutoFixture.AutoFoq.UnitTest.TestDsl
 open Ploeh.AutoFixture.Kernel
 open Swensen.Unquote.Assertions
 open Xunit
 open System
 open System.Collections.Generic
-
-let private verify = Swensen.Unquote.Assertions.test
-let private implements<'T> (sut : obj) = typeof<'T>.IsAssignableFrom(sut.GetType())
 
 [<Fact>]
 let SutIsCustomization() =
