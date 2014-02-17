@@ -2,13 +2,11 @@
 
 open Ploeh.AutoFixture
 open Ploeh.AutoFixture.AutoFoq
+open Ploeh.AutoFixture.AutoFoq.UnitTest.TestDsl
 open Ploeh.TestTypeFoundation
 open System
 open System.Collections.Generic
 open Xunit
-
-let private verify = Swensen.Unquote.Assertions.test
-let private implements<'T> (sut : obj) = typeof<'T>.IsAssignableFrom(sut.GetType())
 
 [<Fact>]
 let FixtureAutoMocksInterface() =

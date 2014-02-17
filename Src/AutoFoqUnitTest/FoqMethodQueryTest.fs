@@ -2,15 +2,13 @@
 
 open Ploeh.AutoFixture.Kernel
 open Ploeh.AutoFixture.AutoFoq
+open Ploeh.AutoFixture.AutoFoq.UnitTest.TestDsl
 open Ploeh.TestTypeFoundation
 open System
 open System.Reflection
 open Swensen.Unquote.Assertions
 open Xunit
 open Xunit.Extensions
-
-let private verify = Swensen.Unquote.Assertions.test
-let private implements<'T> (sut : obj) = typeof<'T>.IsAssignableFrom(sut.GetType())
 
 [<Fact>]
 let SutIsMethodQuery() =
