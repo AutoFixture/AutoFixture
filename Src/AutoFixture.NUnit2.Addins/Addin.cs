@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixture.NUnit2.Addins
         /// </summary>
         /// <param name="host">The host in which to install the add-in</param>
         /// <returns>True if the add-in was installed, otehrwise false</returns>
-        public bool Install(IExtensionHost host)
+        public virtual bool Install(IExtensionHost host)
         {
             var providers = host.GetExtensionPoint("TestCaseProviders");
             if (providers == null) 

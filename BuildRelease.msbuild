@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-    	<NUnitToolsFolder>Packages\NUnit.Runners.2.6.2\tools</NUnitToolsFolder>
+    	<NUnitToolsFolder>Packages\NUnit.Runners.2.6.3\tools</NUnitToolsFolder>
     </PropertyGroup>
 
     <UsingTask TaskName="MSBuild.Community.Tasks.Zip" AssemblyFile="$(MSBuildExtensionsPath)\MSBuild.Community.Tasks.dll" />
