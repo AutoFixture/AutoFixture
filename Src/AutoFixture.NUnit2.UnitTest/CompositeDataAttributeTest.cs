@@ -110,7 +110,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
 
             // Exercise system and verify outcome
             var result = sut.GetData(a.Method);
-            Array.ForEach(result.ToArray(), Assert.IsEmpty);
+            Array.ForEach(result.ToArray(), objects => Assert.IsEmpty(objects));
             // Teardown
         }
     }
