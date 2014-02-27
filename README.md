@@ -68,6 +68,8 @@ Notice how we can reduce unit tests to state only the relevant parts of the test
 
 Using AutoFixture is as easy as referencing the library and creating a new instance of the Fixture class!
 
+## Downloads
+
 AutoFixture is available via NuGet:
 
 * [AutoFixture](http://nuget.org/packages/AutoFixture)
@@ -80,6 +82,10 @@ AutoFixture is available via NuGet:
 * [AutoFixture.NUnit2](http://nuget.org/packages/AutoFixture.NUnit2)
 * [AutoFixture.Idioms](http://nuget.org/packages/AutoFixture.Idioms)
 * [SemanticComparison](http://nuget.org/packages/SemanticComparison)
+
+## Versioning
+
+AutoFixture follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html).
 
 ## Documentation ##
 
