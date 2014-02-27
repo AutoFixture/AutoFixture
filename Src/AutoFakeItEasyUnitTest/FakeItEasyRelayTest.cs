@@ -1,5 +1,6 @@
 ﻿using System;
 using FakeItEasy;
+using FakeItEasy.ExtensionSyntax.Full;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
@@ -34,7 +35,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void SpecificationIsCorrectWhenInitializedWithSpecification()
         {
             // Fixture setup
-            var expected = new Fake<IRequestSpecification>().FakedObject;
+            var expected = A.Fake<IRequestSpecification>();
             var sut = new FakeItEasyRelay(expected);
             // Exercise system
             IRequestSpecification result = sut.FakeableSpecification;
@@ -77,7 +78,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         {
             // Fixture setup
             var sut = new FakeItEasyRelay();
-            var dummyContext = new Fake<ISpecimenContext>().FakedObject;
+            var dummyContext = A.Fake<ISpecimenContext>();
             // Exercise system
             var result = sut.Create(request, dummyContext);
             // Verify outcome
@@ -95,12 +96,12 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             var fakeType = typeof(Fake<>).MakeGenericType(request);
 
             var fake = Activator.CreateInstance(fakeType);
-            var contextStub = new Fake<ISpecimenContext>();
+            var contextStub = A.Fake<ISpecimenContext>();
             contextStub.CallsTo(ctx => ctx.Resolve(fakeType)).Returns(fake);
 
             var sut = new FakeItEasyRelay();
             // Exercise system
-            var result = sut.Create(request, contextStub.FakedObject);
+            var result = sut.Create(request, contextStub);
             // Verify outcome
             var expected = fake.GetType().GetProperty("FakedObject").GetValue(fake, null);
             Assert.Equal(expected, result);
@@ -114,12 +115,12 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
             var request = typeof(IInterface);
             var fakeType = typeof(Fake<>).MakeGenericType(request);
 
-            var contextStub = new Fake<ISpecimenContext>();
+            var contextStub = A.Fake<ISpecimenContext>();
             contextStub.CallsTo(ctx => ctx.Resolve(fakeType)).Returns(new object());
 
             var sut = new FakeItEasyRelay();
             // Exercise system
-            var result = sut.Create(request, contextStub.FakedObject);
+            var result = sut.Create(request, contextStub);
             // Verify outcome
             var expectedResult = new NoSpecimen(request);
             Assert.Equal(expectedResult, result);
