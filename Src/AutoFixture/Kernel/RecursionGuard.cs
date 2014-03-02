@@ -281,9 +281,14 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             requestsForCurrentThread.Push(request);
-            var specimen = this.builder.Create(request, context);
-            requestsForCurrentThread.Pop();
-            return specimen;
+            try
+            {
+                return this.builder.Create(request, context);
+            }
+            finally
+            {
+                requestsForCurrentThread.Pop();
+            }
         }
 
         /// <summary>Composes the supplied builders.</summary>

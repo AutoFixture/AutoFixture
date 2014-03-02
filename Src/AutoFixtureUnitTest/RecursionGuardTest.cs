@@ -153,6 +153,46 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateWillNotTriggerHandlingOnSecondarySameRequestWhenDecoratedBuilderThrows()
+        {
+            // Fixture setup
+            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) =>
+            {
+                throw new PrivateExpectedException("The decorated builder always throws.");
+            }};
+
+            var sut = new DelegatingRecursionGuard(builder) { OnHandleRecursiveRequest = o =>
+            {
+                throw new PrivatUnexpectedException("Recursive handling should not be triggered.");
+            }};
+
+            var dummyContext = new DelegatingSpecimenContext();
+            var sameRequest = new object();
+
+            // Exercise system and verify outcome
+            Assert.Throws<PrivateExpectedException>(() => sut.Create(sameRequest, dummyContext));
+            Assert.Empty(sut.UnprotectedRecordedRequests);
+            Assert.Throws<PrivateExpectedException>(() => sut.Create(sameRequest, dummyContext));
+            Assert.Empty(sut.UnprotectedRecordedRequests);
+        }
+
+        class PrivateExpectedException : Exception
+        {
+            public PrivateExpectedException(string message)
+                : base(message)
+            {
+            }
+        }
+
+        class PrivatUnexpectedException : Exception
+        {
+            public PrivatUnexpectedException(string message)
+                : base(message)
+            {
+            }
+        }
+
+        [Fact]
         public void CreateWillTriggerHandlingOnSecondLevelRecursiveRequest()
         {
             // Fixture setup
