@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
@@ -189,6 +190,29 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             Assert.Empty(sut.SpecimenRequests);
             // Teardown
+        }
+
+        [Fact]
+        public void SpecimenRequestsAreEmptyAfterThrowing()
+        {
+            // Fixture setup
+            var requests = new[] {new object(), new object(), new object() };
+            var requestQueue = new Queue<object>(requests);
+            var firstRequest = requestQueue.Dequeue();
+            var tracer = new DelegatingTracingBuilder(new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => requestQueue.Count > 0
+                    ? c.Resolve(requestQueue.Dequeue())
+                    : new NoSpecimen()
+            });
+            var sut = new TerminatingWithPathSpecimenBuilder(tracer);
+            var container = new SpecimenContext(sut);
+
+            // Exercise system and verify outcome
+            Assert.Throws<ObjectCreationException>(() =>
+                sut.Create(firstRequest, container));
+
+            Assert.Empty(sut.SpecimenRequests);
         }
 
         [Fact]
