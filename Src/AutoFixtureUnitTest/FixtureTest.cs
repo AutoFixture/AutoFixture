@@ -5058,6 +5058,27 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateAbstractTypeThreeTimesGivesTheSameErrorMessage()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+
+            // Exercise system and verify outcome
+            var ocex1 = Assert.Throws<ObjectCreationException>(() =>
+                fixture.Create<PropertyHolder<AbstractType>>());
+
+            var ocex2 = Assert.Throws<ObjectCreationException>(() =>
+                fixture.Create<PropertyHolder<AbstractType>>());
+
+            var ocex3 = Assert.Throws<ObjectCreationException>(() =>
+                fixture.Create<PropertyHolder<AbstractType>>());
+
+            Assert.Equal(ocex1.Message, ocex2.Message);
+            Assert.Equal(ocex2.Message, ocex3.Message);
+            // Teardown
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
