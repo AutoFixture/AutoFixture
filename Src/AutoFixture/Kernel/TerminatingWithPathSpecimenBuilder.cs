@@ -85,13 +85,20 @@ namespace Ploeh.AutoFixture.Kernel
             var result = this.tracer.Create(request, context);
             if (result is NoSpecimen)
             {
-                throw new ObjectCreationException(string.Format(
-                    CultureInfo.CurrentCulture,
-                    "AutoFixture was unable to create an instance from {0}, most likely because it has no " +
+                try
+                {
+                    throw new ObjectCreationException(string.Format(
+                        CultureInfo.CurrentCulture,
+                        "AutoFixture was unable to create an instance from {0}, most likely because it has no " +
                         "public constructor, is an abstract or non-public type.{1}{1}Request path:{1}{2}",
-                    request,
-                    Environment.NewLine,
-                    BuildRequestPathText(this.SpecimenRequests)));
+                        request,
+                        Environment.NewLine,
+                        BuildRequestPathText(this.SpecimenRequests)));
+                }
+                finally
+                {
+                    this.GetPathForCurrentThread().Clear();
+                }
             }
             return result;
         }
