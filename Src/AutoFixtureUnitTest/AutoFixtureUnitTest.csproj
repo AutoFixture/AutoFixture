@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ploeh.AutoFixtureUnitTest</RootNamespace>
     <AssemblyName>Ploeh.AutoFixtureUnitTest</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -43,6 +43,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -52,6 +53,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Verify|AnyCPU' ">
     <OutputPath>bin\Verify\</OutputPath>
@@ -63,6 +65,7 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ploeh.Albedo">
@@ -90,6 +93,7 @@
     <Compile Include="CreatingAbstractClassWithPublicConstructorTests.cs" />
     <Compile Include="DataAnnotations\StringLengthArgumentSupportTests.cs" />
     <Compile Include="DelegatingRecursionHandler.cs" />
+    <Compile Include="Kernel\ReadOnlyCollectionRelayTest.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecificationTest.cs" />
     <Compile Include="Kernel\TerminatingWithPathSpecimenBuilderTest.cs" />
     <Compile Include="MapCreateManyToEnumerableTests.cs" />
