@@ -69,6 +69,19 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         /// <summary>
+        /// Gets the parameter name of the requested value.
+        /// </summary>
+        /// <remarks>
+        /// The RequestedParameterName property identifies the parameter name of object which should be supplied to
+        /// the <see cref="Execute"/> method - in this case the name of the
+        /// <see cref="ParameterInfo" />.
+        /// </remarks>
+        public string RequestedParameterName
+        {
+            get { return this.ParameterInfo.Name; }
+        }
+
+        /// <summary>
         /// Invokes the mthod with the specified value.
         /// </summary>
         /// <param name="value">The value with wich the method is executed.</param>

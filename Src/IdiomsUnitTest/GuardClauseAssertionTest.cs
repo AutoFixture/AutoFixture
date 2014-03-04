@@ -857,6 +857,39 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.DoesNotThrow(() => sut.Verify(methodInfo));
         }
 
+        [Fact]
+        public void VerifyNonProperlyGuardedConstructorThrowsException()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+            var constructorInfo = typeof (NonProperlyGuardedClass).GetConstructors().Single();
+
+            var exception = Assert.Throws<GuardClauseException>(() => sut.Verify(constructorInfo));
+            Assert.Contains("Are you missing a Guard Clause?", exception.Message);
+        }
+
+        [Fact]
+        public void VerifyNonProperlyGuardedPropertyThrowsException()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+            var propertyInfo = typeof(NonProperlyGuardedClass).GetProperty("Property");
+
+            var exception = Assert.Throws<GuardClauseException>(() => sut.Verify(propertyInfo));
+            Assert.Contains("Are you missing a Guard Clause?", exception.Message);
+        }
+
+        [Theory]
+        [InlineData("Method", "Are you missing a Guard Clause?")]
+        [InlineData("DeferredMethod", "deferred")]
+        [InlineData("AnotherDeferredMethod", "deferred")]
+        public void VerifyNonProperlyGuardedMethodThrowsException(string methodName, string expectedMessage)
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+            var methodInfo = typeof(NonProperlyGuardedClass).GetMethod(methodName);
+
+            var exception = Assert.Throws<GuardClauseException>(() => sut.Verify(methodInfo));
+            Assert.Contains(expectedMessage, exception.Message);
+        }
+
         private class GuardedGenericData : IEnumerable<Type>
         {
             public IEnumerator<Type> GetEnumerator()
@@ -1446,6 +1479,49 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 }
 
                 argument2 = null;
+            }
+        }
+
+        private class NonProperlyGuardedClass
+        {
+            private const string InvalidParamName = "invalidParamName";
+
+            public NonProperlyGuardedClass(object argument)
+            {
+                if (argument == null)
+                    throw new ArgumentNullException(InvalidParamName);
+            }
+
+            public object Property
+            {
+                get { return null; }
+                set
+                {
+                    if (value == null)
+                        throw new ArgumentNullException(InvalidParamName);
+                }
+            }
+
+            public void Method(object argument)
+            {
+                if (argument == null)
+                    throw new ArgumentNullException(InvalidParamName);
+            }
+
+            public IEnumerable<object> DeferredMethod(object argument)
+            {
+                if (argument == null)
+                    throw new ArgumentNullException(InvalidParamName);
+
+                yield return argument;
+            }
+
+            public IEnumerator<object> AnotherDeferredMethod(object argument)
+            {
+                if (argument == null)
+                    throw new ArgumentNullException(InvalidParamName);
+
+                yield return argument;
             }
         }
     }

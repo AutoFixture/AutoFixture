@@ -44,6 +44,20 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         /// <summary>
+        /// Gets the parameter name of the requested value.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The return value is the return value of the decorated <see cref="Command" /> instance's
+        /// <see cref="IGuardClauseCommand.RequestedParameterName" /> property.
+        /// </para>
+        /// </remarks>
+        public string RequestedParameterName
+        {
+            get { return this.command.RequestedParameterName; }
+        }
+
+        /// <summary>
         /// Executes the action on the decorated <see cref="Command" />. If a
         /// <see cref="TargetInvocationException" /> is thrown, it's unwrapped and its
         /// <see cref="Exception.InnerException" /> is thrown instead.

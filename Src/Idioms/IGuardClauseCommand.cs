@@ -26,6 +26,17 @@ namespace Ploeh.AutoFixture.Idioms
         Type RequestedType { get; }
 
         /// <summary>
+        /// Gets the name of the requested parameter.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The RequestedParameterName property identifies the name of parameter which should be supplied to
+        /// the <see cref="Execute" /> method.
+        /// </para>
+        /// </remarks>
+        string RequestedParameterName { get; }
+
+        /// <summary>
         /// Executes the action with the specified value.
         /// </summary>
         /// <param name="value">The value with wich the action is executed.</param>

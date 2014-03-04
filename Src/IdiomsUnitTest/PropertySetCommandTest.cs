@@ -79,6 +79,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
+        public void RequestedParameterNameIsCorrect()
+        {
+            var dummyOwner = new PropertyHolder<object>();
+            var propertyDummy = dummyOwner.GetType().GetProperty("Property");
+
+            var sut = new PropertySetCommand(propertyDummy, dummyOwner);
+
+            Assert.Equal("value", sut.RequestedParameterName);
+        }
+
+        [Fact]
         public void CreateExceptionReturnsExceptionWithCorrectMessage()
         {
             // Fixture setup

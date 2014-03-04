@@ -60,6 +60,19 @@ namespace Ploeh.AutoFixture.Idioms
             get { return this.propertyInfo.PropertyType; }
         }
 
+
+        /// <summary>
+        /// Gets the parameter name of the requested value.
+        /// </summary>
+        /// <value></value>
+        /// <remarks>
+        /// The RequestedParameterName always returns "value".
+        /// </remarks>
+        public string RequestedParameterName
+        {
+            get { return "value"; }
+        }
+
         /// <summary>
         /// Executes the action with the specified value.
         /// </summary>
