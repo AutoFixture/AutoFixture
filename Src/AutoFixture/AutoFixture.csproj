@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ploeh.AutoFixture</RootNamespace>
     <AssemblyName>Ploeh.AutoFixture</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>
@@ -56,6 +56,7 @@
     <CodeAnalysisRules>
     </CodeAnalysisRules>
     <CodeAnalysisRuleSet>Migrated rules for AutoFixture.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -70,6 +71,7 @@
     <DocumentationFile>bin\Release\Ploeh.AutoFixture.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CodeAnalysisRuleSet>AutoFixture.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Verify|AnyCPU' ">
     <OutputPath>bin\Verify\</OutputPath>
@@ -86,6 +88,7 @@
     <ErrorReport>prompt</ErrorReport>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -98,6 +101,7 @@
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
     <Compile Include="Kernel\IRecursionHandler.cs" />
+    <Compile Include="Kernel\ReadOnlyCollectionRelay.cs" />
     <Compile Include="Kernel\TerminatingWithPathSpecimenBuilder.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecification.cs" />
     <Compile Include="MapCreateManyToEnumerable.cs" />
