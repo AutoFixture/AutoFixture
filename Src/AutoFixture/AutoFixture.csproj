@@ -98,6 +98,7 @@
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
     <Compile Include="Kernel\IRecursionHandler.cs" />
+    <Compile Include="Kernel\OmitEnumerableParameterRequestRelay.cs" />
     <Compile Include="Kernel\TerminatingWithPathSpecimenBuilder.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecification.cs" />
     <Compile Include="MapCreateManyToEnumerable.cs" />
