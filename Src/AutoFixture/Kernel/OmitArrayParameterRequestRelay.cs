@@ -14,6 +14,9 @@ namespace Ploeh.AutoFixture.Kernel
             if (pi == null)
                 return new NoSpecimen(request);
 
+            if (!pi.ParameterType.IsArray)
+                return new NoSpecimen(request);
+
             return context.Resolve(
                 new SeededRequest(
                     pi.ParameterType,
