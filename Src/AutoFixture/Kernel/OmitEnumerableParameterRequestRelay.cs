@@ -13,8 +13,8 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     /// <remarks>
     /// <para>
-    /// The <strong>OmitEnumerableParameterRequestRelay</strong> works like
-    /// <see cref="ParameterRequestRelay" />, except that it only handles
+    /// The <strong>OmitEnumerableParameterRequestRelay</strong> class works
+    /// like <see cref="ParameterRequestRelay" />, except that it only handles
     /// <see cref="ParameterInfo" /> instances where
     /// <see cref="ParameterInfo.ParameterType" /> is
     /// <see cref="IEnumerable{T}" />. If the value returned from the context
@@ -23,6 +23,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// </remarks>
     /// <seealso cref="OmitEnumerableParameterRequestRelay.Create(object, ISpecimenContext)" />
     /// <seealso cref="ParameterRequestRelay" />
+    /// <seealso cref="OmitArrayParameterRequestRelay" />
     /// <seealso cref="OmitSpecimen" />
     public class OmitEnumerableParameterRequestRelay : ISpecimenBuilder
     {
