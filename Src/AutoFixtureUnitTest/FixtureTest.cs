@@ -5117,6 +5117,46 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateArrayOfSmallRecursiveGraphs()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            fixture.Behaviors
+                .OfType<ThrowingRecursionBehavior>()
+                .ToList()
+                .ForEach(b => fixture.Behaviors.Remove(b));
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
+            fixture.Customizations.Add(
+                new OmitEnumerableParameterRequestRelay());
+            // Exercise system
+            var actual = fixture.Create<RecursiveNode[]>();
+            // Verify outcome
+            Assert.NotEmpty(actual);
+            Assert.True(actual.All(n => !n.Any()));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateManySmallRecursiveGraphs()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            fixture.Behaviors
+                .OfType<ThrowingRecursionBehavior>()
+                .ToList()
+                .ForEach(b => fixture.Behaviors.Remove(b));
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
+            fixture.Customizations.Add(
+                new OmitEnumerableParameterRequestRelay());
+            // Exercise system
+            var actual = fixture.CreateMany<RecursiveNode>();
+            // Verify outcome
+            Assert.NotEmpty(actual);
+            Assert.True(actual.All(n => !n.Any()));
+            // Teardown
+        }
+
         private class RecursiveNode : IEnumerable<RecursiveNode>
         {
             private readonly IEnumerable<RecursiveNode> nodes;
