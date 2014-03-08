@@ -14,10 +14,22 @@ namespace Ploeh.AutoFixture.Kernel
             if (pi == null)
                 return new NoSpecimen(request);
 
+            if (!pi.ParameterType.IsGenericType)
+                return new NoSpecimen(request);
+
+            if (IsNotEnumerable(pi))
+                return new NoSpecimen(request);
+
             return context.Resolve(
                 new SeededRequest(
                     pi.ParameterType,
                     pi.Name));
+        }
+
+        private static bool IsNotEnumerable(ParameterInfo pi)
+        {
+            var openGenericType = pi.ParameterType.GetGenericTypeDefinition();
+            return openGenericType != typeof(IEnumerable<>);
         }
     }
 }

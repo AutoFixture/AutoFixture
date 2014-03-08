@@ -18,11 +18,18 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
         }
 
-        [Fact]
-        public void CreateWithEnumerableParameterReturnsCorrectResult()
+        [Theory]
+        [InlineData(typeof(IEnumerable<object>))]
+        [InlineData(typeof(IEnumerable<string>))]
+        [InlineData(typeof(IEnumerable<int>))]
+        [InlineData(typeof(IEnumerable<Version>))]
+        [InlineData(typeof(IEnumerable<SingleParameterType<string>>))]
+        public void CreateWithEnumerableParameterReturnsCorrectResult(
+            Type argumentType)
         {
-            var parameterInfo = 
-                typeof(SingleParameterType<IEnumerable<string>>)
+            var parameterInfo =
+                typeof(SingleParameterType<>)
+                    .MakeGenericType(new[] { argumentType })
                     .GetConstructors()
                     .First()
                     .GetParameters()
@@ -63,6 +70,31 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new OmitEnumerableParameterRequestRelay();
             var actual = sut.Create(request, new DelegatingSpecimenContext());
             Assert.Equal(new NoSpecimen(request), actual);
+        }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(Version))]
+        [InlineData(typeof(SingleParameterType<string>))]
+        public void CreateWithNonEnumerableParameterRequestReturnsCorrectResult(
+            Type argumentType)
+        {
+            var parameterInfo =
+                typeof(SingleParameterType<>)
+                    .MakeGenericType(new[] { argumentType })
+                    .GetConstructors()
+                    .First()
+                    .GetParameters()
+                    .First();
+            var sut = new OmitEnumerableParameterRequestRelay();
+
+            var dummyContext = new DelegatingSpecimenContext();
+            var actual = sut.Create(parameterInfo, dummyContext);
+
+            var expected = new NoSpecimen(parameterInfo);
+            Assert.Equal(expected, actual);
         }
     }
 }
