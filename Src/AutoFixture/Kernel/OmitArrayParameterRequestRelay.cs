@@ -17,10 +17,17 @@ namespace Ploeh.AutoFixture.Kernel
             if (!pi.ParameterType.IsArray)
                 return new NoSpecimen(request);
 
-            return context.Resolve(
+            var returnValue = context.Resolve(
                 new SeededRequest(
                     pi.ParameterType,
                     pi.Name));
+
+            if (returnValue is OmitSpecimen)
+                return Array.CreateInstance(
+                    pi.ParameterType.GetElementType(),
+                    0);
+
+            return returnValue;
         }
     }
 }
