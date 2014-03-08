@@ -5,6 +5,7 @@ using System.Text;
 using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -44,6 +45,24 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var actual = sut.Create(parameterInfo, context);
 
             Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData(false)]
+        [InlineData(true)]
+        [InlineData(0)]
+        [InlineData(42)]
+        [InlineData("")]
+        [InlineData("Foo")]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        public void CreateReturnsCorrectResultForNonParameterRequest(
+            object request)
+        {
+            var sut = new OmitEnumerableParameterRequestRelay();
+            var actual = sut.Create(request, new DelegatingSpecimenContext());
+            Assert.Equal(new NoSpecimen(request), actual);
         }
     }
 }
