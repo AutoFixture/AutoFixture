@@ -96,5 +96,35 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var expected = new NoSpecimen(parameterInfo);
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData(typeof(IEnumerable<object>))]
+        [InlineData(typeof(IEnumerable<string>))]
+        [InlineData(typeof(IEnumerable<int>))]
+        [InlineData(typeof(IEnumerable<Version>))]
+        [InlineData(typeof(IEnumerable<SingleParameterType<string>>))]
+        public void CreateReturnsCorrectResultWhenContextReturnsOmitSpecimen(
+            Type argumentType)
+        {
+            var parameterInfo =
+                typeof(SingleParameterType<>)
+                    .MakeGenericType(new[] { argumentType })
+                    .GetConstructors()
+                    .First()
+                    .GetParameters()
+                    .First();
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => new OmitSpecimen()
+            };
+            var sut = new OmitEnumerableParameterRequestRelay();
+
+            var actual = sut.Create(parameterInfo, context);
+
+            var expected = Array.CreateInstance(
+                argumentType.GetGenericArguments().Single(),
+                0);
+            Assert.Equal(expected, actual);
+        }
     }
 }

@@ -20,10 +20,17 @@ namespace Ploeh.AutoFixture.Kernel
             if (IsNotEnumerable(pi))
                 return new NoSpecimen(request);
 
-            return context.Resolve(
+            var returnValue = context.Resolve(
                 new SeededRequest(
                     pi.ParameterType,
                     pi.Name));
+
+            if (returnValue is OmitSpecimen)
+                return Array.CreateInstance(
+                    pi.ParameterType.GetGenericArguments().Single(),
+                    0);
+
+            return returnValue;
         }
 
         private static bool IsNotEnumerable(ParameterInfo pi)
