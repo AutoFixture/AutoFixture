@@ -53,5 +53,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData(false)]
+        [InlineData(true)]
+        [InlineData(0)]
+        [InlineData(42)]
+        [InlineData("")]
+        [InlineData("Foo")]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        public void CreateReturnsCorrectResultForNonParameterRequest(
+            object request)
+        {
+            var sut = new OmitArrayParameterRequestRelay();
+            var actual = sut.Create(request, new DelegatingSpecimenContext());
+            Assert.Equal(new NoSpecimen(request), actual);
+        }
     }
 }
