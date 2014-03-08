@@ -10,7 +10,10 @@ namespace Ploeh.AutoFixture.Kernel
     {
         public object Create(object request, ISpecimenContext context)
         {
-            var pi = (ParameterInfo)request;
+            var pi = request as ParameterInfo;
+            if (pi == null)
+                return new NoSpecimen(request);
+
             return context.Resolve(
                 new SeededRequest(
                     pi.ParameterType,
