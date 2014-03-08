@@ -5079,6 +5079,64 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateSmallRecursiveGraph()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            fixture.Behaviors
+                .OfType<ThrowingRecursionBehavior>()
+                .ToList()
+                .ForEach(b => fixture.Behaviors.Remove(b));
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior(2));
+            // Exercise system
+            var actual = fixture.Create<RecursiveNode>();
+            // Verify outcome
+            Assert.NotEmpty(actual);
+            Assert.True(actual.All(n => !n.Any()));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateSequenceOfSmallRecursiveGraphs()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            fixture.Behaviors
+                .OfType<ThrowingRecursionBehavior>()
+                .ToList()
+                .ForEach(b => fixture.Behaviors.Remove(b));
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
+            fixture.Customizations.Add(
+                new OmitEnumerableParameterRequestRelay());
+            // Exercise system
+            var actual = fixture.Create<IEnumerable<RecursiveNode>>();
+            // Verify outcome
+            Assert.NotEmpty(actual);
+            Assert.True(actual.All(n => !n.Any()));
+            // Teardown
+        }
+
+        private class RecursiveNode : IEnumerable<RecursiveNode>
+        {
+            private readonly IEnumerable<RecursiveNode> nodes;
+
+            public RecursiveNode(IEnumerable<RecursiveNode> nodes)
+            {
+                this.nodes = nodes;
+            }
+
+            public IEnumerator<RecursiveNode> GetEnumerator()
+            {
+                return this.nodes.GetEnumerator();
+            }
+
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
         private class RecursionTestObjectWithReferenceOutA
         {
             public RecursionTestObjectWithReferenceOutB ReferenceToB
