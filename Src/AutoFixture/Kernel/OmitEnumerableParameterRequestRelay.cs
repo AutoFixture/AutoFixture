@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Ploeh.AutoFixture.Kernel
@@ -9,7 +10,11 @@ namespace Ploeh.AutoFixture.Kernel
     {
         public object Create(object request, ISpecimenContext context)
         {
-            throw new NotImplementedException();
+            var pi = (ParameterInfo)request;
+            return context.Resolve(
+                new SeededRequest(
+                    pi.ParameterType,
+                    pi.Name));
         }
     }
 }
