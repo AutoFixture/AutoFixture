@@ -126,5 +126,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 0);
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void CreateWithNullContextThrows()
+        {
+            var sut = new OmitArrayParameterRequestRelay();
+            Assert.Throws<ArgumentNullException>(
+                () => sut.Create(new object(), null));
+        }
     }
 }
