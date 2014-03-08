@@ -71,5 +71,30 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var actual = sut.Create(request, new DelegatingSpecimenContext());
             Assert.Equal(new NoSpecimen(request), actual);
         }
+
+        [Theory]
+        [InlineData(typeof(object))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(Version))]
+        [InlineData(typeof(SingleParameterType<string>))]
+        public void CreateWithNonEnumerableParameterRequestReturnsCorrectResult(
+            Type argumentType)
+        {
+            var parameterInfo =
+                typeof(SingleParameterType<>)
+                    .MakeGenericType(new[] { argumentType })
+                    .GetConstructors()
+                    .First()
+                    .GetParameters()
+                    .First();
+            var sut = new OmitArrayParameterRequestRelay();
+
+            var dummyContext = new DelegatingSpecimenContext();
+            var actual = sut.Create(parameterInfo, dummyContext);
+
+            var expected = new NoSpecimen(parameterInfo);
+            Assert.Equal(expected, actual);
+        }
     }
 }
