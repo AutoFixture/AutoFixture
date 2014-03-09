@@ -361,6 +361,34 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void DepthWillBeResetAfterDecoratedBuilderThrows()
+        {
+            // Fixture setup
+            int createCallNumber = 0;
+            int lastRequestDepth = 0;
+            var firstRequest = Guid.NewGuid();
+            var secondRequest = Guid.NewGuid();
+            var dummyContainer = new DelegatingSpecimenContext();
+            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) =>
+            {
+                createCallNumber++;
+                if (createCallNumber == 1) throw new PrivateException();
+                return c.Resolve(r);
+            }};
+            var sut = new DelegatingTracingBuilder(builder);
+            sut.SpecimenRequested += (sender, e) => lastRequestDepth = e.Depth;
+
+            // Exercise system and verify outcome
+            Assert.Throws<PrivateException>(() => sut.Create(firstRequest, dummyContainer));
+            Assert.Equal(1, lastRequestDepth);
+
+            sut.Create(secondRequest, dummyContainer);
+            Assert.Equal(1, lastRequestDepth);
+        }
+
+        class PrivateException : Exception { }
+
+        [Fact]
         public void CreateWillNotRaiseSpecimenCreatedForIgnoredType()
         {
             // Fixture setup
