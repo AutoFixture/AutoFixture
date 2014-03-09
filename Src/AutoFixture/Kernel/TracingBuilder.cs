@@ -89,16 +89,30 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (this.filter.IsSatisfiedBy(request))
+            var isFilterSatisfied = this.filter.IsSatisfiedBy(request);
+            if (isFilterSatisfied)
             {
                 this.OnSpecimenRequested(new RequestTraceEventArgs(request, ++this.depth));
             }
-            object specimen = this.builder.Create(request, context);
-            if (this.filter.IsSatisfiedBy(request))
+
+            object specimenNotCreatedValue = new object();
+            object specimen = specimenNotCreatedValue;
+            try
             {
-                this.OnSpecimenCreated(new SpecimenCreatedEventArgs(request, specimen, this.depth--));
+                specimen = this.builder.Create(request, context);
+                return specimen;
             }
-            return specimen;
+            finally
+            {
+                if (isFilterSatisfied)
+                {
+                    if (specimen != specimenNotCreatedValue)
+                    {
+                        this.OnSpecimenCreated(new SpecimenCreatedEventArgs(request, specimen, this.depth));
+                    }
+                    this.depth--;
+                }
+            }
         }
 
         /// <summary>
