@@ -95,18 +95,19 @@ namespace Ploeh.AutoFixture.Kernel
                 this.OnSpecimenRequested(new RequestTraceEventArgs(request, ++this.depth));
             }
 
-            object specimenNotCreatedValue = new object();
-            object specimen = specimenNotCreatedValue;
+            bool specimenWasCreated = false;
+            object specimen = null;
             try
             {
                 specimen = this.builder.Create(request, context);
+                specimenWasCreated = true;
                 return specimen;
             }
             finally
             {
                 if (isFilterSatisfied)
                 {
-                    if (specimen != specimenNotCreatedValue)
+                    if (specimenWasCreated)
                     {
                         this.OnSpecimenCreated(new SpecimenCreatedEventArgs(request, specimen, this.depth));
                     }
