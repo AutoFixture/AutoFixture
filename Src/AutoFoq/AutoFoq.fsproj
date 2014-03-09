@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Foq">
-      <HintPath>..\..\Packages\Foq.1.0\Lib\net40\Foq.dll</HintPath>
+      <HintPath>..\..\Packages\Foq.1.5.1\Lib\net40\Foq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
