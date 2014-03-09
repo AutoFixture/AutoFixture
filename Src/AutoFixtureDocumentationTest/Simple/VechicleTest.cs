@@ -14,6 +14,8 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         {
             // Fixture setup
             var fixture = new Fixture();
+            fixture.Customizations.Add(new RandomNumericSequenceGenerator(5, byte.MaxValue));
+
             var sut = fixture.Create<Vehicle>();
             // Exercise system
             var result = sut.Wheels;
