@@ -5080,6 +5080,52 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateRecursiveTypeExceptionMessageIsStable()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+
+            // Exercise system and verify outcome
+            var ocex1 = Assert.Throws<ObjectCreationException>(() =>
+                fixture.Create<PropertyHolder<RecursionTestObjectWithReferenceOutA>>());
+
+            var ocex2 = Assert.Throws<ObjectCreationException>(() =>
+                fixture.Create<PropertyHolder<RecursionTestObjectWithReferenceOutA>>());
+
+            var ocex3 = Assert.Throws<ObjectCreationException>(() =>
+                fixture.Create<PropertyHolder<RecursionTestObjectWithReferenceOutA>>());
+
+            Assert.Equal(ocex1.Message, ocex2.Message);
+            Assert.Equal(ocex2.Message, ocex3.Message);
+            // Teardown
+        }
+
+        [Fact]
+        public void TraceOutputForRecursiveTypeCreationFailureIsStable()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var outputWriter = new StringWriter();
+            fixture.Behaviors.Add(new TracingBehavior(outputWriter));
+
+            // Exercise system and verify outcome
+            Assert.Throws<ObjectCreationException>(() =>
+                fixture.Create<PropertyHolder<RecursionTestObjectWithReferenceOutA>>());
+
+            var traceOutput1 = outputWriter.ToString();
+            outputWriter.GetStringBuilder().Clear();
+
+            Assert.Throws<ObjectCreationException>(() =>
+                fixture.Create<PropertyHolder<RecursionTestObjectWithReferenceOutA>>());
+
+            var traceOutput2 = outputWriter.ToString();
+            outputWriter.GetStringBuilder().Clear();
+
+            Assert.Equal(traceOutput1, traceOutput2);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateSmallRecursiveGraph()
         {
             // Fixture setup
