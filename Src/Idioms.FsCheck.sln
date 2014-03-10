@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture", "AutoFixture\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTypeFoundation", "TestTypeFoundation\TestTypeFoundation.csproj", "{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Idioms.FsCheck", "Idioms.FsCheck\Idioms.FsCheck.fsproj", "{DCAAF1DB-BEA0-4A6F-8F67-A35A9891A7A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,12 @@ Global
 		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Verify|Any CPU.ActiveCfg = Release|Any CPU
 		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Verify|Any CPU.Build.0 = Release|Any CPU
+		{DCAAF1DB-BEA0-4A6F-8F67-A35A9891A7A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCAAF1DB-BEA0-4A6F-8F67-A35A9891A7A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCAAF1DB-BEA0-4A6F-8F67-A35A9891A7A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCAAF1DB-BEA0-4A6F-8F67-A35A9891A7A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCAAF1DB-BEA0-4A6F-8F67-A35A9891A7A9}.Verify|Any CPU.ActiveCfg = Release|Any CPU
+		{DCAAF1DB-BEA0-4A6F-8F67-A35A9891A7A9}.Verify|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
