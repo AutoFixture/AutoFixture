@@ -37,11 +37,17 @@ namespace Ploeh.AutoFixture.Kernel
             // This is performance-sensitive code when used repeatedly over many requests.
             // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
             var type = request as Type;
-            if (type == null) return new NoSpecimen(request);
-            if (!type.IsArray) return new NoSpecimen(request);
+            if (type == null)
+                return new NoSpecimen(request);
+            if (!type.IsArray)
+                return new NoSpecimen(request);
             var elementType = type.GetElementType();
-            var elements = context.Resolve(new MultipleRequest(elementType)) as IEnumerable;
-            if (elements == null) return new NoSpecimen(request);
+            var specimen = context.Resolve(new MultipleRequest(elementType));
+            if (specimen is OmitSpecimen)
+                return specimen;
+            var elements = specimen as IEnumerable;
+            if (elements == null)
+                return new NoSpecimen(request);
             return ArrayRelay.ToArray(elements, elementType);
         }
 

@@ -5126,7 +5126,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateSmallRecursiveGraph()
+        public void CreateSmallRecursiveSequenceGraph()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -5136,7 +5136,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .ForEach(b => fixture.Behaviors.Remove(b));
             fixture.Behaviors.Add(new OmitOnRecursionBehavior(2));
             // Exercise system
-            var actual = fixture.Create<RecursiveNode>();
+            var actual = fixture.Create<RecursiveSequenceNode>();
             // Verify outcome
             Assert.NotEmpty(actual);
             Assert.True(actual.All(n => !n.Any()));
@@ -5144,7 +5144,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateSequenceOfSmallRecursiveGraphs()
+        public void CreateSequenceOfSmallRecursiveSequenceGraphs()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -5156,7 +5156,7 @@ namespace Ploeh.AutoFixtureUnitTest
             fixture.Customizations.Add(
                 new OmitEnumerableParameterRequestRelay());
             // Exercise system
-            var actual = fixture.Create<IEnumerable<RecursiveNode>>();
+            var actual = fixture.Create<IEnumerable<RecursiveSequenceNode>>();
             // Verify outcome
             Assert.NotEmpty(actual);
             Assert.True(actual.All(n => !n.Any()));
@@ -5164,7 +5164,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateArrayOfSmallRecursiveGraphs()
+        public void CreateArrayOfSmallRecursiveSequenceGraphs()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -5176,7 +5176,7 @@ namespace Ploeh.AutoFixtureUnitTest
             fixture.Customizations.Add(
                 new OmitEnumerableParameterRequestRelay());
             // Exercise system
-            var actual = fixture.Create<RecursiveNode[]>();
+            var actual = fixture.Create<RecursiveSequenceNode[]>();
             // Verify outcome
             Assert.NotEmpty(actual);
             Assert.True(actual.All(n => !n.Any()));
@@ -5184,7 +5184,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateManySmallRecursiveGraphs()
+        public void CreateManySmallRecursiveSequenceGraphs()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -5196,25 +5196,123 @@ namespace Ploeh.AutoFixtureUnitTest
             fixture.Customizations.Add(
                 new OmitEnumerableParameterRequestRelay());
             // Exercise system
-            var actual = fixture.CreateMany<RecursiveNode>();
+            var actual = fixture.CreateMany<RecursiveSequenceNode>();
             // Verify outcome
             Assert.NotEmpty(actual);
             Assert.True(actual.All(n => !n.Any()));
             // Teardown
         }
 
-        private class RecursiveNode : IEnumerable<RecursiveNode>
+        private class RecursiveSequenceNode : IEnumerable<RecursiveSequenceNode>
         {
-            private readonly IEnumerable<RecursiveNode> nodes;
+            private readonly IEnumerable<RecursiveSequenceNode> nodes;
 
-            public RecursiveNode(IEnumerable<RecursiveNode> nodes)
+            public RecursiveSequenceNode(IEnumerable<RecursiveSequenceNode> nodes)
             {
                 this.nodes = nodes;
             }
 
-            public IEnumerator<RecursiveNode> GetEnumerator()
+            public IEnumerator<RecursiveSequenceNode> GetEnumerator()
             {
                 return this.nodes.GetEnumerator();
+            }
+
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
+        [Fact]
+        public void CreateSmallRecursiveArrayGraph()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            fixture.Behaviors
+                .OfType<ThrowingRecursionBehavior>()
+                .ToList()
+                .ForEach(b => fixture.Behaviors.Remove(b));
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior(2));
+            // Exercise system
+            var actual = fixture.Create<RecursiveArrayNode>();
+            // Verify outcome
+            Assert.NotEmpty(actual);
+            Assert.True(actual.All(n => !n.Any()));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateSequenceOfSmallRecursiveArrayGraphs()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            fixture.Behaviors
+                .OfType<ThrowingRecursionBehavior>()
+                .ToList()
+                .ForEach(b => fixture.Behaviors.Remove(b));
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
+            fixture.Customizations.Add(
+                new OmitArrayParameterRequestRelay());
+            // Exercise system
+            var actual = fixture.Create<IEnumerable<RecursiveArrayNode>>();
+            // Verify outcome
+            Assert.NotEmpty(actual);
+            Assert.True(actual.All(n => !n.Any()));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateArrayOfSmallRecursiveArrayGraphs()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            fixture.Behaviors
+                .OfType<ThrowingRecursionBehavior>()
+                .ToList()
+                .ForEach(b => fixture.Behaviors.Remove(b));
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
+            fixture.Customizations.Add(
+                new OmitArrayParameterRequestRelay());
+            // Exercise system
+            var actual = fixture.Create<RecursiveArrayNode[]>();
+            // Verify outcome
+            Assert.NotEmpty(actual);
+            Assert.True(actual.All(n => !n.Any()));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateManySmallRecursiveArrayGraphs()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            fixture.Behaviors
+                .OfType<ThrowingRecursionBehavior>()
+                .ToList()
+                .ForEach(b => fixture.Behaviors.Remove(b));
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
+            fixture.Customizations.Add(
+                new OmitArrayParameterRequestRelay());
+            // Exercise system
+            var actual = fixture.CreateMany<RecursiveArrayNode>();
+            // Verify outcome
+            Assert.NotEmpty(actual);
+            Assert.True(actual.All(n => !n.Any()));
+            // Teardown
+        }
+
+        private class RecursiveArrayNode : IEnumerable<RecursiveArrayNode>
+        {
+            private readonly RecursiveArrayNode[] nodes;
+
+            public RecursiveArrayNode(RecursiveArrayNode[] nodes)
+            {
+                this.nodes = nodes;
+            }
+
+            public IEnumerator<RecursiveArrayNode> GetEnumerator()
+            {
+                return this.nodes.AsEnumerable().GetEnumerator();
             }
 
             System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
