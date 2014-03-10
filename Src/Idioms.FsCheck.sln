@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTypeFoundation", "TestT
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Idioms.FsCheck", "Idioms.FsCheck\Idioms.FsCheck.fsproj", "{DCAAF1DB-BEA0-4A6F-8F67-A35A9891A7A9}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Idioms.FsCheckUnitTest", "Idioms.FsCheckUnitTest\Idioms.FsCheckUnitTest.fsproj", "{B3CE0FC0-BB92-47F3-B43E-92B87F7956B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,12 @@ Global
 		{DCAAF1DB-BEA0-4A6F-8F67-A35A9891A7A9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DCAAF1DB-BEA0-4A6F-8F67-A35A9891A7A9}.Verify|Any CPU.ActiveCfg = Release|Any CPU
 		{DCAAF1DB-BEA0-4A6F-8F67-A35A9891A7A9}.Verify|Any CPU.Build.0 = Release|Any CPU
+		{B3CE0FC0-BB92-47F3-B43E-92B87F7956B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3CE0FC0-BB92-47F3-B43E-92B87F7956B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3CE0FC0-BB92-47F3-B43E-92B87F7956B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3CE0FC0-BB92-47F3-B43E-92B87F7956B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3CE0FC0-BB92-47F3-B43E-92B87F7956B8}.Verify|Any CPU.ActiveCfg = Release|Any CPU
+		{B3CE0FC0-BB92-47F3-B43E-92B87F7956B8}.Verify|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
