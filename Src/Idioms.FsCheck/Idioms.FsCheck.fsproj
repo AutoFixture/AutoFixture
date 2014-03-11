@@ -33,35 +33,6 @@
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Release\Idioms.FsCheck.XML</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="FsCheck">
-      <HintPath>..\..\Packages\FsCheck.0.9.2.0\lib\net40-Client\FsCheck.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
-      <Name>AutoFixture</Name>
-      <Project>{400ac174-9a4a-4c7d-815b-f2a21130a0d1}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Idioms\Idioms.csproj">
-      <Name>Idioms</Name>
-      <Project>{35de0e35-4e3a-46d7-b175-80ca10276be7}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>
@@ -78,6 +49,34 @@
     </Otherwise>
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="app.config" />
+    <Compile Include="ReturnValueMustNotBeNullAssertion.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FsCheck">
+      <HintPath>..\..\Packages\FsCheck.0.9.2.0\lib\net40-Client\FsCheck.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
+      <Name>AutoFixture</Name>
+      <Project>{400ac174-9a4a-4c7d-815b-f2a21130a0d1}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Idioms\Idioms.csproj">
+      <Name>Idioms</Name>
+      <Project>{35de0e35-4e3a-46d7-b175-80ca10276be7}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
