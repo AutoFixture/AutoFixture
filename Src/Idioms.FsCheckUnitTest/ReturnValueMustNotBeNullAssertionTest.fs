@@ -7,6 +7,7 @@ open Ploeh.AutoFixture.Idioms.FsCheckUnitTest.TestDsl
 open Ploeh.AutoFixture.Kernel
 open Swensen.Unquote
 open System
+open System.Reflection
 open Xunit
 
 [<Fact>]
@@ -27,3 +28,9 @@ let BuilderIsCorrect () =
 [<Fact>]
 let InitializeWithNullBuilderThrows () = 
     raises<ArgumentNullException> <@ ReturnValueMustNotBeNullAssertion(null) @>
+
+[<Fact>]
+let VerifyNullPropertyThrows () = 
+    let dummyBuilder = Fixture()
+    let sut = ReturnValueMustNotBeNullAssertion(dummyBuilder)
+    raises<ArgumentNullException> <@ sut.Verify(null :> PropertyInfo) @>
