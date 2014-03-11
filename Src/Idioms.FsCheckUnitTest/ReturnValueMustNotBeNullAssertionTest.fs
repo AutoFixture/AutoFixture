@@ -5,6 +5,8 @@ open Ploeh.AutoFixture.Idioms
 open Ploeh.AutoFixture.Idioms.FsCheck
 open Ploeh.AutoFixture.Idioms.FsCheckUnitTest.TestDsl
 open Ploeh.AutoFixture.Kernel
+open Swensen.Unquote
+open System
 open Xunit
 
 [<Fact>]
@@ -21,3 +23,7 @@ let BuilderIsCorrect () =
     let actual = sut.Builder
 
     verify <@ expected = actual @>
+
+[<Fact>]
+let InitializeWithNullBuilderThrows () = 
+    raises<ArgumentNullException> <@ ReturnValueMustNotBeNullAssertion(null) @>
