@@ -1,3 +1,5 @@
 ﻿namespace Ploeh.AutoFixture.Idioms.FsCheck
 
-type ReturnValueMustNotBeNullAssertion = class end
+open Ploeh.AutoFixture.Idioms
+
+type ReturnValueMustNotBeNullAssertion () = inherit IdiomaticAssertion()

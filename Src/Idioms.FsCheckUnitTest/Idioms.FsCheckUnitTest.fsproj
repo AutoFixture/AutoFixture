@@ -52,9 +52,15 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="app.config" />
+    <Compile Include="TestDsl.fs" />
     <Compile Include="ReturnValueMustNotBeNullAssertionTest.fs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Idioms.FsCheck\Idioms.FsCheck.fsproj">
+      <Name>Idioms.FsCheck</Name>
+      <Project>{dcaaf1db-bea0-4a6f-8f67-a35a9891a7a9}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <Reference Include="FsCheck">
       <HintPath>..\..\Packages\FsCheck.0.9.2.0\lib\net40-Client\FsCheck.dll</HintPath>
       <Private>True</Private>
