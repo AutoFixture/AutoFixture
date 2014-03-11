@@ -53,6 +53,7 @@
     <None Include="packages.config" />
     <None Include="app.config" />
     <Compile Include="TestDsl.fs" />
+    <Compile Include="TestTypes.fs" />
     <Compile Include="ReturnValueMustNotBeNullAssertionTest.fs" />
   </ItemGroup>
   <ItemGroup>
