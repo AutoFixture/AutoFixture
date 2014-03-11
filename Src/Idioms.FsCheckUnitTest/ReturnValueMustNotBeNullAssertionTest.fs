@@ -34,3 +34,9 @@ let VerifyNullPropertyThrows () =
     let dummyBuilder = Fixture()
     let sut = ReturnValueMustNotBeNullAssertion(dummyBuilder)
     raises<ArgumentNullException> <@ sut.Verify(null :> PropertyInfo) @>
+
+[<Fact>]
+let VerifyNullMethodThrows () = 
+    let dummyBuilder = Fixture()
+    let sut = ReturnValueMustNotBeNullAssertion(dummyBuilder)
+    raises<ArgumentNullException> <@ sut.Verify(null :> MethodInfo) @>

@@ -12,5 +12,8 @@ type ReturnValueMustNotBeNullAssertion (builder : ISpecimenBuilder) =
     
     member this.Builder = builder
     
-    override this.Verify (property : PropertyInfo) =
-        if property = null then raise <| ArgumentNullException("property")
+    override this.Verify (propertyInfo : PropertyInfo) =
+        if propertyInfo = null then raise <| ArgumentNullException("propertyInfo")
+
+    override this.Verify (methodInfo : MethodInfo) =
+        if methodInfo = null then raise <| ArgumentNullException("methodInfo")
