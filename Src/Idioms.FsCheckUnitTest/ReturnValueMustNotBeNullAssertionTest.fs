@@ -53,7 +53,6 @@ type ReturnValueMustNotBeNullAssertionTest () =
             typeof<AStaticClass>.GetProperty("WriteOnlyProperty") :> MemberInfo 
         ]
         |> Seq.map (fun element -> TestCase (fun _ -> sut.Verify(element)))
-        |> Seq.toArray
 
     [<FirstClassTests>]
     let VerifyMembersWithReturnValueDoesNotThrow () =
@@ -65,7 +64,6 @@ type ReturnValueMustNotBeNullAssertionTest () =
             typeof<AStaticClass>.GetMethod("MethodWithReturnValue") :> MemberInfo 
         ]
         |> Seq.map (fun element -> TestCase (fun _ -> sut.Verify(element)))
-        |> Seq.toArray
 
     [<FirstClassTests>]
     let VerifyMembersWithNullReturnValueThrows () =
@@ -76,4 +74,3 @@ type ReturnValueMustNotBeNullAssertionTest () =
         ]
         |> Seq.map (fun element -> TestCase (fun _ -> 
             raises<ReturnValueMustNotBeNullException> <@ sut.Verify(element) @>))
-        |> Seq.toArray
