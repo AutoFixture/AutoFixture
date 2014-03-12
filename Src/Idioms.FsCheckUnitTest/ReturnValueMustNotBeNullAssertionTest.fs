@@ -50,7 +50,7 @@ let VerifyVoidMembersDoesNotThrow (memberInfo : MemberInfo) =
     doesNotThrow |> fun _ -> sut.Verify(memberInfo)
 
 [<Theory; PropertyData("MembersWithReturnValue")>]
-let VerifyMembersWithReturnValueDoesNotThrow (memberInfo: MemberInfo) =
+let VerifyMembersWithReturnValueDoesNotThrow (memberInfo : MemberInfo) =
     let dummyBuilder = Fixture()
     let sut = ReturnValueMustNotBeNullAssertion(dummyBuilder)
     doesNotThrow |> fun _ -> sut.Verify(memberInfo)
