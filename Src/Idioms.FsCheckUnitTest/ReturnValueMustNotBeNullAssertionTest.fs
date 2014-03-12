@@ -1,5 +1,6 @@
-﻿module Ploeh.AutoFixture.Idioms.FsCheckUnitTest.ReturnValueMustNotBeNullAssertionTest
+﻿namespace Ploeh.AutoFixture.Idioms.FsCheckUnitTest
 
+open Grean.Exude
 open Ploeh.AutoFixture
 open Ploeh.AutoFixture.Idioms
 open Ploeh.AutoFixture.Idioms.FsCheck
@@ -10,69 +11,71 @@ open Swensen.Unquote
 open System
 open System.Reflection
 open Xunit
-open Xunit.Extensions
 
-[<Fact>]
-let SutIsIdiomaticAssertion () =
-    let dummyBuilder = Fixture()
-    let sut = ReturnValueMustNotBeNullAssertion(dummyBuilder);
-    verify <@ sut |> implements<IdiomaticAssertion> @>
+type ReturnValueMustNotBeNullAssertionTest () = 
 
-[<Fact>]
-let BuilderIsCorrect () = 
-    let expected = Fixture() :> ISpecimenBuilder
-    let sut = ReturnValueMustNotBeNullAssertion(expected)
+    [<Fact>]
+    let SutIsIdiomaticAssertion () =
+        let dummyBuilder = Fixture()
+        let sut = ReturnValueMustNotBeNullAssertion(dummyBuilder);
+        verify <@ sut |> implements<IdiomaticAssertion> @>
 
-    let actual = sut.Builder
+    [<Fact>]
+    let BuilderIsCorrect () = 
+        let expected = Fixture() :> ISpecimenBuilder
+        let sut = ReturnValueMustNotBeNullAssertion(expected)
 
-    verify <@ expected = actual @>
+        let actual = sut.Builder
 
-[<Fact>]
-let InitializeWithNullBuilderThrows () = 
-    raises<ArgumentNullException> <@ ReturnValueMustNotBeNullAssertion(null) @>
+        verify <@ expected = actual @>
 
-[<Fact>]
-let VerifyNullPropertyThrows () = 
-    let dummyBuilder = Fixture()
-    let sut = ReturnValueMustNotBeNullAssertion(dummyBuilder)
-    raises<ArgumentNullException> <@ sut.Verify(null :> PropertyInfo) @>
+    [<Fact>]
+    let InitializeWithNullBuilderThrows () = 
+        raises<ArgumentNullException> <@ ReturnValueMustNotBeNullAssertion(null) @>
 
-[<Fact>]
-let VerifyNullMethodThrows () = 
-    let dummyBuilder = Fixture()
-    let sut = ReturnValueMustNotBeNullAssertion(dummyBuilder)
-    raises<ArgumentNullException> <@ sut.Verify(null :> MethodInfo) @>
+    [<Fact>]
+    let VerifyNullPropertyThrows () = 
+        let dummyBuilder = Fixture()
+        let sut = ReturnValueMustNotBeNullAssertion(dummyBuilder)
+        raises<ArgumentNullException> <@ sut.Verify(null :> PropertyInfo) @>
 
-[<Theory; PropertyData("VoidMembers")>]
-let VerifyVoidMembersDoesNotThrow (memberInfo : MemberInfo) =
-    let dummyBuilder = Fixture()
-    let sut = ReturnValueMustNotBeNullAssertion(dummyBuilder)
-    doesNotThrow |> fun _ -> sut.Verify(memberInfo)
+    [<Fact>]
+    let VerifyNullMethodThrows () = 
+        let dummyBuilder = Fixture()
+        let sut = ReturnValueMustNotBeNullAssertion(dummyBuilder)
+        raises<ArgumentNullException> <@ sut.Verify(null :> MethodInfo) @>
 
-[<Theory; PropertyData("MembersWithReturnValue")>]
-let VerifyMembersWithReturnValueDoesNotThrow (memberInfo : MemberInfo) =
-    let dummyBuilder = Fixture()
-    let sut = ReturnValueMustNotBeNullAssertion(dummyBuilder)
-    doesNotThrow |> fun _ -> sut.Verify(memberInfo)
+    [<FirstClassTests>]
+    let VerifyVoidMembersDoesNotThrow () =
+        let sut = ReturnValueMustNotBeNullAssertion(Fixture())
+        [   
+            typeof<AClass>.GetMethod("VoidMethod") :> MemberInfo
+            typeof<AStaticClass>.GetMethod("VoidMethod") :> MemberInfo
+            typeof<AClass>.GetProperty("WriteOnlyProperty") :> MemberInfo
+            typeof<AStaticClass>.GetProperty("WriteOnlyProperty") :> MemberInfo 
+        ]
+        |> Seq.map (fun element -> TestCase (fun _ -> sut.Verify(element)))
+        |> Seq.toArray
 
-[<Theory; PropertyData("NullReturnValueMembers")>]
-let VerifyMembersWithNullReturnValueThrows (memberInfo : MemberInfo) =
-    let builder = Fixture()
-    let sut = ReturnValueMustNotBeNullAssertion(builder)
-    raises<ReturnValueMustNotBeNullException> <@ sut.Verify(memberInfo) @>
+    [<FirstClassTests>]
+    let VerifyMembersWithReturnValueDoesNotThrow () =
+        let sut = ReturnValueMustNotBeNullAssertion(Fixture())
+        [   
+            typeof<AClass>.GetProperty("ReadOnlyProperty") :> MemberInfo
+            typeof<AClass>.GetMethod("MethodWithReturnValue") :> MemberInfo
+            typeof<AStaticClass>.GetProperty("ReadOnlyProperty") :> MemberInfo
+            typeof<AStaticClass>.GetMethod("MethodWithReturnValue") :> MemberInfo 
+        ]
+        |> Seq.map (fun element -> TestCase (fun _ -> sut.Verify(element)))
+        |> Seq.toArray
 
-let VoidMembers : seq<MemberInfo[]> = seq { 
-    yield [| typeof<AClass>.GetMethod("VoidMethod") |]
-    yield [| typeof<AStaticClass>.GetMethod("VoidMethod") |]
-    yield [| typeof<AClass>.GetProperty("WriteOnlyProperty") |]
-    yield [| typeof<AStaticClass>.GetProperty("WriteOnlyProperty") |] }
-
-let MembersWithReturnValue : seq<MemberInfo[]> = seq { 
-    yield [| typeof<AClass>.GetProperty("ReadOnlyProperty") |]
-    yield [| typeof<AClass>.GetMethod("MethodWithReturnValue") |]
-    yield [| typeof<AStaticClass>.GetProperty("ReadOnlyProperty") |]
-    yield [| typeof<AStaticClass>.GetMethod("MethodWithReturnValue") |] }
-
-let NullReturnValueMembers : seq<MemberInfo[]> = seq {
-    yield [| typeof<AClass>.GetProperty("NullReturnValueProperty") |]
-    yield [| typeof<AStaticClass>.GetProperty("NullReturnValueProperty") |] }
+    [<FirstClassTests>]
+    let VerifyMembersWithNullReturnValueThrows () =
+        let sut = ReturnValueMustNotBeNullAssertion(Fixture())
+        [   
+            typeof<AClass>.GetProperty("NullReturnValueProperty")
+            typeof<AStaticClass>.GetProperty("NullReturnValueProperty")
+        ]
+        |> Seq.map (fun element -> TestCase (fun _ -> 
+            raises<ReturnValueMustNotBeNullException> <@ sut.Verify(element) @>))
+        |> Seq.toArray
