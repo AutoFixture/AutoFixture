@@ -4,7 +4,6 @@ open Grean.Exude
 open Ploeh.AutoFixture
 open Ploeh.AutoFixture.Idioms
 open Ploeh.AutoFixture.Idioms.FsCheck
-open Ploeh.AutoFixture.Idioms.FsCheckUnitTest.TestDsl
 open Ploeh.AutoFixture.Kernel
 open Swensen.Unquote
 open System
