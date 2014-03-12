@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.Idioms.FsCheckUnitTest.TestTypes
+﻿namespace Ploeh.AutoFixture.Idioms.FsCheckUnitTest
 
 type AClass () = 
     member this.VoidMethod () = ()
