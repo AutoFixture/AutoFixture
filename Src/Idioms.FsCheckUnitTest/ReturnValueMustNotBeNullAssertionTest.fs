@@ -57,6 +57,12 @@ let VerifyMembersWithReturnValueDoesNotThrow (memberInfo: MemberInfo) =
     let sut = ReturnValueMustNotBeNullAssertion(dummyBuilder)
     doesNotThrow |> fun _ -> sut.Verify(memberInfo)
 
+[<Theory; PropertyData("NullReturnValueMembers")>]
+let VerifyMembersWithNullReturnValueThrows (memberInfo : MemberInfo) =
+    let builder = Fixture()
+    let sut = ReturnValueMustNotBeNullAssertion(builder)
+    raises<ReturnValueMustNotBeNullException> <@ sut.Verify(memberInfo) @>
+
 let VoidMembers : seq<MemberInfo[]> = seq { 
     yield [| typeof<AClass>.GetMethod("VoidMethod") |]
     yield [| typeof<AStaticClass>.GetMethod("VoidMethod") |]
@@ -68,3 +74,7 @@ let MembersWithReturnValue : seq<MemberInfo[]> = seq {
     yield [| typeof<AClass>.GetMethod("MethodWithReturnValue") |]
     yield [| typeof<AStaticClass>.GetProperty("ReadOnlyProperty") |]
     yield [| typeof<AStaticClass>.GetMethod("MethodWithReturnValue") |] }
+
+let NullReturnValueMembers : seq<MemberInfo[]> = seq {
+    yield [| typeof<AClass>.GetProperty("NullReturnValueProperty") |]
+    yield [| typeof<AStaticClass>.GetProperty("NullReturnValueProperty") |] }
