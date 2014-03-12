@@ -12,8 +12,6 @@ open System.Reflection
 open Xunit
 open Xunit.Extensions
 
-let doesNotThrow = Xunit.Assert.DoesNotThrow
-
 [<Fact>]
 let SutIsIdiomaticAssertion () =
     let dummyBuilder = Fixture()
