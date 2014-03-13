@@ -6,6 +6,7 @@ type AClass () =
     member this.ReadOnlyProperty  with get () = obj()
 
     member this.NullReturnValueMethod () = this.NullReturnValueProperty
+    member this.NullReturnValueMethodWithParameters (s : string, i : int) = this.NullReturnValueProperty
     member this.MethodWithReturnValue () = obj()
     member this.VoidMethod () = ()
 
@@ -16,5 +17,6 @@ type AStaticClass () =
     static member ReadOnlyProperty with get () = obj()
 
     static member NullReturnValueMethod () = AStaticClass.NullReturnValueProperty
+    static member NullReturnValueMethodWithParameters (s : string, i : int) = AStaticClass.NullReturnValueProperty
     static member MethodWithReturnValue () = obj()
     static member VoidMethod () = ()
