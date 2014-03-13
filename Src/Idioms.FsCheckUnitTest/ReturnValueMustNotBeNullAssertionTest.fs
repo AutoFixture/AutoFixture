@@ -73,6 +73,8 @@ type ReturnValueMustNotBeNullAssertionTest () =
             typeof<AClass>.GetProperty("NullReturnValueProperty") :> MemberInfo
             typeof<AStaticClass>.GetMethod("NullReturnValueMethod") :> MemberInfo
             typeof<AStaticClass>.GetProperty("NullReturnValueProperty") :> MemberInfo
+            typeof<AClass>.GetMethod("NullReturnValueMethodWithParameters") :> MemberInfo
+            typeof<AStaticClass>.GetMethod("NullReturnValueMethodWithParameters") :> MemberInfo
         ]
         |> Seq.map (fun element -> TestCase (fun _ -> 
             raises<ReturnValueMustNotBeNullException> <@ sut.Verify(element) @>))

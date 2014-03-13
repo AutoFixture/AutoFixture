@@ -5,8 +5,6 @@ open Ploeh.AutoFixture.Kernel
 open System
 open System.Reflection
 
-type ReturnValueMustNotBeNullException (message) = inherit Exception (message)
-
 type ReturnValueMustNotBeNullAssertion (builder) =
     inherit IdiomaticAssertion()
     
@@ -31,9 +29,12 @@ type ReturnValueMustNotBeNullAssertion (builder) =
                 | true  -> null 
                 | false -> SpecimenContext(this.Builder).Resolve(methodInfo.ReflectedType);    
             
-            if (methodInfo.Invoke(owner, null) = null) then
-                raise <| ReturnValueMustNotBeNullException(
-                    "The method " 
-                    + methodInfo.Name 
-                    + " returns null which is never an acceptable return value for"
-                    + " a public Query (method that returns a value).")
+            let parameters = methodInfo.GetParameters() |> Seq.toList
+            match parameters with
+            | [] -> if methodInfo.Invoke(owner, null) = null then
+                        raise <| ReturnValueMustNotBeNullException(
+                            "The method "
+                            + methodInfo.Name
+                            + " returns null which is never an acceptable return"
+                            + " value for a public Query (method that returns a value).")
+            | _  -> Exercise methodInfo owner parameters |> ignore
