@@ -69,8 +69,10 @@ type ReturnValueMustNotBeNullAssertionTest () =
     let VerifyMembersWithNullReturnValueThrows () =
         let sut = ReturnValueMustNotBeNullAssertion(Fixture())
         [   
-            typeof<AClass>.GetProperty("NullReturnValueProperty")
-            typeof<AStaticClass>.GetProperty("NullReturnValueProperty")
+            typeof<AClass>.GetMethod("NullReturnValueMethod") :> MemberInfo
+            typeof<AClass>.GetProperty("NullReturnValueProperty") :> MemberInfo
+            typeof<AStaticClass>.GetMethod("NullReturnValueMethod") :> MemberInfo
+            typeof<AStaticClass>.GetProperty("NullReturnValueProperty") :> MemberInfo
         ]
         |> Seq.map (fun element -> TestCase (fun _ -> 
             raises<ReturnValueMustNotBeNullException> <@ sut.Verify(element) @>))
