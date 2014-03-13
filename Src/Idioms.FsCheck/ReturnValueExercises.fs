@@ -13,8 +13,11 @@ type internal FsCheckInvoker () =
                owner,
                FsCheckInvoker.GetValues(typeof<'a>, x)) <> null))
 
-    static member GetValues (t : Type, x : 'a) =
-        [| "s" :> obj; 2 :> obj |] |> Seq.cast<obj> |> Seq.toArray
+    static member GetValues (tuple, x) =
+        seq {
+            for property in tuple.GetProperties() do
+                yield tuple.GetProperty(property.Name).GetValue(x, null) }
+        |> Seq.toArray
 
 [<AutoOpen>]
 module internal ReturnValueExercises =

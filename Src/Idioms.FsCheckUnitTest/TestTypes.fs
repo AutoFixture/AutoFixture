@@ -10,6 +10,19 @@ type AClass () =
     member this.MethodWithReturnValue () = obj()
     member this.VoidMethod () = ()
 
+    member this.NullReturnValueMethodWithParametersAndBranching
+        (s : string, i : int) =
+
+        let returnValue =
+            match s with
+            | "" -> this.NullReturnValueMethod()
+            | _  -> match i with
+                    |  0 -> this.NullReturnValueMethod()
+                    | -1 -> this.NullReturnValueMethod()
+                    |  _ -> this.MethodWithReturnValue()
+        returnValue
+
+
 [<AbstractClass; Sealed>]
 type AStaticClass () =
     static member WriteOnlyProperty with set (value) = value |> ignore
@@ -20,3 +33,15 @@ type AStaticClass () =
     static member NullReturnValueMethodWithParameters (s : string, i : int) = AStaticClass.NullReturnValueProperty
     static member MethodWithReturnValue () = obj()
     static member VoidMethod () = ()
+
+    static member NullReturnValueMethodWithParametersAndBranching
+        (s : string, i : int) =
+
+        let returnValue =
+            match s with
+            | "" -> AStaticClass.NullReturnValueMethod()
+            | _  -> match i with
+                    |  0 -> AStaticClass.NullReturnValueMethod()
+                    | -1 -> AStaticClass.NullReturnValueMethod()
+                    |  _ -> AStaticClass.MethodWithReturnValue()
+        returnValue
