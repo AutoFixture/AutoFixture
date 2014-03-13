@@ -7,7 +7,7 @@ open System.Reflection
 
 type ReturnValueMustNotBeNullException (message) = inherit Exception (message)
 
-type ReturnValueMustNotBeNullAssertion (builder : ISpecimenBuilder) = 
+type ReturnValueMustNotBeNullAssertion (builder) =
     inherit IdiomaticAssertion()
     
     do if builder = null then 
