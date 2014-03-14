@@ -1,5 +1,7 @@
 ﻿namespace Ploeh.AutoFixture.Idioms.FsCheckUnitTest
 
+open System
+
 type AClass () = 
     member this.WriteOnlyProperty with set (value) = value |> ignore
     member this.NullReturnValueProperty with get () = null
@@ -7,6 +9,7 @@ type AClass () =
 
     member this.NullReturnValueMethod () = this.NullReturnValueProperty
     member this.NullReturnValueMethodWithParameters (s : string, i : int) = this.NullReturnValueProperty
+    member this.NullReturnValueMethodWithManyParameters (s : string, i : int, d : double, g : Guid) = null :> obj
     member this.MethodWithReturnValue () = obj()
     member this.VoidMethod () = ()
 
@@ -31,6 +34,7 @@ type AStaticClass () =
 
     static member NullReturnValueMethod () = AStaticClass.NullReturnValueProperty
     static member NullReturnValueMethodWithParameters (s : string, i : int) = AStaticClass.NullReturnValueProperty
+    static member NullReturnValueMethodWithManyParameters (s : string, i : int, d : double, g : Guid) = null :> obj
     static member MethodWithReturnValue () = obj()
     static member VoidMethod () = ()
 
