@@ -78,6 +78,7 @@
     <Compile Include="CollectionHolder.cs" />
     <Compile Include="CompositeType.cs" />
     <Compile Include="ConcreteType.cs" />
+    <Compile Include="ConcreteTypeWithPrivateParameterlessConstructor.cs" />
     <Compile Include="DataErrorInfo.cs" />
     <Compile Include="DoubleFieldHolder.cs" />
     <Compile Include="DoubleParameterType.cs" />
