@@ -7,16 +7,16 @@ open System.Reflection
 
 [<AbstractClass; Sealed>]
 type internal FsCheckInvoker () =
-    static member Invoke<'a> (methodInfo: MethodInfo, owner) =
-       Check.QuickThrowOnFailure((fun (x : 'a) ->
+    static member Invoke<'tuple> (methodInfo : MethodInfo, owner) =
+       Check.QuickThrowOnFailure((fun (x : 'tuple) ->
            methodInfo.Invoke(
                owner,
-               FsCheckInvoker.GetValues(typeof<'a>, x)) <> null))
+               FsCheckInvoker.GetValues(typeof<'tuple>, x)) <> null))
 
-    static member GetValues (tuple, x) =
+    static member GetValues (tuple, owner) =
         seq {
-            for property in tuple.GetProperties() do
-                yield tuple.GetProperty(property.Name).GetValue(x, null) }
+            for pi in tuple.GetProperties() do
+                yield tuple.GetProperty(pi.Name).GetValue(owner, null) }
         |> Seq.toArray
 
 [<AutoOpen>]
