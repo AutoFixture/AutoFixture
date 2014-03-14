@@ -15,11 +15,11 @@ type AClass () =
 
         let returnValue =
             match s with
-            | "" -> this.NullReturnValueMethod()
+            | "" -> null
             | _  -> match i with
-                    |  0 -> this.NullReturnValueMethod()
-                    | -1 -> this.NullReturnValueMethod()
-                    |  _ -> this.MethodWithReturnValue()
+                    |  0 -> null
+                    | -1 -> null
+                    |  _ -> obj()
         returnValue
 
 
@@ -39,9 +39,9 @@ type AStaticClass () =
 
         let returnValue =
             match s with
-            | "" -> AStaticClass.NullReturnValueMethod()
+            | "" -> null
             | _  -> match i with
-                    |  0 -> AStaticClass.NullReturnValueMethod()
-                    | -1 -> AStaticClass.NullReturnValueMethod()
-                    |  _ -> AStaticClass.MethodWithReturnValue()
+                    |  0 -> null
+                    | -1 -> null
+                    |  _ -> obj()
         returnValue
