@@ -1,6 +1,7 @@
 ﻿namespace Ploeh.AutoFixture.Idioms.FsCheckUnitTest
 
 open Grean.Exude
+open FsCheck
 open Ploeh.AutoFixture
 open Ploeh.AutoFixture.Idioms
 open Ploeh.AutoFixture.Idioms.FsCheck
@@ -82,4 +83,30 @@ type ReturnValueMustNotBeNullAssertionTest () =
             typeof<AStaticClass>.GetMethod("NullReturnValueMethodWithParametersAndBranching") :> MemberInfo
         ]
         |> Seq.map (fun element -> TestCase (fun _ -> 
+            raises<ReturnValueMustNotBeNullException> <@ sut.Verify(element) @>))
+
+    [<FirstClassTests>]
+    let VerifyMethodsWithComplexParametersDoesNotThrow () =
+        let sut = ReturnValueMustNotBeNullAssertion(Fixture())
+        [
+            typeof<AClass>
+                .GetMethod("MethodWithComplexParameters")
+            typeof<AStaticClass>
+                .GetMethod("MethodWithComplexParameters")
+        ]
+        |> Seq.map (fun element -> TestCase (fun _ ->
+            Arb.register<Generators>() |> ignore
+            sut.Verify(element)))
+
+    [<FirstClassTests>]
+    let VerifyMethodsWithComplexParametersAndNullReturnValueThrows () =
+        let sut = ReturnValueMustNotBeNullAssertion(Fixture())
+        [
+            typeof<AClass>
+                .GetMethod("NullReturnValueMethodWithComplexParameters")
+            typeof<AStaticClass>
+                .GetMethod("NullReturnValueMethodWithComplexParameters")
+        ]
+        |> Seq.map (fun element -> TestCase (fun _ ->
+            Arb.register<Generators>() |> ignore
             raises<ReturnValueMustNotBeNullException> <@ sut.Verify(element) @>))
