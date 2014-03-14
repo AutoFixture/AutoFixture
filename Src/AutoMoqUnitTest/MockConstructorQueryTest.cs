@@ -104,5 +104,17 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             Assert.True(mockTypeCtorArgCounts.SequenceEqual(actualArgCounts));
             // Teardown
         }
+
+        [Fact]
+        public void FiltersOutPrivateConstructor()
+        {
+            // Fixture setup
+            var sut = new MockConstructorQuery();
+            // Exercise system
+            var result = sut.SelectMethods(typeof(Mock<ConcreteTypeWithPrivateParameterlessConstructor>));
+            // Verify outcome
+            Assert.Equal(1, result.Count());
+            // Teardown
+        }
     }
 }
