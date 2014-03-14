@@ -5,19 +5,18 @@ open FsCheck.Fluent
 open System
 open System.Reflection
 
-[<AbstractClass; Sealed>]
-type internal FsCheckInvoker () =
-    static member Invoke<'tuple> (methodInfo : MethodInfo, owner) =
-       Check.QuickThrowOnFailure((fun (x : 'tuple) ->
-           methodInfo.Invoke(
-               owner,
-               FsCheckInvoker.GetValues(typeof<'tuple>, x)) <> null))
-
-    static member GetValues (tuple, owner) =
+module internal FsCheckInvoker =
+    let GetValues (tuple : Type, owner) =
         seq {
             for pi in tuple.GetProperties() do
                 yield tuple.GetProperty(pi.Name).GetValue(owner, null) }
         |> Seq.toArray
+
+    let Invoke<'tuple> (methodInfo : MethodInfo, owner) =
+       Check.QuickThrowOnFailure((fun (x : 'tuple) ->
+           methodInfo.Invoke(
+               owner,
+               GetValues(typeof<'tuple>, x)) <> null))
 
 [<AutoOpen>]
 module internal ReturnValueExercises =
@@ -35,7 +34,9 @@ module internal ReturnValueExercises =
                 .MakeGenericType(keys);
 
         try
-            typeof<FsCheckInvoker>
+            Assembly
+                .GetExecutingAssembly()
+                .GetType("Ploeh.AutoFixture.Idioms.FsCheck.FsCheckInvoker")
                 .GetMethod(
                     "Invoke",
                     BindingFlags.Static ||| BindingFlags.NonPublic)
