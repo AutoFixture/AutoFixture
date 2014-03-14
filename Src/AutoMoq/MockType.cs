@@ -23,7 +23,8 @@ namespace Ploeh.AutoFixture.AutoMoq
 
         internal static IEnumerable<ConstructorInfo> GetPublicAndProtectedConstructors(this Type type)
         {
-            return type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            return type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                .Where(ctor => !ctor.IsPrivate);
         }
 
         internal static ConstructorInfo GetParamsConstructor(this Type type)
