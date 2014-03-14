@@ -18,7 +18,16 @@ type AClass () =
     member this.NullReturnValueMethodWithManyParameters
         (s : string, i : int, d : double, g : Guid) =
         null :> obj
+
+    member this.NullReturnValueMethodWithComplexParameters
+        (s : string, v : Version) =
+        null :> obj
+
     member this.MethodWithReturnValue () = obj()
+
+    member this.MethodWithComplexParameters
+        (s : string, v : Version) =
+        obj()
 
     member this.VoidMethod () = ()
 
@@ -51,7 +60,15 @@ type AStaticClass () =
         (s : string, i : int, d : double, g : Guid) =
         null :> obj
 
+    static member NullReturnValueMethodWithComplexParameters
+        (s : string, v : Version) =
+        null :> obj
+
     static member MethodWithReturnValue () = obj()
+
+    static member MethodWithComplexParameters
+        (s : string, v : Version) =
+        obj()
 
     static member VoidMethod () = ()
 
