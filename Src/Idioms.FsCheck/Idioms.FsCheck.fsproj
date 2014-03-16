@@ -53,7 +53,7 @@
     <None Include="packages.config" />
     <None Include="app.config" />
     <Compile Include="ReturnValueMustNotBeNullException.fs" />
-    <Compile Include="ReturnValueExercises.fs" />
+    <Compile Include="FsCheckInvoker.fs" />
     <Compile Include="ReturnValueMustNotBeNullAssertion.fs" />
   </ItemGroup>
   <ItemGroup>
