@@ -5,6 +5,7 @@ open FsCheck.Fluent
 open System
 open System.Reflection
 
+[<AutoOpen>]
 module internal FsCheckInvoker =
     let GetValues (tuple : Type, owner) =
         seq {
@@ -18,8 +19,6 @@ module internal FsCheckInvoker =
                owner,
                GetValues(typeof<'tuple>, x)) <> null))
 
-[<AutoOpen>]
-module internal ReturnValueExercises =
     let Exercise
         (methodInfo : MethodInfo)
         (owner)
