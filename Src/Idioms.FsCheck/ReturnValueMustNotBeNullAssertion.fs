@@ -10,6 +10,8 @@ type ReturnValueMustNotBeNullAssertion (builder) =
     
     do if builder = null then 
         raise <| ArgumentNullException("builder")
+
+    let Create specimen = SpecimenContext(builder).Resolve(specimen)
     
     member this.Builder = builder
     
@@ -27,7 +29,7 @@ type ReturnValueMustNotBeNullAssertion (builder) =
             let owner = 
                 match methodInfo.IsStatic with 
                 | true  -> null 
-                | false -> SpecimenContext(this.Builder).Resolve(methodInfo.ReflectedType);    
+                | false -> Create methodInfo.ReflectedType
             
             let parameters = methodInfo.GetParameters() |> Seq.toList
             match parameters with
