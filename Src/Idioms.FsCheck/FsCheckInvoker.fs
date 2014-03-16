@@ -19,19 +19,19 @@ module internal FsCheckInvoker =
                owner,
                GetValues(typeof<'tuple>, x)) <> null))
 
-    let Exercise
-        (methodInfo : MethodInfo)
-        (owner)
-        (parameters : ParameterInfo list) =
+    let CreateTuple (parameters : ParameterInfo list) = 
         let keys =
             parameters
             |> Seq.map (fun p -> p.ParameterType)
             |> Seq.toArray
+        Type.GetType("System.Tuple`" + keys.Length.ToString())
+            .MakeGenericType(keys)
 
-        let tuple =
-            Type.GetType("System.Tuple`" + keys.Length.ToString())
-                .MakeGenericType(keys);
-
+    let Exercise
+        (methodInfo : MethodInfo)
+        (owner)
+        (parameters : ParameterInfo list) =
+        let tuple = CreateTuple parameters
         try
             Assembly
                 .GetExecutingAssembly()
