@@ -5,6 +5,10 @@ open Ploeh.AutoFixture.Kernel
 open System
 open System.Reflection
 
+/// <summary>
+/// Encapsulates a unit test verifying that the return value for a public Query
+/// (a method that returns a value) is not null.
+/// </summary>
 type ReturnValueMustNotBeNullAssertion (builder) =
     inherit IdiomaticAssertion()
     
@@ -13,8 +17,14 @@ type ReturnValueMustNotBeNullAssertion (builder) =
 
     let Create specimen = SpecimenContext(builder).Resolve(specimen)
     
+    /// Gets the <see cref="ISpecimenBuilder"/> which create instances if the
+    /// public Query is an instance method.
     member this.Builder = builder
-    
+
+    /// <summary>
+    /// Verifies that the return value for a Property is not null.
+    /// </summary>
+    /// <param name="propertyInfo">The property to verify.</param>
     override this.Verify (propertyInfo : PropertyInfo) =
         if propertyInfo = null then 
             raise <| ArgumentNullException("propertyInfo")
@@ -22,6 +32,11 @@ type ReturnValueMustNotBeNullAssertion (builder) =
         if (getMethod <> null) then 
             this.Verify(propertyInfo.GetGetMethod());
 
+    /// <summary>
+    /// Verifies that the return value for a method is not null.
+    /// </summary>
+    /// <remarks>
+    /// <param name="methodInfo">The method to verify.</param>
     override this.Verify (methodInfo : MethodInfo) =
         if methodInfo = null then 
             raise <| ArgumentNullException("methodInfo")
@@ -38,5 +53,5 @@ type ReturnValueMustNotBeNullAssertion (builder) =
                             "The method "
                             + methodInfo.Name
                             + " returns null which is never an acceptable return"
-                            + " value for a public Query (method that returns a value).")
+                            + " value for a public Query (a method that returns a value).")
             | _  -> Exercise methodInfo owner parameters |> ignore
