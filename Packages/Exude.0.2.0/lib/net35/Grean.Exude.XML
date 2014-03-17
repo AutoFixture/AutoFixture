@@ -166,6 +166,39 @@
             <seealso cref="T:Grean.Exude.ITestCase"/>
             <seealso cref="T:Grean.Exude.TestCase`1"/>
         </member>
+        <member name="M:Grean.Exude.TestCase.#ctor(System.Action)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Grean.Exude.TestCase"/> class.
+            </summary>
+            <param name="testAction">
+            The test action to be invoked when the test is executed.
+            </param>
+            <remarks>
+            <para>
+            When this test case is exececuted, the
+            <paramref name="testAction"/> is invoked.
+            </para>
+            <para>
+            The test action constructor argument is subsequently available as
+            the <see cref="P:Grean.Exude.TestCase.TestAction"/> property.
+            </para>
+            </remarks>
+            <example>
+            This simple example returns three test cases that all pass:
+            <code><![CDATA[[FirstClassTests]
+            public static IEnumerable<ITestCase> YieldFirstClassTests()
+            {
+                yield return new TestCase(() => Assert.Equal(1, 1));
+                yield return new TestCase(() => Assert.Equal(2, 2));
+                yield return new TestCase(() => Assert.Equal(3, 3));
+            }]]>
+            </code>
+            </example>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="testAction"/> is <see langword="null"/>
+            </exception>
+            <seealso cref="P:Grean.Exude.TestCase.TestAction"/>
+        </member>
         <member name="M:Grean.Exude.TestCase.#ctor(System.Action{System.Object})">
             <summary>
             Initializes a new instance of the <see cref="T:Grean.Exude.TestCase"/> class.
