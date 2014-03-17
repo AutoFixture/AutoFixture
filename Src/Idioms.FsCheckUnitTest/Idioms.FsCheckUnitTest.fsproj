@@ -67,7 +67,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Grean.Exude">
-      <HintPath>..\..\Packages\Exude.0.1.0\lib\net35\Grean.Exude.dll</HintPath>
+      <HintPath>..\..\Packages\Exude.0.2.0\lib\net35\Grean.Exude.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />

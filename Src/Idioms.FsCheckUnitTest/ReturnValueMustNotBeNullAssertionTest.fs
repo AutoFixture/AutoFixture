@@ -51,7 +51,7 @@ type ReturnValueMustNotBeNullAssertionTest () =
             typeof<AClass>.GetProperty("WriteOnlyProperty")
             typeof<AStaticClass>.GetProperty("WriteOnlyProperty")
         ]
-        |> Seq.map (fun element -> TestCase (fun _ -> sut.Verify(element)))
+        |> Seq.map (fun element -> TestCase (fun () -> sut.Verify(element)))
 
     [<FirstClassTests>]
     let VerifyVoidMethodsDoesNotThrow () =
@@ -60,7 +60,7 @@ type ReturnValueMustNotBeNullAssertionTest () =
             typeof<AClass>.GetMethod("VoidMethod")
             typeof<AStaticClass>.GetMethod("VoidMethod")
         ]
-        |> Seq.map (fun element -> TestCase (fun _ -> sut.Verify(element)))
+        |> Seq.map (fun element -> TestCase (fun () -> sut.Verify(element)))
 
     [<FirstClassTests>]
     let VerifyPropertiesWithReturnValueDoesNotThrow () =
@@ -69,7 +69,7 @@ type ReturnValueMustNotBeNullAssertionTest () =
             typeof<AClass>.GetProperty("ReadOnlyProperty")
             typeof<AStaticClass>.GetProperty("ReadOnlyProperty")
         ]
-        |> Seq.map (fun element -> TestCase (fun _ -> sut.Verify(element)))
+        |> Seq.map (fun element -> TestCase (fun () -> sut.Verify(element)))
 
     [<FirstClassTests>]
     let VerifyMethodsWithReturnValueDoesNotThrow () =
@@ -78,7 +78,7 @@ type ReturnValueMustNotBeNullAssertionTest () =
             typeof<AClass>.GetMethod("MethodWithReturnValue")
             typeof<AStaticClass>.GetMethod("MethodWithReturnValue")
         ]
-        |> Seq.map (fun element -> TestCase (fun _ -> sut.Verify(element)))
+        |> Seq.map (fun element -> TestCase (fun () -> sut.Verify(element)))
 
     [<FirstClassTests>]
     let VerifyPropertiesWithNullReturnValueThrows () =
@@ -87,7 +87,7 @@ type ReturnValueMustNotBeNullAssertionTest () =
             typeof<AClass>.GetProperty("NullReturnValueProperty")
             typeof<AStaticClass>.GetProperty("NullReturnValueProperty")
         ]
-        |> Seq.map (fun element -> TestCase (fun _ ->
+        |> Seq.map (fun element -> TestCase (fun () ->
             raises<ReturnValueMustNotBeNullException> <@ sut.Verify(element) @>))
 
     [<FirstClassTests>]
@@ -104,7 +104,7 @@ type ReturnValueMustNotBeNullAssertionTest () =
             typeof<AStaticClass>.GetMethod("NullReturnValueMethodWithManyParameters")
             typeof<AStaticClass>.GetMethod("NullReturnValueMethodWithParametersAndBranching")
         ]
-        |> Seq.map (fun element -> TestCase (fun _ -> 
+        |> Seq.map (fun element -> TestCase (fun () ->
             raises<ReturnValueMustNotBeNullException> <@ sut.Verify(element) @>))
 
     [<FirstClassTests>]
@@ -114,7 +114,7 @@ type ReturnValueMustNotBeNullAssertionTest () =
             typeof<AClass>.GetMethod("MethodWithComplexParameters")
             typeof<AStaticClass>.GetMethod("MethodWithComplexParameters")
         ]
-        |> Seq.map (fun element -> TestCase (fun _ ->
+        |> Seq.map (fun element -> TestCase (fun () ->
             Arb.register<Generators>() |> ignore
             sut.Verify(element)))
 
@@ -125,6 +125,6 @@ type ReturnValueMustNotBeNullAssertionTest () =
             typeof<AClass>.GetMethod("NullReturnValueMethodWithComplexParameters")
             typeof<AStaticClass>.GetMethod("NullReturnValueMethodWithComplexParameters")
         ]
-        |> Seq.map (fun element -> TestCase (fun _ ->
+        |> Seq.map (fun element -> TestCase (fun () ->
             Arb.register<Generators>() |> ignore
             raises<ReturnValueMustNotBeNullException> <@ sut.Verify(element) @>))
