@@ -50,6 +50,7 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.fs" />
     <None Include="packages.config" />
     <None Include="app.config" />
     <Compile Include="ReturnValueMustNotBeNullException.fs" />
