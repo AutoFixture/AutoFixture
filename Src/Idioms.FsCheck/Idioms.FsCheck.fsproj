@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>dcaaf1db-bea0-4a6f-8f67-a35a9891a7a9</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Idioms.FsCheck</RootNamespace>
+    <RootNamespace>Ploeh.AutoFixture.Idioms.FsCheck</RootNamespace>
     <AssemblyName>Ploeh.AutoFixture.Idioms.FsCheck</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
