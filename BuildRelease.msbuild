@@ -42,6 +42,8 @@
         <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.XML" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.dll" />
         <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.XML" />
+        <BuildOutput Include="Src\Idioms.FsCheck\bin\Release\Ploeh.AutoFixture.Idioms.FsCheck.dll" />
+        <BuildOutput Include="Src\Idioms.FsCheck\bin\Release\Ploeh.AutoFixture.Idioms.FsCheck.XML" />
     </ItemGroup>
     <ItemGroup>
     	<NUnitAddinFiles Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.dll" />
