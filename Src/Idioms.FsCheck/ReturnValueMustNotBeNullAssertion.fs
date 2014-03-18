@@ -15,7 +15,7 @@ type ReturnValueMustNotBeNullAssertion (builder) =
     do if builder = null then 
         raise <| ArgumentNullException("builder")
 
-    let Create specimen = SpecimenContext(builder).Resolve(specimen)
+    let Create request = SpecimenContext(builder).Resolve(request)
     
     /// Gets the <see cref="ISpecimenBuilder"/> which create instances if the
     /// public Query is an instance method.
