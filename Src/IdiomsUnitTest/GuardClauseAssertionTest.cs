@@ -8,6 +8,7 @@ using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
+using System.Collections.ObjectModel;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -501,7 +502,133 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 yield return someGuid;
             }
         }
-        
+
+        [Theory]
+        [InlineData(typeof(ClassWithEnumerableNonDeferredArraryMissingGuard))]
+        [InlineData(typeof(ClassWithEnumerableNonDeferredGenericListMissingGuard))]
+        [InlineData(typeof(ClassWithEnumerableNonDeferredGenericCollectionMissingGuard))]
+        [InlineData(typeof(ClassWithEnumerableNonDeferredGenericDictionaryMissingGuard))]
+        [InlineData(typeof(ClassWithEnumerableNonDeferredGenericReadOnlyCollectionMissingGuard))]
+        [InlineData(typeof(ClassWithEnumerableNonDeferredGenericIListMissingGuard))]
+        [InlineData(typeof(ClassWithEnumerableNonDeferredGenericICollectionMissingGuard))]
+        [InlineData(typeof(ClassWithEnumerableNonDeferredGenericIDictionaryMissingGuard))]
+        [InlineData(typeof(ClassWithEnumerableNonDeferredIListMissingGuard))]
+        [InlineData(typeof(ClassWithEnumerableNonDeferredICollectionMissingGuard))]
+        [InlineData(typeof(ClassWithEnumerableNonDeferredIDictionaryMissingGuard))]
+        public void VerifyMethodWithNonDeferredMissingGuardThrowsExceptionWithoutDeferredMessage(
+            Type type)
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            var method = type.GetMethod("GetValues");
+            // Exercise system and verify outcome
+            var e =
+                Assert.Throws<GuardClauseException>(() => sut.Verify(method));
+            Assert.DoesNotContain("deferred", e.Message);
+            // Teardown
+        }
+
+        class ClassWithEnumerableNonDeferredIListMissingGuard
+        {
+            public IList GetValues(string someString)
+            {
+                return new System.Collections.ArrayList { someString, someString, someString };
+            }
+        }
+
+        class ClassWithEnumerableNonDeferredICollectionMissingGuard
+        {
+            public ICollection GetValues(string someString)
+            {
+                return new System.Collections.Stack(new[] { someString, someString });
+            }
+        }
+
+        class ClassWithEnumerableNonDeferredIDictionaryMissingGuard
+        {
+            public IDictionary GetValues(string someString)
+            {
+                return new System.Collections.Specialized.HybridDictionary
+                {
+                    { "uniqueKey1", someString },
+                    { "uniqueKey2", someString },
+                    { "uniqueKey3", someString },
+                };
+            }
+        }
+
+        class ClassWithEnumerableNonDeferredGenericICollectionMissingGuard
+        {
+            public ICollection<string> GetValues(string someString)
+            {
+                return new Collection<string> { someString, someString, someString };
+            }
+        }
+
+        class ClassWithEnumerableNonDeferredGenericIDictionaryMissingGuard
+        {
+            public IDictionary<string, object> GetValues(string someString)
+            {
+                return new Dictionary<string, object>
+                {
+                    { "uniqueKey1", someString },
+                    { "uniqueKey2", someString },
+                };
+            }
+        }
+
+        class ClassWithEnumerableNonDeferredGenericIListMissingGuard
+        {
+            public IList<string> GetValues(string someString)
+            {
+                return new List<string> { someString, someString, someString };
+            }
+        }
+
+        class ClassWithEnumerableNonDeferredArraryMissingGuard
+        {
+            public string[] GetValues(string someString)
+            {
+                return new[] { someString, someString, someString };
+            }
+        }
+
+        class ClassWithEnumerableNonDeferredGenericListMissingGuard
+        {
+            public List<string> GetValues(string someString)
+            {
+                return new List<string> { someString, someString, someString };
+            }
+        }
+
+        class ClassWithEnumerableNonDeferredGenericCollectionMissingGuard
+        {
+            public Collection<string> GetValues(string someString)
+            {
+                return new Collection<string> { someString, someString, someString };
+            }
+        }
+
+        class ClassWithEnumerableNonDeferredGenericReadOnlyCollectionMissingGuard
+        {
+            public ReadOnlyCollection<string> GetValues(string someString)
+            {
+                return new ReadOnlyCollection<string>(new[] {someString, someString, someString });
+            }
+        }
+
+        class ClassWithEnumerableNonDeferredGenericDictionaryMissingGuard
+        {
+            public Dictionary<string, string> GetValues(string someString)
+            {
+                return new Dictionary<string, string> 
+                {
+                    { "uniqueKey1", someString },
+                    { "uniqueKey2", someString }
+                };
+            }
+        }
+
         private interface IHaveNoImplementers { }
 
         [Fact]
