@@ -515,6 +515,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [InlineData(typeof(ClassWithEnumerableNonDeferredIListMissingGuard))]
         [InlineData(typeof(ClassWithEnumerableNonDeferredICollectionMissingGuard))]
         [InlineData(typeof(ClassWithEnumerableNonDeferredIDictionaryMissingGuard))]
+        [InlineData(typeof(ClassWithEnumerableNonDeferredArrayListMissingGuard))]
+        [InlineData(typeof(ClassWithEnumerableNonDeferredStackMissingGuard))]
+        [InlineData(typeof(ClassWithEnumerableNonDeferredReadOnlyCollectionBaseMissingGuard))]
         public void VerifyMethodWithNonDeferredMissingGuardThrowsExceptionWithoutDeferredMessage(
             Type type)
         {
@@ -533,6 +536,38 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             public IList GetValues(string someString)
             {
                 return new System.Collections.ArrayList { someString, someString, someString };
+            }
+        }
+
+        class ClassWithEnumerableNonDeferredArrayListMissingGuard
+        {
+            public System.Collections.ArrayList GetValues(string someString)
+            {
+                return new System.Collections.ArrayList { someString, someString, someString };
+            }
+        }
+
+        class ClassWithEnumerableNonDeferredStackMissingGuard
+        {
+            public System.Collections.Stack GetValues(string someString)
+            {
+                return new System.Collections.Stack(new[] { someString, someString, someString });
+            }
+        }
+
+        class ClassWithEnumerableNonDeferredReadOnlyCollectionBaseMissingGuard
+        {
+            class ReadOnlyCollection : ReadOnlyCollectionBase
+            {
+                public ReadOnlyCollection(params object[] items)
+                {
+                    this.InnerList.AddRange(items);
+                }
+            }
+
+            public System.Collections.ReadOnlyCollectionBase GetValues(string someString)
+            {
+                return new ReadOnlyCollection(new[] { someString, someString, someString });
             }
         }
 
