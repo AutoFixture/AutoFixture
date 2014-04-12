@@ -162,7 +162,7 @@ namespace Ploeh.AutoFixture.Idioms
                     : null;
 
             return t.IsArray ||
-                nonGenericCollectionTypes.Contains(t) ||
+                nonGenericCollectionTypes.Any(gt => gt.IsAssignableFrom(t)) ||
                 (isGeneric && (genericCollectionTypeGtds.Any(gtd => gtdInterfaces.Contains(gtd))));
         }
 
