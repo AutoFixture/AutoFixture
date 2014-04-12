@@ -129,7 +129,41 @@ namespace Ploeh.AutoFixture.Idioms
                 typeof(System.Collections.IEnumerable).IsAssignableFrom(methodInfo.ReturnType) ||
                 typeof(System.Collections.IEnumerator).IsAssignableFrom(methodInfo.ReturnType);
 
-            this.Verify(method, isReturnValueIterator);
+            var isReturnValueNonDeferred = IsNonDeferredEnumerable(methodInfo.ReturnType);
+            var isReturnValueDeferable = isReturnValueIterator && !isReturnValueNonDeferred;
+            this.Verify(method, isReturnValueDeferable);
+        }
+
+        static bool IsNonDeferredEnumerable(Type t)
+        {
+            var nonGenericCollectionTypes = new[]
+            {
+                typeof(System.Collections.ICollection),
+                typeof(System.Collections.IList),
+                typeof(System.Collections.IDictionary),
+            };
+
+            var genericCollectionTypeGtds = new[]
+            {
+                typeof(IList<>),
+                typeof(ICollection<>),
+                typeof(IDictionary<,>),
+            };
+
+            var isGeneric = t.IsGenericType;
+
+            var gtdInterfaces = (isGeneric && !t.IsInterface)
+                ? t.GetInterfaces()
+                    .Where(i => i.IsGenericType)
+                    .Select(i => i.GetGenericTypeDefinition())
+                    .ToArray()
+                : (isGeneric && t.IsInterface)
+                    ? new[] { t.GetGenericTypeDefinition() }
+                    : null;
+
+            return t.IsArray ||
+                nonGenericCollectionTypes.Any(gt => gt.IsAssignableFrom(t)) ||
+                (isGeneric && (genericCollectionTypeGtds.Any(gtd => gtdInterfaces.Contains(gtd))));
         }
 
         /// <summary>
@@ -202,15 +236,15 @@ namespace Ploeh.AutoFixture.Idioms
             }
         }
 
-        private void Verify(IMethod method, bool isReturnValueIterator)
+        private void Verify(IMethod method, bool isReturnValueDeferable)
         {
-            if (isReturnValueIterator)
-                VerifyIterator(method);
+            if (isReturnValueDeferable)
+                VerifyDeferrableIterator(method);
             else
                 VerifyNormal(method);
         }
 
-        private void VerifyIterator(IMethod method)
+        private void VerifyDeferrableIterator(IMethod method)
         {
             foreach (var command in GetParameterGuardCommands(method))
             {
