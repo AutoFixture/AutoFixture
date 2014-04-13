@@ -1052,8 +1052,52 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Contains("async", e.Message);
         }
 
+        [Fact]
+        public void VerifyOnTaskWithCorrectGuardClauseDoesNotThrow()
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            var asyncMethodHost = new AsyncHost();
+
+            var theMethod = from m in new Ploeh.Albedo.Methods<AsyncHost>()
+                            select m.TaskWithCorrectGuardClause(null);
+
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(theMethod));
+        }
+
+        [Fact]
+        public void VerifyOnTaskOfTWithCorrectGuardClauseDoesNotThrow()
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            var asyncMethodHost = new AsyncHost();
+
+            var theMethod = from m in new Ploeh.Albedo.Methods<AsyncHost>()
+                            select m.TaskOfTWithCorrectGuardClause(null);
+
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(theMethod));
+        }
+
         class AsyncHost
         {
+            public System.Threading.Tasks.Task<string> TaskOfTWithCorrectGuardClause(object obj)
+            {
+                if (obj == null)
+                    throw new ArgumentNullException("obj");
+
+                return System.Threading.Tasks.Task.Factory.StartNew(() => obj.ToString());
+            }
+            
+            public System.Threading.Tasks.Task TaskWithCorrectGuardClause(object obj)
+            {
+                if (obj == null)
+                    throw new ArgumentNullException("obj");
+
+                return System.Threading.Tasks.Task.Factory.StartNew(() => obj.ToString());
+            }
+
             public System.Threading.Tasks.Task<string> TaskOfTWithInnerGuardClause(object obj)
             {
                 return System.Threading.Tasks.Task.Factory.StartNew(() =>
