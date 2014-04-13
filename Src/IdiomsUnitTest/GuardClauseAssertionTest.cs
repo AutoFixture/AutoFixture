@@ -1019,6 +1019,64 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.DoesNotThrow(() => sut.Verify(methodInfo));
         }
 
+        [Fact]
+        public void VerifyOnTaskDeferredGuardThrowsExceptionWithExtraHelpfulMessage()
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            var asyncMethodHost = new AsyncHost();
+
+            var theMethod = from m in new Ploeh.Albedo.Methods<AsyncHost>()
+                            select m.TaskWithInnerGuardClause(null);
+            // Exercise system
+            var e = Assert.Throws<GuardClauseException>(() => sut.Verify(theMethod));
+            // Verify outcome
+            Assert.Contains("Task", e.Message);
+            Assert.Contains("async", e.Message);
+        }
+
+        [Fact]
+        public void VerifyOnTaskOfTDeferredGuardThrowsExceptionWithExtraHelpfulMessage()
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            var asyncMethodHost = new AsyncHost();
+
+            var theMethod = from m in new Ploeh.Albedo.Methods<AsyncHost>()
+                            select m.TaskOfTWithInnerGuardClause(null);
+
+            // Exercise system
+            var e = Assert.Throws<GuardClauseException>(() => sut.Verify(theMethod));
+            // Verify outcome
+            Assert.Contains("Task", e.Message);
+            Assert.Contains("async", e.Message);
+        }
+
+        class AsyncHost
+        {
+            public System.Threading.Tasks.Task<string> TaskOfTWithInnerGuardClause(object obj)
+            {
+                return System.Threading.Tasks.Task.Factory.StartNew(() =>
+                {
+                    if (obj == null)
+                        throw new ArgumentNullException("obj");
+
+                    return obj.ToString();
+                });
+            }
+
+            public System.Threading.Tasks.Task TaskWithInnerGuardClause(object obj)
+            {
+                return System.Threading.Tasks.Task.Factory.StartNew(() =>
+                {
+                    if (obj == null)
+                        throw new ArgumentNullException("obj");
+
+                    return obj.ToString();
+                });
+            }
+        }
+
         private class GuardedGenericData : IEnumerable<Type>
         {
             public IEnumerator<Type> GetEnumerator()
