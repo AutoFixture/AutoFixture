@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixture.Idioms
             constructorInfo = this.ResolveUnclosedGenericType(constructorInfo);
 
             var method = new ConstructorMethod(constructorInfo);
-            this.Verify(method, false);
+            this.Verify(method, false, false);
         }
 
         /// <summary>
@@ -131,7 +131,11 @@ namespace Ploeh.AutoFixture.Idioms
 
             var isReturnValueNonDeferred = IsNonDeferredEnumerable(methodInfo.ReturnType);
             var isReturnValueDeferable = isReturnValueIterator && !isReturnValueNonDeferred;
-            this.Verify(method, isReturnValueDeferable);
+
+            var isReturnValueTask =
+                typeof(System.Threading.Tasks.Task).IsAssignableFrom(methodInfo.ReturnType);
+
+            this.Verify(method, isReturnValueDeferable, isReturnValueTask);
         }
 
         static bool IsNonDeferredEnumerable(Type t)
@@ -165,7 +169,7 @@ namespace Ploeh.AutoFixture.Idioms
                 nonGenericCollectionTypes.Any(gt => gt.IsAssignableFrom(t)) ||
                 (isGeneric && (genericCollectionTypeGtds.Any(gtd => gtdInterfaces.Contains(gtd))));
         }
-
+        
         /// <summary>
         /// Verifies that a property has appropriate Guard Clauses in place.
         /// </summary>
@@ -236,10 +240,12 @@ namespace Ploeh.AutoFixture.Idioms
             }
         }
 
-        private void Verify(IMethod method, bool isReturnValueDeferable)
+        private void Verify(IMethod method, bool isReturnValueDeferable, bool isReturnValueTask)
         {
             if (isReturnValueDeferable)
                 VerifyDeferrableIterator(method);
+            else if (isReturnValueTask)
+                VerifyDeferrableTask(method);
             else
                 VerifyNormal(method);
         }
@@ -249,6 +255,14 @@ namespace Ploeh.AutoFixture.Idioms
             foreach (var command in GetParameterGuardCommands(method))
             {
                 this.BehaviorExpectation.Verify(new IteratorMethodInvokeCommand(command));
+            }
+        }
+
+        private void VerifyDeferrableTask(IMethod method)
+        {
+            foreach (var command in GetParameterGuardCommands(method))
+            {
+                this.BehaviorExpectation.Verify(new TaskReturnMethodInvokeCommand(command));
             }
         }
 
@@ -343,6 +357,46 @@ namespace Ploeh.AutoFixture.Idioms
                        ? new AutoGenericMethod(this.Builder, methodInfo)
                              .Value
                        : methodInfo;
+        }
+
+        class TaskReturnMethodInvokeCommand : IGuardClauseCommand
+        {
+            private const string message = @"A Guard Clause test was performed on a method that returns a Task, Task<T> (possibly in an 'async' method), but the test failed. See the inner exception for more details. However, because of the async nature of the task, this test failure may look like a false positive. Perhaps you already have a Guard Clause in place, but inside the Task or inside a method marked with the 'async' keyword (if you're using C#); if this is the case, the Guard Clause is dormant, and will first be triggered when a client accesses the Result of the Task. This doesn't adhere to the Fail Fast principle, so should be addressed.
+See https://github.com/AutoFixture/AutoFixture/issues/268 for more details.";
+
+            private readonly IGuardClauseCommand command;
+
+            public TaskReturnMethodInvokeCommand(IGuardClauseCommand command)
+            {
+                this.command = command;
+            }
+
+            public Type RequestedType
+            {
+                get { return this.command.RequestedType; }
+            }
+
+            public void Execute(object value)
+            {
+                this.command.Execute(value);
+            }
+
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture",
+                Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "github",
+                Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
+            public Exception CreateException(string value)
+            {
+                var e = this.command.CreateException(value);
+                return new GuardClauseException(message, e);
+            }
+
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "github")]
+            public Exception CreateException(string value, Exception innerException)
+            {
+                var e = this.command.CreateException(value, innerException);
+                return new GuardClauseException(message, e);
+            }
         }
 
         private class IteratorMethodInvokeCommand : IGuardClauseCommand
