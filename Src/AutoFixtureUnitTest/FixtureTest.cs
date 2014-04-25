@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Ploeh.Albedo;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
@@ -301,7 +303,10 @@ namespace Ploeh.AutoFixtureUnitTest
                     .Range(0, specimenCountPerThread)
                     .Select(_ => sut.Create<SpecimenWithEverything>())
                     .Select(s => new { Specimen = s, threadNumber,
-                        ValuesNotPopulated = ValueCollectingVisitor.GetAllInstanceValues(s)
+                        ValuesNotPopulated = s.GetType()
+                            .GetPropertiesAndFields(BindingFlags.Public | BindingFlags.Instance)
+                            .Accept(new ValueCollectingVisitor(s))
+                            .Value
                             .Where(v => v == null || 0.Equals(v))
                             .ToArray()
                     })
@@ -314,7 +319,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var allValuesNotPopulated = specimensByThread
                 .SelectMany(t => t.SelectMany(s => s.ValuesNotPopulated));
 
-            Assert.False(allValuesNotPopulated.Any());
+            Assert.Empty(allValuesNotPopulated);
 
             // Teardown
         }
