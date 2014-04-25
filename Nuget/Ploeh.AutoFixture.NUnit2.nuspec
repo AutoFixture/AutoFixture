@@ -23,6 +23,7 @@
         <file src="Ploeh.AutoFixture.NUnit2.XML" target="lib\net40" />
         <file src="Ploeh.AutoFixture.NUnit2.Addins.dll" target="lib\net40" />
         <file src="Ploeh.AutoFixture.NUnit2.Addins.XML" target="lib\net40" />
+        <file src="nunit.core.interfaces.dll" target="lib\net40" />
         <file src="Ploeh.AutoFixture.NUnit2.Addins.LocalAddin.cs.pp" target="content\LocalAddin.cs.pp" />
     </files>
 </package>
