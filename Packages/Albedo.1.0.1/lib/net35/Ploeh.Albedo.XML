@@ -21,7 +21,7 @@
             Accepts the <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> as per the 
             visitor pattern http://en.wikipedia.org/wiki/Visitor_pattern
             </summary>
-            <typeparam name="T">The type of observation(s) of the vistor</typeparam>
+            <typeparam name="T">The type of observation(s) of the visitor</typeparam>
             <param name="visitor">The visitor to accept</param>
             <returns></returns>
         </member>
@@ -71,10 +71,209 @@
             algorithms and data structures like a hash table. 
             </returns>
         </member>
+        <member name="M:Ploeh.Albedo.AssemblyElement.ToString">
+            <summary>
+            Gets the string representation of the <see cref="P:Ploeh.Albedo.AssemblyElement.Assembly"/>
+            suitable for development / debugging display purposes.
+            </summary>
+            <returns>The string representation of the contained
+            <see cref="P:Ploeh.Albedo.AssemblyElement.Assembly"/></returns>
+        </member>
         <member name="P:Ploeh.Albedo.AssemblyElement.Assembly">
             <summary>
             Gets the <see cref="T:System.Reflection.Assembly"/> instance this element points to.
             </summary>
+        </member>
+        <member name="T:Ploeh.Albedo.ConcreteElementConversions">
+            <summary>
+            Provides extension methods which convert from System.Reflection instances to
+            their Albedo element counterparts.
+            </summary>
+        </member>
+        <member name="M:Ploeh.Albedo.ConcreteElementConversions.ToElement(System.Reflection.Assembly)">
+            <summary>
+            Converts from an <see cref="T:System.Reflection.Assembly"/> to an <see cref="T:Ploeh.Albedo.AssemblyElement"/>.
+            </summary>
+            <param name="assembly">The <see cref="T:System.Reflection.Assembly"/></param>
+            <returns>The <see cref="T:Ploeh.Albedo.AssemblyElement"/></returns>
+        </member>
+        <member name="M:Ploeh.Albedo.ConcreteElementConversions.ToElement(System.Reflection.ConstructorInfo)">
+            <summary>
+            Converts from an <see cref="T:System.Reflection.ConstructorInfo"/> to an <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/>.
+            </summary>
+            <param name="constructorInfo">The <see cref="T:System.Reflection.ConstructorInfo"/></param>
+            <returns>The <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/></returns>
+        </member>
+        <member name="M:Ploeh.Albedo.ConcreteElementConversions.ToElement(System.Reflection.EventInfo)">
+            <summary>
+            Converts from an <see cref="T:System.Reflection.EventInfo"/> to an <see cref="T:Ploeh.Albedo.EventInfoElement"/>.
+            </summary>
+            <param name="eventInfo">The <see cref="T:System.Reflection.EventInfo"/></param>
+            <returns>The <see cref="T:Ploeh.Albedo.EventInfoElement"/></returns>
+        </member>
+        <member name="M:Ploeh.Albedo.ConcreteElementConversions.ToElement(System.Reflection.FieldInfo)">
+            <summary>
+            Converts from an <see cref="T:System.Reflection.FieldInfo"/> to an <see cref="T:Ploeh.Albedo.FieldInfoElement"/>.
+            </summary>
+            <param name="fieldInfo">The <see cref="T:System.Reflection.FieldInfo"/></param>
+            <returns>The <see cref="T:Ploeh.Albedo.FieldInfoElement"/></returns>
+        </member>
+        <member name="M:Ploeh.Albedo.ConcreteElementConversions.ToElement(System.Reflection.LocalVariableInfo)">
+            <summary>
+            Converts from an <see cref="T:System.Reflection.LocalVariableInfo"/> to an <see cref="T:Ploeh.Albedo.LocalVariableInfoElement"/>.
+            </summary>
+            <param name="localVariableInfo">The <see cref="T:System.Reflection.LocalVariableInfo"/></param>
+            <returns>The <see cref="T:Ploeh.Albedo.LocalVariableInfoElement"/></returns>
+        </member>
+        <member name="M:Ploeh.Albedo.ConcreteElementConversions.ToElement(System.Reflection.MethodInfo)">
+            <summary>
+            Converts from an <see cref="T:System.Reflection.MethodInfo"/> to an <see cref="T:Ploeh.Albedo.MethodInfoElement"/>.
+            </summary>
+            <param name="methodInfo">The <see cref="T:System.Reflection.MethodInfo"/></param>
+            <returns>The <see cref="T:Ploeh.Albedo.MethodInfoElement"/></returns>
+        </member>
+        <member name="M:Ploeh.Albedo.ConcreteElementConversions.ToElement(System.Reflection.ParameterInfo)">
+            <summary>
+            Converts from an <see cref="T:System.Reflection.ParameterInfo"/> to an <see cref="T:Ploeh.Albedo.ParameterInfoElement"/>.
+            </summary>
+            <param name="parameterInfo">The <see cref="T:System.Reflection.ParameterInfo"/></param>
+            <returns>The <see cref="T:Ploeh.Albedo.ParameterInfoElement"/></returns>
+        </member>
+        <member name="M:Ploeh.Albedo.ConcreteElementConversions.ToElement(System.Reflection.PropertyInfo)">
+            <summary>
+            Converts from an <see cref="T:System.Reflection.PropertyInfo"/> to an <see cref="T:Ploeh.Albedo.PropertyInfoElement"/>.
+            </summary>
+            <param name="propertyInfo">The <see cref="T:System.Reflection.PropertyInfo"/></param>
+            <returns>The <see cref="T:Ploeh.Albedo.PropertyInfoElement"/></returns>
+        </member>
+        <member name="M:Ploeh.Albedo.ConcreteElementConversions.ToElement(System.Type)">
+            <summary>
+            Converts from an <see cref="T:System.Type"/> to an <see cref="T:Ploeh.Albedo.TypeElement"/>.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/></param>
+            <returns>The <see cref="T:Ploeh.Albedo.TypeElement"/></returns>
+        </member>
+        <member name="T:Ploeh.Albedo.Constructors">
+            <summary>
+            Provides strongly-typed, refactoring-safe access to
+            <see cref="T:System.Reflection.ConstructorInfo"/> instances.
+            </summary>
+            <remarks>
+            <para>
+            While you can use the standard Reflection API (such as
+            <see cref="M:System.Type.GetConstructor(System.Type[])"/>) to obtain a
+            <see cref="T:System.Reflection.ConstructorInfo"/> instance, the problem is that it relies
+            on identifying the constructor by parameter types. This isn't
+            refactoring-safe, so if you change a constructor, your Reflection
+            code may break. <strong>Constructors</strong> provides a
+            strongly-typed, refactoring-safe alternative, utilizing LINQ expressions.
+            </para>
+            </remarks>
+            <seealso cref="M:Ploeh.Albedo.Constructors.Select``1(System.Linq.Expressions.Expression{System.Func{``0}})"/>
+            <seealso cref="T:Ploeh.Albedo.Fields`1"/>
+            <seealso cref="T:Ploeh.Albedo.Properties`1"/>
+            <seealso cref="T:Ploeh.Albedo.Methods`1"/>
+        </member>
+        <member name="M:Ploeh.Albedo.Constructors.Select``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Selects a <see cref="T:System.Reflection.ConstructorInfo"/> instance based on a
+            strongly-typed, refactoring-safe LINQ expression.
+            </summary>
+            <typeparam name="T">
+            The type containing the desired constructor.
+            </typeparam>
+            <param name="constructorSelector">
+            A LINQ expression that identifies the desired constructor.
+            </param>
+            <returns>
+            A <see cref="T:System.Reflection.ConstructorInfo"/> instance representing the
+            constructor identified by <paramref name="constructorSelector"/>.
+            </returns>
+            <remarks>
+            <para>
+            The Select method provides a strongly-typed, refactoring-safe way
+            to get a <see cref="T:System.Reflection.ConstructorInfo"/> instance.
+            </para>
+            </remarks>
+            <example>
+            This example demonstrates how to use <see cref="T:Ploeh.Albedo.Constructors"/>
+            with LINQ method syntax. The <strong>Select</strong>
+            method returns a <see cref="T:System.Reflection.ConstructorInfo"/> instance
+            representing the <see cref="M:System.String.#ctor(System.Char[])"/> constructor of
+            <see cref="T:System.String"/>.
+            <code>
+            ConstructorInfo ci = Constructors.Select(() =&gt; new string(new char[0]));
+            </code>
+            </example>
+            <seealso cref="T:Ploeh.Albedo.Constructors"/>
+        </member>
+        <member name="T:Ploeh.Albedo.ReflectionElementEnvy">
+            <summary>
+            Contains extension methods for dealing with <see cref="T:Ploeh.Albedo.IReflectionElement"/>
+            instances, both producing and consuming them.
+            </summary>
+        </member>
+        <member name="M:Ploeh.Albedo.ReflectionElementEnvy.GetProperMethods(System.Type,System.Reflection.BindingFlags)">
+            <summary>
+            Gets 'proper' methods from the <paramref name="type"/>; that is, methods excluding
+            property accessors, and matching the provided <paramref name="bindingAttr"/>.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/> from which methods are selected</param>
+            <param name="bindingAttr">The <see cref="T:System.Reflection.BindingFlags"/> used to determine which
+            methods to return.</param>
+            <returns>The sequence of <see cref="T:Ploeh.Albedo.IReflectionElement"/> instances representing
+            the matching methods found on the <paramref name="type"/>.</returns>
+        </member>
+        <member name="M:Ploeh.Albedo.ReflectionElementEnvy.GetProperMethods(System.Type)">
+            <summary>
+            Gets 'proper' methods from the <paramref name="type"/>; that is, methods excluding
+            property accessors. Public | Static | Instance methods are returned.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/> from which methods are selected</param>
+            <returns>The sequence of <see cref="T:Ploeh.Albedo.IReflectionElement"/> instances representing
+            the public static or public instance methods on the <paramref name="type"/>.</returns>
+        </member>
+        <member name="M:Ploeh.Albedo.ReflectionElementEnvy.Accept``1(System.Collections.Generic.IEnumerable{Ploeh.Albedo.IReflectionElement},Ploeh.Albedo.IReflectionVisitor{``0})">
+            <summary>
+            Accepts the <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> visitor on each of the
+            <paramref name="elements"/> in the sequence.
+            </summary>
+            <typeparam name="T">
+            The type of observation or result which the <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/>
+            instance produces when visiting nodes.
+            </typeparam>
+            <param name="elements">
+            The sequence of <see cref="T:Ploeh.Albedo.IReflectionElement"/> instances upon which 
+            the <see cref="M:Ploeh.Albedo.IReflectionElement.Accept``1(Ploeh.Albedo.IReflectionVisitor{``0})"/> method will be called.
+            </param>
+            <param name="visitor">The <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance.</param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.ReflectionElementEnvy.GetPropertiesAndFields(System.Type,System.Reflection.BindingFlags)">
+            <summary>
+            Gets the matching properties and fields from the <paramref name="type"/>, and
+            returns them as a sequence of <see cref="T:Ploeh.Albedo.IReflectionElement"/> instances.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/> which properties and fields are
+            obtained from.</param>
+            <param name="bindingAttr">The <see cref="T:System.Reflection.BindingFlags"/> used determine which
+            properties and fields to get.</param>
+            <returns>The sequence of <see cref="T:Ploeh.Albedo.IReflectionElement"/> instances representing
+            the matching properties and fields from the <paramref name="type"/>.</returns>
+        </member>
+        <member name="M:Ploeh.Albedo.ReflectionElementEnvy.GetPublicPropertiesAndFields(System.Type)">
+            <summary>
+            Gets the public instance properties and fields from the <paramref name="type"/>,
+            and returns them as a sequence of <see cref="T:Ploeh.Albedo.IReflectionElement"/> instances.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/> which properties and fields are
+            obtained from.</param>
+            <returns>The sequence of <see cref="T:Ploeh.Albedo.IReflectionElement"/> instances representing
+            the public instance properties and fields from the 
+            <paramref name="type"/>.</returns>
         </member>
         <member name="T:Ploeh.Albedo.Refraction.CompositeReflectionElementRefraction`1">
             <summary>
@@ -106,7 +305,7 @@
             <see cref="T:System.Reflection.PropertyInfo"/> or
             <see cref="T:System.Reflection.ParameterInfo"/>, into their respective
             <strong>IReflectionElement</strong> Adapters. However, because of the
-            existense of <see cref="T:Ploeh.Albedo.NullReflectionElement"/>, an optional strategy
+            existence of <see cref="T:Ploeh.Albedo.NullReflectionElement"/>, an optional strategy
             might be to return a <strong>NullReflectionElement</strong> instance
             for any source object that doesn't have an appropriate
             <strong>IReflectionElement</strong> Adapter.
@@ -315,6 +514,14 @@
             algorithms and data structures like a hash table. 
             </returns>
         </member>
+        <member name="M:Ploeh.Albedo.EventInfoElement.ToString">
+            <summary>
+            Gets the string representation of the <see cref="P:Ploeh.Albedo.EventInfoElement.EventInfo"/>
+            suitable for development / debugging display purposes.
+            </summary>
+            <returns>The string representation of the contained
+            <see cref="P:Ploeh.Albedo.EventInfoElement.EventInfo"/></returns>
+        </member>
         <member name="P:Ploeh.Albedo.EventInfoElement.EventInfo">
             <summary>
             Gets the <see cref="T:System.Reflection.EventInfo"/> instance this element represents.
@@ -340,7 +547,7 @@
             Accepts the <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> visitor.
             </summary>
             <typeparam name="T">
-            The type of observation(s) of the vistor.
+            The type of observation(s) of the visitor.
             </typeparam>
             <param name="visitor">The visitor to accept.</param>
             <returns></returns>
@@ -438,6 +645,14 @@
             algorithms and data structures like a hash table. 
             </returns>
         </member>
+        <member name="M:Ploeh.Albedo.ConstructorInfoElement.ToString">
+            <summary>
+            Gets the string representation of the <see cref="P:Ploeh.Albedo.ConstructorInfoElement.ConstructorInfo"/>
+            suitable for development / debugging display purposes.
+            </summary>
+            <returns>The string representation of the contained
+            <see cref="P:Ploeh.Albedo.ConstructorInfoElement.ConstructorInfo"/></returns>
+        </member>
         <member name="P:Ploeh.Albedo.ConstructorInfoElement.ConstructorInfo">
             <summary>
             Gets the <see cref="T:System.Reflection.ConstructorInfo"/> instance this element points to.
@@ -470,7 +685,7 @@
             <see cref="T:Ploeh.Albedo.NullReflectionElement"/> is returned.
             </para>
             <para>
-            For a stricter converion, you can use
+            For a stricter conversion, you can use
             <see cref="M:Ploeh.Albedo.Refraction.Conversions.ToReflectionElement``1(``0)"/>.
             </para>
             </remarks>
@@ -502,7 +717,7 @@
             an <see cref="T:System.ArgumentException"/> is thrown.
             </para>
             <para>
-            For a weaker, but more robust converion, you can use
+            For a weaker, but more robust conversion, you can use
             <see cref="M:Ploeh.Albedo.Refraction.Conversions.AsReflectionElement``1(``0)"/>.
             </para>
             </remarks>
@@ -599,6 +814,14 @@
             A hash code for this instance, suitable for use in hashing
             algorithms and data structures like a hash table. 
             </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.FieldInfoElement.ToString">
+            <summary>
+            Gets the string representation of the <see cref="P:Ploeh.Albedo.FieldInfoElement.FieldInfo"/>
+            suitable for development / debugging display purposes.
+            </summary>
+            <returns>The string representation of the contained
+            <see cref="P:Ploeh.Albedo.FieldInfoElement.FieldInfo"/></returns>
         </member>
         <member name="P:Ploeh.Albedo.FieldInfoElement.FieldInfo">
             <summary>
@@ -723,6 +946,14 @@
             algorithms and data structures like a hash table. 
             </returns>
         </member>
+        <member name="M:Ploeh.Albedo.MethodInfoElement.ToString">
+            <summary>
+            Gets the string representation of the <see cref="P:Ploeh.Albedo.MethodInfoElement.MethodInfo"/>
+            suitable for development / debugging display purposes.
+            </summary>
+            <returns>The string representation of the contained
+            <see cref="P:Ploeh.Albedo.MethodInfoElement.MethodInfo"/></returns>
+        </member>
         <member name="P:Ploeh.Albedo.MethodInfoElement.MethodInfo">
             <summary>
             Gets the <see cref="T:System.Reflection.MethodInfo"/> instance this element points to.
@@ -784,59 +1015,42 @@
             </para>
             </remarks>
         </member>
+        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.AssemblyElement[])">
+            <summary>
+            Allows an <see cref="T:Ploeh.Albedo.AssemblyElement"/> instances to be 'visited'.
+            This method is called when the element 'accepts' this visitor instance.
+            </summary>
+            <param name="assemblyElements">
+            The <see cref="T:Ploeh.Albedo.AssemblyElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+        </member>
         <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.AssemblyElement)">
             <summary>
             Allows an <see cref="T:Ploeh.Albedo.AssemblyElement"/> to be 'visited'. This method is called when the
             element 'accepts' this visitor instance.
             </summary>
             <param name="assemblyElement">The <see cref="T:Ploeh.Albedo.AssemblyElement"/> being visited.</param>
-            <returns>A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
-            used to continue the visiting process with potentially updated observations.</returns>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
         </member>
-        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.ConstructorInfoElement)">
+        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.TypeElement[])">
             <summary>
-            Allows an <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/> to be 'visited'. This method is called when the
-            element 'accepts' this visitor instance.
+            Allows <see cref="T:Ploeh.Albedo.TypeElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
             </summary>
-            <param name="constructorInfoElement">The <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/> being visited.</param>
-            <returns>A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
-            used to continue the visiting process with potentially updated observations.</returns>
-        </member>
-        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.FieldInfoElement)">
-            <summary>
-            Allows an <see cref="T:Ploeh.Albedo.FieldInfoElement"/> to be 'visited'. This method is called when the
-            element 'accepts' this visitor instance.
-            </summary>
-            <param name="fieldInfoElement">The <see cref="T:Ploeh.Albedo.FieldInfoElement"/> being visited.</param>
-            <returns>A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
-            used to continue the visiting process with potentially updated observations.</returns>
-        </member>
-        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.MethodInfoElement)">
-            <summary>
-            Allows an <see cref="T:Ploeh.Albedo.MethodInfoElement"/> to be 'visited'. This method is called when the
-            element 'accepts' this visitor instance.
-            </summary>
-            <param name="methodInfoElement">The <see cref="T:Ploeh.Albedo.MethodInfoElement"/> being visited.</param>
-            <returns>A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
-            used to continue the visiting process with potentially updated observations.</returns>
-        </member>
-        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.ParameterInfoElement)">
-            <summary>
-            Allows an <see cref="T:Ploeh.Albedo.ParameterInfoElement"/> to be 'visited'. This method is called when the
-            element 'accepts' this visitor instance.
-            </summary>
-            <param name="parameterInfoElement">The <see cref="T:Ploeh.Albedo.ParameterInfoElement"/> being visited.</param>
-            <returns>A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
-            used to continue the visiting process with potentially updated observations.</returns>
-        </member>
-        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.PropertyInfoElement)">
-            <summary>
-            Allows an <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> to be 'visited'. This method is called when the
-            element 'accepts' this visitor instance.
-            </summary>
-            <param name="propertyInfoElement">The <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> being visited.</param>
-            <returns>A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
-            used to continue the visiting process with potentially updated observations.</returns>
+            <param name="typeElements">
+            The <see cref="T:Ploeh.Albedo.TypeElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
         </member>
         <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.TypeElement)">
             <summary>
@@ -844,17 +1058,119 @@
             element 'accepts' this visitor instance.
             </summary>
             <param name="typeElement">The <see cref="T:Ploeh.Albedo.TypeElement"/> being visited.</param>
-            <returns>A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
-            used to continue the visiting process with potentially updated observations.</returns>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
         </member>
-        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.LocalVariableInfoElement)">
+        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.FieldInfoElement[])">
             <summary>
-            Allows an <see cref="T:Ploeh.Albedo.LocalVariableInfoElement"/> to be 'visited'. This method is called when the
+            Allows <see cref="T:Ploeh.Albedo.FieldInfoElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
+            </summary>
+            <param name="fieldInfoElements">
+            The <see cref="T:Ploeh.Albedo.FieldInfoElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.ConstructorInfoElement[])">
+            <summary>
+            Allows <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
+            </summary>
+            <param name="constructorInfoElements">
+            The <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.PropertyInfoElement[])">
+            <summary>
+            Allows <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
+            </summary>
+            <param name="propertyInfoElements">
+            The <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.MethodInfoElement[])">
+            <summary>
+            Allows <see cref="T:Ploeh.Albedo.MethodInfoElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
+            </summary>
+            <param name="methodInfoElements">
+            The <see cref="T:Ploeh.Albedo.MethodInfoElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.EventInfoElement[])">
+            <summary>
+            Allows <see cref="T:Ploeh.Albedo.EventInfoElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
+            </summary>
+            <param name="eventInfoElements">
+            The <see cref="T:Ploeh.Albedo.EventInfoElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.FieldInfoElement)">
+            <summary>
+            Allows an <see cref="T:Ploeh.Albedo.FieldInfoElement"/> to be 'visited'. This method is called when the
             element 'accepts' this visitor instance.
             </summary>
-            <param name="localVariableInfoElement">The <see cref="T:Ploeh.Albedo.LocalVariableInfoElement"/> being visited.</param>
-            <returns>A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
-            used to continue the visiting process with potentially updated observations.</returns>
+            <param name="fieldInfoElement">The <see cref="T:Ploeh.Albedo.FieldInfoElement"/> being visited.</param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.ConstructorInfoElement)">
+            <summary>
+            Allows an <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/> to be 'visited'. This method is called when the
+            element 'accepts' this visitor instance.
+            </summary>
+            <param name="constructorInfoElement">The <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/> being visited.</param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.PropertyInfoElement)">
+            <summary>
+            Allows an <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> to be 'visited'. This method is called when the
+            element 'accepts' this visitor instance.
+            </summary>
+            <param name="propertyInfoElement">The <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> being visited.</param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.MethodInfoElement)">
+            <summary>
+            Allows an <see cref="T:Ploeh.Albedo.MethodInfoElement"/> to be 'visited'. This method is called when the
+            element 'accepts' this visitor instance.
+            </summary>
+            <param name="methodInfoElement">The <see cref="T:Ploeh.Albedo.MethodInfoElement"/> being visited.</param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
         </member>
         <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.EventInfoElement)">
             <summary>
@@ -862,8 +1178,58 @@
             element 'accepts' this visitor instance.
             </summary>
             <param name="eventInfoElement">The <see cref="T:Ploeh.Albedo.EventInfoElement"/> being visited.</param>
-            <returns>A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
-            used to continue the visiting process with potentially updated observations.</returns>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.ParameterInfoElement[])">
+            <summary>
+            Allows <see cref="T:Ploeh.Albedo.ParameterInfoElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
+            </summary>
+            <param name="parameterInfoElements">
+            The <see cref="T:Ploeh.Albedo.ParameterInfoElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.LocalVariableInfoElement[])">
+            <summary>
+            Allows <see cref="T:Ploeh.Albedo.LocalVariableInfoElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
+            </summary>
+            <param name="localVariableInfoElements">
+            The <see cref="T:Ploeh.Albedo.LocalVariableInfoElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.ParameterInfoElement)">
+            <summary>
+            Allows an <see cref="T:Ploeh.Albedo.ParameterInfoElement"/> to be 'visited'. This method is called when the
+            element 'accepts' this visitor instance.
+            </summary>
+            <param name="parameterInfoElement">The <see cref="T:Ploeh.Albedo.ParameterInfoElement"/> being visited.</param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.IReflectionVisitor`1.Visit(Ploeh.Albedo.LocalVariableInfoElement)">
+            <summary>
+            Allows an <see cref="T:Ploeh.Albedo.LocalVariableInfoElement"/> to be 'visited'. This method is called when the
+            element 'accepts' this visitor instance.
+            </summary>
+            <param name="localVariableInfoElement">The <see cref="T:Ploeh.Albedo.LocalVariableInfoElement"/> being visited.</param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
         </member>
         <member name="P:Ploeh.Albedo.IReflectionVisitor`1.Value">
             <summary>
@@ -888,8 +1254,10 @@
             </para>
             </remarks>
             <seealso cref="M:Ploeh.Albedo.Fields`1.Select``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})"/>
-            <seealso cref="T:Ploeh.Albedo.Methods`1"/>
+            <seealso cref="T:Ploeh.Albedo.Constructors"/>
             <seealso cref="T:Ploeh.Albedo.Properties`1"/>
+            <seealso cref="T:Ploeh.Albedo.Methods`1"/>
+            <seealso cref="T:Ploeh.Albedo.Fields"/>
         </member>
         <member name="M:Ploeh.Albedo.Fields`1.Select``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})">
             <summary>
@@ -907,13 +1275,13 @@
             <remarks>
             <para>
             The Select method provides a strongly-typed, refactoring-safe way
-            to get a <see cref="T:System.Reflection.FieldInfo"/> instance. It supports both normal
-            method invocation syntax, as well as LINQ syntax.
+            to get a <see cref="T:System.Reflection.FieldInfo"/> instance. It supports both
+            LINQ method syntax, as well as LINQ query syntax.
             </para>
             </remarks>
             <example>
             This example demonstrates how to use <see cref="T:Ploeh.Albedo.Fields`1"/> with
-            normal method invocation syntax. <strong>ClassWithFields</strong>
+            LINQ method syntax. <strong>ClassWithFields</strong>
             is a custom class with a public field called <strong>Text</strong>.
             The <strong>Select</strong> method returns a
             <strong>FieldInfo</strong> instance representing the
@@ -922,7 +1290,7 @@
             FieldInfo fi = new Fields&lt;ClassWithFields&gt;().Select(v =&gt; v.Text);
             </code>
             This example demonstrates how to use <see cref="T:Ploeh.Albedo.Fields`1"/> with
-            LINQ syntax. <strong>ClassWithFields</strong> is a custom class
+            LINQ query syntax. <strong>ClassWithFields</strong> is a custom class
             with a public field called <strong>Text</strong>. The
             <strong>Select</strong> method returns a <strong>FieldInfo</strong>
             instance representing the <strong>Text</strong> field.
@@ -940,6 +1308,40 @@
             Example: x =&gt; x.Bar.
             </exception>
             <seealso cref="T:Ploeh.Albedo.Fields`1"/>
+        </member>
+        <member name="T:Ploeh.Albedo.Fields">
+            <summary>
+            Provides strongly-typed, refactoring-safe access to
+            <see cref="T:System.Reflection.FieldInfo"/> instances.
+            </summary>
+            <remarks>
+            <para>
+            This class provides similar services to <see cref="T:Ploeh.Albedo.Fields`1"/>, but
+            for static fields.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ploeh.Albedo.Fields.Select``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Selects a <see cref="T:System.Reflection.FieldInfo"/> instance based on a
+            strongly-typed, refactoring-safe LINQ expression.
+            </summary>
+            <typeparam name="TField">The type of the desired field.</typeparam>
+            <param name="fieldSelector">
+            A LINQ expression that identifies the desired field.
+            </param>
+            <returns>
+            A <see cref="T:System.Reflection.FieldInfo"/> instance representing the field
+            identified by <paramref name="fieldSelector"/>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="fieldSelector"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            The expression's body must be a MemberExpression. The code block supplied should identify a field.\nExample: () =&gt; Foo.Bar.;fieldSelector
+            or
+            The expression's body must identify a field, not a property or other member.;fieldSelector
+            </exception>
         </member>
         <member name="T:Ploeh.Albedo.Methods`1">
             <summary>
@@ -961,8 +1363,9 @@
             </para>
             </remarks>
             <seealso cref="M:Ploeh.Albedo.Methods`1.Select(System.Linq.Expressions.Expression{System.Action{`0}})"/>
-            <seealso cref="T:Ploeh.Albedo.Properties`1"/>
             <seealso cref="T:Ploeh.Albedo.Fields`1"/>
+            <seealso cref="T:Ploeh.Albedo.Constructors"/>
+            <seealso cref="T:Ploeh.Albedo.Properties`1"/>
         </member>
         <member name="M:Ploeh.Albedo.Methods`1.Select(System.Linq.Expressions.Expression{System.Action{`0}})">
             <summary>
@@ -980,12 +1383,12 @@
             <para>
             The Select method provides a strongly-typed, refactoring-safe way
             to get a <see cref="T:System.Reflection.MethodInfo"/> instance. It supports both
-            normal method invocation syntax, as well as LINQ syntax.
+            LINQ method syntax, as well as LINQ query syntax.
             </para>
             </remarks>
             <example>
             This example demonstrates how to use <see cref="T:Ploeh.Albedo.Methods`1"/>
-            with normal method invocation syntax. The <strong>Select</strong>
+            with LINQ method syntax. The <strong>Select</strong>
             method returns a <see cref="T:System.Reflection.MethodInfo"/> instance representing
             the <see cref="M:System.Version.ToString"/> method of
             <see cref="T:System.Version"/>.
@@ -993,7 +1396,7 @@
             MethodInfo mi = new Methods&lt;Version&gt;().Select(v =&gt; v.ToString());
             </code>
             This example demonstrates how to use <see cref="T:Ploeh.Albedo.Methods`1"/>
-            with LINQ syntax. The <strong>Select</strong>
+            with LINQ query syntax. The <strong>Select</strong>
             method returns a <strong>MethodInfo</strong> instance
             representing the <strong>ToString()</strong> method of
             <strong>Version</strong>.
@@ -1029,12 +1432,12 @@
             <para>
             The Select method provides a strongly-typed, refactoring-safe way
             to get a <see cref="T:System.Reflection.MethodInfo"/> instance. It supports both
-            normal method invocation syntax, as well as LINQ syntax.
+            LINQ method syntax, as well as LINQ query syntax.
             </para>
             </remarks>
             <example>
             This example demonstrates how to use <see cref="T:Ploeh.Albedo.Methods`1"/>
-            with normal method invocation syntax. The <strong>Select</strong>
+            with LINQ method syntax. The <strong>Select</strong>
             method returns a <see cref="T:System.Reflection.MethodInfo"/> instance representing
             the <see cref="M:System.Version.ToString"/> method of
             <see cref="T:System.Version"/>.
@@ -1042,7 +1445,7 @@
             MethodInfo mi = new Methods&lt;Version&gt;().Select(v =&gt; v.ToString());
             </code>
             This example demonstrates how to use <see cref="T:Ploeh.Albedo.Methods`1"/>
-            with LINQ syntax. The <strong>Select</strong>
+            with LINQ query syntax. The <strong>Select</strong>
             method returns a <strong>MethodInfo</strong> instance
             representing the <strong>ToString()</strong> method of
             <strong>Version</strong>.
@@ -1059,6 +1462,60 @@
             it doesn't identify a method. The code block supplied should
             identify a method.
             Example: x =&gt; x.Foo().
+            </exception>
+            <seealso cref="T:Ploeh.Albedo.Methods`1"/>
+        </member>
+        <member name="T:Ploeh.Albedo.Methods">
+            <summary>
+            Provides strongly-typed, refactoring-safe access to
+            <see cref="T:System.Reflection.MethodInfo"/> instances.
+            </summary>
+            <remarks>
+            <para>
+            This class provides similar services to <see cref="T:Ploeh.Albedo.Methods`1"/>, but
+            for static fields.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ploeh.Albedo.Methods.Select(System.Linq.Expressions.Expression{System.Action})">
+            <summary>
+            Selects a <see cref="T:System.Reflection.MethodInfo"/> instance based on a
+            strongly-typed, refactoring-safe LINQ expression.
+            </summary>
+            <param name="methodSelector">
+            A LINQ expression that identifies the desired method.
+            </param>
+            <returns>
+            A <see cref="T:System.Reflection.MethodInfo"/> instance representing the method
+            identified by <paramref name="methodSelector"/>.
+            </returns>
+            <remarks>
+            <para>
+            The Select method provides a strongly-typed, refactoring-safe way
+            to get a <see cref="T:System.Reflection.MethodInfo"/> instance. It supports
+            LINQ method syntax.
+            </para>
+            </remarks>
+            <example>
+            This example demonstrates how to use <see cref="T:Ploeh.Albedo.Methods"/>
+            with LINQ method syntax. The <strong>Select</strong>
+            method returns a <see cref="T:System.Reflection.MethodInfo"/> instance representing
+            the <see cref="M:System.Math.Abs(System.Int32)"/> method of
+            <see cref="T:System.Math"/>.
+            <code>
+            int dummy = 5;
+            MethodInfo mi = new Methods.Select(() =&gt; Math.Abs(dummy));
+            </code>
+            </example>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="methodSelector"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            The expression's body isn't a <see cref="T:System.Linq.Expressions.MethodCallExpression"/> or
+            it doesn't identify a static method. The code block supplied should
+            identify a static method.
+            Example: () =&gt; Foo.Bar().
+            where Bar is static method.
             </exception>
             <seealso cref="T:Ploeh.Albedo.Methods`1"/>
         </member>
@@ -1115,6 +1572,14 @@
             A hash code for this instance, suitable for use in hashing
             algorithms and data structures like a hash table. 
             </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.LocalVariableInfoElement.ToString">
+            <summary>
+            Gets the string representation of the <see cref="P:Ploeh.Albedo.LocalVariableInfoElement.LocalVariableInfo"/>
+            suitable for development / debugging display purposes.
+            </summary>
+            <returns>The string representation of the contained
+            <see cref="P:Ploeh.Albedo.LocalVariableInfoElement.LocalVariableInfo"/></returns>
         </member>
         <member name="P:Ploeh.Albedo.LocalVariableInfoElement.LocalVariableInfo">
             <summary>
@@ -1221,6 +1686,14 @@
             algorithms and data structures like a hash table. 
             </returns>
         </member>
+        <member name="M:Ploeh.Albedo.ParameterInfoElement.ToString">
+            <summary>
+            Gets the string representation of the <see cref="P:Ploeh.Albedo.ParameterInfoElement.ParameterInfo"/>
+            suitable for development / debugging display purposes.
+            </summary>
+            <returns>The string representation of the contained
+            <see cref="P:Ploeh.Albedo.ParameterInfoElement.ParameterInfo"/></returns>
+        </member>
         <member name="P:Ploeh.Albedo.ParameterInfoElement.ParameterInfo">
             <summary>
             Gets the <see cref="T:System.Reflection.ParameterInfo"/> instance this element represents.
@@ -1251,6 +1724,26 @@
             </para>
             </remarks>
         </member>
+        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.AssemblyElement[])">
+            <summary>
+            Allows an <see cref="T:Ploeh.Albedo.AssemblyElement"/> instances to be 'visited'.
+            This method is called when the element 'accepts' this visitor instance.
+            </summary>
+            <param name="assemblyElements">
+            The <see cref="T:Ploeh.Albedo.AssemblyElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+            <remarks>
+            <para>
+            This implementation relays each <see cref="T:Ploeh.Albedo.AssemblyElement"/> instance
+            to <see cref="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.AssemblyElement)"/>,
+            but since the method is virtual, child classes can override it.
+            </para>
+            </remarks>
+        </member>
         <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.AssemblyElement)">
             <summary>
             Allows an <see cref="T:Ploeh.Albedo.AssemblyElement"/> to be visited. 
@@ -1267,20 +1760,39 @@
             </returns>
             <remarks>
             <para>
-            This implementation simply returns
-            <paramref name="assemblyElement"/> without doing anything, but
-            since the method is virtual, child classes can override it.
+            This implementation relays <see cref="T:Ploeh.Albedo.TypeElement"/> instances
+            from <see cref="M:System.Reflection.Assembly.GetTypes"/>, to <see cref="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.TypeElement[])"/>,
+            but since the method is virtual, child classes can override it.
             </para>
             </remarks>
         </member>
-        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.ConstructorInfoElement)">
+        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.TypeElement[])">
             <summary>
-            Allows an <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/> to be visited. 
-            This method is called when the element accepts this visitor
-            instance.
+            Allows <see cref="T:Ploeh.Albedo.TypeElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
             </summary>
-            <param name="constructorInfoElement">
-            The <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/> being visited.
+            <param name="typeElements">
+            The <see cref="T:Ploeh.Albedo.TypeElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+            <remarks>
+            <para>
+            This implementation relays each <see cref="T:Ploeh.Albedo.TypeElement"/> instance
+            to <see cref="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.TypeElement)"/>,
+            but since the method is virtual, child classes can override it.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.TypeElement)">
+            <summary>
+            Allows an <see cref="T:Ploeh.Albedo.TypeElement"/> to be visited. This method is
+            called when the element accepts this visitor instance.
+            </summary>
+            <param name="typeElement">
+            The <see cref="T:Ploeh.Albedo.TypeElement"/> being visited.
             </param>
             <returns>
             A <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be used
@@ -1289,8 +1801,110 @@
             </returns>
             <remarks>
             <para>
-            This implementation simply returns
-            <paramref name="constructorInfoElement"/> without doing anything,
+            This implementation relays <see cref="T:Ploeh.Albedo.FieldInfoElement"/>, <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/>,
+            <see cref="T:Ploeh.Albedo.PropertyInfoElement"/>, <see cref="T:Ploeh.Albedo.MethodInfoElement"/>, and 
+            <see cref="T:Ploeh.Albedo.EventInfoElement"/> instances to corresponding Visit method.
+            These semantic child elements are constructed from the <see cref="T:Ploeh.Albedo.TypeElement"/> parameter,
+            and since this method is virtual, child classes can override it.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.FieldInfoElement[])">
+            <summary>
+            Allows <see cref="T:Ploeh.Albedo.FieldInfoElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
+            </summary>
+            <param name="fieldInfoElements">
+            The <see cref="T:Ploeh.Albedo.FieldInfoElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+            <remarks>
+            <para>
+            This implementation relays each <see cref="T:Ploeh.Albedo.FieldInfoElement"/> instance
+            to <see cref="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.FieldInfoElement)"/>,
+            but since the method is virtual, child classes can override it.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.ConstructorInfoElement[])">
+            <summary>
+            Allows <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
+            </summary>
+            <param name="constructorInfoElements">
+            The <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+            <remarks>
+            <para>
+            This implementation relays each <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/> instance
+            to <see cref="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.ConstructorInfoElement)"/>,
+            but since the method is virtual, child classes can override it.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.PropertyInfoElement[])">
+            <summary>
+            Allows <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
+            </summary>
+            <param name="propertyInfoElements">
+            The <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+            <remarks>
+            <para>
+            This implementation relays each <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> instance
+            to <see cref="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.PropertyInfoElement)"/>,
+            but since the method is virtual, child classes can override it.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.MethodInfoElement[])">
+            <summary>
+            Allows <see cref="T:Ploeh.Albedo.MethodInfoElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
+            </summary>
+            <param name="methodInfoElements">
+            The <see cref="T:Ploeh.Albedo.MethodInfoElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+            <remarks>
+            <para>
+            This implementation relays each <see cref="T:Ploeh.Albedo.MethodInfoElement"/> instance
+            to <see cref="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.MethodInfoElement)"/>,
+            but since the method is virtual, child classes can override it.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.EventInfoElement[])">
+            <summary>
+            Allows <see cref="T:Ploeh.Albedo.EventInfoElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
+            </summary>
+            <param name="eventInfoElements">
+            The <see cref="T:Ploeh.Albedo.EventInfoElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+            <remarks>
+            <para>
+            This implementation relays each <see cref="T:Ploeh.Albedo.EventInfoElement"/> instance
+            to <see cref="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.EventInfoElement)"/>,
             but since the method is virtual, child classes can override it.
             </para>
             </remarks>
@@ -1317,6 +1931,53 @@
             </para>
             </remarks>
         </member>
+        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.ConstructorInfoElement)">
+            <summary>
+            Allows an <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/> to be visited. 
+            This method is called when the element accepts this visitor
+            instance.
+            </summary>
+            <param name="constructorInfoElement">
+            The <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/> being visited.
+            </param>
+            <returns>
+            A <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be used
+            to continue the visiting process with potentially updated
+            observations.
+            </returns>
+            <remarks>
+            <para>
+            This implementation relays the <see cref="T:Ploeh.Albedo.ParameterInfoElement"/>
+            and <see cref="T:Ploeh.Albedo.LocalVariableInfoElement"/> instances
+            from the <see cref="T:Ploeh.Albedo.ConstructorInfoElement"/> parameter
+            to <see cref="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.ParameterInfoElement[])"/> and <see cref="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.LocalVariableInfoElement[])"/> ,
+            but since the method is virtual, child classes can override it.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.PropertyInfoElement)">
+            <summary>
+            Allows an <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> to be visited. 
+            This method is called when the element accepts this visitor
+            instance.
+            </summary>
+            <param name="propertyInfoElement">
+            The <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> being visited.
+            </param>
+            <returns>
+            A <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be used
+            to continue the visiting process with potentially updated
+            observations.
+            </returns>
+            <remarks>
+            <para>
+            This implementation relays the two <see cref="T:Ploeh.Albedo.MethodInfoElement"/> instances
+            from the getter and setter of the <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> parameter,
+            to <see cref="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.MethodInfoElement)"/>,
+            but since the method is virtual, child classes can override it.
+            </para>
+            </remarks>
+        </member>
         <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.MethodInfoElement)">
             <summary>
             Allows an <see cref="T:Ploeh.Albedo.MethodInfoElement"/> to be visited. 
@@ -1333,8 +1994,71 @@
             </returns>
             <remarks>
             <para>
+            This implementation relays the <see cref="T:Ploeh.Albedo.ParameterInfoElement"/>
+            and <see cref="T:Ploeh.Albedo.LocalVariableInfoElement"/> instances
+            from the <see cref="T:Ploeh.Albedo.MethodInfoElement"/> parameter
+            to <see cref="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.ParameterInfoElement[])"/> and <see cref="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.LocalVariableInfoElement[])"/> ,
+            but since the method is virtual, child classes can override it.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.EventInfoElement)">
+            <summary>
+            Allows an <see cref="T:Ploeh.Albedo.EventInfoElement"/> to be visited. This method
+            is called when the element accepts this visitor instance.
+            </summary>
+            <param name="eventInfoElement">
+            The <see cref="T:Ploeh.Albedo.EventInfoElement"/> being visited.
+            </param>
+            <returns>
+            A <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be used
+            to continue the visiting process with potentially updated
+            observations.
+            </returns>
+            <remarks>
+            <para>
             This implementation simply returns
-            <paramref name="methodInfoElement"/> without doing anything,
+            <paramref name="eventInfoElement"/> without doing anything, but
+            since the method is virtual, child classes can override it.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.ParameterInfoElement[])">
+            <summary>
+            Allows <see cref="T:Ploeh.Albedo.ParameterInfoElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
+            </summary>
+            <param name="parameterInfoElements">
+            The <see cref="T:Ploeh.Albedo.ParameterInfoElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+            <remarks>
+            <para>
+            This implementation relays each <see cref="T:Ploeh.Albedo.ParameterInfoElement"/> instance
+            to <see cref="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.ParameterInfoElement)"/>,
+            but since the method is virtual, child classes can override it.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.LocalVariableInfoElement[])">
+            <summary>
+            Allows <see cref="T:Ploeh.Albedo.LocalVariableInfoElement"/> instances to be 'visited'.
+            This method is called when the elements 'accepts' this visitor instance.
+            </summary>
+            <param name="localVariableInfoElements">
+            The <see cref="T:Ploeh.Albedo.LocalVariableInfoElement"/> instances being visited.
+            </param>
+            <returns>
+            A (potentially) new <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be
+            used to continue the visiting process with potentially updated observations.
+            </returns>
+            <remarks>
+            <para>
+            This implementation relays each <see cref="T:Ploeh.Albedo.LocalVariableInfoElement"/> instance
+            to <see cref="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.LocalVariableInfoElement)"/>,
             but since the method is virtual, child classes can override it.
             </para>
             </remarks>
@@ -1361,49 +2085,6 @@
             </para>
             </remarks>
         </member>
-        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.PropertyInfoElement)">
-            <summary>
-            Allows an <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> to be visited. 
-            This method is called when the element accepts this visitor
-            instance.
-            </summary>
-            <param name="propertyInfoElement">
-            The <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> being visited.
-            </param>
-            <returns>
-            A <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be used
-            to continue the visiting process with potentially updated
-            observations.
-            </returns>
-            <remarks>
-            <para>
-            This implementation simply returns
-            <paramref name="propertyInfoElement"/> without doing anything,
-            but since the method is virtual, child classes can override it.
-            </para>
-            </remarks>
-        </member>
-        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.TypeElement)">
-            <summary>
-            Allows an <see cref="T:Ploeh.Albedo.TypeElement"/> to be visited. This method is
-            called when the element accepts this visitor instance.
-            </summary>
-            <param name="typeElement">
-            The <see cref="T:Ploeh.Albedo.TypeElement"/> being visited.
-            </param>
-            <returns>
-            A <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be used
-            to continue the visiting process with potentially updated
-            observations.
-            </returns>
-            <remarks>
-            <para>
-            This implementation simply returns <paramref name="typeElement"/>
-            without doing anything, but since the method is virtual, child
-            classes can override it.
-            </para>
-            </remarks>
-        </member>
         <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.LocalVariableInfoElement)">
             <summary>
             Allows an <see cref="T:Ploeh.Albedo.LocalVariableInfoElement"/> to be visited. 
@@ -1424,27 +2105,6 @@
             <paramref name="localVariableInfoElement"/> without doing
             anything, but since the method is virtual, child classes can
             override it.
-            </para>
-            </remarks>
-        </member>
-        <member name="M:Ploeh.Albedo.ReflectionVisitor`1.Visit(Ploeh.Albedo.EventInfoElement)">
-            <summary>
-            Allows an <see cref="T:Ploeh.Albedo.EventInfoElement"/> to be visited. This method
-            is called when the element accepts this visitor instance.
-            </summary>
-            <param name="eventInfoElement">
-            The <see cref="T:Ploeh.Albedo.EventInfoElement"/> being visited.
-            </param>
-            <returns>
-            A <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be used
-            to continue the visiting process with potentially updated
-            observations.
-            </returns>
-            <remarks>
-            <para>
-            This implementation simply returns
-            <paramref name="eventInfoElement"/> without doing anything, but
-            since the method is virtual, child classes can override it.
             </para>
             </remarks>
         </member>
@@ -1506,6 +2166,7 @@
             </remarks>
             <seealso cref="M:Ploeh.Albedo.Properties`1.Select``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})"/>
             <seealso cref="T:Ploeh.Albedo.Fields`1"/>
+            <seealso cref="T:Ploeh.Albedo.Constructors"/>
             <seealso cref="T:Ploeh.Albedo.Methods`1"/>
         </member>
         <member name="M:Ploeh.Albedo.Properties`1.Select``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})">
@@ -1527,12 +2188,12 @@
             <para>
             The Select method provides a strongly-typed, refactoring-safe way
             to get a <see cref="T:System.Reflection.PropertyInfo"/> instance. It supports both
-            normal method invocation syntax, as well as LINQ syntax.
+            LINQ method syntax, as well as LINQ query syntax.
             </para>
             </remarks>
             <example>
             This example demonstrates how to use <see cref="T:Ploeh.Albedo.Properties`1"/>
-            with normal method invocation syntax. The <strong>Select</strong>
+            with LINQ method syntax. The <strong>Select</strong>
             method returns a <see cref="T:System.Reflection.PropertyInfo"/> instance representing
             the <see cref="P:System.Version.Major"/> property of
             <see cref="T:System.Version"/>.
@@ -1540,7 +2201,7 @@
             PropertyInfo pi = new Properties&lt;Version&gt;().Select(v =&gt; v.Major);
             </code>
             This example demonstrates how to use <see cref="T:Ploeh.Albedo.Properties`1"/>
-            with LINQ syntax. The <strong>Select</strong>
+            with LINQ query syntax. The <strong>Select</strong>
             method returns a <strong>PropertyInfo</strong> instance
             representing the <strong>Major</strong> property of
             <strong>Version</strong>.
@@ -1557,6 +2218,66 @@
             identify a property. The code block supplied should identify a
             property.
             Example: x =&gt; x.Bar.
+            </exception>
+            <seealso cref="T:Ploeh.Albedo.Properties`1"/>
+        </member>
+        <member name="T:Ploeh.Albedo.Properties">
+            <summary>
+            Provides strongly-typed, refactoring-safe access to
+            <see cref="T:System.Reflection.PropertyInfo"/> instances.
+            </summary>
+            <remarks>
+            <para>
+            While you can use the standard Reflection API (such as
+            <see cref="M:System.Type.GetProperty(System.String)"/>) to obtain a
+            <see cref="T:System.Reflection.PropertyInfo"/> instance, the problem is that it relies on
+            identifying the property by name, using a string. This isn't
+            refactoring-safe, so if you change the property name, your Reflection
+            code may break. <strong>Properties</strong> provides a
+            strongly-typed alternative, utilizing LINQ expressions.
+            </para>
+            </remarks>
+            <seealso cref="T:Ploeh.Albedo.Fields"/>
+            <seealso cref="T:Ploeh.Albedo.Constructors"/>
+            <seealso cref="T:Ploeh.Albedo.Methods"/>
+        </member>
+        <member name="M:Ploeh.Albedo.Properties.Select``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Selects a <see cref="T:System.Reflection.PropertyInfo"/> instance based on a
+            strongly-typed, refactoring-safe LINQ expression.
+            </summary>
+            <param name="propertySelector">
+            A LINQ expression that identifies the desired field.
+            </param>
+            <returns>
+            A <see cref="T:System.Reflection.PropertyInfo"/> instance representing the property
+            identified by <paramref name="propertySelector"/>.
+            </returns>
+            <remarks>
+            <para>
+            The Select method provides a strongly-typed, refactoring-safe way
+            to get a <see cref="T:System.Reflection.PropertyInfo"/> instance. It supports
+            LINQ method syntax.
+            </para>
+            </remarks>
+            <example>
+            This example demonstrates how to use <see cref="T:Ploeh.Albedo.Properties"/>
+            with LINQ method syntax. The <strong>Select</strong>
+            method returns a <see cref="T:System.Reflection.PropertyInfo"/> instance representing
+            the <see cref="P:System.Console.BackgroundColor"/> property of
+            <see cref="T:System.Console"/>.
+            <code>
+            PropertyInfo pi = new Properties.Select(() =&gt; Console.BackgroundColor);
+            </code>
+            </example>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="propertySelector"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            The expression's body isn't a MemberExpression or it doesn't
+            identify a property. The code block supplied should identify a
+            property.
+            Example: () =&gt; Foo.Bar.
             </exception>
             <seealso cref="T:Ploeh.Albedo.Properties`1"/>
         </member>
@@ -1613,6 +2334,14 @@
             A hash code for this instance, suitable for use in hashing
             algorithms and data structures like a hash table. 
             </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.PropertyInfoElement.ToString">
+            <summary>
+            Gets the string representation of the <see cref="P:Ploeh.Albedo.PropertyInfoElement.PropertyInfo"/>
+            suitable for development / debugging display purposes.
+            </summary>
+            <returns>The string representation of the contained
+            <see cref="P:Ploeh.Albedo.PropertyInfoElement.PropertyInfo"/></returns>
         </member>
         <member name="P:Ploeh.Albedo.PropertyInfoElement.PropertyInfo">
             <summary>
@@ -1724,6 +2453,14 @@
             algorithms and data structures like a hash table. 
             </returns>
         </member>
+        <member name="M:Ploeh.Albedo.TypeElement.ToString">
+            <summary>
+            Gets the string representation of the <see cref="P:Ploeh.Albedo.TypeElement.Type"/>
+            suitable for development / debugging display purposes.
+            </summary>
+            <returns>The string representation of the contained
+            <see cref="P:Ploeh.Albedo.TypeElement.Type"/></returns>
+        </member>
         <member name="P:Ploeh.Albedo.TypeElement.Type">
             <summary>
             Gets the <see cref="T:System.Type"/> instance this element represents.
@@ -1760,6 +2497,77 @@
             </para>
             </remarks>
             <seealso cref="T:Ploeh.Albedo.Refraction.IReflectionElementRefraction`1"/>
+        </member>
+        <member name="T:Ploeh.Albedo.ValueCollectingVisitor">
+            <summary>
+            Represents a Visitor which can visit <see cref="T:Ploeh.Albedo.IReflectionElement"/> instances,
+            collecting values from <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> or
+            <see cref="T:Ploeh.Albedo.FieldInfoElement"/> instances.
+            </summary>
+        </member>
+        <member name="M:Ploeh.Albedo.ValueCollectingVisitor.#ctor(System.Object,System.Object[])">
+            <summary>
+            Constructs a new instance of the <see cref="T:Ploeh.Albedo.EventInfoElement"/> which represents
+            the specified <see cref="T:System.Reflection.EventInfo"/>.
+            </summary>
+            <param name="target">The target object instance, from which
+            values will be collected</param>
+            <param name="values">The existing/initial values from any previous collections
+            </param>
+        </member>
+        <member name="M:Ploeh.Albedo.ValueCollectingVisitor.Visit(Ploeh.Albedo.AssemblyElement)">
+            <summary>Visits the specified assembly element.</summary>
+            <param name="assemblyElement">The assembly element.</param>
+            <returns>Always throws.</returns>
+            <exception cref="T:System.NotSupportedException">
+            Collecting values from an entire assembly is not supported.
+            ValueCollectingVisitor collect values from a single object (the
+            'target'), and the values collected must correspond to fields or 
+            properties on that object. Attempting to collect values from an
+            entire Assembly is meaningless, because an Assembly normally 
+            defines more than a single type. In the rare case where you have an
+            assembly with only a single type, use the Visit(TypeElement)
+            overload instead.
+            </exception>
+        </member>
+        <member name="M:Ploeh.Albedo.ValueCollectingVisitor.Visit(Ploeh.Albedo.FieldInfoElement)">
+            <summary>
+            Visits the <see cref="T:Ploeh.Albedo.FieldInfoElement"/> and collects the value for this
+            field from the <see cref="P:Ploeh.Albedo.ValueCollectingVisitor.Target"/> instance.
+            </summary>
+            <param name="fieldInfoElement">
+            The <see cref="T:Ploeh.Albedo.FieldInfoElement"/> being visited.
+            </param>
+            <returns>
+            A <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be used
+            to continue the visiting process with potentially updated
+            observations.
+            </returns>
+        </member>
+        <member name="M:Ploeh.Albedo.ValueCollectingVisitor.Visit(Ploeh.Albedo.PropertyInfoElement)">
+            <summary>
+            Visits the <see cref="T:Ploeh.Albedo.FieldInfoElement"/> and collects the value for this
+            field from the <see cref="P:Ploeh.Albedo.ValueCollectingVisitor.Target"/> instance.
+            </summary>
+            <param name="propertyInfoElement">
+            The <see cref="T:Ploeh.Albedo.PropertyInfoElement"/> being visited.
+            </param>
+            <returns>
+            A <see cref="T:Ploeh.Albedo.IReflectionVisitor`1"/> instance which can be used
+            to continue the visiting process with potentially updated
+            observations.
+            </returns>
+        </member>
+        <member name="P:Ploeh.Albedo.ValueCollectingVisitor.Value">
+            <summary>
+            Gets the observation or value produced by this instance; the actual values
+            from the visited properties and fields.
+            </summary>
+        </member>
+        <member name="P:Ploeh.Albedo.ValueCollectingVisitor.Target">
+            <summary>
+            Gets the target object that values are collected from.
+            </summary>
         </member>
     </members>
 </doc>
