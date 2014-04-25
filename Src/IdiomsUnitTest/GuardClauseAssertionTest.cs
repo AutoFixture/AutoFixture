@@ -1130,6 +1130,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 yield return typeof(StructureAndInterfacesContraint<>);
                 yield return typeof(ParameterizedConstructorTestConstraint<>);
                 yield return typeof(UnclosedGenericMethodTestType<>);
+                yield return typeof(NestedGenericParameterTestType<,>);
             }
 
             IEnumerator IEnumerable.GetEnumerator()
@@ -1710,6 +1711,27 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 }
 
                 argument2 = null;
+            }
+        }
+
+        private class NestedGenericParameterTestType<T1, T2>
+        {
+            public NestedGenericParameterTestType(IEnumerable<T1> arg)
+            {
+                if (arg == null)
+                    throw new ArgumentNullException("arg");
+            }
+
+            public NestedGenericParameterTestType(IEnumerable<IEnumerable<T2>> arg)
+            {
+                if (arg == null)
+                    throw new ArgumentNullException("arg");
+            }
+
+            public NestedGenericParameterTestType(T1 arg1, Func<T1, IEnumerable<T2>> arg2)
+            {
+                if (arg2 == null)
+                    throw new ArgumentNullException("arg2");
             }
         }
     }
