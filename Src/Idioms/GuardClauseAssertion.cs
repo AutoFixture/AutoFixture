@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixture.Idioms
         private readonly IBehaviorExpectation behaviorExpectation;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GuardClauseAssertion"/> class.
+        /// Initializes a new instance of the <see cref="GuardClauseAssertion" /> class.
         /// </summary>
         /// <param name="builder">
         /// A composer which can create instances required to implement the idiomatic unit test.
@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GuardClauseAssertion"/> class.
+        /// Initializes a new instance of the <see cref="GuardClauseAssertion" /> class.
         /// </summary>
         /// <param name="builder">
         /// A composer which can create instances required to implement the idiomatic unit test.
@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// <remarks>
         /// <para>
         /// GuardClauseAssertion contains an appropriate default implementation of
-        /// <see cref="IBehaviorExpectation"/>, but a custom behavior can also be supplied via one
+        /// <see cref="IBehaviorExpectation" />, but a custom behavior can also be supplied via one
         /// of the constructor overloads. In any case, this property exposes the behavior
         /// expectation.
         /// </para>
@@ -127,7 +127,7 @@ namespace Ploeh.AutoFixture.Idioms
 
             var isReturnValueIterator =
                 typeof(System.Collections.IEnumerable).IsAssignableFrom(methodInfo.ReturnType) ||
-                typeof(System.Collections.IEnumerator).IsAssignableFrom(methodInfo.ReturnType);
+                    typeof(System.Collections.IEnumerator).IsAssignableFrom(methodInfo.ReturnType);
 
             var isReturnValueNonDeferred = IsNonDeferredEnumerable(methodInfo.ReturnType);
             var isReturnValueDeferable = isReturnValueIterator && !isReturnValueNonDeferred;
@@ -138,20 +138,20 @@ namespace Ploeh.AutoFixture.Idioms
             this.Verify(method, isReturnValueDeferable, isReturnValueTask);
         }
 
-        static bool IsNonDeferredEnumerable(Type t)
+        private static bool IsNonDeferredEnumerable(Type t)
         {
             var nonGenericCollectionTypes = new[]
             {
                 typeof(System.Collections.ICollection),
                 typeof(System.Collections.IList),
-                typeof(System.Collections.IDictionary),
+                typeof(System.Collections.IDictionary)
             };
 
             var genericCollectionTypeGtds = new[]
             {
                 typeof(IList<>),
                 typeof(ICollection<>),
-                typeof(IDictionary<,>),
+                typeof(IDictionary<,>)
             };
 
             var isGeneric = t.IsGenericType;
@@ -169,7 +169,7 @@ namespace Ploeh.AutoFixture.Idioms
                 nonGenericCollectionTypes.Any(gt => gt.IsAssignableFrom(t)) ||
                 (isGeneric && (genericCollectionTypeGtds.Any(gtd => gtdInterfaces.Contains(gtd))));
         }
-        
+
         /// <summary>
         /// Verifies that a property has appropriate Guard Clauses in place.
         /// </summary>
@@ -199,17 +199,17 @@ namespace Ploeh.AutoFixture.Idioms
         private static bool IsMatched(MethodBase resolved, MethodBase method, AutoGenericType autoGenericType)
         {
             return resolved.Name == method.Name &&
-                   resolved.GetParameters()
-                                 .Select(pi => pi.ParameterType)
-                                 .SequenceEqual(autoGenericType.ResolveGenericParameters(method.GetParameters()));
+                resolved.GetParameters()
+                    .Select(pi => pi.ParameterType)
+                    .SequenceEqual(autoGenericType.ResolveUnclosedParameterTypes(method.GetParameters()));
         }
 
         private IMethod CreateMethod(MethodInfo methodInfo)
         {
             var owner = this.CreateOwner(methodInfo);
             return owner != null
-                       ? (IMethod)new InstanceMethod(methodInfo, owner)
-                       : new StaticMethod(methodInfo);
+                ? (IMethod)new InstanceMethod(methodInfo, owner)
+                : new StaticMethod(methodInfo);
         }
 
         private object CreateOwner(PropertyInfo property)
@@ -280,7 +280,8 @@ namespace Ploeh.AutoFixture.Idioms
             return from pi in method.Parameters
                    where !pi.IsOut
                    let expansion = new IndexedReplacement<object>(pi.Position, arguments)
-                   select new MethodInvokeCommand(method, expansion, pi) into command
+                   select new MethodInvokeCommand(method, expansion, pi)
+                   into command
                    select new ReflectionExceptionUnwrappingCommand(command);
         }
 
@@ -327,11 +328,11 @@ namespace Ploeh.AutoFixture.Idioms
         private PropertyInfo ResolveUnclosedGenericType(PropertyInfo propertyInfo)
         {
             return propertyInfo.ReflectedType.ContainsGenericParameters
-                       ? new AutoGenericType(this.Builder, propertyInfo.ReflectedType)
-                             .Value
-                             .GetProperties()
-                             .Single(pi => pi.Name == propertyInfo.Name)
-                       : propertyInfo;
+                ? new AutoGenericType(this.Builder, propertyInfo.ReflectedType)
+                    .Value
+                    .GetProperties()
+                    .Single(pi => pi.Name == propertyInfo.Name)
+                : propertyInfo;
         }
 
         private MethodInfo ResolveUnclosedGenericType(MethodInfo methodInfo)
@@ -354,12 +355,12 @@ namespace Ploeh.AutoFixture.Idioms
         private MethodInfo ResolveUnclosedGenericMethod(MethodInfo methodInfo)
         {
             return methodInfo.ContainsGenericParameters
-                       ? new AutoGenericMethod(this.Builder, methodInfo)
-                             .Value
-                       : methodInfo;
+                ? new AutoGenericMethod(this.Builder, methodInfo)
+                    .Value
+                : methodInfo;
         }
 
-        class TaskReturnMethodInvokeCommand : IGuardClauseCommand
+        private class TaskReturnMethodInvokeCommand : IGuardClauseCommand
         {
             private const string message = @"A Guard Clause test was performed on a method that returns a Task, Task<T> (possibly in an 'async' method), but the test failed. See the inner exception for more details. However, because of the async nature of the task, this test failure may look like a false positive. Perhaps you already have a Guard Clause in place, but inside the Task or inside a method marked with the 'async' keyword (if you're using C#); if this is the case, the Guard Clause is dormant, and will first be triggered when a client accesses the Result of the Task. This doesn't adhere to the Fail Fast principle, so should be addressed.
 See https://github.com/AutoFixture/AutoFixture/issues/268 for more details.";
@@ -456,48 +457,58 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
                 get
                 {
                     return this.unclosedGenericType
-                               .GetGenericTypeDefinition()
-                               .MakeGenericType(this.GetTypedArguments());
+                        .GetGenericTypeDefinition()
+                        .MakeGenericType(this.GetTypedArguments());
                 }
             }
 
-            public IEnumerable<Type> ResolveGenericParameters(IEnumerable<ParameterInfo> parameterInfos)
+            public IEnumerable<Type> ResolveUnclosedParameterTypes(IEnumerable<ParameterInfo> parameterInfos)
             {
                 return parameterInfos.Select(
                     pi => pi.ParameterType.IsByRef
-                              ? this.ResolveGenericParameter(pi.ParameterType.GetElementType()).MakeByRefType()
-                              : this.ResolveGenericParameter(pi.ParameterType));
+                        ? this.ResolveUnclosedParameterType(pi.ParameterType.GetElementType()).MakeByRefType()
+                        : this.ResolveUnclosedParameterType(pi.ParameterType));
+            }
+
+            private Type ResolveUnclosedParameterType(Type parameterType)
+            {
+                if (!parameterType.IsGenericType)
+                    return ResolveGenericParameter(parameterType);
+
+                var genericArguments = parameterType.GetGenericArguments();
+                var typeArguments = genericArguments.Select(ResolveUnclosedParameterType).ToArray();
+                return parameterType.GetGenericTypeDefinition().MakeGenericType(typeArguments);
             }
 
             private Type ResolveGenericParameter(Type parameterType)
             {
                 return this.IsGenericTypeParameter(parameterType)
-                           ? this.autoGenericArguments[parameterType.Name].Value
-                           : parameterType;
+                    ? this.autoGenericArguments[parameterType.Name].Value
+                    : parameterType;
             }
 
             private bool IsGenericTypeParameter(Type parameterType)
             {
                 return parameterType.IsGenericParameter
-                       && this.autoGenericArguments.Contains(parameterType.Name);
+                    && this.autoGenericArguments.Contains(parameterType.Name);
             }
 
             private Type[] GetTypedArguments()
             {
                 return this.unclosedGenericType
-                           .GetGenericArguments()
-                           .Select(t =>
-                           {
-                               if (!t.IsGenericParameter)
-                               {
-                                   return t;
-                               }
+                    .GetGenericArguments()
+                    .Select(t =>
+                    {
+                        if (!t.IsGenericParameter)
+                        {
+                            return t;
+                        }
 
-                               var autoGenericArgument = new AutoGenericArgument(this.specimenBuilder, t);
-                               this.autoGenericArguments.Add(autoGenericArgument);
-                               return autoGenericArgument.Value;
-                           })
-                           .ToArray();
+                        var autoGenericArgument = new AutoGenericArgument(this.specimenBuilder, t);
+                        this.autoGenericArguments.Add(autoGenericArgument);
+                        return autoGenericArgument.Value;
+                    })
+                    .ToArray();
             }
         }
 
@@ -517,18 +528,18 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
                 get
                 {
                     return this.unclosedGenericMethod
-                               .MakeGenericMethod(this.GetTypedArguments());
+                        .MakeGenericMethod(this.GetTypedArguments());
                 }
             }
 
             private Type[] GetTypedArguments()
             {
                 return this.unclosedGenericMethod
-                           .GetGenericArguments()
-                           .Select(t => t.IsGenericParameter
-                                            ? new AutoGenericArgument(this.specimenBuilder, t).Value
-                                            : t)
-                           .ToArray();
+                    .GetGenericArguments()
+                    .Select(t => t.IsGenericParameter
+                        ? new AutoGenericArgument(this.specimenBuilder, t).Value
+                        : t)
+                    .ToArray();
             }
         }
 
@@ -593,24 +604,24 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
             private Type GetConstraintType()
             {
                 return this.GenericArgument
-                           .GetGenericParameterConstraints()
-                           .Where(t => !t.IsInterface)
-                           .SingleOrDefault();
+                    .GetGenericParameterConstraints()
+                    .Where(t => !t.IsInterface)
+                    .SingleOrDefault();
             }
 
             private bool HasClassConstraint()
             {
                 return (this.GenericArgument.GenericParameterAttributes
-                        & GenericParameterAttributes.ReferenceTypeConstraint)
-                       == GenericParameterAttributes.ReferenceTypeConstraint;
+                    & GenericParameterAttributes.ReferenceTypeConstraint)
+                    == GenericParameterAttributes.ReferenceTypeConstraint;
             }
 
             private Type[] GetInterfaces()
             {
                 return this.GenericArgument
-                           .GetGenericParameterConstraints()
-                           .Where(t => t.IsInterface)
-                           .ToArray();
+                    .GetGenericParameterConstraints()
+                    .Where(t => t.IsInterface)
+                    .ToArray();
             }
         }
 
@@ -710,7 +721,7 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
                 }
 
                 var message = "Cannot create a dummy type because the base type '{0}' does not have any accessible " +
-                              "constructor.";
+                    "constructor.";
 
                 throw new ArgumentException(string.Format(
                     CultureInfo.CurrentCulture,
@@ -794,8 +805,8 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
             private IEnumerable<MethodInfo> GetAbstractMethods()
             {
                 return this.typeBuilder.BaseType
-                           .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                           .Where(m => m.IsAbstract);
+                    .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                    .Where(m => m.IsAbstract);
             }
 
             private void ImplementMethod()
@@ -834,7 +845,7 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
                 }
 
                 dummyType.GetField(specimenBuilderFieldName, BindingFlags.Static | BindingFlags.NonPublic)
-                         .SetValue(null, this.specimenBuilder);
+                    .SetValue(null, this.specimenBuilder);
             }
         }
     }
