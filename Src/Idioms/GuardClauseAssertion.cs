@@ -201,7 +201,7 @@ namespace Ploeh.AutoFixture.Idioms
             return resolved.Name == method.Name &&
                 resolved.GetParameters()
                     .Select(pi => pi.ParameterType)
-                    .SequenceEqual(autoGenericType.ResolveGenericParameters(method.GetParameters()));
+                    .SequenceEqual(autoGenericType.ResolveUnclosedParameterTypes(method.GetParameters()));
         }
 
         private IMethod CreateMethod(MethodInfo methodInfo)
@@ -462,12 +462,22 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
                 }
             }
 
-            public IEnumerable<Type> ResolveGenericParameters(IEnumerable<ParameterInfo> parameterInfos)
+            public IEnumerable<Type> ResolveUnclosedParameterTypes(IEnumerable<ParameterInfo> parameterInfos)
             {
                 return parameterInfos.Select(
                     pi => pi.ParameterType.IsByRef
-                        ? this.ResolveGenericParameter(pi.ParameterType.GetElementType()).MakeByRefType()
-                        : this.ResolveGenericParameter(pi.ParameterType));
+                        ? this.ResolveUnclosedParameterType(pi.ParameterType.GetElementType()).MakeByRefType()
+                        : this.ResolveUnclosedParameterType(pi.ParameterType));
+            }
+
+            private Type ResolveUnclosedParameterType(Type parameterType)
+            {
+                if (!parameterType.IsGenericType)
+                    return ResolveGenericParameter(parameterType);
+
+                var genericArguments = parameterType.GetGenericArguments();
+                var typeArguments = genericArguments.Select(ResolveUnclosedParameterType).ToArray();
+                return parameterType.GetGenericTypeDefinition().MakeGenericType(typeArguments);
             }
 
             private Type ResolveGenericParameter(Type parameterType)
