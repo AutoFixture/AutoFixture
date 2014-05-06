@@ -405,13 +405,17 @@ namespace Ploeh.AutoFixture.Dsl
         public IPostprocessComposer<T> Without<TProperty>(
             Expression<Func<T, TProperty>> propertyPicker)
         {
+            var m = propertyPicker.GetWritableMember().Member;
+            if (m.ReflectedType != typeof(T))
+                m = typeof(T).GetProperty(m.Name);
+
             return (NodeComposer<T>)this.ReplaceNodes(
                 with: n => n.Compose(
                     new[]
                     {
                         new Omitter(
                             new EqualRequestSpecification(
-                                propertyPicker.GetWritableMember().Member,
+                                m,
                                 new MemberInfoEqualityComparer()))
                     }.Concat(n)),
                 when: n => n is NodeComposer<T>);
