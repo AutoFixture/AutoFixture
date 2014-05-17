@@ -19,7 +19,9 @@
     </metadata>
     <files>
         <file src="Ploeh.AutoFixture.AutoFakeItEasy.dll" target="lib\net40" />
+        <file src="Ploeh.AutoFixture.AutoFakeItEasy.pdb" target="lib\net40" />
         <file src="Ploeh.AutoFixture.AutoFakeItEasy.XML" target="lib\net40" />
+        <file src="..\Src\AutoFakeItEasy\**\*.cs" target="src" />
         <file src="Install.ps1" target="tools" />
     </files>
 </package>

@@ -19,7 +19,9 @@
     </metadata>
     <files>
         <file src="Ploeh.AutoFixture.AutoFoq.dll" target="lib\net40" />
+        <file src="Ploeh.AutoFixture.AutoFoq.pdb" target="lib\net40" />
         <file src="Ploeh.AutoFixture.AutoFoq.XML" target="lib\net40" />
+        <file src="..\Src\AutoFoq\**\*.fs" target="src" />
         <file src="Install.ps1" target="tools" />
     </files>
 </package>

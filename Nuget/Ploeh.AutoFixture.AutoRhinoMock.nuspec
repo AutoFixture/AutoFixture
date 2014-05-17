@@ -19,7 +19,9 @@
     </metadata>
     <files>
         <file src="Ploeh.AutoFixture.AutoRhinoMock.dll" target="lib\net40" />
+        <file src="Ploeh.AutoFixture.AutoRhinoMock.pdb" target="lib\net40" />
         <file src="Ploeh.AutoFixture.AutoRhinoMock.XML" target="lib\net40" />
+        <file src="..\Src\AutoRhinoMock\**\*.cs" target="src" />
         <file src="Install.ps1" target="tools" />
     </files>
 </package>
