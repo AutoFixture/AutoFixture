@@ -19,7 +19,9 @@
     </metadata>
     <files>
         <file src="Ploeh.AutoFixture.AutoNSubstitute.dll" target="lib\net40" />
+        <file src="Ploeh.AutoFixture.AutoNSubstitute.pdb" target="lib\net40" />
         <file src="Ploeh.AutoFixture.AutoNSubstitute.XML" target="lib\net40" />
+        <file src="..\Src\AutoNSubstitute\**\*.cs" target="src" />
         <file src="Install.ps1" target="tools" />
     </files>
 </package>

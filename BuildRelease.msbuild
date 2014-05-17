@@ -20,31 +20,43 @@
         <ProjectToBuild Include="Src\*.sln" />
     </ItemGroup>
     <ItemGroup>
-        <BuildOutput Include="Src\AutoFixture\bin\Release\Ploeh.AutoFixture.dll" />
-        <BuildOutput Include="Src\AutoFixture\bin\Release\Ploeh.AutoFixture.XML" />
-        <BuildOutput Include="Src\SemanticComparison\bin\Release\Ploeh.SemanticComparison.dll" />
-        <BuildOutput Include="Src\SemanticComparison\bin\Release\Ploeh.SemanticComparison.XML" />
-        <BuildOutput Include="Src\AutoMoq\bin\Release\Ploeh.AutoFixture.AutoMoq.dll" />
-        <BuildOutput Include="Src\AutoMoq\bin\Release\Ploeh.AutoFixture.AutoMoq.XML" />
-        <BuildOutput Include="Src\AutoRhinoMock\bin\Release\Ploeh.AutoFixture.AutoRhinoMock.dll" />
-        <BuildOutput Include="Src\AutoRhinoMock\bin\Release\Ploeh.AutoFixture.AutoRhinoMock.XML" />
-        <BuildOutput Include="Src\AutoFakeItEasy\bin\Release\Ploeh.AutoFixture.AutoFakeItEasy.dll" />
-        <BuildOutput Include="Src\AutoFakeItEasy\bin\Release\Ploeh.AutoFixture.AutoFakeItEasy.XML" />
-        <BuildOutput Include="Src\AutoNSubstitute\bin\Release\Ploeh.AutoFixture.AutoNSubstitute.dll" />
-        <BuildOutput Include="Src\AutoNSubstitute\bin\Release\Ploeh.AutoFixture.AutoNSubstitute.XML" />
-        <BuildOutput Include="Src\AutoFoq\bin\Release\Ploeh.AutoFixture.AutoFoq.dll" />
-        <BuildOutput Include="Src\AutoFoq\bin\Release\Ploeh.AutoFixture.AutoFoq.XML" />
-        <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.dll" />
-        <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.XML" />
-        <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.dll" />
-        <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.XML" />
-        <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.dll" />
-        <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.XML" />
-        <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.dll" />
-        <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.XML" />
-        <BuildOutput Include="Src\Idioms.FsCheck\bin\Release\Ploeh.AutoFixture.Idioms.FsCheck.dll" />
-        <BuildOutput Include="Src\Idioms.FsCheck\bin\Release\Ploeh.AutoFixture.Idioms.FsCheck.XML" />
-        <BuildOutput Include="$(NUnitToolsFolder)\lib\nunit.core.interfaces.dll" />
+      <BuildOutput Include="Src\AutoFixture\bin\Release\Ploeh.AutoFixture.dll" />
+      <BuildOutput Include="Src\AutoFixture\bin\Release\Ploeh.AutoFixture.pdb" />
+      <BuildOutput Include="Src\AutoFixture\bin\Release\Ploeh.AutoFixture.XML" />
+      <BuildOutput Include="Src\SemanticComparison\bin\Release\Ploeh.SemanticComparison.dll" />
+      <BuildOutput Include="Src\SemanticComparison\bin\Release\Ploeh.SemanticComparison.pdb" />
+      <BuildOutput Include="Src\SemanticComparison\bin\Release\Ploeh.SemanticComparison.XML" />
+      <BuildOutput Include="Src\AutoMoq\bin\Release\Ploeh.AutoFixture.AutoMoq.dll" />
+      <BuildOutput Include="Src\AutoMoq\bin\Release\Ploeh.AutoFixture.AutoMoq.pdb" />
+      <BuildOutput Include="Src\AutoMoq\bin\Release\Ploeh.AutoFixture.AutoMoq.XML" />
+      <BuildOutput Include="Src\AutoRhinoMock\bin\Release\Ploeh.AutoFixture.AutoRhinoMock.dll" />
+      <BuildOutput Include="Src\AutoRhinoMock\bin\Release\Ploeh.AutoFixture.AutoRhinoMock.pdb" />
+      <BuildOutput Include="Src\AutoRhinoMock\bin\Release\Ploeh.AutoFixture.AutoRhinoMock.XML" />
+      <BuildOutput Include="Src\AutoFakeItEasy\bin\Release\Ploeh.AutoFixture.AutoFakeItEasy.dll" />
+      <BuildOutput Include="Src\AutoFakeItEasy\bin\Release\Ploeh.AutoFixture.AutoFakeItEasy.pdb" />
+      <BuildOutput Include="Src\AutoFakeItEasy\bin\Release\Ploeh.AutoFixture.AutoFakeItEasy.XML" />
+      <BuildOutput Include="Src\AutoNSubstitute\bin\Release\Ploeh.AutoFixture.AutoNSubstitute.dll" />
+      <BuildOutput Include="Src\AutoNSubstitute\bin\Release\Ploeh.AutoFixture.AutoNSubstitute.pdb" />
+      <BuildOutput Include="Src\AutoNSubstitute\bin\Release\Ploeh.AutoFixture.AutoNSubstitute.XML" />
+      <BuildOutput Include="Src\AutoFoq\bin\Release\Ploeh.AutoFixture.AutoFoq.dll" />
+      <BuildOutput Include="Src\AutoFoq\bin\Release\Ploeh.AutoFixture.AutoFoq.pdb" />
+      <BuildOutput Include="Src\AutoFoq\bin\Release\Ploeh.AutoFixture.AutoFoq.XML" />
+      <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.dll" />
+      <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.pdb" />
+      <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.XML" />
+      <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.dll" />
+      <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.pdb" />
+      <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.XML" />
+      <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.dll" />
+      <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.pdb" />
+      <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.XML" />
+      <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.dll" />
+      <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.pdb" />
+      <BuildOutput Include="Src\Idioms\bin\Release\Ploeh.AutoFixture.Idioms.XML" />
+      <BuildOutput Include="Src\Idioms.FsCheck\bin\Release\Ploeh.AutoFixture.Idioms.FsCheck.dll" />
+      <BuildOutput Include="Src\Idioms.FsCheck\bin\Release\Ploeh.AutoFixture.Idioms.FsCheck.pdb" />
+      <BuildOutput Include="Src\Idioms.FsCheck\bin\Release\Ploeh.AutoFixture.Idioms.FsCheck.XML" />
+      <BuildOutput Include="$(NUnitToolsFolder)\lib\nunit.core.interfaces.dll" />
     </ItemGroup>
     <ItemGroup>
     	<NUnitAddinFiles Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.dll" />
@@ -131,7 +143,7 @@
                  Value="$(SemanticVersion)" />
     </Target>
     <Target Name="NuGetPack" DependsOnTargets="NuGetPrepare">
-        <Exec Command="Lib\NuGet\nuget.exe pack %(TempNuspecFiles.FullPath) -BasePath $(ReleaseFolder) -OutputDirectory $(NuGetOutputFolder)" />
+        <Exec Command="Lib\NuGet\nuget.exe pack %(TempNuspecFiles.FullPath) -Symbols -BasePath $(ReleaseFolder) -OutputDirectory $(NuGetOutputFolder)" />
     </Target>
     <Target Name="CleanTemporaryNuGetSpecFiles" DependsOnTargets="NuGetPack">
         <Delete Files="@(TempNuspecFiles)" />
