@@ -14,6 +14,9 @@
     </metadata>
     <files>
         <file src="Ploeh.SemanticComparison.dll" target="lib\net40" />
+        <file src="Ploeh.SemanticComparison.pdb" target="lib\net40" />
         <file src="Ploeh.SemanticComparison.XML" target="lib\net40" />
+        <file src="..\Src\SemanticComparison\**\*.cs" target="src" />
+        <file src="Install.ps1" target="tools" />
     </files>
 </package>

@@ -14,6 +14,9 @@
     </metadata>
     <files>
         <file src="Ploeh.AutoFixture.dll" target="lib\net40" />
+        <file src="Ploeh.AutoFixture.pdb" target="lib\net40" />
         <file src="Ploeh.AutoFixture.XML" target="lib\net40" />
+        <file src="..\Src\AutoFixture\**\*.cs" target="src" />
+        <file src="Install.ps1" target="tools" />
     </files>
 </package>
