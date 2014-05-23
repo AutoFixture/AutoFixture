@@ -1733,6 +1733,36 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 if (arg2 == null)
                     throw new ArgumentNullException("arg2");
             }
+
+            public NestedGenericParameterTestType(T1[] arg)
+            {
+                if (arg == null)
+                    throw new ArgumentNullException("arg");
+            }
+
+            public NestedGenericParameterTestType(T1[,] arg)
+            {
+                if (arg == null)
+                    throw new ArgumentNullException("arg");
+            }
+
+            public NestedGenericParameterTestType(T1[][] arg)
+            {
+                if (arg == null)
+                    throw new ArgumentNullException("arg");
+            }
+
+            public NestedGenericParameterTestType(T1[,][][] arg)
+            {
+                if (arg == null)
+                    throw new ArgumentNullException("arg");
+            }
+
+            public NestedGenericParameterTestType(Func<T1, IEnumerable<IEnumerable<T2>>, T1[][]> arg1, T2 arg2)
+            {
+                if (arg1 == null)
+                    throw new ArgumentNullException("arg1");
+            }
         }
     }
 }
