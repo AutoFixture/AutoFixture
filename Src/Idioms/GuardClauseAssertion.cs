@@ -472,9 +472,24 @@ See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-
 
             private Type ResolveUnclosedParameterType(Type parameterType)
             {
-                if (!parameterType.IsGenericType)
-                    return ResolveGenericParameter(parameterType);
+                if (parameterType.IsArray)
+                    return ResolveNestedArrayParameterType(parameterType);
 
+                if (parameterType.IsGenericType)
+                    return ReosolveNestedGenericParameterType(parameterType);
+
+                return ResolveGenericParameter(parameterType);
+            }
+
+            private Type ResolveNestedArrayParameterType(Type parameterType)
+            {
+                var elementType = ResolveUnclosedParameterType(parameterType.GetElementType());
+                var rank = parameterType.GetArrayRank();
+                return rank == 1 ? elementType.MakeArrayType() : elementType.MakeArrayType(rank);
+            }
+
+            private Type ReosolveNestedGenericParameterType(Type parameterType)
+            {
                 var genericArguments = parameterType.GetGenericArguments();
                 var typeArguments = genericArguments.Select(ResolveUnclosedParameterType).ToArray();
                 return parameterType.GetGenericTypeDefinition().MakeGenericType(typeArguments);
