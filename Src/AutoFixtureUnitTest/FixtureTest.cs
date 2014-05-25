@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Grean.Exude;
 using Ploeh.Albedo;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Dsl;
@@ -5482,6 +5483,38 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 this.ReferenceToA = a;
             }
+        }
+
+        [FirstClassTests]
+        public IEnumerable<ITestCase> CreateComplexArrayTypeReturnsCorrectResult()
+        {
+            var requests = new[]
+            {
+                typeof(string[][,,][]),
+                typeof(object[,,][][,])
+            };
+            return requests.Select(r => new TestCase(() =>
+            {
+                var sut = new Fixture();
+                var context = new SpecimenContext(sut);
+                Assert.NotNull(context.Resolve(r));
+            }));
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(10)]
+        public void CreateComplexArrayTypeReturnsArrayReflectingCorrectRepeatCount(int repeatCount)
+        {
+            var sut = new Fixture{ RepeatCount = repeatCount };
+            
+            var actual = sut.Create<int[,][]>();
+
+            Assert.Equal(repeatCount, actual.GetLength(0));
+            Assert.Equal(repeatCount, actual.GetLength(1));
+            Assert.Equal(repeatCount, actual[0, 0].Length);
         }
     }
 }
