@@ -21,6 +21,7 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public virtual IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
+            yield return new MultidimensionalArrayRelay();
             yield return new ArrayRelay();
             yield return new StringLengthAttributeRelay();
             yield return new ParameterRequestRelay();

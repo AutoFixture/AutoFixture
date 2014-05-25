@@ -26,7 +26,8 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var expectedBuilderTypes = new[]
-            {                
+            {   
+                typeof(MultidimensionalArrayRelay),
                 typeof(ArrayRelay),
                 typeof(StringLengthAttributeRelay),
                 typeof(ParameterRequestRelay),
