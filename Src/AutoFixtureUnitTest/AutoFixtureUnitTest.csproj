@@ -258,6 +258,7 @@
     <Compile Include="MutableValueTypeGeneratorTest.cs" />
     <Compile Include="TaggedNode.cs" />
     <Compile Include="TaggedNodeComparer.cs" />
+    <Compile Include="NoDataAnnotationsCustomizationTest.cs" />
     <Compile Include="TestConsole.cs" />
     <Compile Include="ThrowingRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\TracingBuilderTest.cs" />
