@@ -29,10 +29,7 @@ namespace Ploeh.AutoFixtureUnitTest
             {   
                 typeof(MultidimensionalArrayRelay),
                 typeof(ArrayRelay),
-                typeof(StringLengthAttributeRelay),
                 typeof(ParameterRequestRelay),
-                typeof(RangeAttributeRelay),
-                typeof(RegularExpressionAttributeRelay),
                 typeof(PropertyRequestRelay),
                 typeof(FieldRequestRelay),
                 typeof(FiniteSequenceRelay),

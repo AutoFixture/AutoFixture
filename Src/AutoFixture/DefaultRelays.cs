@@ -23,10 +23,7 @@ namespace Ploeh.AutoFixture
         {
             yield return new MultidimensionalArrayRelay();
             yield return new ArrayRelay();
-            yield return new StringLengthAttributeRelay();
             yield return new ParameterRequestRelay();
-            yield return new RangeAttributeRelay();
-            yield return new RegularExpressionAttributeRelay();
             yield return new PropertyRequestRelay();            
             yield return new FieldRequestRelay();
             yield return new FiniteSequenceRelay();
