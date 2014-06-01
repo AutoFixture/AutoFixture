@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ploeh.AutoFixture.DataAnnotations;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
 
@@ -101,6 +102,9 @@ namespace Ploeh.AutoFixture
                                     new MethodInvoker(
                                         new ModestConstructorQuery()),
                                     new NullableEnumRequestSpecification()),
+                                new RangeAttributeRelay(),
+                                new StringLengthAttributeRelay(),
+                                new RegularExpressionAttributeRelay(),
                                 new EnumGenerator())),
                         new Postprocessor(
                             new AutoPropertiesTarget(
