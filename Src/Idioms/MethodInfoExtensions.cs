@@ -11,6 +11,13 @@ namespace Ploeh.AutoFixture.Idioms
                 && method.ReturnType == typeof(bool);
         }
 
+        internal static bool IsGetHashCodeMethod(this MethodInfo method)
+        {
+            return method.Name == "GetHashCode"
+                && method.GetParameters().Length == 0
+                && method.ReturnType == typeof(int);
+        }
+
         /// <summary>
         /// Gets a value that indicates if the method is the <see cref="object.Equals(object)"/>
         /// method declared on the <see cref="System.Object"/> type.
@@ -21,12 +28,30 @@ namespace Ploeh.AutoFixture.Idioms
         }
 
         /// <summary>
+        /// Gets a value that indicates if the method is the <see cref="object.GetHashCode()"/>
+        /// method declared on the <see cref="System.Object"/> type.
+        /// </summary>
+        internal static bool IsObjectGetHashCodeMethod(this MethodInfo method)
+        {
+            return method.DeclaringType == typeof(object) && method.IsGetHashCodeMethod();
+        }
+
+        /// <summary>
         /// Gets a value that indicates if the method is an override of the
         /// <see cref="object.Equals(object)"/> method.
         /// </summary>
         internal static bool IsObjectEqualsOverrideMethod(this MethodInfo method)
         {
             return method.IsEqualsMethod() && !method.IsObjectEqualsMethod();
+        }
+
+        /// <summary>
+        /// Gets a value that indicates if the method is an override of the
+        /// <see cref="object.GetHashCode()"/> method.
+        /// </summary>
+        internal static bool IsObjectGetHashCodeOverrideMethod(this MethodInfo method)
+        {
+            return method.IsGetHashCodeMethod() && !method.IsObjectGetHashCodeMethod();
         }
     }
 }
