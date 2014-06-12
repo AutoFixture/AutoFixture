@@ -13,6 +13,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// <summary>
         /// Initializes a new instance of the <see cref="GetHashCodeOverrideException"/> class.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "GetHashCode", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public GetHashCodeOverrideException()
             : base("The Object.GetHashCode() override is ill-behaved.")
         {

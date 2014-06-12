@@ -52,6 +52,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// <see cref="object.GetHashCode()"/>.
         /// </summary>
         /// <param name="methodInfo">The method to verify</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "GetHashCode", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public override void Verify(MethodInfo methodInfo)
         {
             if (methodInfo == null)
