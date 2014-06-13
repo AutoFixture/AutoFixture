@@ -3,7 +3,7 @@ using System.Linq;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixture.Xunit.UnitTest
+namespace Ploeh.AutoFixture.Xunit2.UnitTest
 {
     public class FrozenAttributeTest
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Xunit
+namespace Ploeh.AutoFixture.Xunit2
 {
     /// <summary>
     /// An attribute that can be applied to parameters in an <see cref="AutoDataAttribute"/>-driven

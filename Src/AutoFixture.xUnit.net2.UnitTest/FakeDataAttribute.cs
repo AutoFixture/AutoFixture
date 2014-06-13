@@ -1,30 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using Xunit;
-using Xunit.Extensions;
+using Xunit.Sdk;
 
-namespace Ploeh.AutoFixture.Xunit.UnitTest
+namespace Ploeh.AutoFixture.Xunit2.UnitTest
 {
     public class FakeDataAttribute : DataAttribute
     {
         private readonly MethodInfo expectedMethod;
-        private readonly Type[] expectedTypes;
         private readonly IEnumerable<object[]> output;
 
-        public FakeDataAttribute(MethodInfo expectedMethod, 
-            Type[] expectedTypes, IEnumerable<object[]> output)
+        public FakeDataAttribute(MethodInfo expectedMethod, IEnumerable<object[]> output)
         {
             this.expectedMethod = expectedMethod;
-            this.expectedTypes = expectedTypes;
             this.output = output;
         }
 
-        public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
+        public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest)
         {
             Assert.Equal(this.expectedMethod, methodUnderTest);
-            Assert.True(this.expectedTypes.SequenceEqual(parameterTypes));
 
             return this.output;
         }

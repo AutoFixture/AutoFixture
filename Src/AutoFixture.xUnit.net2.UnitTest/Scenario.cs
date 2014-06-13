@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Ploeh.TestTypeFoundation;
+using System;
+using System.IO;
 using System.Linq;
-using Ploeh.TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.Xunit.UnitTest
+namespace Ploeh.AutoFixture.Xunit2.UnitTest
 {
     public class Scenario
     {
@@ -43,6 +43,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             Assert.Equal("Ploeh", ph.Property);
         }
 
+        [Theory]
         [InlineAutoData("foo")]
         [InlineAutoData("foo", "bar")]
         public void InlineAutoDataUsesSuppliedDataValues(string s1, string s2)

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using Xunit.Extensions;
+using Xunit.Sdk;
 
-namespace Ploeh.AutoFixture.Xunit.UnitTest
+namespace Ploeh.AutoFixture.Xunit2.UnitTest
 {
     public class CompositeDataAttributeTest
     {
@@ -35,15 +35,12 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             // Fixture setup
             Action a = delegate { };
             var method = a.Method;
-            var parameters = method.GetParameters();
-            var parameterTypes = (from pi in parameters
-                                  select pi.ParameterType).ToArray();
 
             var attributes = new[]
             {
-                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>())
+                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+                new FakeDataAttribute(method, Enumerable.Empty<object[]>())
             };
 
             var sut = new CompositeDataAttribute(attributes);
@@ -70,15 +67,12 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             // Fixture setup
             Action a = delegate { };
             var method = a.Method;
-            var parameters = method.GetParameters();
-            var parameterTypes = (from pi in parameters
-                                  select pi.ParameterType).ToArray();
 
             var attributes = new[]
             {
-                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-                new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>())
+                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+                new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+                new FakeDataAttribute(method, Enumerable.Empty<object[]>())
             };
 
             var sut = new CompositeDataAttribute(attributes);
@@ -94,22 +88,9 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         {
             // Fixture setup
             var sut = new CompositeDataAttribute();
-            var dummyTypes = Type.EmptyTypes;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                sut.GetData(null, dummyTypes).ToList());
-            // Teardown
-        }
-
-        [Fact]
-        public void GetDataWithNullTypesThrows()
-        {
-            // Fixture setup
-            var sut = new CompositeDataAttribute();
-            Action a = delegate { };
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.GetData(a.Method, null).ToList());
+                sut.GetData(null).ToList());
             // Teardown
         }
 
@@ -124,13 +105,13 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
                                   select pi.ParameterType).ToArray();
 
             var sut = new CompositeDataAttribute(
-               new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-               new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>()),
-               new FakeDataAttribute(method, parameterTypes, Enumerable.Empty<object[]>())
+               new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+               new FakeDataAttribute(method, Enumerable.Empty<object[]>()),
+               new FakeDataAttribute(method, Enumerable.Empty<object[]>())
                );
 
             // Exercise system and verify outcome
-            var result = sut.GetData(a.Method, Type.EmptyTypes);
+            var result = sut.GetData(a.Method);
             Array.ForEach(result.ToArray(), Assert.Empty);
             // Teardown
         }

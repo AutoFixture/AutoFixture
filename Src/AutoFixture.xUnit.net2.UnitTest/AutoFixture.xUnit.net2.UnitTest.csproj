@@ -35,7 +35,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
     <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
-    <NuGetPackageImportStamp>d16729d2</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>f816c0a3</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -66,12 +66,16 @@
     <Reference Include="xunit.abstractions">
       <HintPath>..\..\Packages\xunit.abstractions.2.0.0-beta-build2650\lib\net35\xunit.abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="xunit.assert">
+      <HintPath>..\..\Packages\xunit.assert.2.0.0-beta-build2650\lib\portable-net45+win+wpa81+wp80\xunit.assert.dll</HintPath>
+    </Reference>
     <Reference Include="xunit.core">
       <HintPath>..\..\Packages\xunit.core.2.0.0-beta-build2650\lib\portable-net45+win+wpa81+wp80\xunit.core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoDataAttributeTest.cs" />
+    <Compile Include="ClassDataAttribute.cs" />
     <Compile Include="CompositeDataAttributeInsufficientDataTest.cs" />
     <Compile Include="CompositeDataAttributeSufficientDataTest.cs" />
     <Compile Include="CompositeDataAttributeTest.cs" />

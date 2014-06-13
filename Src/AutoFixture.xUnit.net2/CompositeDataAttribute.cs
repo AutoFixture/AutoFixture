@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Xunit.Extensions;
+using Xunit.Sdk;
 
-namespace Ploeh.AutoFixture.Xunit
+namespace Ploeh.AutoFixture.Xunit2
 {
     /// <summary>
     /// An implementation of DataAttribute that composes other DataAttribute instances.
@@ -56,29 +56,23 @@ namespace Ploeh.AutoFixture.Xunit
         /// DataAttribute returned data.
         /// </summary>
         /// <param name="methodUnderTest">The method that is being tested.</param>
-        /// <param name="parameterTypes">The types of the parameters for the test method.</param>
         /// <returns>
         /// Returns the composition of the theory data.
         /// </returns>
         /// <remarks>
         /// The number of test cases is set from the first DataAttribute theory length.
         /// </remarks>
-        public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
+        public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest)
         {
             if (methodUnderTest == null)
             {
                 throw new ArgumentNullException("methodUnderTest");
             }
 
-            if (parameterTypes == null)
-            {
-                throw new ArgumentNullException("parameterTypes");
-            }
-
             int numberOfParameters = methodUnderTest.GetParameters().Length;
             if (numberOfParameters <= 0)
                 yield break;
-            
+
             int numberOfIterations = 0;
             int iteration = 0;
             var foundData = new List<List<object>>();
@@ -87,7 +81,7 @@ namespace Ploeh.AutoFixture.Xunit
             {
                 foreach (var attribute in this.attributes)
                 {
-                    var attributeData = attribute.GetData(methodUnderTest, parameterTypes).ToArray();
+                    var attributeData = attribute.GetData(methodUnderTest).ToArray();
 
                     if (attributeData.Length <= iteration)
                     {
@@ -112,7 +106,7 @@ namespace Ploeh.AutoFixture.Xunit
 
                     var theory = attributeData[iteration];
 
-                    int remaining =  numberOfParameters - foundData[iteration].Count;
+                    int remaining = numberOfParameters - foundData[iteration].Count;
                     if (remaining == numberOfParameters)
                     {
                         if (theory.Length == numberOfParameters)

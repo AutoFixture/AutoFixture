@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Ploeh.TestTypeFoundation;
+using System;
 using System.Linq;
-using Ploeh.TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
+using Xunit.Sdk;
 
-namespace Ploeh.AutoFixture.Xunit.UnitTest
+namespace Ploeh.AutoFixture.Xunit2.UnitTest
 {
     public class AutoDataAttributeTest
     {
@@ -118,7 +118,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             var dummyTypes = Type.EmptyTypes;
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                sut.GetData(null, dummyTypes));
+                sut.GetData(null));
             // Teardown
         }
 
@@ -128,8 +128,6 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             // Fixture setup
             var method = typeof(TypeWithOverloadedMembers).GetMethod("DoSomething", new[] { typeof(object) });
             var parameters = method.GetParameters();
-            var parameterTypes = (from pi in parameters
-                                  select pi.ParameterType).ToArray();
 
             var expectedResult = new object();
             var builder = new DelegatingSpecimenBuilder
@@ -145,7 +143,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
 
             var sut = new AutoDataAttribute(composer);
             // Exercise system
-            var result = sut.GetData(method, parameterTypes);
+            var result = sut.GetData(method);
             // Verify outcome
             Assert.True(new[] { expectedResult }.SequenceEqual(result.Single()));
             // Teardown
