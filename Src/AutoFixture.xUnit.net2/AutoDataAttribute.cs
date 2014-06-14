@@ -1,9 +1,9 @@
-﻿using Ploeh.AutoFixture.Kernel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using Ploeh.AutoFixture.Kernel;
 using Xunit.Sdk;
 
 namespace Ploeh.AutoFixture.Xunit2

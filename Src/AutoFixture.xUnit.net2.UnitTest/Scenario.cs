@@ -1,7 +1,6 @@
-﻿using Ploeh.TestTypeFoundation;
-using System;
-using System.IO;
+﻿using System;
 using System.Linq;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 
 namespace Ploeh.AutoFixture.Xunit2.UnitTest

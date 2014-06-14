@@ -1,6 +1,6 @@
-﻿using Ploeh.TestTypeFoundation;
-using System;
+﻿using System;
 using System.Linq;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Sdk;
 
