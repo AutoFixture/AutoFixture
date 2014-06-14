@@ -9,6 +9,10 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
     /// Provides a data source for a data theory, with the data coming from a class
     /// which must implement IEnumerable&lt;object[]&gt;.
     /// </summary>
+    /// <remarks>
+    /// This is essentially the ClassDataAttribute class from xUnit 1, adjusted for changes in the DataAttribute API.
+    /// It has been put here to make the existing tests run with xUnit 2 with the least possible effort.
+    /// </remarks>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class ClassDataAttribute : DataAttribute
     {

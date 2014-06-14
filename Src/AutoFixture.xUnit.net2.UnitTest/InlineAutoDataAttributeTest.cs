@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         {
             // Fixture setup
             var sut = new InlineAutoDataAttribute();
-            var expected = new[] { typeof(InlineDataAttribute), typeof(AutoDataAttribute) };
+            var expected = new[] { typeof(ProxyInlineDataAttribute), typeof(AutoDataAttribute) };
             // Exercise system
             IEnumerable<DataAttribute> result = sut.Attributes;
             // Verify outcome
@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
             // Exercise system
             var result = sut.Attributes;
             // Verify outcome
-            var expected = new[] { typeof(InlineDataAttribute), autoDataAttribute.GetType() };
+            var expected = new[] { typeof(ProxyInlineDataAttribute), autoDataAttribute.GetType() };
             Assert.True(result.Select(d => d.GetType()).SequenceEqual(expected));
             // Teardown
         }

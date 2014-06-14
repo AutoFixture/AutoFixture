@@ -55,21 +55,21 @@ namespace Ploeh.AutoFixture.Xunit2
         /// by DataAttributes in ascending order. Data already returned is ignored on next
         /// DataAttribute returned data.
         /// </summary>
-        /// <param name="methodUnderTest">The method that is being tested.</param>
+        /// <param name="testMethod">The method that is being tested.</param>
         /// <returns>
         /// Returns the composition of the theory data.
         /// </returns>
         /// <remarks>
         /// The number of test cases is set from the first DataAttribute theory length.
         /// </remarks>
-        public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest)
+        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            if (methodUnderTest == null)
+            if (testMethod == null)
             {
-                throw new ArgumentNullException("methodUnderTest");
+                throw new ArgumentNullException("testMethod");
             }
 
-            int numberOfParameters = methodUnderTest.GetParameters().Length;
+            int numberOfParameters = testMethod.GetParameters().Length;
             if (numberOfParameters <= 0)
                 yield break;
 
@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixture.Xunit2
             {
                 foreach (var attribute in this.attributes)
                 {
-                    var attributeData = attribute.GetData(methodUnderTest).ToArray();
+                    var attributeData = attribute.GetData(testMethod).ToArray();
 
                     if (attributeData.Length <= iteration)
                     {

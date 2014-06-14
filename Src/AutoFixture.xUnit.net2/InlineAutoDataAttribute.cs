@@ -5,15 +5,24 @@ using Xunit.Sdk;
 
 namespace Ploeh.AutoFixture.Xunit2
 {
-    internal class InlineDataAttribute : DataAttribute
+    /// <summary>
+    /// Only used internally by <see cref="InlineAutoDataAttribute"/>.
+    /// </summary>
+    /// <remarks>
+    /// This is essentially the old InlineDataAttribute class from xUnit 1, adjusted for changes in the DataAttribute API.
+    /// It has been put here to make InlineAutoDataAttribute usable with xUnit 2 with the least possible effort.
+    /// </remarks>
+    [CLSCompliant(false)]
+    [AttributeUsage(AttributeTargets.Method)]
+    public sealed class ProxyInlineDataAttribute : DataAttribute
     {
         private readonly object[] dataValues;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InlineDataAttribute"/> class.
+        /// Initializes a new instance of the <see cref="ProxyInlineDataAttribute"/> class.
         /// </summary>
         /// <param name="dataValues">The data values to pass to the theory</param>
-        public InlineDataAttribute(params object[] dataValues)
+        internal ProxyInlineDataAttribute(params object[] dataValues)
         {
             this.dataValues = dataValues ?? new object[] { null };
         }
@@ -21,7 +30,7 @@ namespace Ploeh.AutoFixture.Xunit2
         /// <summary>
         /// Gets the data values.
         /// </summary>
-        public object[] DataValues
+        private object[] DataValues
         {
             get { return dataValues; }
         }
@@ -29,9 +38,9 @@ namespace Ploeh.AutoFixture.Xunit2
         /// <summary>
         /// Returns the data to be used to test the theory.
         /// </summary>
-        /// <param name="methodUnderTest">The method that is being tested</param>
+        /// <param name="testMethod">The method that is being tested</param>
         /// <returns>The theory data, in table form</returns>
-        public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest)
+        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
             yield return dataValues;
         }
@@ -64,7 +73,7 @@ namespace Ploeh.AutoFixture.Xunit2
         /// <param name="autoDataAttribute">An <see cref="AutoDataAttribute"/>.</param>
         /// <param name="values">The data values to pass to the theory.</param>
         public InlineAutoDataAttribute(AutoDataAttribute autoDataAttribute, params object[] values)
-            : base(new DataAttribute[] { new InlineDataAttribute(values), autoDataAttribute })
+            : base(new DataAttribute[] { new ProxyInlineDataAttribute(values), autoDataAttribute })
         {
             this.autoDataAttribute = autoDataAttribute;
             this.values = values;
