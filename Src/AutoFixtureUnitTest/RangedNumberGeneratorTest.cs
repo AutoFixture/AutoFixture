@@ -239,38 +239,49 @@ namespace Ploeh.AutoFixtureUnitTest
         [Fact]
         public void DoesNotThrowForHeterogeneousRequestsWithValuesGreaterThanByteMaxValue()
         {
-            var requests = new[]
+            var testCases = new[]
             {
-                new RangedNumberRequest(
-                    typeof(byte), byte.MinValue, byte.MaxValue),
-
-                new RangedNumberRequest(
-                    typeof(short), (short)(byte.MaxValue), short.MaxValue),
-
-                new RangedNumberRequest(
-                    typeof(byte), byte.MinValue, byte.MaxValue)
-            };
-            var contextStubs = new[]
-            {
-                new DelegatingSpecimenContext
+                new
                 {
-                    OnResolve = r => (byte)byte.MaxValue
+                    request =
+                        new RangedNumberRequest(
+                            typeof(byte), byte.MinValue, byte.MaxValue),
+                    contextStub =
+                        new DelegatingSpecimenContext
+                        {
+                            OnResolve = r => (byte)byte.MaxValue
+                        }
                 },
-                new DelegatingSpecimenContext
+                new
                 {
-                    OnResolve = r => (short)short.MaxValue
+                    request =
+                        new RangedNumberRequest(
+                            typeof(short), (short)(byte.MaxValue), short.MaxValue),
+                    contextStub =
+                        new DelegatingSpecimenContext
+                        {
+                            OnResolve = r => (short)short.MaxValue
+                        }
                 },
-                new DelegatingSpecimenContext
+                new
                 {
-                    OnResolve = r => int.MaxValue
+                    request =
+                        new RangedNumberRequest(
+                            typeof(byte), byte.MinValue, byte.MaxValue),
+                    contextStub =
+                        new DelegatingSpecimenContext
+                        {
+                            OnResolve = r => int.MaxValue
+                        }
                 }
             };
             var sut = new RangedNumberGenerator();
 
-            Func<int, object> actual = i => sut.Create(requests[i], contextStubs[i]);
+            Func<int, object> actual = i =>
+                sut.Create(testCases[i].request, testCases[i].contextStub);
 
             Assert.DoesNotThrow(() =>
-                Enumerable.Range(0, requests.Length).Select(actual).ToList());
+                Enumerable.Range(0, testCases.Length).Select(actual).ToList());
         }
 
         private sealed class RangedNumberRequestTestCases : IEnumerable<object[]>
