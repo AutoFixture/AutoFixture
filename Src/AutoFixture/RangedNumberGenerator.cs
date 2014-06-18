@@ -151,7 +151,7 @@ namespace Ploeh.AutoFixture
             switch (Type.GetTypeCode(a.GetType()))
             {
                 case TypeCode.Int16:
-                    return (short)a + (short)b;
+                    return (short)((short)a + (short)b);
 
                 case TypeCode.Int32:
                     return (int)a + (int)b;
