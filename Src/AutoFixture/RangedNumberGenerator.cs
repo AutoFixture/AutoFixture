@@ -79,9 +79,14 @@ namespace Ploeh.AutoFixture
                     if (range.OperandType == typeof(byte) &&
                         Convert.ToInt32(
                             this.rangedValue, 
-                            CultureInfo.CurrentCulture) > byte.MaxValue)
+                            CultureInfo.CurrentCulture) > byte.MaxValue ||
+                        range.OperandType == typeof(short) &&
+                        Convert.ToInt32(
+                            this.rangedValue,
+                            CultureInfo.CurrentCulture) > short.MaxValue)
                         target = minimum;
-                    else target = this.rangedValue;
+                    else
+                        target = this.rangedValue;
 
                     this.rangedValue = Convert.ChangeType(target, range.OperandType, CultureInfo.CurrentCulture);
                 }

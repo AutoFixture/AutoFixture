@@ -249,7 +249,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     contextStub =
                         new DelegatingSpecimenContext
                         {
-                            OnResolve = r => (byte)byte.MaxValue
+                            OnResolve = r => byte.MaxValue
                         }
                 },
                 new
@@ -260,7 +260,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     contextStub =
                         new DelegatingSpecimenContext
                         {
-                            OnResolve = r => (short)short.MaxValue
+                            OnResolve = r => short.MaxValue
                         }
                 },
                 new
@@ -272,6 +272,54 @@ namespace Ploeh.AutoFixtureUnitTest
                         new DelegatingSpecimenContext
                         {
                             OnResolve = r => int.MaxValue
+                        }
+                }
+            };
+            var sut = new RangedNumberGenerator();
+
+            Func<int, object> actual = i =>
+                sut.Create(testCases[i].request, testCases[i].contextStub);
+
+            Assert.DoesNotThrow(() =>
+                Enumerable.Range(0, testCases.Length).Select(actual).ToList());
+        }
+
+        [Fact]
+        public void DoesNotThrowForHeterogeneousRequestsWithValuesGreaterThanInt16MaxValue()
+        {
+            var testCases = new[]
+            {
+                new
+                {
+                    request =
+                        new RangedNumberRequest(
+                            typeof(short), (short)byte.MaxValue, short.MaxValue),
+                    contextStub =
+                        new DelegatingSpecimenContext
+                        {
+                            OnResolve = r => short.MaxValue
+                        }
+                },
+                new
+                {
+                    request =
+                        new RangedNumberRequest(
+                            typeof(int), (int)(short.MaxValue), int.MaxValue),
+                    contextStub =
+                        new DelegatingSpecimenContext
+                        {
+                            OnResolve = r => int.MaxValue
+                        }
+                },
+                new
+                {
+                    request =
+                        new RangedNumberRequest(
+                            typeof(short), (short)byte.MaxValue, short.MaxValue),
+                    contextStub =
+                        new DelegatingSpecimenContext
+                        {
+                            OnResolve = r => short.MaxValue
                         }
                 }
             };
