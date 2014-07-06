@@ -75,7 +75,20 @@ namespace Ploeh.AutoFixture
 
                 if (this.rangedValue != null)
                 {
-                    this.rangedValue = Convert.ChangeType(this.rangedValue, range.OperandType, CultureInfo.CurrentCulture);
+                    object target;
+                    if (range.OperandType == typeof(byte) &&
+                        Convert.ToInt32(
+                            this.rangedValue, 
+                            CultureInfo.CurrentCulture) > byte.MaxValue ||
+                        range.OperandType == typeof(short) &&
+                        Convert.ToInt32(
+                            this.rangedValue,
+                            CultureInfo.CurrentCulture) > short.MaxValue)
+                        target = minimum;
+                    else
+                        target = this.rangedValue;
+
+                    this.rangedValue = Convert.ChangeType(target, range.OperandType, CultureInfo.CurrentCulture);
                 }
 
                 if (this.rangedValue != null && (minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) > 0))
@@ -138,7 +151,7 @@ namespace Ploeh.AutoFixture
             switch (Type.GetTypeCode(a.GetType()))
             {
                 case TypeCode.Int16:
-                    return (short)a + (short)b;
+                    return (short)((short)a + (short)b);
 
                 case TypeCode.Int32:
                     return (int)a + (int)b;

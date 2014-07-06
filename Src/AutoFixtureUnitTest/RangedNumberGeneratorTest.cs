@@ -236,6 +236,102 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void DoesNotThrowForHeterogeneousRequestsWithValuesGreaterThanByteMaxValue()
+        {
+            var testCases = new[]
+            {
+                new
+                {
+                    request =
+                        new RangedNumberRequest(
+                            typeof(byte), byte.MinValue, byte.MaxValue),
+                    contextStub =
+                        new DelegatingSpecimenContext
+                        {
+                            OnResolve = r => byte.MaxValue
+                        }
+                },
+                new
+                {
+                    request =
+                        new RangedNumberRequest(
+                            typeof(short), (short)(byte.MaxValue), short.MaxValue),
+                    contextStub =
+                        new DelegatingSpecimenContext
+                        {
+                            OnResolve = r => short.MaxValue
+                        }
+                },
+                new
+                {
+                    request =
+                        new RangedNumberRequest(
+                            typeof(byte), byte.MinValue, byte.MaxValue),
+                    contextStub =
+                        new DelegatingSpecimenContext
+                        {
+                            OnResolve = r => int.MaxValue
+                        }
+                }
+            };
+            var sut = new RangedNumberGenerator();
+
+            Func<int, object> actual = i =>
+                sut.Create(testCases[i].request, testCases[i].contextStub);
+
+            Assert.DoesNotThrow(() =>
+                Enumerable.Range(0, testCases.Length).Select(actual).ToList());
+        }
+
+        [Fact]
+        public void DoesNotThrowForHeterogeneousRequestsWithValuesGreaterThanInt16MaxValue()
+        {
+            var testCases = new[]
+            {
+                new
+                {
+                    request =
+                        new RangedNumberRequest(
+                            typeof(short), (short)byte.MaxValue, short.MaxValue),
+                    contextStub =
+                        new DelegatingSpecimenContext
+                        {
+                            OnResolve = r => short.MaxValue
+                        }
+                },
+                new
+                {
+                    request =
+                        new RangedNumberRequest(
+                            typeof(int), (int)(short.MaxValue), int.MaxValue),
+                    contextStub =
+                        new DelegatingSpecimenContext
+                        {
+                            OnResolve = r => int.MaxValue
+                        }
+                },
+                new
+                {
+                    request =
+                        new RangedNumberRequest(
+                            typeof(short), (short)byte.MaxValue, short.MaxValue),
+                    contextStub =
+                        new DelegatingSpecimenContext
+                        {
+                            OnResolve = r => short.MaxValue
+                        }
+                }
+            };
+            var sut = new RangedNumberGenerator();
+
+            Func<int, object> actual = i =>
+                sut.Create(testCases[i].request, testCases[i].contextStub);
+
+            Assert.DoesNotThrow(() =>
+                Enumerable.Range(0, testCases.Length).Select(actual).ToList());
+        }
+
         private sealed class RangedNumberRequestTestCases : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
