@@ -99,6 +99,7 @@
     </Target>
     <Target Name="Test" DependsOnTargets="Build">
         <PropertyGroup>
+          <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
           <ParallelizeTests Condition="'$(ParallelizeTests)' == ''">true</ParallelizeTests>
           <MaxParallelThreads Condition="'$(MaxParallelThreads)' == ''">0</MaxParallelThreads>
         </PropertyGroup>
@@ -133,7 +134,6 @@
         <Delete Files="TestResults-$(PROCESSOR_ARCHITECTURE).html" />
     </Target>
     <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
-    <!--<Target Name="CopyToReleaseFolder" DependsOnTargets="Build">-->
         <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />
         <Copy SourceFiles="@(NuGetPackageScripts)" DestinationFolder="$(ReleaseFolder)" />
     </Target>
