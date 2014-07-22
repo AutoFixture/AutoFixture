@@ -361,6 +361,11 @@
             </summary>
             <param name="ex">The exception to be added.</param>
         </member>
+        <member name="M:Xunit.Sdk.ExceptionAggregator.Clear">
+            <summary>
+            Clears the aggregator.
+            </summary>
+        </member>
         <member name="M:Xunit.Sdk.ExceptionAggregator.Run(System.Action)">
             <summary>
             Runs the code, catching the exception that is thrown and adding it to
@@ -369,6 +374,13 @@
             <param name="code">The code to be run.</param>
         </member>
         <member name="M:Xunit.Sdk.ExceptionAggregator.RunAsync(System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Runs the code, catching the exception that is thrown and adding it to
+            the aggregate.
+            </summary>
+            <param name="code">The code to be run.</param>
+        </member>
+        <member name="M:Xunit.Sdk.ExceptionAggregator.RunAsync``1(System.Func{System.Threading.Tasks.Task{``0}})">
             <summary>
             Runs the code, catching the exception that is thrown and adding it to
             the aggregate.
@@ -465,14 +477,11 @@
             to test methods that are attributed with <see cref="T:Xunit.FactAttribute"/> (or a subclass).
             </summary>
         </member>
-        <member name="M:Xunit.Sdk.IXunitTestCaseDiscoverer.Discover(Xunit.Abstractions.ITestCollection,Xunit.Abstractions.IAssemblyInfo,Xunit.Abstractions.ITypeInfo,Xunit.Abstractions.IMethodInfo,Xunit.Abstractions.IAttributeInfo)">
+        <member name="M:Xunit.Sdk.IXunitTestCaseDiscoverer.Discover(Xunit.Abstractions.ITestMethod,Xunit.Abstractions.IAttributeInfo)">
             <summary>
             Discover test cases from a test method.
             </summary>
-            <param name="testCollection">The test collection the test cases belong to.</param>
-            <param name="assembly">The test assembly.</param>
-            <param name="testClass">The test class.</param>
-            <param name="testMethod">The test method.</param>
+            <param name="testMethod">The test method the test cases belong to.</param>
             <param name="factAttribute">The fact attribute attached to the test method.</param>
             <returns>Returns zero or more test cases represented by the test method.</returns>
         </member>
@@ -490,6 +499,12 @@
             <param name="aggregator">The error aggregator to use for catching exception.</param>
             <param name="cancellationTokenSource">The cancellation token source that indicates whether cancellation has been requested.</param>
             <returns>Returns the summary of the test case run.</returns>
+        </member>
+        <member name="P:Xunit.Sdk.IXunitTestCase.Method">
+            <summary>
+            Gets the method to be run. Differs from <see cref="P:Xunit.Abstractions.ITestCase.TestMethod"/>.<see cref="P:Xunit.Abstractions.ITestMethod.Method"/> in that
+            any generic argument types will have been closed based on the arguments.
+            </summary>
         </member>
         <member name="T:Xunit.Sdk.IXunitTestCollectionFactory">
             <summary>
