@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Moq;
 using Ploeh.AutoFixture.Kernel;
@@ -55,6 +56,37 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void IgnoresPropertiesWithPrivateSetter()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var mock = new Mock<ClassWithPropertyWithPrivateSetter>();
+
+            var sut = new SealedPropertyInitializer();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
+            Assert.NotEqual(frozenString, mock.Object.PropertyWithPrivateSetter);
+        }
+
+        [Fact]
+        public void IgnoresPrivateProperties()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var mock = new Mock<ClassWithPrivateProperty>();
+            var privateProperty = typeof (ClassWithPrivateProperty)
+                .GetProperty("PrivateProperty",
+                             BindingFlags.Instance | BindingFlags.NonPublic);
+
+            var sut = new SealedPropertyInitializer();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
+            Assert.NotEqual(frozenString, privateProperty.GetValue(mock.Object, null));
+        }
+
+        [Fact]
         public void IgnoresInterfaceProperties()
         {
             // Fixture setup
@@ -90,6 +122,20 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public class ClassWithVirtualProperty
         {
             public virtual string VirtualProperty { get; set; }
+        }
+
+        public class ClassWithPropertyWithPrivateSetter
+        {
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
+            public string PropertyWithPrivateSetter { get; private set; }
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
+        }
+
+        public class ClassWithPrivateProperty
+        {
+            // ReSharper disable UnusedMember.Local
+            private string PrivateProperty { get; set; }
+            // ReSharper restore UnusedMember.Local
         }
 
         public interface IInterfaceWithProperty

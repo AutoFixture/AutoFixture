@@ -28,7 +28,8 @@ namespace Ploeh.AutoFixture.AutoMoq
             var mockedObject = mock.Object;
 
             var properties = mockedType.GetProperties()
-                                       .Where(p => p.CanWrite &&
+                                       .Where(p => p.CanWrite && //check if property has set accessor
+                                                   p.GetSetMethod() != null && //check if the set accessor is public
                                                    p.GetSetMethod().IsSealed());
 
             foreach (var property in properties)
