@@ -27,5 +27,23 @@ namespace Ploeh.AutoFixture.AutoMoq.Extensions
         {
             return !method.IsOverridable();
         }
+
+        internal static bool IsVoid(this MethodInfo method)
+        {
+            return method.ReturnType == typeof (void);
+        }
+
+        internal static bool HasOutParameters(this MethodInfo method)
+        {
+            return method.GetParameters()
+                         .Any(p => p.IsOut);
+        }
+
+        internal static bool HasRefParameters(this MethodInfo method)
+        {
+            //"out" parameters are also considered "byref", so we have to filter these out
+            return method.GetParameters()
+                         .Any(p => p.ParameterType.IsByRef && !p.IsOut);
+        }
     }
 }
