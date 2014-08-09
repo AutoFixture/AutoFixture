@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Moq;
 using Ploeh.AutoFixture.AutoMoq.Extensions;
@@ -30,7 +31,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             var mockedType = mockType.GetMockedType();
             var mockedObject = mock.Object;
 
-            var properties = mockedType.GetProperties()
+            var properties = mockedType.GetProperties(BindingFlags.Instance | BindingFlags.Public)
                                        .Where(p => p.CanWrite && //check if property has set accessor
                                                    p.GetSetMethod() != null && //check if the set accessor is public
                                                    p.GetSetMethod().IsSealed());

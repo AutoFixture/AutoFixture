@@ -73,7 +73,8 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// Returns a lambda expression thats represents an invocation of a mocked type's method.
         /// E.g., <![CDATA[ x => x.Method(It.IsAny<string>(), out parameter) ]]> 
         /// </summary>
-        private static Expression MakeMethodInvocationLambda(Type mockedType, MethodInfo method, ISpecimenContext context)
+        private static Expression MakeMethodInvocationLambda(Type mockedType, MethodInfo method,
+                                                             ISpecimenContext context)
         {
             var lambdaParam = Expression.Parameter(mockedType, "x");
 
@@ -105,7 +106,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             else
             {
                 //for any non-out parameter, invoke "It.IsAny<T>()"
-                var isAnyMethod = typeof(It).GetMethod("IsAny")
+                var isAnyMethod = typeof (It).GetMethod("IsAny")
                                              .MakeGenericMethod(parameter.ParameterType);
 
                 return Expression.Call(isAnyMethod);

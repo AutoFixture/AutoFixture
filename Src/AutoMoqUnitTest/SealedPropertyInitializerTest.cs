@@ -101,7 +101,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithPrivateProperty>();
-            var privateProperty = typeof(TypeWithPrivateProperty)
+            var privateProperty = typeof (TypeWithPrivateProperty)
                 .GetProperty("PrivateProperty",
                              BindingFlags.Instance | BindingFlags.NonPublic);
 
@@ -123,6 +123,20 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
             Assert.NotEqual(frozenString, mock.Object.Property);
+        }
+
+        [Fact]
+        public void IgnoresStaticProperties()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var mock = new Mock<StaticPropertyHolder<string>>();
+
+            var sut = new SealedPropertyInitializer();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
+            Assert.NotEqual(frozenString, StaticPropertyHolder<string>.Property);
         }
     }
 }

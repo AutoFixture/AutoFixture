@@ -125,6 +125,7 @@
     <Compile Include="TypeWithOverloadedMembers.cs" />
     <Compile Include="TypeWithFactoryProperty.cs" />
     <Compile Include="TypeWithRefMethod.cs" />
+    <Compile Include="TypeWithStaticMethod.cs" />
     <Compile Include="TypeWithVirtualMembers.cs" />
     <Compile Include="UngardedStaticMethodOnStaticTypeHost.cs" />
     <Compile Include="UngardedStaticPropertyOnStaticTypeHost.cs" />

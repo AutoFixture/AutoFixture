@@ -148,6 +148,27 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void StaticMethodsAreIgnored()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => fixture.Create<TypeWithStaticMethod>());
+        }
+
+        [Fact]
+        public void StaticPropertiesAreIgnored()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => fixture.Create<StaticPropertyHolder<string>>());
+            Assert.NotEqual(frozenString, StaticPropertyHolder<string>.Property);
+        }
+
+        [Fact]
         public void CircularDependenciesAreAllowed()
         {
             // Fixture setup

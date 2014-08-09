@@ -207,5 +207,17 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
             Assert.NotEqual(frozenString, mock.Object.GenericMethod<string>());
         }
+
+        [Fact]
+        public void IgnoresStaticMethods()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var mock = new Mock<TypeWithStaticMethod>();
+
+            var sut = new VirtualMethodInitializer();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
+        }
     }
 }
