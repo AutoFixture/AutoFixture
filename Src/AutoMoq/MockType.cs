@@ -10,8 +10,26 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoMoq
 {
-    internal static class MockType
+    public static class MockType
     {
+        /// <summary>
+        /// Sets up a member to retrieve the return value from a fixture.
+        /// </summary>
+        /// <typeparam name="TMock">The type of the object being mocked.</typeparam>
+        /// <typeparam name="TResult">The return type of the object's member being mocked.</typeparam>
+        /// <param name="setup">The member setup.</param>
+        /// <param name="fixture">The fixture from which the return value will be retrieved.</param>
+        /// <returns>The result of setting up <paramref name="setup"/> to retrieve the return value from <paramref name="fixture"/>.</returns>
+        public static IReturnsResult<TMock> ReturnsUsingFixture<TMock, TResult>(this IReturns<TMock, TResult> setup,
+                                                                                IFixture fixture)
+            where TMock : class
+        {
+            if (setup == null) throw new ArgumentNullException("setup");
+            if (fixture == null) throw new ArgumentNullException("fixture");
+
+            return setup.ReturnsUsingContext(new SpecimenContext(fixture));
+        }
+
         internal static bool IsMock(this Type type)
         {
             return (type != null
@@ -83,7 +101,7 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// <param name="context">The context (fixture) that will be used to retrieve the return value for the mock's member being setup.</param>
         /// <param name="mockedType">The type of the object being mocked.</param>
         /// <param name="memberType">The return type of the member of being setup.</param>
-        /// <returns></returns>
+        /// <returns>The result of setting up <paramref name="setup"/> to retrieve the return value from <paramref name="context"/>.</returns>
         internal static object ReturnsUsingContext(this object setup, ISpecimenContext context,
                                                    Type mockedType, Type memberType)
         {

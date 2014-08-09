@@ -79,6 +79,7 @@
     <Compile Include="MockPostprocessorTest.cs" />
     <Compile Include="MockRelayTest.cs" />
     <Compile Include="MockSetupTest.cs" />
+    <Compile Include="MockTypeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SealedPropertyInitializerTest.cs" />
     <Compile Include="VirtualMethodInitializerTest.cs" />
