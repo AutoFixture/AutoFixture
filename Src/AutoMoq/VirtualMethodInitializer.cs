@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.AutoMoq
     /// 
     /// Notes:
     /// - Due to a limitation in Moq, methods with "ref" parameters are skipped.
-    /// - Automatically mocking of generic methods isn't feasible either - we'd have to antecipate any type parameters that this method could be called with. 
+    /// - Automatic mocking of generic methods isn't feasible either - we'd have to antecipate any type parameters that this method could be called with. 
     /// </remarks>
     public class VirtualMethodInitializer : IMockInitializer
     {

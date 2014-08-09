@@ -12,8 +12,8 @@ namespace Ploeh.AutoFixture.AutoMoq
     /// </summary>
     public class MockSetup : ISpecimenBuilder
     {
-        private readonly ISpecimenBuilder _builder;
-        private readonly IEnumerable<IMockInitializer> _initializers;
+        private readonly ISpecimenBuilder builder;
+        private readonly IEnumerable<IMockInitializer> initializers;
 
         /// <summary>
         /// Creates a new instance of <see cref="MockSetup"/>.
@@ -37,8 +37,8 @@ namespace Ploeh.AutoFixture.AutoMoq
             if (builder == null) throw new ArgumentNullException("builder");
             if (initializers == null) throw new ArgumentNullException("initializers");
 
-            _builder = builder;
-            _initializers = initializers;
+            this.builder = builder;
+            this.initializers = initializers;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// </summary>
         public IEnumerable<IMockInitializer> Initializers
         {
-            get { return _initializers; }
+            get { return initializers; }
         }
 
         /// <summary>
@@ -60,13 +60,13 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            var specimen = _builder.Create(request, context);
+            var specimen = builder.Create(request, context);
             if (specimen is NoSpecimen)
                 return specimen;
 
             var mock = specimen as Mock;
 
-            foreach (var mockInitializer in _initializers)
+            foreach (var mockInitializer in initializers)
                 mockInitializer.Setup(mock, context);
 
             return mock;

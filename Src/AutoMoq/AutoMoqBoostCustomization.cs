@@ -12,7 +12,7 @@ namespace Ploeh.AutoFixture.AutoMoq
     /// </summary>
     public class AutoMoqBoostCustomization : ICustomization
     {
-        private readonly ISpecimenBuilder _relay;
+        private readonly ISpecimenBuilder relay;
 
         /// <summary>
         /// Creates a new instance of <see cref="AutoMoqBoostCustomization"/>.
@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             if (relay == null)
                 throw new ArgumentNullException("relay");
 
-            _relay = relay;
+            this.relay = relay;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// </summary>
         public ISpecimenBuilder Relay
         {
-            get { return _relay; }
+            get { return relay; }
         }
 
         /// <summary>
