@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Moq;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
@@ -40,14 +41,14 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<IInterfaceWithMethod>();
+            var mock = new Mock<IInterfaceWithParameterlessMethod>();
 
             var sut = new VirtualMethodInitializer();
             // Exercise system
             sut.Setup(mock, new SpecimenContext(fixture));
             // Verify outcome
-            var result = mock.Object.SomeMethod();
-            Assert.Equal(frozenString, result);
+            var result = mock.Object.Method();
+            Assert.Same(frozenString, result);
             // Teardown
         }
 
@@ -57,7 +58,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<ClassWithVirtualMethod>();
+            var mock = new Mock<TypeWithVirtualMembers>();
 
             var sut = new VirtualMethodInitializer();
             // Exercise system
@@ -80,7 +81,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             sut.Setup(mock, new SpecimenContext(fixture));
             // Verify outcome
-            var result = mock.Object.SomeProperty;
+            var result = mock.Object.Property;
             Assert.Equal(frozenString, result);
             // Teardown
         }
@@ -90,15 +91,15 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<IInterfaceWithParameter>();
+            var frozenObject = fixture.Freeze<object>();
+            var mock = new Mock<IInterface>();
 
             var sut = new VirtualMethodInitializer();
             // Exercise system
             sut.Setup(mock, new SpecimenContext(fixture));
             // Verify outcome
-            var result = mock.Object.Method(4);
-            Assert.Equal(frozenString, result);
+            var result = mock.Object.MakeIt(4);
+            Assert.Same(frozenObject, result);
             // Teardown
         }
 
@@ -108,7 +109,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture();
             var frozenInt = fixture.Freeze<int>();
-            var mock = new Mock<IInterfaceWithOutParameter>();
+            var mock = new Mock<IInterfaceWithOutMethod>();
 
             var sut = new VirtualMethodInitializer();
             // Exercise system
@@ -142,14 +143,14 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         {
             // Fixture setup
             var context = new Mock<ISpecimenContext>();
-            var mock = new Mock<IInterfaceWithMethod>();
+            var mock = new Mock<IInterfaceWithParameterlessMethod>();
 
             var sut = new VirtualMethodInitializer();
             // Exercise system
             sut.Setup(mock, context.Object);
             // Verify outcome
             context.Verify(ctx => ctx.Resolve(It.IsAny<object>()), Times.Never());
-            mock.Object.SomeMethod();
+            mock.Object.Method();
             context.Verify(ctx => ctx.Resolve(It.IsAny<object>()), Times.Once());
             // Teardown
         }
@@ -159,8 +160,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<IInterfaceWithRefParameter>();
+            var mock = new Mock<IInterfaceWithRefMethod>();
 
             var sut = new VirtualMethodInitializer();
             // Exercise system and verify outcome
@@ -173,13 +173,13 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<ClassWithSealedMethod>();
+            var mock = new Mock<TypeWithSealedMembers>();
 
             var sut = new VirtualMethodInitializer();
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
             Assert.NotEqual(frozenString, mock.Object.ImplicitlySealedMethod());
-            Assert.NotEqual(frozenString, mock.Object.SealedMethod());
+            Assert.NotEqual(frozenString, mock.Object.ExplicitlySealedMethod());
         }
 
         [Fact]
@@ -206,73 +206,6 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
             Assert.NotEqual(frozenString, mock.Object.GenericMethod<string>());
-        }
-
-        public interface IInterfaceWithMethod
-        {
-            string SomeMethod();
-        }
-
-        public interface IInterfaceWithProperty
-        {
-            string SomeProperty { get; set; }
-        }
-
-        public interface IInterfaceWithVoidMethod
-        {
-            void VoidMethod();
-            string SetOnlyProperty { set; }
-        }
-
-        public interface IInterfaceWithGenericMethod
-        {
-            string GenericMethod<T>();
-        }
-
-        public class ClassWithVirtualMethod
-        {
-            public virtual string VirtualMethod()
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public abstract class TempClass
-        {
-            public abstract string SealedMethod();
-        }
-
-        public class ClassWithSealedMethod : TempClass
-        {
-            public override sealed string SealedMethod()
-            {
-                return "Awesome string";
-            }
-
-            public string ImplicitlySealedMethod()
-            {
-                return "Awesome string";
-            }
-        }
-
-        public interface IInterfaceWithParameter
-        {
-            string Method(int i);
-        }
-
-        public interface IInterfaceWithRefParameter
-        {
-            string Method(ref string s);
-        }
-
-        public interface IInterfaceWithOutParameter
-        {
-            void Method(out int i);
-        }
-
-        public interface IInterfaceWithIndexer
-        {
-            int this[int index] { get; }
         }
     }
 }

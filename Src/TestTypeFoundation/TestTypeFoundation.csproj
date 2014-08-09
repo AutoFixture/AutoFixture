@@ -75,6 +75,17 @@
     <Compile Include="AbstractTypeWithConstructorWithMultipleParameters.cs" />
     <Compile Include="AbstractTypeWithNonDefaultConstructor.cs" />
     <Compile Include="ActivityScope.cs" />
+    <Compile Include="IInterfaceWithGenericMethod.cs" />
+    <Compile Include="IInterfaceWithIndexer.cs" />
+    <Compile Include="IInterfaceWithOutMethod.cs" />
+    <Compile Include="IInterfaceWithParameterlessMethod.cs" />
+    <Compile Include="IInterfaceWithProperty.cs" />
+    <Compile Include="IInterfaceWithRefMethod.cs" />
+    <Compile Include="IInterfaceWithVoidMethod.cs" />
+    <Compile Include="TypeWithGetOnlyProperty.cs" />
+    <Compile Include="TypeWithPrivateProperty.cs" />
+    <Compile Include="TypeWithPropertyWithPrivateSetter.cs" />
+    <Compile Include="TypeWithSealedMembers.cs" />
     <Compile Include="CollectionHolder.cs" />
     <Compile Include="CompositeType.cs" />
     <Compile Include="ConcreteType.cs" />
@@ -114,6 +125,7 @@
     <Compile Include="TypeWithOverloadedMembers.cs" />
     <Compile Include="TypeWithFactoryProperty.cs" />
     <Compile Include="TypeWithRefMethod.cs" />
+    <Compile Include="TypeWithVirtualMembers.cs" />
     <Compile Include="UngardedStaticMethodOnStaticTypeHost.cs" />
     <Compile Include="UngardedStaticPropertyOnStaticTypeHost.cs" />
     <Compile Include="UnguardedConstructorHost.cs" />

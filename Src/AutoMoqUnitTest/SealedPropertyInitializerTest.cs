@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using Moq;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
 
@@ -42,13 +43,13 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<ClassWithSealedProperty>();
+            var mock = new Mock<TypeWithSealedMembers>();
 
             var sut = new SealedPropertyInitializer();
             // Exercise system
             sut.Setup(mock, new SpecimenContext(fixture));
             // Verify outcome
-            Assert.Equal(frozenString, mock.Object.SealedProperty);
+            Assert.Equal(frozenString, mock.Object.ExplicitlySealedProperty);
             Assert.Equal(frozenString, mock.Object.ImplicitlySealedProperty);
             // Teardown
         }
@@ -58,7 +59,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var mock = new Mock<ClassWithReadOnlyProperty>();
+            var mock = new Mock<TypeWithGetOnlyProperty>();
 
             var sut = new SealedPropertyInitializer();
             //Exercise system and verify outcome
@@ -71,7 +72,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<ClassWithVirtualProperty>();
+            var mock = new Mock<TypeWithVirtualMembers>();
 
             var sut = new SealedPropertyInitializer();
             // Exercise system and verify outcome
@@ -85,7 +86,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<ClassWithPropertyWithPrivateSetter>();
+            var mock = new Mock<TypeWithPropertyWithPrivateSetter>();
 
             var sut = new SealedPropertyInitializer();
             // Exercise system and verify outcome
@@ -99,8 +100,8 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<ClassWithPrivateProperty>();
-            var privateProperty = typeof (ClassWithPrivateProperty)
+            var mock = new Mock<TypeWithPrivateProperty>();
+            var privateProperty = typeof(TypeWithPrivateProperty)
                 .GetProperty("PrivateProperty",
                              BindingFlags.Instance | BindingFlags.NonPublic);
 
@@ -122,49 +123,6 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
             Assert.NotEqual(frozenString, mock.Object.Property);
-        }
-
-        public abstract class TempClass
-        {
-            public abstract string SealedProperty { get; set; }
-        }
-
-        public class ClassWithSealedProperty : TempClass
-        {
-            public override sealed string SealedProperty { get; set; }
-            public string ImplicitlySealedProperty { get; set; }
-        }
-
-        public class ClassWithReadOnlyProperty
-        {
-            public string ReadOnlyProperty
-            {
-                get { return ""; }
-            }
-        }
-
-        public class ClassWithVirtualProperty
-        {
-            public virtual string VirtualProperty { get; set; }
-        }
-
-        public class ClassWithPropertyWithPrivateSetter
-        {
-            // ReSharper disable UnusedAutoPropertyAccessor.Local
-            public string PropertyWithPrivateSetter { get; private set; }
-            // ReSharper restore UnusedAutoPropertyAccessor.Local
-        }
-
-        public class ClassWithPrivateProperty
-        {
-            // ReSharper disable UnusedMember.Local
-            private string PrivateProperty { get; set; }
-            // ReSharper restore UnusedMember.Local
-        }
-
-        public interface IInterfaceWithProperty
-        {
-            string Property { get; set; }
         }
     }
 }

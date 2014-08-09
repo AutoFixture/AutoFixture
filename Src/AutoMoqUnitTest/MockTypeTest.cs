@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Moq;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
@@ -61,11 +62,6 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             fixture.Verify(f => f.Create(typeof (string), It.IsAny<SpecimenContext>()), Times.Never());
             var result = mock.Object.Property;
             fixture.Verify(f => f.Create(typeof (string), It.IsAny<SpecimenContext>()), Times.Once());
-        }
-
-        public interface IInterfaceWithProperty
-        {
-            string Property { get; set; }
         }
     }
 }
