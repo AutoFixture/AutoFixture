@@ -82,6 +82,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoMoqBoostCustomization.cs" />
     <Compile Include="AutoMoqCustomization.cs" />
     <Compile Include="Extensions\MethodInfoBaseExtensions.cs" />
     <Compile Include="GreedyMockConstructorQuery.cs" />
