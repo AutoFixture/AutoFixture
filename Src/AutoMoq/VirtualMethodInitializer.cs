@@ -37,6 +37,9 @@ namespace Ploeh.AutoFixture.AutoMoq
         [CLSCompliant(false)]
         public void Setup(Mock mock, ISpecimenContext context)
         {
+            if (mock == null) throw new ArgumentNullException("mock");
+            if (context == null) throw new ArgumentNullException("context");
+
             var mockType = mock.GetType();
             var mockedType = mockType.GetMockedType();
             var methods = mockedType.GetMethods()
@@ -70,7 +73,7 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// Returns a lambda expression thats represents an invocation of a mocked type's method.
         /// E.g., <![CDATA[ x => x.Method(It.IsAny<string>(), out parameter) ]]> 
         /// </summary>
-        private Expression MakeMethodInvocationLambda(Type mockedType, MethodInfo method, ISpecimenContext context)
+        private static Expression MakeMethodInvocationLambda(Type mockedType, MethodInfo method, ISpecimenContext context)
         {
             var lambdaParam = Expression.Parameter(mockedType, "x");
 
@@ -85,7 +88,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             return Expression.Lambda(methodCall, lambdaParam);
         }
 
-        private Expression MakeParameterExpression(ParameterInfo parameter, ISpecimenContext context)
+        private static Expression MakeParameterExpression(ParameterInfo parameter, ISpecimenContext context)
         {
             //check if parameter is an "out" parameter
             if (parameter.IsOut)

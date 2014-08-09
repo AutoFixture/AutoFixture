@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var mock = new Mock<IInterfaceWithProperty>();
             var setup = mock.Setup(x => x.Property);
-            var fixture = new Mock<IFixture>();
+            var fixture = new Mock<ISpecimenBuilder>();
             // Exercise system
             setup.ReturnsUsingFixture(fixture.Object);
             // Verify outcome

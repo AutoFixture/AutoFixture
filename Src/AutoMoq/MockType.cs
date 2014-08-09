@@ -10,18 +10,22 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoMoq
 {
+    /// <summary>
+    /// Contains extension methods to manipulate/setup instances of <see cref="Mock{T}"/>.
+    /// </summary>
     public static class MockType
     {
         /// <summary>
-        /// Sets up a member to retrieve the return value from a fixture.
+        /// Sets up a member to lazily retrieve the return value from a fixture.
         /// </summary>
         /// <typeparam name="TMock">The type of the object being mocked.</typeparam>
         /// <typeparam name="TResult">The return type of the object's member being mocked.</typeparam>
         /// <param name="setup">The member setup.</param>
         /// <param name="fixture">The fixture from which the return value will be retrieved.</param>
         /// <returns>The result of setting up <paramref name="setup"/> to retrieve the return value from <paramref name="fixture"/>.</returns>
+        [CLSCompliant(false)]
         public static IReturnsResult<TMock> ReturnsUsingFixture<TMock, TResult>(this IReturns<TMock, TResult> setup,
-                                                                                IFixture fixture)
+                                                                                ISpecimenBuilder fixture)
             where TMock : class
         {
             if (setup == null) throw new ArgumentNullException("setup");

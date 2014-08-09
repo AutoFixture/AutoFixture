@@ -20,6 +20,7 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// </summary>
         /// <param name="builder">The builder used to create <see cref="Mock{T}"/> instances.</param>
         /// <param name="initializers">The initializers used to setup the mock object.</param>
+        [CLSCompliant(false)]
         public MockSetup(ISpecimenBuilder builder, params IMockInitializer[] initializers)
             : this(builder, initializers.AsEnumerable())
         {

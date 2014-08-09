@@ -23,6 +23,9 @@ namespace Ploeh.AutoFixture.AutoMoq
         [CLSCompliant(false)]
         public void Setup(Mock mock, ISpecimenContext context)
         {
+            if (mock == null) throw new ArgumentNullException("mock");
+            if (context == null) throw new ArgumentNullException("context");
+
             var mockType = mock.GetType();
             var mockedType = mockType.GetMockedType();
             var mockedObject = mock.Object;

@@ -11,6 +11,30 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
     public class VirtualMethodInitializerTest
     {
         [Fact]
+        public void SetupThrowsWhenMockIsNull()
+        {
+            // Fixture setup
+            var context = new Mock<ISpecimenContext>();
+            var sut = new VirtualMethodInitializer();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(
+                () => sut.Setup(null, context.Object));
+            // Teardown
+        }
+
+        [Fact]
+        public void SetupThrowsWhenContextIsNull()
+        {
+            // Fixture setup
+            var mock = new Mock<object>();
+            var sut = new VirtualMethodInitializer();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(
+                () => sut.Setup(mock, null));
+            // Teardown
+        }
+
+        [Fact]
         public void SetsUpInterfaceMethods_ToRetrieveReturnValueFromContext()
         {
             // Fixture setup
