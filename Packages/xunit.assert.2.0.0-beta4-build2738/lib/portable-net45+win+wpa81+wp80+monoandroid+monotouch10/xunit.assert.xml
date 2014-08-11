@@ -51,6 +51,16 @@
             <param name="userMessage">The message to be shown when the condition is false</param>
             <exception cref="T:Xunit.Sdk.TrueException">Thrown when the condition is false</exception>
         </member>
+        <member name="M:Xunit.Assert.All``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+            <summary>
+            Verifies that all items in the collection pass when executed against
+            action.
+            </summary>
+            <typeparam name="T">The type of the object to be verified</typeparam>
+            <param name="collection">The collection</param>
+            <param name="action">The action to test each item against</param>
+            <exception cref="T:Xunit.Sdk.AllException">Thrown when the collection contains at least one non-matching element</exception>
+        </member>
         <member name="M:Xunit.Assert.Collection``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0}[])">
             <summary>
             Verifies that a collection contains exactly a given number of elements, which meet
@@ -953,6 +963,26 @@
             <inheritdoc/>
         </member>
         <member name="P:Xunit.Sdk.CollectionException.StackTrace">
+            <inheritdoc/>
+        </member>
+        <member name="T:Xunit.Sdk.AllException">
+            <summary>
+            Exception thrown when an All assertion has one or more items fail an assertion.
+            </summary>
+        </member>
+        <member name="M:Xunit.Sdk.AllException.#ctor(System.Int32,System.Tuple{System.Int32,System.Exception}[])">
+            <summary>
+            Creates a new instance of the <see cref="T:Xunit.Sdk.AllException"/> class.
+            </summary>
+            <param name="totalItems">The total number of items that were in the collection.</param>
+            <param name="errors">The list of errors that occurred during the test pass.</param>
+        </member>
+        <member name="P:Xunit.Sdk.AllException.Failures">
+            <summary>
+            The errors that occurred during execution of the test.
+            </summary>
+        </member>
+        <member name="P:Xunit.Sdk.AllException.Message">
             <inheritdoc/>
         </member>
         <member name="T:Xunit.Sdk.ContainsException">
