@@ -136,7 +136,8 @@ namespace Ploeh.AutoFixture
                 {
                     this.rangedValue = RangedNumberGenerator.Add(minimum, value);
 
-                    if (minimum.CompareTo(this.rangedValue) > 0)
+                    if (minimum.CompareTo(this.rangedValue) > 0 ||
+                        maximum.CompareTo(this.rangedValue) < 0)
                     {
                         this.rangedValue = minimum;
                     }
