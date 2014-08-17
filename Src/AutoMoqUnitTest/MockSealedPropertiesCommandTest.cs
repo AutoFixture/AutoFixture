@@ -138,5 +138,19 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
             Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
         }
+
+        [Fact]
+        public void IgnoresIndexers()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenInt = fixture.Freeze<int>();
+            var mock = new Mock<TypeWithIndexer>();
+
+            var sut = new MockSealedPropertiesCommand();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.NotEqual(frozenInt, mock.Object[2]);
+        }
     }
 }

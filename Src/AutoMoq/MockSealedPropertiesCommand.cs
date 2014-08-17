@@ -35,7 +35,8 @@ namespace Ploeh.AutoFixture.AutoMoq
             var mockedObject = mock.Object;
 
             var properties = mockedType.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                                       .Where(p => p.CanWrite && //check if property has set accessor
+                                       .Where(p => p.GetIndexParameters().Length == 0 && //check that this is not an indexer
+                                                   p.CanWrite && //check if property has set accessor
                                                    p.GetSetMethod() != null && //check if the set accessor is public
                                                    p.GetSetMethod().IsSealed());
 
