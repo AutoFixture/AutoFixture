@@ -4,8 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Moq;
+using Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes;
 using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
 
@@ -131,12 +131,12 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<StaticPropertyHolder<string>>();
+            var mock = new Mock<TypeWithStaticProperty>();
 
             var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
-            Assert.NotEqual(frozenString, StaticPropertyHolder<string>.Property);
+            Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
         }
     }
 }

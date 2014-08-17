@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Moq;
+using Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes;
 using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
 using Xunit;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
@@ -91,15 +91,15 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var frozenObject = fixture.Freeze<object>();
-            var mock = new Mock<IInterface>();
+            var frozenString = fixture.Freeze<string>();
+            var mock = new Mock<IInterfaceWithMethod>();
 
             var sut = new MockVirtualMethodsCommand();
             // Exercise system
             sut.Execute(mock, new SpecimenContext(fixture));
             // Verify outcome
-            var result = mock.Object.MakeIt(4);
-            Assert.Same(frozenObject, result);
+            var result = mock.Object.Method("hi");
+            Assert.Same(frozenString, result);
             // Teardown
         }
 

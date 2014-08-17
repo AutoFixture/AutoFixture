@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Moq;
-using Ploeh.TestTypeFoundation;
+using Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes;
 using Xunit;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
@@ -68,11 +68,11 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         {
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
-            var frozenObject = fixture.Freeze<object>();
+            var frozenString = fixture.Freeze<string>();
             // Exercise system
-            var result = fixture.Create<IInterface>();
+            var result = fixture.Create<IInterfaceWithMethod>();
             // Verify outcome
-            Assert.Equal(frozenObject, result.MakeIt(2));
+            Assert.Equal(frozenString, result.Method("hi"));
             // Teardown
         }
 
@@ -164,8 +164,8 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<StaticPropertyHolder<string>>());
-            Assert.NotEqual(frozenString, StaticPropertyHolder<string>.Property);
+            Assert.DoesNotThrow(() => fixture.Create<TypeWithStaticProperty>());
+            Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
         }
 
         [Fact]
