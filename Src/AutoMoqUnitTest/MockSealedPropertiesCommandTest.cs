@@ -11,17 +11,17 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 {
-    public class SealedPropertyInitializerTest
+    public class MockSealedPropertiesCommandTest
     {
         [Fact]
         public void SetupThrowsWhenMockIsNull()
         {
             // Fixture setup
             var context = new Mock<ISpecimenContext>();
-            var sut = new SealedPropertyInitializer();
+            var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(
-                () => sut.Setup(null, context.Object));
+                () => sut.Execute(null, context.Object));
             // Teardown
         }
 
@@ -30,10 +30,10 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         {
             // Fixture setup
             var mock = new Mock<object>();
-            var sut = new SealedPropertyInitializer();
+            var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(
-                () => sut.Setup(mock, null));
+                () => sut.Execute(mock, null));
             // Teardown
         }
 
@@ -45,9 +45,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithSealedMembers>();
 
-            var sut = new SealedPropertyInitializer();
+            var sut = new MockSealedPropertiesCommand();
             // Exercise system
-            sut.Setup(mock, new SpecimenContext(fixture));
+            sut.Execute(mock, new SpecimenContext(fixture));
             // Verify outcome
             Assert.Equal(frozenString, mock.Object.ExplicitlySealedProperty);
             Assert.Equal(frozenString, mock.Object.ImplicitlySealedProperty);
@@ -61,9 +61,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var fixture = new Fixture();
             var mock = new Mock<TypeWithGetOnlyProperty>();
 
-            var sut = new SealedPropertyInitializer();
+            var sut = new MockSealedPropertiesCommand();
             //Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
         }
 
         [Fact]
@@ -74,9 +74,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithVirtualMembers>();
 
-            var sut = new SealedPropertyInitializer();
+            var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
             Assert.NotEqual(frozenString, mock.Object.VirtualProperty);
         }
 
@@ -88,9 +88,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithPropertyWithPrivateSetter>();
 
-            var sut = new SealedPropertyInitializer();
+            var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
             Assert.NotEqual(frozenString, mock.Object.PropertyWithPrivateSetter);
         }
 
@@ -105,9 +105,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
                 .GetProperty("PrivateProperty",
                              BindingFlags.Instance | BindingFlags.NonPublic);
 
-            var sut = new SealedPropertyInitializer();
+            var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
             Assert.NotEqual(frozenString, privateProperty.GetValue(mock.Object, null));
         }
 
@@ -119,9 +119,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<IInterfaceWithProperty>();
 
-            var sut = new SealedPropertyInitializer();
+            var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
             Assert.NotEqual(frozenString, mock.Object.Property);
         }
 
@@ -133,9 +133,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<StaticPropertyHolder<string>>();
 
-            var sut = new SealedPropertyInitializer();
+            var sut = new MockSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
             Assert.NotEqual(frozenString, StaticPropertyHolder<string>.Property);
         }
     }

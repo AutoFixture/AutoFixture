@@ -9,17 +9,17 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 {
-    public class VirtualMethodInitializerTest
+    public class MockVirtualMethodsCommandTest
     {
         [Fact]
         public void SetupThrowsWhenMockIsNull()
         {
             // Fixture setup
             var context = new Mock<ISpecimenContext>();
-            var sut = new VirtualMethodInitializer();
+            var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(
-                () => sut.Setup(null, context.Object));
+                () => sut.Execute(null, context.Object));
             // Teardown
         }
 
@@ -28,10 +28,10 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         {
             // Fixture setup
             var mock = new Mock<object>();
-            var sut = new VirtualMethodInitializer();
+            var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(
-                () => sut.Setup(mock, null));
+                () => sut.Execute(mock, null));
             // Teardown
         }
 
@@ -43,9 +43,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<IInterfaceWithParameterlessMethod>();
 
-            var sut = new VirtualMethodInitializer();
+            var sut = new MockVirtualMethodsCommand();
             // Exercise system
-            sut.Setup(mock, new SpecimenContext(fixture));
+            sut.Execute(mock, new SpecimenContext(fixture));
             // Verify outcome
             var result = mock.Object.Method();
             Assert.Same(frozenString, result);
@@ -60,9 +60,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithVirtualMembers>();
 
-            var sut = new VirtualMethodInitializer();
+            var sut = new MockVirtualMethodsCommand();
             // Exercise system
-            sut.Setup(mock, new SpecimenContext(fixture));
+            sut.Execute(mock, new SpecimenContext(fixture));
             // Verify outcome
             var result = mock.Object.VirtualMethod();
             Assert.Equal(frozenString, result);
@@ -77,9 +77,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<IInterfaceWithProperty>();
 
-            var sut = new VirtualMethodInitializer();
+            var sut = new MockVirtualMethodsCommand();
             // Exercise system
-            sut.Setup(mock, new SpecimenContext(fixture));
+            sut.Execute(mock, new SpecimenContext(fixture));
             // Verify outcome
             var result = mock.Object.Property;
             Assert.Equal(frozenString, result);
@@ -94,9 +94,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenObject = fixture.Freeze<object>();
             var mock = new Mock<IInterface>();
 
-            var sut = new VirtualMethodInitializer();
+            var sut = new MockVirtualMethodsCommand();
             // Exercise system
-            sut.Setup(mock, new SpecimenContext(fixture));
+            sut.Execute(mock, new SpecimenContext(fixture));
             // Verify outcome
             var result = mock.Object.MakeIt(4);
             Assert.Same(frozenObject, result);
@@ -111,9 +111,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenInt = fixture.Freeze<int>();
             var mock = new Mock<IInterfaceWithOutMethod>();
 
-            var sut = new VirtualMethodInitializer();
+            var sut = new MockVirtualMethodsCommand();
             // Exercise system
-            sut.Setup(mock, new SpecimenContext(fixture));
+            sut.Execute(mock, new SpecimenContext(fixture));
             // Verify outcome
             int outResult;
             mock.Object.Method(out outResult);
@@ -129,9 +129,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenInt = fixture.Freeze<int>();
             var mock = new Mock<IInterfaceWithIndexer>();
 
-            var sut = new VirtualMethodInitializer();
+            var sut = new MockVirtualMethodsCommand();
             // Exercise system
-            sut.Setup(mock, new SpecimenContext(fixture));
+            sut.Execute(mock, new SpecimenContext(fixture));
             // Verify outcome
             int result = mock.Object[3];
             Assert.Equal(frozenInt, result);
@@ -145,9 +145,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var context = new Mock<ISpecimenContext>();
             var mock = new Mock<IInterfaceWithParameterlessMethod>();
 
-            var sut = new VirtualMethodInitializer();
+            var sut = new MockVirtualMethodsCommand();
             // Exercise system
-            sut.Setup(mock, context.Object);
+            sut.Execute(mock, context.Object);
             // Verify outcome
             context.Verify(ctx => ctx.Resolve(It.IsAny<object>()), Times.Never());
             mock.Object.Method();
@@ -162,9 +162,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var fixture = new Fixture();
             var mock = new Mock<IInterfaceWithRefMethod>();
 
-            var sut = new VirtualMethodInitializer();
+            var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
         }
 
         [Fact]
@@ -175,9 +175,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<TypeWithSealedMembers>();
 
-            var sut = new VirtualMethodInitializer();
+            var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
             Assert.NotEqual(frozenString, mock.Object.ImplicitlySealedMethod());
             Assert.NotEqual(frozenString, mock.Object.ExplicitlySealedMethod());
         }
@@ -189,9 +189,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var fixture = new Fixture();
             var mock = new Mock<IInterfaceWithVoidMethod>();
 
-            var sut = new VirtualMethodInitializer();
+            var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
         }
 
         [Fact]
@@ -202,9 +202,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var frozenString = fixture.Freeze<string>();
             var mock = new Mock<IInterfaceWithGenericMethod>();
 
-            var sut = new VirtualMethodInitializer();
+            var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
             Assert.NotEqual(frozenString, mock.Object.GenericMethod<string>());
         }
 
@@ -215,9 +215,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var fixture = new Fixture();
             var mock = new Mock<TypeWithStaticMethod>();
 
-            var sut = new VirtualMethodInitializer();
+            var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Setup(mock, new SpecimenContext(fixture)));
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
         }
     }
 }

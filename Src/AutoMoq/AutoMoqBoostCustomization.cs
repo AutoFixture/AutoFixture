@@ -57,8 +57,8 @@ namespace Ploeh.AutoFixture.AutoMoq
                     new MockPostprocessor(
                         new MethodInvoker(
                             new MockConstructorQuery())),
-                    new VirtualMethodInitializer(),
-                    new SealedPropertyInitializer()));
+                    new MockVirtualMethodsCommand(),
+                    new MockSealedPropertiesCommand()));
 
             fixture.ResidueCollectors.Add(Relay);
         }

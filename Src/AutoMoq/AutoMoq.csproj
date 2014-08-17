@@ -87,7 +87,6 @@
     <Compile Include="Extensions\MethodInfoBaseExtensions.cs" />
     <Compile Include="GreedyMockConstructorQuery.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="IMockInitializer.cs" />
     <Compile Include="MockConstructorMethod.cs" />
     <Compile Include="MockConstructorQuery.cs" />
     <Compile Include="MockPostprocessor.cs" />
@@ -95,8 +94,8 @@
     <Compile Include="MockSetup.cs" />
     <Compile Include="MockType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SealedPropertyInitializer.cs" />
-    <Compile Include="VirtualMethodInitializer.cs" />
+    <Compile Include="MockSealedPropertiesCommand.cs" />
+    <Compile Include="MockVirtualMethodsCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

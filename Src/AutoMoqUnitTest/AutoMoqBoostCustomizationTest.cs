@@ -71,8 +71,8 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             sut.Customize(fixture.Object);
             // Verify outcome
             var mockSetup = (MockSetup) customizations.Single(builder => builder is MockSetup);
-            Assert.True(mockSetup.Initializers.Any(init => init is VirtualMethodInitializer));
-            Assert.True(mockSetup.Initializers.Any(init => init is SealedPropertyInitializer));
+            Assert.True(mockSetup.Initializers.Any(init => init is MockVirtualMethodsCommand));
+            Assert.True(mockSetup.Initializers.Any(init => init is MockSealedPropertiesCommand));
             // Teardown
         }
 

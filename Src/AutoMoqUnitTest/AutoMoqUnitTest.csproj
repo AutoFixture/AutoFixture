@@ -82,8 +82,8 @@
     <Compile Include="MockSetupTest.cs" />
     <Compile Include="MockTypeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SealedPropertyInitializerTest.cs" />
-    <Compile Include="VirtualMethodInitializerTest.cs" />
+    <Compile Include="MockSealedPropertiesCommandTest.cs" />
+    <Compile Include="MockVirtualMethodsCommandTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

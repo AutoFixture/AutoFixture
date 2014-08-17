@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture.AutoMoq
     public class MockSetup : ISpecimenBuilder
     {
         private readonly ISpecimenBuilder builder;
-        private readonly IEnumerable<IMockInitializer> initializers;
+        private readonly IEnumerable<ISpecimenCommand> initializers;
 
         /// <summary>
         /// Creates a new instance of <see cref="MockSetup"/>.
@@ -21,7 +21,7 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// <param name="builder">The builder used to create <see cref="Mock{T}"/> instances.</param>
         /// <param name="initializers">The initializers used to setup the mock object.</param>
         [CLSCompliant(false)]
-        public MockSetup(ISpecimenBuilder builder, params IMockInitializer[] initializers)
+        public MockSetup(ISpecimenBuilder builder, params ISpecimenCommand[] initializers)
             : this(builder, initializers.AsEnumerable())
         {
 
@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// </summary>
         /// <param name="builder">The builder used to create <see cref="Mock{T}"/> instances.</param>
         /// <param name="initializers">The initializers used to setup the mock object.</param>
-        public MockSetup(ISpecimenBuilder builder, IEnumerable<IMockInitializer> initializers)
+        public MockSetup(ISpecimenBuilder builder, IEnumerable<ISpecimenCommand> initializers)
         {
             if (builder == null) throw new ArgumentNullException("builder");
             if (initializers == null) throw new ArgumentNullException("initializers");
@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// <summary>
         /// Gets the mock initializers that will be used to setup a mock.
         /// </summary>
-        public IEnumerable<IMockInitializer> Initializers
+        public IEnumerable<ISpecimenCommand> Initializers
         {
             get { return initializers; }
         }
@@ -64,12 +64,13 @@ namespace Ploeh.AutoFixture.AutoMoq
             if (specimen is NoSpecimen)
                 return specimen;
 
-            var mock = specimen as Mock;
+            if (specimen is Mock)
+            {
+                foreach (var mockInitializer in initializers)
+                    mockInitializer.Execute(specimen, context);
+            }
 
-            foreach (var mockInitializer in initializers)
-                mockInitializer.Setup(mock, context);
-
-            return mock;
+            return specimen;
         }
     }
 }

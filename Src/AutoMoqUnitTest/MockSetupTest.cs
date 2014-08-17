@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void ConstructorThrowsWhenBuilderIsNull()
         {
             // Fixture setup
-            var initializers = Enumerable.Empty<IMockInitializer>();
+            var initializers = Enumerable.Empty<ISpecimenCommand>();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() => new MockSetup(null, initializers));
         }
@@ -36,8 +36,8 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var mock = new Mock<object>();
             var context = new Mock<ISpecimenContext>();
             var builder = new Mock<ISpecimenBuilder>();
-            var initializer1 = new Mock<IMockInitializer>();
-            var initializer2 = new Mock<IMockInitializer>();
+            var initializer1 = new Mock<ISpecimenCommand>();
+            var initializer2 = new Mock<ISpecimenCommand>();
 
             builder.Setup(b => b.Create(request, context.Object))
                    .Returns(mock);
@@ -46,8 +46,8 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             sut.Create(request, context.Object);
             // Verify outcome
-            initializer1.Verify(i => i.Setup(mock, context.Object), Times.Once());
-            initializer2.Verify(i => i.Setup(mock, context.Object), Times.Once());
+            initializer1.Verify(i => i.Execute(mock, context.Object), Times.Once());
+            initializer2.Verify(i => i.Execute(mock, context.Object), Times.Once());
             // Teardown
         }
 
@@ -59,8 +59,8 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var noSpecimen = new NoSpecimen();
             var context = new Mock<ISpecimenContext>();
             var builder = new Mock<ISpecimenBuilder>();
-            var initializer1 = new Mock<IMockInitializer>();
-            var initializer2 = new Mock<IMockInitializer>();
+            var initializer1 = new Mock<ISpecimenCommand>();
+            var initializer2 = new Mock<ISpecimenCommand>();
 
             builder.Setup(b => b.Create(request, context.Object))
                    .Returns(noSpecimen);
@@ -69,8 +69,8 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             sut.Create(request, context.Object);
             // Verify outcome
-            initializer1.Verify(i => i.Setup(It.IsAny<Mock>(), context.Object), Times.Never());
-            initializer2.Verify(i => i.Setup(It.IsAny<Mock>(), context.Object), Times.Never());
+            initializer1.Verify(i => i.Execute(It.IsAny<Mock>(), context.Object), Times.Never());
+            initializer2.Verify(i => i.Execute(It.IsAny<Mock>(), context.Object), Times.Never());
             // Teardown
         }
 
@@ -85,7 +85,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             builder.Setup(b => b.Create(request, context.Object))
                    .Returns(noSpecimen);
 
-            var sut = new MockSetup(builder.Object, new IMockInitializer[] {});
+            var sut = new MockSetup(builder.Object, new ISpecimenCommand[] {});
             // Exercise system
             var result = sut.Create(request, context.Object);
             // Verify outcome
@@ -104,7 +104,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             builder.Setup(b => b.Create(request, context.Object))
                    .Returns(mock);
 
-            var sut = new MockSetup(builder.Object, new IMockInitializer[] { });
+            var sut = new MockSetup(builder.Object, new ISpecimenCommand[] { });
             // Exercise system
             var result = sut.Create(request, context.Object);
             // Verify outcome

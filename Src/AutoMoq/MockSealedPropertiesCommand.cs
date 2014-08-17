@@ -13,19 +13,22 @@ namespace Ploeh.AutoFixture.AutoMoq
     /// If the type of the object being mocked contains any non-virtual/sealed settable properties,
     /// this initializer will resolve them from a given context.
     /// </summary>
-    public class SealedPropertyInitializer : IMockInitializer
+    public class MockSealedPropertiesCommand : ISpecimenCommand
     {
         /// <summary>
         /// If the type of the object being mocked contains any non-virtual/sealed settable properties,
         /// this initializer will resolve them from a given context.
         /// </summary>
-        /// <param name="mock">The mock object.</param>
+        /// <param name="specimen">The mock object.</param>
         /// <param name="context">The context.</param>
-        [CLSCompliant(false)]
-        public void Setup(Mock mock, ISpecimenContext context)
+        public void Execute(object specimen, ISpecimenContext context)
         {
-            if (mock == null) throw new ArgumentNullException("mock");
+            if (specimen == null) throw new ArgumentNullException("specimen");
             if (context == null) throw new ArgumentNullException("context");
+
+            var mock = specimen as Mock;
+            if (mock == null)
+                return;
 
             var mockType = mock.GetType();
             var mockedType = mockType.GetMockedType();

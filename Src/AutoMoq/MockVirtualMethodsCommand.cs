@@ -26,19 +26,22 @@ namespace Ploeh.AutoFixture.AutoMoq
     /// - Due to a limitation in Moq, methods with "ref" parameters are skipped.
     /// - Automatic mocking of generic methods isn't feasible either - we'd have to antecipate any type parameters that this method could be called with. 
     /// </remarks>
-    public class VirtualMethodInitializer : IMockInitializer
+    public class MockVirtualMethodsCommand : ISpecimenCommand
     {
         /// <summary>
         /// Sets up a mocked object's methods so that the return values will be retrieved from a fixture,
         /// instead of being created directly by Moq.
         /// </summary>
-        /// <param name="mock">The mock to setup.</param>
+        /// <param name="specimen">The mock to setup.</param>
         /// <param name="context">The context of the mock.</param>
-        [CLSCompliant(false)]
-        public void Setup(Mock mock, ISpecimenContext context)
+        public void Execute(object specimen, ISpecimenContext context)
         {
-            if (mock == null) throw new ArgumentNullException("mock");
+            if (specimen == null) throw new ArgumentNullException("mock");
             if (context == null) throw new ArgumentNullException("context");
+
+            var mock = specimen as Mock;
+            if (mock == null)
+                return;
 
             var mockType = mock.GetType();
             var mockedType = mockType.GetMockedType();
