@@ -167,7 +167,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<TypeWithStaticMethod>());
+            Assert.DoesNotThrow(() => fixture.Create<Mock<TypeWithStaticMethod>>());
         }
 
         [Fact]
@@ -177,7 +177,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<TypeWithStaticProperty>());
+            Assert.DoesNotThrow(() => fixture.Create<Mock<TypeWithStaticProperty>>());
             Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
         }
 
