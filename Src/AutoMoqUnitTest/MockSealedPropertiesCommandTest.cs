@@ -55,6 +55,22 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void IgnoresFields()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var mock = new Mock<TypeWithPublicField>();
+
+            var sut = new MockSealedPropertiesCommand();
+            // Exercise system
+            sut.Execute(mock, new SpecimenContext(fixture));
+            // Verify outcome
+            Assert.NotEqual(frozenString, mock.Object.Field);
+            // Teardown
+        }
+
+        [Fact]
         public void IgnoresGetOnlyProperties()
         {
             // Fixture setup

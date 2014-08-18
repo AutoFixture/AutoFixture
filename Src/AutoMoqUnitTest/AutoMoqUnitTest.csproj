@@ -96,6 +96,7 @@
     <Compile Include="TestTypes\TypeWithIndexer.cs" />
     <Compile Include="TestTypes\TypeWithPrivateProperty.cs" />
     <Compile Include="TestTypes\TypeWithPropertyWithPrivateSetter.cs" />
+    <Compile Include="TestTypes\TypeWithPublicField.cs" />
     <Compile Include="TestTypes\TypeWithSealedMembers.cs" />
     <Compile Include="TestTypes\TypeWithStaticMethod.cs" />
     <Compile Include="TestTypes\TypeWithStaticProperty.cs" />

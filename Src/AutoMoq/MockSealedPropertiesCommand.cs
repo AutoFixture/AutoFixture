@@ -15,6 +15,9 @@ namespace Ploeh.AutoFixture.AutoMoq
     /// </summary>
     public class MockSealedPropertiesCommand : ISpecimenCommand
     {
+        private readonly ISpecimenCommand autoPropertiesCommand =
+            new AutoPropertiesCommand(new SealedPropertySpecification());
+
         /// <summary>
         /// If the type of the object being mocked contains any non-virtual/sealed settable properties,
         /// this initializer will resolve them from a given context.
@@ -30,20 +33,21 @@ namespace Ploeh.AutoFixture.AutoMoq
             if (mock == null)
                 return;
 
-            var mockType = mock.GetType();
-            var mockedType = mockType.GetMockedType();
-            var mockedObject = mock.Object;
+            autoPropertiesCommand.Execute(mock.Object, context);
+        }
 
-            var properties = mockedType.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                                       .Where(p => p.GetIndexParameters().Length == 0 && //check that this is not an indexer
-                                                   p.CanWrite && //check if property has set accessor
-                                                   p.GetSetMethod() != null && //check if the set accessor is public
-                                                   p.GetSetMethod().IsSealed());
-
-            foreach (var property in properties)
+        private class SealedPropertySpecification : IRequestSpecification
+        {
+            /// <summary>
+            /// Satisfied by any non-virtual/sealed properties.
+            /// </summary>
+            public bool IsSatisfiedBy(object request)
             {
-                var value = context.Resolve(property.PropertyType);
-                property.SetValue(mockedObject, value, null);
+                var pi = request as PropertyInfo;
+                if (pi != null)
+                    return pi.GetSetMethod().IsSealed();
+
+                return false;
             }
         }
     }
