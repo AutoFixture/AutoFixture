@@ -225,5 +225,18 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
             Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
         }
+
+        [Fact]
+        public void IgnoresNonMockSpecimens()
+        {
+            // Fixture setup
+            // The context mock has a strict behaviour - if any of its members are invoked, an exception will be thrown
+            var context = new Mock<ISpecimenContext>(MockBehavior.Strict);
+            var specimen = new TypeWithSealedMembers();
+
+            var sut = new MockSealedPropertiesCommand();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Execute(specimen, context.Object));
+        }
     }
 }
