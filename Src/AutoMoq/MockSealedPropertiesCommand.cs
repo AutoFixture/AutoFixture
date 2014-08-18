@@ -10,16 +10,16 @@ using Ploeh.AutoFixture.Kernel;
 namespace Ploeh.AutoFixture.AutoMoq
 {
     /// <summary>
-    /// If the type of the object being mocked contains any non-virtual/sealed settable properties,
+    /// If the type of the object being mocked contains any fields and/or non-virtual/sealed settable properties,
     /// this initializer will resolve them from a given context.
     /// </summary>
     public class MockSealedPropertiesCommand : ISpecimenCommand
     {
         private readonly ISpecimenCommand autoPropertiesCommand =
-            new AutoPropertiesCommand(new SealedPropertySpecification());
+            new AutoPropertiesCommand(new MockSealedPropertySpecification());
 
         /// <summary>
-        /// If the type of the object being mocked contains any non-virtual/sealed settable properties,
+        /// If the type of the object being mocked contains any fields and/or non-virtual/sealed settable properties,
         /// this initializer will resolve them from a given context.
         /// </summary>
         /// <param name="specimen">The mock object.</param>
@@ -36,18 +36,32 @@ namespace Ploeh.AutoFixture.AutoMoq
             autoPropertiesCommand.Execute(mock.Object, context);
         }
 
-        private class SealedPropertySpecification : IRequestSpecification
+        private class MockSealedPropertySpecification : IRequestSpecification
         {
             /// <summary>
-            /// Satisfied by any non-virtual/sealed properties.
+            /// Satisfied by any fields and non-virtual/sealed properties.
             /// </summary>
             public bool IsSatisfiedBy(object request)
             {
+                //exclude non-sealed properties
                 var pi = request as PropertyInfo;
                 if (pi != null)
                     return pi.GetSetMethod().IsSealed();
 
+                //exclude interceptor fields
+                var fi = request as FieldInfo;
+                if (fi != null)
+                    return !IsDynamicProxyMember(fi);
+
                 return false;
+            }
+
+            /// <summary>
+            /// Checks whether a <see cref="FieldInfo"/> belongs to a dynamic proxy.
+            /// </summary>
+            private bool IsDynamicProxyMember(FieldInfo fi)
+            {
+                return fi.Name == "__interceptors";
             }
         }
     }

@@ -106,6 +106,19 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void FieldsAreSetUsingFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system
+            var result = fixture.Create<Mock<TypeWithPublicField>>();
+            // Verify outcome
+            Assert.Equal(frozenString, result.Object.Field);
+            // Teardown
+        }
+
+        [Fact]
         public void SealedMethodsAreIgnored()
         {
             // Fixture setup
@@ -166,6 +179,54 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => fixture.Create<TypeWithStaticProperty>());
             Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
+        }
+
+        [Fact]
+        public void PrivateFieldsAreIgnored()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system and verify outcome
+            Mock<TypeWithPrivateField> result = null;
+            Assert.DoesNotThrow(() => result = fixture.Create<Mock<TypeWithPrivateField>>());
+
+            Assert.NotEqual(frozenString, result.Object.GetPrivateField());
+        }
+
+        [Fact]
+        public void ReadonlyFieldsAreIgnored()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system and verify outcome
+            Mock<TypeWithReadonlyField> result = null;
+            Assert.DoesNotThrow(() => result = fixture.Create<Mock<TypeWithReadonlyField>>());
+
+            Assert.NotEqual(frozenString, result.Object.ReadonlyField);
+        }
+
+        [Fact]
+        public void LiteralFieldsAreIgnored()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => fixture.Create<Mock<TypeWithConstField>>());
+            Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
+        }
+
+        [Fact]
+        public void StaticFieldsAreIgnored()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => fixture.Create<Mock<TypeWithStaticField>>());
+            Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
         }
 
         [Fact]

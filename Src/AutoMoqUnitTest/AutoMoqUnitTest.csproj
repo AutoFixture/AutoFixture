@@ -92,12 +92,16 @@
     <Compile Include="TestTypes\IInterfaceWithProperty.cs" />
     <Compile Include="TestTypes\IInterfaceWithRefMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithVoidMethod.cs" />
+    <Compile Include="TestTypes\TypeWithConstField.cs" />
     <Compile Include="TestTypes\TypeWithGetOnlyProperty.cs" />
     <Compile Include="TestTypes\TypeWithIndexer.cs" />
+    <Compile Include="TestTypes\TypeWithPrivateField.cs" />
     <Compile Include="TestTypes\TypeWithPrivateProperty.cs" />
     <Compile Include="TestTypes\TypeWithPropertyWithPrivateSetter.cs" />
     <Compile Include="TestTypes\TypeWithPublicField.cs" />
+    <Compile Include="TestTypes\TypeWithReadonlyField.cs" />
     <Compile Include="TestTypes\TypeWithSealedMembers.cs" />
+    <Compile Include="TestTypes\TypeWithStaticField.cs" />
     <Compile Include="TestTypes\TypeWithStaticMethod.cs" />
     <Compile Include="TestTypes\TypeWithStaticProperty.cs" />
     <Compile Include="TestTypes\TypeWithVirtualMembers.cs" />

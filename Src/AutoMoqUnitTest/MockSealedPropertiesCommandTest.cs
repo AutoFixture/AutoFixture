@@ -55,8 +55,9 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
-        public void IgnoresFields()
+        public void InitializesPublicFields()
         {
+
             // Fixture setup
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
@@ -66,7 +67,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             sut.Execute(mock, new SpecimenContext(fixture));
             // Verify outcome
-            Assert.NotEqual(frozenString, mock.Object.Field);
+            Assert.Equal(frozenString, mock.Object.Field);
             // Teardown
         }
 
@@ -167,6 +168,62 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
             Assert.NotEqual(frozenInt, mock.Object[2]);
+        }
+
+        [Fact]
+        public void IgnoresPrivateFields()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var mock = new Mock<TypeWithPrivateField>();
+
+            var sut = new MockSealedPropertiesCommand();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.NotEqual(frozenString, mock.Object.GetPrivateField());
+        }
+
+        [Fact]
+        public void IgnoresReadonlyFields()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var mock = new Mock<TypeWithReadonlyField>();
+
+            var sut = new MockSealedPropertiesCommand();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.NotEqual(frozenString, mock.Object.ReadonlyField);
+        }
+
+        [Fact]
+        public void IgnoresLiteralFields()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var mock = new Mock<TypeWithConstField>();
+
+            var sut = new MockSealedPropertiesCommand();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
+        }
+
+        [Fact]
+        public void IgnoresStaticFields()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var mock = new Mock<TypeWithStaticField>();
+
+            var sut = new MockSealedPropertiesCommand();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Execute(mock, new SpecimenContext(fixture)));
+            Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
         }
     }
 }
