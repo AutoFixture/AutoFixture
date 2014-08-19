@@ -91,7 +91,6 @@
     <Compile Include="MockConstructorQuery.cs" />
     <Compile Include="MockPostprocessor.cs" />
     <Compile Include="MockRelay.cs" />
-    <Compile Include="MockSetup.cs" />
     <Compile Include="MockType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MockSealedPropertiesCommand.cs" />

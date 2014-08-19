@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
-        public void CustomizeAddsMockSetupToCustomizations()
+        public void CustomizeAddsPostprocessorToCustomizations()
         {
             // Fixture setup
             var customizations = new List<ISpecimenBuilder>();
@@ -53,12 +53,12 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             sut.Customize(fixture.Object);
             // Verify outcome
-            Assert.True(customizations.Any(builder => builder is MockSetup));
+            Assert.True(customizations.Any(builder => builder is Postprocessor));
             // Teardown
         }
 
         [Fact]
-        public void CustomizeAddsInitializersToMockSetup()
+        public void CustomizeAddsMockCommandsToPostprocessor()
         {
             // Fixture setup
             var customizations = new List<ISpecimenBuilder>();
@@ -70,9 +70,11 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             sut.Customize(fixture.Object);
             // Verify outcome
-            var mockSetup = (MockSetup) customizations.Single(builder => builder is MockSetup);
-            Assert.True(mockSetup.Initializers.Any(init => init is MockVirtualMethodsCommand));
-            Assert.True(mockSetup.Initializers.Any(init => init is MockSealedPropertiesCommand));
+            var postprocessor = (Postprocessor) customizations.Single(builder => builder is Postprocessor);
+            var compositeCommand = (CompositeSpecimenCommand) postprocessor.Command;
+
+            Assert.True(compositeCommand.Commands.Any(init => init is MockVirtualMethodsCommand));
+            Assert.True(compositeCommand.Commands.Any(init => init is MockSealedPropertiesCommand));
             // Teardown
         }
 

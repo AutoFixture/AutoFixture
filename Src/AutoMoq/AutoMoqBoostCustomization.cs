@@ -53,12 +53,13 @@ namespace Ploeh.AutoFixture.AutoMoq
             if (fixture == null) throw new ArgumentNullException("fixture");
 
             fixture.Customizations.Add(
-                new MockSetup(
-                    new MockPostprocessor(
-                        new MethodInvoker(
-                            new MockConstructorQuery())),
-                    new MockVirtualMethodsCommand(),
-                    new MockSealedPropertiesCommand()));
+                new Postprocessor(
+                    builder: new MockPostprocessor(
+                                new MethodInvoker(
+                                    new MockConstructorQuery())),
+                    command: new CompositeSpecimenCommand(
+                                new MockVirtualMethodsCommand(),
+                                new MockSealedPropertiesCommand())));
 
             fixture.ResidueCollectors.Add(Relay);
         }
