@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             /// <summary>
             /// Checks whether a <see cref="FieldInfo"/> belongs to a dynamic proxy.
             /// </summary>
-            private bool IsDynamicProxyMember(FieldInfo fi)
+            private static bool IsDynamicProxyMember(FieldInfo fi)
             {
                 return fi.Name == "__interceptors";
             }
