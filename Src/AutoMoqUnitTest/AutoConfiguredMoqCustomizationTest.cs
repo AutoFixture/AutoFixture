@@ -8,20 +8,20 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 {
-    public class AutoMoqBoostCustomizationTest
+    public class AutoConfiguredMoqCustomizationTest
     {
         [Fact]
         public void CtorThrowsWhenRelayIsNull()
         {
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => new AutoMoqBoostCustomization(null));
+            Assert.Throws<ArgumentNullException>(() => new AutoConfiguredMoqCustomization(null));
         }
 
         [Fact]
         public void RelayIsMockRelayByDefault()
         {
             // Fixture setup
-            var sut = new AutoMoqBoostCustomization();
+            var sut = new AutoConfiguredMoqCustomization();
             // Exercise system 
             var relay = sut.Relay;
             // Verify outcome
@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void CustomizeThrowsWhenFixtureIsNull()
         {
             // Fixture setup
-            var sut = new AutoMoqBoostCustomization();
+            var sut = new AutoConfiguredMoqCustomization();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(
                 () => sut.Customize(null));
@@ -49,7 +49,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             fixture.Setup(f => f.Customizations)
                    .Returns(customizations);
 
-            var sut = new AutoMoqBoostCustomization();
+            var sut = new AutoConfiguredMoqCustomization();
             // Exercise system
             sut.Customize(fixture.Object);
             // Verify outcome
@@ -66,7 +66,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             fixture.Setup(f => f.Customizations)
                    .Returns(customizations);
 
-            var sut = new AutoMoqBoostCustomization();
+            var sut = new AutoConfiguredMoqCustomization();
             // Exercise system
             sut.Customize(fixture.Object);
             // Verify outcome
@@ -88,7 +88,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             fixture.Setup(f => f.ResidueCollectors)
                    .Returns(collectors);
 
-            var sut = new AutoMoqBoostCustomization(relay.Object);
+            var sut = new AutoConfiguredMoqCustomization(relay.Object);
             // Exercise system
             sut.Customize(fixture.Object);
             // Verify outcome

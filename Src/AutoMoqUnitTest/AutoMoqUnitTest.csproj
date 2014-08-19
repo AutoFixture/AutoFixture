@@ -70,9 +70,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoMoqBoostCustomizationTest.cs" />
+    <Compile Include="AutoConfiguredMoqCustomizationTest.cs" />
     <Compile Include="AutoMoqCustomizationTest.cs" />
-    <Compile Include="FixtureIntegrationWithAutoMoqBoostCustomizationTest.cs" />
+    <Compile Include="FixtureIntegrationWithAutoConfiguredMoqCustomizationTest.cs" />
     <Compile Include="GreedyMockConstructorQueryTest.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="FixtureIntegrationWithAutoMoqCustomizationTest.cs" />

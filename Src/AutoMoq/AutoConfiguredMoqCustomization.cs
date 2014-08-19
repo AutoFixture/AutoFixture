@@ -10,24 +10,24 @@ namespace Ploeh.AutoFixture.AutoMoq
     /// Enables auto-mocking and auto-setup with Moq.
     /// Members of a mock will be automatically setup to retrieve the return values from a fixture.
     /// </summary>
-    public class AutoMoqBoostCustomization : ICustomization
+    public class AutoConfiguredMoqCustomization : ICustomization
     {
         private readonly ISpecimenBuilder relay;
 
         /// <summary>
-        /// Creates a new instance of <see cref="AutoMoqBoostCustomization"/>.
+        /// Creates a new instance of <see cref="AutoConfiguredMoqCustomization"/>.
         /// </summary>
-        public AutoMoqBoostCustomization()
+        public AutoConfiguredMoqCustomization()
             : this(new MockRelay())
         {
 
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="AutoMoqBoostCustomization"/>.
+        /// Creates a new instance of <see cref="AutoConfiguredMoqCustomization"/>.
         /// </summary>
         /// <param name="relay">A mock relay to be added to <see cref="IFixture.ResidueCollectors"/></param>
-        public AutoMoqBoostCustomization(ISpecimenBuilder relay)
+        public AutoConfiguredMoqCustomization(ISpecimenBuilder relay)
         {
             if (relay == null)
                 throw new ArgumentNullException("relay");

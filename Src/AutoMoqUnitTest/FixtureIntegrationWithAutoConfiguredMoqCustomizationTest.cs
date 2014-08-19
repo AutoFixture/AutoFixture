@@ -8,13 +8,13 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 {
-    public class FixtureIntegrationWithAutoMoqBoostCustomizationTest
+    public class FixtureIntegrationWithAutoConfiguredMoqCustomizationTest
     {
         [Fact]
         public void ParameterlessMethodsReturnValueFromFixture()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system
             var result = fixture.Create<IInterfaceWithParameterlessMethod>();
@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void PropertiesReturnValueFromFixture()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system
             var result = fixture.Create<IInterfaceWithProperty>();
@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void IndexersReturnValueFromFixture()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenInt = fixture.Freeze<int>();
             // Exercise system
             var result = fixture.Create<IInterfaceWithIndexer>();
@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void VirtualMembersReturnValueFromFixture()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system
             var result = fixture.Create<Mock<TypeWithVirtualMembers>>();
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void MethodsWithParametersReturnValuesFromFixture()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system
             var result = fixture.Create<IInterfaceWithMethod>();
@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void MethodsWithOutParametersReturnValuesFromFixture()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenInt = fixture.Freeze<int>();
             // Exercise system
             var result = fixture.Create<IInterfaceWithOutMethod>();
@@ -95,7 +95,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void SealedSettablePropertiesAreSetUsingFixture()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system
             var result = fixture.Create<Mock<TypeWithSealedMembers>>();
@@ -109,7 +109,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void FieldsAreSetUsingFixture()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system
             var result = fixture.Create<Mock<TypeWithPublicField>>();
@@ -122,7 +122,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void SealedMethodsAreIgnored()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
             Mock<TypeWithSealedMembers> result = null;
@@ -135,7 +135,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void RefMethodsAreIgnored()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
             IInterfaceWithRefMethod result = null;
@@ -151,7 +151,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void GenericMethodsAreIgnored()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
             IInterfaceWithGenericMethod result = null;
@@ -164,7 +164,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void StaticMethodsAreIgnored()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => fixture.Create<Mock<TypeWithStaticMethod>>());
@@ -174,7 +174,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void StaticPropertiesAreIgnored()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => fixture.Create<Mock<TypeWithStaticProperty>>());
@@ -185,7 +185,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void PrivateFieldsAreIgnored()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
             Mock<TypeWithPrivateField> result = null;
@@ -198,7 +198,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void ReadonlyFieldsAreIgnored()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
             Mock<TypeWithReadonlyField> result = null;
@@ -211,7 +211,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void LiteralFieldsAreIgnored()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => fixture.Create<Mock<TypeWithConstField>>());
@@ -222,7 +222,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void StaticFieldsAreIgnored()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => fixture.Create<Mock<TypeWithStaticField>>());
@@ -233,7 +233,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public void CircularDependenciesAreAllowed()
         {
             // Fixture setup
-            var fixture = new Fixture().Customize(new AutoMoqBoostCustomization());
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => fixture.Create<IComponent>());
         }
