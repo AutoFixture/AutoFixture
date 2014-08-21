@@ -147,11 +147,6 @@ namespace Ploeh.AutoFixture.Dsl
                                                        select c.Without(propertyPicker));
         }
 
-        public IMatchComposer<T> Match()
-        {
-            return null;
-        }
-
         /// <summary>Creates a new specimen based on a request.</summary>
         /// <param name="request">
         /// The request that describes what to create.

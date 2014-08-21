@@ -97,11 +97,6 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             return this.OnCreate(request, context);
         }
 
-        public IMatchComposer<T> Match()
-        {
-            return this.OnMatch();
-        }
-
         internal Func<Func<T, T>, IPostprocessComposer<T>> OnFromSeed { get; set; }
         internal Func<ISpecimenBuilder, IPostprocessComposer<T>> OnFromBuilder { get; set; }
         internal Func<Func<T>, IPostprocessComposer<T>> OnFromFactory { get; set; }

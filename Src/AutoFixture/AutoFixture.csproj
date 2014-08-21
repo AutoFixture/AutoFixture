@@ -111,6 +111,7 @@
     <Compile Include="Kernel\FieldNameSpecification.cs" />
     <Compile Include="Dsl\IMatchComposer.cs" />
     <Compile Include="Dsl\MatchComposer.cs" />
+    <Compile Include="Dsl\PostprocessComposer.cs" />
     <Compile Include="MapCreateManyToEnumerable.cs" />
     <Compile Include="Kernel\MultipleToEnumerableRelay.cs" />
     <Compile Include="Kernel\NoConstructorsSpecification.cs" />

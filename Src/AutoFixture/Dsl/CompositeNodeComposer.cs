@@ -385,11 +385,6 @@ namespace Ploeh.AutoFixture.Dsl
                 when: n => n is NodeComposer<T>);
         }
 
-        public IMatchComposer<T> Match()
-        {
-            return null;
-        }
-
         /// <summary>Composes the supplied builders.</summary>
         /// <param name="builders">The builders to compose.</param>
         /// <returns>

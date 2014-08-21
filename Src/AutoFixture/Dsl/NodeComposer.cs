@@ -426,12 +426,6 @@ namespace Ploeh.AutoFixture.Dsl
                 when: n => n is NodeComposer<T>);
         }
 
-        public IMatchComposer<T> Match()
-        {
-            var container = (FilteringSpecimenBuilder)FindContainer(this);
-            return new MatchComposer<T>(container.Builder);
-        }
-
         /// <summary>
         /// Controls whether auto-properties will be enabled or not.
         /// </summary>
