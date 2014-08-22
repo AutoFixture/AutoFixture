@@ -8,7 +8,13 @@ namespace Ploeh.AutoFixture.Dsl
         public static IMatchComposer<T> Match<T>(
             this IPostprocessComposer<T> composer)
         {
-            var graph = (ISpecimenBuilderNode)composer;
+            var graph = composer as ISpecimenBuilderNode;
+
+            if (graph == null)
+            {
+                return new NullMatchComposer<T>();
+            }
+
             var container = graph
                 .SelectNodes(n => n is FilteringSpecimenBuilder)
                 .Cast<FilteringSpecimenBuilder>()
