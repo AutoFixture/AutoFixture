@@ -98,7 +98,7 @@
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
     <Compile Include="Kernel\CompositeSpecimenCommand.cs" />
-
+    <Compile Include="Kernel\ImplementedInterfaceSpecification.cs" />
     <Compile Include="NoDataAnnotationsCustomization.cs" />
     <Compile Include="Kernel\IRecursionHandler.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelay.cs" />

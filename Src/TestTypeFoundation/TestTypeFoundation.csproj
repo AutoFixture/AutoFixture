@@ -95,6 +95,7 @@
     <Compile Include="ItemContainer.cs" />
     <Compile Include="ItemHolder.cs" />
     <Compile Include="MultiUnorderedConstructorType.cs" />
+    <Compile Include="NoopInterfaceImplementer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyHolder.cs" />
     <Compile Include="QuadrupleParameterType.cs" />
