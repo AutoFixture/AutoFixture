@@ -5,10 +5,12 @@ namespace Ploeh.AutoFixture.Kernel
     public class FieldNameSpecification : IRequestSpecification
     {
         private readonly string fieldName;
+        private FieldInfo requestedField;
 
         public FieldNameSpecification(string fieldName)
         {
             Require.IsNotNull(fieldName, "fieldName");
+
             this.fieldName = fieldName;
         }
 
@@ -22,17 +24,18 @@ namespace Ploeh.AutoFixture.Kernel
             Require.IsNotNull(request, "request");
 
             return IsRequestForField(request) &&
-                   FieldHasSpecifiedName(request);
+                   FieldHasSpecifiedName();
         }
 
-        private static bool IsRequestForField(object request)
+        private bool IsRequestForField(object request)
         {
-            return request is FieldInfo;
+            this.requestedField = request as FieldInfo;
+            return this.requestedField != null;
         }
 
-        private bool FieldHasSpecifiedName(object request)
+        private bool FieldHasSpecifiedName()
         {
-            return ((FieldInfo)request).Name == this.fieldName;
+            return this.requestedField.Name == this.fieldName;
         }
     }
 }

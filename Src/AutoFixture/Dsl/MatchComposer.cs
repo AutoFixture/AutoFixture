@@ -19,12 +19,6 @@ namespace Ploeh.AutoFixture.Dsl
             get { return builder; }
         }
 
-        public object Create(object request, ISpecimenContext context)
-        {
-            return new FilteringSpecimenBuilder(this.builder, this.matcher)
-                   .Create(request, context);
-        }
-
         public IMatchComposer<T> Or
         {
             get
@@ -36,43 +30,49 @@ namespace Ploeh.AutoFixture.Dsl
 
         public IMatchComposer<T> ByBaseType()
         {
-            this.matcher = AddCondition(new BaseTypeSpecification(typeof(T)));
+            AddCondition(new BaseTypeSpecification(typeof(T)));
             return this;
         }
 
         public IMatchComposer<T> ByInterfaces()
         {
-            this.matcher = AddCondition(new ImplementedInterfaceSpecification(typeof(T)));
+            AddCondition(new ImplementedInterfaceSpecification(typeof(T)));
             return this;
         }
 
         public IMatchComposer<T> ByExactType()
         {
-            this.matcher = AddCondition(new ExactTypeSpecification(typeof(T)));
+            AddCondition(new ExactTypeSpecification(typeof(T)));
             return this;
         }
 
         public IMatchComposer<T> ByParameterName(string name)
         {
-            this.matcher = AddCondition(new ParameterNameSpecification(name));
+            AddCondition(new ParameterNameSpecification(name));
             return this;
         }
 
         public IMatchComposer<T> ByPropertyName(string name)
         {
-            this.matcher = AddCondition(new PropertyNameSpecification(name));
+            AddCondition(new PropertyNameSpecification(name));
             return this;
         }
 
         public IMatchComposer<T> ByFieldName(string name)
         {
-            this.matcher = AddCondition(new FieldNameSpecification(name));
+            AddCondition(new FieldNameSpecification(name));
             return this;
         }
 
-        private IRequestSpecification AddCondition(IRequestSpecification condition)
+        public object Create(object request, ISpecimenContext context)
         {
-            return this.orExpression
+            var filter = new FilteringSpecimenBuilder(this.builder, this.matcher);
+            return filter.Create(request, context);
+        }
+
+        private void AddCondition(IRequestSpecification condition)
+        {
+            this.matcher = this.orExpression
                 ? new OrRequestSpecification(this.matcher, condition)
                 : condition;
         }

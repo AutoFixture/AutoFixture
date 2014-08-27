@@ -5,6 +5,7 @@ namespace Ploeh.AutoFixture.Kernel
     public class PropertyNameSpecification : IRequestSpecification
     {
         private readonly string propertyName;
+        private PropertyInfo requestedProperty;
 
         public PropertyNameSpecification(string propertyName)
         {
@@ -22,9 +23,19 @@ namespace Ploeh.AutoFixture.Kernel
         {
             Require.IsNotNull(request, "request");
 
-            var requestedProperty = request as PropertyInfo;
-            return requestedProperty != null &&
-                   requestedProperty.Name == this.propertyName;
+            return IsRequestForProperty(request) &&
+                   PropertyHasSpecifiedName();
+        }
+
+        private bool IsRequestForProperty(object request)
+        {
+            this.requestedProperty = request as PropertyInfo;
+            return requestedProperty != null;
+        }
+
+        private bool PropertyHasSpecifiedName()
+        {
+            return this.requestedProperty.Name == this.propertyName;
         }
     }
 }

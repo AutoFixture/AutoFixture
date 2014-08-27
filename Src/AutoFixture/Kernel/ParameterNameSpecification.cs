@@ -5,10 +5,12 @@ namespace Ploeh.AutoFixture.Kernel
     public class ParameterNameSpecification : IRequestSpecification
     {
         private readonly string parameterName;
+        private ParameterInfo requestedParameter;
 
         public ParameterNameSpecification(string parameterName)
         {
             Require.IsNotNull(parameterName, "parameterName");
+
             this.parameterName = parameterName;
         }
 
@@ -22,17 +24,18 @@ namespace Ploeh.AutoFixture.Kernel
             Require.IsNotNull(request, "request");
 
             return IsRequestForParameter(request) &&
-                   ParameterHasSpecifiedName(request);
+                   ParameterHasSpecifiedName();
         }
 
-        private static bool IsRequestForParameter(object request)
+        private bool IsRequestForParameter(object request)
         {
-            return request is ParameterInfo;
+            this.requestedParameter = request as ParameterInfo;
+            return this.requestedParameter != null;
         }
 
-        private bool ParameterHasSpecifiedName(object request)
+        private bool ParameterHasSpecifiedName()
         {
-            return ((ParameterInfo)request).Name == this.parameterName;
+            return this.requestedParameter.Name == this.parameterName;
         }
     }
 }
