@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using NSubstitute.Core;
 using NSubstitute.Exceptions;
 using Ploeh.AutoFixture.AutoNSubstitute.Extensions;
@@ -11,7 +8,7 @@ using Ploeh.AutoFixture.Kernel;
 namespace Ploeh.AutoFixture.AutoNSubstitute
 {
     /// <summary>
-    /// If the type of the object being mocked contains any fields and/or non-virtual/sealed settable properties,
+    /// If the type of the object being substituted contains any fields and/or non-virtual/sealed settable properties,
     /// this initializer will resolve them from a given context.
     /// </summary>
     public class NSubstituteSealedPropertiesCommand : ISpecimenCommand
@@ -20,10 +17,10 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             new AutoPropertiesCommand(new NSubstituteSealedPropertySpecification());
 
         /// <summary>
-        /// If the type of the object being mocked contains any fields and/or non-virtual/sealed settable properties,
+        /// If the type of the object being substituted contains any fields and/or non-virtual/sealed settable properties,
         /// this initializer will resolve them from a given context.
         /// </summary>
-        /// <param name="specimen">The mock object.</param>
+        /// <param name="specimen">The substitute object.</param>
         /// <param name="context">The context.</param>
         public void Execute(object specimen, ISpecimenContext context)
         {

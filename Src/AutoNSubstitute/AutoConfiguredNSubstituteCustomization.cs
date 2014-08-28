@@ -3,19 +3,22 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute
 {
-    /// <summary>Enables auto-mocking with NSubstitute.</summary>
+    /// <summary>
+    /// Enables auto-mocking and auto-setup with NSubstitute.
+    /// Members of a substitute will be automatically setup to retrieve the return values from a fixture.
+    /// </summary>
     public class AutoConfiguredNSubstituteCustomization : ICustomization
     {
         private readonly ISpecimenBuilder builder;
 
-        /// <summary>Initializes a new instance of the <see cref="AutoNSubstituteCustomization"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="AutoConfiguredNSubstituteCustomization"/> class.</summary>
         /// <remarks>Uses a new instance of <see cref="NSubstituteBuilder"/> as the builder.</remarks>
         public AutoConfiguredNSubstituteCustomization()
             : this(new NSubstituteBuilder(new MethodInvoker(new NSubstituteMethodQuery())))
         {
         }
 
-        /// <summary>Initializes a new instance of the <see cref="AutoNSubstituteCustomization"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="AutoConfiguredNSubstituteCustomization"/> class.</summary>
         /// <param name="builder">The builder to use to create specimens for this customization.</param>
         public AutoConfiguredNSubstituteCustomization(ISpecimenBuilder builder)
         {
@@ -26,7 +29,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         }
 
         /// <summary>Gets the builder that will be added to <see cref="IFixture.ResidueCollectors"/> when <see cref="Customize"/> is invoked.</summary>
-        /// <seealso cref="AutoNSubstituteCustomization(ISpecimenBuilder)"/>
+        /// <seealso cref="AutoConfiguredNSubstituteCustomization(ISpecimenBuilder)"/>
         public ISpecimenBuilder Builder
         {
             get { return builder; }
