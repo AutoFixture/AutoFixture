@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoConfiguredNSubstituteCustomization.cs" />
     <Compile Include="AutoNSubstituteCustomization.cs" />
     <Compile Include="NSubstituteSealedPropertiesCommand.cs" />
     <Compile Include="Extensions\MethodInfoExtensions.cs" />

@@ -30,7 +30,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     public class NSubstituteVirtualMethodsCommand : ISpecimenCommand
     {
         private static readonly MethodInfo ReturnsUsingContextMethodInfo = typeof(SubstituteValueFactory).GetMethod("ReturnsUsingContext");
-        private static readonly MethodInfo ReturnsUsingFixedValueMethodInfo = typeof(SubstituteValueFactory).GetMethod("ReturnsUsingFixedValue");
         private static readonly MethodInfo[] ObjectMethods = typeof(object).GetMethods();
 
         /// <summary>
@@ -100,22 +99,36 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             public void ReturnsUsingContext<T>(MethodInfo methodInfo)
             {
+                bool recursive = false;
                 InvokeMethod(methodInfo);
-                default(T).ReturnsForAnyArgs<T>(callInfo => (T)Context.Resolve(typeof(T)));
-            }
-
-            public void ReturnsUsingFixedValue<T>(MethodInfo methodInfo, CallInfo callInfo)
-            {
-                var refValues = GetFixedRefValues(methodInfo);
-
-                var value = ((T)InvokeMethod(methodInfo, callInfo.Args()));
-                value.Returns<T>(x =>
+                default(T).ReturnsForAnyArgs<T>(callInfo =>
                 {
-                    foreach (var refValue in refValues)
-                        x[refValue.Item1] = refValue.Item2;
+                    if (recursive)
+                        return default(T);
+
+                    recursive = true;
+                    var value = ReturnsFixedValue<T>(methodInfo, callInfo);
+                    InvokeMethod(methodInfo, callInfo.Args());
+                    recursive = false;
 
                     return value;
                 });
+            }
+
+            private T ReturnsFixedValue<T>(MethodInfo methodInfo, CallInfo callInfo)
+            {
+                var value = (T) Context.Resolve(typeof (T));
+                var refValues = GetFixedRefValues(methodInfo);
+
+                InvokeMethod(methodInfo, callInfo.Args());
+                value.Returns<T>(x =>
+                {
+                    foreach (var refValue in refValues)
+                        callInfo[refValue.Item1] = x[refValue.Item1] = refValue.Item2;
+
+                    return value;
+                });
+                return value;
             }
 
             private IEnumerable<Tuple<int, object>> GetFixedRefValues(MethodInfo methodInfo)
@@ -127,8 +140,18 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             public void Setup(MethodInfo methodInfo)
             {
-                SetupReturnValueFactory(methodInfo);
-                
+                SetupReturnValue(methodInfo);
+                SetupRefReturnValues(methodInfo);
+            }
+
+            private void SetupRefReturnValues(MethodInfo methodInfo)
+            {
+                if (!methodInfo.IsVoid())
+                    return;
+
+                if (!methodInfo.GetParameters().Any(p => p.ParameterType.IsByRef))
+                    return;
+
                 bool recursive = false;
                 Substitute.WhenForAnyArgs(x => InvokeMethod(methodInfo)).Do(callInfo =>
                 {
@@ -137,7 +160,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
                     recursive = true;
                     SetupRefValues(methodInfo, callInfo);
-                    SetupFixedValue(methodInfo, callInfo);
+                    InvokeMethod(methodInfo, callInfo.Args());
                     recursive = false;
                 });
             }
@@ -156,7 +179,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 return methodInfo.GetParameters().Select((p, i) => Tuple.Create(i, p)).Where(t => t.Item2.ParameterType.IsByRef);
             }
 
-            private void SetupReturnValueFactory(MethodInfo methodInfo)
+            private void SetupReturnValue(MethodInfo methodInfo)
             {
                 if (methodInfo.IsVoid())
                     return;
@@ -164,17 +187,14 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 ReturnsUsingContextMethodInfo.MakeGenericMethod(methodInfo.ReturnType).Invoke(this, new object[] { methodInfo });
             }
 
-            private void SetupFixedValue(MethodInfo methodInfo, CallInfo callInfo)
-            {
-                if (methodInfo.IsVoid())
-                    return;
-
-                ReturnsUsingFixedValueMethodInfo.MakeGenericMethod(methodInfo.ReturnType).Invoke(this, new object[] { methodInfo, callInfo });
-            }
-
             private object InvokeMethod(MethodInfo methodInfo, object[] parameters = null)
             {
-                return methodInfo.Invoke(Substitute, parameters ?? methodInfo.GetParameters().Select(p => p.ParameterType.GetDefault()).ToArray());
+                return methodInfo.Invoke(Substitute, parameters ?? GetDefaultParameters(methodInfo));
+            }
+
+            private static object[] GetDefaultParameters(MethodInfo methodInfo)
+            {
+                return methodInfo.GetParameters().Select(p => p.ParameterType.GetDefault()).ToArray();
             }
         }
     }

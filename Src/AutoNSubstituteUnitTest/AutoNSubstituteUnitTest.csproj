@@ -52,12 +52,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoNSubstituteCustomizationTest.cs" />
+    <Compile Include="AutoConfiguredNSubstituteCustomizationTest.cs" />
+    <Compile Include="AutoConfiguredFixtureIntegrationTest.cs" />
     <Compile Include="NSubstituteSealedPropertiesCommandTest.cs" />
     <Compile Include="FixtureIntegrationTest.cs" />
     <Compile Include="NSubstituteVirtualMethodsCommandTest.cs" />
     <Compile Include="NSubstituteBuilderTest.cs" />
     <Compile Include="NSubstituteMethodQueryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestTypes\IInterfaceWithCircularDependency.cs" />
+    <Compile Include="TestTypes\IInterfaceWithCircularMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithGenericMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithIndexer.cs" />
     <Compile Include="TestTypes\IInterfaceWithMethod.cs" />
