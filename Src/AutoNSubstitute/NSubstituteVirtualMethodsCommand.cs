@@ -120,12 +120,13 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 var value = (T) Context.Resolve(typeof (T));
                 var refValues = GetFixedRefValues(methodInfo);
 
-                InvokeMethod(methodInfo, callInfo.Args());
+                object[] arguments = callInfo.Args();
+                SetRefValues(callInfo, refValues);
+
+                InvokeMethod(methodInfo, arguments);
                 value.Returns<T>(x =>
                 {
-                    foreach (var refValue in refValues)
-                        callInfo[refValue.Item1] = x[refValue.Item1] = refValue.Item2;
-
+                    SetRefValues(x, refValues);
                     return value;
                 });
                 return value;
@@ -152,26 +153,13 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 if (!methodInfo.GetParameters().Any(p => p.ParameterType.IsByRef))
                     return;
 
-                bool recursive = false;
-                Substitute.WhenForAnyArgs(x => InvokeMethod(methodInfo)).Do(callInfo =>
-                {
-                    if (recursive)
-                        return;
-
-                    recursive = true;
-                    SetupRefValues(methodInfo, callInfo);
-                    InvokeMethod(methodInfo, callInfo.Args());
-                    recursive = false;
-                });
+                Substitute.WhenForAnyArgs(x => InvokeMethod(methodInfo)).Do(callInfo => SetRefValues(callInfo, GetFixedRefValues(methodInfo)));
             }
 
-            private void SetupRefValues(MethodInfo methodInfo, CallInfo callInfo)
+            private void SetRefValues(CallInfo callInfo, IEnumerable<Tuple<int, object>> values)
             {
-                if (!methodInfo.IsVoid())
-                    return;
-
-                foreach (var parameter in GetRefParameters(methodInfo))
-                    callInfo[parameter.Item1] = Context.Resolve(parameter.Item2.ParameterType.GetElementType());
+                foreach (var value in values)
+                    callInfo[value.Item1] = value.Item2;
             }
 
             private static IEnumerable<Tuple<int, ParameterInfo>> GetRefParameters(MethodInfo methodInfo)
