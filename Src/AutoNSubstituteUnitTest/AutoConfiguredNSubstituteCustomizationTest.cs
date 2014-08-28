@@ -53,6 +53,10 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Verify outcome
             var customization = Assert.Single(residueCollectors);
             var postprocessor = Assert.IsAssignableFrom<Postprocessor>(customization);
+            var nsubstituteBuilder = Assert.IsAssignableFrom<NSubstituteBuilder>(postprocessor.Builder);
+            var methodInvoker = Assert.IsAssignableFrom<MethodInvoker>(nsubstituteBuilder.Builder);
+            Assert.IsAssignableFrom<AbstractTypeSpecification>(nsubstituteBuilder.SubstitutionSpecification);
+            Assert.IsAssignableFrom<NSubstituteMethodQuery>(methodInvoker.Query);
             var compositeCommand = Assert.IsAssignableFrom<CompositeSpecimenCommand>(postprocessor.Command);
             Assert.True(compositeCommand.Commands.OfType<NSubstituteVirtualMethodsCommand>().Any());
             Assert.True(compositeCommand.Commands.OfType<NSubstituteSealedPropertiesCommand>().Any());
