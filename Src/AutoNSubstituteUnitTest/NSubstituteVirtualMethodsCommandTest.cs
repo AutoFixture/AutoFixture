@@ -238,6 +238,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var sut = new NSubstituteVirtualMethodsCommand();
 
             Assert.DoesNotThrow(() => sut.Execute(specimen, context));
+            context.DidNotReceiveWithAnyArgs().Resolve(null);
         }
 
         [Fact]
