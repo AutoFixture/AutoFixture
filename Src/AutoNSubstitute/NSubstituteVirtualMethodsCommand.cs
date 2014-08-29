@@ -106,7 +106,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                         return default(T);
 
                     recursive = true;
-                    var value = ReturnsFixedValue<T>(methodInfo, callInfo);
+                    var value = (T)Context.Resolve(typeof(T));
+                    ReturnsFixedValue(methodInfo, callInfo, value);
                     InvokeMethod(methodInfo, callInfo.Args());
                     recursive = false;
 
@@ -114,9 +115,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 });
             }
 
-            private T ReturnsFixedValue<T>(MethodInfo methodInfo, CallInfo callInfo)
+            private void ReturnsFixedValue<T>(MethodInfo methodInfo, CallInfo callInfo, T value)
             {
-                var value = (T) Context.Resolve(typeof (T));
                 var refValues = GetFixedRefValues(methodInfo);
 
                 object[] arguments = callInfo.Args();
@@ -128,7 +128,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                     SetRefValues(x, refValues);
                     return value;
                 });
-                return value;
             }
 
             private IEnumerable<Tuple<int, object>> GetFixedRefValues(MethodInfo methodInfo)
