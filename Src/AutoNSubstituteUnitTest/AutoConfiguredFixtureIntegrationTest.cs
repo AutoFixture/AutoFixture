@@ -359,5 +359,21 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 
             Assert.Equal(string.Empty, result);
         }
+
+        [Fact]
+        public void SubstitutesCountReceivedCallsCorrectly()
+        {
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithMethod>();
+            var anonymousString1 = fixture.Create<string>();
+            var anonymousString2 = fixture.Create<string>();
+
+            substitute.Method(anonymousString1);
+            substitute.Method(anonymousString2);
+
+            substitute.Received(1).Method(anonymousString1);
+            substitute.Received(1).Method(anonymousString2);
+            substitute.ReceivedWithAnyArgs(2).Method(null);
+        }
     }
 }

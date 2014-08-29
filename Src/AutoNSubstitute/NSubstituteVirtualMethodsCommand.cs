@@ -107,48 +107,31 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                         return default(T);
 
                     recursive = true;
-                    var value = (T)Context.Resolve(typeof(T));
+                    var value = new Lazy<T>(() => (T)Context.Resolve(typeof(T)));
                     ReturnsFixedValue(methodInfo, callInfo, value);
                     InvokeMethod(methodInfo, callInfo.Args());
                     recursive = false;
 
-                    return value;
+                    return value.Value;
                 });
             }
 
-            private void ReturnsFixedValue<T>(MethodInfo methodInfo, CallInfo callInfo, T value)
+            private void ReturnsFixedValue<T>(MethodInfo methodInfo, CallInfo callInfo, Lazy<T> value)
             {
                 var refValues = GetFixedRefValues(methodInfo);
-
-                object[] arguments = callInfo.Args();
-                SetRefValues(callInfo, refValues);
-
-                InvokeMethod(methodInfo, arguments);
-                value.Returns<T>(x =>
+                default(T).Returns<T>(x =>
                 {
                     SetRefValues(x, refValues);
-                    return value;
+                    return value.Value;
                 });
+                SetRefValues(callInfo, refValues);
             }
 
-            private IEnumerable<Tuple<int, object>> GetFixedRefValues(MethodInfo methodInfo)
+            private IEnumerable<Tuple<int, Lazy<object>>> GetFixedRefValues(MethodInfo methodInfo)
             {
                 return GetRefParameters(methodInfo)
-                    .Select(t => Tuple.Create(t.Item1, Context.Resolve(t.Item2.ParameterType.GetElementType())))
+                    .Select(t => Tuple.Create(t.Item1, new Lazy<object>(() => Context.Resolve(t.Item2.ParameterType.GetElementType()))))
                     .ToList();
-            }
-
-            private static void SetRefValues(CallInfo callInfo, IEnumerable<Tuple<int, object>> values)
-            {
-                foreach (var value in values)
-                    callInfo[value.Item1] = value.Item2;
-            }
-
-            private static IEnumerable<Tuple<int, ParameterInfo>> GetRefParameters(MethodInfo methodInfo)
-            {
-                return methodInfo.GetParameters()
-                    .Select((p, i) => Tuple.Create(i, p))
-                    .Where(t => t.Item2.ParameterType.IsByRef);
             }
 
             public void Setup(MethodInfo methodInfo)
@@ -160,9 +143,22 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                     .Invoke(this, new object[] { methodInfo });
             }
 
-            private object InvokeMethod(MethodInfo methodInfo, object[] parameters = null)
+            private static void SetRefValues(CallInfo callInfo, IEnumerable<Tuple<int, Lazy<object>>> values)
             {
-                return methodInfo.Invoke(Substitute, parameters ?? GetDefaultParameters(methodInfo));
+                foreach (var value in values)
+                    callInfo[value.Item1] = value.Item2.Value;
+            }
+
+            private static IEnumerable<Tuple<int, ParameterInfo>> GetRefParameters(MethodInfo methodInfo)
+            {
+                return methodInfo.GetParameters()
+                    .Select((p, i) => Tuple.Create(i, p))
+                    .Where(t => t.Item2.ParameterType.IsByRef);
+            }
+
+            private void InvokeMethod(MethodInfo methodInfo, object[] parameters = null)
+            {
+                methodInfo.Invoke(Substitute, parameters ?? GetDefaultParameters(methodInfo));
             }
 
             private static object[] GetDefaultParameters(MethodInfo methodInfo)
