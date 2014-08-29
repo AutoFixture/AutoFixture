@@ -24,7 +24,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     /// 
     /// Notes:
     /// - Automatic mocking of generic methods isn't feasible either - we'd have to antecipate any type parameters that this method could be called with. 
-    /// - Calling a method more than once with the same parameters will always return the same value, except for void methods with out parameters
+    /// - Void methods are not set up due to a limitation in NSubstitute that When..Do setups can't be overriden
+    /// - Calling a method more than once with the same parameters will always return the same value
     /// </remarks>
     public class NSubstituteVirtualMethodsCommand : ISpecimenCommand
     {
@@ -64,8 +65,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             return substituteType.GetMethods()
                 .Where(method => method.IsOverridable() &&
                                  !method.IsGenericMethod &&
-                                 (!method.IsVoid() || method.HasRefParameters())
-                                 && !ObjectMethods.Contains(method.GetBaseDefinition()));
+                                 !method.IsVoid() &&
+                                 !ObjectMethods.Contains(method.GetBaseDefinition()));
         }
 
         private class SubstituteValueFactory

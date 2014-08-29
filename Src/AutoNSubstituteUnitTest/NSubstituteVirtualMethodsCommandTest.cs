@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void SetsUpVoidMethodsWithOutParameters()
+        public void IgnoresVoidMethodsWithOutParameters()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -127,7 +127,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Verify outcome
             int outResult;
             substitute.Method(out outResult);
-            Assert.Equal(frozenInt, outResult);
+            Assert.NotEqual(frozenInt, outResult);
             // Teardown
         }
 
@@ -334,23 +334,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void SetsUpVoidMethodsToDifferentOutValueOnSubsequentCallsWithSameParameters()
-        {
-            var fixture = new Fixture();
-            var anonymousString = fixture.Create<string>();
-            var substitute = Substitute.For<IInterfaceWithParameterAndOutVoidMethod>();
-            var sut = new NSubstituteVirtualMethodsCommand();
-
-            sut.Execute(substitute, new SpecimenContext(fixture));
-
-            int outResult1;
-            substitute.Method(anonymousString, out outResult1);
-            int outResult2;
-            substitute.Method(anonymousString, out outResult2);
-            Assert.NotEqual(outResult1, outResult2);
-        }
-
-        [Fact]
         public void SetsUpMethodsToReturnDifferentOutValueOnSubsequentCallsWithAnotherParameter()
         {
             var fixture = new Fixture();
@@ -385,22 +368,5 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             substitute2.Method(out outResult2);
             Assert.NotEqual(outResult1, outResult2);
         }
-
-        [Fact]
-        public void SetsUpVoidMethodsWithOutParametersToAlwaysReturnFromFixture()
-        {
-            var fixture = new Fixture();
-            var substitute = Substitute.For<IInterfaceWithOutVoidMethod>();
-            var sut = new NSubstituteVirtualMethodsCommand();
-
-            sut.Execute(substitute, new SpecimenContext(fixture));
-
-            int outResult1;
-            substitute.Method(out outResult1);
-            int outResult2;
-            substitute.Method(out outResult2);
-            Assert.NotEqual(outResult1, outResult2);
-        }
-
     }
 }

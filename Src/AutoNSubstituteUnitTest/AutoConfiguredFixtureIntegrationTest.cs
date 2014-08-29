@@ -294,6 +294,33 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
+        public void VoidMethodsAreIgnored()
+        {
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var frozenInt = fixture.Freeze<int>();
+            var substitute = fixture.Create<IInterfaceWithOutVoidMethod>();
+
+            int result;
+            substitute.Method(out result);
+
+            Assert.NotEqual(frozenInt, result);
+        }
+
+        [Fact]
+        public void VoidMethodsReturnValuesSetup()
+        {
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithOutVoidMethod>();
+            var expected = fixture.Create<int>();
+            int result;
+            substitute.When(x => x.Method(out result)).Do(x => x[0] = expected);
+
+            substitute.Method(out result);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
         public void ChainedSubstitutesAreVerifyable()
         {
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
