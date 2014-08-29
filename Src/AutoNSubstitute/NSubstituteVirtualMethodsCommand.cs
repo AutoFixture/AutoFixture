@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     /// 
     /// Notes:
     /// - Automatic mocking of generic methods isn't feasible either - we'd have to antecipate any type parameters that this method could be called with. 
-    /// - Calling a method more than once with the same parameters will always return the same value, except for void methods with only out parameters
+    /// - Calling a method more than once with the same parameters will always return the same value, except for void methods with out parameters
     /// </remarks>
     public class NSubstituteVirtualMethodsCommand : ISpecimenCommand
     {

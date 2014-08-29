@@ -66,6 +66,7 @@
     <Compile Include="TestTypes\IInterfaceWithIndexer.cs" />
     <Compile Include="TestTypes\IInterfaceWithMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithOutVoidMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithParameterAndOutVoidMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithParameterAndOutMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithOutMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithParameterlessMethod.cs" />

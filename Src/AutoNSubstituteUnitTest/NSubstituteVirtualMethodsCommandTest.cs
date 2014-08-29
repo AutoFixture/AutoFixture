@@ -288,10 +288,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var result2 = substitute2.Method(anonymousString);
             Assert.NotEqual(result1, result2);
         }
-        public interface ILookup
-        {
-            bool TryLookup(string key, out string value);
-        }
+
         [Fact]
         public void SetsUpMethodsToReturnSameOutValueOnSubsequentCalls()
         {
@@ -323,6 +320,23 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             int outResult2;
             substitute.Method(anonymousString, out outResult2);
             Assert.Equal(outResult1, outResult2);
+        }
+
+        [Fact]
+        public void SetsUpVoidMethodsToDifferentOutValueOnSubsequentCallsWithSameParameters()
+        {
+            var fixture = new Fixture();
+            var anonymousString = fixture.Create<string>();
+            var substitute = Substitute.For<IInterfaceWithParameterAndOutVoidMethod>();
+            var sut = new NSubstituteVirtualMethodsCommand();
+
+            sut.Execute(substitute, new SpecimenContext(fixture));
+
+            int outResult1;
+            substitute.Method(anonymousString, out outResult1);
+            int outResult2;
+            substitute.Method(anonymousString, out outResult2);
+            Assert.NotEqual(outResult1, outResult2);
         }
 
         [Fact]
