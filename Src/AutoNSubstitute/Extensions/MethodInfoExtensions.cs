@@ -32,11 +32,5 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.Extensions
         {
             return method.ReturnType == typeof(void);
         }
-
-        internal static bool HasRefParameters(this MethodInfo method)
-        {
-            return method.GetParameters()
-                         .Any(p => p.ParameterType.IsByRef);
-        }
     }
 }

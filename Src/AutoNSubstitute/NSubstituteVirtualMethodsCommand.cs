@@ -138,24 +138,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                     .ToList();
             }
 
-            public void Setup(MethodInfo methodInfo)
-            {
-                SetupReturnValue(methodInfo);
-                SetupRefReturnValues(methodInfo);
-            }
-
-            private void SetupRefReturnValues(MethodInfo methodInfo)
-            {
-                if (!methodInfo.IsVoid())
-                    return;
-
-                if (!methodInfo.HasRefParameters())
-                    return;
-
-                Substitute.WhenForAnyArgs(x => InvokeMethod(methodInfo))
-                    .Do(callInfo => SetRefValues(callInfo, GetFixedRefValues(methodInfo)));
-            }
-
             private static void SetRefValues(CallInfo callInfo, IEnumerable<Tuple<int, object>> values)
             {
                 foreach (var value in values)
@@ -169,12 +151,13 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                     .Where(t => t.Item2.ParameterType.IsByRef);
             }
 
-            private void SetupReturnValue(MethodInfo methodInfo)
+            public void Setup(MethodInfo methodInfo)
             {
                 if (methodInfo.IsVoid())
                     return;
 
-                ReturnsUsingContextMethodInfo.MakeGenericMethod(methodInfo.ReturnType).Invoke(this, new object[] { methodInfo });
+                ReturnsUsingContextMethodInfo.MakeGenericMethod(methodInfo.ReturnType)
+                    .Invoke(this, new object[] { methodInfo });
             }
 
             private object InvokeMethod(MethodInfo methodInfo, object[] parameters = null)
