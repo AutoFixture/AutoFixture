@@ -155,7 +155,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                     .Do(callInfo => SetRefValues(callInfo, GetFixedRefValues(methodInfo)));
             }
 
-            private void SetRefValues(CallInfo callInfo, IEnumerable<Tuple<int, object>> values)
+            private static void SetRefValues(CallInfo callInfo, IEnumerable<Tuple<int, object>> values)
             {
                 foreach (var value in values)
                     callInfo[value.Item1] = value.Item2;
