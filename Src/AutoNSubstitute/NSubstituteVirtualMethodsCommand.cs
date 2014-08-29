@@ -99,18 +99,13 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             public void ReturnsUsingContext<T>(MethodInfo methodInfo)
             {
-                bool recursive = false;
                 InvokeMethod(methodInfo);
                 default(T).ReturnsForAnyArgs<T>(callInfo =>
                 {
-                    if (recursive)
-                        return default(T);
-
-                    recursive = true;
                     var value = new Lazy<T>(() => (T)Context.Resolve(typeof(T)));
+                    object[] arguments = callInfo.Args();
                     ReturnsFixedValue(methodInfo, callInfo, value);
-                    InvokeMethod(methodInfo, callInfo.Args());
-                    recursive = false;
+                    InvokeMethod(methodInfo, arguments);
 
                     return value.Value;
                 });
