@@ -206,6 +206,17 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
+        public void IgnoresVoidMethodsWithParameters()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var substitute = Substitute.For<IInterfaceWithParameterVoidMethod>();
+            var sut = new NSubstituteVirtualMethodsCommand();
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+        }
+
+        [Fact]
         public void IgnoresGenericMethods()
         {
             // Fixture setup
