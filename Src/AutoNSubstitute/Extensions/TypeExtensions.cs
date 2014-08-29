@@ -11,13 +11,5 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.Extensions
         {
             return type.IsValueType ? Activator.CreateInstance(type) : null;
         }
-        public static Type GetSubstituteType(this Type type)
-        {
-            if (type.BaseType == typeof(object))
-                return type.GetInterfaces().First();
-
-            return type.BaseType;
-        }
-
     }
 }

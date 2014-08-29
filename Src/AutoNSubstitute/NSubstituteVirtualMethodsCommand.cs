@@ -24,11 +24,10 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     /// 
     /// Notes:
     /// - Automatic mocking of generic methods isn't feasible either - we'd have to antecipate any type parameters that this method could be called with. 
-    /// - Calling more than once with the same parameters will always return the same value, except for void methods with out parameters
+    /// - Calling a method more than once with the same parameters will always return the same value, except for void methods with only out parameters
     /// </remarks>
     public class NSubstituteVirtualMethodsCommand : ISpecimenCommand
     {
-        private static readonly MethodInfo ReturnsUsingContextMethodInfo = typeof(SubstituteValueFactory).GetMethod("ReturnsUsingContext");
         private static readonly MethodInfo[] ObjectMethods = typeof(object).GetMethods();
 
         /// <summary>
@@ -71,6 +70,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
         private class SubstituteValueFactory
         {
+            private static readonly MethodInfo ReturnsUsingContextMethodInfo = typeof(SubstituteValueFactory).GetMethod("ReturnsUsingContext");
             private readonly object substitute;
             private readonly ISpecimenContext context;
 
@@ -149,10 +149,11 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 if (!methodInfo.IsVoid())
                     return;
 
-                if (!methodInfo.GetParameters().Any(p => p.ParameterType.IsByRef))
+                if (!methodInfo.HasRefParameters())
                     return;
 
-                Substitute.WhenForAnyArgs(x => InvokeMethod(methodInfo)).Do(callInfo => SetRefValues(callInfo, GetFixedRefValues(methodInfo)));
+                Substitute.WhenForAnyArgs(x => InvokeMethod(methodInfo))
+                    .Do(callInfo => SetRefValues(callInfo, GetFixedRefValues(methodInfo)));
             }
 
             private void SetRefValues(CallInfo callInfo, IEnumerable<Tuple<int, object>> values)
@@ -163,7 +164,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             private static IEnumerable<Tuple<int, ParameterInfo>> GetRefParameters(MethodInfo methodInfo)
             {
-                return methodInfo.GetParameters().Select((p, i) => Tuple.Create(i, p)).Where(t => t.Item2.ParameterType.IsByRef);
+                return methodInfo.GetParameters()
+                    .Select((p, i) => Tuple.Create(i, p))
+                    .Where(t => t.Item2.ParameterType.IsByRef);
             }
 
             private void SetupReturnValue(MethodInfo methodInfo)
@@ -181,7 +184,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             private static object[] GetDefaultParameters(MethodInfo methodInfo)
             {
-                return methodInfo.GetParameters().Select(p => p.ParameterType.GetDefault()).ToArray();
+                return methodInfo.GetParameters()
+                    .Select(p => p.ParameterType.GetDefault())
+                    .ToArray();
             }
         }
     }
