@@ -69,84 +69,19 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                                  !ObjectMethods.Contains(method.GetBaseDefinition()));
         }
 
-        internal class LateBoundMethod
-        {
-            private readonly Type type;
-            private readonly MethodInfo signature;
-            private MethodInfo methodInfo;
-
-            public LateBoundMethod(Type type, MethodInfo signature)
-            {
-                if (type == null)
-                    throw new ArgumentNullException("type");
-
-                if (signature == null)
-                    throw new ArgumentNullException("signature");
-
-                this.type = type;
-                this.signature = signature;
-            }
-
-            public Type Type
-            {
-                get { return type; }
-            }
-
-            public MethodInfo Signature
-            {
-                get { return signature; }
-            }
-
-            private MethodInfo MethodInfo
-            {
-                get
-                {
-                    if (this.methodInfo == null)
-                        this.methodInfo = GetMethod(Type, Signature);
-
-                    return this.methodInfo;
-                }
-            }
-
-            private static object Invoke(MethodInfo methodInfo, params object[] arguments)
-            {
-                var parameters = methodInfo.GetParameters();
-                return methodInfo.Invoke(null, parameters.Select((p, i) =>
-                    arguments.Length > i ? arguments[i] : p.ParameterType.GetDefault())
-                    .ToArray());
-            }
-
-            public object Invoke<T>(params object[] arguments)
-            {
-                return Invoke(MethodInfo.MakeGenericMethod(typeof (T)), arguments);
-            }
-
-            private static MethodInfo GetMethod(Type type, MethodInfo signature)
-            {
-                return (from method in type.GetMethods()
-                        where method.Name == signature.Name
-                        let methodParameters = method.GetParameters()
-                        let signatureParameters = signature.GetParameters()
-                        where methodParameters.Length >= signatureParameters.Length
-                        orderby methodParameters.Length
-                        where methodParameters.All(p =>
-                            p.Position >= signatureParameters.Length ?
-                            p.IsOptional || p.IsDefined(typeof(ParamArrayAttribute), true) :
-                            p.ParameterType.ToString() == signatureParameters[p.Position].ParameterType.ToString())
-                        select method)
-                        .Single();
-            }
-
-        }
-
         private class SubstituteValueFactory
         {
-            private static readonly MethodInfo ReturnsUsingContextMethodInfo = 
+            private static readonly MethodInfo ReturnsUsingContextMethodInfo =
                 typeof(SubstituteValueFactory).GetMethod("ReturnsUsingContext");
-            private static readonly LateBoundMethod ReturnsForAnyArgsMethodInfo = 
-                new LateBoundMethod(typeof(SubstituteExtensions), typeof(SubstituteValueFactory).GetMethod("ReturnsForAnyArgs"));
-            private static readonly LateBoundMethod ReturnsMethodInfo = 
-                new LateBoundMethod(typeof(SubstituteExtensions), typeof(SubstituteValueFactory).GetMethod("Returns"));
+            private static readonly IMethod ReturnsForAnyArgsMethodInfo =
+                new SignatureMethodQuery(typeof(SubstituteValueFactory).GetMethod("ReturnsForAnyArgs"))
+                            .SelectMethods(typeof(SubstituteExtensions))
+                            .Single();
+            private static readonly IMethod ReturnsMethodInfo =
+                new SignatureMethodQuery(typeof(SubstituteValueFactory).GetMethod("Returns"))
+                            .SelectMethods(typeof(SubstituteExtensions))
+                            .Single();
+            
             private readonly object substitute;
             private readonly ISpecimenContext context;
 
@@ -174,12 +109,12 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             public static void ReturnsForAnyArgs<T>(T value, Func<CallInfo, T> returnThis)
             {
-                ReturnsForAnyArgsMethodInfo.Invoke<T>(value, returnThis);
+                ReturnsForAnyArgsMethodInfo.Invoke(new object[] { value, returnThis });
             }
 
             public static void Returns<T>(T value, Func<CallInfo, T> returnThis)
             {
-                ReturnsMethodInfo.Invoke<T>(value, returnThis);
+                ReturnsMethodInfo.Invoke(new object[] { value, returnThis });
             }
 
             public void ReturnsUsingContext<T>(MethodInfo methodInfo)

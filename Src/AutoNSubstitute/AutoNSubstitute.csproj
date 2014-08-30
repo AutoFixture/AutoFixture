@@ -63,6 +63,8 @@
   <ItemGroup>
     <Compile Include="AutoConfiguredNSubstituteCustomization.cs" />
     <Compile Include="AutoNSubstituteCustomization.cs" />
+    <Compile Include="GenericStaticMethod.cs" />
+    <Compile Include="LateBoundMethod.cs" />
     <Compile Include="NSubstituteSealedPropertiesCommand.cs" />
     <Compile Include="Extensions\MethodInfoExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="NSubstituteMethodQuery.cs" />
     <Compile Include="NSubstituteType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignatureMethodQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
