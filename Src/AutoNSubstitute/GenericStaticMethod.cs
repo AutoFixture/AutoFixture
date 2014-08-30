@@ -31,16 +31,16 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             get { return methodInfo; }
         }
 
-        private static IEnumerable<Tuple<Type, Type>> Resolve(Type argument, Type parameter)
+        private static IEnumerable<Tuple<Type, Type>> ResolveGenericType(Type argument, Type parameter)
         {
             if (parameter.IsGenericParameter)
                 return new[] { Tuple.Create(parameter, argument) };
 
             if (argument.HasElementType)
-                return Resolve(argument.GetElementType(), parameter.GetElementType());
+                return ResolveGenericType(argument.GetElementType(), parameter.GetElementType());
 
             return argument.GetGenericArguments()
-                .Zip(parameter.GetGenericArguments(), Resolve)
+                .Zip(parameter.GetGenericArguments(), ResolveGenericType)
                 .SelectMany(x => x);
         }
 
@@ -49,7 +49,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             if (methodInfo.ContainsGenericParameters)
             {
                 var typeMap = arguments.Zip(methodInfo.GetParameters(),
-                    (argument, parameter) => Resolve(GetType(argument), parameter.ParameterType))
+                    (argument, parameter) => ResolveGenericType(GetType(argument), parameter.ParameterType))
                     .SelectMany(x => x)
                     .ToLookup(x => x.Item1, x => x.Item2);
 
