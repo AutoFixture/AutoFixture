@@ -7,20 +7,20 @@ using Xunit;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 {
-    public class SignatureMethodQueryTests
+    public class LateBindingMethodQueryTests
     {
         [Fact]
         public void SutIsIMethodQuery()
         {
             Action dummy = delegate { };
-            var sut = new SignatureMethodQuery(dummy.Method);
+            var sut = new LateBindingMethodQuery(dummy.Method);
             Assert.IsAssignableFrom<IMethodQuery>(sut);
         }
 
         [Fact]
         public void InitializeWithNullThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new SignatureMethodQuery(null));
+            Assert.Throws<ArgumentNullException>(() => new LateBindingMethodQuery(null));
         }
 
     }

@@ -74,11 +74,11 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             private static readonly MethodInfo ReturnsUsingContextMethodInfo =
                 typeof(SubstituteValueFactory).GetMethod("ReturnsUsingContext");
             private static readonly IMethod ReturnsForAnyArgsMethodInfo =
-                new SignatureMethodQuery(typeof(SubstituteValueFactory).GetMethod("ReturnsForAnyArgs"))
+                new LateBindingMethodQuery(typeof(SubstituteValueFactory).GetMethod("ReturnsForAnyArgs"))
                             .SelectMethods(typeof(SubstituteExtensions))
                             .Single();
             private static readonly IMethod ReturnsMethodInfo =
-                new SignatureMethodQuery(typeof(SubstituteValueFactory).GetMethod("Returns"))
+                new LateBindingMethodQuery(typeof(SubstituteValueFactory).GetMethod("Returns"))
                             .SelectMethods(typeof(SubstituteExtensions))
                             .Single();
             

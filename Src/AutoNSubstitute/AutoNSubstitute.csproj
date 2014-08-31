@@ -74,7 +74,7 @@
     <Compile Include="NSubstituteMethodQuery.cs" />
     <Compile Include="NSubstituteType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SignatureMethodQuery.cs" />
+    <Compile Include="LateBindingMethodQuery.cs" />
     <Compile Include="TypeArgumentsCannotBeInferedException.cs" />
   </ItemGroup>
   <ItemGroup>

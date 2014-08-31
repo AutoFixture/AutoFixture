@@ -6,11 +6,11 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute
 {
-    public class SignatureMethodQuery : IMethodQuery
+    public class LateBindingMethodQuery : IMethodQuery
     {
         private readonly MethodInfo signature;
 
-        public SignatureMethodQuery(MethodInfo signature)
+        public LateBindingMethodQuery(MethodInfo signature)
         {
             if (signature == null)
                 throw new ArgumentNullException("signature");
