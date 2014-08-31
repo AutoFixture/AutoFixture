@@ -7,10 +7,17 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute
 {
-    internal class LateBoundMethod : IMethod
+    /// <summary>
+    /// Decorates another method invoking it supplying missing optional parameters
+    /// </summary>
+    public class LateBoundMethod : IMethod
     {
         private readonly IMethod _method;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LateBoundMethod"/> class.
+        /// </summary>
+        /// <param name="method">The <see cref="IMethod"/> to decorate.</param>
         public LateBoundMethod(IMethod method)
         {
             if (method == null)
@@ -19,6 +26,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             this._method = method;
         }
 
+        /// <summary>
+        /// Gets the decorated method
+        /// </summary>
         public IMethod Method
         {
             get { return this._method; }
@@ -31,12 +41,18 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
         private static IEnumerable<object> GetArguments(IEnumerable<ParameterInfo> parameters, object[] arguments)
         {
-            return parameters.Select((p, i) =>
-                arguments.Length > i ? 
-                arguments[i] : 
-                p.IsOptional ? 
-                    p.DefaultValue : 
-                    p.ParameterType.GetDefault());
+            return parameters.Select((p, i) => arguments.Length > i ? arguments[i] : GetDefault(p));
+        }
+
+        private static object GetDefault(ParameterInfo parameter)
+        {
+            if (parameter.IsOptional)
+                return parameter.DefaultValue;
+
+            if (parameter.IsDefined(typeof(ParamArrayAttribute), true) && parameter.ParameterType.IsArray)
+                return Array.CreateInstance(parameter.ParameterType.GetElementType(), 0);
+
+            return parameter.ParameterType.GetDefault();
         }
 
         public object Invoke(IEnumerable<object> parameters)
