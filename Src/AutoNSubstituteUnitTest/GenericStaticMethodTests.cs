@@ -96,7 +96,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
                           select mi).ElementAt(index);
             var sut = new GenericStaticMethod(method);
 
-            var exception = Assert.Throws<TypeArgumentsCannotBeInferedException>(() => sut.Invoke((object[])values));
+            var exception = Assert.Throws<TypeArgumentsCannotBeInferredException>(() => sut.Invoke((object[])values));
             Assert.Contains(method.Name, exception.Message);
         }
     }

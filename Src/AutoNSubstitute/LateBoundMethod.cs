@@ -33,7 +33,10 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         {
             get { return this._method; }
         }
-        
+
+        /// <summary>
+        /// Gets information about the parameters of the method.
+        /// </summary>
         public IEnumerable<ParameterInfo> Parameters
         {
             get { return Method.Parameters; }
@@ -55,6 +58,11 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             return parameter.ParameterType.GetDefault();
         }
 
+        /// <summary>
+        /// Invokes the method with the supplied parameters.
+        /// </summary>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns>The result of the method call.</returns>
         public object Invoke(IEnumerable<object> parameters)
         {
             var arguments = GetArguments(Method.Parameters, parameters.ToArray());

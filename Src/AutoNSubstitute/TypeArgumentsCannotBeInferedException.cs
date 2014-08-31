@@ -10,17 +10,25 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     /// The exception that is thrown when AutoFixture is unable to infer the type parameters of a generic method from its arguments.
     /// </summary>
     [Serializable]
-    public class TypeArgumentsCannotBeInferedException : Exception
+    public class TypeArgumentsCannotBeInferredException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeArgumentsCannotBeInferedException"/> class from a <see cref="MethodInfo"/>.
+        /// Initializes a new instance of the <see cref="TypeArgumentsCannotBeInferredException"/> class.
+        /// </summary>
+        public TypeArgumentsCannotBeInferredException()
+            : base("The type arguments for the method cannot be inferred from arguments. Make sure all type arguments can be inferred (i.e. there's no type argument that is used for return type only) and you provided the right arguments to the method.")
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TypeArgumentsCannotBeInferredException"/> class from a <see cref="MethodInfo"/>.
         /// </summary>
         /// <param name="methodInfo">The <see cref="MethodInfo"/> that cannot have its type arguments infered.</param>
-        public TypeArgumentsCannotBeInferedException(MethodInfo methodInfo)
-            : base(
+        public TypeArgumentsCannotBeInferredException(MethodInfo methodInfo)
+            : base(methodInfo == null ? string.Empty :
                 string.Format(
                     CultureInfo.CurrentCulture,
-                    @"The type arguments for method '{0} {1}.{2}<{3}>({4})' cannot be infered from arguments. Make sure all type arguments can be infered (i.e. there's no type argument that is used for return type only) and you provided the right arguments to the method.",
+                    @"The type arguments for method '{0} {1}.{2}<{3}>({4})' cannot be inferred from arguments. Make sure all type arguments can be inferred (i.e. there's no type argument that is used for return type only) and you provided the right arguments to the method.",
                     GetFriendlyName(methodInfo.ReturnType),
                     methodInfo.DeclaringType.FullName,
                     methodInfo.Name,
@@ -28,22 +36,24 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                     string.Join(", ", methodInfo.GetParameters().Select(p => GetFriendlyName(p.ParameterType)))
                     ))
         {
+            if (methodInfo == null)
+                throw new ArgumentNullException("methodInfo");
         }
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeArgumentsCannotBeInferedException"/> class with a
+        /// Initializes a new instance of the <see cref="TypeArgumentsCannotBeInferredException"/> class with a
         /// custom <see cref="Exception.Message"/>.
         /// </summary>
         /// <param name="message">
         /// The error message that explains the reason for the exception.
         /// </param>
-        public TypeArgumentsCannotBeInferedException(string message)
+        public TypeArgumentsCannotBeInferredException(string message)
             : base(message)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeArgumentsCannotBeInferedException"/> class with a
+        /// Initializes a new instance of the <see cref="TypeArgumentsCannotBeInferredException"/> class with a
         /// custom <see cref="Exception.Message"/> and <see cref="Exception.InnerException"/>.
         /// </summary>
         /// <param name="message">
@@ -52,20 +62,20 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// <param name="innerException">
         /// The exception that is the cause of the current exception.
         /// </param>
-        public TypeArgumentsCannotBeInferedException(string message, Exception innerException)
+        public TypeArgumentsCannotBeInferredException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
         /// <summary>
-        /// Ininitalizes a new instance of the <see cref="TypeArgumentsCannotBeInferedException"/> class with
+        /// Ininitalizes a new instance of the <see cref="TypeArgumentsCannotBeInferredException"/> class with
         /// serialized data.
         /// </summary>
         /// <param name="info">The object that holds the serialized object data.</param>
         /// <param name="context">
         /// The contextual information about the source or destination.
         /// </param>
-        protected TypeArgumentsCannotBeInferedException(SerializationInfo info, StreamingContext context)
+        protected TypeArgumentsCannotBeInferredException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
@@ -73,7 +83,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         private static string GetFriendlyName(Type type)
         {
             if (type.IsGenericType)
-                return string.Format("{0}<{1}>", type.Name.Split('`')[0], string.Join(", ", type.GetGenericArguments().Select(GetFriendlyName)));
+                return string.Format(CultureInfo.CurrentCulture, "{0}<{1}>", type.Name.Split('`')[0], string.Join(", ", type.GetGenericArguments().Select(GetFriendlyName)));
 
             return type.Name;
         }

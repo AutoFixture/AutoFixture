@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     public class GenericStaticMethod : IMethod
     {
         private readonly MethodInfo method;
-        private readonly ParameterInfo[] parameters;
+        private readonly ParameterInfo[] parametersInfo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GenericStaticMethod"/> class.
@@ -22,15 +22,18 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         public GenericStaticMethod(MethodInfo method)
         {
             if (method == null)
-                throw new ArgumentNullException("methodInfo");
+                throw new ArgumentNullException("method");
 
             this.method = method;
-            this.parameters = method.GetParameters();
+            this.parametersInfo = method.GetParameters();
         }
 
+        /// <summary>
+        /// Gets information about the parameters of the method.
+        /// </summary>
         public IEnumerable<ParameterInfo> Parameters
         {
-            get { return this.parameters; }
+            get { return this.parametersInfo; }
         }
 
         /// <summary>
@@ -73,7 +76,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                     .Select(x =>
                     {
                         if (!typeMap.Contains(x))
-                            throw new TypeArgumentsCannotBeInferedException(methodInfo);
+                            throw new TypeArgumentsCannotBeInferredException(methodInfo);
 
                         return typeMap[x].Aggregate((t1, t2) => t1.IsAssignableFrom(t2) ? t2 : t1);
                     });
@@ -89,11 +92,16 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             return argument == null ? typeof(object) : argument.GetType();
         }
 
-        public object Invoke(IEnumerable<object> arguments)
+        /// <summary>
+        /// Invokes the method with the supplied parameters.
+        /// </summary>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns>The result of the method call.</returns>
+        public object Invoke(IEnumerable<object> parameters)
         {
-            var args = arguments.ToArray();
-            return InferMethodInfo(Method, args)
-                .Invoke(null, args);
+            var arguments = parameters.ToArray();
+            return InferMethodInfo(Method, arguments)
+                .Invoke(null, arguments);
         }
     }
 }

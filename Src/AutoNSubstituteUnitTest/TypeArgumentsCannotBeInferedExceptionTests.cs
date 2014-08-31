@@ -1,25 +1,32 @@
 ﻿using System;
+using System.Reflection;
 using Xunit;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 {
-    public class TypeArgumentsCannotBeInferedExceptionTests
+    public class TypeArgumentsCannotBeInferredExceptionTests
     {
         [Fact]
         public void SutIsException()
         {
-            var sut = new TypeArgumentsCannotBeInferedException(string.Empty);
+            var sut = new TypeArgumentsCannotBeInferredException(string.Empty);
             Assert.IsAssignableFrom<Exception>(sut);
+        }
+
+        [Fact]
+        public void InitializeWithNullMethodInfoThrows()
+        {
+            Assert.Throws<ArgumentNullException>(() => new TypeArgumentsCannotBeInferredException((MethodInfo) null));
         }
 
         [Fact]
         public void MessageWillBeDefineWhenInitializedWithMethodInfo()
         {
             Action dummy = delegate { };
-            var sut = new TypeArgumentsCannotBeInferedException(dummy.Method);
+            var sut = new TypeArgumentsCannotBeInferredException(dummy.Method);
 
             var result = sut.Message;
-            
+
             Assert.NotNull(result);
         }
 
@@ -27,7 +34,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public void MessageWillMatchConstructorArgument()
         {
             string expectedMessage = "Anonymous exception message";
-            var sut = new TypeArgumentsCannotBeInferedException(expectedMessage);
+            var sut = new TypeArgumentsCannotBeInferredException(expectedMessage);
 
             var result = sut.Message;
             
@@ -38,7 +45,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public void InnerExceptionWillMatchConstructorArgument()
         {
             var expectedException = new ArgumentOutOfRangeException();
-            var sut = new TypeArgumentsCannotBeInferedException("Anonymous message.", expectedException);
+            var sut = new TypeArgumentsCannotBeInferredException("Anonymous message.", expectedException);
 
             var result = sut.InnerException;
             
