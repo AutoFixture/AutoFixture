@@ -41,6 +41,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             if (parameterType == signatureParameterType)
                 return true;
 
+            if (parameterType.IsAssignableFrom(signatureParameterType))
+                return true;
+
             if (parameterType.IsGenericParameter)
                 return signatureParameterType.IsGenericParameter && parameterType.GenericParameterPosition == signatureParameterType.GenericParameterPosition;
 
@@ -49,7 +52,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             var genericArguments = parameterType.GetGenericArguments();
             var signatureGenericArguments = signatureParameterType.GetGenericArguments();
-            if (genericArguments.Length != signatureGenericArguments.Length)
+            if (genericArguments.Length == 0 || genericArguments.Length != signatureGenericArguments.Length)
                 return false;
 
             return genericArguments.Zip(signatureGenericArguments, Compare).All(x => x);
