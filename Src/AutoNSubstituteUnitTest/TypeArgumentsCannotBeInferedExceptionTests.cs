@@ -9,8 +9,16 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         [Fact]
         public void SutIsException()
         {
-            var sut = new TypeArgumentsCannotBeInferredException(string.Empty);
+            var sut = new TypeArgumentsCannotBeInferredException();
             Assert.IsAssignableFrom<Exception>(sut);
+        }
+
+        [Fact]
+        public void MessageWillBeDefineWhenDefaultConstructorIsUsed()
+        {
+            var sut = new TypeArgumentsCannotBeInferredException();
+            var result = sut.Message;
+            Assert.NotNull(result);
         }
 
         [Fact]
