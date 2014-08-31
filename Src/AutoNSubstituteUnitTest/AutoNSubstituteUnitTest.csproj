@@ -54,6 +54,7 @@
     <Compile Include="AutoNSubstituteCustomizationTest.cs" />
     <Compile Include="AutoConfiguredNSubstituteCustomizationTest.cs" />
     <Compile Include="AutoConfiguredFixtureIntegrationTest.cs" />
+    <Compile Include="SignatureMethodQueryTests.cs" />
     <Compile Include="GenericStaticMethodTests.cs" />
     <Compile Include="LateBoundMethodTests.cs" />
     <Compile Include="NSubstituteSealedPropertiesCommandTest.cs" />

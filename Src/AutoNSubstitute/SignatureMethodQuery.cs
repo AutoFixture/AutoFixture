@@ -6,7 +6,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute
 {
-    internal class SignatureMethodQuery : IMethodQuery
+    public class SignatureMethodQuery : IMethodQuery
     {
         private readonly MethodInfo signature;
 
