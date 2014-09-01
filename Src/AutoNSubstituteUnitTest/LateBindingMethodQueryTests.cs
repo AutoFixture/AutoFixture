@@ -25,6 +25,15 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             Assert.Throws<ArgumentNullException>(() => new LateBindingMethodQuery(null));
         }
 
+        [Fact]
+        public void SelectMethodsWithNullThrows()
+        {
+            Action dummy = delegate { };
+            var sut = new LateBindingMethodQuery(dummy.Method);
+
+            Assert.Throws<ArgumentNullException>(() => sut.SelectMethods(null));
+        }
+
         [Theory]
         [InlineData(typeof(TypeWithSignatureMethods), "VoidMethodWithString", typeof(TypeWithMethods), new[] { "s" }, new object[] { null })]
         [InlineData(typeof(TypeWithSignatureMethods), "MethodWithString", typeof(TypeWithMethods), new[] { "s" }, new object[] { "s" })]
