@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,6 +98,14 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
         public static int MethodInOrder2(string[] arg1, IEnumerable<string> arg2)
         {
             return 0;
+        }
+        public static int MethodWithFunc<T>(Func<T, T> arg)
+        {
+            return -1;
+        }
+        public static bool MethodWithFunc<T>(Func<T> arg)
+        {
+            return true;
         }
     }
 }
