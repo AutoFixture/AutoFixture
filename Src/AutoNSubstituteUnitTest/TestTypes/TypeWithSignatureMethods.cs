@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
 {
@@ -30,6 +31,13 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
         {
         }
         public static void MethodWithSameName(string arg)
+        {
+        }
+
+        public static void MethodInOrder(string[] arg)
+        {
+        }
+        public static void MethodInOrder2(string[] arg1, IEnumerable<string> arg2)
         {
         }
     }

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -48,6 +49,54 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
         public static string MethodWithSameName(string arg)
         {
             return arg;
+        }
+        public static int MethodInOrder(object arg)
+        {
+            return 5;
+        }
+        public static int MethodInOrder(string[] arg1, object arg2 = null)
+        {
+            return 1;
+        }
+        public static int MethodInOrder(string[] arg)
+        {
+            return 0;
+        }
+        public static int MethodInOrder(IEnumerable<string> arg)
+        {
+            return 3;
+        }
+        public static int MethodInOrder(object[] arg)
+        {
+            return 4;
+        }
+        public static int MethodInOrder(string[] arg1, object arg2 = null, params object[] arg3)
+        {
+            return 2;
+        }
+        public static int MethodInOrder2(IEnumerable<string> arg1, object arg2)
+        {
+            return 5;
+        }
+        public static int MethodInOrder2(string[] arg1, IEnumerable arg2)
+        {
+            return 2;
+        }
+        public static int MethodInOrder2(IEnumerable<string> arg1, IEnumerable arg2)
+        {
+            return 4;
+        }
+        public static int MethodInOrder2(string[] arg1, IEnumerable<string> arg2, object arg3 = null)
+        {
+            return 1;
+        }
+        public static int MethodInOrder2(IEnumerable<string> arg1, IEnumerable<string> arg2)
+        {
+            return 3;
+        }
+        public static int MethodInOrder2(string[] arg1, IEnumerable<string> arg2)
+        {
+            return 0;
         }
     }
 }

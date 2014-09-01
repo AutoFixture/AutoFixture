@@ -50,5 +50,21 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             Assert.Equal(expected, results);
         }
 
+        [Theory]
+        [InlineData(typeof(TypeWithSignatureMethods), typeof(TypeWithMethods), "MethodInOrder", new object[] { new[] { "a" } })]
+        [InlineData(typeof(TypeWithSignatureMethods), typeof(TypeWithMethods), "MethodInOrder2", new object[] { new[] { "a" }, new[] { "a" } })]
+        public void SelectMethodsReturnsInCorrectOrder(Type signatureType, Type targetType, string methodName, object[] arguments)
+        {
+            var signatureMethod = signatureType.GetMethod(methodName);
+            var sut = new LateBindingMethodQuery(signatureMethod);
+
+            var results = sut.SelectMethods(targetType)
+                .Select(m => m.Invoke(arguments))
+                .ToArray();
+
+            var expected = Enumerable.Range(0, results.Count()).Cast<object>().ToArray();
+            Assert.Equal(expected, results);
+        }
+
     }
 }
