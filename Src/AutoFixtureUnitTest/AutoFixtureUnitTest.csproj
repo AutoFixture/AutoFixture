@@ -95,11 +95,16 @@
     <Compile Include="DataAnnotations\StringLengthArgumentSupportTests.cs" />
     <Compile Include="DelegatingRecursionHandler.cs" />
     <Compile Include="Kernel\CompositeSpecimenCommandTest.cs" />
+    <Compile Include="Kernel\DelegatingMethod.cs" />
+    <Compile Include="Kernel\GenericStaticMethodTests.cs" />
+    <Compile Include="Kernel\LateBindingMethodQueryTests.cs" />
+    <Compile Include="Kernel\LateBoundMethodTests.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelayTest.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecificationTest.cs" />
     <Compile Include="Kernel\OmitArrayParameterRequestRelayTests.cs" />
     <Compile Include="Kernel\OmitEnumerableParameterRequestRelayTests.cs" />
     <Compile Include="Kernel\TerminatingWithPathSpecimenBuilderTest.cs" />
+    <Compile Include="Kernel\TypeArgumentsCannotBeInferredExceptionTests.cs" />
     <Compile Include="MapCreateManyToEnumerableTests.cs" />
     <Compile Include="Kernel\MultipleToEnumerableRelayTests.cs" />
     <Compile Include="Kernel\NoConstructorsSpecificationTest.cs" />

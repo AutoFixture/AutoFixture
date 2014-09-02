@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Reflection;
+using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
+namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
     public class TypeArgumentsCannotBeInferredExceptionTests
     {

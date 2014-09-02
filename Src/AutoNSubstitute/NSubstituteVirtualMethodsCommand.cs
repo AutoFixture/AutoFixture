@@ -179,7 +179,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             private static object[] GetDefaultParameters(MethodInfo methodInfo)
             {
                 return methodInfo.GetParameters()
-                    .Select(p => p.ParameterType.GetDefault())
+                    .Select(p => p.ParameterType.IsValueType ? Activator.CreateInstance(p.ParameterType) : null)
                     .ToArray();
             }
         }

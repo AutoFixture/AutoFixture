@@ -98,6 +98,10 @@
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
     <Compile Include="Kernel\CompositeSpecimenCommand.cs" />
+    <Compile Include="Kernel\GenericStaticMethod.cs" />
+    <Compile Include="Kernel\LateBindingMethodQuery.cs" />
+    <Compile Include="Kernel\LateBoundMethod.cs" />
+    <Compile Include="Kernel\TypeArgumentsCannotBeInferredException.cs" />
     <Compile Include="NoDataAnnotationsCustomization.cs" />
     <Compile Include="Kernel\IRecursionHandler.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelay.cs" />

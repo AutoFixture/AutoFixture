@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
     /// Selects public static methods that has the same parameters of another method,

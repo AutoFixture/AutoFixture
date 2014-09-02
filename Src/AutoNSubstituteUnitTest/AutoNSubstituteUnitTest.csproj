@@ -54,9 +54,6 @@
     <Compile Include="AutoNSubstituteCustomizationTest.cs" />
     <Compile Include="AutoConfiguredNSubstituteCustomizationTest.cs" />
     <Compile Include="AutoConfiguredFixtureIntegrationTest.cs" />
-    <Compile Include="LateBindingMethodQueryTests.cs" />
-    <Compile Include="GenericStaticMethodTests.cs" />
-    <Compile Include="LateBoundMethodTests.cs" />
     <Compile Include="NSubstituteSealedPropertiesCommandTest.cs" />
     <Compile Include="FixtureIntegrationTest.cs" />
     <Compile Include="NSubstituteVirtualMethodsCommandTest.cs" />
@@ -78,9 +75,6 @@
     <Compile Include="TestTypes\IInterfaceWithParameterVoidMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithVoidMethod.cs" />
     <Compile Include="TestTypes\TypeWithConstField.cs" />
-    <Compile Include="TestTypes\TypeWithGenericMethod.cs" />
-    <Compile Include="TestTypes\TypeWithMethods.cs" />
-    <Compile Include="TestTypes\TypeWithMethodsWithOptionalArguments.cs" />
     <Compile Include="TestTypes\TypeWithGetOnlyProperty.cs" />
     <Compile Include="TestTypes\TypeWithIndexer.cs" />
     <Compile Include="TestTypes\TypeWithPrivateField.cs" />
@@ -89,12 +83,10 @@
     <Compile Include="TestTypes\TypeWithPublicField.cs" />
     <Compile Include="TestTypes\TypeWithReadonlyField.cs" />
     <Compile Include="TestTypes\TypeWithSealedMembers.cs" />
-    <Compile Include="TestTypes\TypeWithSignatureMethods.cs" />
     <Compile Include="TestTypes\TypeWithStaticField.cs" />
     <Compile Include="TestTypes\TypeWithStaticMethod.cs" />
     <Compile Include="TestTypes\TypeWithStaticProperty.cs" />
     <Compile Include="TestTypes\TypeWithVirtualMembers.cs" />
-    <Compile Include="TypeArgumentsCannotBeInferedExceptionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

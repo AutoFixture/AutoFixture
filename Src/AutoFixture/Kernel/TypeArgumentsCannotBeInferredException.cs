@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
     /// The exception that is thrown when AutoFixture is unable to infer the type parameters of a generic method from its arguments.

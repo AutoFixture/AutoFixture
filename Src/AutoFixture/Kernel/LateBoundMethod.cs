@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.AutoNSubstitute.Extensions;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
     /// Decorates another method invoking it supplying missing optional parameters
@@ -55,7 +53,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             if (parameter.IsDefined(typeof(ParamArrayAttribute), true) && parameter.ParameterType.IsArray)
                 return Array.CreateInstance(parameter.ParameterType.GetElementType(), 0);
 
-            return parameter.ParameterType.GetDefault();
+            return parameter.ParameterType.IsValueType ? Activator.CreateInstance(parameter.ParameterType) : null;
         }
 
         /// <summary>
