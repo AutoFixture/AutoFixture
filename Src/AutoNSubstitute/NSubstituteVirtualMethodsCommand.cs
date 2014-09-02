@@ -79,16 +79,34 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             private static IMethod GetNSubstituteMethod(string methodName)
             {
+                Type substituteType = typeof(SubstituteExtensions);
+                MethodInfo methodInfo = typeof(SubstituteValueFactory).GetMethod(methodName);
+
                 try
                 {
-                    return new LateBindingMethodQuery(typeof (SubstituteValueFactory).GetMethod(methodName))
-                        .SelectMethods(typeof (SubstituteExtensions))
+                    return new LateBindingMethodQuery(methodInfo)
+                        .SelectMethods(substituteType)
                         .First();
                 }
                 catch (InvalidOperationException)
                 {
-                    throw new MissingMethodException(string.Format(CultureInfo.CurrentCulture, @"The method {0}.{1} was not found. This can happen if you updated NSubstitute to an unsupported version; if this is the case, open an issue at http://github.com/AutoFixture/AutoFixture informing this exception message and the version you have installed."));
+                    throw new MissingMethodException(string.Format(CultureInfo.CurrentCulture, @"The method '{0} {1}.{2}{3}({4})' was not found. This can happen if you updated NSubstitute to an unsupported version; if this is the case, open an issue at http://github.com/AutoFixture/AutoFixture informing this exception message and the version you have installed.",
+                        GetFriendlyName(methodInfo.ReturnType),
+                        substituteType,
+                        methodInfo.Name,
+                        methodInfo.GetGenericArguments().Any() ?
+                            string.Format(CultureInfo.CurrentCulture, "<{0}>", string.Join(", ", methodInfo.GetGenericArguments().Select(a => a.ToString()))) :
+                            string.Empty,
+                        string.Join(", ", methodInfo.GetParameters().Select(p => GetFriendlyName(p.ParameterType)))));
                 }
+            }
+
+            private static string GetFriendlyName(Type type)
+            {
+                if (type.IsGenericType)
+                    return string.Format(CultureInfo.CurrentCulture, "{0}<{1}>", type.Name.Split('`')[0], string.Join(", ", type.GetGenericArguments().Select(GetFriendlyName)));
+
+                return type.Name;
             }
 
             private readonly object substitute;
@@ -105,7 +123,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 this.substitute = substitute;
                 this.context = context;
             }
-            
+
             public object Substitute
             {
                 get { return substitute; }
