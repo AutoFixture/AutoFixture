@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void CreateWithoutMatchersAlwaysDelegatesToTheBuilder()
+        public void CreateWithoutMatchersNeverDelegatesToTheBuilder()
         {
             // Fixture setup
             var expected = new object();
@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Exercise system
             var actual = sut.Create(typeof(object), new DelegatingSpecimenContext());
             // Verify outcome
-            Assert.Same(expected, actual);
+            Assert.NotSame(expected, actual);
             // Teardown
         }
 

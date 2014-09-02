@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.Dsl
         public MatchComposer(ISpecimenBuilder builder)
         {
             this.builder = builder;
-            this.matcher = new AnyTypeSpecification();
+            this.matcher = new FalseRequestSpecification();
         }
 
         public ISpecimenBuilder Builder
