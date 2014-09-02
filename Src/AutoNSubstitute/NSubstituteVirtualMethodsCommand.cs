@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using NSubstitute;
@@ -73,15 +74,23 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         {
             private static readonly MethodInfo ReturnsUsingContextMethodInfo =
                 typeof(SubstituteValueFactory).GetMethod("ReturnsUsingContext");
-            private static readonly IMethod ReturnsForAnyArgsMethodInfo =
-                new LateBindingMethodQuery(typeof(SubstituteValueFactory).GetMethod("ReturnsForAnyArgs"))
-                            .SelectMethods(typeof(SubstituteExtensions))
-                            .Single();
-            private static readonly IMethod ReturnsMethodInfo =
-                new LateBindingMethodQuery(typeof(SubstituteValueFactory).GetMethod("Returns"))
-                            .SelectMethods(typeof(SubstituteExtensions))
-                            .Single();
-            
+            private static readonly IMethod ReturnsForAnyArgsMethodInfo = GetNSubstituteMethod("ReturnsForAnyArgs");
+            private static readonly IMethod ReturnsMethodInfo = GetNSubstituteMethod("Returns");
+
+            private static IMethod GetNSubstituteMethod(string methodName)
+            {
+                try
+                {
+                    return new LateBindingMethodQuery(typeof (SubstituteValueFactory).GetMethod(methodName))
+                        .SelectMethods(typeof (SubstituteExtensions))
+                        .First();
+                }
+                catch (InvalidOperationException)
+                {
+                    throw new MissingMethodException(string.Format(CultureInfo.CurrentCulture, @"The method {0}.{1} was not found. This can happen if you updated NSubstitute to an unsupported version; if this is the case, open an issue at http://github.com/AutoFixture/AutoFixture informing this exception message and the version you have installed."));
+                }
+            }
+
             private readonly object substitute;
             private readonly ISpecimenContext context;
 
@@ -96,7 +105,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 this.substitute = substitute;
                 this.context = context;
             }
-
+            
             public object Substitute
             {
                 get { return substitute; }
