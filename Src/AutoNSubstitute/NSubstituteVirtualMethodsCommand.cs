@@ -77,6 +77,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             private static readonly IMethod ReturnsForAnyArgsMethodInfo = GetNSubstituteMethod("ReturnsForAnyArgs");
             private static readonly IMethod ReturnsMethodInfo = GetNSubstituteMethod("Returns");
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "github", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "NSubstitute", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
             private static IMethod GetNSubstituteMethod(string methodName)
             {
                 Type substituteType = typeof(SubstituteExtensions);
