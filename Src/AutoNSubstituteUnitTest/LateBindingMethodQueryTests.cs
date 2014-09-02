@@ -26,6 +26,14 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
+        public void SignatureIsSetCorrectly()
+        {
+            Action dummy = delegate { };
+            var sut = new LateBindingMethodQuery(dummy.Method);
+            Assert.Equal(dummy.Method, sut.Signature);
+        }
+
+        [Fact]
         public void SelectMethodsWithNullThrows()
         {
             Action dummy = delegate { };

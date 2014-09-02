@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
         }
         public static int MethodInOrder(object arg)
         {
-            return 5;
+            return 6;
         }
         public static int MethodInOrder(string[] arg1, object arg2 = null)
         {
@@ -62,6 +62,10 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
         public static int MethodInOrder(string[] arg)
         {
             return 0;
+        }
+        public static int MethodInOrder(IEnumerable<object> arg)
+        {
+            return 5;
         }
         public static int MethodInOrder(IEnumerable<string> arg)
         {
@@ -81,7 +85,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
         }
         public static int MethodInOrder2(string[] arg1, IEnumerable arg2)
         {
-            return 2;
+            return 3;
         }
         public static int MethodInOrder2(IEnumerable<string> arg1, IEnumerable arg2)
         {
@@ -93,7 +97,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
         }
         public static int MethodInOrder2(IEnumerable<string> arg1, IEnumerable<string> arg2)
         {
-            return 3;
+            return 2;
         }
         public static int MethodInOrder2(string[] arg1, IEnumerable<string> arg2)
         {
