@@ -141,5 +141,61 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         {
             Assert.Same(p1, p2);
         }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterShouldAssignSameInstanceToSecondParameter(
+            [Freeze]string p1,
+            string p2)
+        {
+            Assert.Same(p1, p2);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByExactTypeShouldAssignSameInstanceToSecondParameter(
+            [Freeze(By = Matching.ExactType)]ConcreteType p1,
+            ConcreteType p2)
+        {
+            Assert.Same(p1, p2);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByBaseTypeShouldAssignSameInstanceToSecondParameter(
+            [Freeze(By = Matching.BaseType)]ConcreteType p1,
+            AbstractType p2)
+        {
+            Assert.Same(p1, p2);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByInterfaceShouldAssignSameInstanceToSecondParameter(
+            [Freeze(By = Matching.ImplementedInterfaces)]NoopInterfaceImplementer p1,
+            IInterface p2)
+        {
+            Assert.Same(p1, p2);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByParameterNameShouldAssignSameInstanceToSecondParameter(
+            [Freeze(By = Matching.ParameterName, TargetName = "parameter")]string p1,
+            SingleParameterType<string> p2)
+        {
+            Assert.Same(p1, p2.Parameter);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByPropertyNameShouldAssignSameInstanceToSecondParameter(
+            [Freeze(By = Matching.PropertyName, TargetName = "Property")]string p1,
+            PropertyHolder<string> p2)
+        {
+            Assert.Same(p1, p2.Property);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByFieldNameShouldAssignSameInstanceToSecondParameter(
+            [Freeze(By = Matching.FieldName, TargetName = "Field")]string p1,
+            FieldHolder<string> p2)
+        {
+            Assert.Same(p1, p2.Field);
+        }
     }
 }

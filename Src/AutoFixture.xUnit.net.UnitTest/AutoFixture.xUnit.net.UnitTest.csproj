@@ -83,6 +83,7 @@
     <Compile Include="FakeDataAttribute.cs" />
     <Compile Include="FavorEnumerablesAttributeTest.cs" />
     <Compile Include="FavorListsAttributeTest.cs" />
+    <Compile Include="FreezeAttributeTest.cs" />
     <Compile Include="FrozenAttributeTest.cs" />
     <Compile Include="GreedyAttributeTest.cs" />
     <Compile Include="InlineAutoDataAttributeTest.cs" />
