@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
@@ -119,6 +120,48 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var actual = sut.Create(otherTypeRequest, new DelegatingSpecimenContext());
             // Verify outcome
             Assert.Equal(new NoSpecimen(otherTypeRequest), actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithMatchingByParameterNameReturnsSpecimenForRequestsOfParameterTypeWithMatchingName()
+        {
+            // Fixture setup
+            var expected = new object();
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => expected
+            };
+            var sut = new MatchComposer<object>(builder).ParameterName("obj");
+            // Exercise system
+            var matchingParameterRequest = typeof(ConcreteType)
+                .GetConstructor(new[] { typeof(object) })
+                .GetParameters()
+                .First();
+            var actual = sut.Create(matchingParameterRequest, new DelegatingSpecimenContext());
+            // Verify outcome
+            Assert.Same(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithMatchingByParameterNameReturnsNoSpecimenForRequestsOfParameterTypeWithOtherName()
+        {
+            // Fixture setup
+            var expected = new object();
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => expected
+            };
+            var sut = new MatchComposer<object>(builder).ParameterName("someOtherName");
+            // Exercise system
+            var otherParameterRequest = typeof(ConcreteType)
+                .GetConstructor(new[] { typeof(object) })
+                .GetParameters()
+                .First();
+            var actual = sut.Create(otherParameterRequest, new DelegatingSpecimenContext());
+            // Verify outcome
+            Assert.Equal(new NoSpecimen(otherParameterRequest), actual);
             // Teardown
         }
     }

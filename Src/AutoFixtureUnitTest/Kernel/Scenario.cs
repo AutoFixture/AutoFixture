@@ -698,6 +698,25 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void CustomizeFactoryWithMatchingByParameterName()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var expected = new object();
+            fixture.Customize<ConcreteType>(c => c
+                   .FromFactory(new MethodInvoker(new GreedyConstructorQuery()))
+                   .OmitAutoProperties());
+            fixture.Customize<object>(c => c
+                   .FromFactory(() => expected)
+                   .MatchBy().ParameterName("obj1"));
+            // Exercise system
+            var actual = fixture.Create<ConcreteType>().Property1;
+            // Verify outcome
+            Assert.Same(expected, actual);
+            // Teardown
+        }
+
         private static SpecimenContext CreateContainer()
         {
             var builder = Scenario.CreateAutoPropertyBuilder();

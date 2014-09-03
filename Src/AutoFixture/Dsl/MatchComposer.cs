@@ -35,5 +35,11 @@ namespace Ploeh.AutoFixture.Dsl
             this.matcher = new ExactTypeSpecification(typeof(T));
             return this;
         }
+
+        public IMatchComposer<T> ParameterName(string name)
+        {
+            this.matcher = new ParameterNameSpecification(name);
+            return this;
+        }
     }
 }
