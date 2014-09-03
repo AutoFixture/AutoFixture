@@ -98,6 +98,7 @@
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
     <Compile Include="Kernel\CompositeSpecimenCommand.cs" />
+
     <Compile Include="NoDataAnnotationsCustomization.cs" />
     <Compile Include="Kernel\IRecursionHandler.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelay.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Kernel\FieldNameSpecification.cs" />
     <Compile Include="Dsl\IMatchComposer.cs" />
     <Compile Include="Dsl\MatchComposer.cs" />
+    <Compile Include="Dsl\NullMatchComposer.cs" />
     <Compile Include="Dsl\PostprocessComposer.cs" />
     <Compile Include="MapCreateManyToEnumerable.cs" />
     <Compile Include="Kernel\MultipleToEnumerableRelay.cs" />

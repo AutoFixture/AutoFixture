@@ -95,6 +95,7 @@
     <Compile Include="DataAnnotations\StringLengthArgumentSupportTests.cs" />
     <Compile Include="DelegatingRecursionHandler.cs" />
     <Compile Include="Kernel\CompositeSpecimenCommandTest.cs" />
+
     <Compile Include="Kernel\MultidimensionalArrayRelayTest.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecificationTest.cs" />
     <Compile Include="Kernel\OmitArrayParameterRequestRelayTests.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Kernel\ParameterNameSpecificationTest.cs" />
     <Compile Include="Kernel\FieldNameSpecificationTest.cs" />
     <Compile Include="Dsl\MatchComposerTest.cs" />
+    <Compile Include="Dsl\NullMatchComposerTest.cs" />
     <Compile Include="MapCreateManyToEnumerableTests.cs" />
     <Compile Include="Kernel\MultipleToEnumerableRelayTests.cs" />
     <Compile Include="Kernel\NoConstructorsSpecificationTest.cs" />
