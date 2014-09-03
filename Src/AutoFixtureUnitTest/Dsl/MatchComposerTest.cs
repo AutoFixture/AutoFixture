@@ -53,6 +53,59 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
+        public void CreateWithMatchingByExactTypeReturnsSpecimenForRequestsOfSameType()
+        {
+            // Fixture setup
+            var request = typeof(ConcreteType);
+            var specimen = new ConcreteType();
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => specimen
+            };
+            var sut = new MatchComposer<ConcreteType>(builder).ByExactType();
+            // Exercise system
+            var actual = sut.Create(request, new DelegatingSpecimenContext());
+            // Verify outcome
+            Assert.Same(specimen, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithMatchingByExactTypeReturnsSpecimenForSeededRequestsOfSameType()
+        {
+            // Fixture setup
+            var request = new SeededRequest(typeof(ConcreteType), new object());
+            var specimen = new ConcreteType();
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => specimen
+            };
+            var sut = new MatchComposer<ConcreteType>(builder).ByExactType();
+            // Exercise system
+            var actual = sut.Create(request, new DelegatingSpecimenContext());
+            // Verify outcome
+            Assert.Same(specimen, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithMatchingByExactTypeReturnsNoSpecimenForRequestsOfOtherTypes()
+        {
+            // Fixture setup
+            var request = typeof(string);
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => new ConcreteType()
+            };
+            var sut = new MatchComposer<ConcreteType>(builder).ByExactType();
+            // Exercise system
+            var actual = sut.Create(request, new DelegatingSpecimenContext());
+            // Verify outcome
+            Assert.Equal(new NoSpecimen(request), actual);
+            // Teardown
+        }
+
+        [Fact]
         public void CreateWithMatchingByBaseTypeReturnsSpecimenForRequestsOfBaseType()
         {
             // Fixture setup
@@ -150,41 +203,6 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                 OnCreate = (r, c) => new object()
             };
             var sut = new MatchComposer<NoopInterfaceImplementer>(builder).ByInterfaces();
-            // Exercise system
-            var actual = sut.Create(request, new DelegatingSpecimenContext());
-            // Verify outcome
-            Assert.Equal(new NoSpecimen(request), actual);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithMatchingByExactTypeReturnsSpecimenForRequestsOfSameType()
-        {
-            // Fixture setup
-            var request = typeof(ConcreteType);
-            var specimen = new ConcreteType();
-            var builder = new DelegatingSpecimenBuilder
-            {
-                OnCreate = (r, c) => specimen
-            };
-            var sut = new MatchComposer<ConcreteType>(builder).ByExactType();
-            // Exercise system
-            var actual = sut.Create(request, new DelegatingSpecimenContext());
-            // Verify outcome
-            Assert.Same(specimen, actual);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithMatchingByExactTypeReturnsNoSpecimenForRequestsOfOtherTypes()
-        {
-            // Fixture setup
-            var request = typeof(string);
-            var builder = new DelegatingSpecimenBuilder
-            {
-                OnCreate = (r, c) => new ConcreteType()
-            };
-            var sut = new MatchComposer<ConcreteType>(builder).ByExactType();
             // Exercise system
             var actual = sut.Create(request, new DelegatingSpecimenContext());
             // Verify outcome

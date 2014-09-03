@@ -42,7 +42,10 @@ namespace Ploeh.AutoFixture.Dsl
 
         public IMatchComposer<T> ByExactType()
         {
-            AddCondition(new ExactTypeSpecification(typeof(T)));
+            AddCondition(
+                new OrRequestSpecification(
+                    new ExactTypeSpecification(typeof(T)),
+                    new SeedRequestSpecification(typeof(T))));
             return this;
         }
 
