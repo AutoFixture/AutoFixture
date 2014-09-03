@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// Encapsulates a generic method
+    /// Encapsulates a generic method, inferring the type parameters bases on invocation arguments.
     /// </summary>
     public class GenericStaticMethod : IMethod
     {
@@ -53,12 +53,19 @@ namespace Ploeh.AutoFixture.Kernel
             if (parameter.IsGenericParameter)
                 return new[] { Tuple.Create(parameter, argument) };
 
-            if (argument.HasElementType)
-                return ResolveGenericType(argument.GetElementType(), parameter.GetElementType() ?? parameter.GetGenericArguments().FirstOrDefault());
+            var argumentTypeArguments = GetTypeArguments(argument);
+            var parameterTypeArguments = GetTypeArguments(parameter);
 
-            return argument.GetGenericArguments()
-                .Zip(parameter.GetGenericArguments(), ResolveGenericType)
+            return argumentTypeArguments
+                .Zip(parameterTypeArguments, ResolveGenericType)
                 .SelectMany(x => x);
+        }
+
+        private static IEnumerable<Type> GetTypeArguments(Type type)
+        {
+            return type.HasElementType ?
+                new[] { type.GetElementType() } :
+                type.GetGenericArguments();
         }
 
         private static MethodInfo InferMethodInfo(MethodInfo methodInfo, IEnumerable<object> arguments)

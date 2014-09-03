@@ -7,7 +7,7 @@ namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
     /// Selects public static methods that has the same parameters of another method,
-    /// ignoring optional parameters.
+    /// ignoring optional parameters and return type.
     /// </summary>
     /// <remarks>
     /// <para>
