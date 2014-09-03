@@ -118,7 +118,8 @@ namespace Ploeh.AutoFixture.Kernel
                 if (signatureParameters == null)
                     throw new ArgumentNullException("signatureParameters");
 
-                this.score = CalculateScore(methodParameters, signatureParameters);
+                this.score = CalculateScore(methodParameters.Select(p => p.ParameterType), 
+                    signatureParameters.Select(p => p.ParameterType));
             }
 
             public int CompareTo(LateBindingParameterScore other)
@@ -129,10 +130,10 @@ namespace Ploeh.AutoFixture.Kernel
                 return this.score.CompareTo(other.score);
             }
 
-            private static int CalculateScore(IEnumerable<ParameterInfo> methodParameters, IEnumerable<ParameterInfo> signatureParameters)
+            private static int CalculateScore(IEnumerable<Type> methodParameters, IEnumerable<Type> signatureParameters)
             {
                 var parametersScore = signatureParameters.Zip(methodParameters,
-                    (s, m) => CalculateScore(m.ParameterType, s.ParameterType))
+                    (s, m) => CalculateScore(m, s))
                     .Sum();
 
                 var additionalParameters = methodParameters.Count() - signatureParameters.Count();
@@ -153,16 +154,23 @@ namespace Ploeh.AutoFixture.Kernel
 
                 var score = 50 * -(hierarchy.Count - matches);
 
-                var methodTypeArguments = methodParameterType.HasElementType ? new[] { methodParameterType.GetElementType() } : methodParameterType.GetGenericArguments();
-                var signatureTypeArguments = signatureParameterType.HasElementType ? new[] {signatureParameterType.GetElementType()} : signatureParameterType.GetGenericArguments();
+                var methodTypeArguments = GetTypeArguments(methodParameterType);
+                var signatureTypeArguments = GetTypeArguments(signatureParameterType);
 
-                score += methodTypeArguments.Zip(signatureTypeArguments, CalculateScore).Sum() / 10;
+                score += CalculateScore(methodTypeArguments, signatureTypeArguments) / 10;
                 score += 50 * -Math.Abs(methodTypeArguments.Length - signatureTypeArguments.Length);
 
                 if (methodParameterType.IsClass)
                     score += 5;
                 
                 return score;
+            }
+
+            private static Type[] GetTypeArguments(Type type)
+            {
+                return type.HasElementType ? 
+                    new[] { type.GetElementType() } : 
+                    type.GetGenericArguments();
             }
 
             private static IEnumerable<Type> GetHierarchy(Type type)
