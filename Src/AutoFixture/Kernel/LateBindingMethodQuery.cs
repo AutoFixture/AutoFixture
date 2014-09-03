@@ -86,24 +86,26 @@ namespace Ploeh.AutoFixture.Kernel
 
         private bool Compare(Type parameterType, Type signatureParameterType)
         {
-            if (parameterType == signatureParameterType)
-                return true;
-
             if (parameterType.IsAssignableFrom(signatureParameterType))
                 return true;
 
             if (parameterType.IsGenericParameter)
                 return signatureParameterType.IsGenericParameter && parameterType.GenericParameterPosition == signatureParameterType.GenericParameterPosition;
 
-            if (parameterType.HasElementType && signatureParameterType.HasElementType)
-                return Compare(parameterType.GetElementType(), signatureParameterType.GetElementType());
+            var genericArguments = GetTypeArguments(parameterType);
+            var signatureGenericArguments = GetTypeArguments(signatureParameterType);
 
-            var genericArguments = parameterType.GetGenericArguments();
-            var signatureGenericArguments = signatureParameterType.GetGenericArguments();
             if (genericArguments.Length == 0 || genericArguments.Length != signatureGenericArguments.Length)
                 return false;
 
             return genericArguments.Zip(signatureGenericArguments, Compare).All(x => x);
+        }
+
+        private static Type[] GetTypeArguments(Type type)
+        {
+            return type.HasElementType ?
+                new[] { type.GetElementType() } :
+                type.GetGenericArguments();
         }
 
         private class LateBindingParameterScore : IComparable<LateBindingParameterScore>
@@ -164,13 +166,6 @@ namespace Ploeh.AutoFixture.Kernel
                     score += 5;
                 
                 return score;
-            }
-
-            private static Type[] GetTypeArguments(Type type)
-            {
-                return type.HasElementType ? 
-                    new[] { type.GetElementType() } : 
-                    type.GetGenericArguments();
             }
 
             private static IEnumerable<Type> GetHierarchy(Type type)
