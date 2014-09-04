@@ -31,6 +31,11 @@ namespace Ploeh.AutoFixture.Dsl
             return this;
         }
 
+        public IMatchComposer<T> ByInterfaces()
+        {
+            return this;
+        }
+
         public IMatchComposer<T> ByExactType()
         {
             return this;

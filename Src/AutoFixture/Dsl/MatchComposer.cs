@@ -40,6 +40,12 @@ namespace Ploeh.AutoFixture.Dsl
             return this;
         }
 
+        public IMatchComposer<T> ByInterfaces()
+        {
+            this.matcher = AddCondition(new ImplementedInterfaceSpecification(typeof(T)));
+            return this;
+        }
+
         public IMatchComposer<T> ByExactType()
         {
             this.matcher = AddCondition(new ExactTypeSpecification(typeof(T)));

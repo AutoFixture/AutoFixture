@@ -715,6 +715,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void CustomizeFactoryWithMatchingByInterfaceOrExactType()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var expected = new NoopInterfaceImplementer();
+            fixture.Customize<NoopInterfaceImplementer>(c => c
+                .FromFactory(() => expected)
+                .Match().ByInterfaces().Or.ByExactType());
+            // Exercise system
+            // Verify outcome
+            Assert.Same(expected, fixture.Create<IInterface>());
+            Assert.Same(expected, fixture.Create<NoopInterfaceImplementer>());
+            // Teardown
+        }
+
+        [Fact]
         public void CustomizeFactoryWithMatchingByParameterName()
         {
             // Fixture setup

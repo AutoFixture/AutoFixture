@@ -72,6 +72,18 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
+        public void ByInterfacesReturnsTheMatchComposerItself()
+        {
+            // Fixture setup
+            var sut = new NullMatchComposer<object>();
+            // Exercise system
+            var result = sut.ByInterfaces();
+            // Verify outcome
+            Assert.Same(sut, result);
+            // Teardown
+        }
+
+        [Fact]
         public void ByExactTypeReturnsTheMatchComposerItself()
         {
             // Fixture setup

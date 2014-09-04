@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
@@ -97,6 +98,58 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
                 OnCreate = (r, c) => new ConcreteType()
             };
             var sut = new MatchComposer<ConcreteType>(builder).ByBaseType();
+            // Exercise system
+            var actual = sut.Create(request, new DelegatingSpecimenContext());
+            // Verify outcome
+            Assert.Equal(new NoSpecimen(request), actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithMatchingByImplementedInterfacesReturnsSpecimenForRequestsOfImplementedInterface()
+        {
+            // Fixture setup
+            var request = typeof(IInterface);
+            var specimen = new NoopInterfaceImplementer();
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => specimen
+            };
+            var sut = new MatchComposer<NoopInterfaceImplementer>(builder).ByInterfaces();
+            // Exercise system
+            var actual = sut.Create(request, new DelegatingSpecimenContext());
+            // Verify outcome
+            Assert.Same(specimen, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithMatchingByImplementedInterfacesReturnsNoSpecimenForRequestsOfNotImplementedInterface()
+        {
+            // Fixture setup
+            var request = typeof(IDisposable);
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => new NoopInterfaceImplementer()
+            };
+            var sut = new MatchComposer<NoopInterfaceImplementer>(builder).ByInterfaces();
+            // Exercise system
+            var actual = sut.Create(request, new DelegatingSpecimenContext());
+            // Verify outcome
+            Assert.Equal(new NoSpecimen(request), actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithMatchingByImplementedInterfacesReturnsNoSpecimenForRequestsOfNonInterfaces()
+        {
+            // Fixture setup
+            var request = typeof(string);
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => new object()
+            };
+            var sut = new MatchComposer<NoopInterfaceImplementer>(builder).ByInterfaces();
             // Exercise system
             var actual = sut.Create(request, new DelegatingSpecimenContext());
             // Verify outcome

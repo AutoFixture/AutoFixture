@@ -8,6 +8,8 @@ namespace Ploeh.AutoFixture.Dsl
 
         IMatchComposer<T> ByBaseType();
 
+        IMatchComposer<T> ByInterfaces();
+
         IMatchComposer<T> ByExactType();
 
         IMatchComposer<T> ByParameterName(string name);
