@@ -211,14 +211,30 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void CreateWithMatchingByParameterNameReturnsNoSpecimenForRequestsOfParameterTypeWithOtherName()
+        public void CreateWithMatchingByParameterNameReturnsNoSpecimenForRequestsOfParameterWithIncompatibleType()
+        {
+            // Fixture setup
+            var request = Parameter<int>("parameter");
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => new object()
+            };
+            var sut = new MatchComposer<object>(builder).ByParameterName("parameter");
+            // Exercise system
+            var actual = sut.Create(request, new DelegatingSpecimenContext());
+            // Verify outcome
+            Assert.Equal(new NoSpecimen(request), actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithMatchingByArgumentNameReturnsNoSpecimenForRequestsOfParameterWithOtherName()
         {
             // Fixture setup
             var request = Parameter<object>("parameter");
-            var expected = new object();
             var builder = new DelegatingSpecimenBuilder
             {
-                OnCreate = (r, c) => expected
+                OnCreate = (r, c) => new object()
             };
             var sut = new MatchComposer<object>(builder).ByParameterName("someOtherName");
             // Exercise system

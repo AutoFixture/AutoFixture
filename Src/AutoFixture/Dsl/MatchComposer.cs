@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture.Dsl
 
         public IMatchComposer<T> ByParameterName(string name)
         {
-            AddCondition(new ParameterNameSpecification(name));
+            AddCondition(new ParameterSpecification(typeof(T), name));
             return this;
         }
 
