@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Dsl
 {
@@ -53,12 +51,29 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(AbstractType))]
-        [InlineData(typeof(ConcreteType))]
-        public void CreateWithMatchingByBaseTypeReturnsSpecimenForRequestsOfSameOfBaseType(Type request)
+        [Fact]
+        public void CreateWithMatchingByBaseTypeReturnsSpecimenForRequestsOfBaseType()
         {
             // Fixture setup
+            var request = typeof(AbstractType);
+            var specimen = new ConcreteType();
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => specimen
+            };
+            var sut = new MatchComposer<ConcreteType>(builder).ByBaseType();
+            // Exercise system
+            var actual = sut.Create(request, new DelegatingSpecimenContext());
+            // Verify outcome
+            Assert.Same(specimen, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithMatchingByBaseTypeReturnsSpecimenForRequestsOfSameType()
+        {
+            // Fixture setup
+            var request = typeof(ConcreteType);
             var specimen = new ConcreteType();
             var builder = new DelegatingSpecimenBuilder
             {
@@ -76,16 +91,16 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void CreateWithMatchingByBaseTypeReturnsNoSpecimenForRequestsOfIncompatibleTypes()
         {
             // Fixture setup
+            var request = typeof(string);
             var builder = new DelegatingSpecimenBuilder
             {
                 OnCreate = (r, c) => new ConcreteType()
             };
             var sut = new MatchComposer<ConcreteType>(builder).ByBaseType();
             // Exercise system
-            var otherTypeRequest = typeof(string);
-            var actual = sut.Create(otherTypeRequest, new DelegatingSpecimenContext());
+            var actual = sut.Create(request, new DelegatingSpecimenContext());
             // Verify outcome
-            Assert.Equal(new NoSpecimen(otherTypeRequest), actual);
+            Assert.Equal(new NoSpecimen(request), actual);
             // Teardown
         }
 
@@ -93,6 +108,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void CreateWithMatchingByExactTypeReturnsSpecimenForRequestsOfSameType()
         {
             // Fixture setup
+            var request = typeof(ConcreteType);
             var specimen = new ConcreteType();
             var builder = new DelegatingSpecimenBuilder
             {
@@ -100,8 +116,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             };
             var sut = new MatchComposer<ConcreteType>(builder).ByExactType();
             // Exercise system
-            var exactTypeRequest = typeof(ConcreteType);
-            var actual = sut.Create(exactTypeRequest, new DelegatingSpecimenContext());
+            var actual = sut.Create(request, new DelegatingSpecimenContext());
             // Verify outcome
             Assert.Same(specimen, actual);
             // Teardown
@@ -111,16 +126,16 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void CreateWithMatchingByExactTypeReturnsNoSpecimenForRequestsOfOtherTypes()
         {
             // Fixture setup
+            var request = typeof(string);
             var builder = new DelegatingSpecimenBuilder
             {
                 OnCreate = (r, c) => new ConcreteType()
             };
             var sut = new MatchComposer<ConcreteType>(builder).ByExactType();
             // Exercise system
-            var otherTypeRequest = typeof(string);
-            var actual = sut.Create(otherTypeRequest, new DelegatingSpecimenContext());
+            var actual = sut.Create(request, new DelegatingSpecimenContext());
             // Verify outcome
-            Assert.Equal(new NoSpecimen(otherTypeRequest), actual);
+            Assert.Equal(new NoSpecimen(request), actual);
             // Teardown
         }
 
@@ -128,6 +143,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void CreateWithMatchingByParameterNameReturnsSpecimenForRequestsOfParameterTypeWithMatchingName()
         {
             // Fixture setup
+            var request = Parameter<object>("parameter");
             var expected = new object();
             var builder = new DelegatingSpecimenBuilder
             {
@@ -135,7 +151,6 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             };
             var sut = new MatchComposer<object>(builder).ByParameterName("parameter");
             // Exercise system
-            var request = Parameter<object>("parameter");
             var actual = sut.Create(request, new DelegatingSpecimenContext());
             // Verify outcome
             Assert.Same(expected, actual);
@@ -146,6 +161,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void CreateWithMatchingByParameterNameReturnsNoSpecimenForRequestsOfParameterTypeWithOtherName()
         {
             // Fixture setup
+            var request = Parameter<object>("parameter");
             var expected = new object();
             var builder = new DelegatingSpecimenBuilder
             {
@@ -153,7 +169,6 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             };
             var sut = new MatchComposer<object>(builder).ByParameterName("someOtherName");
             // Exercise system
-            var request = Parameter<object>("parameter");
             var actual = sut.Create(request, new DelegatingSpecimenContext());
             // Verify outcome
             Assert.Equal(new NoSpecimen(request), actual);
@@ -164,6 +179,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void CreateWithMatchingByPropertyNameReturnsSpecimenForRequestsOfPropertyTypeWithMatchingName()
         {
             // Fixture setup
+            var request = Property<object>("Property");
             var expected = new object();
             var builder = new DelegatingSpecimenBuilder
             {
@@ -171,7 +187,6 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             };
             var sut = new MatchComposer<object>(builder).ByPropertyName("Property");
             // Exercise system
-            var request = Property<object>("Property");
             var actual = sut.Create(request, new DelegatingSpecimenContext());
             // Verify outcome
             Assert.Same(expected, actual);
@@ -182,6 +197,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void CreateWithMatchingByPropertyNameReturnsNoSpecimenForRequestsOfPropertyTypeWithOtherName()
         {
             // Fixture setup
+            var request = Property<object>("Property");
             var expected = new object();
             var builder = new DelegatingSpecimenBuilder
             {
@@ -189,7 +205,6 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             };
             var sut = new MatchComposer<object>(builder).ByPropertyName("someOtherName");
             // Exercise system
-            var request = Property<object>("Property");
             var actual = sut.Create(request, new DelegatingSpecimenContext());
             // Verify outcome
             Assert.Equal(new NoSpecimen(request), actual);
@@ -200,6 +215,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void CreateWithMatchingByFieldNameReturnsSpecimenForRequestsOfFieldTypeWithMatchingName()
         {
             // Fixture setup
+            var request = Field<object>("Field");
             var expected = new object();
             var builder = new DelegatingSpecimenBuilder
             {
@@ -207,7 +223,6 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             };
             var sut = new MatchComposer<object>(builder).ByFieldName("Field");
             // Exercise system
-            var request = Field<object>("Field");
             var actual = sut.Create(request, new DelegatingSpecimenContext());
             // Verify outcome
             Assert.Same(expected, actual);
@@ -218,6 +233,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void CreateWithMatchingByFieldNameReturnsNoSpecimenForRequestsOfFieldTypeWithOtherName()
         {
             // Fixture setup
+            var request = Field<object>("Field");
             var expected = new object();
             var builder = new DelegatingSpecimenBuilder
             {
@@ -225,7 +241,6 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             };
             var sut = new MatchComposer<object>(builder).ByFieldName("someOtherName");
             // Exercise system
-            var request = Field<object>("Field");
             var actual = sut.Create(request, new DelegatingSpecimenContext());
             // Verify outcome
             Assert.Equal(new NoSpecimen(request), actual);
@@ -257,9 +272,9 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         private static ParameterInfo Parameter<T>(string parameterName)
         {
             return typeof(SingleParameterType<T>)
-                   .GetConstructor(new[] { typeof(T) })
-                   .GetParameters()
-                   .Single(p => p.Name == parameterName);
+                .GetConstructor(new[] { typeof(T) })
+                .GetParameters()
+                .Single(p => p.Name == parameterName);
         }
 
         private static PropertyInfo Property<T>(string propertyName)

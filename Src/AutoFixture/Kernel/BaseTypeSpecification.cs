@@ -23,23 +23,25 @@ namespace Ploeh.AutoFixture.Kernel
         {
             Require.IsNotNull(request, "request");
 
+            return IsRequestForType(request) &&
+                   RequestedTypeIsSameAsTarget() ||
+                   RequestedTypeIsBaseOfTarget();
+        }
+
+        private bool IsRequestForType(object request)
+        {
             this.requestedType = request as Type;
-            return IsRequestForBaseType();
-        }
-
-        private bool IsRequestForBaseType()
-        {
-            return IsRequestForType() && RequestedTypeIsContravariantWithTargetType();
-        }
-
-        private bool IsRequestForType()
-        {
             return requestedType != null;
         }
 
-        private bool RequestedTypeIsContravariantWithTargetType()
+        private bool RequestedTypeIsSameAsTarget()
         {
-            return requestedType.IsAssignableFrom(targetType);
+            return this.requestedType == this.targetType;
+        }
+
+        private bool RequestedTypeIsBaseOfTarget()
+        {
+            return this.requestedType == this.targetType.BaseType;
         }
     }
 }
