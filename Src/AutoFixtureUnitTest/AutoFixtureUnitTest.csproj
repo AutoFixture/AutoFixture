@@ -101,7 +101,7 @@
     <Compile Include="Kernel\OmitArrayParameterRequestRelayTests.cs" />
     <Compile Include="Kernel\OmitEnumerableParameterRequestRelayTests.cs" />
     <Compile Include="Kernel\TerminatingWithPathSpecimenBuilderTest.cs" />
-    <Compile Include="Kernel\PropertyNameSpecificationTest.cs" />
+    <Compile Include="Kernel\PropertySpecificationTest.cs" />
     <Compile Include="Kernel\BaseTypeSpecificationTest.cs" />
     <Compile Include="Kernel\ParameterNameSpecificationTest.cs" />
     <Compile Include="Kernel\FieldNameSpecificationTest.cs" />

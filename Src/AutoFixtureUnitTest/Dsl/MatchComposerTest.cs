@@ -229,7 +229,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void CreateWithMatchingByPropertyNameReturnsSpecimenForRequestsOfPropertyTypeWithMatchingName()
+        public void CreateWithMatchingByPropertyReturnsSpecimenForRequestsOfPropertyWithCompatibleTypeAndMatchingName()
         {
             // Fixture setup
             var request = Property<object>("Property");
@@ -247,14 +247,30 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void CreateWithMatchingByPropertyNameReturnsNoSpecimenForRequestsOfPropertyTypeWithOtherName()
+        public void CreateWithMatchingByPropertyReturnsNoSpecimenForRequestsOfPropertyWithIncompatibleType()
+        {
+            // Fixture setup
+            var request = Property<string>("Property");
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => new object()
+            };
+            var sut = new MatchComposer<object>(builder).ByPropertyName("Property");
+            // Exercise system
+            var actual = sut.Create(request, new DelegatingSpecimenContext());
+            // Verify outcome
+            Assert.Equal(new NoSpecimen(request), actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithMatchingByPropertyReturnsNoSpecimenForRequestsOfPropertyWithOtherName()
         {
             // Fixture setup
             var request = Property<object>("Property");
-            var expected = new object();
             var builder = new DelegatingSpecimenBuilder
             {
-                OnCreate = (r, c) => expected
+                OnCreate = (r, c) => new object()
             };
             var sut = new MatchComposer<object>(builder).ByPropertyName("someOtherName");
             // Exercise system

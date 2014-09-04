@@ -65,9 +65,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new ParameterNameSpecification(parameterName);
             var request = typeof(SingleParameterType<object>)
-                          .GetConstructor(new[] { typeof(object) })
-                          .GetParameters()
-                          .Single(p => p.Name == requestedName);
+                              .GetConstructor(new[] { typeof(object) })
+                              .GetParameters()
+                              .Single(p => p.Name == requestedName);
             // Exercise system
             var result = sut.IsSatisfiedBy(request);
             // Verify outcome
