@@ -60,7 +60,7 @@ namespace Ploeh.AutoFixture.Dsl
 
         public IMatchComposer<T> ByFieldName(string name)
         {
-            AddCondition(new FieldNameSpecification(name));
+            AddCondition(new FieldSpecification(typeof(T), name));
             return this;
         }
 

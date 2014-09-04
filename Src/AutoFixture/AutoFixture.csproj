@@ -109,7 +109,7 @@
     <Compile Include="Kernel\PropertySpecification.cs" />
     <Compile Include="Kernel\BaseTypeSpecification.cs" />
     <Compile Include="Kernel\ParameterNameSpecification.cs" />
-    <Compile Include="Kernel\FieldNameSpecification.cs" />
+    <Compile Include="Kernel\FieldSpecification.cs" />
     <Compile Include="Dsl\IMatchComposer.cs" />
     <Compile Include="Dsl\MatchComposer.cs" />
     <Compile Include="Dsl\NullMatchComposer.cs" />
