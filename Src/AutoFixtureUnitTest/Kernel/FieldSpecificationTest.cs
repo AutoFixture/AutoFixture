@@ -6,14 +6,14 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class FieldNameSpecificationTest
+    public class FieldSpecificationTest
     {
         [Fact]
         public void SutIsRequestSpecification()
         {
             // Fixture setup
             // Exercise system
-            var sut = new FieldNameSpecification("someName");
+            var sut = new FieldSpecification(typeof(object), "someName");
             // Verify outcome
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
             // Teardown
@@ -23,11 +23,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void InitializeWithFieldNameShouldSetCorrespondingProperty()
         {
             // Fixture setup
-            var fieldName = "someName";
+            var type = typeof(string);
+            var name = "someName";
             // Exercise system
-            var sut = new FieldNameSpecification(fieldName);
+            var sut = new FieldSpecification(type, name);
             // Verify outcome
-            Assert.Equal(fieldName, sut.FieldName);
+            Assert.Equal(type, sut.TargetType);
+            Assert.Equal(name, sut.TargetName);
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullFieldTypeShouldThrowArgumentNullException()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new FieldSpecification(null, "someName"));
             // Teardown
         }
 
@@ -37,7 +49,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new FieldNameSpecification(null));
+                new FieldSpecification(typeof(object), null));
             // Teardown
         }
 
@@ -45,7 +57,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void IsSatisfiedByWithNullRequestShouldThrowArgumentNullException()
         {
             // Fixture setup
-            var sut = new FieldNameSpecification("someName");
+            var sut = new FieldSpecification(typeof(object), "someName");
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.IsSatisfiedBy(null));
@@ -62,7 +74,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             bool expectedResult)
         {
             // Fixture setup
-            var sut = new FieldNameSpecification(fieldName);
+            var sut = new FieldSpecification(typeof(object), fieldName);
             var request = typeof(FieldHolder<object>).GetField(requestedName);
             // Exercise system
             var result = sut.IsSatisfiedBy(request);
@@ -72,10 +84,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        public void IsSatisfiedByWithRequestForFieldWithSameNameAndIncompatibleTypeShouldReturnFalse()
+        {
+            // Fixture setup
+            var sut = new FieldSpecification(typeof(object), "Field");
+            var request = typeof(FieldHolder<string>).GetField("Field");
+            // Exercise system
+            var result = sut.IsSatisfiedBy(request);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
         public void IsSatisfiedByWithRequestForMemberOtherThanFieldWithSameNameShouldReturnFalse()
         {
             // Fixture setup
-            var sut = new FieldNameSpecification("Property");
+            var sut = new FieldSpecification(typeof(object), "Property");
             var request = typeof(PropertyHolder<object>).GetProperty("Property");
             // Exercise system
             var result = sut.IsSatisfiedBy(request);
@@ -92,7 +117,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void IsSatisfiedByWithInvalidRequestShouldReturnFalse(object request)
         {
             // Fixture setup
-            var sut = new FieldNameSpecification("someName");
+            var sut = new FieldSpecification(typeof(object), "someName");
             // Exercise system
             var result = sut.IsSatisfiedBy(request);
             // Verify outcome
