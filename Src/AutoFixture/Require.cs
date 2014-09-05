@@ -5,7 +5,7 @@ namespace Ploeh.AutoFixture
     /// <summary>
     /// Contains helper methods that check various kinds of preconditions.
     /// </summary>
-    public static class Require
+    internal static class Require
     {
         /// <summary>
         /// Checks that the specified argument is not null.
@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixture
         /// <exception cref="ArgumentNullException">
         /// Thrown when the specified <paramref name="argument"/> is null.
         /// </exception>
-        public static void IsNotNull(object argument, string name = null)
+        internal static void IsNotNull(object argument, string name = null)
         {
             if (argument == null)
             {
