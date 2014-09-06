@@ -53,6 +53,23 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void SetsUpBaseInterfaceMethods_ToRetrieveReturnValueFromContext()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var mock = new Mock<IDerivedInterface>();
+
+            var sut = new MockVirtualMethodsCommand();
+            // Exercise system
+            sut.Execute(mock, new SpecimenContext(fixture));
+            // Verify outcome
+            var result = mock.Object.Method();
+            Assert.Same(frozenString, result);
+            // Teardown
+        }
+
+        [Fact]
         public void SetsUpVirtualMethods_ToRetrieveReturnValueFromContext()
         {
             // Fixture setup

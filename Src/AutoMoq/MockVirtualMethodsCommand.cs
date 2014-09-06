@@ -45,11 +45,7 @@ namespace Ploeh.AutoFixture.AutoMoq
 
             var mockType = mock.GetType();
             var mockedType = mockType.GetMockedType();
-            var methods = mockedType.GetMethods()
-                                    .Where(method => method.IsOverridable() &&
-                                                     !method.IsGenericMethod &&
-                                                     !method.HasRefParameters() &&
-                                                     (!method.IsVoid() || method.HasOutParameters()));
+            var methods = GetConfigurableMethods(mockedType);
 
             foreach (var method in methods)
             {
@@ -70,6 +66,37 @@ namespace Ploeh.AutoFixture.AutoMoq
                     setup.ReturnsUsingContext(context, mockedType, returnType);
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets a list of methods to configure.
+        /// </summary>
+        /// <param name="type">The type being mocked and whose methods need to be configured.</param>
+        private IEnumerable<MethodInfo> GetConfigurableMethods(Type type)
+        {
+            IEnumerable<MethodInfo> methods = type.GetMethods();
+
+            //if the type being mocked is an interface,
+            //retrieve this interface's methods + all base interfaces' methods
+            if (type.IsInterface)
+                methods = methods.Concat(
+                    type.GetInterfaces()
+                        .SelectMany(@interface => @interface.GetMethods()));
+
+            return methods.Where(CanBeConfigured);
+        }
+
+        /// <summary>
+        /// Determines whether a method can be mocked.
+        /// </summary>
+        /// <param name="method">The candidate method.</param>
+        /// <returns>Whether <paramref name="method"/> can be configured.</returns>
+        private bool CanBeConfigured(MethodInfo method)
+        {
+            return method.IsOverridable() &&
+                   !method.IsGenericMethod &&
+                   !method.HasRefParameters() &&
+                   (!method.IsVoid() || method.HasOutParameters());
         }
 
         /// <summary>
