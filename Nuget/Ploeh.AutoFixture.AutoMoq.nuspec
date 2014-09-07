@@ -8,7 +8,7 @@
         <owners>Mark Seemann</owners>
         <dependencies>
             <dependency id="autofixture" version="2.2" />
-            <dependency id="moq" version="3.1" />
+            <dependency id="moq" version="4.0" />
         </dependencies>
         <summary>Turns AutoFixture into an Auto-Mocking Container based on Moq.</summary>
         <description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by Moq. To use it, add the AutoMoqCustomization to your Fixture instance. Read more at http://blog.ploeh.dk/2010/08/19/AutoFixtureAsAnAutomockingContainer.aspx</description>
