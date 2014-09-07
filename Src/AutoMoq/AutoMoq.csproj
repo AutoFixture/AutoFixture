@@ -85,6 +85,7 @@
     <Compile Include="AutoConfiguredMoqCustomization.cs" />
     <Compile Include="AutoMoqCustomization.cs" />
     <Compile Include="Extensions\MethodInfoBaseExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="GreedyMockConstructorQuery.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MockConstructorMethod.cs" />

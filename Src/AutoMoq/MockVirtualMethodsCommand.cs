@@ -74,14 +74,9 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// <param name="type">The type being mocked and whose methods need to be configured.</param>
         private IEnumerable<MethodInfo> GetConfigurableMethods(Type type)
         {
-            IEnumerable<MethodInfo> methods = type.GetMethods();
-
-            //if the type being mocked is an interface,
-            //retrieve this interface's methods + all base interfaces' methods
-            if (type.IsInterface)
-                methods = methods.Concat(
-                    type.GetInterfaces()
-                        .SelectMany(@interface => @interface.GetMethods()));
+            var methods = type.IsInterface
+                              ? type.GetInterfaceMethods()
+                              : type.GetMethods();
 
             return methods.Where(CanBeConfigured);
         }

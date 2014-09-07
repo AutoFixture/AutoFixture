@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
-        public void SetsUpBaseInterfaceMethods_ToRetrieveReturnValueFromContext()
+        public void SetsUpInterfaceBaseMethods_ToRetrieveReturnValueFromContext()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -66,6 +66,46 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Verify outcome
             var result = mock.Object.Method();
             Assert.Same(frozenString, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SetsUpInterfaceNewMethods_ToRetrieveReturnValueFromContext()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var mock = new Mock<IInterfaceWithNewMethod>();
+
+            var sut = new MockVirtualMethodsCommand();
+            // Exercise system
+            sut.Execute(mock, new SpecimenContext(fixture));
+            // Verify outcome
+            var result = mock.Object.Method(0);
+            Assert.Same(frozenString, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SetsUpOverloadsOfShadowedMethods_ToRetrieveReturnValueFromContext()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var frozenInt = fixture.Freeze<int>();
+            var mock = new Mock<IInterfaceWithNewMethod>();
+
+            var sut = new MockVirtualMethodsCommand();
+            // Exercise system
+            sut.Execute(mock, new SpecimenContext(fixture));
+            // Verify outcome
+            int outParam;
+            Assert.Same(frozenString, mock.Object.Method());
+            Assert.Same(frozenString, mock.Object.Method(out outParam));
+            Assert.Same(frozenString, mock.Object.Method(0, 1));
+            Assert.Same(frozenString, mock.Object.Method("string"));
+
+            Assert.Equal(frozenInt, outParam);
             // Teardown
         }
 
