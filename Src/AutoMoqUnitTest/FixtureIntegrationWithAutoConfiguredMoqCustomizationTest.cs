@@ -50,26 +50,6 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
-        public void OverloadsOfShadowedInterfaceMethodsReturnValueFromFixture()
-        {
-            // Fixture setup
-            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
-            var frozenString = fixture.Freeze<string>();
-            var frozenInt = fixture.Freeze<int>();
-            // Exercise system
-            var result = fixture.Create<IInterfaceWithNewMethod>();
-            // Verify outcome
-            int outResult;
-            Assert.Same(frozenString, result.Method());
-            Assert.Same(frozenString, result.Method(out outResult));
-            Assert.Same(frozenString, result.Method(0, 1));
-            Assert.Same(frozenString, result.Method("string"));
-
-            Assert.Equal(frozenInt, outResult);
-            // Teardown
-        }
-
-        [Fact]
         public void PropertiesReturnValueFromFixture()
         {
             // Fixture setup

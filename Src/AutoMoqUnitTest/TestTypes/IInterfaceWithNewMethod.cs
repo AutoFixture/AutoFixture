@@ -9,12 +9,6 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes
     {
         //shadowed method
         string Method(int i);
-
-        //overloads
-        string Method();
-        string Method(out int i);
-        string Method(int i, int i2);
-        string Method(string s);
     }
 
     public interface IInterfaceWithNewMethod : IInterfaceWithShadowedMethod

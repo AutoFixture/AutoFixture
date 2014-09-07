@@ -87,29 +87,6 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
-        public void SetsUpOverloadsOfShadowedMethods_ToRetrieveReturnValueFromContext()
-        {
-            // Fixture setup
-            var fixture = new Fixture();
-            var frozenString = fixture.Freeze<string>();
-            var frozenInt = fixture.Freeze<int>();
-            var mock = new Mock<IInterfaceWithNewMethod>();
-
-            var sut = new MockVirtualMethodsCommand();
-            // Exercise system
-            sut.Execute(mock, new SpecimenContext(fixture));
-            // Verify outcome
-            int outParam;
-            Assert.Same(frozenString, mock.Object.Method());
-            Assert.Same(frozenString, mock.Object.Method(out outParam));
-            Assert.Same(frozenString, mock.Object.Method(0, 1));
-            Assert.Same(frozenString, mock.Object.Method("string"));
-
-            Assert.Equal(frozenInt, outParam);
-            // Teardown
-        }
-
-        [Fact]
         public void SetsUpVirtualMethods_ToRetrieveReturnValueFromContext()
         {
             // Fixture setup
