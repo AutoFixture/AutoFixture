@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixture.Kernel
                        p.Position >= signatureParameters.Length ?
                            p.IsOptional || p.IsDefined(typeof(ParamArrayAttribute), true) :
                            Compare(p.ParameterType, signatureParameters[p.Position].ParameterType))
-                   select new LateBoundMethod(new GenericStaticMethod(method));
+                   select new GenericMethod(method, m => new LateBoundMethod(new StaticMethod(m)));
         }
 
         private bool Compare(Type parameterType, Type signatureParameterType)

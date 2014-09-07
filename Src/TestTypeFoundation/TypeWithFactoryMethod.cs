@@ -3,8 +3,9 @@ namespace Ploeh.TestTypeFoundation
 {
     public class TypeWithFactoryMethod
     {
-        private TypeWithFactoryMethod() 
+        public TypeWithFactoryMethod InstanceCreate()
         {
+            return new TypeWithFactoryMethod();
         }
 
         public static TypeWithFactoryMethod Create()
@@ -12,7 +13,17 @@ namespace Ploeh.TestTypeFoundation
             return new TypeWithFactoryMethod();
         }
 
+        public TypeWithFactoryMethod InstanceCreate(object argument)
+        {
+            return new TypeWithFactoryMethod();
+        }
+
         public static TypeWithFactoryMethod Create(object argument)
+        {
+            return new TypeWithFactoryMethod();
+        }
+
+        public TypeWithFactoryMethod InstanceCreate(IEnumerable<object> arguments)
         {
             return new TypeWithFactoryMethod();
         }

@@ -96,7 +96,7 @@
     <Compile Include="DelegatingRecursionHandler.cs" />
     <Compile Include="Kernel\CompositeSpecimenCommandTest.cs" />
     <Compile Include="Kernel\DelegatingMethod.cs" />
-    <Compile Include="Kernel\GenericStaticMethodTests.cs" />
+    <Compile Include="Kernel\GenericMethodTests.cs" />
     <Compile Include="Kernel\LateBindingMethodQueryTests.cs" />
     <Compile Include="Kernel\LateBoundMethodTests.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelayTest.cs" />

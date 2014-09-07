@@ -8,21 +8,51 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// Encapsulates a generic method, inferring the type parameters bases on invocation arguments.
     /// </summary>
-    public class GenericStaticMethod : IMethod
+    public class GenericMethod : IMethod
     {
         private readonly MethodInfo method;
         private readonly ParameterInfo[] parametersInfo;
+        private readonly Func<MethodInfo, IMethod> factory;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GenericStaticMethod"/> class.
+        /// Initializes a new instance of the <see cref="GenericMethod"/> class.
         /// </summary>
         /// <param name="method">The method info.</param>
-        public GenericStaticMethod(MethodInfo method)
+        public GenericMethod(MethodInfo method)
+            : this(method, m => new StaticMethod(m))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GenericMethod"/> class.
+        /// </summary>
+        /// <param name="method">The method info.</param>
+        /// <param name="owner">The owner.</param>
+        public GenericMethod(MethodInfo method, object owner)
+            : this(method, m => new InstanceMethod(m, owner))
+        {
+            if (owner == null)
+                throw new ArgumentNullException("owner");
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GenericMethod"/> class.
+        /// </summary>
+        /// <param name="method">The method info.</param>
+        /// <param name="factory">
+        /// The factory to create an <see cref="IMethod" /> from the <see cref="MethodInfo" />
+        /// resolved by <see cref="GenericMethod" />.
+        /// </param>
+        public GenericMethod(MethodInfo method, Func<MethodInfo, IMethod> factory)
         {
             if (method == null)
                 throw new ArgumentNullException("method");
 
+            if (factory == null)
+                throw new ArgumentNullException("factory");
+
             this.method = method;
+            this.factory = factory;
             this.parametersInfo = method.GetParameters();
         }
 
@@ -40,6 +70,15 @@ namespace Ploeh.AutoFixture.Kernel
         public MethodInfo Method
         {
             get { return method; }
+        }
+
+        /// <summary>
+        /// Gets information about the factory to create <see cref="IMethod" /> from
+        /// <see cref="MethodInfo" />
+        /// </summary>
+        public Func<MethodInfo, IMethod> Factory
+        {
+            get { return factory; }
         }
 
         private static IEnumerable<Tuple<Type, Type>> ResolveGenericType(Type argument, Type parameter)
@@ -105,8 +144,8 @@ namespace Ploeh.AutoFixture.Kernel
         public object Invoke(IEnumerable<object> parameters)
         {
             var arguments = parameters.ToArray();
-            return InferMethodInfo(Method, arguments)
-                .Invoke(null, arguments);
+            return Factory(InferMethodInfo(Method, arguments))
+                .Invoke(arguments);
         }
     }
 }
