@@ -42,58 +42,6 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Fact]
-        public void GetCustomizationShouldReturnFreezeOnMatchCustomization()
-        {
-            // Fixture setup
-            var sut = new FreezeAttribute();
-            // Exercise system
-            var customization = sut.GetCustomization(AParameter<ConcreteType>());
-            // Verify outcome
-            Assert.IsAssignableFrom<FreezeOnMatchCustomization<ConcreteType>>(customization);
-            // Teardown
-        }
-
-        [Fact]
-        public void GetCustomizationShouldReturnFreezeOnMatchCustomizationWithDefaultSettings()
-        {
-            // Fixture setup
-            var parameter = AParameter<object>();
-            var sut = new FreezeAttribute();
-            // Exercise system
-            var customization = (FreezeOnMatchCustomization<object>)sut.GetCustomization(parameter);
-            // Verify outcome
-            Assert.Equal(sut.By, customization.MatchBy);
-            Assert.Empty(customization.TargetNames);
-            // Teardown
-        }
-
-        [Fact]
-        public void GetCustomizationWithMatchingStrategyShouldReturnFreezeOnMatchCustomizationWithThatStrategyAndExactType()
-        {
-            // Fixture setup
-            var strategy = Matching.BaseType;
-            var sut = new FreezeAttribute { By = strategy };
-            // Exercise system
-            var customization = (FreezeOnMatchCustomization<object>)sut.GetCustomization(AParameter<object>());
-            // Verify outcome
-            Assert.Equal(strategy | Matching.ExactType, customization.MatchBy);
-            // Teardown
-        }
-
-        [Fact]
-        public void GetCustomizationWithMemberNameShouldReturnFreezeOnMatchCustomizationWithThatName()
-        {
-            // Fixture setup
-            var name = "SomeName";
-            var sut = new FreezeAttribute { TargetName = name };
-            // Exercise system
-            var customization = (FreezeOnMatchCustomization<object>)sut.GetCustomization(AParameter<object>());
-            // Verify outcome
-            Assert.Contains(name, customization.TargetNames);
-            // Teardown
-        }
-
-        [Fact]
         public void GetCustomizationWithNullShouldThrowArgumentNullException()
         {
             // Fixture setup
@@ -102,7 +50,35 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             Assert.Throws<ArgumentNullException>(() => sut.GetCustomization(null));
         }
 
-        private static ParameterInfo AParameter<T>()
+        [Fact]
+        public void GetCustomizationShouldReturnFreezeOnMatchCustomization()
+        {
+            // Fixture setup
+            var sut = new FreezeAttribute();
+            // Exercise system
+            var customization = sut.GetCustomization(Parameter<string>());
+            // Verify outcome
+            Assert.IsAssignableFrom<FreezeOnMatchCustomization<string>>(customization);
+            // Teardown
+        }
+
+        [Fact]
+        public void GetCustomizationShouldAlwaysFreezeByMatchingTheSpecifiedParameter()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var sut = new FreezeAttribute { By = Matching.BaseType };
+            // Exercise system
+            var customization = sut.GetCustomization(Parameter<string>());
+            fixture.Customize(customization);
+            // Verify outcome
+            var frozen = fixture.Create<SingleParameterType<string>>().Parameter;
+            var requested = fixture.Create<SingleParameterType<string>>().Parameter;
+            Assert.Same(frozen, requested);
+            // Teardown
+        }
+
+        private static ParameterInfo Parameter<T>()
         {
             return typeof(SingleParameterType<T>)
                 .GetConstructor(new[] { typeof(T) })

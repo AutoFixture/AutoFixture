@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Ploeh.AutoFixture
+namespace Ploeh.AutoFixture.Xunit
 {
     [Flags]
     public enum Matching
