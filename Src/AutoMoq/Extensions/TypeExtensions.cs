@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture.AutoMoq.Extensions
         /// </summary>
         /// <param name="type">An interface type.</param>
         /// <returns>A collection of all methods declared by the interface <paramref name="type"/> or any of its base interfaces.</returns>
-        public static IEnumerable<MethodInfo> GetInterfaceMethods(this Type type)
+        internal static IEnumerable<MethodInfo> GetInterfaceMethods(this Type type)
         {
             return type.GetMethods().Concat(
                 type.GetInterfaces()
