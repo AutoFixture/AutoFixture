@@ -101,7 +101,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Fixture setup
             var sut = new NullMatchComposer<object>();
             // Exercise system
-            var result = sut.ByParameterName("argument");
+            var result = sut.ByParameterName("parameter");
             // Verify outcome
             Assert.Same(sut, result);
             // Teardown
@@ -113,7 +113,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Fixture setup
             var sut = new NullMatchComposer<object>();
             // Exercise system
-            var result = sut.ByParameterName("property");
+            var result = sut.ByPropertyName("Property");
             // Verify outcome
             Assert.Same(sut, result);
             // Teardown
@@ -125,7 +125,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Fixture setup
             var sut = new NullMatchComposer<object>();
             // Exercise system
-            var result = sut.ByParameterName("field");
+            var result = sut.ByFieldName("Field");
             // Verify outcome
             Assert.Same(sut, result);
             // Teardown

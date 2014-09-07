@@ -1,3 +1,4 @@
+using System;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Dsl
@@ -21,37 +22,78 @@ namespace Ploeh.AutoFixture.Dsl
             get { return builder; }
         }
 
+        IMatchComposer IMatchComposer.Or
+        {
+            get { return this; }
+        }
+
         public IMatchComposer<T> Or
         {
             get { return this; }
         }
 
+        public IMatchComposer<T> ByExactType()
+        {
+            this.ByExactType(typeof(T));
+            return this;
+        }
+
+        public IMatchComposer ByExactType(Type targetType)
+        {
+            return this;
+        }
+
         public IMatchComposer<T> ByBaseType()
+        {
+            this.ByBaseType(typeof(T));
+            return this;
+        }
+
+        public IMatchComposer ByBaseType(Type targetType)
         {
             return this;
         }
 
         public IMatchComposer<T> ByInterfaces()
         {
+            this.ByInterfaces(typeof(T));
             return this;
         }
 
-        public IMatchComposer<T> ByExactType()
+        public IMatchComposer ByInterfaces(Type targetType)
         {
             return this;
         }
 
         public IMatchComposer<T> ByParameterName(string name)
         {
+            this.ByParameterName(typeof(T), name);
+            return this;
+        }
+
+        public IMatchComposer ByParameterName(Type targetType, string name)
+        {
             return this;
         }
 
         public IMatchComposer<T> ByPropertyName(string name)
         {
+            this.ByPropertyName(typeof(T), name);
+            return this;
+        }
+
+        public IMatchComposer ByPropertyName(Type targetType, string name)
+        {
             return this;
         }
 
         public IMatchComposer<T> ByFieldName(string name)
+        {
+            this.ByFieldName(typeof(T), name);
+            return this;
+        }
+
+        public IMatchComposer ByFieldName(Type targetType, string name)
         {
             return this;
         }
