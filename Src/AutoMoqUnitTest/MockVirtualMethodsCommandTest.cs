@@ -87,6 +87,23 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void SetsUpInterfaceShadowedMethods_ToRetrieveReturnValueFromContext()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var mock = new Mock<IInterfaceWithNewMethod>();
+
+            var sut = new MockVirtualMethodsCommand();
+            // Exercise system
+            sut.Execute(mock, new SpecimenContext(fixture));
+            // Verify outcome
+            var result = (mock.Object as IInterfaceWithShadowedMethod).Method(0);
+            Assert.Same(frozenString, result);
+            // Teardown
+        }
+
+        [Fact]
         public void SetsUpVirtualMethods_ToRetrieveReturnValueFromContext()
         {
             // Fixture setup

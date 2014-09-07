@@ -50,6 +50,19 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void InterfaceShadowedMethodsReturnValueFromFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system
+            var result = fixture.Create<IInterfaceWithNewMethod>();
+            // Verify outcome
+            Assert.Same(frozenString, (result as IInterfaceWithShadowedMethod).Method(0));
+            // Teardown
+        }
+
+        [Fact]
         public void PropertiesReturnValueFromFixture()
         {
             // Fixture setup
