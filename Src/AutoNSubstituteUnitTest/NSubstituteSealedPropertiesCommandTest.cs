@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using NSubstitute;
 using Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
 using Ploeh.AutoFixture.Kernel;
@@ -229,7 +226,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public void IgnoresNonSubstituteSpecimens()
         {
             // Fixture setup
-            // The context substitute has a strict behaviour - if any of its members are invoked, an exception will be thrown
             var context = Substitute.For<ISpecimenContext>();
             var specimen = new TypeWithSealedMembers();
             var sut = new NSubstituteSealedPropertiesCommand();

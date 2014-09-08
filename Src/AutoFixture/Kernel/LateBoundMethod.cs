@@ -40,7 +40,8 @@ namespace Ploeh.AutoFixture.Kernel
             get { return Method.Parameters; }
         }
 
-        private static IEnumerable<object> GetArguments(IEnumerable<ParameterInfo> parameters, object[] arguments)
+        private static IEnumerable<object> GetArguments(IEnumerable<ParameterInfo> parameters, 
+            object[] arguments)
         {
             return parameters.Select((p, i) => arguments.Length > i ? arguments[i] : GetDefault(p));
         }
@@ -50,10 +51,13 @@ namespace Ploeh.AutoFixture.Kernel
             if (parameter.IsOptional)
                 return parameter.DefaultValue;
 
-            if (parameter.IsDefined(typeof(ParamArrayAttribute), true) && parameter.ParameterType.IsArray)
+            if (parameter.IsDefined(typeof(ParamArrayAttribute), true) && 
+                parameter.ParameterType.IsArray)
                 return Array.CreateInstance(parameter.ParameterType.GetElementType(), 0);
 
-            return parameter.ParameterType.IsValueType ? Activator.CreateInstance(parameter.ParameterType) : null;
+            return parameter.ParameterType.IsValueType ? 
+                Activator.CreateInstance(parameter.ParameterType) : 
+                null;
         }
 
         /// <summary>

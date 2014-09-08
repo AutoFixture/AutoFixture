@@ -211,7 +211,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                           select mi).ElementAt(index);
             var sut = new GenericMethod(method);
 
-            var exception = Assert.Throws<TypeArgumentsCannotBeInferredException>(() => sut.Invoke((object[])values));
+            var exception = Assert.Throws<TypeArgumentsCannotBeInferredException>(
+                () => sut.Invoke((object[])values));
             Assert.Contains(method.Name, exception.Message);
         }
 

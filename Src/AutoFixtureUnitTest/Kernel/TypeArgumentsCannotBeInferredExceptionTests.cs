@@ -25,7 +25,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [Fact]
         public void InitializeWithNullMethodInfoThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new TypeArgumentsCannotBeInferredException((MethodInfo) null));
+            Assert.Throws<ArgumentNullException>(
+                () => new TypeArgumentsCannotBeInferredException((MethodInfo) null));
         }
 
         [Fact]

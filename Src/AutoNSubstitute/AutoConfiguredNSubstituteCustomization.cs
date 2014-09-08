@@ -11,14 +11,18 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     {
         private readonly ISpecimenBuilder builder;
 
-        /// <summary>Initializes a new instance of the <see cref="AutoConfiguredNSubstituteCustomization"/> class.</summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoConfiguredNSubstituteCustomization"/> class.
+        /// </summary>
         /// <remarks>Uses a new instance of <see cref="NSubstituteBuilder"/> as the builder.</remarks>
         public AutoConfiguredNSubstituteCustomization()
             : this(new NSubstituteBuilder(new MethodInvoker(new NSubstituteMethodQuery())))
         {
         }
 
-        /// <summary>Initializes a new instance of the <see cref="AutoConfiguredNSubstituteCustomization"/> class.</summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoConfiguredNSubstituteCustomization"/> class.
+        /// </summary>
         /// <param name="builder">The builder to use to create specimens for this customization.</param>
         public AutoConfiguredNSubstituteCustomization(ISpecimenBuilder builder)
         {
@@ -28,7 +32,10 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             this.builder = builder;
         }
 
-        /// <summary>Gets the builder that will be added to <see cref="IFixture.ResidueCollectors"/> when <see cref="Customize"/> is invoked.</summary>
+        /// <summary>
+        /// Gets the builder that will be added to <see cref="IFixture.ResidueCollectors"/> when 
+        /// <see cref="Customize"/> is invoked.
+        /// </summary>
         /// <seealso cref="AutoConfiguredNSubstituteCustomization(ISpecimenBuilder)"/>
         public ISpecimenBuilder Builder
         {

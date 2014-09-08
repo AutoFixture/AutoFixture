@@ -90,7 +90,8 @@ namespace Ploeh.AutoFixture.Kernel
                 return true;
 
             if (parameterType.IsGenericParameter)
-                return signatureParameterType.IsGenericParameter && parameterType.GenericParameterPosition == signatureParameterType.GenericParameterPosition;
+                return signatureParameterType.IsGenericParameter
+                    && parameterType.GenericParameterPosition == signatureParameterType.GenericParameterPosition;
 
             var genericArguments = GetTypeArguments(parameterType);
             var signatureGenericArguments = GetTypeArguments(signatureParameterType);
@@ -112,7 +113,8 @@ namespace Ploeh.AutoFixture.Kernel
         {
             private readonly int score;
 
-            internal LateBindingParameterScore(IEnumerable<ParameterInfo> methodParameters, IEnumerable<ParameterInfo> signatureParameters)
+            internal LateBindingParameterScore(IEnumerable<ParameterInfo> methodParameters, 
+                IEnumerable<ParameterInfo> signatureParameters)
             {
                 if (methodParameters == null)
                     throw new ArgumentNullException("methodParameters");
@@ -132,7 +134,8 @@ namespace Ploeh.AutoFixture.Kernel
                 return this.score.CompareTo(other.score);
             }
 
-            private static int CalculateScore(IEnumerable<Type> methodParameters, IEnumerable<Type> signatureParameters)
+            private static int CalculateScore(IEnumerable<Type> methodParameters, 
+                IEnumerable<Type> signatureParameters)
             {
                 var parametersScore = signatureParameters.Zip(methodParameters,
                     (s, m) => CalculateScore(m, s))

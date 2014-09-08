@@ -8,8 +8,8 @@ using Ploeh.AutoFixture.Kernel;
 namespace Ploeh.AutoFixture.AutoNSubstitute
 {
     /// <summary>
-    /// If the type of the object being substituted contains any fields and/or non-virtual/sealed settable properties,
-    /// this initializer will resolve them from a given context.
+    /// If the type of the object being substituted contains any fields and/or non-virtual/sealed
+    /// settable properties, this initializer will resolve them from a given context.
     /// </summary>
     public class NSubstituteSealedPropertiesCommand : ISpecimenCommand
     {
@@ -17,8 +17,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             new AutoPropertiesCommand(new NSubstituteSealedPropertySpecification());
 
         /// <summary>
-        /// If the type of the object being substituted contains any fields and/or non-virtual/sealed settable properties,
-        /// this initializer will resolve them from a given context.
+        /// If the type of the object being substituted contains any fields and/or non-virtual/sealed
+        /// settable properties, this initializer will resolve them from a given context.
         /// </summary>
         /// <param name="specimen">The substitute object.</param>
         /// <param name="context">The context.</param>
@@ -64,7 +64,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             /// </summary>
             private static bool IsDynamicProxyMember(FieldInfo fi)
             {
-                return fi.Name == "__interceptors" || fi.Name == "__mixin_NSubstitute_Core_ICallRouter";
+                return fi.Name == "__interceptors" || 
+                    fi.Name == "__mixin_NSubstitute_Core_ICallRouter";
             }
         }
     }

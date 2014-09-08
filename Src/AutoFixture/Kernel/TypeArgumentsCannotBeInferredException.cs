@@ -7,7 +7,8 @@ using System.Runtime.Serialization;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// The exception that is thrown when AutoFixture is unable to infer the type parameters of a generic method from its arguments.
+    /// The exception that is thrown when AutoFixture is unable to infer the type 
+    /// parameters of a generic method from its arguments.
     /// </summary>
     [Serializable]
     public class TypeArgumentsCannotBeInferredException : Exception
@@ -21,9 +22,12 @@ namespace Ploeh.AutoFixture.Kernel
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeArgumentsCannotBeInferredException"/> class from a <see cref="MethodInfo"/>.
+        /// Initializes a new instance of the <see cref="TypeArgumentsCannotBeInferredException"/> class 
+        /// from a <see cref="MethodInfo"/>.
         /// </summary>
-        /// <param name="methodInfo">The <see cref="MethodInfo"/> that cannot have its type arguments infered.</param>
+        /// <param name="methodInfo">
+        /// The <see cref="MethodInfo"/> that cannot have its type arguments infered.
+        /// </param>
         public TypeArgumentsCannotBeInferredException(MethodInfo methodInfo)
             : base(methodInfo == null ? string.Empty :
                 string.Format(
@@ -83,7 +87,10 @@ namespace Ploeh.AutoFixture.Kernel
         private static string GetFriendlyName(Type type)
         {
             if (type.IsGenericType)
-                return string.Format(CultureInfo.CurrentCulture, "{0}<{1}>", type.Name.Split('`')[0], string.Join(", ", type.GetGenericArguments().Select(GetFriendlyName)));
+                return string.Format(CultureInfo.CurrentCulture, 
+                    "{0}<{1}>", 
+                    type.Name.Split('`')[0], 
+                    string.Join(", ", type.GetGenericArguments().Select(GetFriendlyName)));
 
             return type.Name;
         }
