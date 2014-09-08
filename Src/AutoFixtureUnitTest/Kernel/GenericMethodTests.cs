@@ -135,9 +135,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [InlineData(typeof(TypeWithFactoryMethod), 0, new object[] { })]
-        [InlineData(typeof(TypeWithFactoryMethod), 1, new object[] { "abc" })]
-        [InlineData(typeof(TypeWithFactoryMethod), 2, new object[] { new[] { "ab", "c" } })]
+        [InlineData(typeof(TypeWithInstanceFactoryMethod), 0, new object[] { })]
+        [InlineData(typeof(TypeWithInstanceFactoryMethod), 1, new object[] { "abc" })]
+        [InlineData(typeof(TypeWithInstanceFactoryMethod), 2, new object[] { new[] { "ab", "c" } })]
         public void InvokeWithInstanceMethodThrows(Type targetType, int index, object values)
         {
             var method = (from mi in targetType
@@ -150,16 +150,16 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [InlineData(typeof(TypeWithFactoryMethod), 0, new object[] { })]
-        [InlineData(typeof(TypeWithFactoryMethod), 1, new object[] { "abc" })]
-        [InlineData(typeof(TypeWithFactoryMethod), 2, new object[] { new[] { "ab", "c" } })]
+        [InlineData(typeof(TypeWithInstanceFactoryMethod), 0, new object[] { })]
+        [InlineData(typeof(TypeWithInstanceFactoryMethod), 1, new object[] { "abc" })]
+        [InlineData(typeof(TypeWithInstanceFactoryMethod), 2, new object[] { new[] { "ab", "c" } })]
         public void InvokeWithInstanceMethodReturnsCorrectResult(Type targetType, int index, object values)
         {
             var method = (from mi in targetType
                               .GetMethods(BindingFlags.Instance | BindingFlags.Public)
                           where mi.ReturnType == targetType
                           select mi).ElementAt(index);
-            var sut = new GenericMethod(method, new TypeWithFactoryMethod());
+            var sut = new GenericMethod(method, new TypeWithInstanceFactoryMethod());
 
             var result = sut.Invoke((object[])values);
 
@@ -176,7 +176,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
                           where mi.ReturnType == targetType
                           select mi).ElementAt(index);
-            var sut = new GenericMethod(method, new TypeWithFactoryMethod());
+            var sut = new GenericMethod(method, new TypeWithInstanceFactoryMethod());
 
             var result = sut.Invoke((object[])values);
 
@@ -284,6 +284,24 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public static T Create<T>()
         {
             return default(T);
+        }
+    }
+    
+    public class TypeWithInstanceFactoryMethod
+    {
+        public TypeWithInstanceFactoryMethod InstanceCreate()
+        {
+            return new TypeWithInstanceFactoryMethod();
+        }
+
+        public TypeWithInstanceFactoryMethod InstanceCreate(object argument)
+        {
+            return new TypeWithInstanceFactoryMethod();
+        }
+
+        public TypeWithInstanceFactoryMethod InstanceCreate(IEnumerable<object> arguments)
+        {
+            return new TypeWithInstanceFactoryMethod();
         }
     }
 }
