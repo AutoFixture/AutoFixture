@@ -368,5 +368,56 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             substitute2.Method(out outResult2);
             Assert.NotEqual(outResult1, outResult2);
         }
+
+        [Fact]
+        public void SetsUpInterfaceBaseMethodsToRetrieveReturnValueFromContext()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var substitute = Substitute.For<IDerivedInterface>();
+
+            var sut = new NSubstituteVirtualMethodsCommand();
+            // Exercise system
+            sut.Execute(substitute, new SpecimenContext(fixture));
+            // Verify outcome
+            var result = substitute.Method();
+            Assert.Same(frozenString, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SetsUpInterfaceNewMethodsToRetrieveReturnValueFromContext()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var substitute = Substitute.For<IInterfaceWithNewMethod>();
+
+            var sut = new NSubstituteVirtualMethodsCommand();
+            // Exercise system
+            sut.Execute(substitute, new SpecimenContext(fixture));
+            // Verify outcome
+            var result = substitute.Method(0);
+            Assert.Same(frozenString, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SetsUpInterfaceShadowedMethodsToRetrieveReturnValueFromContext()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var substitute = Substitute.For<IInterfaceWithNewMethod>();
+
+            var sut = new NSubstituteVirtualMethodsCommand();
+            // Exercise system
+            sut.Execute(substitute, new SpecimenContext(fixture));
+            // Verify outcome
+            var result = (substitute as IInterfaceWithShadowedMethod).Method(0);
+            Assert.Same(frozenString, result);
+            // Teardown
+        }
     }
 }

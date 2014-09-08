@@ -375,5 +375,45 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             substitute.Received(1).Method(anonymousString2);
             substitute.ReceivedWithAnyArgs(2).Method(null);
         }
+
+        [Fact]
+        public void MethodsFromBaseInterfacesReturnValueFromFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system
+            var result = fixture.Create<IDerivedInterface>();
+            // Verify outcome
+            Assert.Same(frozenString, result.Method());
+            // Teardown
+        }
+
+        [Fact]
+        public void InterfaceNewMethodsReturnValueFromFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system
+            var result = fixture.Create<IInterfaceWithNewMethod>();
+            // Verify outcome
+            Assert.Same(frozenString, result.Method(0));
+            // Teardown
+        }
+
+        [Fact]
+        public void InterfaceShadowedMethodsReturnValueFromFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system
+            var result = fixture.Create<IInterfaceWithNewMethod>();
+            // Verify outcome
+            Assert.Same(frozenString, (result as IInterfaceWithShadowedMethod).Method(0));
+            // Teardown
+        }
+
     }
 }

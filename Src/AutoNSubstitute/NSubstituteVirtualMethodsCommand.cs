@@ -64,20 +64,35 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
         private static IEnumerable<MethodInfo> GetVirtualMethods(Type substituteType)
         {
-            return substituteType.GetMethods()
+            return GetMethods(substituteType)
                 .Where(method => method.IsOverridable() &&
                                  !method.IsGenericMethod &&
                                  !method.IsVoid() &&
                                  !ObjectMethods.Contains(method.GetBaseDefinition()));
         }
 
+        private static IEnumerable<MethodInfo> GetMethods(Type substituteType)
+        {
+            if (substituteType.IsInterface)
+                return GetInterfaceMethods(substituteType);
+
+            return substituteType.GetMethods();
+        }
+
+        private static IEnumerable<MethodInfo> GetInterfaceMethods(Type type)
+        {
+            return type.GetMethods().Concat(
+                type.GetInterfaces()
+                    .SelectMany(@interface => @interface.GetMethods()));
+        }
+
         private class SubstituteValueFactory
         {
             private static readonly MethodInfo ReturnsUsingContextMethodInfo =
                 typeof(SubstituteValueFactory).GetMethod("ReturnsUsingContext");
-            private static readonly IMethod ReturnsForAnyArgsMethodInfo = 
+            private static readonly IMethod ReturnsForAnyArgsMethodInfo =
                 GetNSubstituteMethod("ReturnsForAnyArgs");
-            private static readonly IMethod ReturnsMethodInfo = 
+            private static readonly IMethod ReturnsMethodInfo =
                 GetNSubstituteMethod("Returns");
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
@@ -96,13 +111,13 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 }
                 catch (InvalidOperationException)
                 {
-                    throw new MissingMethodException(string.Format(CultureInfo.CurrentCulture, 
+                    throw new MissingMethodException(string.Format(CultureInfo.CurrentCulture,
                         @"The method '{0} {1}.{2}{3}({4})' was not found. This can happen if you updated NSubstitute to an unsupported version; if this is the case, open an issue at http://github.com/AutoFixture/AutoFixture informing this exception message and the version you have installed.",
                         GetFriendlyName(methodInfo.ReturnType),
                         substituteType,
                         methodInfo.Name,
                         GetTypeArguments(methodInfo),
-                        string.Join(", ", 
+                        string.Join(", ",
                             methodInfo.GetParameters()
                             .Select(p => GetFriendlyName(p.ParameterType)))));
                 }
@@ -111,7 +126,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             private static string GetTypeArguments(MethodInfo methodInfo)
             {
                 var typeArguments = methodInfo.GetGenericArguments();
-                
+
                 if (typeArguments.Length == 0)
                     return string.Empty;
 
@@ -122,9 +137,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             private static string GetFriendlyName(Type type)
             {
                 if (type.IsGenericType)
-                    return string.Format(CultureInfo.CurrentCulture, 
-                        "{0}<{1}>", 
-                        type.Name.Split('`')[0], 
+                    return string.Format(CultureInfo.CurrentCulture,
+                        "{0}<{1}>",
+                        type.Name.Split('`')[0],
                         string.Join(", ", type.GetGenericArguments().Select(GetFriendlyName)));
 
                 return type.Name;
@@ -193,7 +208,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             private IEnumerable<Tuple<int, Lazy<object>>> GetFixedRefValues(MethodInfo methodInfo)
             {
                 return GetRefParameters(methodInfo)
-                    .Select(t => Tuple.Create(t.Item1, 
+                    .Select(t => Tuple.Create(t.Item1,
                         new Lazy<object>(() => Context.Resolve(t.Item2.ParameterType.GetElementType()))))
                     .ToList();
             }
