@@ -97,7 +97,7 @@
     <Compile Include="Kernel\CompositeSpecimenCommandTest.cs" />
     <Compile Include="Kernel\DelegatingMethod.cs" />
     <Compile Include="Kernel\GenericMethodTests.cs" />
-    <Compile Include="Kernel\LateBindingMethodQueryTests.cs" />
+    <Compile Include="Kernel\LateBindingStaticMethodQueryTests.cs" />
     <Compile Include="Kernel\LateBoundMethodTests.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelayTest.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecificationTest.cs" />
