@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class LateBoundMethod : IMethod
     {
-        private readonly IMethod _method;
+        private readonly IMethod method;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LateBoundMethod"/> class.
@@ -21,7 +21,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (method == null)
                 throw new ArgumentNullException("method");
 
-            this._method = method;
+            this.method = method;
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         public IMethod Method
         {
-            get { return this._method; }
+            get { return this.method; }
         }
 
         /// <summary>
