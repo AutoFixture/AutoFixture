@@ -19,5 +19,17 @@ namespace Ploeh.AutoFixture.AutoMoq.Extensions
                 type.GetInterfaces()
                     .SelectMany(@interface => @interface.GetMethods()));
         }
+
+        /// <summary>
+        /// Gets a collection of all properties declared by the interface <paramref name="type"/> or any of its base interfaces.
+        /// </summary>
+        /// <param name="type">An interface type.</param>
+        /// <returns>A collection of all properties declared by the interface <paramref name="type"/> or any of its base interfaces.</returns>
+        internal static IEnumerable<PropertyInfo> GetInterfaceProperties(this Type type)
+        {
+            return type.GetProperties().Concat(
+                type.GetInterfaces()
+                    .SelectMany(@interface => @interface.GetProperties()));
+        }
     }
 }

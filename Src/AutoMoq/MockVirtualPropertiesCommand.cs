@@ -54,9 +54,13 @@ namespace Ploeh.AutoFixture.AutoMoq
 
         private static IEnumerable<PropertyInfo> GetConfigurableProperties(Type type)
         {
-            //TODO get interface properties
-            return type.GetProperties()
-                .Where(CanBeConfigured);
+            // If "type" is an interface, "GetProperties" does not return properties declared on other interfaces extended by "type".
+            // In these cases, we use the "GetInterfaceProperties" extension method instead.
+            var properties = type.IsInterface
+                ? type.GetInterfaceProperties()
+                : type.GetProperties();
+
+            return properties.Where(CanBeConfigured);
         }
 
         private static bool CanBeConfigured(PropertyInfo property)

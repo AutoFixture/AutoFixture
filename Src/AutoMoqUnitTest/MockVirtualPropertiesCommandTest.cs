@@ -49,6 +49,58 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void StubsInterfaceBaseProperties()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var context = new SpecimenContext(fixture);
+            var specimen = new Mock<IDerivedInterface>();
+
+            var sut = new MockVirtualPropertiesCommand();
+            // Exercise system
+            sut.Execute(specimen, context);
+            // Verify outcome
+            specimen.Object.Property = "a string";
+            Assert.Equal("a string", specimen.Object.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void StubsInterfaceNewProperties()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var context = new SpecimenContext(fixture);
+            var specimen = new Mock<IInterfaceWithNewProperty>();
+
+            var sut = new MockVirtualPropertiesCommand();
+            // Exercise system
+            sut.Execute(specimen, context);
+            // Verify outcome
+            specimen.Object.Property = "a string";
+            Assert.Equal("a string", specimen.Object.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void StubsInterfaceShadowedProperties()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var context = new SpecimenContext(fixture);
+            var specimen = new Mock<IInterfaceWithNewProperty>();
+
+            var sut = new MockVirtualPropertiesCommand();
+            // Exercise system
+            sut.Execute(specimen, context);
+            // Verify outcome
+            IInterfaceWithShadowedProperty objAsBaseInterface = specimen.Object;
+            objAsBaseInterface.Property = "a string";
+            Assert.Equal("a string", objAsBaseInterface.Property);
+            // Teardown
+        }
+
+        [Fact]
         public void InitialValueIsResolvedFromFixture()
         {
             // Fixture setup

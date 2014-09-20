@@ -90,6 +90,7 @@
     <Compile Include="TestTypes\IInterfaceWithIndexer.cs" />
     <Compile Include="TestTypes\IInterfaceWithMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithNewMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithNewProperty.cs" />
     <Compile Include="TestTypes\IInterfaceWithOutMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithParameterlessMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithProperty.cs" />
