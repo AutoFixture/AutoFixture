@@ -99,6 +99,30 @@ namespace Ploeh.AutoFixture.AutoMoq
         }
 
         /// <summary>
+        /// Stubs a property giving it "property behavior".
+        /// Setting its value will cause it to be saved and later returned when the property is accessed.
+        /// The initial value for the property will be lazily resolved using <paramref name="context"/>.
+        /// </summary>
+        /// <typeparam name="TMock">The type of the object being mocked.</typeparam>
+        /// <typeparam name="TResult">The type of the property being stubbed</typeparam>
+        /// <param name="mock">The mock being setup.</param>
+        /// <param name="propertyAccessExpression">An expression representing access to the property to be stubbed.</param>
+        /// <param name="propertyAssignmentAction">An action delegate that assigns a value to the property being stubbed.</param>
+        /// <param name="context">The context that will be used to lazily resolve the property's initial value.</param>
+        internal static void SetupProperty<TMock, TResult>(this Mock<TMock> mock,
+            Expression<Func<TMock, TResult>> propertyAccessExpression, Action<TMock> propertyAssignmentAction,
+            ISpecimenContext context) where TMock : class
+        {
+            var lazy = new Lazy<TResult>(() => (TResult) context.Resolve(typeof (TResult)));
+
+            mock.SetupGet(propertyAccessExpression)
+                .Returns(() => lazy.Value);
+
+            mock.SetupSet(propertyAssignmentAction)
+                .Callback<TResult>(value => lazy = new Lazy<TResult>(() => value));
+        }
+
+        /// <summary>
         /// Configures an instance of <see cref="ISetup{TMock,TResult}"/> to retrieve the return value from <paramref name="context"/>.
         /// </summary>
         /// <param name="setup">An instance of <see cref="ISetup{TMock,TResult}"/>.</param>

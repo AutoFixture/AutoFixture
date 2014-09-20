@@ -81,6 +81,7 @@
     <Compile Include="MockPostprocessorTest.cs" />
     <Compile Include="MockRelayTest.cs" />
     <Compile Include="MockTypeTest.cs" />
+    <Compile Include="MockVirtualPropertiesCommandTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MockSealedPropertiesCommandTest.cs" />
     <Compile Include="MockVirtualMethodsCommandTest.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="TestTypes\TypeWithStaticMethod.cs" />
     <Compile Include="TestTypes\TypeWithStaticProperty.cs" />
     <Compile Include="TestTypes\TypeWithVirtualMembers.cs" />
+    <Compile Include="TestTypes\TypeWithVirtualProtectedPropertyAccessors.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
