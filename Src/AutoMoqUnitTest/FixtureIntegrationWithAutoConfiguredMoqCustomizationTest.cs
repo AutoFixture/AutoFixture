@@ -61,6 +61,52 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             Assert.Same(frozenString, (result as IInterfaceWithShadowedMethod).Method(0));
             // Teardown
         }
+        
+        [Fact]
+        public void PropertiesFromBaseInterfacesAreStubbed()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system
+            var result = fixture.Create<IDerivedInterface>();
+            // Verify outcome
+            Assert.Same(frozenString, result.Property);
+            result.Property = "a string";
+            Assert.Equal("a string", result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void InterfaceNewPropertiesAreStubbed()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system
+            var result = fixture.Create<IInterfaceWithNewProperty>();
+            // Verify outcome
+            Assert.Same(frozenString, result.Property);
+            result.Property = "a string";
+            Assert.Equal("a string", result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void InterfaceShadowedPropertiesAreStubbed()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system
+            var result = fixture.Create<IInterfaceWithNewProperty>();
+            // Verify outcome
+            IInterfaceWithShadowedProperty resultAsBaseInterface = result;
+            Assert.Same(frozenString, resultAsBaseInterface.Property);
+            resultAsBaseInterface.Property = "a string";
+            Assert.Equal("a string", resultAsBaseInterface.Property);
+            // Teardown
+        }
 
         [Fact]
         public void PropertiesReturnValueFromFixture()
@@ -72,6 +118,32 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var result = fixture.Create<IInterfaceWithProperty>();
             // Verify outcome
             Assert.Same(frozenString, result.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void GetOnlyPropertiesReturnValueFromFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system
+            var result = fixture.Create<Mock<TypeWithVirtualProtectedPropertyAccessors>>();
+            // Verify outcome
+            Assert.Same(frozenString, result.Object.PropertyWithProtectedSet);
+            // Teardown
+        }
+
+        [Fact]
+        public void PropertiesAreStubbed()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
+            // Exercise system
+            var result = fixture.Create<IInterfaceWithProperty>();
+            // Verify outcome
+            result.Property = "a string";
+            Assert.Equal("a string", result.Property);
             // Teardown
         }
 
@@ -221,6 +293,15 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void SetOnlyPropertiesAreIgnored()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => fixture.Create<Mock<TypeWithVirtualProtectedPropertyAccessors>>());
+        }
+
+        [Fact]
         public void PrivateFieldsAreIgnored()
         {
             // Fixture setup
@@ -280,6 +361,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public interface IComponent
         {
             IComponent Component { get; set; }
+            IComponent Method();
         }
     }
 }
