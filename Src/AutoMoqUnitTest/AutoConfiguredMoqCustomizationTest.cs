@@ -74,6 +74,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var compositeCommand = (CompositeSpecimenCommand) postprocessor.Command;
 
             Assert.True(compositeCommand.Commands.Any(init => init is MockVirtualMethodsCommand));
+            Assert.True(compositeCommand.Commands.Any(init => init is MockVirtualPropertiesCommand));
             Assert.True(compositeCommand.Commands.Any(init => init is MockSealedPropertiesCommand));
             // Teardown
         }
