@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixture.AutoMoq
     /// The initial value will be lazily retrieved from a fixture.
     /// </summary>
     /// <remarks>
-    /// This will setup any virtual properties with public get and set accessors.
+    /// This will setup any virtual properties with public get *and* set accessors.
     /// </remarks>
     public class MockVirtualPropertiesCommand : ISpecimenCommand
     {

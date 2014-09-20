@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
     public class MockSealedPropertiesCommandTest
     {
         [Fact]
-        public void SetupThrowsWhenMockIsNull()
+        public void ExecuteThrowsWhenMockIsNull()
         {
             // Fixture setup
             var context = new Mock<ISpecimenContext>();
@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
-        public void SetupThrowsWhenContextIsNull()
+        public void ExecuteThrowsWhenContextIsNull()
         {
             // Fixture setup
             var mock = new Mock<object>();
