@@ -28,6 +28,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     ///     parameters that this method could be called with. 
     /// - Void methods are not set up due to a limitation in NSubstitute that When..Do setups can't be overriden
     /// - Calling a method more than once with the same parameters will always return the same value
+    /// - Methods inherited from <see cref="Object" /> are not set up due to a limitation in NSubstitute
+    ///     (http://stackoverflow.com/a/21787891)
     /// </remarks>
     public class NSubstituteVirtualMethodsCommand : ISpecimenCommand
     {
