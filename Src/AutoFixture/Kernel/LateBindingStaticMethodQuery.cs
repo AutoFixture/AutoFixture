@@ -21,27 +21,27 @@ namespace Ploeh.AutoFixture.Kernel
     /// </remarks>
     public class LateBindingStaticMethodQuery : IMethodQuery
     {
-        private readonly MethodInfo signature;
+        private readonly MethodInfo template;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LateBindingStaticMethodQuery"/> class.
         /// </summary>
-        /// <param name="signature">The method info to compare.</param>
-        public LateBindingStaticMethodQuery(MethodInfo signature)
+        /// <param name="template">The method info to compare.</param>
+        public LateBindingStaticMethodQuery(MethodInfo template)
         {
-            if (signature == null)
+            if (template == null)
                 throw new ArgumentNullException("signature");
 
-            this.signature = signature;
+            this.template = template;
         }
 
-        public MethodInfo Signature
+        public MethodInfo Template
         {
-            get { return signature; }
+            get { return template; }
         }
 
         /// <summary>
-        /// Selects the methods for the supplied type similar to <see cref="Signature" />.
+        /// Selects the methods for the supplied type similar to <see cref="Template" />.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>
@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <remarks>
         /// <para>
         /// The ordering of the returned methods is based on a score that matches the parameters types
-        /// of the method with the <see cref="Signature" /> method parameters. Methods with the highest score
+        /// of the method with the <see cref="Template" /> method parameters. Methods with the highest score
         /// are returned before.
         /// </para>
         /// <para>
@@ -71,9 +71,9 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("type");
 
             return from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
-                   where method.Name == Signature.Name
+                   where method.Name == Template.Name
                    let methodParameters = method.GetParameters()
-                   let signatureParameters = Signature.GetParameters()
+                   let signatureParameters = Template.GetParameters()
                    where methodParameters.Length >= signatureParameters.Length
                    let score = new LateBindingParameterScore(methodParameters, signatureParameters)
                    orderby score descending

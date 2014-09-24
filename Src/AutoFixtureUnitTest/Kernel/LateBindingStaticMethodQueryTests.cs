@@ -25,11 +25,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void SignatureIsSetCorrectly()
+        public void TemplateIsCorrect()
         {
             Action dummy = delegate { };
             var sut = new LateBindingStaticMethodQuery(dummy.Method);
-            Assert.Equal(dummy.Method, sut.Signature);
+            Assert.Equal(dummy.Method, sut.Template);
         }
 
         [Fact]
