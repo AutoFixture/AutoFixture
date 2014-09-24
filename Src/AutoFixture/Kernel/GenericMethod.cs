@@ -12,28 +12,7 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly MethodInfo method;
         private readonly ParameterInfo[] parametersInfo;
-        private readonly Func<MethodInfo, IMethod> factory;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GenericMethod"/> class.
-        /// </summary>
-        /// <param name="method">The method info.</param>
-        public GenericMethod(MethodInfo method)
-            : this(method, m => new StaticMethod(m))
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GenericMethod"/> class.
-        /// </summary>
-        /// <param name="method">The method info.</param>
-        /// <param name="owner">The owner.</param>
-        public GenericMethod(MethodInfo method, object owner)
-            : this(method, m => new InstanceMethod(m, owner))
-        {
-            if (owner == null)
-                throw new ArgumentNullException("owner");
-        }
+        private readonly IMethodFactory factory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GenericMethod"/> class.
@@ -43,7 +22,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// The factory to create an <see cref="IMethod" /> from the <see cref="MethodInfo" />
         /// resolved by <see cref="GenericMethod" />.
         /// </param>
-        public GenericMethod(MethodInfo method, Func<MethodInfo, IMethod> factory)
+        public GenericMethod(MethodInfo method, IMethodFactory factory)
         {
             if (method == null)
                 throw new ArgumentNullException("method");
@@ -76,7 +55,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Gets information about the factory to create <see cref="IMethod" /> from
         /// <see cref="MethodInfo" />
         /// </summary>
-        public Func<MethodInfo, IMethod> Factory
+        public IMethodFactory Factory
         {
             get { return factory; }
         }
@@ -144,7 +123,7 @@ namespace Ploeh.AutoFixture.Kernel
         public object Invoke(IEnumerable<object> parameters)
         {
             var arguments = parameters.ToArray();
-            return Factory(InferMethodInfo(Method, arguments))
+            return Factory.Create(InferMethodInfo(Method, arguments))
                 .Invoke(arguments);
         }
     }

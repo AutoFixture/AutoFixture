@@ -6,9 +6,9 @@ using System.Reflection;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// Decorates another method invoking it supplying missing optional parameters
+    /// Decorates another method invoking it supplying missing parameters
     /// </summary>
-    public class LateBoundMethod : IMethod
+    public class LateBoundMethod : IMethod, IEquatable<LateBoundMethod>
     {
         private readonly IMethod method;
 
@@ -38,6 +38,57 @@ namespace Ploeh.AutoFixture.Kernel
         public IEnumerable<ParameterInfo> Parameters
         {
             get { return Method.Parameters; }
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="T:System.NullReferenceException">
+        /// The <paramref name="obj"/> parameter is null.
+        ///   </exception>
+        public override bool Equals(object obj)
+        {
+            var other = obj as LateBoundMethod;
+            if (other != null)
+            {
+                return this.Equals(other);
+            }
+            return base.Equals(obj);
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data
+        /// structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return this.Method.GetHashCode()
+                 ^ this.Parameters.Aggregate(0, (current, parameter) => current + parameter.GetHashCode());
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        public bool Equals(LateBoundMethod other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return this.Method.Equals(other.Method)
+                && this.Parameters.SequenceEqual(other.Parameters);
         }
 
         private static IEnumerable<object> GetArguments(IEnumerable<ParameterInfo> parameters, 

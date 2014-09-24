@@ -16,77 +16,34 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutIsIMethod()
         {
             Action dummy = delegate { };
-            var sut = new GenericMethod(dummy.Method);
+            var anonymousFactory = new DelegatingMethodFactory();
+            var sut = new GenericMethod(dummy.Method, anonymousFactory);
             Assert.IsAssignableFrom<IMethod>(sut);
         }
 
         [Fact]
-        public void InitializeFromFirstCtorNullMethodInfoThrows()
+        public void InitializeWithNullMethodInfoThrows()
         {
+            var anonymousFactory = new DelegatingMethodFactory();
             Assert.Throws<ArgumentNullException>(() =>
-                new GenericMethod(null));
-        }
-
-        [Fact]
-        public void InitializeFromSecondCtorWithNullMethodInfoThrows()
-        {
-            Assert.Throws<ArgumentNullException>(() =>
-                new GenericMethod(null, m => null));
-        }
-
-        [Fact]
-        public void InitializeFromThirdCtorWithNullMethodInfoThrows()
-        {
-            Assert.Throws<ArgumentNullException>(() =>
-                new GenericMethod(null, new object()));
+                new GenericMethod(null, anonymousFactory));
         }
 
         [Fact]
         public void InitializeWithNullFactoryThrows()
         {
             Action dummy = delegate { };
-
+            
             Assert.Throws<ArgumentNullException>(() =>
                 new GenericMethod(dummy.Method, null));
-        }
-
-        [Fact]
-        public void InitializeWithNullOwnerThrows()
-        {
-            Action dummy = delegate { };
-
-            Assert.Throws<ArgumentNullException>(() =>
-                new GenericMethod(dummy.Method, (object)null));
-        }
-
-        [Fact]
-        public void InitializeCreatesADefaultFactory()
-        {
-            Action dummy = delegate { };
-            var sut = new GenericMethod(dummy.Method);
-
-            var result = sut.Factory;
-
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public void InitializeWithInstanceCreatesADefaultFactory()
-        {
-            Action dummy = delegate { };
-            object instance = new object();
-            var sut = new GenericMethod(dummy.Method, instance);
-
-            var result = sut.Factory;
-
-            Assert.NotNull(result);
         }
 
         [Fact]
         public void MethodIsCorrect()
         {
             var expectedMethod = ((Action)delegate { }).Method;
-            var sut = new GenericMethod(expectedMethod);
+            var anonymousFactory = new DelegatingMethodFactory();
+            var sut = new GenericMethod(expectedMethod, anonymousFactory);
 
             var result = sut.Method;
 
@@ -97,7 +54,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void FactoryIsCorrect()
         {
             var anonymousMethod = ((Action)delegate { }).Method;
-            Func<MethodInfo, IMethod> expectedFactory = m => null;
+            var expectedFactory = new DelegatingMethodFactory();
             var sut = new GenericMethod(anonymousMethod, expectedFactory);
 
             var result = sut.Factory;
@@ -109,8 +66,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void ParametersIsCorrect()
         {
             Action<int, double> dummy = delegate { };
+            var anonymousFactory = new DelegatingMethodFactory();
             var expectedParameters = dummy.Method.GetParameters();
-            var sut = new GenericMethod(dummy.Method);
+            var sut = new GenericMethod(dummy.Method, anonymousFactory);
 
             var result = sut.Parameters;
 
@@ -127,26 +85,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
                           where mi.ReturnType == targetType
                           select mi).ElementAt(index);
-            var sut = new GenericMethod(method);
+            var factory = new DelegatingMethodFactory();
+            factory.OnCreate = m => new StaticMethod(m);
+            var sut = new GenericMethod(method, factory);
 
             var result = sut.Invoke((object[])values);
 
             Assert.IsAssignableFrom(targetType, result);
-        }
-
-        [Theory]
-        [InlineData(typeof(TypeWithInstanceFactoryMethod), 0, new object[] { })]
-        [InlineData(typeof(TypeWithInstanceFactoryMethod), 1, new object[] { "abc" })]
-        [InlineData(typeof(TypeWithInstanceFactoryMethod), 2, new object[] { new[] { "ab", "c" } })]
-        public void InvokeWithInstanceMethodThrows(Type targetType, int index, object values)
-        {
-            var method = (from mi in targetType
-                              .GetMethods(BindingFlags.Instance | BindingFlags.Public)
-                          where mi.ReturnType == targetType
-                          select mi).ElementAt(index);
-            var sut = new GenericMethod(method);
-
-            Assert.Throws<TargetException>(() => sut.Invoke((object[]) values));
         }
 
         [Theory]
@@ -159,7 +104,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                               .GetMethods(BindingFlags.Instance | BindingFlags.Public)
                           where mi.ReturnType == targetType
                           select mi).ElementAt(index);
-            var sut = new GenericMethod(method, new TypeWithInstanceFactoryMethod());
+            var factory = new DelegatingMethodFactory();
+            factory.OnCreate = m => new InstanceMethod(m, new TypeWithInstanceFactoryMethod());
+            var sut = new GenericMethod(method, factory);
 
             var result = sut.Invoke((object[])values);
 
@@ -176,7 +123,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
                           where mi.ReturnType == targetType
                           select mi).ElementAt(index);
-            var sut = new GenericMethod(method, new TypeWithInstanceFactoryMethod());
+            var factory = new DelegatingMethodFactory();
+            factory.OnCreate = m => new InstanceMethod(m, new TypeWithInstanceFactoryMethod());
+            var sut = new GenericMethod(method, factory);
 
             var result = sut.Invoke((object[])values);
 
@@ -190,7 +139,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var method = (from mi in targetType
                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
                           select mi).ElementAt(index);
-            var sut = new GenericMethod(method);
+            var factory = new DelegatingMethodFactory();
+            factory.OnCreate = m => new StaticMethod(m);
+            var sut = new GenericMethod(method, factory);
 
             var result = sut.Invoke((object[])values);
 
@@ -209,29 +160,14 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var method = (from mi in targetType
                               .GetMethods(BindingFlags.Static | BindingFlags.Public)
                           select mi).ElementAt(index);
-            var sut = new GenericMethod(method);
+            var factory = new DelegatingMethodFactory();
+            factory.OnCreate = m => new StaticMethod(m);
+            var sut = new GenericMethod(method, factory);
 
             var exception = Assert.Throws<TypeArgumentsCannotBeInferredException>(
                 () => sut.Invoke((object[])values));
             Assert.Contains(method.Name, exception.Message);
         }
-
-        [Fact]
-        public void InvokeWithCustomFactoryReturnsCorrectResult()
-        {
-            var values = new[] { new object() };
-            var expected = new object();
-            var delegatingMethod = new DelegatingMethod();
-            delegatingMethod.OnInvoke = obj => obj.SequenceEqual(values) ? expected : null;
-            Func<MethodInfo, IMethod> factory = x => delegatingMethod;
-            Action dummy = delegate { }; 
-            var sut = new GenericMethod(dummy.Method, factory);
-
-            var result = sut.Invoke(values);
-
-            Assert.Equal(expected, result);
-        }
-
     }
 
     public class GenericMethodTestCase : IEnumerable<object[]>
@@ -287,7 +223,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             return default(T);
         }
     }
-    
+
     public class TypeWithInstanceFactoryMethod
     {
         public TypeWithInstanceFactoryMethod InstanceCreate()
