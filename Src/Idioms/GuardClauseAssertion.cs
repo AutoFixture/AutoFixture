@@ -422,16 +422,18 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
                 this.command.Execute(value);
             }
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "codeblog", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "uk", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "jonskeet", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "msmvps", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
             public Exception CreateException(string value)
             {
                 var e = this.command.CreateException(value);
                 return new GuardClauseException(message, e);
             }
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "codeblog", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "uk", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "jonskeet", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "msmvps", Justification = "False Positive. Code Analysis really shouldn't attempt to spell check URLs.")]
             public Exception CreateException(string value, Exception innerException)
             {
                 var e = this.command.CreateException(value, innerException);
