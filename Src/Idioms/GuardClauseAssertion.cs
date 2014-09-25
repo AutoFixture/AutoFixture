@@ -403,7 +403,7 @@ See https://github.com/AutoFixture/AutoFixture/issues/268 for more details.";
         private class IteratorMethodInvokeCommand : IGuardClauseCommand
         {
             private const string message = @"A Guard Clause test was performed on a method that may contain a deferred iterator block, but the test failed. See the inner exception for more details. However, because of the deferred nature of the iterator block, this test failure may look like a false positive. Perhaps you already have a Guard Clause in place, but in conjunction with the 'yield' keyword (if you're using C#); if this is the case, the Guard Clause is dormant, and will first be triggered when a client starts looping over the iterator. This doesn't adhere to the Fail Fast principle, so should be addressed.
-See e.g. http://msmvps.com/blogs/jon_skeet/archive/2008/03/02/c-4-idea-iterator-blocks-and-parameter-checking.aspx for more details.";
+See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-parameter-checking/ for more details.";
 
             private readonly IGuardClauseCommand command;
 
