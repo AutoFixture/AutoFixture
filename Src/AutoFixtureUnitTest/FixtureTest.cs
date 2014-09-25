@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using Grean.Exude;
 using Ploeh.Albedo;
 using Ploeh.AutoFixture;
@@ -5515,6 +5516,51 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(repeatCount, actual.GetLength(0));
             Assert.Equal(repeatCount, actual.GetLength(1));
             Assert.Equal(repeatCount, actual[0, 0].Length);
+        }
+
+        [Fact]
+        public void CreateNonGenericTaskReturnsAwaitableTask()
+        {
+            // Fixture setup
+            Fixture sut = new Fixture();
+            // Exercise system
+            Task result = sut.Create<Task>();
+            // Verify outcome
+            Thread thread = new Thread(result.Wait);
+            thread.Start();
+            bool ranToCompletion = thread.Join(1000);
+
+            Assert.True(ranToCompletion);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateGenericTaskReturnsAwaitableTask()
+        {
+            // Fixture setup
+            Fixture sut = new Fixture();
+            // Exercise system
+            Task<int> result = sut.Create<Task<int>>();
+            // Verify outcome
+            Thread thread = new Thread(result.Wait);
+            thread.Start();
+            bool ranToCompletion = thread.Join(1000);
+
+            Assert.True(ranToCompletion);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateGenericTaskReturnsTaskWhoseResultWasResolvedByFixture()
+        {
+            // Fixture setup
+            Fixture sut = new Fixture();
+            int frozenInt = sut.Freeze<int>();
+            // Exercise system
+            Task<int> result = sut.Create<Task<int>>();
+            // Verify outcome
+            Assert.Equal(frozenInt, result.Result);
+            // Teardown
         }
     }
 }

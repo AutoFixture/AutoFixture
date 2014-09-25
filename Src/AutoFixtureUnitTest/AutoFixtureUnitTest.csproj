@@ -94,6 +94,7 @@
     <Compile Include="CreatingAbstractClassWithPublicConstructorTests.cs" />
     <Compile Include="DataAnnotations\StringLengthArgumentSupportTests.cs" />
     <Compile Include="DelegatingRecursionHandler.cs" />
+    <Compile Include="Kernel\CompositeSpecimenCommandTest.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelayTest.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecificationTest.cs" />
     <Compile Include="Kernel\OmitArrayParameterRequestRelayTests.cs" />
@@ -263,6 +264,7 @@
     <Compile Include="TaggedNode.cs" />
     <Compile Include="TaggedNodeComparer.cs" />
     <Compile Include="NoDataAnnotationsCustomizationTest.cs" />
+    <Compile Include="TaskGeneratorTests.cs" />
     <Compile Include="TestConsole.cs" />
     <Compile Include="ThrowingRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\TracingBuilderTest.cs" />

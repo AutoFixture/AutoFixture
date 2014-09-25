@@ -97,6 +97,7 @@
   <ItemGroup>
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
+    <Compile Include="Kernel\CompositeSpecimenCommand.cs" />
     <Compile Include="NoDataAnnotationsCustomization.cs" />
     <Compile Include="Kernel\IRecursionHandler.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelay.cs" />
@@ -260,6 +261,7 @@
     <Compile Include="NumericSequencePerTypeCustomization.cs" />
     <Compile Include="SupportMutableValueTypesCustomization.cs" />
     <Compile Include="MutableValueTypeGenerator.cs" />
+    <Compile Include="TaskGenerator.cs" />
     <Compile Include="ThrowingRecursionBehavior.cs" />
     <Compile Include="Kernel\TraceWriter.cs" />
     <Compile Include="GuidGenerator.cs" />

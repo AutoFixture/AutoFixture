@@ -41,6 +41,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     typeof(GuidGenerator),
                     typeof(TypeGenerator),
                     typeof(DelegateGenerator),
+                    typeof(TaskGenerator),
                     typeof(IntPtrGuard)
                 };
             // Exercise system
