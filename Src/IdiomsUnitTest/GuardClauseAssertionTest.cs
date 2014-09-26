@@ -1080,6 +1080,58 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.DoesNotThrow(() => sut.Verify(theMethod));
         }
 
+        [Fact]
+        public void VerifyIgnoresConstructorParametersWithNullDefaultValues()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+            Assert.DoesNotThrow(() => sut.Verify(typeof(NullDefaultParametersHost).GetConstructors()));
+        }
+
+        [Fact]
+        public void VerifyIgnoresMethodParametersWithNullDefaultValues()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+            Assert.DoesNotThrow(() => sut.Verify(typeof(NullDefaultParametersHost).GetMethods()));
+        }
+
+        [Fact]
+        public void VerifyOnNonNullDefaultConstructorParameterThrows()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+            Assert.Throws<GuardClauseException>(
+                () => sut.Verify(typeof (UnguardedNonNullDefaultParameterHost).GetConstructors()));
+        }
+
+        [Fact]
+        public void VerifyOnNonNullDefaultMethodParameterThrows()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+            Assert.Throws<GuardClauseException>(
+                () => sut.Verify(typeof (UnguardedNonNullDefaultParameterHost).GetMethods()));
+        }
+        
+        class NullDefaultParametersHost
+        {
+            public NullDefaultParametersHost(object obj = null, int? nullable = null)
+            {
+            }
+
+            public void MethodWithNullDefaultParameter(object obj = null, int? nullable = null)
+            {
+            }
+        }
+
+        class UnguardedNonNullDefaultParameterHost
+        {
+            public UnguardedNonNullDefaultParameterHost(string str = "")
+            {
+            }
+
+            public void MethodWithNonNullDefaultParameter(string str = "")
+            {
+            }
+        }
+
         class AsyncHost
         {
             public System.Threading.Tasks.Task<string> TaskOfTWithCorrectGuardClause(object obj)

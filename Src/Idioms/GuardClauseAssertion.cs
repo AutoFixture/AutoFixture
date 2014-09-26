@@ -278,7 +278,7 @@ namespace Ploeh.AutoFixture.Idioms
         {
             var arguments = this.GetParameters(method);
             return from pi in method.Parameters
-                   where !pi.IsOut
+                   where !pi.IsOut && pi.DefaultValue != null
                    let expansion = new IndexedReplacement<object>(pi.Position, arguments)
                    select new MethodInvokeCommand(method, expansion, pi)
                    into command
