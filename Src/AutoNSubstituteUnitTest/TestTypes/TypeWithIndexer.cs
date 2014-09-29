@@ -1,6 +1,6 @@
 ﻿namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
 {
-    public class TypeWithIndexer
+    public abstract class TypeWithIndexer
     {
         private readonly int[] array = new[] {-99, -99, -99};
 

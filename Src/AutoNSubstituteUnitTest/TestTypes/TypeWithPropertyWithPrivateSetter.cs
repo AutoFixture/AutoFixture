@@ -1,8 +1,8 @@
 ﻿namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
 {
-    public class TypeWithPropertyWithPrivateSetter
+    public abstract class TypeWithPropertyWithPrivateSetter
     {
-        public TypeWithPropertyWithPrivateSetter()
+        protected TypeWithPropertyWithPrivateSetter()
         {
             PropertyWithPrivateSetter = "Awesome string";
         }

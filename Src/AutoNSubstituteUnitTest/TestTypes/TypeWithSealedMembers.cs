@@ -6,7 +6,11 @@
         public abstract string ExplicitlySealedMethod();
     }
 
-    public class TypeWithSealedMembers : TypeWithSealedMembersTemp
+    public class ConcreteTypeWithSealedMembers : TypeWithSealedMembers
+    {
+    }
+
+    public abstract class TypeWithSealedMembers : TypeWithSealedMembersTemp
     {
         public override sealed string ExplicitlySealedProperty { get; set; }
         public string ImplicitlySealedProperty { get; set; }

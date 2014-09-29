@@ -1,6 +1,6 @@
 ﻿namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
 {
-    public class TypeWithReadonlyField
+    public abstract class TypeWithReadonlyField
     {
         public readonly string ReadonlyField = "";
     }

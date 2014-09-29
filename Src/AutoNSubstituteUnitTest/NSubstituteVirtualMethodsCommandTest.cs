@@ -245,7 +245,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public void IgnoresNonSubstituteSpecimens()
         {
             var context = Substitute.For<ISpecimenContext>();
-            var specimen = new TypeWithVirtualMembers();
+            var specimen = new ConcreteTypeWithVirtualMembers();
             var sut = new NSubstituteVirtualMethodsCommand();
 
             Assert.DoesNotThrow(() => sut.Execute(specimen, context));

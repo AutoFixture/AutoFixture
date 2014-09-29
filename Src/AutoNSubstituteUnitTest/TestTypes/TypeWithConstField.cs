@@ -1,6 +1,6 @@
 ﻿namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
 {
-    public class TypeWithConstField
+    public abstract class TypeWithConstField
     {
         public const string ConstField = "";
     }

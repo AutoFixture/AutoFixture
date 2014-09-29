@@ -1,6 +1,6 @@
 ﻿namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
 {
-    public class TypeWithPrivateField
+    public abstract class TypeWithPrivateField
     {
         private string field = "";
 

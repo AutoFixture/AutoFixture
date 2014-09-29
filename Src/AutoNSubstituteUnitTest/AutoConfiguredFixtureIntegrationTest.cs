@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void VirtualMembersCallsBase()
+        public void VirtualMembersReturnValueFromFixture()
         {
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
@@ -58,7 +58,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Exercise system
             var result = fixture.Create<TypeWithVirtualMembers>();
             // Verify outcome
-            Assert.NotEqual(frozenString, result.VirtualMethod());
+            Assert.Equal(frozenString, result.VirtualMethod());
             Assert.Equal(frozenString, result.VirtualProperty);
             // Teardown
         }

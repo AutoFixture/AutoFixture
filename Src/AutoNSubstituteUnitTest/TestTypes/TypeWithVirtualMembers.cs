@@ -1,6 +1,10 @@
 ﻿namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
 {
-    public class TypeWithVirtualMembers
+    public class ConcreteTypeWithVirtualMembers : TypeWithVirtualMembers
+    {
+    }
+
+    public abstract class TypeWithVirtualMembers
     {
         public virtual string VirtualProperty { get; set; }
 

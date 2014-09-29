@@ -227,7 +227,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         {
             // Fixture setup
             var context = Substitute.For<ISpecimenContext>();
-            var specimen = new TypeWithSealedMembers();
+            var specimen = new ConcreteTypeWithSealedMembers();
             var sut = new NSubstituteSealedPropertiesCommand();
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Execute(specimen, context));
