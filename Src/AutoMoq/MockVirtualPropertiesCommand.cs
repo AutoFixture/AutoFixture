@@ -43,13 +43,38 @@ namespace Ploeh.AutoFixture.AutoMoq
 
             foreach (var property in properties)
             {
-                var propertyAccessLambda = MakePropertyAccessExpression(mockedType, property);
+                var propertyAccessExpression = MakePropertyAccessExpression(mockedType, property);
                 var propertyAssignmentAction = MakePropertyAssignmentAction(mockedType, property);
 
-                typeof (MockType).GetMethod("SetupProperty", BindingFlags.NonPublic | BindingFlags.Static)
+                this.GetType()
+                    .GetMethod("SetupProperty", BindingFlags.NonPublic | BindingFlags.Instance)
                     .MakeGenericMethod(mockedType, property.PropertyType)
-                    .Invoke(null, new object[] {mock, propertyAccessLambda, propertyAssignmentAction, context});
+                    .Invoke(this, new object[] {mock, propertyAccessExpression, propertyAssignmentAction, context});
             }
+        }
+
+        /// <summary>
+        /// Stubs a property giving it "property behavior".
+        /// Setting its value will cause it to be saved and later returned when the property is accessed.
+        /// The initial value for the property will be lazily resolved using <paramref name="context"/>.
+        /// </summary>
+        /// <typeparam name="TMock">The type of the object being mocked.</typeparam>
+        /// <typeparam name="TResult">The type of the property being stubbed</typeparam>
+        /// <param name="mock">The mock being setup.</param>
+        /// <param name="propertyAccessExpression">An expression representing access to the property to be stubbed.</param>
+        /// <param name="propertyAssignmentAction">An action delegate that assigns a value to the property being stubbed.</param>
+        /// <param name="context">The context that will be used to lazily resolve the property's initial value.</param>
+        protected virtual void SetupProperty<TMock, TResult>(Mock<TMock> mock,
+            Expression<Func<TMock, TResult>> propertyAccessExpression, Action<TMock> propertyAssignmentAction,
+            ISpecimenContext context) where TMock : class
+        {
+            var lazy = new Lazy<TResult>(() => (TResult) context.Resolve(typeof (TResult)));
+
+            mock.SetupGet(propertyAccessExpression)
+                .Returns(() => lazy.Value);
+
+            mock.SetupSet(propertyAssignmentAction)
+                .Callback<TResult>(value => lazy = new Lazy<TResult>(() => value));
         }
 
         private static IEnumerable<PropertyInfo> GetConfigurableProperties(Type type)
