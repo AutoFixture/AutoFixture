@@ -68,6 +68,8 @@ namespace Ploeh.AutoFixture.AutoMoq
             Expression<Func<TMock, TResult>> propertyAccessExpression, Action<TMock> propertyAssignmentAction,
             ISpecimenContext context) where TMock : class
         {
+            if (mock == null) throw new ArgumentNullException("mock");
+
             var lazy = new Lazy<TResult>(() => (TResult) context.Resolve(typeof (TResult)));
 
             mock.SetupGet(propertyAccessExpression)

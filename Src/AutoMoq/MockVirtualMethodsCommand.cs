@@ -78,6 +78,8 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// <param name="methodCallExpression">An expression representing a call to the method being set up.</param>
         protected virtual void SetupVoidMethod<TMock>(Mock<TMock> mock, Expression<Action<TMock>> methodCallExpression) where TMock : class
         {
+            if (mock == null) throw new ArgumentNullException("mock");
+
             mock.Setup(methodCallExpression);
         }
 
@@ -91,6 +93,8 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// <param name="context">The context that will be used to resolve the method's return value.</param>
         protected virtual void SetupMethod<TMock, TResult>(Mock<TMock> mock, Expression<Func<TMock, TResult>> methodCallExpression, ISpecimenContext context) where TMock : class
         {
+            if (mock == null) throw new ArgumentNullException("mock");
+
             mock.Setup(methodCallExpression)
                 .ReturnsUsingContext(context);
         }

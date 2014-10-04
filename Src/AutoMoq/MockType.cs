@@ -67,6 +67,9 @@ namespace Ploeh.AutoFixture.AutoMoq
                                                                                   ISpecimenContext context)
             where TMock : class
         {
+            if (setup == null) throw new ArgumentNullException("setup");
+            if (context == null) throw new ArgumentNullException("context");
+
             return setup.Returns(() =>
                 {
                     var result = (TResult) context.Resolve(typeof (TResult));
