@@ -1430,6 +1430,21 @@ namespace Ploeh.AutoFixtureUnitTest
 
         [Fact]
         [UseCulture("en-US")]
+        public void CreateAnonymousWithRangeValidatedUnsignedShortPropertyReturnsCorrectResultForIntegerRange()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var result = fixture.Create<RangeValidatedType>();
+            // Verify outcome
+            Assert.InRange(
+                result.UnsignedShortProperty,
+                RangeValidatedType.Minimum,
+                RangeValidatedType.Maximum);
+            // Teardown
+        }
+
+        [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDoublePropertyReturnsCorrectResultForDoubleWithMinimumDoubleMinValue()
         {
             // Fixture setup
@@ -1593,6 +1608,21 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             // Exercise system
             var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().Property7)
+                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
+                          select n);
+            // Verify outcome
+            Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        [UseCulture("en-US")]
+        public void CreateAnonymousWithRangeValidatedUnsignedShortPropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedShortProperty)
                           where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
                           select n);
             // Verify outcome

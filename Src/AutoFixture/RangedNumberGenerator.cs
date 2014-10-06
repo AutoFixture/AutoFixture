@@ -154,6 +154,9 @@ namespace Ploeh.AutoFixture
                 case TypeCode.Int16:
                     return (short)((short)a + (short)b);
 
+                case TypeCode.UInt16:
+                    return (ushort)((ushort)a + (ushort)b);
+
                 case TypeCode.Int32:
                     return (int)a + (int)b;
 

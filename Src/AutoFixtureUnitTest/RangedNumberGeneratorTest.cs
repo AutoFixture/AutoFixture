@@ -440,8 +440,19 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(short), minimum: 10, maximum: 20, contextValue: 20, expectedResult: (short)20);
                 yield return CreateTestCase(operandType: typeof(short), minimum: 10, maximum: 20, contextValue: 21, expectedResult: (short)10);
                 yield return CreateTestCase(operandType: typeof(short), minimum: 10, maximum: 13, contextValue:  4, expectedResult: (short)10);
-                yield return CreateTestCase(operandType: typeof(short), minimum: 10, maximum: 20, contextValue: new object(), 
+                yield return CreateTestCase(operandType: typeof(short), minimum: 10, maximum: 20, contextValue: new object(),
                     expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(short), 10, 20)));
+
+                yield return CreateTestCase(operandType: typeof(ushort), minimum: 10, maximum: 20, contextValue:  1, expectedResult: (ushort)11);
+                yield return CreateTestCase(operandType: typeof(ushort), minimum: 10, maximum: 20, contextValue:  2, expectedResult: (ushort)12);
+                yield return CreateTestCase(operandType: typeof(ushort), minimum: 10, maximum: 20, contextValue:  3, expectedResult: (ushort)13);
+                yield return CreateTestCase(operandType: typeof(ushort), minimum: 10, maximum: 20, contextValue: 10, expectedResult: (ushort)10);
+                yield return CreateTestCase(operandType: typeof(ushort), minimum: 10, maximum: 20, contextValue: 17, expectedResult: (ushort)17);
+                yield return CreateTestCase(operandType: typeof(ushort), minimum: 10, maximum: 20, contextValue: 20, expectedResult: (ushort)20);
+                yield return CreateTestCase(operandType: typeof(ushort), minimum: 10, maximum: 20, contextValue: 21, expectedResult: (ushort)10);
+                yield return CreateTestCase(operandType: typeof(ushort), minimum: 10, maximum: 13, contextValue:  4, expectedResult: (ushort)10);
+                yield return CreateTestCase(operandType: typeof(ushort), minimum: 10, maximum: 20, contextValue: new object(),
+                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(ushort), 10, 20)));
             }
 
             IEnumerator IEnumerable.GetEnumerator()
