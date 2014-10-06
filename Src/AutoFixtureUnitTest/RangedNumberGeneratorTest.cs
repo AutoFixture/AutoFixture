@@ -392,6 +392,17 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(long), minimum: 100000000000, maximum: 200000000000, contextValue: new object(), 
                     expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(long), 100000000000, 200000000000)));
 
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue:  1, expectedResult: (ulong)11);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue:  2, expectedResult: (ulong)12);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue:  3, expectedResult: (ulong)13);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 10, expectedResult: (ulong)10);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 17, expectedResult: (ulong)17);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 20, expectedResult: (ulong)20);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: 21, expectedResult: (ulong)10);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 13, contextValue:  4, expectedResult: (ulong)10);
+                yield return CreateTestCase(operandType: typeof(ulong), minimum: 10, maximum: 20, contextValue: new object(),
+                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(ulong), 10, 20)));
+
                 yield return CreateTestCase(operandType: typeof(decimal), minimum: -5.0m, maximum: -1.0m, contextValue:  1.0m, expectedResult: -5.0m);
                 yield return CreateTestCase(operandType: typeof(decimal), minimum: -5.0m, maximum: -1.0m, contextValue: -1.0m, expectedResult: -1.0m);
                 yield return CreateTestCase(operandType: typeof(decimal), minimum: -5.0m, maximum: -1.0m, contextValue:  0.0m, expectedResult: -5.0m);

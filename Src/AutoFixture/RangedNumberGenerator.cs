@@ -166,6 +166,9 @@ namespace Ploeh.AutoFixture
                 case TypeCode.Int64:
                     return (long)a + (long)b;
 
+                case TypeCode.UInt64:
+                    return (ulong)a + (ulong)b;
+
                 case TypeCode.Decimal:
                     return (decimal)a + (decimal)b;
 
