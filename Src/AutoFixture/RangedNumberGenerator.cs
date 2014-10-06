@@ -178,6 +178,9 @@ namespace Ploeh.AutoFixture
                 case TypeCode.Byte:
                     return (byte)a + (byte)b;
 
+                case TypeCode.SByte:
+                    return (sbyte)((sbyte)a + (sbyte)b);
+
                 case TypeCode.Single:
                     return (float)a + (float)b;
 

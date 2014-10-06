@@ -435,6 +435,21 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(byte), minimum: 10, maximum: 20, contextValue: new object(),
                     expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(byte), 10, 20)));
 
+                yield return CreateTestCase(operandType: typeof(sbyte), minimum: -5, maximum: -1, contextValue:  1, expectedResult: (sbyte)-5);
+                yield return CreateTestCase(operandType: typeof(sbyte), minimum: -5, maximum: -1, contextValue: -1, expectedResult: (sbyte)-1);
+                yield return CreateTestCase(operandType: typeof(sbyte), minimum: -5, maximum: -1, contextValue:  0, expectedResult: (sbyte)-5);
+                yield return CreateTestCase(operandType: typeof(sbyte), minimum:  1, maximum:  3, contextValue: -9, expectedResult: (sbyte) 1);
+                yield return CreateTestCase(operandType: typeof(sbyte), minimum: 10, maximum: 20, contextValue:  1, expectedResult: (sbyte)11);
+                yield return CreateTestCase(operandType: typeof(sbyte), minimum: 10, maximum: 20, contextValue:  2, expectedResult: (sbyte)12);
+                yield return CreateTestCase(operandType: typeof(sbyte), minimum: 10, maximum: 20, contextValue:  3, expectedResult: (sbyte)13);
+                yield return CreateTestCase(operandType: typeof(sbyte), minimum: 10, maximum: 20, contextValue: 10, expectedResult: (sbyte)10);
+                yield return CreateTestCase(operandType: typeof(sbyte), minimum: 10, maximum: 20, contextValue: 17, expectedResult: (sbyte)17);
+                yield return CreateTestCase(operandType: typeof(sbyte), minimum: 10, maximum: 20, contextValue: 20, expectedResult: (sbyte)20);
+                yield return CreateTestCase(operandType: typeof(sbyte), minimum: 10, maximum: 20, contextValue: 21, expectedResult: (sbyte)10);
+                yield return CreateTestCase(operandType: typeof(sbyte), minimum: 10, maximum: 13, contextValue:  4, expectedResult: (sbyte)10);
+                yield return CreateTestCase(operandType: typeof(sbyte), minimum: 10, maximum: 20, contextValue: new object(),
+                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(sbyte), 10, 20)));
+
                 yield return CreateTestCase(operandType: typeof(float), minimum: -5.0f, maximum: -1.0f, contextValue:  1.0f, expectedResult: -5.0f);
                 yield return CreateTestCase(operandType: typeof(float), minimum: -5.0f, maximum: -1.0f, contextValue: -1.0f, expectedResult: -1.0f);
                 yield return CreateTestCase(operandType: typeof(float), minimum: -5.0f, maximum: -1.0f, contextValue:  0.0f, expectedResult: -5.0f);
