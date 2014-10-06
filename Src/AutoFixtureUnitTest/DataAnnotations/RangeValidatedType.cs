@@ -41,6 +41,9 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         public ushort UnsignedShortProperty { get; set; }
 
         [Range(Minimum, Maximum)]
+        public uint UnsignedIntProperty { get; set; }
+
+        [Range(Minimum, Maximum)]
         public decimal? NullableTypeField;
 
         [Range(Minimum, Maximum)]

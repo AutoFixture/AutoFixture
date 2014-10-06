@@ -351,6 +351,17 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(int), minimum: 10, maximum: 20, contextValue: new object(), 
                     expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(int), 10, 20)));
 
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue:  1, expectedResult: (uint)11);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue:  2, expectedResult: (uint)12);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue:  3, expectedResult: (uint)13);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 10, expectedResult: (uint)10);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 17, expectedResult: (uint)17);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 20, expectedResult: (uint)20);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: 21, expectedResult: (uint)10);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 13, contextValue:  4, expectedResult: (uint)10);
+                yield return CreateTestCase(operandType: typeof(uint), minimum: 10, maximum: 20, contextValue: new object(),
+                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(uint), 10, 20)));
+
                 yield return CreateTestCase(operandType: typeof(double), minimum: -5.0, maximum: -1.0, contextValue:  1.0, expectedResult: -5.0);
                 yield return CreateTestCase(operandType: typeof(double), minimum: -5.0, maximum: -1.0, contextValue: -1.0, expectedResult: -1.0);
                 yield return CreateTestCase(operandType: typeof(double), minimum: -5.0, maximum: -1.0, contextValue:  0.0, expectedResult: -5.0);
