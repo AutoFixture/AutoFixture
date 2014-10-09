@@ -6,13 +6,13 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class LateBoundMethodTests
+    public class MissingParametersSupplyingMethodTests
     {
         [Fact]
         public void SutIsIMethod()
         {
             var method = new DelegatingMethod();
-            var sut = new LateBoundMethod(method);
+            var sut = new MissingParametersSupplyingMethod(method);
             Assert.IsAssignableFrom<IMethod>(sut);
         }
 
@@ -20,14 +20,14 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void InitializeWithNullMethodInfoThrows()
         {
             Assert.Throws<ArgumentNullException>(() =>
-                new LateBoundMethod(null));
+                new MissingParametersSupplyingMethod(null));
         }
 
         [Fact]
         public void MethodIsCorrect()
         {
             var expectedMethod = new DelegatingMethod();
-            var sut = new LateBoundMethod(expectedMethod);
+            var sut = new MissingParametersSupplyingMethod(expectedMethod);
 
             var result = sut.Method;
 
@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Action<int, double> dummy = delegate { };
             var expectedParameters = dummy.Method.GetParameters();
             var method = new DelegatingMethod {OnParameters = () => expectedParameters};
-            var sut = new LateBoundMethod(method);
+            var sut = new MissingParametersSupplyingMethod(method);
 
             var result = sut.Parameters;
 
@@ -56,7 +56,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var method = new DelegatingMethod();
             method.OnParameters = () => dummy.Method.GetParameters();
             method.OnInvoke = args => arguments.SequenceEqual(args) ? expected : null;
-            var sut = new LateBoundMethod(method);
+            var sut = new MissingParametersSupplyingMethod(method);
 
             var result = sut.Invoke(arguments);
 
@@ -90,7 +90,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var methodInfo = targetType.GetMethod(methodName);
             method.OnParameters = methodInfo.GetParameters;
             method.OnInvoke = args => methodInfo.Invoke(null, args.ToArray());
-            var sut = new LateBoundMethod(method);
+            var sut = new MissingParametersSupplyingMethod(method);
 
             var result = sut.Invoke(arguments);
 

@@ -116,9 +116,9 @@ namespace Ploeh.AutoFixture.Kernel
         private IMethodFactory GetMethodFactory(MethodInfo method)
         {
             if (method.IsStatic)
-                return new LateBoundStaticMethodFactory();
+                return new MissingParametersSupplyingStaticMethodFactory();
 
-            return new LateBoundMethodFactory(Owner);
+            return new MissingParametersSupplyingMethodFactory(Owner);
         }
 
         private bool Compare(Type parameterType, Type templateParameterType)

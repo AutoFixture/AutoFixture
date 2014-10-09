@@ -3,11 +3,11 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixture.Kernel
 {
-    public class LateBoundMethodFactory : IMethodFactory
+    public class MissingParametersSupplyingMethodFactory : IMethodFactory
     {
         private readonly object owner;
 
-        public LateBoundMethodFactory(object owner)
+        public MissingParametersSupplyingMethodFactory(object owner)
         {
             if (owner == null)
                 throw new ArgumentNullException("owner");
@@ -22,7 +22,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         public IMethod Create(MethodInfo methodInfo)
         {
-            return new LateBoundMethod(new InstanceMethod(methodInfo, Owner));
+            return new MissingParametersSupplyingMethod(new InstanceMethod(methodInfo, Owner));
         }
     }
 }

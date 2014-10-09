@@ -3,20 +3,20 @@
 namespace Ploeh.AutoFixture.Kernel
 {    
     /// <summary>
-    /// Creates a new <see cref="LateBoundMethod" /> for a static
+    /// Creates a new <see cref="MissingParametersSupplyingMethod" /> for a static
     /// <see cref="MethodInfo"/>.
     /// </summary>
-    public class LateBoundStaticMethodFactory : IMethodFactory
+    public class MissingParametersSupplyingStaticMethodFactory : IMethodFactory
     {
         /// <summary>
         /// Creates a <see cref="StaticMethod" /> decorated with 
-        /// <see cref="LateBoundMethod" /> for the supplied methodInfo.
+        /// <see cref="MissingParametersSupplyingMethod" /> for the supplied methodInfo.
         /// </summary>
         /// <param name="methodInfo">The methodInfo.</param>
         /// <returns>Method for <paramref name="methodInfo"/>.</returns>
         public IMethod Create(MethodInfo methodInfo)
         {
-            return new LateBoundMethod(new StaticMethod(methodInfo));
+            return new MissingParametersSupplyingMethod(new StaticMethod(methodInfo));
         }
     }
 }

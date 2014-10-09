@@ -94,14 +94,14 @@
     <Compile Include="CreatingAbstractClassWithPublicConstructorTests.cs" />
     <Compile Include="DataAnnotations\StringLengthArgumentSupportTests.cs" />
     <Compile Include="DelegatingRecursionHandler.cs" />
-    <Compile Include="Kernel\LateBoundMethodFactoryTests.cs" />
-    <Compile Include="Kernel\LateBoundStaticMethodFactoryTests.cs" />
+    <Compile Include="Kernel\MissingParametersSupplyingMethodFactoryTests.cs" />
+    <Compile Include="Kernel\MissingParametersSupplyingStaticMethodFactoryTests.cs" />
     <Compile Include="Kernel\CompositeSpecimenCommandTest.cs" />
     <Compile Include="Kernel\DelegatingMethod.cs" />
     <Compile Include="Kernel\DelegatingMethodFactory.cs" />
     <Compile Include="Kernel\GenericMethodTests.cs" />
     <Compile Include="Kernel\TemplateMethodQueryTests.cs" />
-    <Compile Include="Kernel\LateBoundMethodTests.cs" />
+    <Compile Include="Kernel\MissingParametersSupplyingMethodTests.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelayTest.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecificationTest.cs" />
     <Compile Include="Kernel\OmitArrayParameterRequestRelayTests.cs" />

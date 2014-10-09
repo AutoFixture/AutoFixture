@@ -100,10 +100,10 @@
     <Compile Include="Kernel\CompositeSpecimenCommand.cs" />
     <Compile Include="Kernel\GenericMethod.cs" />
     <Compile Include="Kernel\IMethodFactory.cs" />
-    <Compile Include="Kernel\LateBoundMethodFactory.cs" />
+    <Compile Include="Kernel\MissingParametersSupplyingMethodFactory.cs" />
     <Compile Include="Kernel\TemplateMethodQuery.cs" />
-    <Compile Include="Kernel\LateBoundMethod.cs" />
-    <Compile Include="Kernel\LateBoundStaticMethodFactory.cs" />
+    <Compile Include="Kernel\MissingParametersSupplyingMethod.cs" />
+    <Compile Include="Kernel\MissingParametersSupplyingStaticMethodFactory.cs" />
     <Compile Include="Kernel\TypeArgumentsCannotBeInferredException.cs" />
     <Compile Include="NoDataAnnotationsCustomization.cs" />
     <Compile Include="Kernel\IRecursionHandler.cs" />

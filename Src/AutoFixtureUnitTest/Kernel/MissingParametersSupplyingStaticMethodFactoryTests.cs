@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class LateBoundStaticMethodFactoryTests
+    public class MissingParametersSupplyingStaticMethodFactoryTests
     {
         [Fact]
         public void SutIsIMethodFactory()
         {
-            var sut = new LateBoundStaticMethodFactory();
+            var sut = new MissingParametersSupplyingStaticMethodFactory();
             Assert.IsAssignableFrom<IMethodFactory>(sut);
         }
 
@@ -17,18 +17,18 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateReturnsCorrectResult()
         {
             Action dummy = delegate { };
-            var sut = new LateBoundStaticMethodFactory();
+            var sut = new MissingParametersSupplyingStaticMethodFactory();
 
             var result = sut.Create(dummy.Method);
 
-            var expected = new LateBoundMethod(new StaticMethod(dummy.Method));
+            var expected = new MissingParametersSupplyingMethod(new StaticMethod(dummy.Method));
             Assert.Equal(expected, result);
         }
 
         [Fact]
         public void CreateWithNullThrows()
         {
-            var sut = new LateBoundStaticMethodFactory();
+            var sut = new MissingParametersSupplyingStaticMethodFactory();
             Assert.Throws<ArgumentNullException>(() => sut.Create(null));
         }
     }

@@ -8,15 +8,15 @@ namespace Ploeh.AutoFixture.Kernel
     /// <summary>
     /// Decorates another method invoking it supplying missing parameters
     /// </summary>
-    public class LateBoundMethod : IMethod, IEquatable<LateBoundMethod>
+    public class MissingParametersSupplyingMethod : IMethod, IEquatable<MissingParametersSupplyingMethod>
     {
         private readonly IMethod method;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LateBoundMethod"/> class.
+        /// Initializes a new instance of the <see cref="MissingParametersSupplyingMethod"/> class.
         /// </summary>
         /// <param name="method">The <see cref="IMethod"/> to decorate.</param>
-        public LateBoundMethod(IMethod method)
+        public MissingParametersSupplyingMethod(IMethod method)
         {
             if (method == null)
                 throw new ArgumentNullException("method");
@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixture.Kernel
         ///   </exception>
         public override bool Equals(object obj)
         {
-            var other = obj as LateBoundMethod;
+            var other = obj as MissingParametersSupplyingMethod;
             if (other != null)
             {
                 return this.Equals(other);
@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
-        public bool Equals(LateBoundMethod other)
+        public bool Equals(MissingParametersSupplyingMethod other)
         {
             if (other == null)
             {
