@@ -19,15 +19,15 @@ namespace Ploeh.AutoFixture.Kernel
     /// favoring the method with exactly same parameters to be returned first.
     /// </para>
     /// </remarks>
-    public class LateBindingStaticMethodQuery : IMethodQuery
+    public class TemplateMethodQuery : IMethodQuery
     {
         private readonly MethodInfo template;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LateBindingStaticMethodQuery"/> class.
+        /// Initializes a new instance of the <see cref="TemplateMethodQuery"/> class.
         /// </summary>
         /// <param name="template">The method info to compare.</param>
-        public LateBindingStaticMethodQuery(MethodInfo template)
+        public TemplateMethodQuery(MethodInfo template)
         {
             if (template == null)
                 throw new ArgumentNullException("signature");

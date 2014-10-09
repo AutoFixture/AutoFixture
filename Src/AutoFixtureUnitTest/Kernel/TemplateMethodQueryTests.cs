@@ -8,27 +8,27 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class LateBindingStaticMethodQueryTests
+    public class TemplateMethodQueryTests
     {
         [Fact]
         public void SutIsIMethodQuery()
         {
             Action dummy = delegate { };
-            var sut = new LateBindingStaticMethodQuery(dummy.Method);
+            var sut = new TemplateMethodQuery(dummy.Method);
             Assert.IsAssignableFrom<IMethodQuery>(sut);
         }
 
         [Fact]
         public void InitializeWithNullThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new LateBindingStaticMethodQuery(null));
+            Assert.Throws<ArgumentNullException>(() => new TemplateMethodQuery(null));
         }
 
         [Fact]
         public void TemplateIsCorrect()
         {
             Action dummy = delegate { };
-            var sut = new LateBindingStaticMethodQuery(dummy.Method);
+            var sut = new TemplateMethodQuery(dummy.Method);
             Assert.Equal(dummy.Method, sut.Template);
         }
 
@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SelectMethodsWithNullThrows()
         {
             Action dummy = delegate { };
-            var sut = new LateBindingStaticMethodQuery(dummy.Method);
+            var sut = new TemplateMethodQuery(dummy.Method);
 
             Assert.Throws<ArgumentNullException>(() => sut.SelectMethods(null));
         }
@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SelectMethodsReturnsCorrectResult(Type signatureType, string methodName, Type targetType, object[] arguments, object[] expected)
         {
             var signatureMethod = signatureType.GetMethod(methodName);
-            var sut = new LateBindingStaticMethodQuery(signatureMethod);
+            var sut = new TemplateMethodQuery(signatureMethod);
 
             var results = sut.SelectMethods(targetType)
                 .Select(m => m.Invoke(arguments))
@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SelectMethodsDoesNotReturnIncorrectResult()
         {
             var signatureMethod = typeof(TypeWithSignatureMethods).GetMethod("MethodWithFunc");
-            var sut = new LateBindingStaticMethodQuery(signatureMethod);
+            var sut = new TemplateMethodQuery(signatureMethod);
 
             var results = sut.SelectMethods(typeof(TypeWithMethods))
                 .Select(m => m.Invoke(new[] { new Func<string>(() => string.Empty) }));
@@ -85,7 +85,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SelectMethodsReturnsInCorrectOrder(Type signatureType, Type targetType, string methodName, object[] arguments)
         {
             var signatureMethod = signatureType.GetMethod(methodName);
-            var sut = new LateBindingStaticMethodQuery(signatureMethod);
+            var sut = new TemplateMethodQuery(signatureMethod);
 
             var results = sut.SelectMethods(targetType)
                 .Select(m => m.Invoke(arguments))

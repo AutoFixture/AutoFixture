@@ -99,7 +99,7 @@
     <Compile Include="Kernel\DelegatingMethod.cs" />
     <Compile Include="Kernel\DelegatingMethodFactory.cs" />
     <Compile Include="Kernel\GenericMethodTests.cs" />
-    <Compile Include="Kernel\LateBindingStaticMethodQueryTests.cs" />
+    <Compile Include="Kernel\TemplateMethodQueryTests.cs" />
     <Compile Include="Kernel\LateBoundMethodTests.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelayTest.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecificationTest.cs" />

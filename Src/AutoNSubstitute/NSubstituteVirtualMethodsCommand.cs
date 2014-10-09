@@ -107,7 +107,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
                 try
                 {
-                    return new LateBindingStaticMethodQuery(methodInfo)
+                    return new TemplateMethodQuery(methodInfo)
                         .SelectMethods(substituteType)
                         .First();
                 }
