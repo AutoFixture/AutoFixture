@@ -67,23 +67,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [InlineData(typeof(TypeWithSignatureMethods), "VoidMethodWithString", typeof(TypeWithMethods), new[] { "s" }, new object[] { null })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithString", typeof(TypeWithMethods), new[] { "s" }, new object[] { "s" })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithStringArray", typeof(TypeWithMethods), new object[] { new[] { "a", "b" } }, new object[] { new[] { "a", "b" }, new[] { "a", "b" }, new[] { "a", "b" } })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithGenerics", typeof(TypeWithMethods), new[] { "s" }, new object[] { "s" })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithGenerics", typeof(TypeWithMethods), new object[] { 1 }, new object[] { 1 })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithEnumerable", typeof(TypeWithMethods), new object[] { new[] { "a", "b" } }, new object[] { new[] { "a", "b" } })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithArray", typeof(TypeWithMethods), new object[] { new[] { "a", "b" } }, new object[] { new[] { "a", "b" }, new[] { "a", "b" } })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithOptionalParameter", typeof(TypeWithMethods), new object[] { 1 }, new object[] { new object[] { 1, "s" } })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithOptionalParameter", typeof(TypeWithMethods), new object[] { 1, "a" }, new object[] { new object[] { 1, "a" } })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithParamsParameter", typeof(TypeWithMethods), new object[] { 1 }, new object[] { new object[] { 1 } })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithParamsParameter", typeof(TypeWithMethods), new object[] { 1, new[] { "a", "b" } }, new object[] { new object[] { 1, "a", "b" } })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithSameName", typeof(TypeWithMethods), new object[] { "s" }, new object[] { "s", "s" })]
-        public void SelectMethodsReturnsCorrectResult(Type signatureType, string methodName, Type targetType, object[] arguments, object[] expected)
+        [InlineData(typeof(TypeWithTemplateMethods), "VoidMethodWithString", typeof(TypeWithMethods), new[] { "s" }, new object[] { null })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithString", typeof(TypeWithMethods), new[] { "s" }, new object[] { "s" })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithStringArray", typeof(TypeWithMethods), new object[] { new[] { "a", "b" } }, new object[] { new[] { "a", "b" }, new[] { "a", "b" }, new[] { "a", "b" } })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithGenerics", typeof(TypeWithMethods), new[] { "s" }, new object[] { "s" })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithGenerics", typeof(TypeWithMethods), new object[] { 1 }, new object[] { 1 })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithEnumerable", typeof(TypeWithMethods), new object[] { new[] { "a", "b" } }, new object[] { new[] { "a", "b" } })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithArray", typeof(TypeWithMethods), new object[] { new[] { "a", "b" } }, new object[] { new[] { "a", "b" }, new[] { "a", "b" } })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithOptionalParameter", typeof(TypeWithMethods), new object[] { 1 }, new object[] { new object[] { 1, "s" } })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithOptionalParameter", typeof(TypeWithMethods), new object[] { 1, "a" }, new object[] { new object[] { 1, "a" } })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithParamsParameter", typeof(TypeWithMethods), new object[] { 1 }, new object[] { new object[] { 1 } })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithParamsParameter", typeof(TypeWithMethods), new object[] { 1, new[] { "a", "b" } }, new object[] { new object[] { 1, "a", "b" } })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithSameName", typeof(TypeWithMethods), new object[] { "s" }, new object[] { "s", "s" })]
+        public void SelectMethodsReturnsCorrectResult(Type templateType, string methodName, Type targetType, object[] arguments, object[] expected)
         {
-            var signatureMethod = signatureType.GetMethod(methodName);
+            var templateMethod = templateType.GetMethod(methodName);
             var owner = Activator.CreateInstance(targetType);
-            var sut = new TemplateMethodQuery(signatureMethod, owner);
+            var sut = new TemplateMethodQuery(templateMethod, owner);
 
             var results = sut.SelectMethods(targetType)
                 .Select(m => m.Invoke(arguments))
@@ -93,22 +93,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [InlineData(typeof(TypeWithSignatureMethods), "VoidMethodWithString", typeof(TypeWithMethods), new[] { "s" }, new object[] { null })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithString", typeof(TypeWithMethods), new[] { "s" }, new object[] { "s" })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithStringArray", typeof(TypeWithMethods), new object[] { new[] { "a", "b" } }, new object[] { new[] { "a", "b" } })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithGenerics", typeof(TypeWithMethods), new[] { "s" }, new object[] { "s" })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithGenerics", typeof(TypeWithMethods), new object[] { 1 }, new object[] { 1 })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithEnumerable", typeof(TypeWithMethods), new object[] { new[] { "a", "b" } }, new object[] { new[] { "a", "b" } })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithArray", typeof(TypeWithMethods), new object[] { new[] { "a", "b" } }, new object[] { new[] { "a", "b" } })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithOptionalParameter", typeof(TypeWithMethods), new object[] { 1 }, new object[] { new object[] { 1, "s" } })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithOptionalParameter", typeof(TypeWithMethods), new object[] { 1, "a" }, new object[] { new object[] { 1, "a" } })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithParamsParameter", typeof(TypeWithMethods), new object[] { 1 }, new object[] { new object[] { 1 } })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithParamsParameter", typeof(TypeWithMethods), new object[] { 1, new[] { "a", "b" } }, new object[] { new object[] { 1, "a", "b" } })]
-        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithSameName", typeof(TypeWithMethods), new object[] { "s" }, new object[] { "s" })]
-        public void SelectMethodsReturnsCorrectResultWhenInitializedWithNullOwner(Type signatureType, string methodName, Type targetType, object[] arguments, object[] expected)
+        [InlineData(typeof(TypeWithTemplateMethods), "VoidMethodWithString", typeof(TypeWithMethods), new[] { "s" }, new object[] { null })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithString", typeof(TypeWithMethods), new[] { "s" }, new object[] { "s" })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithStringArray", typeof(TypeWithMethods), new object[] { new[] { "a", "b" } }, new object[] { new[] { "a", "b" } })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithGenerics", typeof(TypeWithMethods), new[] { "s" }, new object[] { "s" })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithGenerics", typeof(TypeWithMethods), new object[] { 1 }, new object[] { 1 })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithEnumerable", typeof(TypeWithMethods), new object[] { new[] { "a", "b" } }, new object[] { new[] { "a", "b" } })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithArray", typeof(TypeWithMethods), new object[] { new[] { "a", "b" } }, new object[] { new[] { "a", "b" } })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithOptionalParameter", typeof(TypeWithMethods), new object[] { 1 }, new object[] { new object[] { 1, "s" } })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithOptionalParameter", typeof(TypeWithMethods), new object[] { 1, "a" }, new object[] { new object[] { 1, "a" } })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithParamsParameter", typeof(TypeWithMethods), new object[] { 1 }, new object[] { new object[] { 1 } })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithParamsParameter", typeof(TypeWithMethods), new object[] { 1, new[] { "a", "b" } }, new object[] { new object[] { 1, "a", "b" } })]
+        [InlineData(typeof(TypeWithTemplateMethods), "MethodWithSameName", typeof(TypeWithMethods), new object[] { "s" }, new object[] { "s" })]
+        public void SelectMethodsReturnsCorrectResultWhenInitializedWithNullOwner(Type templateType, string methodName, Type targetType, object[] arguments, object[] expected)
         {
-            var signatureMethod = signatureType.GetMethod(methodName);
-            var sut = new TemplateMethodQuery(signatureMethod);
+            var templateMethod = templateType.GetMethod(methodName);
+            var sut = new TemplateMethodQuery(templateMethod);
 
             var results = sut.SelectMethods(targetType)
                 .Select(m => m.Invoke(arguments))
@@ -120,8 +120,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [Fact]
         public void SelectMethodsDoesNotReturnIncorrectResult()
         {
-            var signatureMethod = typeof(TypeWithSignatureMethods).GetMethod("MethodWithFunc");
-            var sut = new TemplateMethodQuery(signatureMethod);
+            var templateMethod = typeof(TypeWithTemplateMethods).GetMethod("MethodWithFunc");
+            var sut = new TemplateMethodQuery(templateMethod);
 
             var results = sut.SelectMethods(typeof(TypeWithMethods))
                 .Select(m => m.Invoke(new[] { new Func<string>(() => string.Empty) }));
@@ -131,13 +131,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [InlineData(typeof(TypeWithSignatureMethods), typeof(TypeWithMethods), "MethodInOrder", new object[] { new[] { "a" } })]
-        [InlineData(typeof(TypeWithSignatureMethods), typeof(TypeWithMethods), "MethodInOrderWithTwoParameters", new object[] { new[] { "a" }, new[] { "a" } })]
-        public void SelectMethodsReturnsInCorrectOrderWhenInitializedWithNullOwner(Type signatureType, Type targetType, string methodName, object[] arguments)
+        [InlineData(typeof(TypeWithTemplateMethods), typeof(TypeWithMethods), "MethodInOrder", new object[] { new[] { "a" } })]
+        [InlineData(typeof(TypeWithTemplateMethods), typeof(TypeWithMethods), "MethodInOrderWithTwoParameters", new object[] { new[] { "a" }, new[] { "a" } })]
+        public void SelectMethodsReturnsInCorrectOrderWhenInitializedWithNullOwner(Type templateType, Type targetType, string methodName, object[] arguments)
         {
-            var signatureMethod = signatureType.GetMethod(methodName);
+            var templateMethod = templateType.GetMethod(methodName);
             var owner = Activator.CreateInstance(targetType);
-            var sut = new TemplateMethodQuery(signatureMethod, owner);
+            var sut = new TemplateMethodQuery(templateMethod, owner);
 
             var results = sut.SelectMethods(targetType)
                 .Select(m => m.Invoke(arguments))
@@ -148,7 +148,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
     }
 
-    public class TypeWithSignatureMethods
+    public class TypeWithTemplateMethods
     {
         public static void VoidMethodWithString(string arg)
         {

@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture.Kernel
         public TemplateMethodQuery(MethodInfo template)
         {
             if (template == null)
-                throw new ArgumentNullException("signature");
+                throw new ArgumentNullException("template");
 
             this.template = template;
         }
@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixture.Kernel
         public TemplateMethodQuery(MethodInfo template, object owner)
         {
             if (template == null)
-                throw new ArgumentNullException("signature");
+                throw new ArgumentNullException("template");
 
             if (owner == null)
                 throw new ArgumentNullException("owner");
@@ -102,14 +102,14 @@ namespace Ploeh.AutoFixture.Kernel
             return from method in type.GetMethods()
                    where method.Name == Template.Name && (Owner != null || method.IsStatic)
                    let methodParameters = method.GetParameters()
-                   let signatureParameters = Template.GetParameters()
-                   where methodParameters.Length >= signatureParameters.Length
-                   let score = new LateBindingParameterScore(methodParameters, signatureParameters)
+                   let templateParameters = Template.GetParameters()
+                   where methodParameters.Length >= templateParameters.Length
+                   let score = new LateBindingParameterScore(methodParameters, templateParameters)
                    orderby score descending
                    where methodParameters.All(p =>
-                       p.Position >= signatureParameters.Length ?
+                       p.Position >= templateParameters.Length ?
                            p.IsOptional || p.IsDefined(typeof(ParamArrayAttribute), true) :
-                           Compare(p.ParameterType, signatureParameters[p.Position].ParameterType))
+                           Compare(p.ParameterType, templateParameters[p.Position].ParameterType))
                    select new GenericMethod(method, GetMethodFactory(method));
         }
 
@@ -121,22 +121,22 @@ namespace Ploeh.AutoFixture.Kernel
             return new LateBoundMethodFactory(Owner);
         }
 
-        private bool Compare(Type parameterType, Type signatureParameterType)
+        private bool Compare(Type parameterType, Type templateParameterType)
         {
-            if (parameterType.IsAssignableFrom(signatureParameterType))
+            if (parameterType.IsAssignableFrom(templateParameterType))
                 return true;
 
             if (parameterType.IsGenericParameter)
-                return signatureParameterType.IsGenericParameter
-                    && parameterType.GenericParameterPosition == signatureParameterType.GenericParameterPosition;
+                return templateParameterType.IsGenericParameter
+                    && parameterType.GenericParameterPosition == templateParameterType.GenericParameterPosition;
 
             var genericArguments = GetTypeArguments(parameterType);
-            var signatureGenericArguments = GetTypeArguments(signatureParameterType);
+            var templateGenericArguments = GetTypeArguments(templateParameterType);
 
-            if (genericArguments.Length == 0 || genericArguments.Length != signatureGenericArguments.Length)
+            if (genericArguments.Length == 0 || genericArguments.Length != templateGenericArguments.Length)
                 return false;
 
-            return genericArguments.Zip(signatureGenericArguments, Compare).All(x => x);
+            return genericArguments.Zip(templateGenericArguments, Compare).All(x => x);
         }
 
         private static Type[] GetTypeArguments(Type type)
@@ -151,16 +151,16 @@ namespace Ploeh.AutoFixture.Kernel
             private readonly int score;
 
             internal LateBindingParameterScore(IEnumerable<ParameterInfo> methodParameters, 
-                IEnumerable<ParameterInfo> signatureParameters)
+                IEnumerable<ParameterInfo> templateParameters)
             {
                 if (methodParameters == null)
                     throw new ArgumentNullException("methodParameters");
 
-                if (signatureParameters == null)
-                    throw new ArgumentNullException("signatureParameters");
+                if (templateParameters == null)
+                    throw new ArgumentNullException("templateParameters");
 
                 this.score = CalculateScore(methodParameters.Select(p => p.ParameterType), 
-                    signatureParameters.Select(p => p.ParameterType));
+                    templateParameters.Select(p => p.ParameterType));
             }
 
             public int CompareTo(LateBindingParameterScore other)
@@ -172,23 +172,23 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             private static int CalculateScore(IEnumerable<Type> methodParameters, 
-                IEnumerable<Type> signatureParameters)
+                IEnumerable<Type> templateParameters)
             {
-                var parametersScore = signatureParameters.Zip(methodParameters,
+                var parametersScore = templateParameters.Zip(methodParameters,
                     (s, m) => CalculateScore(m, s))
                     .Sum();
 
-                var additionalParameters = methodParameters.Count() - signatureParameters.Count();
+                var additionalParameters = methodParameters.Count() - templateParameters.Count();
 
                 return parametersScore - additionalParameters;
             }
 
-            private static int CalculateScore(Type methodParameterType, Type signatureParameterType)
+            private static int CalculateScore(Type methodParameterType, Type templateParameterType)
             {
-                if (methodParameterType == signatureParameterType)
+                if (methodParameterType == templateParameterType)
                     return 100;
 
-                var hierarchy = GetHierarchy(signatureParameterType).ToList();
+                var hierarchy = GetHierarchy(templateParameterType).ToList();
                 
                 var matches = methodParameterType.IsClass ? 
                     hierarchy.Count(t => t.IsAssignableFrom(methodParameterType)) : 
@@ -197,10 +197,10 @@ namespace Ploeh.AutoFixture.Kernel
                 var score = 50 * -(hierarchy.Count - matches);
 
                 var methodTypeArguments = GetTypeArguments(methodParameterType);
-                var signatureTypeArguments = GetTypeArguments(signatureParameterType);
+                var templateTypeArguments = GetTypeArguments(templateParameterType);
 
-                score += CalculateScore(methodTypeArguments, signatureTypeArguments) / 10;
-                score += 50 * -Math.Abs(methodTypeArguments.Length - signatureTypeArguments.Length);
+                score += CalculateScore(methodTypeArguments, templateTypeArguments) / 10;
+                score += 50 * -Math.Abs(methodTypeArguments.Length - templateTypeArguments.Length);
 
                 if (methodParameterType.IsClass)
                     score += 5;
