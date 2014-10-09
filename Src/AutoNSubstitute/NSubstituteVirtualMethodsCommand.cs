@@ -15,16 +15,16 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     /// Sets up a substitute object's methods so that the return values will be retrieved from a fixture,
     /// instead of being created directly by NSubstitute.
     /// 
-    /// This will setup any virtual methods that are either non-void or have "out" or "ref" parameters.
+    /// This will setup any non-void virtual methods.
     /// </summary>
     /// <remarks>
-    /// This will setup any virtual methods that are either non-void or have "out" or "ref" parameters.
+    /// This will setup any non-void virtual methods.
     /// This includes:
     ///  - interface's methods/property getters;
     ///  - class's abstract/virtual/overridden/non-sealed methods/property getters.
     /// 
     /// Notes:
-    /// - Automatic mocking of generic methods isn't feasible either - we'd have to antecipate any type 
+    /// - Automatic mocking of generic methods isn't feasible - we'd have to antecipate any type 
     ///     parameters that this method could be called with. 
     /// - Void methods are not set up due to a limitation in NSubstitute that When..Do setups can't be overriden
     /// - Calling a method more than once with the same parameters will always return the same value
