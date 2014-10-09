@@ -19,9 +19,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void InitializeWithNullThrows()
+        public void InitializeWithNullTemplateThrows()
         {
             Assert.Throws<ArgumentNullException>(() => new TemplateMethodQuery(null));
+        }
+
+        [Fact]
+        public void InitializeSecondConstructorWithNullTemplateThrows()
+        {
+            var anonymousOwner = new object();
+            Assert.Throws<ArgumentNullException>(() => new TemplateMethodQuery(null, anonymousOwner));
+        }
+
+        [Fact]
+        public void InitializeWithNullOwnerThrows()
+        {
+            Action dummy = delegate { };
+            Assert.Throws<ArgumentNullException>(() => new TemplateMethodQuery(dummy.Method, null));
         }
 
         [Fact]
@@ -30,6 +44,17 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Action dummy = delegate { };
             var sut = new TemplateMethodQuery(dummy.Method);
             Assert.Equal(dummy.Method, sut.Template);
+        }
+
+        [Fact]
+        public void OwnerIsCorrect()
+        {
+            Action dummy = delegate { };
+            var owner = new object();
+
+            var sut = new TemplateMethodQuery(dummy.Method, owner);
+
+            Assert.Equal(owner, sut.Owner);
         }
 
         [Fact]
@@ -57,6 +82,32 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SelectMethodsReturnsCorrectResult(Type signatureType, string methodName, Type targetType, object[] arguments, object[] expected)
         {
             var signatureMethod = signatureType.GetMethod(methodName);
+            var owner = Activator.CreateInstance(targetType);
+            var sut = new TemplateMethodQuery(signatureMethod, owner);
+
+            var results = sut.SelectMethods(targetType)
+                .Select(m => m.Invoke(arguments))
+                .ToArray();
+
+            Assert.Equal(expected, results);
+        }
+
+        [Theory]
+        [InlineData(typeof(TypeWithSignatureMethods), "VoidMethodWithString", typeof(TypeWithMethods), new[] { "s" }, new object[] { null })]
+        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithString", typeof(TypeWithMethods), new[] { "s" }, new object[] { "s" })]
+        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithStringArray", typeof(TypeWithMethods), new object[] { new[] { "a", "b" } }, new object[] { new[] { "a", "b" } })]
+        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithGenerics", typeof(TypeWithMethods), new[] { "s" }, new object[] { "s" })]
+        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithGenerics", typeof(TypeWithMethods), new object[] { 1 }, new object[] { 1 })]
+        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithEnumerable", typeof(TypeWithMethods), new object[] { new[] { "a", "b" } }, new object[] { new[] { "a", "b" } })]
+        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithArray", typeof(TypeWithMethods), new object[] { new[] { "a", "b" } }, new object[] { new[] { "a", "b" } })]
+        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithOptionalParameter", typeof(TypeWithMethods), new object[] { 1 }, new object[] { new object[] { 1, "s" } })]
+        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithOptionalParameter", typeof(TypeWithMethods), new object[] { 1, "a" }, new object[] { new object[] { 1, "a" } })]
+        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithParamsParameter", typeof(TypeWithMethods), new object[] { 1 }, new object[] { new object[] { 1 } })]
+        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithParamsParameter", typeof(TypeWithMethods), new object[] { 1, new[] { "a", "b" } }, new object[] { new object[] { 1, "a", "b" } })]
+        [InlineData(typeof(TypeWithSignatureMethods), "MethodWithSameName", typeof(TypeWithMethods), new object[] { "s" }, new object[] { "s" })]
+        public void SelectMethodsReturnsCorrectResultWhenInitializedWithNullOwner(Type signatureType, string methodName, Type targetType, object[] arguments, object[] expected)
+        {
+            var signatureMethod = signatureType.GetMethod(methodName);
             var sut = new TemplateMethodQuery(signatureMethod);
 
             var results = sut.SelectMethods(targetType)
@@ -82,10 +133,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [Theory]
         [InlineData(typeof(TypeWithSignatureMethods), typeof(TypeWithMethods), "MethodInOrder", new object[] { new[] { "a" } })]
         [InlineData(typeof(TypeWithSignatureMethods), typeof(TypeWithMethods), "MethodInOrderWithTwoParameters", new object[] { new[] { "a" }, new[] { "a" } })]
-        public void SelectMethodsReturnsInCorrectOrder(Type signatureType, Type targetType, string methodName, object[] arguments)
+        public void SelectMethodsReturnsInCorrectOrderWhenInitializedWithNullOwner(Type signatureType, Type targetType, string methodName, object[] arguments)
         {
             var signatureMethod = signatureType.GetMethod(methodName);
-            var sut = new TemplateMethodQuery(signatureMethod);
+            var owner = Activator.CreateInstance(targetType);
+            var sut = new TemplateMethodQuery(signatureMethod, owner);
 
             var results = sut.SelectMethods(targetType)
                 .Select(m => m.Invoke(arguments))
@@ -160,7 +212,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             return arg;
         }
-        public static string[] MethodWithStringArray(string[] arg)
+        public string[] MethodWithStringArray(string[] arg)
         {
             return arg;
         }
@@ -168,7 +220,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             return arg;
         }
-        public static IEnumerable<string> MethodWithStringArray(IEnumerable<string> arg)
+        public IEnumerable<string> MethodWithStringArray(IEnumerable<string> arg)
         {
             return arg;
         }
@@ -184,7 +236,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             return arg;
         }
-        public static IEnumerable<T> MethodWithArray<T>(IEnumerable<T> arg)
+        public IEnumerable<T> MethodWithArray<T>(IEnumerable<T> arg)
         {
             return arg;
         }
@@ -200,7 +252,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             return arg;
         }
-        public static string MethodWithSameName(string arg)
+        public string MethodWithSameName(string arg)
         {
             return arg;
         }
@@ -208,7 +260,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             return 6;
         }
-        public static int MethodInOrder(string[] arg1, object arg2 = null)
+        public int MethodInOrder(string[] arg1, object arg2 = null)
         {
             return 1;
         }
@@ -216,7 +268,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             return 0;
         }
-        public static int MethodInOrder(IEnumerable<object> arg)
+        public int MethodInOrder(IEnumerable<object> arg)
         {
             return 5;
         }
@@ -224,7 +276,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             return 3;
         }
-        public static int MethodInOrder(object[] arg)
+        public int MethodInOrder(object[] arg)
         {
             return 4;
         }
@@ -236,7 +288,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             return 5;
         }
-        public static int MethodInOrderWithTwoParameters(string[] arg1, IEnumerable arg2)
+        public int MethodInOrderWithTwoParameters(string[] arg1, IEnumerable arg2)
         {
             return 3;
         }
@@ -244,7 +296,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             return 4;
         }
-        public static int MethodInOrderWithTwoParameters(string[] arg1, IEnumerable<string> arg2, object arg3 = null)
+        public int MethodInOrderWithTwoParameters(string[] arg1, IEnumerable<string> arg2, object arg3 = null)
         {
             return 1;
         }
@@ -252,7 +304,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             return 2;
         }
-        public static int MethodInOrderWithTwoParameters(string[] arg1, IEnumerable<string> arg2)
+        public int MethodInOrderWithTwoParameters(string[] arg1, IEnumerable<string> arg2)
         {
             return 0;
         }

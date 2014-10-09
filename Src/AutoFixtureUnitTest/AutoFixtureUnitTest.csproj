@@ -94,6 +94,7 @@
     <Compile Include="CreatingAbstractClassWithPublicConstructorTests.cs" />
     <Compile Include="DataAnnotations\StringLengthArgumentSupportTests.cs" />
     <Compile Include="DelegatingRecursionHandler.cs" />
+    <Compile Include="Kernel\LateBoundMethodFactoryTests.cs" />
     <Compile Include="Kernel\LateBoundStaticMethodFactoryTests.cs" />
     <Compile Include="Kernel\CompositeSpecimenCommandTest.cs" />
     <Compile Include="Kernel\DelegatingMethod.cs" />

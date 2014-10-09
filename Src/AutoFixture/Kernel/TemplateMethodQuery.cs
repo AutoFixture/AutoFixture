@@ -22,6 +22,7 @@ namespace Ploeh.AutoFixture.Kernel
     public class TemplateMethodQuery : IMethodQuery
     {
         private readonly MethodInfo template;
+        private readonly object owner;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TemplateMethodQuery"/> class.
@@ -35,9 +36,37 @@ namespace Ploeh.AutoFixture.Kernel
             this.template = template;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TemplateMethodQuery"/> class.
+        /// </summary>
+        /// <param name="template">The method info to compare.</param>
+        /// <param name="owner">The owner.</param>
+        public TemplateMethodQuery(MethodInfo template, object owner)
+        {
+            if (template == null)
+                throw new ArgumentNullException("signature");
+
+            if (owner == null)
+                throw new ArgumentNullException("owner");
+
+            this.owner = owner;
+            this.template = template;
+        }
+
+        /// <summary>
+        /// The template <see cref="MethodInfo" /> to compare.
+        /// </summary>
         public MethodInfo Template
         {
             get { return template; }
+        }
+
+        /// <summary>
+        /// The owner instance of the <see cref="MethodInfo" />.
+        /// </summary>
+        public object Owner
+        {
+            get { return owner; }
         }
 
         /// <summary>
@@ -70,8 +99,8 @@ namespace Ploeh.AutoFixture.Kernel
             if (type == null)
                 throw new ArgumentNullException("type");
 
-            return from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
-                   where method.Name == Template.Name
+            return from method in type.GetMethods()
+                   where method.Name == Template.Name && (Owner != null || method.IsStatic)
                    let methodParameters = method.GetParameters()
                    let signatureParameters = Template.GetParameters()
                    where methodParameters.Length >= signatureParameters.Length
@@ -81,7 +110,15 @@ namespace Ploeh.AutoFixture.Kernel
                        p.Position >= signatureParameters.Length ?
                            p.IsOptional || p.IsDefined(typeof(ParamArrayAttribute), true) :
                            Compare(p.ParameterType, signatureParameters[p.Position].ParameterType))
-                   select new GenericMethod(method, new LateBoundStaticMethodFactory());
+                   select new GenericMethod(method, GetMethodFactory(method));
+        }
+
+        private IMethodFactory GetMethodFactory(MethodInfo method)
+        {
+            if (method.IsStatic)
+                return new LateBoundStaticMethodFactory();
+
+            return new LateBoundMethodFactory(Owner);
         }
 
         private bool Compare(Type parameterType, Type signatureParameterType)
