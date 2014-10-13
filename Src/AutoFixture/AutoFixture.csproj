@@ -106,6 +106,7 @@
     <Compile Include="Kernel\MissingParametersSupplyingStaticMethodFactory.cs" />
     <Compile Include="Kernel\TypeArgumentsCannotBeInferredException.cs" />
     <Compile Include="LazyRelay.cs" />
+    <Compile Include="FreezeOnMatchCustomization.cs" />
     <Compile Include="Kernel\ImplementedInterfaceSpecification.cs" />
     <Compile Include="NoDataAnnotationsCustomization.cs" />
     <Compile Include="Kernel\IRecursionHandler.cs" />

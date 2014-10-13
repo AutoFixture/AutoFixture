@@ -102,6 +102,7 @@
     <Compile Include="Kernel\GenericMethodTests.cs" />
     <Compile Include="Kernel\TemplateMethodQueryTests.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingMethodTests.cs" />
+    <Compile Include="FreezeOnMatchCustomizationTest.cs" />
     <Compile Include="Kernel\ImplementedInterfaceSpecificationTest.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelayTest.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecificationTest.cs" />
