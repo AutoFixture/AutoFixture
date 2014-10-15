@@ -98,6 +98,8 @@
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
     <Compile Include="Kernel\CompositeSpecimenCommand.cs" />
+    <Compile Include="FreezeOnMatchCustomization.cs" />
+    <Compile Include="Kernel\ImplementedInterfaceSpecification.cs" />
     <Compile Include="NoDataAnnotationsCustomization.cs" />
     <Compile Include="Kernel\IRecursionHandler.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelay.cs" />
@@ -105,6 +107,14 @@
     <Compile Include="Kernel\OmitEnumerableParameterRequestRelay.cs" />
     <Compile Include="Kernel\TerminatingWithPathSpecimenBuilder.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecification.cs" />
+    <Compile Include="Kernel\PropertySpecification.cs" />
+    <Compile Include="Kernel\BaseTypeSpecification.cs" />
+    <Compile Include="Kernel\ParameterSpecification.cs" />
+    <Compile Include="Kernel\FieldSpecification.cs" />
+    <Compile Include="Dsl\IMatchComposer.cs" />
+    <Compile Include="Dsl\MatchComposer.cs" />
+    <Compile Include="Dsl\NullMatchComposer.cs" />
+    <Compile Include="Dsl\PostprocessComposer.cs" />
     <Compile Include="MapCreateManyToEnumerable.cs" />
     <Compile Include="Kernel\MultipleToEnumerableRelay.cs" />
     <Compile Include="Kernel\NoConstructorsSpecification.cs" />
@@ -114,6 +124,7 @@
     <Compile Include="Kernel\ValueTypeSpecification.cs" />
     <Compile Include="Kernel\MutableValueTypeWarningThrower.cs" />
     <Compile Include="NoAutoPropertiesCustomization.cs" />
+    <Compile Include="Require.cs" />
     <Compile Include="RandomBooleanSequenceGenerator.cs" />
     <Compile Include="CharSequenceGenerator.cs" />
     <Compile Include="CollectionFiller.cs" />

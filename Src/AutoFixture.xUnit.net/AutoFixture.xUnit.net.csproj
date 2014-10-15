@@ -91,9 +91,11 @@
     <Compile Include="FavorArraysAttribute.cs" />
     <Compile Include="FavorEnumerablesAttribute.cs" />
     <Compile Include="FavorListsAttribute.cs" />
+    <Compile Include="FreezeAttribute.cs" />
     <Compile Include="FrozenAttribute.cs" />
     <Compile Include="GreedyAttribute.cs" />
     <Compile Include="InlineAutoDataAttribute.cs" />
+    <Compile Include="Matching.cs" />
     <Compile Include="ModestAttribute.cs" />
     <Compile Include="NoAutoPropertiesAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

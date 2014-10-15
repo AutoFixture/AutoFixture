@@ -666,6 +666,146 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void CustomizeFactoryWithMatchingByBaseType()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var expected = new ConcreteType();
+            fixture.Customize<ConcreteType>(c => c
+                   .FromFactory(() => expected)
+                   .Match().ByBaseType());
+            // Exercise system
+            var actual = fixture.Create<AbstractType>();
+            // Verify outcome
+            Assert.Same(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeFactoryWithMatchingByExactType()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var expected = new ConcreteType();
+            fixture.Customize<ConcreteType>(c => c
+                   .FromFactory(() => expected)
+                   .Match().ByExactType());
+            // Exercise system
+            var actual = fixture.Create<ConcreteType>();
+            // Verify outcome
+            Assert.Same(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeFactoryWithMatchingByBaseTypeOrExactType()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var expected = new ConcreteType();
+            fixture.Customize<ConcreteType>(c => c
+                .FromFactory(() => expected)
+                .Match().ByBaseType().Or.ByExactType());
+            // Exercise system
+            // Verify outcome
+            Assert.Same(expected, fixture.Create<AbstractType>());
+            Assert.Same(expected, fixture.Create<ConcreteType>());
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeFactoryWithMatchingByInterfaceOrExactType()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var expected = new NoopInterfaceImplementer();
+            fixture.Customize<NoopInterfaceImplementer>(c => c
+                .FromFactory(() => expected)
+                .Match().ByInterfaces().Or.ByExactType());
+            // Exercise system
+            // Verify outcome
+            Assert.Same(expected, fixture.Create<IInterface>());
+            Assert.Same(expected, fixture.Create<NoopInterfaceImplementer>());
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeFactoryWithMatchingByParameterName()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var expected = new object();
+            fixture.Customize<ConcreteType>(c => c
+                   .FromFactory(new MethodInvoker(new GreedyConstructorQuery()))
+                   .OmitAutoProperties());
+            fixture.Customize<object>(c => c
+                   .FromFactory(() => expected)
+                   .Match().ByParameterName("obj1"));
+            // Exercise system
+            var actual = fixture.Create<ConcreteType>().Property1;
+            // Verify outcome
+            Assert.Same(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeFactoryWithMatchingByPropertyName()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var expected = new object();
+            fixture.Customize<object>(c => c
+                   .FromFactory(() => expected)
+                   .Match().ByPropertyName("Property"));
+            // Exercise system
+            var actual = fixture.Create<PropertyHolder<object>>().Property;
+            // Verify outcome
+            Assert.Same(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeFactoryWithMatchingByFieldName()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var expected = new object();
+            fixture.Customize<object>(c => c
+                   .FromFactory(() => expected)
+                   .Match().ByFieldName("Field"));
+            // Exercise system
+            var actual = fixture.Create<FieldHolder<object>>().Field;
+            // Verify outcome
+            Assert.Same(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeFactoryWithMatchingByMultipleMemberNames()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var expected = "frozen";
+            fixture.Customize<ConcreteType>(c => c
+                   .FromFactory(new MethodInvoker(new GreedyConstructorQuery()))
+                   .Without(s => s.Property1)
+                   .Without(s => s.Property2));
+            fixture.Customize<object>(c => c
+                   .FromFactory(() => expected)
+                   .Match()
+                   .ByParameterName("obj1")
+                   .Or.ByParameterName("obj2")
+                   .Or.ByPropertyName("Property3"));
+            // Exercise system
+            var actual = fixture.Create<ConcreteType>();
+            // Verify outcome
+            Assert.Same(expected, actual.Property1);
+            Assert.Same(expected, actual.Property2);
+            Assert.Same(expected, actual.Property3);
+            // Teardown
+        }
+
         private static SpecimenContext CreateContainer()
         {
             var builder = Scenario.CreateAutoPropertyBuilder();

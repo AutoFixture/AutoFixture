@@ -450,7 +450,7 @@ namespace Ploeh.AutoFixture.Dsl
             return (NodeComposer<T>)this.ReplaceNodes(
                 with: n => n.Compose(new[] { factory }),
                 when: n => n is NoSpecimenOutputGuard);
-        }        
+        }
 
         private static IRequestSpecification CreateSpecification()
         {
