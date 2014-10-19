@@ -304,6 +304,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 // Needs parameters of type object to be IComparable
                 typeof(Ploeh.AutoFixture.Kernel.RangedNumberRequest),
 
+                // Needs parameters of type IMethod
+                typeof(Ploeh.AutoFixture.Kernel.MissingParametersSupplyingMethod),
+
                 // Constructors needs reflection types (e.g. ConstructorInfo, MethodInfo)
                 typeof(Ploeh.AutoFixture.Kernel.ConstructorMethod),
                 typeof(Ploeh.AutoFixture.Kernel.InstanceMethod),
