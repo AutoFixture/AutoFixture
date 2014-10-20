@@ -13,5 +13,13 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         {
             return type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
         }
+
+        internal static Type GetSubstituteType(this Type type)
+        {
+            if (type.BaseType == typeof(object))
+                return type.GetInterfaces().First();
+
+            return type.BaseType;
+        }
     }
 }
