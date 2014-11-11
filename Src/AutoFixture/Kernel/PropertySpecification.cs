@@ -7,7 +7,6 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly Type targetType;
         private readonly string targetName;
-        private PropertyInfo requestedProperty;
 
         public PropertySpecification(Type targetType, string targetName)
         {
@@ -43,26 +42,25 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return IsRequestForProperty(request) &&
-                   PropertyIsCompatibleWithTargetType() &&
-                   PropertyHasTargetName();
+                   PropertyIsCompatibleWithTargetType(request) &&
+                   PropertyHasTargetName(request);
         }
 
         private bool IsRequestForProperty(object request)
         {
-            this.requestedProperty = request as PropertyInfo;
-            return requestedProperty != null;
+            return request is PropertyInfo;
         }
 
-        private bool PropertyIsCompatibleWithTargetType()
+        private bool PropertyIsCompatibleWithTargetType(object request)
         {
-            return this.requestedProperty
-                       .PropertyType
-                       .IsAssignableFrom(this.targetType);
+            return ((PropertyInfo)request)
+                   .PropertyType
+                   .IsAssignableFrom(this.targetType);
         }
 
-        private bool PropertyHasTargetName()
+        private bool PropertyHasTargetName(object request)
         {
-            return this.requestedProperty.Name == this.targetName;
+            return ((PropertyInfo)request).Name == this.targetName;
         }
     }
 }
