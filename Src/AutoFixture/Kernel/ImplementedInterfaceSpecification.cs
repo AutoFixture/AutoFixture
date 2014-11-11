@@ -10,7 +10,10 @@ namespace Ploeh.AutoFixture.Kernel
 
         public ImplementedInterfaceSpecification(Type targetType)
         {
-            Require.IsNotNull(targetType, "targetType");
+            if (targetType == null)
+            {
+                throw new ArgumentNullException("targetType");
+            }
 
             this.targetType = targetType;
         }
@@ -22,7 +25,10 @@ namespace Ploeh.AutoFixture.Kernel
 
         public bool IsSatisfiedBy(object request)
         {
-            Require.IsNotNull(request, "request");
+            if (request == null)
+            {
+                throw new ArgumentNullException("request");
+            }
 
             return IsRequestForType(request) &&
                    RequestedTypeIsSameAsTarget() ||

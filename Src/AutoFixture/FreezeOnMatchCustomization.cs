@@ -43,7 +43,10 @@ namespace Ploeh.AutoFixture
 
         public void Customize(IFixture fixture)
         {
-            Require.IsNotNull(fixture, "fixture");
+            if (fixture == null)
+            {
+                throw new ArgumentNullException("fixture");
+            }
 
             FreezeTypeForMatchingRequests(fixture);
         }

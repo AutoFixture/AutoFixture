@@ -11,8 +11,15 @@ namespace Ploeh.AutoFixture.Kernel
 
         public ParameterSpecification(Type targetType, string targetName)
         {
-            Require.IsNotNull(targetType, "TargetType");
-            Require.IsNotNull(targetName, "TargetName");
+            if (targetType == null)
+            {
+                throw new ArgumentNullException("targetType");
+            }
+
+            if (targetName == null)
+            {
+                throw new ArgumentNullException("targetName");
+            }
 
             this.targetType = targetType;
             this.targetName = targetName;
@@ -30,7 +37,10 @@ namespace Ploeh.AutoFixture.Kernel
 
         public bool IsSatisfiedBy(object request)
         {
-            Require.IsNotNull(request, "request");
+            if (request == null)
+            {
+                throw new ArgumentNullException("request");
+            }
 
             return IsRequestForParameter(request) &&
                    ParameterIsCompatibleWithTargetType() &&
