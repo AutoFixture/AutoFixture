@@ -5,7 +5,6 @@ namespace Ploeh.AutoFixture.Kernel
     public class DirectBaseTypeSpecification : IRequestSpecification
     {
         private readonly Type targetType;
-        private Type requestedType;
 
         public DirectBaseTypeSpecification(Type targetType)
         {
@@ -30,24 +29,28 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return IsRequestForType(request) &&
-                   RequestedTypeIsSameAsTarget() ||
-                   RequestedTypeIsBaseOfTarget();
+                   RequestedTypeMatchesCriteria(request);
         }
 
         private bool IsRequestForType(object request)
         {
-            this.requestedType = request as Type;
-            return requestedType != null;
+            return request is Type;
         }
 
-        private bool RequestedTypeIsSameAsTarget()
+        private bool RequestedTypeMatchesCriteria(object request)
         {
-            return this.requestedType == this.targetType;
+            return IsSameAsTargetType(request) ||
+                   IsDirectBaseOfTargetType(request);
         }
 
-        private bool RequestedTypeIsBaseOfTarget()
+        private bool IsSameAsTargetType(object request)
         {
-            return this.requestedType == this.targetType.BaseType;
+            return (Type)request == this.targetType;
+        }
+
+        private bool IsDirectBaseOfTargetType(object request)
+        {
+            return (Type)request == this.targetType.BaseType;
         }
     }
 }
