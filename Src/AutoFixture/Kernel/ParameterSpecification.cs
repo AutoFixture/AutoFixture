@@ -7,7 +7,6 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly Type targetType;
         private readonly string targetName;
-        private ParameterInfo requestedParameter;
 
         public ParameterSpecification(Type targetType, string targetName)
         {
@@ -43,26 +42,25 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return IsRequestForParameter(request) &&
-                   ParameterIsCompatibleWithTargetType() &&
-                   ParameterHasTargetName();
+                   ParameterIsCompatibleWithTargetType(request) &&
+                   ParameterHasTargetName(request);
         }
 
         private bool IsRequestForParameter(object request)
         {
-            this.requestedParameter = request as ParameterInfo;
-            return this.requestedParameter != null;
+            return request is ParameterInfo;
         }
 
-        private bool ParameterIsCompatibleWithTargetType()
+        private bool ParameterIsCompatibleWithTargetType(object request)
         {
-            return this.requestedParameter
-                       .ParameterType
-                       .IsAssignableFrom(this.targetType);
+            return ((ParameterInfo)request)
+                   .ParameterType
+                   .IsAssignableFrom(this.targetType);
         }
 
-        private bool ParameterHasTargetName()
+        private bool ParameterHasTargetName(object request)
         {
-            return this.requestedParameter.Name == this.targetName;
+            return ((ParameterInfo)request).Name == this.targetName;
         }
     }
 }
