@@ -7,7 +7,6 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly Type targetType;
         private readonly string targetName;
-        private FieldInfo requestedField;
 
         public FieldSpecification(Type targetType, string targetName)
         {
@@ -43,26 +42,25 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return IsRequestForField(request) &&
-                   FieldIsCompatibleWithTargetType() &&
-                   FieldHasTargetName();
+                   FieldIsCompatibleWithTargetType(request) &&
+                   FieldHasTargetName(request);
         }
 
         private bool IsRequestForField(object request)
         {
-            this.requestedField = request as FieldInfo;
-            return this.requestedField != null;
+            return request is FieldInfo;
         }
 
-        private bool FieldIsCompatibleWithTargetType()
+        private bool FieldIsCompatibleWithTargetType(object request)
         {
-            return this.requestedField
-                       .FieldType
-                       .IsAssignableFrom(this.targetType);
+            return ((FieldInfo)request)
+                   .FieldType
+                   .IsAssignableFrom(this.targetType);
         }
 
-        private bool FieldHasTargetName()
+        private bool FieldHasTargetName(object request)
         {
-            return this.requestedField.Name == this.targetName;
+            return ((FieldInfo)request).Name == this.targetName;
         }
     }
 }
