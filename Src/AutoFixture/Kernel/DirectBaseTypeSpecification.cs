@@ -2,12 +2,12 @@
 
 namespace Ploeh.AutoFixture.Kernel
 {
-    public class BaseTypeSpecification : IRequestSpecification
+    public class DirectBaseTypeSpecification : IRequestSpecification
     {
         private readonly Type targetType;
         private Type requestedType;
 
-        public BaseTypeSpecification(Type targetType)
+        public DirectBaseTypeSpecification(Type targetType)
         {
             Require.IsNotNull(targetType, "targetType");
 

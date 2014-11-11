@@ -6,14 +6,14 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-    public class BaseTypeSpecificationTest
+    public class DirectBaseTypeSpecificationTest
     {
         [Fact]
         public void SutIsRequestSpecification()
         {
             // Fixture setup
             // Exercise system
-            var sut = new BaseTypeSpecification(typeof(object));
+            var sut = new DirectBaseTypeSpecification(typeof(object));
             // Verify outcome
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
             // Teardown
@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var targetType = typeof(object);
             // Exercise system
-            var sut = new BaseTypeSpecification(targetType);
+            var sut = new DirectBaseTypeSpecification(targetType);
             // Verify outcome
             Assert.Equal(targetType, sut.TargetType);
             // Teardown
@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new BaseTypeSpecification(null));
+                new DirectBaseTypeSpecification(null));
             // Teardown
         }
 
@@ -45,7 +45,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void IsSatisfiedByWithNullRequestShouldThrowArgumentNullException()
         {
             // Fixture setup
-            var sut = new BaseTypeSpecification(typeof(object));
+            var sut = new DirectBaseTypeSpecification(typeof(object));
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.IsSatisfiedBy(null));
@@ -58,7 +58,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var targetType = typeof(ConcreteType);
             var requestedType = typeof(AbstractType);
-            var sut = new BaseTypeSpecification(targetType);
+            var sut = new DirectBaseTypeSpecification(targetType);
             // Exercise system
             var result = sut.IsSatisfiedBy(requestedType);
             // Verify outcome
@@ -72,7 +72,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var targetType = typeof(ConcreteType);
             var requestedType = typeof(ConcreteType);
-            var sut = new BaseTypeSpecification(targetType);
+            var sut = new DirectBaseTypeSpecification(targetType);
             // Exercise system
             var result = sut.IsSatisfiedBy(requestedType);
             // Verify outcome
@@ -86,7 +86,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var targetType = typeof(ConcreteType);
             var requestedType = typeof(object);
-            var sut = new BaseTypeSpecification(targetType);
+            var sut = new DirectBaseTypeSpecification(targetType);
             // Exercise system
             var result = sut.IsSatisfiedBy(requestedType);
             // Verify outcome
@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var targetType = typeof(ConcreteType);
             var requestedType = typeof(string);
-            var sut = new BaseTypeSpecification(targetType);
+            var sut = new DirectBaseTypeSpecification(targetType);
             // Exercise system
             var result = sut.IsSatisfiedBy(requestedType);
             // Verify outcome
@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void IsSatisfiedByWithInvalidRequestShouldReturnFalse(object request)
         {
             // Fixture setup
-            var sut = new BaseTypeSpecification(typeof(ConcreteType));
+            var sut = new DirectBaseTypeSpecification(typeof(ConcreteType));
             // Exercise system
             var result = sut.IsSatisfiedBy(request);
             // Verify outcome

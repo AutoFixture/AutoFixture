@@ -112,7 +112,7 @@
     <Compile Include="Kernel\TypeArgumentsCannotBeInferredExceptionTests.cs" />
     <Compile Include="LazyRelayTest.cs" />
     <Compile Include="Kernel\PropertySpecificationTest.cs" />
-    <Compile Include="Kernel\BaseTypeSpecificationTest.cs" />
+    <Compile Include="Kernel\DirectBaseTypeSpecificationTest.cs" />
     <Compile Include="Kernel\ParameterSpecificationTest.cs" />
     <Compile Include="Kernel\FieldSpecificationTest.cs" />
     <Compile Include="MapCreateManyToEnumerableTests.cs" />

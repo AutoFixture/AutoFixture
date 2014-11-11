@@ -116,7 +116,7 @@
     <Compile Include="Kernel\TerminatingWithPathSpecimenBuilder.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecification.cs" />
     <Compile Include="Kernel\PropertySpecification.cs" />
-    <Compile Include="Kernel\BaseTypeSpecification.cs" />
+    <Compile Include="Kernel\DirectBaseTypeSpecification.cs" />
     <Compile Include="Kernel\ParameterSpecification.cs" />
     <Compile Include="Kernel\FieldSpecification.cs" />
     <Compile Include="MapCreateManyToEnumerable.cs" />
