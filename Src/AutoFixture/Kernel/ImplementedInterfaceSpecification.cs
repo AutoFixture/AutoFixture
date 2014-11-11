@@ -6,7 +6,6 @@ namespace Ploeh.AutoFixture.Kernel
     public class ImplementedInterfaceSpecification : IRequestSpecification
     {
         private readonly Type targetType;
-        private Type requestedType;
 
         public ImplementedInterfaceSpecification(Type targetType)
         {
@@ -31,26 +30,30 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return IsRequestForType(request) &&
-                   RequestedTypeIsSameAsTarget() ||
-                   RequestedInterfaceIsImplementedByTarget();
+                   RequestedTypeMatchesCriteria(request);
         }
 
         private bool IsRequestForType(object request)
         {
-            this.requestedType = request as Type;
-            return requestedType != null;
+            return request is Type;
         }
 
-        private bool RequestedTypeIsSameAsTarget()
+        private bool RequestedTypeMatchesCriteria(object request)
         {
-            return this.requestedType == this.targetType;
+            return IsSameAsTargetType(request) ||
+                   IsInterfaceImplementedByTargetType(request);
         }
 
-        private bool RequestedInterfaceIsImplementedByTarget()
+        private bool IsSameAsTargetType(object request)
+        {
+            return (Type)request == this.targetType;
+        }
+
+        private bool IsInterfaceImplementedByTargetType(object request)
         {
             return this.targetType
                        .GetInterfaces()
-                       .Contains(this.requestedType);
+                       .Contains((Type)request);
         }
     }
 }
