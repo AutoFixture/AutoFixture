@@ -134,6 +134,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Theory]
+        [InlineData(typeof (MutableIllBehavedCopyMethods), "WithFirstButFirstDifferent", "First")]
+        [InlineData(typeof (MutableIllBehavedCopyMethods), "WithSecondButSecondDifferent", "Second")]
+        [InlineData(typeof (MutableIllBehavedCopyMethods), "WithThirdButThirdDifferent", "Third")]
         [InlineData(typeof (ImmutableIllBehavedCopyMethods), "WithFirstButSecondDefault", "Second")]
         [InlineData(typeof (ImmutableIllBehavedCopyMethods), "WithSecondButThirdDefault", "Third")]
         [InlineData(typeof (ImmutableIllBehavedCopyMethods), "WithThirdButFirstDefault", "First")]
@@ -277,6 +280,27 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 First = first;
                 Second = second;
                 Third = third;
+            }
+
+            public MutableIllBehavedCopyMethods WithFirstButFirstDifferent(int first)
+            {
+                return new MutableIllBehavedCopyMethods(first + 1, this.Second, this.Third);
+            }
+
+            public MutableIllBehavedCopyMethods WithSecondButSecondDifferent(string second)
+            {
+                return new MutableIllBehavedCopyMethods(this.First, second + "extra unexpected", this.Third);
+            }
+
+            public MutableIllBehavedCopyMethods WithThirdButThirdDifferent(ComplexMutable<int, int, int> third)
+            {
+                var differentThird = new ComplexMutable<int, int, int>
+                {
+                    First = third.First+1,
+                    Second = third.Second,
+                    Third = third.Third,
+                };
+                return new MutableIllBehavedCopyMethods(this.First, this.Second, differentThird);
             }
 
             public MutableIllBehavedCopyMethods WithFirstButSecondDefault(int first)
