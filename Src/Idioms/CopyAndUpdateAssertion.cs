@@ -174,16 +174,26 @@ namespace Ploeh.AutoFixture.Idioms
             var copiedAndUpdatedSpecimen = methodInfo.Invoke(specimen, parameters.Select(p => p.Value).ToArray());
             VerifyCopiedAndUpdatedSpecimenType(methodInfo, copiedAndUpdatedSpecimen, specimen);
 
-            // Verify each parameter with a matching member is different
-            var firstEqualValueExpectedToBeDifferent =
-                parameters.FirstOrDefault(p => AreMemberValuesEqual(specimen, copiedAndUpdatedSpecimen, p.Member));
+            // Verify each parameter correctly assigned the updated value to the corresponding member
+            var firstUpdatedParameterWithUnexpectedValue = parameters
+                .Select(p => new
+                {
+                    p.Member,
+                    Expected = p.Value,
+                    Actual = p.Member
+                        .ToReflectionElement()
+                        .Accept(new ValueCollectingVisitor(copiedAndUpdatedSpecimen))
+                        .Value
+                        .Single()
+                })
+                .FirstOrDefault(p => !this.comparer.Equals(p.Expected, p.Actual));
 
-            if (firstEqualValueExpectedToBeDifferent != null)
+            if (firstUpdatedParameterWithUnexpectedValue != null)
             {
-                throw new CopyAndUpdateException(methodInfo, firstEqualValueExpectedToBeDifferent.Member);
+                throw new CopyAndUpdateException(methodInfo, firstUpdatedParameterWithUnexpectedValue.Member);
             }
 
-            // Verify each member is the same (excluding those with a matching update parameter)
+            // Verify each member without a matching update parameter, remained unchanged
             var firstNonEqualMemberExpectedToBeEqual = publicMembers
                 .Except(parameters.Select(p => p.Member))
                 .FirstOrDefault(m => !AreMemberValuesEqual(specimen, copiedAndUpdatedSpecimen, m));
