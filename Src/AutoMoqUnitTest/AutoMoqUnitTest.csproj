@@ -95,6 +95,7 @@
     <Compile Include="TestTypes\IInterfaceWithParameterlessMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithProperty.cs" />
     <Compile Include="TestTypes\IInterfaceWithRefMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithVirtualPropertyWithCircularDependency.cs" />
     <Compile Include="TestTypes\IInterfaceWithVoidMethod.cs" />
     <Compile Include="TestTypes\TypeWithConstField.cs" />
     <Compile Include="TestTypes\TypeWithGetOnlyProperty.cs" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Moq;
 using Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes;
 using Ploeh.AutoFixture.Kernel;
@@ -119,24 +120,6 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
-        public void InitialValueIsResolvedLazily()
-        {
-            // Fixture setup
-            var fixture = new Fixture();
-            var context = new SpecimenContext(fixture);
-            var specimen = new Mock<IInterfaceWithProperty>();
-
-            var sut = new MockVirtualPropertiesCommand();
-            // Exercise system
-            sut.Execute(specimen, context);
-            var frozenString = fixture.Freeze<string>();
-            // Verify outcome
-            var initialValue = specimen.Object.Property;
-            Assert.Equal(frozenString, initialValue);
-            // Teardown
-        }
-
-        [Fact]
         public void IgnoresPropertiesWithoutPublicGetAccessor()
         {
             // Fixture setup
@@ -219,9 +202,28 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var context = new Mock<ISpecimenContext>(MockBehavior.Strict);
             var specimen = new TypeWithVirtualMembers();
 
-            var sut = new MockSealedPropertiesCommand();
+            var sut = new MockVirtualPropertiesCommand();
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Execute(specimen, context.Object));
+        }
+
+        [Fact]
+        public void DoesNotHangOnCircularDependencies()
+        {
+            // Fixture setup
+            var context = new Mock<ISpecimenContext>();
+            var specimen = new Mock<IInterfaceWithVirtualPropertyWithCircularDependency>()
+            {
+                DefaultValue = DefaultValue.Mock
+            };
+
+            var sut = new MockVirtualPropertiesCommand();
+            // Exercise system and verify outcome
+            var thread = new Thread(() => sut.Execute(specimen, context.Object));
+            thread.Start();
+            bool ranToCompletion = thread.Join(1000);
+
+            Assert.True(ranToCompletion);
         }
     }
 }

@@ -348,20 +348,5 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             Assert.DoesNotThrow(() => fixture.Create<Mock<TypeWithStaticField>>());
             Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
         }
-
-        [Fact]
-        public void CircularDependenciesAreAllowed()
-        {
-            // Fixture setup
-            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
-            // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<IComponent>());
-        }
-
-        public interface IComponent
-        {
-            IComponent Component { get; set; }
-            IComponent Method();
-        }
     }
 }
