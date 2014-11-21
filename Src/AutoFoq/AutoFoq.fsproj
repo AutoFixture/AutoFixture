@@ -10,10 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ploeh.AutoFixture.AutoFoq</RootNamespace>
     <AssemblyName>Ploeh.AutoFixture.AutoFoq</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <Name>AutoFoq</Name>
     <SignAssembly>false</SignAssembly>
     <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,16 +60,16 @@
     <Compile Include="Properties\AssemblyInfo.fs" />
     <None Include="AutoFoq.ruleset" />
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
-    <None Include="packages.config" />
     <Compile Include="GlobalSuppressions.fs" />
     <Compile Include="FoqType.fs" />
     <Compile Include="FoqMethod.fs" />
     <Compile Include="FoqMethodQuery.fs" />
     <Compile Include="AutoFoqCustomization.fs" />
+    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Foq">
-      <HintPath>..\..\Packages\Foq.1.5.1\Lib\net40\Foq.dll</HintPath>
+      <HintPath>..\..\Packages\Foq.1.5.1\Lib\net45\Foq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
