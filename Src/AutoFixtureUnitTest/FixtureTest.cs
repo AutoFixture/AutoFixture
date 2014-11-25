@@ -5141,8 +5141,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             var sut = new Fixture();
             Assert.True(
-                sut.ResidueCollectors.Any(b =>
-                    relayType.IsAssignableFrom(b.GetType())),
+                sut.ResidueCollectors.Any(relayType.IsInstanceOfType),
                 relayType.Name + " not found.");
         }
 
@@ -5158,11 +5157,10 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             Assert.True(sut.Customizations
                 .OfType<FilteringSpecimenBuilder>()
-                .Where(b => specificationType.IsAssignableFrom(b.Specification.GetType()))
-                .Where(b => typeof(MethodInvoker).IsAssignableFrom(b.Builder.GetType()))
+                .Where(b => specificationType.IsInstanceOfType(b.Specification))
+                .Where(b => b.Builder is MethodInvoker)
                 .Select(b => (MethodInvoker)b.Builder)
-                .Where(i => queryType.IsAssignableFrom(i.Query.GetType()))
-                .Any());
+                .Any(i => queryType.IsInstanceOfType(i.Query)));
         }
 
         [Fact]
@@ -5171,14 +5169,13 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             Assert.True(sut.Customizations
                 .OfType<FilteringSpecimenBuilder>()
-                .Where(b => typeof(DictionarySpecification).IsAssignableFrom(b.Specification.GetType()))
-                .Where(b => typeof(Postprocessor).IsAssignableFrom(b.Builder.GetType()))
+                .Where(b => b.Specification is DictionarySpecification)
+                .Where(b => b.Builder is Postprocessor)
                 .Select(b => (Postprocessor)b.Builder)
                 .Where(p => p.Command is DictionaryFiller)
-                .Where(p => typeof(MethodInvoker).IsAssignableFrom(p.Builder.GetType()))
+                .Where(p => p.Builder is MethodInvoker)
                 .Select(p => (MethodInvoker)p.Builder)
-                .Where(i => typeof(ModestConstructorQuery).IsAssignableFrom(i.Query.GetType()))
-                .Any());
+                .Any(i => i.Query is ModestConstructorQuery));
         }
 
         [Fact]
