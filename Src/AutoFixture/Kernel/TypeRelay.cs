@@ -29,6 +29,22 @@ namespace Ploeh.AutoFixture.Kernel
         /// for the <i>to</i> Type.
         /// </para>
         /// </remarks>
+        /// <example>
+        /// In this example, BaseType is an abstract base class, and
+        /// DerivedType is a concrete class that derives from BaseType. The
+        /// Fixture instance is configured to relay all requests for BasetType
+        /// to requests for DerivedType, so the actual result return from the
+        /// fixture when BasetType is requested is a DerivedType instance.
+        /// <code>
+        /// var fixture = new Fixture();
+        /// fixture.Customizations.Add(
+        ///     new TypeRelay(
+        ///         typeof(BaseType),
+        ///         typeof(DerivedType)));
+        /// 
+        /// var actual = fixture.Create&lt;BaseType&gt;();
+        /// </code>
+        /// </example>
         public TypeRelay(Type from, Type to)
         {
             if (from == null)
