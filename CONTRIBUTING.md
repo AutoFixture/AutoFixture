@@ -1,14 +1,14 @@
-# How to contribute to AutoFixture #
+# How to contribute to AutoFixture
 
-AutoFixture is currently being developed in C# on .NET 4 using Visual Studio 2010 or 2012 with [xUnit.net](http://xunit.codeplex.com/) as the unit testing framework. So far, all development has been done with TDD, so there's a pretty high degree of code coverage, and it would be preferable to keep it that way.
+AutoFixture is currently being developed in C# on .NET 4 using Visual Studio 2010/2/3 with [xUnit.net](http://xunit.codeplex.com/) as the unit testing framework. So far, all development has been done with TDD, so there's a pretty high degree of code coverage, and the aim is to to keep it that way.
 
-## Dependencies ##
+## Dependencies
 
-All binaries (such as xUnit.net) are included as NuGet packages in the source control repository under the \Packages folder. All additional binaries not part of .NET 4 must go there as well, so that it would be possible to pull down the repository and immediately be able to compile and run all tests.
+All binaries (such as xUnit.net) are included as NuGet packages in the source control repository under the `\Packages` folder. All additional binaries not part of .NET 4 must go there as well, so that it would be possible to pull down the repository and immediately be able to compile and run all tests.
 
-## Verification ##
+## Verification
 
-There are several different targeted solutions to be found under the \Src folder, but be aware that the final verification step before pushing to the repository is to successfully run all the unit tests in the BuildRelease.ps1 file.
+There are several different targeted solutions to be found under the \Src folder, but be aware that the final verification step before pushing to the repository is to successfully run all the unit tests in the `BuildRelease.ps1` file.
 
 As part of the verification build, Visual Studio Code Analysis is executed in a configuration that treats warnings as errors. No CA warnings should be suppressed unless the documented conditions for suppression are satisfied. Otherwise, a documented agreement between at least two active developers of the project should be reached to allow a suppression of a non-suppressable warning.
 
