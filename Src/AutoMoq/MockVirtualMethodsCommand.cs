@@ -50,22 +50,53 @@ namespace Ploeh.AutoFixture.AutoMoq
             foreach (var method in methods)
             {
                 var returnType = method.ReturnType;
-                var methodInvocationLambda = MakeMethodInvocationLambda(mockedType, method, context);
+                var methodCallExpression = MakeMethodInvocationLambda(mockedType, method, context);
 
                 if (method.IsVoid())
                 {
-                    //call `Setup`
-                    mock.Setup(methodInvocationLambda);
+
+                    this.GetType()
+                        .GetMethod("SetupVoidMethod", BindingFlags.NonPublic | BindingFlags.Instance)
+                        .MakeGenericMethod(mockedType)
+                        .Invoke(this, new object[] {mock, methodCallExpression});
                 }
                 else
                 {
-                    //call `Setup`
-                    var setup = mock.Setup(returnType, methodInvocationLambda);
-
-                    //call `Returns`
-                    setup.ReturnsUsingContext(context, mockedType, returnType);
+                    this.GetType()
+                        .GetMethod("SetupMethod", BindingFlags.NonPublic | BindingFlags.Instance)
+                        .MakeGenericMethod(mockedType, returnType)
+                        .Invoke(this, new object[] {mock, methodCallExpression, context});
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets up a void method.
+        /// </summary>
+        /// <typeparam name="TMock">The type of the object being mocked.</typeparam>
+        /// <param name="mock">The mock being set up.</param>
+        /// <param name="methodCallExpression">An expression representing a call to the method being set up.</param>
+        protected virtual void SetupVoidMethod<TMock>(Mock<TMock> mock, Expression<Action<TMock>> methodCallExpression) where TMock : class
+        {
+            if (mock == null) throw new ArgumentNullException("mock");
+
+            mock.Setup(methodCallExpression);
+        }
+
+        /// <summary>
+        /// Sets up a non-void method.
+        /// </summary>
+        /// <typeparam name="TMock">The type of the object being mocked.</typeparam>
+        /// <typeparam name="TResult">The return type of the method being set up.</typeparam>
+        /// <param name="mock">The mock being set up.</param>
+        /// <param name="methodCallExpression">An expression representing a call to the method being set up.</param>
+        /// <param name="context">The context that will be used to resolve the method's return value.</param>
+        protected virtual void SetupMethod<TMock, TResult>(Mock<TMock> mock, Expression<Func<TMock, TResult>> methodCallExpression, ISpecimenContext context) where TMock : class
+        {
+            if (mock == null) throw new ArgumentNullException("mock");
+
+            mock.Setup(methodCallExpression)
+                .ReturnsUsingContext(context);
         }
 
         /// <summary>
@@ -113,7 +144,10 @@ namespace Ploeh.AutoFixture.AutoMoq
             var methodCall = Expression.Call(lambdaParam, method, methodCallParams);
 
             //e.g. "x => x.Method(It.IsAny<string>(), out parameter)"
-            return Expression.Lambda(methodCall, lambdaParam);
+            var delegateType = method.IsVoid()
+                ? typeof (Action<>).MakeGenericType(mockedType)
+                : typeof (Func<,>).MakeGenericType(mockedType, method.ReturnType);
+            return Expression.Lambda(delegateType, methodCall, lambdaParam);
         }
 
         private static Expression MakeParameterExpression(ParameterInfo parameter, ISpecimenContext context)

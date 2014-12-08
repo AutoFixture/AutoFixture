@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes
 {
-    public interface IDerivedInterface : IInterfaceWithParameterlessMethod, IInterfaceWithProperty
+    public interface IInterfaceWithVirtualPropertyWithCircularDependency
     {
+        IInterfaceWithVirtualPropertyWithCircularDependency Property { get; set; }
     }
 }

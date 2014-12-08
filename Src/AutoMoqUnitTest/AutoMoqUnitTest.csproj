@@ -81,6 +81,7 @@
     <Compile Include="MockPostprocessorTest.cs" />
     <Compile Include="MockRelayTest.cs" />
     <Compile Include="MockTypeTest.cs" />
+    <Compile Include="MockVirtualPropertiesCommandTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MockSealedPropertiesCommandTest.cs" />
     <Compile Include="MockVirtualMethodsCommandTest.cs" />
@@ -89,10 +90,12 @@
     <Compile Include="TestTypes\IInterfaceWithIndexer.cs" />
     <Compile Include="TestTypes\IInterfaceWithMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithNewMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithNewProperty.cs" />
     <Compile Include="TestTypes\IInterfaceWithOutMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithParameterlessMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithProperty.cs" />
     <Compile Include="TestTypes\IInterfaceWithRefMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithVirtualPropertyWithCircularDependency.cs" />
     <Compile Include="TestTypes\IInterfaceWithVoidMethod.cs" />
     <Compile Include="TestTypes\TypeWithConstField.cs" />
     <Compile Include="TestTypes\TypeWithGetOnlyProperty.cs" />
@@ -107,6 +110,7 @@
     <Compile Include="TestTypes\TypeWithStaticMethod.cs" />
     <Compile Include="TestTypes\TypeWithStaticProperty.cs" />
     <Compile Include="TestTypes\TypeWithVirtualMembers.cs" />
+    <Compile Include="TestTypes\TypeWithVirtualProtectedPropertyAccessors.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
