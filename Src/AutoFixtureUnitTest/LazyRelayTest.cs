@@ -141,4 +141,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
     public class LazyRelayTestOfDoubleParameterType
         : LazyRelayTest<DoubleParameterType<int, string>> { }
+
+    public class LazyRelayTestOfTripleParameterType
+        : LazyRelayTest<TripleParameterType<int, string, Version>> { }
 }
