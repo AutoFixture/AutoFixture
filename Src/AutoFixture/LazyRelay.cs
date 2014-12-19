@@ -43,10 +43,10 @@ namespace Ploeh.AutoFixture
 
             var t = request as Type;
             if (t == null || !t.IsGenericType)
-                return new NoSpecimen();
+                return new NoSpecimen(request);
 
             if (t.GetGenericTypeDefinition() != typeof(Lazy<>))
-                return new NoSpecimen();
+                return new NoSpecimen(request);
 
             return typeof(LazyBuilder)
                  .GetMethod("Create")
