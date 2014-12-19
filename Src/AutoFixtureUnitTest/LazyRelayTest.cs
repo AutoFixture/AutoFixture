@@ -10,7 +10,7 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    public class LazyRelayTest
+    public abstract class LazyRelayTest<T>
     {
         [Fact]
         public void SutIsSpecimenBuilder()
@@ -107,5 +107,24 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(expected, actual);
             // Teardown
         }
+
+        [Fact]
+        public void CreateWithLazyRequestReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new LazyRelay();
+            var @delegate = new Func<T>(() => default(T));
+            var contextStub =
+                new DelegatingSpecimenContext { OnResolve = t => @delegate };
+            // Exercise system
+            var result = sut.Create(typeof(Lazy<T>), contextStub);
+            var actual = Assert.IsAssignableFrom<Lazy<T>>(result);
+            // Verify outcome
+            var expected = new Lazy<T>(@delegate);
+            Assert.Equal(expected.Value, actual.Value);
+            // Teardown
+        }
     }
+
+    public class LazyRelayTestOfInt32 : LazyRelayTest<int> { }
 }
