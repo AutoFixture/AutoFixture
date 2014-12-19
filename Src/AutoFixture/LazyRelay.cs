@@ -16,6 +16,10 @@ namespace Ploeh.AutoFixture
             if (request == null)
                 return new NoSpecimen();
 
+            var t = request as Type;
+            if (t == null)
+                return new NoSpecimen();
+
             throw new NotImplementedException();
         }
     }
