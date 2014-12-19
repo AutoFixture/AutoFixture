@@ -10,6 +10,9 @@ namespace Ploeh.AutoFixture
     {
         public object Create(object request, ISpecimenContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("context");
+
             throw new NotImplementedException();
         }
     }
