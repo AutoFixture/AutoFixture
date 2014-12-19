@@ -20,6 +20,9 @@ namespace Ploeh.AutoFixture
             if (t == null || !t.IsGenericType)
                 return new NoSpecimen();
 
+            if (t.GetGenericTypeDefinition() != typeof(Lazy<>))
+                return new NoSpecimen();
+
             throw new NotImplementedException();
         }
     }

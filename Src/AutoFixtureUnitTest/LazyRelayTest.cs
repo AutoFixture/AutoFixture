@@ -89,5 +89,23 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(expected, actual);
             // Teardown
         }
+
+        [Theory]
+        [InlineData(typeof(List<string>))]
+        [InlineData(typeof(IEnumerable<int>))]
+        [InlineData(typeof(ICollection<Version>))]
+        public void CreateWithNonLazyRequestReturnsNoSpecimen(
+            Type request)
+        {
+            // Fixture setup
+            var sut = new LazyRelay();
+            var dummyContext = new DelegatingSpecimenContext();
+            // Exercise system
+            var actual = sut.Create(request, dummyContext);
+            // Verify outcome
+            var expected = new NoSpecimen();
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
     }
 }
