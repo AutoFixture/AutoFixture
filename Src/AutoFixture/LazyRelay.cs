@@ -12,6 +12,27 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class LazyRelay : ISpecimenBuilder
     {
+        /// <summary>
+        /// Creates a new specimen based on a request.
+        /// </summary>
+        /// <param name="request">The request that describes what to create.
+        /// </param>
+        /// <param name="context">A context that can be used to create other
+        /// specimens.</param>
+        /// <returns>
+        /// An instance of a <see cref="Lazy{T}"/> if possible; otherwise a
+        /// <see cref="NoSpecimen"/> instance.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// If <paramref name="request"/> is a request for a
+        /// <see cref="Lazy{T}"/> and <paramref name="context"/> can satisfy a
+        /// request for a <see cref="Func{T}" /> specimen,
+        /// the <see cref="Func{T}" />'s value will be used when lazy
+        /// initialization occurs. If not, the return value is a
+        /// <see cref="NoSpecimen"/> instance.
+        /// </para>
+        /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
             if (context == null)
