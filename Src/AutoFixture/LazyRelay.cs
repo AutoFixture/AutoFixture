@@ -13,6 +13,9 @@ namespace Ploeh.AutoFixture
             if (context == null)
                 throw new ArgumentNullException("context");
 
+            if (request == null)
+                return new NoSpecimen();
+
             throw new NotImplementedException();
         }
     }
