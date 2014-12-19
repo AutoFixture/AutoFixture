@@ -6,6 +6,10 @@ using System.Text;
 
 namespace Ploeh.AutoFixture
 {
+    /// <summary>
+    /// Relays a request for an <see cref="Func{T}" /> to a request for a
+    /// <see cref="Lazy{T}"/> and retuns the result.
+    /// </summary>
     public class LazyRelay : ISpecimenBuilder
     {
         public object Create(object request, ISpecimenContext context)
