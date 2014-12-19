@@ -1,6 +1,7 @@
 ﻿using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
+using Ploeh.TestTypeFoundation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -129,4 +130,6 @@ namespace Ploeh.AutoFixtureUnitTest
     public class LazyRelayTestOfInt32 : LazyRelayTest<int> { }
     public class LazyRelayTestOfString : LazyRelayTest<string> { }
     public class LazyRelayTestOfVersion : LazyRelayTest<Version> { }
+    public class LazyRelayTestOfSingleParameterType
+        : LazyRelayTest<SingleParameterType<int>> { }
 }
