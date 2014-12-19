@@ -127,4 +127,5 @@ namespace Ploeh.AutoFixtureUnitTest
     }
 
     public class LazyRelayTestOfInt32 : LazyRelayTest<int> { }
+    public class LazyRelayTestOfString : LazyRelayTest<string> { }
 }
