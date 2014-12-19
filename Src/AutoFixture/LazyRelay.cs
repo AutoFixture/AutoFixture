@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen();
 
             var t = request as Type;
-            if (t == null)
+            if (t == null || !t.IsGenericType)
                 return new NoSpecimen();
 
             throw new NotImplementedException();
