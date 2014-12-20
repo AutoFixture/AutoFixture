@@ -38,9 +38,6 @@ namespace Ploeh.AutoFixture
             if (context == null)
                 throw new ArgumentNullException("context");
 
-            if (request == null)
-                return new NoSpecimen();
-
             var t = request as Type;
             if (t == null || !t.IsGenericType)
                 return new NoSpecimen(request);

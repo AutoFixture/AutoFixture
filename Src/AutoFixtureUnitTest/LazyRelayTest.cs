@@ -36,20 +36,6 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
-        public void CreateWithNullRequestReturnsNoSpecimen()
-        {
-            // Fixture setup
-            var sut = new LazyRelay();
-            var dummyContext = new DelegatingSpecimenContext();
-            // Exercise system
-            var actual = sut.Create(null, dummyContext);
-            // Verify outcome
-            var expected = new NoSpecimen();
-            Assert.Equal(expected, actual);
-            // Teardown
-        }
-
         [Theory]
         [InlineData("")]
         [InlineData(" ")]
