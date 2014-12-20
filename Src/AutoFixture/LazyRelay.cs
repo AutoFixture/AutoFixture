@@ -45,19 +45,24 @@ namespace Ploeh.AutoFixture
             if (t.GetGenericTypeDefinition() != typeof(Lazy<>))
                 return new NoSpecimen(request);
 
-            return typeof(LazyBuilder)
-                 .GetMethod("Create")
-                 .MakeGenericMethod(t.GetGenericArguments())
-                 .Invoke(null, new[] { context });
+            var builder = (ILazyBuilder)Activator
+                .CreateInstance(typeof(LazyBuilder<>)
+                .MakeGenericType(t.GetGenericArguments()));
+            return builder.Create(context);
         }
 
-        private static class LazyBuilder
+        private class LazyBuilder<T> : ILazyBuilder
         {
-            public static Lazy<T> Create<T>(ISpecimenContext context)
+            public object Create(ISpecimenContext context)
             {
                 var f = (Func<T>)context.Resolve(typeof(Func<T>));
                 return new Lazy<T>(f);
             }
+        }
+
+        private interface ILazyBuilder
+        {
+            object Create(ISpecimenContext context);
         }
     }
 }
