@@ -108,6 +108,7 @@
     <Compile Include="Kernel\MissingParametersSupplyingMethod.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingStaticMethodFactory.cs" />
     <Compile Include="Kernel\TypeArgumentsCannotBeInferredException.cs" />
+    <Compile Include="LazyRelay.cs" />
     <Compile Include="NoDataAnnotationsCustomization.cs" />
     <Compile Include="Kernel\IRecursionHandler.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelay.cs" />

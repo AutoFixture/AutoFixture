@@ -5682,5 +5682,18 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(frozenInt, result.Result);
             // Teardown
         }
+
+        [Fact]
+        public void CreateLazyInitializedTypeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.Create<Lazy<string>>();
+            var actual = result.Value;
+            // Verify outcome
+            Assert.NotNull(actual);
+            // Teardown
+        }
     }
 }
