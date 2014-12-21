@@ -37,6 +37,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
+        [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
         [InlineData("  ")]
