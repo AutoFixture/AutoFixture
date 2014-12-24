@@ -54,18 +54,51 @@ namespace Ploeh.AutoFixture.AutoMoq
 
                 if (method.IsVoid())
                 {
-                    //call `Setup`
-                    mock.Setup(methodInvocationLambda);
+                    this.GetType()
+                        .GetMethod("SetupVoidMethod", BindingFlags.NonPublic | BindingFlags.Static)
+                        .MakeGenericMethod(mockedType)
+                        .Invoke(this, new object[] {mock, methodInvocationLambda});
                 }
                 else
                 {
-                    //call `Setup`
-                    var setup = mock.Setup(returnType, methodInvocationLambda);
-
-                    //call `Returns`
-                    setup.ReturnsUsingContext(context, mockedType, returnType);
+                    this.GetType()
+                        .GetMethod("SetupMethod", BindingFlags.NonPublic | BindingFlags.Static)
+                        .MakeGenericMethod(mockedType, returnType)
+                        .Invoke(this, new object[] {mock, methodInvocationLambda, context});
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets up a void method.
+        /// </summary>
+        /// <typeparam name="TMock">The type of the object being mocked.</typeparam>
+        /// <param name="mock">The mock being set up.</param>
+        /// <param name="methodCallExpression">An expression representing a call to the method being set up.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method is invoked through reflection.")]
+        private static void SetupVoidMethod<TMock>(Mock<TMock> mock, Expression<Action<TMock>> methodCallExpression)
+            where TMock : class
+        {
+            if (mock == null) throw new ArgumentNullException("mock");
+
+            mock.Setup(methodCallExpression);
+        }
+
+        /// <summary>
+        /// Sets up a non-void method.
+        /// </summary>
+        /// <typeparam name="TMock">The type of the object being mocked.</typeparam>
+        /// <typeparam name="TResult">The return type of the method being set up.</typeparam>
+        /// <param name="mock">The mock being set up.</param>
+        /// <param name="methodCallExpression">An expression representing a call to the method being set up.</param>
+        /// <param name="context">The context that will be used to resolve the method's return value.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method is invoked through reflection.")]
+        private static void SetupMethod<TMock, TResult>(Mock<TMock> mock, Expression<Func<TMock, TResult>> methodCallExpression, ISpecimenContext context) where TMock : class
+        {
+            if (mock == null) throw new ArgumentNullException("mock");
+
+            mock.Setup(methodCallExpression)
+                .ReturnsUsingContext(context);
         }
 
         /// <summary>
