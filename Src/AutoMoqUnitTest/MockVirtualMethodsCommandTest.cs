@@ -279,7 +279,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var context = new Mock<ISpecimenContext>(MockBehavior.Strict);
             var specimen = new TypeWithVirtualMembers();
 
-            var sut = new MockSealedPropertiesCommand();
+            var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Execute(specimen, context.Object));
         }
