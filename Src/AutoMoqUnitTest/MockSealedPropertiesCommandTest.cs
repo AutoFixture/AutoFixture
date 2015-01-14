@@ -11,6 +11,7 @@ using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 {
+#pragma warning disable 618
     public class MockSealedPropertiesCommandTest
     {
         [Fact]
@@ -239,4 +240,5 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             Assert.DoesNotThrow(() => sut.Execute(specimen, context.Object));
         }
     }
+#pragma warning restore 618
 }
