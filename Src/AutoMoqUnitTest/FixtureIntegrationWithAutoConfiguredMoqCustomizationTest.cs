@@ -145,6 +145,30 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void OverridablePropertiesAreSetUsingFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system
+            var result = fixture.Create<IInterfaceWithProperty>();
+            // Verify outcome
+            Assert.Equal(frozenString, result.Property);
+        }
+
+        [Fact]
+        public void OverridablePropertiesAreStubbed()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
+            // Exercise system
+            var result = fixture.Create<IInterfaceWithProperty>();
+            // Verify outcome
+            result.Property = "a string";
+            Assert.Equal("a string", result.Property);
+        }
+
+        [Fact]
         public void FieldsAreSetUsingFixture()
         {
             // Fixture setup
