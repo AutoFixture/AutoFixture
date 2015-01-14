@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoConfiguredMoqCustomization.cs" />
+    <Compile Include="AutoMockPropertiesCommand.cs" />
     <Compile Include="AutoMoqCustomization.cs" />
     <Compile Include="Extensions\MethodInfoBaseExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
