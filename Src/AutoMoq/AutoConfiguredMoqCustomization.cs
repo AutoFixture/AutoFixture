@@ -59,7 +59,8 @@ namespace Ploeh.AutoFixture.AutoMoq
                                     new MockConstructorQuery())),
                     command: new CompositeSpecimenCommand(
                                 new MockVirtualMethodsCommand(),
-                                new MockSealedPropertiesCommand())));
+                                new StubPropertiesCommand(),
+                                new AutoMockPropertiesCommand())));
 
             fixture.ResidueCollectors.Add(Relay);
         }
