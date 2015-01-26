@@ -104,6 +104,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
+        public void RequestedParameterNameIsCorrect()
+        {
+            var dummyMethod = new DelegatingMethod();
+            var dummyExpansion = new DelegatingExpansion<object>();
+            var parameter = MethodInvokeCommandTest.CreateAnonymousParameterInfo();
+            var sut = new MethodInvokeCommand(dummyMethod, dummyExpansion, parameter);
+
+            var actual = sut.RequestedParameterName;
+
+            Assert.Equal(parameter.Name, actual);
+        }
+
+        [Fact]
         public void CreateExceptionReturnsExceptionWithCorrectMessage()
         {
             // Fixture setup

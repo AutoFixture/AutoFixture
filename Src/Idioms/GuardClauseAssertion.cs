@@ -377,6 +377,11 @@ See https://github.com/AutoFixture/AutoFixture/issues/268 for more details.";
                 get { return this.command.RequestedType; }
             }
 
+            public string RequestedParameterName
+            {
+                get { return this.command.RequestedParameterName; }
+            }
+
             public void Execute(object value)
             {
                 this.command.Execute(value);
@@ -415,6 +420,11 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
             public Type RequestedType
             {
                 get { return this.command.RequestedType; }
+            }
+
+            public string RequestedParameterName
+            {
+                get { return this.command.RequestedParameterName; }
             }
 
             public void Execute(object value)

@@ -21,6 +21,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         public Type RequestedType { get; set; }
 
+        public string RequestedParameterName { get; set; }
+
         public void Execute(object value)
         {
             this.OnExecute(value);
