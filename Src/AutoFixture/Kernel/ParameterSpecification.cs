@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixture.Kernel
                    ParameterHasTargetName(request);
         }
 
-        private bool IsRequestForParameter(object request)
+        private static bool IsRequestForParameter(object request)
         {
             return request is ParameterInfo;
         }

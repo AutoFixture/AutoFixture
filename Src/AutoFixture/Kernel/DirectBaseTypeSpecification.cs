@@ -58,7 +58,7 @@ namespace Ploeh.AutoFixture.Kernel
                    RequestedTypeMatchesCriteria(request);
         }
 
-        private bool IsRequestForType(object request)
+        private static bool IsRequestForType(object request)
         {
             return request is Type;
         }

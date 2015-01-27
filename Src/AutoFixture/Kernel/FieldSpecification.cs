@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixture.Kernel
                    FieldHasTargetName(request);
         }
 
-        private bool IsRequestForField(object request)
+        private static bool IsRequestForField(object request)
         {
             return request is FieldInfo;
         }

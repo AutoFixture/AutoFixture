@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixture.Kernel
                    PropertyHasTargetName(request);
         }
 
-        private bool IsRequestForProperty(object request)
+        private static bool IsRequestForProperty(object request)
         {
             return request is PropertyInfo;
         }
