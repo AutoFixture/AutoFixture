@@ -105,6 +105,8 @@
     <Compile Include="Kernel\GenericMethodTests.cs" />
     <Compile Include="Kernel\TemplateMethodQueryTests.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingMethodTests.cs" />
+    <Compile Include="FreezeOnMatchCustomizationTest.cs" />
+    <Compile Include="Kernel\ImplementedInterfaceSpecificationTest.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelayTest.cs" />
     <Compile Include="Kernel\ReadOnlyCollectionRelayTest.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecificationTest.cs" />
@@ -113,6 +115,10 @@
     <Compile Include="Kernel\TerminatingWithPathSpecimenBuilderTest.cs" />
     <Compile Include="Kernel\TypeArgumentsCannotBeInferredExceptionTests.cs" />
     <Compile Include="LazyRelayTest.cs" />
+    <Compile Include="Kernel\PropertySpecificationTest.cs" />
+    <Compile Include="Kernel\DirectBaseTypeSpecificationTest.cs" />
+    <Compile Include="Kernel\ParameterSpecificationTest.cs" />
+    <Compile Include="Kernel\FieldSpecificationTest.cs" />
     <Compile Include="MapCreateManyToEnumerableTests.cs" />
     <Compile Include="Kernel\MultipleToEnumerableRelayTests.cs" />
     <Compile Include="Kernel\NoConstructorsSpecificationTest.cs" />
