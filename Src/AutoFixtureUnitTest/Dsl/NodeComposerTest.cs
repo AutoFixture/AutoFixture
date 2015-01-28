@@ -687,5 +687,28 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
             // Teardown
         }
+
+        [Fact]
+        public void MatchReturnsAMatchComposer()
+        {
+            // Fixture setup
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<ConcreteType>();
+            // Exercise system and verify outcome
+            Assert.IsType<MatchComposer<ConcreteType>>(sut.Match());
+            // Teardown
+        }
+
+        [Fact]
+        public void MatchReturnsAMatchComposerThatWrapsTheBuilderInTheSutsRootNode()
+        {
+            // Fixture setup
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<ConcreteType>();
+            var expected = ((FilteringSpecimenBuilder)sut.Builder).Builder;
+            // Exercise system
+            var builder = ((MatchComposer<ConcreteType>)sut.Match()).Builder;
+            // Verify outcome
+            Assert.Same(expected, builder);
+            // Teardown
+        }
     }
 }

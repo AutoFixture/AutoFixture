@@ -115,6 +115,8 @@
     <Compile Include="Kernel\DirectBaseTypeSpecificationTest.cs" />
     <Compile Include="Kernel\ParameterSpecificationTest.cs" />
     <Compile Include="Kernel\FieldSpecificationTest.cs" />
+    <Compile Include="Dsl\MatchComposerTest.cs" />
+    <Compile Include="Dsl\NullMatchComposerTest.cs" />
     <Compile Include="MapCreateManyToEnumerableTests.cs" />
     <Compile Include="Kernel\MultipleToEnumerableRelayTests.cs" />
     <Compile Include="Kernel\NoConstructorsSpecificationTest.cs" />
