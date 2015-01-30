@@ -37,6 +37,7 @@ namespace Ploeh.AutoFixture
             yield return new DelegateGenerator();
             yield return new TaskGenerator();
             yield return new IntPtrGuard();
+            yield return new MailAddressGenerator();
         }
 
         /// <summary>
