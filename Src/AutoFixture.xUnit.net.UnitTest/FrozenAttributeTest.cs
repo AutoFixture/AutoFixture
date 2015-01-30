@@ -58,7 +58,9 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         {
             // Fixture setup
             var registeredType = typeof(AbstractType);
+#pragma warning disable 0618
             var sut = new FrozenAttribute { As = registeredType };
+#pragma warning restore 0618
             var parameter = AParameter<ConcreteType>();
             // Exercise system
             var result = sut.GetCustomization(parameter);
@@ -73,7 +75,9 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         {
             // Fixture setup
             var registeredType = typeof(string);
+#pragma warning disable 0618
             var sut = new FrozenAttribute { As = registeredType };
+#pragma warning restore 0618
             var parameter = AParameter<ConcreteType>();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentException>(() => sut.GetCustomization(parameter));
