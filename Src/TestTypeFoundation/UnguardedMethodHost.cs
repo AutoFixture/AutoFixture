@@ -12,7 +12,7 @@ namespace Ploeh.TestTypeFoundation
         {
             if (g == Guid.Empty)
             {
-                throw new ArgumentException("Guid cannont be empty.", "g");
+                throw new ArgumentException("Guid cannot be empty.", "g");
             }
         }
     }
