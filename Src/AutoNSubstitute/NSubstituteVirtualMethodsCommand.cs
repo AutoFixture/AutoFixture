@@ -190,9 +190,10 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                     var value = new Lazy<T>(() => (T)Context.Resolve(typeof(T)));
                     object[] arguments = callInfo.Args();
                     ReturnsFixedValue(methodInfo, callInfo, value);
+                    var returnValue = value.Value;
                     InvokeMethod(methodInfo, arguments);
 
-                    return value.Value;
+                    return returnValue;
                 });
             }
 

@@ -294,6 +294,19 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
+        public void SetupCallsReturningAbstractTypesAreOverridable()
+        {
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithCircularDependency>();
+            var expected = fixture.Create<IInterfaceWithCircularDependency>();
+            substitute.Component.Returns(expected);
+
+            var result = substitute.Component;
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
         public void VoidMethodsAreIgnored()
         {
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
