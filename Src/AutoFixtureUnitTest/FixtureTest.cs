@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -1829,6 +1830,18 @@ namespace Ploeh.AutoFixtureUnitTest
                 out result);
             // Verify outcome
             Assert.True(succeed && result != null);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithMailAddressReturnsValidResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var mailAddress = fixture.Create<MailAddress>();
+            // Verify outcome
+            Assert.True(mailAddress != null);
             // Teardown
         }
 
