@@ -77,6 +77,7 @@
     <Compile Include="DelegatingExpansion.cs" />
     <Compile Include="EmptyGuidBehaviorExpectationTest.cs" />
     <Compile Include="EnumerableComparison.cs" />
+    <Compile Include="EqualityAssertionTest.cs" />
     <Compile Include="GetHashCodeSuccessiveAssertionTest.cs" />
     <Compile Include="IndexedReplacementTest.cs" />
     <Compile Include="MethodInvokeCommandTest.cs" />

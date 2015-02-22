@@ -88,6 +88,7 @@
     <Compile Include="CompositeIdiomaticAssertion.cs" />
     <Compile Include="CopyAndUpdateAssertion.cs" />
     <Compile Include="CopyAndUpdateException.cs" />
+    <Compile Include="EqualityAssertion.cs" />
     <Compile Include="EqualsOverrideException.cs" />
     <Compile Include="CompositeBehaviorExpectation.cs" />
     <Compile Include="EmptyGuidBehaviorExpectation.cs" />
