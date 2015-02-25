@@ -49,6 +49,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             if (fixture == null)
                 throw new ArgumentNullException("fixture");
 
+            fixture.ResidueCollectors.Add(new EnumeratorRelay());
             fixture.ResidueCollectors.Add(
                 new Postprocessor(
                     Builder,
