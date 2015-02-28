@@ -428,5 +428,22 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void InterfacesImplementingIEnumerableReturnFiniteSequence()
+        {
+            var fixture = new Fixture();
+            fixture.Customize(new AutoConfiguredNSubstituteCustomization());
+            var repeatCount = fixture.Create<int>();
+            fixture.RepeatCount = repeatCount;
+            var sut = fixture.Create<IMyList<string>>();
+
+            var result = sut.Take(repeatCount + 1).Count();
+
+            Assert.Equal(repeatCount, result);
+        }
+
+        public interface IMyList<out T> : IEnumerable<T>
+        {
+        }
     }
 }

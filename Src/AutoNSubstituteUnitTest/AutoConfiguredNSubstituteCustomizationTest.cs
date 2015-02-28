@@ -51,8 +51,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
-            var customization = Assert.Single(residueCollectors);
-            var postprocessor = Assert.IsAssignableFrom<Postprocessor>(customization);
+            var postprocessor =
+                Assert.Single(residueCollectors.OfType<Postprocessor>());
             var nsubstituteBuilder = Assert.IsAssignableFrom<NSubstituteBuilder>(postprocessor.Builder);
             var methodInvoker = Assert.IsAssignableFrom<MethodInvoker>(nsubstituteBuilder.Builder);
             Assert.IsAssignableFrom<AbstractTypeSpecification>(nsubstituteBuilder.SubstitutionSpecification);
@@ -74,9 +74,37 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 
             sut.Customize(fixture);
 
-            var customization = Assert.Single(residueCollectors);
-            var postprocessor = Assert.IsAssignableFrom<Postprocessor>(customization);
+            var postprocessor =
+                Assert.Single(residueCollectors.OfType<Postprocessor>());
             Assert.Equal(builder, postprocessor.Builder);
+        }
+
+        [Fact]
+        public void CustomizeAddsEnumeratorRelayToResidueCollectors()
+        {
+            var builder = Substitute.For<ISpecimenBuilder>();
+            var residueCollectors = new List<ISpecimenBuilder>();
+            var fixture = Substitute.For<IFixture>();
+            fixture.ResidueCollectors.Returns(residueCollectors);
+            var sut = new AutoConfiguredNSubstituteCustomization(builder);
+
+            sut.Customize(fixture);
+
+            Assert.Single(residueCollectors.OfType<EnumeratorRelay>());
+        }
+
+        [Fact]
+        public void CustomizeAddsEnumeratorRelayInCorrectOrder()
+        {
+            var builder = Substitute.For<ISpecimenBuilder>();
+            var residueCollectors = new List<ISpecimenBuilder>();
+            var fixture = Substitute.For<IFixture>();
+            fixture.ResidueCollectors.Returns(residueCollectors);
+            var sut = new AutoConfiguredNSubstituteCustomization(builder);
+
+            sut.Customize(fixture);
+
+            Assert.IsAssignableFrom<EnumeratorRelay>(residueCollectors.First());
         }
     }
 }
