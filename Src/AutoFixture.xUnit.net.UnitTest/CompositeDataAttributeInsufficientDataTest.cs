@@ -70,6 +70,13 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
                     new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 3 } })
                 }
             );
+
+            yield return CreateTestCase(
+                data: new[]
+                {
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3, 4 } }),
+                }
+            );
         }
 
         IEnumerator IEnumerable.GetEnumerator()

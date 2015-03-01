@@ -63,17 +63,6 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             yield return CreateTestCase(
                 data: new[]
                     {
-                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3, 4 } })
-                    },
-                expected: new[] 
-                    {
-                        new object[] { 1, 2, 3 }
-                    }
-            );
-
-            yield return CreateTestCase(
-                data: new[]
-                    {
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1       } }),
                         new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2, 3, 4 } })
                     },

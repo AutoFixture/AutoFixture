@@ -75,11 +75,11 @@ namespace Ploeh.AutoFixture.Xunit
                 throw new ArgumentNullException("parameterTypes");
             }
 
-            int numberOfParameters = methodUnderTest.GetParameters().Length;
-
             var dataSets = this.attributes
                 .Select(attr => attr.GetData(methodUnderTest, parameterTypes))
-                .Zip(dataSet => dataSet.Collapse().Take(numberOfParameters).ToArray());
+                .Zip(dataSet => dataSet.Collapse().ToArray());
+
+            int numberOfParameters = methodUnderTest.GetParameters().Length;
 
             foreach (var dataSet in dataSets)
             {
