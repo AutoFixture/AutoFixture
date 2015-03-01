@@ -129,6 +129,32 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
                         new object[] { 1, 2, 9 }, new object[] { 3, 4, 12 }, new object[] { 5, 6, 15 }
                     }
             );
+
+            // Second attribute restricts
+            yield return CreateTestCase(
+                data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 }, new object[] { 4, 5, 6 } }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 7, 8, 9 } })
+                    },
+                expected: new[] 
+                    {
+                        new object[] { 1, 2, 3 }
+                    }
+            );
+
+            // Shortest data provider is limiting factor
+            yield return CreateTestCase(
+                data: new[]
+                    {
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3 } }),
+                        new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 4, 5, 6 }, new object[] { 7, 8, 9 } })
+                    },
+                expected: new[] 
+                    {
+                        new object[] { 1, 2, 3 }
+                    }
+            );
         }
 
         IEnumerator IEnumerable.GetEnumerator()
