@@ -76,84 +76,22 @@ namespace Ploeh.AutoFixture.Xunit
             }
 
             int numberOfParameters = methodUnderTest.GetParameters().Length;
-            if (numberOfParameters <= 0)
-                yield break;
-            
-            int numberOfIterations = 0;
-            int iteration = 0;
-            var foundData = new List<List<object>>();
 
-            do
+            var dataSets = this.attributes
+                .Select(attr => attr.GetData(methodUnderTest, parameterTypes))
+                .Zip(dataSet => dataSet.Collapse().Take(numberOfParameters).ToArray());
+
+            foreach (var dataSet in dataSets)
             {
-                foreach (var attribute in this.attributes)
-                {
-                    var attributeData = attribute.GetData(methodUnderTest, parameterTypes).ToArray();
-
-                    if (attributeData.Length <= iteration)
-                    {
-                        // No data found for this position.
-                        break;
-                    }
-
-                    if (numberOfIterations == 0)
-                    {
-                        numberOfIterations = attributeData.Length;
-
-                        for (int n = 0; n < numberOfIterations; n++)
-                        {
-                            foundData.Add(new List<object>());
-                        }
-
-                        if (foundData.Count == 0)
-                        {
-                            yield break;
-                        }
-                    }
-
-                    var theory = attributeData[iteration];
-
-                    int remaining =  numberOfParameters - foundData[iteration].Count;
-                    if (remaining == numberOfParameters)
-                    {
-                        if (theory.Length == numberOfParameters)
-                        {
-                            foundData[iteration].AddRange(theory);
-                            break;
-                        }
-
-                        if (theory.Length > numberOfParameters)
-                        {
-                            foundData[iteration].AddRange(theory.Take(numberOfParameters));
-                            break;
-                        }
-                    }
-
-                    if (remaining > theory.Length)
-                    {
-                        foundData[iteration].AddRange(theory);
-                    }
-                    else
-                    {
-                        int found = foundData[iteration].Count;
-                        foundData[iteration].AddRange(theory.Skip(found).Take(remaining));
-                    }
-                }
-
-                if (foundData[iteration].Count == numberOfParameters)
-                {
-                    yield return foundData[iteration].ToArray();
-                }
-                else
-                {
+                if (dataSet.Length != numberOfParameters)
                     throw new InvalidOperationException(
-                          string.Format(
-                              CultureInfo.CurrentCulture,
-                              "Expected {0} parameters, got {1} parameters",
-                              numberOfParameters, foundData[iteration].Count
-                              )
-                          );
-                }
-            } while (++iteration < numberOfIterations);
+                              string.Format(
+                                  CultureInfo.CurrentCulture,
+                                  "Error invoking {0}: Expected {1} parameters, got {2} parameters",
+                                  methodUnderTest.Name, numberOfParameters, dataSet.Length));
+
+                yield return dataSet;
+            }
         }
     }
 }
