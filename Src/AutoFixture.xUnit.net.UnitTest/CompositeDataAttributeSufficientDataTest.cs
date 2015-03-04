@@ -144,6 +144,69 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
                         new object[] { 1, 2, 3 }
                     }
             );
+
+            // Test incorrect number of parameters - should just return what it's given
+            // and let xUnit deal with counting parameters
+            yield return CreateTestCase(
+                data: new[]
+                {
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2 } }),
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 3, 4 } })
+                },
+                expected: new[]
+                {
+                    new object[] { 1, 2 }
+                }
+            );
+
+            yield return CreateTestCase(
+                data: new[]
+                {
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1    } }),
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2, 3 } })
+                },
+                expected: new[]
+                {
+                    new object[] { 1, 3 },
+                }
+            );
+
+            yield return CreateTestCase(
+                data: new[]
+                {
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1    } }),
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] {      } }),
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2, 3 } })
+                },
+                expected: new[]
+                {
+                    new object[] { 1, 3 },
+                }
+            );
+
+            yield return CreateTestCase(
+                data: new[]
+                {
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1 } }),
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 2 } }),
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 3 } })
+                },
+                expected: new[]
+                {
+                    new object[] { 1 }
+                }
+            );
+
+            yield return CreateTestCase(
+                data: new[]
+                {
+                    new FakeDataAttribute(this.method, this.parameterTypes, new[] { new object[] { 1, 2, 3, 4 } }),
+                },
+                expected: new[]
+                {
+                    new object[] { 1, 2, 3, 4 }
+                }
+            );
         }
 
         IEnumerator IEnumerable.GetEnumerator()

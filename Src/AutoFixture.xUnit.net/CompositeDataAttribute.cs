@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Xunit.Extensions;
@@ -61,7 +60,7 @@ namespace Ploeh.AutoFixture.Xunit
         /// Returns the composition of the theory data.
         /// </returns>
         /// <remarks>
-        /// The number of test cases is set from the first DataAttribute theory length.
+        /// The number of combined data sets is restricted to the length of the attribute which provides the fewest data sets
         /// </remarks>
         public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
         {
@@ -75,23 +74,9 @@ namespace Ploeh.AutoFixture.Xunit
                 throw new ArgumentNullException("parameterTypes");
             }
 
-            var dataSets = this.attributes
+            return this.attributes
                 .Select(attr => attr.GetData(methodUnderTest, parameterTypes))
-                .Zip(dataSet => dataSet.Collapse().ToArray());
-
-            int numberOfParameters = methodUnderTest.GetParameters().Length;
-
-            foreach (var dataSet in dataSets)
-            {
-                if (dataSet.Length != numberOfParameters)
-                    throw new InvalidOperationException(
-                              string.Format(
-                                  CultureInfo.CurrentCulture,
-                                  "Error invoking {0}: Expected {1} parameters, got {2} parameters",
-                                  methodUnderTest.Name, numberOfParameters, dataSet.Length));
-
-                yield return dataSet;
-            }
+                .Zip(dataSets => dataSets.Collapse().ToArray());
         }
     }
 }
