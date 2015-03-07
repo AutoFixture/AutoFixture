@@ -5,6 +5,7 @@ using System.Text;
 using Moq;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 {
@@ -57,8 +58,11 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Teardown
         }
 
-        [Fact]
-        public void CustomizeAddsMockCommandsToPostprocessor()
+        [Theory]
+        [InlineData(typeof(MockVirtualMethodsCommand))]
+        [InlineData(typeof(StubPropertiesCommand))]
+        [InlineData(typeof(AutoMockPropertiesCommand))]
+        public void CustomizeAddsMockCommandsToPostprocessor(Type expectedCommandType)
         {
             // Fixture setup
             var customizations = new List<ISpecimenBuilder>();
@@ -73,8 +77,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var postprocessor = (Postprocessor) customizations.Single(builder => builder is Postprocessor);
             var compositeCommand = (CompositeSpecimenCommand) postprocessor.Command;
 
-            Assert.True(compositeCommand.Commands.Any(init => init is MockVirtualMethodsCommand));
-            Assert.True(compositeCommand.Commands.Any(init => init is MockSealedPropertiesCommand));
+            Assert.True(compositeCommand.Commands.Any(command => command.GetType() == expectedCommandType));
             // Teardown
         }
 
