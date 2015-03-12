@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.Xunit
         /// <param name="sequences">The input sequences.</param>
         /// <param name="resultSelector">A function that specifies how to combine the corresponding elements of the sequences.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> that contains elements of the input sequences, combined by resultSelector.</returns>
-        public static IEnumerable<TResult> Zip<T, TResult>(this IEnumerable<IEnumerable<T>> sequences,
+        internal static IEnumerable<TResult> Zip<T, TResult>(this IEnumerable<IEnumerable<T>> sequences,
             Func<IEnumerable<T>, TResult> resultSelector)
         {
             var enumerators = sequences.Select(s => s.GetEnumerator()).ToList();
@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture.Xunit
         /// <typeparam name="T">The type of the elements of the input sequences.</typeparam>
         /// <param name="sequences">The input sequences.</param>
         /// <returns>Items from each sequence in turn, yielding those from the first sequence first.</returns>
-        public static IEnumerable<T> Collapse<T>(this IEnumerable<IEnumerable<T>> sequences)
+        internal static IEnumerable<T> Collapse<T>(this IEnumerable<IEnumerable<T>> sequences)
         {
             var position = 0;
             foreach (var sequence in sequences)
