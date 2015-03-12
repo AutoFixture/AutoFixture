@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Ploeh.AutoFixture.Xunit
 {
-    public static class EnumerableExtensions
+    internal static class EnumerableExtensions
     {
         /// <summary>
         /// Applies a specified function to the corresponding elements of any number of sequences.
