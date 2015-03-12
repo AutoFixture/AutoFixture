@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Xunit.Extensions;
@@ -61,7 +60,7 @@ namespace Ploeh.AutoFixture.Xunit
         /// Returns the composition of the theory data.
         /// </returns>
         /// <remarks>
-        /// The number of test cases is set from the first DataAttribute theory length.
+        /// The number of combined data sets is restricted to the length of the attribute which provides the fewest data sets
         /// </remarks>
         public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
         {
@@ -75,85 +74,9 @@ namespace Ploeh.AutoFixture.Xunit
                 throw new ArgumentNullException("parameterTypes");
             }
 
-            int numberOfParameters = methodUnderTest.GetParameters().Length;
-            if (numberOfParameters <= 0)
-                yield break;
-            
-            int numberOfIterations = 0;
-            int iteration = 0;
-            var foundData = new List<List<object>>();
-
-            do
-            {
-                foreach (var attribute in this.attributes)
-                {
-                    var attributeData = attribute.GetData(methodUnderTest, parameterTypes).ToArray();
-
-                    if (attributeData.Length <= iteration)
-                    {
-                        // No data found for this position.
-                        break;
-                    }
-
-                    if (numberOfIterations == 0)
-                    {
-                        numberOfIterations = attributeData.Length;
-
-                        for (int n = 0; n < numberOfIterations; n++)
-                        {
-                            foundData.Add(new List<object>());
-                        }
-
-                        if (foundData.Count == 0)
-                        {
-                            yield break;
-                        }
-                    }
-
-                    var theory = attributeData[iteration];
-
-                    int remaining =  numberOfParameters - foundData[iteration].Count;
-                    if (remaining == numberOfParameters)
-                    {
-                        if (theory.Length == numberOfParameters)
-                        {
-                            foundData[iteration].AddRange(theory);
-                            break;
-                        }
-
-                        if (theory.Length > numberOfParameters)
-                        {
-                            foundData[iteration].AddRange(theory.Take(numberOfParameters));
-                            break;
-                        }
-                    }
-
-                    if (remaining > theory.Length)
-                    {
-                        foundData[iteration].AddRange(theory);
-                    }
-                    else
-                    {
-                        int found = foundData[iteration].Count;
-                        foundData[iteration].AddRange(theory.Skip(found).Take(remaining));
-                    }
-                }
-
-                if (foundData[iteration].Count == numberOfParameters)
-                {
-                    yield return foundData[iteration].ToArray();
-                }
-                else
-                {
-                    throw new InvalidOperationException(
-                          string.Format(
-                              CultureInfo.CurrentCulture,
-                              "Expected {0} parameters, got {1} parameters",
-                              numberOfParameters, foundData[iteration].Count
-                              )
-                          );
-                }
-            } while (++iteration < numberOfIterations);
+            return this.attributes
+                .Select(attr => attr.GetData(methodUnderTest, parameterTypes))
+                .Zip(dataSets => dataSets.Collapse().ToArray());
         }
     }
 }
