@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CompleteBuild" ToolsVersion="4.0">
     <PropertyGroup>
-        <XUnitPath>Packages\xunit.runners\tools</XUnitPath>
+        <XUnitPath>Packages\xunit.runner.msbuild\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS</XUnitPath>
     </PropertyGroup>
     <UsingTask TaskName="Xunit.Runner.MSBuild.xunit" AssemblyFile="$(XUnitPath)\xunit.runner.msbuild.dll" />
 
@@ -164,7 +164,7 @@
         </GetAssemblyIdentity>
         <PropertyGroup>
             <Version>%(AssemblyInfo.Version)</Version>
-            <SemanticVersion>$(Version.Substring(0, $(Version.LastIndexOf('.'))))-beta2</SemanticVersion>
+            <SemanticVersion>$(Version.Substring(0, $(Version.LastIndexOf('.'))))-beta3</SemanticVersion>
         </PropertyGroup>
         <XmlPoke XmlInputPath="$(TempNuspecFilePath)"
                  Query="//metadata/version"
