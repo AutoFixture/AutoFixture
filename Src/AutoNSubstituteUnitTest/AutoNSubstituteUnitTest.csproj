@@ -52,10 +52,44 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoNSubstituteCustomizationTest.cs" />
+    <Compile Include="AutoConfiguredNSubstituteCustomizationTest.cs" />
+    <Compile Include="AutoConfiguredFixtureIntegrationTest.cs" />
+    <Compile Include="NSubstituteSealedPropertiesCommandTest.cs" />
     <Compile Include="FixtureIntegrationTest.cs" />
+    <Compile Include="NSubstituteVirtualMethodsCommandTest.cs" />
     <Compile Include="NSubstituteBuilderTest.cs" />
     <Compile Include="NSubstituteMethodQueryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestTypes\IInterfaceWithNewMethod.cs" />
+    <Compile Include="TestTypes\IDerivedInterface.cs" />
+    <Compile Include="TestTypes\IInterfaceWithCircularDependency.cs" />
+    <Compile Include="TestTypes\IInterfaceWithCircularMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithGenericMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithIndexer.cs" />
+    <Compile Include="TestTypes\IInterfaceWithMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithOutVoidMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithParameterAndOutVoidMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithParameterAndOutMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithOutMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithParameterlessMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithProperty.cs" />
+    <Compile Include="TestTypes\IInterfaceWithRefMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithParameterVoidMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithShadowedMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithVoidMethod.cs" />
+    <Compile Include="TestTypes\TypeWithConstField.cs" />
+    <Compile Include="TestTypes\TypeWithGetOnlyProperty.cs" />
+    <Compile Include="TestTypes\TypeWithIndexer.cs" />
+    <Compile Include="TestTypes\TypeWithPrivateField.cs" />
+    <Compile Include="TestTypes\TypeWithPrivateProperty.cs" />
+    <Compile Include="TestTypes\TypeWithPropertyWithPrivateSetter.cs" />
+    <Compile Include="TestTypes\TypeWithPublicField.cs" />
+    <Compile Include="TestTypes\TypeWithReadonlyField.cs" />
+    <Compile Include="TestTypes\TypeWithSealedMembers.cs" />
+    <Compile Include="TestTypes\TypeWithStaticField.cs" />
+    <Compile Include="TestTypes\TypeWithStaticMethod.cs" />
+    <Compile Include="TestTypes\TypeWithStaticProperty.cs" />
+    <Compile Include="TestTypes\TypeWithVirtualMembers.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

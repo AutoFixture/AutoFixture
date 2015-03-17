@@ -5,6 +5,7 @@ using System.Text;
 using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Xunit.Extensions;
+using Ploeh.AutoFixture;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -110,5 +111,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 sut.Create(dummyRequest, null));
             // Teardown
         }
+
+        [Fact]
+        public void DocumentationExample()
+        {
+            var fixture = new Fixture();
+            fixture.Customizations.Add(
+                new TypeRelay(
+                    typeof(BaseType),
+                    typeof(DerivedType)));
+
+            var actual = fixture.Create<BaseType>();
+
+            Assert.IsAssignableFrom<DerivedType>(actual);
+        }
+
+        private abstract class BaseType { }
+
+        private class DerivedType : BaseType { }
     }
 }

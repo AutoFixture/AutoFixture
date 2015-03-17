@@ -7,6 +7,7 @@ build/
 NuGetPackages/
 _[Rr]e[Ss]harper.*/
 TestResults/
+_NCrunch_*/
 Packages.dgml
 *.suo
 *.sln.cache

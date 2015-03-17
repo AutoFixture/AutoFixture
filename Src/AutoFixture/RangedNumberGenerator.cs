@@ -154,11 +154,20 @@ namespace Ploeh.AutoFixture
                 case TypeCode.Int16:
                     return (short)((short)a + (short)b);
 
+                case TypeCode.UInt16:
+                    return (ushort)((ushort)a + (ushort)b);
+
                 case TypeCode.Int32:
                     return (int)a + (int)b;
 
+                case TypeCode.UInt32:
+                    return (uint)a + (uint)b;
+
                 case TypeCode.Int64:
                     return (long)a + (long)b;
+
+                case TypeCode.UInt64:
+                    return (ulong)a + (ulong)b;
 
                 case TypeCode.Decimal:
                     return (decimal)a + (decimal)b;
@@ -168,6 +177,9 @@ namespace Ploeh.AutoFixture
 
                 case TypeCode.Byte:
                     return (byte)a + (byte)b;
+
+                case TypeCode.SByte:
+                    return (sbyte)((sbyte)a + (sbyte)b);
 
                 case TypeCode.Single:
                     return (float)a + (float)b;

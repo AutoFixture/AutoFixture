@@ -94,11 +94,28 @@
     <Compile Include="CreatingAbstractClassWithPublicConstructorTests.cs" />
     <Compile Include="DataAnnotations\StringLengthArgumentSupportTests.cs" />
     <Compile Include="DelegatingRecursionHandler.cs" />
+    <Compile Include="Kernel\EnumeratorRelayTest.cs" />
+    <Compile Include="Kernel\MissingParametersSupplyingMethodFactoryTests.cs" />
+    <Compile Include="Kernel\MissingParametersSupplyingStaticMethodFactoryTests.cs" />
+    <Compile Include="Kernel\CompositeSpecimenCommandTest.cs" />
+    <Compile Include="Kernel\DelegatingMethod.cs" />
+    <Compile Include="Kernel\DelegatingMethodFactory.cs" />
+    <Compile Include="Kernel\GenericMethodTests.cs" />
+    <Compile Include="Kernel\TemplateMethodQueryTests.cs" />
+    <Compile Include="Kernel\MissingParametersSupplyingMethodTests.cs" />
+    <Compile Include="FreezeOnMatchCustomizationTest.cs" />
+    <Compile Include="Kernel\ImplementedInterfaceSpecificationTest.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelayTest.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecificationTest.cs" />
     <Compile Include="Kernel\OmitArrayParameterRequestRelayTests.cs" />
     <Compile Include="Kernel\OmitEnumerableParameterRequestRelayTests.cs" />
     <Compile Include="Kernel\TerminatingWithPathSpecimenBuilderTest.cs" />
+    <Compile Include="Kernel\TypeArgumentsCannotBeInferredExceptionTests.cs" />
+    <Compile Include="LazyRelayTest.cs" />
+    <Compile Include="Kernel\PropertySpecificationTest.cs" />
+    <Compile Include="Kernel\DirectBaseTypeSpecificationTest.cs" />
+    <Compile Include="Kernel\ParameterSpecificationTest.cs" />
+    <Compile Include="Kernel\FieldSpecificationTest.cs" />
     <Compile Include="MapCreateManyToEnumerableTests.cs" />
     <Compile Include="Kernel\MultipleToEnumerableRelayTests.cs" />
     <Compile Include="Kernel\NoConstructorsSpecificationTest.cs" />
@@ -263,6 +280,7 @@
     <Compile Include="TaggedNode.cs" />
     <Compile Include="TaggedNodeComparer.cs" />
     <Compile Include="NoDataAnnotationsCustomizationTest.cs" />
+    <Compile Include="TaskGeneratorTests.cs" />
     <Compile Include="TestConsole.cs" />
     <Compile Include="ThrowingRecursionBehaviorTest.cs" />
     <Compile Include="Kernel\TracingBuilderTest.cs" />
@@ -307,6 +325,7 @@
     <Compile Include="UriSchemeGeneratorTest.cs" />
     <Compile Include="UriSchemeTest.cs" />
     <Compile Include="UseCultureAttribute.cs" />
+    <Compile Include="MailAddressGeneratorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

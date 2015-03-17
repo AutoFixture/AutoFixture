@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using Grean.Exude;
 using Ploeh.Albedo;
 using Ploeh.AutoFixture;
@@ -1429,6 +1431,66 @@ namespace Ploeh.AutoFixtureUnitTest
 
         [Fact]
         [UseCulture("en-US")]
+        public void CreateAnonymousWithRangeValidatedUnsignedShortPropertyReturnsCorrectResultForIntegerRange()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var result = fixture.Create<RangeValidatedType>();
+            // Verify outcome
+            Assert.InRange(
+                result.UnsignedShortProperty,
+                RangeValidatedType.Minimum,
+                RangeValidatedType.Maximum);
+            // Teardown
+        }
+
+        [Fact]
+        [UseCulture("en-US")]
+        public void CreateAnonymousWithRangeValidatedUnsignedIntPropertyReturnsCorrectResultForIntegerRange()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var result = fixture.Create<RangeValidatedType>();
+            // Verify outcome
+            Assert.InRange(
+                (int)result.UnsignedIntProperty,
+                RangeValidatedType.Minimum,
+                RangeValidatedType.Maximum);
+            // Teardown
+        }
+
+        [Fact]
+        [UseCulture("en-US")]
+        public void CreateAnonymousWithRangeValidatedUnsignedLongPropertyReturnsCorrectResultForIntegerRange()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var result = fixture.Create<RangeValidatedType>();
+            // Verify outcome
+            Assert.InRange(
+                (int)result.UnsignedLongProperty,
+                RangeValidatedType.Minimum,
+                RangeValidatedType.Maximum);
+            // Teardown
+        }
+
+        [Fact]
+        [UseCulture("en-US")]
+        public void CreateAnonymousWithRangeValidatedSignedBytePropertyReturnsCorrectResultForIntegerRange()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var result = fixture.Create<RangeValidatedType>();
+            // Verify outcome
+            Assert.InRange(
+                (int)result.SignedByteProperty,
+                RangeValidatedType.Minimum,
+                RangeValidatedType.Maximum);
+            // Teardown
+        }
+
+        [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDoublePropertyReturnsCorrectResultForDoubleWithMinimumDoubleMinValue()
         {
             // Fixture setup
@@ -1601,6 +1663,66 @@ namespace Ploeh.AutoFixtureUnitTest
 
         [Fact]
         [UseCulture("en-US")]
+        public void CreateAnonymousWithRangeValidatedUnsignedShortPropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedShortProperty)
+                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
+                          select n);
+            // Verify outcome
+            Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        [UseCulture("en-US")]
+        public void CreateAnonymousWithRangeValidatedUnsignedIntPropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedIntProperty)
+                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
+                          select n);
+            // Verify outcome
+            Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        [UseCulture("en-US")]
+        public void CreateAnonymousWithRangeValidatedUnsignedLongPropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().UnsignedLongProperty)
+                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
+                          select n);
+            // Verify outcome
+            Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        [UseCulture("en-US")]
+        public void CreateAnonymousWithRangeValidatedSignedBytePropertyReturnsCorrectResultForIntegerRangeOnMultipleCall()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = (from n in Enumerable.Range(1, 33).Select(i => fixture.Create<RangeValidatedType>().SignedByteProperty)
+                          where (n < RangeValidatedType.Minimum && n > RangeValidatedType.Maximum)
+                          select n);
+            // Verify outcome
+            Assert.False(result.Any());
+            // Teardown
+        }
+
+        [Fact]
+        [UseCulture("en-US")]
         public void CreateAnonymousWithRangeValidatedDoublePropertyReturnsCorrectResultForDoubleWithMinimumDoubleMinValueOnMultipleCall()
         {
             // Fixture setup
@@ -1708,6 +1830,18 @@ namespace Ploeh.AutoFixtureUnitTest
                 out result);
             // Verify outcome
             Assert.True(succeed && result != null);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateAnonymousWithMailAddressReturnsValidResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var mailAddress = fixture.Create<MailAddress>();
+            // Verify outcome
+            Assert.True(mailAddress != null);
             // Teardown
         }
 
@@ -5515,6 +5649,64 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(repeatCount, actual.GetLength(0));
             Assert.Equal(repeatCount, actual.GetLength(1));
             Assert.Equal(repeatCount, actual[0, 0].Length);
+        }
+
+        [Fact]
+        public void CreateNonGenericTaskReturnsAwaitableTask()
+        {
+            // Fixture setup
+            Fixture sut = new Fixture();
+            // Exercise system
+            Task result = sut.Create<Task>();
+            // Verify outcome
+            Thread thread = new Thread(result.Wait);
+            thread.Start();
+            bool ranToCompletion = thread.Join(1000);
+
+            Assert.True(ranToCompletion);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateGenericTaskReturnsAwaitableTask()
+        {
+            // Fixture setup
+            Fixture sut = new Fixture();
+            // Exercise system
+            Task<int> result = sut.Create<Task<int>>();
+            // Verify outcome
+            Thread thread = new Thread(result.Wait);
+            thread.Start();
+            bool ranToCompletion = thread.Join(1000);
+
+            Assert.True(ranToCompletion);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateGenericTaskReturnsTaskWhoseResultWasResolvedByFixture()
+        {
+            // Fixture setup
+            Fixture sut = new Fixture();
+            int frozenInt = sut.Freeze<int>();
+            // Exercise system
+            Task<int> result = sut.Create<Task<int>>();
+            // Verify outcome
+            Assert.Equal(frozenInt, result.Result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateLazyInitializedTypeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.Create<Lazy<string>>();
+            var actual = result.Value;
+            // Verify outcome
+            Assert.NotNull(actual);
+            // Teardown
         }
     }
 }

@@ -97,6 +97,18 @@
   <ItemGroup>
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
+    <Compile Include="Kernel\CompositeSpecimenCommand.cs" />
+    <Compile Include="Kernel\EnumeratorRelay.cs" />
+    <Compile Include="Kernel\GenericMethod.cs" />
+    <Compile Include="Kernel\IMethodFactory.cs" />
+    <Compile Include="Kernel\MissingParametersSupplyingMethodFactory.cs" />
+    <Compile Include="Kernel\TemplateMethodQuery.cs" />
+    <Compile Include="Kernel\MissingParametersSupplyingMethod.cs" />
+    <Compile Include="Kernel\MissingParametersSupplyingStaticMethodFactory.cs" />
+    <Compile Include="Kernel\TypeArgumentsCannotBeInferredException.cs" />
+    <Compile Include="LazyRelay.cs" />
+    <Compile Include="FreezeOnMatchCustomization.cs" />
+    <Compile Include="Kernel\ImplementedInterfaceSpecification.cs" />
     <Compile Include="NoDataAnnotationsCustomization.cs" />
     <Compile Include="Kernel\IRecursionHandler.cs" />
     <Compile Include="Kernel\MultidimensionalArrayRelay.cs" />
@@ -104,6 +116,10 @@
     <Compile Include="Kernel\OmitEnumerableParameterRequestRelay.cs" />
     <Compile Include="Kernel\TerminatingWithPathSpecimenBuilder.cs" />
     <Compile Include="Kernel\ObservableCollectionSpecification.cs" />
+    <Compile Include="Kernel\PropertySpecification.cs" />
+    <Compile Include="Kernel\DirectBaseTypeSpecification.cs" />
+    <Compile Include="Kernel\ParameterSpecification.cs" />
+    <Compile Include="Kernel\FieldSpecification.cs" />
     <Compile Include="MapCreateManyToEnumerable.cs" />
     <Compile Include="Kernel\MultipleToEnumerableRelay.cs" />
     <Compile Include="Kernel\NoConstructorsSpecification.cs" />
@@ -260,6 +276,7 @@
     <Compile Include="NumericSequencePerTypeCustomization.cs" />
     <Compile Include="SupportMutableValueTypesCustomization.cs" />
     <Compile Include="MutableValueTypeGenerator.cs" />
+    <Compile Include="TaskGenerator.cs" />
     <Compile Include="ThrowingRecursionBehavior.cs" />
     <Compile Include="Kernel\TraceWriter.cs" />
     <Compile Include="GuidGenerator.cs" />
@@ -306,6 +323,7 @@
     <Compile Include="UriGenerator.cs" />
     <Compile Include="UriScheme.cs" />
     <Compile Include="UriSchemeGenerator.cs" />
+    <Compile Include="MailAddressGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml">
