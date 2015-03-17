@@ -8,7 +8,7 @@
         <owners>Mark Seemann</owners>
         <dependencies>
             <dependency id="autofixture" version="2.2" />
-            <dependency id="xunit.core" version="2.0.0-beta-build2650" />
+            <dependency id="xunit.core" version="2.0.0" />
         </dependencies>
         <summary>Extension to AutoFixture that integrates it with xUnit.net 2.</summary>
         <description>By leveraging the data theory feature of xUnit.net, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</description>

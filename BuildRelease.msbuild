@@ -164,7 +164,7 @@
         </GetAssemblyIdentity>
         <PropertyGroup>
             <Version>%(AssemblyInfo.Version)</Version>
-            <SemanticVersion>$(Version.Substring(0, $(Version.LastIndexOf('.'))))-beta3</SemanticVersion>
+            <SemanticVersion>$(Version.Substring(0, $(Version.LastIndexOf('.'))))</SemanticVersion>
         </PropertyGroup>
         <XmlPoke XmlInputPath="$(TempNuspecFilePath)"
                  Query="//metadata/version"
