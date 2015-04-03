@@ -45,7 +45,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [InlineData(0)]
         [InlineData(-1)]
         public void SettingInvalidCountThrows(int count)
         {
