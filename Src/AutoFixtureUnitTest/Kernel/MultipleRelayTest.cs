@@ -46,6 +46,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
         [Theory]
         [InlineData(-1)]
+        [InlineData(-21)]
         public void SettingInvalidCountThrows(int count)
         {
             // Fixture setup
