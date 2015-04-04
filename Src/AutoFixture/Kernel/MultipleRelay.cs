@@ -26,9 +26,9 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.count; }
             set
             {
-                if (value <= 0)
+                if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException("value", "Count cannot be zero or negative.");
+                    throw new ArgumentOutOfRangeException("value", "Count cannot be negative.");
                 }
                 this.count = value;
             }
