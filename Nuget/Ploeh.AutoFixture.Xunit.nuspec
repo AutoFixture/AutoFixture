@@ -8,7 +8,7 @@
         <owners>Mark Seemann</owners>
         <dependencies>
             <dependency id="autofixture" version="2.2" />
-            <dependency id="xunit.extensions" version="1.8.0.1549" />
+            <dependency id="xunit.extensions" version="[1.8.0.1549,2.0.0)" />
         </dependencies>
         <summary>Extension to AutoFixture that integrates it with xUnit.net.</summary>
         <description>By leveraging the data theory feature of xUnit.net, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</description>
