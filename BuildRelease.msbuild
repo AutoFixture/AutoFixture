@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CompleteBuild" ToolsVersion="4.0">
     <PropertyGroup>
-        <XUnitPath>Lib\XunitRunnerMSBuild</XUnitPath>
+        <XUnitPath>Packages\xunit.runner.msbuild\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS</XUnitPath>
     </PropertyGroup>
-    <UsingTask TaskName="xunitproject" AssemblyFile="$(XUnitPath)\xunit.runner.msbuild.dll" />
+    <UsingTask TaskName="Xunit.Runner.MSBuild.xunit" AssemblyFile="$(XUnitPath)\xunit.runner.msbuild.dll" />
 
     <PropertyGroup>
         <MSBuildExtensionsPath>Lib\MSBuildCommunityTasks</MSBuildExtensionsPath>
@@ -95,12 +95,30 @@
         <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Release" />
     </Target>
     <Target Name="Test" DependsOnTargets="Build">
-        <xunitproject ProjectFile="Src\All.xunit" />
+        <PropertyGroup>
+          <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+          <ParallelizeTests Condition="'$(ParallelizeTests)' == ''">true</ParallelizeTests>
+          <MaxParallelThreads Condition="'$(MaxParallelThreads)' == ''">0</MaxParallelThreads>
+        </PropertyGroup>
+
+        <ItemGroup>
+          <Xunit1TestAssemblies
+              Include="Src\*UnitTest\bin\$(Configuration)\*UnitTest.dll"
+              Exclude="Src\AutoFixture.NUnit2.UnitTest\bin\$(Configuration)\Ploeh.AutoFixture.NUnit2.UnitTest.dll;Src\AutoFixture.NUnit2.Addins.UnitTest\bin\$(Configuration)\Ploeh.AutoFixture.NUnit2.Addins.UnitTest.dll" />
+        </ItemGroup>
+
+        <xunit
+            Assemblies="@(Xunit1TestAssemblies)"
+            Xml="TestResults-v1-$(PROCESSOR_ARCHITECTURE).xml"
+            Html="TestResults-v1-$(PROCESSOR_ARCHITECTURE).html" />
+
         <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.UnitTest.dll" ContinueOnError="true" />
         <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.Addins.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.UnitTest.dll" ContinueOnError="true" />
     </Target>
-    <Target Name="DeleteNUnitTestResultFile" DependsOnTargets="Test">
+    <Target Name="DeleteTestResultFiles" DependsOnTargets="Test">
         <Delete Files="TestResult.xml" />
+        <Delete Files="TestResults-v1-$(PROCESSOR_ARCHITECTURE).xml" />
+        <Delete Files="TestResults-v1-$(PROCESSOR_ARCHITECTURE).html" />
     </Target>
     <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
         <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />
@@ -148,5 +166,5 @@
     <Target Name="CleanTemporaryNuGetSpecFiles" DependsOnTargets="NuGetPack">
         <Delete Files="@(TempNuspecFiles)" />
     </Target>
-    <Target Name="CompleteBuild" DependsOnTargets="ZipReleaseFiles;CleanTemporaryNuGetSpecFiles;DeleteNUnitTestResultFile" />
+    <Target Name="CompleteBuild" DependsOnTargets="ZipReleaseFiles;CleanTemporaryNuGetSpecFiles;DeleteTestResultFiles" />
 </Project>
