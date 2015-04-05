@@ -161,6 +161,24 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateReturnsNullSpecimenWhenContextReturnsNull()
+        {
+            // Fixture setup
+            var request = typeof (IInterface);
+            var mockType = typeof (Mock<>).MakeGenericType(request);
+
+            var contextStub = new Mock<ISpecimenContext>();
+            contextStub.Setup(ctx => ctx.Resolve(mockType)).Returns(null);
+
+            var sut = new MockRelay();
+            // Exercise system
+            var result = sut.Create(request, contextStub.Object);
+            // Verify outcome
+            Assert.Null(result);
+            // Teardown
+        }
+
         [Theory]
         [InlineData(typeof(object))]
         [InlineData(typeof(AbstractType))]

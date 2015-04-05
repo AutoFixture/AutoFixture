@@ -81,7 +81,8 @@ namespace Ploeh.AutoFixture.AutoMoq
                 return new NoSpecimen(request);
 
             var result = MockRelay.ResolveMock(t, context);
-            if (result is NoSpecimen || result is OmitSpecimen)
+            // Note: null is a valid specimen (e.g., returned by NullRecursionHandler)
+            if (result is NoSpecimen || result is OmitSpecimen || result == null)
                 return result;
 
             var m = result as Mock;
