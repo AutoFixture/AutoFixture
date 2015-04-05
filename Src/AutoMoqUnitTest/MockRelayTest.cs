@@ -125,6 +125,42 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateReturnsNoSpecimenWhenContextReturnsNoSpecimen()
+        {
+            // Fixture setup
+            var request = typeof (IInterface);
+            var mockType = typeof (Mock<>).MakeGenericType(request);
+
+            var contextStub = new Mock<ISpecimenContext>();
+            contextStub.Setup(ctx => ctx.Resolve(mockType)).Returns(new NoSpecimen());
+
+            var sut = new MockRelay();
+            // Exercise system
+            var result = sut.Create(request, contextStub.Object);
+            // Verify outcome
+            Assert.IsType<NoSpecimen>(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateReturnsOmitSpecimenWhenContextReturnsOmitSpecimen()
+        {
+            // Fixture setup
+            var request = typeof (IInterface);
+            var mockType = typeof (Mock<>).MakeGenericType(request);
+
+            var contextStub = new Mock<ISpecimenContext>();
+            contextStub.Setup(ctx => ctx.Resolve(mockType)).Returns(new OmitSpecimen());
+
+            var sut = new MockRelay();
+            // Exercise system
+            var result = sut.Create(request, contextStub.Object);
+            // Verify outcome
+            Assert.IsType<OmitSpecimen>(result);
+            // Teardown
+        }
+
         [Theory]
         [InlineData(typeof(object))]
         [InlineData(typeof(AbstractType))]
