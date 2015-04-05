@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Moq;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
@@ -125,57 +127,37 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Teardown
         }
 
-        [Fact]
-        public void CreateReturnsNoSpecimenWhenContextReturnsNoSpecimen()
+        public class ValidNonMockSpecimens : IEnumerable<object[]>
         {
-            // Fixture setup
-            var request = typeof (IInterface);
-            var mockType = typeof (Mock<>).MakeGenericType(request);
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] {new NoSpecimen()};
+                yield return new object[] {new OmitSpecimen()};
+                yield return new object[] {null};
+            }
 
-            var contextStub = new Mock<ISpecimenContext>();
-            contextStub.Setup(ctx => ctx.Resolve(mockType)).Returns(new NoSpecimen());
-
-            var sut = new MockRelay();
-            // Exercise system
-            var result = sut.Create(request, contextStub.Object);
-            // Verify outcome
-            Assert.IsType<NoSpecimen>(result);
-            // Teardown
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
         }
 
-        [Fact]
-        public void CreateReturnsOmitSpecimenWhenContextReturnsOmitSpecimen()
+        [Theory]
+        [ClassData(typeof (ValidNonMockSpecimens))]
+        public void CreateReturnsCorrectResultWhenContextReturnsValidNonMockSpecimen(object validNonMockSpecimen)
         {
             // Fixture setup
             var request = typeof (IInterface);
             var mockType = typeof (Mock<>).MakeGenericType(request);
 
             var contextStub = new Mock<ISpecimenContext>();
-            contextStub.Setup(ctx => ctx.Resolve(mockType)).Returns(new OmitSpecimen());
+            contextStub.Setup(ctx => ctx.Resolve(mockType)).Returns(validNonMockSpecimen);
 
             var sut = new MockRelay();
             // Exercise system
             var result = sut.Create(request, contextStub.Object);
             // Verify outcome
-            Assert.IsType<OmitSpecimen>(result);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateReturnsNullSpecimenWhenContextReturnsNull()
-        {
-            // Fixture setup
-            var request = typeof (IInterface);
-            var mockType = typeof (Mock<>).MakeGenericType(request);
-
-            var contextStub = new Mock<ISpecimenContext>();
-            contextStub.Setup(ctx => ctx.Resolve(mockType)).Returns(null);
-
-            var sut = new MockRelay();
-            // Exercise system
-            var result = sut.Create(request, contextStub.Object);
-            // Verify outcome
-            Assert.Null(result);
+            Assert.Equal(validNonMockSpecimen, result);
             // Teardown
         }
 
