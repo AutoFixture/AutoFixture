@@ -51,6 +51,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomizeAttributeTest.cs" />
+    <Compile Include="DelegatingCustomization.cs" />
+    <Compile Include="DelegatingCustomizeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
