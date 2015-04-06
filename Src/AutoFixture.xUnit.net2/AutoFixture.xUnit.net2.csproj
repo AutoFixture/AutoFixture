@@ -65,7 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoDataAttribute.cs" />
+    <Compile Include="CompositeDataAttribute.cs" />
     <Compile Include="CustomizeAttribute.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="FrozenAttribute.cs" />
     <Compile Include="GreedyAttribute.cs" />
     <Compile Include="ModestAttribute.cs" />
