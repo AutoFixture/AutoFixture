@@ -103,8 +103,8 @@
 
         <ItemGroup>
           <Xunit1TestAssemblies
-              Include="Src\*UnitTest\bin\$(Configuration)\*UnitTest.dll"
-              Exclude="Src\AutoFixture.NUnit2.UnitTest\bin\$(Configuration)\Ploeh.AutoFixture.NUnit2.UnitTest.dll;Src\AutoFixture.NUnit2.Addins.UnitTest\bin\$(Configuration)\Ploeh.AutoFixture.NUnit2.Addins.UnitTest.dll" />
+              Include="Src\*Test\bin\$(Configuration)\*Test.dll"
+              Exclude="Src\AutoFixture.NUnit2.*Test\bin\$(Configuration)\*.dll" />
         </ItemGroup>
 
         <xunit
