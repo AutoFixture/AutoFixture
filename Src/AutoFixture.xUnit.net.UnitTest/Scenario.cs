@@ -43,6 +43,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             Assert.Equal("Ploeh", ph.Property);
         }
 
+        [Theory]
         [InlineAutoData("foo")]
         [InlineAutoData("foo", "bar")]
         public void InlineAutoDataUsesSuppliedDataValues(string s1, string s2)
