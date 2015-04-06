@@ -64,6 +64,7 @@
     <Compile Include="ModestAttributeTest.cs" />
     <Compile Include="NoAutoPropertiesAttributeTest.cs" />
     <Compile Include="FavorArraysAttributeTest.cs" />
+    <Compile Include="FavorEnumerablesAttributeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
