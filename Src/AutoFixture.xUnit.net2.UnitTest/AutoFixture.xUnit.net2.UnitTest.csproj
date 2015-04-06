@@ -60,6 +60,7 @@
     <Compile Include="DelegatingSpecimenBuilder.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="FrozenAttributeTest.cs" />
+    <Compile Include="GreedyAttributeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
