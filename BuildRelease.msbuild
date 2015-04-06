@@ -44,6 +44,9 @@
       <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.dll" />
       <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.pdb" />
       <BuildOutput Include="Src\AutoFixture.xUnit.net\bin\Release\Ploeh.AutoFixture.Xunit.XML" />
+      <BuildOutput Include="Src\AutoFixture.xUnit.net2\bin\Release\Ploeh.AutoFixture.Xunit2.dll" />
+      <BuildOutput Include="Src\AutoFixture.xUnit.net2\bin\Release\Ploeh.AutoFixture.Xunit2.pdb" />
+      <BuildOutput Include="Src\AutoFixture.xUnit.net2\bin\Release\Ploeh.AutoFixture.Xunit2.XML" />
       <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.dll" />
       <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.pdb" />
       <BuildOutput Include="Src\AutoFixture.NUnit2\bin\Release\Ploeh.AutoFixture.NUnit2.XML" />
