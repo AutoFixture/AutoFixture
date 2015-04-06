@@ -70,6 +70,7 @@
     <Compile Include="FavorEnumerablesAttributeTest.cs" />
     <Compile Include="FavorListsAttributeTest.cs" />
     <Compile Include="FakeDataAttribute.cs" />
+    <Compile Include="InlineAutoDataAttributeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
