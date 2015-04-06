@@ -34,7 +34,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             var dummyComparer = new DelegatingEqualityComparer();
-            var dummySpecification = new DelegatingSpecification<FieldInfo>(); 
+            var dummySpecification = new DelegatingSpecification<FieldInfo>();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 new MemberComparer(
@@ -138,6 +138,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Theory]
         [InlineData(true)]
         [InlineData(false)]
         public void IsSatisfiedByForPropertyReturnsCorrectResult(bool expected)
@@ -147,14 +148,14 @@ namespace Ploeh.SemanticComparison.UnitTest
             var dummyComparer = new DelegatingEqualityComparer();
             var dummySpecification = new DelegatingSpecification<FieldInfo>();
 
-            var propertySpecificationStub = 
+            var propertySpecificationStub =
                 new DelegatingSpecification<PropertyInfo>
                 {
                     OnIsSatisfiedBy = x => expected
                 };
-           
+
             var sut = new MemberComparer(
-                dummyComparer, 
+                dummyComparer,
                 propertySpecificationStub,
                 dummySpecification);
             // Exercise system
@@ -164,6 +165,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Teardown
         }
 
+        [Theory]
         [InlineData(true)]
         [InlineData(false)]
         public void IsSatisfiedByForFieldReturnsCorrectResult(bool expected)
@@ -194,7 +196,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         [InlineData(123, 123, true)]
         [InlineData(123, 321, false)]
         public void EqualsForwardsCorrectCallToComparer(
-            object a, 
+            object a,
             object b,
             bool expected)
         {
