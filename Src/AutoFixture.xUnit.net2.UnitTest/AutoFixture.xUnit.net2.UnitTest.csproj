@@ -61,6 +61,7 @@
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="FrozenAttributeTest.cs" />
     <Compile Include="GreedyAttributeTest.cs" />
+    <Compile Include="ModestAttributeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

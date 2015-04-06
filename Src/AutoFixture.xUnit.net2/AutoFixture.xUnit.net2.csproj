@@ -68,6 +68,7 @@
     <Compile Include="CustomizeAttribute.cs" />
     <Compile Include="FrozenAttribute.cs" />
     <Compile Include="GreedyAttribute.cs" />
+    <Compile Include="ModestAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
