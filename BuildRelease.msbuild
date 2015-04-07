@@ -97,7 +97,7 @@
     <Target Name="Test" DependsOnTargets="Build">
         <PropertyGroup>
           <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-          <ParallelizeTests Condition="'$(ParallelizeTests)' == ''">true</ParallelizeTests>
+          <ParallelizeTests Condition="'$(ParallelizeTests)' == ''">false</ParallelizeTests>
           <MaxParallelThreads Condition="'$(MaxParallelThreads)' == ''">0</MaxParallelThreads>
         </PropertyGroup>
 
