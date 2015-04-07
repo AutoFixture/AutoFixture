@@ -6,7 +6,7 @@ namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
     /// Relays a request for an <see cref="IDictionary{TKey, TValue}" /> to a request for a
-    /// <see cref="Dictionary{TKey, TValue}"/> and retuns the result.
+    /// <see cref="Dictionary{TKey, TValue}"/> and returns the result.
     /// </summary>
     public class DictionaryRelay : ISpecimenBuilder
     {

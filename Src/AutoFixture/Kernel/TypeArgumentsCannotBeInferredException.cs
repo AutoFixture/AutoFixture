@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// from a <see cref="MethodInfo"/>.
         /// </summary>
         /// <param name="methodInfo">
-        /// The <see cref="MethodInfo"/> that cannot have its type arguments infered.
+        /// The <see cref="MethodInfo"/> that cannot have its type arguments inferred.
         /// </param>
         public TypeArgumentsCannotBeInferredException(MethodInfo methodInfo)
             : base(methodInfo == null ? string.Empty :
@@ -72,7 +72,7 @@ namespace Ploeh.AutoFixture.Kernel
         }
 
         /// <summary>
-        /// Ininitalizes a new instance of the <see cref="TypeArgumentsCannotBeInferredException"/> class with
+        /// Initializes a new instance of the <see cref="TypeArgumentsCannotBeInferredException"/> class with
         /// serialized data.
         /// </summary>
         /// <param name="info">The object that holds the serialized object data.</param>

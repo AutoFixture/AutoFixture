@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.Kernel
         private readonly ISpecimenCommand[] commands;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="CompositeSpecimenCommand"/> class with the supplised set of commands.
+        /// Initializes a new instance of <see cref="CompositeSpecimenCommand"/> class with the supplied set of commands.
         /// </summary>
         /// <param name="commands">The child commands.</param>
         public CompositeSpecimenCommand(IEnumerable<ISpecimenCommand> commands)
@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture.Kernel
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="CompositeSpecimenCommand"/> class with the supplised set of commands.
+        /// Initializes a new instance of <see cref="CompositeSpecimenCommand"/> class with the supplied set of commands.
         /// </summary>
         /// <param name="commands">The child commands.</param>
         public CompositeSpecimenCommand(params ISpecimenCommand[] commands)

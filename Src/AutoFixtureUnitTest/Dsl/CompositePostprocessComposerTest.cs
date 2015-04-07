@@ -34,7 +34,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void IntializeWithNullEnumerableThrows()
+        public void InitializeWithNullEnumerableThrows()
         {
             // Fixture setup
             // Exercise system and verify outcome

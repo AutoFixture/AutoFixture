@@ -12,7 +12,7 @@ namespace Ploeh.AutoFixtureUnitTest
     public class StaticFactoryWithClosureOfOperationsBugRepro
     {
         [Fact]
-        public void CreateWithOmitOnRecursionThrowsAppriateException()
+        public void CreateWithOmitOnRecursionThrowsAppropriateException()
         {
             // Fixture setup
             var fixture = new Fixture();

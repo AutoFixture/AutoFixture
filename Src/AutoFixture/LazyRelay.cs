@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture
 {
     /// <summary>
     /// Relays a request for an <see cref="Func{T}" /> to a request for a
-    /// <see cref="Lazy{T}"/> and retuns the result.
+    /// <see cref="Lazy{T}"/> and returns the result.
     /// </summary>
     public class LazyRelay : ISpecimenBuilder
     {

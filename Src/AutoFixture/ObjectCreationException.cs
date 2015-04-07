@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Ininitalizes a new instance of the <see cref="ObjectCreationException"/> class with
+        /// Initializes a new instance of the <see cref="ObjectCreationException"/> class with
         /// serialized data.
         /// </summary>
         /// <param name="info">The object that holds the serialized object data.</param>

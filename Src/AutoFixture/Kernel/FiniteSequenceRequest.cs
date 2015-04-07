@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Initializes a new instance of the <see cref="FiniteSequenceRequest"/> class.
         /// </summary>
-        /// <param name="request">The underlying request to muliply.</param>
+        /// <param name="request">The underlying request to multiply.</param>
         /// <param name="count">The number of instances requested.</param>
         public FiniteSequenceRequest(object request, int count)
         {

@@ -155,7 +155,7 @@ namespace Ploeh.AutoFixtureUnitTest
         [InlineData(0)]
         [InlineData(1)]
         [InlineData(2)]
-        public void SetItemCorrectlyAddesItem(int expected)
+        public void SetItemCorrectlyAddsItem(int expected)
         {
             // Fixture setup
             var item = new DelegatingSpecimenBuilder();

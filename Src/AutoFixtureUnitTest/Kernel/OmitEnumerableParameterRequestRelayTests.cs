@@ -12,7 +12,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
     public class OmitEnumerableParameterRequestRelayTests
     {
         [Fact]
-        public void SutIsSpecimentBuilder()
+        public void SutIsSpecimenBuilder()
         {
             var sut = new OmitEnumerableParameterRequestRelay();
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);

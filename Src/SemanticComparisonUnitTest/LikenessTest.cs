@@ -1211,7 +1211,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyOmitAutoComparisonFollowedByCorrectComboOfDefaultEqualityAndExplictyWithReturnsTrue()
+        public void ProxyOmitAutoComparisonFollowedByCorrectComboOfDefaultEqualityAndExplicitlyWithReturnsTrue()
         {
             // Fixture setup
             var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");

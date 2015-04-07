@@ -179,7 +179,7 @@ namespace Ploeh.AutoFixture
         /// IEnumerable&lt;T&gt;.
         /// </para>
         /// <para>
-        /// However, you can change this behaviour, for example by applying the
+        /// However, you can change this behavior, for example by applying the
         /// <see cref="MapCreateManyToEnumerable" /> customization.
         /// </para>
         /// </remarks>
@@ -206,7 +206,7 @@ namespace Ploeh.AutoFixture
         /// IEnumerable&lt;T&gt;.
         /// </para>
         /// <para>
-        /// However, you can change this behaviour, for example by applying the
+        /// However, you can change this behavior, for example by applying the
         /// <see cref="MapCreateManyToEnumerable" /> customization.
         /// </para>
         /// </remarks>
@@ -233,7 +233,7 @@ namespace Ploeh.AutoFixture
         /// IEnumerable&lt;T&gt;.
         /// </para>
         /// <para>
-        /// However, you can change this behaviour, for example by applying the
+        /// However, you can change this behavior, for example by applying the
         /// <see cref="MapCreateManyToEnumerable" /> customization.
         /// </para>
         /// <para>
@@ -269,7 +269,7 @@ namespace Ploeh.AutoFixture
         /// IEnumerable&lt;T&gt;.
         /// </para>
         /// <para>
-        /// However, you can change this behaviour, for example by applying the
+        /// However, you can change this behavior, for example by applying the
         /// <see cref="MapCreateManyToEnumerable" /> customization.
         /// </para>
         /// </remarks>
@@ -301,7 +301,7 @@ namespace Ploeh.AutoFixture
         /// IEnumerable&lt;T&gt;.
         /// </para>
         /// <para>
-        /// However, you can change this behaviour, for example by applying the
+        /// However, you can change this behavior, for example by applying the
         /// <see cref="MapCreateManyToEnumerable" /> customization.
         /// </para>
         /// </remarks>
@@ -336,7 +336,7 @@ namespace Ploeh.AutoFixture
         /// IEnumerable&lt;T&gt;.
         /// </para>
         /// <para>
-        /// However, you can change this behaviour, for example by applying the
+        /// However, you can change this behavior, for example by applying the
         /// <see cref="MapCreateManyToEnumerable" /> customization.
         /// </para>
         /// </remarks>
@@ -365,7 +365,7 @@ namespace Ploeh.AutoFixture
         /// IEnumerable&lt;T&gt;.
         /// </para>
         /// <para>
-        /// However, you can change this behaviour, for example by applying the
+        /// However, you can change this behavior, for example by applying the
         /// <see cref="MapCreateManyToEnumerable" /> customization.
         /// </para>
         /// </remarks>
@@ -393,7 +393,7 @@ namespace Ploeh.AutoFixture
         /// IEnumerable&lt;T&gt;.
         /// </para>
         /// <para>
-        /// However, you can change this behaviour, for example by applying the
+        /// However, you can change this behavior, for example by applying the
         /// <see cref="MapCreateManyToEnumerable" /> customization.
         /// </para>
         /// <para>
@@ -430,7 +430,7 @@ namespace Ploeh.AutoFixture
         /// IEnumerable&lt;T&gt;.
         /// </para>
         /// <para>
-        /// However, you can change this behaviour, for example by applying the
+        /// However, you can change this behavior, for example by applying the
         /// <see cref="MapCreateManyToEnumerable" /> customization.
         /// </para>
         /// </remarks>
@@ -464,7 +464,7 @@ namespace Ploeh.AutoFixture
         /// IEnumerable&lt;T&gt;.
         /// </para>
         /// <para>
-        /// However, you can change this behaviour, for example by applying the
+        /// However, you can change this behavior, for example by applying the
         /// <see cref="MapCreateManyToEnumerable" /> customization.
         /// </para>
         /// </remarks>

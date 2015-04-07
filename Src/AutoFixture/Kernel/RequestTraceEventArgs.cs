@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixture.Kernel
         }
 
         /// <summary>
-        /// Gets the original request for a speciman
+        /// Gets the original request for a specimen
         /// </summary>
         public object Request
         {

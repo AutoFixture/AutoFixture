@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// A <see cref="NoSpecimen"/> instance to compare with this instance.
         /// </param>
         /// <returns>
-        /// <see langword="true"/> if the current instanec is equal to the <paramref name="other"/>
+        /// <see langword="true"/> if the current instance is equal to the <paramref name="other"/>
         /// parameter; otherwise, <see langword="false"/>.
         /// </returns>
         public bool Equals(NoSpecimen other)

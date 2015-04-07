@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
-    /// Indicates that an illigal request was detected.
+    /// Indicates that an illegal request was detected.
     /// </summary>
     /// <remarks>
     /// <para>

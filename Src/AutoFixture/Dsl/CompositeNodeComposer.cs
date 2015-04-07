@@ -343,7 +343,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// Although the default behavior of <see cref="Fixture" /> may make
         /// this method seem redundant, the purpose of this method is to enable
         /// an explicit opt-in for certain types, in the case where a Fixture
-        /// instance has been configured to <em>not</em> auto-fille properties
+        /// instance has been configured to <em>not</em> auto-fill properties
         /// by default (e.g. if <see cref="Fixture.OmitAutoProperties" /> is
         /// set to <see langword="true" />).
         /// </para>

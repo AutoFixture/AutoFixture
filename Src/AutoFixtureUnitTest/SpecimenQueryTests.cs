@@ -69,7 +69,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void DoubleParameterGetWithNullFuctionThrows()
+        public void DoubleParameterGetWithNullFunctionThrows()
         {
             var builder = new DelegatingSpecimenBuilder();
             Assert.Throws<ArgumentNullException>(() =>

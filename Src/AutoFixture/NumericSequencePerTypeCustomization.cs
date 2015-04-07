@@ -4,7 +4,7 @@ using Ploeh.AutoFixture.Kernel;
 namespace Ploeh.AutoFixture
 {
     /// <summary>
-    /// A customization that enables numeric specimens to be unique within a specifc numeric <see cref="Type"/>.
+    /// A customization that enables numeric specimens to be unique within a specific numeric <see cref="Type"/>.
     /// </summary>
     /// <remarks>
     /// <para>

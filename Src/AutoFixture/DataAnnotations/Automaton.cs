@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
     /// an automaton are reachable from its initial state.)
     /// </li>
     /// <li>
-    /// Automata are always reduced (see method Rreduce()) and have no transitions to dead states
+    /// Automata are always reduced (see method Reduce()) and have no transitions to dead states
     /// (see RemoveDeadTransitions() method).
     /// </li>
     /// <li>

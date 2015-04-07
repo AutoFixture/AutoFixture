@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="context">A context that can be used to create other specimens.</param>
         /// <returns>
         /// A <see cref="NoSpecimen"/> instance, unless <paramref name="request"/> is a request for
-        /// <see cref="IntPtr"/> in which case an exceptoin is thrown.
+        /// <see cref="IntPtr"/> in which case an exception is thrown.
         /// </returns>
         /// <exception cref="IllegalRequestException">
         /// <paramref name="request"/> is the <see cref="IntPtr"/> <see cref="Type"/>.

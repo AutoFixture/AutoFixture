@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
         }
 
         [Fact]
-        public void CreateAnonymousWillSatisfyMaxiumWhenHigh()
+        public void CreateAnonymousWillSatisfyMaximumWhenHigh()
         {
             // Fixture setup
             var maximum = 89;

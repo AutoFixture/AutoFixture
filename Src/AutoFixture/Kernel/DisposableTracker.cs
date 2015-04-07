@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="builder">The decorated builder.</param>
         /// <remarks>
         /// <para>
-        /// After initilization, <paramref name="builder"/> is availble through the
+        /// After initialization, <paramref name="builder"/> is available through the
         /// <see cref="Builder"/> property.
         /// </para>
         /// </remarks>
