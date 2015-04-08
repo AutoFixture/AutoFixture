@@ -78,33 +78,5 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
                 Assert.Single(residueCollectors.OfType<Postprocessor>());
             Assert.Equal(builder, postprocessor.Builder);
         }
-
-        [Fact]
-        public void CustomizeAddsEnumeratorRelayToResidueCollectors()
-        {
-            var builder = Substitute.For<ISpecimenBuilder>();
-            var residueCollectors = new List<ISpecimenBuilder>();
-            var fixture = Substitute.For<IFixture>();
-            fixture.ResidueCollectors.Returns(residueCollectors);
-            var sut = new AutoConfiguredNSubstituteCustomization(builder);
-
-            sut.Customize(fixture);
-
-            Assert.Single(residueCollectors.OfType<EnumeratorRelay>());
-        }
-
-        [Fact]
-        public void CustomizeAddsEnumeratorRelayInCorrectOrder()
-        {
-            var builder = Substitute.For<ISpecimenBuilder>();
-            var residueCollectors = new List<ISpecimenBuilder>();
-            var fixture = Substitute.For<IFixture>();
-            fixture.ResidueCollectors.Returns(residueCollectors);
-            var sut = new AutoConfiguredNSubstituteCustomization(builder);
-
-            sut.Customize(fixture);
-
-            Assert.IsAssignableFrom<EnumeratorRelay>(residueCollectors.First());
-        }
     }
 }

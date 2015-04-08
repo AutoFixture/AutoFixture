@@ -5145,6 +5145,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
+        [InlineData(typeof(EnumeratorRelay))]
         [InlineData(typeof(EnumerableRelay))]
         [InlineData(typeof(ListRelay))]
         [InlineData(typeof(CollectionRelay))]
@@ -5706,6 +5707,37 @@ namespace Ploeh.AutoFixtureUnitTest
             var actual = result.Value;
             // Verify outcome
             Assert.NotNull(actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreatesEnumerator()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system and verify outcome
+            IEnumerator<int> result = null;
+            Assert.DoesNotThrow(() => result = fixture.Create<IEnumerator<int>>());
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreatesEnumeratorWithSpecifiedNumberOfItems()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var expectedCount = fixture.RepeatCount;
+            // Exercise system
+            var result = fixture.Create<IEnumerator<int>>();
+            // Verify outcome
+            int count = 0;
+            while (result.MoveNext())
+            {
+                count ++;
+                Assert.True(count <= expectedCount);
+            }
+            Assert.Equal(expectedCount, count);
             // Teardown
         }
     }

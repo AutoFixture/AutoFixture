@@ -118,7 +118,8 @@ namespace Ploeh.AutoFixture
                                 new DictionaryRelay(),
                                 new CollectionRelay(),
                                 new ListRelay(),
-                                new EnumerableRelay())),
+                                new EnumerableRelay(),
+                                new EnumeratorRelay())),
                         new FilteringSpecimenBuilder(
                             new MutableValueTypeWarningThrower(),
                             new AndRequestSpecification(
