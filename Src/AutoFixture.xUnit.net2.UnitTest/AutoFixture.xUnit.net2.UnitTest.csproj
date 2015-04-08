@@ -51,9 +51,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoDataAttributeTest.cs" />
+    <Compile Include="ComposerWithoutADefaultConstructor.cs" />
     <Compile Include="CustomizeAttributeTest.cs" />
     <Compile Include="DelegatingCustomization.cs" />
     <Compile Include="DelegatingCustomizeAttribute.cs" />
+    <Compile Include="DelegatingFixture.cs" />
+    <Compile Include="DelegatingSpecimenBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
