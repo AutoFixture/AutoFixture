@@ -50,16 +50,68 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithMailAddressRequestReturnsCorrectResult()
+        public void CreatesNoSpecimenWhenContextIsNull()
         {
             // Fixture setup
             var request = typeof(MailAddress);
-            var context = new DelegatingSpecimenContext();
+            var sut = new MailAddressGenerator();
+            //Exercise system
+            var result = sut.Create(request, null);
+            // Verify outcome
+            var expectedResult = new NoSpecimen(request);
+            Assert.Equal(expectedResult, result);
+        }
+
+        [Fact]
+        public void CreateWithMailAddressRequestReturnsCorrectResultUsingLocalPartFromContext()
+        {
+            // Fixture setup
+            var request = typeof(MailAddress);
+            var expectedLocalPart = new EmailAddressLocalPart(Guid.NewGuid().ToString());
+            var context = new DelegatingSpecimenContext()
+            {
+                OnResolve = r =>
+               {
+                   if (typeof(EmailAddressLocalPart).Equals(r))
+                   {
+                       return expectedLocalPart;
+                   }
+
+                   return new NoSpecimen(r);
+               }
+            };
             var sut = new MailAddressGenerator();
             // Exercise system
             var result = (MailAddress)sut.Create(request, context);
             // Verify outcome
             Assert.True(Regex.IsMatch(result.Host, @"example\.(com|org|net)"));
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithMailAddressRequestReturnsNoSpecimenWhenContextReturnsNullLocalPart()
+        {
+            // Fixture setup
+            var request = typeof(MailAddress);
+            var expectedLocalPart = new EmailAddressLocalPart(Guid.NewGuid().ToString());
+            var context = new DelegatingSpecimenContext()
+            {
+                OnResolve = r =>
+                {
+                    if (typeof(EmailAddressLocalPart).Equals(r))
+                    {
+                        return null;
+                    }
+
+                    return new NoSpecimen(r);
+                }
+            };
+            var sut = new MailAddressGenerator();
+            // Exercise system
+            var expectedResult = new NoSpecimen(request);
+            var result = sut.Create(request, context);
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
     }

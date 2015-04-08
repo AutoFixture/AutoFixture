@@ -36,10 +36,21 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen(request);
             }
 
-            var name = Guid.NewGuid().ToString();
-            var host = fictitiousDomains[(uint)name.GetHashCode() % 3];
+            if (context == null)
+            {
+                return new NoSpecimen(request);
+            }
+                    
+            var localPart = context.Resolve(typeof(EmailAddressLocalPart)) as EmailAddressLocalPart;
 
-            var email = string.Format(CultureInfo.InvariantCulture, "{0} <{0}@{1}>", name, host);
+            if (localPart == null)
+            {
+                return new NoSpecimen(request);
+            }
+
+            var host = fictitiousDomains[(uint)localPart.GetHashCode() % 3];
+
+            var email = string.Format(CultureInfo.InvariantCulture, "{0} <{0}@{1}>", localPart, host);
             return new MailAddress(email);
         }
     }
