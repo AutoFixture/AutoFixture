@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+    <metadata>
+        <id>AutoFixture.Xunit2</id>
+        <version>2.2</version>
+        <title>AutoFixture with xUnit.net v2 data theories</title>
+        <authors>Mark Seemann</authors>
+        <owners>Mark Seemann</owners>
+        <dependencies>
+            <dependency id="autofixture" version="2.2" />
+            <dependency id="xunit.core" version="[2,3)" />
+        </dependencies>
+        <summary>Extension to AutoFixture that integrates it with xUnit.net v2.</summary>
+        <description>By leveraging the data theory feature of xUnit.net, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</description>
+        <iconUrl>http://i3.codeplex.com/Download?ProjectName=autofixture&amp;DownloadId=278049</iconUrl>
+        <language>en-US</language>
+        <licenseUrl>https://github.com/AutoFixture/AutoFixture/blob/master/LICENCE.txt</licenseUrl>
+        <projectUrl>https://github.com/AutoFixture/AutoFixture</projectUrl>
+    </metadata>
+    <files>
+        <file src="Ploeh.AutoFixture.Xunit2.dll" target="lib\net45" />
+        <file src="Ploeh.AutoFixture.Xunit2.pdb" target="lib\net45" />
+        <file src="Ploeh.AutoFixture.Xunit2.XML" target="lib\net45" />
+        <file src="..\Src\AutoFixture.xUnit.net2\**\*.cs" target="src" />
+        <file src="Install.ps1" target="tools" />
+    </files>
+</package>

@@ -58,6 +58,7 @@
     <Compile Include="DelegatingCustomizeAttribute.cs" />
     <Compile Include="DelegatingFixture.cs" />
     <Compile Include="DelegatingSpecimenBuilder.cs" />
+    <Compile Include="DependencyConstraints.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
