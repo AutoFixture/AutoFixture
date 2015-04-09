@@ -53,6 +53,9 @@
   <ItemGroup>
     <Compile Include="AutoDataAttributeTest.cs" />
     <Compile Include="ComposerWithoutADefaultConstructor.cs" />
+    <Compile Include="ClassDataAttribute.cs" />
+    <Compile Include="CompositeDataAttributeSufficientDataTest.cs" />
+    <Compile Include="CompositeDataAttributeTest.cs" />
     <Compile Include="CustomizeAttributeTest.cs" />
     <Compile Include="DelegatingCustomization.cs" />
     <Compile Include="DelegatingCustomizeAttribute.cs" />
@@ -66,6 +69,7 @@
     <Compile Include="FavorArraysAttributeTest.cs" />
     <Compile Include="FavorEnumerablesAttributeTest.cs" />
     <Compile Include="FavorListsAttributeTest.cs" />
+    <Compile Include="FakeDataAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
