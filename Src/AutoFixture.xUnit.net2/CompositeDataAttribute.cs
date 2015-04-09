@@ -60,7 +60,7 @@ namespace Ploeh.AutoFixture.Xunit2
         /// Returns the composition of the theory data.
         /// </returns>
         /// <remarks>
-        /// The number of test cases is set from the first DataAttribute theory length.
+        /// The number of combined data sets is restricted to the length of the attribute which provides the fewest data sets
         /// </remarks>
         public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest)
         {
