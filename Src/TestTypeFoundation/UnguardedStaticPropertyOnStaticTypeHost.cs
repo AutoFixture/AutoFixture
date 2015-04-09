@@ -1,6 +1,6 @@
 ﻿namespace Ploeh.TestTypeFoundation
 {
-    public static class UngardedStaticPropertyOnStaticTypeHost
+    public static class UnguardedStaticPropertyOnStaticTypeHost
     {
         public static object Property
         {

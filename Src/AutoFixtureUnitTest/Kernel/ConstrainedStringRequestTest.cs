@@ -140,7 +140,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void SutDoesNotEqualOtherObjectWhenMinimumLengthDifferButMaximumLegthsMatch()
+        public void SutDoesNotEqualOtherObjectWhenMinimumLengthDifferButMaximumLengthsMatch()
         {
             // Fixture setup
             var sut = new ConstrainedStringRequest(1, 3);
@@ -153,7 +153,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void SutDoesNotEqualOtherSutWhenMinimumLengthDifferButMaximumLegthsMatch()
+        public void SutDoesNotEqualOtherSutWhenMinimumLengthDifferButMaximumLengthsMatch()
         {
             // Fixture setup
             var sut = new ConstrainedStringRequest(1, 3);
@@ -166,7 +166,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void SutDoesNotEqualOtherObjectWhenMaximumLengthDifferButMinimumLegthsMatch()
+        public void SutDoesNotEqualOtherObjectWhenMaximumLengthDifferButMinimumLengthsMatch()
         {
             // Fixture setup
             var sut = new ConstrainedStringRequest(1, 3);
@@ -179,7 +179,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void SutDoesNotEqualOtherSutWhenMaximumLengthDifferButMinimumLegthsMatch()
+        public void SutDoesNotEqualOtherSutWhenMaximumLengthDifferButMinimumLengthsMatch()
         {
             // Fixture setup
             var sut = new ConstrainedStringRequest(1, 3);

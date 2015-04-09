@@ -149,7 +149,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithNullContexDoesNotThrow()
+        public void CreateWithNullContextDoesNotThrow()
         {
             // Fixture setup
             var dummyRequest = typeof(byte);

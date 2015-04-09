@@ -135,7 +135,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void CreateAndAddProperyValues()
+        public void CreateAndAddPropertyValues()
         {
             // Fixture setup
             var ctorInvoker = new MethodInvoker(new ModestConstructorQuery());
@@ -204,7 +204,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void CombineExplictPropertyWithAutoProperties()
+        public void CombineExplicitPropertyWithAutoProperties()
         {
             // Fixture setup
             var expectedText = "Fnaah";

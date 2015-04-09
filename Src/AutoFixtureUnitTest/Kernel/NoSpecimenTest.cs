@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void RequestWillMatchContructorArgument()
+        public void RequestWillMatchConstructorArgument()
         {
             // Fixture setup
             var expectedRequest = new object();

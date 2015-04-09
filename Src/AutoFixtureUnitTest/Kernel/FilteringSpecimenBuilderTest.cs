@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void BulderIsCorrect()
+        public void BuilderIsCorrect()
         {
             // Fixture setup
             var expectedBuilder = new DelegatingSpecimenBuilder();

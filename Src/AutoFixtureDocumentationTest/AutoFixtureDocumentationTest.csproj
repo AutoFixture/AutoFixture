@@ -121,7 +121,7 @@
     <Compile Include="Simple\SomeImp.cs" />
     <Compile Include="Simple\TestConsole.cs" />
     <Compile Include="Simple\Vehicle.cs" />
-    <Compile Include="Simple\VechicleTest.cs" />
+    <Compile Include="Simple\VehicleTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

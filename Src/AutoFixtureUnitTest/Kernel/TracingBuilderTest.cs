@@ -285,7 +285,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void CreateWillNotRaiseSpecimeCreatedForFilteredRequest()
+        public void CreateWillNotRaiseSpecimenCreatedForFilteredRequest()
         {
             // Fixture setup
             var eventRaised = false;

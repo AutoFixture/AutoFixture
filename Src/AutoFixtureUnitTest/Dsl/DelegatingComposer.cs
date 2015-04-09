@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             this.OnFromSeed = f => new DelegatingComposer<T>();
             this.OnFromBuilder = f => new DelegatingComposer<T>();
             this.OnFromFactory = f => new DelegatingComposer<T>();
-            this.OnFromOverloadeFactory = f => new DelegatingComposer<T>();
+            this.OnFromOverloadFactory = f => new DelegatingComposer<T>();
             this.OnDo = f => new DelegatingComposer<T>();
             this.OnOmitAutoProperties = () => new DelegatingComposer<T>();
             this.OnAnonymousWith = f => new DelegatingComposer<T>();
@@ -44,22 +44,22 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
 
         public IPostprocessComposer<T> FromFactory<TInput>(Func<TInput, T> factory)
         {
-            return this.OnFromOverloadeFactory(factory);
+            return this.OnFromOverloadFactory(factory);
         }
 
         public IPostprocessComposer<T> FromFactory<TInput1, TInput2>(Func<TInput1, TInput2, T> factory)
         {
-            return this.OnFromOverloadeFactory(factory);
+            return this.OnFromOverloadFactory(factory);
         }
 
         public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3>(Func<TInput1, TInput2, TInput3, T> factory)
         {
-            return this.OnFromOverloadeFactory(factory);
+            return this.OnFromOverloadFactory(factory);
         }
 
         public IPostprocessComposer<T> FromFactory<TInput1, TInput2, TInput3, TInput4>(Func<TInput1, TInput2, TInput3, TInput4, T> factory)
         {
-            return this.OnFromOverloadeFactory(factory);
+            return this.OnFromOverloadFactory(factory);
         }
 
         public IPostprocessComposer<T> Do(Action<T> action)
@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         internal Func<Func<T, T>, IPostprocessComposer<T>> OnFromSeed { get; set; }
         internal Func<ISpecimenBuilder, IPostprocessComposer<T>> OnFromBuilder { get; set; }
         internal Func<Func<T>, IPostprocessComposer<T>> OnFromFactory { get; set; }
-        internal Func<object, IPostprocessComposer<T>> OnFromOverloadeFactory { get; set; }
+        internal Func<object, IPostprocessComposer<T>> OnFromOverloadFactory { get; set; }
         internal Func<Action<T>, IPostprocessComposer<T>> OnDo { get; set; }
         internal Func<IPostprocessComposer<T>> OnOmitAutoProperties { get; set; }
         internal Func<object, IPostprocessComposer<T>> OnAnonymousWith { get; set; }

@@ -68,7 +68,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
         }
 
         [Fact]
-        public void BuildMyViewModelWithouSelectedItemWillSucceed()
+        public void BuildMyViewModelWithoutSelectedItemWillSucceed()
         {
             // Fixture setup
             var fixture = new Fixture();

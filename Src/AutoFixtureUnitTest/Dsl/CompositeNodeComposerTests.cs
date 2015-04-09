@@ -443,7 +443,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void WithAnonymouValueReturnsCorrectResult()
+        public void WithAnonymousValueReturnsCorrectResult()
         {
             // Fixture setup
             var node = new CompositeSpecimenBuilder(
