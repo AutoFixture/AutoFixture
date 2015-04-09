@@ -75,6 +75,7 @@
     <Compile Include="FavorArraysAttribute.cs" />
     <Compile Include="FavorEnumerablesAttribute.cs" />
     <Compile Include="FavorListsAttribute.cs" />
+    <Compile Include="InlineAutoDataAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
