@@ -192,7 +192,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void VerifyStaticTypeCorrectlyInvokesMethodsVerify()
         {
             // Fixture setup
-            Type type = typeof(UngardedStaticMethodOnStaticTypeHost);
+            Type type = typeof(UnguardedStaticMethodOnStaticTypeHost);
             var expectedMethods = new[] { type.GetMethod("Method")};
             var mockVerified = false;
             var sut = new DelegatingIdiomaticAssertion
