@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture.Xunit2
     /// xUnit.net's Theory attribute.
     /// </summary>
     [DataDiscoverer(
-        typeName: "Ploeh.AutoFixture.Xunit2.AutoDataDiscoverer",
+        typeName: "Ploeh.AutoFixture.Xunit2.NoPreDiscoveryDataDiscoverer",
         assemblyName: "Ploeh.AutoFixture.Xunit2")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     [CLSCompliant(false)]

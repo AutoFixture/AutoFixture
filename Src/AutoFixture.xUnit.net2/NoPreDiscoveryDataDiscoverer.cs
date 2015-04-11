@@ -8,8 +8,19 @@ using Xunit.Sdk;
 
 namespace Ploeh.AutoFixture.Xunit2
 {
-    internal class AutoDataDiscoverer : DataDiscoverer
+    /// <summary>
+    /// Prevents Xunit 'pre-discovery' of tests that use the
+    /// <see cref="AutoDataAttribute"/> or <see cref="InlineAutoDataAttribute"/>.
+    /// </summary>
+    public class NoPreDiscoveryDataDiscoverer : DataDiscoverer
     {
+        /// <summary>
+        /// Always returns 'false', indicating that discovery of tests is
+        /// not supported.
+        /// </summary>
+        /// <param name="dataAttribute">The attribute</param>
+        /// <param name="testMethod">The method being discovered</param>
+        /// <returns>false</returns>
         public override bool SupportsDiscoveryEnumeration(
             IAttributeInfo dataAttribute, IMethodInfo testMethod)
         {
