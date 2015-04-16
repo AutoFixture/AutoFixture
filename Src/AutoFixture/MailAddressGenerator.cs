@@ -31,16 +31,36 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             if (!typeof(MailAddress).Equals(request))
             {
                 return new NoSpecimen(request);
             }
 
-            if (context == null)
+            try
+            {
+                return TryCreateMailAddress(request, context);
+            }
+            catch (ArgumentNullException)
             {
                 return new NoSpecimen(request);
             }
-                    
+            catch (ArgumentException)
+            {
+                return new NoSpecimen(request);
+            }
+            catch (FormatException)
+            {
+                return new NoSpecimen(request);
+            }
+        }
+
+        private object TryCreateMailAddress(object request, ISpecimenContext context)
+        {
             var localPart = context.Resolve(typeof(EmailAddressLocalPart)) as EmailAddressLocalPart;
 
             if (localPart == null)
@@ -53,5 +73,5 @@ namespace Ploeh.AutoFixture
             var email = string.Format(CultureInfo.InvariantCulture, "{0} <{0}@{1}>", localPart, host);
             return new MailAddress(email);
         }
-    }
+    }       
 }

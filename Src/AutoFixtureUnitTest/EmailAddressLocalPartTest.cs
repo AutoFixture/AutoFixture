@@ -12,9 +12,7 @@ namespace Ploeh.AutoFixtureUnitTest
     {
         [Fact]
         public void InitializeWithNullLocalPartThrows()
-        {
-            var sut = new EmailAddressLocalPart("good.localPart");
-
+        {          
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(
@@ -22,43 +20,13 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(@"@CantStartWithAtSign")]
-        [InlineData(@".StartsWithPeriod")]
-        [InlineData(@"Has..TwoPeriods")]
-        [InlineData(@"EndsWithPeriod.")]
-        [InlineData(@".")]
-        [InlineData(@"Ima Notquoted")]
-        public void InitializeWithInvalidLocalPartThrows(string localPart)
+        [Fact]
+        public void InitializeWithEmptyLocalPartThrows()
         {
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentException>(
-                () => new EmailAddressLocalPart(localPart));
-            // Teardown
-        }
-
-        [Theory]        
-        [InlineData(@"""Quoted\\WithSlash""")]
-        [InlineData("\"Quoted\\\rWithLineBreak\"")]
-        [InlineData(@"""Both\""Quoted""")]
-        [InlineData(@"service/department")]
-        [InlineData(@"$StartWithDollar")]
-        [InlineData(@"!def!xyz%abc")]
-        [InlineData(@"_Good.Email")]
-        [InlineData(@"~")]
-        [InlineData(@"""Quoted@AtSign""")]
-        [InlineData(@"Ima.InternalPeriod")]
-        [InlineData(@"""Ima.Quoted""")]
-        [InlineData(@"""Ima Quoted""")]
-        public void InitializeWithValidLocalPartSetsLocalPart(string localPart)
-        {
-            // Fixture setup            
-            var sut = new EmailAddressLocalPart(localPart);
-            // Exercise system
-            string result = sut.LocalPart;
-            // Verify outcome
-            Assert.Equal(localPart, result);
+                () => new EmailAddressLocalPart(string.Empty));
             // Teardown
         }
 
@@ -66,31 +34,20 @@ namespace Ploeh.AutoFixtureUnitTest
         public void ToStringReturnsCorrectResult()
         {
             // Fixture setup
-            string expected = "good.localPart";
-            var sut = new EmailAddressLocalPart("good.localPart");
+            string expected = Guid.NewGuid().ToString();
+            var sut = new EmailAddressLocalPart(expected);
             // Exercise system
             var result = sut.ToString();
             // Verify outcome
             Assert.Equal(expected, result);
             // Teardown
-        }
-
-        [Fact]
-        public void SutIsEquatable()
-        {
-            // Fixture setup
-            // Exercise system
-            var sut = new EmailAddressLocalPart("good.localPart");
-            // Verify outcome
-            Assert.IsAssignableFrom<IEquatable<EmailAddressLocalPart>>(sut);
-            // Teardown
-        }
+        }      
 
         [Fact]
         public void SutDoesNotEqualNullObject()
         {
             // Fixture setup
-            var sut = new EmailAddressLocalPart("good.localPart");
+            var sut = new EmailAddressLocalPart(Guid.NewGuid().ToString());
             object other = null;
             // Exercise system
             bool result = sut.Equals(other);
@@ -99,12 +56,12 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+        [Fact]        
         public void SutDoesNotEqualNullSut()
         {
             // Fixture setup
-            var sut = new EmailAddressLocalPart("good.localPart");
-            UriScheme other = null;
+            var sut = new EmailAddressLocalPart(Guid.NewGuid().ToString());
+            EmailAddressLocalPart other = null;
             // Exercise system
             bool result = sut.Equals(other);
             // Verify outcome
@@ -116,7 +73,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void SutDoesNotEqualAnonymousObject()
         {
             // Fixture setup
-            var sut = new EmailAddressLocalPart("good.localPart");
+            var sut = new EmailAddressLocalPart(Guid.NewGuid().ToString());
             var anonymousObject = new object();
             // Exercise system
             bool result = sut.Equals(anonymousObject);
@@ -126,11 +83,11 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void SutDoesNotEqualOtherObjectWhenSchemesDiffer()
+        public void SutDoesNotEqualOtherObjectWhenLocalPartsDiffer()
         {
             // Fixture setup
-            var sut = new EmailAddressLocalPart("good.localPart");
-            object other = new EmailAddressLocalPart("good2.localPart");
+            var sut = new EmailAddressLocalPart(Guid.NewGuid().ToString());
+            object other = new EmailAddressLocalPart(Guid.NewGuid().ToString());
             // Exercise system
             bool result = sut.Equals(other);
             // Verify outcome
@@ -139,11 +96,11 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void SutDoesNotEqualOtherSutWhenSchemesDiffer()
+        public void SutDoesNotEqualOtherSutWhenLocalPartsDiffer()
         {
             // Fixture setup
-            var sut = new EmailAddressLocalPart("good.localPart");
-            var other = new EmailAddressLocalPart("good2.localPart");
+            var sut = new EmailAddressLocalPart(Guid.NewGuid().ToString());
+            var other = new EmailAddressLocalPart(Guid.NewGuid().ToString());
             // Exercise system
             bool result = sut.Equals(other);
             // Verify outcome
@@ -151,13 +108,27 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }      
 
-
         [Fact]
-        public void GetHashCodeWhenSchemeIsNotDefaultReturnsCorrectResult()
+        public void SutEqualsOtherSutWhenLocalPartsAreEqual()
         {
             // Fixture setup
-            var localPart = "good.localPart";
-            var sut = new UriScheme(localPart);
+            var localPart = Guid.NewGuid().ToString();
+
+            var sut = new EmailAddressLocalPart(localPart);
+            var other = new EmailAddressLocalPart(localPart);
+            // Exercise system
+            bool result = sut.Equals(other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void GetHashCodeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var localPart = Guid.NewGuid().ToString();
+            var sut = new EmailAddressLocalPart(localPart);
             // Exercise system
             int result = sut.GetHashCode();
             // Verify outcome

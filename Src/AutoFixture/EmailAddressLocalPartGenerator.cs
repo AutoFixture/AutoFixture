@@ -24,43 +24,21 @@ namespace Ploeh.AutoFixture
             if (context == null)
             {
                 throw new ArgumentNullException("context");
-            }                        
+            }
 
             if (request == null || !typeof(EmailAddressLocalPart).Equals(request))
             {
                 return new NoSpecimen(request);
             }
 
-            var localPart = CreateLocalPart(context);
-
-            if (!EmailAddressLocalPart.IsValid(localPart))
-                return new NoSpecimen(request);
-
-            return new EmailAddressLocalPart(localPart);
-        }
-       
-        /// <summary>
-        /// Creates a local part using the provided Specimen Context.  If the local part is greater
-        /// than  EmailAddressLocalPart.MaximumAllowableLength, truncates it to that length.  It is 
-        /// still possible the localPart is invalid based on EmailAddressLocalPart's rules.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        private static string CreateLocalPart(ISpecimenContext context)
-        {
             var localPart = context.Resolve(typeof(string)) as string;
 
-            if (localPart == null)
-                return null;
-
-            if (localPart.Length > EmailAddressLocalPart.MaximumAllowableLength)
+            if (string.IsNullOrEmpty(localPart))
             {
-                return localPart.Substring(0, EmailAddressLocalPart.MaximumAllowableLength);
+                return new NoSpecimen(request);
             }
-            else
-            {
-                return localPart;
-            }            
-        }
+
+            return new EmailAddressLocalPart(localPart);
+        }       
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -69,7 +70,11 @@ namespace Ploeh.AutoFixtureUnitTest
             object expectedValue = null;
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r => typeof(string).Equals(r) ? expectedValue : new NoSpecimen(r)
+                OnResolve = r =>
+                {
+                    Assert.Equal(typeof(string), r);
+                    return expectedValue;
+                }
             };
             var sut = new EmailAddressLocalPartGenerator();
             // Exercise system and verify outcome
@@ -87,15 +92,11 @@ namespace Ploeh.AutoFixtureUnitTest
             string expectedLocalPart = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
             {
-                OnResolve = r =>
-                {
-                    if (typeof(string).Equals(r))
+                OnResolve = r => 
                     {
+                        Assert.Equal(typeof(string), r);
                         return expectedLocalPart;
                     }
-
-                    return new NoSpecimen(r);
-                }
             };
             var sut = new EmailAddressLocalPartGenerator();
             // Exercise system
@@ -105,51 +106,20 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
-        public void CreateReturnsEmailAddressLocalPartWithCorrectlyTruncatedLocalPartFromContext()
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public void CreateReturnsNoSpecimenWhenContextCreatesInvalidLocalPartString(string invalidLocalPart)
         {
             // Fixture setup
-            var request = typeof(EmailAddressLocalPart);
-            string contextLocalPart = Guid.NewGuid().ToString() + Guid.NewGuid().ToString();
-            string expectedLocalPart = contextLocalPart.Substring(0, 64);
+            var request = typeof(EmailAddressLocalPart);            
 
             var context = new DelegatingSpecimenContext
             {
                 OnResolve = r =>
                 {
-                    if (typeof(string).Equals(r))
-                    {
-                        return contextLocalPart;
-                    }
-
-                    return new NoSpecimen(r);
-                }
-            };
-            var sut = new EmailAddressLocalPartGenerator();
-            // Exercise system
-            var result = sut.Create(typeof(EmailAddressLocalPart), context) as EmailAddressLocalPart;
-            // Verify outcome
-            Assert.Equal(expectedLocalPart, result.LocalPart);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateReturnsNoSpecimenWhenContextCreatesInvalidLocalPartString()
-        {
-            // Fixture setup
-            var request = typeof(EmailAddressLocalPart);
-            var invalidLocalPart = "@@Invalid";
-
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r =>
-                {
-                    if (typeof(string).Equals(r))
-                    {
-                        return invalidLocalPart;
-                    }
-
-                    return new NoSpecimen(r);
+                    Assert.Equal(typeof(string), r);
+                    return invalidLocalPart;
                 }
             };
             var sut = new EmailAddressLocalPartGenerator();

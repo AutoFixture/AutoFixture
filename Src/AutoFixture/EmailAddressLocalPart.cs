@@ -7,33 +7,29 @@ using System.Text.RegularExpressions;
 namespace Ploeh.AutoFixture
 {
     /// <summary>
-    /// Represents the local part of the email address, defined as everything up to, but not including the @ sign.  
-    /// The requirements enforced on the local part are defined in RFC 3696.  The regular expression for validating 
-    /// the local part borrowed from Phil Haack at 
-    /// http://haacked.com/archive/2007/08/21/i-knew-how-to-validate-an-email-address-until-i.aspx/
+    /// Represents the local part of the email address, defined as everything up to, but not including, the @ sign.  
+    /// Since EmailAddressLocalPart is used in constructing MailAddress, enforcement of rules on a valid email address
+    /// is performed by <see cref="System.Net.Mail.MailAddress"/> and not EmailAddressLocalPart other than as noted. 
     /// </summary>
-    public class EmailAddressLocalPart : IEquatable<EmailAddressLocalPart>
+    public class EmailAddressLocalPart
     {
-        private static string pattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|"
-                                               + @"([-A-Za-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)$";
         private readonly string localPart;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EmailAddressLocalPart"/> class. Throws ArgumentNullException
-        /// if localPart is null or empty.  Throws ArgumentException if localPart is longer than 64 characters or
-        /// does not conform to the local pat requirements per RFC 3696. 
+        /// if localPart is null.  Throws ArgumentException if localPart is empty.
         /// </summary>
-        /// <param name="localPart">The local part.</param>        
+        /// <param name="localPart">The local part.</param>                
         public EmailAddressLocalPart(string localPart)
         {
-            if (string.IsNullOrEmpty(localPart))
+            if (localPart == null)
             {
-                throw new ArgumentNullException(localPart);
+                throw new ArgumentNullException("localPart");
             }
 
-            if (!EmailAddressLocalPart.IsValid(localPart))
+            if (localPart.Length == 0)
             {
-                throw new ArgumentException("Email address local part can only contain letters, digits, and special characters !#$%&'*+/=?^_`{|}~");
+                throw new ArgumentException("localPart cannot be empty");
             }
 
             this.localPart = localPart;
@@ -45,21 +41,6 @@ namespace Ploeh.AutoFixture
         public string LocalPart
         {
             get { return this.localPart; }
-        }
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <param name="other">An object to compare with this object.</param>
-        /// <returns>
-        /// true if the current object is equal to the other parameter; otherwise, false.
-        /// </returns>
-        public bool Equals(EmailAddressLocalPart other)
-        {
-            if (other == null)
-                return false; 
-
-            return this.localPart.Equals(other.localPart);
         }
 
         /// <summary>
@@ -79,7 +60,7 @@ namespace Ploeh.AutoFixture
             var other = obj as EmailAddressLocalPart;
             if (other != null)
             {
-                return this.Equals(other);
+                return this.localPart.Equals(other.localPart);
             }
 
             return base.Equals(obj);
@@ -106,37 +87,6 @@ namespace Ploeh.AutoFixture
         public override string ToString()
         {
             return this.localPart;
-        }       
-
-        /// <summary>
-        /// Returns true if the localPart is valid in terms of both length and conformity with allowable
-        /// characters and character ordering, false otherwise. 
-        /// </summary>
-        /// <param name="localPart"></param>
-        /// <returns></returns>
-        public static bool IsValid(string localPart)
-        {
-            if (string.IsNullOrEmpty(localPart))
-                return false;
-
-            return localPart.Length <= MaximumAllowableLength && Regex.IsMatch(localPart, ValidEmailAddressPattern);
-        }
-
-        /// <summary>
-        /// Gets the maximum length, inclusive, supported as the local part. 
-        /// </summary>
-        public static int MaximumAllowableLength
-        {
-            get { return 64; }
-        }
-
-        /// <summary>
-        /// Gets the pattern used by EmailAddressLocalPart to validate local parts.  This pattern is used
-        /// to validate for character content, but not for length.
-        /// </summary>
-        public static string ValidEmailAddressPattern
-        {
-            get { return pattern; }
         }
     }
 }

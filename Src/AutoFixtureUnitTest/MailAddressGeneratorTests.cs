@@ -50,16 +50,14 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreatesNoSpecimenWhenContextIsNull()
+        public void CreateWithNullContextThrows()
         {
             // Fixture setup
             var request = typeof(MailAddress);
-            var sut = new MailAddressGenerator();
-            //Exercise system
-            var result = sut.Create(request, null);
-            // Verify outcome
-            var expectedResult = new NoSpecimen(request);
-            Assert.Equal(expectedResult, result);
+            var sut = new MailAddressGenerator();            
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() => sut.Create(request, null));
+            // Teardown
         }
 
         [Fact]
@@ -72,18 +70,15 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 OnResolve = r =>
                {
-                   if (typeof(EmailAddressLocalPart).Equals(r))
-                   {
-                       return expectedLocalPart;
-                   }
-
-                   return new NoSpecimen(r);
+                   Assert.Equal(typeof(EmailAddressLocalPart), r);
+                   return expectedLocalPart;
                }
             };
             var sut = new MailAddressGenerator();
             // Exercise system
             var result = (MailAddress)sut.Create(request, context);
             // Verify outcome
+            Assert.Equal(expectedLocalPart.LocalPart, result.User);
             Assert.True(Regex.IsMatch(result.Host, @"example\.(com|org|net)"));
             // Teardown
         }
@@ -92,18 +87,36 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithMailAddressRequestReturnsNoSpecimenWhenContextReturnsNullLocalPart()
         {
             // Fixture setup
-            var request = typeof(MailAddress);
-            var expectedLocalPart = new EmailAddressLocalPart(Guid.NewGuid().ToString());
+            var request = typeof(MailAddress);         
             var context = new DelegatingSpecimenContext()
             {
                 OnResolve = r =>
                 {
-                    if (typeof(EmailAddressLocalPart).Equals(r))
-                    {
-                        return null;
-                    }
+                    Assert.Equal(typeof(EmailAddressLocalPart), r);
+                    return null;                    
+                }
+            };
+            var sut = new MailAddressGenerator();
+            // Exercise system
+            var expectedResult = new NoSpecimen(request);
+            var result = sut.Create(request, context);
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
 
-                    return new NoSpecimen(r);
+        [Fact]
+        public void CreateReturnsNoSpecimenWhenEmailAddressLocalPartIsInvalidForMailAddress()
+        {
+            // Fixture setup
+            var localPart = new EmailAddressLocalPart("@Invalid@");
+            var request = typeof(MailAddress);
+            var context = new DelegatingSpecimenContext()
+            {
+                OnResolve = r =>
+                {
+                    Assert.Equal(typeof(EmailAddressLocalPart), r);
+                    return localPart;
                 }
             };
             var sut = new MailAddressGenerator();
