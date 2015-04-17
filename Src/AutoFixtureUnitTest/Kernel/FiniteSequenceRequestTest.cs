@@ -19,20 +19,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        [Theory]
-        [InlineData(0)]
-        [InlineData(-1)]
-        public void InitializeWithInvalidCountThrows(int count)
+        [Fact]
+        public void InitializeWithInvalidCountThrows()
         {
             // Fixture setup
             var dummyRequest = new object();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentOutOfRangeException>(() =>
-                new FiniteSequenceRequest(dummyRequest, count));
+                new FiniteSequenceRequest(dummyRequest, -1));
             // Teardown
         }
 
         [Theory]
+        [InlineData(0)]
         [InlineData(1)]
         [InlineData(3)]
         [InlineData(10)]
