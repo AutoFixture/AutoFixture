@@ -44,11 +44,7 @@ namespace Ploeh.AutoFixture
             try
             {
                 return TryCreateMailAddress(request, context);
-            }
-            catch (ArgumentNullException)
-            {
-                return new NoSpecimen(request);
-            }
+            }           
             catch (ArgumentException)
             {
                 return new NoSpecimen(request);
