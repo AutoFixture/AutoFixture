@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NSubstitute;
 using Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
+using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
@@ -440,6 +441,31 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var result = sut.Take(repeatCount + 1).Count();
 
             Assert.Equal(repeatCount, result);
+        }
+
+        [Fact]
+        public void PropertiesOmittingSpecimenReturnsCorrectResult()
+        {
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            fixture.Customizations.Add(new Omitter(new ExactTypeSpecification(typeof (string))));
+            var sut = fixture.Create<IInterfaceWithProperty>();
+
+            var result = sut.Property;
+
+            Assert.Equal(string.Empty, result);
+        }
+
+        [Fact]
+        public void MethodsOmittingSpecimenReturnsCorrectResult()
+        {
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var anonymousString = fixture.Create<string>();
+            fixture.Customizations.Add(new Omitter(new ExactTypeSpecification(typeof(string))));
+            var sut = fixture.Create<IInterfaceWithMethod>();
+
+            var result = sut.Method(anonymousString);
+
+            Assert.Equal(string.Empty, result);
         }
 
         public interface IMyList<out T> : IEnumerable<T>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using NSubstitute;
 using NSubstitute.Core;
 using NSubstitute.Exceptions;
@@ -150,6 +151,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             private readonly object substitute;
             private readonly ISpecimenContext context;
 
+            private readonly List<Tuple<MethodInfo, object[]>> methodCalls =
+                new List<Tuple<MethodInfo, object[]>>();
+
             public SubstituteValueFactory(object substitute, ISpecimenContext context)
             {
                 if (substitute == null)
@@ -184,28 +188,43 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             public void ReturnsUsingContext<T>(MethodInfo methodInfo)
             {
-                InvokeMethod(methodInfo);
-                ReturnsForAnyArgs<T>(default(T), callInfo =>
-                {
-                    var value = new Lazy<T>(() => (T)Context.Resolve(typeof(T)));
-                    object[] arguments = callInfo.Args();
-                    ReturnsFixedValue(methodInfo, callInfo, value);
-                    var returnValue = value.Value;
-                    InvokeMethod(methodInfo, arguments);
+                Substitute
+                    .WhenForAnyArgs(_ => InvokeMethod(methodInfo))
+                    .Do(callInfo =>
+                    {
+                        var arguments = callInfo.Args();
+                        var call = Tuple.Create(methodInfo, arguments.ToArray());
+                        if (methodCalls.Any(
+                            x =>
+                                call.Item1 == x.Item1 &&
+                                call.Item2.SequenceEqual(x.Item2)))
+                            return;
+                        methodCalls.Add(call);
 
-                    return returnValue;
-                });
+                        var value = Resolve<T>();
+                        if (value is OmitSpecimen)
+                            return;
+
+                        ReturnsFixedValue(methodInfo, value);
+                        InvokeMethod(methodInfo, arguments);
+                    });
             }
 
-            private void ReturnsFixedValue<T>(MethodInfo methodInfo, CallInfo callInfo, Lazy<T> value)
+            private object Resolve<T>()
+            {
+                return Task.Factory
+                    .StartNew(() => Context.Resolve(typeof (T)))
+                    .Result;
+            }
+
+            private void ReturnsFixedValue<T>(MethodInfo methodInfo, T value)
             {
                 var refValues = GetFixedRefValues(methodInfo);
                 Returns<T>(default(T), x =>
                 {
                     SetRefValues(x, refValues);
-                    return value.Value;
+                    return value;
                 });
-                SetRefValues(callInfo, refValues);
             }
 
             private IEnumerable<Tuple<int, Lazy<object>>> GetFixedRefValues(MethodInfo methodInfo)
