@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Ploeh.AutoFixture.Kernel
@@ -11,6 +12,7 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly Type targetType;
         private readonly string targetName;
+        private readonly IEqualityComparer<string> nameComparison;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterSpecification"/> class.
@@ -28,6 +30,36 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="targetName"/> is <see langword="null"/>.
         /// </exception>
         public ParameterSpecification(Type targetType, string targetName)
+            : this(targetType, targetName, StringComparer.Ordinal)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterSpecification"/> class.
+        /// </summary>
+        /// <param name="targetType">
+        /// The <see cref="Type"/> with which the requested
+        /// <see cref="ParameterInfo"/> type should be compatible.
+        /// </param>
+        /// <param name="targetName">
+        /// The name which the requested <see cref="ParameterInfo"/> name
+        /// should match according to the specified
+        /// <paramref name="nameComparison"/> criteria.
+        /// </param>
+        /// <param name="nameComparison">
+        /// The criteria used to match the requested
+        /// <see cref="ParameterInfo"/> name with the specified
+        /// <paramref name="targetName"/>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="targetType"/> or
+        /// <paramref name="targetName"/> or
+        /// <paramref name="nameComparison"/> is <see langword="null"/>.
+        /// </exception>
+        public ParameterSpecification(
+            Type targetType,
+            string targetName,
+            IEqualityComparer<string> nameComparison)
         {
             if (targetType == null)
             {
@@ -39,8 +71,14 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("targetName");
             }
 
+            if (nameComparison == null)
+            {
+                throw new ArgumentNullException("nameComparison");
+            }
+
             this.targetType = targetType;
             this.targetName = targetName;
+            this.nameComparison = nameComparison;
         }
 
         /// <summary>
@@ -78,7 +116,7 @@ namespace Ploeh.AutoFixture.Kernel
 
             return IsRequestForParameter(request) &&
                    ParameterIsCompatibleWithTargetType(request) &&
-                   ParameterHasTargetName(request);
+                   ParameterMatchesTargetName(request);
         }
 
         private static bool IsRequestForParameter(object request)
@@ -93,9 +131,11 @@ namespace Ploeh.AutoFixture.Kernel
                    .IsAssignableFrom(this.targetType);
         }
 
-        private bool ParameterHasTargetName(object request)
+        private bool ParameterMatchesTargetName(object request)
         {
-            return ((ParameterInfo)request).Name == this.targetName;
+            return this.nameComparison.Equals(
+                ((ParameterInfo)request).Name,
+                this.targetName);
         }
     }
 }
