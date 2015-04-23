@@ -86,22 +86,22 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Theory]
-        [InlineData(typeof(Mock<object>), "")]
-        [InlineData(typeof(Mock<object>), null)]
-        public void CreateFromMockRequestWhenDecoratedBuilderReturnsNoMockReturnsCorrectResult(object request, object innerResult)
+        [ClassData(typeof (ValidNonMockSpecimens))]
+        public void CreateFromMockRequestWhenDecoratedBuilderReturnsValidNonMockSpecimenReturnsCorrectResult(
+            object validNonMockSpecimen)
         {
             // Fixture setup
+            var request = typeof (Mock<object>);
             var context = new Mock<ISpecimenContext>().Object;
 
             var builderStub = new Mock<ISpecimenBuilder>();
-            builderStub.Setup(b => b.Create(request, context)).Returns(innerResult);
+            builderStub.Setup(b => b.Create(request, context)).Returns(validNonMockSpecimen);
 
             var sut = new MockPostprocessor(builderStub.Object);
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome
-            var expectedResult = new NoSpecimen(request);
-            Assert.Equal(expectedResult, result);
+            Assert.Equal(validNonMockSpecimen, result);
             // Teardown
         }
 
