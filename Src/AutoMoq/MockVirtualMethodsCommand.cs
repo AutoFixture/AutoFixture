@@ -36,7 +36,6 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// <param name="context">The context of the mock.</param>
         public void Execute(object specimen, ISpecimenContext context)
         {
-            if (specimen == null) throw new ArgumentNullException("specimen");
             if (context == null) throw new ArgumentNullException("context");
 
             var mock = specimen as Mock;
