@@ -111,6 +111,7 @@
     <Compile Include="TestTypes\TypeWithStaticMethod.cs" />
     <Compile Include="TestTypes\TypeWithStaticProperty.cs" />
     <Compile Include="TestTypes\TypeWithVirtualMembers.cs" />
+    <Compile Include="ValidNonMockSpecimens.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
