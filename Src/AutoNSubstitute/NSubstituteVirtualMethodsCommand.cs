@@ -179,7 +179,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 ReturnsMethodInfo.Invoke(new object[] { value, returnThis });
             }
 
-            public void ReturnsUsingContext<T>(MethodInfo methodInfo)
+            public void ReturnsUsingContext(MethodInfo methodInfo)
             {
                 Substitute
                     .WhenForAnyArgs(_ => InvokeMethod(methodInfo))
@@ -194,7 +194,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                             return;
                         methodCalls.Add(call);
 
-                        var value = Resolve<T>();
+                        var value = Resolve(methodInfo.ReturnType);
                         if (value is OmitSpecimen)
                             return;
 
@@ -203,17 +203,17 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                     });
             }
 
-            private object Resolve<T>()
+            private object Resolve(Type type)
             {
                 return Task.Factory
-                    .StartNew(() => Context.Resolve(typeof (T)))
+                    .StartNew(() => Context.Resolve(type))
                     .Result;
             }
 
-            private void ReturnsFixedValue<T>(MethodInfo methodInfo, T value)
+            private void ReturnsFixedValue(MethodInfo methodInfo, object value)
             {
                 var refValues = GetFixedRefValues(methodInfo);
-                Returns<T>(default(T), x =>
+                Returns(null, x =>
                 {
                     SetRefValues(x, refValues);
                     return value;
@@ -233,7 +233,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 if (methodInfo.IsVoid())
                     return;
 
-                ReturnsUsingContextMethodInfo.MakeGenericMethod(methodInfo.ReturnType)
+                ReturnsUsingContextMethodInfo
                     .Invoke(this, new object[] { methodInfo });
             }
 
