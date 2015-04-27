@@ -240,7 +240,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             private static void SetRefValues(CallInfo callInfo, IEnumerable<Tuple<int, Lazy<object>>> values)
             {
                 foreach (var value in values)
-                    callInfo[value.Item1] = value.Item2.Value;
+                    if (!(value.Item2.Value is OmitSpecimen))
+                        callInfo[value.Item1] = value.Item2.Value;
             }
 
             private static IEnumerable<Tuple<int, ParameterInfo>> GetRefParameters(MethodInfo methodInfo)
