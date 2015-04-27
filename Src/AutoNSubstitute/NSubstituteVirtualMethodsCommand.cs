@@ -93,8 +93,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         {
             private static readonly MethodInfo ReturnsUsingContextMethodInfo =
                 typeof(SubstituteValueFactory).GetMethod("ReturnsUsingContext");
-            private static readonly IMethod ReturnsForAnyArgsMethodInfo =
-                GetNSubstituteMethod("ReturnsForAnyArgs");
             private static readonly IMethod ReturnsMethodInfo =
                 GetNSubstituteMethod("Returns");
 
@@ -174,11 +172,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             public ISpecimenContext Context
             {
                 get { return context; }
-            }
-
-            public static void ReturnsForAnyArgs<T>(T value, Func<CallInfo, T> returnThis)
-            {
-                ReturnsForAnyArgsMethodInfo.Invoke(new object[] { value, returnThis });
             }
 
             public static void Returns<T>(T value, Func<CallInfo, T> returnThis)
