@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Encapsulates a command that binds a property or a field to a value.
     /// </summary>
     /// <typeparam name="T">
-    /// The type of the specimn on which the property or value will be set.
+    /// The type of the specimen on which the property or value will be set.
     /// </typeparam>
     /// <typeparam name="TProperty">The type of property or field.</typeparam>
 #pragma warning disable 618

@@ -58,7 +58,7 @@ namespace Ploeh.AutoFixture
         /// <remarks>
         /// <para>
         /// The <paramref name="transformations" /> and subsequent
-        /// tranformations added to the instance are applied to a base graph.
+        /// transformations added to the instance are applied to a base graph.
         /// The base graph is found by looking for a node within the graph
         /// where <paramref name="wrappedGraphPredicate" /> returns true.
         /// </para>

@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void TranformResultCorrectlyDecoratesInput()
+        public void TransformResultCorrectlyDecoratesInput()
         {
             // Fixture setup
             var sut = new ThrowingRecursionBehavior();

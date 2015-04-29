@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void SpecificationsMatchesConstrucotrSpecifications()
+        public void SpecificationsMatchesConstructorSpecifications()
         {
             // Fixture setup
             var expectedSpecifications = new[] { new DelegatingRequestSpecification(), new DelegatingRequestSpecification(), new DelegatingRequestSpecification() };

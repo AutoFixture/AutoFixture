@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture
     public class SupportMutableValueTypesCustomization : ICustomization
     {
         /// <summary>
-        /// Customizes specified fixture by adding <see cref="MutableValueTypeGenerator"/> as a default stragety for 
+        /// Customizes specified fixture by adding <see cref="MutableValueTypeGenerator"/> as a default strategy for 
         /// creating new custom <see langword="struct"/> that has only default constructor.
         /// </summary>
         /// <param name="fixture">The fixture to customize.</param>

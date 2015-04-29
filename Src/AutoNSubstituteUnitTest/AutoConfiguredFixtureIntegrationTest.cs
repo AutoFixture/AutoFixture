@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NSubstitute;
 using Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
+using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
@@ -428,5 +429,77 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void InterfacesImplementingIEnumerableReturnFiniteSequence()
+        {
+            var fixture = new Fixture();
+            fixture.Customize(new AutoConfiguredNSubstituteCustomization());
+            var repeatCount = fixture.Create<int>();
+            fixture.RepeatCount = repeatCount;
+            var sut = fixture.Create<IMyList<string>>();
+
+            var result = sut.Take(repeatCount + 1).Count();
+
+            Assert.Equal(repeatCount, result);
+        }
+
+        [Fact]
+        public void PropertiesOmittingSpecimenReturnsCorrectResult()
+        {
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            fixture.Customizations.Add(new Omitter(new ExactTypeSpecification(typeof (string))));
+            var sut = fixture.Create<IInterfaceWithProperty>();
+
+            var result = sut.Property;
+
+            Assert.Equal(string.Empty, result);
+        }
+
+        [Fact]
+        public void MethodsOmittingSpecimenReturnsCorrectResult()
+        {
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var anonymousString = fixture.Create<string>();
+            fixture.Customizations.Add(new Omitter(new ExactTypeSpecification(typeof(string))));
+            var sut = fixture.Create<IInterfaceWithMethod>();
+
+            var result = sut.Method(anonymousString);
+
+            Assert.Equal(string.Empty, result);
+        }
+
+        [Fact]
+        public void RefMethodsOmittingSpecimenReturnsCorrectResult()
+        {
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var frozenString = fixture.Freeze<string>();
+            var intValue = fixture.Create<int>();
+            fixture.Customizations.Add(new Omitter(new ExactTypeSpecification(typeof(int))));
+            var sut = fixture.Create<IInterfaceWithRefIntMethod>();
+
+            var refResult = intValue;
+            var result = sut.Method(ref refResult);
+
+            Assert.Equal(frozenString, result);
+            Assert.Equal(intValue, refResult);
+        }
+
+        [Fact]
+        public void OutMethodsOmittingSpecimenReturnsCorrectResult()
+        {
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var intValue = fixture.Create<int>();
+            fixture.Customizations.Add(new Omitter(new ExactTypeSpecification(typeof(int))));
+            var sut = fixture.Create<IInterfaceWithOutMethod>();
+
+            var refResult = intValue;
+            sut.Method(out refResult);
+
+            Assert.Equal(intValue, refResult);
+        }
+
+        public interface IMyList<out T> : IEnumerable<T>
+        {
+        }
     }
 }

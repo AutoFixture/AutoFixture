@@ -52,12 +52,12 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         {
             // Fixture setup
             var sut = new RegularExpressionAttributeRelay();
-            var dymmyRequest = new object();
+            var dummyRequest = new object();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(dymmyRequest, dummyContainer);
+            var result = sut.Create(dummyRequest, dummyContainer);
             // Verify outcome
-            var expectedResult = new NoSpecimen(dymmyRequest);
+            var expectedResult = new NoSpecimen(dummyRequest);
             Assert.Equal(expectedResult, result);
             // Teardown
         }

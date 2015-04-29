@@ -759,7 +759,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void OmitAutoComparisonFollowedByCorrectComboOfDefaultEqualityAndExplictyWithReturnsTrue()
+        public void OmitAutoComparisonFollowedByCorrectComboOfDefaultEqualityAndExplicityWithReturnsTrue()
         {
             // Fixture setup
             var value = new QuadrupleParameterType<string, string, string, string>("Lorem", "ipsum", "dolor", "sit");
@@ -1211,7 +1211,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void ProxyOmitAutoComparisonFollowedByCorrectComboOfDefaultEqualityAndExplictyWithReturnsTrue()
+        public void ProxyOmitAutoComparisonFollowedByCorrectComboOfDefaultEqualityAndExplicitlyWithReturnsTrue()
         {
             // Fixture setup
             var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");

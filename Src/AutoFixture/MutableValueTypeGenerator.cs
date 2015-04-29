@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture
         private IRequestSpecification valueTypeWithoutConstructorsSpecification;
 
         /// <summary>
-        /// Creates new isntance.
+        /// Creates new instance.
         /// </summary>
         public MutableValueTypeGenerator()
         {

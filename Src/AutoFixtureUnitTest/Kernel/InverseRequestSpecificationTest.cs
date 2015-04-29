@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void SpecificationIsCorrecty()
+        public void SpecificationIsCorrectly()
         {
             // Fixture setup
             var expectedSpec = new DelegatingRequestSpecification();
@@ -58,7 +58,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void IsSatisfidByInvokesDecoratedSpecWithCorrectRequest()
+        public void IsSatisfiedByInvokesDecoratedSpecWithCorrectRequest()
         {
             // Fixture setup
             var expectedRequest = new object();

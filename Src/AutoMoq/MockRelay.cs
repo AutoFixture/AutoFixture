@@ -80,17 +80,22 @@ namespace Ploeh.AutoFixture.AutoMoq
             if (t == null)
                 return new NoSpecimen(request);
 
-            var m = MockRelay.ResolveMock(t, context);
+            var result = MockRelay.ResolveMock(t, context);
+            // Note: null is a valid specimen (e.g., returned by NullRecursionHandler)
+            if (result is NoSpecimen || result is OmitSpecimen || result == null)
+                return result;
+
+            var m = result as Mock;
             if (m == null)
                 return new NoSpecimen(request);
 
             return m.Object;
         }
 
-        private static Mock ResolveMock(Type t, ISpecimenContext context)
+        private static object ResolveMock(Type t, ISpecimenContext context)
         {
-            var mockType = typeof(Mock<>).MakeGenericType(t);
-            return context.Resolve(mockType) as Mock;
+            var mockType = typeof (Mock<>).MakeGenericType(t);
+            return context.Resolve(mockType);
         }
 
         private class IsMockableSpecification : IRequestSpecification

@@ -101,6 +101,7 @@
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
     <Compile Include="Kernel\CompositeSpecimenCommand.cs" />
+    <Compile Include="Kernel\EnumeratorRelay.cs" />
     <Compile Include="Kernel\GenericMethod.cs" />
     <Compile Include="Kernel\IMethodFactory.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingMethodFactory.cs" />

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Moq;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
@@ -122,6 +124,40 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Verify outcome
             var expectedResult = new NoSpecimen(request);
             Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        public class ValidNonMockSpecimens : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] {new NoSpecimen()};
+                yield return new object[] {new OmitSpecimen()};
+                yield return new object[] {null};
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
+        [Theory]
+        [ClassData(typeof (ValidNonMockSpecimens))]
+        public void CreateReturnsCorrectResultWhenContextReturnsValidNonMockSpecimen(object validNonMockSpecimen)
+        {
+            // Fixture setup
+            var request = typeof (IInterface);
+            var mockType = typeof (Mock<>).MakeGenericType(request);
+
+            var contextStub = new Mock<ISpecimenContext>();
+            contextStub.Setup(ctx => ctx.Resolve(mockType)).Returns(validNonMockSpecimen);
+
+            var sut = new MockRelay();
+            // Exercise system
+            var result = sut.Create(request, contextStub.Object);
+            // Verify outcome
+            Assert.Equal(validNonMockSpecimen, result);
             // Teardown
         }
 

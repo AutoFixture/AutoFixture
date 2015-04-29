@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture
         /// for a specific range of dates.
         /// </summary>
         /// <param name="minDate">The lower bound of the date range.</param>
-        /// <param name="maxDate">The uppder bound of the date range.</param>
+        /// <param name="maxDate">The upper bound of the date range.</param>
         /// <exception cref="ArgumentException">
         /// <paramref name="minDate"/> is greater than <paramref name="maxDate"/>.
         /// </exception>

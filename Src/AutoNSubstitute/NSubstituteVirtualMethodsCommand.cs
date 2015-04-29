@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using NSubstitute;
 using NSubstitute.Core;
 using NSubstitute.Exceptions;
@@ -92,8 +93,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         {
             private static readonly MethodInfo ReturnsUsingContextMethodInfo =
                 typeof(SubstituteValueFactory).GetMethod("ReturnsUsingContext");
-            private static readonly IMethod ReturnsForAnyArgsMethodInfo =
-                GetNSubstituteMethod("ReturnsForAnyArgs");
             private static readonly IMethod ReturnsMethodInfo =
                 GetNSubstituteMethod("Returns");
 
@@ -150,6 +149,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             private readonly object substitute;
             private readonly ISpecimenContext context;
 
+            private readonly List<Tuple<MethodInfo, object[]>> methodCalls =
+                new List<Tuple<MethodInfo, object[]>>();
+
             public SubstituteValueFactory(object substitute, ISpecimenContext context)
             {
                 if (substitute == null)
@@ -172,40 +174,50 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 get { return context; }
             }
 
-            public static void ReturnsForAnyArgs<T>(T value, Func<CallInfo, T> returnThis)
-            {
-                ReturnsForAnyArgsMethodInfo.Invoke(new object[] { value, returnThis });
-            }
-
             public static void Returns<T>(T value, Func<CallInfo, T> returnThis)
             {
                 ReturnsMethodInfo.Invoke(new object[] { value, returnThis });
             }
 
-            public void ReturnsUsingContext<T>(MethodInfo methodInfo)
+            public void ReturnsUsingContext(MethodInfo methodInfo)
             {
-                InvokeMethod(methodInfo);
-                ReturnsForAnyArgs<T>(default(T), callInfo =>
-                {
-                    var value = new Lazy<T>(() => (T)Context.Resolve(typeof(T)));
-                    object[] arguments = callInfo.Args();
-                    ReturnsFixedValue(methodInfo, callInfo, value);
-                    var returnValue = value.Value;
-                    InvokeMethod(methodInfo, arguments);
+                Substitute
+                    .WhenForAnyArgs(_ => InvokeMethod(methodInfo))
+                    .Do(callInfo =>
+                    {
+                        var arguments = callInfo.Args();
+                        var call = Tuple.Create(methodInfo, arguments.ToArray());
+                        if (methodCalls.Any(
+                            x =>
+                                call.Item1 == x.Item1 &&
+                                call.Item2.SequenceEqual(x.Item2)))
+                            return;
+                        methodCalls.Add(call);
 
-                    return returnValue;
-                });
+                        var value = Resolve(methodInfo.ReturnType);
+                        if (value is OmitSpecimen)
+                            return;
+
+                        ReturnsFixedValue(methodInfo, value);
+                        InvokeMethod(methodInfo, arguments);
+                    });
             }
 
-            private void ReturnsFixedValue<T>(MethodInfo methodInfo, CallInfo callInfo, Lazy<T> value)
+            private object Resolve(Type type)
+            {
+                return Task.Factory
+                    .StartNew(() => Context.Resolve(type))
+                    .Result;
+            }
+
+            private void ReturnsFixedValue(MethodInfo methodInfo, object value)
             {
                 var refValues = GetFixedRefValues(methodInfo);
-                Returns<T>(default(T), x =>
+                Returns(null, x =>
                 {
                     SetRefValues(x, refValues);
-                    return value.Value;
+                    return value;
                 });
-                SetRefValues(callInfo, refValues);
             }
 
             private IEnumerable<Tuple<int, Lazy<object>>> GetFixedRefValues(MethodInfo methodInfo)
@@ -221,14 +233,15 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 if (methodInfo.IsVoid())
                     return;
 
-                ReturnsUsingContextMethodInfo.MakeGenericMethod(methodInfo.ReturnType)
+                ReturnsUsingContextMethodInfo
                     .Invoke(this, new object[] { methodInfo });
             }
 
             private static void SetRefValues(CallInfo callInfo, IEnumerable<Tuple<int, Lazy<object>>> values)
             {
                 foreach (var value in values)
-                    callInfo[value.Item1] = value.Item2.Value;
+                    if (!(value.Item2.Value is OmitSpecimen))
+                        callInfo[value.Item1] = value.Item2.Value;
             }
 
             private static IEnumerable<Tuple<int, ParameterInfo>> GetRefParameters(MethodInfo methodInfo)

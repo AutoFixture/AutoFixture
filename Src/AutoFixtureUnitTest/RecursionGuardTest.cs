@@ -163,7 +163,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var sut = new DelegatingRecursionGuard(builder) { OnHandleRecursiveRequest = o =>
             {
-                throw new PrivatUnexpectedException("Recursive handling should not be triggered.");
+                throw new PrivateUnexpectedException("Recursive handling should not be triggered.");
             }};
 
             var dummyContext = new DelegatingSpecimenContext();
@@ -184,9 +184,9 @@ namespace Ploeh.AutoFixtureUnitTest
             }
         }
 
-        class PrivatUnexpectedException : Exception
+        class PrivateUnexpectedException : Exception
         {
-            public PrivatUnexpectedException(string message)
+            public PrivateUnexpectedException(string message)
                 : base(message)
             {
             }

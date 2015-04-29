@@ -51,8 +51,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
-            var customization = Assert.Single(residueCollectors);
-            var postprocessor = Assert.IsAssignableFrom<Postprocessor>(customization);
+            var postprocessor =
+                Assert.Single(residueCollectors.OfType<Postprocessor>());
             var nsubstituteBuilder = Assert.IsAssignableFrom<NSubstituteBuilder>(postprocessor.Builder);
             var methodInvoker = Assert.IsAssignableFrom<MethodInvoker>(nsubstituteBuilder.Builder);
             Assert.IsAssignableFrom<AbstractTypeSpecification>(nsubstituteBuilder.SubstitutionSpecification);
@@ -74,8 +74,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 
             sut.Customize(fixture);
 
-            var customization = Assert.Single(residueCollectors);
-            var postprocessor = Assert.IsAssignableFrom<Postprocessor>(customization);
+            var postprocessor =
+                Assert.Single(residueCollectors.OfType<Postprocessor>());
             Assert.Equal(builder, postprocessor.Builder);
         }
     }

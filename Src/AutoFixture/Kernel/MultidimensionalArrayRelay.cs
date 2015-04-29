@@ -78,12 +78,12 @@ namespace Ploeh.AutoFixture.Kernel
         private static void Copy(Array array, int dimension, Array jagged, params int[] indices)
         {
             if (dimension > 1)
-                CopyNextDemension(array, dimension, jagged, indices);
+                CopyNextDimension(array, dimension, jagged, indices);
             else
                 CopyLastDimension(array, jagged, indices);
         }
 
-        private static void CopyNextDemension(Array array, int dimension, Array jagged, int[] indices)
+        private static void CopyNextDimension(Array array, int dimension, Array jagged, int[] indices)
         {
             for (int i = 0; i < jagged.Length; i++)
                 Copy(array, dimension - 1, (Array)jagged.GetValue(i), indices.Concat(new[] { i }).ToArray());

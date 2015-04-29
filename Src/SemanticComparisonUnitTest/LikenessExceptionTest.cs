@@ -69,9 +69,9 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void InitializedWithMessageAndInnerExceptionHasInnerException()
         {
             // Fixture setup
-            var dummeMessage = "Anonymous text";
+            var dummyMessage = "Anonymous text";
             var expectedException = new Exception();
-            var sut = new LikenessException(dummeMessage, expectedException);
+            var sut = new LikenessException(dummyMessage, expectedException);
             // Exercise system
             var result = sut.InnerException;
             // Verify outcome

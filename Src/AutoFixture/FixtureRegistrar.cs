@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>
-        /// Registers a creation function for a specifc type.
+        /// Registers a creation function for a specific type.
         /// </summary>
         /// <typeparam name="T">
         /// The type for which <paramref name="creator"/> should be registered.

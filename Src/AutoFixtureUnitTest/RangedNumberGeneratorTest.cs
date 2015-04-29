@@ -113,7 +113,7 @@ namespace Ploeh.AutoFixtureUnitTest
         [InlineData(-10.1, 10.2)]
         [InlineData(-10.0, 10.2)]
         [InlineData(-10.1, 10.0)]
-        public void CreateReturnsCorrectResultWithMininumMaximumOnMultipleCall(
+        public void CreateReturnsCorrectResultWithMinimumMaximumOnMultipleCall(
             double minimum,
             double maximum)
         {

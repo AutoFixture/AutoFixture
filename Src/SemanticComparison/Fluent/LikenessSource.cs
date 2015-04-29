@@ -9,7 +9,7 @@
         private readonly TSource value;
 
         /// <summary>
-        /// Intializes a new instance of the <see cref="LikenessSource{TSource}"/> class with the supplied
+        /// Initializes a new instance of the <see cref="LikenessSource{TSource}"/> class with the supplied
         /// value.
         /// </summary>
         /// <param name="value">The source value.</param>

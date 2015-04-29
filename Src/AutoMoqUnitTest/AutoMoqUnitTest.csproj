@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoConfiguredMoqCustomizationTest.cs" />
+    <Compile Include="AutoMockPropertiesCommandTest.cs" />
     <Compile Include="AutoMoqCustomizationTest.cs" />
     <Compile Include="FixtureIntegrationWithAutoConfiguredMoqCustomizationTest.cs" />
     <Compile Include="GreedyMockConstructorQueryTest.cs" />
@@ -86,14 +87,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MockSealedPropertiesCommandTest.cs" />
     <Compile Include="MockVirtualMethodsCommandTest.cs" />
+    <Compile Include="StubPropertiesCommandTest.cs" />
     <Compile Include="TestTypes\IDerivedInterface.cs" />
     <Compile Include="TestTypes\IInterfaceWithGenericMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithIndexer.cs" />
     <Compile Include="TestTypes\IInterfaceWithMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithNewMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithoutMembers.cs" />
     <Compile Include="TestTypes\IInterfaceWithOutMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithParameterlessMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithProperty.cs" />
+    <Compile Include="TestTypes\IInterfaceWithPropertyWithCircularDependency.cs" />
     <Compile Include="TestTypes\IInterfaceWithRefMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithVoidMethod.cs" />
     <Compile Include="TestTypes\TypeWithConstField.cs" />

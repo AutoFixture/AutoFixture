@@ -359,7 +359,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWillUseRegisterdMappingWithTripleParameters()
+        public void CreateAnonymousWillUseRegisteredMappingWithTripleParameters()
         {
             // Fixture setup
             Fixture sut = new Fixture();
@@ -551,7 +551,7 @@ namespace Ploeh.AutoFixtureUnitTest
         [Fact]
         public void CreateAnonymousWithSignedBytePropertyTwiceWillAssignDifferentValues()
         {
-            // Fixture setpu
+            // Fixture setup
             Fixture sut = new Fixture();
             PropertyHolder<sbyte> ph = sut.Create<PropertyHolder<sbyte>>();
             // Exercise system
@@ -692,7 +692,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithInt64PropertyWillAssignNonDefaulValue()
+        public void CreateAnonymousWithInt64PropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
             long unexpectedNumber = default(long);
@@ -954,7 +954,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithGuidProperyWillAssignNonDefaultValue()
+        public void CreateAnonymousWithGuidPropertyWillAssignNonDefaultValue()
         {
             // Fixture setup
             Guid unexpectedGuid = default(Guid);
@@ -3040,7 +3040,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void FreezeWithNullTranformationThrows()
+        public void FreezeWithNullTransformationThrows()
         {
             // Fixture setup
             var sut = new Fixture();
@@ -3323,7 +3323,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousOnReqisteredParameterlessFuncWillReturnInstanceWithoutAutoProperties()
+        public void CreateAnonymousOnRegisteredParameterlessFuncWillReturnInstanceWithoutAutoProperties()
         {
             // Fixture setup
             var item = new PropertyHolder<string>();
@@ -3337,7 +3337,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousOnReqisteredSingleParameterFuncWillReturnInstanceWithoutAutoProperties()
+        public void CreateAnonymousOnRegisteredSingleParameterFuncWillReturnInstanceWithoutAutoProperties()
         {
             // Fixture setup
             var item = new PropertyHolder<string>();
@@ -3351,7 +3351,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousOnReqisteredDoubleParameterFuncWillReturnInstanceWithoutAutoProperties()
+        public void CreateAnonymousOnRegisteredDoubleParameterFuncWillReturnInstanceWithoutAutoProperties()
         {
             // Fixture setup
             var item = new PropertyHolder<string>();
@@ -3365,7 +3365,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousOnReqisteredTripleParameterFuncWillReturnInstanceWithoutAutoProperties()
+        public void CreateAnonymousOnRegisteredTripleParameterFuncWillReturnInstanceWithoutAutoProperties()
         {
             // Fixture setup
             var item = new PropertyHolder<string>();
@@ -3379,7 +3379,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousOnReqisteredQuadrupleParameterFuncWillReturnInstanceWithoutAutoProperties()
+        public void CreateAnonymousOnRegisteredQuadrupleParameterFuncWillReturnInstanceWithoutAutoProperties()
         {
             // Fixture setup
             var item = new PropertyHolder<string>();
@@ -4112,7 +4112,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
         [Fact]
         [Obsolete]
-        public void BuildAndOmitAutoPropetiesWillNotMutateSutObsolete()
+        public void BuildAndOmitAutoPropertiesWillNotMutateSutObsolete()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -4126,7 +4126,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void BuildAndOmitAutoPropetiesWillNotMutateSut()
+        public void BuildAndOmitAutoPropertiesWillNotMutateSut()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -4141,7 +4141,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
         [Fact]
         [Obsolete]
-        public void BuildWithAutoPropetiesWillNotMutateSutObsolete()
+        public void BuildWithAutoPropertiesWillNotMutateSutObsolete()
         {
             // Fixture setup
             var fixture = new Fixture() { OmitAutoProperties = true };
@@ -4155,7 +4155,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void BuildWithAutoPropetiesWillNotMutateSut()
+        public void BuildWithAutoPropertiesWillNotMutateSut()
         {
             // Fixture setup
             var fixture = new Fixture() { OmitAutoProperties = true };
@@ -5145,6 +5145,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
+        [InlineData(typeof(EnumeratorRelay))]
         [InlineData(typeof(EnumerableRelay))]
         [InlineData(typeof(ListRelay))]
         [InlineData(typeof(CollectionRelay))]
@@ -5706,6 +5707,37 @@ namespace Ploeh.AutoFixtureUnitTest
             var actual = result.Value;
             // Verify outcome
             Assert.NotNull(actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreatesEnumerator()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system and verify outcome
+            IEnumerator<int> result = null;
+            Assert.DoesNotThrow(() => result = fixture.Create<IEnumerator<int>>());
+            Assert.NotNull(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreatesEnumeratorWithSpecifiedNumberOfItems()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var expectedCount = fixture.RepeatCount;
+            // Exercise system
+            var result = fixture.Create<IEnumerator<int>>();
+            // Verify outcome
+            int count = 0;
+            while (result.MoveNext())
+            {
+                count ++;
+                Assert.True(count <= expectedCount);
+            }
+            Assert.Equal(expectedCount, count);
             // Teardown
         }
     }

@@ -155,7 +155,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(typeof(TypeWithGenericMethod), 3, new object[] { "a", "b" })]
         [InlineData(typeof(TypeWithGenericMethod), 4, new object[] { 1, "a" })]
         [InlineData(typeof(TypeWithGenericMethod), 5, new object[] { })]
-        public void InvokeWithGenericMethodThatCannotBeInferedThrows(Type targetType, int index, object values)
+        public void InvokeWithGenericMethodThatCannotBeInferredThrows(Type targetType, int index, object values)
         {
             var method = (from mi in targetType
                               .GetMethods(BindingFlags.Static | BindingFlags.Public)

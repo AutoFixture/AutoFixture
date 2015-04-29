@@ -814,7 +814,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var sut = new GuardClauseAssertion(new Fixture());
-            var staticProperty = typeof(UngardedStaticPropertyOnStaticTypeHost).GetProperty("Property");
+            var staticProperty = typeof(UnguardedStaticPropertyOnStaticTypeHost).GetProperty("Property");
             Assert.NotNull(staticProperty);
             // Exercise system & Verify outcome
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticProperty));
@@ -838,7 +838,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             // Fixture setup
             var sut = new GuardClauseAssertion(new Fixture());
-            var staticMethod = typeof(UngardedStaticMethodOnStaticTypeHost).GetMethod("Method");
+            var staticMethod = typeof(UnguardedStaticMethodOnStaticTypeHost).GetMethod("Method");
             Assert.NotNull(staticMethod);
             // Exercise system & Verify outcome
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticMethod));

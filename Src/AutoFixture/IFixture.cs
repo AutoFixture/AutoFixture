@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <remarks>
         /// <para>
-        /// It is expected that residue collectors provide fallback mechanisms if no ealier
+        /// It is expected that residue collectors provide fallback mechanisms if no earlier
         /// <see cref="ISpecimenBuilder"/> can handle a request.
         /// </para>
         /// </remarks>
@@ -75,7 +75,7 @@ namespace Ploeh.AutoFixture
         /// <para>
         /// Note to implementers: the returned <see cref="IFixture"/> is expected to have
         /// <paramref name="customization"/> applied. Whether the return value is the same instance
-        /// as the current instance, or a copy is unspecfied.
+        /// as the current instance, or a copy is unspecified.
         /// </para>
         /// </remarks>
         IFixture Customize(ICustomization customization);

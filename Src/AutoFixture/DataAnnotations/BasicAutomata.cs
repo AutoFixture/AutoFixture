@@ -145,7 +145,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// the given interval.
         /// </summary>
         /// <param name="min">The minimum value of interval.</param>
-        /// <param name="max">The maximum value of inverval (both end points are included in the 
+        /// <param name="max">The maximum value of interval (both end points are included in the 
         /// interval).</param>
         /// <param name="digits">If f >0, use fixed number of digits (strings must be prefixed by 0's 
         /// to obtain the right length) otherwise, the number of digits is not fixed.</param>

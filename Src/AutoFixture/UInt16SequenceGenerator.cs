@@ -22,7 +22,7 @@ namespace Ploeh.AutoFixture
         /// <summary>
         /// Creates an anonymous number.
         /// </summary>
-        /// <returns>The next number in a consequtive sequence.</returns>
+        /// <returns>The next number in a consecutive sequence.</returns>
         [CLSCompliant(false)]
         public ushort CreateAnonymous()
         {
@@ -38,7 +38,7 @@ namespace Ploeh.AutoFixture
         /// <param name="request">The request that describes what to create.</param>
         /// <param name="context">Not used.</param>
         /// <returns>
-        /// The next number in a consequtive sequence, if <paramref name="request"/> is a request
+        /// The next number in a consecutive sequence, if <paramref name="request"/> is a request
         /// for an unsigned 16-bit integer; otherwise, a <see cref="NoSpecimen"/> instance.
         /// </returns>
         public object Create(object request, ISpecimenContext context)

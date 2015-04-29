@@ -6,7 +6,7 @@ namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
     /// Relays a request for an <see cref="ICollection{T}" /> to a request for a
-    /// <see cref="List{T}"/> and retuns the result.
+    /// <see cref="List{T}"/> and returns the result.
     /// </summary>
     public class CollectionRelay : ISpecimenBuilder
     {

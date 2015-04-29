@@ -56,8 +56,8 @@ namespace Ploeh.AutoFixture.Kernel
         /// <remarks>
         /// <para>
         /// It may seem a little strange that any <see cref="OmitSpecimen" /> instance is equal to
-        /// any other instance of that type, but the class is a pure signal type thatcarries no
-        /// state, so there's no reason to distinguish between instances. In essense, it could just
+        /// any other instance of that type, but the class is a pure signal type that carries no
+        /// state, so there's no reason to distinguish between instances. In essence, it could just
         /// as well have been modeled as a Singleton, but wasn't because it seems to bring no
         /// particular extra benefit.
         /// </para>

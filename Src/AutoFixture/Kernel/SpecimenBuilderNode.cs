@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="second" />.
         /// </param>
         /// <param name="second">
-        /// An <see cref="ISpecimenBuilderNode" /> to cmpare against
+        /// An <see cref="ISpecimenBuilderNode" /> to compare against
         /// <paramref name="first" />.
         /// </param>
         /// <returns>
@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="second" />.
         /// </param>
         /// <param name="second">
-        /// An <see cref="ISpecimenBuilderNode" /> to cmpare against
+        /// An <see cref="ISpecimenBuilderNode" /> to compare against
         /// <paramref name="first" />.
         /// </param>
         /// <param name="comparer">

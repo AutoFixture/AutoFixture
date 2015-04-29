@@ -198,7 +198,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         public void CompareAnonymousTypeSemanticallyToStringFieldHolderWillIndicateEqualityWhenValuesAreEqual()
         {
             // Fixture setup
-            string anonymousText = "Anonymou text";
+            string anonymousText = "Anonymous text";
 
             var likenObject = new
             {

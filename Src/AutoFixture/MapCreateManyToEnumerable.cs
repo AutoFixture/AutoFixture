@@ -22,7 +22,7 @@ namespace Ploeh.AutoFixture
     /// sequence.
     /// </para>
     /// <para>
-    /// If you want to change this default behaviour, you can use this
+    /// If you want to change this default behavior, you can use this
     /// customization.
     /// </para>
     /// </remarks>
@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture
         /// <para>
         /// Customizes a <see cref="IFixture" /> so that
         /// <see cref="SpecimenFactory.CreateMany{T}(ISpecimenBuilder)" />
-        /// exhibits the same behaviour as a request to create
+        /// exhibits the same behavior as a request to create
         /// <see cref="IEnumerable{T}" />.
         /// </para>
         /// </remarks>

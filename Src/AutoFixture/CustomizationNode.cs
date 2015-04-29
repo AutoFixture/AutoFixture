@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixture
         }
 
         /// <summary>Returns the decorated builder as a sequence.</summary>
-        /// <returns><see cref="Builder" /> wrappen in an Iterator.</returns>
+        /// <returns><see cref="Builder" /> wrapped in an Iterator.</returns>
         /// <seealso cref="Builder" />
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {

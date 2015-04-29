@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public IEnumerable<string> EnumerableString { get; set; }
         public string[] StringArray { get; set; }
         public List<ConcreteType> ListOfConcreteTypesAssignedByCtorOnly { get; private set; }
-        public ObservableCollection<ConcreteType> ObserableCollectionOfConcreteTypes { get; set; }
+        public ObservableCollection<ConcreteType> ObservableCollectionOfConcreteTypes { get; set; }
         public Dictionary<string, ConcreteType> DictionaryOfConcreteTypes { get; set; }
         public byte[] ArrayOfBytes { get; set; }
         public char[] ArrayOfChars { get; set; }

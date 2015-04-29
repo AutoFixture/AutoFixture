@@ -75,6 +75,7 @@
     <Compile Include="TestTypes\IInterfaceWithOutMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithParameterlessMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithProperty.cs" />
+    <Compile Include="TestTypes\IInterfaceWithRefIntMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithRefMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithParameterVoidMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithShadowedMethod.cs" />
