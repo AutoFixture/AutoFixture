@@ -152,7 +152,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// comparing requests to determine recursion.
         /// </param>
         /// <param name="recursionDepth">The recursion depth at which the request will be treated as a recursive
-        /// request</param>
+        /// request.</param>
         /// <exception cref="System.ArgumentNullException">
         /// builder
         /// or
@@ -160,6 +160,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// or
         /// comparer
         /// </exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">recursionDepth is less than zero.</exception>
         public RecursionGuard(
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler,
@@ -172,6 +173,9 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("recursionHandler");
             if (comparer == null)
                 throw new ArgumentNullException("comparer");
+
+            if (recursionDepth < 1)
+                throw new ArgumentOutOfRangeException("recursionDepth");
 
             this.builder = builder;
             this.recursionHandler = recursionHandler;

@@ -77,5 +77,15 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(expectedBuilder, guard.Builder);
             // Teardown
         }
+
+        [Fact]
+        public void ConstructorWithRecusionDepthLowerThanOneThrows()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                new OmitOnRecursionBehavior(0));
+            // Teardown
+        }
     }
 }

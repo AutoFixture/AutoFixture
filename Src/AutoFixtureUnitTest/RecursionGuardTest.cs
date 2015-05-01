@@ -657,5 +657,18 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.True(specimens.All(s => s == 99));
             // Teardown
         }
+
+        [Fact]
+        public void ConstructorWithRecusionDepthLowerThanOneThrows()
+        {
+            // Fixture setup
+            var dummyBuilder = new DelegatingSpecimenBuilder();
+            var dummyHandler = new DelegatingRecursionHandler();
+            var dummyComparer = new DelegatingEqualityComparer();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                new RecursionGuard(dummyBuilder, dummyHandler, dummyComparer, 0));
+            // Teardown
+        }
     }
 }
