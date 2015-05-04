@@ -205,6 +205,14 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             private object Resolve(Type type)
             {
+                // NSubstitute uses a static property SubstitutionContext.Current
+                // to get and set the state of its substitutes.
+                // However, it uses ThreadLocal so one thread does not
+                // interfere in another.
+                // For this reason, Context.Resolve needs to run in another thread,
+                // otherwise, NSubstitute would not be able to set up the methods
+                // that return a circular reference.
+                // See discussion at https://github.com/AutoFixture/AutoFixture/pull/397
                 return Task.Factory
                     .StartNew(() => Context.Resolve(type))
                     .Result;
