@@ -68,11 +68,14 @@ namespace Ploeh.AutoFixture.AutoMoq
             where TMock : class
         {
             return setup.Returns(() =>
-                {
-                    var result = (TResult) context.Resolve(typeof (TResult));
-                    setup.Returns(result);
-                    return result;
-                });
+            {
+                var specimen = context.Resolve(typeof (TResult));
+                TResult result = specimen is TResult ? (TResult) specimen : default(TResult);
+
+                //"cache" value for future invocations
+                setup.Returns(result);
+                return result;
+            });
         }
     }
 }

@@ -63,5 +63,33 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var result = mock.Object.Property;
             fixture.Verify(f => f.Create(typeof (string), It.IsAny<SpecimenContext>()), Times.Once());
         }
+
+        [Fact]
+        public void ReturnsUsingFixtureSetsMockUpWithNullWhenContextReturnsNull()
+        {
+            // Fixture setup
+            var mock = new Mock<IInterfaceWithProperty>();
+            var fixture = new Mock<ISpecimenBuilder>();
+            fixture.Setup(f => f.Create(typeof (string), It.IsAny<ISpecimenContext>()))
+                .Returns(null as Type);
+            // Exercise system
+            mock.Setup(x => x.Property).ReturnsUsingFixture(fixture.Object);
+            // Verify outcome
+            Assert.Null(mock.Object.Property);
+        }
+
+        [Fact]
+        public void ReturnsUsingFixtureSetsMockUpWithNullWhenContextReturnsOmitSpecimen()
+        {
+            // Fixture setup
+            var mock = new Mock<IInterfaceWithProperty>();
+            var fixture = new Mock<ISpecimenBuilder>();
+            fixture.Setup(f => f.Create(typeof (string), It.IsAny<ISpecimenContext>()))
+                .Returns(new OmitSpecimen());
+            // Exercise system
+            mock.Setup(x => x.Property).ReturnsUsingFixture(fixture.Object);
+            // Verify outcome
+            Assert.Null(mock.Object.Property);
+        }
     }
 }
