@@ -90,6 +90,7 @@
     <Compile Include="TestTypes\IInterfaceWithGenericMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithIndexer.cs" />
     <Compile Include="TestTypes\IInterfaceWithMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithMethodWithOutParameterOfReferenceType.cs" />
     <Compile Include="TestTypes\IInterfaceWithNewMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithoutMembers.cs" />
     <Compile Include="TestTypes\IInterfaceWithOutMethod.cs" />

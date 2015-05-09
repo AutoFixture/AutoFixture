@@ -51,19 +51,22 @@ namespace Ploeh.AutoFixture.AutoMoq
                 var returnType = method.ReturnType;
                 var methodInvocationLambda = MakeMethodInvocationLambda(mockedType, method, context);
 
-                if (method.IsVoid())
+                if (methodInvocationLambda != null)
                 {
-                    this.GetType()
-                        .GetMethod("SetupVoidMethod", BindingFlags.NonPublic | BindingFlags.Static)
-                        .MakeGenericMethod(mockedType)
-                        .Invoke(this, new object[] {mock, methodInvocationLambda});
-                }
-                else
-                {
-                    this.GetType()
-                        .GetMethod("SetupMethod", BindingFlags.NonPublic | BindingFlags.Static)
-                        .MakeGenericMethod(mockedType, returnType)
-                        .Invoke(this, new object[] {mock, methodInvocationLambda, context});
+                    if (method.IsVoid())
+                    {
+                        this.GetType()
+                            .GetMethod("SetupVoidMethod", BindingFlags.NonPublic | BindingFlags.Static)
+                            .MakeGenericMethod(mockedType)
+                            .Invoke(this, new object[] {mock, methodInvocationLambda});
+                    }
+                    else
+                    {
+                        this.GetType()
+                            .GetMethod("SetupMethod", BindingFlags.NonPublic | BindingFlags.Static)
+                            .MakeGenericMethod(mockedType, returnType)
+                            .Invoke(this, new object[] {mock, methodInvocationLambda, context});
+                    }
                 }
             }
         }
@@ -141,6 +144,9 @@ namespace Ploeh.AutoFixture.AutoMoq
                                          .Select(param => MakeParameterExpression(param, context))
                                          .ToList();
 
+            if (methodCallParams.Any(exp => exp == null))
+                return null;
+
             //e.g. "x.Method(It.IsAny<string>(), out parameter)"
             var methodCall = Expression.Call(lambdaParam, method, methodCallParams);
 
@@ -159,6 +165,9 @@ namespace Ploeh.AutoFixture.AutoMoq
 
                 //resolve the "out" param from the context
                 object variable = context.Resolve(underlyingType);
+
+                if (variable is OmitSpecimen)
+                    return null;
 
                 return Expression.Constant(variable, underlyingType);
             }
