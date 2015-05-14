@@ -6,6 +6,7 @@ using Xunit;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -78,13 +79,16 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
-        public void ConstructorWithRecusionDepthLowerThanOneThrows()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-7)]
+        [InlineData(-42)]
+        public void ConstructorWithRecusionDepthLowerThanOneThrows(int recursionDeph)
         {
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentOutOfRangeException>(() =>
-                new OmitOnRecursionBehavior(0));
+                new OmitOnRecursionBehavior(recursionDeph));
             // Teardown
         }
     }
