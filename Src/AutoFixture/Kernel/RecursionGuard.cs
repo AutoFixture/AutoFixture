@@ -175,7 +175,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("comparer");
 
             if (recursionDepth < 1)
-                throw new ArgumentOutOfRangeException("recursionDepth");
+                throw new ArgumentOutOfRangeException("recursionDepth", "Recursion depth must be greater than 0.");
 
             this.builder = builder;
             this.recursionHandler = recursionHandler;

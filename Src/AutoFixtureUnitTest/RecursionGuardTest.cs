@@ -658,8 +658,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
-        public void ConstructorWithRecusionDepthLowerThanOneThrows()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-7)]
+        [InlineData(-42)]
+        public void ConstructorWithRecusionDepthLowerThanOneThrows(int recursionDepth)
         {
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
@@ -667,7 +670,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyComparer = new DelegatingEqualityComparer();
             // Exercise system and verify outcome
             Assert.Throws<ArgumentOutOfRangeException>(() =>
-                new RecursionGuard(dummyBuilder, dummyHandler, dummyComparer, 0));
+                new RecursionGuard(dummyBuilder, dummyHandler, dummyComparer, recursionDepth));
             // Teardown
         }
     }
