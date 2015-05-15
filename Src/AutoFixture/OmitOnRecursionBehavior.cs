@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixture
         /// Initializes new instance of the <see cref="OmitOnRecursionBehavior" /> class with specific recursion depth.
         /// </summary>
         /// <param name="recursionDepth">The recursion depth at which the request will be omitted.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException">recursionDepth is less than zero.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">recursionDepth is less than one.</exception>
         public OmitOnRecursionBehavior(int recursionDepth)
         {
             if (recursionDepth < 1)

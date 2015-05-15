@@ -160,7 +160,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// or
         /// comparer
         /// </exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">recursionDepth is less than zero.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">recursionDepth is less than one.</exception>
         public RecursionGuard(
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler,
