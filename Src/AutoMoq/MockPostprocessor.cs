@@ -54,7 +54,11 @@ namespace Ploeh.AutoFixture.AutoMoq
                 return new NoSpecimen(request);
             }            
 
-            var m = this.builder.Create(request, context) as Mock;
+            var specimen = this.builder.Create(request, context);
+            if (specimen is NoSpecimen || specimen is OmitSpecimen || specimen == null)
+                return specimen;
+
+            var m = specimen as Mock;
             if (m == null)
             {
                 return new NoSpecimen(request);

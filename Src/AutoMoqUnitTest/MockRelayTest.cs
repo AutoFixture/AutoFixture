@@ -127,21 +127,6 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Teardown
         }
 
-        public class ValidNonMockSpecimens : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                yield return new object[] {new NoSpecimen()};
-                yield return new object[] {new OmitSpecimen()};
-                yield return new object[] {null};
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
-
         [Theory]
         [ClassData(typeof (ValidNonMockSpecimens))]
         public void CreateReturnsCorrectResultWhenContextReturnsValidNonMockSpecimen(object validNonMockSpecimen)
