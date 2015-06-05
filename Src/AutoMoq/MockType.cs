@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -64,15 +65,36 @@ namespace Ploeh.AutoFixture.AutoMoq
         }
 
         internal static IReturnsResult<TMock> ReturnsUsingContext<TMock, TResult>(this IReturns<TMock, TResult> setup,
-                                                                                  ISpecimenContext context)
+            ISpecimenContext context)
             where TMock : class
         {
             return setup.Returns(() =>
-                {
-                    var result = (TResult) context.Resolve(typeof (TResult));
-                    setup.Returns(result);
-                    return result;
-                });
+            {
+                var specimen = context.Resolve(typeof (TResult));
+
+                // check if specimen is null but member is non-nullable value type
+                if (specimen == null && (default(TResult) != null))
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            "Tried to setup a member with a return type of {0}, but null was found instead.",
+                            typeof (TResult)));
+
+                // check if specimen can be safely converted to TResult
+                if (specimen != null && !(specimen is TResult))
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            "Tried to setup a member with a return type of {0}, but an instance of {1} was found instead.",
+                            typeof (TResult),
+                            specimen.GetType()));
+
+                TResult result = (TResult) specimen;
+
+                //"cache" value for future invocations
+                setup.Returns(result);
+                return result;
+            });
         }
     }
 }
