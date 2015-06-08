@@ -51,7 +51,7 @@ namespace Ploeh.AutoFixture
 
             if (limits.Length < 2)
             {
-                throw new ArgumentException("The limit must be a sequence of two or more integers.");
+                throw new ArgumentException("limits must be two or more Int64.", "limits");
             }
 
             //Check that limits are ascending
@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixture
             foreach (var item in limits.Skip(1))
             {
                 if (previous >= item)
-                    throw new ArgumentOutOfRangeException("limits", "limits must be ascending numbers");
+                    throw new ArgumentOutOfRangeException("limits", "limits must be ascending Int64.");
 
                 previous = item;
             }
