@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using NSubstitute;
 using NSubstitute.Core;
 using NSubstitute.Exceptions;
+using NSubstitute.Routing;
+using NSubstitute.Routing.Handlers;
 using Ploeh.AutoFixture.AutoNSubstitute.Extensions;
 using Ploeh.AutoFixture.Kernel;
 
@@ -149,9 +151,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             private readonly object substitute;
             private readonly ISpecimenContext context;
 
-            private readonly List<Tuple<MethodInfo, object[]>> methodCalls =
-                new List<Tuple<MethodInfo, object[]>>();
-
             public SubstituteValueFactory(object substitute, ISpecimenContext context)
             {
                 if (substitute == null)
@@ -186,19 +185,23 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                     .Do(callInfo =>
                     {
                         var arguments = callInfo.Args();
-                        var call = Tuple.Create(methodInfo, arguments.ToArray());
-                        if (methodCalls.Any(
-                            x =>
-                                call.Item1 == x.Item1 &&
-                                call.Item2.SequenceEqual(x.Item2)))
-                            return;
-                        methodCalls.Add(call);
 
-                        var value = Resolve(methodInfo.ReturnType);
-                        if (value is OmitSpecimen)
-                            return;
+                        var callRouter =
+                            SubstitutionContext.Current.GetCallRouterFor(Substitute);
 
-                        ReturnsFixedValue(methodInfo, value);
+                        callRouter.SetRoute(state => new Route(
+                            new ICallHandler[] {
+                                new NoSetupCallbackHandler(state, () => {
+                                    var value = Resolve(methodInfo.ReturnType);
+                                    if (value is OmitSpecimen)
+                                        return;
+
+                                    ReturnsFixedValue(methodInfo, value);
+                                    InvokeMethod(methodInfo, arguments);
+                                }),
+                                new ReturnDefaultForReturnTypeHandler(
+                                    new DefaultForType())
+                            }));
                         InvokeMethod(methodInfo, arguments);
                     });
             }
