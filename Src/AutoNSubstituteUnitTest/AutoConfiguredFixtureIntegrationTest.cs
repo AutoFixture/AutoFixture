@@ -498,6 +498,34 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             Assert.Equal(intValue, refResult);
         }
 
+        [Fact]
+        public void SetupCallsOverrideValueFromFixtureWithAnyArgumentMatcher()
+        {
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithMethod>();
+            var anonymousString = fixture.Create<string>();
+            var expected = fixture.Create<string>();
+            substitute.Method(Arg.Any<string>()).Returns(expected);
+
+            var result = substitute.Method(anonymousString);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void SetupCallsOverrideValueFromFixtureWithIsArgumentMatcher()
+        {
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithMethod>();
+            var anonymousString = fixture.Create<string>();
+            var expected = fixture.Create<string>();
+            substitute.Method(Arg.Is<string>(_ => true)).Returns(expected);
+
+            var result = substitute.Method(anonymousString);
+
+            Assert.Equal(expected, result);
+        }
+
         public interface IMyList<out T> : IEnumerable<T>
         {
         }
