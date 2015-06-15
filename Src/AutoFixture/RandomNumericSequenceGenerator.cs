@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomNumericSequenceGenerator" /> class.
         /// </summary>
-        /// <param name="limits">A array of at least two ascending numbers.</param>
+        /// <param name="limits">An array of at least two ascending numbers.</param>
         /// <exception cref="System.ArgumentNullException"></exception>
         /// <exception cref="System.ArgumentException"></exception>
         public RandomNumericSequenceGenerator(params long[] limits)
@@ -54,13 +54,10 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentException("Limits must be at least two ascending numbers.", "limits");
             }
 
-            //Check that limits are ascending
-            if (limits.Zip(limits.Skip(1), (a, b) => a >= b).Any(b => b))
-            {
-                throw new ArgumentOutOfRangeException("limits", "Limits must be ascending numbers.");
-            }
-
             this.limits = limits;
+
+            this.ValidateThatLimitsAreStrictlyAscending();
+            
             this.syncRoot = new object();
             this.random = new Random();
             this.numbers = new HashSet<long>();
@@ -96,6 +93,14 @@ namespace Ploeh.AutoFixture
             }
 
             return this.CreateRandom(type);
+        }
+
+        private void ValidateThatLimitsAreStrictlyAscending()
+        {
+            if (this.limits.Zip(this.limits.Skip(1), (a, b) => a >= b).Any(b => b))
+            {
+                throw new ArgumentOutOfRangeException("limits", "Limits must be ascending numbers.");
+            }
         }
 
         private object CreateRandom(Type request)
