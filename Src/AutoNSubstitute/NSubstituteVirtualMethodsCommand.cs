@@ -58,37 +58,25 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 return;
             }
 
-            var substituteType = specimen.GetType().GetSubstituteType();
-            var methods = GetVirtualMethods(substituteType);
+            var substituteTypes = specimen.GetType().GetSubstituteTypes();
+            foreach (var substituteType in substituteTypes)
+            {
+                var methods = GetVirtualMethods(substituteType);
 
-            var substituteSetup = new SubstituteValueFactory(specimen, context);
+                var substituteSetup = new SubstituteValueFactory(specimen, context);
 
-            foreach (var method in methods)
-                substituteSetup.Setup(method);
+                foreach (var method in methods)
+                    substituteSetup.Setup(method);
+            }
         }
 
         private static IEnumerable<MethodInfo> GetVirtualMethods(Type substituteType)
         {
-            return GetMethods(substituteType)
+            return substituteType.GetMethods()
                 .Where(method => method.IsOverridable() &&
                                  !method.IsGenericMethod &&
                                  !method.IsVoid() &&
                                  !ObjectMethods.Contains(method.GetBaseDefinition()));
-        }
-
-        private static IEnumerable<MethodInfo> GetMethods(Type substituteType)
-        {
-            if (substituteType.IsInterface)
-                return GetInterfaceMethods(substituteType);
-
-            return substituteType.GetMethods();
-        }
-
-        private static IEnumerable<MethodInfo> GetInterfaceMethods(Type type)
-        {
-            return type.GetMethods().Concat(
-                type.GetInterfaces()
-                    .SelectMany(@interface => @interface.GetMethods()));
         }
 
         private class SubstituteValueFactory
