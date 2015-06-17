@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NSubstitute;
-using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute
 {
@@ -14,12 +13,14 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             return type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
         }
 
-        internal static Type GetSubstituteType(this Type type)
+        internal static IEnumerable<Type> GetSubstituteTypes(this Type type)
         {
-            if (type.BaseType == typeof(object))
-                return type.GetInterfaces().First();
+	        var substitute = Substitute.For<object>();
+	        var interfaces = substitute.GetType().GetInterfaces();
 
-            return type.BaseType;
+            return type.GetInterfaces()
+                .Where(i => !interfaces.Contains(i))
+                .Concat(new[] {type.BaseType});
         }
     }
 }

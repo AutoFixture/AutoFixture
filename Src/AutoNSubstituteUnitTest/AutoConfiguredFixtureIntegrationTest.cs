@@ -526,8 +526,29 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             Assert.Equal(expected, result);
         }
 
+        [Fact]
+        public void InterfaceImplementingAnotherReturnsValueFromFixture()
+        {
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var expected = fixture.Freeze<int>();
+            var sut = fixture.Create<IInterfaceImplementingAnother>();
+
+            var result = sut.Method();
+
+            Assert.Equal(expected, result);
+		}
+
         public interface IMyList<out T> : IEnumerable<T>
         {
+        }
+
+        public interface IInterface
+        {
+        }
+
+        public interface IInterfaceImplementingAnother : IInterface
+        {
+            int Method();
         }
     }
 }
