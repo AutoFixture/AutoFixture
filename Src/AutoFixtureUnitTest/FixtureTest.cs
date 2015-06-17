@@ -1011,19 +1011,19 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithDoubleDateTimePropertiesWillAssignDifferentDates()
+        public void CreateAnonymousWithDoubleDateTimePropertiesWillAssignDifferentDateTimes()
         {
             // Fixture setup
             var sut = new Fixture();
             // Exercise system
             var result = sut.Create<DoublePropertyHolder<DateTime, DateTime>>();
             // Verify outcome
-            Assert.NotEqual<DateTime>(result.Property1.Date, result.Property2.Date);
+            Assert.NotEqual(result.Property1, result.Property2);
             // Teardown
         }
 
         [Fact]
-        public void CreateAnonymousWithDateTimePropertyAndIncrementingDateTimeCustomizationTwiceWithinMsReturnsDatesExactlyOneDayApart()
+        public void CreateAnonymousWithDateTimePropertyAndIncrementingDateTimeCustomizationTwiceWithinMsReturnsDateTimesExactlyOneDayApart()
         {
             // Fixture setup
             var nowResolution = TimeSpan.FromMilliseconds(10); // see http://msdn.microsoft.com/en-us/library/system.datetime.now.aspx
@@ -1039,20 +1039,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateAnonymousWithDoubleDateTimePropertiesAndFreezedInt32ValueWillAssignDifferentDates()
-        {
-            // Fixture setup
-            var sut = new Fixture();
-            // Exercise system
-            sut.Freeze<int>();
-            var result = sut.Create<DoublePropertyHolder<DateTime, DateTime>>();
-            // Verify outcome
-            Assert.NotEqual<DateTime>(result.Property1.Date, result.Property2.Date);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateAnonymousWithDoubleDateTimePropertiesAndCurrentDateTimeCustomizationWillAssignSameDate()
+        public void CreateAnonymousWithDoubleDateTimePropertiesAndCurrentDateTimeCustomizationWillAssignEqualDates()
         {
             // Fixture setup
             var sut = new Fixture();
@@ -1060,7 +1047,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize(new CurrentDateTimeCustomization());
             var result = sut.Create<DoublePropertyHolder<DateTime, DateTime>>();
             // Verify outcome
-            Assert.Equal<DateTime>(result.Property1.Date, result.Property2.Date);
+            Assert.Equal(result.Property1.Date, result.Property2.Date);
             // Teardown
         }
 
