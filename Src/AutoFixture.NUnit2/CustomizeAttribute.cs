@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.NUnit2
 {
@@ -8,7 +9,7 @@ namespace Ploeh.AutoFixture.NUnit2
     /// <see cref="AutoDataAttribute"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
-    public abstract class CustomizeAttribute : Attribute
+    public abstract class CustomizeAttribute : Attribute, IParameterCustomizationProvider
     {
         /// <summary>
         /// Gets a customization for a parameter.
