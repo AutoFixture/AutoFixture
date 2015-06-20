@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Ploeh.AutoFixture.DataAnnotations;
 using Ploeh.AutoFixture.Kernel;
@@ -23,64 +22,42 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         }
 
         [Fact]
-        public void CreateWithNullRequestReturnsCorrectResult()
+        public void SutReusesLogicOfAttributeRelayWhichIsTestedSeparately()
         {
-            // Fixture setup
-            var sut = new RegularExpressionAttributeRelay();
-            // Exercise system
-            var dummyContext = new DelegatingSpecimenContext();
-            var result = sut.Create(null, dummyContext);
+            //Fixture setup
+            var sut = new TestableRegularExpressionAttributeRelay();
             // Verify outcome
-            Assert.Equal(new NoSpecimen(), result);
+            var relayBuilder = Assert.IsAssignableFrom<AttributeRelay<RegularExpressionAttribute>>(sut.RelayBuilder);
+            Assert.Same(
+                typeof(RegularExpressionAttributeRelay).GetMethod("CreateRelayedRequest", BindingFlags.Static | BindingFlags.NonPublic),
+                relayBuilder.CreateRelayedRequestMethod);
             // Teardown
         }
 
         [Fact]
-        public void CreateWithNullContextThrows()
+        public void CreateReturnsObjectCreatedByRelayBuilderBasedOnGivenRequestAndContext()
         {
             // Fixture setup
-            var sut = new RegularExpressionAttributeRelay();
-            var dummyRequest = new object();
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.Create(dummyRequest, null));
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithAnonymousRequestReturnsCorrectResult()
-        {
-            // Fixture setup
-            var sut = new RegularExpressionAttributeRelay();
-            var dummyRequest = new object();
+            object relayRequest = null;
+            ISpecimenContext relayContext = null;
+            var relayResult = new object();
+            var relayBuilder = new DelegatingSpecimenBuilder();
+            relayBuilder.OnCreate = (r, c) =>
+            {
+                relayRequest = r;
+                relayContext = c;
+                return relayResult;
+            };
+            var sut = new TestableRegularExpressionAttributeRelay { RelayBuilder = relayBuilder };
             // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(dummyRequest, dummyContainer);
+            var actualRequest = new object();
+            var actualContext = new DelegatingSpecimenContext();
+            object actualResult = sut.Create(actualRequest, actualContext);
             // Verify outcome
-            var expectedResult = new NoSpecimen(dummyRequest);
-            Assert.Equal(expectedResult, result);
-            // Teardown
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(1)]
-        [InlineData(typeof(object))]
-        [InlineData(typeof(string))]
-        [InlineData(typeof(int))]
-        [InlineData(typeof(Version))]
-        public void CreateWithNonRegularExpressionAttributeRequestReturnsCorrectResult(object request)
-        {
-            // Fixture setup
-            var sut = new RegularExpressionAttributeRelay();
-            // Exercise system
-            var dummyContext = new DelegatingSpecimenContext();
-            var result = sut.Create(request, dummyContext);
-            // Verify outcome
-            var expectedResult = new NoSpecimen(request);
-            Assert.Equal(expectedResult, result);
-            // Teardown
+            Assert.Same(actualRequest, relayRequest);
+            Assert.Same(actualContext, relayContext);
+            Assert.Same(actualResult, relayResult);
+            // Teardown            
         }
 
         [Theory]
@@ -105,6 +82,18 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
+        }
+
+        private class TestableRegularExpressionAttributeRelay : RegularExpressionAttributeRelay
+        {
+            private static readonly FieldInfo relayBuilder = typeof(RegularExpressionAttributeRelay)
+                .GetField("relayBuilder", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            public ISpecimenBuilder RelayBuilder
+            {
+                get { return (ISpecimenBuilder)relayBuilder.GetValue(this); }
+                set { relayBuilder.SetValue(this, value); }
+            }
         }
     }
 }
