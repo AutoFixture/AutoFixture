@@ -26,7 +26,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AutoNSubstitute.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Release\Ploeh.AutoFixture.AutoNSubstitute.XML</DocumentationFile>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
