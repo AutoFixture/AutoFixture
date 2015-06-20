@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Ploeh.AutoFixture.DataAnnotations;
 using Ploeh.AutoFixture.Kernel;
@@ -12,74 +11,13 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
     public class StringLengthAttributeRelayTest
     {
         [Fact]
-        public void SutIsSpecimenBuilder()
+        public void SutInheritsCommonLogicFromAttributeRelayWhichIsTestedSeparately()
         {
             // Fixture setup
             // Exercise system
             var sut = new StringLengthAttributeRelay();
             // Verify outcome
-            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithNullRequestReturnsCorrectResult()
-        {
-            // Fixture setup
-            var sut = new StringLengthAttributeRelay();
-            // Exercise system
-            var dummyContext = new DelegatingSpecimenContext();
-            var result = sut.Create(null, dummyContext);
-            // Verify outcome
-            Assert.Equal(new NoSpecimen(), result);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithNullContextThrows()
-        {
-            // Fixture setup
-            var sut = new StringLengthAttributeRelay();
-            var dummyRequest = new object();
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.Create(dummyRequest, null));
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithAnonymousRequestReturnsCorrectResult()
-        {
-            // Fixture setup
-            var sut = new StringLengthAttributeRelay();
-            var dummyRequest = new object();
-            // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(dummyRequest, dummyContainer);
-            // Verify outcome
-            var expectedResult = new NoSpecimen(dummyRequest);
-            Assert.Equal(expectedResult, result);
-            // Teardown
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(1)]
-        [InlineData(typeof(object))]
-        [InlineData(typeof(string))]
-        [InlineData(typeof(int))]
-        [InlineData(typeof(Version))]
-        public void CreateWithNonConstrainedStringRequestReturnsCorrectResult(object request)
-        {
-            // Fixture setup
-            var sut = new StringLengthAttributeRelay();
-            // Exercise system
-            var dummyContext = new DelegatingSpecimenContext();
-            var result = sut.Create(request, dummyContext);
-            // Verify outcome
-            var expectedResult = new NoSpecimen(request);
-            Assert.Equal(expectedResult, result);
+            Assert.IsAssignableFrom<AttributeRelay<StringLengthAttribute>>(sut);
             // Teardown
         }
 
