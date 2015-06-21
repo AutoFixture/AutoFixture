@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoNSubstituteUnitTest", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoNSubstitute", "AutoNSubstitute\AutoNSubstitute.csproj", "{189C9474-B406-4356-A367-FBC882E9BA4B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture.xUnit.net", "AutoFixture.xUnit.net\AutoFixture.xUnit.net.csproj", "{266B9F0E-28E5-47CA-9816-ACB6737E7E4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,12 @@ Global
 		{189C9474-B406-4356-A367-FBC882E9BA4B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{189C9474-B406-4356-A367-FBC882E9BA4B}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
 		{189C9474-B406-4356-A367-FBC882E9BA4B}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{266B9F0E-28E5-47CA-9816-ACB6737E7E4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{266B9F0E-28E5-47CA-9816-ACB6737E7E4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{266B9F0E-28E5-47CA-9816-ACB6737E7E4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{266B9F0E-28E5-47CA-9816-ACB6737E7E4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{266B9F0E-28E5-47CA-9816-ACB6737E7E4D}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{266B9F0E-28E5-47CA-9816-ACB6737E7E4D}.Verify|Any CPU.Build.0 = Verify|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
