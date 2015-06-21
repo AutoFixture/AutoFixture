@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="AutoConfiguredNSubstituteCustomization.cs" />
     <Compile Include="AutoNSubstituteCustomization.cs" />
+    <Compile Include="AutoSubstituteCustomization.cs" />
     <Compile Include="NoSetupCallbackHandler.cs" />
     <Compile Include="NSubstituteSealedPropertiesCommand.cs" />
     <Compile Include="Extensions\MethodInfoExtensions.cs" />
