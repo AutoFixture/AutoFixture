@@ -13,74 +13,13 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
     public class RangeAttributeRelayTest
     {
         [Fact]
-        public void SutIsSpecimenBuilder()
+        public void SutInheritsCommonLogicFromAttributeRelayWhichIsTestedSeparately()
         {
             // Fixture setup
             // Exercise system
             var sut = new RangeAttributeRelay();
             // Verify outcome
-            Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithNullRequestReturnsCorrectResult()
-        {
-            // Fixture setup
-            var sut = new RangeAttributeRelay();
-            // Exercise system
-            var dummyContext = new DelegatingSpecimenContext();
-            var result = sut.Create(null, dummyContext);
-            // Verify outcome
-            Assert.Equal(new NoSpecimen(), result);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithNullContextThrows()
-        {
-            // Fixture setup
-            var sut = new RangeAttributeRelay();
-            var dummyRequest = new object();
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.Create(dummyRequest, null));
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithAnonymousRequestReturnsCorrectResult()
-        {
-            // Fixture setup
-            var sut = new RangeAttributeRelay();
-            var dummyRequest = new object();
-            // Exercise system
-            var dummyContainer = new DelegatingSpecimenContext();
-            var result = sut.Create(dummyRequest, dummyContainer);
-            // Verify outcome
-            var expectedResult = new NoSpecimen(dummyRequest);
-            Assert.Equal(expectedResult, result);
-            // Teardown
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(1)]
-        [InlineData(typeof(object))]
-        [InlineData(typeof(string))]
-        [InlineData(typeof(int))]
-        [InlineData(typeof(Version))]
-        public void CreateWithNonRangeAttributeRequestReturnsCorrectResult(object request)
-        {
-            // Fixture setup
-            var sut = new RangeAttributeRelay();
-            // Exercise system
-            var dummyContext = new DelegatingSpecimenContext();
-            var result = sut.Create(request, dummyContext);
-            // Verify outcome
-            var expectedResult = new NoSpecimen(request);
-            Assert.Equal(expectedResult, result);
+            Assert.IsAssignableFrom<AttributeRelay<RangeAttribute>>(sut);
             // Teardown
         }
 
@@ -93,7 +32,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         [InlineData(typeof(double), -2, -1)]
         [InlineData(typeof(long), 10, 20)]
         [InlineData(typeof(long), -2, -1)]
-        public void CreateWithRangeAttributeRequestReturnsCorrectResult(Type type, object minimum, object maximum)
+        public void CreateResolvedRequestWithRangeAttributeReturnsCorrectResult(Type type, object minimum, object maximum)
         {
             // Fixture setup
             var rangeAttribute = new RangeAttribute(type, minimum.ToString(), maximum.ToString());
@@ -105,16 +44,11 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
                 Convert.ChangeType(rangeAttribute.Minimum, conversionType, CultureInfo.CurrentCulture),
                 Convert.ChangeType(rangeAttribute.Maximum, conversionType, CultureInfo.CurrentCulture)
                 );
-            var expectedResult = new object();
-            var context = new DelegatingSpecimenContext
-            {
-                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen(r)
-            };
-            var sut = new RangeAttributeRelay();
+            var sut = new TestableRangeAttributeRelay();
             // Exercise system
-            var result = sut.Create(request, context);
+            var result = sut.CreateRelayedRequest(request, rangeAttribute);
             // Verify outcome
-            Assert.Equal(expectedResult, result);
+            Assert.Equal(expectedRequest, result);
             // Teardown
         }
 
@@ -208,6 +142,14 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
+        }
+
+        private class TestableRangeAttributeRelay : RangeAttributeRelay
+        {
+            public new object CreateRelayedRequest(ICustomAttributeProvider request, RangeAttribute attribute)
+            {
+                return base.CreateRelayedRequest(request, attribute);
+            }
         }
     }
 }

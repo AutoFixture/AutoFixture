@@ -26,7 +26,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AutoNSubstitute.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Release\Ploeh.AutoFixture.AutoNSubstitute.XML</DocumentationFile>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="AutoConfiguredNSubstituteCustomization.cs" />
     <Compile Include="AutoNSubstituteCustomization.cs" />
+    <Compile Include="AutoSubstituteCustomization.cs" />
     <Compile Include="NoSetupCallbackHandler.cs" />
     <Compile Include="NSubstituteSealedPropertiesCommand.cs" />
     <Compile Include="Extensions\MethodInfoExtensions.cs" />
@@ -73,6 +74,11 @@
     <Compile Include="NSubstituteMethodQuery.cs" />
     <Compile Include="NSubstituteType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubstituteAttribute.cs" />
+    <Compile Include="SubstituteAttributeRelay.cs" />
+    <Compile Include="SubstituteBuilder.cs" />
+    <Compile Include="SubstituteRelay.cs" />
+    <Compile Include="SubstituteRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
