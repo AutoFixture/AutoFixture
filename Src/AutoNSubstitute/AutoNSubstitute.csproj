@@ -74,6 +74,7 @@
     <Compile Include="NSubstituteType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubstituteAttribute.cs" />
+    <Compile Include="SubstituteAttributeRelay.cs" />
     <Compile Include="SubstituteBuilder.cs" />
     <Compile Include="SubstituteRelay.cs" />
     <Compile Include="SubstituteRequest.cs" />

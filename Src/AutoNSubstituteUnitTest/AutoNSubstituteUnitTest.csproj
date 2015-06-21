@@ -61,6 +61,7 @@
     <Compile Include="NSubstituteBuilderTest.cs" />
     <Compile Include="NSubstituteMethodQueryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubstituteAttributeRelayTest.cs" />
     <Compile Include="SubstituteAttributeTest.cs" />
     <Compile Include="SubstituteBuilderTest.cs" />
     <Compile Include="SubstituteRelayTest.cs" />
