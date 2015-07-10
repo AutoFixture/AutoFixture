@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 
@@ -11,6 +9,8 @@ namespace Ploeh.AutoFixture.DataAnnotations
     /// </summary>
     public class RegularExpressionAttributeRelay : ISpecimenBuilder
     {
+        private readonly ISpecimenBuilder relayBuilder = new AttributeRelay<RegularExpressionAttribute>(CreateRelayedRequest);
+
         /// <summary>
         /// Creates a new specimen based on a request.
         /// </summary>
@@ -21,29 +21,12 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (request == null)
-            {
-                return new NoSpecimen();
-            }
+            return this.relayBuilder.Create(request, context);
+        }
 
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
-
-            var customAttributeProvider = request as ICustomAttributeProvider;
-            if (customAttributeProvider == null)
-            {
-                return new NoSpecimen(request);
-            }
-
-            var regularExpressionAttribute = customAttributeProvider.GetCustomAttributes(typeof(RegularExpressionAttribute), inherit: true).Cast<RegularExpressionAttribute>().SingleOrDefault();
-            if (regularExpressionAttribute == null)
-            {
-                return new NoSpecimen(request);
-            }
-
-            return context.Resolve(new RegularExpressionRequest(regularExpressionAttribute.Pattern));
+        private static object CreateRelayedRequest(ICustomAttributeProvider request, RegularExpressionAttribute attribute)
+        {
+            return new RegularExpressionRequest(attribute.Pattern);
         }
     }
 }

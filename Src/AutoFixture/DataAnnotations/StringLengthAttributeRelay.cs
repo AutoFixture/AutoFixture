@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 
@@ -11,6 +9,8 @@ namespace Ploeh.AutoFixture.DataAnnotations
     /// </summary>
     public class StringLengthAttributeRelay : ISpecimenBuilder
     {
+        private readonly ISpecimenBuilder relayBuilder = new AttributeRelay<StringLengthAttribute>(CreateRelayedRequest);
+
         /// <summary>
         /// Creates a new specimen based on a specified length of characters that are allowed.
         /// </summary>
@@ -23,29 +23,12 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (request == null)
-            {
-                return new NoSpecimen();
-            }
+            return this.relayBuilder.Create(request, context);
+        }
 
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
-
-            var customAttributeProvider = request as ICustomAttributeProvider;
-            if (customAttributeProvider == null)
-            {
-                return new NoSpecimen(request);
-            }
-
-            var stringLengthAttribute = customAttributeProvider.GetCustomAttributes(typeof(StringLengthAttribute), inherit: true).Cast<StringLengthAttribute>().SingleOrDefault();
-            if (stringLengthAttribute == null)
-            {
-                return new NoSpecimen(request);
-            }
-
-            return context.Resolve(new ConstrainedStringRequest(stringLengthAttribute.MaximumLength));
+        private static object CreateRelayedRequest(ICustomAttributeProvider request, StringLengthAttribute attribute)
+        {
+            return new ConstrainedStringRequest(attribute.MaximumLength);
         }
     }
 }

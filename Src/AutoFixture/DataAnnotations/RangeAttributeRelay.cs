@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 
@@ -12,6 +11,8 @@ namespace Ploeh.AutoFixture.DataAnnotations
     /// </summary>
     public class RangeAttributeRelay : ISpecimenBuilder
     {
+        private readonly ISpecimenBuilder relayBuilder = new AttributeRelay<RangeAttribute>(CreateRelayedRequest);
+
         /// <summary>
         /// Creates a new specimen based on a requested range.
         /// </summary>
@@ -24,32 +25,10 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (request == null)
-            {
-                return new NoSpecimen();
-            }
-
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
-
-            var customAttributeProvider = request as ICustomAttributeProvider;
-            if (customAttributeProvider == null)
-            {
-                return new NoSpecimen(request);
-            }
-
-            var rangeAttribute = customAttributeProvider.GetCustomAttributes(typeof(RangeAttribute), inherit: true).Cast<RangeAttribute>().SingleOrDefault();
-            if (rangeAttribute == null)
-            {
-                return new NoSpecimen(request);
-            }
-
-            return context.Resolve(RangeAttributeRelay.Create(rangeAttribute, request));
+            return this.relayBuilder.Create(request, context);
         }
 
-        private static RangedNumberRequest Create(RangeAttribute rangeAttribute, object request)
+        private static object CreateRelayedRequest(ICustomAttributeProvider request, RangeAttribute rangeAttribute)
         {
             Type conversionType = null;
 
