@@ -156,7 +156,7 @@ namespace Ploeh.AutoFixture
                 long result;
                 do
                 {
-                    if (this.lower >= int.MinValue && 
+                    if (this.lower >= int.MinValue &&
                         this.upper <= int.MaxValue)
                     {
                         result = this.random.Next((int)this.lower, (int)this.upper);
@@ -195,7 +195,9 @@ namespace Ploeh.AutoFixture
             else
             {
                 this.lower = limits[0];
-                this.upper = limits[1];
+                this.upper = limits[1] > Int32.MaxValue
+                    ? limits[1]
+                    : limits[1] + 1;
             }
 
             this.numbers.Clear();
