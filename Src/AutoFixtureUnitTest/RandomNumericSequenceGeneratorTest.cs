@@ -121,9 +121,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var unexpectedLimits = new long[]
             { 
-                Byte.MaxValue, 
-                Int16.MaxValue, 
-                Int32.MaxValue
+                (byte)10,
+                (Int16)50,
+                (Int32)20,
             };
             var sut = new RandomNumericSequenceGenerator(
                 unexpectedLimits[0],
