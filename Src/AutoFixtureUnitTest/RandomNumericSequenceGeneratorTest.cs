@@ -65,6 +65,19 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Theory]
+        [InlineData(new long[] { 2, 1 })]
+        [InlineData(new long[] { 1, 3, 2 })]
+        [InlineData(new long[] { 3, 4, 5, 1 })]
+        [InlineData(new long[] { 0, -1, 2 })]
+        [InlineData(new long[] { -8, -3, -4, 0 })]
+        [InlineData(new long[] { 1, 1, 2, 1 })]
+        public void InitializeWithNonIncreasingLimitThrows(long[] limits)
+        {
+            Assert.Throws<ArgumentException>(() =>
+                new RandomNumericSequenceGenerator(limits));
+        }
+
         [Fact]
         public void LimitsMatchListParameter()
         {
