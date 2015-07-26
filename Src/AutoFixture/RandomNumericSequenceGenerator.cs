@@ -195,12 +195,24 @@ namespace Ploeh.AutoFixture
             else
             {
                 this.lower = limits[0];
-                this.upper = limits[1] >= Int32.MaxValue
-                    ? limits[1]
-                    : limits[1] + 1;
+                this.upper = this.GetUpperRangeFromLimits();
             }
 
             this.numbers.Clear();
+        }
+
+        /// <summary>
+        /// Returns upper limit + 1 when expecting to use upper as max value in Random.Next(Int32,Int32).
+        /// This ensures that the upper limit is included in the possible values returned by Random.Next(Int32,Int32)
+        /// 
+        /// When not expecting to use Random.Next(Int32,Int32).  It returns the original upper limit.
+        /// </summary>
+        /// <returns></returns>
+        private long GetUpperRangeFromLimits()
+        {
+            return limits[1] >= Int32.MaxValue
+                    ? limits[1]
+                    : limits[1] + 1;
         }
 
         private long GetNextInt64InRange()
