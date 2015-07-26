@@ -56,13 +56,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentException("The limit must be a sequence of two or more integers.");
             }
 
-            for (var i = 0; i < limits.Count() - 1; i++)
-            {
-                if (limits[i + 1] < limits[i])
-                    throw new ArgumentException("The limit must be an increasing sequence.");
-            }
-
-                this.limits = limits;
+            this.limits = limits;
             this.syncRoot = new object();
             this.random = new Random();
             this.numbers = new HashSet<long>();
@@ -201,7 +195,7 @@ namespace Ploeh.AutoFixture
             else
             {
                 this.lower = limits[0];
-                this.upper = limits[1] > Int32.MaxValue
+                this.upper = limits[1] >= Int32.MaxValue
                     ? limits[1]
                     : limits[1] + 1;
             }
