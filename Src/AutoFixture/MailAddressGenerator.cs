@@ -17,6 +17,14 @@ namespace Ploeh.AutoFixture
             "example.org" 
         };
 
+        private readonly ExactTypeSpecification mailAddressRequestSpecification;
+        
+        public MailAddressGenerator()
+        {
+            mailAddressRequestSpecification =
+                new ExactTypeSpecification(typeof (MailAddress));
+        }
+
         /// <summary>
         /// Creates a new MailAddress.
         /// </summary>
@@ -31,10 +39,9 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (!typeof(MailAddress).Equals(request))
-            {
+            if (request == null || 
+                !mailAddressRequestSpecification.IsSatisfiedBy(request))
                 return new NoSpecimen(request);
-            }
 
             var name = Guid.NewGuid().ToString();
             var host = fictitiousDomains[(uint)name.GetHashCode() % 3];
