@@ -3,6 +3,7 @@ using System.Linq;
 using Moq;
 using Ploeh.TestTypeFoundation;
 using Xunit;
+using System;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 {
@@ -87,6 +88,71 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void FixtureCanCreateMockOfAction()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            // Exercise system
+            var actual = fixture.Create<Mock<Action<string>>>();
+            // Verify outcome
+            Assert.NotNull(actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void FixtureCanCreateUsableMockOfFunc()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            var expected = fixture.Create<Version>();
+            var mockOfFunc = fixture.Create<Mock<Func<int, Version>>>();
+            mockOfFunc.Setup(f => f(42)).Returns(expected);
+
+            // Exercise system
+            var actual = mockOfFunc.Object(42);
+            
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void FixtureCanFreezeUsableMockOfFunc()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            var expected = fixture.Create<Uri>();
+            var mockOfFunc = fixture.Freeze<Mock<Func<Guid, decimal, Uri>>>();
+            mockOfFunc
+                .Setup(f => f(It.IsAny<Guid>(), 1337m))
+                .Returns(expected);
+
+            // Exercise system
+            var actual = mockOfFunc.Object(Guid.NewGuid(), 1337m);
+
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
+        [Fact]
+        public void FixtureCanCreateUsableMockOfCustomDelegate()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            var expected = fixture.Create<string>();
+            var mockOfDelegate = fixture.Create<Mock<DBaz>>();
+            mockOfDelegate.Setup(f => f(13, 37)).Returns(expected);
+
+            // Exercise system
+            var actual = mockOfDelegate.Object(13, 37);
+
+            // Verify outcome
+            Assert.Equal(expected, actual);
+            // Teardown
+        }
+
         public interface IFoo
         {
             IBar Bar { get; set; }
@@ -95,5 +161,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         public interface IBar
         {
         }
+
+        public delegate string DBaz(short s, byte b);
     }
 }

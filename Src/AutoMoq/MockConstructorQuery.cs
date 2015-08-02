@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             }
 
             var mockType = type.GetMockedType();
-            if (mockType.IsInterface)
+            if (mockType.IsInterface || mockType.IsDelegate())
             {
                 return new[] { new ConstructorMethod(type.GetDefaultConstructor()) };
             }
