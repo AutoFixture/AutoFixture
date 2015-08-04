@@ -54,10 +54,9 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentException("Limits must be at least two ascending numbers.", "limits");
             }
 
-            this.limits = limits;
+            ValidateThatLimitsAreStrictlyAscending(limits);
 
-            this.ValidateThatLimitsAreStrictlyAscending();
-            
+            this.limits = limits;
             this.syncRoot = new object();
             this.random = new Random();
             this.numbers = new HashSet<long>();
@@ -95,9 +94,9 @@ namespace Ploeh.AutoFixture
             return this.CreateRandom(type);
         }
 
-        private void ValidateThatLimitsAreStrictlyAscending()
+        private static void ValidateThatLimitsAreStrictlyAscending(long[] limits)
         {
-            if (this.limits.Zip(this.limits.Skip(1), (a, b) => a >= b).Any(b => b))
+            if (limits.Zip(limits.Skip(1), (a, b) => a >= b).Any(b => b))
             {
                 throw new ArgumentOutOfRangeException("limits", "Limits must be ascending numbers.");
             }
