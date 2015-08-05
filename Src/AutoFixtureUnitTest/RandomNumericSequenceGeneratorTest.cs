@@ -65,6 +65,22 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Theory]
+        [InlineData(new long[] { 10, 5 })]
+        [InlineData(new long[] { 32, 8, Int32.MaxValue })]
+        [InlineData(new long[] { 0, -2, 5 })]
+        [InlineData(new long[] { -4, -8 })]
+        [InlineData(new long[] { 1, 1, 5 })]
+        [InlineData(new long[] { 1, 5, 5 })]
+        public void InitializeWithLimitsNotAscendingThrows(long[] limits)
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                new RandomNumericSequenceGenerator(limits));
+            // Teardown
+        }
+
         [Fact]
         public void LimitsMatchListParameter()
         {
@@ -99,28 +115,6 @@ namespace Ploeh.AutoFixtureUnitTest
             IEnumerable<long> result = sut.Limits;
             // Verify outcome
             Assert.True(expectedResult.SequenceEqual(result));
-            // Teardown
-        }
-
-        [Fact]
-        public void LimitsDoesNotMatchParamsArray()
-        {
-            // Fixture setup
-            var unexpectedLimits = new long[]
-            { 
-                Byte.MaxValue, 
-                Int16.MaxValue, 
-                Int32.MaxValue
-            };
-            var sut = new RandomNumericSequenceGenerator(
-                unexpectedLimits[0],
-                unexpectedLimits[2],
-                unexpectedLimits[1]
-                );
-            // Exercise system
-            IEnumerable<long> result = sut.Limits;
-            // Verify outcome
-            Assert.False(unexpectedLimits.SequenceEqual(result));
             // Teardown
         }
 
