@@ -948,8 +948,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Create<DoublePropertyHolder<int, long>>();
             // Verify outcome
             Assert.True(
-                (result.Property1 >= lower && result.Property1 < upper) &&
-                (result.Property2 >= lower && result.Property2 < upper)
+                (result.Property1 >= lower && result.Property1 <= upper) &&
+                (result.Property2 >= lower && result.Property2 <= upper)
                 );
         }
 
@@ -5630,8 +5630,8 @@ namespace Ploeh.AutoFixtureUnitTest
         [InlineData(10)]
         public void CreateComplexArrayTypeReturnsArrayReflectingCorrectRepeatCount(int repeatCount)
         {
-            var sut = new Fixture{ RepeatCount = repeatCount };
-            
+            var sut = new Fixture { RepeatCount = repeatCount };
+
             var actual = sut.Create<int[,][]>();
 
             Assert.Equal(repeatCount, actual.GetLength(0));
@@ -5721,7 +5721,7 @@ namespace Ploeh.AutoFixtureUnitTest
             int count = 0;
             while (result.MoveNext())
             {
-                count ++;
+                count++;
                 Assert.True(count <= expectedCount);
             }
             Assert.Equal(expectedCount, count);
