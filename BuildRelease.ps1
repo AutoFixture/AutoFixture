@@ -1,6 +1,10 @@
 function Get-VsVersion ()
 {
-    if ($env:VS120COMNTOOLS -ne $null)
+    if ($env:VS140COMNTOOLS -ne $null)
+    {
+        " /property:VisualStudioVersion=14.0"
+    }
+    elseif ($env:VS120COMNTOOLS -ne $null)
     {
         " /property:VisualStudioVersion=12.0"
     }
