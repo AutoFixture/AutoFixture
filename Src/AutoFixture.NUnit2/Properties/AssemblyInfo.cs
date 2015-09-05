@@ -20,7 +20,6 @@ using System.Resources;
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
-[assembly: InternalsVisibleTo("AutoFixture.NUnit2.UnitTest")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("3a54aa4b-be9b-4591-bf8c-0a463e91088f")]
@@ -35,8 +34,8 @@ using System.Resources;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.32.1.0")]
-[assembly: AssemblyFileVersion("3.32.1.0")]
+[assembly: AssemblyVersion("3.32.2.0")]
+[assembly: AssemblyFileVersion("3.32.2.0")]
 
 [assembly: CLSCompliant(true)]
 [assembly: NeutralResourcesLanguage("en")]
