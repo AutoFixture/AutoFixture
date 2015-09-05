@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.NUnit2.UnitTest
 {
@@ -25,6 +26,16 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             var sut = new DelegatingCustomizeAttribute();
             // Verify outcome
             Assert.IsInstanceOf<Attribute>(sut);
+            // Teardown
+        }
+
+        [Test]
+        public void SutImplementsIParameterCustomizationProviderToBeRecognizedByTestDataProvider()
+        {
+            // Fixture setup
+            // Exercise system 
+            // Verify outcome
+            Assert.True(typeof(IParameterCustomizationProvider).IsAssignableFrom(typeof(CustomizeAttribute)));
             // Teardown
         }
     }

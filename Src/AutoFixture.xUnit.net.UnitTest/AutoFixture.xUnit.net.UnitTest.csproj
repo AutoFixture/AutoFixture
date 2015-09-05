@@ -70,6 +70,7 @@
     <Compile Include="AutoDataAttributeTest.cs" />
     <Compile Include="CompositeDataAttributeSufficientDataTest.cs" />
     <Compile Include="CompositeDataAttributeTest.cs" />
+    <Compile Include="DelegatingTestDataProvider.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="ComposerWithoutADefaultConstructor.cs" />
     <Compile Include="CustomizeAttributeTest.cs" />

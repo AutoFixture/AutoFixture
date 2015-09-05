@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.NUnit2.Addins;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.AutoFixture.NUnit2.Addins;
 
 namespace Ploeh.AutoFixture.NUnit2
 {
@@ -90,33 +90,17 @@ namespace Ploeh.AutoFixture.NUnit2
                 throw new ArgumentNullException("method");
             }
 
-            var specimens = new List<object>();
-            foreach (var p in method.GetParameters())
-            {
-                CustomizeFixture(p);
-
-                var specimen = Resolve(p);
-                specimens.Add(specimen);
-            }
-
+            ITestDataProvider dataProvider = this.CreateDataProvider();
+            IEnumerable<object> specimens = dataProvider.GetData(method);
             return new[] { specimens.ToArray() };
         }
 
-        private void CustomizeFixture(ParameterInfo p)
+        /// <summary>
+        /// Returns a <see cref="TestDataProvider"/> constructed with the current <see cref="Fixture"/>.
+        /// </summary>
+        protected virtual ITestDataProvider CreateDataProvider()
         {
-            var dummy = false;
-            var customizeAttributes = p.GetCustomAttributes(typeof(CustomizeAttribute), dummy).OfType<CustomizeAttribute>();
-            foreach (var ca in customizeAttributes)
-            {
-                var c = ca.GetCustomization(p);
-                Fixture.Customize(c);
-            }
-        }
-
-        private object Resolve(ParameterInfo p)
-        {
-            var context = new SpecimenContext(Fixture);
-            return context.Resolve(p);
+            return new TestDataProvider(_fixture);
         }
 
         private static IFixture CreateFixture(Type type)

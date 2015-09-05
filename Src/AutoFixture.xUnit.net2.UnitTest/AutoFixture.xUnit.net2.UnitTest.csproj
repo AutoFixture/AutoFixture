@@ -62,6 +62,7 @@
     <Compile Include="DelegatingCustomizeAttribute.cs" />
     <Compile Include="DelegatingFixture.cs" />
     <Compile Include="DelegatingSpecimenBuilder.cs" />
+    <Compile Include="DelegatingTestDataProvider.cs" />
     <Compile Include="DependencyConstraints.cs" />
     <Compile Include="FrozenAttributeTest.cs" />
     <Compile Include="GreedyAttributeTest.cs" />

@@ -94,6 +94,7 @@
     <Compile Include="InvariantCultureGeneratorTest.cs" />
     <Compile Include="CreatingAbstractClassWithPublicConstructorTests.cs" />
     <Compile Include="DataAnnotations\StringLengthArgumentSupportTests.cs" />
+    <Compile Include="DelegatingFixture.cs" />
     <Compile Include="DelegatingRecursionHandler.cs" />
     <Compile Include="EmailAddressLocalPartGeneratorTest.cs" />
     <Compile Include="EmailAddressLocalPartTest.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Kernel\DelegatingMethod.cs" />
     <Compile Include="Kernel\DelegatingMethodFactory.cs" />
     <Compile Include="Kernel\GenericMethodTests.cs" />
+    <Compile Include="Kernel\TestDataProviderTest.cs" />
     <Compile Include="Kernel\TemplateMethodQueryTests.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingMethodTests.cs" />
     <Compile Include="FreezeOnMatchCustomizationTest.cs" />
