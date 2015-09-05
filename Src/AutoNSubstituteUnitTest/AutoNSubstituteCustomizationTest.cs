@@ -55,14 +55,14 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void BuilderIsNSubstituteBuilder_WhenInitializedWithDefaultConstructor()
+        public void BuilderIsSubstituteRelay_WhenInitializedWithDefaultConstructor()
         {
             // Fixture setup
             var sut = new AutoNSubstituteCustomization();
             // Exercise system
             var result = sut.Builder;
             // Verify outcome
-            Assert.IsType<NSubstituteBuilder>(result);
+            Assert.IsType<SubstituteRelay>(result);
             // Teardown
         }
 
@@ -78,18 +78,32 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void CustomizeAddsNoCustomizations()
+        public void CustomizeInsertsSubstituteAttributeRelayInCustomizationsToOverrideDefaultConstructionWhenAttributeIsPresent()
         {
             // Fixture setup
-            var customizations = new List<ISpecimenBuilder>();
-            var fixtureStub = Substitute.For<IFixture>();
-            fixtureStub.Customizations.Returns(customizations);
-
             var sut = new AutoNSubstituteCustomization();
+            var fixture = Substitute.For<IFixture>();
             // Exercise system
-            sut.Customize(fixtureStub);
+            sut.Customize(fixture);
             // Verify outcome
-            Assert.Empty(customizations);
+            fixture.Customizations.Received().Insert(0, Arg.Any<SubstituteAttributeRelay>());
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeInsertsProperlyConfiguredSubstituteRequestHandlerInCustomizationsToHandleSubstituteRequests()
+        {
+            // Fixture setup
+            var sut = new AutoNSubstituteCustomization();
+            SubstituteRequestHandler builder = null;
+            var fixture = Substitute.For<IFixture>();
+            fixture.Customizations.Insert(Arg.Any<int>(), Arg.Do<SubstituteRequestHandler>(b => builder = b));
+            // Exercise system
+            sut.Customize(fixture);
+            // Verify outcome
+            Assert.NotNull(builder);
+            var substituteConstructor = Assert.IsType<MethodInvoker>(builder.SubstituteFactory);
+            Assert.IsType<NSubstituteMethodQuery>(substituteConstructor.Query);
             // Teardown
         }
 

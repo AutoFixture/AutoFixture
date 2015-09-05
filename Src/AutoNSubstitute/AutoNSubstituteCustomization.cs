@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// <summary>Initializes a new instance of the <see cref="AutoNSubstituteCustomization"/> class.</summary>
         /// <remarks>Uses a new instance of <see cref="NSubstituteBuilder"/> as the builder.</remarks>
         public AutoNSubstituteCustomization()
-            : this(new NSubstituteBuilder(new MethodInvoker(new NSubstituteMethodQuery())))
+            : this(new SubstituteRelay())
         {
         }
 
@@ -39,6 +39,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             if (fixture == null)
                 throw new ArgumentNullException("fixture");
 
+            fixture.Customizations.Insert(0, new SubstituteRequestHandler(new MethodInvoker(new NSubstituteMethodQuery())));
+            fixture.Customizations.Insert(0, new SubstituteAttributeRelay());
             fixture.ResidueCollectors.Add(Builder);
         }
     }
