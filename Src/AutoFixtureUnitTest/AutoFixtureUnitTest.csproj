@@ -95,6 +95,8 @@
     <Compile Include="CreatingAbstractClassWithPublicConstructorTests.cs" />
     <Compile Include="DataAnnotations\StringLengthArgumentSupportTests.cs" />
     <Compile Include="DelegatingRecursionHandler.cs" />
+    <Compile Include="EmailAddressLocalPartGeneratorTest.cs" />
+    <Compile Include="EmailAddressLocalPartTest.cs" />
     <Compile Include="Kernel\EnumeratorRelayTest.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingMethodFactoryTests.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingStaticMethodFactoryTests.cs" />
