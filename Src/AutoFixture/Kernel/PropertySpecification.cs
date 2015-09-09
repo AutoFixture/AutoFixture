@@ -6,7 +6,8 @@ namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
     /// A specification that determines whether the request is a request
-    /// for a <see cref="PropertyInfo"/> matching the specified name and <see cref="Type"/>.
+    /// for a <see cref="PropertyInfo"/> matching a particular property,
+    /// according to the supplied comparison rules.
     /// </summary>
     public class PropertySpecification : IRequestSpecification
     {
