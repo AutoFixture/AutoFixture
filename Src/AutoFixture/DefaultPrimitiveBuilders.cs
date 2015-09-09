@@ -38,6 +38,8 @@ namespace Ploeh.AutoFixture
             yield return new TaskGenerator();
             yield return new IntPtrGuard();
             yield return new MailAddressGenerator();
+            yield return new EmailAddressLocalPartGenerator();
+            yield return new InvariantCultureGenerator();
         }
 
         /// <summary>

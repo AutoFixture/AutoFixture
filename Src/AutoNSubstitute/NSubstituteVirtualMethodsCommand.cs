@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using NSubstitute;
 using NSubstitute.Core;
 using NSubstitute.Exceptions;
+using NSubstitute.Routing;
+using NSubstitute.Routing.Handlers;
 using Ploeh.AutoFixture.AutoNSubstitute.Extensions;
 using Ploeh.AutoFixture.Kernel;
 
@@ -55,45 +58,31 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 return;
             }
 
-            var substituteType = specimen.GetType().GetSubstituteType();
-            var methods = GetVirtualMethods(substituteType);
+            var substituteTypes = specimen.GetType().GetSubstituteTypes();
+            foreach (var substituteType in substituteTypes)
+            {
+                var methods = GetVirtualMethods(substituteType);
 
-            var substituteSetup = new SubstituteValueFactory(specimen, context);
+                var substituteSetup = new SubstituteValueFactory(specimen, context);
 
-            foreach (var method in methods)
-                substituteSetup.Setup(method);
+                foreach (var method in methods)
+                    substituteSetup.Setup(method);
+            }
         }
 
         private static IEnumerable<MethodInfo> GetVirtualMethods(Type substituteType)
         {
-            return GetMethods(substituteType)
+            return substituteType.GetMethods()
                 .Where(method => method.IsOverridable() &&
                                  !method.IsGenericMethod &&
                                  !method.IsVoid() &&
                                  !ObjectMethods.Contains(method.GetBaseDefinition()));
         }
 
-        private static IEnumerable<MethodInfo> GetMethods(Type substituteType)
-        {
-            if (substituteType.IsInterface)
-                return GetInterfaceMethods(substituteType);
-
-            return substituteType.GetMethods();
-        }
-
-        private static IEnumerable<MethodInfo> GetInterfaceMethods(Type type)
-        {
-            return type.GetMethods().Concat(
-                type.GetInterfaces()
-                    .SelectMany(@interface => @interface.GetMethods()));
-        }
-
         private class SubstituteValueFactory
         {
             private static readonly MethodInfo ReturnsUsingContextMethodInfo =
                 typeof(SubstituteValueFactory).GetMethod("ReturnsUsingContext");
-            private static readonly IMethod ReturnsForAnyArgsMethodInfo =
-                GetNSubstituteMethod("ReturnsForAnyArgs");
             private static readonly IMethod ReturnsMethodInfo =
                 GetNSubstituteMethod("Returns");
 
@@ -172,40 +161,62 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 get { return context; }
             }
 
-            public static void ReturnsForAnyArgs<T>(T value, Func<CallInfo, T> returnThis)
-            {
-                ReturnsForAnyArgsMethodInfo.Invoke(new object[] { value, returnThis });
-            }
-
             public static void Returns<T>(T value, Func<CallInfo, T> returnThis)
             {
                 ReturnsMethodInfo.Invoke(new object[] { value, returnThis });
             }
 
-            public void ReturnsUsingContext<T>(MethodInfo methodInfo)
+            public void ReturnsUsingContext(MethodInfo methodInfo)
             {
-                InvokeMethod(methodInfo);
-                ReturnsForAnyArgs<T>(default(T), callInfo =>
-                {
-                    var value = new Lazy<T>(() => (T)Context.Resolve(typeof(T)));
-                    object[] arguments = callInfo.Args();
-                    ReturnsFixedValue(methodInfo, callInfo, value);
-                    var returnValue = value.Value;
-                    InvokeMethod(methodInfo, arguments);
+                Substitute
+                    .WhenForAnyArgs(_ => InvokeMethod(methodInfo))
+                    .Do(callInfo =>
+                    {
+                        var arguments = callInfo.Args();
 
-                    return returnValue;
-                });
+                        var callRouter =
+                            SubstitutionContext.Current.GetCallRouterFor(Substitute);
+
+                        callRouter.SetRoute(state => new Route(
+                            new ICallHandler[] {
+                                new NoSetupCallbackHandler(state, () => {
+                                    var value = Resolve(methodInfo.ReturnType);
+                                    if (value is OmitSpecimen)
+                                        return;
+
+                                    ReturnsFixedValue(methodInfo, value);
+                                    InvokeMethod(methodInfo, arguments);
+                                }),
+                                new ReturnDefaultForReturnTypeHandler(
+                                    new DefaultForType())
+                            }));
+                        InvokeMethod(methodInfo, arguments);
+                    });
             }
 
-            private void ReturnsFixedValue<T>(MethodInfo methodInfo, CallInfo callInfo, Lazy<T> value)
+            private object Resolve(Type type)
+            {
+                // NSubstitute uses a static property SubstitutionContext.Current
+                // to get and set the state of its substitutes.
+                // However, it uses ThreadLocal so one thread does not
+                // interfere in another.
+                // For this reason, Context.Resolve needs to run in another thread,
+                // otherwise, NSubstitute would not be able to set up the methods
+                // that return a circular reference.
+                // See discussion at https://github.com/AutoFixture/AutoFixture/pull/397
+                return Task.Factory
+                    .StartNew(() => Context.Resolve(type))
+                    .Result;
+            }
+
+            private void ReturnsFixedValue(MethodInfo methodInfo, object value)
             {
                 var refValues = GetFixedRefValues(methodInfo);
-                Returns<T>(default(T), x =>
+                Returns(null, x =>
                 {
                     SetRefValues(x, refValues);
-                    return value.Value;
+                    return value;
                 });
-                SetRefValues(callInfo, refValues);
             }
 
             private IEnumerable<Tuple<int, Lazy<object>>> GetFixedRefValues(MethodInfo methodInfo)
@@ -221,14 +232,15 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 if (methodInfo.IsVoid())
                     return;
 
-                ReturnsUsingContextMethodInfo.MakeGenericMethod(methodInfo.ReturnType)
+                ReturnsUsingContextMethodInfo
                     .Invoke(this, new object[] { methodInfo });
             }
 
             private static void SetRefValues(CallInfo callInfo, IEnumerable<Tuple<int, Lazy<object>>> values)
             {
                 foreach (var value in values)
-                    callInfo[value.Item1] = value.Item2.Value;
+                    if (!(value.Item2.Value is OmitSpecimen))
+                        callInfo[value.Item1] = value.Item2.Value;
             }
 
             private static IEnumerable<Tuple<int, ParameterInfo>> GetRefParameters(MethodInfo methodInfo)

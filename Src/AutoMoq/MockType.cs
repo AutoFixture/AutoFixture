@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -42,6 +43,16 @@ namespace Ploeh.AutoFixture.AutoMoq
                 && !type.GetMockedType().IsGenericParameter);
         }
 
+        internal static bool IsDelegate(this Type type)
+        {
+            /* Test against MulticastDelegate instead of Delegate base class
+             * because Brad Abrams says that we "should pretend that [Delegate 
+             * and MulticaseDelegate] are merged and that only 
+             * MulticastDelegate exists."
+             * http://blogs.msdn.com/b/brada/archive/2004/02/05/68415.aspx */
+            return typeof(MulticastDelegate).IsAssignableFrom(type.BaseType);
+        }
+
         internal static ConstructorInfo GetDefaultConstructor(this Type type)
         {
             return type.GetConstructor(Type.EmptyTypes);
@@ -64,15 +75,36 @@ namespace Ploeh.AutoFixture.AutoMoq
         }
 
         internal static IReturnsResult<TMock> ReturnsUsingContext<TMock, TResult>(this IReturns<TMock, TResult> setup,
-                                                                                  ISpecimenContext context)
+            ISpecimenContext context)
             where TMock : class
         {
             return setup.Returns(() =>
-                {
-                    var result = (TResult) context.Resolve(typeof (TResult));
-                    setup.Returns(result);
-                    return result;
-                });
+            {
+                var specimen = context.Resolve(typeof (TResult));
+
+                // check if specimen is null but member is non-nullable value type
+                if (specimen == null && (default(TResult) != null))
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            "Tried to setup a member with a return type of {0}, but null was found instead.",
+                            typeof (TResult)));
+
+                // check if specimen can be safely converted to TResult
+                if (specimen != null && !(specimen is TResult))
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            "Tried to setup a member with a return type of {0}, but an instance of {1} was found instead.",
+                            typeof (TResult),
+                            specimen.GetType()));
+
+                TResult result = (TResult) specimen;
+
+                //"cache" value for future invocations
+                setup.Returns(result);
+                return result;
+            });
         }
     }
 }

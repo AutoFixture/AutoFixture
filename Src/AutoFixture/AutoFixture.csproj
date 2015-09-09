@@ -97,6 +97,9 @@
   <ItemGroup>
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
+    <Compile Include="InvariantCultureGenerator.cs" />
+    <Compile Include="EmailAddressLocalPart.cs" />
+    <Compile Include="EmailAddressLocalPartGenerator.cs" />
     <Compile Include="Kernel\CompositeSpecimenCommand.cs" />
     <Compile Include="Kernel\EnumeratorRelay.cs" />
     <Compile Include="Kernel\GenericMethod.cs" />

@@ -55,9 +55,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Moq, Version=4.0.10827.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    <Reference Include="Moq, Version=4.1.1308.2120, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\..\Packages\Moq.4.1.1308.2120\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -90,7 +90,10 @@
     <Compile Include="TestTypes\IInterfaceWithGenericMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithIndexer.cs" />
     <Compile Include="TestTypes\IInterfaceWithMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithMethodWithOutParameterOfReferenceType.cs" />
     <Compile Include="TestTypes\IInterfaceWithNewMethod.cs" />
+    <Compile Include="TestTypes\IInterfaceWithNonNullableValueTypeProperty.cs" />
+    <Compile Include="TestTypes\IInterfaceWithNullableValueTypeProperty.cs" />
     <Compile Include="TestTypes\IInterfaceWithoutMembers.cs" />
     <Compile Include="TestTypes\IInterfaceWithOutMethod.cs" />
     <Compile Include="TestTypes\IInterfaceWithParameterlessMethod.cs" />
@@ -111,6 +114,7 @@
     <Compile Include="TestTypes\TypeWithStaticMethod.cs" />
     <Compile Include="TestTypes\TypeWithStaticProperty.cs" />
     <Compile Include="TestTypes\TypeWithVirtualMembers.cs" />
+    <Compile Include="ValidNonMockSpecimens.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">

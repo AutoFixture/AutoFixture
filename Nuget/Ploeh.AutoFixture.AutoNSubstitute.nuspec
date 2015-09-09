@@ -8,7 +8,7 @@
         <owners>Daniel Hilgarth, Mark Seemann</owners>
         <dependencies>
             <dependency id="autofixture" version="2.2" />
-            <dependency id="NSubstitute" version="1.4" />
+            <dependency id="NSubstitute" version="1.5.0" />
         </dependencies>
         <summary>Turns AutoFixture into an Auto-Mocking Container based on NSubstitute.</summary>
         <description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by NSubstitute. To use it, add the AutoNSubstituteCustomization to your Fixture instance. Read more at http://autofixture.codeplex.com/</description>

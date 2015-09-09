@@ -31,16 +31,39 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
             if (!typeof(MailAddress).Equals(request))
             {
                 return new NoSpecimen(request);
             }
 
-            var name = Guid.NewGuid().ToString();
-            var host = fictitiousDomains[(uint)name.GetHashCode() % 3];
+            try
+            {
+                return TryCreateMailAddress(request, context);
+            }                    
+            catch (FormatException)
+            {
+                return new NoSpecimen(request);
+            }
+        }
 
-            var email = string.Format(CultureInfo.InvariantCulture, "{0} <{0}@{1}>", name, host);
+        private object TryCreateMailAddress(object request, ISpecimenContext context)
+        {
+            var localPart = context.Resolve(typeof(EmailAddressLocalPart)) as EmailAddressLocalPart;
+
+            if (localPart == null)
+            {
+                return new NoSpecimen(request);
+            }
+
+            var host = fictitiousDomains[(uint)localPart.GetHashCode() % 3];
+
+            var email = string.Format(CultureInfo.InvariantCulture, "{0} <{0}@{1}>", localPart, host);
             return new MailAddress(email);
         }
-    }
+    }       
 }

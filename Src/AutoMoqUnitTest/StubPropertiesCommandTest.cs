@@ -13,14 +13,15 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 {
     public class StubPropertiesCommandTest
     {
-        [Fact]
-        public void ExecuteThrowsWhenSpecimenIsNull()
+        [Theory]
+        [ClassData(typeof (ValidNonMockSpecimens))]
+        public void ExecuteDoesNotThrowsWhenSpecimenIsValidNonMockSpecimen(object validNonMockSpecimen)
         {
             // Fixture setup
             var context = new Mock<ISpecimenContext>().Object;
             var sut = new StubPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() => sut.Execute(null, context));
+            Assert.DoesNotThrow(() => sut.Execute(validNonMockSpecimen, context));
         }
 
         [Fact]

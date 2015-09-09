@@ -18,14 +18,14 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void BuilderIsNSubstituteBuilderByDefault()
+        public void BuilderIsSubstituteRelayByDefault()
         {
             // Fixture setup
             var sut = new AutoConfiguredNSubstituteCustomization();
             // Exercise system 
             var builder = sut.Builder;
             // Verify outcome
-            Assert.IsType<NSubstituteBuilder>(builder);
+            Assert.IsType<SubstituteRelay>(builder);
             // Teardown
         }
 
@@ -41,22 +41,32 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void CustomizeAddsNSubstitutePostprocessorCommandsToResidueCollectors()
+        public void CustomizeInsertsSubstituteAttributeRelayInCustomizationsToOverrideDefaultConstructionWhenAttributeIsPresent()
         {
             // Fixture setup
-            var residueCollectors = new List<ISpecimenBuilder>();
+            var sut = new AutoConfiguredNSubstituteCustomization();
             var fixture = Substitute.For<IFixture>();
-            fixture.ResidueCollectors.Returns(residueCollectors);
+            // Exercise system
+            sut.Customize(fixture);
+            // Verify outcome
+            fixture.Customizations.Received().Insert(0, Arg.Any<SubstituteAttributeRelay>());
+            // Teardown
+        }
+
+        [Fact]
+        public void CustomizeAddsPostprocessorWithSubstituteRequestHandlerAndCommandsToCustomizations()
+        {
+            // Fixture setup
+            var fixture = Substitute.For<IFixture>();
+            Postprocessor postprocessor = null;
+            fixture.Customizations.Insert(Arg.Any<int>(), Arg.Do<Postprocessor>(p => postprocessor = p));
             var sut = new AutoConfiguredNSubstituteCustomization();
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
-            var postprocessor =
-                Assert.Single(residueCollectors.OfType<Postprocessor>());
-            var nsubstituteBuilder = Assert.IsAssignableFrom<NSubstituteBuilder>(postprocessor.Builder);
-            var methodInvoker = Assert.IsAssignableFrom<MethodInvoker>(nsubstituteBuilder.Builder);
-            Assert.IsAssignableFrom<AbstractTypeSpecification>(nsubstituteBuilder.SubstitutionSpecification);
-            Assert.IsAssignableFrom<NSubstituteMethodQuery>(methodInvoker.Query);
+            var substituteRequestHandler = Assert.IsAssignableFrom<SubstituteRequestHandler>(postprocessor.Builder);
+            var substituteFactory = Assert.IsType<MethodInvoker>(substituteRequestHandler.SubstituteFactory);
+            Assert.IsType<NSubstituteMethodQuery>(substituteFactory.Query);
             var compositeCommand = Assert.IsAssignableFrom<CompositeSpecimenCommand>(postprocessor.Command);
             Assert.True(compositeCommand.Commands.OfType<NSubstituteVirtualMethodsCommand>().Any());
             Assert.True(compositeCommand.Commands.OfType<NSubstituteSealedPropertiesCommand>().Any());
@@ -67,16 +77,12 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public void CustomizeAddsBuilderToResidueCollectors()
         {
             var builder = Substitute.For<ISpecimenBuilder>();
-            var residueCollectors = new List<ISpecimenBuilder>();
             var fixture = Substitute.For<IFixture>();
-            fixture.ResidueCollectors.Returns(residueCollectors);
             var sut = new AutoConfiguredNSubstituteCustomization(builder);
 
             sut.Customize(fixture);
 
-            var postprocessor =
-                Assert.Single(residueCollectors.OfType<Postprocessor>());
-            Assert.Equal(builder, postprocessor.Builder);
+            fixture.ResidueCollectors.Received().Add(builder);
         }
     }
 }

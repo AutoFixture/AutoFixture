@@ -1,25 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Moq;
 using Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 {
     public class MockVirtualMethodsCommandTest
     {
-        [Fact]
-        public void SetupThrowsWhenMockIsNull()
+        [Theory]
+        [ClassData(typeof (ValidNonMockSpecimens))]
+        public void ExecuteShouldNotThrowWhenSpecimenIsValidNonMockSpecimen(object validNonMockSpecimen)
         {
             // Fixture setup
             var context = new Mock<ISpecimenContext>();
             var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(
-                () => sut.Execute(null, context.Object));
+            Assert.DoesNotThrow(
+                () => sut.Execute(validNonMockSpecimen, context.Object));
             // Teardown
         }
 
@@ -282,6 +285,44 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Execute(specimen, context.Object));
+        }
+
+        [Fact]
+        public void SetsUpOutParametersWithNullWhenContextReturnsNull()
+        {
+            // Fixture setup
+            var contextMock = new Mock<ISpecimenContext>();
+            contextMock.Setup(ctx => ctx.Resolve(typeof (string)))
+                .Returns(null);
+            var mock = new Mock<IInterfaceWithMethodWithOutParameterOfReferenceType>();
+
+            var sut = new MockVirtualMethodsCommand();
+            // Exercise system
+            sut.Execute(mock, contextMock.Object);
+            // Verify outcome
+            string outResult;
+            mock.Object.Method(out outResult);
+            Assert.Null(outResult);
+            // Teardown
+        }
+
+        [Fact]
+        public void DoesNotSetupMethodsWithOutParametersWhenContextReturnsOmitSpecimen()
+        {
+            // Fixture setup
+            var contextMock = new Mock<ISpecimenContext>();
+            contextMock.Setup(ctx => ctx.Resolve(typeof (int)))
+                .Returns(new OmitSpecimen());
+            var mock = new Mock<IInterfaceWithOutMethod>(MockBehavior.Strict);
+
+            var sut = new MockVirtualMethodsCommand();
+            // Exercise system
+            sut.Execute(mock, contextMock.Object);
+            // Verify outcome
+            // The mock has strict behaviour - calling methods that were not setup cause an exception to be thrown
+            int outResult;
+            Assert.Throws<MockException>(() => mock.Object.Method(out outResult));
+            // Teardown
         }
     }
 }

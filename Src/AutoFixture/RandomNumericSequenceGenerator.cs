@@ -30,8 +30,7 @@ namespace Ploeh.AutoFixture
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomNumericSequenceGenerator" /> class.
         /// </summary>
-        /// <param name="limits">A sequence of integers beginning with two positive or negative 
-        /// number optionally followed by a series of greater numbers.</param>
+        /// <param name="limits">A sequence of at least two ascending numbers.</param>
         public RandomNumericSequenceGenerator(IEnumerable<long> limits)
             : this(limits.ToArray())
         {
@@ -40,8 +39,7 @@ namespace Ploeh.AutoFixture
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomNumericSequenceGenerator" /> class.
         /// </summary>
-        /// <param name="limits">An array of integers beginning with two positive or negative 
-        /// number optionally followed by a series of greater numbers.</param>
+        /// <param name="limits">An array of at least two ascending numbers.</param>
         /// <exception cref="System.ArgumentNullException"></exception>
         /// <exception cref="System.ArgumentException"></exception>
         public RandomNumericSequenceGenerator(params long[] limits)
@@ -53,8 +51,10 @@ namespace Ploeh.AutoFixture
 
             if (limits.Length < 2)
             {
-                throw new ArgumentException("The limit must be a sequence of two or more integers.");
+                throw new ArgumentException("Limits must be at least two ascending numbers.", "limits");
             }
+
+            ValidateThatLimitsAreStrictlyAscending(limits);
 
             this.limits = limits;
             this.syncRoot = new object();
@@ -92,6 +92,14 @@ namespace Ploeh.AutoFixture
             }
 
             return this.CreateRandom(type);
+        }
+
+        private static void ValidateThatLimitsAreStrictlyAscending(long[] limits)
+        {
+            if (limits.Zip(limits.Skip(1), (a, b) => a >= b).Any(b => b))
+            {
+                throw new ArgumentOutOfRangeException("limits", "Limits must be ascending numbers.");
+            }
         }
 
         private object CreateRandom(Type request)
@@ -156,7 +164,7 @@ namespace Ploeh.AutoFixture
                 long result;
                 do
                 {
-                    if (this.lower >= int.MinValue && 
+                    if (this.lower >= int.MinValue &&
                         this.upper <= int.MaxValue)
                     {
                         result = this.random.Next((int)this.lower, (int)this.upper);
@@ -195,10 +203,24 @@ namespace Ploeh.AutoFixture
             else
             {
                 this.lower = limits[0];
-                this.upper = limits[1];
+                this.upper = this.GetUpperRangeFromLimits();
             }
 
             this.numbers.Clear();
+        }
+
+        /// <summary>
+        /// Returns upper limit + 1 when expecting to use upper as max value in Random.Next(Int32,Int32).
+        /// This ensures that the upper limit is included in the possible values returned by Random.Next(Int32,Int32)
+        /// 
+        /// When not expecting to use Random.Next(Int32,Int32).  It returns the original upper limit.
+        /// </summary>
+        /// <returns></returns>
+        private long GetUpperRangeFromLimits()
+        {
+            return limits[1] >= Int32.MaxValue
+                    ? limits[1]
+                    : limits[1] + 1;
         }
 
         private long GetNextInt64InRange()
