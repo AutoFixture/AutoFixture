@@ -12,7 +12,6 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly Type targetType;
         private readonly string targetName;
-        private readonly IEqualityComparer<string> nameComparison;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertySpecification"/> class.
@@ -30,7 +29,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="targetName"/> is <see langword="null"/>.
         /// </exception>
         public PropertySpecification(Type targetType, string targetName)
-            : this(targetType, targetName, StringComparer.Ordinal)
+            : this(targetType, targetName, new FalseComparer())
         {
         }
 
@@ -44,9 +43,9 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="targetName">
         /// The name which the requested <see cref="PropertyInfo"/> name
         /// should match according to the specified
-        /// <paramref name="nameComparison"/> criteria.
+        /// <paramref name="propertyComparer"/> criteria.
         /// </param>
-        /// <param name="nameComparison">
+        /// <param name="propertyComparer">
         /// The criteria used to match the requested
         /// <see cref="PropertyInfo"/> name with the specified
         /// <paramref name="targetName"/>.
@@ -54,12 +53,12 @@ namespace Ploeh.AutoFixture.Kernel
         /// <exception cref="ArgumentNullException">
         /// <paramref name="targetType"/> or
         /// <paramref name="targetName"/> or
-        /// <paramref name="nameComparison"/> is <see langword="null"/>.
+        /// <paramref name="propertyComparer"/> is <see langword="null"/>.
         /// </exception>
         public PropertySpecification(
             Type targetType,
             string targetName,
-            IEqualityComparer<string> nameComparison)
+            IEqualityComparer<PropertyInfo> propertyComparer)
         {
             if (targetType == null)
             {
@@ -71,14 +70,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("targetName");
             }
 
-            if (nameComparison == null)
+            if (propertyComparer == null)
             {
-                throw new ArgumentNullException("nameComparison");
+                throw new ArgumentNullException("propertyComparer");
             }
 
             this.targetType = targetType;
             this.targetName = targetName;
-            this.nameComparison = nameComparison;
         }
 
         /// <summary>
@@ -133,9 +131,20 @@ namespace Ploeh.AutoFixture.Kernel
 
         private bool PropertyMatchesTargetName(object request)
         {
-            return this.nameComparison.Equals(
-                ((PropertyInfo)request).Name,
-                this.targetName);
+            return ((PropertyInfo)request).Name == this.targetName;
+        }
+
+        private class FalseComparer : IEqualityComparer<PropertyInfo>
+        {
+            public bool Equals(PropertyInfo x, PropertyInfo y)
+            {
+                return false;
+            }
+
+            public int GetHashCode(PropertyInfo obj)
+            {
+                return 0;
+            }
         }
     }
 }
