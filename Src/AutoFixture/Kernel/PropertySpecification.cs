@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="targetName"/> is <see langword="null"/>.
         /// </exception>
         public PropertySpecification(Type targetType, string targetName)
-            : this(targetType, targetName, new FalseComparer())
+            : this(targetType, targetName, new FalseEquatable())
         {
         }
 
@@ -44,9 +44,9 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="targetName">
         /// The name which the requested <see cref="PropertyInfo"/> name
         /// should match according to the specified
-        /// <paramref name="propertyComparer"/> criteria.
+        /// <paramref name="target"/> criteria.
         /// </param>
-        /// <param name="propertyComparer">
+        /// <param name="target">
         /// The criteria used to match the requested
         /// <see cref="PropertyInfo"/> name with the specified
         /// <paramref name="targetName"/>.
@@ -54,12 +54,12 @@ namespace Ploeh.AutoFixture.Kernel
         /// <exception cref="ArgumentNullException">
         /// <paramref name="targetType"/> or
         /// <paramref name="targetName"/> or
-        /// <paramref name="propertyComparer"/> is <see langword="null"/>.
+        /// <paramref name="target"/> is <see langword="null"/>.
         /// </exception>
         public PropertySpecification(
             Type targetType,
             string targetName,
-            IEqualityComparer<PropertyInfo> propertyComparer)
+            IEquatable<PropertyInfo> target)
         {
             if (targetType == null)
             {
@@ -71,9 +71,9 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException("targetName");
             }
 
-            if (propertyComparer == null)
+            if (target == null)
             {
-                throw new ArgumentNullException("propertyComparer");
+                throw new ArgumentNullException("target");
             }
 
             this.targetType = targetType;
@@ -135,16 +135,11 @@ namespace Ploeh.AutoFixture.Kernel
             return ((PropertyInfo)request).Name == this.targetName;
         }
 
-        private class FalseComparer : IEqualityComparer<PropertyInfo>
+        private class FalseEquatable : IEquatable<PropertyInfo>
         {
-            public bool Equals(PropertyInfo x, PropertyInfo y)
+            public bool Equals(PropertyInfo other)
             {
                 return false;
-            }
-
-            public int GetHashCode(PropertyInfo obj)
-            {
-                return 0;
             }
         }
     }
