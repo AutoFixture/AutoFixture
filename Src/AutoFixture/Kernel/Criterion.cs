@@ -9,6 +9,8 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (target == null)
                 throw new ArgumentNullException("target");
+            if (comparer == null)
+                throw new ArgumentNullException("comparer");
         }
 
         public bool Equals(T other)
