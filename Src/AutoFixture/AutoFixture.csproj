@@ -105,6 +105,7 @@
     <Compile Include="Kernel\GenericMethod.cs" />
     <Compile Include="Kernel\IMethodFactory.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingMethodFactory.cs" />
+    <Compile Include="Kernel\PropertyTypeAndNameCriterion.cs" />
     <Compile Include="Kernel\TemplateMethodQuery.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingMethod.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingStaticMethodFactory.cs" />

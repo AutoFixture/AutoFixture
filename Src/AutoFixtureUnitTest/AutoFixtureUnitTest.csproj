@@ -97,6 +97,7 @@
     <Compile Include="DelegatingRecursionHandler.cs" />
     <Compile Include="EmailAddressLocalPartGeneratorTest.cs" />
     <Compile Include="EmailAddressLocalPartTest.cs" />
+    <Compile Include="Kernel\DelegatingCriterion.cs" />
     <Compile Include="Kernel\EnumeratorRelayTest.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingMethodFactoryTests.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingStaticMethodFactoryTests.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Kernel\DelegatingMethod.cs" />
     <Compile Include="Kernel\DelegatingMethodFactory.cs" />
     <Compile Include="Kernel\GenericMethodTests.cs" />
+    <Compile Include="Kernel\PropertyTypeAndNameCriterionTests.cs" />
     <Compile Include="Kernel\TemplateMethodQueryTests.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingMethodTests.cs" />
     <Compile Include="FreezeOnMatchCustomizationTest.cs" />
