@@ -7,6 +7,8 @@ namespace Ploeh.AutoFixture.Kernel
     {
         public Criterion(T target, IEqualityComparer<T> comparer)
         {
+            if (target == null)
+                throw new ArgumentNullException("target");
         }
 
         public bool Equals(T other)

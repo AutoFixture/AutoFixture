@@ -17,5 +17,15 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new DelegatingEqualityComparer<string>());
             Assert.IsAssignableFrom<IEquatable<string>>(sut);
         }
+
+
+        [Fact]
+        public void ConstructWithNullTargetThrows()
+        {
+            Assert.Throws<ArgumentNullException>(
+                () => new Criterion<Version>(
+                    null,
+                    new DelegatingEqualityComparer<Version>()));
+        }
     }
 }
