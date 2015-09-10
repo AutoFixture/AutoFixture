@@ -9,8 +9,6 @@ namespace Ploeh.AutoFixture.Kernel
         private readonly IEqualityComparer<T> comparer;
         public Criterion(T target, IEqualityComparer<T> comparer)
         {
-            if (target == null)
-                throw new ArgumentNullException("target");
             if (comparer == null)
                 throw new ArgumentNullException("comparer");
 

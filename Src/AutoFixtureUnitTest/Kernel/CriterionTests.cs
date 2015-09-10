@@ -20,15 +20,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void ConstructWithNullTargetThrows()
-        {
-            Assert.Throws<ArgumentNullException>(
-                () => new Criterion<Version>(
-                    null,
-                    new DelegatingEqualityComparer<Version>()));
-        }
-
-        [Fact]
         public void ConstructWithNullComparerThrows()
         {
             Assert.Throws<ArgumentNullException>(
@@ -38,6 +29,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [Theory]
         [InlineData("ploeh", "ndøh", true)]
         [InlineData("fnaah", "sqryt", false)]
+        [InlineData(null, "qux", true)]
         public void EqualsReturnsComparerResult(
             string target,
             string candidate,
