@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -32,6 +33,30 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             Assert.Throws<ArgumentNullException>(
                 () => new Criterion<int>(42, null));
+        }
+
+        [Theory]
+        [InlineData("ploeh", "ndøh", true)]
+        [InlineData("fnaah", "sqryt", false)]
+        public void EqualsReturnsComparerResult(
+            string target,
+            string candidate,
+            bool expected)
+        {
+            var comparer = new DelegatingEqualityComparer<string>
+            {
+                OnEquals = (x, y) =>
+                {
+                    Assert.Equal(target, x);
+                    Assert.Equal(candidate, y);
+                    return expected;
+                }
+            };
+            var sut = new Criterion<string>(target, comparer);
+
+            var actual = sut.Equals(candidate);
+
+            Assert.Equal(expected, actual);
         }
     }
 }
