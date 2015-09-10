@@ -50,5 +50,17 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(42)]
+        public void TargetIsCorrect(int expected)
+        {
+            var sut = new Criterion<int>(
+                expected,
+                new DelegatingEqualityComparer<int>());
+            var actual = sut.Target;
+            Assert.Equal(expected, actual);
+        }
     }
 }

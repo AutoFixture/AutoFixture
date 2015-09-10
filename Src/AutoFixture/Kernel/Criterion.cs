@@ -7,6 +7,7 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly T target;
         private readonly IEqualityComparer<T> comparer;
+
         public Criterion(T target, IEqualityComparer<T> comparer)
         {
             if (comparer == null)
@@ -19,6 +20,11 @@ namespace Ploeh.AutoFixture.Kernel
         public bool Equals(T other)
         {
             return this.comparer.Equals(this.target, other);
+        }
+
+        public T Target
+        {
+            get { return this.target; }
         }
     }
 }
