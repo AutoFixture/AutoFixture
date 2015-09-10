@@ -62,5 +62,16 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var actual = sut.Target;
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void ComparerIsCorrect()
+        {
+            var expected = new DelegatingEqualityComparer<decimal>();
+            var sut = new Criterion<decimal>(1337m, expected);
+
+            var actual = sut.Comparer;
+
+            Assert.Equal(expected, actual);
+        }
     }
 }

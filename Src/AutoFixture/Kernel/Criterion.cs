@@ -26,5 +26,10 @@ namespace Ploeh.AutoFixture.Kernel
         {
             get { return this.target; }
         }
+
+        public IEqualityComparer<T> Comparer
+        {
+            get { return this.comparer; }
+        }
     }
 }
