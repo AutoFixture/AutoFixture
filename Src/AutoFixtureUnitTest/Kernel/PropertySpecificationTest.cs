@@ -3,6 +3,7 @@ using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
+using System.Reflection;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -149,6 +150,28 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             Assert.False(result);
             // Teardown
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void IsSatisfiedByReturnsCorrectResultAccordingToTarget(
+            bool expected)
+        {
+            var prop = typeof(string).GetProperty("Length");
+            var target = new DelegatingCriterion<PropertyInfo>
+            {
+                OnEquals = p =>
+                {
+                    Assert.Equal(prop, p);
+                    return expected;
+                }
+            };
+            var sut = new PropertySpecification(target);
+
+            var actual = sut.IsSatisfiedBy(prop);
+
+            Assert.Equal(expected, actual);
         }
     }
 }

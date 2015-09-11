@@ -13,6 +13,7 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly Type targetType;
         private readonly string targetName;
+        private readonly IEquatable<PropertyInfo> target;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertySpecification"/> class.
@@ -30,6 +31,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="targetName"/> is <see langword="null"/>.
         /// </exception>
         public PropertySpecification(Type targetType, string targetName)
+            : this(CreateDefaultTarget(targetType, targetName))
         {
             if (targetType == null)
                 throw new ArgumentNullException("targetType");
@@ -40,31 +42,36 @@ namespace Ploeh.AutoFixture.Kernel
             this.targetName = targetName;
         }
 
+        private static IEquatable<PropertyInfo> CreateDefaultTarget(
+            Type targetType,
+            string targetName)
+        {
+            return new PropertyTypeAndNameCriterion(
+                new Criterion<Type>(
+                    targetType,
+                    new DerivesFromTypeComparer()),
+                new Criterion<string>(
+                    targetName,
+                    EqualityComparer<string>.Default));
+        }
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertySpecification"/> class.
+        /// Initializes a new instance of the
+        /// <see cref="PropertySpecification"/> class.
         /// </summary>
-        /// <param name="targetType">
-        /// The <see cref="Type"/> with which the requested
-        /// <see cref="PropertyInfo"/> type should be compatible.
-        /// </param>
-        /// <param name="targetName">
-        /// The name which the requested <see cref="PropertyInfo"/> name
-        /// should match according to the specified
-        /// <paramref name="target"/> criteria.
-        /// </param>
         /// <param name="target">
-        /// The criteria used to match the requested
-        /// <see cref="PropertyInfo"/> name with the specified
-        /// <paramref name="targetName"/>.
+        /// The criterion used to match the requested
+        /// <see cref="PropertyInfo"/> with the specified value.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="targetType"/> or
-        /// <paramref name="targetName"/> or
         /// <paramref name="target"/> is <see langword="null"/>.
         /// </exception>
         public PropertySpecification(IEquatable<PropertyInfo> target)
         {
-            throw new ArgumentNullException("target");
+            if (target == null)
+                throw new ArgumentNullException("target");
+
+            this.target = target;
         }
 
         /// <summary>
@@ -96,37 +103,25 @@ namespace Ploeh.AutoFixture.Kernel
         public bool IsSatisfiedBy(object request)
         {
             if (request == null)
-            {
                 throw new ArgumentNullException("request");
+
+            var p = request as PropertyInfo;
+            if (p == null)
+                return false;
+
+            return this.target.Equals(p);
+        }
+
+        private class DerivesFromTypeComparer : IEqualityComparer<Type>
+        {
+            public bool Equals(Type x, Type y)
+            {
+                return y.IsAssignableFrom(x);
             }
 
-            return IsRequestForProperty(request) &&
-                   PropertyIsCompatibleWithTargetType(request) &&
-                   PropertyMatchesTargetName(request);
-        }
-
-        private static bool IsRequestForProperty(object request)
-        {
-            return request is PropertyInfo;
-        }
-
-        private bool PropertyIsCompatibleWithTargetType(object request)
-        {
-            return ((PropertyInfo)request)
-                   .PropertyType
-                   .IsAssignableFrom(this.targetType);
-        }
-
-        private bool PropertyMatchesTargetName(object request)
-        {
-            return ((PropertyInfo)request).Name == this.targetName;
-        }
-
-        private class FalseEquatable : IEquatable<PropertyInfo>
-        {
-            public bool Equals(PropertyInfo other)
+            public int GetHashCode(Type obj)
             {
-                return false;
+                return 0;
             }
         }
     }
