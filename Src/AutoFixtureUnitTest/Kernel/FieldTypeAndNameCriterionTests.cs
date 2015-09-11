@@ -66,5 +66,14 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var actual = sut.Equals((FieldInfo)null);
             Assert.False(actual, "SUT shouldn't equal null field.");
         }
+
+        [Fact]
+        public void ConstructWithNullTypeCriterionThrows()
+        {
+            Assert.Throws<ArgumentNullException>(
+                () => new FieldTypeAndNameCriterion(
+                    null,
+                    new DelegatingCriterion<string>()));
+        }
     }
 }
