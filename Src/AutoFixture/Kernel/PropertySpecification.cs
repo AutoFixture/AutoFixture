@@ -30,8 +30,14 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="targetName"/> is <see langword="null"/>.
         /// </exception>
         public PropertySpecification(Type targetType, string targetName)
-            : this(targetType, targetName, new FalseEquatable())
         {
+            if (targetType == null)
+                throw new ArgumentNullException("targetType");
+            if (targetName == null)
+                throw new ArgumentNullException("targetName");
+
+            this.targetType = targetType;
+            this.targetName = targetName;
         }
 
         /// <summary>
@@ -56,28 +62,9 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="targetName"/> or
         /// <paramref name="target"/> is <see langword="null"/>.
         /// </exception>
-        public PropertySpecification(
-            Type targetType,
-            string targetName,
-            IEquatable<PropertyInfo> target)
+        public PropertySpecification(IEquatable<PropertyInfo> target)
         {
-            if (targetType == null)
-            {
-                throw new ArgumentNullException("targetType");
-            }
-
-            if (targetName == null)
-            {
-                throw new ArgumentNullException("targetName");
-            }
-
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            this.targetType = targetType;
-            this.targetName = targetName;
+            throw new ArgumentNullException("target");
         }
 
         /// <summary>

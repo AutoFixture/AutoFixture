@@ -35,6 +35,7 @@ namespace Ploeh.AutoFixture.Kernel
             var other = obj as PropertyTypeAndNameCriterion;
             if (other == null)
                 return base.Equals(obj);
+
             return object.Equals(this.typeCriterion, other.typeCriterion)
                 && object.Equals(this.nameCriterion, other.nameCriterion);
         }

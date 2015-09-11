@@ -54,13 +54,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void InitializeWithNullNameComparisonShouldThrowArgumentNullException()
+        public void InitializeWithNullTargetShouldThrowArgumentNullException()
         {
-            // Fixture setup
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                new PropertySpecification(typeof(object), "someName", null));
-            // Teardown
+            Assert.Throws<ArgumentNullException>(
+                () => new PropertySpecification(null));
         }
 
         [Fact]
