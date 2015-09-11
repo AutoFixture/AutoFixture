@@ -100,7 +100,6 @@
     <Compile Include="Kernel\CriterionTests.cs" />
     <Compile Include="Kernel\DelegatingCriterion.cs" />
     <Compile Include="Kernel\EnumeratorRelayTest.cs" />
-    <Compile Include="Kernel\FieldTypeAndNameCriterion.cs" />
     <Compile Include="Kernel\FieldTypeAndNameCriterionTests.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingMethodFactoryTests.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingStaticMethodFactoryTests.cs" />

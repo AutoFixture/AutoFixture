@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace Ploeh.AutoFixture.Kernel
 {
     public class FieldTypeAndNameCriterion : IEquatable<FieldInfo>
     {
