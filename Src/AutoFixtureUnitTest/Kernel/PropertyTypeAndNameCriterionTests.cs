@@ -84,5 +84,70 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     new DelegatingCriterion<Type>(),
                     null));
         }
+
+        [Fact]
+        public void SutEqualsIdenticalValue()
+        {
+            var typeCriterion = new DelegatingCriterion<Type>();
+            var nameCriterion = new DelegatingCriterion<string>();
+            var sut =
+                new PropertyTypeAndNameCriterion(typeCriterion, nameCriterion);
+
+            var other =
+                new PropertyTypeAndNameCriterion(typeCriterion, nameCriterion);
+            var actual = sut.Equals(other);
+
+            Assert.True(actual, "Expected structural equality to hold.");
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData(1)]
+        [InlineData("foo")]
+        [InlineData(typeof(Version))]
+        public void SutDoesNotEqualAnyObject(object other)
+        {
+            var sut = new PropertyTypeAndNameCriterion(
+                new DelegatingCriterion<Type>(),
+                new DelegatingCriterion<string>());
+            var actual = sut.Equals(other);
+            Assert.False(actual, "SUT should not equal object of other type.");
+        }
+
+        [Fact]
+        public void SutDoesNotEqualOtherWhenTypeCriterionDiffers()
+        {
+            var nameCriterion = new DelegatingCriterion<string>();
+            var sut = new PropertyTypeAndNameCriterion(
+                new DelegatingCriterion<Type>(),
+                nameCriterion);
+
+            var other = new PropertyTypeAndNameCriterion(
+                new DelegatingCriterion<Type>(),
+                nameCriterion);
+            var actual = sut.Equals(other);
+
+            Assert.False(
+                actual,
+                "SUT should not equal other when type criterion differs.");
+        }
+
+        [Fact]
+        public void SutDoesNotEqualOtherWhenNameCriterionDiffers()
+        {
+            var typeCriterion = new DelegatingCriterion<Type>();
+            var sut = new PropertyTypeAndNameCriterion(
+                typeCriterion,
+                new DelegatingCriterion<string>());
+
+            var other = new PropertyTypeAndNameCriterion(
+                typeCriterion,
+                new DelegatingCriterion<string>());
+            var actual = sut.Equals(other);
+
+            Assert.False(
+                actual,
+                "SUT should not equal other when name criterion differs.");
+        }
     }
 }
