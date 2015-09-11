@@ -18,6 +18,9 @@ namespace Ploeh.AutoFixture.Kernel
 
         public bool Equals(PropertyInfo other)
         {
+            if (other == null)
+                return false;
+
             return this.typeCriterion.Equals(other.PropertyType)
                 && this.nameCriterion.Equals(other.Name);
         }
