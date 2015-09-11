@@ -29,5 +29,23 @@ namespace Ploeh.AutoFixture.Kernel
             return this.typeCriterion.Equals(other.FieldType)
                 && this.nameCriterion.Equals(other.Name);
         }
+
+        public override bool Equals(object obj)
+        {
+
+            var other = obj as FieldTypeAndNameCriterion;
+            if (other == null)
+                return base.Equals(obj);
+
+            return object.Equals(this.typeCriterion, other.typeCriterion)
+                && object.Equals(this.nameCriterion, other.nameCriterion);
+        }
+
+        public override int GetHashCode()
+        {
+            return 
+                this.typeCriterion.GetHashCode() ^
+                this.nameCriterion.GetHashCode();
+        }
     }
 }
