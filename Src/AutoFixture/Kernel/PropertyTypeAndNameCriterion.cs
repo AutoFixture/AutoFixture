@@ -12,6 +12,9 @@ namespace Ploeh.AutoFixture.Kernel
             IEquatable<Type> typeCriterion,
             IEquatable<string> nameCriterion)
         {
+            if (typeCriterion == null)
+                throw new ArgumentNullException("typeCriterion");
+
             this.typeCriterion = typeCriterion;
             this.nameCriterion = nameCriterion;
         }

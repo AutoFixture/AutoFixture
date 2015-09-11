@@ -66,5 +66,14 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var actual = sut.Equals((PropertyInfo)null);
             Assert.False(actual, "SUT shouldn't equal null property.");
         }
+
+        [Fact]
+        public void ConstructWithNullTypeCriterionThrows()
+        {
+            Assert.Throws<ArgumentNullException>(
+                () => new PropertyTypeAndNameCriterion(
+                    null,
+                    new DelegatingCriterion<string>()));
+        }
     }
 }
