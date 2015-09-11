@@ -39,6 +39,11 @@ namespace Ploeh.AutoFixture.Kernel
                 && object.Equals(this.nameCriterion, other.nameCriterion);
         }
 
+        public IEquatable<Type> TypeCriterion
+        {
+            get { return this.typeCriterion; }
+        }
+
         public override int GetHashCode()
         {
             return 
