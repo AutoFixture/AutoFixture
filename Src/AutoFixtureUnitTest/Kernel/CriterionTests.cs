@@ -73,5 +73,70 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void SutEqualsIdenticalValue()
+        {
+            var target = Guid.NewGuid();
+            var comparer = new DelegatingEqualityComparer<Guid>();
+            var sut = new Criterion<Guid>(target, comparer);
+
+            var other = new Criterion<Guid>(target, comparer);
+            var actual = sut.Equals(other);
+
+            Assert.True(actual, "Expected structural equality to hold.");
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData(1)]
+        [InlineData("foo")]
+        [InlineData(typeof(Version))]
+        public void SutDoesNotEqualAnyObject(object other)
+        {
+            var sut = new Criterion<PlatformID>(
+                PlatformID.Unix,
+                new DelegatingEqualityComparer<PlatformID>());
+            var actual = sut.Equals(other);
+            Assert.False(actual, "SUT should not equal object of other type.");
+        }
+
+        [Theory]
+        [InlineData(1, 2)]
+        [InlineData(3, 36)]
+        public void SutDoesNotEqualOtherWhenTargetDiffers(
+            int sutTarget,
+            int otherTarget)
+        {
+            var comparer = new DelegatingEqualityComparer<int>();
+            var sut = new Criterion<int>(sutTarget, comparer);
+
+            var other = new Criterion<int>(otherTarget, comparer);
+            var actual = sut.Equals(other);
+
+            Assert.False(
+                actual,
+                "SUT shouldn't equal other with different target");
+        }
+
+        [Theory]
+        [InlineData("1")]
+        [InlineData("3")]
+        [InlineData("foo")]
+        public void SutDoesNotEqualOtherWhenComparerDiffers(string target)
+        {
+            var sut = new Criterion<string>(
+                target,
+                new DelegatingEqualityComparer<string>());
+
+            var other = new Criterion<string>(
+                target,
+                new DelegatingEqualityComparer<string>());
+            var actual = sut.Equals(other);
+
+            Assert.False(
+                actual,
+                "SUT shouldn't equal other with different comparer.");
+        }
     }
 }

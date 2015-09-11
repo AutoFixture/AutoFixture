@@ -22,6 +22,15 @@ namespace Ploeh.AutoFixture.Kernel
             return this.comparer.Equals(this.target, other);
         }
 
+        public override bool Equals(object obj)
+        {
+            var other = obj as Criterion<T>;
+            if (other == null)
+                return base.Equals(obj);
+            return object.Equals(this.target, other.target)
+                && object.Equals(this.comparer, other.comparer);
+        }
+
         public T Target
         {
             get { return this.target; }
@@ -30,6 +39,11 @@ namespace Ploeh.AutoFixture.Kernel
         public IEqualityComparer<T> Comparer
         {
             get { return this.comparer; }
+        }
+
+        public override int GetHashCode()
+        {
+            return this.target.GetHashCode() ^ this.comparer.GetHashCode();
         }
     }
 }
