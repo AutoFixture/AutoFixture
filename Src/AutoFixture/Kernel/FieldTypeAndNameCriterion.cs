@@ -14,6 +14,8 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (typeCriterion == null)
                 throw new ArgumentNullException("typeCriterion");
+            if (nameCriterion == null)
+                throw new ArgumentNullException("nameCriterion");
 
             this.typeCriterion = typeCriterion;
             this.nameCriterion = nameCriterion;
