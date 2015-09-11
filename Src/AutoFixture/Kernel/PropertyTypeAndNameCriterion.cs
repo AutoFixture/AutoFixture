@@ -44,6 +44,11 @@ namespace Ploeh.AutoFixture.Kernel
             get { return this.typeCriterion; }
         }
 
+        public IEquatable<string> NameCriterion
+        {
+            get { return this.nameCriterion; }
+        }
+
         public override int GetHashCode()
         {
             return 
