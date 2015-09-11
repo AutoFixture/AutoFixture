@@ -29,8 +29,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var sut = new PropertySpecification(type, name);
             // Verify outcome
+#pragma warning disable 618
             Assert.Equal(type, sut.TargetType);
             Assert.Equal(name, sut.TargetName);
+#pragma warning restore 618
             // Teardown
         }
 
