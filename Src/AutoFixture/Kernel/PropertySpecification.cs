@@ -33,11 +33,6 @@ namespace Ploeh.AutoFixture.Kernel
         public PropertySpecification(Type targetType, string targetName)
             : this(CreateDefaultTarget(targetType, targetName))
         {
-            if (targetType == null)
-                throw new ArgumentNullException("targetType");
-            if (targetName == null)
-                throw new ArgumentNullException("targetName");
-
             this.targetType = targetType;
             this.targetName = targetName;
         }
@@ -46,6 +41,11 @@ namespace Ploeh.AutoFixture.Kernel
             Type targetType,
             string targetName)
         {
+            if (targetType == null)
+                throw new ArgumentNullException("targetType");
+            if (targetName == null)
+                throw new ArgumentNullException("targetName");
+
             return new PropertyTypeAndNameCriterion(
                 new Criterion<Type>(
                     targetType,
