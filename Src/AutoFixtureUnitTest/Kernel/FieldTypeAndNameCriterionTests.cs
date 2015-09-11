@@ -149,5 +149,18 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 actual,
                 "SUT should not equal other when name criterion differs.");
         }
+
+        [Fact]
+        public void TypeCriterionIsCorrect()
+        {
+            var expected = new DelegatingCriterion<Type>();
+            var sut = new FieldTypeAndNameCriterion(
+                expected,
+                new DelegatingCriterion<string>());
+
+            IEquatable<Type> actual = sut.TypeCriterion;
+
+            Assert.Equal(expected, actual);
+        }
     }
 }
