@@ -18,6 +18,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
         public bool Equals(FieldInfo other)
         {
+            if (other == null)
+                return false;
+
             return this.typeCriterion.Equals(other.FieldType)
                 && this.nameCriterion.Equals(other.Name);
         }
