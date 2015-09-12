@@ -57,7 +57,6 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Initializes a new instance of the <see cref="FieldSpecification"/> class.
         /// </summary>
-        /// </param>
         /// <param name="target">
         /// The criteria used to match the requested
         /// <see cref="FieldInfo"/>.
