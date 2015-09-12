@@ -17,6 +17,8 @@ namespace Ploeh.AutoFixture.Kernel
     /// </remarks>
     /// <seealso cref="Equals(FieldInfo)" />
     /// <seealso cref="Criterion{T}" />
+    /// <seealso cref="ParameterTypeAndNameCriterion" />
+    /// <seealso cref="PropertyTypeAndNameCriterion" />
     public class FieldTypeAndNameCriterion : IEquatable<FieldInfo>
     {
         private readonly IEquatable<Type> typeCriterion;
