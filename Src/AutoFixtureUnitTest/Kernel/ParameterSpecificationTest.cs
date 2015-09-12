@@ -4,6 +4,7 @@ using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
+using System.Reflection;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -29,8 +30,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var sut = new ParameterSpecification(type, name);
             // Verify outcome
+#pragma warning disable 618
             Assert.Equal(type, sut.TargetType);
             Assert.Equal(name, sut.TargetName);
+#pragma warning restore 618
             // Teardown
         }
 
@@ -52,6 +55,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Throws<ArgumentNullException>(() =>
                 new ParameterSpecification(typeof(object), null));
             // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullTargetThrows()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+                new ParameterSpecification(null));
         }
 
         [Fact]
@@ -134,6 +144,29 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             Assert.False(result);
             // Teardown
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void IsSatisfiedByReturnsCorrectResultAccordingToTarget(
+            bool expected)
+        {
+            var parameter =
+                typeof(string).GetMethod("Contains").GetParameters().First();
+            var target = new DelegatingCriterion<ParameterInfo>
+            {
+                OnEquals = f =>
+                {
+                    Assert.Equal(parameter, f);
+                    return expected;
+                }
+            };
+            var sut = new ParameterSpecification(target);
+
+            var actual = sut.IsSatisfiedBy(parameter);
+
+            Assert.Equal(expected, actual);
         }
     }
 }

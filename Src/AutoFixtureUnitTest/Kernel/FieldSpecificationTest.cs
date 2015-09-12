@@ -3,6 +3,7 @@ using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
+using System.Reflection;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -28,8 +29,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var sut = new FieldSpecification(type, name);
             // Verify outcome
+#pragma warning disable 618
             Assert.Equal(type, sut.TargetType);
             Assert.Equal(name, sut.TargetName);
+#pragma warning restore 618
             // Teardown
         }
 
@@ -51,6 +54,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Throws<ArgumentNullException>(() =>
                 new FieldSpecification(typeof(object), null));
             // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullTargetThrows()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+                new FieldSpecification(null));
         }
 
         [Fact]
@@ -123,6 +133,28 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             Assert.False(result);
             // Teardown
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void IsSatisfiedByReturnsCorrectResultAccordingToTarget(
+            bool expected)
+        {
+            var field = typeof(string).GetField("Empty");
+            var target = new DelegatingCriterion<FieldInfo>
+            {
+                OnEquals = f =>
+                {
+                    Assert.Equal(field, f);
+                    return expected;
+                }
+            };
+            var sut = new FieldSpecification(target);
+
+            var actual = sut.IsSatisfiedBy(field);
+
+            Assert.Equal(expected, actual);
         }
     }
 }

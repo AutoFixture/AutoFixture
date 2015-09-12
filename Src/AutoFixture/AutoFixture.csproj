@@ -104,10 +104,14 @@
     <Compile Include="EmailAddressLocalPart.cs" />
     <Compile Include="EmailAddressLocalPartGenerator.cs" />
     <Compile Include="Kernel\CompositeSpecimenCommand.cs" />
+    <Compile Include="Kernel\Criterion.cs" />
     <Compile Include="Kernel\EnumeratorRelay.cs" />
+    <Compile Include="Kernel\FieldTypeAndNameCriterion.cs" />
     <Compile Include="Kernel\GenericMethod.cs" />
     <Compile Include="Kernel\IMethodFactory.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingMethodFactory.cs" />
+    <Compile Include="Kernel\ParameterTypeAndNameCriterion.cs" />
+    <Compile Include="Kernel\PropertyTypeAndNameCriterion.cs" />
     <Compile Include="Kernel\TemplateMethodQuery.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingMethod.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingStaticMethodFactory.cs" />
