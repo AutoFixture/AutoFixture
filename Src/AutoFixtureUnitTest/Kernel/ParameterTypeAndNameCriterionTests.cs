@@ -76,5 +76,15 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     null,
                     new DelegatingCriterion<string>()));
         }
+
+        [Fact]
+        public void ConstructWithNullNameCriterionThrows()
+        {
+
+            Assert.Throws<ArgumentNullException>(
+                () => new ParameterTypeAndNameCriterion(
+                    new DelegatingCriterion<Type>(),
+                    null));
+        }
     }
 }
