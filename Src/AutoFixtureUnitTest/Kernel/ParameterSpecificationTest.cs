@@ -4,6 +4,7 @@ using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
+using System.Reflection;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -141,6 +142,29 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             Assert.False(result);
             // Teardown
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void IsSatisfiedByReturnsCorrectResultAccordingToTarget(
+            bool expected)
+        {
+            var parameter =
+                typeof(string).GetMethod("Contains").GetParameters().First();
+            var target = new DelegatingCriterion<ParameterInfo>
+            {
+                OnEquals = f =>
+                {
+                    Assert.Equal(parameter, f);
+                    return expected;
+                }
+            };
+            var sut = new ParameterSpecification(target);
+
+            var actual = sut.IsSatisfiedBy(parameter);
+
+            Assert.Equal(expected, actual);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly Type targetType;
         private readonly string targetName;
+        private readonly IEquatable<ParameterInfo> target;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterSpecification"/> class.
@@ -29,14 +30,28 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="targetName"/> is <see langword="null"/>.
         /// </exception>
         public ParameterSpecification(Type targetType, string targetName)
+            : this(CreateDefaultTarget(targetType, targetName))
+        {
+            this.targetType = targetType;
+            this.targetName = targetName;
+        }
+
+        private static IEquatable<ParameterInfo> CreateDefaultTarget(
+            Type targetType,
+            string targetName)
         {
             if (targetType == null)
                 throw new ArgumentNullException("targetType");
             if (targetName == null)
                 throw new ArgumentNullException("targetName");
 
-            this.targetType = targetType;
-            this.targetName = targetName;
+            return new ParameterTypeAndNameCriterion(
+                new Criterion<Type>(
+                    targetType,
+                    new DerivesFromTypeComparer()),
+                new Criterion<string>(
+                    targetName,
+                    EqualityComparer<string>.Default));
         }
 
         /// <summary>
@@ -50,10 +65,12 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="target"/> is <see langword="null"/>.
         /// </exception>
         public ParameterSpecification(
-            IEqualityComparer<string> target)
+            IEquatable<ParameterInfo> target)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
+
+            this.target = target;
         }
 
         /// <summary>
@@ -85,30 +102,26 @@ namespace Ploeh.AutoFixture.Kernel
         public bool IsSatisfiedBy(object request)
         {
             if (request == null)
-            {
                 throw new ArgumentNullException("request");
+
+            var p = request as ParameterInfo;
+            if (p == null)
+                return false;
+
+            return this.target.Equals(p);
+        }
+
+        private class DerivesFromTypeComparer : IEqualityComparer<Type>
+        {
+            public bool Equals(Type x, Type y)
+            {
+                return y.IsAssignableFrom(x);
             }
 
-            return IsRequestForParameter(request) &&
-                   ParameterIsCompatibleWithTargetType(request) &&
-                   ParameterMatchesTargetName(request);
-        }
-
-        private static bool IsRequestForParameter(object request)
-        {
-            return request is ParameterInfo;
-        }
-
-        private bool ParameterIsCompatibleWithTargetType(object request)
-        {
-            return ((ParameterInfo)request)
-                   .ParameterType
-                   .IsAssignableFrom(this.targetType);
-        }
-
-        private bool ParameterMatchesTargetName(object request)
-        {
-            return this.targetName == ((ParameterInfo)request).Name;
+            public int GetHashCode(Type obj)
+            {
+                return 0;
+            }
         }
     }
 }
