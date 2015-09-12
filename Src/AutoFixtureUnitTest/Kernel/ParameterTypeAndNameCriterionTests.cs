@@ -57,5 +57,15 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void SutDoesNotEqualNullParameterInfo()
+        {
+            var sut = new ParameterTypeAndNameCriterion(
+                new DelegatingCriterion<Type>(),
+                new DelegatingCriterion<string>());
+            var actual = sut.Equals((ParameterInfo)null);
+            Assert.False(actual, "SUT shouldn't equal null parameter.");
+        }
     }
 }
