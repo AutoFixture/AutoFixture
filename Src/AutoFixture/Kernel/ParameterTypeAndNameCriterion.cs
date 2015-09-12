@@ -30,6 +30,11 @@ namespace Ploeh.AutoFixture.Kernel
                 && this.nameCriterion.Equals(other.Name);
         }
 
+        public IEquatable<Type> TypeCriterion
+        {
+            get { return this.typeCriterion; }
+        }
+
         public override bool Equals(object obj)
         {
             var other = obj as ParameterTypeAndNameCriterion;
