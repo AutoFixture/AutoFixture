@@ -118,6 +118,10 @@ namespace Ploeh.AutoFixture.Kernel
         {
             public bool Equals(Type x, Type y)
             {
+                if (y == null && x == null)
+                    return true;
+                if (y == null)
+                    return false;
                 return y.IsAssignableFrom(x);
             }
 
