@@ -116,7 +116,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Returns the hash code for the object.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The hash code.</returns>
         public override int GetHashCode()
         {
             return this.target.GetHashCode() ^ this.comparer.GetHashCode();
