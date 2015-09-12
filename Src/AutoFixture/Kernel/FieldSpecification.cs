@@ -12,6 +12,7 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly Type targetType;
         private readonly string targetName;
+        private readonly IEquatable<FieldInfo> target;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FieldSpecification"/> class.
@@ -29,14 +30,28 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="targetName"/> is <see langword="null"/>.
         /// </exception>
         public FieldSpecification(Type targetType, string targetName)
+            : this(CreateDefaultTarget(targetType, targetName))
+        {
+            this.targetType = targetType;
+            this.targetName = targetName;
+        }
+
+        private static IEquatable<FieldInfo> CreateDefaultTarget(
+            Type targetType,
+            string targetName)
         {
             if (targetType == null)
                 throw new ArgumentNullException("targetType");
             if (targetName == null)
                 throw new ArgumentNullException("targetName");
 
-            this.targetType = targetType;
-            this.targetName = targetName;
+            return new FieldTypeAndNameCriterion(
+                new Criterion<Type>(
+                    targetType,
+                    new DerivesFromTypeComparer()),
+                new Criterion<string>(
+                    targetName,
+                    EqualityComparer<string>.Default));
         }
 
         /// <summary>
@@ -52,7 +67,10 @@ namespace Ploeh.AutoFixture.Kernel
         /// </exception>
         public FieldSpecification(IEquatable<FieldInfo> target)
         {
-            throw new ArgumentNullException("target");
+            if (target == null)
+                throw new ArgumentNullException("target");
+
+            this.target = target;
         }
 
         /// <summary>
@@ -84,33 +102,26 @@ namespace Ploeh.AutoFixture.Kernel
         public bool IsSatisfiedBy(object request)
         {
             if (request == null)
-            {
                 throw new ArgumentNullException("request");
+
+            var f = request as FieldInfo;
+            if (f == null)
+                return false;
+
+            return this.target.Equals(f);
+        }
+
+        private class DerivesFromTypeComparer : IEqualityComparer<Type>
+        {
+            public bool Equals(Type x, Type y)
+            {
+                return y.IsAssignableFrom(x);
             }
 
-            return IsRequestForField(request) &&
-                   FieldIsCompatibleWithTargetType(request) &&
-                   FieldMatchesTargetName(request);
-        }
-
-        private static bool IsRequestForField(object request)
-        {
-            return request is FieldInfo;
-        }
-
-        private bool FieldIsCompatibleWithTargetType(object request)
-        {
-            return ((FieldInfo)request)
-                   .FieldType
-                   .IsAssignableFrom(this.targetType);
-        }
-
-        private bool FieldMatchesTargetName(object request)
-        {
-            //return this.nameComparison.Equals(
-            //    ((FieldInfo)request).Name,
-            //    this.targetName);
-            return this.targetName == ((FieldInfo)request).Name;
+            public int GetHashCode(Type obj)
+            {
+                return 0;
+            }
         }
     }
 }

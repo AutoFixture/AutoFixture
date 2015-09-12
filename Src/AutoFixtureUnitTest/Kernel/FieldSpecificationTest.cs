@@ -3,6 +3,7 @@ using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
+using System.Reflection;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -130,6 +131,28 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             Assert.False(result);
             // Teardown
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void IsSatisfiedByReturnsCorrectResultAccordingToTarget(
+            bool expected)
+        {
+            var field = typeof(string).GetField("Empty");
+            var target = new DelegatingCriterion<FieldInfo>
+            {
+                OnEquals = f =>
+                {
+                    Assert.Equal(field, f);
+                    return expected;
+                }
+            };
+            var sut = new FieldSpecification(target);
+
+            var actual = sut.IsSatisfiedBy(field);
+
+            Assert.Equal(expected, actual);
         }
     }
 }
