@@ -312,8 +312,16 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 typeof(Ploeh.AutoFixture.Kernel.InstanceMethod),
                 typeof(Ploeh.AutoFixture.Kernel.StaticMethod),
 
-                // Autofixture can't create this
+                // Autofixture interprets a value of this type as a creation
+                // failure
                 typeof(Ploeh.AutoFixture.Kernel.NoSpecimen),
+
+                // Takes one or more values involving a generic type argument
+                // in the constructor
+                typeof(Ploeh.AutoFixture.Kernel.Criterion<>),
+                typeof(Ploeh.AutoFixture.Kernel.FieldTypeAndNameCriterion),
+                typeof(Ploeh.AutoFixture.Kernel.ParameterTypeAndNameCriterion),
+                typeof(Ploeh.AutoFixture.Kernel.PropertyTypeAndNameCriterion),
             };
 
             var typesToVerify = typeof(IFixture).Assembly
