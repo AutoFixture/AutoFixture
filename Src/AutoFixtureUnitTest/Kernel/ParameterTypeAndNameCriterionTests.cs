@@ -164,5 +164,18 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void NameCriterionIsCorrect()
+        {
+            var expected = new DelegatingCriterion<string>();
+            var sut = new ParameterTypeAndNameCriterion(
+                new DelegatingCriterion<Type>(),
+                expected);
+
+            IEquatable<string> actual = sut.NameCriterion;
+
+            Assert.Equal(expected, actual);
+        }
     }
 }
