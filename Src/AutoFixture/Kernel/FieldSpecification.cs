@@ -12,7 +12,6 @@ namespace Ploeh.AutoFixture.Kernel
     {
         private readonly Type targetType;
         private readonly string targetName;
-        private readonly IEqualityComparer<string> nameComparison;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FieldSpecification"/> class.
@@ -30,55 +29,30 @@ namespace Ploeh.AutoFixture.Kernel
         /// <paramref name="targetName"/> is <see langword="null"/>.
         /// </exception>
         public FieldSpecification(Type targetType, string targetName)
-            : this(targetType, targetName, StringComparer.Ordinal)
         {
+            if (targetType == null)
+                throw new ArgumentNullException("targetType");
+            if (targetName == null)
+                throw new ArgumentNullException("targetName");
+
+            this.targetType = targetType;
+            this.targetName = targetName;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FieldSpecification"/> class.
         /// </summary>
-        /// <param name="targetType">
-        /// The <see cref="Type"/> with which the requested
-        /// <see cref="FieldInfo"/> type should be compatible.
         /// </param>
-        /// <param name="targetName">
-        /// The name which the requested <see cref="FieldInfo"/> name
-        /// should match according to the specified
-        /// <paramref name="nameComparison"/> criteria.
-        /// </param>
-        /// <param name="nameComparison">
+        /// <param name="target">
         /// The criteria used to match the requested
-        /// <see cref="FieldInfo"/> name with the specified
-        /// <paramref name="targetName"/>.
+        /// <see cref="FieldInfo"/>.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="targetType"/> or
-        /// <paramref name="targetName"/> or
-        /// <paramref name="nameComparison"/> is <see langword="null"/>.
+        /// <paramref name="target"/> is <see langword="null"/>.
         /// </exception>
-        public FieldSpecification(
-            Type targetType,
-            string targetName,
-            IEqualityComparer<string> nameComparison)
+        public FieldSpecification(IEquatable<FieldInfo> target)
         {
-            if (targetType == null)
-            {
-                throw new ArgumentNullException("targetType");
-            }
-
-            if (targetName == null)
-            {
-                throw new ArgumentNullException("targetName");
-            }
-
-            if (nameComparison == null)
-            {
-                throw new ArgumentNullException("nameComparison");
-            }
-
-            this.targetType = targetType;
-            this.targetName = targetName;
-            this.nameComparison = nameComparison;
+            throw new ArgumentNullException("target");
         }
 
         /// <summary>
@@ -133,9 +107,10 @@ namespace Ploeh.AutoFixture.Kernel
 
         private bool FieldMatchesTargetName(object request)
         {
-            return this.nameComparison.Equals(
-                ((FieldInfo)request).Name,
-                this.targetName);
+            //return this.nameComparison.Equals(
+            //    ((FieldInfo)request).Name,
+            //    this.targetName);
+            return this.targetName == ((FieldInfo)request).Name;
         }
     }
 }
