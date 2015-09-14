@@ -12,15 +12,28 @@ namespace Ploeh.AutoFixture.Xunit
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
     public sealed class FrozenAttribute : CustomizeAttribute
     {
+        private readonly Matching by;
+        private readonly string targetName;
         private IRequestSpecification matcher;
-        private Type targetType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FrozenAttribute"/> class.
         /// </summary>
-        public FrozenAttribute()
+        /// <param name="by">
+        /// The <see cref="Matching"/> criteria used to determine
+        /// which requests will be satisfied by the frozen parameter value.
+        /// The default value is <see cref="F:Matching.ExactType"/>.
+        /// </param>
+        /// <param name="targetName">
+        /// The identifier used to determine which requests
+        /// for a class member will be satisfied by the frozen parameter value.
+        /// </param>
+        public FrozenAttribute(
+            Matching by = Matching.ExactType,
+            string targetName = null)
         {
-            this.By = Matching.ExactType;
+            this.by = by;
+            this.targetName = targetName;
         }
 
         /// <summary>
@@ -31,19 +44,22 @@ namespace Ploeh.AutoFixture.Xunit
         public Type As { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="Matching"/> criteria used to determine
+        /// Gets the <see cref="Matching"/> criteria used to determine
         /// which requests will be satisfied by the frozen parameter value.
         /// </summary>
-        /// <remarks>
-        /// If not specified, requests will be matched by exact type.
-        /// </remarks>
-        public Matching By { get; set; }
+        public Matching By
+        {
+            get { return by; }
+        }
 
         /// <summary>
-        /// Gets or sets the identifier used to determine which requests
+        /// Gets the identifier used to determine which requests
         /// for a class member will be satisfied by the frozen parameter value.
         /// </summary>
-        public string TargetName { get; set; }
+        public string TargetName
+        {
+            get { return targetName; }
+        }
 
         /// <summary>
         /// Gets a <see cref="FreezeOnMatchCustomization"/> configured
@@ -63,11 +79,11 @@ namespace Ploeh.AutoFixture.Xunit
                 throw new ArgumentNullException("parameter");
             }
 
-            this.targetType = parameter.ParameterType;
+            var type = parameter.ParameterType;
 
             return ShouldMatchBySpecificType()
-                ? FreezeAsType()
-                : FreezeByCriteria();
+                ? FreezeAsType(type)
+                : FreezeByCriteria(type);
         }
 
         private bool ShouldMatchBySpecificType()
@@ -77,92 +93,81 @@ namespace Ploeh.AutoFixture.Xunit
 #pragma warning restore 0618
         }
 
-        private ICustomization FreezeAsType()
+        private ICustomization FreezeAsType(Type type)
         {
             return new FreezingCustomization(
-                this.targetType,
+                type,
 #pragma warning disable 0618
-                this.As ?? targetType);
+                this.As ?? type);
 #pragma warning restore 0618
         }
 
-        private ICustomization FreezeByCriteria()
+        private ICustomization FreezeByCriteria(Type type)
         {
-            MatchByType();
-            MatchByName();
-            return new FreezeOnMatchCustomization(
-                this.targetType,
-                this.matcher);
+            MatchByType(type);
+            MatchByName(type);
+            return new FreezeOnMatchCustomization(type, this.matcher);
         }
 
-        private void MatchByType()
+        private void MatchByType(Type type)
         {
-            AlwaysMatchByExactType();
-            MatchByBaseType();
-            MatchByImplementedInterfaces();
+            AlwaysMatchByExactType(type);
+            MatchByBaseType(type);
+            MatchByImplementedInterfaces(type);
         }
 
-        private void MatchByName()
+        private void MatchByName(Type type)
         {
-            MatchByPropertyName();
-            MatchByParameterName();
-            MatchByFieldName();
+            MatchByPropertyName(type);
+            MatchByParameterName(type);
+            MatchByFieldName(type);
         }
 
-        private void AlwaysMatchByExactType()
+        private void AlwaysMatchByExactType(Type type)
         {
             MatchBy(
                 new OrRequestSpecification(
-                    new ExactTypeSpecification(targetType),
-                    new SeedRequestSpecification(targetType)));
+                    new ExactTypeSpecification(type),
+                    new SeedRequestSpecification(type)));
         }
 
-        private void MatchByBaseType()
+        private void MatchByBaseType(Type type)
         {
             if (ShouldMatchBy(Matching.DirectBaseType))
             {
-                MatchBy(new DirectBaseTypeSpecification(this.targetType));
+                MatchBy(new DirectBaseTypeSpecification(type));
             }
         }
 
-        private void MatchByImplementedInterfaces()
+        private void MatchByImplementedInterfaces(Type type)
         {
             if (ShouldMatchBy(Matching.ImplementedInterfaces))
             {
-                MatchBy(new ImplementedInterfaceSpecification(this.targetType));
+                MatchBy(new ImplementedInterfaceSpecification(type));
             }
         }
 
-        private void MatchByParameterName()
+        private void MatchByParameterName(Type type)
         {
             if (ShouldMatchBy(Matching.ParameterName))
             {
-                MatchBy(
-                    new ParameterSpecification(
-                        this.targetType,
-                        this.TargetName));
+                MatchBy(new ParameterSpecification(type, this.targetName));
             }
         }
 
-        private void MatchByPropertyName()
+        private void MatchByPropertyName(Type type)
         {
             if (ShouldMatchBy(Matching.PropertyName))
             {
-                MatchBy(
-                    new PropertySpecification(
-                        this.targetType,
-                        this.TargetName));
+                MatchBy(new PropertySpecification(type, this.targetName));
             }
         }
 
-        private void MatchByFieldName()
+        private void MatchByFieldName(Type type)
         {
             if (ShouldMatchBy(Matching.FieldName))
             {
-                MatchBy(
-                    new FieldSpecification(
-                        this.targetType,
-                        this.TargetName));
+                MatchBy(new FieldSpecification(type, this.targetName));
             }
         }
 
