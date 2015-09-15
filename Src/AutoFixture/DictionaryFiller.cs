@@ -58,8 +58,17 @@ namespace Ploeh.AutoFixture
             var enumerable = context.Resolve(new MultipleRequest(kvpType)) as IEnumerable;
             foreach (var item in enumerable)
             {
-                var addMethod = typeof(ICollection<>).MakeGenericType(kvpType).GetMethod("Add", new[] { kvpType });
-                addMethod.Invoke(specimen, new[] { item });
+                var key = kvpType.GetProperty("Key").GetValue(item, new object[] { });
+
+                var dictionaryType = typeof(IDictionary<,>).MakeGenericType(typeArguments[0], typeArguments[1]);
+                var containsKeyMethod = dictionaryType.GetMethod("ContainsKey");
+                var keyIsAlreadyPresent = (bool)containsKeyMethod.Invoke(specimen, new[] { key });
+
+                if (!keyIsAlreadyPresent)
+                {
+                    var addMethod = typeof(ICollection<>).MakeGenericType(kvpType).GetMethod("Add", new[] { kvpType });
+                    addMethod.Invoke(specimen, new[] { item });
+                }
             }
         }
     }

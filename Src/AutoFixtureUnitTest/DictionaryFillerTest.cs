@@ -130,5 +130,21 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.True(expectedResult.SequenceEqual(dictionary));
             // Teardown
         }
+
+        [Fact]
+        public void DoesNotThrowWithDuplicateEntries()
+        {
+            // Fixture setup
+            var dictionary = new Dictionary<int, string>();
+
+            var request = new MultipleRequest(typeof(KeyValuePair<int, string>));
+            var sequence = Enumerable.Repeat(0, 3).Select(i => new KeyValuePair<int, string>(i, i.ToString()));
+            var context = new DelegatingSpecimenContext { OnResolve = r => request.Equals(r) ? (object)sequence : new NoSpecimen(r) };
+
+            var sut = new DictionaryFiller();
+            // Exercise system & Verify outcome
+            Assert.DoesNotThrow(() => sut.Execute(dictionary, context));
+            // Teardown
+        }
     }
 }
