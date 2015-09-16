@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Ploeh.AutoFixture.Kernel;
+using System.Linq;
 
 namespace Ploeh.AutoFixture
 {
@@ -54,12 +55,34 @@ namespace Ploeh.AutoFixture
             if (!typeof(IDictionary<,>).MakeGenericType(typeArguments).IsAssignableFrom(specimen.GetType()))
                 throw new ArgumentException("The specimen must be an instance of IDictionary<TKey, TValue>.", "specimen");
 
-            var kvpType = typeof(KeyValuePair<,>).MakeGenericType(typeArguments);
-            var enumerable = context.Resolve(new MultipleRequest(kvpType)) as IEnumerable;
-            foreach (var item in enumerable)
+            var filler = (ISpecimenCommand)Activator.CreateInstance(
+                typeof(Filler<,>).MakeGenericType(typeArguments));
+            filler.Execute(specimen, context);
+        }
+
+        private class Filler<TKey, TValue> : ISpecimenCommand
+        {
+            public void Execute(object specimen, ISpecimenContext context)
             {
-                var addMethod = typeof(ICollection<>).MakeGenericType(kvpType).GetMethod("Add", new[] { kvpType });
-                addMethod.Invoke(specimen, new[] { item });
+                Fill((IDictionary<TKey, TValue>)specimen, context);
+            }
+
+            private static void Fill(
+                IDictionary<TKey, TValue> dictionary,
+                ISpecimenContext context)
+            {
+                foreach (var kvp in GetValues(context))
+                    if (!dictionary.ContainsKey(kvp.Key))
+                        dictionary.Add(kvp);
+            }
+
+            private static IEnumerable<KeyValuePair<TKey, TValue>> GetValues(
+                ISpecimenContext context)
+            {
+                return
+                    ((IEnumerable)context.Resolve(
+                        new MultipleRequest(typeof(KeyValuePair<TKey, TValue>))))
+                    .Cast<KeyValuePair<TKey, TValue>>();
             }
         }
     }
