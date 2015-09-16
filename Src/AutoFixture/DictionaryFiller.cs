@@ -71,8 +71,7 @@ namespace Ploeh.AutoFixture
                 IDictionary<TKey, TValue> dictionary,
                 ISpecimenContext context)
             {
-                var kvps = GetValues(context);
-                foreach (var kvp in kvps)
+                foreach (var kvp in GetValues(context))
                     if (!dictionary.ContainsKey(kvp.Key))
                         dictionary.Add(kvp);
             }
