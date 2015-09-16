@@ -5727,5 +5727,13 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(expectedCount, count);
             // Teardown
         }
+
+        [Fact]
+        public void FixtureCanCreateCultureInfo()
+        {
+            var fixture = new Fixture();
+            var actual = fixture.Create<System.Globalization.CultureInfo>();
+            Assert.NotNull(actual);
+        }
     }
 }
