@@ -71,13 +71,19 @@ namespace Ploeh.AutoFixture
                 IDictionary<TKey, TValue> dictionary,
                 ISpecimenContext context)
             {
-                var kvps =
-                    ((IEnumerable)context.Resolve(
-                        new MultipleRequest(typeof(KeyValuePair<TKey, TValue>))))
-                    .Cast<KeyValuePair<TKey, TValue>>();
+                var kvps = GetValues(context);
                 foreach (var kvp in kvps)
                     if (!dictionary.ContainsKey(kvp.Key))
                         dictionary.Add(kvp);
+            }
+
+            private static IEnumerable<KeyValuePair<TKey, TValue>> GetValues(
+                ISpecimenContext context)
+            {
+                return
+                    ((IEnumerable)context.Resolve(
+                        new MultipleRequest(typeof(KeyValuePair<TKey, TValue>))))
+                    .Cast<KeyValuePair<TKey, TValue>>();
             }
         }
     }
