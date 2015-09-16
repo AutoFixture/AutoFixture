@@ -64,10 +64,10 @@ namespace Ploeh.AutoFixture
         {
             public void Execute(object specimen, ISpecimenContext context)
             {
-                this.Fill((IDictionary<TKey, TValue>)specimen, context);
+                Fill((IDictionary<TKey, TValue>)specimen, context);
             }
 
-            private void Fill(
+            private static void Fill(
                 IDictionary<TKey, TValue> dictionary,
                 ISpecimenContext context)
             {
