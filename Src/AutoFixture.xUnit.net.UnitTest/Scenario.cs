@@ -188,11 +188,27 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Theory, AutoData]
+        public void FreezeFirstParameterByParameterWithSameNameShouldAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.ParameterName)]string parameter,
+            SingleParameterType<object> p2)
+        {
+            Assert.Equal(parameter, p2.Parameter);
+        }
+
+        [Theory, AutoData]
         public void FreezeFirstParameterByPropertyNameShouldAssignSameInstanceToSecondParameter(
             [Frozen(Matching.PropertyName, "Property")]string p1,
             PropertyHolder<object> p2)
         {
             Assert.Equal(p1, p2.Property);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByPropertyWithSameNameShouldAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.PropertyName)]string property,
+            PropertyHolder<object> p2)
+        {
+            Assert.Equal(property, p2.Property);
         }
 
         [Theory, AutoData]
@@ -204,11 +220,27 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Theory, AutoData]
+        public void FreezeFirstParameterByFieldWithSameNameShouldAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.FieldName)]string field,
+            FieldHolder<object> p2)
+        {
+            Assert.Equal(field, p2.Field);
+        }
+
+        [Theory, AutoData]
         public void FreezeFirstParameterByMemberNameShouldAssignSameInstanceToMatchingParameter(
             [Frozen(Matching.MemberName, "parameter")]string p1,
             SingleParameterType<object> p2)
         {
             Assert.Equal(p1, p2.Parameter);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingParameter(
+            [Frozen(Matching.MemberName)]string parameter,
+            SingleParameterType<object> p2)
+        {
+            Assert.Equal(parameter, p2.Parameter);
         }
 
         [Theory, AutoData]
@@ -220,11 +252,27 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Theory, AutoData]
+        public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingProperty(
+            [Frozen(Matching.MemberName)]string property,
+            PropertyHolder<object> p2)
+        {
+            Assert.Equal(property, p2.Property);
+        }
+
+        [Theory, AutoData]
         public void FreezeFirstParameterByMemberNameShouldAssignSameInstanceToMatchingField(
             [Frozen(Matching.MemberName, "Field")]string p1,
             FieldHolder<object> p2)
         {
             Assert.Equal(p1, p2.Field);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingField(
+            [Frozen(Matching.MemberName)]string field,
+            FieldHolder<object> p2)
+        {
+            Assert.Equal(field, p2.Field);
         }
     }
 }
