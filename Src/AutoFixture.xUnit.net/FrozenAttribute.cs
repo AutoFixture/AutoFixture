@@ -19,12 +19,24 @@ namespace Ploeh.AutoFixture.Xunit
         /// <summary>
         /// Initializes a new instance of the <see cref="FrozenAttribute"/> class.
         /// </summary>
+        /// <remarks>
+        /// The <see cref="Matching"/> criteria used to determine
+        /// which requests will be satisfied by the frozen parameter value
+        /// is <see cref="F:Matching.ExactType"/>.
+        /// </remarks>
+        public FrozenAttribute()
+            : this(Matching.ExactType)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrozenAttribute"/> class.
+        /// </summary>
         /// <param name="by">
         /// The <see cref="Matching"/> criteria used to determine
         /// which requests will be satisfied by the frozen parameter value.
-        /// The default value is <see cref="F:Matching.ExactType"/>.
         /// </param>
-        public FrozenAttribute(Matching by = Matching.ExactType)
+        public FrozenAttribute(Matching by)
         {
             this.by = by;
         }
