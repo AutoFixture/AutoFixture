@@ -111,13 +111,16 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         public void GetCustomizationWithMatchingByDirectBaseTypeShouldMatchByBaseType()
         {
             // Fixture setup
+            var parameter = AParameter<object>();
             var sut = new FrozenAttribute(Matching.DirectBaseType);
             // Exercise system
-            var customization = sut.GetCustomization(AParameter<object>());
+            var customization = sut.GetCustomization(parameter);
             // Verify outcome
             var freezer = Assert.IsAssignableFrom<FreezeOnMatchCustomization>(customization);
             var matcher = Assert.IsType<OrRequestSpecification>(freezer.Matcher);
-            Assert.NotEmpty(matcher.Specifications.OfType<DirectBaseTypeSpecification>());
+            var directBaseTypeMatcher = matcher.Specifications.OfType<DirectBaseTypeSpecification>().SingleOrDefault();
+            Assert.NotNull(directBaseTypeMatcher);
+            Assert.Equal(parameter.ParameterType, directBaseTypeMatcher.TargetType);
             // Teardown
         }
 
@@ -125,13 +128,16 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         public void GetCustomizationWithMatchingByImplementedInterfacesShouldMatchByImplementedInterfaces()
         {
             // Fixture setup
+            var parameter = AParameter<object>();
             var sut = new FrozenAttribute(Matching.ImplementedInterfaces);
             // Exercise system
-            var customization = sut.GetCustomization(AParameter<object>());
+            var customization = sut.GetCustomization(parameter);
             // Verify outcome
             var freezer = Assert.IsAssignableFrom<FreezeOnMatchCustomization>(customization);
             var matcher = Assert.IsType<OrRequestSpecification>(freezer.Matcher);
-            Assert.NotEmpty(matcher.Specifications.OfType<ImplementedInterfaceSpecification>());
+            var interfaceTypeMatcher = matcher.Specifications.OfType<ImplementedInterfaceSpecification>().SingleOrDefault();
+            Assert.NotNull(interfaceTypeMatcher);
+            Assert.Equal(parameter.ParameterType, interfaceTypeMatcher.TargetType);
             // Teardown
         }
 
