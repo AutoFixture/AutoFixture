@@ -32,17 +32,6 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Fact]
-        public void InitializeShouldSetDefaultTargetName()
-        {
-            // Fixture setup
-            // Exercise system
-            var sut = new FrozenAttribute();
-            // Verify outcome
-            Assert.Null(sut.TargetName);
-            // Teardown
-        }
-
-        [Fact]
         public void GetCustomizationFromNullParameterThrows()
         {
             // Fixture setup
@@ -150,7 +139,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         public void GetCustomizationWithMatchingByParameterNameShouldMatchByParameter()
         {
             // Fixture setup
-            var sut = new FrozenAttribute(Matching.ParameterName, "parameter");
+            var sut = new FrozenAttribute(Matching.ParameterName);
             // Exercise system
             var customization = sut.GetCustomization(AParameter<object>());
             // Verify outcome
@@ -164,7 +153,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         public void GetCustomizationWithMatchingByPropertyNameShouldMatchByProperty()
         {
             // Fixture setup
-            var sut = new FrozenAttribute(Matching.PropertyName, "Property");
+            var sut = new FrozenAttribute(Matching.PropertyName);
             // Exercise system
             var customization = sut.GetCustomization(AParameter<object>());
             // Verify outcome
@@ -178,7 +167,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         public void GetCustomizationWithMatchingByFieldNameShouldMatchByField()
         {
             // Fixture setup
-            var sut = new FrozenAttribute(Matching.FieldName, "Field");
+            var sut = new FrozenAttribute(Matching.FieldName);
             // Exercise system
             var customization = sut.GetCustomization(AParameter<object>());
             // Verify outcome

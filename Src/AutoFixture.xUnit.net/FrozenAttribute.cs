@@ -14,7 +14,6 @@ namespace Ploeh.AutoFixture.Xunit
     public sealed class FrozenAttribute : CustomizeAttribute
     {
         private readonly Matching by;
-        private readonly string targetName;
         private IRequestSpecification matcher;
 
         /// <summary>
@@ -25,16 +24,9 @@ namespace Ploeh.AutoFixture.Xunit
         /// which requests will be satisfied by the frozen parameter value.
         /// The default value is <see cref="F:Matching.ExactType"/>.
         /// </param>
-        /// <param name="targetName">
-        /// The identifier used to determine which requests
-        /// for a class member will be satisfied by the frozen parameter value.
-        /// </param>
-        public FrozenAttribute(
-            Matching by = Matching.ExactType,
-            string targetName = null)
+        public FrozenAttribute(Matching by = Matching.ExactType)
         {
             this.by = by;
-            this.targetName = targetName;
         }
 
         /// <summary>
@@ -51,15 +43,6 @@ namespace Ploeh.AutoFixture.Xunit
         public Matching By
         {
             get { return by; }
-        }
-
-        /// <summary>
-        /// Gets the identifier used to determine which requests
-        /// for a class member will be satisfied by the frozen parameter value.
-        /// </summary>
-        public string TargetName
-        {
-            get { return targetName; }
         }
 
         /// <summary>
@@ -83,7 +66,7 @@ namespace Ploeh.AutoFixture.Xunit
             }
 
             var type = parameter.ParameterType;
-            var name = this.targetName ?? parameter.Name;
+            var name = parameter.Name;
 
             return ShouldMatchBySpecificType()
                 ? FreezeAsType(type)
