@@ -22,7 +22,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         }
 
         [Test]
-        public void GetCustomizationFromNullParamterThrows()
+        public void GetCustomizationFromNullParameterThrows()
         {
             // Fixture setup
             var sut = new FrozenAttribute();
