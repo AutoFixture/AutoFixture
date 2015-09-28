@@ -112,5 +112,85 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         {
             Assert.AreSame(p1, p2);
         }
+
+        [Test, AutoData]
+        public void FreezeFirstParameterShouldAssignSameInstanceToSecondParameter(
+            [Frozen]string p1,
+            string p2)
+        {
+            Assert.AreEqual(p1, p2);
+        }
+
+        [Test, AutoData]
+        public void FreezeFirstParameterByExactTypeShouldAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.ExactType)]ConcreteType p1,
+            ConcreteType p2)
+        {
+            Assert.AreEqual(p1, p2);
+        }
+
+        [Test, AutoData]
+        public void FreezeFirstParameterByDirectBaseTypeShouldAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.DirectBaseType)]ConcreteType p1,
+            AbstractType p2)
+        {
+            Assert.AreEqual(p1, p2);
+        }
+
+        [Test, AutoData]
+        public void FreezeFirstParameterByInterfaceShouldAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.ImplementedInterfaces)]NoopInterfaceImplementer p1,
+            IInterface p2)
+        {
+            Assert.AreEqual(p1, p2);
+        }
+
+        [Test, AutoData]
+        public void FreezeFirstParameterByParameterWithSameNameShouldAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.ParameterName)]string parameter,
+            SingleParameterType<object> p2)
+        {
+            Assert.AreEqual(parameter, p2.Parameter);
+        }
+
+        [Test, AutoData]
+        public void FreezeFirstParameterByPropertyWithSameNameShouldAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.PropertyName)]string property,
+            PropertyHolder<object> p2)
+        {
+            Assert.AreEqual(property, p2.Property);
+        }
+
+        [Test, AutoData]
+        public void FreezeFirstParameterByFieldWithSameNameShouldAssignSameInstanceToSecondParameter(
+            [Frozen(Matching.FieldName)]string field,
+            FieldHolder<object> p2)
+        {
+            Assert.AreEqual(field, p2.Field);
+        }
+
+        [Test, AutoData]
+        public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingParameter(
+            [Frozen(Matching.MemberName)]string parameter,
+            SingleParameterType<object> p2)
+        {
+            Assert.AreEqual(parameter, p2.Parameter);
+        }
+
+        [Test, AutoData]
+        public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingProperty(
+            [Frozen(Matching.MemberName)]string property,
+            PropertyHolder<object> p2)
+        {
+            Assert.AreEqual(property, p2.Property);
+        }
+
+        [Test, AutoData]
+        public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingField(
+            [Frozen(Matching.MemberName)]string field,
+            FieldHolder<object> p2)
+        {
+            Assert.AreEqual(field, p2.Field);
+        }
     }
 }

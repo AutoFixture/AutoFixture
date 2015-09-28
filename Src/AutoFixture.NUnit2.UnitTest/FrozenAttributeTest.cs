@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
+using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixture.NUnit2.UnitTest
@@ -98,6 +100,90 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             // Exercise system and verify outcome
             Assert.Throws<ArgumentException>(() => sut.GetCustomization(parameter));
             // Teardown
+        }
+
+        [Test]
+        public void GetCustomizationShouldMatchByExactParameterType()
+        {
+            // Fixture setup
+            var parameter = AParameter<object>();
+            var sut = new FrozenAttribute();
+            // Exercise system
+            var customization = sut.GetCustomization(parameter);
+            // Verify outcome
+            Assert.IsAssignableFrom<FreezeOnMatchCustomization>(customization);
+            var freezer = (FreezeOnMatchCustomization)customization;
+            Assert.IsInstanceOf<OrRequestSpecification>(freezer.Matcher);
+            var matcher = (OrRequestSpecification)freezer.Matcher;
+            var exactTypeMatcher = matcher.Specifications.OfType<ExactTypeSpecification>().SingleOrDefault();
+            Assert.NotNull(exactTypeMatcher);
+            Assert.AreEqual(parameter.ParameterType, exactTypeMatcher.TargetType);
+            // Teardown
+        }
+
+        [Test]
+        public void GetCustomizationShouldMatchBySeedRequestForParameterType()
+        {
+            // Fixture setup
+            var parameter = AParameter<object>();
+            var sut = new FrozenAttribute();
+            // Exercise system
+            var customization = sut.GetCustomization(parameter);
+            // Verify outcome
+            Assert.IsAssignableFrom<FreezeOnMatchCustomization>(customization);
+            var freezer = (FreezeOnMatchCustomization)customization;
+            Assert.IsInstanceOf<OrRequestSpecification>(freezer.Matcher);
+            var matcher = (OrRequestSpecification)freezer.Matcher;
+            var seedRequestMatcher = matcher.Specifications.OfType<SeedRequestSpecification>().SingleOrDefault();
+            Assert.NotNull(seedRequestMatcher);
+            Assert.AreEqual(parameter.ParameterType, seedRequestMatcher.TargetType);
+            // Teardown
+        }
+
+        [Test]
+        public void GetCustomizationWithMatchingByDirectBaseTypeShouldMatchByBaseType()
+        {
+            // Fixture setup
+            var parameter = AParameter<object>();
+            var sut = new FrozenAttribute(Matching.DirectBaseType);
+            // Exercise system
+            var customization = sut.GetCustomization(parameter);
+            // Verify outcome
+            Assert.IsAssignableFrom<FreezeOnMatchCustomization>(customization);
+            var freezer = (FreezeOnMatchCustomization)customization;
+            Assert.IsInstanceOf<OrRequestSpecification>(freezer.Matcher);
+            var matcher = (OrRequestSpecification)freezer.Matcher;
+            var directBaseTypeMatcher = matcher.Specifications.OfType<DirectBaseTypeSpecification>().SingleOrDefault();
+            Assert.NotNull(directBaseTypeMatcher);
+            Assert.AreEqual(parameter.ParameterType, directBaseTypeMatcher.TargetType);
+            // Teardown
+        }
+
+        [Test]
+        public void GetCustomizationWithMatchingByImplementedInterfacesShouldMatchByImplementedInterfaces()
+        {
+            // Fixture setup
+            var parameter = AParameter<object>();
+            var sut = new FrozenAttribute(Matching.ImplementedInterfaces);
+            // Exercise system
+            var customization = sut.GetCustomization(parameter);
+            // Verify outcome
+            Assert.IsAssignableFrom<FreezeOnMatchCustomization>(customization);
+            var freezer = (FreezeOnMatchCustomization)customization;
+            Assert.IsInstanceOf<OrRequestSpecification>(freezer.Matcher);
+            var matcher = (OrRequestSpecification)freezer.Matcher;
+            var interfaceTypeMatcher = matcher.Specifications.OfType<ImplementedInterfaceSpecification>().SingleOrDefault();
+            Assert.NotNull(interfaceTypeMatcher);
+            Assert.AreEqual(parameter.ParameterType, interfaceTypeMatcher.TargetType);
+            // Teardown
+        }
+
+        private static ParameterInfo AParameter<T>()
+        {
+            return typeof(SingleParameterType<T>)
+                .GetConstructor(new[] { typeof(T) })
+                .GetParameters()
+                .Single(p => p.Name == "parameter");
         }
     }
 }
