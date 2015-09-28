@@ -759,7 +759,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void OmitAutoComparisonFollowedByCorrectComboOfDefaultEqualityAndExplicityWithReturnsTrue()
+        public void OmitAutoComparisonFollowedByCorrectComboOfDefaultEqualityAndExplicitlyWithReturnsTrue()
         {
             // Fixture setup
             var value = new QuadrupleParameterType<string, string, string, string>("Lorem", "ipsum", "dolor", "sit");

@@ -83,12 +83,12 @@ namespace Ploeh.AutoFixtureUnitTest
         [InlineData(0)]
         [InlineData(-7)]
         [InlineData(-42)]
-        public void ConstructorWithRecusionDepthLowerThanOneThrows(int recursionDeph)
+        public void ConstructorWithRecursionDepthLowerThanOneThrows(int recursionDepth)
         {
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentOutOfRangeException>(() =>
-                new OmitOnRecursionBehavior(recursionDeph));
+                new OmitOnRecursionBehavior(recursionDepth));
             // Teardown
         }
     }

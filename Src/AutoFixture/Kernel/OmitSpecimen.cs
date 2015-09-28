@@ -7,7 +7,7 @@ namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
     /// A signal type used to indicate to the Auto-Property feature that a given request should be
-    /// ingored, and no further processing performed.
+    /// ignored, and no further processing performed.
     /// </summary>
     /// <remarks>
     /// <para>

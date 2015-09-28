@@ -455,12 +455,12 @@ namespace Ploeh.SemanticComparison
                 .TrimCompilerGeneratedText(source.Name)
                 .ToUpperInvariant();
             
-            var targerName = ProxyGenerator
+            var targetName = ProxyGenerator
                 .TrimCompilerGeneratedText(target.Name)
                 .ToUpperInvariant();
 
-            return (sourceName.Contains(targerName)
-                 || targerName.Contains(sourceName))
+            return (sourceName.Contains(targetName)
+                 || targetName.Contains(sourceName))
                  && source.FieldType == target.FieldType;
         }
 
