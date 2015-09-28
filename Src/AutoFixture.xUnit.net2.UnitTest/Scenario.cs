@@ -128,7 +128,9 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
 
         [Theory, AutoData]
         public void FreezeFirstParameterAsBaseTypeAssignsSameInstanceToSecondParameterOfThatBaseType(
+#pragma warning disable 0618
             [Frozen(As = typeof(AbstractType))]ConcreteType p1,
+#pragma warning restore 0618
             AbstractType p2)
         {
             Assert.Same(p1, p2);
@@ -136,7 +138,9 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
 
         [Theory, AutoData]
         public void FreezeFirstParameterAsNullTypeAssignsSameInstanceToSecondParameterOfSameType(
+#pragma warning disable 0618
             [Frozen(As = null)]ConcreteType p1,
+#pragma warning restore 0618
             ConcreteType p2)
         {
             Assert.Same(p1, p2);
