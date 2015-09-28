@@ -37,7 +37,9 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         {
             // Fixture setup
             var registeredType = typeof(AbstractType);
+#pragma warning disable 0618
             var sut = new FrozenAttribute { As = registeredType };
+#pragma warning restore 0618
             var parameter = typeof(TypeWithConcreteParameterMethod)
                 .GetMethod("DoSomething", new[] { typeof(ConcreteType) })
                 .GetParameters()
@@ -56,7 +58,9 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         {
             // Fixture setup
             var registeredType = typeof(string);
+#pragma warning disable 0618
             var sut = new FrozenAttribute { As = registeredType };
+#pragma warning restore 0618
             var parameter = typeof(TypeWithConcreteParameterMethod)
                 .GetMethod("DoSomething", new[] { typeof(ConcreteType) })
                 .GetParameters()
