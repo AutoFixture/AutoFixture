@@ -33,42 +33,6 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         }
 
         [Test]
-        public void GetCustomizationReturnsCorrectResult()
-        {
-            // Fixture setup
-            var sut = new FrozenAttribute();
-            var parameter = typeof(TypeWithOverloadedMembers)
-                .GetMethod("DoSomething", new[] { typeof(object) })
-                .GetParameters()
-                .Single();
-            // Exercise system
-            var result = sut.GetCustomization(parameter);
-            // Verify outcome
-            Assert.IsAssignableFrom<FreezingCustomization>(result);
-            var freezer = (FreezingCustomization)result;
-            Assert.AreEqual(parameter.ParameterType, freezer.TargetType);
-            // Teardown
-        }
-
-        [Test]
-        public void GetCustomizationReturnsTheRegisteredTypeEqualToTheParameterType()
-        {
-            // Fixture setup
-            var sut = new FrozenAttribute();
-            var parameter = typeof(TypeWithOverloadedMembers)
-                .GetMethod("DoSomething", new[] { typeof(object) })
-                .GetParameters()
-                .Single();
-            // Exercise system
-            var result = sut.GetCustomization(parameter);
-            // Verify outcome
-            Assert.IsAssignableFrom<FreezingCustomization>(result);
-            var freezer = (FreezingCustomization)result;
-            Assert.AreEqual(parameter.ParameterType, freezer.RegisteredType);
-            // Teardown
-        }
-
-        [Test]
         public void GetCustomizationWithSpecificRegisteredTypeReturnsCorrectResult()
         {
             // Fixture setup
