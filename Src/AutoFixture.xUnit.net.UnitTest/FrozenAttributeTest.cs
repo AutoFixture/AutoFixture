@@ -141,20 +141,6 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             // Teardown
         }
 
-        [Fact]
-        public void GetCustomizationWithMatchingByFieldNameShouldMatchByField()
-        {
-            // Fixture setup
-            var sut = new FrozenAttribute(Matching.FieldName);
-            // Exercise system
-            var customization = sut.GetCustomization(AParameter<object>());
-            // Verify outcome
-            var freezer = Assert.IsAssignableFrom<FreezeOnMatchCustomization>(customization);
-            var matcher = Assert.IsType<OrRequestSpecification>(freezer.Matcher);
-            Assert.NotEmpty(matcher.Specifications.OfType<FieldSpecification>());
-            // Teardown
-        }
-
         private static ParameterInfo AParameter<T>()
         {
             return typeof(SingleParameterType<T>)
