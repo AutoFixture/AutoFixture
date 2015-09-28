@@ -142,20 +142,6 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Fact]
-        public void GetCustomizationWithMatchingByParameterNameShouldMatchByParameter()
-        {
-            // Fixture setup
-            var sut = new FrozenAttribute(Matching.ParameterName);
-            // Exercise system
-            var customization = sut.GetCustomization(AParameter<object>());
-            // Verify outcome
-            var freezer = Assert.IsAssignableFrom<FreezeOnMatchCustomization>(customization);
-            var matcher = Assert.IsType<OrRequestSpecification>(freezer.Matcher);
-            Assert.NotEmpty(matcher.Specifications.OfType<ParameterSpecification>());
-            // Teardown
-        }
-
-        [Fact]
         public void GetCustomizationWithMatchingByPropertyNameShouldMatchByProperty()
         {
             // Fixture setup
