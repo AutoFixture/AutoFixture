@@ -78,7 +78,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// The <see cref="Type"/> with which the requested
         /// <see cref="PropertyInfo"/> type should be compatible.
         /// </summary>
-        [Obsolete("This value is only available if the constructor taking a target type and name is used. Otherwise, it'll be null. Use with caution. This propery will be removed in a future version of AutoFixture.", false)]
+        [Obsolete("This value is only available if the constructor taking a target type and name is used. Otherwise, it'll be null. Use with caution. This property will be removed in a future version of AutoFixture.", false)]
         public Type TargetType
         {
             get { return this.targetType; }
@@ -88,7 +88,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// The name which the requested <see cref="PropertyInfo"/> name
         /// should match exactly.
         /// </summary>
-        [Obsolete("This value is only available if the constructor taking a target type and name is used. Otherwise, it'll be null. Use with caution. This propery will be removed in a future version of AutoFixture.", false)]
+        [Obsolete("This value is only available if the constructor taking a target type and name is used. Otherwise, it'll be null. Use with caution. This property will be removed in a future version of AutoFixture.", false)]
         public string TargetName
         {
             get { return this.targetName; }
