@@ -56,7 +56,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return IsRequestForType(request) &&
-                   RequestedTypeMatchesCriteria(request);
+                   IsTargetTypeOrImplementedInterface(request);
         }
 
         private static bool IsRequestForType(object request)
@@ -64,7 +64,7 @@ namespace Ploeh.AutoFixture.Kernel
             return request is Type;
         }
 
-        private bool RequestedTypeMatchesCriteria(object request)
+        private bool IsTargetTypeOrImplementedInterface(object request)
         {
             return IsSameAsTargetType(request) ||
                    IsInterfaceImplementedByTargetType(request);
