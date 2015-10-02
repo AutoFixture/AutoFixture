@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
+using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixture.NUnit2.UnitTest
@@ -20,7 +22,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         }
 
         [Test]
-        public void GetCustomizationFromNullParamterThrows()
+        public void GetCustomizationFromNullParameterThrows()
         {
             // Fixture setup
             var sut = new FrozenAttribute();
@@ -31,47 +33,13 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         }
 
         [Test]
-        public void GetCustomizationReturnsCorrectResult()
-        {
-            // Fixture setup
-            var sut = new FrozenAttribute();
-            var parameter = typeof(TypeWithOverloadedMembers)
-                .GetMethod("DoSomething", new[] { typeof(object) })
-                .GetParameters()
-                .Single();
-            // Exercise system
-            var result = sut.GetCustomization(parameter);
-            // Verify outcome
-            Assert.IsAssignableFrom<FreezingCustomization>(result);
-            var freezer = (FreezingCustomization)result;
-            Assert.AreEqual(parameter.ParameterType, freezer.TargetType);
-            // Teardown
-        }
-
-        [Test]
-        public void GetCustomizationReturnsTheRegisteredTypeEqualToTheParameterType()
-        {
-            // Fixture setup
-            var sut = new FrozenAttribute();
-            var parameter = typeof(TypeWithOverloadedMembers)
-                .GetMethod("DoSomething", new[] { typeof(object) })
-                .GetParameters()
-                .Single();
-            // Exercise system
-            var result = sut.GetCustomization(parameter);
-            // Verify outcome
-            Assert.IsAssignableFrom<FreezingCustomization>(result);
-            var freezer = (FreezingCustomization)result;
-            Assert.AreEqual(parameter.ParameterType, freezer.RegisteredType);
-            // Teardown
-        }
-
-        [Test]
         public void GetCustomizationWithSpecificRegisteredTypeReturnsCorrectResult()
         {
             // Fixture setup
             var registeredType = typeof(AbstractType);
+#pragma warning disable 0618
             var sut = new FrozenAttribute { As = registeredType };
+#pragma warning restore 0618
             var parameter = typeof(TypeWithConcreteParameterMethod)
                 .GetMethod("DoSomething", new[] { typeof(ConcreteType) })
                 .GetParameters()
@@ -90,7 +58,9 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         {
             // Fixture setup
             var registeredType = typeof(string);
+#pragma warning disable 0618
             var sut = new FrozenAttribute { As = registeredType };
+#pragma warning restore 0618
             var parameter = typeof(TypeWithConcreteParameterMethod)
                 .GetMethod("DoSomething", new[] { typeof(ConcreteType) })
                 .GetParameters()
