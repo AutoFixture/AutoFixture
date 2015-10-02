@@ -121,7 +121,7 @@ namespace Ploeh.SemanticComparison
         /// Turns off implicit default comparison of properties and fields.
         /// </summary>
         /// <returns>
-        /// A new <see cref="Likeness{TSource, TDestinaion}"/> that uses only explicitly defined
+        /// A new <see cref="Likeness{TSource, TDestination}"/> that uses only explicitly defined
         /// comparisons of properties and fields.
         /// </returns>
         public Likeness<TSource, TDestination> OmitAutoComparison()
@@ -174,7 +174,7 @@ namespace Ploeh.SemanticComparison
         /// </summary>
         /// <typeparam name="TProperty">The type of the property or field.</typeparam>
         /// <param name="propertyPicker">
-        /// An expresssion that identifies the property or field.
+        /// An expression that identifies the property or field.
         /// </param>
         /// <returns>
         /// A new instance of <see cref="LikenessMember{TSource, TDestination}"/> that represents
@@ -198,7 +198,7 @@ namespace Ploeh.SemanticComparison
         /// </summary>
         /// <typeparam name="TProperty">The type of the property or field.</typeparam>
         /// <param name="propertyPicker">
-        /// An expresssion that identifies the property or field.
+        /// An expression that identifies the property or field.
         /// </param>
         /// <returns>
         /// A new instance of <see cref="Likeness{TSource, TDestination}"/> that explicitly
