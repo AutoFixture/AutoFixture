@@ -14,7 +14,6 @@ namespace Ploeh.AutoFixture.Xunit
     public sealed class FrozenAttribute : CustomizeAttribute
     {
         private readonly Matching by;
-        private IRequestSpecification matcher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FrozenAttribute"/> class.
@@ -103,83 +102,64 @@ namespace Ploeh.AutoFixture.Xunit
 
         private ICustomization FreezeByCriteria(Type type, string name)
         {
-            MatchByType(type);
-            MatchByName(type, name);
-            return new FreezeOnMatchCustomization(type, this.matcher);
+            var filter = new Filter(ByExactType(type))
+                .Or(ByBaseType(type))
+                .Or(ByImplementedInterfaces(type))
+                .Or(ByPropertyName(type, name))
+                .Or(ByParameterName(type, name))
+                .Or(ByFieldName(type, name));
+            return new FreezeOnMatchCustomization(type, filter);
         }
 
-        private void MatchByType(Type type)
+        private static IRequestSpecification ByExactType(Type type)
         {
-            AlwaysMatchByExactType(type);
-            MatchByBaseType(type);
-            MatchByImplementedInterfaces(type);
+            return new OrRequestSpecification(
+                new ExactTypeSpecification(type),
+                new SeedRequestSpecification(type));
         }
 
-        private void MatchByName(Type type, string name)
+        private IRequestSpecification ByBaseType(Type type)
         {
-            MatchByPropertyName(type, name);
-            MatchByParameterName(type, name);
-            MatchByFieldName(type, name);
+            return ShouldMatchBy(Matching.DirectBaseType)
+                ? new DirectBaseTypeSpecification(type)
+                : NoMatch();
         }
 
-        private void AlwaysMatchByExactType(Type type)
+        private IRequestSpecification ByImplementedInterfaces(Type type)
         {
-            MatchBy(
-                new OrRequestSpecification(
-                    new ExactTypeSpecification(type),
-                    new SeedRequestSpecification(type)));
+            return ShouldMatchBy(Matching.ImplementedInterfaces)
+                ? new ImplementedInterfaceSpecification(type)
+                : NoMatch();
         }
 
-        private void MatchByBaseType(Type type)
+        private IRequestSpecification ByParameterName(Type type, string name)
         {
-            if (ShouldMatchBy(Matching.DirectBaseType))
-            {
-                MatchBy(new DirectBaseTypeSpecification(type));
-            }
+            return ShouldMatchBy(Matching.ParameterName)
+                ? new ParameterSpecification(
+                    new ParameterTypeAndNameCriterion(
+                        DerivesFrom(type),
+                        IsNamed(name)))
+                : NoMatch();
         }
 
-        private void MatchByImplementedInterfaces(Type type)
+        private IRequestSpecification ByPropertyName(Type type, string name)
         {
-            if (ShouldMatchBy(Matching.ImplementedInterfaces))
-            {
-                MatchBy(new ImplementedInterfaceSpecification(type));
-            }
+            return ShouldMatchBy(Matching.PropertyName)
+                ? new PropertySpecification(
+                    new PropertyTypeAndNameCriterion(
+                        DerivesFrom(type),
+                        IsNamed(name)))
+                : NoMatch();
         }
 
-        private void MatchByParameterName(Type type, string name)
+        private IRequestSpecification ByFieldName(Type type, string name)
         {
-            if (ShouldMatchBy(Matching.ParameterName))
-            {
-                MatchBy(
-                    new ParameterSpecification(
-                        new ParameterTypeAndNameCriterion(
-                            DerivesFrom(type),
-                            IsNamed(name))));
-            }
-        }
-
-        private void MatchByPropertyName(Type type, string name)
-        {
-            if (ShouldMatchBy(Matching.PropertyName))
-            {
-                MatchBy(
-                    new PropertySpecification(
-                        new PropertyTypeAndNameCriterion(
-                            DerivesFrom(type),
-                            IsNamed(name))));
-            }
-        }
-
-        private void MatchByFieldName(Type type, string name)
-        {
-            if (ShouldMatchBy(Matching.FieldName))
-            {
-                MatchBy(
-                    new FieldSpecification(
-                        new FieldTypeAndNameCriterion(
-                            DerivesFrom(type),
-                            IsNamed(name))));
-            }
+            return ShouldMatchBy(Matching.FieldName)
+                ? new FieldSpecification(
+                    new FieldTypeAndNameCriterion(
+                        DerivesFrom(type),
+                        IsNamed(name)))
+                : NoMatch();
         }
 
         private bool ShouldMatchBy(Matching criteria)
@@ -187,11 +167,9 @@ namespace Ploeh.AutoFixture.Xunit
             return this.By.HasFlag(criteria);
         }
 
-        private void MatchBy(IRequestSpecification criteria)
+        private static IRequestSpecification NoMatch()
         {
-            this.matcher = this.matcher == null
-                ? criteria
-                : new OrRequestSpecification(this.matcher, criteria);
+            return new FalseRequestSpecification();
         }
 
         private static Criterion<Type> DerivesFrom(Type type)
@@ -206,6 +184,29 @@ namespace Ploeh.AutoFixture.Xunit
             return new Criterion<string>(
                 name,
                 StringComparer.OrdinalIgnoreCase);
+        }
+
+        private class Filter : IRequestSpecification
+        {
+            private readonly IRequestSpecification criteria;
+
+            public Filter(IRequestSpecification criteria)
+            {
+                this.criteria = criteria;
+            }
+
+            public Filter Or(IRequestSpecification condition)
+            {
+                return new Filter(
+                    new OrRequestSpecification(
+                        this.criteria,
+                        condition));
+            }
+
+            public bool IsSatisfiedBy(object request)
+            {
+                return this.criteria.IsSatisfiedBy(request);
+            }
         }
 
         private class DerivesFromTypeComparer : IEqualityComparer<Type>
