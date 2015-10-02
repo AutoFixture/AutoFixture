@@ -70,6 +70,7 @@
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="FrozenAttribute.cs" />
     <Compile Include="GreedyAttribute.cs" />
+    <Compile Include="Matching.cs" />
     <Compile Include="NoPreDiscoveryDataDiscoverer.cs" />
     <Compile Include="ModestAttribute.cs" />
     <Compile Include="NoAutoPropertiesAttribute.cs" />

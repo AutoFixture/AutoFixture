@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <para>
         /// This method compares the candidate <paramref name="other" />
         /// against <see cref="TypeCriterion" /> and
-        /// <see cref="NameCriterion" />. If the parameter's type mathes the
+        /// <see cref="NameCriterion" />. If the parameter's type matches the
         /// type criterion, and its name matches the name criterion, the return
         /// value is <see langword="true" />.
         /// </para>
@@ -90,7 +90,7 @@ namespace Ploeh.AutoFixture.Kernel
         }
 
         /// <summary>
-        /// The name criterion originall passed in via the class' constructor.
+        /// The name criterion originally passed in via the class' constructor.
         /// </summary>
         public IEquatable<string> NameCriterion
         {

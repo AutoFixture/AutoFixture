@@ -224,7 +224,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var builder = new DelegatingSpecimenBuilder();
             builder.OnCreate = (r, c) => c.Resolve(requestScenario.Dequeue());
 
-            // By setting the depth to two we expect the handle to be triggered at the third "1" occurence.
+            // By setting the depth to two we expect the handle to be triggered at the third "1" occurrence.
             var sut = new DelegatingRecursionGuard(builder, 2);
             object recursiveRequest = null;
 
@@ -662,7 +662,7 @@ namespace Ploeh.AutoFixtureUnitTest
         [InlineData(0)]
         [InlineData(-7)]
         [InlineData(-42)]
-        public void ConstructorWithRecusionDepthLowerThanOneThrows(int recursionDepth)
+        public void ConstructorWithRecursionDepthLowerThanOneThrows(int recursionDepth)
         {
             // Fixture setup
             var dummyBuilder = new DelegatingSpecimenBuilder();
