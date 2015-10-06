@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.AutoFixtureUnitTest.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
@@ -85,6 +86,30 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Customize(null));
             // Teardown
+        }
+
+        [Fact]
+        public void CustomizeWithCompetingSpecimenBuilderForTheSameTypeShouldReturnTheFrozenSpecimen()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var context = new SpecimenContext(fixture);
+            var frozenType = typeof(object);
+            var competingBuilder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (request, ctx) =>
+                    request.Equals(frozenType)
+                        ? new object()
+                        : new NoSpecimen(request)
+            };
+            var sut = new FreezeOnMatchCustomization(
+                frozenType,
+                new ExactTypeSpecification(frozenType));
+            // Exercise system
+            fixture.Customizations.Add(competingBuilder);
+            sut.Customize(fixture);
+            // Verify outcome
+            Assert.Equal(context.Resolve(frozenType), context.Resolve(frozenType));
         }
 
         [Theory]

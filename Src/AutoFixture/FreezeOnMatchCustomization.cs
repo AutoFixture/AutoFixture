@@ -99,7 +99,8 @@ namespace Ploeh.AutoFixture
 
         private void FreezeTypeForMatchingRequests(IFixture fixture)
         {
-            fixture.Customizations.Add(
+            fixture.Customizations.Insert(
+                0,
                 new FilteringSpecimenBuilder(
                     FreezeTargetType(fixture),
                     this.matcher));
