@@ -219,6 +219,14 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         }
 
         [Theory, AutoData]
+        public void FreezeFirstParameterByParameterWithDifferentNameShouldNotAssignSameInstanceToSecondParameterOfSameType(
+            [Frozen(Matching.ParameterName)]string p1,
+            SingleParameterType<string> p2)
+        {
+            Assert.NotEqual(p1, p2.Parameter);
+        }
+
+        [Theory, AutoData]
         public void FreezeFirstParameterByPropertyWithSameNameShouldAssignSameInstanceToSecondParameter(
             [Frozen(Matching.PropertyName)]string property,
             PropertyHolder<object> p2)
@@ -230,6 +238,14 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         public void FreezeFirstParameterByPropertyWithDifferentNameShouldNotAssignSameInstanceToSecondParameter(
             [Frozen(Matching.PropertyName)]string p1,
             PropertyHolder<object> p2)
+        {
+            Assert.NotEqual(p1, p2.Property);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByPropertyWithDifferentNameShouldNotAssignSameInstanceToSecondParameterOfSameType(
+            [Frozen(Matching.PropertyName)]string p1,
+            PropertyHolder<string> p2)
         {
             Assert.NotEqual(p1, p2.Property);
         }
@@ -251,6 +267,14 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         }
 
         [Theory, AutoData]
+        public void FreezeFirstParameterByFieldWithDifferentNameShouldNotAssignSameInstanceToSecondParameterOfSameType(
+            [Frozen(Matching.FieldName)]string p1,
+            FieldHolder<string> p2)
+        {
+            Assert.NotEqual(p1, p2.Field);
+        }
+
+        [Theory, AutoData]
         public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingParameter(
             [Frozen(Matching.MemberName)]string parameter,
             SingleParameterType<object> p2)
@@ -262,6 +286,14 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToParameter(
             [Frozen(Matching.MemberName)]string p1,
             SingleParameterType<object> p2)
+        {
+            Assert.NotEqual(p1, p2.Parameter);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToParameterOfSameType(
+            [Frozen(Matching.MemberName)]string p1,
+            SingleParameterType<string> p2)
         {
             Assert.NotEqual(p1, p2.Parameter);
         }
@@ -283,6 +315,14 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         }
 
         [Theory, AutoData]
+        public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToPropertyOfSameType(
+            [Frozen(Matching.MemberName)]string p1,
+            PropertyHolder<string> p2)
+        {
+            Assert.NotEqual(p1, p2.Property);
+        }
+
+        [Theory, AutoData]
         public void FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingField(
             [Frozen(Matching.MemberName)]string field,
             FieldHolder<object> p2)
@@ -294,6 +334,14 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToField(
             [Frozen(Matching.MemberName)]string p1,
             FieldHolder<object> p2)
+        {
+            Assert.NotEqual(p1, p2.Field);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToFieldOfSameType(
+            [Frozen(Matching.MemberName)]string p1,
+            FieldHolder<string> p2)
         {
             Assert.NotEqual(p1, p2.Field);
         }
