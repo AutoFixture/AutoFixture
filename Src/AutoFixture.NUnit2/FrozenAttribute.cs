@@ -130,7 +130,10 @@ namespace Ploeh.AutoFixture.NUnit2
         private IRequestSpecification ByBaseType(Type type)
         {
             return ShouldMatchBy(Matching.DirectBaseType)
-                ? new DirectBaseTypeSpecification(type)
+                ? new AndRequestSpecification(
+                    new InverseRequestSpecification(
+                        new ExactTypeSpecification(type)),
+                    new DirectBaseTypeSpecification(type))
                 : NoMatch();
         }
 
