@@ -76,12 +76,9 @@ namespace Ploeh.AutoFixture.Xunit
                 throw new ArgumentNullException("parameter");
             }
 
-            var type = parameter.ParameterType;
-            var name = parameter.Name;
-
             return ShouldMatchBySpecificType()
-                ? FreezeAsType(type)
-                : FreezeByCriteria(type, name);
+                ? FreezeAsType(parameter.ParameterType)
+                : FreezeByCriteria(parameter);
         }
 
         private bool ShouldMatchBySpecificType()
@@ -100,22 +97,34 @@ namespace Ploeh.AutoFixture.Xunit
 #pragma warning restore 0618
         }
 
-        private ICustomization FreezeByCriteria(Type type, string name)
+        private ICustomization FreezeByCriteria(ParameterInfo parameter)
         {
-            var filter = new Filter(ByExactType(type))
+            var type = parameter.ParameterType;
+            var name = parameter.Name;
+
+            var filter = new Filter(ByEqual(parameter))
+                .Or(ByExactType(type))
                 .Or(ByBaseType(type))
                 .Or(ByImplementedInterfaces(type))
                 .Or(ByPropertyName(type, name))
                 .Or(ByParameterName(type, name))
                 .Or(ByFieldName(type, name));
+
             return new FreezeOnMatchCustomization(type, filter);
         }
 
-        private static IRequestSpecification ByExactType(Type type)
+        private static IRequestSpecification ByEqual(object target)
         {
-            return new OrRequestSpecification(
-                new ExactTypeSpecification(type),
-                new SeedRequestSpecification(type));
+            return new EqualRequestSpecification(target);
+        }
+
+        private IRequestSpecification ByExactType(Type type)
+        {
+            return ShouldMatchBy(Matching.ExactType)
+                ? new OrRequestSpecification(
+                    new ExactTypeSpecification(type),
+                    new SeedRequestSpecification(type))
+                : NoMatch();
         }
 
         private IRequestSpecification ByBaseType(Type type)
