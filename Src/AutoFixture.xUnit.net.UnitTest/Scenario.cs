@@ -212,6 +212,14 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Theory, AutoData]
+        public void FreezeFirstParameterByInterfaceShouldNotAssignSameInstanceToSecondParameterOfSameType(
+            [Frozen(Matching.ImplementedInterfaces)]NoopInterfaceImplementer p1,
+            NoopInterfaceImplementer p2)
+        {
+            Assert.NotEqual(p1, p2);
+        }
+
+        [Theory, AutoData]
         public void FreezeFirstParameterByParameterWithSameNameShouldAssignSameInstanceToSecondParameter(
             [Frozen(Matching.ParameterName)]string parameter,
             SingleParameterType<object> p2)

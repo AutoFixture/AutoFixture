@@ -140,7 +140,10 @@ namespace Ploeh.AutoFixture.Xunit
         private IRequestSpecification ByImplementedInterfaces(Type type)
         {
             return ShouldMatchBy(Matching.ImplementedInterfaces)
-                ? new ImplementedInterfaceSpecification(type)
+                ? new AndRequestSpecification(
+                    new InverseRequestSpecification(
+                        new ExactTypeSpecification(type)),
+                    new ImplementedInterfaceSpecification(type))
                 : NoMatch();
         }
 
