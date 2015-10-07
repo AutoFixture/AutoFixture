@@ -187,6 +187,22 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         }
 
         [Theory, AutoData]
+        public void FreezeFirstParameterByDirectBaseTypeShouldNotAssignSameInstanceToSecondParameterOfSameType(
+            [Frozen(Matching.DirectBaseType)]ConcreteType p1,
+            ConcreteType p2)
+        {
+            Assert.NotEqual(p1, p2);
+        }
+
+        [Theory, AutoData]
+        public void FreezeFirstParameterByExactOrDirectBaseTypeShouldAssignSameInstanceToSecondParameterOfSameType(
+            [Frozen(Matching.ExactType | Matching.DirectBaseType)]ConcreteType p1,
+            ConcreteType p2)
+        {
+            Assert.Equal(p1, p2);
+        }
+
+        [Theory, AutoData]
         public void FreezeFirstParameterByInterfaceShouldAssignSameInstanceToSecondParameter(
             [Frozen(Matching.ImplementedInterfaces)]NoopInterfaceImplementer p1,
             IInterface p2)
