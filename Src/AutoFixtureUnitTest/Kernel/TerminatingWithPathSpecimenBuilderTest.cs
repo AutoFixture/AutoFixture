@@ -7,6 +7,7 @@ using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -233,6 +234,35 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.DoesNotThrow(() => sut.Create(requests[1], container));
             Assert.Throws<ObjectCreationException>(() => sut.Create(requests[2], container));
             // Teardown
+        }
+
+        [Theory]
+        [InlineData(typeof(IInterface), "interface")]
+        [InlineData(typeof(AbstractType), "abstract")]
+        public void CreateThrowsWithAutoMockingHintOnInterfaceOrAbcRequest(
+            object request,
+            string requestType)
+        {
+            var tracer =
+                new DelegatingTracingBuilder(
+                    new DelegatingSpecimenBuilder
+                    {
+                        OnCreate = (r, c) => new NoSpecimen(request)
+                    });
+            var sut = new TerminatingWithPathSpecimenBuilder(tracer);
+
+            var context = new SpecimenContext(sut);
+            var e = Assert.Throws<ObjectCreationException>(
+                () => sut.Create(request, context));
+
+            Assert.Contains(
+                requestType,
+                e.Message,
+                StringComparison.CurrentCultureIgnoreCase);
+            Assert.Contains(
+                "auto-mocking",
+                e.Message,
+                StringComparison.CurrentCultureIgnoreCase);
         }
 
         [Fact]
