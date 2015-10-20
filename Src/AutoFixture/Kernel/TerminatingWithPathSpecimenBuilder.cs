@@ -116,7 +116,10 @@ namespace Ploeh.AutoFixture.Kernel
                     "{1}" +
                     "If you have a concrete class implementing the " +
                     "interface, you can map the interface to that class:" +
-                    typeMappingOptionsHelp;
+                    typeMappingOptionsHelp +
+                    "{1}" +
+                    "{1}" +
+                    "Request path:{1}{2}{1}";
 
             if (t != null && t.IsAbstract)
                 return
@@ -129,7 +132,10 @@ namespace Ploeh.AutoFixture.Kernel
                     "If you have a concrete class deriving from the abstract" +
                     "class, you can map the abstract class to that derived " + 
                     "class:" +
-                    typeMappingOptionsHelp;
+                    typeMappingOptionsHelp +
+                    "{1}" +
+                    "{1}" +
+                    "Request path:{1}{2}{1}";
 
             return
                 "AutoFixture was unable to create an instance from {0}, " +
@@ -156,8 +162,7 @@ namespace Ploeh.AutoFixture.Kernel
             "{1}" +
             "{1}" +
             "See http://blog.ploeh.dk/2010/08/19/AutoFixtureasanauto-mockingcontainer " +
-            "for more details." +
-            "{1}";
+            "for more details.";
 
         private static string BuildRequestPathText(IEnumerable<object> recordedRequests)
         {

@@ -263,6 +263,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 "auto-mocking",
                 e.Message,
                 StringComparison.CurrentCultureIgnoreCase);
+            Assert.Contains(
+                "request path",
+                e.Message,
+                StringComparison.CurrentCultureIgnoreCase);
         }
 
         [Fact]
