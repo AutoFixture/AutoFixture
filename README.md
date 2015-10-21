@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/xove2l9aj4d1rej5/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master)
+
 ## Project Description ##
 
 Write maintainable unit tests, faster.
