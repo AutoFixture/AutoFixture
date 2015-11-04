@@ -34,6 +34,55 @@ namespace Ploeh.AutoFixture.Xunit2
         /// </summary>
         /// <param name="autoDataAttribute">An <see cref="AutoDataAttribute"/>.</param>
         /// <param name="values">The data values to pass to the theory.</param>
+        /// <remarks>
+        /// <para>
+        /// This constructor overload exists to enable a derived attribute to
+        /// supply a custom <see cref="AutoDataAttribute" /> that again may
+        /// contain custom behavior.
+        /// </para>
+        /// </remarks>
+        /// <example>
+        /// In this example, TheAnswer is a Customization that changes all
+        /// 32-bit integer values to 42. This behavior is encapsulated in
+        /// MyCustomAutoDataAttribute, and transitively in
+        /// MyCustomInlineAutoDataAttribute. A parameterized test demonstrates
+        /// how it can be used.
+        /// <code>
+        /// [Theory]
+        /// [MyCustomInlineAutoData(1337)]
+        /// [MyCustomInlineAutoData(1337, 7)]
+        /// [MyCustomInlineAutoData(1337, 7, 42)]
+        /// public void CustomInlineDataSuppliesExtraValues(int x, int y, int z)
+        /// {
+        ///     Assert.Equal(1337, x);
+        ///     Assert.Equal(42, z);
+        /// }
+        /// 
+        /// private class MyCustomInlineAutoDataAttribute : InlineAutoDataAttribute
+        /// {
+        ///     public MyCustomInlineAutoDataAttribute(params object[] values) :
+        ///         base(new MyCustomAutoDataAttribute(), values)
+        ///     {
+        ///     }
+        /// }
+        /// 
+        /// private class MyCustomAutoDataAttribute : AutoDataAttribute
+        /// {
+        ///     public MyCustomAutoDataAttribute() :
+        ///         base(new Fixture().Customize(new TheAnswer()))
+        ///     {
+        ///     }
+        /// 
+        ///     private class TheAnswer : ICustomization
+        ///     {
+        ///         public void Customize(IFixture fixture)
+        ///         {
+        ///             fixture.Inject(42);
+        ///         }
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
         public InlineAutoDataAttribute(AutoDataAttribute autoDataAttribute, params object[] values)
             : base(new DataAttribute[] { new InlineDataAttribute(values), autoDataAttribute })
         {
