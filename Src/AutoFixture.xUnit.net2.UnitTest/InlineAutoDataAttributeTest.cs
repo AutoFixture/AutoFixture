@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         {
             // Fixture setup
             var autoDataAttribute = new AutoDataAttribute();
-            var sut = new InlineAutoDataAttribute(autoDataAttribute);
+            var sut = new DerivedInlineAutoDataAttribute(autoDataAttribute);
             // Exercise system
             var result = sut.Attributes;
             // Verify outcome
@@ -90,7 +90,7 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
             // Fixture setup
             var dummyAutoDataAttribute = new AutoDataAttribute();
             var expectedValues = new[] { new object(), new object(), new object() };
-            var sut = new InlineAutoDataAttribute(dummyAutoDataAttribute, expectedValues);
+            var sut = new DerivedInlineAutoDataAttribute(dummyAutoDataAttribute, expectedValues);
             // Exercise system
             var result = sut.Values;
             // Verify outcome
@@ -115,12 +115,22 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         {
             // Fixture setup
             var expected = new AutoDataAttribute();
-            var sut = new InlineAutoDataAttribute(expected);
+            var sut = new DerivedInlineAutoDataAttribute(expected);
             // Exercise system
             var result = sut.AutoDataAttribute;
             // Verify outcome
             Assert.Equal(expected, result);
             // Teardown
+        }
+
+        private class DerivedInlineAutoDataAttribute : InlineAutoDataAttribute
+        {
+            public DerivedInlineAutoDataAttribute(
+                AutoDataAttribute autoDataAttribute,
+                params object[] values)
+                : base(autoDataAttribute, values)
+            {
+            }
         }
     }
 }
