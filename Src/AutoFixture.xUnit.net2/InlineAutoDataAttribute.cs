@@ -34,7 +34,7 @@ namespace Ploeh.AutoFixture.Xunit2
         /// </summary>
         /// <param name="autoDataAttribute">An <see cref="AutoDataAttribute"/>.</param>
         /// <param name="values">The data values to pass to the theory.</param>
-        public InlineAutoDataAttribute(AutoDataAttribute autoDataAttribute, params object[] values)
+        protected InlineAutoDataAttribute(AutoDataAttribute autoDataAttribute, params object[] values)
             : base(new DataAttribute[] { new InlineDataAttribute(values), autoDataAttribute })
         {
             this.autoDataAttribute = autoDataAttribute;
