@@ -51,6 +51,7 @@ namespace Ploeh.AutoFixture.Xunit
         /// public void CustomInlineDataSuppliesExtraValues(int x, int y, int z)
         /// {
         ///     Assert.Equal(1337, x);
+        ///     // y can vary, so we can't express any meaningful assertion for it.
         ///     Assert.Equal(42, z);
         /// }
         /// 
