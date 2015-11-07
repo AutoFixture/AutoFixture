@@ -72,6 +72,43 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
             Assert.NotEqual("bar", s3);
         }
 
+        // This test and its associated types is used to document one of the
+        // InlineAutoDataAttribute constructor overloads.
+        [Theory]
+        [MyCustomInlineAutoData(1337)]
+        [MyCustomInlineAutoData(1337, 7)]
+        [MyCustomInlineAutoData(1337, 7, 42)]
+        public void CustomInlineDataSuppliesExtraValues(int x, int y, int z)
+        {
+            Assert.Equal(1337, x);
+            // y can vary, so we can't express any meaningful assertion for it.
+            Assert.Equal(42, z);
+        }
+
+        private class MyCustomInlineAutoDataAttribute : InlineAutoDataAttribute
+        {
+            public MyCustomInlineAutoDataAttribute(params object[] values) :
+                base(new MyCustomAutoDataAttribute(), values)
+            {
+            }
+        }
+
+        private class MyCustomAutoDataAttribute : AutoDataAttribute
+        {
+            public MyCustomAutoDataAttribute() :
+                base(new Fixture().Customize(new TheAnswer()))
+            {
+            }
+
+            private class TheAnswer : ICustomization
+            {
+                public void Customize(IFixture fixture)
+                {
+                    fixture.Inject(42);
+                }
+            }
+        }
+
         [Theory, AutoData]
         public void FreezeFirstParameter([Frozen]Guid g1, Guid g2)
         {
