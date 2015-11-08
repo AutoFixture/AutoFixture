@@ -9,7 +9,7 @@ open System.Reflection
 /// Selects appropriate methods to create <see cref="Foq.Mock&lt;T&gt;"/> 
 /// instances.
 /// </summary>
-type FoqMethodQuery() =
+type FoqMethodQuery(builder) =
     /// <summary>
     /// Selects methods for the supplied type.
     /// </summary>
@@ -32,10 +32,11 @@ type FoqMethodQuery() =
             match targetType with
             | null -> raise (ArgumentNullException("targetType"))
             |  _   -> match targetType.IsInterface with
-                      | true  -> seq { yield FoqMethod.Create(targetType, Array.empty) :?> IMethod }
+                      | true  -> seq { yield FoqMethod.Create(targetType, Array.empty, builder) :?> IMethod }
                       | _     -> targetType.GetPublicAndProtectedConstructors() 
                                  |> Seq.sortBy(fun x -> x.GetParameters().Length)
                                  |> Seq.map(fun ctor -> FoqMethod.Create(
                                                             targetType, 
-                                                            ctor.GetParameters())
+                                                            ctor.GetParameters(),
+                                                            builder)
                                                         :?> IMethod)

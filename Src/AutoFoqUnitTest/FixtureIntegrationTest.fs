@@ -66,3 +66,12 @@ let FixtureSuppliesValuesToAbstractGenericTypeWithNonDefaultConstructorWithMulti
     verify <@ not <| (Unchecked.defaultof<int> = result.Property1) @>
     verify <@ not <| (Unchecked.defaultof<int> = result.Property2) @>
     // Teardown
+
+type IInterface =
+    abstract ReturnSomething : unit -> string
+
+[<Fact>]
+let ``Fixture supplies return values to test-doubles that are not explicitly setup`` () =
+    let sut = (Fixture().Customize(AutoFoqCustomization())).Create<IInterface>()
+    let actual = sut.ReturnSomething()
+    verify <@ not (isNull actual) @>

@@ -18,7 +18,8 @@ type AutoFoqCustomization(relay: ISpecimenBuilder) =
         AutoFoqCustomization(
             FilteringSpecimenBuilder(
                 MethodInvoker(
-                    FoqMethodQuery()),
+                    FoqMethodQuery(
+                        Fixture())),
                 AbstractTypeSpecification()))
 
     /// <summary>
