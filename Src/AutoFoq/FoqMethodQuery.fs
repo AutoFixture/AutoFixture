@@ -11,6 +11,13 @@ open System.Reflection
 /// </summary>
 type FoqMethodQuery(builder : ISpecimenBuilder) =
 
+    /// <summary>
+    /// Gets the <see cref="ISpecimenBuilder"/>.
+    /// </summary>
+    /// <value>
+    /// The <see cref="ISpecimenBuilder"/>, as provided via the constructor.
+    /// </value>
+    /// <seealso cref="FoqMethodQuery(ISpecimenBuilder)" />
     member this.Builder = builder
 
     /// <summary>
