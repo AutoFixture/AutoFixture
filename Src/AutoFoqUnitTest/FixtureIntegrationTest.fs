@@ -71,7 +71,7 @@ type IInterface =
     abstract ReturnSomething : unit -> string
 
 [<Fact>]
-let ``Fixture supplies return values to test-doubles that are not explicitly setup`` () =
+let ``Fixture supplies return values for non-explicitly setup test-doubles`` () =
     let sut = (Fixture().Customize(AutoFoqCustomization())).Create<IInterface>()
     let actual = sut.ReturnSomething()
     verify <@ not (isNull actual) @>
