@@ -13,8 +13,11 @@ open Xunit.Extensions
 [<Fact>]
 let SutIsMethodQuery() =
     // Fixture setup
+    let dummyBuilder =
+        { new ISpecimenBuilder with
+              member this.Create(r, c) = obj() }
     // Exercise system
-    let sut = FoqMethodQuery()
+    let sut = FoqMethodQuery dummyBuilder
     // Verify outcome
     verify <@ sut |> implements<IMethodQuery> @>
     // Teardown
@@ -22,7 +25,10 @@ let SutIsMethodQuery() =
 [<Fact>]
 let SelectMethodThrowsForNullType() =
     // Fixture setup
-    let sut = FoqMethodQuery()
+    let dummyBuilder =
+        { new ISpecimenBuilder with
+              member this.Create(r, c) = obj() }
+    let sut = FoqMethodQuery dummyBuilder
     // Exercise system and verify outcome
     raises<ArgumentNullException> <@ sut.SelectMethods(null) @>
 
@@ -30,7 +36,10 @@ let SelectMethodThrowsForNullType() =
 let SelectMethodReturnsMethodForInterface() =
     // Fixture setup
     let requestType = typeof<IInterface>
-    let sut = FoqMethodQuery()
+    let dummyBuilder =
+        { new ISpecimenBuilder with
+              member this.Create(r, c) = obj() }
+    let sut = FoqMethodQuery dummyBuilder
     // Exercise system
     let result = sut.SelectMethods(requestType)
     // Verify outcome
@@ -40,7 +49,10 @@ let SelectMethodReturnsMethodForInterface() =
 let SelectMethodReturnsMethodWithoutParametersForInterface() =
     // Fixture setup
     let requestType = typeof<IInterface>
-    let sut = FoqMethodQuery()
+    let dummyBuilder =
+        { new ISpecimenBuilder with
+              member this.Create(r, c) = obj() }
+    let sut = FoqMethodQuery dummyBuilder
     // Exercise system
     let result = (sut.SelectMethods(requestType) |> Seq.head).Parameters
     // Verify outcome
@@ -56,7 +68,10 @@ let MethodsAreReturnedInCorrectOrder (request: Type) =
             ||| BindingFlags.NonPublic) 
         |> Seq.sortBy(fun ci -> ci.GetParameters().Length) 
         |> Seq.map(fun ci -> ci.GetParameters().Length)
-    let sut = FoqMethodQuery()
+    let dummyBuilder =
+        { new ISpecimenBuilder with
+              member this.Create(r, c) = obj() }
+    let sut = FoqMethodQuery dummyBuilder
     // Exercise system
     let result = 
         sut.SelectMethods(request)
@@ -74,7 +89,10 @@ let SelectMethodsDefineCorrectParameters (request: Type) =
             ||| BindingFlags.Instance
             ||| BindingFlags.NonPublic)         
         |> Seq.map(fun ci -> ci.GetParameters())
-    let sut = FoqMethodQuery()
+    let dummyBuilder =
+        { new ISpecimenBuilder with
+              member this.Create(r, c) = obj() }
+    let sut = FoqMethodQuery dummyBuilder
     // Exercise system
     let result = 
         sut.SelectMethods(request)
@@ -86,6 +104,17 @@ let SelectMethodsDefineCorrectParameters (request: Type) =
                    expectedParameters = 
                        (resultParameters |> Seq.toArray))) @>
     // Teardown
+
+[<Fact>]
+let ``Builder is correct`` () =
+    let expected =
+        { new ISpecimenBuilder with
+              member this.Create(r, c) = obj() }
+    let sut = FoqMethodQuery expected
+
+    let actual = sut.Builder
+
+    verify <@ expected = actual @>
 
 let TypesWithConstructors : seq<Type[]> = 
     seq {

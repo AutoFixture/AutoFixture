@@ -9,7 +9,10 @@ open System.Reflection
 /// Selects appropriate methods to create <see cref="Foq.Mock&lt;T&gt;"/> 
 /// instances.
 /// </summary>
-type FoqMethodQuery(builder) =
+type FoqMethodQuery(builder : ISpecimenBuilder) =
+
+    member this.Builder = builder
+
     /// <summary>
     /// Selects methods for the supplied type.
     /// </summary>
