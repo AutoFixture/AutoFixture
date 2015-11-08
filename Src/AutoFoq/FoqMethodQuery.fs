@@ -9,6 +9,11 @@ open System.Reflection
 /// Selects appropriate methods to create <see cref="Foq.Mock&lt;T&gt;"/> 
 /// instances.
 /// </summary>
+/// <param name="builder">
+/// The <see cref="ISpecimenBuilder"/> passed into Foq's
+/// <see cref="Foq.Mock&lt;T&gt;"/> return strategy argument, in order to
+/// supply return values for Test Doubles that have not been explicitly setup.
+/// </param>
 type FoqMethodQuery(builder : ISpecimenBuilder) =
 
     /// <summary>
