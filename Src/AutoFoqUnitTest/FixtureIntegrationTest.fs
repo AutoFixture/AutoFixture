@@ -3,7 +3,9 @@
 open Ploeh.AutoFixture
 open Ploeh.AutoFixture.AutoFoq
 open Ploeh.AutoFixture.AutoFoq.UnitTest.TestDsl
+open Ploeh.AutoFixture.Kernel
 open Ploeh.TestTypeFoundation
+open Swensen.Unquote
 open System
 open System.Collections.Generic
 open Xunit
@@ -75,3 +77,20 @@ let ``Fixture supplies return values for non-explicitly setup test-doubles`` () 
     let sut = (Fixture().Customize(AutoFoqCustomization())).Create<IInterface>()
     let actual = sut.ReturnSomething()
     verify <@ not (isNull actual) @>
+
+[<Fact>]
+let ``Fixture customizations are propagated in Foq for non-explicitly setup test-doubles`` () =
+    let fixture = Fixture()
+    let expected = "Friday, 14 December 1984"
+    fixture.Register<string>(fun () -> expected)
+    fixture.ResidueCollectors.Add(
+        FilteringSpecimenBuilder(
+            MethodInvoker(
+                FoqMethodQuery(
+                    fixture)),
+            AbstractTypeSpecification()))
+    let sut = fixture.Create<IInterface>()
+
+    let actual = sut.ReturnSomething()
+
+    expected =? actual
