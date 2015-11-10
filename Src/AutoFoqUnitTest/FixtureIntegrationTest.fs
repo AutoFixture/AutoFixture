@@ -5,7 +5,6 @@ open Ploeh.AutoFixture.AutoFoq
 open Ploeh.AutoFixture.AutoFoq.UnitTest.TestDsl
 open Ploeh.AutoFixture.Kernel
 open Ploeh.TestTypeFoundation
-open Swensen.Unquote
 open System
 open System.Collections.Generic
 open Xunit
@@ -93,4 +92,4 @@ let ``Fixture customizations are propagated in Foq for non-explicitly setup test
 
     let actual = sut.ReturnSomething()
 
-    expected =? actual
+    verify <@ expected = actual @>
