@@ -44,6 +44,11 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
+            if (request != null && request.Equals(typeof(T)))
+            {
+                return this.create(default(T));
+            }
+
             var seededRequest = request as SeededRequest;
             if (seededRequest == null)
             {
