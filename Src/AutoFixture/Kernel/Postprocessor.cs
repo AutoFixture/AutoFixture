@@ -273,6 +273,8 @@ namespace Ploeh.AutoFixture.Kernel
         public object Create(object request, ISpecimenContext context)
         {
             var specimen = this.builder.Create(request, context);
+            if (specimen == null)
+                return specimen;
 
             var ns = specimen as NoSpecimen;
             if (ns != null)
