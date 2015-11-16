@@ -5735,5 +5735,14 @@ namespace Ploeh.AutoFixtureUnitTest
             var actual = fixture.Create<System.Globalization.CultureInfo>();
             Assert.NotNull(actual);
         }
+
+        [Fact]
+        public void ReturningNullFromFactoryIsPossible()
+        {
+            var fixture = new Fixture();
+            fixture.Customize<string>(x => x.FromFactory(() => null));
+
+            Assert.DoesNotThrow(() => fixture.Create<string>());
+        }
     }
 }

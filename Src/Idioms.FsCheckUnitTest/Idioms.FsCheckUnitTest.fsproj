@@ -11,6 +11,7 @@
     <AssemblyName>Ploeh.AutoFixture.Idioms.FsCheckUnitTest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
+    <SignAssembly>false</SignAssembly>
     <Name>Idioms.FsCheckUnitTest</Name>
     <TargetFrameworkProfile />
   </PropertyGroup>

@@ -15,7 +15,7 @@
         <language>en-US</language>
         <licenseUrl>https://github.com/AutoFixture/AutoFixture/blob/master/LICENCE.txt</licenseUrl>
         <projectUrl>https://github.com/AutoFixture/AutoFixture</projectUrl>
-        <iconUrl>http://i3.codeplex.com/Download?ProjectName=autofixture&amp;DownloadId=278049</iconUrl>
+        <iconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/master/AutoFixtureLogo200x200.png</iconUrl>
     </metadata>
     <files>
         <file src="Ploeh.AutoFixture.Idioms.dll" target="lib\net40" />
