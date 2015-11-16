@@ -129,5 +129,23 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(expectedResult, result);
             // Teardown
         }
+
+        [Fact]
+        public void CreateWithCorrectlyTypedRequestReturnsCorrectResult()
+        {
+            // Fixture setup
+            var request = typeof(string);
+            var expectedResult = Guid.NewGuid().ToString();
+
+            Func<string, string> factoryStub = s => s == null ? expectedResult : null;
+
+            var sut = new SeededFactory<string>(factoryStub);
+            // Exercise system
+            var dummyContext = new DelegatingSpecimenContext();
+            var result = sut.Create(request, dummyContext);
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
     }
 }
