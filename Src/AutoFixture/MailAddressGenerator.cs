@@ -54,15 +54,14 @@ namespace Ploeh.AutoFixture
         private object TryCreateMailAddress(object request, ISpecimenContext context)
         {
             var localPart = context.Resolve(typeof(EmailAddressLocalPart)) as EmailAddressLocalPart;
+            var domainName = context.Resolve(typeof(DomainName)) as DomainName;
 
-            if (localPart == null)
+            if (localPart == null || domainName == null)
             {
                 return new NoSpecimen(request);
             }
 
-            var host = fictitiousDomains[(uint)localPart.GetHashCode() % 3];
-
-            var email = string.Format(CultureInfo.InvariantCulture, "{0} <{0}@{1}>", localPart, host);
+            var email = string.Format(CultureInfo.InvariantCulture, "{0} <{0}@{1}>", localPart, domainName);
             return new MailAddress(email);
         }
     }       
