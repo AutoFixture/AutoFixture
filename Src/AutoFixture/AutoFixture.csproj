@@ -98,6 +98,7 @@
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
     <Compile Include="DomainName.cs" />
+    <Compile Include="DomainNameGenerator.cs" />
     <Compile Include="InvariantCultureGenerator.cs" />
     <Compile Include="EmailAddressLocalPart.cs" />
     <Compile Include="EmailAddressLocalPartGenerator.cs" />
