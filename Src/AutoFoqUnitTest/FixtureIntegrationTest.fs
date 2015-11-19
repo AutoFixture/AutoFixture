@@ -82,12 +82,7 @@ let ``Fixture customizations are propagated in Foq for non-explicitly setup test
     let fixture = Fixture()
     let expected = "Friday, 14 December 1984"
     fixture.Register<string>(fun () -> expected)
-    fixture.ResidueCollectors.Add(
-        FilteringSpecimenBuilder(
-            MethodInvoker(
-                FoqMethodQuery(
-                    fixture)),
-            AbstractTypeSpecification()))
+    fixture.Customize(AutoFoqCustomization()) |> ignore
     let sut = fixture.Create<IInterface>()
 
     let actual = sut.ReturnSomething()
