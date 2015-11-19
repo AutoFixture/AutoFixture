@@ -10,13 +10,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class MailAddressGenerator : ISpecimenBuilder
     {
-        private readonly string[] fictitiousDomains = 
-        { 
-            "example.com", 
-            "example.net", 
-            "example.org" 
-        };
-
         /// <summary>
         /// Creates a new MailAddress.
         /// </summary>
@@ -51,7 +44,7 @@ namespace Ploeh.AutoFixture
             }
         }
 
-        private object TryCreateMailAddress(object request, ISpecimenContext context)
+        private static object TryCreateMailAddress(object request, ISpecimenContext context)
         {
             var localPart = context.Resolve(typeof(EmailAddressLocalPart)) as EmailAddressLocalPart;
             var domainName = context.Resolve(typeof(DomainName)) as DomainName;

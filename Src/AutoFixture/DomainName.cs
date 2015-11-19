@@ -20,9 +20,9 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("domainName");
             }
 
-            if (domainName == string.Empty)
+            if (domainName.Length == 0)
             {
-                throw new ArgumentException("domainName");
+                throw new ArgumentException("domainName cannot be empty");
             }
 
             this.domainName = domainName;
