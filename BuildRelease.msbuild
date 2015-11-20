@@ -91,7 +91,7 @@
     <Target Name="MakeReleaseFolder" DependsOnTargets="DeleteReleaseFolder">
         <MakeDir Directories="$(ReleaseFolder)" Condition="!Exists($(ReleaseFolder))" />
     </Target>
-    <Target Name="Verify" DependsOnTargets="MakeReleaseFolder">
+    <Target Name="Verify" DependsOnTargets="MakeReleaseFolder;CleanAll">
         <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Verify" />
     </Target>
     <Target Name="Build" DependsOnTargets="Verify">
