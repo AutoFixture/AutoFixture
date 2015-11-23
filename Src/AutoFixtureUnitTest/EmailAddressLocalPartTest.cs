@@ -56,19 +56,6 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]        
-        public void SutDoesNotEqualNullSut()
-        {
-            // Fixture setup
-            var sut = new EmailAddressLocalPart(Guid.NewGuid().ToString());
-            EmailAddressLocalPart other = null;
-            // Exercise system
-            bool result = sut.Equals(other);
-            // Verify outcome
-            Assert.False(result);
-            // Teardown
-        }
-
         [Fact]
         public void SutDoesNotEqualAnonymousObject()
         {
@@ -94,19 +81,6 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.False(result);
             // Teardown
         }
-
-        [Fact]
-        public void SutDoesNotEqualOtherSutWhenLocalPartsDiffer()
-        {
-            // Fixture setup
-            var sut = new EmailAddressLocalPart(Guid.NewGuid().ToString());
-            var other = new EmailAddressLocalPart(Guid.NewGuid().ToString());
-            // Exercise system
-            bool result = sut.Equals(other);
-            // Verify outcome
-            Assert.False(result);
-            // Teardown
-        }      
 
         [Fact]
         public void SutEqualsOtherSutWhenLocalPartsAreEqual()
