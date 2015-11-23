@@ -17,16 +17,6 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void InitializeWithEmptyDomainNameThrows()
-        {
-            // Fixture setup
-            Assert.Throws<ArgumentException>(
-                () => new DomainName(string.Empty));
-            // Exercise system and verify outcome
-            // Teardown
-        }
-
-        [Fact]
         public void ToStringReturnsCorrectResult()
         {
             // Fixture setup
