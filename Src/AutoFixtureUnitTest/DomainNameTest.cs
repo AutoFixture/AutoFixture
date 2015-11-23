@@ -53,19 +53,6 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void SutDoesNotEqualNullSut()
-        {
-            // Fixture setup
-            var sut = new DomainName(Guid.NewGuid().ToString());
-            DomainName other = null;
-            // Exercise system
-            bool result = sut.Equals(other);
-            // Verify outcome
-            Assert.False(result);
-            // Teardown
-        }
-
-        [Fact]
         public void SutDoesNotEqualAnonymousObject()
         {
             // Fixture setup
@@ -84,19 +71,6 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new DomainName(Guid.NewGuid().ToString());
             object other = new DomainName(Guid.NewGuid().ToString());
-            // Exercise system
-            bool result = sut.Equals(other);
-            // Verify outcome
-            Assert.False(result);
-            // Teardown
-        }
-
-        [Fact]
-        public void SutDoesNotEqualOtherSutWhenDomainNamesDiffer()
-        {
-            // Fixture setup
-            var sut = new DomainName(Guid.NewGuid().ToString());
-            var other = new DomainName(Guid.NewGuid().ToString());
             // Exercise system
             bool result = sut.Equals(other);
             // Verify outcome
