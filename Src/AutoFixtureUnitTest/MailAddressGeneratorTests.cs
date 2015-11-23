@@ -107,9 +107,9 @@ namespace Ploeh.AutoFixtureUnitTest
             };
             var sut = new MailAddressGenerator();
             // Exercise system
-            var expectedResult = new NoSpecimen(request);
             var result = sut.Create(request, context);
             // Verify outcome
+            var expectedResult = new NoSpecimen(request);
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -131,9 +131,9 @@ namespace Ploeh.AutoFixtureUnitTest
             };
             var sut = new MailAddressGenerator();
             // Exercise system
-            var expectedResult = new NoSpecimen(request);
             var result = sut.Create(request, context);
             // Verify outcome
+            var expectedResult = new NoSpecimen(request);
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -162,9 +162,9 @@ namespace Ploeh.AutoFixtureUnitTest
             };
             var sut = new MailAddressGenerator();
             // Exercise system
-            var expectedResult = new NoSpecimen(request);
             var result = sut.Create(request, context);
             // Verify outcome
+            var expectedResult = new NoSpecimen(request);
             Assert.Equal(expectedResult, result);
             // Teardown
         }
