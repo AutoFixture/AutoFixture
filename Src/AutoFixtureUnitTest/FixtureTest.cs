@@ -3523,6 +3523,29 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CustomizeFromSeedWithUnmodifiedSeedValueWillPopulatePropertyOfSameType()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            fixture.Customize<Version>(c => c.FromSeed(s => s));
+            // Verify outcome
+            Assert.Null(fixture.Create<PropertyHolder<Version>>().Property);
+        }
+
+        [Fact]
+        public void CustomizeFromSeedWithFixedSeedValueWillPopulatePropertyOfSameType()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var seed = new Version();
+            // Exercise system
+            fixture.Customize<Version>(c => c.FromSeed(s => seed));
+            // Verify outcome
+            Assert.Equal(seed, fixture.Create<PropertyHolder<Version>>().Property);
+        }
+
+        [Fact]
         [Obsolete]
         public void BuildAndCreateAnonymousWillSetInt32Property()
         {
