@@ -36,11 +36,12 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNonDomainNameRequestReturnsCorrectResult()
         {
             // Fixture setup
+            var nonDomainNameRequest = typeof(object);
             var sut = new DomainNameGenerator();
             // Exercise system
-            var result = sut.Create(typeof(object), null);
+            var result = sut.Create(nonDomainNameRequest, null);
             // Verify outcome
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.Equal(new NoSpecimen(nonDomainNameRequest), result);
             // Teardown
         }
 

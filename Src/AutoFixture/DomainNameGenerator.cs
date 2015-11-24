@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture
         {
             if (request == null || !typeof(DomainName).Equals(request))
             {
-                return new NoSpecimen();
+                return new NoSpecimen(request);
             }
 
             var index = random.Next(0, fictitiousDomains.Length);
