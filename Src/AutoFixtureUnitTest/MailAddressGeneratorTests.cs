@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Mail;
-using System.Text.RegularExpressions;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
@@ -61,17 +60,25 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithMailAddressRequestReturnsCorrectResultUsingLocalPartFromContext()
+        public void CreateWithMailAddressRequestReturnsCorrectResultUsingLocalPartAndDomainNameFromContext()
         {
             // Fixture setup
             var request = typeof(MailAddress);
             var expectedLocalPart = new EmailAddressLocalPart(Guid.NewGuid().ToString());
+            var expectedDomainName = new DomainName(Guid.NewGuid().ToString());
             var context = new DelegatingSpecimenContext()
             {
                 OnResolve = r =>
                {
-                   Assert.Equal(typeof(EmailAddressLocalPart), r);
-                   return expectedLocalPart;
+                   Assert.True(typeof(EmailAddressLocalPart).Equals(r) || typeof(DomainName).Equals(r));
+                   if (typeof(EmailAddressLocalPart).Equals(r))
+                   {
+                       return expectedLocalPart;
+                   }
+                   else
+                   {
+                       return expectedDomainName;
+                   }
                }
             };
             var sut = new MailAddressGenerator();
@@ -79,7 +86,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = (MailAddress)sut.Create(request, context);
             // Verify outcome
             Assert.Equal(expectedLocalPart.LocalPart, result.User);
-            Assert.True(Regex.IsMatch(result.Host, @"example\.(com|org|net)"));
+            Assert.Equal(expectedDomainName.Domain, result.Host);
             // Teardown
         }
 
@@ -87,20 +94,46 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithMailAddressRequestReturnsNoSpecimenWhenContextReturnsNullLocalPart()
         {
             // Fixture setup
-            var request = typeof(MailAddress);         
+            var request = typeof(MailAddress);
+            var anonymousDomainName = new DomainName(Guid.NewGuid().ToString());
+
             var context = new DelegatingSpecimenContext()
             {
                 OnResolve = r =>
                 {
-                    Assert.Equal(typeof(EmailAddressLocalPart), r);
-                    return null;                    
+                    Assert.True(typeof(EmailAddressLocalPart).Equals(r) || typeof(DomainName).Equals(r));
+                    return typeof(DomainName).Equals(r) ? anonymousDomainName : null;
                 }
             };
             var sut = new MailAddressGenerator();
             // Exercise system
-            var expectedResult = new NoSpecimen(request);
             var result = sut.Create(request, context);
             // Verify outcome
+            var expectedResult = new NoSpecimen(request);
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithMailAddressRequestReturnsNoSpecimenWhenContextReturnsNullDomainName()
+        {
+            // Fixture setup
+            var request = typeof(MailAddress);
+            var anonymousLocalPart = new EmailAddressLocalPart(Guid.NewGuid().ToString());
+
+            var context = new DelegatingSpecimenContext()
+            {
+                OnResolve = r =>
+                {
+                    Assert.True(typeof(EmailAddressLocalPart).Equals(r) || typeof(DomainName).Equals(r));
+                    return typeof(EmailAddressLocalPart).Equals(r) ? anonymousLocalPart : null;
+                }
+            };
+            var sut = new MailAddressGenerator();
+            // Exercise system
+            var result = sut.Create(request, context);
+            // Verify outcome
+            var expectedResult = new NoSpecimen(request);
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -110,20 +143,28 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var localPart = new EmailAddressLocalPart("@Invalid@");
+            var anonymousDomainName = new DomainName(Guid.NewGuid().ToString());
             var request = typeof(MailAddress);
             var context = new DelegatingSpecimenContext()
             {
                 OnResolve = r =>
                 {
-                    Assert.Equal(typeof(EmailAddressLocalPart), r);
-                    return localPart;
+                    Assert.True(typeof(EmailAddressLocalPart).Equals(r) || typeof(DomainName).Equals(r));
+                    if (typeof(EmailAddressLocalPart).Equals(r))
+                    {
+                        return localPart;
+                    }
+                    else
+                    {
+                        return anonymousDomainName;
+                    }
                 }
             };
             var sut = new MailAddressGenerator();
             // Exercise system
-            var expectedResult = new NoSpecimen(request);
             var result = sut.Create(request, context);
             // Verify outcome
+            var expectedResult = new NoSpecimen(request);
             Assert.Equal(expectedResult, result);
             // Teardown
         }
