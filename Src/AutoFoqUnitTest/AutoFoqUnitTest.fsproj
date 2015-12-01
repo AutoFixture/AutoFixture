@@ -76,7 +76,7 @@
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="Unquote">
-      <HintPath>..\..\Packages\Unquote.2.2.2\lib\net40\Unquote.dll</HintPath>
+      <HintPath>..\..\Packages\Unquote.3.1.0\lib\net40\Unquote.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="xunit">
