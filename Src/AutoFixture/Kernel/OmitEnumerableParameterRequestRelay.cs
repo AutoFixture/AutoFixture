@@ -60,13 +60,19 @@ namespace Ploeh.AutoFixture.Kernel
 
             var pi = request as ParameterInfo;
             if (pi == null)
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
 
             if (!pi.ParameterType.IsGenericType)
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
 
             if (IsNotEnumerable(pi))
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
 
             var returnValue = context.Resolve(
                 new SeededRequest(

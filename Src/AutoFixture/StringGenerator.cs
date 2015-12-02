@@ -51,13 +51,17 @@ namespace Ploeh.AutoFixture
         {
             if (!typeof(string).Equals(request))
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             var specimen = this.createSpecimen();
             if (specimen == null)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
             if (specimen is NoSpecimen)
             {

@@ -19,7 +19,9 @@ namespace Ploeh.AutoFixture
         {
             if (!typeof(UriScheme).Equals(request))
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             return new UriScheme();

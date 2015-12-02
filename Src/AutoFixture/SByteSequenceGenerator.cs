@@ -57,7 +57,9 @@ namespace Ploeh.AutoFixture
         {
             if (!typeof(sbyte).Equals(request))
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             return this.Create();

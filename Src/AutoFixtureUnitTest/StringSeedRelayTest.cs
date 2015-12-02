@@ -55,7 +55,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonSeed, dummyContainer);
             // Verify outcome
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(nonSeed);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -70,7 +72,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonStringRequestSeed, dummyContainer);
             // Verify outcome
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(nonStringRequestSeed);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -85,7 +89,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(nonStringSeed, dummyContainer);
             // Verify outcome
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(nonStringSeed);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -96,11 +102,15 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new StringSeedRelay();
             var stringSeed = new SeededRequest(typeof(string), "Anonymous value");
+#pragma warning disable 618
             var unableContainer = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(stringSeed) };
+#pragma warning restore 618
             // Exercise system
             var result = sut.Create(stringSeed, unableContainer);
             // Verify outcome
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(stringSeed);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }

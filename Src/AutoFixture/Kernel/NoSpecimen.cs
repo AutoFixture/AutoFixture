@@ -30,6 +30,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="request">
         /// The original request that prompts the creation of this instance.
         /// </param>
+        [Obsolete("The Request property, and the constructor that populates it, is being retired in future versions of AutoFixture, as it has turned out that no one uses it. If you're seeing this warning in AutoFixture 3.x, and, despite expectations, have a real need to use the Request property, please provide feedback on https://github.com/AutoFixture/AutoFixture/issues/475 .")]
         public NoSpecimen(object request)
         {
             this.request = request;
@@ -43,6 +44,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// This property value may be <see langword="null"/>.
         /// </para>
         /// </remarks>
+        [Obsolete("The Request property is being retired in future versions of AutoFixture, as it has turned out that no one uses it. If you're seeing this warning in AutoFixture 3.x, and, despite expectations, have a real need to use the Request property, please provide feedback on https://github.com/AutoFixture/AutoFixture/issues/475 .")]
         public object Request
         {
             get { return this.request; }
@@ -73,7 +75,9 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>A hash code for the current <see cref="NoSpecimen"/> instance.</returns>
         public override int GetHashCode()
         {
+#pragma warning disable 618
             return this.Request == null ? 0 : this.Request.GetHashCode();
+#pragma warning restore 618
         }
 
         /// <summary>
@@ -93,8 +97,10 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 return false;
             }
-        
+
+#pragma warning disable 618
             return object.Equals(this.Request, other.Request);
+#pragma warning restore 618
         }
     }
 }

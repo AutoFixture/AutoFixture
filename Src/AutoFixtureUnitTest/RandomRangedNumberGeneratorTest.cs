@@ -59,7 +59,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(dummyRequest, dummyContext);
             // Verify outcome
+#pragma warning disable 618
             Assert.Equal(new NoSpecimen(dummyRequest), result);
+#pragma warning restore 618
             // Teardown
         }
 
@@ -76,7 +78,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(request, dummyContext);
             // Verify
+#pragma warning disable 618
             Assert.Equal(new NoSpecimen(request), result);
+#pragma warning restore 618
         }
 
 

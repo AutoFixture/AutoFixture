@@ -31,14 +31,18 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             var customAttributeProvider = request as ICustomAttributeProvider;
             if (customAttributeProvider == null)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             var attribute = customAttributeProvider.GetCustomAttributes(typeof(SubstituteAttribute), true)
                     .OfType<SubstituteAttribute>().FirstOrDefault();
             if (attribute == null)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             object substituteRequest = CreateSubstituteRequest(customAttributeProvider, attribute);

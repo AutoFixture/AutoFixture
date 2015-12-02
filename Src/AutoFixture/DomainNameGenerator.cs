@@ -29,7 +29,9 @@ namespace Ploeh.AutoFixture
         {
             if (request == null || !typeof(DomainName).Equals(request))
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             var index = random.Next(0, fictitiousDomains.Length);

@@ -101,7 +101,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var result = sut.Create(request, context);
 
             // Verify outcome
+#pragma warning disable 618
             var expected = new NoSpecimen(request);
+#pragma warning restore 618
             Assert.Equal(expected, result);
         }
 
@@ -137,7 +139,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var result = sut.Create(request, context);
 
             // Verify outcome
+#pragma warning disable 618
             var expected = new NoSpecimen(request);
+#pragma warning restore 618
             Assert.Equal(expected, result);
         }
 
@@ -156,7 +160,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var result = sut.Create(request, context);
 
             // Verify outcome
+#pragma warning disable 618
             var expected = new NoSpecimen(request);
+#pragma warning restore 618
             Assert.Equal(expected, result);
         }
     }

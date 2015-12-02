@@ -29,7 +29,9 @@ namespace Ploeh.AutoFixture.Kernel
             var propertyInfo = request as PropertyInfo;
             if (propertyInfo == null)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             return context.Resolve(new SeededRequest(propertyInfo.PropertyType, propertyInfo.Name));

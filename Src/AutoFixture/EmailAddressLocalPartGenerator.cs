@@ -28,14 +28,18 @@ namespace Ploeh.AutoFixture
 
             if (request == null || !typeof(EmailAddressLocalPart).Equals(request))
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             var localPart = context.Resolve(typeof(string)) as string;
 
             if (string.IsNullOrEmpty(localPart))
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             return new EmailAddressLocalPart(localPart);

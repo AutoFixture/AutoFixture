@@ -80,7 +80,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = sut.Create(nonTypeRequest, dummyContainer);
             // Verify outcome
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(nonTypeRequest);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -96,7 +98,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContext);
             // Verify outcome
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(dummyRequest);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -106,12 +110,16 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var type = typeof(string);
+#pragma warning disable 618
             var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(type) };
+#pragma warning restore 618
             var sut = new MethodInvoker(new ModestConstructorQuery());
             // Exercise system
             var result = sut.Create(type, container);
             // Verify outcome
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(type);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -125,7 +133,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = sut.Create(typeof(AbstractType), container);
             // Verify outcome
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(typeof(AbstractType));
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -136,7 +146,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var requestedType = typeof(DoubleParameterType<string, int>);
             var parameters = requestedType.GetConstructors().Single().GetParameters();
+#pragma warning disable 618
             var container = new DelegatingSpecimenContext { OnResolve = r => parameters[0] == r ? new object() : new NoSpecimen(r) };
+#pragma warning restore 618
             var sut = new MethodInvoker(new ModestConstructorQuery());
             // Exercise system
             var result = sut.Create(requestedType, container);
@@ -240,7 +252,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                         return expectedNumber;
                     }
                 }
+#pragma warning disable 618
                 return new NoSpecimen(r);
+#pragma warning restore 618
             };
             // Exercise system
             var result = sut.Create(requestedType, context);

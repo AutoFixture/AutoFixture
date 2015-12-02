@@ -53,7 +53,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContext);
             // Verify outcome
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(dummyRequest);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -66,12 +68,16 @@ namespace Ploeh.AutoFixtureUnitTest
             object expectedValue = null;
             var context = new DelegatingSpecimenContext
             {
+#pragma warning disable 618
                 OnResolve = r => typeof(UriScheme).Equals(r) ? expectedValue : new NoSpecimen(r)
+#pragma warning restore 618
             };
             var sut = new UriGenerator();
             // Exercise system and verify outcome
             var result = sut.Create(request, context);
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(request);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -96,13 +102,17 @@ namespace Ploeh.AutoFixtureUnitTest
                         return expectedValue;
                     }
 
+#pragma warning disable 618
                     return new NoSpecimen(r);
+#pragma warning restore 618
                 }
             };
             var sut = new UriGenerator();
             // Exercise system and verify outcome
             var result = sut.Create(request, context);
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(request);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -127,7 +137,9 @@ namespace Ploeh.AutoFixtureUnitTest
                         return Guid.NewGuid().ToString();
                     }
 
+#pragma warning disable 618
                     return new NoSpecimen(r);
+#pragma warning restore 618
                 }
             };
             var sut = new UriGenerator();
@@ -158,7 +170,9 @@ namespace Ploeh.AutoFixtureUnitTest
                         return expectedAuthority;
                     }
 
+#pragma warning disable 618
                     return new NoSpecimen(r);
+#pragma warning restore 618
                 }
             };
             var sut = new UriGenerator();
@@ -190,7 +204,9 @@ namespace Ploeh.AutoFixtureUnitTest
                         return expectedAuthority;
                     }
 
+#pragma warning disable 618
                     return new NoSpecimen(r);
+#pragma warning restore 618
                 }
             };
             var sut = new UriGenerator();

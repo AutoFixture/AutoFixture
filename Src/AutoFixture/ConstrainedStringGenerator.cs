@@ -32,7 +32,9 @@ namespace Ploeh.AutoFixture
             var constrain = request as ConstrainedStringRequest;
             if (constrain == null)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             return ConstrainedStringGenerator.Create(constrain.MinimumLength, constrain.MaximumLength, context);

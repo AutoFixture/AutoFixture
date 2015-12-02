@@ -57,7 +57,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContext);
             // Verify outcome
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(dummyRequest);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -79,7 +81,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new EmailAddressLocalPartGenerator();
             // Exercise system and verify outcome
             var result = sut.Create(request, context);
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(request);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -126,7 +130,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(typeof(EmailAddressLocalPart), context);
             // Verify outcome
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(request);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }

@@ -78,7 +78,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var builder = new DelegatingSpecimenBuilder
             {
+#pragma warning disable 618
                 OnCreate = (r, c) => (r == request) && (c == ctx) ? expectedResult : new NoSpecimen(r)
+#pragma warning restore 618
             };
 
             var sut = new DisposableTracker(builder);

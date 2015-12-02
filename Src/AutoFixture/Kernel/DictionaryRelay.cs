@@ -37,11 +37,17 @@ namespace Ploeh.AutoFixture.Kernel
             // This is performance-sensitive code when used repeatedly over many requests.
             // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
             var type = request as Type;
+#pragma warning disable 618
             if (type == null) return new NoSpecimen(request);
+#pragma warning restore 618
             var typeArguments = type.GetGenericArguments();
+#pragma warning disable 618
             if (typeArguments.Length != 2) return new NoSpecimen(request);
+#pragma warning restore 618
             var gtd = type.GetGenericTypeDefinition();
+#pragma warning disable 618
             if (gtd != typeof(IDictionary<,>)) return new NoSpecimen(request);
+#pragma warning restore 618
             return context.Resolve(typeof(Dictionary<,>).MakeGenericType(typeArguments));
         }
     }
