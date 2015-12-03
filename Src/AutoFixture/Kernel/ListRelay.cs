@@ -34,12 +34,16 @@ namespace Ploeh.AutoFixture.Kernel
 
             var t = request as Type;
             if (t == null)
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
 
             var typeArguments = t.GetGenericArguments();
             if (typeArguments.Length != 1 ||
                 typeof(IList<>) != t.GetGenericTypeDefinition())
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
 
             return context.Resolve(
                 typeof(List<>).MakeGenericType(typeArguments));

@@ -31,7 +31,9 @@ namespace Ploeh.AutoFixture
 
             var type = request as Type;
             if (type == null)
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
 
             //check if type is a constructed generic type whose definition matches Task<>
             if (type.IsGenericType && !type.IsGenericTypeDefinition &&
@@ -42,7 +44,9 @@ namespace Ploeh.AutoFixture
             if (type == typeof (Task))
                 return CreateNonGenericTask();
 
+#pragma warning disable 618
             return new NoSpecimen(request);
+#pragma warning restore 618
         }
 
         private static object CreateGenericTask(Type taskType, ISpecimenContext context)

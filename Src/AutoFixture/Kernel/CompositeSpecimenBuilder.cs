@@ -61,7 +61,9 @@ namespace Ploeh.AutoFixture.Kernel
                 if (!(result is NoSpecimen)) return result;
             }
 
+#pragma warning disable 618
             return new NoSpecimen(request);
+#pragma warning restore 618
         }
 
         /// <summary>Composes the supplied builders.</summary>

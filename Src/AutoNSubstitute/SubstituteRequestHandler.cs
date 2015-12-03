@@ -55,7 +55,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             var substituteRequest = request as SubstituteRequest;
             if (substituteRequest == null)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             return this.substituteFactory.Create(substituteRequest.TargetType, context);

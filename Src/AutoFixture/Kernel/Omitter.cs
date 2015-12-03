@@ -66,7 +66,9 @@ namespace Ploeh.AutoFixture.Kernel
             if (this.specification.IsSatisfiedBy(request))
                 return new OmitSpecimen();
 
+#pragma warning disable 618
             return new NoSpecimen(request);
+#pragma warning restore 618
         }
 
         /// <summary>

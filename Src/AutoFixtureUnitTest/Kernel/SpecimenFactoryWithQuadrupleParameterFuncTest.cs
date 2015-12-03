@@ -69,7 +69,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var container = new DelegatingSpecimenContext();
             container.OnResolve = r => (from x in subRequests
                                         where x.ExpectedRequest.Equals(r)
+#pragma warning disable 618
                                         select x.Specimen).DefaultIfEmpty(new NoSpecimen(r)).SingleOrDefault();
+#pragma warning restore 618
 
             Func<decimal, TimeSpan, string, int, object> f = (d, ts, s, i) =>
                 param1.Specimen.Equals(d) && param2.Specimen.Equals(ts) && param3.Specimen.Equals(s) && param4.Specimen.Equals(i) ? expectedSpecimen : new NoSpecimen();

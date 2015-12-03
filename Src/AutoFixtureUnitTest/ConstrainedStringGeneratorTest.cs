@@ -57,7 +57,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(request, dummyContext);
             // Verify outcome
+#pragma warning disable 618
             Assert.Equal(new NoSpecimen(request), result);
+#pragma warning restore 618
             // Teardown
         }
 
@@ -70,7 +72,9 @@ namespace Ploeh.AutoFixtureUnitTest
             object contextValue = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
             {
+#pragma warning disable 618
                 OnResolve = r => expectedType.Equals(r) ? contextValue : new NoSpecimen(r)
+#pragma warning restore 618
             };
             var sut = new ConstrainedStringGenerator();
             // Exercise system
@@ -88,7 +92,9 @@ namespace Ploeh.AutoFixtureUnitTest
             object expectedValue = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
             {
+#pragma warning disable 618
                 OnResolve = r => typeof(string).Equals(r) ? expectedValue : new NoSpecimen(r)
+#pragma warning restore 618
             };
             var sut = new ConstrainedStringGenerator();
             // Exercise system and verify outcome
@@ -105,7 +111,9 @@ namespace Ploeh.AutoFixtureUnitTest
             object contextValue = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
             {
+#pragma warning disable 618
                 OnResolve = r => typeof(string).Equals(r) ? contextValue : new NoSpecimen(r)
+#pragma warning restore 618
             };
             var sut = new ConstrainedStringGenerator();
             // Exercise system
@@ -123,7 +131,9 @@ namespace Ploeh.AutoFixtureUnitTest
             object contextValue = Guid.NewGuid().ToString();
             var context = new DelegatingSpecimenContext
             {
+#pragma warning disable 618
                 OnResolve = r => typeof(string).Equals(r) ? contextValue : new NoSpecimen(r)
+#pragma warning restore 618
             };
             var sut = new ConstrainedStringGenerator();
             // Exercise system

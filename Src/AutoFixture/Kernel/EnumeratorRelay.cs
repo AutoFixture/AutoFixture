@@ -40,12 +40,16 @@ namespace Ploeh.AutoFixture.Kernel
 
             var t = request as Type;
             if (t == null)
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
 
             var typeArguments = t.GetGenericArguments();
             if (typeArguments.Length != 1 ||
                 typeof (IEnumerator<>) != t.GetGenericTypeDefinition())
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
 
             var specimenBuilder = (ISpecimenBuilder) Activator.CreateInstance(
                 typeof (EnumeratorRelay<>).MakeGenericType(typeArguments));
@@ -62,16 +66,22 @@ namespace Ploeh.AutoFixture.Kernel
 
             var t = request as Type;
             if (t == null)
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
 
             if (t != typeof(IEnumerator<T>))
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
 
             var enumerable =
                 context.Resolve(typeof (IEnumerable<T>)) as IEnumerable<T>;
 
             if (enumerable == null)
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
 
             return enumerable.GetEnumerator();
         }

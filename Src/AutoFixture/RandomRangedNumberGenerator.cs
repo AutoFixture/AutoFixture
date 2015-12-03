@@ -48,7 +48,9 @@ namespace Ploeh.AutoFixture
             var rangedNumberRequest = request as RangedNumberRequest;
             
             if (rangedNumberRequest == null)
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
 
             try
             {
@@ -56,8 +58,10 @@ namespace Ploeh.AutoFixture
             }
             catch (ArgumentException)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
-            }           
+#pragma warning restore 618
+            }
         }
 
         /// <summary>

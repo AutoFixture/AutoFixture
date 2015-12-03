@@ -38,7 +38,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             var requestedType = request as Type;
             if (requestedType == null || !requestedType.IsAbstract)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             object substitute = context.Resolve(new SubstituteRequest(requestedType));

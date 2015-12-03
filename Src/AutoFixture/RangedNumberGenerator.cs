@@ -45,13 +45,17 @@ namespace Ploeh.AutoFixture
             var range = request as RangedNumberRequest;
             if (range == null)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             var value = context.Resolve(range.OperandType) as IComparable;
             if (value == null)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             try
@@ -60,7 +64,9 @@ namespace Ploeh.AutoFixture
             }
             catch (InvalidOperationException)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             return this.rangedValue;

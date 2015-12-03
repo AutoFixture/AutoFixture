@@ -38,16 +38,22 @@ namespace Ploeh.AutoFixture.Kernel
             // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
             var type = request as Type;
             if (type == null)
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             if (!type.IsArray)
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             var elementType = type.GetElementType();
             var specimen = context.Resolve(new MultipleRequest(elementType));
             if (specimen is OmitSpecimen)
                 return specimen;
             var elements = specimen as IEnumerable;
             if (elements == null)
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             return ArrayRelay.ToArray(elements, elementType);
         }
 

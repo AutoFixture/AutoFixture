@@ -60,9 +60,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var dtSpecimen = DateTimeOffset.Now;
             var expectedParameterRequest = typeof(DateTimeOffset);
+#pragma warning disable 618
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedParameterRequest.Equals(r) ? (object)dtSpecimen : new NoSpecimen(r) };
 
             Func<DateTimeOffset, object> f = dt => dtSpecimen.Equals(dt) ? expectedSpecimen : new NoSpecimen(dt);
+#pragma warning restore 618
             var sut = new SpecimenFactory<DateTimeOffset, object>(f);
             // Exercise system
             var dummyRequest = new object();

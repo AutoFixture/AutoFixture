@@ -36,7 +36,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
             // Verify outcome
+#pragma warning disable 618
             var expected = new NoSpecimen(request);
+#pragma warning restore 618
             Assert.Equal(expected, result);
             // Teardown
         }

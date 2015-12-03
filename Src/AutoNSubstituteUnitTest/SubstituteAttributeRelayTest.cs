@@ -28,7 +28,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Exercise system
             object specimen = sut.Create(null, context);
             // Verify outcome
+#pragma warning disable 618
             var expected = new NoSpecimen(null);
+#pragma warning restore 618
             Assert.Equal(expected, specimen);
             // Teardown
         }
@@ -43,7 +45,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Exercise system
             object specimen = sut.Create(request, context);
             // Verify outcome
+#pragma warning disable 618
             var expected = new NoSpecimen(request);
+#pragma warning restore 618
             Assert.Equal(expected, specimen);
             // Teardown
         }
@@ -59,7 +63,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Exercise system
             object specimen = sut.Create(request, context);
             // Verify outcome
+#pragma warning disable 618
             var expected = new NoSpecimen(request);
+#pragma warning restore 618
             Assert.Equal(expected, specimen);
             // Teardown
         }

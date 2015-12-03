@@ -31,7 +31,9 @@ namespace Ploeh.AutoFixture
 
             if (!typeof(MailAddress).Equals(request))
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             try
@@ -40,7 +42,9 @@ namespace Ploeh.AutoFixture
             }                    
             catch (FormatException)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
         }
 
@@ -51,7 +55,9 @@ namespace Ploeh.AutoFixture
 
             if (localPart == null || domainName == null)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             var email = string.Format(CultureInfo.InvariantCulture, "{0} <{0}@{1}>", localPart, domainName);

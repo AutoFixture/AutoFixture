@@ -84,7 +84,9 @@ namespace Ploeh.AutoFixture.Kernel
             
             var t = request as Type;
             if (t == null || t != this.from)
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
 
             return context.Resolve(this.to);
         }

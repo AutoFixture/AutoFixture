@@ -68,14 +68,18 @@ namespace Ploeh.AutoFixture.AutoRhinoMock
         {
             if (!request.IsMockable())
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             var built = this.builder.Create(request, context);
             var m = built as IMockedObject;
             if (m == null)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             return m;

@@ -69,7 +69,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             var sut = new OmitArrayParameterRequestRelay();
             var actual = sut.Create(request, new DelegatingSpecimenContext());
+#pragma warning disable 618
             Assert.Equal(new NoSpecimen(request), actual);
+#pragma warning restore 618
         }
 
         [Theory]
@@ -93,7 +95,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             var actual = sut.Create(parameterInfo, dummyContext);
 
+#pragma warning disable 618
             var expected = new NoSpecimen(parameterInfo);
+#pragma warning restore 618
             Assert.Equal(expected, actual);
         }
 

@@ -247,7 +247,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 new DelegatingTracingBuilder(
                     new DelegatingSpecimenBuilder
                     {
+#pragma warning disable 618
                         OnCreate = (r, c) => new NoSpecimen(request)
+#pragma warning restore 618
                     });
             var sut = new TerminatingWithPathSpecimenBuilder(tracer);
 

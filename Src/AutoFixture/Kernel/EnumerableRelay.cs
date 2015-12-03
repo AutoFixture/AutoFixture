@@ -39,18 +39,26 @@ namespace Ploeh.AutoFixture.Kernel
             // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
             var type = request as Type;
             if (type == null)
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             var typeArgs = type.GetGenericArguments();
             if (typeArgs.Length != 1)
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             if (type.GetGenericTypeDefinition() != typeof(IEnumerable<>))
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             var specimen = context.Resolve(new MultipleRequest(typeArgs[0]));
             if (specimen is OmitSpecimen)
                 return specimen;
             var enumerable = specimen as IEnumerable<object>;
             if (enumerable == null)
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
 
             return typeof (ConvertedEnumerable<>)
                 .MakeGenericType(typeArgs)

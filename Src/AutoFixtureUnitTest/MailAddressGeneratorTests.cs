@@ -43,7 +43,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(request, dummyContext);
             // Verify outcome
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(request);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -109,7 +111,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(request);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -133,7 +137,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(request);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -164,7 +170,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome
+#pragma warning disable 618
             var expectedResult = new NoSpecimen(request);
+#pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
         }

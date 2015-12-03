@@ -32,12 +32,16 @@ namespace Ploeh.AutoFixture.Kernel
 
             if (delegateType == null)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             if (!typeof(Delegate).IsAssignableFrom(delegateType))
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             var delegateMethod = delegateType.GetMethod("Invoke");

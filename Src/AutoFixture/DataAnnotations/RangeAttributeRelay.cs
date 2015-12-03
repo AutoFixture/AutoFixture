@@ -37,13 +37,17 @@ namespace Ploeh.AutoFixture.DataAnnotations
             var customAttributeProvider = request as ICustomAttributeProvider;
             if (customAttributeProvider == null)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             var rangeAttribute = customAttributeProvider.GetCustomAttributes(typeof(RangeAttribute), inherit: true).Cast<RangeAttribute>().SingleOrDefault();
             if (rangeAttribute == null)
             {
+#pragma warning disable 618
                 return new NoSpecimen(request);
+#pragma warning restore 618
             }
 
             return context.Resolve(RangeAttributeRelay.Create(rangeAttribute, request));
