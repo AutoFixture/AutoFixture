@@ -35,12 +35,12 @@ namespace Ploeh.AutoFixture.Kernel
 
             var t = request as Type;
             if (t == null)
-                return new NoSpecimen(request);
+                return new NoSpecimen();
 
             var typeArguments = t.GetGenericArguments();
             if (typeArguments.Length != 1 ||
                 typeof(IReadOnlyCollection<>) != t.GetGenericTypeDefinition())
-                return new NoSpecimen(request);
+                return new NoSpecimen();
 
             return context.Resolve(
                 typeof(List<>).MakeGenericType(typeArguments));
