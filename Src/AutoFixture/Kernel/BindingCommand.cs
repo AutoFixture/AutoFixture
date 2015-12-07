@@ -227,7 +227,10 @@ namespace Ploeh.AutoFixture.Kernel
             Type targetType)
         {
             if (candidate is IConvertible)
-                return Convert.ChangeType(candidate, targetType);
+                return Convert.ChangeType(
+                    candidate,
+                    targetType,
+                    CultureInfo.CurrentCulture);
             else
                 return candidate;
         }
