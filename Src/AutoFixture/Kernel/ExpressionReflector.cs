@@ -12,7 +12,13 @@ namespace Ploeh.AutoFixture.Kernel
             var me = propertyPicker.Body as MemberExpression;
             if (me == null)
             {
-                throw new ArgumentException("The expression's Body is not a MemberExpression. Most likely this is because it does not represent access to a property or field.", "propertyPicker");
+                var ue = propertyPicker.Body as UnaryExpression;
+                if (ue != null)
+                {
+                    me = ue.Operand as MemberExpression;
+                }
+                if (me == null)
+                    throw new ArgumentException("The expression's Body is not a MemberExpression. Most likely this is because it does not represent access to a property or field.", "propertyPicker");
             }
 
             var pi = me.Member as PropertyInfo;

@@ -210,11 +210,21 @@ namespace Ploeh.AutoFixture.Kernel
 
             var pi = this.member as PropertyInfo;
             if (pi != null)
-                pi.SetValue(specimen, bindingValue, null);
+            {
+                if (bindingValue is IConvertible)
+                    pi.SetValue(specimen, Convert.ChangeType(bindingValue, pi.PropertyType), null);
+                else
+                    pi.SetValue(specimen, bindingValue, null);
+            }
 
             var fi = this.member as FieldInfo;
             if (fi != null)
-                fi.SetValue(specimen, bindingValue);
+            {
+                if (bindingValue is IConvertible)
+                    fi.SetValue(specimen, Convert.ChangeType(bindingValue, fi.FieldType));
+                else
+                    fi.SetValue(specimen, bindingValue);
+            }
         }
     }
 }

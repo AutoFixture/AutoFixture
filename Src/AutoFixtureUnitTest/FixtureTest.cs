@@ -5767,5 +5767,35 @@ namespace Ploeh.AutoFixtureUnitTest
 
             Assert.DoesNotThrow(() => fixture.Create<string>());
         }
+
+        [Theory]
+        [InlineData( 1)]
+        [InlineData( 2)]
+        [InlineData(10)]
+        public void CustomizeBytePropertyReturnsCorrectResult(int expected)
+        {
+            var fixture = new Fixture();
+            fixture.Customize<PropertyHolder<byte>>(c => c
+                .With(x => x.Property, expected));
+
+            var actual = fixture.Create<PropertyHolder<byte>>();
+
+            Assert.Equal(expected, actual.Property);
+        }
+
+        [Theory]
+        [InlineData( 1)]
+        [InlineData( 2)]
+        [InlineData(10)]
+        public void CustomizeByteFieldReturnsCorrectResult(int expected)
+        {
+            var fixture = new Fixture();
+            fixture.Customize<FieldHolder<byte>>(c => c
+                .With(x => x.Field, expected));
+
+            var actual = fixture.Create<FieldHolder<byte>>();
+
+            Assert.Equal(expected, actual.Field);
+        }
     }
 }
