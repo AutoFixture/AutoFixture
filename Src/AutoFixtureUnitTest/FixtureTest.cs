@@ -5797,5 +5797,31 @@ namespace Ploeh.AutoFixtureUnitTest
 
             Assert.Equal(expected, actual.Field);
         }
+
+        [Fact]
+        public void WithImplicitConversionToNullablePropertyReturnsCorrectResult()
+        {
+            var fixture = new Fixture();
+            var expected = fixture.Create<int>();
+
+            var actual = fixture.Build<PropertyHolder<int?>>()
+                .With(x => x.Property, expected)
+                .Create();
+
+            Assert.Equal(expected, actual.Property);
+        }
+
+        [Fact]
+        public void WithImplicitConversionToNullableFieldReturnsCorrectResult()
+        {
+            var fixture = new Fixture();
+            var expected = fixture.Create<int>();
+
+            var actual = fixture.Build<FieldHolder<int?>>()
+                .With(x => x.Field, expected)
+                .Create();
+
+            Assert.Equal(expected, actual.Field);
+        }
     }
 }
