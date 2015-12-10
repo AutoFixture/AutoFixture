@@ -40,10 +40,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
 
             var result = sut.Create(request, dummyContext);
-
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
         }
 
@@ -93,10 +91,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new EnumeratorRelay();
 
             var result = sut.Create(request, context);
-
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
         }
     }
