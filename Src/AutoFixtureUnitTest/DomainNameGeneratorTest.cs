@@ -41,9 +41,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(nonDomainNameRequest, null);
             // Verify outcome
-#pragma warning disable 618
-            Assert.Equal(new NoSpecimen(nonDomainNameRequest), result);
-#pragma warning restore 618
+            Assert.Equal(new NoSpecimen(), result);
             // Teardown
         }
 
