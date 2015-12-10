@@ -34,17 +34,13 @@ namespace Ploeh.AutoFixture.DataAnnotations
             var customAttributeProvider = request as ICustomAttributeProvider;
             if (customAttributeProvider == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var regularExpressionAttribute = customAttributeProvider.GetCustomAttributes(typeof(RegularExpressionAttribute), inherit: true).Cast<RegularExpressionAttribute>().SingleOrDefault();
             if (regularExpressionAttribute == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return context.Resolve(new RegularExpressionRequest(regularExpressionAttribute.Pattern));
