@@ -29,9 +29,7 @@ namespace Ploeh.AutoFixture.Kernel
             var fieldInfo = request as FieldInfo;
             if (fieldInfo == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return context.Resolve(new SeededRequest(fieldInfo.FieldType, fieldInfo.Name));
