@@ -73,7 +73,7 @@ namespace Ploeh.AutoFixture.Kernel
                 }
             }
 
-            return new NoSpecimen(request);
+            return new NoSpecimen();
         }
 
         private IEnumerable<IMethod> GetConstructors(object request)
