@@ -80,9 +80,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = sut.Create(nonTypeRequest, dummyContainer);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(nonTypeRequest);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -98,9 +96,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(dummyRequest, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(dummyRequest);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -110,16 +106,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var type = typeof(string);
-#pragma warning disable 618
-            var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(type) };
-#pragma warning restore 618
+            var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen() };
             var sut = new MethodInvoker(new ModestConstructorQuery());
             // Exercise system
             var result = sut.Create(type, container);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(type);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -133,9 +125,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = sut.Create(typeof(AbstractType), container);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(typeof(AbstractType));
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }

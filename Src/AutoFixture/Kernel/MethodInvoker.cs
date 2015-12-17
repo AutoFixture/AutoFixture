@@ -72,9 +72,7 @@ namespace Ploeh.AutoFixture.Kernel
                 }
             }
 
-#pragma warning disable 618
-            return new NoSpecimen(request);
-#pragma warning restore 618
+            return new NoSpecimen();
         }
 
         private IEnumerable<IMethod> GetConstructors(object request)
