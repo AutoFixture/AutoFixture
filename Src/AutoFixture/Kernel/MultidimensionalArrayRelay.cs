@@ -29,9 +29,7 @@ namespace Ploeh.AutoFixture.Kernel
 
             var arrayType = request as Type;
             if (arrayType == null || !IsMultidimensionalArray(arrayType))
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             return CreateMultidimensionalArray(arrayType, context);
         }

@@ -41,9 +41,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             {
                 var sut = new MultidimensionalArrayRelay();
                 var dummyContext = new DelegatingSpecimenContext();
-#pragma warning disable 618
-                var expected = new NoSpecimen(r);
-#pragma warning restore 618
+                var expected = new NoSpecimen();
 
                 var actual = sut.Create(r, dummyContext);
 
