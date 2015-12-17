@@ -52,24 +52,18 @@ namespace Ploeh.AutoFixture.Kernel
             var seededRequest = request as SeededRequest;
             if (seededRequest == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             if (!seededRequest.Request.Equals(typeof(T)))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             if ((seededRequest.Seed != null)
                 && !(seededRequest.Seed is T))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
             var seed = (T)seededRequest.Seed;
 
