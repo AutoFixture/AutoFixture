@@ -88,9 +88,7 @@ namespace Ploeh.AutoFixture
             var type = request as Type;
             if (type == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return this.CreateRandom(type);
@@ -153,9 +151,7 @@ namespace Ploeh.AutoFixture
                         this.GetNextRandom();
 
                 default:
-#pragma warning disable 618
-                    return new NoSpecimen(request);
-#pragma warning restore 618
+                    return new NoSpecimen();
             }
         }
 

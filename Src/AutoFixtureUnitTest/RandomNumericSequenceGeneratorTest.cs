@@ -161,9 +161,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyContext = new DelegatingSpecimenContext();
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system
             object result = sut.Create(request, dummyContext);
@@ -180,9 +178,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyContext = new DelegatingSpecimenContext();
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system
             object result = sut.Create(request, dummyContext);
