@@ -28,9 +28,7 @@ namespace Ploeh.AutoFixture
             var regularExpressionRequest = request as RegularExpressionRequest;
             if (regularExpressionRequest == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return RegularExpressionGenerator.CreateAnonymous(regularExpressionRequest);
@@ -50,20 +48,14 @@ namespace Ploeh.AutoFixture
             }
             catch (InvalidOperationException)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
             catch (ArgumentException)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
-#pragma warning disable 618
-            return new NoSpecimen(request);
-#pragma warning restore 618
+            return new NoSpecimen();
         }
     }
 }
