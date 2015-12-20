@@ -68,25 +68,19 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             var type = request as Type;
             if (!type.IsFake())
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var fake = this.builder.Create(request, context) as FakeItEasy.Configuration.IHideObjectMembers;
             if (fake == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var fakeType = type.GetFakedType();
             if (fake.GetType().GetFakedType() != fakeType)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             return fake;
