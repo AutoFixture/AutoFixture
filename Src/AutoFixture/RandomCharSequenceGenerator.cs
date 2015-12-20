@@ -35,9 +35,7 @@ namespace Ploeh.AutoFixture
         public object Create(object request, ISpecimenContext context)
         {
             if (!typeof(char).Equals(request))
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             return Convert.ToChar(
                 this.randomPrintableCharNumbers.Create(typeof(int), context),
