@@ -36,17 +36,13 @@ namespace Ploeh.AutoFixture
             if (seededRequest == null ||
                 (!seededRequest.Request.Equals(typeof(string))))
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var seed = seededRequest.Seed as string;
             if (seed == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var containerResult = context.Resolve(typeof(string));
