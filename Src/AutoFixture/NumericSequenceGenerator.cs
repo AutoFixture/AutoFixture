@@ -24,9 +24,7 @@ namespace Ploeh.AutoFixture
         {
             var type = request as Type;
             if (type == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             return this.CreateNumericSpecimen(type);
         }
@@ -60,9 +58,7 @@ namespace Ploeh.AutoFixture
                 case TypeCode.UInt64:
                     return (ulong)this.GetNextNumber();
                 default:
-#pragma warning disable 618
-                    return new NoSpecimen(request);
-#pragma warning restore 618
+                    return new NoSpecimen();
             }
         }
 
