@@ -74,15 +74,11 @@ namespace Ploeh.AutoFixture.AutoMoq
                 throw new ArgumentNullException("context");
 
             if (!this.mockableSpecification.IsSatisfiedBy(request))
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             var t = request as Type;
             if (t == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             var result = MockRelay.ResolveMock(t, context);
             // Note: null is a valid specimen (e.g., returned by NullRecursionHandler)
@@ -91,9 +87,7 @@ namespace Ploeh.AutoFixture.AutoMoq
 
             var m = result as Mock;
             if (m == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             return m.Object;
         }
