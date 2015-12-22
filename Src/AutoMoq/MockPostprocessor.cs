@@ -51,9 +51,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             var t = request as Type;
             if (!t.IsMock())
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var specimen = this.builder.Create(request, context);
@@ -63,17 +61,13 @@ namespace Ploeh.AutoFixture.AutoMoq
             var m = specimen as Mock;
             if (m == null)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var mockType = t.GetMockedType();
             if (m.GetType().GetMockedType() != mockType)
             {
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
             }
 
             var configurator = (IMockConfigurator)Activator.CreateInstance(typeof(MockConfigurator<>).MakeGenericType(mockType));

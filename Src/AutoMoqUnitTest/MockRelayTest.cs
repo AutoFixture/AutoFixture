@@ -83,9 +83,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             var result = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -124,9 +122,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             var result = sut.Create(request, contextStub.Object);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -196,9 +192,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var dummyContext = new Mock<ISpecimenContext>().Object;
             var actual = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expected = new NoSpecimen(request);
-#pragma warning restore 618
+            var expected = new NoSpecimen();
             Assert.Equal(expected, actual);
             // Teardown
         }
