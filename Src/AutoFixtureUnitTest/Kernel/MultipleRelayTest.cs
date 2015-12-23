@@ -109,9 +109,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var count = 7;
             var expectedTranslation = new FiniteSequenceRequest(request.Request, 7);
             var expectedResult = new object();
-#pragma warning disable 618
-            var container = new DelegatingSpecimenContext { OnResolve = r => expectedTranslation.Equals(r) ? expectedResult : new NoSpecimen(r) };
-#pragma warning restore 618
+            var container = new DelegatingSpecimenContext { OnResolve = r => expectedTranslation.Equals(r) ? expectedResult : new NoSpecimen() };
 
             var sut = new MultipleRelay { Count = count };
             // Exercise system
