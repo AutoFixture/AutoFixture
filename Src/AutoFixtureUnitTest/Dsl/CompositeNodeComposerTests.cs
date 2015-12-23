@@ -87,9 +87,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             {
                 OnCreate = (r, c) => r == request && c == context ?
                     expected :
-#pragma warning disable 618
-                    new NoSpecimen(r)
-#pragma warning restore 618
+                    new NoSpecimen()
             };
             var sut = new CompositeNodeComposer<ushort>(
                 new CompositeSpecimenBuilder(
