@@ -136,9 +136,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var requestedType = typeof(DoubleParameterType<string, int>);
             var parameters = requestedType.GetConstructors().Single().GetParameters();
-#pragma warning disable 618
-            var container = new DelegatingSpecimenContext { OnResolve = r => parameters[0] == r ? new object() : new NoSpecimen(r) };
-#pragma warning restore 618
+            var container = new DelegatingSpecimenContext { OnResolve = r => parameters[0] == r ? new object() : new NoSpecimen() };
             var sut = new MethodInvoker(new ModestConstructorQuery());
             // Exercise system
             var result = sut.Create(requestedType, container);
@@ -242,9 +240,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                         return expectedNumber;
                     }
                 }
-#pragma warning disable 618
-                return new NoSpecimen(r);
-#pragma warning restore 618
+                return new NoSpecimen();
             };
             // Exercise system
             var result = sut.Create(requestedType, context);
