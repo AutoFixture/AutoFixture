@@ -62,9 +62,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var expectedRequest = new MultipleRequest(itemType);
             object expectedResult = Array.CreateInstance(itemType, 0);
-#pragma warning disable 618
-            var context = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen(r) };
-#pragma warning restore 618
+            var context = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen() };
 
             var sut = new ArrayRelay();
             // Exercise system
@@ -81,9 +79,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var request = typeof(int[]);
             var expectedRequest = new MultipleRequest(typeof(int));
             var enumerable = Enumerable.Range(1, 3);
-#pragma warning disable 618
-            var context = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? (object)enumerable : new NoSpecimen(r) };
-#pragma warning restore 618
+            var context = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? (object)enumerable : new NoSpecimen() };
 
             var sut = new ArrayRelay();
             // Exercise system
