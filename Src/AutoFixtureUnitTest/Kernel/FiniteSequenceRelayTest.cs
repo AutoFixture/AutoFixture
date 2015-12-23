@@ -101,9 +101,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var q = new Queue<object>(results);
             var context = new DelegatingSpecimenContext
             {
-#pragma warning disable 618
-                OnResolve = r => request.Equals(r) ? q.Dequeue() : new NoSpecimen(r)
-#pragma warning restore 618
+                OnResolve = r => request.Equals(r) ? q.Dequeue() : new NoSpecimen()
             };
 
             var sut = new FiniteSequenceRelay();
