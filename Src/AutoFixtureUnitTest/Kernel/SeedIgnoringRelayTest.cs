@@ -48,16 +48,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var anonymousSeed = new SeededRequest(typeof(object), new object());
-#pragma warning disable 618
-            var unableContainer = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(anonymousSeed) };
-#pragma warning restore 618
+            var unableContainer = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen() };
             var sut = new SeedIgnoringRelay();
             // Exercise system
             var result = sut.Create(anonymousSeed, unableContainer);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(anonymousSeed);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
