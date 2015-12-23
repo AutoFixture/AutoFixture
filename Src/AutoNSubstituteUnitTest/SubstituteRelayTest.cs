@@ -43,9 +43,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Exercise system
             object result = sut.Create(request, context);
             // Verify outcome
-#pragma warning disable 618
-            var expected = new NoSpecimen(request);
-#pragma warning restore 618
+            var expected = new NoSpecimen();
             Assert.Equal(expected, result);
             // Teardown
         }
@@ -60,9 +58,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Exercise system
             object result = sut.Create(request, context);
             // Verify outcome
-#pragma warning disable 618
-            var expected = new NoSpecimen(request);
-#pragma warning restore 618
+            var expected = new NoSpecimen();
             Assert.Equal(expected, result);
             // Teardown
         }
