@@ -100,9 +100,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 OnCreate = (request, ctx) =>
                     request.Equals(frozenType)
                         ? new object()
-#pragma warning disable 618
-                        : new NoSpecimen(request)
-#pragma warning restore 618
+                        : new NoSpecimen()
             };
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
