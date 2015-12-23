@@ -77,7 +77,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             object expectedResult = 1;
-            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : new NoSpecimen(r) };
+            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : new NoSpecimen() };
             // Exercise system
             var result = container.CreateAnonymous<int>();
             // Verify outcome
@@ -90,9 +90,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             object expectedResult = 1;
-#pragma warning disable 618
-            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : new NoSpecimen(r) };
-#pragma warning restore 618
+            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(int), 0)) ? expectedResult : new NoSpecimen() };
             // Exercise system
             var result = container.Create<int>();
             // Verify outcome
@@ -190,7 +188,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var seed = TimeSpan.FromMinutes(8);
             object expectedResult = TimeSpan.FromHours(2);
-            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(TimeSpan), seed)) ? expectedResult : new NoSpecimen(r) };
+            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(TimeSpan), seed)) ? expectedResult : new NoSpecimen() };
             // Exercise system
             var result = container.CreateAnonymous(seed);
             // Verify outcome
@@ -204,9 +202,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var seed = TimeSpan.FromMinutes(8);
             object expectedResult = TimeSpan.FromHours(2);
-#pragma warning disable 618
-            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(TimeSpan), seed)) ? expectedResult : new NoSpecimen(r) };
-#pragma warning restore 618
+            var container = new DelegatingSpecimenContext { OnResolve = r => r.Equals(new SeededRequest(typeof(TimeSpan), seed)) ? expectedResult : new NoSpecimen() };
             // Exercise system
             var result = container.Create(seed);
             // Verify outcome
@@ -338,9 +334,7 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 OnResolve = r => r.Equals(new MultipleRequest(new SeededRequest(typeof(int), 0))) ? 
                     (object)expectedResult.Cast<object>() :
-#pragma warning disable 618
-                    new NoSpecimen(r)
-#pragma warning restore 618
+                    new NoSpecimen()
             };
             // Exercise system
             var result = container.CreateMany<int>();
@@ -426,9 +420,7 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 OnResolve = r => r.Equals(new MultipleRequest(new SeededRequest(typeof(Version), seed))) ?
                     (object)expectedResult.Cast<object>() :
-#pragma warning disable 618
-                    new NoSpecimen(r)
-#pragma warning restore 618
+                    new NoSpecimen()
             };
             // Exercise system
             var result = container.CreateMany(seed);
@@ -495,9 +487,7 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 OnResolve = r => r.Equals(new FiniteSequenceRequest(new SeededRequest(typeof(DateTime), default(DateTime)), count)) ?
                     (object)expectedResult.Cast<object>() :
-#pragma warning disable 618
-                    new NoSpecimen(r)
-#pragma warning restore 618
+                    new NoSpecimen()
             };
             // Exercise system
             var result = container.CreateMany<DateTime>(count);
@@ -587,9 +577,7 @@ namespace Ploeh.AutoFixtureUnitTest
             {
                 OnResolve = r => r.Equals(new FiniteSequenceRequest(new SeededRequest(typeof(Version), seed), count)) ?
                     (object)expectedResult.Cast<object>() :
-#pragma warning disable 618
-                    new NoSpecimen(r)
-#pragma warning restore 618
+                    new NoSpecimen()
             };
             // Exercise system
             var result = container.CreateMany(seed, count);

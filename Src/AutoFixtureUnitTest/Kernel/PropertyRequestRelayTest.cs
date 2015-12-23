@@ -64,16 +64,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
-#pragma warning disable 618
-            var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen(propertyInfo) };
-#pragma warning restore 618
+            var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen() };
             var sut = new PropertyRequestRelay();
             // Exercise system
             var result = sut.Create(propertyInfo, container);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(propertyInfo);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }

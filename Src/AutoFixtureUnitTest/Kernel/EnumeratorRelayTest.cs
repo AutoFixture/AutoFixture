@@ -63,9 +63,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             {
                 OnResolve = r => expectedRequest.Equals(r)
                     ? (object)enumerable
-#pragma warning disable 618
-                    : new NoSpecimen(r)
-#pragma warning restore 618
+                    : new NoSpecimen()
             };
             var sut = new EnumeratorRelay();
 
