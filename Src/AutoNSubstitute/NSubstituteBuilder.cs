@@ -75,15 +75,11 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         public object Create(object request, ISpecimenContext context)
         {
             if (!SubstitutionSpecification.IsSatisfiedBy(request))
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             var substitute = Builder.Create(request, context);
             if (substitute == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             return substitute;
         }
