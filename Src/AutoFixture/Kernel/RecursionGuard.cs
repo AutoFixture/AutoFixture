@@ -277,7 +277,9 @@ namespace Ploeh.AutoFixture.Kernel
 
                     if (numRequestsSameAsThisOne >= this.RecursionDepth)
                     {
-                        return this.HandleRecursiveRequest();
+#pragma warning disable 618
+                        return this.HandleRecursiveRequest(request);
+#pragma warning restore 618
                     }
                 }
             }
