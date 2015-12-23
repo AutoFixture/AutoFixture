@@ -113,9 +113,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var request = new object();
             var context = new DelegatingSpecimenContext();
             var expectedResult = new object();
-#pragma warning disable 618
-            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == request && c == context ? expectedResult : new NoSpecimen(r) };
-#pragma warning restore 618
+            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => r == request && c == context ? expectedResult : new NoSpecimen() };
 
             var sut = new NoSpecimenOutputGuard(builder);
             // Exercise system
@@ -129,9 +127,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateThrowsWhenDecoratedBuilderReturnsNoSpecimen()
         {
             // Fixture setup
-#pragma warning disable 618
-            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen(r) };
-#pragma warning restore 618
+            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() };
             var sut = new NoSpecimenOutputGuard(builder);
             // Exercise system and verify outcome
             var dummyRequest = new object();
@@ -146,19 +142,15 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup            
             var request = new object();
-
-#pragma warning disable 618
-            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen(r) };
-#pragma warning restore 618
+            
+            var builder = new DelegatingSpecimenBuilder { OnCreate = (r, c) => new NoSpecimen() };
             var spec = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => request == r ? false : true };
             var sut = new NoSpecimenOutputGuard(builder, spec);
             // Exercise system
             var dummyContext = new DelegatingSpecimenContext();
             var result = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
