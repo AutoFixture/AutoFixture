@@ -20,7 +20,8 @@ namespace Ploeh.AutoFixture
         /// <summary>
         /// Initializes a new instance of the <see cref="ElementsBuilder"/> class.
         /// </summary>
-        /// <param name="elements">The collection from which elements should be drawn from.</param>
+        /// <param name="elements">The collection from which elements should be drawn from.
+        /// It must contain at least two element.</param>
         public ElementsBuilder(ICollection<T> elements)
         {
             if (elements == null)
