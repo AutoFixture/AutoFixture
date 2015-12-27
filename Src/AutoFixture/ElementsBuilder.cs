@@ -15,8 +15,6 @@ namespace Ploeh.AutoFixture
         private readonly ICollection<T> elements;
         private readonly RandomNumericSequenceGenerator sequence;
 
-        private readonly object syncRoot = new object();
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ElementsBuilder"/> class.
         /// </summary>
@@ -28,7 +26,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(elements));
 
             if (elements.Count < 2)
-                throw new ArgumentException("The collection should at least hold two elements.", nameof(elements));
+                throw new ArgumentException("The collection must contain at least two elements.", nameof(elements));
 
             this.elements = elements;
             this.sequence = new RandomNumericSequenceGenerator(0, elements.Count - 1);
@@ -53,10 +51,7 @@ namespace Ploeh.AutoFixture
 
         private int GetNext()
         {
-            lock (this.syncRoot)
-            {
-                return (int)this.sequence.Create(typeof(int));
-            }
+            return (int)this.sequence.Create(typeof(int));
         }
     }
 }
