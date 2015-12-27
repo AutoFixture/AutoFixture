@@ -54,8 +54,7 @@ namespace Ploeh.AutoFixture
         {
             lock (this.syncRoot)
             {
-                var i = (int)this.sequence.Create(typeof(int));
-                return i;
+                return (int)this.sequence.Create(typeof(int));
             }
         }
     }
