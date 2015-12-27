@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixture
         private readonly RandomNumericSequenceGenerator sequence;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ElementsBuilder<T>"/> class.
+        /// Initializes a new instance of the <see cref="ElementsBuilder{T}"/> class.
         /// </summary>
         /// <param name="elements">The collection from which elements should be drawn from.
         /// It must contain at least two element.</param>
