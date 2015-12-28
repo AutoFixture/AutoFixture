@@ -23,10 +23,10 @@ namespace Ploeh.AutoFixture
         public ElementsBuilder(ICollection<T> elements)
         {
             if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
+                throw new ArgumentNullException("elements");
 
             if (elements.Count < 2)
-                throw new ArgumentException("The collection must contain at least two elements.", nameof(elements));
+                throw new ArgumentException("The collection must contain at least two elements.", "elements");
 
             this.elements = elements;
             this.sequence = new RandomNumericSequenceGenerator(0, elements.Count - 1);
