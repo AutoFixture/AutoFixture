@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture
 {
@@ -12,7 +11,7 @@ namespace Ploeh.AutoFixture
     /// <typeparam name="T"></typeparam>
     public sealed class ElementsBuilder<T> : ISpecimenBuilder
     {
-        private readonly ICollection<T> elements;
+        private readonly T[] elements;
         private readonly RandomNumericSequenceGenerator sequence;
 
         /// <summary>
@@ -20,16 +19,19 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <param name="elements">The collection from which elements should be drawn from.
         /// It must contain at least two element.</param>
-        public ElementsBuilder(ICollection<T> elements)
+        public ElementsBuilder(IEnumerable<T> elements)
         {
             if (elements == null)
                 throw new ArgumentNullException("elements");
 
-            if (elements.Count < 2)
-                throw new ArgumentException("The collection must contain at least two elements.", "elements");
+            this.elements = elements.ToArray();
 
-            this.elements = elements;
-            this.sequence = new RandomNumericSequenceGenerator(0, elements.Count - 1);
+            if (this.elements.Length < 1)
+                throw new ArgumentException("elements must contain at least one element.", "elements");
+
+            //The RandomNumericSequenceGenerator is only created for collections of minimum 2 elements
+            if (this.elements.Length > 1)
+                this.sequence = new RandomNumericSequenceGenerator(0, this.elements.Length - 1);
         }
 
         /// <summary>
@@ -44,14 +46,19 @@ namespace Ploeh.AutoFixture
         public object Create(object request, ISpecimenContext context)
         {
             if (!typeof(T).Equals(request))
-                return new NoSpecimen();
+#pragma warning disable 618
+                return new NoSpecimen(request);
+#pragma warning restore 618
 
-            return this.elements.ElementAt(this.GetNext());
+            return this.elements[this.GetNextIndex()];
         }
 
-        private int GetNext()
+        private int GetNextIndex()
         {
-            return (int)this.sequence.Create(typeof(int));
+            if (this.elements.Length == 1)
+                return 0;
+            else
+                return (int)this.sequence.Create(typeof(int));
         }
     }
 }

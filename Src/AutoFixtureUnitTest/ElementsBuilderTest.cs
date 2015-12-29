@@ -23,16 +23,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             // Exercise system & Verify outcome
-            Assert.Throws<ArgumentException>(() => new ElementsBuilder<int>(Enumerable.Empty<int>().ToArray()));
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateWithOneElementCollectionShouldThrow()
-        {
-            // Fixture setup
-            // Exercise system & Verify outcome
-            Assert.Throws<ArgumentException>(() => new ElementsBuilder<int>(new[] { 42 }));
+            Assert.Throws<ArgumentException>(() => new ElementsBuilder<int>(Enumerable.Empty<int>()));
             // Teardown
         }
 
@@ -41,7 +32,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             // Exercise system
-            var sut = new ElementsBuilder<int>(new[] { 42, 7 });
+            var sut = new ElementsBuilder<int>(new[] { 42 });
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -52,11 +43,11 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyContext = new DelegatingSpecimenContext();
-            var sut = new ElementsBuilder<int>(new[] { 42, 7 });
+            var sut = new ElementsBuilder<int>(new[] { 42 });
             // Exercise system
             var result = sut.Create(typeof(string), dummyContext);
             // Verify outcome
-            Assert.Equal(new NoSpecimen(), result);
+            Assert.True(result is NoSpecimen);
             // Teardown
         }
 
@@ -65,11 +56,24 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyContext = new DelegatingSpecimenContext();
-            var sut = new ElementsBuilder<int>(new[] { 42, 7 });
+            var sut = new ElementsBuilder<int>(new[] { 42 });
             // Exercise system
             var result = sut.Create(typeof(int), dummyContext);
             // Verify outcome
             Assert.Equal(typeof(int), result.GetType());
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateWithOneElementCollectionWillReturnThatElement()
+        {
+            // Fixture setup
+            var dummyContext = new DelegatingSpecimenContext();
+            var sut = new ElementsBuilder<int>(new[] { 42 });
+            // Exercise system
+            var result = sut.Create(typeof(int), dummyContext);
+            // Verify outcome
+            Assert.Equal(42, result);
             // Teardown
         }
 
