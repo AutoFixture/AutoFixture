@@ -97,7 +97,7 @@
     <Target Name="Build" DependsOnTargets="Verify">
         <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Release" />
     </Target>
-    <Target Name="Test" DependsOnTargets="Build">
+    <Target Name="TestOnly" >
         <PropertyGroup>
           <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
           <ParallelizeTests Condition="'$(ParallelizeTests)' == ''">false</ParallelizeTests>
@@ -120,6 +120,13 @@
 
         <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.UnitTest.dll" ContinueOnError="true" />
         <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.Addins.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.UnitTest.dll" OutputXmlFile="TestResult-Addins.xml" ContinueOnError="true" />
+    </Target>
+    <Target Name="BuildAndTestOnly">
+      <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Release" />
+      <CallTarget Targets="TestOnly" />
+    </Target>
+    <Target Name="Test" DependsOnTargets="Build">
+      <CallTarget Targets="TestOnly" />
     </Target>
     <Target Name="DeleteTestResultFiles" DependsOnTargets="Test">
         <Delete Files="TestResult.xml" />
