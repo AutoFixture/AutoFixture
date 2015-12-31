@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixture
             this.elements = elements.ToArray();
 
             if (this.elements.Length < 1)
-                throw new ArgumentException("elements must contain at least one element.", "elements");
+                throw new ArgumentException("The supplied collection of elements must contain at least one element. This collection is expected to contain the elements from which the randomized algorithm will draw; if the collection is empty, there are no elements to draw.", "elements");
 
             //The RandomNumericSequenceGenerator is only created for collections of minimum 2 elements
             if (this.elements.Length > 1)
@@ -46,9 +46,7 @@ namespace Ploeh.AutoFixture
         public object Create(object request, ISpecimenContext context)
         {
             if (!typeof(T).Equals(request))
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             return this.elements[this.GetNextIndex()];
         }
