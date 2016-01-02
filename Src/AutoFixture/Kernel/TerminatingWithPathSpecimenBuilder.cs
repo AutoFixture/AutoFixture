@@ -154,7 +154,7 @@ namespace Ploeh.AutoFixture.Kernel
             "{1}" +
             "Alternatively, you can turn AutoFixture into an Auto-Mocking " +
             "Container using your favourite dynamic mocking library, such " +
-            "as Moq, FakeItEasy, NSubstitute, and others. As an examle, to " +
+            "as Moq, FakeItEasy, NSubstitute, and others. As an example, to " +
             "use Moq, you can customize AutoFixture like this:" +
             "{1}" +
             "{1}" +
