@@ -49,7 +49,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            fixture.AddManyTo(collection, () => fixture.Create<T>());
+            fixture.AddManyTo(collection, fixture.Create<T>);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("fixture");
             }
 
-            collection.AddMany(() => fixture.Create<T>(), repeatCount);
+            collection.AddMany(fixture.Create<T>, repeatCount);
         }
 
         /// <summary>
