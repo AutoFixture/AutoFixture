@@ -28,11 +28,20 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void CreateWithZeroArgumentsShouldThrow()
+        {
+            // Fixture setup
+            // Exercise system & Verify outcome
+            Assert.Throws<ArgumentException>(() => new ElementsBuilder<int>());
+            // Teardown
+        }
+
+        [Fact]
         public void SutIsSpecimenBuilder()
         {
             // Fixture setup
             // Exercise system
-            var sut = new ElementsBuilder<int>(new[] { 42 });
+            var sut = new ElementsBuilder<int>(42);
             // Verify outcome
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
             // Teardown
@@ -43,7 +52,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyContext = new DelegatingSpecimenContext();
-            var sut = new ElementsBuilder<int>(new[] { 42 });
+            var sut = new ElementsBuilder<int>(42);
             // Exercise system
             var result = sut.Create(typeof(string), dummyContext);
             // Verify outcome
@@ -56,7 +65,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyContext = new DelegatingSpecimenContext();
-            var sut = new ElementsBuilder<int>(new[] { 42 });
+            var sut = new ElementsBuilder<int>(42);
             // Exercise system
             var result = sut.Create(typeof(int), dummyContext);
             // Verify outcome
@@ -69,7 +78,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var dummyContext = new DelegatingSpecimenContext();
-            var sut = new ElementsBuilder<int>(new[] { 42 });
+            var sut = new ElementsBuilder<int>(42);
             // Exercise system
             var result = sut.Create(typeof(int), dummyContext);
             // Verify outcome
@@ -95,9 +104,8 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateDoesNotReturnTheSameElementTwiceWhenCalledTwoTimesWithTwoElementsInCollection()
         {
             // Fixture setup
-            var collection = new[] { 42, 7 };
             var dummyContext = new DelegatingSpecimenContext();
-            var sut = new ElementsBuilder<int>(collection);
+            var sut = new ElementsBuilder<int>(42, 7);
             // Exercise system
             var result1 = sut.Create(typeof(int), dummyContext);
             var result2 = sut.Create(typeof(int), dummyContext);

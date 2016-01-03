@@ -17,6 +17,12 @@ namespace Ploeh.AutoFixture
         /// <summary>
         /// Initializes a new instance of the <see cref="ElementsBuilder{T}"/> class.
         /// </summary>
+        /// <param name="elements">The elements from which to draw from.</param>
+        public ElementsBuilder(params T[] elements) : this(elements.AsEnumerable()) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ElementsBuilder{T}"/> class.
+        /// </summary>
         /// <param name="elements">The collection from which elements should be drawn from.
         /// It must contain at least one element.</param>
         public ElementsBuilder(IEnumerable<T> elements)
