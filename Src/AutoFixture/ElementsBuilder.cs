@@ -14,6 +14,8 @@ namespace Ploeh.AutoFixture
         private readonly T[] elements;
         private readonly RandomNumericSequenceGenerator sequence;
 
+        public ElementsBuilder(params T[] elements) : this(elements.AsEnumerable()) { }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ElementsBuilder{T}"/> class.
         /// </summary>
