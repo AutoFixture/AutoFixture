@@ -8,7 +8,7 @@ All binaries (such as xUnit.net) are included as NuGet packages in the source co
 
 ## Verification
 
-There are several different targeted solutions to be found under the \Src folder, but be aware that the final verification step before pushing to the repository is to successfully run all the unit tests in the `BuildRelease.ps1` file.
+There are several different targeted solutions to be found under the \Src folder, but be aware that the final verification step before pushing to the repository is to successfully run all the unit tests in the `build-release.sh` file.
 
 As part of the verification build, Visual Studio Code Analysis is executed in a configuration that treats warnings as errors. No CA warnings should be suppressed unless the documented conditions for suppression are satisfied. Otherwise, a documented agreement between at least two active developers of the project should be reached to allow a suppression of a non-suppressible warning.
 
