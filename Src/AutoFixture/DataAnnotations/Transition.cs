@@ -45,10 +45,6 @@ namespace Ploeh.AutoFixture.DataAnnotations
     ///</summary>
     internal sealed class Transition : IEquatable<Transition>
     {
-        private readonly char max;
-        private readonly char min;
-        private readonly State to;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Transition"/> class.
         /// (Constructs a new singleton interval transition).
@@ -57,8 +53,8 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <param name="to">The destination state.</param>
         internal Transition(char c, State to)
         {
-            this.min = this.max = c;
-            this.to = to;
+            this.Min = this.Max = c;
+            this.To = to;
         }
 
         /// <summary>
@@ -77,34 +73,25 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 min = t;
             }
 
-            this.min = min;
-            this.max = max;
-            this.to = to;
+            this.Min = min;
+            this.Max = max;
+            this.To = to;
         }
 
         /// <summary>
         /// Gets the minimum of this transition interval.
         /// </summary>
-        internal char Min
-        {
-            get { return this.min; }
-        }
+        internal char Min { get; }
 
         /// <summary>
         /// Gets the maximum of this transition interval.
         /// </summary>
-        internal char Max
-        {
-            get { return this.max; }
-        }
+        internal char Max { get; }
 
         /// <summary>
         /// Gets the destination of this transition.
         /// </summary>
-        internal State To
-        {
-            get { return this.to; }
-        }
+        internal State To { get; }
 
         /// <summary>
         /// Implements the operator ==.
@@ -141,14 +128,14 @@ namespace Ploeh.AutoFixture.DataAnnotations
         public override string ToString()
         {
             var sb = new StringBuilder();
-            Transition.AppendCharString(min, sb);
-            if (min != max)
+            Transition.AppendCharString(Min, sb);
+            if (Min != Max)
             {
                 sb.Append("-");
-                Transition.AppendCharString(max, sb);
+                Transition.AppendCharString(Max, sb);
             }
 
-            sb.Append(" -> ").Append(to.Number);
+            sb.Append(" -> ").Append(To.Number);
             return sb.ToString();
         }
 
@@ -198,9 +185,9 @@ namespace Ploeh.AutoFixture.DataAnnotations
         {
             unchecked
             {
-                int result = min.GetHashCode();
-                result = (result*397) ^ max.GetHashCode();
-                result = (result*397) ^ (to != null ? to.GetHashCode() : 0);
+                int result = Min.GetHashCode();
+                result = (result*397) ^ Max.GetHashCode();
+                result = (result*397) ^ (To != null ? To.GetHashCode() : 0);
                 return result;
             }
         }
@@ -225,9 +212,9 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 return true;
             }
 
-            return other.min == min
-                   && other.max == max
-                   && object.Equals(other.to, to);
+            return other.Min == Min
+                   && other.Max == Max
+                   && object.Equals(other.To, To);
         }
 
         private static void AppendCharString(char c, StringBuilder sb)

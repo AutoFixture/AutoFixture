@@ -21,9 +21,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </remarks>
     public class TemplateMethodQuery : IMethodQuery
     {
-        private readonly MethodInfo template;
-        private readonly object owner;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="TemplateMethodQuery"/> class.
         /// </summary>
@@ -31,9 +28,9 @@ namespace Ploeh.AutoFixture.Kernel
         public TemplateMethodQuery(MethodInfo template)
         {
             if (template == null)
-                throw new ArgumentNullException("template");
+                throw new ArgumentNullException(nameof(template));
 
-            this.template = template;
+            this.Template = template;
         }
 
         /// <summary>
@@ -44,30 +41,24 @@ namespace Ploeh.AutoFixture.Kernel
         public TemplateMethodQuery(MethodInfo template, object owner)
         {
             if (template == null)
-                throw new ArgumentNullException("template");
+                throw new ArgumentNullException(nameof(template));
 
             if (owner == null)
-                throw new ArgumentNullException("owner");
+                throw new ArgumentNullException(nameof(owner));
 
-            this.owner = owner;
-            this.template = template;
+            this.Owner = owner;
+            this.Template = template;
         }
 
         /// <summary>
         /// The template <see cref="MethodInfo" /> to compare.
         /// </summary>
-        public MethodInfo Template
-        {
-            get { return template; }
-        }
+        public MethodInfo Template { get; }
 
         /// <summary>
         /// The owner instance of the <see cref="MethodInfo" />.
         /// </summary>
-        public object Owner
-        {
-            get { return owner; }
-        }
+        public object Owner { get; }
 
         /// <summary>
         /// Selects the methods for the supplied type similar to <see cref="Template" />.
@@ -97,7 +88,7 @@ namespace Ploeh.AutoFixture.Kernel
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             return from method in type.GetMethods()
                    where method.Name == Template.Name && (Owner != null || method.IsStatic)
@@ -154,10 +145,10 @@ namespace Ploeh.AutoFixture.Kernel
                 IEnumerable<ParameterInfo> templateParameters)
             {
                 if (methodParameters == null)
-                    throw new ArgumentNullException("methodParameters");
+                    throw new ArgumentNullException(nameof(methodParameters));
 
                 if (templateParameters == null)
-                    throw new ArgumentNullException("templateParameters");
+                    throw new ArgumentNullException(nameof(templateParameters));
 
                 this.score = CalculateScore(methodParameters.Select(p => p.ParameterType), 
                     templateParameters.Select(p => p.ParameterType));

@@ -8,7 +8,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class TracingBuilder : ISpecimenBuilder
     {
-        private readonly ISpecimenBuilder builder;
         private IRequestSpecification filter;
         private int depth;
 
@@ -31,20 +30,17 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (builder == null)
             {
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
             }
 
-            this.builder = builder;
+            this.Builder = builder;
             this.filter = new TrueRequestSpecification();
         }
 
         /// <summary>
         /// Gets the builder decorated by this instance.
         /// </summary>
-        public ISpecimenBuilder Builder
-        {
-            get { return this.builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
 
         /// <summary>
         /// Gets or sets a filter for tracking
@@ -66,7 +62,7 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 }
 
                 this.filter = value;
@@ -99,7 +95,7 @@ namespace Ploeh.AutoFixture.Kernel
             object specimen = null;
             try
             {
-                specimen = this.builder.Create(request, context);
+                specimen = this.Builder.Create(request, context);
                 specimenWasCreated = true;
                 return specimen;
             }

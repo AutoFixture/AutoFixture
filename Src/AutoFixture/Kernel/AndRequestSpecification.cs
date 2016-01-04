@@ -9,8 +9,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class AndRequestSpecification : IRequestSpecification
     {
-        private readonly IEnumerable<IRequestSpecification> specifications;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AndRequestSpecification"/> with the
         /// supplied specifications.
@@ -20,10 +18,10 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (specifications == null)
             {
-                throw new ArgumentNullException("specifications");
+                throw new ArgumentNullException(nameof(specifications));
             }
 
-            this.specifications = specifications;
+            this.Specifications = specifications;
         }
 
         /// <summary>
@@ -39,10 +37,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the decorated specifications.
         /// </summary>
-        public IEnumerable<IRequestSpecification> Specifications
-        {
-            get { return this.specifications; }
-        }
+        public IEnumerable<IRequestSpecification> Specifications { get; }
 
         /// <summary>
         /// Evaluates a request for a specimen.
@@ -54,7 +49,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
-            return this.specifications
+            return this.Specifications
                 .Select(s => s.IsSatisfiedBy(request))
                 .DefaultIfEmpty(false)
                 .All(b => b);

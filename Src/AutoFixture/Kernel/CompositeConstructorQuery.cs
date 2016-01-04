@@ -10,8 +10,6 @@ namespace Ploeh.AutoFixture.Kernel
     [Obsolete("Use CompositeMethodQuery instead.", true)]
     public class CompositeConstructorQuery : IConstructorQuery
     {
-        private readonly IEnumerable<IConstructorQuery> queries;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeConstructorQuery"/> class.
         /// </summary>
@@ -29,19 +27,16 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (queries == null)
             {
-                throw new ArgumentNullException("queries");
+                throw new ArgumentNullException(nameof(queries));
             }
 
-            this.queries = queries;
+            this.Queries = queries;
         }
 
         /// <summary>
         /// Gets the child builders.
         /// </summary>
-        public IEnumerable<IConstructorQuery> Queries
-        {
-            get { return this.queries; }
-        }
+        public IEnumerable<IConstructorQuery> Queries { get; }
 
         /// <summary>
         /// Selects the constructors for the supplied type by delegating to <see cref="Queries"/>.

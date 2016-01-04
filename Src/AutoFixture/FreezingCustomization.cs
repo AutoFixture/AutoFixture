@@ -10,9 +10,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class FreezingCustomization : ICustomization
     {
-        private readonly Type targetType;
-        private readonly Type registeredType;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FreezingCustomization"/> class.
         /// </summary>
@@ -42,12 +39,12 @@ namespace Ploeh.AutoFixture
         {
             if (targetType == null)
             {
-                throw new ArgumentNullException("targetType");
+                throw new ArgumentNullException(nameof(targetType));
             }
 
             if (registeredType == null)
             {
-                throw new ArgumentNullException("registeredType");
+                throw new ArgumentNullException(nameof(registeredType));
             }
 
             if (!registeredType.IsAssignableFrom(targetType))
@@ -60,26 +57,20 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentException(message);
             }
 
-            this.targetType = targetType;
-            this.registeredType = registeredType;
+            this.TargetType = targetType;
+            this.RegisteredType = registeredType;
         }
 
         /// <summary>
         /// Gets the <see cref="Type"/> to freeze.
         /// </summary>
-        public Type TargetType
-        {
-            get { return targetType; }
-        }
+        public Type TargetType { get; }
 
         /// <summary>
         /// Gets the <see cref="Type"/> to which the frozen <see cref="TargetType"/> value
         /// should be mapped to. Defaults to the same <see cref="Type"/> as <see cref="TargetType"/>.
         /// </summary>
-        public Type RegisteredType
-        {
-            get { return registeredType; }
-        }
+        public Type RegisteredType { get; }
 
         /// <summary>
         /// Customizes the fixture by freezing the value of <see cref="TargetType"/>.
@@ -92,17 +83,17 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             var specimen = fixture.Create(
-                    this.targetType);
+                    this.TargetType);
             var fixedBuilder = new FixedBuilder(specimen);
 
             var types = new[]
                 {
-                    this.targetType,
-                    this.registeredType 
+                    this.TargetType,
+                    this.RegisteredType 
                 };
 
             var builder = new CompositeSpecimenBuilder(

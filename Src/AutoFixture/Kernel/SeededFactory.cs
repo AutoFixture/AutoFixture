@@ -8,8 +8,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// <typeparam name="T">The type of specimen to create.</typeparam>
     public class SeededFactory<T> : ISpecimenBuilder
     {
-        private readonly Func<T, T> create;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SeededFactory&lt;T&gt;"/> class.
         /// </summary>
@@ -18,19 +16,16 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (factory == null)
             {
-                throw new ArgumentNullException("factory");
+                throw new ArgumentNullException(nameof(factory));
             }
 
-            this.create = factory;
+            this.Factory = factory;
         }
 
         /// <summary>
         /// Gets the factory that is used to create specimens from a seed.
         /// </summary>
-        public Func<T, T> Factory
-        {
-            get { return this.create; }
-        }
+        public Func<T, T> Factory { get; }
 
         /// <summary>
         /// Creates a new specimen based on a seeded request.
@@ -46,7 +41,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (request != null && request.Equals(typeof(T)))
             {
-                return this.create(default(T));
+                return this.Factory(default(T));
             }
 
             var seededRequest = request as SeededRequest;
@@ -73,7 +68,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
             var seed = (T)seededRequest.Seed;
 
-            return this.create(seed);
+            return this.Factory(seed);
         }
     }
 }

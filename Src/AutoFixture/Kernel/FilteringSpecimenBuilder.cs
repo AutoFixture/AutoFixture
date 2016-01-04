@@ -10,9 +10,6 @@ namespace Ploeh.AutoFixture.Kernel
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class FilteringSpecimenBuilder : ISpecimenBuilderNode
     {
-        private readonly ISpecimenBuilder builder;
-        private readonly IRequestSpecification specification;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FilteringSpecimenBuilder"/> class.
         /// </summary>
@@ -24,33 +21,27 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (builder == null)
             {
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
             }        
             if (specification == null)
             {
-                throw new ArgumentNullException("specification");
+                throw new ArgumentNullException(nameof(specification));
             }
 
-            this.builder = builder;
-            this.specification = specification;
+            this.Builder = builder;
+            this.Specification = specification;
         }
 
         /// <summary>
         /// Gets the decorated builder.
         /// </summary>
-        public ISpecimenBuilder Builder
-        {
-            get { return this.builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
 
         /// <summary>
         /// Gets the specification that determines whether <see cref="Builder"/> will be invoked or
         /// not.
         /// </summary>
-        public IRequestSpecification Specification
-        {
-            get { return this.specification; }
-        }
+        public IRequestSpecification Specification { get; }
 
         /// <summary>
         /// Creates a new specimen based on a request.
@@ -63,14 +54,14 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            if (!this.specification.IsSatisfiedBy(request))
+            if (!this.Specification.IsSatisfiedBy(request))
             {
 #pragma warning disable 618
                 return new NoSpecimen(request);
 #pragma warning restore 618
             }
 
-            return this.builder.Create(request, context);
+            return this.Builder.Create(request, context);
         }
 
         /// <summary>Composes the supplied builders.</summary>
@@ -82,7 +73,7 @@ namespace Ploeh.AutoFixture.Kernel
         public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
-            return new FilteringSpecimenBuilder(composedBuilder, this.specification);
+            return new FilteringSpecimenBuilder(composedBuilder, this.Specification);
         }
 
         /// <summary>
@@ -94,7 +85,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            yield return this.builder;
+            yield return this.Builder;
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

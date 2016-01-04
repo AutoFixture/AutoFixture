@@ -8,8 +8,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class StringGenerator : ISpecimenBuilder
     {
-        private readonly Func<object> createSpecimen;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="StringGenerator"/> class with the supplied
         /// specimen factory.
@@ -23,20 +21,17 @@ namespace Ploeh.AutoFixture
         {
             if (specimenFactory == null)
             {
-                throw new ArgumentNullException("specimenFactory");
+                throw new ArgumentNullException(nameof(specimenFactory));
             }
 
-            this.createSpecimen = specimenFactory;
+            this.Factory = specimenFactory;
         }
 
         /// <summary>
         /// Gets the factory used to specimens.
         /// </summary>
         /// <seealso cref="StringGenerator(Func{object})"/>
-        public Func<object> Factory
-        {
-            get { return this.createSpecimen; }
-        }
+        public Func<object> Factory { get; }
 
         /// <summary>
         /// Creates string specimens by invoking the supplied specimen factory and calling
@@ -56,7 +51,7 @@ namespace Ploeh.AutoFixture
 #pragma warning restore 618
             }
 
-            var specimen = this.createSpecimen();
+            var specimen = this.Factory();
             if (specimen == null)
             {
 #pragma warning disable 618

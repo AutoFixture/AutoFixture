@@ -9,8 +9,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class MissingParametersSupplyingMethodFactory : IMethodFactory
     {
-        private readonly object owner;
-
         /// <summary>
         /// Initializes a new instance of the 
         /// <see cref="MissingParametersSupplyingMethodFactory"/> class.
@@ -19,19 +17,16 @@ namespace Ploeh.AutoFixture.Kernel
         public MissingParametersSupplyingMethodFactory(object owner)
         {
             if (owner == null)
-                throw new ArgumentNullException("owner");
+                throw new ArgumentNullException(nameof(owner));
 
-            this.owner = owner;
+            this.Owner = owner;
         }
 
         /// <summary>
         /// Gets the owner originally supplied through the constructor.
         /// </summary>
         /// <seealso cref="MissingParametersSupplyingMethodFactory(object)" />
-        public object Owner
-        {
-            get { return owner; }
-        }
+        public object Owner { get; }
 
         /// <summary>
         /// Creates a <see cref="InstanceMethod" /> decorated with 

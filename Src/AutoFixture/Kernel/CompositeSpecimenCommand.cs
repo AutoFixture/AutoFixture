@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="commands">The child commands.</param>
         public CompositeSpecimenCommand(params ISpecimenCommand[] commands)
         {
-            if (commands == null) throw new ArgumentNullException("commands");
+            if (commands == null) throw new ArgumentNullException(nameof(commands));
 
             this.commands = commands;
         }
@@ -36,10 +36,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the child commands.
         /// </summary>
-        public IEnumerable<ISpecimenCommand> Commands
-        {
-            get { return commands; }
-        }
+        public IEnumerable<ISpecimenCommand> Commands => commands;
 
         /// <summary>
         /// Executes all child commands using a given specimen and context.

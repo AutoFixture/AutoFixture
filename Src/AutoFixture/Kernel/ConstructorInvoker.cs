@@ -11,8 +11,6 @@ namespace Ploeh.AutoFixture.Kernel
     [Obsolete("Use MethodInvoker instead.", true)]
     public class ConstructorInvoker : ISpecimenBuilder
     {
-        private readonly IConstructorQuery query;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstructorInvoker"/> class with the
         /// supplied <see cref="IConstructorQuery"/>.
@@ -24,20 +22,17 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (query == null)
             {
-                throw new ArgumentNullException("query");
+                throw new ArgumentNullException(nameof(query));
             }
 
-            this.query = query;
+            this.Query = query;
         }
 
         /// <summary>
         /// Gets the <see cref="IConstructorQuery"/> that defines which constructors will be
         /// attempted.
         /// </summary>
-        public IConstructorQuery Query
-        {
-            get { return this.query; }
-        }
+        public IConstructorQuery Query { get; }
 
         /// <summary>
         /// Creates a specimen of the requested type by invoking the first constructor it can
@@ -59,7 +54,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             foreach (var ci in this.GetConstructors(request))
@@ -84,7 +79,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return Enumerable.Empty<IMethod>();
             }
 
-            return this.query.SelectConstructors(requestedType);
+            return this.Query.SelectConstructors(requestedType);
         }
 
         private static bool IsValueValid(object value)

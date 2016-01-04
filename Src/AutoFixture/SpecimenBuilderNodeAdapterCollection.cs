@@ -21,7 +21,6 @@ namespace Ploeh.AutoFixture
     /// </remarks>
     public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     {
-        private ISpecimenBuilderNode graph;
         private readonly Func<ISpecimenBuilderNode, bool> isAdaptedBuilder;
         private IEnumerable<ISpecimenBuilder> adaptedBuilders;
 
@@ -51,10 +50,10 @@ namespace Ploeh.AutoFixture
             ISpecimenBuilderNode graph,
             Func<ISpecimenBuilderNode, bool> adaptedBuilderPredicate)
         {
-            this.graph = graph;
+            this.Graph = graph;
             this.isAdaptedBuilder = adaptedBuilderPredicate;
             this.adaptedBuilders = 
-                this.graph.SelectNodes(this.TargetMemo.IsSpecifiedBy).First();
+                this.Graph.SelectNodes(this.TargetMemo.IsSpecifiedBy).First();
         }
 
         /// <summary>
@@ -286,10 +285,7 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection" />
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
-        public int Count
-        {
-            get { return this.adaptedBuilders.Count(); }
-        }
+        public int Count => this.adaptedBuilders.Count();
 
         /// <summary>
         /// Gets a value indicating whether this instance is read only.
@@ -298,10 +294,7 @@ namespace Ploeh.AutoFixture
         /// <see langword="true" /> if this instance is read only; otherwise,
         /// <see langword="false" />.
         /// </value>
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         /// <summary>
         /// Removes the first occurrence of a specific object from the
@@ -401,10 +394,7 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection" />
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
-        public ISpecimenBuilderNode Graph
-        {
-            get { return this.graph; }
-        }
+        public ISpecimenBuilderNode Graph { get; private set; }
 
         /// <summary>Raises the <see cref="E:GraphChanged" /> event.</summary>
         /// <param name="e">
@@ -420,13 +410,13 @@ namespace Ploeh.AutoFixture
 
         private void Mutate(IEnumerable<ISpecimenBuilder> builders)
         {
-            this.graph = this.graph.ReplaceNodes(
+            this.Graph = this.Graph.ReplaceNodes(
                 with: builders,
                 when: this.TargetMemo.IsSpecifiedBy);
             this.adaptedBuilders = 
-                this.graph.SelectNodes(this.TargetMemo.IsSpecifiedBy).First();
+                this.Graph.SelectNodes(this.TargetMemo.IsSpecifiedBy).First();
 
-            this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
+            this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.Graph));
         }
 
         private TargetSpecification TargetMemo
@@ -434,7 +424,7 @@ namespace Ploeh.AutoFixture
             get
             {
                 var markerNode =
-                    this.graph.SelectNodes(this.isAdaptedBuilder).First();
+                    this.Graph.SelectNodes(this.isAdaptedBuilder).First();
                 var target = (ISpecimenBuilderNode)markerNode.First();
                 return new TargetSpecification(target);
             }

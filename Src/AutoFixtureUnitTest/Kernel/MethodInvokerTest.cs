@@ -211,7 +211,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                         return new short();
                     }
                 }
-                throw new ArgumentException("Unexpected container request.", "r");
+                throw new ArgumentException("Unexpected container request.", nameof(r));
             };
 
             var sut = new MethodInvoker(new ModestConstructorQuery());

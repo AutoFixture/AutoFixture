@@ -14,8 +14,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </remarks>
     public class NoSpecimen : IEquatable<NoSpecimen>
     {
-        private readonly object request;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="NoSpecimen"/> class with a null request.
         /// </summary>
@@ -33,7 +31,7 @@ namespace Ploeh.AutoFixture.Kernel
         [Obsolete("The Request property, and the constructor that populates it, is being retired in future versions of AutoFixture, as it has turned out that no one uses it. If you're seeing this warning in AutoFixture 3.x, and, despite expectations, have a real need to use the Request property, please provide feedback on https://github.com/AutoFixture/AutoFixture/issues/475 .")]
         public NoSpecimen(object request)
         {
-            this.request = request;
+            this.Request = request;
         }
 
         /// <summary>
@@ -45,10 +43,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </para>
         /// </remarks>
         [Obsolete("The Request property is being retired in future versions of AutoFixture, as it has turned out that no one uses it. If you're seeing this warning in AutoFixture 3.x, and, despite expectations, have a real need to use the Request property, please provide feedback on https://github.com/AutoFixture/AutoFixture/issues/475 .")]
-        public object Request
-        {
-            get { return this.request; }
-        }
+        public object Request { get; }
 
         /// <summary>
         /// Determines whether the specified <see cref="object"/> is equal to the current

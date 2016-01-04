@@ -4,9 +4,6 @@ namespace Ploeh.TestTypeFoundation
 {
     public class ItemHolder<T1, T2>
     {
-        private readonly IEnumerable<T1> t1s;
-        private readonly IEnumerable<T2> t2s;
-
         public ItemHolder()
         {
         }
@@ -23,19 +20,13 @@ namespace Ploeh.TestTypeFoundation
 
         private ItemHolder(T1[] t1s, T2[] t2s)
         {
-            this.t1s = t1s;
-            this.t2s = t2s;
+            this.Item1s = t1s;
+            this.Item2s = t2s;
         }
 
-        public IEnumerable<T1> Item1s
-        {
-            get { return this.t1s; }
-        }
+        public IEnumerable<T1> Item1s { get; }
 
-        public IEnumerable<T2> Item2s
-        {
-            get { return this.t2s; }
-        }
+        public IEnumerable<T2> Item2s { get; }
     }
 
     /* Note that constructors must be unordered because this class is used to test that
@@ -43,8 +34,6 @@ namespace Ploeh.TestTypeFoundation
      * reason, please don't be a boy scout and order constructors 'nicely'. */
     public class ItemHolder<T>
     {
-        private readonly IEnumerable<T> items;
-
         public ItemHolder(T x, T y, T z)
             : this(new[] { x, y, z })
         {
@@ -66,12 +55,9 @@ namespace Ploeh.TestTypeFoundation
 
         private ItemHolder(T[] items)
         {
-            this.items = items;
+            this.Items = items;
         }
 
-        public IEnumerable<T> Items
-        {
-            get { return this.items; }
-        }
+        public IEnumerable<T> Items { get; }
     }
 }

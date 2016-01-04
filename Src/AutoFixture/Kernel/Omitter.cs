@@ -11,8 +11,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class Omitter : ISpecimenBuilder
     {
-        private readonly IRequestSpecification specification;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Omitter" /> class.
         /// </summary>
@@ -36,9 +34,9 @@ namespace Ploeh.AutoFixture.Kernel
         public Omitter(IRequestSpecification specification)
         {
             if (specification == null)
-                throw new ArgumentNullException("specification");
+                throw new ArgumentNullException(nameof(specification));
 
-            this.specification = specification;
+            this.Specification = specification;
         }
 
         /// <summary>
@@ -61,9 +59,9 @@ namespace Ploeh.AutoFixture.Kernel
         public object Create(object request, ISpecimenContext context)
         {
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException(nameof(request));
 
-            if (this.specification.IsSatisfiedBy(request))
+            if (this.Specification.IsSatisfiedBy(request))
                 return new OmitSpecimen();
 
 #pragma warning disable 618
@@ -84,9 +82,6 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
         /// <seealso cref="Create" />
         /// <seealso cref="Omitter(IRequestSpecification)" />
-        public IRequestSpecification Specification
-        {
-            get { return this.specification; }
-        }
+        public IRequestSpecification Specification { get; }
     }
 }

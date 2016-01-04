@@ -4,21 +4,16 @@ namespace Ploeh.TestTypeFoundation
 {
     public abstract class AbstractTypeWithNonDefaultConstructor<T>
     {
-        private readonly T property;
-
         protected AbstractTypeWithNonDefaultConstructor(T value)
         {
             if (value == null)
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
 
-            this.property = value;
+            this.Property = value;
         }
 
-        public T Property
-        {
-            get { return this.property; }
-        }
+        public T Property { get; }
     }
 }

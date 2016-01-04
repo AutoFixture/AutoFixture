@@ -13,15 +13,9 @@ namespace Ploeh.SemanticComparison.UnitTest.TestTypes
             this.id = Guid.NewGuid();
         }
 
-        public string Name
-        {
-            get { return this.name; }
-        }
+        public string Name => this.name;
 
-        public Guid Id
-        {
-            get { return this.id; }
-        }
+        public Guid Id => this.id;
 
         public override bool Equals(object obj)
         {

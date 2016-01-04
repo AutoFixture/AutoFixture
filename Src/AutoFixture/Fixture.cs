@@ -15,7 +15,6 @@ namespace Ploeh.AutoFixture
     {
         private SingletonSpecimenBuilderNodeStackAdapterCollection behaviors;
         private SpecimenBuilderNodeAdapterCollection customizer;
-        private readonly ISpecimenBuilder engine;
         private SpecimenBuilderNodeAdapterCollection residueCollector;
         private readonly MultipleRelay multiple;
 
@@ -50,14 +49,14 @@ namespace Ploeh.AutoFixture
         {
             if (engine == null)
             {
-                throw new ArgumentNullException("engine");
+                throw new ArgumentNullException(nameof(engine));
             }
             if (multiple == null)
             {
-                throw new ArgumentNullException("multiple");
+                throw new ArgumentNullException(nameof(multiple));
             }
 
-            this.engine = engine;
+            this.Engine = engine;
             this.multiple = multiple;
 
             this.graph =
@@ -137,10 +136,7 @@ namespace Ploeh.AutoFixture
         /// <summary>
         /// Gets the behaviors that wrap around the rest of the graph.
         /// </summary>
-        public IList<ISpecimenBuilderTransformation> Behaviors
-        {
-            get { return this.behaviors; }
-        }
+        public IList<ISpecimenBuilderTransformation> Behaviors => this.behaviors;
 
         /// <summary>
         /// Gets the customizations that intercept the <see cref="Engine"/>.
@@ -157,10 +153,7 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         /// <seealso cref="Engine"/>
         /// <seealso cref="ResidueCollectors"/>
-        public IList<ISpecimenBuilder> Customizations
-        {
-            get { return this.customizer; }
-        }
+        public IList<ISpecimenBuilder> Customizations => this.customizer;
 
         /// <summary>
         /// Gets the core engine of the <see cref="Fixture"/> instance.
@@ -175,10 +168,7 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         /// <see cref="Customizations"/>
         /// <see cref="ResidueCollectors"/>
-        public ISpecimenBuilder Engine
-        {
-            get { return this.engine; }
-        }
+        public ISpecimenBuilder Engine { get; }
 
         /// <summary>
         /// Gets or sets if writable properties should generally be assigned a value when 
@@ -259,10 +249,7 @@ namespace Ploeh.AutoFixture
         /// to deal with unresolved requests.
         /// </para>
         /// </remarks>
-        public IList<ISpecimenBuilder> ResidueCollectors
-        {
-            get { return this.residueCollector; }
-        }
+        public IList<ISpecimenBuilder> ResidueCollectors => this.residueCollector;
 
         /// <summary>
         /// Customizes the creation algorithm for a single object, effectively turning off all
@@ -311,7 +298,7 @@ namespace Ploeh.AutoFixture
         {
             if (customization == null)
             {
-                throw new ArgumentNullException("customization");
+                throw new ArgumentNullException(nameof(customization));
             }
 
             customization.Customize(this);
@@ -335,7 +322,7 @@ namespace Ploeh.AutoFixture
         {
             if (composerTransformation == null)
             {
-                throw new ArgumentNullException("composerTransformation");
+                throw new ArgumentNullException(nameof(composerTransformation));
             }
 
             var c = composerTransformation(SpecimenBuilderNodeFactory.CreateComposer<T>().WithAutoProperties(this.EnableAutoProperties));
@@ -410,10 +397,7 @@ namespace Ploeh.AutoFixture
             return this.GetEnumerator();
         }
 
-        private bool EnableAutoProperties
-        {
-            get { return !this.OmitAutoProperties; }
-        }
+        private bool EnableAutoProperties => !this.OmitAutoProperties;
 
         private void OnGraphChanged(object sender, SpecimenBuilderNodeEventArgs e)
         {

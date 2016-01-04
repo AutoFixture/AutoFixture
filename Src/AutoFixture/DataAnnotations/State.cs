@@ -43,7 +43,6 @@ namespace Ploeh.AutoFixture.DataAnnotations
     /// </summary>
     internal sealed class State : IEquatable<State>, IComparable<State>
     {
-        private readonly int id;
         private static int nextId;
 
         /// <summary>
@@ -53,16 +52,13 @@ namespace Ploeh.AutoFixture.DataAnnotations
         internal State()
         {
             this.ResetTransitions();
-            id = Interlocked.Increment(ref nextId);
+            Id = Interlocked.Increment(ref nextId);
         }
 
         /// <summary>
         /// Gets the id.
         /// </summary>
-        internal int Id
-        {
-            get { return this.id; }
-        }
+        internal int Id { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this State is Accept.
@@ -149,7 +145,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         {
             unchecked
             {
-                int result = id;
+                int result = Id;
                 result = (result * 397) ^ Accept.GetHashCode();
                 result = (result * 397) ^ Number;
                 return result;
@@ -176,7 +172,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 return true;
             }
 
-            return other.id == id 
+            return other.Id == Id 
                 && other.Accept.Equals(Accept)
                 && other.Number == Number;
         }

@@ -338,17 +338,12 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
         private abstract class GenericEquatable<T> : IEquatable<T> where T : class
         {
-            private readonly T item;
-
             public GenericEquatable(T item)
             {
-                this.item = item;
+                this.Item = item;
             }
 
-            public T Item
-            {
-                get { return this.item; }
-            }
+            public T Item { get; }
 
             public override bool Equals(object obj)
             {
@@ -360,7 +355,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             public override int GetHashCode()
             {
-                return this.item.GetHashCode();
+                return this.Item.GetHashCode();
             }
 
             public bool Equals(T other)

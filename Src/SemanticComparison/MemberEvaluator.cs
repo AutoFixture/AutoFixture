@@ -5,32 +5,23 @@ namespace Ploeh.SemanticComparison
 {
     internal class MemberEvaluator<TSource, TDestination>
     {
-        private readonly MemberInfo member;
-        private readonly Func<TSource, TDestination, bool> evaluator;
-
         public MemberEvaluator(MemberInfo member, Func<TSource, TDestination, bool> evaluator)
         {
             if (member == null)
             {
-                throw new ArgumentNullException("member");
+                throw new ArgumentNullException(nameof(member));
             }
             if (evaluator == null)
             {
-                throw new ArgumentNullException("evaluator");
+                throw new ArgumentNullException(nameof(evaluator));
             }
 
-            this.member = member;
-            this.evaluator = evaluator;
+            this.Member = member;
+            this.Evaluator = evaluator;
         }
 
-        internal Func<TSource, TDestination, bool> Evaluator
-        {
-            get { return this.evaluator; }
-        }
+        internal Func<TSource, TDestination, bool> Evaluator { get; }
 
-        internal MemberInfo Member
-        {
-            get { return this.member; }
-        }
+        internal MemberInfo Member { get; }
     }
 }

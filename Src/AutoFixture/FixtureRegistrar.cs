@@ -77,7 +77,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             fixture.Register(() => item);
@@ -98,7 +98,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             fixture.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
@@ -123,7 +123,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             fixture.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
@@ -151,7 +151,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             fixture.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
@@ -182,7 +182,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             fixture.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());
@@ -216,7 +216,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             fixture.Customize<T>(c => c.FromFactory(creator).OmitAutoProperties());

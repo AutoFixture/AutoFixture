@@ -40,10 +40,7 @@ namespace Ploeh.AutoFixtureUnitTest
             return new DelegatingRecursionGuard(new CompositeSpecimenBuilder(builders));
         }
 
-        internal IEnumerable<Object> UnprotectedRecordedRequests
-        {
-            get { return this.RecordedRequests.Cast<object>(); }
-        }
+        internal IEnumerable<Object> UnprotectedRecordedRequests => this.RecordedRequests.Cast<object>();
 
         internal Func<object, object> OnHandleRecursiveRequest { get; set; }
     }

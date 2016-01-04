@@ -6,12 +6,6 @@
         {
         }
 
-        public static TypeWithFactoryProperty Factory
-        {
-            get
-            {
-                return new TypeWithFactoryProperty();
-            }
-        }
+        public static TypeWithFactoryProperty Factory => new TypeWithFactoryProperty();
     }
 }

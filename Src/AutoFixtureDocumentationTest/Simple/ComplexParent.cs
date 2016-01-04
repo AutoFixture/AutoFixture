@@ -2,16 +2,11 @@
 {
     public class ComplexParent
     {
-        private readonly ComplexChild child;
-
         public ComplexParent(ComplexChild child)
         {
-            this.child = child;
+            this.Child = child;
         }
 
-        public ComplexChild Child
-        {
-            get { return this.child; }
-        }
+        public ComplexChild Child { get; }
     }
 }

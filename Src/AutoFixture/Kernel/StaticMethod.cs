@@ -10,7 +10,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class StaticMethod : IMethod, IEquatable<StaticMethod>
     {
-        private readonly MethodInfo methodInfo;
         private readonly ParameterInfo[] paramInfos;
 
         /// <summary>
@@ -31,33 +30,27 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (methodInfo == null)
             {
-                throw new ArgumentNullException("methodInfo");
+                throw new ArgumentNullException(nameof(methodInfo));
             }
 
             if (methodParameters == null)
             {
-                throw new ArgumentNullException("methodParameters");
+                throw new ArgumentNullException(nameof(methodParameters));
             }
 
-            this.methodInfo = methodInfo;
+            this.Method = methodInfo;
             this.paramInfos = methodParameters;
         }
 
         /// <summary>
         /// Gets the method.
         /// </summary>
-        public MethodInfo Method
-        {
-            get { return this.methodInfo; }
-        }
+        public MethodInfo Method { get; }
 
         /// <summary>
         /// Gets information about the parameters of the method.
         /// </summary>
-        public IEnumerable<ParameterInfo> Parameters
-        {
-            get { return this.paramInfos; }
-        }
+        public IEnumerable<ParameterInfo> Parameters => this.paramInfos;
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
@@ -99,7 +92,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>The result of the method call.</returns>
         public object Invoke(IEnumerable<object> parameters)
         {
-            return this.methodInfo.Invoke(null, parameters.ToArray());
+            return this.Method.Invoke(null, parameters.ToArray());
         }
 
         /// <summary>
@@ -124,7 +117,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (methodInfo == null)
             {
-                throw new ArgumentNullException("methodInfo");
+                throw new ArgumentNullException(nameof(methodInfo));
             }
 
             return methodInfo.GetParameters();

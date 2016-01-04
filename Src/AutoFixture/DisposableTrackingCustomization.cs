@@ -30,10 +30,12 @@ namespace Ploeh.AutoFixture
         /// Gets the behavior that this customization adds to <see cref="IFixture"/> instances.
         /// </summary>
         /// <seealso cref="DisposableTrackingBehavior"/>
-        public DisposableTrackingBehavior Behavior
-        {
-            get { return this.behavior; }
-        }
+        /// <remarks>
+        /// This property is not a getter-only auto-property as the backing-field
+        /// implements IDisposable and should thus be disposed, which is not possible
+        /// when using an auto-property.
+        /// </remarks>
+        public DisposableTrackingBehavior Behavior => behavior;
 
         /// <summary>
         /// Customizes the specified fixture by applying <see cref="Behavior"/>.
@@ -43,7 +45,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             fixture.Behaviors.Add(this.Behavior);

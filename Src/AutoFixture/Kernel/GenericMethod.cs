@@ -10,9 +10,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class GenericMethod : IMethod
     {
-        private readonly MethodInfo method;
         private readonly ParameterInfo[] parametersInfo;
-        private readonly IMethodFactory factory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GenericMethod"/> class.
@@ -25,40 +23,31 @@ namespace Ploeh.AutoFixture.Kernel
         public GenericMethod(MethodInfo method, IMethodFactory factory)
         {
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
 
             if (factory == null)
-                throw new ArgumentNullException("factory");
+                throw new ArgumentNullException(nameof(factory));
 
-            this.method = method;
-            this.factory = factory;
+            this.Method = method;
+            this.Factory = factory;
             this.parametersInfo = method.GetParameters();
         }
 
         /// <summary>
         /// Gets information about the parameters of the method.
         /// </summary>
-        public IEnumerable<ParameterInfo> Parameters
-        {
-            get { return this.parametersInfo; }
-        }
+        public IEnumerable<ParameterInfo> Parameters => this.parametersInfo;
 
         /// <summary>
         /// Gets information about the method.
         /// </summary>
-        public MethodInfo Method
-        {
-            get { return method; }
-        }
+        public MethodInfo Method { get; }
 
         /// <summary>
         /// Gets information about the factory to create <see cref="IMethod" /> from
         /// <see cref="MethodInfo" />
         /// </summary>
-        public IMethodFactory Factory
-        {
-            get { return factory; }
-        }
+        public IMethodFactory Factory { get; }
 
         private static IEnumerable<Tuple<Type, Type>> ResolveGenericType(Type argument, Type parameter)
         {

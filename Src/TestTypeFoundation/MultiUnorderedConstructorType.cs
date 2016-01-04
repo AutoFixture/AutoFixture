@@ -4,9 +4,6 @@ namespace Ploeh.TestTypeFoundation
 {
     public class MultiUnorderedConstructorType
     {
-        private readonly string text;
-        private readonly int number;
-
         public MultiUnorderedConstructorType(ParameterObject paramObj)
             : this(paramObj.Text, paramObj.Number)
         {
@@ -21,48 +18,33 @@ namespace Ploeh.TestTypeFoundation
         {
             if (text == null)
             {
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
             }
 
-            this.text = text;
-            this.number = number;
+            this.Text = text;
+            this.Number = number;
         }
 
-        public string Text
-        {
-            get { return this.text; }
-        }
+        public string Text { get; }
 
-        public int Number
-        {
-            get { return this.number; }
-        }
+        public int Number { get; }
 
         public class ParameterObject
         {
-            private readonly string text;
-            private readonly int number;
-
             public ParameterObject(string text, int number)
             {
                 if (text == null)
                 {
-                    throw new ArgumentNullException("text");
+                    throw new ArgumentNullException(nameof(text));
                 }
 
-                this.text = text;
-                this.number = number;
+                this.Text = text;
+                this.Number = number;
             }
 
-            public string Text
-            {
-                get { return this.text; }
-            }
+            public string Text { get; }
 
-            public int Number
-            {
-                get { return this.number; }
-            }
+            public int Number { get; }
         }
     }
 }

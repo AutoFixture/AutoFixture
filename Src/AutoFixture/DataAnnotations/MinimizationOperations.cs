@@ -539,24 +539,15 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
         private sealed class IntPair
         {
-            private readonly int n1;
-            private readonly int n2;
-
             internal IntPair(int n1, int n2)
             {
-                this.n1 = n1;
-                this.n2 = n2;
+                this.N1 = n1;
+                this.N2 = n2;
             }
 
-            internal int N1
-            {
-                get { return n1; }
-            }
+            internal int N1 { get; }
 
-            internal int N2
-            {
-                get { return n2; }
-            }
+            internal int N2 { get; }
         }
 
         #endregion

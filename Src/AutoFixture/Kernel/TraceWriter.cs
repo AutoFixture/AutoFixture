@@ -12,7 +12,6 @@ namespace Ploeh.AutoFixture.Kernel
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class TraceWriter : ISpecimenBuilderNode
     {
-        private readonly TracingBuilder tracer;
         private readonly TextWriter writer;
         private Action<TextWriter, object, int> writeRequest;
         private Action<TextWriter, object, int> writeSpecimen;
@@ -26,16 +25,16 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (writer == null)
             {
-                throw new ArgumentNullException("writer");
+                throw new ArgumentNullException(nameof(writer));
             }
             if (tracer == null)
             {
-                throw new ArgumentNullException("tracer");
+                throw new ArgumentNullException(nameof(tracer));
             }        
 
-            this.tracer = tracer;
-            this.tracer.SpecimenRequested += (sender, e) => this.writeRequest(writer, e.Request, e.Depth);
-            this.tracer.SpecimenCreated += (sender, e) => this.writeSpecimen(writer, e.Specimen, e.Depth);
+            this.Tracer = tracer;
+            this.Tracer.SpecimenRequested += (sender, e) => this.writeRequest(writer, e.Request, e.Depth);
+            this.Tracer.SpecimenCreated += (sender, e) => this.writeSpecimen(writer, e.Specimen, e.Depth);
 
             this.writer = writer;
             this.TraceRequestFormatter = (tw, r, i) => tw.WriteLine(new string(' ', i * 2) + "Requested: " + r);
@@ -45,10 +44,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the <see cref="TracingBuilder"/> decorated by this instance.
         /// </summary>
-        public TracingBuilder Tracer
-        {
-            get { return this.tracer; }
-        }
+        public TracingBuilder Tracer { get; }
 
         /// <summary>
         /// Gets or sets the formatter for tracing a request.
@@ -61,7 +57,7 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 }
 
                 this.writeRequest = value;
@@ -79,7 +75,7 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 }
 
                 this.writeSpecimen = value;
@@ -96,7 +92,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
-            return this.tracer.Create(request, context);
+            return this.Tracer.Create(request, context);
         }
 
         /// <summary>Composes the supplied builders.</summary>
@@ -124,7 +120,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            yield return this.tracer.Builder;
+            yield return this.Tracer.Builder;
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

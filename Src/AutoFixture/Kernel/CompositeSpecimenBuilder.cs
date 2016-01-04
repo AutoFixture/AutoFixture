@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (builders == null)
             {
-                throw new ArgumentNullException("builders");
+                throw new ArgumentNullException(nameof(builders));
             }
 
             this.composedBuilders = builders;
@@ -40,10 +40,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the child builders.
         /// </summary>
-        public IEnumerable<ISpecimenBuilder> Builders
-        {
-            get { return this.composedBuilders; }
-        }
+        public IEnumerable<ISpecimenBuilder> Builders => this.composedBuilders;
 
         /// <summary>
         /// Creates a new specimen by delegating to <see cref="Builders"/>.

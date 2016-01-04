@@ -16,8 +16,6 @@ namespace Ploeh.AutoFixture.Dsl
         ICustomizationComposer<T>,
         ISpecimenBuilderNode
     {
-        private readonly ISpecimenBuilder builder;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="NodeComposer{T}" />
         /// class.
@@ -35,7 +33,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// <seealso cref="Builder" />
         public NodeComposer(ISpecimenBuilder builder)
         {
-            this.builder = builder;
+            this.Builder = builder;
         }
 
         /// <summary>
@@ -493,7 +491,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            return this.builder.Create(request, context);
+            return this.Builder.Create(request, context);
         }
 
         /// <summary>
@@ -505,7 +503,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            yield return this.builder;
+            yield return this.Builder;
         }
 
         /// <summary>
@@ -523,10 +521,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// <summary>Gets the encapsulated builder.</summary>
         /// <value>The encapsulated builder.</value>
         /// <seealso cref="NodeComposer{T}(ISpecimenBuilder)" />
-        public ISpecimenBuilder Builder
-        {
-            get { return this.builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
 
         private ISpecimenBuilderNode WithoutSeedIgnoringRelay()
         {

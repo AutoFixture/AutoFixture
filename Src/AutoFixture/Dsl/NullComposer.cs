@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture.Dsl
         {
             if (builder == null)
             {
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
             }
 
             this.compose = () => builder;
@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixture.Dsl
         {
             if (factory == null)
             {
-                throw new ArgumentNullException("factory");
+                throw new ArgumentNullException(nameof(factory));
             }
 
             this.compose = factory;

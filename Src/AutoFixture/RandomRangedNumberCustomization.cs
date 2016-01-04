@@ -21,7 +21,7 @@ namespace Ploeh.AutoFixture
         public void Customize(IFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             fixture.Customizations.Add(new RandomRangedNumberGenerator());
         }

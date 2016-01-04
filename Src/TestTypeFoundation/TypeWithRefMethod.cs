@@ -10,9 +10,9 @@ namespace Ploeh.TestTypeFoundation
         public void InvokeIt(T x, ref T y)
         {
             if (x == null)
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             if (y == null)
-                throw new ArgumentNullException("y");
+                throw new ArgumentNullException(nameof(y));
         }
     }
 }

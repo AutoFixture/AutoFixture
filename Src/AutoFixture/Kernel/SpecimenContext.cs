@@ -7,8 +7,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class SpecimenContext : ISpecimenContext
     {
-        private readonly ISpecimenBuilder builder;
-
         /// <summary>
         /// Initializes a new instance of <see cref="SpecimenContext"/> with the supplied
         /// <see cref="ISpecimenBuilder"/>.
@@ -18,19 +16,16 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (builder == null)
             {
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
             }
 
-            this.builder = builder;
+            this.Builder = builder;
         }
 
         /// <summary>
         /// Gets the <see cref="ISpecimenBuilder"/> contained by the instance.
         /// </summary>
-        public ISpecimenBuilder Builder
-        {
-            get { return this.builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
 
         /// <summary>
         /// Creates an anonymous variable (specimen) based on a request by delegating the request

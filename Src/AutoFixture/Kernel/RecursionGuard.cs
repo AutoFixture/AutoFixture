@@ -14,10 +14,6 @@ namespace Ploeh.AutoFixture.Kernel
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class RecursionGuard : ISpecimenBuilderNode
     {
-        private readonly ISpecimenBuilder builder;
-        private readonly IRecursionHandler recursionHandler;
-        private readonly IEqualityComparer comparer;
-
         private readonly ConcurrentDictionary<Thread, Stack<object>>
             _requestsByThread = new ConcurrentDictionary<Thread, Stack<object>>();
 
@@ -25,8 +21,6 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return _requestsByThread.GetOrAdd(Thread.CurrentThread, _ => new Stack<object>());
         }
-
-        private readonly int recursionDepth;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
@@ -93,16 +87,16 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (builder == null)
             {
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
             }
             if (comparer == null)
             {
-                throw new ArgumentNullException("comparer");
+                throw new ArgumentNullException(nameof(comparer));
             }
 
-            this.builder = builder;
-            this.comparer = comparer;
-            this.recursionDepth = 1;
+            this.Builder = builder;
+            this.Comparer = comparer;
+            this.RecursionDepth = 1;
         }
 
         /// <summary>
@@ -168,19 +162,19 @@ namespace Ploeh.AutoFixture.Kernel
             int recursionDepth)
         {
             if (builder == null)
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
             if (recursionHandler == null)
-                throw new ArgumentNullException("recursionHandler");
+                throw new ArgumentNullException(nameof(recursionHandler));
             if (comparer == null)
-                throw new ArgumentNullException("comparer");
+                throw new ArgumentNullException(nameof(comparer));
 
             if (recursionDepth < 1)
-                throw new ArgumentOutOfRangeException("recursionDepth", "Recursion depth must be greater than 0.");
+                throw new ArgumentOutOfRangeException(nameof(recursionDepth), "Recursion depth must be greater than 0.");
 
-            this.builder = builder;
-            this.recursionHandler = recursionHandler;
-            this.comparer = comparer;
-            this.recursionDepth = recursionDepth;
+            this.Builder = builder;
+            this.RecursionHandler = recursionHandler;
+            this.Comparer = comparer;
+            this.RecursionDepth = recursionDepth;
         }
 
         /// <summary>
@@ -188,10 +182,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <seealso cref="RecursionGuard(ISpecimenBuilder)"/>
         /// <seealso cref="RecursionGuard(ISpecimenBuilder, IEqualityComparer)" />
-        public ISpecimenBuilder Builder
-        {
-            get { return this.builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
 
         /// <summary>
         /// Gets the recursion handler originally supplied as a constructor
@@ -202,34 +193,22 @@ namespace Ploeh.AutoFixture.Kernel
         /// </value>
         /// <seealso cref="RecursionGuard(ISpecimenBuilder, IRecursionHandler)" />
         /// <seealso cref="RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer)" />
-        public IRecursionHandler RecursionHandler
-        {
-            get { return this.recursionHandler; }
-        }
+        public IRecursionHandler RecursionHandler { get; }
 
         /// <summary>
         /// The recursion depth at which the request will be treated as a 
         /// recursive request
         /// </summary>
-        public int RecursionDepth
-        {
-            get { return recursionDepth; }
-        }
+        public int RecursionDepth { get; }
 
         /// <summary>Gets the comparer supplied via the constructor.</summary>
         /// <seealso cref="RecursionGuard(ISpecimenBuilder, IEqualityComparer)" />
-        public IEqualityComparer Comparer
-        {
-            get { return this.comparer; }
-        }
+        public IEqualityComparer Comparer { get; }
 
         /// <summary>
         /// Gets the recorded requests so far.
         /// </summary>
-        protected IEnumerable RecordedRequests
-        {
-            get { return GetMonitoredRequestsForCurrentThread(); }
-        }
+        protected IEnumerable RecordedRequests => GetMonitoredRequestsForCurrentThread();
 
         /// <summary>
         /// Handles a request that would cause recursion.
@@ -239,7 +218,7 @@ namespace Ploeh.AutoFixture.Kernel
         [Obsolete("This method will be removed in a future version of AutoFixture. Use IRecursionHandler.HandleRecursiveRequest instead.")]
         public virtual object HandleRecursiveRequest(object request)
         {
-            return this.recursionHandler.HandleRecursiveRequest(
+            return this.RecursionHandler.HandleRecursiveRequest(
                 request,
                 GetMonitoredRequestsForCurrentThread());
         }
@@ -270,7 +249,7 @@ namespace Ploeh.AutoFixture.Kernel
                 for (int i = 0; i < requestsArray.Length; i++)
                 {
                     var existingRequest = requestsArray[i];
-                    if (this.comparer.Equals(existingRequest, request))
+                    if (this.Comparer.Equals(existingRequest, request))
                     {
                         numRequestsSameAsThisOne++;
                     }
@@ -287,7 +266,7 @@ namespace Ploeh.AutoFixture.Kernel
             requestsForCurrentThread.Push(request);
             try
             {
-                return this.builder.Create(request, context);
+                return this.Builder.Create(request, context);
             }
             finally
             {
@@ -325,8 +304,8 @@ namespace Ploeh.AutoFixture.Kernel
                 builders);
             return new RecursionGuard(
                 composedBuilder,
-                this.recursionHandler,
-                this.comparer,
+                this.RecursionHandler,
+                this.Comparer,
                 this.RecursionDepth);
         }
 
@@ -339,7 +318,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public virtual IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            yield return this.builder;
+            yield return this.Builder;
         }
 
         IEnumerator IEnumerable.GetEnumerator()

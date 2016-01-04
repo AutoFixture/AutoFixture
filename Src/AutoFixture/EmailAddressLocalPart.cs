@@ -13,8 +13,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class EmailAddressLocalPart
     {
-        private readonly string localPart;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="EmailAddressLocalPart"/> class. Throws ArgumentNullException
         /// if localPart is null.  Throws ArgumentException if localPart is empty.
@@ -24,7 +22,7 @@ namespace Ploeh.AutoFixture
         {
             if (localPart == null)
             {
-                throw new ArgumentNullException("localPart");
+                throw new ArgumentNullException(nameof(localPart));
             }
 
             if (localPart.Length == 0)
@@ -32,16 +30,13 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentException("localPart cannot be empty");
             }
 
-            this.localPart = localPart;
+            this.LocalPart = localPart;
         }
 
         /// <summary>
         /// Get the local part.
         /// </summary>
-        public string LocalPart
-        {
-            get { return this.localPart; }
-        }
+        public string LocalPart { get; }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
@@ -60,7 +55,7 @@ namespace Ploeh.AutoFixture
             var other = obj as EmailAddressLocalPart;
             if (other != null)
             {
-                return this.localPart.Equals(other.localPart);
+                return this.LocalPart.Equals(other.LocalPart);
             }
 
             return base.Equals(obj);
@@ -75,7 +70,7 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public override int GetHashCode()
         {
-            return this.localPart.GetHashCode();
+            return this.LocalPart.GetHashCode();
         }
 
         /// <summary>
@@ -86,7 +81,7 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public override string ToString()
         {
-            return this.localPart;
+            return this.LocalPart;
         }
     }
 }

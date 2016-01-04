@@ -7,9 +7,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class ConstrainedStringRequest : IEquatable<ConstrainedStringRequest>
     {
-        private readonly int maximumLength;
-        private readonly int minimumLength;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstrainedStringRequest"/> class.
         /// </summary>
@@ -19,21 +16,21 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (minimumLength < 0)
             {
-                throw new ArgumentOutOfRangeException("minimumLength", "Minimum length must be equal or greater than 0.");
+                throw new ArgumentOutOfRangeException(nameof(minimumLength), "Minimum length must be equal or greater than 0.");
             }
 
             if (maximumLength < 0)
             {
-                throw new ArgumentOutOfRangeException("maximumLength", "Maximum length must be equal or greater than 0.");
+                throw new ArgumentOutOfRangeException(nameof(maximumLength), "Maximum length must be equal or greater than 0.");
             }
 
             if (maximumLength < minimumLength)
             {
-                throw new ArgumentOutOfRangeException("maximumLength", "Maximum length must be equal or greater than Minimum length.");
+                throw new ArgumentOutOfRangeException(nameof(maximumLength), "Maximum length must be equal or greater than Minimum length.");
             }
 
-            this.minimumLength = minimumLength;
-            this.maximumLength = maximumLength;
+            this.MinimumLength = minimumLength;
+            this.MaximumLength = maximumLength;
         }
 
         /// <summary>
@@ -48,24 +45,12 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the minimum length.
         /// </summary>
-        public int MinimumLength
-        {
-            get
-            {
-                return this.minimumLength;
-            }
-        }
+        public int MinimumLength { get; }
 
         /// <summary>
         /// Gets the maximum length.
         /// </summary>
-        public int MaximumLength
-        {
-            get
-            {
-                return this.maximumLength;
-            }
-        }
+        public int MaximumLength { get; }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.

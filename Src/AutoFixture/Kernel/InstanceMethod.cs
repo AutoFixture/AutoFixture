@@ -11,9 +11,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class InstanceMethod : IMethod, IEquatable<InstanceMethod>
     {
-        private readonly MethodInfo method;
         private readonly ParameterInfo[] paramInfos;
-        private readonly object owner;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InstanceMethod"/> class.
@@ -33,35 +31,29 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (instanceMethod == null)
             {
-                throw new ArgumentNullException("instanceMethod");
+                throw new ArgumentNullException(nameof(instanceMethod));
             }
             if (owner == null)
             {
-                throw new ArgumentNullException("owner");
+                throw new ArgumentNullException(nameof(owner));
             }
 
-            this.method = instanceMethod;
-            this.paramInfos = this.method.GetParameters();
-            this.owner = owner;
+            this.Method = instanceMethod;
+            this.paramInfos = this.Method.GetParameters();
+            this.Owner = owner;
         }
 
         /// <summary>
         /// Gets the method originally supplied through the constructor.
         /// </summary>
         /// <seealso cref="InstanceMethod(MethodInfo, object)" />
-        public MethodInfo Method
-        {
-            get { return this.method; }
-        }
+        public MethodInfo Method { get; }
 
         /// <summary>
         /// Gets the owner originally supplied through the constructor.
         /// </summary>
         /// <seealso cref="InstanceMethod(MethodInfo, object)" />
-        public object Owner
-        {
-            get { return this.owner; }
-        }
+        public object Owner { get; }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
@@ -99,10 +91,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets information about the parameters of the method.
         /// </summary>
-        public IEnumerable<ParameterInfo> Parameters
-        {
-            get { return this.paramInfos; }
-        }
+        public IEnumerable<ParameterInfo> Parameters => this.paramInfos;
 
         /// <summary>
         /// Invokes the method with the supplied parameters.
@@ -111,7 +100,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>The result of the method call.</returns>
         public object Invoke(IEnumerable<object> parameters)
         {
-            return this.method.Invoke(this.owner, parameters.ToArray());
+            return this.Method.Invoke(this.Owner, parameters.ToArray());
         }
 
         /// <summary>

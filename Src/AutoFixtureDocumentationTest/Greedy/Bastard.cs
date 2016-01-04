@@ -4,8 +4,6 @@ namespace Ploeh.AutoFixtureDocumentationTest.Greedy
 {
     public class Bastard
     {
-        private readonly IFoo foo;
-
         public Bastard()
             : this(new DefaultFoo())
         {
@@ -15,15 +13,12 @@ namespace Ploeh.AutoFixtureDocumentationTest.Greedy
         {
             if (foo == null)
             {
-                throw new ArgumentNullException("foo");
+                throw new ArgumentNullException(nameof(foo));
             }
 
-            this.foo = foo;
+            this.Foo = foo;
         }
 
-        public IFoo Foo
-        {
-            get { return this.foo; }
-        }
+        public IFoo Foo { get; }
     }
 }

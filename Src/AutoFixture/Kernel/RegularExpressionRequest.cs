@@ -7,8 +7,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class RegularExpressionRequest : IEquatable<RegularExpressionRequest>
     {
-        private readonly string pattern;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RegularExpressionRequest"/> class.
         /// </summary>
@@ -17,22 +15,16 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (pattern == null)
             {
-                throw new ArgumentNullException("pattern");
+                throw new ArgumentNullException(nameof(pattern));
             }
 
-            this.pattern = pattern;
+            this.Pattern = pattern;
         }
 
         /// <summary>
         /// Gets the regular expression pattern.
         /// </summary>
-        public string Pattern
-        {
-            get
-            {
-                return this.pattern;
-            }
-        }
+        public string Pattern { get; }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.

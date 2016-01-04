@@ -10,4 +10,4 @@ function Get-VsVersion ()
     }
 }
 
-Start-Process -NoNewWindow -Wait -FilePath $env:windir\Microsoft.NET\Framework\v4.0.30319\MSBuild -ArgumentList ('BuildRelease.msbuild', (Get-VsVersion))
+Start-Process -NoNewWindow -Wait -FilePath ${env:ProgramFiles(x86)}\MSBuild\14.0\Bin\MsBuild.exe -ArgumentList ('BuildRelease.msbuild', (Get-VsVersion))

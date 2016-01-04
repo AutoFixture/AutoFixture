@@ -24,8 +24,6 @@ namespace Ploeh.AutoFixture.Dsl
         ICustomizationComposer<T>,
         ISpecimenBuilderNode
     {
-        private readonly ISpecimenBuilderNode node;
-
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="CompositeNodeComposer{T}" /> class.
@@ -40,9 +38,9 @@ namespace Ploeh.AutoFixture.Dsl
         public CompositeNodeComposer(ISpecimenBuilderNode node)
         {
             if (node == null)
-                throw new ArgumentNullException("node");
+                throw new ArgumentNullException(nameof(node));
 
-            this.node = node;
+            this.Node = node;
         }
 
         /// <summary>
@@ -426,7 +424,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            return this.node.Create(request, context);
+            return this.Node.Create(request, context);
         }
 
         /// <summary>
@@ -438,7 +436,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            yield return this.node;
+            yield return this.Node;
         }
 
         /// <summary>
@@ -456,9 +454,6 @@ namespace Ploeh.AutoFixture.Dsl
         /// <summary>Gets the encapsulated node.</summary>
         /// <value>The encapsulated node.</value>
         /// <seealso cref="CompositeNodeComposer{T}(ISpecimenBuilderNode)" />
-        public ISpecimenBuilderNode Node
-        {
-            get { return this.node; }
-        }
+        public ISpecimenBuilderNode Node { get; }
     }
 }
