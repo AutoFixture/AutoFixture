@@ -39,10 +39,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the decorated specifications.
         /// </summary>
-        public IEnumerable<IRequestSpecification> Specifications
-        {
-            get { return this.specifications; }
-        }
+        public IEnumerable<IRequestSpecification> Specifications => this.specifications;
 
         /// <summary>
         /// Evaluates a request for a specimen.

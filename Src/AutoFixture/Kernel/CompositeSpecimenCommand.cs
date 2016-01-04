@@ -36,10 +36,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the child commands.
         /// </summary>
-        public IEnumerable<ISpecimenCommand> Commands
-        {
-            get { return commands; }
-        }
+        public IEnumerable<ISpecimenCommand> Commands => commands;
 
         /// <summary>
         /// Executes all child commands using a given specimen and context.

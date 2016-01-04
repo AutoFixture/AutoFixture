@@ -124,10 +124,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// </code>
         /// ).
         /// </summary>
-        internal static int Minimization
-        {
-            get { return Automaton.MinimizeHopcroft; }
-        }
+        internal static int Minimization => Automaton.MinimizeHopcroft;
 
         /// <summary>
         /// Gets or sets a value indicating whether operations may modify the input automata.
@@ -183,10 +180,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <value>
         /// <c>true</c> if this instance is singleton; otherwise, <c>false</c>.
         /// </value>
-        internal bool IsSingleton
-        {
-            get { return this.Singleton != null; }
-        }
+        internal bool IsSingleton => this.Singleton != null;
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance is debug.

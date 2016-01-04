@@ -13,10 +13,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             this.availableItems = new List<MyClass>();
         }
 
-        public ICollection<MyClass> AvailableItems
-        {
-            get { return this.availableItems; }
-        }
+        public ICollection<MyClass> AvailableItems => this.availableItems;
 
         public MyClass SelectedItem
         {

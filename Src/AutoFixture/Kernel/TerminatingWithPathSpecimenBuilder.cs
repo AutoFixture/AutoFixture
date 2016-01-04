@@ -61,10 +61,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the observed specimen requests, in the order they were requested.
         /// </summary>
-        public IEnumerable<object> SpecimenRequests
-        {
-            get { return this.GetPathForCurrentThread().Reverse(); }
-        }
+        public IEnumerable<object> SpecimenRequests => this.GetPathForCurrentThread().Reverse();
 
         /// <summary>
         /// Creates a new specimen based on a request by delegating to its decorated builder.

@@ -22,10 +22,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
         private class NullWriter : TextWriter
         {
-            public override Encoding Encoding
-            {
-                get { return Encoding.Unicode; }
-            }
+            public override Encoding Encoding => Encoding.Unicode;
         }
     }
 }

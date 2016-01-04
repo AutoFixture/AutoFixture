@@ -36,10 +36,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets information about the parameters of the method.
         /// </summary>
-        public IEnumerable<ParameterInfo> Parameters
-        {
-            get { return this.parametersInfo; }
-        }
+        public IEnumerable<ParameterInfo> Parameters => this.parametersInfo;
 
         /// <summary>
         /// Gets information about the method.

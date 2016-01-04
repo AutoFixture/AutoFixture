@@ -285,10 +285,7 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection" />
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
-        public int Count
-        {
-            get { return this.adaptedBuilders.Count(); }
-        }
+        public int Count => this.adaptedBuilders.Count();
 
         /// <summary>
         /// Gets a value indicating whether this instance is read only.
@@ -297,10 +294,7 @@ namespace Ploeh.AutoFixture
         /// <see langword="true" /> if this instance is read only; otherwise,
         /// <see langword="false" />.
         /// </value>
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         /// <summary>
         /// Removes the first occurrence of a specific object from the

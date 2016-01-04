@@ -208,10 +208,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the recorded requests so far.
         /// </summary>
-        protected IEnumerable RecordedRequests
-        {
-            get { return GetMonitoredRequestsForCurrentThread(); }
-        }
+        protected IEnumerable RecordedRequests => GetMonitoredRequestsForCurrentThread();
 
         /// <summary>
         /// Handles a request that would cause recursion.

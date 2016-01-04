@@ -11,6 +11,8 @@ namespace Ploeh.AutoFixture.Kernel
     public class ParameterSpecification : IRequestSpecification
     {
         private readonly IEquatable<ParameterInfo> target;
+        private readonly string targetName;
+        private readonly Type targetType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterSpecification"/> class.
@@ -30,8 +32,8 @@ namespace Ploeh.AutoFixture.Kernel
         public ParameterSpecification(Type targetType, string targetName)
             : this(CreateDefaultTarget(targetType, targetName))
         {
-            this.TargetType = targetType;
-            this.TargetName = targetName;
+            this.targetType = targetType;
+            this.targetName = targetName;
         }
 
         private static IEquatable<ParameterInfo> CreateDefaultTarget(
@@ -75,15 +77,23 @@ namespace Ploeh.AutoFixture.Kernel
         /// The <see cref="Type"/> with which the requested
         /// <see cref="ParameterInfo"/> type should be compatible.
         /// </summary>
+        /// <remarks>
+        /// This property is not a getter-only auto-property as Release 
+        /// builds will generate an error due to the Obsolete attribute.
+        /// </remarks>
         [Obsolete("This value is only available if the constructor taking a target type and name is used. Otherwise, it'll be null. Use with caution. This property will be removed in a future version of AutoFixture.", false)]
-        public Type TargetType { get; }
+        public Type TargetType => targetType;
 
         /// <summary>
         /// The name which the requested <see cref="ParameterInfo"/> name
         /// should match exactly.
         /// </summary>
+        /// <remarks>
+        /// This property is not a getter-only auto-property as Release 
+        /// builds will generate an error due to the Obsolete attribute.
+        /// </remarks>
         [Obsolete("This value is only available if the constructor taking a target type and name is used. Otherwise, it'll be null. Use with caution. This property will be removed in a future version of AutoFixture.", false)]
-        public string TargetName { get; }
+        public string TargetName => targetName;
 
         /// <summary>
         /// Evaluates a request for a specimen.

@@ -136,10 +136,7 @@ namespace Ploeh.AutoFixture
         /// <summary>
         /// Gets the behaviors that wrap around the rest of the graph.
         /// </summary>
-        public IList<ISpecimenBuilderTransformation> Behaviors
-        {
-            get { return this.behaviors; }
-        }
+        public IList<ISpecimenBuilderTransformation> Behaviors => this.behaviors;
 
         /// <summary>
         /// Gets the customizations that intercept the <see cref="Engine"/>.
@@ -156,10 +153,7 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         /// <seealso cref="Engine"/>
         /// <seealso cref="ResidueCollectors"/>
-        public IList<ISpecimenBuilder> Customizations
-        {
-            get { return this.customizer; }
-        }
+        public IList<ISpecimenBuilder> Customizations => this.customizer;
 
         /// <summary>
         /// Gets the core engine of the <see cref="Fixture"/> instance.
@@ -255,10 +249,7 @@ namespace Ploeh.AutoFixture
         /// to deal with unresolved requests.
         /// </para>
         /// </remarks>
-        public IList<ISpecimenBuilder> ResidueCollectors
-        {
-            get { return this.residueCollector; }
-        }
+        public IList<ISpecimenBuilder> ResidueCollectors => this.residueCollector;
 
         /// <summary>
         /// Customizes the creation algorithm for a single object, effectively turning off all
@@ -406,10 +397,7 @@ namespace Ploeh.AutoFixture
             return this.GetEnumerator();
         }
 
-        private bool EnableAutoProperties
-        {
-            get { return !this.OmitAutoProperties; }
-        }
+        private bool EnableAutoProperties => !this.OmitAutoProperties;
 
         private void OnGraphChanged(object sender, SpecimenBuilderNodeEventArgs e)
         {

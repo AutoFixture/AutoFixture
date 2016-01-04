@@ -14,10 +14,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             this.OnInvoke = p => null;
         }
 
-        public IEnumerable<ParameterInfo> Parameters
-        {
-            get { return this.OnParameters(); }
-        }
+        public IEnumerable<ParameterInfo> Parameters => this.OnParameters();
 
         public object Invoke(IEnumerable<object> parameters)
         {

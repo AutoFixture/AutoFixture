@@ -40,10 +40,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the child builders.
         /// </summary>
-        public IEnumerable<ISpecimenBuilder> Builders
-        {
-            get { return this.composedBuilders; }
-        }
+        public IEnumerable<ISpecimenBuilder> Builders => this.composedBuilders;
 
         /// <summary>
         /// Creates a new specimen by delegating to <see cref="Builders"/>.

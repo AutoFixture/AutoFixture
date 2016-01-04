@@ -69,10 +69,7 @@ namespace Ploeh.AutoFixture
         /// <value>
         /// The sequence of limits.
         /// </value>
-        public IEnumerable<long> Limits
-        {
-            get { return this.limits; }
-        }
+        public IEnumerable<long> Limits => this.limits;
 
         /// <summary>
         /// Creates an anonymous number.

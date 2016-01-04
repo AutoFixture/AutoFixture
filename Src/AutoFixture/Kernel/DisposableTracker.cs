@@ -61,10 +61,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// method.
         /// </para>
         /// </remarks>
-        public IEnumerable<IDisposable> Disposables
-        {
-            get { return this.disposables; }
-        }
+        public IEnumerable<IDisposable> Disposables => this.disposables;
 
         /// <summary>
         /// Creates a new specimen based on a request.

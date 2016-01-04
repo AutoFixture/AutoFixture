@@ -30,10 +30,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets information about the parameters of the method.
         /// </summary>
-        public IEnumerable<ParameterInfo> Parameters
-        {
-            get { return Method.Parameters; }
-        }
+        public IEnumerable<ParameterInfo> Parameters => Method.Parameters;
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
