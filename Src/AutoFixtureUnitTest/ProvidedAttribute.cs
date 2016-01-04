@@ -4,29 +4,14 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     internal class ProvidedAttribute
     {
-        private readonly Attribute attribute;
-        private readonly bool inherited;
-
         public ProvidedAttribute(Attribute attribute, bool inherited)
         {
-            this.attribute = attribute;
-            this.inherited = inherited;
+            this.Attribute = attribute;
+            this.Inherited = inherited;
         }
 
-        public Attribute Attribute
-        {
-            get
-            {
-                return this.attribute;
-            }
-        }
+        public Attribute Attribute { get; }
 
-        public bool Inherited
-        {
-            get
-            {
-                return this.inherited;
-            }
-        }
+        public bool Inherited { get; }
     }
 }

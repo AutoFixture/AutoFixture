@@ -18,8 +18,6 @@ namespace Ploeh.AutoFixture
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class BehaviorRoot : ISpecimenBuilderNode
     {
-        private readonly ISpecimenBuilder builder;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="BehaviorRoot" />
         /// class.
@@ -40,7 +38,7 @@ namespace Ploeh.AutoFixture
             if (builder == null)
                 throw new ArgumentNullException(nameof(builder));
 
-            this.builder = builder;
+            this.Builder = builder;
         }
 
         /// <summary>Composes the supplied builders.</summary>
@@ -76,7 +74,7 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            return this.builder.Create(request, context);
+            return this.Builder.Create(request, context);
         }
 
         /// <summary>Returns the decorated builder as a sequence.</summary>
@@ -84,7 +82,7 @@ namespace Ploeh.AutoFixture
         /// <seealso cref="Builder" />
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            yield return this.builder;
+            yield return this.Builder;
         }
 
         /// <summary>
@@ -103,9 +101,6 @@ namespace Ploeh.AutoFixture
         /// <summary>Gets the builder decorated by this instance.</summary>
         /// <value>The builder originally supplied via the constructor.</value>
         /// <seealso cref="BehaviorRoot(ISpecimenBuilder)" />
-        public ISpecimenBuilder Builder
-        {
-            get { return this.builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
     }
 }

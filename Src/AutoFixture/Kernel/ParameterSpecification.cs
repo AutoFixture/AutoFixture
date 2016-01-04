@@ -10,8 +10,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class ParameterSpecification : IRequestSpecification
     {
-        private readonly Type targetType;
-        private readonly string targetName;
         private readonly IEquatable<ParameterInfo> target;
 
         /// <summary>
@@ -32,8 +30,8 @@ namespace Ploeh.AutoFixture.Kernel
         public ParameterSpecification(Type targetType, string targetName)
             : this(CreateDefaultTarget(targetType, targetName))
         {
-            this.targetType = targetType;
-            this.targetName = targetName;
+            this.TargetType = targetType;
+            this.TargetName = targetName;
         }
 
         private static IEquatable<ParameterInfo> CreateDefaultTarget(
@@ -78,20 +76,14 @@ namespace Ploeh.AutoFixture.Kernel
         /// <see cref="ParameterInfo"/> type should be compatible.
         /// </summary>
         [Obsolete("This value is only available if the constructor taking a target type and name is used. Otherwise, it'll be null. Use with caution. This property will be removed in a future version of AutoFixture.", false)]
-        public Type TargetType
-        {
-            get { return this.targetType; }
-        }
+        public Type TargetType { get; }
 
         /// <summary>
         /// The name which the requested <see cref="ParameterInfo"/> name
         /// should match exactly.
         /// </summary>
         [Obsolete("This value is only available if the constructor taking a target type and name is used. Otherwise, it'll be null. Use with caution. This property will be removed in a future version of AutoFixture.", false)]
-        public string TargetName
-        {
-            get { return this.targetName; }
-        }
+        public string TargetName { get; }
 
         /// <summary>
         /// Evaluates a request for a specimen.

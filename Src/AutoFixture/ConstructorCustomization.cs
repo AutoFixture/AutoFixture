@@ -9,9 +9,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class ConstructorCustomization : ICustomization
     {
-        private readonly Type targetType;
-        private readonly IMethodQuery query;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstructorCustomization"/> class.
         /// </summary>
@@ -33,26 +30,20 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(query));
             }
 
-            this.targetType = targetType;
-            this.query = query;
+            this.TargetType = targetType;
+            this.Query = query;
         }
 
         /// <summary>
         /// Gets the <see cref="Type"/> for which <see cref="Query"/> should be used to select the
         /// most appropriate constructor.
         /// </summary>
-        public Type TargetType
-        {
-            get { return this.targetType; }
-        }
+        public Type TargetType { get; }
 
         /// <summary>
         /// Gets the query that selects a constructor for <see cref="TargetType"/>.
         /// </summary>
-        public IMethodQuery Query
-        {
-            get { return this.query; }
-        }
+        public IMethodQuery Query { get; }
 
         /// <summary>
         /// Customizes the specified fixture by modifying <see cref="TargetType"/> to use
@@ -68,7 +59,7 @@ namespace Ploeh.AutoFixture
 
             var factory = new MethodInvoker(this.Query);
             var builder = SpecimenBuilderNodeFactory.CreateTypedNode(
-                this.targetType,
+                this.TargetType,
                 factory);
 
             fixture.Customizations.Insert(0, builder);

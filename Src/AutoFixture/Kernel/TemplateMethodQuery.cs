@@ -21,9 +21,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </remarks>
     public class TemplateMethodQuery : IMethodQuery
     {
-        private readonly MethodInfo template;
-        private readonly object owner;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="TemplateMethodQuery"/> class.
         /// </summary>
@@ -33,7 +30,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (template == null)
                 throw new ArgumentNullException(nameof(template));
 
-            this.template = template;
+            this.Template = template;
         }
 
         /// <summary>
@@ -49,25 +46,19 @@ namespace Ploeh.AutoFixture.Kernel
             if (owner == null)
                 throw new ArgumentNullException(nameof(owner));
 
-            this.owner = owner;
-            this.template = template;
+            this.Owner = owner;
+            this.Template = template;
         }
 
         /// <summary>
         /// The template <see cref="MethodInfo" /> to compare.
         /// </summary>
-        public MethodInfo Template
-        {
-            get { return template; }
-        }
+        public MethodInfo Template { get; }
 
         /// <summary>
         /// The owner instance of the <see cref="MethodInfo" />.
         /// </summary>
-        public object Owner
-        {
-            get { return owner; }
-        }
+        public object Owner { get; }
 
         /// <summary>
         /// Selects the methods for the supplied type similar to <see cref="Template" />.

@@ -9,8 +9,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class CompositeCustomization : ICustomization
     {
-        private readonly IEnumerable<ICustomization> customizations;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeCustomization"/> class.
         /// </summary>
@@ -31,16 +29,13 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(customizations));
             }
 
-            this.customizations = customizations;
+            this.Customizations = customizations;
         }
 
         /// <summary>
         /// Gets the customizations contained within this instance.
         /// </summary>
-        public IEnumerable<ICustomization> Customizations
-        {
-            get { return this.customizations; }
-        }
+        public IEnumerable<ICustomization> Customizations { get; }
 
         /// <summary>
         /// Customizes the specified fixture.

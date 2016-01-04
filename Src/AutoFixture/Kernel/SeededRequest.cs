@@ -7,9 +7,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class SeededRequest : IEquatable<SeededRequest>
     {
-        private readonly object request;
-        private readonly object seed;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Seed"/> class.
         /// </summary>
@@ -22,25 +19,19 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(request));
             }
         
-            this.request = request;
-            this.seed = seed;
+            this.Request = request;
+            this.Seed = seed;
         }
 
         /// <summary>
         /// Gets the seed value.
         /// </summary>
-        public object Seed
-        {
-            get { return this.seed; }
-        }
+        public object Seed { get; }
 
         /// <summary>
         /// Gets the inner request for which the seed applies.
         /// </summary>
-        public object Request
-        {
-            get { return this.request; }
-        }
+        public object Request { get; }
 
         /// <summary>
         /// Determines whether this instance equals another instance.

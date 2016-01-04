@@ -12,8 +12,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class SpecimenBuilderNodeEventArgs : EventArgs
     {
-        private readonly ISpecimenBuilderNode graph;
-
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="SpecimenBuilderNodeEventArgs" /> class.
@@ -25,15 +23,12 @@ namespace Ploeh.AutoFixture
             if (graph == null)
                 throw new ArgumentNullException(nameof(graph));
 
-            this.graph = graph;
+            this.Graph = graph;
         }
 
         /// <summary>
         /// Gets the graph associated with an event.
         /// </summary>
-        public ISpecimenBuilderNode Graph
-        {
-            get { return this.graph; }
-        }
+        public ISpecimenBuilderNode Graph { get; }
     }
 }

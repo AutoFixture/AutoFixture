@@ -12,8 +12,6 @@ namespace Ploeh.AutoFixture.Dsl
     /// <typeparam name="T">The type of specimen to customize.</typeparam>
     public class CompositePostprocessComposer<T> : IPostprocessComposer<T>
     {
-        private readonly IEnumerable<IPostprocessComposer<T>> composers;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositePostprocessComposer&lt;T&gt;"/>
         /// class with a sequence of <see cref="IPostprocessComposer{T}"/> instances.
@@ -36,16 +34,13 @@ namespace Ploeh.AutoFixture.Dsl
                 throw new ArgumentNullException(nameof(composers));
             }
 
-            this.composers = composers;
+            this.Composers = composers;
         }
 
         /// <summary>
         /// Gets the aggregated composers.
         /// </summary>
-        public IEnumerable<IPostprocessComposer<T>> Composers
-        {
-            get { return this.composers; }
-        }
+        public IEnumerable<IPostprocessComposer<T>> Composers { get; }
 
         /// <summary>
         /// Performs the specified action on a specimen.
@@ -57,7 +52,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public IPostprocessComposer<T> Do(Action<T> action)
         {
-            return new CompositePostprocessComposer<T>(from c in this.composers
+            return new CompositePostprocessComposer<T>(from c in this.Composers
                                                        select c.Do(action));
         }
 
@@ -70,7 +65,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public IPostprocessComposer<T> OmitAutoProperties()
         {
-            return new CompositePostprocessComposer<T>(from c in this.composers
+            return new CompositePostprocessComposer<T>(from c in this.Composers
                                                        select c.OmitAutoProperties());
         }
 
@@ -89,7 +84,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
-            return new CompositePostprocessComposer<T>(from c in this.composers
+            return new CompositePostprocessComposer<T>(from c in this.Composers
                                                        select c.With(propertyPicker));
         }
 
@@ -112,7 +107,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
-            return new CompositePostprocessComposer<T>(from c in this.composers
+            return new CompositePostprocessComposer<T>(from c in this.Composers
                                                        select c.With(propertyPicker, value));
         }
 
@@ -125,7 +120,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public IPostprocessComposer<T> WithAutoProperties()
         {
-            return new CompositePostprocessComposer<T>(from c in this.composers
+            return new CompositePostprocessComposer<T>(from c in this.Composers
                                                        select c.WithAutoProperties());
         }
 
@@ -143,7 +138,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public IPostprocessComposer<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
         {
-            return new CompositePostprocessComposer<T>(from c in this.composers
+            return new CompositePostprocessComposer<T>(from c in this.Composers
                                                        select c.Without(propertyPicker));
         }
 
@@ -167,7 +162,7 @@ namespace Ploeh.AutoFixture.Dsl
         public object Create(object request, ISpecimenContext context)
         {
             return new CompositeSpecimenBuilder(
-                this.composers.Cast<ISpecimenBuilder>())
+                this.Composers.Cast<ISpecimenBuilder>())
                 .Create(
                     request,
                     context);

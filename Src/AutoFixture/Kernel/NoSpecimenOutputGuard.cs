@@ -11,9 +11,6 @@ namespace Ploeh.AutoFixture.Kernel
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class NoSpecimenOutputGuard : ISpecimenBuilderNode
     {
-        private readonly ISpecimenBuilder builder;
-        private readonly IRequestSpecification specification;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="NoSpecimenOutputGuard"/> class with an 
         /// <see cref="ISpecimenBuilder"/> to decorate.
@@ -42,8 +39,8 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(specification));
             }
 
-            this.builder = builder;
-            this.specification = specification;
+            this.Builder = builder;
+            this.Specification = specification;
         }
 
         /// <summary>
@@ -52,10 +49,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <value>The <see cref="ISpecimenBuilder"/> supplied via the constructor.</value>
         /// <seealso cref="NoSpecimenOutputGuard(ISpecimenBuilder)"/>
         /// <seealso cref="NoSpecimenOutputGuard(ISpecimenBuilder, IRequestSpecification)"/>
-        public ISpecimenBuilder Builder
-        {
-            get { return this.builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
 
         /// <summary>
         /// Gets the specification that is used to determine whether an exception should be thrown
@@ -64,10 +58,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <value>The <see cref="IRequestSpecification"/> supplied via the constructor.</value>
         /// <seealso cref="NoSpecimenOutputGuard(ISpecimenBuilder)"/>
         /// <seealso cref="NoSpecimenOutputGuard(ISpecimenBuilder, IRequestSpecification)"/>
-        public IRequestSpecification Specification
-        {
-            get { return this.specification; }
-        }
+        public IRequestSpecification Specification { get; }
 
         /// <summary>
         /// Creates a new specimen by delegating to the decorated <see cref="Builder"/>.
@@ -89,7 +80,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             var result = this.Builder.Create(request, context);
             if (result is NoSpecimen 
-                && this.specification.IsSatisfiedBy(request))
+                && this.Specification.IsSatisfiedBy(request))
             {
                 throw new ObjectCreationException(string.Format(CultureInfo.CurrentCulture, "The decorated ISpecimenBuilder could not create a specimen based on the request: {0}. This can happen if the request represents an interface or abstract class; if this is the case, register an ISpecimenBuilder that can create specimens based on the request. If this happens in a strongly typed Build<T> expression, try supplying a factory using one of the IFactoryComposer<T> methods.", request));
             }
@@ -105,7 +96,7 @@ namespace Ploeh.AutoFixture.Kernel
         public ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
-            return new NoSpecimenOutputGuard(composedBuilder, this.specification);
+            return new NoSpecimenOutputGuard(composedBuilder, this.Specification);
         }
 
         /// <summary>
@@ -117,7 +108,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            yield return this.builder;
+            yield return this.Builder;
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

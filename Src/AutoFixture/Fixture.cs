@@ -15,7 +15,6 @@ namespace Ploeh.AutoFixture
     {
         private SingletonSpecimenBuilderNodeStackAdapterCollection behaviors;
         private SpecimenBuilderNodeAdapterCollection customizer;
-        private readonly ISpecimenBuilder engine;
         private SpecimenBuilderNodeAdapterCollection residueCollector;
         private readonly MultipleRelay multiple;
 
@@ -57,7 +56,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(multiple));
             }
 
-            this.engine = engine;
+            this.Engine = engine;
             this.multiple = multiple;
 
             this.graph =
@@ -175,10 +174,7 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         /// <see cref="Customizations"/>
         /// <see cref="ResidueCollectors"/>
-        public ISpecimenBuilder Engine
-        {
-            get { return this.engine; }
-        }
+        public ISpecimenBuilder Engine { get; }
 
         /// <summary>
         /// Gets or sets if writable properties should generally be assigned a value when 

@@ -7,8 +7,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class DomainName
     {
-        private string domainName;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DomainName"/> class. Throws ArgumentNullException
         /// if domainName is null. Throws ArgumentException if domainName is empty.
@@ -19,19 +17,13 @@ namespace Ploeh.AutoFixture
             {
                 throw new ArgumentNullException(nameof(domainName));
             }
-            this.domainName = domainName;
+            this.Domain = domainName;
         }
 
         /// <summary>
         /// Get the name of the domain.
         /// </summary>
-        public string Domain
-        {
-            get
-            {
-                return this.domainName;
-            }
-        }
+        public string Domain { get; }
 
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents the domain name for this instance.
@@ -41,7 +33,7 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public override string ToString()
         {
-            return this.domainName;
+            return this.Domain;
         }
 
         /// <summary>
@@ -62,7 +54,7 @@ namespace Ploeh.AutoFixture
 
             if (other != null)
             {
-                return this.domainName.Equals(other.domainName);
+                return this.Domain.Equals(other.Domain);
             }
             return base.Equals(obj);
         }
@@ -76,7 +68,7 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public override int GetHashCode()
         {
-            return this.domainName.GetHashCode();
+            return this.Domain.GetHashCode();
         }
     }
 }

@@ -16,24 +16,19 @@ namespace Ploeh.AutoFixture
     /// <seealso cref="DisposableTrackingBehavior"/>
     public class DisposableTrackingCustomization : ICustomization, IDisposable
     {
-        private readonly DisposableTrackingBehavior behavior;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DisposableTrackingCustomization"/> class.
         /// </summary>
         public DisposableTrackingCustomization()
         {
-            this.behavior = new DisposableTrackingBehavior();
+            this.Behavior = new DisposableTrackingBehavior();
         }
 
         /// <summary>
         /// Gets the behavior that this customization adds to <see cref="IFixture"/> instances.
         /// </summary>
         /// <seealso cref="DisposableTrackingBehavior"/>
-        public DisposableTrackingBehavior Behavior
-        {
-            get { return this.behavior; }
-        }
+        public DisposableTrackingBehavior Behavior { get; }
 
         /// <summary>
         /// Customizes the specified fixture by applying <see cref="Behavior"/>.
@@ -69,7 +64,7 @@ namespace Ploeh.AutoFixture
         {
             if (disposing)
             {
-                this.behavior.Dispose();
+                this.Behavior.Dispose();
             }
         }
     }

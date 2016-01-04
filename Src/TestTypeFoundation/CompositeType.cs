@@ -6,8 +6,6 @@ namespace Ploeh.TestTypeFoundation
 {
     public class CompositeType : AbstractType
     {
-        private readonly IEnumerable<AbstractType> types;
-
         public CompositeType(IEnumerable<AbstractType> types)
             : this(types.ToArray())
         {
@@ -20,12 +18,9 @@ namespace Ploeh.TestTypeFoundation
                 throw new ArgumentNullException(nameof(types));
             }
 
-            this.types = types;
+            this.Types = types;
         }
 
-        public IEnumerable<AbstractType> Types
-        {
-            get { return this.types; }
-        }
+        public IEnumerable<AbstractType> Types { get; }
     }
 }

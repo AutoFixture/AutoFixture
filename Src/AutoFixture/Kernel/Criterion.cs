@@ -25,9 +25,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </remarks>
     public class Criterion<T> : IEquatable<T>
     {
-        private readonly T target;
-        private readonly IEqualityComparer<T> comparer;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Criterion{T}" />
         /// class.
@@ -50,8 +47,8 @@ namespace Ploeh.AutoFixture.Kernel
             if (comparer == null)
                 throw new ArgumentNullException(nameof(comparer));
 
-            this.target = target;
-            this.comparer = comparer;
+            this.Target = target;
+            this.Comparer = comparer;
         }
 
         /// <summary>
@@ -76,7 +73,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
         public bool Equals(T other)
         {
-            return this.comparer.Equals(this.target, other);
+            return this.Comparer.Equals(this.Target, other);
         }
 
         /// <summary>
@@ -92,26 +89,20 @@ namespace Ploeh.AutoFixture.Kernel
             var other = obj as Criterion<T>;
             if (other == null)
                 return base.Equals(obj);
-            return object.Equals(this.target, other.target)
-                && object.Equals(this.comparer, other.comparer);
+            return object.Equals(this.Target, other.Target)
+                && object.Equals(this.Comparer, other.Comparer);
         }
 
         /// <summary>
         /// The desired target value, as supplied via the constructor.
         /// </summary>
-        public T Target
-        {
-            get { return this.target; }
-        }
+        public T Target { get; }
 
         /// <summary>
         /// The comparison method used to compare <see cref="Target" /> to
         /// candidates.
         /// </summary>
-        public IEqualityComparer<T> Comparer
-        {
-            get { return this.comparer; }
-        }
+        public IEqualityComparer<T> Comparer { get; }
 
         /// <summary>
         /// Returns the hash code for the object.
@@ -119,7 +110,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>The hash code.</returns>
         public override int GetHashCode()
         {
-            return this.target.GetHashCode() ^ this.comparer.GetHashCode();
+            return this.Target.GetHashCode() ^ this.Comparer.GetHashCode();
         }
     }
 }

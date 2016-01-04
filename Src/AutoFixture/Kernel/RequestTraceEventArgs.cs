@@ -7,9 +7,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class RequestTraceEventArgs : EventArgs
     {
-        private readonly object request;
-        private readonly int depth;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RequestTraceEventArgs"/> class with the
         /// supplied values.
@@ -20,24 +17,18 @@ namespace Ploeh.AutoFixture.Kernel
         /// </param>
         public RequestTraceEventArgs(object request, int depth)
         {        
-            this.request = request;
-            this.depth = depth;
+            this.Request = request;
+            this.Depth = depth;
         }
 
         /// <summary>
         /// Gets the recursion depth at which <see cref="Request"/> occurred.
         /// </summary>
-        public int Depth
-        {
-            get { return this.depth; }
-        }
+        public int Depth { get; }
 
         /// <summary>
         /// Gets the original request for a specimen
         /// </summary>
-        public object Request
-        {
-            get { return this.request; }
-        }
+        public object Request { get; }
     }
 }
