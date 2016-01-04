@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture.Kernel
         public Criterion(T target, IEqualityComparer<T> comparer)
         {
             if (comparer == null)
-                throw new ArgumentNullException("comparer");
+                throw new ArgumentNullException(nameof(comparer));
 
             this.target = target;
             this.comparer = comparer;

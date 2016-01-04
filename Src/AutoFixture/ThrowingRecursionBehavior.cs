@@ -21,7 +21,7 @@ namespace Ploeh.AutoFixture
         {
             if (builder == null)
             {
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
             }
 
             return new RecursionGuard(builder, new ThrowingRecursionHandler());

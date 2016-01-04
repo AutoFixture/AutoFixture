@@ -52,7 +52,7 @@ namespace Ploeh.SemanticComparison
                 case MemberTypes.Property:
                     return ((PropertyInfo)member).PropertyType;
                 default:
-                    throw new ArgumentException("MemberInfo must either FieldInfo or PropertyInfo.", "member");
+                    throw new ArgumentException("MemberInfo must either FieldInfo or PropertyInfo.", nameof(member));
             }
         }
     }

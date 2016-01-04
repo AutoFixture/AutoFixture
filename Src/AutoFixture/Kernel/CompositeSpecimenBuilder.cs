@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (builders == null)
             {
-                throw new ArgumentNullException("builders");
+                throw new ArgumentNullException(nameof(builders));
             }
 
             this.composedBuilders = builders;

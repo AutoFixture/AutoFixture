@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixture.Kernel
         public MissingParametersSupplyingMethodFactory(object owner)
         {
             if (owner == null)
-                throw new ArgumentNullException("owner");
+                throw new ArgumentNullException(nameof(owner));
 
             this.owner = owner;
         }

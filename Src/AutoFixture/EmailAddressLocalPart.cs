@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture
         {
             if (localPart == null)
             {
-                throw new ArgumentNullException("localPart");
+                throw new ArgumentNullException(nameof(localPart));
             }
 
             if (localPart.Length == 0)

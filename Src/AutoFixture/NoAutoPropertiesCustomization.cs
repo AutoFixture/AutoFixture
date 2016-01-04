@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture
         {
             if (targetType == null)
             {
-                throw new ArgumentNullException("targetType");
+                throw new ArgumentNullException(nameof(targetType));
             }
 
             this.targetType = targetType;
@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             var constructor = new MethodInvoker(new ModestConstructorQuery());

@@ -50,11 +50,11 @@ namespace Ploeh.AutoFixture
         {
             if (engine == null)
             {
-                throw new ArgumentNullException("engine");
+                throw new ArgumentNullException(nameof(engine));
             }
             if (multiple == null)
             {
-                throw new ArgumentNullException("multiple");
+                throw new ArgumentNullException(nameof(multiple));
             }
 
             this.engine = engine;
@@ -311,7 +311,7 @@ namespace Ploeh.AutoFixture
         {
             if (customization == null)
             {
-                throw new ArgumentNullException("customization");
+                throw new ArgumentNullException(nameof(customization));
             }
 
             customization.Customize(this);
@@ -335,7 +335,7 @@ namespace Ploeh.AutoFixture
         {
             if (composerTransformation == null)
             {
-                throw new ArgumentNullException("composerTransformation");
+                throw new ArgumentNullException(nameof(composerTransformation));
             }
 
             var c = composerTransformation(SpecimenBuilderNodeFactory.CreateComposer<T>().WithAutoProperties(this.EnableAutoProperties));

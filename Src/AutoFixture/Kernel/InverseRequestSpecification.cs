@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (specification == null)
             {
-                throw new ArgumentNullException("specification");
+                throw new ArgumentNullException(nameof(specification));
             }
 
             this.spec = specification;

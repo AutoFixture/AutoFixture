@@ -10,7 +10,7 @@ namespace Ploeh.TestTypeFoundation
         {
             if (t == null)
             {
-                throw new ArgumentNullException("t");
+                throw new ArgumentNullException(nameof(t));
             }
 
             this.t = t;

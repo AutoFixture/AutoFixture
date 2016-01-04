@@ -31,12 +31,12 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (methodInfo == null)
             {
-                throw new ArgumentNullException("methodInfo");
+                throw new ArgumentNullException(nameof(methodInfo));
             }
 
             if (methodParameters == null)
             {
-                throw new ArgumentNullException("methodParameters");
+                throw new ArgumentNullException(nameof(methodParameters));
             }
 
             this.methodInfo = methodInfo;
@@ -124,7 +124,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (methodInfo == null)
             {
-                throw new ArgumentNullException("methodInfo");
+                throw new ArgumentNullException(nameof(methodInfo));
             }
 
             return methodInfo.GetParameters();

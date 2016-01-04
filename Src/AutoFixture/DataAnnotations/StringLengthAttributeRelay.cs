@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             var customAttributeProvider = request as ICustomAttributeProvider;

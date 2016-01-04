@@ -48,9 +48,9 @@ namespace Ploeh.AutoFixture.Kernel
         public TypeRelay(Type from, Type to)
         {
             if (from == null)
-                throw new ArgumentNullException("from");
+                throw new ArgumentNullException(nameof(@from));
             if (to == null)
-                throw new ArgumentNullException("to");
+                throw new ArgumentNullException(nameof(to));
 
             this.from = from;
             this.to = to;
@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixture.Kernel
         public object Create(object request, ISpecimenContext context)
         {
             if (context == null)
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             
             var t = request as Type;
             if (t == null || t != this.from)

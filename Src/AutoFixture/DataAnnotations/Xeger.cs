@@ -43,12 +43,12 @@ namespace Ploeh.AutoFixture.DataAnnotations
         {
             if (string.IsNullOrEmpty(regex))
             {
-                throw new ArgumentNullException("regex");
+                throw new ArgumentNullException(nameof(regex));
             }
 
             if (random == null)
             {
-                throw new ArgumentNullException("random");
+                throw new ArgumentNullException(nameof(random));
             }
 
             this.automaton = new RegExp(regex, AllExceptAnyString).ToAutomaton();

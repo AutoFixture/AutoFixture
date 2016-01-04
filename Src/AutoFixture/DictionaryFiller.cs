@@ -44,16 +44,16 @@ namespace Ploeh.AutoFixture
         public void Execute(object specimen, ISpecimenContext context)
         {
             if (specimen == null)
-                throw new ArgumentNullException("specimen");
+                throw new ArgumentNullException(nameof(specimen));
             if (context == null)
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
 
             var typeArguments = specimen.GetType().GetGenericArguments();
             if (typeArguments.Length != 2)
-                throw new ArgumentException("The specimen must be an instance of IDictionary<TKey, TValue>.", "specimen");
+                throw new ArgumentException("The specimen must be an instance of IDictionary<TKey, TValue>.", nameof(specimen));
 
             if (!typeof(IDictionary<,>).MakeGenericType(typeArguments).IsAssignableFrom(specimen.GetType()))
-                throw new ArgumentException("The specimen must be an instance of IDictionary<TKey, TValue>.", "specimen");
+                throw new ArgumentException("The specimen must be an instance of IDictionary<TKey, TValue>.", nameof(specimen));
 
             var filler = (ISpecimenCommand)Activator.CreateInstance(
                 typeof(Filler<,>).MakeGenericType(typeArguments));

@@ -53,13 +53,13 @@ namespace Ploeh.SemanticComparison
             ISpecification<FieldInfo> fieldSpecification)
         {
             if (comparer == null)
-                throw new ArgumentNullException("comparer");
+                throw new ArgumentNullException(nameof(comparer));
 
             if (propertySpecification == null)
-                throw new ArgumentNullException("propertySpecification");
+                throw new ArgumentNullException(nameof(propertySpecification));
 
             if (fieldSpecification == null)
-                throw new ArgumentNullException("fieldSpecification");
+                throw new ArgumentNullException(nameof(fieldSpecification));
 
             this.comparer = comparer;
             this.propertySpecification = propertySpecification;

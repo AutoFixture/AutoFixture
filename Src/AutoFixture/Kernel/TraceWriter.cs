@@ -26,11 +26,11 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (writer == null)
             {
-                throw new ArgumentNullException("writer");
+                throw new ArgumentNullException(nameof(writer));
             }
             if (tracer == null)
             {
-                throw new ArgumentNullException("tracer");
+                throw new ArgumentNullException(nameof(tracer));
             }        
 
             this.tracer = tracer;
@@ -61,7 +61,7 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 }
 
                 this.writeRequest = value;
@@ -79,7 +79,7 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 }
 
                 this.writeSpecimen = value;

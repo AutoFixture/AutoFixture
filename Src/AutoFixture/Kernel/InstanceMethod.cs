@@ -33,11 +33,11 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (instanceMethod == null)
             {
-                throw new ArgumentNullException("instanceMethod");
+                throw new ArgumentNullException(nameof(instanceMethod));
             }
             if (owner == null)
             {
-                throw new ArgumentNullException("owner");
+                throw new ArgumentNullException(nameof(owner));
             }
 
             this.method = instanceMethod;

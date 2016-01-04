@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixture
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             if (!typeof(Uri).Equals(request))

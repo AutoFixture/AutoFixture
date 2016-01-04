@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (type == null)
             {
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             }
 
             return from mi in type.GetMethods(BindingFlags.Static | BindingFlags.Public)

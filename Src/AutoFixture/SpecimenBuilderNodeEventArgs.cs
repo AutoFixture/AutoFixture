@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture
         public SpecimenBuilderNodeEventArgs(ISpecimenBuilderNode graph)
         {
             if (graph == null)
-                throw new ArgumentNullException("graph");
+                throw new ArgumentNullException(nameof(graph));
 
             this.graph = graph;
         }

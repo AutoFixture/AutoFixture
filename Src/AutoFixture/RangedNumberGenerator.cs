@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture
 
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             var range = request as RangedNumberRequest;
