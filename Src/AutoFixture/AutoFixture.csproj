@@ -119,6 +119,7 @@
     <Compile Include="Kernel\MissingParametersSupplyingMethod.cs" />
     <Compile Include="Kernel\MissingParametersSupplyingStaticMethodFactory.cs" />
     <Compile Include="Kernel\TypeArgumentsCannotBeInferredException.cs" />
+    <Compile Include="Kernel\TypeExtensions.cs" />
     <Compile Include="LazyRelay.cs" />
     <Compile Include="FreezeOnMatchCustomization.cs" />
     <Compile Include="Kernel\ImplementedInterfaceSpecification.cs" />

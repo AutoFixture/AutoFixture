@@ -1,4 +1,5 @@
 ﻿using System;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
@@ -22,7 +23,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("type");
             }
 
-            return type.IsValueType && !type.IsEnum && !type.IsPrimitive;
+            return type.IsValueType() && !type.IsEnum() && !type.IsPrimitive();
         }
     }
 }

@@ -70,7 +70,7 @@ namespace Ploeh.AutoFixture.Kernel
             foreach (object request in this.RecordedRequests)
             {
                 Type type = request.GetType();
-                if (type.Assembly != typeof(RecursionGuard).Assembly)
+                if (type.Assembly() != typeof(RecursionGuard).Assembly())
                 {
                     requestInfos.Append("\t\t");
                     requestInfos.Append(request);

@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             var type = request as Type;
-            return type != null && type.IsAbstract;
+            return type != null && type.IsAbstract();
         }
     }
 }

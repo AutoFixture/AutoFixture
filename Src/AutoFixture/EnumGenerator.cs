@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixture
 
         private static bool IsEnumType(Type t)
         {
-            return (t != null) && t.IsEnum;
+            return (t != null) && t.IsEnum();
         }
 
         private object CreateValue(Type t)

@@ -190,7 +190,7 @@ namespace Ploeh.AutoFixture.Kernel
 
                 var hierarchy = GetHierarchy(templateParameterType).ToList();
                 
-                var matches = methodParameterType.IsClass ? 
+                var matches = methodParameterType.IsClass() ? 
                     hierarchy.Count(t => t.IsAssignableFrom(methodParameterType)) : 
                     hierarchy.Count(t => t.GetInterfaces().Any(i => i.IsAssignableFrom(methodParameterType)));
 
@@ -202,7 +202,7 @@ namespace Ploeh.AutoFixture.Kernel
                 score += CalculateScore(methodTypeArguments, templateTypeArguments) / 10;
                 score += 50 * -Math.Abs(methodTypeArguments.Length - templateTypeArguments.Length);
 
-                if (methodParameterType.IsClass)
+                if (methodParameterType.IsClass())
                     score += 5;
                 
                 return score;
@@ -210,14 +210,14 @@ namespace Ploeh.AutoFixture.Kernel
 
             private static IEnumerable<Type> GetHierarchy(Type type)
             {
-                if (!type.IsClass)
+                if (!type.IsClass())
                     foreach (var interfaceType in type.GetInterfaces())
                         yield return interfaceType;
 
                 while (type != null)
                 {
                     yield return type;
-                    type = type.BaseType;
+                    type = type.BaseType();
                 }
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Linq;
 
 namespace Ploeh.AutoFixture.Kernel
@@ -22,11 +23,11 @@ namespace Ploeh.AutoFixture.Kernel
             // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
             var requestType = request as Type;
             if (requestType == null) return false;
-            if (!requestType.IsGenericType) return false;
+            if (!requestType.IsGenericType()) return false;
             var gtd = requestType.GetGenericTypeDefinition();
             if (!typeof(Nullable<>).IsAssignableFrom(gtd)) return false;
             var ga = requestType.GetGenericArguments();
-            return ga.Length == 1 && ga[0].IsEnum;
+            return ga.Length == 1 && ga[0].IsEnum();
         }
     }
 }

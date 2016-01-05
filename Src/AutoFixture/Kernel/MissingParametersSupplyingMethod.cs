@@ -106,7 +106,7 @@ namespace Ploeh.AutoFixture.Kernel
                 parameter.ParameterType.IsArray)
                 return Array.CreateInstance(parameter.ParameterType.GetElementType(), 0);
 
-            return parameter.ParameterType.IsValueType ? 
+            return parameter.ParameterType.IsValueType() ? 
                 Activator.CreateInstance(parameter.ParameterType) : 
                 null;
         }

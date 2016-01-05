@@ -76,7 +76,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         private bool IsDirectBaseOfTargetType(object request)
         {
-            return (Type)request == this.targetType.BaseType;
+            return (Type)request == this.targetType.BaseType();
         }
     }
 }

@@ -106,7 +106,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             var t = request as Type;
 
-            if (t != null && t.IsInterface)
+            if (t != null && t.IsInterface())
                 return
                     "AutoFixture was unable to create an instance from {0} " +
                     "because it's an interface. There's no single, most " +
@@ -121,7 +121,7 @@ namespace Ploeh.AutoFixture.Kernel
                     "{1}" +
                     "Request path:{1}{2}{1}";
 
-            if (t != null && t.IsAbstract)
+            if (t != null && t.IsAbstract())
                 return
                     "AutoFixture was unable to create an instance from {0} " +
                     "because it's an abstract class. There's no single, " +

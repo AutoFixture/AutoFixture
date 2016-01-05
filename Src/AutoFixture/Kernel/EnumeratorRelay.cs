@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
 
 namespace Ploeh.AutoFixture.Kernel

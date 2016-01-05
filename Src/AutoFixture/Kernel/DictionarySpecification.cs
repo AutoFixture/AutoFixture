@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return false;
             }
 
-            return type.IsGenericType
+            return type.IsGenericType()
                 && typeof(Dictionary<,>) == type.GetGenericTypeDefinition();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -34,7 +35,7 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen();
 
             //check if type is a constructed generic type whose definition matches Task<>
-            if (type.IsGenericType && !type.IsGenericTypeDefinition &&
+            if (type.IsGenericType() && !type.IsGenericTypeDefinition() &&
                 type.GetGenericTypeDefinition() == typeof (Task<>))
                 return CreateGenericTask(type, context);
 
