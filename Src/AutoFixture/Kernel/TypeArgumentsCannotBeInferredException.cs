@@ -2,7 +2,6 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -10,7 +9,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// The exception that is thrown when AutoFixture is unable to infer the type 
     /// parameters of a generic method from its arguments.
     /// </summary>
-    [Serializable]
     public class TypeArgumentsCannotBeInferredException : Exception
     {
         /// <summary>
@@ -68,19 +66,6 @@ namespace Ploeh.AutoFixture.Kernel
         /// </param>
         public TypeArgumentsCannotBeInferredException(string message, Exception innerException)
             : base(message, innerException)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TypeArgumentsCannotBeInferredException"/> class with
-        /// serialized data.
-        /// </summary>
-        /// <param name="info">The object that holds the serialized object data.</param>
-        /// <param name="context">
-        /// The contextual information about the source or destination.
-        /// </param>
-        protected TypeArgumentsCannotBeInferredException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
         {
         }
 

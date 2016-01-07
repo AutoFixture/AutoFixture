@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Ploeh.AutoFixture
 {
     /// <summary>
     /// The exception that is thrown when AutoFixture is unable to create an object.
     /// </summary>
-    [Serializable]
     public class ObjectCreationException : Exception
     {
         /// <summary>
@@ -42,19 +40,6 @@ namespace Ploeh.AutoFixture
         /// </param>
         public ObjectCreationException(string message, Exception innerException)
             : base(message, innerException)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectCreationException"/> class with
-        /// serialized data.
-        /// </summary>
-        /// <param name="info">The object that holds the serialized object data.</param>
-        /// <param name="context">
-        /// The contextual information about the source or destination.
-        /// </param>
-        protected ObjectCreationException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
         {
         }
     }
