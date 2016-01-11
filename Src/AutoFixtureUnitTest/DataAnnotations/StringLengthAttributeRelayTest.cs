@@ -92,7 +92,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             // Fixture setup
             var stringLengthAttribute = new StringLengthAttribute(maximum);
             var providedAttribute = new ProvidedAttribute(stringLengthAttribute, true);
-            ICustomAttributeProvider request = new FakeCustomAttributeProvider(providedAttribute);
+            var request = new FakeCustomAttributeProvider(providedAttribute);
             var expectedRequest = new ConstrainedStringRequest(stringLengthAttribute.MaximumLength);
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext

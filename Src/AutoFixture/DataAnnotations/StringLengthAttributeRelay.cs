@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 throw new ArgumentNullException("context");
             }
 
-            var customAttributeProvider = request as ICustomAttributeProvider;
+            var customAttributeProvider = request as MemberInfo;
             if (customAttributeProvider == null)
             {
                 return new NoSpecimen();
