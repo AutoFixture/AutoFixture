@@ -8,12 +8,6 @@
 
     internal static class TypeExtensions
     {
-        public static bool IsAssignableFrom(this Type type, Type otherType)
-        {
-            return type.GetTypeInfo().IsAssignableFrom(otherType.GetTypeInfo());
-        }
-
-
         public static Type[] GetGenericParameters(this Type type)
         {
             return type.GetGenericTypeDefinition().GetTypeInfo().GenericTypeParameters;
@@ -138,31 +132,6 @@
         public static bool IsValueType(this Type type)
         {
             return type.GetTypeInfo().IsValueType;
-        }
-
-        public static bool IsInstanceOfType(this Type type, object o)
-        {
-            return o != null && type.IsAssignableFrom(o.GetType());
-        }
-
-        public static ConstructorInfo[] GetConstructors(this Type type)
-        {
-            return type.GetTypeInfo().DeclaredConstructors.ToArray();
-        }
-
-        public static MethodInfo GetGetMethod(this PropertyInfo propertyInfo, bool ignored)
-        {
-            return propertyInfo.GetMethod;
-        }
-
-        public static MethodInfo GetSetMethod(this PropertyInfo propertyInfo, bool ignored)
-        {
-            return propertyInfo.SetMethod;
-        }
-
-        public static FieldInfo GetField(this Type type, string name)
-        {
-            return type.GetRuntimeField(name);
         }
     }
 }

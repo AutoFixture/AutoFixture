@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 using System.Globalization;
 using System.Linq;
