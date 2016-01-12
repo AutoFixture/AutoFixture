@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (pi == null)
                 return new NoSpecimen();
 
-            if (!pi.ParameterType.IsGenericType)
+            if (!pi.ParameterType.IsGenericType())
                 return new NoSpecimen();
 
             if (IsNotEnumerable(pi))
