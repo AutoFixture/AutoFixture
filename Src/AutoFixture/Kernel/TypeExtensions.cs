@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.Kernel
+namespace Ploeh.AutoFixture.Kernel
 {
     using System;
     using System.Collections.Generic;
@@ -8,6 +8,21 @@
 
     internal static class TypeExtensions
     {
+        public static TAttribute GetRequestAttribute<TAttribute>(object request) where TAttribute : Attribute
+        {
+            var member = request as MemberInfo;
+            if(member != null)
+            {
+                return member.GetCustomAttributes(typeof(TAttribute), inherit: true).Cast<TAttribute>().SingleOrDefault();
+            }
+            var parameter = request as ParameterInfo;
+            if(parameter != null)
+            {
+                return parameter.GetCustomAttributes(typeof(TAttribute), inherit: true).Cast<TAttribute>().SingleOrDefault();
+            }
+            return null;
+        }
+
         public static Assembly Assembly(this Type type)
         {
             return type.GetTypeInfo().Assembly;

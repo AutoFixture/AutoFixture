@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.DataAnnotations
@@ -33,13 +32,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 throw new ArgumentNullException("context");
             }
 
-            var customAttributeProvider = request as MemberInfo;
-            if (customAttributeProvider == null)
-            {
-                return new NoSpecimen();
-            }
-
-            var stringLengthAttribute = customAttributeProvider.GetCustomAttributes(typeof(StringLengthAttribute), inherit: true).Cast<StringLengthAttribute>().SingleOrDefault();
+            var stringLengthAttribute = TypeExtensions.GetRequestAttribute<StringLengthAttribute>(request);
             if (stringLengthAttribute == null)
             {
                 return new NoSpecimen();
