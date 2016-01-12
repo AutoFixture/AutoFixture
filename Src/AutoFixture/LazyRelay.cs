@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException("context");
 
             var t = request as Type;
-            if (t == null || !t.IsGenericType)
+            if (t == null || !t.IsGenericType())
                 return new NoSpecimen();
 
             if (t.GetGenericTypeDefinition() != typeof(Lazy<>))
