@@ -8,75 +8,11 @@
 
     internal static class TypeExtensions
     {
-        public static Type[] GetGenericParameters(this Type type)
-        {
-            return type.GetGenericTypeDefinition().GetTypeInfo().GenericTypeParameters;
-        }
-
-        public static IEnumerable<ConstructorInfo> GetDeclaredConstructors(this Type type)
-        {
-            return type.GetTypeInfo().DeclaredConstructors;
-        }
-
-        public static Type CreateType(this TypeBuilder type)
-        {
-            return type.CreateTypeInfo().AsType();
-        }
-
-        public static IEnumerable<MemberInfo> GetDeclaredMembers(this Type type)
-        {
-            return type.GetTypeInfo().DeclaredMembers;
-        }
-
-        public static IEnumerable<MethodInfo> GetDeclaredMethods(this Type type)
-        {
-            return type.GetTypeInfo().DeclaredMethods;
-        }
-
-        public static IEnumerable<MethodInfo> GetAllMethods(this Type type)
-        {
-            return type.GetRuntimeMethods();
-        }
-
-        public static IEnumerable<PropertyInfo> GetDeclaredProperties(this Type type)
-        {
-            return type.GetTypeInfo().DeclaredProperties;
-        }
-
-        public static object[] GetCustomAttributes(this Type type, Type attributeType, bool inherit)
-        {
-            return type.GetTypeInfo().GetCustomAttributes(attributeType, inherit).ToArray();
-        }
-
-        public static bool IsStatic(this FieldInfo fieldInfo)
-        {
-            return fieldInfo?.IsStatic ?? false;
-        }
-
         public static bool IsStatic(this PropertyInfo propertyInfo)
         {
             return propertyInfo?.GetGetMethod(true)?.IsStatic
                 ?? propertyInfo?.GetSetMethod(true)?.IsStatic
                 ?? false;
-        }
-
-        public static bool IsStatic(this MemberInfo memberInfo)
-        {
-            return (memberInfo as FieldInfo).IsStatic() || (memberInfo as PropertyInfo).IsStatic();
-        }
-
-        public static bool IsPublic(this PropertyInfo propertyInfo)
-        {
-            return (propertyInfo?.GetGetMethod(true)?.IsPublic ?? false)
-                || (propertyInfo?.GetSetMethod(true)?.IsPublic ?? false);
-        }
-
-        public static bool IsNotPublic(this ConstructorInfo constructorInfo)
-        {
-            return constructorInfo.IsPrivate
-                   || constructorInfo.IsFamilyAndAssembly
-                   || constructorInfo.IsFamilyOrAssembly
-                   || constructorInfo.IsFamily;
         }
 
         public static Assembly Assembly(this Type type)
@@ -122,11 +58,6 @@
         public static bool IsPrimitive(this Type type)
         {
             return type.GetTypeInfo().IsPrimitive;
-        }
-
-        public static bool IsSealed(this Type type)
-        {
-            return type.GetTypeInfo().IsSealed;
         }
 
         public static bool IsValueType(this Type type)
