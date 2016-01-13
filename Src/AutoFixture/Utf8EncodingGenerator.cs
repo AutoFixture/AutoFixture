@@ -5,13 +5,21 @@ namespace Ploeh.AutoFixture
 {
     public class Utf8EncodingGenerator : ISpecimenBuilder
     {
+        private readonly ExactTypeSpecification encodingTypeSpecification = new ExactTypeSpecification(typeof(Encoding));
+
         public object Create(object request, ISpecimenContext context)
         {
-            if (typeof(Encoding).Equals(request))
+            if (request == null)
             {
-                return Encoding.UTF8;
+                return new NoSpecimen();
             }
-            return new NoSpecimen();
+
+            if (!this.encodingTypeSpecification.IsSatisfiedBy(request))
+            {
+                return new NoSpecimen();
+            }
+
+            return Encoding.UTF8;
         }
     }
 }
