@@ -1,4 +1,4 @@
-namespace Ploeh.AutoFixture.Kernel
+﻿namespace Ploeh.AutoFixture.Kernel
 {
     using System;
     using System.Collections.Generic;
