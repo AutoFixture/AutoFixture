@@ -8,13 +8,6 @@
 
     internal static class TypeExtensions
     {
-        public static bool IsStatic(this PropertyInfo propertyInfo)
-        {
-            return propertyInfo?.GetGetMethod(true)?.IsStatic
-                ?? propertyInfo?.GetSetMethod(true)?.IsStatic
-                ?? false;
-        }
-
         public static Assembly Assembly(this Type type)
         {
             return type.GetTypeInfo().Assembly;
