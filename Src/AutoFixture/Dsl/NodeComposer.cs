@@ -412,7 +412,7 @@ namespace Ploeh.AutoFixture.Dsl
             Expression<Func<T, TProperty>> propertyPicker)
         {
             var m = propertyPicker.GetWritableMember().Member;
-            if (m.ReflectedType != typeof(T))
+            if (m.DeclaringType != typeof(T))
                 m = typeof(T).GetProperty(m.Name);
 
             return (NodeComposer<T>)this.ReplaceNodes(

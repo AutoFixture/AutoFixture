@@ -166,9 +166,9 @@ namespace Ploeh.AutoFixture.Kernel
 
         private static string BuildRequestPathText(IEnumerable<object> recordedRequests)
         {
-            var thisAssembly = MethodBase.GetCurrentMethod().DeclaringType.Assembly;
+            var thisAssembly = typeof(TerminatingWithPathSpecimenBuilder).Assembly();
             return recordedRequests
-                .Where(r => r.GetType().Assembly != thisAssembly)
+                .Where(r => r.GetType().Assembly() != thisAssembly)
                 .Select((r, i) => string.Format(CultureInfo.CurrentCulture, "\t{0} {1}", " ".PadLeft(i+1), r))
                 .Aggregate((s1, s2) => s1 + " --> " + Environment.NewLine + s2);
         }
