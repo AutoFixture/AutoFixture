@@ -10,7 +10,7 @@
     {
         public static TypeCode GetTypeCode(this Type type)
         {
-            if(!type.IsValueType)
+            if(!type.IsValueType())
             {
                 return TypeCode.Object;
             }
@@ -25,6 +25,11 @@
                 return TypeCode.Object;
             }
             return convertible.GetTypeCode();
+        }
+
+        public static bool IsValueType(this Type type)
+        {
+            return type.GetTypeInfo().IsValueType;
         }
     }
 }
