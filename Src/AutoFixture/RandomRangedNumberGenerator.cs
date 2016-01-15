@@ -95,7 +95,9 @@ namespace Ploeh.AutoFixture
         /// <returns></returns>
         private static long ConvertLimit(object limit)
         {
-            switch (GetTypeCode(limit))
+            var limitType = limit.GetType();
+
+            switch (Type.GetTypeCode(limitType))
             {
                 case TypeCode.Byte:                   
                         return (long)(byte)limit;

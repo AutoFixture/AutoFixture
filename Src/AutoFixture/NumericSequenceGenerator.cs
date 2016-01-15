@@ -31,9 +31,7 @@ namespace Ploeh.AutoFixture
 
         private object CreateNumericSpecimen(Type request)
         {
-            var typeCode = Type.GetTypeCode(request);
-
-            switch (typeCode)
+            switch (request.GetTypeCode())
             {
                 case TypeCode.Byte:
                     return (byte)this.GetNextNumber();

@@ -149,7 +149,7 @@ namespace Ploeh.AutoFixture
 
         private static object Add(object a, object b)
         {
-            switch (GetTypeCode(a))
+            switch (Type.GetTypeCode(a.GetType()))
             {
                 case TypeCode.Int16:
                     return (short)((short)a + (short)b);

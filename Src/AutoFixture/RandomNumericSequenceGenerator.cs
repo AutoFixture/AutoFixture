@@ -104,7 +104,7 @@ namespace Ploeh.AutoFixture
 
         private object CreateRandom(Type request)
         {
-            switch (Type.GetTypeCode(request))
+            switch (request.GetTypeCode())
             {
                 case TypeCode.Byte:
                     return (byte)
