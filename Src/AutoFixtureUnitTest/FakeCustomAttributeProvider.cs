@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             get
             {
-                throw new NotImplementedException();
+                return MemberTypes.All;
             }
         }
 
