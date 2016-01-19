@@ -5,12 +5,12 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Ploeh.Albedo;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -475,6 +475,51 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Teardown
         }
 
+        [Theory]
+        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestEnum>))]
+        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestSingleNonDefaultEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestSingleNonDefaultEnum>))]
+        public void VerifyWellBehavedEnumInitializersDoNotThrow(Type type)
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(fixture);
+
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(type));
+        }
+
+        [Theory]
+        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestEnum>))]
+        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestSingleNonDefaultEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestSingleNonDefaultEnum>))]
+        public void VerifyIllBehavedEnumInitializersDoThrow(Type type)
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(fixture);
+
+            // Exercise system and verify outcome
+            Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(type));
+        }
+
+        [Theory]
+        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestDefaultOnlyEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestDefaultOnlyEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestDefaultOnlyEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestDefaultOnlyEnum>))]
+        public void VerifyDefaultOnlyEnumDoesThrowBecauseOfPotentialFalsePositive(Type type)
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(fixture);
+
+            // Exercise system and verify outcome
+            Assert.Throws<ConstructorInitializedMemberException>(() => sut.Verify(type));
+        }
+
         static void AssertExceptionPropertiesEqual(ConstructorInitializedMemberException ex, ConstructorInfo ctor, ParameterInfo param)
         {
             Assert.Equal(param, ex.MissingParameter);
@@ -558,7 +603,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         class ComplexTypeChild
         {
-            public string Name { get; set;  }
+            public string Name { get; set; }
         }
 
         class PropertyIsAssignableFromConstructorArgumentType
@@ -593,6 +638,17 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             public ReadOnlyFieldInitializedViaConstructor(T field)
             {
                 this.Field = field;
+            }
+        }
+
+        class ReadOnlyFieldIncorrectlyInitializedViaConstructor<T>
+        {
+#pragma warning disable 649
+            public readonly T Field;
+#pragma warning restore 649
+
+            public ReadOnlyFieldIncorrectlyInitializedViaConstructor(T field)
+            {
             }
         }
 
@@ -680,6 +736,15 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             public T Property { get; private set; }
         }
 
+        class ReadOnlyPropertyIncorrectlyInitializedViaConstructor<T>
+        {
+            public ReadOnlyPropertyIncorrectlyInitializedViaConstructor(T property)
+            {
+            }
+
+            public T Property { get; private set; }
+        }
+
         class FakeReflectionElementComparer : IEqualityComparer<IReflectionElement>
         {
             public bool Equals(IReflectionElement x, IReflectionElement y)
@@ -705,5 +770,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 throw new NotImplementedException();
             }
         }
+
+        enum TestEnum { none = 0, one, two, three };
+
+        enum TestDefaultOnlyEnum { none = 0 };
+
+        enum TestSingleNonDefaultEnum { none = 1 };
     }
 }
