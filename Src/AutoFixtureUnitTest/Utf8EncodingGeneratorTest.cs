@@ -63,6 +63,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Act
             var result = sut.Create(new object(), new DelegatingSpecimenContext());
             // Assert
+            Assert.Equal(new NoSpecimen(), result);
         }
     }
 }
