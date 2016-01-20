@@ -45,16 +45,6 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateWithNullContextDoesNotThrow()
-        {
-            // Arrange
-            var sut = new Utf8EncodingGenerator();
-
-            // Act
-            Assert.DoesNotThrow(() => sut.Create(typeof(object), null));
-        }
-
-        [Fact]
         public void CreateWithNonTypeRequestWillReturnNoSpecimen()
         {
             // Arrange
