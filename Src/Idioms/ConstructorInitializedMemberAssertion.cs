@@ -299,9 +299,12 @@ namespace Ploeh.AutoFixture.Idioms
                 .Select(pi =>
                 {
                     var value = this.builder.CreateAnonymous(pi);
-                    
-                    //ensure enum isn't getting the default value, otherwise we won't be able to determine whether initialization occurred
-                    if (pi.ParameterType.IsEnum && (int)value == default(int)) value = this.builder.CreateAnonymous(pi);
+
+                    // Ensure enum isn't getting the default value, otherwise
+                    // we won't be able to determine whether initialization
+                    // occurred.
+                    if (pi.ParameterType.IsEnum && (int)value == default(int))
+                        value = this.builder.CreateAnonymous(pi);
 
                     return new
                     {
