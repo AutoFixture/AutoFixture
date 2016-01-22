@@ -180,7 +180,7 @@ namespace Ploeh.AutoFixture.Idioms
                 throw new ArgumentNullException("propertyInfo");
 
             var matchingConstructors = GetConstructorsWithInitializerForMember(propertyInfo).ToArray();
-            
+
             if (!matchingConstructors.Any())
             {
                 if (IsMemberThatRequiresConstructorInitialization(propertyInfo))
@@ -192,6 +192,11 @@ namespace Ploeh.AutoFixture.Idioms
                 // For writable properties or fields, having no constructor parameter that initializes
                 // the member is perfectly fine.
                 return;
+            }
+
+            if (CouldLeadToFalsePositive(propertyInfo.PropertyType))
+            {
+                throw BuildExceptionDueToPotentialFalsePositive(propertyInfo);
             }
 
             var expectedAndActuals = matchingConstructors
@@ -240,6 +245,11 @@ namespace Ploeh.AutoFixture.Idioms
                 return;
             }
 
+            if (CouldLeadToFalsePositive(fieldInfo.FieldType))
+            {
+                throw BuildExceptionDueToPotentialFalsePositive(fieldInfo);
+            }
+
             var expectedAndActuals = matchingConstructors
                 .Select(ctor => BuildSpecimenFromConstructor(ctor, fieldInfo));
 
@@ -250,11 +260,55 @@ namespace Ploeh.AutoFixture.Idioms
             }
         }
 
+        private static bool CouldLeadToFalsePositive(Type type)
+        {
+            if (type.IsEnum)
+            {
+                //Check for a default value only enum
+                var values = Enum.GetValues(type);
+                return values.Length == 1 && (int)values.GetValue(0) == default(int);
+            }
+
+            return false;
+        }
+
+        private static ConstructorInitializedMemberException BuildExceptionDueToPotentialFalsePositive(MemberInfo propertyOrField)
+        {
+            var message = string.Format(CultureInfo.CurrentCulture, "Unable to properly detect a successful initialization due to {0} being of type enum having a single default value.{3}Declaring type: {1}{3}Reflected type: {2}{3}", propertyOrField.Name, propertyOrField.DeclaringType.AssemblyQualifiedName, propertyOrField.ReflectedType.AssemblyQualifiedName, Environment.NewLine);
+
+            var field = propertyOrField as FieldInfo;
+            var property = propertyOrField as PropertyInfo;
+            if (field != null)
+            {
+                return new ConstructorInitializedMemberException(field, message);
+            }
+            else if (property != null)
+            {
+                return new ConstructorInitializedMemberException(property, message);
+            }
+            else
+            {
+                throw new ArgumentException("Must be a property or field", "propertyOrField");
+            }
+        }
+
         private ExpectedAndActual BuildSpecimenFromConstructor(
             ConstructorInfo ci, MemberInfo propertyOrField)
         {
             var parametersAndValues = ci.GetParameters()
-                .Select(pi => new {Parameter = pi, Value = this.builder.CreateAnonymous(pi)})
+                .Select(pi =>
+                {
+                    var value = this.builder.CreateAnonymous(pi);
+                    
+                    //ensure enum isn't getting the default value, otherwise we won't be able to determine whether initialization occurred
+                    if (pi.ParameterType.IsEnum && (int)value == default(int)) value = this.builder.CreateAnonymous(pi);
+
+                    return new
+                    {
+                        Parameter = pi,
+                        Value = value
+                    };
+                })
                 .ToArray();
 
             // Get the value expected to be assigned to the matching member
@@ -276,7 +330,7 @@ namespace Ploeh.AutoFixture.Idioms
                 var propertyInfo = propertyOrField as PropertyInfo;
                 actual = propertyInfo.CanRead
                     ? propertyInfo.GetValue(specimen, null)
-                    : expectedValueForMember;
+                                    : expectedValueForMember;
             }
             else
             {
