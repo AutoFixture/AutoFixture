@@ -334,6 +334,7 @@
     <Compile Include="UriScheme.cs" />
     <Compile Include="UriSchemeGenerator.cs" />
     <Compile Include="MailAddressGenerator.cs" />
+    <Compile Include="Utf8EncodingGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml">
