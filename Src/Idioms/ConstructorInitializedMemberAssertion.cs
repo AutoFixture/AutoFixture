@@ -333,7 +333,7 @@ namespace Ploeh.AutoFixture.Idioms
                 var propertyInfo = propertyOrField as PropertyInfo;
                 actual = propertyInfo.CanRead
                     ? propertyInfo.GetValue(specimen, null)
-                                    : expectedValueForMember;
+                    : expectedValueForMember;
             }
             else
             {
