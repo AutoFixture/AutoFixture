@@ -106,7 +106,8 @@ namespace Ploeh.AutoFixture
                                 new StringLengthAttributeRelay(),
                                 new RegularExpressionAttributeRelay(),
                                 new EnumGenerator(),
-                                new InvariantCultureGenerator())),
+                                new InvariantCultureGenerator(),
+                                new Utf8EncodingGenerator())),
                         new Postprocessor(
                             new AutoPropertiesTarget(
                                 new CompositeSpecimenBuilder(

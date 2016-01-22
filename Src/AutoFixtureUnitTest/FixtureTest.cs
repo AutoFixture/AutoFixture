@@ -5760,6 +5760,14 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void FixtureCanCreateEncoding()
+        {
+            var fixture = new Fixture();
+            var actual = fixture.Create<System.Text.Encoding>();
+            Assert.NotNull(actual);
+        }
+
+        [Fact]
         public void ReturningNullFromFactoryIsPossible()
         {
             var fixture = new Fixture();

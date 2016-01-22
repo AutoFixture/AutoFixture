@@ -341,6 +341,7 @@
     <Compile Include="UriSchemeTest.cs" />
     <Compile Include="UseCultureAttribute.cs" />
     <Compile Include="MailAddressGeneratorTests.cs" />
+    <Compile Include="Utf8EncodingGeneratorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
