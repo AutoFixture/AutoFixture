@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Ploeh.AutoFixture.Kernel
@@ -48,17 +49,21 @@ namespace Ploeh.AutoFixture.Kernel
             var elements = specimen as IEnumerable;
             if (elements == null)
                 return new NoSpecimen();
-            return ArrayRelay.ToArray(elements, elementType);
+            return ToArray(elements, elementType);
         }
 
-        private static object ToArray(IEnumerable e, Type elementType)
+        private static object ToArray(IEnumerable elements, Type elementType)
         {
-            var al = new ArrayList();
-            foreach (var element in e)
+            var collection = elements as ICollection;
+            var count = (collection != null) ? collection.Count : elements.Cast<object>().Count();
+            var array = Array.CreateInstance(elementType, count);
+            int index = 0;
+            foreach(var element in elements)
             {
-                al.Add(element);
+                array.SetValue(element, index);
+                index++;
             }
-            return al.ToArray(elementType);
+            return array;
         }
     }
 }
