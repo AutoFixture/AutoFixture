@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
-using TypeExtensions = Ploeh.AutoFixture.Kernel.TypeExtensions;
+using TypeEnvy = Ploeh.AutoFixture.Kernel.TypeEnvy;
 
 namespace Ploeh.AutoFixture.DataAnnotations
 {
@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 throw new ArgumentNullException("context");
             }
 
-            var rangeAttribute = TypeExtensions.GetAttribute<RangeAttribute>(request);
+            var rangeAttribute = TypeEnvy.GetAttribute<RangeAttribute>(request);
             if (rangeAttribute == null)
             {
                 return new NoSpecimen();

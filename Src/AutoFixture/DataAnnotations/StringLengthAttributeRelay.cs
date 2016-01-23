@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 throw new ArgumentNullException("context");
             }
 
-            var stringLengthAttribute = TypeExtensions.GetAttribute<StringLengthAttribute>(request);
+            var stringLengthAttribute = TypeEnvy.GetAttribute<StringLengthAttribute>(request);
             if (stringLengthAttribute == null)
             {
                 return new NoSpecimen();
