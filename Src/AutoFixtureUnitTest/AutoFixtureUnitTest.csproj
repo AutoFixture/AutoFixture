@@ -158,7 +158,7 @@
     <Compile Include="DataAnnotations\StringLengthValidatedType.cs" />
     <Compile Include="Dsl\CompositeNodeComposerTests.cs" />
     <Compile Include="Dsl\NodeComposerTest.cs" />
-    <Compile Include="FakeCustomAttributeProvider.cs" />
+    <Compile Include="FakeMemberInfo.cs" />
     <Compile Include="DataAnnotations\RangeAttributeRelayTest.cs" />
     <Compile Include="DataAnnotations\RangeValidatedType.cs" />
     <Compile Include="DependencyConstraints.cs" />
