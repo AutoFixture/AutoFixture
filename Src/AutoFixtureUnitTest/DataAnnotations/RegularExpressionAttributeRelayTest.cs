@@ -92,7 +92,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             // Fixture setup
             var regularExpressionAttribute = new RegularExpressionAttribute(pattern);
             var providedAttribute = new ProvidedAttribute(regularExpressionAttribute, true);
-            ICustomAttributeProvider request = new FakeCustomAttributeProvider(providedAttribute);
+            var request = new FakeCustomAttributeProvider(providedAttribute);
             var expectedRequest = new RegularExpressionRequest(regularExpressionAttribute.Pattern);
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext

@@ -98,7 +98,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             // Fixture setup
             var rangeAttribute = new RangeAttribute(type, minimum.ToString(), maximum.ToString());
             var providedAttribute = new ProvidedAttribute(rangeAttribute, true);
-            ICustomAttributeProvider request = new FakeCustomAttributeProvider(providedAttribute);
+            var request = new FakeCustomAttributeProvider(providedAttribute);
             Type conversionType = rangeAttribute.OperandType;
             var expectedRequest = new RangedNumberRequest(
                 conversionType,

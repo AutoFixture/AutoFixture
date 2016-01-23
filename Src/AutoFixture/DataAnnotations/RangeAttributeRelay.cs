@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
+using TypeExtensions = Ploeh.AutoFixture.Kernel.TypeExtensions;
 
 namespace Ploeh.AutoFixture.DataAnnotations
 {
@@ -34,13 +35,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 throw new ArgumentNullException("context");
             }
 
-            var customAttributeProvider = request as ICustomAttributeProvider;
-            if (customAttributeProvider == null)
-            {
-                return new NoSpecimen();
-            }
-
-            var rangeAttribute = customAttributeProvider.GetCustomAttributes(typeof(RangeAttribute), inherit: true).Cast<RangeAttribute>().SingleOrDefault();
+            var rangeAttribute = TypeExtensions.GetRequestAttribute<RangeAttribute>(request);
             if (rangeAttribute == null)
             {
                 return new NoSpecimen();
