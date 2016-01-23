@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 throw new ArgumentNullException("context");
             }
 
-            var rangeAttribute = TypeExtensions.GetRequestAttribute<RangeAttribute>(request);
+            var rangeAttribute = TypeExtensions.GetAttribute<RangeAttribute>(request);
             if (rangeAttribute == null)
             {
                 return new NoSpecimen();

@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 throw new ArgumentNullException("context");
             }
 
-            var regularExpressionAttribute = TypeExtensions.GetRequestAttribute<RegularExpressionAttribute>(request);
+            var regularExpressionAttribute = TypeExtensions.GetAttribute<RegularExpressionAttribute>(request);
             if (regularExpressionAttribute == null)
             {
                 return new NoSpecimen();
