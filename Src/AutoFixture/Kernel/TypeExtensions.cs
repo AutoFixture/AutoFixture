@@ -8,14 +8,15 @@
 
     internal static class TypeExtensions
     {
-        public static TAttribute GetRequestAttribute<TAttribute>(object request) where TAttribute : Attribute
+        public static TAttribute GetRequestAttribute<TAttribute>(
+            object candidate) where TAttribute : Attribute
         {
-            var member = request as MemberInfo;
+            var member = candidate as MemberInfo;
             if(member != null)
             {
                 return member.GetCustomAttribute<TAttribute>();
             }
-            var parameter = request as ParameterInfo;
+            var parameter = candidate as ParameterInfo;
             if(parameter != null)
             {
                 return parameter.GetCustomAttribute<TAttribute>();
