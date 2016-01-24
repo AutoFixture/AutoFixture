@@ -155,7 +155,7 @@ namespace Ploeh.AutoFixture
 
         private static object Add(object a, object b)
         {
-            switch (Type.GetTypeCode(a.GetType()))
+            switch (GetTypeCode(a))
             {
                 case TypeCode.Int16:
                     return (short)((short)a + (short)b);
@@ -193,6 +193,15 @@ namespace Ploeh.AutoFixture
                 default:
                     throw new InvalidOperationException("The underlying type code of the specified types is not supported.");
             }
+        }
+
+        private static TypeCode GetTypeCode(object request)
+        {
+            var convertible = request as IConvertible;
+            if (convertible == null)
+                return TypeCode.Object;
+
+            return convertible.GetTypeCode();
         }
     }
 }
