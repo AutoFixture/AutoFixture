@@ -155,42 +155,53 @@ namespace Ploeh.AutoFixture
 
         private static object Add(object a, object b)
         {
-            var candidateType = a.GetType();
+            switch (GetTypeCode(a))
+            {
+                case TypeCode.Int16:
+                    return (short)((short)a + (short)b);
 
-            if (candidateType == typeof(short))
-                return (short)((short)a + (short)b);
+                case TypeCode.UInt16:
+                    return (ushort)((ushort)a + (ushort)b);
 
-            if (candidateType == typeof(ushort))
-                return (ushort)((ushort)a + (ushort)b);
+                case TypeCode.Int32:
+                    return (int)a + (int)b;
 
-            if (candidateType == typeof(int))
-                return (int)a + (int)b;
+                case TypeCode.UInt32:
+                    return (uint)a + (uint)b;
 
-            if (candidateType == typeof(uint))
-                return (uint)a + (uint)b;
+                case TypeCode.Int64:
+                    return (long)a + (long)b;
 
-            if (candidateType == typeof(long))
-                return (long)a + (long)b;
+                case TypeCode.UInt64:
+                    return (ulong)a + (ulong)b;
 
-            if (candidateType == typeof(ulong))
-                return (ulong)a + (ulong)b;
+                case TypeCode.Decimal:
+                    return (decimal)a + (decimal)b;
 
-            if (candidateType == typeof(decimal))
-                return (decimal)a + (decimal)b;
+                case TypeCode.Double:
+                    return (double)a + (double)b;
 
-            if (candidateType == typeof(double))
-                return (double)a + (double)b;
+                case TypeCode.Byte:
+                    return (byte)a + (byte)b;
 
-            if (candidateType == typeof(byte))
-                return (byte)a + (byte)b;
+                case TypeCode.SByte:
+                    return (sbyte)((sbyte)a + (sbyte)b);
 
-            if (candidateType == typeof(sbyte))
-                return (sbyte)((sbyte)a + (sbyte)b);
+                case TypeCode.Single:
+                    return (float)a + (float)b;
 
-            if (candidateType == typeof(float))
-                return (float)a + (float)b;
+                default:
+                    throw new InvalidOperationException("The underlying type code of the specified types is not supported.");
+            }
+        }
 
-            throw new InvalidOperationException("The underlying type code of the specified types is not supported.");
+        private static TypeCode GetTypeCode(object request)
+        {
+            var convertible = request as IConvertible;
+            if (convertible == null)
+                return TypeCode.Object;
+
+            return convertible.GetTypeCode();
         }
     }
 }
