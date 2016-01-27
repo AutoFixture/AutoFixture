@@ -95,9 +95,7 @@ namespace Ploeh.AutoFixture
         /// <returns></returns>
         private static long ConvertLimit(object limit)
         {
-            var limitType = limit.GetType();
-
-            switch (Type.GetTypeCode(limitType))
+            switch (Convert.GetTypeCode(limit))
             {
                 case TypeCode.Byte:                   
                         return (long)(byte)limit;
@@ -134,15 +132,6 @@ namespace Ploeh.AutoFixture
             }
 
             throw new ArgumentException("Limit parameter is non-numeric ", "limit");         
-        }
-
-        private static TypeCode GetTypeCode(object request)
-        {
-            var convertible = request as IConvertible;
-            if (convertible == null)
-                return TypeCode.Object;
-
-            return convertible.GetTypeCode();
         }
     }
 }

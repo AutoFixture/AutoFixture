@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture
         /// with the default limits, 255, 32767, and 2147483647.
         /// </summary>
         public RandomNumericSequenceGenerator()
-            : this(1, Byte.MaxValue, Int16.MaxValue, Int32.MaxValue)
+            : this(1, SByte.MaxValue, Int16.MaxValue, Int32.MaxValue)
         {
         }
 
@@ -104,54 +104,18 @@ namespace Ploeh.AutoFixture
 
         private object CreateRandom(Type request)
         {
-            switch (request.GetTypeCode())
+            if(!request.IsNumeric())
             {
-                case TypeCode.Byte:
-                    return (byte)
-                        this.GetNextRandom();
-
-                case TypeCode.Decimal:
-                    return (decimal)
-                        this.GetNextRandom();
-
-                case TypeCode.Double:
-                    return (double)
-                        this.GetNextRandom();
-
-                case TypeCode.Int16:
-                    return (short)
-                        this.GetNextRandom();
-
-                case TypeCode.Int32:
-                    return (int)
-                        this.GetNextRandom();
-
-                case TypeCode.Int64:
-                    return
-                        this.GetNextRandom();
-
-                case TypeCode.SByte:
-                    return (sbyte)
-                        this.GetNextRandom();
-
-                case TypeCode.Single:
-                    return (float)
-                        this.GetNextRandom();
-
-                case TypeCode.UInt16:
-                    return (ushort)
-                        this.GetNextRandom();
-
-                case TypeCode.UInt32:
-                    return (uint)
-                        this.GetNextRandom();
-
-                case TypeCode.UInt64:
-                    return (ulong)
-                        this.GetNextRandom();
-
-                default:
-                    return new NoSpecimen();
+                return new NoSpecimen();
+            }
+            var random = GetNextRandom();
+            try
+            {
+                return Convert.ChangeType(random, request);
+            }
+            catch(OverflowException)
+            {
+                return Convert.ChangeType(0, request);
             }
         }
 

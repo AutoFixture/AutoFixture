@@ -31,32 +31,18 @@ namespace Ploeh.AutoFixture
 
         private object CreateNumericSpecimen(Type request)
         {
-            switch (request.GetTypeCode())
+            if(!request.IsNumeric())
             {
-                case TypeCode.Byte:
-                    return (byte)this.GetNextNumber();
-                case TypeCode.Decimal:
-                    return (decimal)this.GetNextNumber();
-                case TypeCode.Double:
-                    return (double)this.GetNextNumber();
-                case TypeCode.Int16:
-                    return (short)this.GetNextNumber();
-                case TypeCode.Int32:
-                    return (int)this.GetNextNumber();
-                case TypeCode.Int64:
-                    return this.GetNextNumber();
-                case TypeCode.SByte:
-                    return (sbyte)this.GetNextNumber();
-                case TypeCode.Single:
-                    return (float)this.GetNextNumber();
-                case TypeCode.UInt16:
-                    return (ushort)this.GetNextNumber();
-                case TypeCode.UInt32:
-                    return (uint)this.GetNextNumber();
-                case TypeCode.UInt64:
-                    return (ulong)this.GetNextNumber();
-                default:
-                    return new NoSpecimen();
+                return new NoSpecimen();
+            }
+            var random = GetNextNumber();
+            try
+            {
+                return Convert.ChangeType(random, request);
+            }
+            catch(OverflowException)
+            {
+                return Convert.ChangeType(0, request);
             }
         }
 
