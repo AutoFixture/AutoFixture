@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading;
 using Ploeh.AutoFixture.Kernel;
 
@@ -38,11 +39,11 @@ namespace Ploeh.AutoFixture
             var random = GetNextNumber();
             try
             {
-                return Convert.ChangeType(random, request);
+                return Convert.ChangeType(random, request, CultureInfo.InvariantCulture);
             }
             catch(OverflowException)
             {
-                return Convert.ChangeType(0, request);
+                return Convert.ChangeType(0, request, CultureInfo.InvariantCulture);
             }
         }
 

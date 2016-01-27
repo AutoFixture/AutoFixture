@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Globalization;
 
 namespace Ploeh.AutoFixture
 {
@@ -108,14 +109,14 @@ namespace Ploeh.AutoFixture
             {
                 return new NoSpecimen();
             }
-            var random = GetNextRandom();
+            var nextRandom = GetNextRandom();
             try
             {
-                return Convert.ChangeType(random, request);
+                return Convert.ChangeType(nextRandom, request, CultureInfo.InvariantCulture);
             }
             catch(OverflowException)
             {
-                return Convert.ChangeType(0, request);
+                return Convert.ChangeType(0, request, CultureInfo.InvariantCulture);
             }
         }
 
