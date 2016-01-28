@@ -2,12 +2,12 @@
 <package>
     <metadata>
         <id>AutoFixture.Xunit</id>
-        <version>2.2</version>
+        <version>@build.number@</version>
         <title>AutoFixture with xUnit.net data theories</title>
         <authors>Mark Seemann</authors>
         <owners>Mark Seemann</owners>
         <dependencies>
-            <dependency id="autofixture" version="2.2" />
+            <dependency id="autofixture" version="@build.number@" />
             <dependency id="xunit.extensions" version="[1.8.0.1549,2.0.0)" />
         </dependencies>
         <summary>Extension to AutoFixture that integrates it with xUnit.net.</summary>

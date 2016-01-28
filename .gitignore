@@ -26,3 +26,4 @@ Packages.dgml
 *.crunchproject.local.xml
 *_mm_cache.bin
 AutoFixture character.design
+.fake/

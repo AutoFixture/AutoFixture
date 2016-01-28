@@ -2,7 +2,7 @@
 <package>
     <metadata>
         <id>SemanticComparison</id>
-        <version>2.2</version>
+        <version>@build.number@</version>
         <title>SemanticComparison</title>
         <authors>Mark Seemann</authors>
         <owners>Mark Seemann</owners>

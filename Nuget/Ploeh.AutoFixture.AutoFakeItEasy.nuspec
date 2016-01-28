@@ -2,12 +2,12 @@
 <package>
     <metadata>
         <id>AutoFixture.AutoFakeItEasy</id>
-        <version>2.2</version>
+        <version>@build.number@</version>
         <title>AutoFixture with Auto Mocking using FakeItEasy</title>
         <authors>Nikos Baxevanis</authors>
         <owners>Nikos Baxevanis</owners>
         <dependencies>
-            <dependency id="autofixture" version="2.2" />
+            <dependency id="autofixture" version="@build.number@" />
             <dependency id="FakeItEasy" version="1.7" />
         </dependencies>
         <summary>Turns AutoFixture into an Auto-Mocking Container based on FakeItEasy.</summary>

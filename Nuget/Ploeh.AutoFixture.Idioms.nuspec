@@ -2,12 +2,12 @@
 <package>
     <metadata>
         <id>AutoFixture.Idioms</id>
-        <version>2.2</version>
+        <version>@build.number@</version>
         <title>AutoFixture Idioms</title>
         <authors>Mark Seemann</authors>
         <owners>Mark Seemann</owners>
         <dependencies>
-            <dependency id="autofixture" version="2.2" />
+            <dependency id="autofixture" version="@build.number@" />
             <dependency id="Albedo" version="1.0.1" />
         </dependencies>
         <summary>Extension to AutoFixture that contains unit testing idioms.</summary>
