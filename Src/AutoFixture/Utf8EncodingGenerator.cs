@@ -1,4 +1,5 @@
 ﻿using Ploeh.AutoFixture.Kernel;
+using System;
 using System.Text;
 
 namespace Ploeh.AutoFixture
@@ -7,6 +8,7 @@ namespace Ploeh.AutoFixture
     /// Handles creation requests for <see cref="Encoding"/> instances, 
     /// returning always the same <see cref="Encoding.UTF8"/>.
     /// </summary>
+    [Obsolete("Please use a 'Ploeh.AutoFixture.Kernel.FilteringSpecimenBuilder' instead.", false)]
     public class Utf8EncodingGenerator : ISpecimenBuilder
     {
         private readonly ExactTypeSpecification encodingTypeSpecification = new ExactTypeSpecification(typeof(Encoding));
