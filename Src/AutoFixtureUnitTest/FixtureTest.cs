@@ -18,6 +18,9 @@ using Ploeh.AutoFixtureUnitTest.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
+using System.Text;
+using System.Globalization;
+using System.Net;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -5765,6 +5768,18 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             var actual = fixture.Create<System.Text.Encoding>();
             Assert.NotNull(actual);
+        }
+
+        [Fact]
+        public void FixtureCanCreateIPAddress()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var actual = fixture.Create<System.Net.IPAddress>();
+            // Verify outcome
+            Assert.NotNull(actual);
+            // Teardown 
         }
 
         [Fact]

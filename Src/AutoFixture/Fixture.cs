@@ -4,6 +4,9 @@ using System.Linq;
 using Ploeh.AutoFixture.DataAnnotations;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
+using System.Globalization;
+using System.Text;
+using System.Net;
 
 namespace Ploeh.AutoFixture
 {
@@ -106,8 +109,9 @@ namespace Ploeh.AutoFixture
                                 new StringLengthAttributeRelay(),
                                 new RegularExpressionAttributeRelay(),
                                 new EnumGenerator(),
-                                new InvariantCultureGenerator(),
-                                new Utf8EncodingGenerator())),
+                                CreateDefaultValueBuilder(CultureInfo.InvariantCulture),
+                                CreateDefaultValueBuilder(Encoding.UTF8),
+                                CreateDefaultValueBuilder(IPAddress.Loopback))),
                         new Postprocessor(
                             new AutoPropertiesTarget(
                                 new CompositeSpecimenBuilder(
@@ -449,6 +453,13 @@ namespace Ploeh.AutoFixture
         {
             this.behaviors = new SingletonSpecimenBuilderNodeStackAdapterCollection(this.graph, n => n is BehaviorRoot, transformations);
             this.behaviors.GraphChanged += this.OnGraphChanged;
+        }
+
+        private static ISpecimenBuilder CreateDefaultValueBuilder<T>(T value)
+        {
+            return new FilteringSpecimenBuilder(
+                new FixedBuilder(value),
+                new ExactTypeSpecification(typeof(T)));
         }
     }
 }

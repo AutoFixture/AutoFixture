@@ -14,7 +14,9 @@ namespace Ploeh.AutoFixtureUnitTest
         [Fact]
         public void SutIsSpecimenBuilder()
         {
+#pragma warning disable 618
             var sut = new Utf8EncodingGenerator();
+#pragma warning restore 618
             Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
         }
 
@@ -22,7 +24,9 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithEncodingRequestWillReturnUtf8Encoding()
         {
             // Arrange
+#pragma warning disable 618
             var sut = new Utf8EncodingGenerator();
+#pragma warning restore 618
 
             // Act
             var result = sut.Create(typeof(Encoding), new DelegatingSpecimenContext());
@@ -35,7 +39,9 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNullRequestWillReturnNoSpecimen()
         {
             // Arrange
+#pragma warning disable 618
             var sut = new Utf8EncodingGenerator();
+#pragma warning restore 618
 
             // Act
             var result = sut.Create(null, new DelegatingSpecimenContext());
@@ -48,7 +54,9 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CreateWithNonTypeRequestWillReturnNoSpecimen()
         {
             // Arrange
+#pragma warning disable 618
             var sut = new Utf8EncodingGenerator();
+#pragma warning restore 618
 
             // Act
             var result = sut.Create(new object(), new DelegatingSpecimenContext());
