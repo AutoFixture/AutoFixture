@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6539DC8B-7829-478E-A601-7625B0C814E1}</ProjectGuid>
+    <ProjectGuid>{720B0AED-D12C-4B9D-AB02-DBB1851C7561}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ploeh.AutoFixture.NUnit3</RootNamespace>
-    <AssemblyName>Ploeh.AutoFixture.NUnit3</AssemblyName>
+    <RootNamespace>Ploeh.AutoFixture.NUnit3.UnitTest</RootNamespace>
+    <AssemblyName>Ploeh.AutoFixture.NUnit3.UnitTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\..\Packages\Moq.4.1.1308.2120\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.3.0.1\lib\net40\nunit.framework.dll</HintPath>
     </Reference>
@@ -44,22 +46,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoDataAttribute.cs" />
-    <Compile Include="AutoFixtureDataProvider.cs" />
-    <Compile Include="FrozenAttribute.cs" />
-    <Compile Include="IParameterValueProvider.cs" />
-    <Compile Include="ITypedDataProvider.cs" />
-    <Compile Include="ParameterValueProvider.cs" />
+    <Compile Include="AutoDataAttributeTests.cs" />
+    <Compile Include="IntegrationTests.cs" />
+    <Compile Include="ParameterValueProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
-      <Project>{400ac174-9a4a-4c7d-815b-f2a21130a0d1}</Project>
-      <Name>AutoFixture</Name>
-    </ProjectReference>
+    <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AutoFixture.NUnit3\AutoFixture.NUnit3.csproj">
+      <Project>{6539DC8B-7829-478E-A601-7625B0C814E1}</Project>
+      <Name>AutoFixture.NUnit3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
+      <Project>{400AC174-9A4A-4C7D-815B-F2A21130A0D1}</Project>
+      <Name>AutoFixture</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoMoq\AutoMoq.csproj">
+      <Project>{5DCEC2BD-40A3-458A-BEBC-C2FC0D4D451B}</Project>
+      <Name>AutoMoq</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
