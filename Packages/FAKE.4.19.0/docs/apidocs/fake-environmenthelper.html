@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>EnvironmentHelper - FAKE - F# Make</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Steffen Forkmann, Mauricio Scheffer, Colin Bull">
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+
+    <link type="text/css" rel="stylesheet" href="http://fsharp.github.io/FAKE/content/style.css" />
+    <script type="text/javascript" src="http://fsharp.github.io/FAKE/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="http://github.com/fsharp/fake">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="http://fsharp.github.io/FAKE/index.html">FAKE - F# Make</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>EnvironmentHelper</h1>
+<div class="xmldoc">
+<p>This module contains functions which allow to read and write environment variables and build parameters</p>
+
+</div>
+
+<!-- Render nested types and modules, if there are any -->
+  <h2>Nested types and modules</h2>
+  <div>
+      <table class="table table-bordered type-list">
+    <thead>
+      <tr><td>Type</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="type-name">
+            <a href="fake-environmenthelper-environtarget.html">EnvironTarget</a>
+          </td>
+          <td class="xmldoc"><p>Type alias for System.EnvironmentVariableTarget</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-environmenthelper-machinedetails.html">MachineDetails</a>
+          </td>
+          <td class="xmldoc"><p>A record which allows to display lots of machine specific information like machine name, processor count etc.</p>
+
+</td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+  <h3>Functions and values</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Function or value</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '223', 223)" onmouseover="showTip(event, '223', 223)">
+            ( @@ ) path1 path2
+          </code>
+          <div class="tip" id="223">
+            <strong>Signature:</strong> path1:string -&gt; path2:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L25-25" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Combines two path strings using Path.Combine</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '224', 224)" onmouseover="showTip(event, '224', 224)">
+            ( &lt;/&gt; ) path1 path2
+          </code>
+          <div class="tip" id="224">
+            <strong>Signature:</strong> path1:string -&gt; path2:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L26-26" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '225', 225)" onmouseover="showTip(event, '225', 225)">
+            appSetting name
+          </code>
+          <div class="tip" id="225">
+            <strong>Signature:</strong> name:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L85-85" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Retrieves the application settings variable with the given name</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '226', 226)" onmouseover="showTip(event, '226', 226)">
+            clearProcessEnvironVar name
+          </code>
+          <div class="tip" id="226">
+            <strong>Signature:</strong> name:string -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L45-45" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Clears the environment variable with the given name for the current process.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '227', 227)" onmouseover="showTip(event, '227', 227)">
+            combinePaths path1 path2
+          </code>
+          <div class="tip" id="227">
+            <strong>Signature:</strong> path1:string -&gt; path2:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L21-21" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Combines two path strings using Path.Combine</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '228', 228)" onmouseover="showTip(event, '228', 228)">
+            combinePathsNoTrim path1 path2
+          </code>
+          <div class="tip" id="228">
+            <strong>Signature:</strong> path1:string -&gt; path2:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L22-22" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '229', 229)" onmouseover="showTip(event, '229', 229)">
+            convertWindowsToCurrentPath windowsPath
+          </code>
+          <div class="tip" id="229">
+            <strong>Signature:</strong> windowsPath:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L185-185" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Convert the given windows path to a path in the current system</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '230', 230)" onmouseover="showTip(event, '230', 230)">
+            directorySeparator 
+          </code>
+          <div class="tip" id="230">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L182-182" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>The directory separator string. On most systems / or \</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '231', 231)" onmouseover="showTip(event, '231', 231)">
+            documentsFolder 
+          </code>
+          <div class="tip" id="231">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L179-179" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>The path to the personal documents</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '232', 232)" onmouseover="showTip(event, '232', 232)">
+            encoding 
+          </code>
+          <div class="tip" id="232">
+            <strong>Signature:</strong> Encoding<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L190-190" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Contains the IO encoding which is given via build parameter "encoding" or the default encoding if no encoding was specified.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '233', 233)" onmouseover="showTip(event, '233', 233)">
+            environVar name
+          </code>
+          <div class="tip" id="233">
+            <strong>Signature:</strong> name:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L18-18" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Retrieves the environment variable with the given name</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '234', 234)" onmouseover="showTip(event, '234', 234)">
+            environVarOrDefault name defaultValue
+          </code>
+          <div class="tip" id="234">
+            <strong>Signature:</strong> name:string -&gt; defaultValue:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L51-51" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Retrieves the environment variable with the given name or returns the default if no value was set</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '235', 235)" onmouseover="showTip(event, '235', 235)">
+            environVarOrFail name
+          </code>
+          <div class="tip" id="235">
+            <strong>Signature:</strong> name:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L57-57" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Retrieves the environment variable with the given name or fails if not found</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '236', 236)" onmouseover="showTip(event, '236', 236)">
+            environVarOrNone name
+          </code>
+          <div class="tip" id="236">
+            <strong>Signature:</strong> name:string -&gt; string option<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L73-73" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Retrieves the environment variable or None</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '237', 237)" onmouseover="showTip(event, '237', 237)">
+            environVars target
+          </code>
+          <div class="tip" id="237">
+            <strong>Signature:</strong> target:EnvironmentVariableTarget -&gt; (obj * obj) list<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L33-33" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Retrieves all environment variables from the given target</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '238', 238)" onmouseover="showTip(event, '238', 238)">
+            getBuildParam name
+          </code>
+          <div class="tip" id="238">
+            <strong>Signature:</strong> name:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L96-96" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Returns the value of the build parameter with the given name if it was set and otherwise an empty string</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '239', 239)" onmouseover="showTip(event, '239', 239)">
+            getBuildParamOrDefault name defaultParam
+          </code>
+          <div class="tip" id="239">
+            <strong>Signature:</strong> name:string -&gt; defaultParam:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L91-91" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Returns the value of the build parameter with the given name if it was set and otherwise the given default value</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '240', 240)" onmouseover="showTip(event, '240', 240)">
+            getDrivesInfo ()
+          </code>
+          <div class="tip" id="240">
+            <strong>Signature:</strong> unit -&gt; seq&lt;string&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L231-231" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Retrieves information about the hard drives</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '241', 241)" onmouseover="showTip(event, '241', 241)">
+            getEnvironmentVarAsBool varName
+          </code>
+          <div class="tip" id="241">
+            <strong>Signature:</strong> varName:string -&gt; bool<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L70-70" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Retrieves the environment variable with the given name or returns the false if no value was set</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '242', 242)" onmouseover="showTip(event, '242', 242)">
+            getEnvironmentVarAsBoolOrDefault (...)
+          </code>
+          <div class="tip" id="242">
+            <strong>Signature:</strong> varName:string -&gt; defaultValue:bool -&gt; bool<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L63-63" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Retrieves the environment variable with the given name or returns the default bool if no value was set</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '243', 243)" onmouseover="showTip(event, '243', 243)">
+            getInstalledDotNetFrameworks ()
+          </code>
+          <div class="tip" id="243">
+            <strong>Signature:</strong> unit -&gt; seq&lt;string&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L196-196" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Returns a sequence with all installed .NET framework versions</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '244', 244)" onmouseover="showTip(event, '244', 244)">
+            getMachineEnvironment ()
+          </code>
+          <div class="tip" id="244">
+            <strong>Signature:</strong> unit -&gt; MachineDetails<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L242-242" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Retrieves lots of machine specific information like machine name, processor count etc.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '245', 245)" onmouseover="showTip(event, '245', 245)">
+            getNewestTool possibleToolPaths
+          </code>
+          <div class="tip" id="245">
+            <strong>Signature:</strong> possibleToolPaths:seq&lt;&#39;?10791&gt; -&gt; &#39;?10791<br />
+                          <strong>Type parameters:</strong> '?10791          </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L165-165" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Helper function to help find framework or sdk tools from the
+newest toolkit available</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '246', 246)" onmouseover="showTip(event, '246', 246)">
+            getTargetPlatformDir platformVersion
+          </code>
+          <div class="tip" id="246">
+            <strong>Signature:</strong> platformVersion:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L174-174" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Gets the local directory for the given target platform</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '247', 247)" onmouseover="showTip(event, '247', 247)">
+            hasBuildParam name
+          </code>
+          <div class="tip" id="247">
+            <strong>Signature:</strong> name:string -&gt; bool<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L88-88" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Returns if the build parameter with the given name was set</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '248', 248)" onmouseover="showTip(event, '248', 248)">
+            isLinux 
+          </code>
+          <div class="tip" id="248">
+            <strong>Signature:</strong> bool<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L127-127" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Determines if the current system is a Linux system</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '249', 249)" onmouseover="showTip(event, '249', 249)">
+            isMacOS 
+          </code>
+          <div class="tip" id="249">
+            <strong>Signature:</strong> bool<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L121-121" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Determines if the current system is a MacOs system</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '250', 250)" onmouseover="showTip(event, '250', 250)">
+            isMono 
+          </code>
+          <div class="tip" id="250">
+            <strong>Signature:</strong> bool<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L131-131" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Determines if the current system is a mono system
+Todo: Detect mono on windows</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '251', 251)" onmouseover="showTip(event, '251', 251)">
+            isUnix 
+          </code>
+          <div class="tip" id="251">
+            <strong>Signature:</strong> bool<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L118-118" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Determines if the current system is an Unix system</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '252', 252)" onmouseover="showTip(event, '252', 252)">
+            monoArguments 
+          </code>
+          <div class="tip" id="252">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L140-140" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Arguments on the Mono executable</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '253', 253)" onmouseover="showTip(event, '253', 253)">
+            monoPath 
+          </code>
+          <div class="tip" id="253">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L133-133" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '254', 254)" onmouseover="showTip(event, '254', 254)">
+            normalizePath path
+          </code>
+          <div class="tip" id="254">
+            <strong>Signature:</strong> path:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L29-29" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '255', 255)" onmouseover="showTip(event, '255', 255)">
+            platformInfoAction psi
+          </code>
+          <div class="tip" id="255">
+            <strong>Signature:</strong> psi:ProcessStartInfo -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L143-143" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Modifies the ProcessStartInfo according to the platform semantics</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '256', 256)" onmouseover="showTip(event, '256', 256)">
+            ProgramFiles 
+          </code>
+          <div class="tip" id="256">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L99-99" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>The path of the "Program Files" folder - might be x64 on x64 machine</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '257', 257)" onmouseover="showTip(event, '257', 257)">
+            ProgramFilesX86 
+          </code>
+          <div class="tip" id="257">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L104-104" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>The path of Program Files (x86)
+It seems this covers all cases where PROCESSOR_ARCHITECTURE may misreport and the case where the other variable
+PROCESSOR_ARCHITEW6432 can be null</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '258', 258)" onmouseover="showTip(event, '258', 258)">
+            sdkBasePath 
+          </code>
+          <div class="tip" id="258">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L161-161" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Base path for getting tools from windows SDKs</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '259', 259)" onmouseover="showTip(event, '259', 259)">
+            setBuildParam name value
+          </code>
+          <div class="tip" id="259">
+            <strong>Signature:</strong> name:string -&gt; value:string -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L48-48" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Sets the build parameter with the given name for the current process.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '260', 260)" onmouseover="showTip(event, '260', 260)">
+            setEnvironVar name value
+          </code>
+          <div class="tip" id="260">
+            <strong>Signature:</strong> name:string -&gt; value:string -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L39-39" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Sets the environment variable with the given name</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '261', 261)" onmouseover="showTip(event, '261', 261)">
+            setProcessEnvironVar name value
+          </code>
+          <div class="tip" id="261">
+            <strong>Signature:</strong> name:string -&gt; value:string -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L42-42" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Sets the environment variable with the given name for the current process.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '262', 262)" onmouseover="showTip(event, '262', 262)">
+            splitEnvironVar name
+          </code>
+          <div class="tip" id="262">
+            <strong>Signature:</strong> name:string -&gt; string list<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L79-79" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Splits the entries of an environment variable and removes the empty ones.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '263', 263)" onmouseover="showTip(event, '263', 263)">
+            SystemRoot 
+          </code>
+          <div class="tip" id="263">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L115-115" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>The system root environment variable. Typically "C:\Windows"</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '264', 264)" onmouseover="showTip(event, '264', 264)">
+            TargetPlatformPrefix 
+          </code>
+          <div class="tip" id="264">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/EnvironmentHelper.fs#L149-149" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>The path of the current target platform</p>
+
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <a href="http://fsharp.github.io/FAKE/index.html">
+            <img src="http://fsharp.github.io/FAKE/pics/logo.png" style="width:140px;height:140px;margin:10px 0px 0px 35px;border-style:none;" />
+          </a>
+
+          <ul class="nav nav-list" id="menu">
+
+            <li class="nav-header">FAKE - F# Make</li>
+
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/index.html">Home page</a></li>
+            <li class="divider"></li>
+
+            <li><a href="https://www.nuget.org/packages/FAKE">Get FAKE - F# Make via NuGet</a></li>
+            <li><a href="http://github.com/fsharp/fake">Source Code on GitHub</a></li>
+            <li><a href="http://github.com/fsharp/fake/blob/master/License.txt">License (Apache 2)</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/RELEASE_NOTES.html">Release Notes</a></li>
+            <li><a href="http://fsharp.github.io/FAKE//contributing.html">Contributing to FAKE - F# Make</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/users.html">Who is using FAKE?</a></li>
+            <li><a href="http://stackoverflow.com/questions/tagged/f%23-fake">Ask a question</a></li>
+            <li class="nav-header">Tutorials</li>
+            <li><a href="http://fsharp.github.io/FAKE/gettingstarted.html">Getting started</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/cache.html">Build script caching</a></li>
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/nuget.html">NuGet package restore</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fxcop.html">Using FxCop in a build</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/assemblyinfo.html">Generating AssemblyInfo</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/create-nuget-package.html">Create NuGet packages</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/specifictargets.html">Running specific targets</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/commandline.html">Running FAKE from command line</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/parallel-build.html">Running targets in parallel</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fsc.html">Using the F# compiler from FAKE</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/customtasks.html">Creating custom tasks</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/soft-dependencies.html">Soft dependencies</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/teamcity.html">TeamCity integration</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/canopy.html">Running canopy tests</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/octopusdeploy.html">Octopus Deploy</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/typescript.html">TypeScript support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/azurewebjobs.html">Azure WebJobs support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/azurecloudservices.html">Azure Cloud Services support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fluentmigrator.html">FluentMigrator support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/androidpublisher.html">Android publisher</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/watch.html">File Watcher</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/wix.html">WiX Setup Generation</a></li>
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/deploy.html">Fake.Deploy</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/iis.html">Fake.IIS</a></li>
+            <li class="nav-header">Reference</li>
+
+            <li><a href="http://fsharp.github.io/FAKE/apidocs/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="http://github.com/fsharp/fake"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+  </body>
+  </html>

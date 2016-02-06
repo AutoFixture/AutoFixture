@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Feature - FAKE - F# Make</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Steffen Forkmann, Mauricio Scheffer, Colin Bull">
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+
+    <link type="text/css" rel="stylesheet" href="http://fsharp.github.io/FAKE/content/style.css" />
+    <script type="text/javascript" src="http://fsharp.github.io/FAKE/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="http://github.com/fsharp/fake">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="http://fsharp.github.io/FAKE/index.html">FAKE - F# Make</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>Feature</h1>
+<div class="xmldoc">
+<p>Parameters for creating WiX Feature, use ToString for creating the string xml nodes</p>
+
+</div>
+  <h3>Record Fields</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Record Field</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '2173', 2173)" onmouseover="showTip(event, '2173', 2173)">
+            Components
+          </code>
+          <div class="tip" id="2173">
+            <strong>Signature:</strong> seq&lt;WiXComponentRef&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L621-621" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Components included in this feature</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '2174', 2174)" onmouseover="showTip(event, '2174', 2174)">
+            Description
+          </code>
+          <div class="tip" id="2174">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L604-604" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Longer string of text describing the feature. This localizable string is displayed by the Text Control of the Selection Dialog.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '2175', 2175)" onmouseover="showTip(event, '2175', 2175)">
+            Display
+          </code>
+          <div class="tip" id="2175">
+            <strong>Signature:</strong> FeatureDisplay<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L615-615" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Determines the initial display of this feature in the feature tree. This attribute's value should be one of the following:
+collapse
+Initially shows the feature collapsed. This is the default value.
+expand
+Initially shows the feature expanded.
+hidden
+Prevents the feature from displaying in the user interface.
+<an explicit integer value>
+For advanced users only, it is possible to directly set the integer value of the display value that will appear in the Feature row.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '2176', 2176)" onmouseover="showTip(event, '2176', 2176)">
+            Id
+          </code>
+          <div class="tip" id="2176">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L592-592" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Unique identifier of the feature.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '2177', 2177)" onmouseover="showTip(event, '2177', 2177)">
+            Level
+          </code>
+          <div class="tip" id="2177">
+            <strong>Signature:</strong> int<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L601-601" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Sets the install level of this feature. A value of 0 will disable the feature.
+Processing the Condition Table can modify the level value (this is set via the Condition child element).
+The default value is "1".</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '2178', 2178)" onmouseover="showTip(event, '2178', 2178)">
+            NestedFeatures
+          </code>
+          <div class="tip" id="2178">
+            <strong>Signature:</strong> seq&lt;Feature&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L618-618" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Nest sub features</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '2179', 2179)" onmouseover="showTip(event, '2179', 2179)">
+            Title
+          </code>
+          <div class="tip" id="2179">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L596-596" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Short string of text identifying the feature.
+This string is listed as an item by the SelectionTree control of the Selection Dialog.</p>
+
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <a href="http://fsharp.github.io/FAKE/index.html">
+            <img src="http://fsharp.github.io/FAKE/pics/logo.png" style="width:140px;height:140px;margin:10px 0px 0px 35px;border-style:none;" />
+          </a>
+
+          <ul class="nav nav-list" id="menu">
+
+            <li class="nav-header">FAKE - F# Make</li>
+
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/index.html">Home page</a></li>
+            <li class="divider"></li>
+
+            <li><a href="https://www.nuget.org/packages/FAKE">Get FAKE - F# Make via NuGet</a></li>
+            <li><a href="http://github.com/fsharp/fake">Source Code on GitHub</a></li>
+            <li><a href="http://github.com/fsharp/fake/blob/master/License.txt">License (Apache 2)</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/RELEASE_NOTES.html">Release Notes</a></li>
+            <li><a href="http://fsharp.github.io/FAKE//contributing.html">Contributing to FAKE - F# Make</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/users.html">Who is using FAKE?</a></li>
+            <li><a href="http://stackoverflow.com/questions/tagged/f%23-fake">Ask a question</a></li>
+            <li class="nav-header">Tutorials</li>
+            <li><a href="http://fsharp.github.io/FAKE/gettingstarted.html">Getting started</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/cache.html">Build script caching</a></li>
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/nuget.html">NuGet package restore</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fxcop.html">Using FxCop in a build</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/assemblyinfo.html">Generating AssemblyInfo</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/create-nuget-package.html">Create NuGet packages</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/specifictargets.html">Running specific targets</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/commandline.html">Running FAKE from command line</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/parallel-build.html">Running targets in parallel</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fsc.html">Using the F# compiler from FAKE</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/customtasks.html">Creating custom tasks</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/soft-dependencies.html">Soft dependencies</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/teamcity.html">TeamCity integration</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/canopy.html">Running canopy tests</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/octopusdeploy.html">Octopus Deploy</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/typescript.html">TypeScript support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/azurewebjobs.html">Azure WebJobs support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/azurecloudservices.html">Azure Cloud Services support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fluentmigrator.html">FluentMigrator support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/androidpublisher.html">Android publisher</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/watch.html">File Watcher</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/wix.html">WiX Setup Generation</a></li>
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/deploy.html">Fake.Deploy</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/iis.html">Fake.IIS</a></li>
+            <li class="nav-header">Reference</li>
+
+            <li><a href="http://fsharp.github.io/FAKE/apidocs/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="http://github.com/fsharp/fake"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+  </body>
+  </html>

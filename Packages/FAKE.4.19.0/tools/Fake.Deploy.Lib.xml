@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>Fake.Deploy.Lib</name></assembly>
+<members>
+<member name="T:Fake.FakeDeployAgentHelper.DeploymentResponse">
+<summary>
+ Deployment result type.
+</summary>
+</member>
+<member name="T:Fake.FakeDeployAgentHelper.Response">
+<summary>
+ A http response type.
+</summary>
+</member>
+<member name="T:Fake.FakeDeployAgentHelper.AuthToken">
+<summary>
+ Authentication token received from a successful login
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.RollbackPackage(System.String,System.String,System.String)">
+<summary>
+ Performs a rollback of the given app at the given URL and handles the response.
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.DeployPackage(System.String,System.String)">
+<summary>
+ Posts a deployment package to the given URL and handles the response.
+ Deprecated, use DeployPackage
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.DeployPackageWithArgs(System.String,System.String,System.String[])">
+<summary>
+ Posts a deployment package to the given URL, executes the script inside it with given arguments and handles the response.
+ Deprecated, use DeployPackage
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.deployPackage(Microsoft.FSharp.Core.FSharpFunc{Fake.FakeDeployAgentHelper.Deployment,Fake.FakeDeployAgentHelper.Deployment})">
+<summary>
+ Posts a deployment package to the given URL, executes the script inside it with given arguments and handles the response.
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.postDeploymentPackage(System.String,System.String,System.String[])">
+<summary>
+ Posts a deployment package to the given URL.
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.getAllReleases(System.String)">
+<summary>
+ Returns all releases from the given server.
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.getAllReleasesFor(System.String,System.String)">
+<summary>
+ Returns all releases of the given app from the given server.
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.getActiveReleasesFor(System.String,System.String)">
+<summary>
+ Returns the active release of the given app from the given server.
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.getAllActiveReleases(System.String)">
+<summary>
+ Returns all active releases from the given server.
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.rollbackTo(System.String,System.String,System.String)">
+<summary>
+ Performs a rollback of the given app on the server.
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.getReleasesFor(System.String,System.String,System.String)">
+<summary>
+ Returns all releases of the given app from the given server.
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.authenticate(System.String,System.String,System.String,System.String)">
+<summary>
+ Authenticate against the given server with the given userId and private key
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.put(System.String,System.Byte[])">
+<summary>
+ Puts the given body to the given URL.
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.post(System.String,System.String,System.String[])">
+<summary>
+ Posts the given file to the given URL.
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.processResponse(System.Byte[])">
+<summary>
+ sends the given body using the given action (POST or PUT) to the given url
+</summary>
+</member>
+<member name="M:Fake.FakeDeployAgentHelper.get``1(System.TimeSpan,Microsoft.FSharp.Core.FSharpFunc{System.String,``0},System.String)">
+<summary>
+ Gets the http response from the given URL and runs it with the given function.
+</summary>
+</member>
+<member name="T:Fake.FakeDeployAgentHelper">
+<summary>
+ Contains a http helper functions for FAKE.Deploy.
+</summary>
+</member>
+<member name="T:Fake.HttpListenerHelper.Listener">
+<summary>
+ Represents a http listener.
+</summary>
+</member>
+<member name="T:Fake.HttpListenerHelper.RouteResult">
+<summary>
+ Represents a route result.
+</summary>
+</member>
+<member name="T:Fake.HttpListenerHelper.Route">
+<summary>
+ Represents a route.
+</summary>
+</member>
+<member name="M:Fake.HttpListenerHelper.startWithConsoleLogger(System.String,System.String,System.Collections.Generic.IEnumerable{Microsoft.FSharp.Core.FSharpFunc{System.String,Microsoft.FSharp.Core.FSharpFunc{System.String,Microsoft.FSharp.Core.FSharpOption{Fake.HttpListenerHelper.RouteResult}}}})">
+<summary>
+ Starts a http listener on the given server and port - uses the console logger.
+</summary>
+</member>
+<member name="M:Fake.HttpListenerHelper.start(Microsoft.FSharp.Core.FSharpFunc{System.Tuple{System.String,System.Diagnostics.EventLogEntryType},Microsoft.FSharp.Core.Unit},System.String,System.String,System.Collections.Generic.IEnumerable{Microsoft.FSharp.Core.FSharpFunc{System.String,Microsoft.FSharp.Core.FSharpFunc{System.String,Microsoft.FSharp.Core.FSharpOption{Fake.HttpListenerHelper.RouteResult}}}})">
+<summary>
+ Starts a http listener on the given server and port.
+</summary>
+</member>
+<member name="M:Fake.HttpListenerHelper.ensureCanBindHttpPort(System.String)">
+<summary>
+ Checks whether the http listener can be bound to the given port.
+</summary>
+</member>
+<member name="M:Fake.HttpListenerHelper.canListen(System.String)">
+<summary>
+ Returns if the http listener can listen to the given port.
+</summary>
+</member>
+<member name="M:Fake.HttpListenerHelper.getSetUrlAclArgs``1(``0)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="P:Fake.HttpListenerHelper.emptyListener">
+<summary>
+ Creates an empty http listener.
+</summary>
+</member>
+<member name="M:Fake.HttpListenerHelper.getPort(System.String)">
+<summary>
+ Returns the specified port from the config or the first free port if no port was specified.
+</summary>
+</member>
+<member name="M:Fake.HttpListenerHelper.getFirstFreePort">
+<summary>
+ Returns the first free port which can be used for the http listener.
+</summary>
+</member>
+<member name="M:Fake.HttpListenerHelper.getBodyFromContext(System.Net.HttpListenerContext)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.HttpListenerHelper.matchRoute(System.Collections.Generic.IEnumerable{Fake.HttpListenerHelper.Route},System.String,System.String)">
+<summary>
+ Matches an URL with the given routes.
+</summary>
+</member>
+<member name="M:Fake.HttpListenerHelper.CreateDefaultRequestMap">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.HttpListenerHelper.createRoutes(System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.String,Microsoft.FSharp.Core.FSharpFunc{Microsoft.FSharp.Collections.FSharpMap{System.String,System.String},Microsoft.FSharp.Core.FSharpFunc{System.Net.HttpListenerContext,System.String}}}})">
+<summary>
+ Creates routes for the http listener.
+</summary>
+</member>
+<member name="M:Fake.HttpListenerHelper.defaultRoutes``1">
+<summary>
+ Contains the default routes.
+</summary>
+</member>
+<member name="M:Fake.HttpListenerHelper.routeMatcher(Fake.HttpListenerHelper.Route)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="P:Fake.HttpListenerHelper.placeholderRegex">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="T:Fake.HttpListenerHelper">
+<summary>
+ Contains basic HTTP listener functions for FAKE.Deploy.
+</summary>
+</member>
+<member name="M:Fake.Json.deserializeFile``1">
+<summary>
+ Deserializes a file into a object of type &apos;a
+</summary>
+</member>
+<member name="M:Fake.Json.deserialize``1(System.String)">
+<summary>
+ Deserializes a text into a object of type &apos;a
+</summary>
+</member>
+<member name="M:Fake.Json.serialize``1(``0)">
+<summary>
+ Serializes a object to json
+</summary>
+</member>
+<member name="T:Fake.Json">
+<summary>
+ Contains extensions for Newtonsoft.Json. **Don&apos;t use it directly. It&apos;s likely to be changed in further versions.**
+</summary>
+</member>
+</members>
+</doc>

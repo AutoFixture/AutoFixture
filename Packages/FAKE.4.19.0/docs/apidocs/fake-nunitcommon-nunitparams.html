@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>NUnitParams - FAKE - F# Make</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Steffen Forkmann, Mauricio Scheffer, Colin Bull">
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+
+    <link type="text/css" rel="stylesheet" href="http://fsharp.github.io/FAKE/content/style.css" />
+    <script type="text/javascript" src="http://fsharp.github.io/FAKE/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="http://github.com/fsharp/fake">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="http://fsharp.github.io/FAKE/index.html">FAKE - F# Make</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>NUnitParams</h1>
+<div class="xmldoc">
+<p>The <a href="http://www.nunit.org/">NUnit</a> Console Parameters type.
+FAKE will use <a href="fake-nunitcommon.html">NUnitDefaults</a> for values not provided.</p>
+<p>For reference, see: <a href="http://www.nunit.org/index.php?p=consoleCommandLine&amp;r=2.6.4">NUnit-Console Command Line Options</a></p>
+
+</div>
+  <h3>Record Fields</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Record Field</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1696', 1696)" onmouseover="showTip(event, '1696', 1696)">
+            DisableShadowCopy
+          </code>
+          <div class="tip" id="1696">
+            <strong>Signature:</strong> bool<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L93-93" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Disables shadow copying of the assembly in order to provide improved performance.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1697', 1697)" onmouseover="showTip(event, '1697', 1697)">
+            Domain
+          </code>
+          <div class="tip" id="1697">
+            <strong>Signature:</strong> NUnitDomainModel<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L96-96" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>See <a href="fake-nunitcommon-nunitdomainmodel.html">NUnitDomainModel</a>.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1698', 1698)" onmouseover="showTip(event, '1698', 1698)">
+            DontTestInNewThread
+          </code>
+          <div class="tip" id="1698">
+            <strong>Signature:</strong> bool<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L60-60" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Suppresses use of a separate thread for running the tests and uses the main thread instead.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1699', 1699)" onmouseover="showTip(event, '1699', 1699)">
+            ErrorLevel
+          </code>
+          <div class="tip" id="1699">
+            <strong>Signature:</strong> NUnitErrorLevel<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L98-98" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Default: <a href="fake-unittestcommon-testrunnererrorlevel.html">TestRunnerErrorLevel</a>.Error</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1700', 1700)" onmouseover="showTip(event, '1700', 1700)">
+            ErrorOutputFile
+          </code>
+          <div class="tip" id="1700">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L72-72" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Redirects error output created by the tests from standard error output (console) to the file specified as value.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1701', 1701)" onmouseover="showTip(event, '1701', 1701)">
+            ExcludeCategory
+          </code>
+          <div class="tip" id="1701">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L51-51" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>The <a href="http://www.nunit.org/index.php?p=category&amp;r=2.6.4">Categories</a> to be excluded in a test run. Multiple categories may be specified on either option, by using commas to separate them.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1702', 1702)" onmouseover="showTip(event, '1702', 1702)">
+            Fixture
+          </code>
+          <div class="tip" id="1702">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L100-100" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Default: ""</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1703', 1703)" onmouseover="showTip(event, '1703', 1703)">
+            Framework
+          </code>
+          <div class="tip" id="1703">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L75-75" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Allows you to specify the version of the runtime to be used in executing tests.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1704', 1704)" onmouseover="showTip(event, '1704', 1704)">
+            IncludeCategory
+          </code>
+          <div class="tip" id="1704">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L48-48" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>The <a href="http://www.nunit.org/index.php?p=category&amp;r=2.6.4">Categories</a> to be included in a test run. Multiple categories may be specified on either option, by using commas to separate them.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1705', 1705)" onmouseover="showTip(event, '1705', 1705)">
+            Out
+          </code>
+          <div class="tip" id="1705">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L69-69" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Redirects output created by the tests from standard output (console) to the file specified as value.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1706', 1706)" onmouseover="showTip(event, '1706', 1706)">
+            OutputFile
+          </code>
+          <div class="tip" id="1706">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L66-66" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>The output path of the nUnit XML report.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1707', 1707)" onmouseover="showTip(event, '1707', 1707)">
+            ProcessModel
+          </code>
+          <div class="tip" id="1707">
+            <strong>Signature:</strong> NUnitProcessModel<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L78-78" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Controls how NUnit loads tests in processes. See: <a href="fake-nunitcommon-nunitprocessmodel.html">NUnitProcessModel</a>.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1708', 1708)" onmouseover="showTip(event, '1708', 1708)">
+            ShowLabels
+          </code>
+          <div class="tip" id="1708">
+            <strong>Signature:</strong> bool<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L81-81" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Causes an identifying label to be displayed at the start of each test case.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1709', 1709)" onmouseover="showTip(event, '1709', 1709)">
+            StopOnError
+          </code>
+          <div class="tip" id="1709">
+            <strong>Signature:</strong> bool<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L63-63" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Causes execution of the test run to terminate immediately on the first test failure or error.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1710', 1710)" onmouseover="showTip(event, '1710', 1710)">
+            TimeOut
+          </code>
+          <div class="tip" id="1710">
+            <strong>Signature:</strong> TimeSpan<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L90-90" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>The default timeout to be used for test cases. If any test exceeds the timeout value, it is cancelled and reported as an error.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1711', 1711)" onmouseover="showTip(event, '1711', 1711)">
+            ToolName
+          </code>
+          <div class="tip" id="1711">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L57-57" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>NUnit console runner name. ( <code>nunit-console.exe</code>)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1712', 1712)" onmouseover="showTip(event, '1712', 1712)">
+            ToolPath
+          </code>
+          <div class="tip" id="1712">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L54-54" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>The path to the NUnit console runner: <code>nunit-console.exe</code></p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1713', 1713)" onmouseover="showTip(event, '1713', 1713)">
+            WorkingDir
+          </code>
+          <div class="tip" id="1713">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L84-84" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>The working directory.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1714', 1714)" onmouseover="showTip(event, '1714', 1714)">
+            XsltTransformFile
+          </code>
+          <div class="tip" id="1714">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/UnitTest/NUnit/Common.fs#L87-87" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>The path to a custom XSLT transform file to be used to process the XML report.</p>
+
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <a href="http://fsharp.github.io/FAKE/index.html">
+            <img src="http://fsharp.github.io/FAKE/pics/logo.png" style="width:140px;height:140px;margin:10px 0px 0px 35px;border-style:none;" />
+          </a>
+
+          <ul class="nav nav-list" id="menu">
+
+            <li class="nav-header">FAKE - F# Make</li>
+
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/index.html">Home page</a></li>
+            <li class="divider"></li>
+
+            <li><a href="https://www.nuget.org/packages/FAKE">Get FAKE - F# Make via NuGet</a></li>
+            <li><a href="http://github.com/fsharp/fake">Source Code on GitHub</a></li>
+            <li><a href="http://github.com/fsharp/fake/blob/master/License.txt">License (Apache 2)</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/RELEASE_NOTES.html">Release Notes</a></li>
+            <li><a href="http://fsharp.github.io/FAKE//contributing.html">Contributing to FAKE - F# Make</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/users.html">Who is using FAKE?</a></li>
+            <li><a href="http://stackoverflow.com/questions/tagged/f%23-fake">Ask a question</a></li>
+            <li class="nav-header">Tutorials</li>
+            <li><a href="http://fsharp.github.io/FAKE/gettingstarted.html">Getting started</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/cache.html">Build script caching</a></li>
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/nuget.html">NuGet package restore</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fxcop.html">Using FxCop in a build</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/assemblyinfo.html">Generating AssemblyInfo</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/create-nuget-package.html">Create NuGet packages</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/specifictargets.html">Running specific targets</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/commandline.html">Running FAKE from command line</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/parallel-build.html">Running targets in parallel</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fsc.html">Using the F# compiler from FAKE</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/customtasks.html">Creating custom tasks</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/soft-dependencies.html">Soft dependencies</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/teamcity.html">TeamCity integration</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/canopy.html">Running canopy tests</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/octopusdeploy.html">Octopus Deploy</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/typescript.html">TypeScript support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/azurewebjobs.html">Azure WebJobs support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/azurecloudservices.html">Azure Cloud Services support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fluentmigrator.html">FluentMigrator support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/androidpublisher.html">Android publisher</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/watch.html">File Watcher</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/wix.html">WiX Setup Generation</a></li>
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/deploy.html">Fake.Deploy</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/iis.html">Fake.IIS</a></li>
+            <li class="nav-header">Reference</li>
+
+            <li><a href="http://fsharp.github.io/FAKE/apidocs/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="http://github.com/fsharp/fake"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+  </body>
+  </html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>HockeyAppUploadParams - FAKE - F# Make</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Steffen Forkmann, Mauricio Scheffer, Colin Bull">
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+
+    <link type="text/css" rel="stylesheet" href="http://fsharp.github.io/FAKE/content/style.css" />
+    <script type="text/javascript" src="http://fsharp.github.io/FAKE/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="http://github.com/fsharp/fake">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="http://fsharp.github.io/FAKE/index.html">FAKE - F# Make</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>HockeyAppUploadParams</h1>
+<div class="xmldoc">
+<p>The HockeyApp parameter type
+Based on <a href="http://support.hockeyapp.net/kb/api/api-apps#upload-app">http://support.hockeyapp.net/kb/api/api-apps#upload-app</a></p>
+
+</div>
+  <h3>Record Fields</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Record Field</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1506', 1506)" onmouseover="showTip(event, '1506', 1506)">
+            ApiToken
+          </code>
+          <div class="tip" id="1506">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L76-76" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>(Required) API token</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1507', 1507)" onmouseover="showTip(event, '1507', 1507)">
+            BuildServerUrl
+          </code>
+          <div class="tip" id="1507">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L109-109" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Set to the URL of the build job on your build server</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1508', 1508)" onmouseover="showTip(event, '1508', 1508)">
+            CommitSHA
+          </code>
+          <div class="tip" id="1508">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L106-106" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Set to the git commit sha for this build</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1509', 1509)" onmouseover="showTip(event, '1509', 1509)">
+            DownloadStatus
+          </code>
+          <div class="tip" id="1509">
+            <strong>Signature:</strong> DownloadStatusOption<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L115-115" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Release download status (can only be set with full-access tokens)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1510', 1510)" onmouseover="showTip(event, '1510', 1510)">
+            Dsym
+          </code>
+          <div class="tip" id="1510">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L82-82" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>file data for dsym (IOS: *.dysm.zip or Android: mapping.txt)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1511', 1511)" onmouseover="showTip(event, '1511', 1511)">
+            File
+          </code>
+          <div class="tip" id="1511">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L79-79" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>(Required) file data for the build (.ipa or .apk)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1512', 1512)" onmouseover="showTip(event, '1512', 1512)">
+            Mandatory
+          </code>
+          <div class="tip" id="1512">
+            <strong>Signature:</strong> MandatoryOption<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L100-100" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Set version as mandatory</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1513', 1513)" onmouseover="showTip(event, '1513', 1513)">
+            Notes
+          </code>
+          <div class="tip" id="1513">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L85-85" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Release notes for the build</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1514', 1514)" onmouseover="showTip(event, '1514', 1514)">
+            NotesType
+          </code>
+          <div class="tip" id="1514">
+            <strong>Signature:</strong> NoteType<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L88-88" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Release notes type for the build</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1515', 1515)" onmouseover="showTip(event, '1515', 1515)">
+            Notify
+          </code>
+          <div class="tip" id="1515">
+            <strong>Signature:</strong> NotifyOption<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L97-97" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Set the notify option</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1516', 1516)" onmouseover="showTip(event, '1516', 1516)">
+            OwnerId
+          </code>
+          <div class="tip" id="1516">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L94-94" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Set the owner of the app</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1517', 1517)" onmouseover="showTip(event, '1517', 1517)">
+            Private
+          </code>
+          <div class="tip" id="1517">
+            <strong>Signature:</strong> bool<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L103-103" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Set to true to enable the private download page (default is false)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1518', 1518)" onmouseover="showTip(event, '1518', 1518)">
+            ReleaseType
+          </code>
+          <div class="tip" id="1518">
+            <strong>Signature:</strong> ReleaseType<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L91-91" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Set the release type of the app</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1519', 1519)" onmouseover="showTip(event, '1519', 1519)">
+            RepositoryUrl
+          </code>
+          <div class="tip" id="1519">
+            <strong>Signature:</strong> string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L112-112" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Set to your source repository</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1520', 1520)" onmouseover="showTip(event, '1520', 1520)">
+            Teams
+          </code>
+          <div class="tip" id="1520">
+            <strong>Signature:</strong> string []<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L118-118" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Restrict download to specific teams</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1521', 1521)" onmouseover="showTip(event, '1521', 1521)">
+            UploadTimeout
+          </code>
+          <div class="tip" id="1521">
+            <strong>Signature:</strong> TimeSpan<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/HockeyAppHelper.fs#L121-121" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Set maximum upload delay</p>
+
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <a href="http://fsharp.github.io/FAKE/index.html">
+            <img src="http://fsharp.github.io/FAKE/pics/logo.png" style="width:140px;height:140px;margin:10px 0px 0px 35px;border-style:none;" />
+          </a>
+
+          <ul class="nav nav-list" id="menu">
+
+            <li class="nav-header">FAKE - F# Make</li>
+
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/index.html">Home page</a></li>
+            <li class="divider"></li>
+
+            <li><a href="https://www.nuget.org/packages/FAKE">Get FAKE - F# Make via NuGet</a></li>
+            <li><a href="http://github.com/fsharp/fake">Source Code on GitHub</a></li>
+            <li><a href="http://github.com/fsharp/fake/blob/master/License.txt">License (Apache 2)</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/RELEASE_NOTES.html">Release Notes</a></li>
+            <li><a href="http://fsharp.github.io/FAKE//contributing.html">Contributing to FAKE - F# Make</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/users.html">Who is using FAKE?</a></li>
+            <li><a href="http://stackoverflow.com/questions/tagged/f%23-fake">Ask a question</a></li>
+            <li class="nav-header">Tutorials</li>
+            <li><a href="http://fsharp.github.io/FAKE/gettingstarted.html">Getting started</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/cache.html">Build script caching</a></li>
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/nuget.html">NuGet package restore</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fxcop.html">Using FxCop in a build</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/assemblyinfo.html">Generating AssemblyInfo</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/create-nuget-package.html">Create NuGet packages</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/specifictargets.html">Running specific targets</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/commandline.html">Running FAKE from command line</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/parallel-build.html">Running targets in parallel</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fsc.html">Using the F# compiler from FAKE</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/customtasks.html">Creating custom tasks</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/soft-dependencies.html">Soft dependencies</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/teamcity.html">TeamCity integration</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/canopy.html">Running canopy tests</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/octopusdeploy.html">Octopus Deploy</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/typescript.html">TypeScript support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/azurewebjobs.html">Azure WebJobs support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/azurecloudservices.html">Azure Cloud Services support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fluentmigrator.html">FluentMigrator support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/androidpublisher.html">Android publisher</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/watch.html">File Watcher</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/wix.html">WiX Setup Generation</a></li>
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/deploy.html">Fake.Deploy</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/iis.html">Fake.IIS</a></li>
+            <li class="nav-header">Reference</li>
+
+            <li><a href="http://fsharp.github.io/FAKE/apidocs/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="http://github.com/fsharp/fake"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+  </body>
+  </html>

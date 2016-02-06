@@ -1,0 +1,427 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FluentMigrator</name>
+    </assembly>
+    <members>
+        <member name="T:FluentMigrator.MigrationStage">
+            <summary>
+            Represents a stage in the migration run.
+            </summary>
+        </member>
+        <member name="F:FluentMigrator.MigrationStage.BeforeAll">
+            <summary>
+            Migration will be run before all standard migrations.
+            </summary>
+        </member>
+        <member name="F:FluentMigrator.MigrationStage.BeforeEach">
+            <summary>
+            Migration will be run before each standard migration.
+            </summary>
+        </member>
+        <member name="F:FluentMigrator.MigrationStage.AfterEach">
+            <summary>
+            Migration will be run after each standard migration.
+            </summary>
+        </member>
+        <member name="F:FluentMigrator.MigrationStage.BeforeProfiles">
+            <summary>
+            Migration will be run after all standard migrations, but before profiles.
+            </summary>
+        </member>
+        <member name="F:FluentMigrator.MigrationStage.AfterAll">
+            <summary>
+            Migration will be run after all standard migrations and profiles.
+            </summary>
+        </member>
+        <member name="T:FluentMigrator.MaintenanceAttribute">
+            <summary>
+            Annotates migrations that should always be executed at a specified stage.
+            </summary>
+            <remarks>
+            Migration annotated with <see cref="T:FluentMigrator.MaintenanceAttribute"/> will be always executed
+            when migrating the database to the latest version. The execution stage in which it would 
+            be executed is defined by <see cref="P:FluentMigrator.MaintenanceAttribute.Stage"/>. The transaction behavior can also be defined
+            with the <see cref="P:FluentMigrator.MaintenanceAttribute.TransactionBehavior"/>, which if not specified defaults to the default 
+            transaction behavior.
+            </remarks>
+        </member>
+        <member name="T:FluentMigrator.Builders.IColumnExpressionBuilder">
+            <summary>
+            Describes common attributes for expression builders which have a current table/column.
+            </summary>
+        </member>
+        <member name="M:FluentMigrator.Builders.Alter.Table.IAlterTableColumnOptionOrAddColumnOrAlterColumnSyntax.SetExistingRowsTo(System.Object)">
+            <summary>
+            The value to set against existing rows for the new column.  Only used for creating columns, not altering them.
+            </summary>
+        </member>
+        <member name="M:FluentMigrator.Builders.Create.Column.ICreateColumnOptionSyntax.SetExistingRowsTo(System.Object)">
+            <summary>
+            The value to set against existing rows for the new column.
+            </summary>
+        </member>
+        <member name="M:FluentMigrator.Builders.Create.Constraint.CreateConstraintExpressionBuilder.#ctor(FluentMigrator.Expressions.CreateConstraintExpression)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CreateConstraintExpressionBuilder"/> class.
+            </summary>
+        </member>
+        <member name="M:FluentMigrator.Builders.Delete.Constraint.DeleteConstraintExpressionBuilder.#ctor(FluentMigrator.Expressions.DeleteConstraintExpression)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CreateConstraintExpressionBuilder"/> class.
+            </summary>
+        </member>
+        <member name="T:FluentMigrator.Builders.IfDatabase.IfDatabaseExpressionRoot">
+            <summary>
+            Allows for conditional inclusion of expresions based on the migration context
+            </summary>
+        </member>
+        <member name="T:FluentMigrator.Builders.IfDatabase.IIfDatabaseExpressionRoot">
+            <summary>
+            Defines fluent expressions that can be conditionally executed
+            </summary>
+        </member>
+        <member name="F:FluentMigrator.Builders.IfDatabase.IfDatabaseExpressionRoot._context">
+            <summary>
+            The context to add expressions into
+            </summary>
+            <remarks>If the database type doe snot apply then this will be a new context that is not used by the caller</remarks>
+        </member>
+        <member name="M:FluentMigrator.Builders.IfDatabase.IfDatabaseExpressionRoot.#ctor(FluentMigrator.Infrastructure.IMigrationContext,System.String[])">
+            <summary>
+            Constricts a new instance of a <see cref="T:FluentMigrator.Builders.IfDatabase.IfDatabaseExpressionRoot"/> that will only add expressions to the provided <see cref="!:context"/> if <see cref="!:databaseType"/> matches the migration processor
+            </summary>
+            <remarks>If the database type does not apply then a <seealso cref="T:FluentMigrator.Builders.IfDatabase.NullIfDatabaseProcessor"/> will be used as a container to void any fluent expressions that would have been executed</remarks>
+            <param name="context">The context to add expressions to if the database type applies</param>
+            <param name="databaseType">The database type that the expressions relate to</param>
+        </member>
+        <member name="M:FluentMigrator.Builders.IfDatabase.IfDatabaseExpressionRoot.DatabaseTypeApplies(FluentMigrator.Infrastructure.IMigrationContext,System.String[])">
+            <summary>
+            Checks if the database type matches the name of the context migration processor
+            </summary>
+            <param name="context">The context to evaluate</param>
+            <param name="databaseType">The type to be checked</param>
+            <returns><c>True</c> if the database type applies, <c>False</c> if not</returns>
+        </member>
+        <member name="P:FluentMigrator.Builders.IfDatabase.IfDatabaseExpressionRoot.Alter">
+            <summary>
+            Alter the schema of an existing object
+            </summary>
+        </member>
+        <member name="P:FluentMigrator.Builders.IfDatabase.IfDatabaseExpressionRoot.Create">
+            <summary>
+            Create a new database object
+            </summary>
+        </member>
+        <member name="P:FluentMigrator.Builders.IfDatabase.IfDatabaseExpressionRoot.Delete">
+            <summary>
+            Delete a database object, table, or row
+            </summary>
+        </member>
+        <member name="P:FluentMigrator.Builders.IfDatabase.IfDatabaseExpressionRoot.Rename">
+            <summary>
+            Rename tables / columns
+            </summary>
+        </member>
+        <member name="P:FluentMigrator.Builders.IfDatabase.IfDatabaseExpressionRoot.Insert">
+            <summary>
+            Insert data into a table
+            </summary>
+        </member>
+        <member name="P:FluentMigrator.Builders.IfDatabase.IfDatabaseExpressionRoot.Execute">
+            <summary>
+            Execute SQL statements
+            </summary>
+        </member>
+        <member name="P:FluentMigrator.Builders.IfDatabase.IfDatabaseExpressionRoot.Update">
+            <summary>
+            Update an existing row
+            </summary>
+        </member>
+        <member name="T:FluentMigrator.Builders.IfDatabase.NullIfDatabaseProcessor">
+            <summary>
+            Provides a null implmentation of a procesor that does not do any work
+            </summary>
+        </member>
+        <member name="T:FluentMigrator.ExplicitUnicodeString">
+            <summary>
+            Insert text with unicode data. Primarily for Sql Server, it prefixes the string with 'N
+            </summary>
+        </member>
+        <member name="M:FluentMigrator.ExplicitUnicodeString.#ctor(System.String)">
+            <summary>
+            Insert text with unicode data. Primarily for Sql Server, it prefixes the string with 'N
+            </summary>
+            <param name="text">Unicode string</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:FluentMigrator.Helpers.LazyLoader`1" -->
+        <member name="T:FluentMigrator.Builders.ColumnExpressionBuilderHelper">
+            <summary>
+            This class provides a common location for logic pertaining to setting and maintaining 
+            expressions for expression builders which manipulate the the ColumnDefinition.
+            </summary>
+            <remarks>
+            This is a support class for the migrator framework and is not intended for external use.
+            TODO: make this internal, and the change assmebly info so InternalsVisibleTo is set for the test assemblies.
+            </remarks>
+        </member>
+        <member name="M:FluentMigrator.Builders.ColumnExpressionBuilderHelper.#ctor">
+            <summary>
+            For easy mockability only.
+            </summary>
+        </member>
+        <member name="M:FluentMigrator.Builders.ColumnExpressionBuilderHelper.SetNullable(System.Boolean)">
+            <summary>
+            Either updates the IsNullable flag on the column, or creates/removes the SetNotNull expression, depending
+            on whether the column has a 'Set existing rows' expression.
+            </summary>
+        </member>
+        <member name="M:FluentMigrator.Builders.ColumnExpressionBuilderHelper.SetExistingRowsTo(System.Object)">
+            <summary>
+            Adds the existing row default value.  If the column has a value for IsNullable, this will also
+            call SetNullable to create the expression, and will then set the column IsNullable to false.
+            </summary>
+        </member>
+        <member name="T:FluentMigrator.Builders.ColumnExpressionBuilderHelper.ExistingRowsData">
+            <summary>
+            For each distinct column which has an existing row default, an instance of this
+            will be stored in the _expressionsByColumn.
+            </summary>
+        </member>
+        <member name="T:FluentMigrator.Infrastructure.IAssemblyCollection">
+            <summary>
+            A bundle of one or more Assembly instances
+            </summary>
+        </member>
+        <member name="M:FluentMigrator.Infrastructure.IAssemblyCollection.GetExportedTypes">
+            <summary>
+            The result of this method is equivalent to calling GetExportedTypes
+            on each Assembly in Assemblies.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentMigrator.Infrastructure.IAssemblyCollection.GetManifestResourceNames">
+            <summary>
+            Gets a array of resources defined in each of the assemblies that are 
+            contained in this collection, plus which assembly it is defined in.
+            </summary>
+            <returns>An array of value pairs of resource name plus assembly.</returns>
+        </member>
+        <member name="P:FluentMigrator.Infrastructure.IAssemblyCollection.Assemblies">
+            <summary>
+            The Assemblies contained in this collection
+            </summary>
+        </member>
+        <member name="T:FluentMigrator.Infrastructure.ManifestResourceNameWithAssembly">
+            <summary>
+            Combines a ManifestResourceName with the assembly it belongs to
+            </summary>
+        </member>
+        <member name="T:FluentMigrator.Infrastructure.SingleAssembly">
+            <summary>
+            A simple wrapper which is equivalent to a collection with a single Assembly
+            </summary>
+        </member>
+        <member name="T:FluentMigrator.Infrastructure.NonAttributedMigrationToMigrationInfoAdapter">
+            <summary>
+            This adapter wraps a migration into a MigrationInfo instance, used to keep IMigration backwards compatible with new IMigrationInfo.
+            </summary>
+        </member>
+        <member name="M:FluentMigrator.Expressions.CreateConstraintExpression.#ctor(FluentMigrator.Model.ConstraintType)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CreateConstraintExpression"/> class.
+            </summary>
+        </member>
+        <member name="M:FluentMigrator.Expressions.DeleteConstraintExpression.#ctor(FluentMigrator.Model.ConstraintType)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DeleteConstraintExpression"/> class.
+            </summary>
+        </member>
+        <member name="P:FluentMigrator.IMigration.ApplicationContext">
+            <summary>The arbitrary application context passed to the task runner.</summary>
+        </member>
+        <member name="P:FluentMigrator.MigrationBase.ApplicationContext">
+            <summary>The arbitrary application context passed to the task runner.</summary>
+        </member>
+        <member name="P:FluentMigrator.MigrationBase.ConnectionString">
+            <summary>
+            Connection String that is used to execute migrations.
+            </summary>
+        </member>
+        <member name="M:FluentMigrator.Model.ConstraintDefinition.#ctor(FluentMigrator.Model.ConstraintType)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ConstraintDefinition"/> class.
+            </summary>
+        </member>
+        <member name="T:FluentMigrator.TagsAttribute">
+            <summary>
+             Used to filter which migrations are run.
+            </summary>
+        </member>
+        <member name="T:FluentMigrator.TimestampedMigrationAttribute">
+            <summary>
+            Creates a MigrationAttribute which executes in order based on the given date and time.
+            </summary>
+        </member>
+        <member name="M:FluentMigrator.TimestampedMigrationAttribute.#ctor(System.UInt16,System.UInt16,System.UInt16,System.UInt16,System.UInt16,System.UInt16)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentMigrator.TimestampedMigrationAttribute"/> class whose version is based on date and time information.
+            </summary>
+            <param name="year">The year the migration was created.</param>
+            <param name="month">The month the migration was created.</param>
+            <param name="day">The day the migration was created.</param>
+            <param name="hour">The hour the migration was created.</param>
+            <param name="minute">The minute the migration was created.</param>
+            <param name="second">The second the migration was created.</param>
+        </member>
+        <member name="M:FluentMigrator.TimestampedMigrationAttribute.#ctor(System.UInt16,System.UInt16,System.UInt16,System.UInt16,System.UInt16)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentMigrator.TimestampedMigrationAttribute"/> class whose version is based on date and time information.
+            </summary>
+            <param name="year">The year the migration was created.</param>
+            <param name="month">The month the migration was created.</param>
+            <param name="day">The day the migration was created.</param>
+            <param name="hour">The hour the migration was created.</param>
+            <param name="minute">The minute the migration was created.</param>
+        </member>
+        <member name="M:FluentMigrator.TimestampedMigrationAttribute.#ctor(System.UInt16,System.UInt16,System.UInt16,System.UInt16,System.UInt16,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentMigrator.TimestampedMigrationAttribute"/> class whose version is based on date and time information.
+            </summary>
+            <param name="year">The year the migration was created.</param>
+            <param name="month">The month the migration was created.</param>
+            <param name="day">The day the migration was created.</param>
+            <param name="hour">The hour the migration was created.</param>
+            <param name="minute">The minute the migration was created.</param>
+            <param name="description">A description for the migration.</param>
+        </member>
+        <member name="M:FluentMigrator.TimestampedMigrationAttribute.#ctor(System.UInt16,System.UInt16,System.UInt16,System.UInt16,System.UInt16,System.UInt16,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentMigrator.TimestampedMigrationAttribute"/> class whose version is based on date and time information.
+            </summary>
+            <param name="year">The year the migration was created.</param>
+            <param name="month">The month the migration was created.</param>
+            <param name="day">The day the migration was created.</param>
+            <param name="hour">The hour the migration was created.</param>
+            <param name="minute">The minute the migration was created.</param>
+            <param name="second">The second the migration was created.</param>
+            <param name="description">A description for the migration.</param>
+        </member>
+        <member name="M:FluentMigrator.TimestampedMigrationAttribute.#ctor(System.UInt16,System.UInt16,System.UInt16,System.UInt16,System.UInt16,FluentMigrator.TransactionBehavior)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentMigrator.TimestampedMigrationAttribute"/> class whose version is based on date and time information.
+            </summary>
+            <param name="year">The year the migration was created.</param>
+            <param name="month">The month the migration was created.</param>
+            <param name="day">The day the migration was created.</param>
+            <param name="hour">The hour the migration was created.</param>
+            <param name="minute">The minute the migration was created.</param>
+            <param name="transactionBehavior">The <see cref="T:FluentMigrator.TransactionBehavior"/> the migration will use.</param>
+        </member>
+        <member name="M:FluentMigrator.TimestampedMigrationAttribute.#ctor(System.UInt16,System.UInt16,System.UInt16,System.UInt16,System.UInt16,System.UInt16,FluentMigrator.TransactionBehavior)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentMigrator.TimestampedMigrationAttribute"/> class whose version is based on date and time information.
+            </summary>
+            <param name="year">The year the migration was created.</param>
+            <param name="month">The month the migration was created.</param>
+            <param name="day">The day the migration was created.</param>
+            <param name="hour">The hour the migration was created.</param>
+            <param name="minute">The minute the migration was created.</param>
+            <param name="second">The second the migration was created.</param>
+            <param name="transactionBehavior">The <see cref="T:FluentMigrator.TransactionBehavior"/> the migration will use.</param>
+        </member>
+        <member name="M:FluentMigrator.TimestampedMigrationAttribute.#ctor(System.UInt16,System.UInt16,System.UInt16,System.UInt16,System.UInt16,FluentMigrator.TransactionBehavior,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentMigrator.TimestampedMigrationAttribute"/> class whose version is based on date and time information.
+            </summary>
+            <param name="year">The year the migration was created.</param>
+            <param name="month">The month the migration was created.</param>
+            <param name="day">The day the migration was created.</param>
+            <param name="hour">The hour the migration was created.</param>
+            <param name="minute">The minute the migration was created.</param>
+            <param name="transactionBehavior">The <see cref="T:FluentMigrator.TransactionBehavior"/> the migration will use.</param>
+            <param name="description">A description for the migration.</param>
+        </member>
+        <member name="M:FluentMigrator.TimestampedMigrationAttribute.#ctor(System.UInt16,System.UInt16,System.UInt16,System.UInt16,System.UInt16,System.UInt16,FluentMigrator.TransactionBehavior,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentMigrator.TimestampedMigrationAttribute"/> class whose version is based on date and time information.
+            </summary>
+            <param name="year">The year the migration was created.</param>
+            <param name="month">The month the migration was created.</param>
+            <param name="day">The day the migration was created.</param>
+            <param name="hour">The hour the migration was created.</param>
+            <param name="minute">The minute the migration was created.</param>
+            <param name="second">The second the migration was created.</param>
+            <param name="transactionBehavior">The <see cref="T:FluentMigrator.TransactionBehavior"/> the migration will use.</param>
+            <param name="description">A description for the migration.</param>
+        </member>
+        <member name="F:FluentMigrator.TransactionBehavior.Default">
+            <summary>
+            The default transaction behavior, meaning 1 transaction per migration if the Processor allows it.
+            </summary>
+        </member>
+        <member name="F:FluentMigrator.TransactionBehavior.None">
+            <summary>
+            A migration will not use a transaction.
+            </summary>
+        </member>
+        <member name="P:FluentMigrator.VersionTableInfo.IVersionTableMetaData.ApplicationContext">
+            <summary>
+            Provides access to <code>ApplicationContext</code> object.
+            </summary>
+            <remarks>
+            ApplicationContext value is set by FluentMigrator immediately after instantiation of a class 
+            implementing <code>IVersionTableMetaData</code> and before any of properties of <code>IVersionTableMetaData</code>
+            is called. Properties can use <code>ApplicationContext</code> value to implement context-depending logic.
+            </remarks>
+        </member>
+        <member name="P:FluentMigrator.VersionTableInfo.DefaultVersionTableMetaData.ApplicationContext">
+            <summary>
+            Provides access to <code>ApplicationContext</code> object.
+            </summary>
+            <remarks>
+            ApplicationContext value is set by FluentMigrator immediately after instantiation of a class 
+            implementing <code>IVersionTableMetaData</code> and before any of properties of <code>IVersionTableMetaData</code>
+            is called. Properties can use <code>ApplicationContext</code> value to implement context-depending logic.
+            </remarks>
+        </member>
+        <member name="M:FluentMigrator.Builders.Delete.IDeleteExpressionRoot.Index(System.String)">
+            <summary>
+            Deletes an index
+            </summary>
+            <param name="indexName">the name of the index</param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentMigrator.Builders.Delete.IDeleteExpressionRoot.Index">
+            <summary>
+            Deletes an index, based on the naming convention in effect
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentMigrator.Builders.Delete.IDeleteExpressionRoot.PrimaryKey(System.String)">
+            <summary>
+            Deletes a named Primary Key from a table
+            </summary>
+            <param name="primaryKeyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentMigrator.Builders.Delete.IDeleteExpressionRoot.UniqueConstraint(System.String)">
+            <summary>
+            Deletes a named Unique Constraint From a table
+            </summary>
+            <param name="constraintName"></param>
+            <returns></returns>
+        </member>
+        <member name="P:FluentMigrator.Infrastructure.IMigrationContext.ApplicationContext">
+            <summary>The arbitrary application context passed to the task runner.</summary>
+        </member>
+        <member name="P:FluentMigrator.Infrastructure.MigrationContext.ApplicationContext">
+            <summary>The arbitrary application context passed to the task runner.</summary>
+        </member>
+        <member name="P:FluentMigrator.Infrastructure.MigrationContext.Connection">
+            <summary>
+            Connection String from the runner.
+            </summary>
+        </member>
+    </members>
+</doc>
