@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
     public class AutoDataAttributeTests : TestBase
     {
         [Test]
-        public void BuildFrom_Calls_ParameterProvdier_To_Get_Value_For_Each_Parameter()
+        public void BuildFrom_Calls_ParameterValueProvdier_To_Get_Value_For_Each_Parameter()
         {
             //Arrange
             var parameterValueProvider = Any<IParameterValueProvider>();
@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
             var methodInfo = Any<IMethodInfo>();
             var testSuite = Any<TestSuite>();
 
-            var autoDataAttribute = new AutoDataAttribute(parameterValueProvider);
+            var autoDataAttribute = new AutoDataStubAttribute(parameterValueProvider);
             Mock.Get(methodInfo).Setup(m => m.GetParameters()).Returns(parameterInfos.ToArray());
 
             //Act
@@ -32,6 +32,16 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
                 var piLocal = pi;
                 Mock.Get(parameterValueProvider).Verify(p => p.Get(piLocal));
             }
+        }
+    }
+
+    /// <summary>
+    /// With this stub we expose the protected constructor for dependency injection
+    /// </summary>
+    public class AutoDataStubAttribute : AutoDataAttribute
+    {
+        public AutoDataStubAttribute(IParameterValueProvider parameterValueProvider) : base(parameterValueProvider)
+        {
         }
     }
 }

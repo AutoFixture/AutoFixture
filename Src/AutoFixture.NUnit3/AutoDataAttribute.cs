@@ -17,14 +17,22 @@ namespace Ploeh.AutoFixture.NUnit3
     [AttributeUsage(AttributeTargets.Method)]
     public class AutoDataAttribute : NUnitAttribute, ITestBuilder, ITestCaseData, IImplyFixture
     {
-        public AutoDataAttribute() : this(new ParameterValueProvider(new AutoFixtureDataProvider()))
+        public AutoDataAttribute() : this(new Fixture())
         {
         }
 
         /// <summary>
         /// NOTE: This constructor is not CLS-Compliant
         /// </summary>
-        public AutoDataAttribute(IParameterValueProvider parameterValueProvider)
+        protected AutoDataAttribute(IFixture fixture)
+            : this(new ParameterValueProvider(new AutoFixtureTypedValueProvider(fixture)))
+        {
+        }
+
+        /// <summary>
+        /// NOTE: This constructor is not CLS-Compliant
+        /// </summary>
+        protected AutoDataAttribute(IParameterValueProvider parameterValueProvider)
         {
             this.RunState = RunState.Runnable;
             this.Properties = new PropertyBag();

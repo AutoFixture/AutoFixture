@@ -5,18 +5,18 @@ namespace Ploeh.AutoFixture.NUnit3
 {
     public class ParameterValueProvider : IParameterValueProvider
     {
-        private readonly ITypedDataProvider _typedDataProvider;
+        private readonly ITypedValueProvider _typedValueProvider;
 
-        public ParameterValueProvider(ITypedDataProvider typedDataProvider)
+        public ParameterValueProvider(ITypedValueProvider typedValueProvider)
         {
-            this._typedDataProvider = typedDataProvider;
+            this._typedValueProvider = typedValueProvider;
         }
 
         public object Get(IParameterInfo parameterInfo)
         {
             return IsFrozen(parameterInfo)
-                ? this._typedDataProvider.CreateFrozenValue(parameterInfo.ParameterType)
-                : this._typedDataProvider.CreateValue(parameterInfo.ParameterType);
+                ? this._typedValueProvider.CreateFrozenValue(parameterInfo.ParameterType)
+                : this._typedValueProvider.CreateValue(parameterInfo.ParameterType);
         }
 
         private static bool IsFrozen(IReflectionInfo reflectionInfo)

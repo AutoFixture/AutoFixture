@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         public void When_Get_Will_call_TypedDataProvider_to_create_value_for_return<T>(T expected)
         {
             //Arrange
-            var typedDataProvider = Mock.Of<ITypedDataProvider>();
+            var typedDataProvider = Mock.Of<ITypedValueProvider>();
             var parameterValueProvider = new ParameterValueProvider(typedDataProvider);
 
             var parameterInfo = Any<IParameterInfo>();
@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         public void When_Get_Will_call_TypedDataProvider_to_create_frozen_value_if_paramter_has_frozen_attribute<T>(T expected)
         {
             //Arrange
-            var typedDataProvider = Mock.Of<ITypedDataProvider>();
+            var typedDataProvider = Mock.Of<ITypedValueProvider>();
             var parameterValueProvider = new ParameterValueProvider(typedDataProvider);
 
             var parameterInfo = Any<IParameterInfo>();

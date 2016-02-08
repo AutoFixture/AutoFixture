@@ -45,10 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoDataAttribute.cs" />
-    <Compile Include="AutoFixtureDataProvider.cs" />
+    <Compile Include="AutoFixtureTypedValueProvider.cs" />
     <Compile Include="FrozenAttribute.cs" />
     <Compile Include="IParameterValueProvider.cs" />
-    <Compile Include="ITypedDataProvider.cs" />
+    <Compile Include="ITypedValueProvider.cs" />
     <Compile Include="ParameterValueProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

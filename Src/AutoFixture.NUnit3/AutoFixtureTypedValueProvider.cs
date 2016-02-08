@@ -3,18 +3,13 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixture.NUnit3
 {
-    public class AutoFixtureDataProvider : ITypedDataProvider
+    public class AutoFixtureTypedValueProvider : ITypedValueProvider
     {
-        protected readonly IFixture Fixture;
+        private readonly IFixture _fixture;
 
-        public AutoFixtureDataProvider(params ICustomization[] customizations)
+        public AutoFixtureTypedValueProvider(IFixture fixture)
         {
-            Fixture = new Fixture();
-
-            foreach (var c in customizations)
-            {
-                Fixture.Customize(c);
-            }
+            _fixture = fixture;
         }
 
         public object CreateFrozenValue(Type type)
@@ -27,6 +22,10 @@ namespace Ploeh.AutoFixture.NUnit3
             return this.CallGeneric(type, "Create");
         }
 
+        /// <summary>
+        /// IFixture.Create{T} and Freeze{T} are extension methods and a bit non-trivial to invoke with genric type parameter
+        /// so we make a shortcut here: call them in local generic methods, which can be invoked easier
+        /// </summary>
         private object CallGeneric(Type type, string methodName)
         {
             var methodInfo = this.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
@@ -38,12 +37,12 @@ namespace Ploeh.AutoFixture.NUnit3
 
         private T Create<T>()
         {
-            return this.Fixture.Create<T>();
+            return this._fixture.Create<T>();
         }
         
         private T Freeze<T>()
         {
-            return this.Fixture.Freeze<T>();
+            return this._fixture.Freeze<T>();
         }
     }
 }

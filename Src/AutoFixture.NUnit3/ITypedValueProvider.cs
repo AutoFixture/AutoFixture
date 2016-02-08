@@ -2,7 +2,7 @@
 
 namespace Ploeh.AutoFixture.NUnit3
 {
-    public interface ITypedDataProvider
+    public interface ITypedValueProvider
     {
         object CreateFrozenValue(Type type);
         object CreateValue(Type type);

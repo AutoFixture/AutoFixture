@@ -11,29 +11,21 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
     [TestFixture]
     public class IntegrationTests
     {
-        [Test, AutoMoqData]
-        public void CanInjectDataTypes(DateTime anyTime, CultureInfo cultureInfo)
+        [Test, AutoData]
+        public void Can_generate_DateTime_and_CultureInfo(DateTime anyTime, CultureInfo cultureInfo)
         {
             Assert.That(anyTime, Is.Not.Null);
             Assert.That(cultureInfo, Is.Not.Null);
         }
 
-        [Theory, AutoMoqData]
-        public void FrozenAttributeKeepsSingletons([Frozen] DateTime anytime, [Frozen] DateTime anyOtherTime)
+        [Theory, AutoData]
+        public void FrozenAttribute_keeps_Singletons([Frozen] DateTime anytime, [Frozen] DateTime anyOtherTime)
         {
             Assert.That(anytime, Is.EqualTo(anyOtherTime));
         }
 
-        [Theory, AutoMoqData]
-        public void PutInConstructorInjection(string anyMessage, [Frozen] IDependencyStub dependencyStub, ContainerStub containerStub)
-        {
-            Mock.Get(dependencyStub).Setup(i => i.DoSomething(anyMessage)).Returns(anyMessage);
-
-            Assert.That(containerStub.CallDependencyWith(anyMessage), Is.EqualTo(anyMessage));
-        }
-
-        [Theory, AutoMoqData]
-        public void WithCollection(IList<string> anyStrings)
+        [Theory, AutoData]
+        public void Can_generate_collection(IList<string> anyStrings)
         {
             //sanity
             Assume.That(Enumerable.Empty<string>(), Is.Empty);
@@ -46,12 +38,20 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
                 Assert.That(s, Is.Not.Empty);
             }
         }
+
+        [Theory, AutoMoqData]
+        public void Can_be_inherited_using_customization(string anyMessage, [Frozen] IDependencyStub dependencyStub, ContainerStub containerStub)
+        {
+            Mock.Get(dependencyStub).Setup(i => i.DoSomething(anyMessage)).Returns(anyMessage);
+
+            Assert.That(containerStub.CallDependencyWith(anyMessage), Is.EqualTo(anyMessage));
+        }
     }
 
     public class AutoMoqDataAttribute : AutoDataAttribute
     {
         public AutoMoqDataAttribute()
-            : base(new ParameterValueProvider(new AutoFixtureDataProvider(new AutoMoqCustomization())))
+            : base(new Fixture().Customize(new AutoMoqCustomization()))
         {
         }
     }
