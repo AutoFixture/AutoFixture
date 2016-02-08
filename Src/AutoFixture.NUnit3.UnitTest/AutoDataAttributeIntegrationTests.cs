@@ -9,7 +9,7 @@ using Ploeh.AutoFixture.AutoMoq;
 namespace Ploeh.AutoFixture.NUnit3.UnitTest
 {
     [TestFixture]
-    public class IntegrationTests
+    public class AutoDataAttributeIntegrationTests
     {
         [Test, AutoData]
         public void Can_generate_DateTime_and_CultureInfo(DateTime anyTime, CultureInfo cultureInfo)

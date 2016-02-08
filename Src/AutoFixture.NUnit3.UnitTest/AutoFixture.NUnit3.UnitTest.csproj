@@ -46,8 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoDataAttributeIntegrationTests.cs" />
     <Compile Include="AutoDataAttributeTests.cs" />
-    <Compile Include="IntegrationTests.cs" />
+    <Compile Include="AutoFixtureTypedValueProviderTests.cs" />
     <Compile Include="ParameterValueProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBase.cs" />
