@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
@@ -11,6 +12,12 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
     public class AutoDataAttributeTests : TestBase
     {
         [Test]
+        public void If_ParameterValueProvdier_is_null_Then_throws()
+        {
+            Assert.Throws<ArgumentNullException>(() => new AutoDataAttributeStub(null));
+        }
+
+        [Test]
         public void BuildFrom_Calls_ParameterValueProvdier_To_Get_Value_For_Each_Parameter()
         {
             //Arrange
@@ -19,7 +26,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
             var methodInfo = Any<IMethodInfo>();
             var testSuite = Any<TestSuite>();
 
-            var autoDataAttribute = new AutoDataStubAttribute(parameterValueProvider);
+            var autoDataAttribute = new AutoDataAttributeStub(parameterValueProvider);
             Mock.Get(methodInfo).Setup(m => m.GetParameters()).Returns(parameterInfos.ToArray());
 
             //Act
@@ -38,9 +45,9 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
     /// <summary>
     /// With this stub we expose the protected constructor for dependency injection
     /// </summary>
-    public class AutoDataStubAttribute : AutoDataAttribute
+    public class AutoDataAttributeStub : AutoDataAttribute
     {
-        public AutoDataStubAttribute(IParameterValueProvider parameterValueProvider) : base(parameterValueProvider)
+        public AutoDataAttributeStub(IParameterValueProvider parameterValueProvider) : base(parameterValueProvider)
         {
         }
     }

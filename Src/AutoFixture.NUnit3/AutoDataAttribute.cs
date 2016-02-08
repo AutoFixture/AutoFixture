@@ -34,6 +34,11 @@ namespace Ploeh.AutoFixture.NUnit3
         /// </summary>
         protected AutoDataAttribute(IParameterValueProvider parameterValueProvider)
         {
+            if (null == parameterValueProvider)
+            {
+                throw new ArgumentNullException("parameterValueProvider");
+            }
+
             this.RunState = RunState.Runnable;
             this.Properties = new PropertyBag();
 

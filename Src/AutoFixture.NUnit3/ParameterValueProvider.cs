@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using NUnit.Framework.Interfaces;
 
@@ -9,6 +10,11 @@ namespace Ploeh.AutoFixture.NUnit3
 
         public ParameterValueProvider(ITypedValueProvider typedValueProvider)
         {
+            if (null == typedValueProvider)
+            {
+                throw new ArgumentNullException("typedValueProvider");
+            }
+
             this._typedValueProvider = typedValueProvider;
         }
 

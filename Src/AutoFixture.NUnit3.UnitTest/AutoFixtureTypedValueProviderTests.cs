@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Moq;
 using NUnit.Framework;
 
 namespace Ploeh.AutoFixture.NUnit3.UnitTest
@@ -10,6 +6,12 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
     [TestFixture]
     public class AutoFixtureTypedValueProviderTests
     {
+        [Test]
+        public void If_Fixture_is_null_Then_throws()
+        {
+            Assert.Throws<ArgumentNullException>(() => new AutoFixtureTypedValueProvider(null));
+        }
+
         [Repeat(10)]
         [Test]
         public void When_CreateFrozenValue_is_called_twice_Will_return_same_value()

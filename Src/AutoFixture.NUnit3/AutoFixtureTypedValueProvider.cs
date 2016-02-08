@@ -9,6 +9,11 @@ namespace Ploeh.AutoFixture.NUnit3
 
         public AutoFixtureTypedValueProvider(IFixture fixture)
         {
+            if (null == fixture)
+            {
+                throw new ArgumentNullException("fixture");
+            }
+
             _fixture = fixture;
         }
 

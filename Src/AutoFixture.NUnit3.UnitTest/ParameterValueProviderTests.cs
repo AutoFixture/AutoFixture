@@ -16,6 +16,12 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
             (CultureInfo)CultureInfo.CurrentCulture
         };
 
+        [Test]
+        public void If_TypedValueProvider_is_null_Then_throws()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ParameterValueProvider(null));
+        }
+
         [TestCaseSource("TypedParameters")]
         public void When_Get_Will_call_TypedValueProvider_to_create_value_for_return<T>(T expected)
         {
