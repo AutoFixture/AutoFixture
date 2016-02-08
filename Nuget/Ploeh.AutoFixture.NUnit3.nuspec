@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+    <metadata>
+        <id>AutoFixture.NUnit3</id>
+        <version>1.0</version>
+        <title>AutoFixture with NUnit3</title>
+        <authors>Hackle Wayne</authors>
+        <owners>Hackle Wayne</owners>
+        <dependencies>
+            <dependency id="autofixture" version="2.2" />
+            <dependency id="nunit" version="3.0.1" />
+        </dependencies>
+        <summary>Extension to AutoFixture that enables [AutoData] attribute with NUnit3.</summary>
+        <description>This extension to AutoFixture enables you to use the declarative style [AutoData] attribute for your unit tests with NUnit3</description>
+        <iconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/master/AutoFixtureLogo200x200.png</iconUrl>
+        <language>en-US</language>
+        <licenseUrl>https://github.com/AutoFixture/AutoFixture/blob/master/LICENCE.txt</licenseUrl>
+        <projectUrl>https://github.com/AutoFixture/AutoFixture</projectUrl>
+    </metadata>
+    <files>
+        <file src="Ploeh.AutoFixture.NUnit3.dll" target="lib\net40" />
+        <file src="Ploeh.AutoFixture.NUnit3.pdb" target="lib\net40" />
+        <file src="..\Src\AutoFixture.NUnit3*\**\*.cs" exclude="..\Src\*UnitTest\**\*.cs" target="src" />
+    </files>
+</package>
