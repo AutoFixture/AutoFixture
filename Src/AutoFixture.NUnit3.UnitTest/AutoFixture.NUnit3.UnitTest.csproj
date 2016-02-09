@@ -34,8 +34,9 @@
     <Reference Include="Moq">
       <HintPath>..\..\Packages\Moq.4.1.1308.2120\lib\net40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.3.0.1\lib\net40\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.0.5813.39032, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\Packages\NUnit.3.0.1\lib\net40\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -54,9 +55,6 @@
     <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\AutoFixture.NUnit3\AutoFixture.NUnit3.csproj">
       <Project>{6539DC8B-7829-478E-A601-7625B0C814E1}</Project>
       <Name>AutoFixture.NUnit3</Name>
@@ -69,6 +67,9 @@
       <Project>{5DCEC2BD-40A3-458A-BEBC-C2FC0D4D451B}</Project>
       <Name>AutoMoq</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
