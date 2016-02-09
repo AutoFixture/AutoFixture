@@ -18,14 +18,14 @@ namespace Ploeh.AutoFixture.NUnit3
             this._typedValueProvider = typedValueProvider;
         }
 
-        public object Get(IParameterInfo parameterInfo)
+        public object CreateValueForParameter(IParameterInfo parameterInfo)
         {
-            return IsFrozen(parameterInfo)
+            return HasFrozenAttribute(parameterInfo)
                 ? this._typedValueProvider.CreateFrozenValue(parameterInfo.ParameterType)
                 : this._typedValueProvider.CreateValue(parameterInfo.ParameterType);
         }
 
-        private static bool IsFrozen(IReflectionInfo reflectionInfo)
+        private static bool HasFrozenAttribute(IReflectionInfo reflectionInfo)
         {
             return reflectionInfo.GetCustomAttributes<FrozenAttribute>(true).Any();
         }

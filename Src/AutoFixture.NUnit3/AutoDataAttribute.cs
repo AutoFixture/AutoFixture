@@ -21,17 +21,11 @@ namespace Ploeh.AutoFixture.NUnit3
         {
         }
 
-        /// <summary>
-        /// NOTE: This constructor is not CLS-Compliant
-        /// </summary>
         protected AutoDataAttribute(IFixture fixture)
             : this(new ParameterValueProvider(new AutoFixtureTypedValueProvider(fixture)))
         {
         }
-
-        /// <summary>
-        /// NOTE: This constructor is not CLS-Compliant
-        /// </summary>
+        
         protected AutoDataAttribute(IParameterValueProvider parameterValueProvider)
         {
             if (null == parameterValueProvider)
@@ -75,7 +69,7 @@ namespace Ploeh.AutoFixture.NUnit3
 
         private object[] CreateParameterValues(IEnumerable<IParameterInfo> parameters)
         {
-            return parameters.Select(this.parameterValueProvider.Get).ToArray();
+            return parameters.Select(this.parameterValueProvider.CreateValueForParameter).ToArray();
         }
 
         #region ITestData Members

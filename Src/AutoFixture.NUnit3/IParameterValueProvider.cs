@@ -4,6 +4,6 @@ namespace Ploeh.AutoFixture.NUnit3
 {
     public interface IParameterValueProvider
     {
-        object Get(IParameterInfo parameterInfo);
+        object CreateValueForParameter(IParameterInfo parameterInfo);
     }
 }

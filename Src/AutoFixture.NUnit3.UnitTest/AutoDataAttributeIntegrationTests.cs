@@ -25,15 +25,14 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         }
 
         [Theory, AutoData]
-        public void Can_generate_collection(IList<string> anyStrings)
+        public void Can_generate_collection(IList<string> anyStringList)
         {
             //sanity
             Assume.That(Enumerable.Empty<string>(), Is.Empty);
-            Assume.That(String.Empty, Is.Empty);
 
-            Assert.That(anyStrings, Is.Not.Empty);
+            Assert.That(anyStringList, Is.Not.Empty);
 
-            foreach (var s in anyStrings)
+            foreach (var s in anyStringList)
             {
                 Assert.That(s, Is.Not.Empty);
             }

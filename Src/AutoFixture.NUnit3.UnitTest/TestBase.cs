@@ -8,10 +8,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
 
         protected TestBase()
         {
-            this.Fixture = new Fixture();
-
-            this.Fixture.Customize(new AutoMoqCustomization());
-            this.Fixture.Customize(new MultipleCustomization());
+            this.Fixture = new Fixture().Customize(new AutoMoqCustomization());
         }
 
         protected T Any<T>()

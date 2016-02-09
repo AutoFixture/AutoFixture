@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
             foreach (var pi in parameterInfos)
             {
                 var piLocal = pi;
-                Mock.Get(parameterValueProvider).Verify(p => p.Get(piLocal));
+                Mock.Get(parameterValueProvider).Verify(p => p.CreateValueForParameter(piLocal));
             }
         }
     }

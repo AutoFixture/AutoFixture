@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         }
 
         [TestCaseSource("TypedParameters")]
-        public void When_Get_Will_call_TypedValueProvider_to_create_value_for_return<T>(T expected)
+        public void When_CreateValueForParameter_Will_call_TypedValueProvider_to_create_value_for_return<T>(T expected)
         {
             //Arrange
             var typedValueProvider = Mock.Of<ITypedValueProvider>();
@@ -36,14 +36,14 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
             Mock.Get(typedValueProvider).Setup(f => f.CreateValue(typeof(T))).Returns(expected);
 
             //Act
-            var result = parameterValueProvider.Get(parameterInfo);
+            var result = parameterValueProvider.CreateValueForParameter(parameterInfo);
 
             //Assert
             Assert.That(result, Is.EqualTo(expected));
         }
 
         [TestCaseSource("TypedParameters")]
-        public void When_Get_Will_call_TypedValueProvider_to_create_frozen_value_if_paramter_has_frozen_attribute<T>(T expected)
+        public void When_CreateValueForParameter_Will_call_TypedValueProvider_to_create_frozen_value_if_paramter_has_frozen_attribute<T>(T expected)
         {
             //Arrange
             var typedValueProvider = Mock.Of<ITypedValueProvider>();
@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
             Mock.Get(typedValueProvider).Setup(f => f.CreateFrozenValue(typeof(T))).Returns(expected);
 
             //Act
-            var result = parameterValueProvider.Get(parameterInfo);
+            var result = parameterValueProvider.CreateValueForParameter(parameterInfo);
 
             //Assert
             Assert.That(result, Is.EqualTo(expected));
