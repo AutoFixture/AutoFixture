@@ -107,7 +107,7 @@
         <ItemGroup>
           <XunitTestAssemblies
               Include="Src\*Test\bin\$(Configuration)\*Test.dll"
-              Exclude="Src\AutoFixture.NUnit2.*Test\bin\$(Configuration)\*.dll" />
+              Exclude="Src\AutoFixture.NUnit*.*Test\bin\$(Configuration)\*.dll" />
         </ItemGroup>
 
         <xunit
