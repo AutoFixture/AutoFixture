@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Ploeh")]
 [assembly: AssemblyProduct("AutoFixture.NUnit3")]
-[assembly: AssemblyCopyright("Copyright © Ploeh 2011")]
+[assembly: AssemblyCopyright("Copyright © Ploeh 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
