@@ -7,8 +7,8 @@
     <ProjectGuid>{6539DC8B-7829-478E-A601-7625B0C814E1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AutoFixture.NUnit3</RootNamespace>
-    <AssemblyName>AutoFixture.NUnit3</AssemblyName>
+    <RootNamespace>Ploeh.AutoFixture.NUnit3</RootNamespace>
+    <AssemblyName>Ploeh.AutoFixture.NUnit3</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -23,7 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>true</UseVSHostingProcess>
-    <DocumentationFile>bin\Debug\AutoFixture.NUnit3.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Ploeh.AutoFixture.NUnit3.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,7 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\AutoFixture.NUnit3.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Ploeh.AutoFixture.NUnit3.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Verify|AnyCPU' ">
     <OutputPath>bin\Verify\</OutputPath>
