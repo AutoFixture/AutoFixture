@@ -49,7 +49,7 @@
     </CodeAnalysisRules>
     <DocumentationFile>bin\Verify\Ploeh.AutoFixture.NUnit3.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-	<CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
