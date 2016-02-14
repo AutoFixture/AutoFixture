@@ -4,15 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6539DC8B-7829-478E-A601-7625B0C814E1}</ProjectGuid>
+    <ProjectGuid>{1E512431-ADC0-4218-873E-E4DF40C97268}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ploeh.AutoFixture.NUnit3</RootNamespace>
-    <AssemblyName>Ploeh.AutoFixture.NUnit3</AssemblyName>
+    <RootNamespace>Ploeh.AutoFixture.NUnit3.UnitTest</RootNamespace>
+    <AssemblyName>Ploeh.AutoFixture.NUnit3.UnitTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,8 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
-    <DocumentationFile>bin\Debug\Ploeh.AutoFixture.NUnit3.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,27 +28,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\Ploeh.AutoFixture.NUnit3.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Verify|AnyCPU' ">
-    <OutputPath>bin\Verify\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRules>
-    </CodeAnalysisRules>
-    <DocumentationFile>bin\Verify\Ploeh.AutoFixture.NUnit3.XML</DocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=3.0.5813.39032, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
@@ -69,6 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AutoFixture.NUnit3\AutoFixture.NUnit3.csproj">
+      <Project>{6539dc8b-7829-478e-a601-7625b0c814e1}</Project>
+      <Name>AutoFixture.NUnit3</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
