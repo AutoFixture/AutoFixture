@@ -2,12 +2,12 @@
 <package>
     <metadata>
         <id>AutoFixture.NUnit2</id>
-        <version>2.2</version>
+        <version>@build.number@</version>
         <title>AutoFixture with NUnit</title>
         <authors>Gert Jansen van Rensburg</authors>
         <owners>Gert Jansen van Rensburg</owners>
         <dependencies>
-            <dependency id="autofixture" version="2.2" />
+            <dependency id="autofixture" version="@build.number@" />
             <dependency id="nunit" version="2.6.2" />
         </dependencies>
         <summary>Extension to AutoFixture that integrates it with NUnit.</summary>

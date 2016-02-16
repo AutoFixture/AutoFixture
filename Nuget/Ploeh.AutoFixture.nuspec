@@ -2,7 +2,7 @@
 <package>
     <metadata>
         <id>AutoFixture</id>
-        <version>2.2</version>
+        <version>@build.number@</version>
         <title>AutoFixture</title>
         <authors>Mark Seemann</authors>
         <owners>Mark Seemann</owners>

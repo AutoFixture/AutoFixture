@@ -1,0 +1,12 @@
+SRCSRV: ini ------------------------------------------------
+VERSION=2
+SRCSRV: variables ------------------------------------------
+SRCSRVVERCTRL=https
+SRCSRVTRG=https://raw.github.com/fsharp/FAKE/390b51abd00f125a6161263c2febbd7481c6b4e7/%var2%
+SRCSRV: source files ---------------------------------------
+C:\code\fake\src\app\Fake.Deploy.Lib\SshRsaModule.fs*src/app/Fake.Deploy.Lib/SshRsaModule.fs
+C:\code\fake\src\app\Fake.Deploy.Lib\Json.fs*src/app/Fake.Deploy.Lib/Json.fs
+C:\code\fake\src\app\Fake.Deploy.Lib\HttpHeaderHelper.fs*src/app/Fake.Deploy.Lib/HttpHeaderHelper.fs
+C:\code\fake\src\app\Fake.Deploy.Lib\HttpListenerHelper.fs*src/app/Fake.Deploy.Lib/HttpListenerHelper.fs
+C:\code\fake\src\app\Fake.Deploy.Lib\FakeDeployAgentHelper.fs*src/app/Fake.Deploy.Lib/FakeDeployAgentHelper.fs
+SRCSRV: end ------------------------------------------------

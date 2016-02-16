@@ -2,12 +2,12 @@
 <package>
     <metadata>
         <id>AutoFixture.AutoNSubstitute</id>
-        <version>2.2</version>
+        <version>@build.number@</version>
         <title>AutoFixture with Auto Mocking using NSubstitute</title>
         <authors>Daniel Hilgarth</authors>
         <owners>Daniel Hilgarth, Mark Seemann</owners>
         <dependencies>
-            <dependency id="autofixture" version="2.2" />
+            <dependency id="autofixture" version="@build.number@" />
             <dependency id="NSubstitute" version="1.5.0" />
         </dependencies>
         <summary>Turns AutoFixture into an Auto-Mocking Container based on NSubstitute.</summary>
