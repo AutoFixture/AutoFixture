@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture
         {
             if (scheme == null)
             {
-                throw new ArgumentNullException("scheme");
+                throw new ArgumentNullException(nameof(scheme));
             }
 
             if (!UriScheme.IsValid(scheme))

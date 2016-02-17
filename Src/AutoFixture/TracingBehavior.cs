@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture
         {
             if (writer == null)
             {
-                throw new ArgumentNullException("writer");
+                throw new ArgumentNullException(nameof(writer));
             }
 
             this.writer = writer;
@@ -56,7 +56,7 @@ namespace Ploeh.AutoFixture
         {
             if (builder == null)
             {
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
             }
 
             return new TraceWriter(this.writer, new TracingBuilder(builder));
