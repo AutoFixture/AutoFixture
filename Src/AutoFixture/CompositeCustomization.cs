@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture
         {
             if (customizations == null)
             {
-                throw new ArgumentNullException("customizations");
+                throw new ArgumentNullException(nameof(customizations));
             }
 
             this.customizations = customizations;

@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             fixture.AddManyTo(collection, fixture.Create<T>);
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             collection.AddMany(fixture.Create<T>, repeatCount);
@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             collection.AddMany(creator, fixture.RepeatCount);

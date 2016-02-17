@@ -26,11 +26,11 @@ namespace Ploeh.AutoFixture
         {
             if (targetType == null)
             {
-                throw new ArgumentNullException("targetType");
+                throw new ArgumentNullException(nameof(targetType));
             }
             if (query == null)
             {
-                throw new ArgumentNullException("query");
+                throw new ArgumentNullException(nameof(query));
             }
 
             this.targetType = targetType;
@@ -63,7 +63,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             var factory = new MethodInvoker(this.Query);

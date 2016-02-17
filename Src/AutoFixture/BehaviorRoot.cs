@@ -38,7 +38,7 @@ namespace Ploeh.AutoFixture
         public BehaviorRoot(ISpecimenBuilder builder)
         {
             if (builder == null)
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
 
             this.builder = builder;
         }
