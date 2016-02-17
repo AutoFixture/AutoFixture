@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             return (T)context.Create(default(T));
@@ -119,7 +119,7 @@ namespace Ploeh.AutoFixture
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             return (T)context.Resolve(new SeededRequest(typeof(T), seed));
@@ -309,7 +309,7 @@ namespace Ploeh.AutoFixture
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             return from s in (IEnumerable<object>)context.Resolve(new MultipleRequest(new SeededRequest(typeof(T), seed)))
@@ -472,7 +472,7 @@ namespace Ploeh.AutoFixture
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             return from s in (IEnumerable<object>)context.Resolve(new FiniteSequenceRequest(new SeededRequest(typeof(T), seed), count))
