@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture
         public Generator(ISpecimenBuilder builder)
         {
             if (builder == null)
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
 
             this.builder = builder;
         }

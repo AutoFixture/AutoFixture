@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             fixture.ResidueCollectors.Add(new DictionaryRelay());
