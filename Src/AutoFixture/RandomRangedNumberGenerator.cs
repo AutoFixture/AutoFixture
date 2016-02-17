@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen();
 
             if (context == null)
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
 
             var rangedNumberRequest = request as RangedNumberRequest;
             
@@ -135,7 +135,7 @@ namespace Ploeh.AutoFixture
                         return (long)(ulong)limit;
             }
 
-            throw new ArgumentException("Limit parameter is non-numeric ", "limit");         
+            throw new ArgumentException("Limit parameter is non-numeric ", nameof(limit));         
         }
 
         private static TypeCode GetTypeCode(object request)

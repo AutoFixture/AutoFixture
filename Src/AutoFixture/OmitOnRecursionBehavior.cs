@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture
         public OmitOnRecursionBehavior(int recursionDepth)
         {
             if (recursionDepth < 1)
-                throw new ArgumentOutOfRangeException("recursionDepth", "Recursion depth must be greater than 0.");
+                throw new ArgumentOutOfRangeException(nameof(recursionDepth), "Recursion depth must be greater than 0.");
 
             this.recursionDepth = recursionDepth;
         }
@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixture
         public ISpecimenBuilder Transform(ISpecimenBuilder builder)
         {
             if (builder == null)
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
 
             return new RecursionGuard(builder, new OmitOnRecursionHandler(), recursionDepth);
         }
