@@ -80,7 +80,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         /// <summary>
         /// A <see cref="IFixture"/> for the benefit of creating stubs of <see cref="AutoDataAttribute"/> for unit testing
         /// </summary>
-        public class ThrowingStubFixture : IFixture
+        private class ThrowingStubFixture : IFixture
         {
             public System.Collections.Generic.IList<Kernel.ISpecimenBuilderTransformation> Behaviors
             {
