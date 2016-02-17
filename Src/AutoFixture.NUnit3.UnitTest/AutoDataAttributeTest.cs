@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         [Test]
         public void CanBeExtendedToTakeAnIFixture()
         {
-            var stub = new AutoDataAttributeStub(new DummyFixture());
+            var stub = new AutoDataAttributeStub(new ThrowingStubFixture());
 
             Assert.That(stub, Is.AssignableTo<AutoDataAttribute>());
         }
@@ -60,7 +60,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         {
             // Arrange
             // DummyFixture is set up to throw DummyException when invoked by AutoDataAttribute
-            var autoDataAttributeStub = new AutoDataAttributeStub(new DummyFixture());
+            var autoDataAttributeStub = new AutoDataAttributeStub(new ThrowingStubFixture());
 
             var fixtureType = this.GetType();
 
@@ -74,7 +74,85 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
             Assert.That(testMethod.RunState == RunState.NotRunnable);
 
             Assert.That(testMethod.Properties.Get(PropertyNames.SkipReason),
-                Is.EqualTo(ExceptionHelper.BuildMessage(new DummyFixture.DummyException())));
+                Is.EqualTo(ExceptionHelper.BuildMessage(new ThrowingStubFixture.DummyException())));
+        }
+
+        /// <summary>
+        /// A <see cref="IFixture"/> for the benefit of creating stubs of <see cref="AutoDataAttribute"/> for unit testing
+        /// </summary>
+        public class ThrowingStubFixture : IFixture
+        {
+            public System.Collections.Generic.IList<Kernel.ISpecimenBuilderTransformation> Behaviors
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public System.Collections.Generic.IList<Kernel.ISpecimenBuilder> Customizations
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public bool OmitAutoProperties
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+                set
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public int RepeatCount
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+                set
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public System.Collections.Generic.IList<Kernel.ISpecimenBuilder> ResidueCollectors
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public Dsl.ICustomizationComposer<T> Build<T>()
+            {
+                throw new NotImplementedException();
+            }
+
+            public IFixture Customize(ICustomization customization)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Customize<T>(Func<Dsl.ICustomizationComposer<T>, Kernel.ISpecimenBuilder> composerTransformation)
+            {
+                throw new NotImplementedException();
+            }
+
+            /// <summary>
+            /// This throws a unique <see cref="DummyException"/> for testing purpose
+            /// </summary>
+            /// <param name="request"></param>
+            /// <param name="context"></param>
+            /// <returns></returns>
+            public object Create(object request, Kernel.ISpecimenContext context)
+            {
+                throw new DummyException();
+            }
+
+            /// <summary>
+            /// A unique exception for the benefit of unit testing
+            /// </summary>
+            public class DummyException : Exception
+            {
+            }
         }
     }
 }
