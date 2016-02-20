@@ -51,6 +51,11 @@ Target "TestOnly" (fun _ ->
 
     nunit2TestAssemblies
     |> NUnit (fun p -> { p with StopOnError = false })
+
+    let nunit3TestAssemblies = !! (sprintf "Src/AutoFixture.NUnit3.UnitTest/bin/%s/Ploeh.AutoFixture.NUnit3.UnitTest.dll" configuration)
+
+    nunit3TestAssemblies
+    |> NUnit3 (fun p -> { p with StopOnError = false })
 )
 
 Target "BuildAndTestOnly" (fun _ -> ())
