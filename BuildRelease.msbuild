@@ -11,6 +11,7 @@
 
     <PropertyGroup>
     	<NUnitToolsFolder>Packages\NUnit.Runners.2.6.2\tools</NUnitToolsFolder>
+    	<NUnit3ToolsFolder>Packages\NUnit.Console.3.0.1\tools</NUnit3ToolsFolder>
     </PropertyGroup>
 
     <UsingTask TaskName="MSBuild.Community.Tasks.Zip" AssemblyFile="$(MSBuildExtensionsPath)\MSBuild.Community.Tasks.dll" />
@@ -120,6 +121,7 @@
 
         <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.UnitTest.dll" ContinueOnError="true" />
         <NUnit ToolPath="$(NUnitToolsFolder)" Assemblies="Src\AutoFixture.NUnit2.Addins.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit2.Addins.UnitTest.dll" OutputXmlFile="TestResult-Addins.xml" ContinueOnError="true" />
+		<Exec Command="$(NUnit3ToolsFolder)\nunit3-console.exe --framework=v4.0 --result=TestResult-NUnit3.xml Src\AutoFixture.NUnit3.UnitTest\bin\Release\Ploeh.AutoFixture.NUnit3.UnitTest.dll" ContinueOnError="false" />
     </Target>
     <Target Name="BuildAndTestOnly">
       <MSBuild Projects="@(ProjectToBuild)" Properties="Configuration=Release" />
@@ -133,6 +135,7 @@
         <Delete Files="TestResult-Addins.xml" />
         <Delete Files="TestResults-$(PROCESSOR_ARCHITECTURE).xml" />
         <Delete Files="TestResults-$(PROCESSOR_ARCHITECTURE).html" />
+        <Delete Files="TestResult-NUnit3.xml" />
     </Target>
     <Target Name="CopyToReleaseFolder" DependsOnTargets="Test">
         <Copy SourceFiles="@(BuildOutput)" DestinationFolder="$(ReleaseFolder)" />
