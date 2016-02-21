@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixture.Xunit2
         /// supplied <see cref="IFixture"/>.
         /// </summary>
         /// <param name="fixture">The fixture.</param>
-        public AutoDataAttribute(IFixture fixture)
+        protected AutoDataAttribute(IFixture fixture)
         {
             if (fixture == null)
             {

@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new AutoDataAttribute((IFixture)null));
+                new DerivedAutoDataAttribute((IFixture)null));
             // Teardown
         }
 
@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         {
             // Fixture setup
             var expectedComposer = new DelegatingFixture();
-            var sut = new AutoDataAttribute(expectedComposer);
+            var sut = new DerivedAutoDataAttribute(expectedComposer);
             // Exercise system
             var result = sut.Fixture;
             // Verify outcome
@@ -141,12 +141,20 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
             };
             var composer = new DelegatingFixture { OnCreate = builder.OnCreate };
 
-            var sut = new AutoDataAttribute(composer);
+            var sut = new DerivedAutoDataAttribute(composer);
             // Exercise system
             var result = sut.GetData(method);
             // Verify outcome
             Assert.True(new[] { expectedResult }.SequenceEqual(result.Single()));
             // Teardown
+        }
+
+        private class DerivedAutoDataAttribute : AutoDataAttribute
+        {
+            public DerivedAutoDataAttribute(IFixture fixture)
+               : base(fixture)
+            {
+            }
         }
     }
 }
