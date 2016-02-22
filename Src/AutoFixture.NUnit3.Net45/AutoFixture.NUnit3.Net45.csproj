@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6539DC8B-7829-478E-A601-7625B0C814E1}</ProjectGuid>
+    <ProjectGuid>{260644E3-85A3-4642-B51E-E291E8FE527B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ploeh.AutoFixture.NUnit3</RootNamespace>
@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <DocumentationFile>bin\Debug\Ploeh.AutoFixture.NUnit3.xml</DocumentationFile>
   </PropertyGroup>
@@ -32,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Release\Ploeh.AutoFixture.NUnit3.xml</DocumentationFile>
   </PropertyGroup>
@@ -68,19 +70,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoDataAttribute.cs" />
+    <Compile Include="..\AutoFixture.NUnit3\AutoDataAttribute.cs">
+      <Link>AutoDataAttribute.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
-      <Project>{400AC174-9A4A-4C7D-815B-F2A21130A0D1}</Project>
+      <Project>{400ac174-9a4a-4c7d-815b-f2a21130a0d1}</Project>
       <Name>AutoFixture</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
