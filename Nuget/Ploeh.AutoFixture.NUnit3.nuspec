@@ -21,6 +21,9 @@
         <file src="Ploeh.AutoFixture.NUnit3.dll" target="lib\net40" />
         <file src="Ploeh.AutoFixture.NUnit3.pdb" target="lib\net40" />
         <file src="Ploeh.AutoFixture.NUnit3.XML" target="lib\net40" />
+        <file src="Ploeh.AutoFixture.NUnit3.Net45.dll" target="lib\net45" />
+        <file src="Ploeh.AutoFixture.NUnit3.Net45.pdb" target="lib\net45" />
+        <file src="Ploeh.AutoFixture.NUnit3.Net45.XML" target="lib\net45" />
         <file src="..\Src\AutoFixture.NUnit3*\**\*.cs" exclude="..\Src\*UnitTest\**\*.cs" target="src" />
     </files>
 </package>
