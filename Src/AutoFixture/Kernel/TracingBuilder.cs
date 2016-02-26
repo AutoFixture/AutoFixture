@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (builder == null)
             {
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
             }
 
             this.builder = builder;
@@ -66,7 +66,7 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 }
 
                 this.filter = value;

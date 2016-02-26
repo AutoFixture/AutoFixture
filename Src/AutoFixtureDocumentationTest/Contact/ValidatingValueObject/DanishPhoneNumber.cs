@@ -12,7 +12,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.ValidatingValueObject
         {
             if (!DanishPhoneNumber.IsValid(number))
             {
-                throw new ArgumentOutOfRangeException("number");
+                throw new ArgumentOutOfRangeException(nameof(number));
             }
             this.number = number;
         }

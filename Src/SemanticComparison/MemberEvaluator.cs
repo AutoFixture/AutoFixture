@@ -12,11 +12,11 @@ namespace Ploeh.SemanticComparison
         {
             if (member == null)
             {
-                throw new ArgumentNullException("member");
+                throw new ArgumentNullException(nameof(member));
             }
             if (evaluator == null)
             {
-                throw new ArgumentNullException("evaluator");
+                throw new ArgumentNullException(nameof(evaluator));
             }
 
             this.member = member;

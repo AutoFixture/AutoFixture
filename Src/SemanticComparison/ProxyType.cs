@@ -15,10 +15,10 @@ namespace Ploeh.SemanticComparison
             params object[] parameters)
         {
             if (constructor == null)
-                throw new ArgumentNullException("constructor");
+                throw new ArgumentNullException(nameof(constructor));
 
             if (parameters == null)
-                throw new ArgumentNullException("parameters");
+                throw new ArgumentNullException(nameof(parameters));
 
             this.constructor = constructor;
             this.parameters = parameters;

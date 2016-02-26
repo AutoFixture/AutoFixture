@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (action == null)
             {
-                throw new ArgumentNullException("action");
+                throw new ArgumentNullException(nameof(action));
             }
 
             this.action = action;
