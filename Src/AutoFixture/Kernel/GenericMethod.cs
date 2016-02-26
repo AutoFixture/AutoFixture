@@ -25,10 +25,10 @@ namespace Ploeh.AutoFixture.Kernel
         public GenericMethod(MethodInfo method, IMethodFactory factory)
         {
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
 
             if (factory == null)
-                throw new ArgumentNullException("factory");
+                throw new ArgumentNullException(nameof(factory));
 
             this.method = method;
             this.factory = factory;

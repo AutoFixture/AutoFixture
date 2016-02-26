@@ -22,11 +22,11 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (request == null)
             {
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException(nameof(request));
             }
             if (count < 0)
             {
-                throw new ArgumentOutOfRangeException("count", string.Format(CultureInfo.CurrentCulture, "The requested count must be a positive number (or zero), but was {0}.", count));
+                throw new ArgumentOutOfRangeException(nameof(count), string.Format(CultureInfo.CurrentCulture, "The requested count must be a positive number (or zero), but was {0}.", count));
             }        
 
             this.request = request;

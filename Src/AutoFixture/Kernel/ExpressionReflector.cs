@@ -13,12 +13,12 @@ namespace Ploeh.AutoFixture.Kernel
             if (me == null)
                 me = propertyPicker.TryUnwrapConversion();
             if (me == null)
-                throw new ArgumentException("The expression's Body is not a MemberExpression. Most likely this is because it does not represent access to a property or field.", "propertyPicker");
+                throw new ArgumentException("The expression's Body is not a MemberExpression. Most likely this is because it does not represent access to a property or field.", nameof(propertyPicker));
 
             var pi = me.Member as PropertyInfo;
             if (pi != null && pi.GetSetMethod() == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "The property \"{0}\" is read-only.", pi.Name), "propertyPicker");
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "The property \"{0}\" is read-only.", pi.Name), nameof(propertyPicker));
             }
             return me;
         }
