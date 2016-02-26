@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="commands">The child commands.</param>
         public CompositeSpecimenCommand(params ISpecimenCommand[] commands)
         {
-            if (commands == null) throw new ArgumentNullException("commands");
+            if (commands == null) throw new ArgumentNullException(nameof(commands));
 
             this.commands = commands;
         }

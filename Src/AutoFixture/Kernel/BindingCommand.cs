@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (propertyPicker == null)
             {
-                throw new ArgumentNullException("propertyPicker");
+                throw new ArgumentNullException(nameof(propertyPicker));
             }
 
             this.member = propertyPicker.GetWritableMember().Member;
@@ -56,7 +56,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (propertyPicker == null)
             {
-                throw new ArgumentNullException("propertyPicker");
+                throw new ArgumentNullException(nameof(propertyPicker));
             }
 
             this.member = propertyPicker.GetWritableMember().Member;
@@ -77,11 +77,11 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (propertyPicker == null)
             {
-                throw new ArgumentNullException("propertyPicker");
+                throw new ArgumentNullException(nameof(propertyPicker));
             }
             if (valueCreator == null)
             {
-                throw new ArgumentNullException("valueCreator");
+                throw new ArgumentNullException(nameof(valueCreator));
             }
 
             this.member = propertyPicker.GetWritableMember().Member;
@@ -127,11 +127,11 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (specimen == null)
             {
-                throw new ArgumentNullException("specimen");
+                throw new ArgumentNullException(nameof(specimen));
             }
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             var bindingValue = this.createBindingValue(context);
@@ -162,7 +162,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (request == null)
             {
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException(nameof(request));
             }
 
             IEqualityComparer comparer = new MemberInfoEqualityComparer();
@@ -202,9 +202,9 @@ namespace Ploeh.AutoFixture.Kernel
         public void Execute(object specimen, ISpecimenContext context)
         {
             if (specimen == null)
-                throw new ArgumentNullException("specimen");
+                throw new ArgumentNullException(nameof(specimen));
             if (context == null)
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
 
             var bindingValue = this.createBindingValue(context);
 

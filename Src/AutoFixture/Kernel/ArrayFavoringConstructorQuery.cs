@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.Kernel
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             return from ci in type.GetConstructors()
                    let score = new ArrayParameterScore(ci.GetParameters())
@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixture.Kernel
             public ArrayParameterScore(IEnumerable<ParameterInfo> parameters)
             {
                 if (parameters == null)
-                    throw new ArgumentNullException("parameters");
+                    throw new ArgumentNullException(nameof(parameters));
 
                 this.score = ArrayParameterScore.CalculateScore(parameters);
             }
