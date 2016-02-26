@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture.Kernel
         public Omitter(IRequestSpecification specification)
         {
             if (specification == null)
-                throw new ArgumentNullException("specification");
+                throw new ArgumentNullException(nameof(specification));
 
             this.specification = specification;
         }
@@ -61,7 +61,7 @@ namespace Ploeh.AutoFixture.Kernel
         public object Create(object request, ISpecimenContext context)
         {
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException(nameof(request));
 
             if (this.specification.IsSatisfiedBy(request))
                 return new OmitSpecimen();
