@@ -24,7 +24,7 @@ namespace Ploeh.SemanticComparison.UnitTest.TestTypes
         {
             if (source == null)
             {
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             }
         }
 

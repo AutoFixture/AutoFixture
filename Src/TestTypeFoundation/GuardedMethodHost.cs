@@ -8,11 +8,11 @@ namespace Ploeh.TestTypeFoundation
         {
             if (s == null)
             {
-                throw new ArgumentNullException("s");
+                throw new ArgumentNullException(nameof(s));
             }
             if (s.Length == 0)
             {
-                throw new ArgumentException("String cannot be empty.", "s");
+                throw new ArgumentException("String cannot be empty.", nameof(s));
             }
         }
 
@@ -24,7 +24,7 @@ namespace Ploeh.TestTypeFoundation
         {
             if (g == Guid.Empty)
             {
-                throw new ArgumentException("Guid cannot be empty.", "g");
+                throw new ArgumentException("Guid cannot be empty.", nameof(g));
             }
         }
 
@@ -32,11 +32,11 @@ namespace Ploeh.TestTypeFoundation
         {
             if (s == null)
             {
-                throw new ArgumentNullException("s");
+                throw new ArgumentNullException(nameof(s));
             }
             if (s.Length == 0)
             {
-                throw new ArgumentException("String cannot be empty.", "s");
+                throw new ArgumentException("String cannot be empty.", nameof(s));
             }
         }
 
@@ -44,15 +44,15 @@ namespace Ploeh.TestTypeFoundation
         {
             if (s == null)
             {
-                throw new ArgumentNullException("s");
+                throw new ArgumentNullException(nameof(s));
             }
             if (s.Length == 0)
             {
-                throw new ArgumentException("String cannot be empty.", "s");
+                throw new ArgumentException("String cannot be empty.", nameof(s));
             }
             if (g == Guid.Empty)
             {
-                throw new ArgumentException("Guid cannot be empty.", "g");
+                throw new ArgumentException("Guid cannot be empty.", nameof(g));
             }
         }
 
@@ -60,7 +60,7 @@ namespace Ploeh.TestTypeFoundation
         {
             if (g == Guid.Empty)
             {
-                throw new ArgumentException("Guid cannot be empty.", "g");
+                throw new ArgumentException("Guid cannot be empty.", nameof(g));
             }
         }
 
@@ -68,15 +68,15 @@ namespace Ploeh.TestTypeFoundation
         {
             if (s == null)
             {
-                throw new ArgumentNullException("s");
+                throw new ArgumentNullException(nameof(s));
             }
             if (s.Length == 0)
             {
-                throw new ArgumentException("String cannot be empty.", "s");
+                throw new ArgumentException("String cannot be empty.", nameof(s));
             }
             if (g == Guid.Empty)
             {
-                throw new ArgumentException("Guid cannot be empty.", "g");
+                throw new ArgumentException("Guid cannot be empty.", nameof(g));
             }
         }
     }
