@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (pattern == null)
             {
-                throw new ArgumentNullException("pattern");
+                throw new ArgumentNullException(nameof(pattern));
             }
 
             this.pattern = pattern;

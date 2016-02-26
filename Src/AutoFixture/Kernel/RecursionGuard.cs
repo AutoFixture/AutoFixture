@@ -93,11 +93,11 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (builder == null)
             {
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
             }
             if (comparer == null)
             {
-                throw new ArgumentNullException("comparer");
+                throw new ArgumentNullException(nameof(comparer));
             }
 
             this.builder = builder;
@@ -168,14 +168,14 @@ namespace Ploeh.AutoFixture.Kernel
             int recursionDepth)
         {
             if (builder == null)
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
             if (recursionHandler == null)
-                throw new ArgumentNullException("recursionHandler");
+                throw new ArgumentNullException(nameof(recursionHandler));
             if (comparer == null)
-                throw new ArgumentNullException("comparer");
+                throw new ArgumentNullException(nameof(comparer));
 
             if (recursionDepth < 1)
-                throw new ArgumentOutOfRangeException("recursionDepth", "Recursion depth must be greater than 0.");
+                throw new ArgumentOutOfRangeException(nameof(recursionDepth), "Recursion depth must be greater than 0.");
 
             this.builder = builder;
             this.recursionHandler = recursionHandler;

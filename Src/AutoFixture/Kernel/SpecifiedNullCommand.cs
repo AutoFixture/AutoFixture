@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (propertyPicker == null)
             {
-                throw new ArgumentNullException("propertyPicker");
+                throw new ArgumentNullException(nameof(propertyPicker));
             }
 
             this.member = propertyPicker.GetWritableMember().Member;
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (request == null)
             {
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException(nameof(request));
             }
 
             IEqualityComparer comparer = new MemberInfoEqualityComparer();
