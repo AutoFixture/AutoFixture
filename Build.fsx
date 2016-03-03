@@ -104,9 +104,8 @@ Target "CopyToReleaseFolder" (fun _ ->
       "Src/AutoFixture.NUnit3/bin/Release/Ploeh.AutoFixture.NUnit3.dll";
       "Src/AutoFixture.NUnit3/bin/Release/Ploeh.AutoFixture.NUnit3.pdb";
       "Src/AutoFixture.NUnit3/bin/Release/Ploeh.AutoFixture.NUnit3.XML";
-      "Src/AutoFixture.NUnit3.Net45/bin/Release/Ploeh.AutoFixture.NUnit3.Net45.dll";
-      "Src/AutoFixture.NUnit3.Net45/bin/Release/Ploeh.AutoFixture.NUnit3.Net45.pdb";
-      "Src/AutoFixture.NUnit3.Net45/bin/Release/Ploeh.AutoFixture.NUnit3.Net45.XML";
+      "Src/AutoFixture.NUnit3/bin/Release/nunit.framework.dll";
+      "Src/AutoFixture.NUnit3/bin/Release/nunit.framework.xml";
       "Src/Idioms/bin/Release/Ploeh.AutoFixture.Idioms.dll";
       "Src/Idioms/bin/Release/Ploeh.AutoFixture.Idioms.pdb";
       "Src/Idioms/bin/Release/Ploeh.AutoFixture.Idioms.XML";
