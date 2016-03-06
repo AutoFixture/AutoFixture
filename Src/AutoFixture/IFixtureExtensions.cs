@@ -13,8 +13,9 @@ namespace Ploeh.AutoFixture
             {
                 throw new ArgumentNullException("fixture");
             }
-            
-            throw new NotImplementedException();
+
+            return from f in Enumerable.Repeat(function, fixture.RepeatCount)
+                   select f();
         }
     }
 }
