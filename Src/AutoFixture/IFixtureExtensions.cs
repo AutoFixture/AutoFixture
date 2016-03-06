@@ -9,6 +9,11 @@ namespace Ploeh.AutoFixture
     {
         public static IEnumerable<T> Repeat<T>(this IFixture fixture, Func<T> function)
         {
+            if (fixture == null)
+            {
+                throw new ArgumentNullException("fixture");
+            }
+            
             throw new NotImplementedException();
         }
     }
