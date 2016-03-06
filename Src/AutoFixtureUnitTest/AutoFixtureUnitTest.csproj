@@ -94,6 +94,7 @@
     <Compile Include="DomainNameGeneratorTest.cs" />
     <Compile Include="DomainNameTest.cs" />
     <Compile Include="ElementsBuilderTest.cs" />
+    <Compile Include="IFixtureExtensionsTest.cs" />
     <Compile Include="InvariantCultureGeneratorTest.cs" />
     <Compile Include="CreatingAbstractClassWithPublicConstructorTests.cs" />
     <Compile Include="DataAnnotations\StringLengthArgumentSupportTests.cs" />
