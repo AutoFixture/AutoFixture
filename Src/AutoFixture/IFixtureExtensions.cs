@@ -7,6 +7,25 @@ namespace Ploeh.AutoFixture
 {
     public static class IFixtureExtensions
     {
+        /// <summary>
+        /// Repeats a function many times.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of object that <paramref name="function"/> creates.
+        /// </typeparam>
+        /// <param name="fixture">
+        /// The <see cref="IFixture"/>to use
+        /// </param>
+        /// <param name="function">
+        /// A function that creates an instance of <typeparamref name="T"/>.
+        /// </param>
+        /// <returns>A sequence of objects created by <paramref name="function"/>.</returns>
+        /// <remarks>
+        /// <para>
+        /// The number of times <paramref name="function"/> is invoked is determined by
+        /// <see cref="RepeatCount"/>.
+        /// </para>
+        /// </remarks>
         public static IEnumerable<T> Repeat<T>(this IFixture fixture, Func<T> function)
         {
             if (fixture == null)
