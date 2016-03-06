@@ -1847,63 +1847,7 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal<int>(expectedRepeatCount, result);
             // Teardown
         }
-
-        [Fact]
-        public void RepeatWillPerformActionTheDefaultNumberOfTimes()
-        {
-            // Fixture setup
-            Fixture sut = new Fixture();
-            int expectedCount = sut.RepeatCount;
-            // Exercise system
-            int result = 0;
-            sut.Repeat(() => result++).ToList();
-            // Verify outcome
-            Assert.Equal<int>(expectedCount, result);
-            // Teardown
-        }
-
-        [Fact]
-        public void RepeatWillReturnTheDefaultNumberOfItems()
-        {
-            // Fixture setup
-            Fixture sut = new Fixture();
-            int expectedCount = sut.RepeatCount;
-            // Exercise system
-            IEnumerable<object> result = sut.Repeat(() => new object());
-            // Verify outcome
-            Assert.Equal<int>(expectedCount, result.Count());
-            // Teardown
-        }
-
-        [Fact]
-        public void RepeatWillPerformActionTheSpecifiedNumberOfTimes()
-        {
-            // Fixture setup
-            int expectedCount = 2;
-            Fixture sut = new Fixture();
-            sut.RepeatCount = expectedCount;
-            // Exercise system
-            int result = 0;
-            sut.Repeat(() => result++).ToList();
-            // Verify outcome
-            Assert.Equal<int>(expectedCount, result);
-            // Teardown
-        }
-
-        [Fact]
-        public void RepeatWillReturnTheSpecifiedNumberOfItems()
-        {
-            // Fixture setup
-            int expectedCount = 13;
-            Fixture sut = new Fixture();
-            sut.RepeatCount = expectedCount;
-            // Exercise system
-            IEnumerable<object> result = sut.Repeat(() => new object());
-            // Verify outcome
-            Assert.Equal<int>(expectedCount, result.Count());
-            // Teardown
-        }
-
+            
         [Fact]
         public void ReplacingStringMappingWillUseNewStringCreationAlgorithm()
         {
