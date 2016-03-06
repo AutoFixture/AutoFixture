@@ -26,5 +26,15 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     public class IFixtureExtensionsTest
     {
+        [Fact]
+        public void NullIFixtureThrows()
+        {
+            // Fixture setup
+            IFixture fixture = null;
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                fixture.Repeat(() => new object()));
+            // Teardown
+        }
     }
 }
