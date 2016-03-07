@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ploeh.AutoFixture
 {
-    public static class IFixtureExtensions
+    /// <summary>
+    /// Contains extension methods for repeating a function in <see cref="IFixture"/> instances.
+    /// </summary>
+    public static class FixtureRepeater
     {
         /// <summary>
         /// Repeats a function many times.

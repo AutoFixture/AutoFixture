@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
-    public class IFixtureExtensionsTest
+    public class FixtureRepeaterTest
     {
         [Fact]
         public void NullIFixtureThrows()
