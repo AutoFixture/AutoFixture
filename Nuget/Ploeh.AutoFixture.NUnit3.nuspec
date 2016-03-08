@@ -8,6 +8,7 @@
         <owners>AutoFixture</owners>
         <dependencies>
             <dependency id="autofixture" version="@build.number@" />
+            <dependency id="nunit" version="3.0.1" />
         </dependencies>
         <summary>Extension to AutoFixture that integrates it with NUnit3.</summary>
         <description>By leveraging the some features of NUnit3, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</description>
@@ -20,8 +21,6 @@
         <file src="Ploeh.AutoFixture.NUnit3.dll" target="lib\net40" />
         <file src="Ploeh.AutoFixture.NUnit3.pdb" target="lib\net40" />
         <file src="Ploeh.AutoFixture.NUnit3.XML" target="lib\net40" />
-        <file src="nunit.framework.dll" target="lib\net40" />
-        <file src="nunit.framework.xml" target="lib\net40" />
         <file src="..\Src\AutoFixture.NUnit3*\**\*.cs" exclude="..\Src\*UnitTest\**\*.cs" target="src" />
     </files>
 </package>
