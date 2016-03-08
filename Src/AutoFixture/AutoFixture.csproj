@@ -55,8 +55,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRules>
     </CodeAnalysisRules>
-    <CodeAnalysisRuleSet>Migrated rules for AutoFixture.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
+    <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -70,8 +69,7 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <DocumentationFile>bin\Release\Ploeh.AutoFixture.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CodeAnalysisRuleSet>AutoFixture.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
+    <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Verify|AnyCPU' ">
     <OutputPath>bin\Verify\</OutputPath>
