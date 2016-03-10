@@ -133,7 +133,8 @@ Target "NuGetPack" (fun _ ->
     nuSpecFiles
     |> Seq.iter (fun f -> NuGet (fun p -> { p with Version = version
                                                    WorkingDir = releaseFolder
-                                                   OutputPath = nuGetOutputFolder }) f)
+                                                   OutputPath = nuGetOutputFolder
+                                                   SymbolPackage = NugetSymbolPackage.Nuspec }) f)
 )
 
 Target "CompleteBuild" (fun _ -> ())
