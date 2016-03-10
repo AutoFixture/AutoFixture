@@ -1,32 +1,4 @@
-﻿NUnit 3.0.1 - December 1, 2015
-
-Console Runner
-
- * The Nunit.Runners NuGet package was updated to become a meta-package that pulls in the NUnit.Console package
- * Reinstated the --pause command line option that will display a message box allowing you to attach a debugger if the --debug option does not work
-
-Issues Resolved
-
- * 994 Add max number of Agents to the NUnit project file
- * 1014 Ensure NUnit API assembly updates with MSI installs
- * 1024 Added --pause flag to console runner
- * 1030 Update Nunit.Runners package to 3.0
- * 1033 "No arguments were provided" with Theory and Values combination
- * 1035 Check null arguments
- * 1037 Async tests not working on Windows 10 Universal
- * 1041 NUnit2XmlResult Writer is reporting Sucess when test fails
- * 1042 NUnit2 reports on 3.0 is different than 2.6.4
- * 1046 FloatingPointNumerics.AreAlmostEqualUlps throws OverflowException
- * 1049 Cannot select Generic tests from command line
- * 1050 Do not expose System.Runtime.CompilerServices.ExtensionAttribute to public
- * 1054 Create nuget feeds for CI builds on Appveyor
- * 1055 nunit3 console runner --where option does not return error on invalid selection string
- * 1060 Remove "Version 3" from NUnit Nuget Package
- * 1061 Nunit30Settings.xml becomes corrupted
- * 1062 Console.WriteLine statements in "OneTimeSetUp" and "OneTimeTearDown" annotated methods are not directed to the console when using nunit3-console.exe runner
- * 1063 Error in Random Test
-
-NUnit 3.0.0 Final Release - November 15, 2015
+﻿NUnit 3.0.0 Final Release - November 15, 2015
 
 Issues Resolved
 

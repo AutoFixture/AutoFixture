@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+    <metadata>
+        <id>AutoFixture.NUnit3</id>
+        <version>@build.number@</version>
+        <title>AutoFixture with NUnit3</title>
+        <authors>Hackle Wayne, AutoFixture</authors>
+        <owners>AutoFixture</owners>
+        <dependencies>
+            <dependency id="autofixture" version="@build.number@" />
+            <dependency id="nunit" version="3.0.1" />
+        </dependencies>
+        <summary>Extension to AutoFixture that integrates it with NUnit3.</summary>
+        <description>By leveraging some features of NUnit3, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</description>
+        <iconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/master/AutoFixtureLogo200x200.png</iconUrl>
+        <language>en-US</language>
+        <licenseUrl>https://github.com/AutoFixture/AutoFixture/blob/master/LICENCE.txt</licenseUrl>
+        <projectUrl>https://github.com/AutoFixture/AutoFixture</projectUrl>
+    </metadata>
+    <files>
+        <file src="Ploeh.AutoFixture.NUnit3.dll" target="lib\net40" />
+        <file src="Ploeh.AutoFixture.NUnit3.pdb" target="lib\net40" />
+        <file src="Ploeh.AutoFixture.NUnit3.XML" target="lib\net40" />
+        <file src="..\Src\AutoFixture.NUnit3*\**\*.cs" exclude="..\Src\*UnitTest\**\*.cs" target="src" />
+    </files>
+</package>
