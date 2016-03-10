@@ -11,7 +11,7 @@
             <dependency id="nunit" version="3.0.1" />
         </dependencies>
         <summary>Extension to AutoFixture that integrates it with NUnit3.</summary>
-        <description>By leveraging the some features of NUnit3, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</description>
+        <description>By leveraging some features of NUnit3, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</description>
         <iconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/master/AutoFixtureLogo200x200.png</iconUrl>
         <language>en-US</language>
         <licenseUrl>https://github.com/AutoFixture/AutoFixture/blob/master/LICENCE.txt</licenseUrl>
