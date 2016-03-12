@@ -36,7 +36,9 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
             Assert.NotNull(spt.Parameter);
         }
 
+#pragma warning disable 618
         [Theory, AutoData(typeof(CustomizedFixture))]
+#pragma warning restore 618
         public void AutoDataProvidesCustomizedObject(PropertyHolder<string> ph)
         {
             Assert.Equal("Ploeh", ph.Property);
