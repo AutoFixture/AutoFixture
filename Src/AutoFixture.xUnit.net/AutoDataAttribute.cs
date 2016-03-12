@@ -42,6 +42,7 @@ namespace Ploeh.AutoFixture.Xunit
         /// <paramref name="fixtureType"/> does not implement <see cref="IFixture"/>
         /// or does not have a default constructor.
         /// </exception>
+        [Obsolete("This constructor overload is deprecated, and will be removed in a future version of AutoFixture. If you need to change the behaviour of the [AutoData] attribute, please create a derived attribute class and pass in a customized Fixture via the constructor that takes an IFixture instance.")]
         public AutoDataAttribute(Type fixtureType)
             : this(AutoDataAttribute.CreateFixture(fixtureType))
         {
