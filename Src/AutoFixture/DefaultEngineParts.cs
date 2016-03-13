@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixture
         {
             if (primitiveBuilders == null)
             {
-                throw new ArgumentNullException("primitiveBuilders");
+                throw new ArgumentNullException(nameof(primitiveBuilders));
             }
 
             this.primitiveBuilders = primitiveBuilders;
