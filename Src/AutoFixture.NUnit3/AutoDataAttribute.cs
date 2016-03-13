@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixture.NUnit3
             {
                 var parameters = method.GetParameters();
 
-                this.CustomizeParameters(parameters);
+                this.CustomizeFromParameters(parameters);
 
                 var parameterValues = this.ResolveParameters(parameters);
 
@@ -75,7 +75,7 @@ namespace Ploeh.AutoFixture.NUnit3
                 .ToArray();
         }
 
-        private void CustomizeParameters(IEnumerable<IParameterInfo> parameters)
+        private void CustomizeFromParameters(IEnumerable<IParameterInfo> parameters)
         {
             foreach (var p in parameters)
             {
