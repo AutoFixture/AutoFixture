@@ -52,15 +52,43 @@ namespace Ploeh.AutoFixture.NUnit3
         {
             try
             {
-                var specimenBuilder = new SpecimenContext(this._fixture);
-                var parameterValues = method.GetParameters()
-                    .Select(p => specimenBuilder.Resolve(p.ParameterInfo))
-                    .ToArray();
+                var parameters = method.GetParameters();
+
+                this.CustomizeParameters(parameters);
+
+                var parameterValues = this.ResolveParameters(parameters);
+
                 return new TestCaseParameters(parameterValues);
             }
             catch (Exception ex)
             {
                 return new TestCaseParameters(ex);
+            }
+        }
+
+        private object[] ResolveParameters(IEnumerable<IParameterInfo> parameters)
+        {
+            var specimenBuilder = new SpecimenContext(this._fixture);
+
+            return parameters
+                .Select(p => specimenBuilder.Resolve(p.ParameterInfo))
+                .ToArray();
+        }
+
+        private void CustomizeParameters(IEnumerable<IParameterInfo> parameters)
+        {
+            foreach (var p in parameters)
+            {
+                this.CustomizeParameter(p);
+            }
+        }
+
+        private void CustomizeParameter(IParameterInfo parameterInfo)
+        {
+            var customizeAttributes = parameterInfo.GetCustomAttributes<CustomizeAttribute>(false);
+            foreach (var ca in customizeAttributes)
+            {
+                this._fixture.Customize(ca.GetCustomization(parameterInfo.ParameterInfo));
             }
         }
     } 
