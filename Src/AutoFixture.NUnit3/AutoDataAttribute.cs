@@ -54,9 +54,9 @@ namespace Ploeh.AutoFixture.NUnit3
             {
                 var parameters = method.GetParameters();
 
-                this.CustomizeFromParameters(parameters);
+                this.CustomizeFixtureByParameters(this._fixture, parameters);
 
-                var parameterValues = this.ResolveParameters(parameters);
+                var parameterValues = this.GetParameterValues(this._fixture, parameters);
 
                 return new TestCaseParameters(parameterValues);
             }
@@ -66,29 +66,25 @@ namespace Ploeh.AutoFixture.NUnit3
             }
         }
 
-        private object[] ResolveParameters(IEnumerable<IParameterInfo> parameters)
+        private object[] GetParameterValues(IFixture fixture, IEnumerable<IParameterInfo> parameters)
         {
-            var specimenBuilder = new SpecimenContext(this._fixture);
+            var specimenBuilder = new SpecimenContext(fixture);
 
             return parameters
                 .Select(p => specimenBuilder.Resolve(p.ParameterInfo))
                 .ToArray();
         }
 
-        private void CustomizeFromParameters(IEnumerable<IParameterInfo> parameters)
+        private void CustomizeFixtureByParameters(IFixture fixture, IEnumerable<IParameterInfo> parameters)
         {
             foreach (var p in parameters)
             {
-                this.CustomizeParameter(p);
-            }
-        }
-
-        private void CustomizeParameter(IParameterInfo parameterInfo)
-        {
-            var customizeAttributes = parameterInfo.GetCustomAttributes<CustomizeAttribute>(false);
-            foreach (var ca in customizeAttributes)
-            {
-                this._fixture.Customize(ca.GetCustomization(parameterInfo.ParameterInfo));
+                var customizeAttributes = p.GetCustomAttributes<CustomizeAttribute>(false);
+                foreach (var ca in customizeAttributes)
+                {
+                    var customization = ca.GetCustomization(p.ParameterInfo);
+                    fixture.Customize(customization);
+                }
             }
         }
     } 
