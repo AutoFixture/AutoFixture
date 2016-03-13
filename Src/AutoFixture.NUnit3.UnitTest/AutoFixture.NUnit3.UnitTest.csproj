@@ -46,6 +46,7 @@
     <Compile Include="AutoDataAttributeIntegrationTest.cs" />
     <Compile Include="AutoDataAttributeStub.cs" />
     <Compile Include="AutoDataAttributeTest.cs" />
+    <Compile Include="FrozenAttributeIntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
