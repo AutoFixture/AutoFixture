@@ -60,7 +60,9 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
+#pragma warning disable 618
                 new AutoDataAttribute((Type)null));
+#pragma warning disable 618
             // Teardown
         }
 

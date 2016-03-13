@@ -60,7 +60,9 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
+#pragma warning disable 618
                 new AutoDataAttribute((Type)null));
+#pragma warning restore 618
             // Teardown
         }
 
@@ -70,7 +72,9 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentException>(() =>
+#pragma warning disable 618
                 new AutoDataAttribute(typeof(object)));
+#pragma warning restore 618
             // Teardown
         }
 
@@ -80,7 +84,9 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentException>(() =>
+#pragma warning disable 618
                 new AutoDataAttribute(typeof(ComposerWithoutADefaultConstructor)));
+#pragma warning restore 618
             // Teardown
         }
 
@@ -89,7 +95,9 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         {
             // Fixture setup
             var composerType = typeof(DelegatingFixture);
+#pragma warning disable 618
             var sut = new AutoDataAttribute(composerType);
+#pragma warning restore 618
             // Exercise system
             var result = sut.Fixture;
             // Verify outcome
@@ -102,7 +110,9 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         {
             // Fixture setup
             var composerType = typeof(DelegatingFixture);
+#pragma warning disable 618
             var sut = new AutoDataAttribute(composerType);
+#pragma warning restore 618
             // Exercise system
             var result = sut.FixtureType;
             // Verify outcome
