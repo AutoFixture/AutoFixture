@@ -17,7 +17,7 @@ namespace Ploeh.TestTypeFoundation
         {
             if (types == null)
             {
-                throw new ArgumentNullException("types");
+                throw new ArgumentNullException(nameof(types));
             }
 
             this.types = types;

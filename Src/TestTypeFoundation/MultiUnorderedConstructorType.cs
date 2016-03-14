@@ -21,7 +21,7 @@ namespace Ploeh.TestTypeFoundation
         {
             if (text == null)
             {
-                throw new ArgumentNullException("text");
+                throw new ArgumentNullException(nameof(text));
             }
 
             this.text = text;
@@ -47,7 +47,7 @@ namespace Ploeh.TestTypeFoundation
             {
                 if (text == null)
                 {
-                    throw new ArgumentNullException("text");
+                    throw new ArgumentNullException(nameof(text));
                 }
 
                 this.text = text;

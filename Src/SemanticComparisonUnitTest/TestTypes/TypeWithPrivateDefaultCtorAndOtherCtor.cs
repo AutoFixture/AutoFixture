@@ -14,7 +14,7 @@ namespace Ploeh.SemanticComparison.UnitTest.TestTypes
         {
             if (value == null)
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
 
             this.property = value;
