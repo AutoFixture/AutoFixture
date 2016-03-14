@@ -246,7 +246,7 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         /// <seealso cref="CollectionFiller.AddManyTo{T}(IFixture, ICollection{T})" />
         /// <seealso cref="CollectionFiller.AddManyTo{T}(IFixture, ICollection{T}, Func{T})" />
-        /// <seealso cref="Repeat"/>
+        /// <seealso cref="FixtureRepeater.Repeat"/>
         public int RepeatCount
         {
             get { return this.multiple.Count; }

@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixture
         /// <remarks>
         /// <para>
         /// The number of times <paramref name="function"/> is invoked is determined by
-        /// <see cref="RepeatCount"/>.
+        /// <see cref="IFixture.RepeatCount"/>.
         /// </para>
         /// </remarks>
         public static IEnumerable<T> Repeat<T>(this IFixture fixture, Func<T> function)
