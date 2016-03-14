@@ -88,7 +88,7 @@ namespace Ploeh.AutoFixture
             {
                 if (enumType == null)
                 {
-                    throw new ArgumentNullException("enumType");
+                    throw new ArgumentNullException(nameof(enumType));
                 }
 
                 this.values = Enum.GetValues(enumType).Cast<object>();
