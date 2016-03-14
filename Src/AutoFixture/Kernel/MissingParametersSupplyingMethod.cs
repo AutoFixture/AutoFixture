@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixture.Kernel
         public MissingParametersSupplyingMethod(IMethod method)
         {
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
 
             this.method = method;
         }

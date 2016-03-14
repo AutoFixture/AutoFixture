@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (request == null)
             {
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException(nameof(request));
             }
 
             this.request = request;

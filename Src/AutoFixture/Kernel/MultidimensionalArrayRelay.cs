@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixture.Kernel
         public object Create(object request, ISpecimenContext context)
         {
             if (context == null)
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
 
             var arrayType = request as Type;
             if (arrayType == null || !IsMultidimensionalArray(arrayType))

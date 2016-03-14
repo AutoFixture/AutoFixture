@@ -77,7 +77,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (obj == null)
             {
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
             }
 
             if (obj.DeclaringType == null)
@@ -113,7 +113,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (obj == null)
             {
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
             }
 
             var mi = obj as MemberInfo;

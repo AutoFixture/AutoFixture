@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.Kernel
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException("value", "Count cannot be negative.");
+                    throw new ArgumentOutOfRangeException(nameof(value), "Count cannot be negative.");
                 }
                 this.count = value;
             }
@@ -51,7 +51,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             var manyRequest = request as MultipleRequest;
