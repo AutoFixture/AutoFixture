@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Greedy
         {
             if (foo == null)
             {
-                throw new ArgumentNullException("foo");
+                throw new ArgumentNullException(nameof(foo));
             }
 
             this.foo = foo;
