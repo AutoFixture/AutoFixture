@@ -30,9 +30,9 @@ namespace Ploeh.AutoFixture
             Action<T> action)
         {
             if (builder == null)
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
             if (action == null)
-                throw new ArgumentNullException("action");
+                throw new ArgumentNullException(nameof(action));
             
             action(builder.Create<T>());
         }
@@ -59,9 +59,9 @@ namespace Ploeh.AutoFixture
             Action<T1, T2> action)
         {
             if (builder == null)
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
             if (action == null)
-                throw new ArgumentNullException("action");
+                throw new ArgumentNullException(nameof(action));
             
             action(builder.Create<T1>(), builder.Create<T2>());
         }
@@ -91,9 +91,9 @@ namespace Ploeh.AutoFixture
             Action<T1, T2, T3> action)
         {
             if (builder == null)
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
             if (action == null)
-                throw new ArgumentNullException("action");
+                throw new ArgumentNullException(nameof(action));
 
             action(
                 builder.Create<T1>(),
@@ -129,9 +129,9 @@ namespace Ploeh.AutoFixture
             Action<T1, T2, T3, T4> action)
         {
             if (builder == null)
-                throw new ArgumentNullException("builder");
+                throw new ArgumentNullException(nameof(builder));
             if (action == null)
-                throw new ArgumentNullException("action");
+                throw new ArgumentNullException(nameof(action));
 
             action(
                 builder.Create<T1>(),
