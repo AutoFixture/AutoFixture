@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (query == null)
             {
-                throw new ArgumentNullException("query");
+                throw new ArgumentNullException(nameof(query));
             }
 
             this.query = query;
@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             foreach (var ci in this.GetConstructors(request))

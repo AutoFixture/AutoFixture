@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (specimenType == null)
             {
-                throw new ArgumentNullException("specimenType");
+                throw new ArgumentNullException(nameof(specimenType));
             }
 
             this.getSpecimenType = s => specimenType;
@@ -130,7 +130,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (specification == null)
             {
-                throw new ArgumentNullException("specification");
+                throw new ArgumentNullException(nameof(specification));
             }
 
             this.specification = specification;
@@ -149,11 +149,11 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (specimen == null)
             {
-                throw new ArgumentNullException("specimen");
+                throw new ArgumentNullException(nameof(specimen));
             }
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             foreach (var pi in this.GetProperties(specimen))
@@ -184,7 +184,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (request == null)
             {
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException(nameof(request));
             }
 
             if (this.GetProperties(request).Any(pi => pi.Equals(request)))
@@ -246,9 +246,9 @@ namespace Ploeh.AutoFixture.Kernel
         public void Execute(object specimen, ISpecimenContext context)
         {
             if (specimen == null)
-                throw new ArgumentNullException("specimen");
+                throw new ArgumentNullException(nameof(specimen));
             if (context == null)
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
 
             foreach (var pi in this.GetProperties(specimen))
             {

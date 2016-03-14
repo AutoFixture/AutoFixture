@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixture.Dsl
         {
             if (composers == null)
             {
-                throw new ArgumentNullException("composers");
+                throw new ArgumentNullException(nameof(composers));
             }
 
             this.composers = composers;

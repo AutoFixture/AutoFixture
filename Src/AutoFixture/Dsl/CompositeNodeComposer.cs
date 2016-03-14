@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture.Dsl
         public CompositeNodeComposer(ISpecimenBuilderNode node)
         {
             if (node == null)
-                throw new ArgumentNullException("node");
+                throw new ArgumentNullException(nameof(node));
 
             this.node = node;
         }
