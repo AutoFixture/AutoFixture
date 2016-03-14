@@ -69,6 +69,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoDataAttribute.cs" />
+<<<<<<< HEAD
+=======
+    <Compile Include="CustomizeAttribute.cs" />
+    <Compile Include="FavorArraysAttribute.cs" />
+    <Compile Include="FavorEnumerablesAttribute.cs" />
+    <Compile Include="FavorListsAttribute.cs" />
+    <Compile Include="FrozenAttribute.cs" />
+    <Compile Include="GreedyAttribute.cs" />
+    <Compile Include="Matching.cs" />
+    <Compile Include="ModestAttribute.cs" />
+>>>>>>> 81dbaac... Port over Scenario and attributes
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

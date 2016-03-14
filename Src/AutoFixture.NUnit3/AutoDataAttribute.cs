@@ -54,11 +54,9 @@ namespace Ploeh.AutoFixture.NUnit3
             {
                 var parameters = method.GetParameters();
 
-                this.CustomizeFixtureByParameters(this._fixture, parameters);
+                var parameterValues = this.GetParameterValues(parameters);
 
-                var parameterValues = this.GetParameterValues(this._fixture, parameters);
-
-                return new TestCaseParameters(parameterValues);
+                return new TestCaseParameters(parameterValues.ToArray());
             }
             catch (Exception ex)
             {
@@ -66,26 +64,29 @@ namespace Ploeh.AutoFixture.NUnit3
             }
         }
 
-        private object[] GetParameterValues(IFixture fixture, IEnumerable<IParameterInfo> parameters)
+        private IEnumerable<object> GetParameterValues(IEnumerable<IParameterInfo> parameters)
         {
-            var specimenBuilder = new SpecimenContext(fixture);
-
-            return parameters
-                .Select(p => specimenBuilder.Resolve(p.ParameterInfo))
-                .ToArray();
+            return parameters.Select(Resolve);
         }
 
-        private void CustomizeFixtureByParameters(IFixture fixture, IEnumerable<IParameterInfo> parameters)
+        private object Resolve(IParameterInfo parameterInfo)
         {
-            foreach (var p in parameters)
+            var fixture = CustomizeFixtureByParameter(this._fixture, parameterInfo);
+
+            return new SpecimenContext(fixture)
+                .Resolve(parameterInfo.ParameterInfo);
+        }
+
+        private IFixture CustomizeFixtureByParameter(IFixture fixture, IParameterInfo parameter)
+        {
+            var customizeAttributes = parameter.GetCustomAttributes<CustomizeAttribute>(false);
+            foreach (var ca in customizeAttributes)
             {
-                var customizeAttributes = p.GetCustomAttributes<CustomizeAttribute>(false);
-                foreach (var ca in customizeAttributes)
-                {
-                    var customization = ca.GetCustomization(p.ParameterInfo);
-                    fixture.Customize(customization);
-                }
+                var customization = ca.GetCustomization(parameter.ParameterInfo);
+                fixture.Customize(customization);
             }
+
+            return fixture;
         }
     } 
 }
