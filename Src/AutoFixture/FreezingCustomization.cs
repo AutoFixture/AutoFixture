@@ -42,12 +42,12 @@ namespace Ploeh.AutoFixture
         {
             if (targetType == null)
             {
-                throw new ArgumentNullException("targetType");
+                throw new ArgumentNullException(nameof(targetType));
             }
 
             if (registeredType == null)
             {
-                throw new ArgumentNullException("registeredType");
+                throw new ArgumentNullException(nameof(registeredType));
             }
 
             if (!registeredType.IsAssignableFrom(targetType))
@@ -92,7 +92,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             var specimen = fixture.Create(
