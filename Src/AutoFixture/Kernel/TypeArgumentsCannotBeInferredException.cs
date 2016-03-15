@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture.Kernel
                     ))
         {
             if (methodInfo == null)
-                throw new ArgumentNullException("methodInfo");
+                throw new ArgumentNullException(nameof(methodInfo));
         }
         
         /// <summary>

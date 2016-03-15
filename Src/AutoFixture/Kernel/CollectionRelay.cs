@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             // This is performance-sensitive code when used repeatedly over many requests.

@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (factory == null)
             {
-                throw new ArgumentNullException("factory");
+                throw new ArgumentNullException(nameof(factory));
             }
 
             this.create = factory;
@@ -75,7 +75,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (factory == null)
             {
-                throw new ArgumentNullException("factory");
+                throw new ArgumentNullException(nameof(factory));
             }
 
             this.create = factory;
@@ -108,7 +108,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             var p = (TInput)context.Resolve(typeof(TInput));
@@ -142,7 +142,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (factory == null)
             {
-                throw new ArgumentNullException("factory");
+                throw new ArgumentNullException(nameof(factory));
             }
 
             this.create = factory;
@@ -175,7 +175,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             var p1 = (TInput1)context.Resolve(typeof(TInput1));
@@ -211,7 +211,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (factory == null)
             {
-                throw new ArgumentNullException("factory");
+                throw new ArgumentNullException(nameof(factory));
             }
 
             this.create = factory;
@@ -244,7 +244,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             var p1 = (TInput1)context.Resolve(typeof(TInput1));
@@ -282,7 +282,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (factory == null)
             {
-                throw new ArgumentNullException("factory");
+                throw new ArgumentNullException(nameof(factory));
             }
 
             this.create = factory;
@@ -315,7 +315,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             var p1 = (TInput1)context.Resolve(typeof(TInput1));

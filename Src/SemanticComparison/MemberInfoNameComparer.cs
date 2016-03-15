@@ -35,7 +35,7 @@ namespace Ploeh.SemanticComparison
         {
             if (obj == null)
             {
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
             }
 
             return obj.Name.GetHashCode();

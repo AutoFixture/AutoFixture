@@ -23,7 +23,7 @@ namespace Ploeh.AutoFixture
         {
             if (specimenFactory == null)
             {
-                throw new ArgumentNullException("specimenFactory");
+                throw new ArgumentNullException(nameof(specimenFactory));
             }
 
             this.createSpecimen = specimenFactory;

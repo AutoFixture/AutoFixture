@@ -44,9 +44,9 @@ namespace Ploeh.AutoFixture.Kernel
             IEquatable<string> nameCriterion)
         {
             if (typeCriterion == null)
-                throw new ArgumentNullException("typeCriterion");
+                throw new ArgumentNullException(nameof(typeCriterion));
             if (nameCriterion == null)
-                throw new ArgumentNullException("nameCriterion");
+                throw new ArgumentNullException(nameof(nameCriterion));
 
             this.typeCriterion = typeCriterion;
             this.nameCriterion = nameCriterion;

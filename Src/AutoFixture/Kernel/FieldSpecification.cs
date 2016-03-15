@@ -41,9 +41,9 @@ namespace Ploeh.AutoFixture.Kernel
             string targetName)
         {
             if (targetType == null)
-                throw new ArgumentNullException("targetType");
+                throw new ArgumentNullException(nameof(targetType));
             if (targetName == null)
-                throw new ArgumentNullException("targetName");
+                throw new ArgumentNullException(nameof(targetName));
 
             return new FieldTypeAndNameCriterion(
                 new Criterion<Type>(
@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixture.Kernel
         public FieldSpecification(IEquatable<FieldInfo> target)
         {
             if (target == null)
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
 
             this.target = target;
         }
@@ -103,7 +103,7 @@ namespace Ploeh.AutoFixture.Kernel
         public bool IsSatisfiedBy(object request)
         {
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException(nameof(request));
 
             var f = request as FieldInfo;
             if (f == null)

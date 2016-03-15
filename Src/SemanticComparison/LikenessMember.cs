@@ -20,11 +20,11 @@ namespace Ploeh.SemanticComparison
         {
             if (likeness == null)
             {
-                throw new ArgumentNullException("likeness");
+                throw new ArgumentNullException(nameof(likeness));
             }
             if (memberInfo == null)
             {
-                throw new ArgumentNullException("memberInfo");
+                throw new ArgumentNullException(nameof(memberInfo));
             }
 
             this.likeness = likeness;

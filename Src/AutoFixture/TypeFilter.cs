@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixture
         {
             if (type == null)
             {
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             }
 
             return type.IsValueType() && !type.IsEnum() && !type.IsPrimitive();

@@ -213,7 +213,7 @@ namespace Ploeh.SemanticComparison
         public SemanticComparer(params IMemberComparer[] comparers)
         {
             if (comparers == null)
-                throw new ArgumentNullException("comparers");
+                throw new ArgumentNullException(nameof(comparers));
 
             this.comparers = comparers;
         }

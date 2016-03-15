@@ -46,12 +46,12 @@ namespace Ploeh.AutoFixture
         {
             if (limits == null)
             {
-                throw new ArgumentNullException("limits");
+                throw new ArgumentNullException(nameof(limits));
             }
 
             if (limits.Length < 2)
             {
-                throw new ArgumentException("Limits must be at least two ascending numbers.", "limits");
+                throw new ArgumentException("Limits must be at least two ascending numbers.", nameof(limits));
             }
 
             ValidateThatLimitsAreStrictlyAscending(limits);
@@ -98,7 +98,7 @@ namespace Ploeh.AutoFixture
         {
             if (limits.Zip(limits.Skip(1), (a, b) => a >= b).Any(b => b))
             {
-                throw new ArgumentOutOfRangeException("limits", "Limits must be ascending numbers.");
+                throw new ArgumentOutOfRangeException(nameof(limits), "Limits must be ascending numbers.");
             }
         }
 

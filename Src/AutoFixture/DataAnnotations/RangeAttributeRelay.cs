@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             var rangeAttribute = TypeEnvy.GetAttribute<RangeAttribute>(request);

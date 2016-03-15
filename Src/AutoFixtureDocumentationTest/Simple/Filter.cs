@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             {
                 if (value < this.Min)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
                 this.max = value;
             }
@@ -27,7 +27,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             {
                 if (value > this.Max)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
                 this.min = value;
             }

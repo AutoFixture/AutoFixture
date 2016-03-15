@@ -481,7 +481,7 @@ namespace Ploeh.SemanticComparison
             public SourceTypeValuePair(Type type, object value)
             {
                 if (type == null)
-                    throw new ArgumentNullException("type");
+                    throw new ArgumentNullException(nameof(type));
 
                 this.type = type;
                 this.value = value;

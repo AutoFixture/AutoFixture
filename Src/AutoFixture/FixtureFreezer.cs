@@ -32,7 +32,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             var value = fixture.Create<T>();
@@ -75,7 +75,7 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
 
             var value = fixture.Create<T>(seed);
@@ -110,11 +110,11 @@ namespace Ploeh.AutoFixture
         {
             if (fixture == null)
             {
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             }
             if (composerTransformation == null)
             {
-                throw new ArgumentNullException("composerTransformation");
+                throw new ArgumentNullException(nameof(composerTransformation));
             }
 
             var c = fixture.Build<T>();

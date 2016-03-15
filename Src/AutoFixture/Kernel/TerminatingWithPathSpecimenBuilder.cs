@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture.Kernel
         public TerminatingWithPathSpecimenBuilder(TracingBuilder tracer)
         {
             if (tracer == null)
-                throw new ArgumentNullException("tracer");
+                throw new ArgumentNullException(nameof(tracer));
 
             this.tracer = tracer;
             this.tracer.SpecimenRequested += OnSpecimenRequested;

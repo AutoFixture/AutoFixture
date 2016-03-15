@@ -13,15 +13,15 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (parentType == null)
             {
-                throw new ArgumentNullException("parentType");
+                throw new ArgumentNullException(nameof(parentType));
             }
             if (targetType == null)
             {
-                throw new ArgumentNullException("targetType");
+                throw new ArgumentNullException(nameof(targetType));
             }
             if (parameters == null)
             {
-                throw new ArgumentNullException("parameters");
+                throw new ArgumentNullException(nameof(parameters));
             }
 
             this.score = ParameterScore.CalculateScore(parentType, targetType, parameters);

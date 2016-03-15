@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (type == null)
             {
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             }
 
             return from ci in type.GetConstructors()

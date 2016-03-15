@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (targetType == null)
             {
-                throw new ArgumentNullException("targetType");
+                throw new ArgumentNullException(nameof(targetType));
             }
 
             this.targetType = targetType;
@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (request == null)
             {
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException(nameof(request));
             }
 
             return IsRequestForType(request) &&

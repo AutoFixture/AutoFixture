@@ -50,21 +50,19 @@ Target "TestOnly" (fun _ ->
     let nunit2TestAssemblies = !! (sprintf "Src/AutoFixture.NUnit2.*Test/bin/%s/*Test.dll" configuration)
 
     nunit2TestAssemblies
-    |> NUnit (fun p -> { p with StopOnError = false })
+    |> NUnit (fun p -> { p with StopOnError = false
+                                OutputFile = "NUnit2TestResult.xml" })
 
     let nunit3TestAssemblies = !! (sprintf "Src/AutoFixture.NUnit3.UnitTest/bin/%s/Ploeh.AutoFixture.NUnit3.UnitTest.dll" configuration)
 
     nunit3TestAssemblies
-    |> NUnit3 (fun p -> { p with StopOnError = false })
+    |> NUnit3 (fun p -> { p with StopOnError = false
+                                 ResultSpecs = ["NUnit3TestResult.xml;format=nunit2"] })
 )
 
 Target "BuildAndTestOnly" (fun _ -> ())
 Target "Build" (fun _ -> ())
 Target "Test"  (fun _ -> ())
-
-Target "DeleteTestResultFiles" (fun _ ->
-    DeleteFile "TestResult.xml"
-)
 
 Target "CopyToReleaseFolder" (fun _ ->
     let buildOutput = [
@@ -155,14 +153,12 @@ Target "CompleteBuild" (fun _ -> ())
 
 "BuildOnly" ==> "BuildAndTestOnly"
 "TestOnly"  ==> "BuildAndTestOnly"
-      
-"Test" ==> "DeleteTestResultFiles"
+
 "Test" ==> "CopyToReleaseFolder"
 
 "CleanNuGetPackages"  ==> "NuGetPack"
 "CopyToReleaseFolder" ==> "NuGetPack"
 
-"NuGetPack"              ==> "CompleteBuild"
-"DeleteTestResultFiles"  ==> "CompleteBuild"
+"NuGetPack" ==> "CompleteBuild"
 
 RunTargetOrDefault "CompleteBuild"

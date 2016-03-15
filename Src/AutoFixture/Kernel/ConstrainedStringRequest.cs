@@ -19,17 +19,17 @@ namespace Ploeh.AutoFixture.Kernel
         {
             if (minimumLength < 0)
             {
-                throw new ArgumentOutOfRangeException("minimumLength", "Minimum length must be equal or greater than 0.");
+                throw new ArgumentOutOfRangeException(nameof(minimumLength), "Minimum length must be equal or greater than 0.");
             }
 
             if (maximumLength < 0)
             {
-                throw new ArgumentOutOfRangeException("maximumLength", "Maximum length must be equal or greater than 0.");
+                throw new ArgumentOutOfRangeException(nameof(maximumLength), "Maximum length must be equal or greater than 0.");
             }
 
             if (maximumLength < minimumLength)
             {
-                throw new ArgumentOutOfRangeException("maximumLength", "Maximum length must be equal or greater than Minimum length.");
+                throw new ArgumentOutOfRangeException(nameof(maximumLength), "Maximum length must be equal or greater than Minimum length.");
             }
 
             this.minimumLength = minimumLength;

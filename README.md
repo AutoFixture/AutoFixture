@@ -83,6 +83,7 @@ AutoFixture is available via NuGet:
 * [AutoFixture.Xunit](http://nuget.org/packages/AutoFixture.Xunit)
 * [AutoFixture.Xunit2](http://nuget.org/packages/AutoFixture.Xunit2)
 * [AutoFixture.NUnit2](http://nuget.org/packages/AutoFixture.NUnit2)
+* [AutoFixture.NUnit3](http://nuget.org/packages/AutoFixture.NUnit3)
 * [AutoFixture.Idioms](http://nuget.org/packages/AutoFixture.Idioms)
 * [SemanticComparison](http://nuget.org/packages/SemanticComparison)
 

@@ -69,11 +69,11 @@ namespace Ploeh.AutoFixture
             params ISpecimenBuilderTransformation[] transformations)
         {
             if (graph == null)
-                throw new ArgumentNullException("graph");
+                throw new ArgumentNullException(nameof(graph));
             if (wrappedGraphPredicate == null)
-                throw new ArgumentNullException("wrappedGraphPredicate");
+                throw new ArgumentNullException(nameof(wrappedGraphPredicate));
             if (transformations == null)
-                throw new ArgumentNullException("transformations");
+                throw new ArgumentNullException(nameof(transformations));
             
             this.graph = graph;
             this.isWrappedGraph = wrappedGraphPredicate;

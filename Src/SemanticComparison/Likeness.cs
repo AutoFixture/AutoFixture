@@ -185,7 +185,7 @@ namespace Ploeh.SemanticComparison
         {
             if (propertyPicker == null)
             {
-                throw new ArgumentNullException("propertyPicker");
+                throw new ArgumentNullException(nameof(propertyPicker));
             }
 
             var me = (MemberExpression)propertyPicker.Body;
@@ -209,7 +209,7 @@ namespace Ploeh.SemanticComparison
         {
             if (propertyPicker == null)
             {
-                throw new ArgumentNullException("propertyPicker");
+                throw new ArgumentNullException(nameof(propertyPicker));
             }
 
             var me = (MemberExpression)propertyPicker.Body;
@@ -309,7 +309,7 @@ namespace Ploeh.SemanticComparison
         public Likeness(T value, IEqualityComparer<T> comparer)
         {
             if (comparer == null)
-                throw new ArgumentNullException("comparer");
+                throw new ArgumentNullException(nameof(comparer));
 
             this.value = value;
             this.comparer = comparer;

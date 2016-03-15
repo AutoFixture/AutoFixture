@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixture
         {
             if (domainName == null)
             {
-                throw new ArgumentNullException("domainName");
+                throw new ArgumentNullException(nameof(domainName));
             }
             this.domainName = domainName;
         }

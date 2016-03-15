@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture.Kernel
         public TemplateMethodQuery(MethodInfo template)
         {
             if (template == null)
-                throw new ArgumentNullException("template");
+                throw new ArgumentNullException(nameof(template));
 
             this.template = template;
         }
@@ -44,10 +44,10 @@ namespace Ploeh.AutoFixture.Kernel
         public TemplateMethodQuery(MethodInfo template, object owner)
         {
             if (template == null)
-                throw new ArgumentNullException("template");
+                throw new ArgumentNullException(nameof(template));
 
             if (owner == null)
-                throw new ArgumentNullException("owner");
+                throw new ArgumentNullException(nameof(owner));
 
             this.owner = owner;
             this.template = template;
@@ -97,7 +97,7 @@ namespace Ploeh.AutoFixture.Kernel
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             return from method in type.GetMethods()
                    where method.Name == Template.Name && (Owner != null || method.IsStatic)
@@ -154,10 +154,10 @@ namespace Ploeh.AutoFixture.Kernel
                 IEnumerable<ParameterInfo> templateParameters)
             {
                 if (methodParameters == null)
-                    throw new ArgumentNullException("methodParameters");
+                    throw new ArgumentNullException(nameof(methodParameters));
 
                 if (templateParameters == null)
-                    throw new ArgumentNullException("templateParameters");
+                    throw new ArgumentNullException(nameof(templateParameters));
 
                 this.score = CalculateScore(methodParameters.Select(p => p.ParameterType), 
                     templateParameters.Select(p => p.ParameterType));
