@@ -21,9 +21,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// <seealso cref="FieldTypeAndNameCriterion" />
     public class PropertyTypeAndNameCriterion : IEquatable<PropertyInfo>
     {
-        private readonly IEquatable<Type> typeCriterion;
-        private readonly IEquatable<string> nameCriterion;
-
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="PropertyTypeAndNameCriterion" /> class with the desired
@@ -48,8 +45,8 @@ namespace Ploeh.AutoFixture.Kernel
             if (nameCriterion == null)
                 throw new ArgumentNullException(nameof(nameCriterion));
 
-            this.typeCriterion = typeCriterion;
-            this.nameCriterion = nameCriterion;
+            this.TypeCriterion = typeCriterion;
+            this.NameCriterion = nameCriterion;
         }
 
         /// <summary>
@@ -77,8 +74,8 @@ namespace Ploeh.AutoFixture.Kernel
             if (other == null)
                 return false;
 
-            return this.typeCriterion.Equals(other.PropertyType)
-                && this.nameCriterion.Equals(other.Name);
+            return this.TypeCriterion.Equals(other.PropertyType)
+                && this.NameCriterion.Equals(other.Name);
         }
 
         /// <summary>
@@ -95,25 +92,19 @@ namespace Ploeh.AutoFixture.Kernel
             if (other == null)
                 return base.Equals(obj);
 
-            return object.Equals(this.typeCriterion, other.typeCriterion)
-                && object.Equals(this.nameCriterion, other.nameCriterion);
+            return object.Equals(this.TypeCriterion, other.TypeCriterion)
+                && object.Equals(this.NameCriterion, other.NameCriterion);
         }
 
         /// <summary>
         /// The type criterion originally passed in via the class' constructor.
         /// </summary>
-        public IEquatable<Type> TypeCriterion
-        {
-            get { return this.typeCriterion; }
-        }
+        public IEquatable<Type> TypeCriterion { get; }
 
         /// <summary>
         /// The name criterion originally passed in via the class' constructor.
         /// </summary>
-        public IEquatable<string> NameCriterion
-        {
-            get { return this.nameCriterion; }
-        }
+        public IEquatable<string> NameCriterion { get; }
 
         /// <summary>
         /// Returns the hash code for the object.
@@ -122,8 +113,8 @@ namespace Ploeh.AutoFixture.Kernel
         public override int GetHashCode()
         {
             return 
-                this.typeCriterion.GetHashCode() ^
-                this.nameCriterion.GetHashCode();
+                this.TypeCriterion.GetHashCode() ^
+                this.NameCriterion.GetHashCode();
         }
     }
 }
