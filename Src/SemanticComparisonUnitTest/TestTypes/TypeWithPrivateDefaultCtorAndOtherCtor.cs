@@ -4,8 +4,6 @@ namespace Ploeh.SemanticComparison.UnitTest.TestTypes
 {
     public class TypeWithPrivateDefaultCtorAndOtherCtor<T>
     {
-        private readonly T property;
-
         private TypeWithPrivateDefaultCtorAndOtherCtor()
         {
             
@@ -17,13 +15,9 @@ namespace Ploeh.SemanticComparison.UnitTest.TestTypes
                 throw new ArgumentNullException(nameof(value));
             }
 
-            this.property = value;
+            this.Property = value;
         }
 
-        public T Property
-        {
-            get { return this.property; }
-        }
-
+        public T Property { get; }
     }
 }
