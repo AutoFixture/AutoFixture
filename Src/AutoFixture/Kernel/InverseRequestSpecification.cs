@@ -7,8 +7,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class InverseRequestSpecification : IRequestSpecification
     {
-        private readonly IRequestSpecification spec;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="InverseRequestSpecification"/> by
         /// decorating the supplied specification.
@@ -23,7 +21,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(specification));
             }
 
-            this.spec = specification;
+            this.Specification = specification;
         }
 
         /// <summary>
@@ -34,10 +32,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// This is the <see cref="IRequestSpecification"/> that will be inverted.
         /// </para>
         /// </remarks>
-        public IRequestSpecification Specification
-        {
-            get { return this.spec; }
-        }
+        public IRequestSpecification Specification { get; }
 
         /// <summary>
         /// Returns the opposite result as the decorated <see cref="IRequestSpecification"/>.
@@ -49,7 +44,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
-            return !this.spec.IsSatisfiedBy(request);
+            return !this.Specification.IsSatisfiedBy(request);
         }
     }
 }
