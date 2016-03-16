@@ -6,15 +6,13 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.ValidatingValueObject
     {
         public const int MinValue = 112;
 
-        private readonly int number;
-
         public DanishPhoneNumber(int number)
         {
             if (!DanishPhoneNumber.IsValid(number))
             {
                 throw new ArgumentOutOfRangeException(nameof(number));
             }
-            this.number = number;
+            this.RawNumber = number;
         }
 
         public static bool IsValid(int number)
@@ -23,9 +21,6 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.ValidatingValueObject
                 && (number <= 99999999);
         }
 
-        public int RawNumber
-        {
-            get { return this.number; }
-        }
+        public int RawNumber { get; }
     }
 }

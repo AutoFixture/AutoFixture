@@ -2,16 +2,11 @@
 {
     public class DanishPhoneNumber
     {
-        private readonly int number;
-
         public DanishPhoneNumber(int number)
         {
-            this.number = number;
+            this.RawNumber = number;
         }
 
-        public int RawNumber
-        {
-            get { return this.number; }
-        }
+        public int RawNumber { get; }
     }
 }
