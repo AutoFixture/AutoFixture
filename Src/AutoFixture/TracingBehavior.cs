@@ -10,8 +10,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class TracingBehavior : ISpecimenBuilderTransformation
     {
-        private readonly TextWriter writer;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="TracingBehavior"/> class with the default
         /// <see cref="Writer"/>, which is <see cref="Console.Out"/>.
@@ -33,16 +31,13 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(writer));
             }
 
-            this.writer = writer;
+            this.Writer = writer;
         }
 
         /// <summary>
         /// Gets the writer to which diagnostics information is written.
         /// </summary>
-        public TextWriter Writer
-        {
-            get { return this.writer; }
-        }
+        public TextWriter Writer { get; }
 
         /// <summary>
         /// Decorates the supplied builder with a <see cref="TraceWriter"/>.
@@ -59,7 +54,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(builder));
             }
 
-            return new TraceWriter(this.writer, new TracingBuilder(builder));
+            return new TraceWriter(this.Writer, new TracingBuilder(builder));
         }
     }
 }

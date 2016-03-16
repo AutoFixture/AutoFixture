@@ -17,9 +17,6 @@ namespace Ploeh.AutoFixture.Kernel
     public class BindingCommand<T, TProperty> : ISpecifiedSpecimenCommand<T>, ISpecimenCommand
 #pragma warning restore 618
     {
-        private readonly MemberInfo member;
-        private readonly Func<ISpecimenContext, TProperty> createBindingValue;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="BindingCommand{T, TProperty}"/> class with
         /// the supplied property picker expression.
@@ -38,8 +35,8 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(propertyPicker));
             }
 
-            this.member = propertyPicker.GetWritableMember().Member;
-            this.createBindingValue = this.CreateAnonymousValue;
+            this.Member = propertyPicker.GetWritableMember().Member;
+            this.ValueCreator = this.CreateAnonymousValue;
         }
 
         /// <summary>
@@ -59,8 +56,8 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(propertyPicker));
             }
 
-            this.member = propertyPicker.GetWritableMember().Member;
-            this.createBindingValue = c => propertyValue;
+            this.Member = propertyPicker.GetWritableMember().Member;
+            this.ValueCreator = c => propertyValue;
         }
 
         /// <summary>
@@ -84,26 +81,20 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(valueCreator));
             }
 
-            this.member = propertyPicker.GetWritableMember().Member;
-            this.createBindingValue = valueCreator;
+            this.Member = propertyPicker.GetWritableMember().Member;
+            this.ValueCreator = valueCreator;
         }
 
         /// <summary>
         /// Gets the member identified by the expression supplied through the constructor.
         /// </summary>
-        public MemberInfo Member
-        {
-            get { return this.member; }
-        }
+        public MemberInfo Member { get; }
 
         /// <summary>
         /// Gets the function that creates a value to be assigned to the property or field
         /// identified by <see cref="Member"/>.
         /// </summary>
-        public Func<ISpecimenContext, TProperty> ValueCreator
-        {
-            get { return this.createBindingValue; }
-        }
+        public Func<ISpecimenContext, TProperty> ValueCreator { get; }
 
         /// <summary>
         /// Executes the command on the supplied specimen by assigning the property of field the
@@ -134,15 +125,15 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(context));
             }
 
-            var bindingValue = this.createBindingValue(context);
+            var bindingValue = this.ValueCreator(context);
 
-            var pi = this.member as PropertyInfo;
+            var pi = this.Member as PropertyInfo;
             if (pi != null)
             {
                 pi.SetValue(specimen, bindingValue, null);
             }
 
-            var fi = this.member as FieldInfo;
+            var fi = this.Member as FieldInfo;
             if (fi != null)
             {
                 fi.SetValue(specimen, bindingValue);
@@ -166,12 +157,12 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             IEqualityComparer comparer = new MemberInfoEqualityComparer();
-            return comparer.Equals(this.member, request);
+            return comparer.Equals(this.Member, request);
         }
 
         private TProperty CreateAnonymousValue(ISpecimenContext container)
         {
-            var bindingValue = container.Resolve(this.member);
+            var bindingValue = container.Resolve(this.Member);
             if ((bindingValue != null) && !(bindingValue is TProperty))
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
@@ -206,9 +197,9 @@ namespace Ploeh.AutoFixture.Kernel
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            var bindingValue = this.createBindingValue(context);
+            var bindingValue = this.ValueCreator(context);
 
-            var pi = this.member as PropertyInfo;
+            var pi = this.Member as PropertyInfo;
             if (pi != null)
                 TrySetValue(
                     specimen,
@@ -216,7 +207,7 @@ namespace Ploeh.AutoFixture.Kernel
                     pi.PropertyType,
                     (s, v) => pi.SetValue(s, v, null));
 
-            var fi = this.member as FieldInfo;
+            var fi = this.Member as FieldInfo;
             if (fi != null)
                 TrySetValue(
                     specimen,
