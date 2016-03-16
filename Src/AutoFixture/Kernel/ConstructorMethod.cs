@@ -11,7 +11,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class ConstructorMethod : IMethod, IEquatable<ConstructorMethod>
     {
-        private readonly ConstructorInfo constructor;
         private readonly ParameterInfo[] paramInfos;
 
         /// <summary>
@@ -25,17 +24,14 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(constructor));
             }
 
-            this.constructor = constructor;
-            this.paramInfos = this.constructor.GetParameters();
+            this.Constructor = constructor;
+            this.paramInfos = this.Constructor.GetParameters();
         }
 
         /// <summary>
         /// Gets the constructor.
         /// </summary>
-        public ConstructorInfo Constructor
-        {
-            get { return this.constructor; }
-        }
+        public ConstructorInfo Constructor { get; }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
@@ -110,7 +106,7 @@ This will cause AutoFixture to create an instance of TestDouble every time Abstr
                                 );
 
             }
-            return this.constructor.Invoke(parameters.ToArray());
+            return this.Constructor.Invoke(parameters.ToArray());
         }
 
         /// <summary>
