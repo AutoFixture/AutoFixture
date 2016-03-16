@@ -10,7 +10,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class StaticMethod : IMethod, IEquatable<StaticMethod>
     {
-        private readonly MethodInfo methodInfo;
         private readonly ParameterInfo[] paramInfos;
 
         /// <summary>
@@ -39,17 +38,14 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(methodParameters));
             }
 
-            this.methodInfo = methodInfo;
+            this.Method = methodInfo;
             this.paramInfos = methodParameters;
         }
 
         /// <summary>
         /// Gets the method.
         /// </summary>
-        public MethodInfo Method
-        {
-            get { return this.methodInfo; }
-        }
+        public MethodInfo Method { get; }
 
         /// <summary>
         /// Gets information about the parameters of the method.
@@ -99,7 +95,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>The result of the method call.</returns>
         public object Invoke(IEnumerable<object> parameters)
         {
-            return this.methodInfo.Invoke(null, parameters.ToArray());
+            return this.Method.Invoke(null, parameters.ToArray());
         }
 
         /// <summary>
