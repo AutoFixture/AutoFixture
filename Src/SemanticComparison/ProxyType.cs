@@ -7,9 +7,6 @@ namespace Ploeh.SemanticComparison
 {
     internal class ProxyType
     {
-        private readonly ConstructorInfo constructor;
-        private readonly IEnumerable<object> parameters;
-
         internal ProxyType(
             ConstructorInfo constructor,
             params object[] parameters)
@@ -20,18 +17,12 @@ namespace Ploeh.SemanticComparison
             if (parameters == null)
                 throw new ArgumentNullException(nameof(parameters));
 
-            this.constructor = constructor;
-            this.parameters = parameters;
+            this.Constructor = constructor;
+            this.Parameters = parameters;
         }
 
-        internal ConstructorInfo Constructor
-        {
-            get { return this.constructor; }
-        }
+        internal ConstructorInfo Constructor { get; }
 
-        internal IEnumerable<object> Parameters
-        {
-            get { return this.parameters; }
-        }
+        internal IEnumerable<object> Parameters { get; }
     }
 }
