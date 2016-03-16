@@ -2,16 +2,11 @@
 {
     public class UnguardedConstructorHost<T>
     {
-        private readonly T item;
-
         public UnguardedConstructorHost(T item)
         {
-            this.item = item;
+            this.Item = item;
         }
 
-        public T Item
-        {
-            get { return this.item; }
-        }
+        public T Item { get; }
     }
 }
