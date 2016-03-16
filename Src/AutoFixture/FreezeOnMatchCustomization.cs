@@ -17,9 +17,6 @@ namespace Ploeh.AutoFixture
     /// </remarks>
     public class FreezeOnMatchCustomization : ICustomization
     {
-        private readonly Type targetType;
-        private readonly IRequestSpecification matcher;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FreezeOnMatchCustomization"/> class.
         /// </summary>
@@ -62,26 +59,20 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(matcher));
             }
 
-            this.targetType = targetType;
-            this.matcher = matcher;
+            this.TargetType = targetType;
+            this.Matcher = matcher;
         }
 
         /// <summary>
         /// The <see cref="Type"/> of the frozen specimen.
         /// </summary>
-        public Type TargetType
-        {
-            get { return this.targetType; }
-        }
+        public Type TargetType { get; }
 
         /// <summary>
         /// The <see cref="IRequestSpecification"/> used to match the requests
         /// that will be satisfied by the frozen specimen.
         /// </summary>
-        public IRequestSpecification Matcher
-        {
-            get { return this.matcher; }
-        }
+        public IRequestSpecification Matcher { get; }
 
         /// <summary>
         /// Customizes the specified fixture.
@@ -103,13 +94,13 @@ namespace Ploeh.AutoFixture
                 0,
                 new FilteringSpecimenBuilder(
                     FreezeTargetType(fixture),
-                    this.matcher));
+                    this.Matcher));
         }
 
         private ISpecimenBuilder FreezeTargetType(IFixture fixture)
         {
             var context = new SpecimenContext(fixture);
-            var specimen = context.Resolve(this.targetType);
+            var specimen = context.Resolve(this.TargetType);
             return new FixedBuilder(specimen);
         }
     }
