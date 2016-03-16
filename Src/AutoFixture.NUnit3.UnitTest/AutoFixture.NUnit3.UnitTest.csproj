@@ -43,10 +43,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoDataAttributeIntegrationTest.cs" />
     <Compile Include="AutoDataAttributeStub.cs" />
     <Compile Include="AutoDataAttributeTest.cs" />
+    <Compile Include="CustomizeAttributeTest.cs" />
+    <Compile Include="DelegatingCustomization.cs" />
+    <Compile Include="DelegatingCustomizeAttribute.cs" />
+    <Compile Include="DependencyConstraints.cs" />
+    <Compile Include="FavorArraysAttributeTest.cs" />
+    <Compile Include="FavorEnumerablesAttributeTest.cs" />
+    <Compile Include="FavorListsAttributeTest.cs" />
+    <Compile Include="FrozenAttributeTest.cs" />
+    <Compile Include="GreedyAttributeTest.cs" />
+    <Compile Include="ModestAttributeTest.cs" />
+    <Compile Include="MyClass.cs" />
+    <Compile Include="NoAutoPropertiesAttributeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenario.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture.NUnit3\AutoFixture.NUnit3.csproj">
@@ -56,6 +68,10 @@
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
       <Project>{400AC174-9A4A-4C7D-815B-F2A21130A0D1}</Project>
       <Name>AutoFixture</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj">
+      <Project>{7ff65787-f462-4204-bb9d-60b0d1bb6cc1}</Project>
+      <Name>TestTypeFoundation</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
