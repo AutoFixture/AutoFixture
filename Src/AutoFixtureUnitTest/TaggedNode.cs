@@ -8,22 +8,17 @@ namespace Ploeh.AutoFixtureUnitTest
 {
     public class TaggedNode : CompositeSpecimenBuilder
     {
-        private readonly object tag;
-
         public TaggedNode(object tag, params ISpecimenBuilder[] builders)
             : base(builders)
         {
-            this.tag = tag;
+            this.Tag = tag;
         }
 
         public override ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
-            return new TaggedNode(this.tag, builders.ToArray());
+            return new TaggedNode(this.Tag, builders.ToArray());
         }
 
-        public object Tag
-        {
-            get { return this.tag; }
-        }
+        public object Tag { get; }
     }
 }

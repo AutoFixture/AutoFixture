@@ -21,7 +21,6 @@ namespace Ploeh.SemanticComparison
     /// </typeparam>
     public class Likeness<TSource, TDestination> : IEquatable<TDestination>
     {
-        private readonly TSource value;
         private readonly SemanticComparer<TSource, TDestination> comparer;
 
         /// <summary>
@@ -38,7 +37,7 @@ namespace Ploeh.SemanticComparison
 
         internal Likeness(TSource value, IEnumerable<MemberEvaluator<TSource, TDestination>> evaluators, Func<IEnumerable<MemberInfo>> defaultMembersGenerator)
         {
-            this.value = value;
+            this.Value = value;
             this.comparer = new SemanticComparer<TSource, TDestination>(evaluators, defaultMembersGenerator);
         }
 
@@ -46,10 +45,7 @@ namespace Ploeh.SemanticComparison
         /// Gets the source value against which destination values will be compared when
         /// <see cref="Equals(TDestination)"/> is invoked.
         /// </summary>
-        public TSource Value
-        {
-            get { return this.value; }
-        }
+        public TSource Value { get; }
 
         /// <summary>
         /// Creates a dynamic proxy that overrides Equals using Likeness. 
@@ -61,7 +57,7 @@ namespace Ploeh.SemanticComparison
             try
             {
                 return ProxyGenerator.CreateLikenessProxy<TSource, TDestination>(
-                    this.value,
+                    this.Value,
                     this.comparer,
                     SemanticComparer<TSource, TDestination>.DefaultMembers.Generate<TDestination>());
             }
@@ -283,7 +279,6 @@ namespace Ploeh.SemanticComparison
     /// </typeparam>
     public class Likeness<T> : IEquatable<T>
     {
-        private readonly T value;
         private readonly IEqualityComparer<T> comparer;
 
         /// <summary>
@@ -311,7 +306,7 @@ namespace Ploeh.SemanticComparison
             if (comparer == null)
                 throw new ArgumentNullException(nameof(comparer));
 
-            this.value = value;
+            this.Value = value;
             this.comparer = comparer;
         }
 
@@ -321,10 +316,7 @@ namespace Ploeh.SemanticComparison
         /// <value>
         /// The supplied value which will be compared for equality.
         /// </value>
-        public T Value
-        {
-            get { return this.value; }
-        }
+        public T Value { get; }
 
         /// <summary>
         /// Determines whether the specified <see cref="object"/> is semantically

@@ -9,10 +9,6 @@ namespace Ploeh.SemanticComparison
     /// </summary>
     public class MemberComparer : IMemberComparer
     {
-        private readonly IEqualityComparer comparer;
-        private readonly ISpecification<PropertyInfo> propertySpecification;
-        private readonly ISpecification<FieldInfo> fieldSpecification;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MemberComparer"/> 
         /// class with the supplied <see cref="IEqualityComparer"/> to support
@@ -61,9 +57,9 @@ namespace Ploeh.SemanticComparison
             if (fieldSpecification == null)
                 throw new ArgumentNullException(nameof(fieldSpecification));
 
-            this.comparer = comparer;
-            this.propertySpecification = propertySpecification;
-            this.fieldSpecification = fieldSpecification;
+            this.Comparer = comparer;
+            this.PropertySpecification = propertySpecification;
+            this.FieldSpecification = fieldSpecification;
         }
 
         /// <summary>
@@ -72,10 +68,7 @@ namespace Ploeh.SemanticComparison
         /// <value>
         /// The supplied <see cref="IEqualityComparer"/>.
         /// </value>
-        public IEqualityComparer Comparer
-        {
-            get { return this.comparer; }
-        }
+        public IEqualityComparer Comparer { get; }
 
         /// <summary>
         /// Gets the supplied Specification used to control whether or not a property
@@ -85,10 +78,7 @@ namespace Ploeh.SemanticComparison
         /// The supplied Specification used to control whether or not a property should
         /// be compared.
         /// </value>
-        public ISpecification<PropertyInfo> PropertySpecification
-        {
-            get { return this.propertySpecification; }
-        }
+        public ISpecification<PropertyInfo> PropertySpecification { get; }
 
         /// <summary>
         /// Gets the supplied Specification used to control whether or not a field
@@ -98,10 +88,7 @@ namespace Ploeh.SemanticComparison
         /// The supplied Specification used to control whether or not a field should
         /// be compared.
         /// </value>
-        public ISpecification<FieldInfo> FieldSpecification
-        {
-            get { return this.fieldSpecification; }
-        }
+        public ISpecification<FieldInfo> FieldSpecification { get; }
 
         /// <summary>
         /// Evaluates a request for comparison of a property.
@@ -110,7 +97,7 @@ namespace Ploeh.SemanticComparison
         /// <returns><see langword="true"/>.</returns>
         public bool IsSatisfiedBy(PropertyInfo request)
         {
-            return this.propertySpecification.IsSatisfiedBy(request);
+            return this.PropertySpecification.IsSatisfiedBy(request);
         }
 
         /// <summary>
@@ -120,7 +107,7 @@ namespace Ploeh.SemanticComparison
         /// <returns><see langword="true"/>.</returns>
         public bool IsSatisfiedBy(FieldInfo request)
         {
-            return this.fieldSpecification.IsSatisfiedBy(request);
+            return this.FieldSpecification.IsSatisfiedBy(request);
         }
 
         /// <summary>
@@ -143,7 +130,7 @@ namespace Ploeh.SemanticComparison
         /// </remarks>
         public new bool Equals(object x, object y)
         {
-            return this.comparer.Equals(x, y);
+            return this.Comparer.Equals(x, y);
         }
 
         /// <summary>
@@ -156,7 +143,7 @@ namespace Ploeh.SemanticComparison
         /// </returns>
         public int GetHashCode(object obj)
         {
-            return this.comparer.GetHashCode(obj);
+            return this.Comparer.GetHashCode(obj);
         }
     }
 }
