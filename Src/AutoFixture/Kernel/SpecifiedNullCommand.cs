@@ -19,8 +19,6 @@ namespace Ploeh.AutoFixture.Kernel
     [Obsolete("This class is no longer used, and will be removed in future versions.")]
     public class SpecifiedNullCommand<T, TProperty> : ISpecifiedSpecimenCommand<T>
     {
-        private readonly MemberInfo member;
-
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="SpecifiedNullCommand{T, TProperty}"/> class with the supplied
@@ -34,16 +32,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(propertyPicker));
             }
 
-            this.member = propertyPicker.GetWritableMember().Member;
+            this.Member = propertyPicker.GetWritableMember().Member;
         }
 
         /// <summary>
         /// Gets the member identified by the expression supplied through the constructor.
         /// </summary>
-        public MemberInfo Member
-        {
-            get { return this.member; }
-        }
+        public MemberInfo Member { get; }
 
         /// <summary>
         /// Does nothing.
@@ -71,7 +66,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             IEqualityComparer comparer = new MemberInfoEqualityComparer();
-            return comparer.Equals(this.member, request);
+            return comparer.Equals(this.Member, request);
         }
     }
 }
