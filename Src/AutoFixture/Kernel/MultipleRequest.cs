@@ -20,8 +20,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// <seealso cref="MultipleRelay"/>
     public class MultipleRequest : IEquatable<MultipleRequest>
     {
-        private readonly object request;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MultipleRequest"/> class.
         /// </summary>
@@ -33,16 +31,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(request));
             }
 
-            this.request = request;
+            this.Request = request;
         }
 
         /// <summary>
         /// Gets the request to multiply.
         /// </summary>
-        public object Request
-        {
-            get { return this.request; }
-        }
+        public object Request { get; }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
