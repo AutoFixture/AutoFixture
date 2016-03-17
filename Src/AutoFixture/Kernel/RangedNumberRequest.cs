@@ -8,10 +8,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class RangedNumberRequest : IEquatable<RangedNumberRequest>
     {
-        private readonly Type operandType;
-        private readonly object minimum;
-        private readonly object maximum;
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="RangedNumberRequest"/> class.
         /// </summary>
@@ -40,9 +36,9 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentOutOfRangeException(nameof(minimum), "Minimum must be lower than Maximum.");
             }
 
-            this.operandType = operandType;
-            this.minimum = minimum;
-            this.maximum = maximum;
+            this.OperandType = operandType;
+            this.Minimum = minimum;
+            this.Maximum = maximum;
         }
 
         /// <summary>
@@ -51,35 +47,17 @@ namespace Ploeh.AutoFixture.Kernel
         /// <value>
         /// The type of the operand.
         /// </value>
-        public Type OperandType
-        {
-            get
-            {
-                return this.operandType;
-            }
-        }
+        public Type OperandType { get; }
 
         /// <summary>
         /// Gets the minimum value.
         /// </summary>
-        public object Minimum
-        {
-            get
-            {
-                return this.minimum;
-            }
-        }
+        public object Minimum { get; }
 
         /// <summary>
         /// Gets the maximum value.
         /// </summary>
-        public object Maximum
-        {
-            get
-            {
-                return this.maximum;
-            }
-        }
+        public object Maximum { get; }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
