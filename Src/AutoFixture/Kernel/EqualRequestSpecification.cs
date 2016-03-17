@@ -11,9 +11,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class EqualRequestSpecification : IRequestSpecification
     {
-        private readonly object target;
-        private readonly IEqualityComparer comparer;
-
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="EqualRequestSpecification" /> class.
@@ -49,8 +46,8 @@ namespace Ploeh.AutoFixture.Kernel
             if (comparer == null)
                 throw new ArgumentNullException(nameof(comparer));
 
-            this.target = target;
-            this.comparer = comparer;
+            this.Target = target;
+            this.Comparer = comparer;
         }
 
         /// <summary>
@@ -64,7 +61,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
-            return this.comparer.Equals(this.target, request);
+            return this.Comparer.Equals(this.Target, request);
         }
 
         /// <summary>
@@ -75,10 +72,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </value>
         /// <seealso cref="EqualRequestSpecification(object)" />
         /// <seealso cref="EqualRequestSpecification(object, IEqualityComparer)" />
-        public object Target
-        {
-            get { return this.target; }
-        }
+        public object Target { get; }
 
         /// <summary>
         /// Gets the equality comparer used to compare a request to the
@@ -88,9 +82,6 @@ namespace Ploeh.AutoFixture.Kernel
         /// The equality comparer, optionally supplied via a constructor.
         /// </value>
         /// <seealso cref="EqualRequestSpecification(object, IEqualityComparer)" />
-        public IEqualityComparer Comparer 
-        {
-            get { return this.comparer; }
-        }
+        public IEqualityComparer Comparer { get; }
     }
 }
