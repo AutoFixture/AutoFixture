@@ -4,13 +4,7 @@
     {
         public string Field;
 
-        private long number;
-
-        public long Number
-        {
-            get { return this.number; }
-            set { this.number = value; }
-        }
+        public long Number { get; set; }
 
         public decimal AutomaticProperty { get; set; }
     }
