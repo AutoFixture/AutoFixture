@@ -4,11 +4,6 @@ namespace Ploeh.SemanticComparison.UnitTest.TestTypes
 {
     public class TypeWithDifferentParameterTypesAndProperties
     {
-        private readonly double field1;
-        private readonly string field2;
-        private readonly int field3;
-        private readonly Guid field4;
-
         public TypeWithDifferentParameterTypesAndProperties(
             double field1,
             string field2,
@@ -23,10 +18,10 @@ namespace Ploeh.SemanticComparison.UnitTest.TestTypes
             int field3,
             Guid field4)
         {
-            this.field1 = field1;
-            this.field2 = field2;
-            this.field3 = field3;
-            this.field4 = field4;
+            this.Property1 = field1;
+            this.Property2 = field2;
+            this.Property3 = field3;
+            this.Property4 = field4;
         }
 
         protected TypeWithDifferentParameterTypesAndProperties(object source)
@@ -37,24 +32,12 @@ namespace Ploeh.SemanticComparison.UnitTest.TestTypes
             }
         }
 
-        public double Property1
-        {
-            get { return this.field1; }
-        }
+        public double Property1 { get; }
 
-        public string Property2
-        {
-            get { return this.field2; }
-        }
+        public string Property2 { get; }
 
-        public int Property3
-        {
-            get { return this.field3; }
-        }
+        public int Property3 { get; }
 
-        public Guid Property4
-        {
-            get { return this.field4; }
-        }
+        public Guid Property4 { get; }
     }
 }
