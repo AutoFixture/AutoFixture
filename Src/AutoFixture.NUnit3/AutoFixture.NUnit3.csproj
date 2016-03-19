@@ -69,8 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoDataAttribute.cs" />
-<<<<<<< HEAD
-=======
     <Compile Include="CustomizeAttribute.cs" />
     <Compile Include="FavorArraysAttribute.cs" />
     <Compile Include="FavorEnumerablesAttribute.cs" />
@@ -79,11 +77,7 @@
     <Compile Include="GreedyAttribute.cs" />
     <Compile Include="Matching.cs" />
     <Compile Include="ModestAttribute.cs" />
-<<<<<<< HEAD
->>>>>>> 81dbaac... Port over Scenario and attributes
-=======
     <Compile Include="NoAutoPropertiesAttribute.cs" />
->>>>>>> 5157f41... Port over NoAutoProperties and dependencyConstraints
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
