@@ -65,33 +65,6 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         }
 
         [Test, AutoData]
-        public void ModestCreatesParameterWithModestConstructor([Modest]MultiUnorderedConstructorType p)
-        {
-            Assert.True(string.IsNullOrEmpty(p.Text));
-            Assert.AreEqual(0, p.Number);
-        }
-
-        [Test, AutoData]
-        public void GreedyCreatesParameterWithGreedyConstructor([Greedy]MultiUnorderedConstructorType p)
-        {
-            Assert.False(string.IsNullOrEmpty(p.Text));
-            Assert.AreNotEqual(0, p.Number);
-        }
-
-        [Test, AutoData]
-        public void BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter([Frozen][Greedy]MultiUnorderedConstructorType p1, MultiUnorderedConstructorType p2)
-        {
-            Assert.False(string.IsNullOrEmpty(p2.Text));
-            Assert.AreNotEqual(0, p2.Number);
-        }
-
-        [Test, AutoData]
-        public void FavorArraysCausesArrayConstructorToBeInjectedWithFrozenItems([Frozen]int[] numbers, [FavorArrays]ItemContainer<int> container)
-        {
-            Assert.True(numbers.SequenceEqual(container.Items));
-        }
-
-        [Test, AutoData]
         public void FreezeFirstParameterShouldAssignSameInstanceToSecondParameter(
             [Frozen]string p1,
             string p2)
