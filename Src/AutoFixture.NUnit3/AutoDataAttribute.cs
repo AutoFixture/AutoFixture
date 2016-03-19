@@ -71,13 +71,13 @@ namespace Ploeh.AutoFixture.NUnit3
 
         private object Resolve(IParameterInfo parameterInfo)
         {
-            var fixture = CustomizeFixtureByParameter(this._fixture, parameterInfo);
+            CustomizeFixtureByParameter(this._fixture, parameterInfo);
 
-            return new SpecimenContext(fixture)
+            return new SpecimenContext(this._fixture)
                 .Resolve(parameterInfo.ParameterInfo);
         }
 
-        private IFixture CustomizeFixtureByParameter(IFixture fixture, IParameterInfo parameter)
+        private void CustomizeFixtureByParameter(IFixture fixture, IParameterInfo parameter)
         {
             var customizeAttributes = parameter.GetCustomAttributes<CustomizeAttribute>(false);
             foreach (var ca in customizeAttributes)
@@ -85,8 +85,6 @@ namespace Ploeh.AutoFixture.NUnit3
                 var customization = ca.GetCustomization(parameter.ParameterInfo);
                 fixture.Customize(customization);
             }
-
-            return fixture;
         }
     } 
 }
