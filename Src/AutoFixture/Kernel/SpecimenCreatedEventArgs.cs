@@ -5,8 +5,6 @@
     /// </summary>
     public class SpecimenCreatedEventArgs : RequestTraceEventArgs
     {
-        private readonly object specimen;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecimenCreatedEventArgs"/> class with the
         /// supplied values.
@@ -21,15 +19,12 @@
         public SpecimenCreatedEventArgs(object request, object specimen, int depth)
             : base(request, depth)
         {
-            this.specimen = specimen;
+            this.Specimen = specimen;
         }
 
         /// <summary>
         /// Gets the specimen that was created from <see cref="RequestTraceEventArgs.Request"/>.
         /// </summary>
-        public object Specimen
-        {
-            get { return this.specimen; }
-        }
+        public object Specimen { get; }
     }
 }

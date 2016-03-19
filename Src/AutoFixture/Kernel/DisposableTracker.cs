@@ -18,7 +18,6 @@ namespace Ploeh.AutoFixture.Kernel
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class DisposableTracker : ISpecimenBuilderNode, IDisposable
     {
-        private readonly ISpecimenBuilder builder;
         private readonly HashSet<IDisposable> disposables;
 
         /// <summary>
@@ -38,7 +37,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(builder));
             }
 
-            this.builder = builder;
+            this.Builder = builder;
             this.disposables = new HashSet<IDisposable>();
         }
 
@@ -51,10 +50,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </para>
         /// </remarks>
         /// <seealso cref="DisposableTracker(ISpecimenBuilder)"/>
-        public ISpecimenBuilder Builder
-        {
-            get { return this.builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
 
         /// <summary>
         /// Gets the disposable specimens currently tracked by this instance.
@@ -121,7 +117,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            yield return this.builder;
+            yield return this.Builder;
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

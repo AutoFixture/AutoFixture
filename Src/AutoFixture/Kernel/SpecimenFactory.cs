@@ -8,8 +8,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// <typeparam name="T">The type of specimen to create.</typeparam>
     public class SpecimenFactory<T> : ISpecimenBuilder
     {
-        private readonly Func<T> create;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecimenFactory&lt;T&gt;"/> class.
         /// </summary>
@@ -21,16 +19,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(factory));
             }
 
-            this.create = factory;
+            this.Factory = factory;
         }
 
         /// <summary>
         /// Gets the factory that will create specimens.
         /// </summary>
-        public Func<T> Factory
-        {
-            get { return this.create; }
-        }
+        public Func<T> Factory { get; }
 
         /// <summary>
         /// Creates a new specimen based on a request.
@@ -48,7 +43,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            return this.create();
+            return this.Factory();
         }
     }
 
@@ -59,8 +54,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// <typeparam name="T">The type of specimen to create.</typeparam>
     public class SpecimenFactory<TInput, T> : ISpecimenBuilder
     {
-        private readonly Func<TInput, T> create;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecimenFactory&lt;TInput, T&gt;"/> class.
         /// </summary>
@@ -78,16 +71,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(factory));
             }
 
-            this.create = factory;
+            this.Factory = factory;
         }
 
         /// <summary>
         /// Gets the factory that creates specimens.
         /// </summary>
-        public Func<TInput, T> Factory
-        {
-            get { return this.create; }
-        }
+        public Func<TInput, T> Factory { get; }
 
         /// <summary>
         /// Creates a new specimen based on a request.
@@ -112,7 +102,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             var p = (TInput)context.Resolve(typeof(TInput));
-            return this.create(p);
+            return this.Factory(p);
         }
     }
 
@@ -125,8 +115,6 @@ namespace Ploeh.AutoFixture.Kernel
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", Justification = "Necessary to wrap the corresponding Func. However, this particular API is only intended to be used to implement the fluent API, and is not targeted at the typical end-user.")]
     public class SpecimenFactory<TInput1, TInput2, T> : ISpecimenBuilder
     {
-        private readonly Func<TInput1, TInput2, T> create;
-
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="SpecimenFactory&lt;TInput1, TInput2, T&gt;"/> class.
@@ -145,16 +133,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(factory));
             }
 
-            this.create = factory;
+            this.Factory = factory;
         }
 
         /// <summary>
         /// Gets the factory that creates specimens.
         /// </summary>
-        public Func<TInput1, TInput2, T> Factory
-        {
-            get { return this.create; }
-        }
+        public Func<TInput1, TInput2, T> Factory { get; }
 
         /// <summary>
         /// Creates a new specimen based on a request.
@@ -180,7 +165,7 @@ namespace Ploeh.AutoFixture.Kernel
 
             var p1 = (TInput1)context.Resolve(typeof(TInput1));
             var p2 = (TInput2)context.Resolve(typeof(TInput2));
-            return this.create(p1, p2);
+            return this.Factory(p1, p2);
         }
     }
 
@@ -194,8 +179,6 @@ namespace Ploeh.AutoFixture.Kernel
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", Justification = "Necessary to wrap the corresponding Func. However, this particular API is only intended to be used to implement the fluent API, and is not targeted at the typical end-user.")]
     public class SpecimenFactory<TInput1, TInput2, TInput3, T> : ISpecimenBuilder
     {
-        private readonly Func<TInput1, TInput2, TInput3, T> create;
-
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="SpecimenFactory&lt;TInput1, TInput2, TInput3, T&gt;"/> class.
@@ -214,16 +197,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(factory));
             }
 
-            this.create = factory;
+            this.Factory = factory;
         }
 
         /// <summary>
         /// Gets the factory that creates specimens.
         /// </summary>
-        public Func<TInput1, TInput2, TInput3, T> Factory
-        {
-            get { return this.create; }
-        }
+        public Func<TInput1, TInput2, TInput3, T> Factory { get; }
 
         /// <summary>
         /// Creates a new specimen based on a request.
@@ -250,7 +230,7 @@ namespace Ploeh.AutoFixture.Kernel
             var p1 = (TInput1)context.Resolve(typeof(TInput1));
             var p2 = (TInput2)context.Resolve(typeof(TInput2));
             var p3 = (TInput3)context.Resolve(typeof(TInput3));
-            return this.create(p1, p2, p3);
+            return this.Factory(p1, p2, p3);
         }
     }
 
@@ -265,8 +245,6 @@ namespace Ploeh.AutoFixture.Kernel
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", Justification = "Necessary to wrap the corresponding Func. However, this particular API is only intended to be used to implement the fluent API, and is not targeted at the typical end-user.")]
     public class SpecimenFactory<TInput1, TInput2, TInput3, TInput4, T> : ISpecimenBuilder
     {
-        private readonly Func<TInput1, TInput2, TInput3, TInput4, T> create;
-
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="SpecimenFactory&lt;TInput1, TInput2, TInput3, TInput4, T&gt;"/> class.
@@ -285,16 +263,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(factory));
             }
 
-            this.create = factory;
+            this.Factory = factory;
         }
 
         /// <summary>
         /// Gets the factory that creates specimens.
         /// </summary>
-        public Func<TInput1, TInput2, TInput3, TInput4, T> Factory
-        {
-            get { return this.create; }
-        }
+        public Func<TInput1, TInput2, TInput3, TInput4, T> Factory { get; }
 
         /// <summary>
         /// Creates a new specimen based on a request.
@@ -322,7 +297,7 @@ namespace Ploeh.AutoFixture.Kernel
             var p2 = (TInput2)context.Resolve(typeof(TInput2));
             var p3 = (TInput3)context.Resolve(typeof(TInput3));
             var p4 = (TInput4)context.Resolve(typeof(TInput4));
-            return this.create(p1, p2, p3, p4);
+            return this.Factory(p1, p2, p3, p4);
         }
     }
 }

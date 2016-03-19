@@ -6,7 +6,6 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
     {
         private MyClass mc;
         private string message;
-        private string transformedMessage;
 
         public string Message
         {
@@ -19,7 +18,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
                 }
 
                 this.message = value;
-                this.transformedMessage = this.mc.DoStuff(value);
+                this.TransformedMessage = this.mc.DoStuff(value);
             }
         }
 
@@ -28,9 +27,6 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             this.mc = mc;
         }
 
-        public string TransformedMessage
-        {
-            get { return this.transformedMessage; }
-        }
+        public string TransformedMessage { get; private set; }
     }
 }

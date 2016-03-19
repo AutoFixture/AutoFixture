@@ -37,7 +37,6 @@ namespace Ploeh.AutoFixture
     /// </remarks>
     public class SingletonSpecimenBuilderNodeStackAdapterCollection : Collection<ISpecimenBuilderTransformation>
     {
-        private ISpecimenBuilderNode graph;
         private readonly Func<ISpecimenBuilderNode, bool> isWrappedGraph;
 
         /// <summary>
@@ -75,7 +74,7 @@ namespace Ploeh.AutoFixture
             if (transformations == null)
                 throw new ArgumentNullException(nameof(transformations));
             
-            this.graph = graph;
+            this.Graph = graph;
             this.isWrappedGraph = wrappedGraphPredicate;
 
             foreach (var t in transformations)
@@ -103,10 +102,7 @@ namespace Ploeh.AutoFixture
         /// <see cref="ISpecimenBuilderTransformation" /> instances to the base
         /// graph.
         /// </value>
-        public ISpecimenBuilderNode Graph
-        {
-            get { return this.graph; }
-        }
+        public ISpecimenBuilderNode Graph { get; private set; }
 
         /// <summary>Removes all items from the collection.</summary>
         /// <remarks>
@@ -195,16 +191,16 @@ namespace Ploeh.AutoFixture
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ISpecimenBuilderNode"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ISpecimenBuilderTransformation", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         private void UpdateGraph()
         {
-            ISpecimenBuilder g = this.graph.SelectNodes(this.isWrappedGraph).First();
+            ISpecimenBuilder g = this.Graph.SelectNodes(this.isWrappedGraph).First();
             var builder = this.Aggregate(g, (b, t) => t.Transform(b));
 
             var node = builder as ISpecimenBuilderNode;
             if (node == null)
                 throw new InvalidOperationException("An ISpecimenBuilderTransformation returned a result which cannot be converted to an ISpecimenBuilderNode. To be used in the current context, all ISpecimenBuilderTransformation Transform methods must return an ISpecimenBuilderNode instance.");
 
-            this.graph = node;
+            this.Graph = node;
 
-            this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.graph));
+            this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.Graph));
         }
     }
 }

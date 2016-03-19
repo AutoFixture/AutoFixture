@@ -10,8 +10,6 @@ namespace Ploeh.AutoFixture
     /// </summary>
     public class UriScheme : IEquatable<UriScheme>
     {
-        private readonly string scheme;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="UriScheme"/> class using "scheme" as the
         /// default URI scheme name.
@@ -37,7 +35,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentException("The provided scheme is not valid. Scheme names consist of a sequence of characters beginning with a letter and followed by any combination of letters, digits, plus ('+'), period ('.'), or hyphen ('-').");
             }
 
-            this.scheme = scheme;
+            this.Scheme = scheme;
         }
 
         /// <summary>
@@ -49,7 +47,7 @@ namespace Ploeh.AutoFixture
         /// </returns>
         public override string ToString()
         {
-            return this.scheme;
+            return this.Scheme;
         }
 
         /// <summary>
@@ -90,10 +88,7 @@ namespace Ploeh.AutoFixture
         /// <summary>
         /// Gets the scheme name.
         /// </summary>
-        public string Scheme
-        {
-            get { return this.scheme; }
-        }
+        public string Scheme { get; }
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.

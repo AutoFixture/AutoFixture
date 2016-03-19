@@ -109,10 +109,7 @@ namespace Ploeh.AutoFixture.Kernel
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class Postprocessor<T> : ISpecimenBuilderNode
     {
-        private readonly ISpecimenBuilder builder;
         internal Action<T, ISpecimenContext> action;
-        private readonly ISpecimenCommand command;
-        private readonly IRequestSpecification specification;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Postprocessor{T}"/> class with the
@@ -179,10 +176,10 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(specification));
             }
 
-            this.builder = builder;
+            this.Builder = builder;
             this.action = action;
-            this.command = new ActionSpecimenCommand<T>(this.action);
-            this.specification = specification;
+            this.Command = new ActionSpecimenCommand<T>(this.action);
+            this.Specification = specification;
         }
 
         /// <summary>
@@ -214,10 +211,10 @@ namespace Ploeh.AutoFixture.Kernel
             if (specification == null)
                 throw new ArgumentNullException(nameof(specification));
 
-            this.builder = builder;
-            this.command = command;
-            this.specification = specification;
-            this.action = (s, c) => this.command.Execute(s, c);
+            this.Builder = builder;
+            this.Command = command;
+            this.Specification = specification;
+            this.action = (s, c) => this.Command.Execute(s, c);
         }
 
         /// <summary>
@@ -233,26 +230,17 @@ namespace Ploeh.AutoFixture.Kernel
         /// Gets the command, which is applied during postprocessing.
         /// </summary>
         /// <value>The command supplied via one of the constructors.</value>
-        public ISpecimenCommand Command
-        {
-            get { return this.command; }
-        }
+        public ISpecimenCommand Command { get; }
 
         /// <summary>
         /// Gets the decorated builder.
         /// </summary>
-        public ISpecimenBuilder Builder
-        {
-            get { return this.builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
 
         /// <summary>
         /// Gets the filter that determines whether <see cref="Action"/> should be executed.
         /// </summary>
-        public IRequestSpecification Specification
-        {
-            get { return this.specification; }
-        }
+        public IRequestSpecification Specification { get; }
 
         /// <summary>
         /// Creates a new specimen based on a request and performs an action on the created
@@ -272,7 +260,7 @@ namespace Ploeh.AutoFixture.Kernel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ISpecimenBuilder", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
         public object Create(object request, ISpecimenContext context)
         {
-            var specimen = this.builder.Create(request, context);
+            var specimen = this.Builder.Create(request, context);
             if (specimen == null)
                 return specimen;
 
@@ -280,13 +268,13 @@ namespace Ploeh.AutoFixture.Kernel
             if (ns != null)
                 return ns;
 
-            if (!this.specification.IsSatisfiedBy(request))
+            if (!this.Specification.IsSatisfiedBy(request))
                 return specimen;
 
             if (!(specimen is T))
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                     "The specimen returned by the decorated ISpecimenBuilder is not compatible with {0}.", typeof(T)));
-            this.command.Execute(specimen, context);
+            this.Command.Execute(specimen, context);
             return specimen;
         }
 
@@ -299,7 +287,7 @@ namespace Ploeh.AutoFixture.Kernel
         public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
-            var pp = new Postprocessor<T>(composedBuilder, this.command, this.specification);
+            var pp = new Postprocessor<T>(composedBuilder, this.Command, this.Specification);
             pp.action = this.action;
             return pp;
         }
@@ -313,7 +301,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            yield return this.builder;
+            yield return this.Builder;
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

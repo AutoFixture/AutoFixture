@@ -17,9 +17,6 @@ namespace Ploeh.SemanticComparison
     /// equality against the source value.</typeparam>
     public class SemanticComparer<TSource, TDestination> : IEqualityComparer, IEqualityComparer<object>
     {
-        private readonly IEnumerable<MemberEvaluator<TSource, TDestination>> evaluators;
-        private readonly Func<IEnumerable<MemberInfo>> defaultMembersGenerator;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SemanticComparer&lt;TSource, TDestination&gt;"/> class.
         /// </summary>
@@ -30,19 +27,13 @@ namespace Ploeh.SemanticComparison
 
         internal SemanticComparer(IEnumerable<MemberEvaluator<TSource, TDestination>> evaluators, Func<IEnumerable<MemberInfo>> defaultMembersGenerator)
         {
-            this.evaluators = evaluators;
-            this.defaultMembersGenerator = defaultMembersGenerator;
+            this.Evaluators = evaluators;
+            this.DefaultMembersGenerator = defaultMembersGenerator;
         }
 
-        internal IEnumerable<MemberEvaluator<TSource, TDestination>> Evaluators
-        {
-            get { return evaluators; }
-        }
+        internal IEnumerable<MemberEvaluator<TSource, TDestination>> Evaluators { get; }
 
-        internal Func<IEnumerable<MemberInfo>> DefaultMembersGenerator
-        {
-            get { return defaultMembersGenerator; }
-        }
+        internal Func<IEnumerable<MemberInfo>> DefaultMembersGenerator { get; }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
@@ -174,8 +165,6 @@ namespace Ploeh.SemanticComparison
     /// </remarks>
     public class SemanticComparer<T> : IEqualityComparer<T>, IEqualityComparer
     {
-        private readonly IEnumerable<IMemberComparer> comparers;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SemanticComparer&lt;T&gt;"/>
         /// class.
@@ -215,7 +204,7 @@ namespace Ploeh.SemanticComparison
             if (comparers == null)
                 throw new ArgumentNullException(nameof(comparers));
 
-            this.comparers = comparers;
+            this.Comparers = comparers;
         }
 
         /// <summary>
@@ -226,10 +215,7 @@ namespace Ploeh.SemanticComparison
         /// The supplied <see cref="IEnumerable&lt;IMemberComparer&gt;" />
         /// instances.
         /// </value>
-        public IEnumerable<IMemberComparer> Comparers
-        {
-            get { return this.comparers; }
-        }
+        public IEnumerable<IMemberComparer> Comparers { get; }
 
         /// <summary>
         /// Determines whether the specified objects are equal.
@@ -253,14 +239,14 @@ namespace Ploeh.SemanticComparison
             var bindingAttributes = BindingFlags.Public | BindingFlags.Instance;
             return typeof(T)
                 .GetProperties(bindingAttributes)
-                .Select(property => this.comparers
+                .Select(property => this.Comparers
                     .Where(c => c.IsSatisfiedBy(property))
                     .Any(c => c.Equals(
                         property.GetValue(x, null),
                         property.GetValue(y, null))))
                 .Concat(typeof(T)
                     .GetFields(bindingAttributes)
-                    .Select(field => this.comparers
+                    .Select(field => this.Comparers
                         .Where(c => c.IsSatisfiedBy(field))
                         .Any(c => c.Equals(
                             field.GetValue(x),

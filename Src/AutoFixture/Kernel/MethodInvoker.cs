@@ -10,8 +10,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class MethodInvoker : ISpecimenBuilder
     {
-        private readonly IMethodQuery query;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MethodInvoker"/> class with the supplied
         /// <see cref="IMethodQuery" />.
@@ -26,17 +24,14 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(query));
             }
 
-            this.query = query;
+            this.Query = query;
         }
 
         /// <summary>
         /// Gets the <see cref="IMethodQuery"/> that defines which constructors will be
         /// attempted.
         /// </summary>
-        public IMethodQuery Query
-        {
-            get { return this.query; }
-        }
+        public IMethodQuery Query { get; }
 
         /// <summary>
         /// Creates a specimen of the requested type by invoking the first constructor or method it
@@ -83,7 +78,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return Enumerable.Empty<IMethod>();
             }
 
-            return this.query.SelectMethods(requestedType);
+            return this.Query.SelectMethods(requestedType);
         }
 
         private static bool IsValueValid(object value)

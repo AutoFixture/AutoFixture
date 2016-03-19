@@ -475,20 +475,17 @@ namespace Ploeh.SemanticComparison
 
         private class SourceTypeValuePair
         {
-            private readonly Type type;
-            private readonly object value; 
-
             public SourceTypeValuePair(Type type, object value)
             {
                 if (type == null)
                     throw new ArgumentNullException(nameof(type));
 
-                this.type = type;
-                this.value = value;
+                this.Type = type;
+                this.Value = value;
             }
 
-            public Type Type { get { return this.type; } }
-            public object Value { get { return this.value; } }
+            public Type Type { get; }
+            public object Value { get; }
         }
     }
 }

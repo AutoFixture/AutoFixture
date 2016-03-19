@@ -9,8 +9,6 @@ namespace Ploeh.AutoFixture.Kernel
     [Obsolete("This class is no longer used, and will be removed in future versions.")]
     public class UnspecifiedSpecimenCommand<T> : ISpecifiedSpecimenCommand<T>
     {
-        private readonly Action<T> action;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="UnspecifiedSpecimenCommand&lt;T&gt;"/>
         /// class.
@@ -23,16 +21,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(action));
             }
 
-            this.action = action;
+            this.Action = action;
         }
 
         /// <summary>
         /// Gets the action that can be performed on a specimen.
         /// </summary>
-        public Action<T> Action
-        {
-            get { return this.action; }
-        }
+        public Action<T> Action { get; }
 
         /// <summary>
         /// Executes <see cref="Action"/> on the supplied specimen.

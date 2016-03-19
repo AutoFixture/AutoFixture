@@ -5,11 +5,9 @@ namespace Ploeh.TestTypeFoundation
 {
     public class ItemContainer<T>
     {
-        private readonly IEnumerable<T> items;
-
         public ItemContainer(params T[] items)
         {
-            this.items = items;
+            this.Items = items;
         }
 
         public ItemContainer(IEnumerable<T> items)
@@ -22,9 +20,6 @@ namespace Ploeh.TestTypeFoundation
         {
         }
 
-        public IEnumerable<T> Items
-        {
-            get { return this.items; }
-        }
+        public IEnumerable<T> Items { get; }
     }
 }

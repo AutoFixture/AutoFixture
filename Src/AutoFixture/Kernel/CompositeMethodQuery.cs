@@ -9,8 +9,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class CompositeMethodQuery : IMethodQuery
     {
-        private readonly IEnumerable<IMethodQuery> queries;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeMethodQuery"/> class.
         /// </summary>
@@ -31,16 +29,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(queries));
             }
             
-            this.queries = queries;
+            this.Queries = queries;
         }
 
         /// <summary>
         /// Gets the queries supplied through one of the constructors.
         /// </summary>
-        public IEnumerable<IMethodQuery> Queries
-        {
-            get { return this.queries; }
-        }
+        public IEnumerable<IMethodQuery> Queries { get; }
 
         /// <summary>
         /// Selects the methods for the supplied type.
@@ -49,7 +44,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <returns>Methods for <paramref name="type"/>.</returns>
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
-            return from q in this.queries
+            return from q in this.Queries
                    from m in q.SelectMethods(type)
                    select m;
         }

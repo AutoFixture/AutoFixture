@@ -4,20 +4,15 @@ namespace Ploeh.SemanticComparison.UnitTest.TestTypes
 {
     public class TypeWithIdenticalParameterTypesAndProperties
     {
-        private readonly long field1;
-        private readonly long field2;
-        private readonly long field3;
-        private readonly long field4;
-
         public TypeWithIdenticalParameterTypesAndProperties(
             long parameter1,
             long parameter2,
             long parameter3)
         {
-            this.field1 = parameter1;
-            this.field2 = parameter2;
-            this.field3 = parameter3;
-            this.field4 = 400;
+            this.Property1 = parameter1;
+            this.Property2 = parameter2;
+            this.Property3 = parameter3;
+            this.Property4 = 400;
         }
 
         protected TypeWithIdenticalParameterTypesAndProperties(object source)
@@ -28,24 +23,12 @@ namespace Ploeh.SemanticComparison.UnitTest.TestTypes
             }
         }
 
-        public long Property1
-        {
-            get { return this.field1; }
-        }
+        public long Property1 { get; }
 
-        public long Property2
-        {
-            get { return this.field2; }
-        }
+        public long Property2 { get; }
 
-        public long Property3
-        {
-            get { return this.field3; }
-        }
+        public long Property3 { get; }
 
-        public long Property4
-        {
-            get { return this.field4; }
-        }
+        public long Property4 { get; }
     }
 }

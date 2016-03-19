@@ -7,8 +7,6 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     public class ExactTypeSpecification : IRequestSpecification
     {
-        private readonly Type targetType;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ExactTypeSpecification"/> class.
         /// </summary>
@@ -20,16 +18,13 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(type));
             }
 
-            this.targetType = type;
+            this.TargetType = type;
         }
 
         /// <summary>
         /// Gets the type targeted by this <see cref="IRequestSpecification"/>.
         /// </summary>
-        public Type TargetType
-        {
-            get { return this.targetType; }
-        }
+        public Type TargetType { get; }
 
         /// <summary>
         /// Evaluates a request for a specimen.
@@ -46,7 +41,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(request));
             }
 
-            return this.targetType.Equals(request);
+            return this.TargetType.Equals(request);
         }
     }
 }
