@@ -27,7 +27,3 @@ Some existing issues are marked with [the jump-in tag](http://nikcodes.com/2013/
 When you submit a pull request, you can expect a response within a day or two. We (the maintainers of AutoFixture) have day jobs, so we may not be able to immediately review your pull request, but we do make it a priority. Also keep in mind that we may not be in your time zone.
 
 Most likely, when we review pull requests, we will make suggestions for improvement. This is normal, so don't interpret it as though we don't like your pull request. On the contrary, if we agree on the overall goal of the pull request, we want to work *with* you to make it a success.
-
-## Continuous Delivery ##
-
-AutoFixture is set for Continuous Integration on [http://teamcity.codebetter.com/project.html?projectId=project129&tab=projectOverview](http://teamcity.codebetter.com/project.html?projectId=project129&tab=projectOverview). The latest build (including strong names) can be downloaded from there, but Continuous Delivery is also enabled, which means that the latest build of *master* is also automatically published on CodePlex and NuGet.
