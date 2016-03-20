@@ -1,6 +1,6 @@
 # How to contribute to AutoFixture
 
-AutoFixture is currently being developed in C# on .NET 4 using Visual Studio 2010/2/3 with [xUnit.net](http://xunit.codeplex.com/) as the unit testing framework. So far, all development has been done with TDD, so there's a pretty high degree of code coverage, and the aim is to to keep it that way.
+AutoFixture is currently being developed in C# on .NET 4 using Visual Studio 2010/2/3/5 with [xUnit.net](http://xunit.codeplex.com/) as the unit testing framework. So far, all development has been done with TDD, so there's a pretty high degree of code coverage, and the aim is to to keep it that way.
 
 ## Dependencies
 
@@ -8,7 +8,7 @@ All binaries (such as xUnit.net) are included as NuGet packages in the source co
 
 ## Verification
 
-There are several different targeted solutions to be found under the \Src folder, but be aware that the final verification step before pushing to the repository is to successfully run all the unit tests in the `build-release.sh` file.
+There are several different targeted solutions to be found under the \Src folder, but be aware that the final verification step before pushing to the repository is to successfully run all the unit tests in the `build.sh` file (if you don't have a Bash shell, you can use the `build.cmd` script).
 
 As part of the verification build, Visual Studio Code Analysis is executed in a configuration that treats warnings as errors. No CA warnings should be suppressed unless the documented conditions for suppression are satisfied. Otherwise, a documented agreement between at least two active developers of the project should be reached to allow a suppression of a non-suppressible warning.
 
