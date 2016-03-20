@@ -27,3 +27,16 @@ Some existing issues are marked with [the jump-in tag](http://nikcodes.com/2013/
 When you submit a pull request, you can expect a response within a day or two. We (the maintainers of AutoFixture) have day jobs, so we may not be able to immediately review your pull request, but we do make it a priority. Also keep in mind that we may not be in your time zone.
 
 Most likely, when we review pull requests, we will make suggestions for improvement. This is normal, so don't interpret it as though we don't like your pull request. On the contrary, if we agree on the overall goal of the pull request, we want to work *with* you to make it a success.
+
+## Continuous Integration ##
+
+AutoFixture has been set up for Continuous Integration. The build is hosted on [AppVeyor](https://ci.appveyor.com/project/AutoFixture/autofixture) and runs automatically every time a new commit is pushed to any of the [public branches](https://github.com/AutoFixture/AutoFixture/branches) or a Pull Request is submitted. AutoFixture uses GitHub's [Commit Status API](https://github.com/blog/1227-commit-status-api#pull-requests) to prevent Pull Requests that don't pass the build from being accidentally merged.
+
+The build process is implemented in the [`Build.fsx`](https://github.com/AutoFixture/AutoFixture/blob/master/Build.fsx) file using [FAKE](http://fsharp.github.io/FAKE/) and consists of four main steps:
+
+1. Compile all projects
+2. Run static analysis on all projects using [FxCop](https://en.wikipedia.org/wiki/FxCop)
+3. Run [all tests](https://ci.appveyor.com/project/AutoFixture/autofixture/build/tests)
+4. Create [NuGet packages](https://ci.appveyor.com/project/AutoFixture/autofixture/build/artifacts)
+
+The NuGet packages produced by the latest build can be downloaded directly from [AppVeyor](https://ci.appveyor.com/project/AutoFixture/autofixture/build/artifacts).
