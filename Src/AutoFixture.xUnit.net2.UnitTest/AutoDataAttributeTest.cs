@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Ploeh.TestTypeFoundation;
 using Xunit;
@@ -148,6 +149,24 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
             var result = sut.GetData(method);
             // Verify outcome
             Assert.True(new[] { expectedResult }.SequenceEqual(result.Single()));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData("CreateWithFrozenAndGreedy")]
+        [InlineData("CreateWithGreedyAndFrozen")]
+        public void GetDataOrdersCustomizationAttributes(string methodName)
+        {
+            // Fixture setup
+            var method = typeof(TypeWithCustomizationAttributes).GetMethod(methodName, new[] { typeof(ConcreteType) });
+            var customizationLog = new List<ICustomization>();
+            var fixture = new DelegatingFixture { OnCustomize = c => { customizationLog.Add(c); } };
+            var sut = new AutoDataAttribute(fixture);
+            // Exercise system
+            sut.GetData(method);
+            // Verify outcome
+            Assert.True(customizationLog[0] is ConstructorCustomization);
+            Assert.True(customizationLog[1] is FreezeOnMatchCustomization);
             // Teardown
         }
     }

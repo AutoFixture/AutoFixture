@@ -75,6 +75,7 @@
     <Compile Include="InlineAutoDataAttributeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenario.cs" />
+    <Compile Include="TypeWithCustomizationAttributes.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture.xUnit.net2\AutoFixture.xUnit.net2.csproj">
