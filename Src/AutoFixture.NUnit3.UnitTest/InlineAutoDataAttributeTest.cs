@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         {
             var extended = new InlineAutoDataAttributeStub();
 
-            Assert.That(extended, Is.AssignableTo(typeof(InlineAutoDataAttribute)));
+            Assert.That(extended, Is.AssignableTo(typeof(AutoDataAttribute)));
         }
 
         private class InlineAutoDataAttributeStub : InlineAutoDataAttribute

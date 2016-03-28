@@ -335,44 +335,42 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         [InlineAutoData(1, 2, 3)]
         public void InlineAutoDataTakesParameterValues(int p1, int p2, int p3)
         {
-            Assert.That(1, Is.EqualTo(p1));
-            Assert.That(2, Is.EqualTo(p2));
-            Assert.That(3, Is.EqualTo(p3));
+            Assert.That(p1, Is.EqualTo(1));
+            Assert.That(p2, Is.EqualTo(2));
+            Assert.That(p3, Is.EqualTo(3));
         }
 
         [Theory]
         [InlineAutoData]
-        public void InlineAutoDataProvidesParameterValuesWhenNoneGiven(int p1, int p2, int p3)
+        public void InlineAutoDataProvidesParameterValuesWhenNoneGiven(string p1, string p2, string p3)
         {
-            Assert.That(0, Is.Not.EqualTo(p1));
-            Assert.That(0, Is.Not.EqualTo(p2));
-            Assert.That(0, Is.Not.EqualTo(p3));
+            Assert.That(p1, Is.Not.Null);
+            Assert.That(p2, Is.Not.Null);
+            Assert.That(p3, Is.Not.Null);
         }
 
         [Theory]
-        [InlineAutoData(1, 2)]
-        public void InlineAutoDataProvidesParameterValuesWhenMissing(int p1, int p2, int p3)
+        [InlineAutoData("alpha", "beta")]
+        public void InlineAutoDataProvidesParameterValuesWhenMissing(string p1, string p2, string p3)
         {
-            Assert.That(1, Is.EqualTo(p1));
-            Assert.That(2, Is.EqualTo(p2));
-            Assert.That(0, Is.Not.EqualTo(p3));
+            Assert.That(p1, Is.EqualTo("alpha"));
+            Assert.That(p2, Is.EqualTo("beta"));
+            Assert.That(p3, Is.Not.Null);
         }
 
         [Theory]
-        [InlineAutoData(1, 2)]
-        [InlineAutoData(4)]
+        [InlineAutoData("alpha", "beta")]
+        [InlineAutoData("charlie")]
         [InlineAutoData]
-        public void InlineAutoDataCanBeUsedInMultiple(int p1, int p2, int p3)
+        public void InlineAutoDataCanBeUsedInMultiple(string p1, string p2, string p3)
         {
-            Assert.That(0, Is.Not.EqualTo(p1));
-            Assert.That(0, Is.Not.EqualTo(p2));
-            Assert.That(0, Is.Not.EqualTo(p3));
+            Assert.That(p1, Is.Not.Null);
+            Assert.That(p2, Is.Not.Null);
+            Assert.That(p3, Is.Not.Null);
         }
 
         [Theory]
-        [InlineAutoData(1, 2)]
-        [InlineAutoData(4)]
-        [InlineAutoData]
+        [InlineAutoData(1)]
         public void InlineAutoDataCanBeUsedWithFrozen(int p1, int p2, [Frozen]string p3, string p4)
         {
             Assert.That(p3, Is.EqualTo(p4));
