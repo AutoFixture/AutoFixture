@@ -19,19 +19,14 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         [Test]
         public void InlineAutoDataCanBeExtendedWithImplementationOfIFixture()
         {
-            var extended = new InlineAutoDataAttributeStub();
+            var extended = new DeriviedInlineAutoDataAttribute();
 
             Assert.That(extended, Is.AssignableTo(typeof(AutoDataAttribute)));
         }
 
-        private class InlineAutoDataAttributeStub : InlineAutoDataAttribute
+        private class DeriviedInlineAutoDataAttribute : InlineAutoDataAttribute
         {
-            /// <summary>
-            /// Here we can use any implementation of <see cref="IFixture"/>, 
-            /// the use of <see cref="ThrowingStubFixture"/> is pure coincidence and inconsequential
-            /// </summary>
-            /// <param name="arguments"></param>
-            public InlineAutoDataAttributeStub(params object[] arguments) 
+            public DeriviedInlineAutoDataAttribute(params object[] arguments) 
                 : base(new StubFixture(), arguments)
             {
             }
