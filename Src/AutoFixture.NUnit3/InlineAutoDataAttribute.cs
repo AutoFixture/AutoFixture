@@ -6,8 +6,8 @@ using NUnit.Framework.Interfaces;
 namespace Ploeh.AutoFixture.NUnit3
 {
     /// <summary>
-    /// This attribute uses AutoFixture to generate values for unit test parameters. 
-    /// This implementation is based on TestCaseAttribute of NUnit3
+    /// This attribute acts as a TestCaseAttribute but allow incomplete parameter values, 
+    /// which will be provided by AutoFixture. 
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [CLSCompliant(false)]
