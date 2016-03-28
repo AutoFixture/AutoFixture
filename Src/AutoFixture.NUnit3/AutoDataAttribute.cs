@@ -64,12 +64,18 @@ namespace Ploeh.AutoFixture.NUnit3
             }
         }
 
-        private IEnumerable<object> GetParameterValues(IEnumerable<IParameterInfo> parameters)
+        /// <summary>
+        /// Get values for a collection of <see cref="IParameterInfo"/>
+        /// </summary>
+        protected virtual IEnumerable<object> GetParameterValues(IEnumerable<IParameterInfo> parameters)
         {
-            return parameters.Select(Resolve);
+            return parameters.Select(GetValueForParameter);
         }
 
-        private object Resolve(IParameterInfo parameterInfo)
+        /// <summary>
+        /// Get value for a <see cref="IParameterInfo"/>
+        /// </summary>
+        protected object GetValueForParameter(IParameterInfo parameterInfo)
         {
             CustomizeFixtureByParameter(this._fixture, parameterInfo);
 
