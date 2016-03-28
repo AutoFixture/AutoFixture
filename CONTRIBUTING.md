@@ -1,6 +1,6 @@
 # How to contribute to AutoFixture
 
-AutoFixture is currently being developed in C# on .NET 4 using Visual Studio 2010/2/3 with [xUnit.net](http://xunit.codeplex.com/) as the unit testing framework. So far, all development has been done with TDD, so there's a pretty high degree of code coverage, and the aim is to to keep it that way.
+AutoFixture is currently being developed in C# on .NET 4 using Visual Studio 2010/2/3/5 with [xUnit.net](http://xunit.codeplex.com/) as the unit testing framework. So far, all development has been done with TDD, so there's a pretty high degree of code coverage, and the aim is to to keep it that way.
 
 ## Dependencies
 
@@ -8,7 +8,7 @@ All binaries (such as xUnit.net) are included as NuGet packages in the source co
 
 ## Verification
 
-There are several different targeted solutions to be found under the \Src folder, but be aware that the final verification step before pushing to the repository is to successfully run all the unit tests in the `build-release.sh` file.
+There are several different targeted solutions to be found under the \Src folder, but be aware that the final verification step before pushing to the repository is to successfully run all the unit tests in the `build.sh` file (if you don't have a Bash shell, you can use the `build.cmd` script).
 
 As part of the verification build, Visual Studio Code Analysis is executed in a configuration that treats warnings as errors. No CA warnings should be suppressed unless the documented conditions for suppression are satisfied. Otherwise, a documented agreement between at least two active developers of the project should be reached to allow a suppression of a non-suppressible warning.
 
@@ -28,6 +28,15 @@ When you submit a pull request, you can expect a response within a day or two. W
 
 Most likely, when we review pull requests, we will make suggestions for improvement. This is normal, so don't interpret it as though we don't like your pull request. On the contrary, if we agree on the overall goal of the pull request, we want to work *with* you to make it a success.
 
-## Continuous Delivery ##
+## Continuous Integration ##
 
-AutoFixture is set for Continuous Integration on [http://teamcity.codebetter.com/project.html?projectId=project129&tab=projectOverview](http://teamcity.codebetter.com/project.html?projectId=project129&tab=projectOverview). The latest build (including strong names) can be downloaded from there, but Continuous Delivery is also enabled, which means that the latest build of *master* is also automatically published on CodePlex and NuGet.
+AutoFixture has been set up for Continuous Integration. The build is hosted on [AppVeyor](https://ci.appveyor.com/project/AutoFixture/autofixture) and runs automatically every time a new commit is pushed to any of the [public branches](https://github.com/AutoFixture/AutoFixture/branches) or a Pull Request is submitted. AutoFixture uses GitHub's [Commit Status API](https://github.com/blog/1227-commit-status-api#pull-requests) to prevent Pull Requests that don't pass the build from being accidentally merged.
+
+The build process is implemented in the [`Build.fsx`](https://github.com/AutoFixture/AutoFixture/blob/master/Build.fsx) file using [FAKE](http://fsharp.github.io/FAKE/) and consists of four main steps:
+
+1. Compile all projects
+2. Run static analysis on all projects using [FxCop](https://en.wikipedia.org/wiki/FxCop)
+3. Run [all tests](https://ci.appveyor.com/project/AutoFixture/autofixture/build/tests)
+4. Create [NuGet packages](https://ci.appveyor.com/project/AutoFixture/autofixture/build/artifacts)
+
+The NuGet packages produced by the latest build can be downloaded directly from [AppVeyor](https://ci.appveyor.com/project/AutoFixture/autofixture/build/artifacts).
