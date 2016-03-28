@@ -359,8 +359,8 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         }
 
         [Theory]
-        [InlineAutoData("alpha", "beta")]
-        [InlineAutoData("charlie")]
+        [InlineAutoData]
+        [InlineAutoData]
         [InlineAutoData]
         public void InlineAutoDataCanBeUsedInMultiple(string p1, string p2, string p3)
         {
