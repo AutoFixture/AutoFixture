@@ -330,5 +330,52 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         {
             Assert.AreNotEqual(p1, p2.Field);
         }
+
+        [Theory]
+        [InlineAutoData(1, 2, 3)]
+        public void InlineAutoDataTakesParameterValues(int p1, int p2, int p3)
+        {
+            Assert.That(1, Is.EqualTo(p1));
+            Assert.That(2, Is.EqualTo(p2));
+            Assert.That(3, Is.EqualTo(p3));
+        }
+
+        [Theory]
+        [InlineAutoData]
+        public void InlineAutoDataProvidesParameterValuesWhenNoneGiven(int p1, int p2, int p3)
+        {
+            Assert.That(0, Is.Not.EqualTo(p1));
+            Assert.That(0, Is.Not.EqualTo(p2));
+            Assert.That(0, Is.Not.EqualTo(p3));
+        }
+
+        [Theory]
+        [InlineAutoData(1, 2)]
+        public void InlineAutoDataProvidesParameterValuesWhenMissing(int p1, int p2, int p3)
+        {
+            Assert.That(1, Is.EqualTo(p1));
+            Assert.That(2, Is.EqualTo(p2));
+            Assert.That(0, Is.Not.EqualTo(p3));
+        }
+
+        [Theory]
+        [InlineAutoData(1, 2)]
+        [InlineAutoData(4)]
+        [InlineAutoData]
+        public void InlineAutoDataCanBeUsedInMultiple(int p1, int p2, int p3)
+        {
+            Assert.That(0, Is.Not.EqualTo(p1));
+            Assert.That(0, Is.Not.EqualTo(p2));
+            Assert.That(0, Is.Not.EqualTo(p3));
+        }
+
+        [Theory]
+        [InlineAutoData(1, 2)]
+        [InlineAutoData(4)]
+        [InlineAutoData]
+        public void InlineAutoDataCanBeUsedWithFrozen(int p1, int p2, [Frozen]string p3, string p4)
+        {
+            Assert.That(p3, Is.EqualTo(p4));
+        }
     }
 }
