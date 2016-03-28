@@ -38,14 +38,14 @@ namespace Ploeh.AutoFixture.NUnit3
         /// </summary>
         protected override IEnumerable<object> GetParameterValues(IEnumerable<IParameterInfo> parameters)
         {
-            return this._existingParameterValues.Concat(GetMissingValues(parameters));
+            return this._existingParameterValues.Concat(this.GetMissingValues(parameters));
         }
 
         private IEnumerable<object> GetMissingValues(IEnumerable<IParameterInfo> parameters)
         {
             var parametersWithoutValues = parameters.Skip(this._existingParameterValues.Count());
 
-            return parametersWithoutValues.Select(GetValueForParameter);
+            return parametersWithoutValues.Select(this.GetValueForParameter);
         }
     } 
 }

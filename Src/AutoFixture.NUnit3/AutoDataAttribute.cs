@@ -73,7 +73,7 @@ namespace Ploeh.AutoFixture.NUnit3
         }
 
         /// <summary>
-        /// Get value for a <see cref="IParameterInfo"/>
+        /// Get value for an <see cref="IParameterInfo"/>
         /// </summary>
         protected object GetValueForParameter(IParameterInfo parameterInfo)
         {
