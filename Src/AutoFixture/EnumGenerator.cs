@@ -96,11 +96,14 @@ namespace Ploeh.AutoFixture
 
             public IEnumerator GetEnumerator()
             {
-                while (true)
+                if (this.values.Any())
                 {
-                    foreach (var obj in this.values)
+                    while (true)
                     {
-                        yield return obj;
+                        foreach (var obj in this.values)
+                        {
+                            yield return obj;
+                        }
                     }
                 }
             }

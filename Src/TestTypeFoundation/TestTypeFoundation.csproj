@@ -83,6 +83,7 @@
     <Compile Include="DoubleFieldHolder.cs" />
     <Compile Include="DoubleParameterType.cs" />
     <Compile Include="DoublePropertyHolder.cs" />
+    <Compile Include="EmptyEnum.cs" />
     <Compile Include="EqualityResponder.cs" />
     <Compile Include="FieldHolder.cs" />
     <Compile Include="GenericType.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="TriplePropertyHolder.cs" />
     <Compile Include="TriState.cs" />
     <Compile Include="TypeWithConcreteParameterMethod.cs" />
+    <Compile Include="TypeWithEmptyEnumField.cs" />
     <Compile Include="TypeWithFactoryMethod.cs" />
     <Compile Include="TypeWithIndexer.cs" />
     <Compile Include="TypeWithOverloadedMembers.cs" />
