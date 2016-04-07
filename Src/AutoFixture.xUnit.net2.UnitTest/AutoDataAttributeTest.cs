@@ -153,8 +153,18 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         }
 
         [Theory]
+        [InlineData("CreateWithFrozenAndFavorArrays")]
+        [InlineData("CreateWithFavorArraysAndFrozen")]
+        [InlineData("CreateWithFrozenAndFavorEnumerables")]
+        [InlineData("CreateWithFavorEnumerablesAndFrozen")]
+        [InlineData("CreateWithFrozenAndFavorLists")]
+        [InlineData("CreateWithFavorListsAndFrozen")]
         [InlineData("CreateWithFrozenAndGreedy")]
         [InlineData("CreateWithGreedyAndFrozen")]
+        [InlineData("CreateWithFrozenAndModest")]
+        [InlineData("CreateWithModestAndFrozen")]
+        [InlineData("CreateWithFrozenAndNoAutoProperties")]
+        [InlineData("CreateWithNoAutoPropertiesAndFrozen")]
         public void GetDataOrdersCustomizationAttributes(string methodName)
         {
             // Fixture setup
@@ -165,7 +175,7 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
             // Exercise system
             sut.GetData(method);
             // Verify outcome
-            Assert.True(customizationLog[0] is ConstructorCustomization);
+            Assert.False(customizationLog[0] is FreezeOnMatchCustomization);
             Assert.True(customizationLog[1] is FreezeOnMatchCustomization);
             // Teardown
         }
