@@ -71,6 +71,7 @@
     <Compile Include="InlineAutoDataAttribute.cs" />
     <Compile Include="AutoDataAttribute.cs" />
     <Compile Include="CustomizeAttribute.cs" />
+    <Compile Include="CustomizeAttributeComparer.cs" />
     <Compile Include="FavorArraysAttribute.cs" />
     <Compile Include="FavorEnumerablesAttribute.cs" />
     <Compile Include="FavorListsAttribute.cs" />

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Ploeh.TestTypeFoundation;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
@@ -80,6 +82,38 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
 
             Assert.That(testMethod.Properties.Get(PropertyNames.SkipReason),
                 Is.EqualTo(ExceptionHelper.BuildMessage(new ThrowingStubFixture.DummyException())));
+        }
+
+        [TestCase("CreateWithFrozenAndFavorArrays")]
+        [TestCase("CreateWithFavorArraysAndFrozen")]
+        [TestCase("CreateWithFrozenAndFavorEnumerables")]
+        [TestCase("CreateWithFavorEnumerablesAndFrozen")]
+        [TestCase("CreateWithFrozenAndFavorLists")]
+        [TestCase("CreateWithFavorListsAndFrozen")]
+        [TestCase("CreateWithFrozenAndGreedy")]
+        [TestCase("CreateWithGreedyAndFrozen")]
+        [TestCase("CreateWithFrozenAndModest")]
+        [TestCase("CreateWithModestAndFrozen")]
+        [TestCase("CreateWithFrozenAndNoAutoProperties")]
+        [TestCase("CreateWithNoAutoPropertiesAndFrozen")]
+        public void GetDataOrdersCustomizationAttributes(string methodName)
+        {
+            // Fixture setup
+            var method = new MethodWrapper(typeof(TypeWithCustomizationAttributes), methodName);
+            var customizationLog = new List<ICustomization>();
+            var fixture = new DelegatingFixture();
+            fixture.OnCustomize = c =>
+            {
+                customizationLog.Add(c);
+                return fixture;
+            };
+            var sut = new AutoDataAttributeStub(fixture);
+            // Exercise system
+            sut.BuildFrom(method, new TestSuite(this.GetType())).Single();
+            // Verify outcome
+            Assert.False(customizationLog[0] is FreezeOnMatchCustomization);
+            Assert.True(customizationLog[1] is FreezeOnMatchCustomization);
+            // Teardown
         }
     }
 }
