@@ -5848,14 +5848,11 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreatingInstanceOfTypeContainingEmptyEnumFieldGetsFieldInitializedToZero()
+        public void CreatingInstanceOfTypeContainingEmptyEnumFieldThrowsObjectCreationException()
         {
             var fixture = new Fixture();
-
-            var actual = fixture.Create<TypeWithEmptyEnumField>();
-
-            Assert.Equal(0, (int)actual.EmptyEnumField);
-            Assert.Equal(0, (int)actual.EmptyEnumProperty);
+            
+            Assert.Throws<ObjectCreationException>(() => fixture.Create<TypeWithEmptyEnumField>());
         }
     }
 }
