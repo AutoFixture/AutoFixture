@@ -6,12 +6,15 @@ namespace Ploeh.AutoFixture.Xunit
     {
         public override int Compare(CustomizeAttribute x, CustomizeAttribute y)
         {
-            if (x is FrozenAttribute && !(y is FrozenAttribute))
+            var xfrozen = x is FrozenAttribute;
+            var yfrozen = y is FrozenAttribute;
+
+            if (xfrozen && !yfrozen)
             {
                 return 1;
             }
 
-            if (y is FrozenAttribute && !(x is FrozenAttribute))
+            if (yfrozen && !xfrozen)
             {
                 return -1;
             }
