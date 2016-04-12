@@ -55,22 +55,22 @@ namespace Ploeh.AutoFixture.Xunit2
         /// by DataAttributes in ascending order. Data already returned is ignored on next
         /// DataAttribute returned data.
         /// </summary>
-        /// <param name="methodUnderTest">The method that is being tested.</param>
+        /// <param name="testMethod">The method that is being tested.</param>
         /// <returns>
         /// Returns the composition of the theory data.
         /// </returns>
         /// <remarks>
         /// The number of combined data sets is restricted to the length of the attribute which provides the fewest data sets
         /// </remarks>
-        public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest)
+        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            if (methodUnderTest == null)
+            if (testMethod == null)
             {
-                throw new ArgumentNullException("methodUnderTest");
+                throw new ArgumentNullException("testMethod");
             }
 
             return this.attributes
-                .Select(attr => attr.GetData(methodUnderTest))
+                .Select(attr => attr.GetData(testMethod))
                 .Zip(dataSets => dataSets.Collapse().ToArray());
         }
     }
