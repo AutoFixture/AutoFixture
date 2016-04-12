@@ -110,5 +110,16 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(expectedResult, result);
             // Teardown
         }
+
+        [Fact]
+        public void RequestForEnumWithNoValuesThrowsObjectCreationException()
+        {
+            // Fixture setup
+            var sut = new EnumGenerator();
+            // Exercise system and Verify outcome
+            var dummyContext = new DelegatingSpecimenContext();
+            Assert.Throws<ObjectCreationException>(() => sut.Create(typeof (EmptyEnum), dummyContext));
+            // Teardown
+        }
     }
 }
