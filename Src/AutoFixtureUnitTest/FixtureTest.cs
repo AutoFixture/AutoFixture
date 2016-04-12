@@ -1848,11 +1848,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
+            [Fact]
         public void RepeatWillPerformActionTheDefaultNumberOfTimes()
         {
             // Fixture setup
-            Fixture sut = new Fixture();
+Fixture sut = new Fixture();
             int expectedCount = sut.RepeatCount;
             // Exercise system
             int result = 0;
@@ -1866,7 +1866,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void RepeatWillReturnTheDefaultNumberOfItems()
         {
             // Fixture setup
-            Fixture sut = new Fixture();
+Fixture sut = new Fixture();
             int expectedCount = sut.RepeatCount;
             // Exercise system
             IEnumerable<object> result = sut.Repeat(() => new object());
@@ -1880,7 +1880,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             int expectedCount = 2;
-            Fixture sut = new Fixture();
+Fixture sut = new Fixture();
             sut.RepeatCount = expectedCount;
             // Exercise system
             int result = 0;
@@ -1895,7 +1895,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             int expectedCount = 13;
-            Fixture sut = new Fixture();
+Fixture sut = new Fixture();
             sut.RepeatCount = expectedCount;
             // Exercise system
             IEnumerable<object> result = sut.Repeat(() => new object());
@@ -1903,7 +1903,7 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal<int>(expectedCount, result.Count());
             // Teardown
         }
-
+        
         [Fact]
         public void ReplacingStringMappingWillUseNewStringCreationAlgorithm()
         {
