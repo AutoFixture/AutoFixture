@@ -170,7 +170,12 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
             // Fixture setup
             var method = typeof(TypeWithCustomizationAttributes).GetMethod(methodName, new[] { typeof(ConcreteType) });
             var customizationLog = new List<ICustomization>();
-            var fixture = new DelegatingFixture { OnCustomize = c => { customizationLog.Add(c); } };
+            var fixture = new DelegatingFixture();
+            fixture.OnCustomize = c =>
+            {
+                customizationLog.Add(c);
+                return fixture;
+            };
             var sut = new AutoDataAttribute(fixture);
             // Exercise system
             sut.GetData(method);
