@@ -1847,12 +1847,11 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal<int>(expectedRepeatCount, result);
             // Teardown
         }
-
             [Fact]
         public void RepeatWillPerformActionTheDefaultNumberOfTimes()
         {
             // Fixture setup
-Fixture sut = new Fixture();
+            IFixture sut = new Fixture();
             int expectedCount = sut.RepeatCount;
             // Exercise system
             int result = 0;
@@ -1866,7 +1865,7 @@ Fixture sut = new Fixture();
         public void RepeatWillReturnTheDefaultNumberOfItems()
         {
             // Fixture setup
-Fixture sut = new Fixture();
+            IFixture sut = new Fixture();
             int expectedCount = sut.RepeatCount;
             // Exercise system
             IEnumerable<object> result = sut.Repeat(() => new object());
@@ -1880,7 +1879,7 @@ Fixture sut = new Fixture();
         {
             // Fixture setup
             int expectedCount = 2;
-Fixture sut = new Fixture();
+            IFixture sut = new Fixture();
             sut.RepeatCount = expectedCount;
             // Exercise system
             int result = 0;
@@ -1895,7 +1894,7 @@ Fixture sut = new Fixture();
         {
             // Fixture setup
             int expectedCount = 13;
-Fixture sut = new Fixture();
+            IFixture sut = new Fixture();
             sut.RepeatCount = expectedCount;
             // Exercise system
             IEnumerable<object> result = sut.Repeat(() => new object());
@@ -5845,14 +5844,6 @@ Fixture sut = new Fixture();
                 .Create();
 
             Assert.Equal(expected, actual.Field);
-        }
-
-        [Fact]
-        public void CreatingInstanceOfTypeContainingEmptyEnumFieldThrowsObjectCreationException()
-        {
-            var fixture = new Fixture();
-            
-            Assert.Throws<ObjectCreationException>(() => fixture.Create<TypeWithEmptyEnumField>());
         }
     }
 }
