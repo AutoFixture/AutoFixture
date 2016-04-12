@@ -185,7 +185,12 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
                                   select pi.ParameterType).ToArray();
 
             var customizationLog = new List<ICustomization>();
-            var fixture = new DelegatingFixture { OnCustomize = c => { customizationLog.Add(c); } };
+            var fixture = new DelegatingFixture();
+            fixture.OnCustomize = c =>
+            {
+                customizationLog.Add(c);
+                return fixture;
+            };
             var sut = new AutoDataAttribute(fixture);
             // Exercise system
             sut.GetData(method, parameterTypes);

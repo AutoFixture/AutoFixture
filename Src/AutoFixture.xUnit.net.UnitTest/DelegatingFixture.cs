@@ -57,8 +57,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
 
         public IFixture Customize(ICustomization customization)
         {
-            this.OnCustomize(customization);
-            return this;
+            return this.OnCustomize(customization);
         }
 
         public void Customize<T>(Func<Ploeh.AutoFixture.Dsl.ICustomizationComposer<T>, ISpecimenBuilder> composerTransformation)
@@ -103,6 +102,6 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
 
         internal Func<object, ISpecimenContext, object> OnCreate { get; set; }
 
-        internal Action<ICustomization> OnCustomize { get; set; }
+        internal Func<ICustomization, IFixture> OnCustomize { get; set; }
     }
 }
