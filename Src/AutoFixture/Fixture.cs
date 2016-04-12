@@ -242,7 +242,7 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         /// <seealso cref="CollectionFiller.AddManyTo{T}(IFixture, ICollection{T})" />
         /// <seealso cref="CollectionFiller.AddManyTo{T}(IFixture, ICollection{T}, Func{T})" />
-        /// <seealso cref="Repeat"/>
+        /// <seealso cref="FixtureRepeater.Repeat"/>
         public int RepeatCount
         {
             get { return this.multiple.Count; }
@@ -341,28 +341,6 @@ namespace Ploeh.AutoFixture
 
             var c = composerTransformation(SpecimenBuilderNodeFactory.CreateComposer<T>().WithAutoProperties(this.EnableAutoProperties));
             this.customizer.Insert(0, c);
-        }
-
-        /// <summary>
-        /// Repeats a function many times.
-        /// </summary>
-        /// <typeparam name="T">
-        /// The type of object that <paramref name="function"/> creates.
-        /// </typeparam>
-        /// <param name="function">
-        /// A function that creates an instance of <typeparamref name="T"/>.
-        /// </param>
-        /// <returns>A sequence of objects created by <paramref name="function"/>.</returns>
-        /// <remarks>
-        /// <para>
-        /// The number of times <paramref name="function"/> is invoked is determined by
-        /// <see cref="RepeatCount"/>.
-        /// </para>
-        /// </remarks>
-        public IEnumerable<T> Repeat<T>(Func<T> function)
-        {
-            return from f in Enumerable.Repeat(function, this.RepeatCount)
-                   select f();
         }
 
         /// <summary>Creates a new specimen based on a request.</summary>

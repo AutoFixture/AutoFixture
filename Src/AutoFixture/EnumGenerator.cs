@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Ploeh.AutoFixture.Kernel;
 
@@ -82,6 +83,7 @@ namespace Ploeh.AutoFixture
         {
             private readonly IEnumerable<object> values;
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "AutoFixture", Justification = "Workaround for a bug in CA: https://connect.microsoft.com/VisualStudio/feedback/details/521030/")]
             internal RoundRobinEnumEnumerable(Type enumType)
             {
                 if (enumType == null)
@@ -90,6 +92,16 @@ namespace Ploeh.AutoFixture
                 }
 
                 this.values = Enum.GetValues(enumType).Cast<object>();
+
+                if (!this.values.Any())
+                {
+                    throw new ObjectCreationException(
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            "AutoFixture was unable to create a value for {0} since it is an enum containing no values. " +
+                            "Please add at least one value to the enum.",
+                            enumType.FullName));
+                }
             }
 
             public IEnumerator GetEnumerator()
