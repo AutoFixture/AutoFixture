@@ -71,7 +71,7 @@ namespace Ploeh.AutoFixture.NUnit3
         /// <summary>
         /// Get values for a collection of <see cref="IParameterInfo"/>
         /// </summary>
-        protected IEnumerable<object> GetParameterValues(IEnumerable<IParameterInfo> parameters)
+        private IEnumerable<object> GetParameterValues(IEnumerable<IParameterInfo> parameters)
         {
             return this._existingParameterValues.Concat(this.GetMissingValues(parameters));
         }
@@ -86,7 +86,7 @@ namespace Ploeh.AutoFixture.NUnit3
         /// <summary>
         /// Get value for an <see cref="IParameterInfo"/>
         /// </summary>
-        protected object GetValueForParameter(IParameterInfo parameterInfo)
+        private object GetValueForParameter(IParameterInfo parameterInfo)
         {
             CustomizeFixtureByParameter(this._fixture, parameterInfo);
 
