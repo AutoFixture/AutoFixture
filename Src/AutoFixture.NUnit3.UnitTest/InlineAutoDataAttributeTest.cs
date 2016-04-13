@@ -3,6 +3,7 @@ using System;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ploeh.AutoFixture.NUnit3.UnitTest
 {
@@ -10,10 +11,21 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
     public class InlineAutoDataAttributeTest
     {
         [Test]
-        public void InlineAutoDataInheritsAutoData()
+        public void InlineAutoDataIsAttribute()
         {
             Assert.That(new InlineAutoDataAttribute(), 
-                Is.AssignableTo(typeof(AutoDataAttribute)));
+                Is.AssignableTo(typeof(Attribute)));
+        }
+
+        [Test]
+        public void InlineAutoDataCanBeUsedInMultiple()
+        {
+            var usageAttribute = typeof(InlineAutoDataAttribute)
+                .GetCustomAttributes(false)
+                .FirstOrDefault(c => c.GetType() == typeof(AttributeUsageAttribute)) as AttributeUsageAttribute;
+
+            Assert.That(usageAttribute, Is.Not.Null);
+            Assert.That(usageAttribute.AllowMultiple, Is.True);
         }
 
         [Test]
@@ -21,7 +33,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         {
             var extended = new DeriviedInlineAutoDataAttribute();
 
-            Assert.That(extended, Is.AssignableTo(typeof(AutoDataAttribute)));
+            Assert.That(extended, Is.AssignableTo(typeof(InlineAutoDataAttribute)));
         }
 
         private class DeriviedInlineAutoDataAttribute : InlineAutoDataAttribute
