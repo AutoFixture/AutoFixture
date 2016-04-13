@@ -90,6 +90,7 @@
     <Compile Include="NoAutoPropertiesAttributeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenario.cs" />
+    <Compile Include="TypeWithCustomizationAttributes.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture.xUnit.net\AutoFixture.xUnit.net.csproj">

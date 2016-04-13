@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Ploeh.TestTypeFoundation;
 using Xunit;
@@ -158,6 +159,44 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             var result = sut.GetData(method, parameterTypes);
             // Verify outcome
             Assert.True(new[] { expectedResult }.SequenceEqual(result.Single()));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData("CreateWithFrozenAndFavorArrays")]
+        [InlineData("CreateWithFavorArraysAndFrozen")]
+        [InlineData("CreateWithFrozenAndFavorEnumerables")]
+        [InlineData("CreateWithFavorEnumerablesAndFrozen")]
+        [InlineData("CreateWithFrozenAndFavorLists")]
+        [InlineData("CreateWithFavorListsAndFrozen")]
+        [InlineData("CreateWithFrozenAndGreedy")]
+        [InlineData("CreateWithGreedyAndFrozen")]
+        [InlineData("CreateWithFrozenAndModest")]
+        [InlineData("CreateWithModestAndFrozen")]
+        [InlineData("CreateWithFrozenAndNoAutoProperties")]
+        [InlineData("CreateWithNoAutoPropertiesAndFrozen")]
+        public void GetDataOrdersCustomizationAttributes(string methodName)
+        {
+            // Fixture setup
+            var method = typeof(TypeWithCustomizationAttributes).GetMethod(methodName, new[] { typeof(ConcreteType) });
+
+            var parameters = method.GetParameters();
+            var parameterTypes = (from pi in parameters
+                                  select pi.ParameterType).ToArray();
+
+            var customizationLog = new List<ICustomization>();
+            var fixture = new DelegatingFixture();
+            fixture.OnCustomize = c =>
+            {
+                customizationLog.Add(c);
+                return fixture;
+            };
+            var sut = new AutoDataAttribute(fixture);
+            // Exercise system
+            sut.GetData(method, parameterTypes);
+            // Verify outcome
+            Assert.False(customizationLog[0] is FreezeOnMatchCustomization);
+            Assert.True(customizationLog[1] is FreezeOnMatchCustomization);
             // Teardown
         }
     }
