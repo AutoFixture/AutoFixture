@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
     public class InlineAutoDataAttributeTest
     {
         [Test]
-        public void IfArguementsIsNullThenWillThrown()
+        public void IfArguementsIsNullThenThrows()
         {
             Assert.Throws<ArgumentNullException>(() => new InlineAutoDataAttribute(null));
         }
