@@ -1,9 +1,7 @@
 ﻿using NUnit.Framework;
-using System;
-using Ploeh.AutoFixture.Dsl;
-using Ploeh.AutoFixture.Kernel;
-using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework.Internal;
+using NUnit.Framework.Interfaces;
 
 namespace Ploeh.AutoFixture.NUnit3.UnitTest
 {
@@ -11,110 +9,32 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
     public class InlineAutoDataAttributeTest
     {
         [Test]
-        public void InlineAutoDataIsAttribute()
+        public void IfCreateParametersThrowsExceptionThenReturnsNotRunnableTestMethodWithExceptionInfoAsSkipReason()
         {
-            Assert.That(new InlineAutoDataAttribute(), 
-                Is.AssignableTo(typeof(Attribute)));
+            // Arrange
+            // DummyFixture is set up to throw DummyException when invoked by AutoDataAttribute
+            var inlineAutoDataAttributeStub = new InlineAutoDataAttributeStub(new ThrowingStubFixture());
+
+            var fixtureType = this.GetType();
+
+            var methodWrapper = new MethodWrapper(fixtureType, fixtureType.GetMethod("DummyTestMethod"));
+            var testSuite = new TestSuite(fixtureType);
+
+            // Act
+            var testMethod = inlineAutoDataAttributeStub.BuildFrom(methodWrapper, testSuite).First();
+
+            // Assert
+            Assert.That(testMethod.RunState == RunState.NotRunnable);
+
+            Assert.That(testMethod.Properties.Get(PropertyNames.SkipReason),
+                Is.EqualTo(ExceptionHelper.BuildMessage(new ThrowingStubFixture.DummyException())));
         }
 
-        [Test]
-        public void InlineAutoDataCanBeUsedInMultiple()
+        /// <summary>
+        /// This is used in BuildFromYieldsParameterValues for building a unit test method
+        /// </summary>
+        public void DummyTestMethod(int anyInt, double anyDouble)
         {
-            var usageAttribute = typeof(InlineAutoDataAttribute)
-                .GetCustomAttributes(false)
-                .FirstOrDefault(c => c.GetType() == typeof(AttributeUsageAttribute)) as AttributeUsageAttribute;
-
-            Assert.That(usageAttribute, Is.Not.Null);
-            Assert.That(usageAttribute.AllowMultiple, Is.True);
-        }
-
-        [Test]
-        public void InlineAutoDataCanBeExtendedWithImplementationOfIFixture()
-        {
-            var extended = new DeriviedInlineAutoDataAttribute();
-
-            Assert.That(extended, Is.AssignableTo(typeof(InlineAutoDataAttribute)));
-        }
-
-        private class DeriviedInlineAutoDataAttribute : InlineAutoDataAttribute
-        {
-            public DeriviedInlineAutoDataAttribute(params object[] arguments) 
-                : base(new StubFixture(), arguments)
-            {
-            }
-        }
-
-        private class StubFixture : IFixture
-        {
-            public IList<ISpecimenBuilderTransformation> Behaviors
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-            }
-
-            public IList<ISpecimenBuilder> Customizations
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-            }
-
-            public bool OmitAutoProperties
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-
-                set
-                {
-                    throw new NotImplementedException();
-                }
-            }
-
-            public int RepeatCount
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-
-                set
-                {
-                    throw new NotImplementedException();
-                }
-            }
-
-            public IList<ISpecimenBuilder> ResidueCollectors
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-            }
-
-            public ICustomizationComposer<T> Build<T>()
-            {
-                throw new NotImplementedException();
-            }
-
-            public object Create(object request, ISpecimenContext context)
-            {
-                throw new NotImplementedException();
-            }
-
-            public IFixture Customize(ICustomization customization)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void Customize<T>(Func<ICustomizationComposer<T>, ISpecimenBuilder> composerTransformation)
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }
