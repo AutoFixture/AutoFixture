@@ -2,12 +2,19 @@
 using System.Linq;
 using NUnit.Framework.Internal;
 using NUnit.Framework.Interfaces;
+using System;
 
 namespace Ploeh.AutoFixture.NUnit3.UnitTest
 {
     [TestFixture]
     public class InlineAutoDataAttributeTest
     {
+        [Test]
+        public void IfArguementsIsNullThenWillThrown()
+        {
+            Assert.Throws<ArgumentNullException>(() => new InlineAutoDataAttribute(null));
+        }
+
         [Test]
         public void IfCreateParametersThrowsExceptionThenReturnsNotRunnableTestMethodWithExceptionInfoAsSkipReason()
         {
