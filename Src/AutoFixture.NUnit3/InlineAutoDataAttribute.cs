@@ -14,7 +14,7 @@ namespace Ploeh.AutoFixture.NUnit3
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [CLSCompliant(false)]
-    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class InlineAutoDataAttribute : Attribute, ITestBuilder
     {
         private readonly object[] _existingParameterValues;
@@ -63,6 +63,7 @@ namespace Ploeh.AutoFixture.NUnit3
             yield return test;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "This method is always expected to return an instance of the TestCaseParameters class.")]
         private TestCaseParameters GetParametersForMethod(IMethodInfo method)
         {
             try

@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture.NUnit3
     /// This implementation is based on TestCaseAttribute of NUnit3
     /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
-    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class AutoDataAttribute : Attribute, ITestBuilder
     {
         private readonly IFixture _fixture;
@@ -54,6 +54,7 @@ namespace Ploeh.AutoFixture.NUnit3
             yield return test;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "This method is always expected to return an instance of the TestCaseParameters class.")]
         private TestCaseParameters GetParametersForMethod(IMethodInfo method)
         {
             try
