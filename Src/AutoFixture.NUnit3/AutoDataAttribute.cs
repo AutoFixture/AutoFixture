@@ -13,6 +13,7 @@ namespace Ploeh.AutoFixture.NUnit3
     /// This implementation is based on TestCaseAttribute of NUnit3
     /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class AutoDataAttribute : Attribute, ITestBuilder
     {
         private readonly IFixture _fixture;
@@ -91,5 +92,5 @@ namespace Ploeh.AutoFixture.NUnit3
                 this._fixture.Customize(customization);
             }
         }
-    } 
+    }
 }

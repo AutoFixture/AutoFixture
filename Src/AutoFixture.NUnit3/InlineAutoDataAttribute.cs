@@ -14,6 +14,7 @@ namespace Ploeh.AutoFixture.NUnit3
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [CLSCompliant(false)]
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class InlineAutoDataAttribute : Attribute, ITestBuilder
     {
         private readonly object[] _existingParameterValues;
@@ -113,5 +114,5 @@ namespace Ploeh.AutoFixture.NUnit3
                 this._fixture.Customize(customization);
             }
         }
-    } 
+    }
 }
