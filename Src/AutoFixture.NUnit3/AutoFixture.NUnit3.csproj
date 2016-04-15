@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InlineAutoDataAttribute.cs" />
     <Compile Include="AutoDataAttribute.cs" />
     <Compile Include="CustomizeAttribute.cs" />
     <Compile Include="FavorArraysAttribute.cs" />
