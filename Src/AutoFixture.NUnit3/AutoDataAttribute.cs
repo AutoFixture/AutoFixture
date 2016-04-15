@@ -31,6 +31,11 @@ namespace Ploeh.AutoFixture.NUnit3
         /// <param name="fixture"></param>
         protected AutoDataAttribute(IFixture fixture)
         {
+            if (null == fixture)
+            {
+                throw new ArgumentNullException(nameof(fixture));
+            }
+
             _fixture = fixture;
         }
 

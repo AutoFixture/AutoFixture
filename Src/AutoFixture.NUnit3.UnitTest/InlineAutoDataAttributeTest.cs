@@ -16,6 +16,12 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         }
 
         [Test]
+        public void IfExtendedWithNullFixtureThenThrows()
+        {
+            Assert.Throws<ArgumentNullException>(() => new InlineAutoDataAttributeStub(null));
+        }
+
+        [Test]
         public void IfCreateParametersThrowsExceptionThenReturnsNotRunnableTestMethodWithExceptionInfoAsSkipReason()
         {
             // Arrange
