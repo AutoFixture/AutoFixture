@@ -43,6 +43,19 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
                 Is.EqualTo(ExceptionHelper.BuildMessage(new ThrowingStubFixture.DummyException())));
         }
 
+        [Test]
+        public void InitializedWithArgumentsHasCorrectArguments()
+        {
+            // Fixture setup
+            var expectedArguments = new object[] { };
+            var sut = new InlineAutoDataAttribute(expectedArguments);
+            // Exercise system
+            var result = sut.Arguments;
+            // Verify outcome
+            Assert.AreSame(expectedArguments, result);
+            // Teardown
+        }
+
         /// <summary>
         /// This is used in BuildFromYieldsParameterValues for building a unit test method
         /// </summary>

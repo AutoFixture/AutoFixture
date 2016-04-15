@@ -50,6 +50,14 @@ namespace Ploeh.AutoFixture.NUnit3
         }
 
         /// <summary>
+        /// Gets the parameter values for the test method.
+        /// </summary>
+        public IEnumerable<object> Arguments
+        {
+            get { return this._existingParameterValues; }
+        }
+
+        /// <summary>
         ///     Construct one or more TestMethods from a given MethodInfo,
         ///     using available parameter data.
         /// </summary>
