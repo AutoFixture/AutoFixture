@@ -5846,5 +5846,25 @@ namespace Ploeh.AutoFixtureUnitTest
 
             Assert.Equal(expected, actual.Field);
         }
+
+
+        /// <summary>
+        /// This test reproduces the issue as reported in pull request:
+        /// https://github.com/AutoFixture/AutoFixture/pull/604
+        /// </summary>
+        [Fact]
+        public void WithoutOnFieldInBaseClassThrowsNullPointerException()
+        {
+            Fixture f = new Fixture();
+            f.Build<ConcreteType>().Without(x => x.Field1).Create();
+
+            /*
+                Success when no ArgumentNullException is thrown:
+
+                When reported, the call to Without on Field1 residing 
+                in ConcreteType's base class (AbstractType) will cause 
+                a null pointer exception to bubble. 
+            */
+        }
     }
 }
