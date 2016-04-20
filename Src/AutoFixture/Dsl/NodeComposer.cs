@@ -411,7 +411,9 @@ namespace Ploeh.AutoFixture.Dsl
         {
             var m = propertyPicker.GetWritableMember().Member;
             if (m.DeclaringType != typeof(T))
-                m = typeof(T).GetProperty(m.Name);
+            {
+                m = typeof(T).GetProperty(m.Name) ?? (MemberInfo) typeof(T).GetField(m.Name);
+            }
 
             return (NodeComposer<T>)this.ReplaceNodes(
                 with: n => n.Compose(
