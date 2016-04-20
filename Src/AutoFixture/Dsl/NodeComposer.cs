@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Ploeh.AutoFixture.Kernel;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.Dsl
 {
@@ -410,7 +411,9 @@ namespace Ploeh.AutoFixture.Dsl
         {
             var m = propertyPicker.GetWritableMember().Member;
             if (m.ReflectedType != typeof(T))
-                m = typeof(T).GetProperty(m.Name);
+            {
+                m = typeof(T).GetProperty(m.Name) ?? (MemberInfo) typeof(T).GetField(m.Name);
+            }
 
             return (NodeComposer<T>)this.ReplaceNodes(
                 with: n => n.Compose(
