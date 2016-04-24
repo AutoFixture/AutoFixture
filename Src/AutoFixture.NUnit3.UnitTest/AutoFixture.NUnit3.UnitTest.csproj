@@ -57,6 +57,7 @@
     <Compile Include="ModestAttributeTest.cs" />
     <Compile Include="InlineAutoDataAttributeTest.cs" />
     <Compile Include="MyClass.cs" />
+    <Compile Include="NoAutoPropertiesAttributeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenario.cs" />
     <Compile Include="ThrowingStubFixture.cs" />
