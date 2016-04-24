@@ -375,5 +375,17 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         {
             Assert.That(p3, Is.EqualTo(p4));
         }
+
+        [Theory, AutoData]
+        public void NoAutoPropertiesAttributeLeavesPropertiesUnset(
+            [NoAutoProperties]PropertyHolder<object> ph1, 
+            [NoAutoProperties]PropertyHolder<string> ph2,
+            [NoAutoProperties]PropertyHolder<int> ph3
+            )
+        {
+            Assert.That(ph1.Property, Is.EqualTo(default(object)));
+            Assert.That(ph2.Property, Is.EqualTo(default(string)));
+            Assert.That(ph3.Property, Is.EqualTo(default(int)));
+        }
     }
 }
