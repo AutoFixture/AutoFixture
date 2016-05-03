@@ -110,7 +110,6 @@
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AutoMoq.ruleset" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

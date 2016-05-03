@@ -36,7 +36,7 @@
     <DocumentationFile>bin\Release\Ploeh.AutoFixture.AutoFoq.XML</DocumentationFile>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.fs</CodeAnalysisModuleSuppressionsFile>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>AutoFoq.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
@@ -57,7 +57,6 @@
   <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.fs" />
-    <None Include="AutoFoq.ruleset" />
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
     <None Include="packages.config" />
     <Compile Include="GlobalSuppressions.fs" />

@@ -130,7 +130,6 @@
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Idioms.ruleset" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
