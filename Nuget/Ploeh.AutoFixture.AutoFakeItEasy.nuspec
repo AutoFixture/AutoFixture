@@ -8,7 +8,7 @@
         <owners>Nikos Baxevanis</owners>
         <dependencies>
             <dependency id="autofixture" version="@build.number@" />
-            <dependency id="FakeItEasy" version="1.7" />
+            <dependency id="FakeItEasy" version="[1.7,2)" />
         </dependencies>
         <summary>Turns AutoFixture into an Auto-Mocking Container based on FakeItEasy.</summary>
         <description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by FakeItEasy. To use it, add the AutoFakeItEasyCustomization to your Fixture instance. Read more at http://autofixture.codeplex.com/</description>
