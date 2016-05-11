@@ -266,7 +266,7 @@ namespace Ploeh.AutoFixture.Idioms
             {
                 //Check for a default value only enum
                 var values = Enum.GetValues(type);
-                return values.Length == 1 && (int)values.GetValue(0) == default(int);
+                return values.Length == 1 && values.GetValue(0).Equals(Activator.CreateInstance(type));
             }
 
             return false;
@@ -303,8 +303,10 @@ namespace Ploeh.AutoFixture.Idioms
                     // Ensure enum isn't getting the default value, otherwise
                     // we won't be able to determine whether initialization
                     // occurred.
-                    if (pi.ParameterType.IsEnum && (int)value == default(int))
+                    if (pi.ParameterType.IsEnum && value.Equals(Activator.CreateInstance(pi.ParameterType)))
+                    {
                         value = this.builder.CreateAnonymous(pi);
+                    }
 
                     return new
                     {

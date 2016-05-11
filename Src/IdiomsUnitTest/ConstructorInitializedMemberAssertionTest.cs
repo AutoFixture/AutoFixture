@@ -476,8 +476,22 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Theory]
-        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestEnum>))]
+        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestIntEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestIntEnum>))]
+        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestByteEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestByteEnum>))]
+        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestSByteEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestSByteEnum>))]
+        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestShortEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestShortEnum>))]
+        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestUShortEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestUShortEnum>))]
+        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestUIntEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestUIntEnum>))]
+        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestLongEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestLongEnum>))]
+        [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestULongEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestULongEnum>))]
         [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestSingleNonDefaultEnum>))]
         [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestSingleNonDefaultEnum>))]
         public void VerifyWellBehavedEnumInitializersDoNotThrow(Type type)
@@ -491,8 +505,22 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Theory]
-        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestEnum>))]
+        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestIntEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestIntEnum>))]
+        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestByteEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestByteEnum>))]
+        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestSByteEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestSByteEnum>))]
+        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestShortEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestShortEnum>))]
+        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestUShortEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestUShortEnum>))]
+        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestUIntEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestUIntEnum>))]
+        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestLongEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestLongEnum>))]
+        [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestULongEnum>))]
+        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestULongEnum>))]
         [InlineData(typeof(ReadOnlyFieldIncorrectlyInitializedViaConstructor<TestSingleNonDefaultEnum>))]
         [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestSingleNonDefaultEnum>))]
         public void VerifyIllBehavedEnumInitializersDoThrow(Type type)
@@ -771,10 +799,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             }
         }
 
-        enum TestEnum { none = 0, one, two, three };
+        //All approved enum type variants : https://msdn.microsoft.com/en-us/library/sbbt4032.aspx?f=255&MSPPError=-2147217396
+        enum TestIntEnum { none = 0, one, two, three };
+        enum TestByteEnum : byte { none = 0, one, two, three };
+        enum TestSByteEnum : sbyte { none = 0, one, two, three };
+        enum TestShortEnum : short { none = 0, one, two, three };
+        enum TestUShortEnum : ushort { none = 0, one, two, three };
+        enum TestUIntEnum : uint { none = 0, one, two, three };
+        enum TestLongEnum : long { none = 0, one, two, three };
+        enum TestULongEnum : ulong { none = 0, one, two, three };
 
         enum TestDefaultOnlyEnum { none = 0 };
 
         enum TestSingleNonDefaultEnum { none = 1 };
+
     }
 }
