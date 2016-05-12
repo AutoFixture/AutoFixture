@@ -25,6 +25,11 @@
                 .GetGenericArguments().Single()
                 .GetGenericArguments().Select(Expression.Parameter).ToList();
 
+            if (!genericArguments.Any())
+            {
+                return Expression.Lambda(Expression.Empty());
+            }
+
             var body = genericArguments.Last();
             var parameters = new List<ParameterExpression>();
             if (genericArguments.Count > 1)
@@ -32,8 +37,7 @@
                 parameters = genericArguments.Take(genericArguments.Count - 1).ToList();
             }
 
-            var lambdaExpression = Expression.Lambda(body, parameters);
-            return lambdaExpression;
+            return Expression.Lambda(body, parameters);
         }
     }
 }

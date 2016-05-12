@@ -50,6 +50,7 @@
         }
 
         [Theory]
+        [InlineData(typeof(Expression<Action>))]
         [InlineData(typeof(Expression<Func<object>>))]
         [InlineData(typeof(Expression<Func<object, object>>))]
         [InlineData(typeof(Expression<Func<bool, int>>))]
