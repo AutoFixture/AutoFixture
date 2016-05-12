@@ -1,6 +1,7 @@
 ﻿namespace Ploeh.AutoFixture
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using Kernel;
@@ -21,11 +22,17 @@
             }
 
             var genericArguments = requestType
-              .GetGenericArguments().Single()
-              .GetGenericArguments().Single();
+                .GetGenericArguments().Single()
+                .GetGenericArguments().Select(Expression.Parameter).ToList();
 
-            var parameter = Expression.Parameter(genericArguments);
-            var lambdaExpression = Expression.Lambda(parameter);
+            var body = genericArguments.First();
+            var parameters = new List<ParameterExpression>();
+            if (genericArguments.Count > 1)
+            {
+                parameters = genericArguments.Skip(1).ToList();
+            }
+
+            var lambdaExpression = Expression.Lambda(body, parameters);
             return lambdaExpression;
         }
     }

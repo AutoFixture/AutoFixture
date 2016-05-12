@@ -51,7 +51,7 @@
 
         [Theory]
         [InlineData(typeof(Expression<Func<object>>))]
-        [InlineData(typeof(Expression<Func<object>>))]
+        [InlineData(typeof(Expression<Func<object, object>>))]
         public void CreateWithExpressionRequestReturnsCorrectResult(Type expected)
         {
             var expressionRequest = expected;
