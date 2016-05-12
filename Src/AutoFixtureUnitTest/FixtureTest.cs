@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Mail;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -18,9 +19,6 @@ using Ploeh.AutoFixtureUnitTest.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
-using System.Text;
-using System.Globalization;
-using System.Net;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -1847,7 +1845,7 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal<int>(expectedRepeatCount, result);
             // Teardown
         }
-            [Fact]
+        [Fact]
         public void RepeatWillPerformActionTheDefaultNumberOfTimes()
         {
             // Fixture setup
@@ -1902,7 +1900,7 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal<int>(expectedCount, result.Count());
             // Teardown
         }
-        
+
         [Fact]
         public void ReplacingStringMappingWillUseNewStringCreationAlgorithm()
         {
@@ -5791,8 +5789,8 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
-        [InlineData( 1)]
-        [InlineData( 2)]
+        [InlineData(1)]
+        [InlineData(2)]
         [InlineData(10)]
         public void CustomizeBytePropertyReturnsCorrectResult(int expected)
         {
@@ -5806,8 +5804,8 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory]
-        [InlineData( 1)]
-        [InlineData( 2)]
+        [InlineData(1)]
+        [InlineData(2)]
         [InlineData(10)]
         public void CustomizeByteFieldReturnsCorrectResult(int expected)
         {
@@ -5864,6 +5862,17 @@ namespace Ploeh.AutoFixtureUnitTest
                 in ConcreteType's base class (AbstractType) will cause 
                 a null pointer exception to bubble. 
             */
+        }
+
+        [Fact]
+        public void CreateExpression()
+        {
+            var fixture = new Fixture();
+            var expected = typeof(Expression<Func<object>>);
+
+            var actual = fixture.Create<Expression<Func<object>>>().GetType();
+
+            Assert.Equal(expected, actual);
         }
     }
 }

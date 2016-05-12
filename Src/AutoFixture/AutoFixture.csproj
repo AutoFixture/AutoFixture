@@ -100,6 +100,7 @@
     <Compile Include="DomainName.cs" />
     <Compile Include="DomainNameGenerator.cs" />
     <Compile Include="ElementsBuilder.cs" />
+    <Compile Include="LambdaExpressionGenerator.cs" />
     <Compile Include="FixtureRepeater.cs" />
     <Compile Include="InvariantCultureGenerator.cs" />
     <Compile Include="EmailAddressLocalPart.cs" />
