@@ -25,11 +25,11 @@
                 .GetGenericArguments().Single()
                 .GetGenericArguments().Select(Expression.Parameter).ToList();
 
-            var body = genericArguments.First();
+            var body = genericArguments.Last();
             var parameters = new List<ParameterExpression>();
             if (genericArguments.Count > 1)
             {
-                parameters = genericArguments.Skip(1).ToList();
+                parameters = genericArguments.Take(genericArguments.Count - 1).ToList();
             }
 
             var lambdaExpression = Expression.Lambda(body, parameters);
