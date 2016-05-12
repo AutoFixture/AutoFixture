@@ -41,7 +41,12 @@
             var delegateType = requestType.GetGenericArguments().Single();
             var genericArguments = delegateType.GetGenericArguments().Select(Expression.Parameter).ToList();
 
-            if (delegateType.Name.StartsWith("Action"))
+            if (delegateType == typeof(Action))
+            {
+                return Expression.Lambda(Expression.Empty());
+            }
+
+            if (delegateType.FullName.StartsWith("System.Action`", StringComparison.Ordinal))
             {
                 return Expression.Lambda(Expression.Empty(), genericArguments);
             }
