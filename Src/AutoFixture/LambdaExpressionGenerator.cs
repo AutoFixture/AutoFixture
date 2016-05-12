@@ -21,13 +21,12 @@
                 return new NoSpecimen();
             }
 
-            var genericArguments = requestType
-                .GetGenericArguments().Single()
-                .GetGenericArguments().Select(Expression.Parameter).ToList();
+            var delegateType = requestType.GetGenericArguments().Single();
+            var genericArguments = delegateType.GetGenericArguments().Select(Expression.Parameter).ToList();
 
-            if (!genericArguments.Any())
+            if (delegateType.Name.StartsWith( "Action"))
             {
-                return Expression.Lambda(Expression.Empty());
+                return Expression.Lambda(Expression.Empty(), genericArguments);
             }
 
             var body = genericArguments.Last();
