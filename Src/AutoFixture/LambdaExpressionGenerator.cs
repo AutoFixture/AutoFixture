@@ -5,8 +5,26 @@
     using System.Linq.Expressions;
     using Kernel;
 
+    /// <summary>
+    /// Creates new lambda expressions represented by the <see cref="Expression{TDelegate}"/> type.
+    /// </summary>
+    /// <remarks>
+    /// Specimens are typically either of type <see>
+    ///         <cref>Expression{Func{T}}</cref>
+    ///     </see>
+    ///     or <see cref="Expression{Action}"/>. 
+    /// </remarks>
     public class LambdaExpressionGenerator : ISpecimenBuilder
     {
+        /// <summary>
+        /// Creates a new lambda expression represented by the <see cref="Expression{TDelegate}"/> type.
+        /// </summary>
+        /// <param name="request">The request that describes what to create.</param>
+        /// <param name="context">Not used.</param>
+        /// <returns>
+        /// A new <see cref="Expression{TDelegate}"/> instance, if <paramref name="request"/> is a request for a
+        /// <see cref="Expression{TDelegate}"/>; otherwise, a <see cref="NoSpecimen"/> instance.
+        /// </returns>
         public object Create(object request, ISpecimenContext context)
         {
             var requestType = request as Type;
