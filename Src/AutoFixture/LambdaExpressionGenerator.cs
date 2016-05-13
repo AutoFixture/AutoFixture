@@ -56,10 +56,10 @@
                 return Expression.Lambda(Expression.Empty(), genericArguments);
             }
 
-            var body = genericArguments.Last();
-            var parameters = genericArguments.Except(new[] { body });
+            var body = context.Resolve(delegateType.GetGenericArguments().Last());
+            var parameters = genericArguments.Except(new[] { genericArguments.Last() });
 
-            return Expression.Lambda(body, parameters);
+            return Expression.Lambda(Expression.Constant(body), parameters);
         }
     }
 }

@@ -5865,14 +5865,19 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CreateExpression()
+        public void UseActionExpression()
         {
             var fixture = new Fixture();
-            var expected = typeof(Expression<Func<object>>);
+            var actual = fixture.Create<Expression<Action<string, int>>>();
+            Assert.DoesNotThrow(() => actual.Compile()("foo", 42));
+        }
 
-            var actual = fixture.Create<Expression<Func<object>>>().GetType();
-
-            Assert.Equal(expected, actual);
+        [Fact]
+        public void CreateFuncExpression()
+        {
+            var fixture = new Fixture();
+            var actual = fixture.Create<Expression<Func<object>>>();
+            Assert.NotNull(actual.Compile()());
         }
     }
 }

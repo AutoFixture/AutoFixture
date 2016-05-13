@@ -72,10 +72,10 @@
         public void CreateWithExpressionRequestReturnsCorrectResult(Type expected)
         {
             var expressionRequest = expected;
-            var dummyContainer = new DelegatingSpecimenContext();
+            var context = new SpecimenContext(new Fixture());
             var sut = new LambdaExpressionGenerator();
 
-            var result = sut.Create(expressionRequest, dummyContainer);
+            var result = sut.Create(expressionRequest, context);
 
             Assert.IsType(expected, result);
         }
