@@ -4,6 +4,7 @@
     using System.Linq.Expressions;
     using AutoFixture;
     using AutoFixture.Kernel;
+    using Kernel;
     using Xunit;
     using Xunit.Extensions;
 
@@ -20,9 +21,10 @@
         public void CreateWithNonTypeRequestReturnsNoSpecimen()
         {
             var nonTypeRequest = new object();
+            var dummyContainer = new DelegatingSpecimenContext();
             var sut = new LambdaExpressionGenerator();
 
-            var result = sut.Create(nonTypeRequest, null);
+            var result = sut.Create(nonTypeRequest, dummyContainer);
 
             Assert.IsType<NoSpecimen>(result);
         }
@@ -31,20 +33,30 @@
         public void CreateWithNonLambdaExpressionTypeRequestReturnsNoSpecimen()
         {
             var nonExpressionRequest = typeof(object);
+            var dummyContainer = new DelegatingSpecimenContext();
             var sut = new LambdaExpressionGenerator();
 
-            var result = sut.Create(nonExpressionRequest, null);
+            var result = sut.Create(nonExpressionRequest, dummyContainer);
 
             Assert.IsType<NoSpecimen>(result);
+        }
+
+        [Fact]
+        public void CreateWithNullContextThrows()
+        {
+            var expressionRequest = typeof(Expression<Func<object>>);
+            var sut = new LambdaExpressionGenerator();
+            Assert.Throws<ArgumentNullException>(() => sut.Create(expressionRequest, null));
         }
 
         [Fact]
         public void CreateWithLambdaExpressionTypeRequestReturnsCorrectResult()
         {
             var expressionRequest = typeof(Expression<Func<object>>);
+            var dummyContainer = new DelegatingSpecimenContext();
             var sut = new LambdaExpressionGenerator();
 
-            var result = sut.Create(expressionRequest, null);
+            var result = sut.Create(expressionRequest, dummyContainer);
 
             Assert.IsType<Expression<Func<object>>>(result);
         }
@@ -60,9 +72,10 @@
         public void CreateWithExpressionRequestReturnsCorrectResult(Type expected)
         {
             var expressionRequest = expected;
+            var dummyContainer = new DelegatingSpecimenContext();
             var sut = new LambdaExpressionGenerator();
 
-            var result = sut.Create(expressionRequest, null);
+            var result = sut.Create(expressionRequest, dummyContainer);
 
             Assert.IsType(expected, result);
         }
