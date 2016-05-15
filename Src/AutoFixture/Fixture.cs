@@ -72,11 +72,11 @@ namespace Ploeh.AutoFixture
                                         this),
                                     new OrRequestSpecification(
                                         new ExactTypeSpecification(
-                                            typeof (Fixture)),
+                                            typeof(Fixture)),
                                         new ExactTypeSpecification(
-                                            typeof (IFixture)),
+                                            typeof(IFixture)),
                                         new ExactTypeSpecification(
-                                            typeof (ISpecimenBuilder)))),
+                                            typeof(ISpecimenBuilder)))),
                                 new StableFiniteSequenceRelay(),
                                 new FilteringSpecimenBuilder(
                                     new Postprocessor(
@@ -108,6 +108,7 @@ namespace Ploeh.AutoFixture
                                 new StringLengthAttributeRelay(),
                                 new RegularExpressionAttributeRelay(),
                                 new EnumGenerator(),
+                                new LambdaExpressionGenerator(),
                                 CreateDefaultValueBuilder(CultureInfo.InvariantCulture),
                                 CreateDefaultValueBuilder(Encoding.UTF8),
                                 CreateDefaultValueBuilder(IPAddress.Loopback))),
@@ -128,7 +129,7 @@ namespace Ploeh.AutoFixture
                         new FilteringSpecimenBuilder(
                             new MutableValueTypeWarningThrower(),
                             new AndRequestSpecification(
-                                new ValueTypeSpecification(), 
+                                new ValueTypeSpecification(),
                                 new NoConstructorsSpecification()))))));
 
             this.UpdateCustomizer();
@@ -416,7 +417,7 @@ namespace Ploeh.AutoFixture
 
         private void UpdateResidueCollector()
         {
-            this.residueCollector = 
+            this.residueCollector =
                 new SpecimenBuilderNodeAdapterCollection(
                     this.graph,
                     n => n is ResidueCollectorNode);
