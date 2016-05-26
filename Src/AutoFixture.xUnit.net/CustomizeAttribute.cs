@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 
 namespace Ploeh.AutoFixture.Xunit
 {
@@ -7,14 +6,9 @@ namespace Ploeh.AutoFixture.Xunit
     /// Base class for customizing parameters in methods decorated with
     /// <see cref="AutoDataAttribute"/>.
     /// </summary>
+    [Obsolete("This class is obsolete and will be removed in a future version of AutoFixture. Please use AutoFixture.CustomizeAttribute instead.")]
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
-    public abstract class CustomizeAttribute : Attribute
+    public abstract class CustomizeAttribute : AutoFixture.CustomizeAttribute
     {
-        /// <summary>
-        /// Gets a customization for a parameter.
-        /// </summary>
-        /// <param name="parameter">The parameter for which the customization is requested.</param>
-        /// <returns></returns>
-        public abstract ICustomization GetCustomization(ParameterInfo parameter);
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute
 {
@@ -13,9 +15,33 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     /// the test conventions attribute from the <code>AutoDataAttribute</code> supplied by the AutoFixture for xUnit.net.
     /// </remarks>
     [AttributeUsage(
-        AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Field, 
+        AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Field,
         AllowMultiple = false)]
-    public sealed class SubstituteAttribute : Attribute
+    public sealed class SubstituteAttribute : CustomizeAttribute
     {
+        public override ICustomization GetCustomization(ParameterInfo parameter)
+        {
+            var type = parameter.ParameterType;
+            return new ConcreteSubstituteCustomization(type);
+        }
+
+        private class ConcreteSubstituteCustomization : ICustomization
+        {
+            private readonly Type type;
+
+            public ConcreteSubstituteCustomization(Type type)
+            {
+                this.type = type;
+            }
+
+            public void Customize(IFixture fixture)
+            {
+                var builder = new FilteringSpecimenBuilder(
+                    new MethodInvoker(new NSubstituteMethodQuery()),
+                    new ExactTypeSpecification(type));
+
+                fixture.Customizations.Insert(0, builder);
+            }
+        }
     }
 }

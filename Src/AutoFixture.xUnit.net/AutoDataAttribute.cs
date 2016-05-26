@@ -107,8 +107,8 @@ namespace Ploeh.AutoFixture.Xunit
         private void CustomizeFixture(ParameterInfo p)
         {
             var dummy = false;
-            var customizeAttributes = p.GetCustomAttributes(typeof(CustomizeAttribute), dummy)
-                .OfType<CustomizeAttribute>()
+            var customizeAttributes = p.GetCustomAttributes(typeof(AutoFixture.CustomizeAttribute), dummy)
+                .OfType<AutoFixture.CustomizeAttribute>()
                 .OrderBy(x => x, new CustomizeAttributeComparer());
 
             foreach (var ca in customizeAttributes)
