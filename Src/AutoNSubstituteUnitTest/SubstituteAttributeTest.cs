@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using Xunit;
 using Xunit.Extensions;
 
@@ -41,6 +42,36 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Exercise system
             Assert.False(attributeUsage.AllowMultiple);
             // Verify outcome
+            // Teardown
+        }
+
+        [Fact]
+        public void SutIsCustomizeAttribute()
+        {
+            var sut = new SubstituteAttribute();
+            Assert.IsAssignableFrom<CustomizeAttribute>(sut);
+        }
+
+        [Fact]
+        public void GetCustomizationWithNullTypeThrows()
+        {
+            var sut = new SubstituteAttribute();
+            Assert.Throws<ArgumentNullException>(() =>
+                sut.GetCustomization(null));
+        }
+
+        [Fact]
+        public void GetCustomizationReturnsConcreteClassNSubstituteCustomizationWithValidType()
+        {
+            // Fixture setup
+            var parameter = typeof(object).GetMethod("Equals", BindingFlags.Public | BindingFlags.Instance)
+                .GetParameters().Single();
+            var expectedType = typeof(object);
+            var sut = new SubstituteAttribute();
+            // Exercise system
+            var result = (ConcreteClassNSubstituteCustomization)sut.GetCustomization(parameter);
+            // Verify outcome
+            Assert.Equal(expectedType, result.Type);
             // Teardown
         }
     }
