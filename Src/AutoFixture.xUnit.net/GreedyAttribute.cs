@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.Xunit
     /// constructor that can be satisfied by an <see cref="IFixture"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class GreedyAttribute : CustomizeAttribute
+    public sealed class GreedyAttribute : AutoFixture.CustomizeAttribute
     {
         /// <summary>
         /// Gets a customization that associates a <see cref="GreedyConstructorQuery"/> with the

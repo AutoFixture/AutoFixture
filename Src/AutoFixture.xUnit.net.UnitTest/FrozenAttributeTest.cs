@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             // Exercise system
             var sut = new FrozenAttribute();
             // Verify outcome
-            Assert.IsAssignableFrom<CustomizeAttribute>(sut);
+            Assert.IsAssignableFrom<AutoFixture.CustomizeAttribute>(sut);
             // Teardown
         }
 

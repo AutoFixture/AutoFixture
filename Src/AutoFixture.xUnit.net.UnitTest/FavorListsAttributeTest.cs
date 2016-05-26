@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
-using Ploeh.AutoFixture.Xunit;
 using Ploeh.TestTypeFoundation;
 using Ploeh.AutoFixture.Kernel;
 
@@ -18,7 +15,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             // Exercise system
             var sut = new FavorListsAttribute();
             // Verify outcome
-            Assert.IsAssignableFrom<CustomizeAttribute>(sut);
+            Assert.IsAssignableFrom<AutoFixture.CustomizeAttribute>(sut);
             // Teardown
         }
 

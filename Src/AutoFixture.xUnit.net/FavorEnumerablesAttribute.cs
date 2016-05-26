@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.Xunit
     /// or more <see cref="IEnumerable{T}" /> arguments, if applicable.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class FavorEnumerablesAttribute : CustomizeAttribute
+    public sealed class FavorEnumerablesAttribute : AutoFixture.CustomizeAttribute
     {
         /// <summary>
         /// Gets a customization that associates a <see cref="EnumerableFavoringConstructorQuery"/>
