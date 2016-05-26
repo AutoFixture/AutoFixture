@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         {
             var expected = typeof(object);
             var sut = new ConcreteClassNSubstituteCustomization(expected);
-            Assert.Same(expected, sut.Type);
+            Assert.Same(expected, sut.TypeToProxy);
         }
 
         [Fact]

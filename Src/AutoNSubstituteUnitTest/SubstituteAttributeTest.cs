@@ -71,7 +71,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Exercise system
             var result = (ConcreteClassNSubstituteCustomization)sut.GetCustomization(parameter);
             // Verify outcome
-            Assert.Equal(expectedType, result.Type);
+            Assert.Equal(expectedType, result.TypeToProxy);
             // Teardown
         }
     }

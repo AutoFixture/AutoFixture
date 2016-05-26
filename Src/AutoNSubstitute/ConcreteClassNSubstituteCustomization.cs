@@ -11,22 +11,22 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// <summary>
         /// Initializes a new instance of the <see cref="ConcreteClassNSubstituteCustomization"/> class.
         /// </summary>
-        /// <param name="type">The type to create a substityte for.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="type"/> is null.</exception>
-        public ConcreteClassNSubstituteCustomization(Type type)
+        /// <param name="typeToProxy">The type to create a substityte for.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="typeToProxy"/> is null.</exception>
+        public ConcreteClassNSubstituteCustomization(Type typeToProxy)
         {
-            if (type == null)
+            if (typeToProxy == null)
             {
-                throw new ArgumentNullException(nameof(type));
+                throw new ArgumentNullException(nameof(typeToProxy));
             }
 
-            this.Type = type;
+            this.TypeToProxy = typeToProxy;
         }
 
         /// <summary>
         /// Gets the type to create a substityte for.
         /// </summary>
-        public Type Type { get; }
+        public Type TypeToProxy { get; }
 
         /// <summary>
         /// Customizes the specified fixture by adding a specimen builder for 
@@ -42,7 +42,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             var builder = new FilteringSpecimenBuilder(
                 new MethodInvoker(new NSubstituteMethodQuery()),
-                new ExactTypeSpecification(this.Type));
+                new ExactTypeSpecification(this.TypeToProxy));
 
             fixture.Customizations.Insert(0, builder);
         }
