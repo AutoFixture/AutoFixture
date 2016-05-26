@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute
 {
@@ -22,26 +21,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
             var type = parameter.ParameterType;
-            return new ConcreteSubstituteCustomization(type);
-        }
-
-        private class ConcreteSubstituteCustomization : ICustomization
-        {
-            private readonly Type type;
-
-            public ConcreteSubstituteCustomization(Type type)
-            {
-                this.type = type;
-            }
-
-            public void Customize(IFixture fixture)
-            {
-                var builder = new FilteringSpecimenBuilder(
-                    new MethodInvoker(new NSubstituteMethodQuery()),
-                    new ExactTypeSpecification(type));
-
-                fixture.Customizations.Insert(0, builder);
-            }
+            return new ConcreteClassNSubstituteCustomization(type);
         }
     }
 }
