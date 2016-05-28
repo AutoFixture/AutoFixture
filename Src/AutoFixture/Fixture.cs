@@ -99,6 +99,10 @@ namespace Ploeh.AutoFixture
                                 new FilteringSpecimenBuilder(
                                     new MethodInvoker(
                                         new EnumerableFavoringConstructorQuery()),
+                                    new SortedSetSpecification()),
+                                new FilteringSpecimenBuilder(
+                                    new MethodInvoker(
+                                        new EnumerableFavoringConstructorQuery()),
                                     new ListSpecification()),
                                 new FilteringSpecimenBuilder(
                                     new MethodInvoker(

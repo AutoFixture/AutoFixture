@@ -5130,6 +5130,30 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateHashSetReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.Create<HashSet<string>>();
+            // Verify outcome
+            Assert.NotEmpty(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void CreateSortedSetReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.Create<SortedSet<string>>();
+            // Verify outcome
+            Assert.NotEmpty(result);
+            // Teardown
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
