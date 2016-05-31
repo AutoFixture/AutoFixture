@@ -101,6 +101,7 @@
     <Compile Include="DomainName.cs" />
     <Compile Include="DomainNameGenerator.cs" />
     <Compile Include="ElementsBuilder.cs" />
+    <Compile Include="Kernel\SortedSetSpecification.cs" />
     <Compile Include="LambdaExpressionGenerator.cs" />
     <Compile Include="FixtureRepeater.cs" />
     <Compile Include="InvariantCultureGenerator.cs" />
