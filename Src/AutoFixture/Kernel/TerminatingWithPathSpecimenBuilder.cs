@@ -124,7 +124,7 @@ namespace Ploeh.AutoFixture.Kernel
                     "that class, but you can help AutoFixture figure it out." +
                     "{1}" +
                     "{1}" +
-                    "If you have a concrete class deriving from the abstract" +
+                    "If you have a concrete class deriving from the abstract " +
                     "class, you can map the abstract class to that derived " + 
                     "class:" +
                     typeMappingOptionsHelp +
