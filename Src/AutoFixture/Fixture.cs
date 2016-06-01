@@ -100,10 +100,6 @@ namespace Ploeh.AutoFixture
                                     new MethodInvoker(
                                         new EnumerableFavoringConstructorQuery()),
                                     new SortedSetSpecification()),
-                                //new FilteringSpecimenBuilder(
-                                //    new MethodInvoker(
-                                //        new EnumerableFavoringConstructorQuery()),
-                                //    new SortedListSpecification()),
                                 new FilteringSpecimenBuilder(
                                     new MethodInvoker(
                                         new EnumerableFavoringConstructorQuery()),
@@ -115,6 +111,7 @@ namespace Ploeh.AutoFixture
                                 new RangeAttributeRelay(),
                                 new StringLengthAttributeRelay(),
                                 new RegularExpressionAttributeRelay(),
+                                new SortedListRelay(),
                                 new EnumGenerator(),
                                 new LambdaExpressionGenerator(),
                                 CreateDefaultValueBuilder(CultureInfo.InvariantCulture),
