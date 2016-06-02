@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
 using NSubstitute.Core;
@@ -204,9 +205,20 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 // otherwise, NSubstitute would not be able to set up the methods
                 // that return a circular reference.
                 // See discussion at https://github.com/AutoFixture/AutoFixture/pull/397
-                return Task.Factory
-                    .StartNew(() => Context.Resolve(type))
-                    .Result;
+                // Tasks cannot be used, because they could be inlined. See links:
+                // http://stackoverflow.com/a/12246045/2009373
+                // https://github.com/AutoFixture/AutoFixture/issues/630
+                object result = null;
+                ManualResetEventSlim mre = new ManualResetEventSlim(false);
+
+                ThreadPool.QueueUserWorkItem(delegate
+                {
+                    result = Context.Resolve(type);
+                    mre.Set();
+                });
+
+                mre.Wait();
+                return result;
             }
 
             private void ReturnsFixedValue(MethodInfo methodInfo, object value)
