@@ -205,20 +205,20 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 // otherwise, NSubstitute would not be able to set up the methods
                 // that return a circular reference.
                 // See discussion at https://github.com/AutoFixture/AutoFixture/pull/397
-                var task = Task.Factory.StartNew(() => Context.Resolve(type));
+                // Tasks cannot be used, because they could be inlined. See links:
+                // http://stackoverflow.com/a/12246045/2009373
+                // https://github.com/AutoFixture/AutoFixture/issues/630
+                object result = null;
+                ManualResetEventSlim mre = new ManualResetEventSlim(false);
 
-                // It could happen that task above is inlined on the current thread.
-                // As result, the last NSubstitute call router could become empty.
-                // Therefore, we pass cancellation token to the Wait() method to prevent task from being inlined.
-                // See more details: http://stackoverflow.com/a/12246045/2009373
-                // This fixes the following issue: https://github.com/AutoFixture/AutoFixture/issues/630
-                using (var cancelableTokenSource = new CancellationTokenSource())
+                ThreadPool.QueueUserWorkItem(delegate
                 {
-                    var cancelableToken = cancelableTokenSource.Token;
-                    task.Wait(cancelableToken);
-                }
+                    result = Context.Resolve(type);
+                    mre.Set();
+                });
 
-                return task.Result;
+                mre.Wait();
+                return result;
             }
 
             private void ReturnsFixedValue(MethodInfo methodInfo, object value)
