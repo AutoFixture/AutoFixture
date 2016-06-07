@@ -116,6 +116,7 @@
     <Compile Include="TypeWithIndexer.cs" />
     <Compile Include="TypeWithOverloadedMembers.cs" />
     <Compile Include="TypeWithFactoryProperty.cs" />
+    <Compile Include="TypeWithPseudoFactoryMethod.cs" />
     <Compile Include="TypeWithRefMethod.cs" />
     <Compile Include="UnguardedStaticMethodOnStaticTypeHost.cs" />
     <Compile Include="UnguardedStaticPropertyOnStaticTypeHost.cs" />
