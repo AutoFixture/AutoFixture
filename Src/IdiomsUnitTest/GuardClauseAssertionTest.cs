@@ -849,9 +849,9 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         public void VerifyGuardedStaticMethodOnStaticTypeDoesNotThrow()
         {
             var sut = new GuardClauseAssertion(new Fixture());
-            var staticMethod = typeof(GuardedStaticMethodOnStaticTypeHost).GetMethod("Method");
-            Assert.NotNull(staticMethod);
-            Assert.DoesNotThrow(() => sut.Verify(staticMethod));
+            var staticMethods = typeof(GuardedStaticMethodOnStaticTypeHost).GetMethods();
+            Assert.NotEmpty(staticMethods);
+            Assert.DoesNotThrow(() => sut.Verify(staticMethods));
         }
 
         [Theory]
