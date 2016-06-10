@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -16,6 +17,20 @@ namespace Ploeh.AutoFixture.Idioms
             return method.Name == "GetHashCode"
                 && method.GetParameters().Length == 0
                 && method.ReturnType == typeof(int);
+        }
+
+        internal static bool IsToString(this MethodInfo method)
+        {
+            return method.Name == "ToString"
+                   && method.GetParameters().Length == 0
+                   && method.ReturnType == typeof(string);
+        }
+
+        internal static bool IsGetType(this MethodInfo method)
+        {
+            return method.Name == "GetType"
+                   && method.GetParameters().Length == 0
+                   && method.ReturnType == typeof(Type);
         }
 
         /// <summary>

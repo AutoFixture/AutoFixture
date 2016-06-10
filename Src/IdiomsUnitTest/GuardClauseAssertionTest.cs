@@ -844,7 +844,16 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(staticMethod));
             Assert.Contains("Are you missing a Guard Clause?", e.Message);
         }
-        
+
+        [Fact]
+        public void VerifyGuardedStaticMethodOnStaticTypeDoesNotThrow()
+        {
+            var sut = new GuardClauseAssertion(new Fixture());
+            var staticMethod = typeof(GuardedStaticMethodOnStaticTypeHost).GetMethod("Method");
+            Assert.NotNull(staticMethod);
+            Assert.DoesNotThrow(() => sut.Verify(staticMethod));
+        }
+
         [Theory]
         [ClassData(typeof(ConstructorDataOnGuardedGeneric))]
         public void VerifyConstructorOnGuardedGenericDoesNotThrow(ConstructorInfo constructorInfo)
