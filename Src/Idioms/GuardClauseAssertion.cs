@@ -117,7 +117,10 @@ namespace Ploeh.AutoFixture.Idioms
             if (methodInfo == null)
                 throw new ArgumentNullException("methodInfo");
 
-            if (methodInfo.IsEqualsMethod())
+            if (methodInfo.IsEqualsMethod() ||
+                methodInfo.IsGetHashCodeMethod() ||
+                methodInfo.IsToString() ||
+                methodInfo.IsGetType())
                 return;
 
             methodInfo = this.ResolveUnclosedGenericType(methodInfo);
