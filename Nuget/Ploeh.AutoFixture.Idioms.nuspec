@@ -7,7 +7,7 @@
         <authors>Mark Seemann</authors>
         <owners>Mark Seemann</owners>
         <dependencies>
-            <dependency id="autofixture" version="@build.number@" />
+            <dependency id="AutoFixture" version="@build.number@" />
             <dependency id="Albedo" version="1.0.1" />
         </dependencies>
         <summary>Extension to AutoFixture that contains unit testing idioms.</summary>

@@ -7,8 +7,8 @@
         <authors>Gert Jansen van Rensburg</authors>
         <owners>Gert Jansen van Rensburg</owners>
         <dependencies>
-            <dependency id="autofixture" version="@build.number@" />
-            <dependency id="nunit" version="2.6.2" />
+            <dependency id="AutoFixture" version="@build.number@" />
+            <dependency id="NUnit" version="2.6.2" />
         </dependencies>
         <summary>Extension to AutoFixture that integrates it with NUnit.</summary>
         <description>By leveraging the some features of NUnit, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</description>

@@ -7,7 +7,7 @@
         <authors>Mark Seemann</authors>
         <owners>Mark Seemann</owners>
         <dependencies>
-            <dependency id="autofixture" version="@build.number@" />
+            <dependency id="AutoFixture" version="@build.number@" />
             <dependency id="xunit.extensions" version="[1.8.0.1549,2.0.0)" />
         </dependencies>
         <summary>Extension to AutoFixture that integrates it with xUnit.net.</summary>
