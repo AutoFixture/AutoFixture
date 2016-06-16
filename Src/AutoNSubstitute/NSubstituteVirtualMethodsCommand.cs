@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
 using NSubstitute.Core;
@@ -204,9 +205,20 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 // otherwise, NSubstitute would not be able to set up the methods
                 // that return a circular reference.
                 // See discussion at https://github.com/AutoFixture/AutoFixture/pull/397
-                return Task.Factory
-                    .StartNew(() => Context.Resolve(type))
-                    .Result;
+                var task = Task.Factory.StartNew(() => Context.Resolve(type));
+
+                // It could happen that task above is inlined on the current thread.
+                // As result, the last NSubstitute call router could become empty.
+                // Therefore, we pass cancellation token to the Wait() method to prevent task from being inlined.
+                // See more details: http://stackoverflow.com/a/12246045/2009373
+                // This fixes the following issue: https://github.com/AutoFixture/AutoFixture/issues/630
+                using (var cancelableTokenSource = new CancellationTokenSource())
+                {
+                    var cancelableToken = cancelableTokenSource.Token;
+                    task.Wait(cancelableToken);
+                }
+
+                return task.Result;
             }
 
             private void ReturnsFixedValue(MethodInfo methodInfo, object value)

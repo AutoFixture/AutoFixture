@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixture
         public RandomBooleanSequenceGenerator()
         {
             this.randomBooleanNumbers =
-                new RandomNumericSequenceGenerator(0, 2);
+                new RandomNumericSequenceGenerator(0, 1);
         }
 
         /// <summary>

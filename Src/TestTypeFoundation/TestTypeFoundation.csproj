@@ -88,6 +88,7 @@
     <Compile Include="FieldHolder.cs" />
     <Compile Include="GenericType.cs" />
     <Compile Include="GuardedConstructorHost.cs" />
+    <Compile Include="GuardedStaticMethodOnStaticTypeHost.cs" />
     <Compile Include="IInterface.cs" />
     <Compile Include="IllBehavedPropertyHolder.cs" />
     <Compile Include="IndexedPropertyHolder.cs" />

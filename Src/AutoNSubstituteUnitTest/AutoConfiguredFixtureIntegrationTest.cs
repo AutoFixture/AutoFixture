@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using NSubstitute;
 using Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
 using Ploeh.AutoFixture.Kernel;
@@ -536,7 +538,35 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var result = sut.Method();
 
             Assert.Equal(expected, result);
-		}
+        }
+
+        [Fact]
+        public void Issue630_DontFailIfAllTasksAreInlined()
+        {
+            //Test for the following issue fix: https://github.com/AutoFixture/AutoFixture/issues/630
+
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var interfaceSource = fixture.Create<IInterfaceWithMethodSource>();
+
+            var scheduler = new AggressiveInliningTaskScheduler();
+
+            /*
+             * Simulate situation when tasks are always inlined on current thread.
+             * To do that we implement our custom scheduler which put some delay before running task.
+             * That gives a chance for task to be inlined.
+             * 
+             * Schedulers are propagated to the nested tasks, so we are resolving IInterfaceWithMethod inside the task.
+             * All the tasks created during that resolve will be inlined, if that is possible.
+             */
+            var task = new Task<IInterfaceWithMethod>(() => interfaceSource.Get());
+            task.Start(scheduler);
+
+            var instance = task.Result;
+
+            //This test should not fail. Assertion is dummy and to specify that we use instance.
+            Assert.NotNull(instance);
+        }
+
 
         public interface IMyList<out T> : IEnumerable<T>
         {
@@ -549,6 +579,67 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public interface IInterfaceImplementingAnother : IInterface
         {
             int Method();
+        }
+
+        public interface IInterfaceWithMethodSource
+        {
+            IInterfaceWithMethod Get();
+        }
+
+        public class AggressiveInliningTaskScheduler : TaskScheduler
+        {
+            private const int DELAY_MSEC = 200;
+            private readonly object _syncRoot = new object();
+            private HashSet<Task> Tasks { get; } = new HashSet<Task>();
+
+            protected override void QueueTask(Task task)
+            {
+                lock (_syncRoot)
+                {
+                    Tasks.Add(task);
+                }
+
+                ThreadPool.QueueUserWorkItem(delegate
+                {
+                    Thread.Sleep(DELAY_MSEC);
+
+                    //If task cannot be dequeued - it was already executed.
+                    if (this.TryDequeue(task))
+                    {
+                        base.TryExecuteTask(task);
+                    }
+                });
+            }
+
+            protected override bool TryDequeue(Task task)
+            {
+                lock (_syncRoot)
+                {
+                    return Tasks.Remove(task);
+                }
+            }
+
+            protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
+            {
+
+                //If was queued, try to remove from queue before inlining. Ignore otherwise - it's already executed.
+                if (taskWasPreviouslyQueued && !this.TryDequeue(task))
+                {
+                    return false;
+                }
+
+                base.TryExecuteTask(task);
+                return true;
+            }
+
+            protected override IEnumerable<Task> GetScheduledTasks()
+            {
+                lock (_syncRoot)
+                {
+                    //Create copy to ensure that it's not modified during enumeration
+                    return Tasks.ToArray();
+                }
+            }
         }
     }
 }

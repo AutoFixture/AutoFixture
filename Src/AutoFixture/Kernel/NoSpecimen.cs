@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="request">
         /// The original request that prompts the creation of this instance.
         /// </param>
-        [Obsolete("The Request property, and the constructor that populates it, is being retired in future versions of AutoFixture, as it has turned out that no one uses it. You can still use the parameterless NoSpecimen constructor overload. The NoSpecimen class itself will remain. If you're seeing this warning in AutoFixture 3.x, and, despite expectations, have a real need to use the Request property, please provide feedback on https://github.com/AutoFixture/AutoFixture/issues/475 .")]
+        [Obsolete("Use NoSpecimen() instead of NoSpecimen(object). The Request property, and this constructor that populates it, is being retired in future versions of AutoFixture, as it has turned out that no one uses it. You can still use the parameterless NoSpecimen constructor overload. The NoSpecimen class itself will remain. If you're seeing this warning in AutoFixture 3.x, and, despite expectations, have a real need to use the Request property, please provide feedback on https://github.com/AutoFixture/AutoFixture/issues/475 .")]
         public NoSpecimen(object request)
         {
             this.Request = request;

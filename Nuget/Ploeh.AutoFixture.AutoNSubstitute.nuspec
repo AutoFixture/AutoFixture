@@ -7,7 +7,7 @@
         <authors>Daniel Hilgarth</authors>
         <owners>Daniel Hilgarth, Mark Seemann</owners>
         <dependencies>
-            <dependency id="autofixture" version="@build.number@" />
+            <dependency id="AutoFixture" version="@build.number@" />
             <dependency id="NSubstitute" version="1.5.0" />
         </dependencies>
         <summary>Turns AutoFixture into an Auto-Mocking Container based on NSubstitute.</summary>
