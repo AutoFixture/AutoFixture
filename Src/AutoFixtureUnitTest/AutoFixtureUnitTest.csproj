@@ -94,6 +94,7 @@
     <Compile Include="DomainNameGeneratorTest.cs" />
     <Compile Include="DomainNameTest.cs" />
     <Compile Include="ElementsBuilderTest.cs" />
+    <Compile Include="Kernel\SortedListRelayTest.cs" />
     <Compile Include="Kernel\SortedSetSpecificationTest.cs" />
     <Compile Include="LambdaExpressionGeneratorTest.cs" />
     <Compile Include="FixtureRepeaterTest.cs" />
