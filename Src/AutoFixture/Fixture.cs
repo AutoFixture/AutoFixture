@@ -111,6 +111,7 @@ namespace Ploeh.AutoFixture
                                 new RangeAttributeRelay(),
                                 new StringLengthAttributeRelay(),
                                 new RegularExpressionAttributeRelay(),
+                                new SortedListRelay(),
                                 new EnumGenerator(),
                                 new LambdaExpressionGenerator(),
                                 CreateDefaultValueBuilder(CultureInfo.InvariantCulture),
