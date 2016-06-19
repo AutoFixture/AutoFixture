@@ -401,7 +401,9 @@ namespace Ploeh.AutoFixture.Idioms
             if (memberAsFieldInfo != null)
             {
                 bool isReadOnly = memberAsFieldInfo.Attributes.HasFlag(FieldAttributes.InitOnly);
-                return isReadOnly;
+                bool isStatic = memberAsFieldInfo.Attributes.HasFlag(FieldAttributes.Static);
+
+                return isReadOnly && !isStatic;
             }
 
             return false;
