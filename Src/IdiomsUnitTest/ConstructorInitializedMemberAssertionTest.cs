@@ -445,12 +445,24 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyWithPublicStaticFieldAndNoMatchingConstructorArgumentDoesNotThrow()
+        public void VerifyTypeWithPublicStaticFieldAndNoMatchingConstructorArgumentDoesNotThrow()
         {
             // Fixture setup
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var typeToVerify = typeof(StaticFieldHolder<ComplexType>);
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => sut.Verify(typeToVerify));
+            // Teardown
+        }
+
+        [Fact]
+        public void VerifyTypeWithPublicStaticReadOnlyFieldAndNoMatchingGuardedConstuctorArgumentDoesNotThrow()
+        {
+            // Fixture setup
+            var dummyComposer = new Fixture();
+            var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
+            var typeToVerify = typeof(GuardedConstructorHostHoldingStaticReadOnlyField<ComplexType, int>);
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Verify(typeToVerify));
             // Teardown

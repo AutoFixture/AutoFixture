@@ -104,6 +104,7 @@
     <Compile Include="ReadOnlyFieldHolder.cs" />
     <Compile Include="ReadOnlyPropertyHolder.cs" />
     <Compile Include="SingleParameterType.cs" />
+    <Compile Include="GuardedConstructorHostHoldingStaticReadOnlyField.cs" />
     <Compile Include="StaticFieldHolder.cs" />
     <Compile Include="StaticPropertyHolder.cs" />
     <Compile Include="MutableValueType.cs" />
