@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         public FakeItEasyRelay(IRequestSpecification fakeableSpecification)
         {
             if (fakeableSpecification == null)
-                throw new ArgumentNullException("fakeableSpecification");
+                throw new ArgumentNullException(nameof(fakeableSpecification));
 
             this.fakeableSpecification = fakeableSpecification;
         }
@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// <value>The specification.</value>
         /// <remarks>
         /// <para>
-        /// This specification determins whether a given type should be relayed as a request for a
+        /// This specification determines whether a given type should be relayed as a request for a
         /// mock of the same type. By default it only returns <see langword="true"/> for interfaces
         /// and abstract classes, but a different specification can be supplied by using the
         /// overloaded constructor that takes an
@@ -50,10 +50,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// </para>
         /// </remarks>
         /// <seealso cref="FakeItEasyRelay(IRequestSpecification)"/>
-        public IRequestSpecification FakeableSpecification
-        {
-            get { return this.fakeableSpecification; }
-        }
+        public IRequestSpecification FakeableSpecification => fakeableSpecification;
 
         /// <summary>
         /// Creates a new specimen based on a request.
@@ -67,9 +64,9 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         public object Create(object request, ISpecimenContext context)
         {
             if (context == null)
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
 
-            if (!this.fakeableSpecification.IsSatisfiedBy(request))
+            if (!fakeableSpecification.IsSatisfiedBy(request))
 #pragma warning disable 618
                 return new NoSpecimen(request);
 #pragma warning restore 618
@@ -82,7 +79,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
 
             var fakeType = typeof(Fake<>).MakeGenericType(type);
 
-            var fake = context.Resolve(fakeType) as FakeItEasy.Configuration.IHideObjectMembers;
+            var fake = context.Resolve(fakeType) as IHideObjectMembers;
             if (fake == null)
 #pragma warning disable 618
                 return new NoSpecimen(request);
