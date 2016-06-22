@@ -10,22 +10,22 @@ let nuGetOutputFolder = "NuGetPackages"
 let solutionsToBuild = !! "Src/*.sln"
 let processorArchitecture = environVar "PROCESSOR_ARCHITECTURE"
 
-let build target configuration = 
-    let keyFile = 
+let build target configuration =
+    let keyFile =
         match getBuildParam "signkey" with
         | "" -> []
         | x  -> [ "AssemblyOriginatorKeyFile", FullName x ]
-        
+
     let properties = [ "Configuration", configuration ] @ keyFile
-    
+
     solutionsToBuild
     |> MSBuild "" target properties
     |> ignore
-    
-let clean   = build "Clean"
-let rebuild = build "Rebuild" 
 
-Target "CleanAll"           (fun _ -> ())    
+let clean   = build "Clean"
+let rebuild = build "Rebuild"
+
+Target "CleanAll"           (fun _ -> ())
 Target "CleanVerify"        (fun _ -> clean "Verify")
 Target "CleanRelease"       (fun _ -> clean "Release")
 Target "CleanReleaseFolder" (fun _ -> CleanDir releaseFolder)
@@ -36,11 +36,11 @@ Target "BuildOnly" (fun _ -> rebuild "Release")
 Target "TestOnly" (fun _ ->
     let configuration = getBuildParamOrDefault "Configuration" "Release"
     let parallelizeTests = getBuildParamOrDefault "ParallelizeTests" "False" |> Convert.ToBoolean
-    let maxParallelThreads = getBuildParamOrDefault "MaxParallelThreads" "0" |> Convert.ToInt32  
+    let maxParallelThreads = getBuildParamOrDefault "MaxParallelThreads" "0" |> Convert.ToInt32
     let parallelMode = if parallelizeTests then ParallelMode.All else ParallelMode.NoParallelization
     let maxThreads = if maxParallelThreads = 0 then CollectionConcurrencyMode.Default else CollectionConcurrencyMode.MaxThreads(maxParallelThreads)
-      
-    let testAssemblies = !! (sprintf "Src/*Test/bin/%s/*Test.dll" configuration) 
+
+    let testAssemblies = !! (sprintf "Src/*Test/bin/%s/*Test.dll" configuration)
                          -- (sprintf "Src/AutoFixture.NUnit*.*Test/bin/%s/*Test.dll" configuration)
 
     testAssemblies
@@ -81,6 +81,9 @@ Target "CopyToReleaseFolder" (fun _ ->
       "Src/AutoFakeItEasy/bin/Release/Ploeh.AutoFixture.AutoFakeItEasy.dll";
       "Src/AutoFakeItEasy/bin/Release/Ploeh.AutoFixture.AutoFakeItEasy.pdb";
       "Src/AutoFakeItEasy/bin/Release/Ploeh.AutoFixture.AutoFakeItEasy.XML";
+      "Src/AutoFakeItEasy2/bin/Release/Ploeh.AutoFixture.AutoFakeItEasy2.dll";
+      "Src/AutoFakeItEasy2/bin/Release/Ploeh.AutoFixture.AutoFakeItEasy2.pdb";
+      "Src/AutoFakeItEasy2/bin/Release/Ploeh.AutoFixture.AutoFakeItEasy2.XML";
       "Src/AutoNSubstitute/bin/Release/Ploeh.AutoFixture.AutoNSubstitute.dll";
       "Src/AutoNSubstitute/bin/Release/Ploeh.AutoFixture.AutoNSubstitute.pdb";
       "Src/AutoNSubstitute/bin/Release/Ploeh.AutoFixture.AutoNSubstitute.XML";
@@ -98,7 +101,7 @@ Target "CopyToReleaseFolder" (fun _ ->
       "Src/AutoFixture.NUnit2/bin/Release/Ploeh.AutoFixture.NUnit2.XML";
       "Src/AutoFixture.NUnit2/bin/Release/Ploeh.AutoFixture.NUnit2.Addins.dll";
       "Src/AutoFixture.NUnit2/bin/Release/Ploeh.AutoFixture.NUnit2.Addins.pdb";
-      "Src/AutoFixture.NUnit2/bin/Release/Ploeh.AutoFixture.NUnit2.Addins.XML";      
+      "Src/AutoFixture.NUnit2/bin/Release/Ploeh.AutoFixture.NUnit2.Addins.XML";
       "Src/AutoFixture.NUnit3/bin/Release/Ploeh.AutoFixture.NUnit3.dll";
       "Src/AutoFixture.NUnit3/bin/Release/Ploeh.AutoFixture.NUnit3.pdb";
       "Src/AutoFixture.NUnit3/bin/Release/Ploeh.AutoFixture.NUnit3.XML";
@@ -108,24 +111,24 @@ Target "CopyToReleaseFolder" (fun _ ->
       "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.dll";
       "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.pdb";
       "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.XML";
-      nunitToolsFolder @@ "lib/nunit.core.interfaces.dll"    
-    ]        
+      nunitToolsFolder @@ "lib/nunit.core.interfaces.dll"
+    ]
     let nuGetPackageScripts = !! "NuGet/*.ps1" ++ "NuGet/*.txt" ++ "NuGet/*.pp" |> List.ofSeq
     let releaseFiles = buildOutput @ nuGetPackageScripts
-        
+
     releaseFiles
     |> CopyFiles releaseFolder
 )
 
-Target "CleanNuGetPackages" (fun _ -> 
+Target "CleanNuGetPackages" (fun _ ->
     CleanDir nuGetOutputFolder
 )
 
-Target "NuGetPack" (fun _ ->    
-    let version = "Src/AutoFixture/bin/Release/Ploeh.AutoFixture.dll" 
+Target "NuGetPack" (fun _ ->
+    let version = "Src/AutoFixture/bin/Release/Ploeh.AutoFixture.dll"
                   |> GetAssemblyVersion
-                  |> (fun v -> sprintf "%i.%i.%i" v.Major v.Minor v.Build)  
-    
+                  |> (fun v -> sprintf "%i.%i.%i" v.Major v.Minor v.Build)
+
     let nuSpecFiles = !! "NuGet/*.nuspec"
 
     nuSpecFiles
@@ -136,11 +139,11 @@ Target "NuGetPack" (fun _ ->
 )
 
 Target "CompleteBuild" (fun _ -> ())
- 
-"CleanVerify"  ==> "CleanAll"  
+
+"CleanVerify"  ==> "CleanAll"
 "CleanRelease" ==> "CleanAll"
 
-"CleanReleaseFolder" ==> "Verify"  
+"CleanReleaseFolder" ==> "Verify"
 "CleanAll"           ==> "Verify"
 
 "Verify"    ==> "Build"
@@ -148,7 +151,7 @@ Target "CompleteBuild" (fun _ -> ())
 
 "Build"    ==> "Test"
 "TestOnly" ==> "Test"
- 
+
 "BuildOnly" ==> "TestOnly"
 
 "BuildOnly" ==> "BuildAndTestOnly"
