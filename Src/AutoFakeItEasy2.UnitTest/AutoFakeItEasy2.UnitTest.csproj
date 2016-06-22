@@ -37,8 +37,10 @@
     <Reference Include="Castle.Core">
       <HintPath>..\..\Packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="FakeItEasy">
-      <HintPath>..\..\Packages\FakeItEasy.1.7.4257.42\lib\NET40\FakeItEasy.dll</HintPath>
+    <Reference Include="FakeItEasy, Version=2.1.0.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Packages\FakeItEasy.2.1.0\lib\net40\FakeItEasy.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,9 +61,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AutoFakeItEasy\AutoFakeItEasy.csproj">
-      <Project>{B6B79E32-EE90-4AE1-BD32-F50B5A0C2B40}</Project>
-      <Name>AutoFakeItEasy</Name>
+    <ProjectReference Include="..\AutoFakeItEasy2\AutoFakeItEasy2.csproj">
+      <Project>{b6b79e32-ee90-4ae1-bd32-f50b5a0c2b40}</Project>
+      <Name>AutoFakeItEasy2</Name>
     </ProjectReference>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
       <Project>{400AC174-9A4A-4C7D-815B-F2A21130A0D1}</Project>

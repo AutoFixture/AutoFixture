@@ -73,7 +73,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
 #pragma warning restore 618
             }
 
-            var fake = this.builder.Create(request, context) as FakeItEasy.Configuration.IHideObjectMembers;
+            var fake = this.builder.Create(request, context) as FakeItEasy.IHideObjectMembers;
             if (fake == null)
             {
 #pragma warning disable 618

@@ -82,7 +82,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
 
             var fakeType = typeof(Fake<>).MakeGenericType(type);
 
-            var fake = context.Resolve(fakeType) as FakeItEasy.Configuration.IHideObjectMembers;
+            var fake = context.Resolve(fakeType) as IHideObjectMembers;
             if (fake == null)
 #pragma warning disable 618
                 return new NoSpecimen(request);
