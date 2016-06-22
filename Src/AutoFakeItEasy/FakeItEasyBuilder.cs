@@ -26,9 +26,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         public FakeItEasyBuilder(ISpecimenBuilder builder)
         {
             if (builder == null)
-            {
-                throw new ArgumentNullException("builder");
-            }
+                throw new ArgumentNullException(nameof(builder));
 
             this.builder = builder;
         }
@@ -37,10 +35,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// Gets the decorated builder supplied through the constructor.
         /// </summary>
         /// <seealso cref="FakeItEasyBuilder(ISpecimenBuilder)" />
-        public ISpecimenBuilder Builder
-        {
-            get { return this.builder; }
-        }
+        public ISpecimenBuilder Builder => builder;
 
         /// <summary>
         /// Creates a new specimen based on a request.
@@ -73,7 +68,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
 #pragma warning restore 618
             }
 
-            var fake = this.builder.Create(request, context) as FakeItEasy.Configuration.IHideObjectMembers;
+            var fake = builder.Create(request, context) as FakeItEasy.IHideObjectMembers;
             if (fake == null)
             {
 #pragma warning disable 618
