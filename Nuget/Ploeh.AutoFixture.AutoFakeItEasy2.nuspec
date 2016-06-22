@@ -4,14 +4,14 @@
         <id>AutoFixture.AutoFakeItEasy2</id>
         <version>@build.number@</version>
         <title>AutoFixture with Auto Mocking using FakeItEasy</title>
-        <authors>Nikos Baxevanis</authors>
-        <owners>Nikos Baxevanis</owners>
+        <authors>Christopher Loggins</authors>
+        <owners>Christopher Loggins</owners>
         <dependencies>
             <dependency id="AutoFixture" version="@build.number@" />
-            <dependency id="FakeItEasy" version="2.1" />
+            <dependency id="FakeItEasy" version="2.0" />
         </dependencies>
         <summary>Turns AutoFixture into an Auto-Mocking Container based on FakeItEasy.</summary>
-        <description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by FakeItEasy. To use it, add the AutoFakeItEasyCustomization to your Fixture instance. Read more at http://autofixture.codeplex.com/</description>
+        <description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by FakeItEasy. To use it, add the AutoFakeItEasyCustomization to your Fixture instance. Read more at https://github.com/AutoFixture/AutoFixture.</description>
         <iconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/master/AutoFixtureLogo200x200.png</iconUrl>
         <language>en-US</language>
         <licenseUrl>https://github.com/AutoFixture/AutoFixture/blob/master/LICENCE.txt</licenseUrl>
