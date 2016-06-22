@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
     <metadata>
-        <id>AutoFixture.AutoFakeItEasy</id>
+        <id>AutoFixture.AutoFakeItEasy2</id>
         <version>@build.number@</version>
         <title>AutoFixture with Auto Mocking using FakeItEasy</title>
         <authors>Nikos Baxevanis</authors>
