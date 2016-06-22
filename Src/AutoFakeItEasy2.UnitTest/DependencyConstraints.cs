@@ -11,6 +11,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         [InlineData("Moq")]
         [InlineData("xunit")]
         [InlineData("xunit.extensions")]
+        [InlineData("NSubstitute")]
         public void AutoFakeItEasyDoesNotReference(string assemblyName)
         {
             // Fixture setup
@@ -24,6 +25,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         [Theory]
         [InlineData("Rhino.Mocks")]
         [InlineData("Moq")]
+        [InlineData("NSubstitute")]
         public void AutoFakeItEasyUnitTestsDoNotReference(string assemblyName)
         {
             // Fixture setup
