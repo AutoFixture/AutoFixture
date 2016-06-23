@@ -2,7 +2,7 @@
 using FakeItEasy;
 using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy
+namespace Ploeh.AutoFixture.AutoFakeItEasy2
 {
     /// <summary>
     /// Relays a request for an interface or an abstract class to a request for a

@@ -5,7 +5,7 @@ using FakeItEasy;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
+namespace Ploeh.AutoFixture.AutoFakeItEasy2.UnitTest
 {
     public class AutoFakeItEasyCustomizationTest
     {

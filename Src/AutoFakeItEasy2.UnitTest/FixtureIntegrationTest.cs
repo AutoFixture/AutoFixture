@@ -5,9 +5,9 @@ using FakeItEasy;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
+namespace Ploeh.AutoFixture.AutoFakeItEasy2.UnitTest
 {
-    public class FixtureIntegrationTest
+  public class FixtureIntegrationTest
     {
         [Fact]
         public void FixtureAutoFakesInterface()

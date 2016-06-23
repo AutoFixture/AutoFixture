@@ -7,9 +7,9 @@ using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
+namespace Ploeh.AutoFixture.AutoFakeItEasy2.UnitTest
 {
-    public class FakeItEasyMethodQueryTest
+  public class FakeItEasyMethodQueryTest
     {
         [Fact]
         public void SutIsMethodQuery()

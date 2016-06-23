@@ -8,7 +8,7 @@
     <ProjectGuid>{B6B79E32-EE90-4AE1-BD32-F50B5A0C2B40}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ploeh.AutoFixture.AutoFakeItEasy</RootNamespace>
+    <RootNamespace>Ploeh.AutoFixture.AutoFakeItEasy2</RootNamespace>
     <AssemblyName>Ploeh.AutoFixture.AutoFakeItEasy2</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

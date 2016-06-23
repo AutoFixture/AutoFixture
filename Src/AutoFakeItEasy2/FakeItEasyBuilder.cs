@@ -1,7 +1,7 @@
 ﻿using System;
 using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy
+namespace Ploeh.AutoFixture.AutoFakeItEasy2
 {
     /// <summary>
     /// Provides pre- and post-condition checks for requests for fake instances.

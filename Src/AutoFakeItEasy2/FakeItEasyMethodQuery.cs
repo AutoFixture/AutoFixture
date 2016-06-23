@@ -5,7 +5,7 @@ using System.Reflection;
 using FakeItEasy;
 using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy
+namespace Ploeh.AutoFixture.AutoFakeItEasy2
 {
     /// <summary>
     /// Selects appropriate methods to create <see cref="FakeItEasy.Fake{T}"/> instances.
