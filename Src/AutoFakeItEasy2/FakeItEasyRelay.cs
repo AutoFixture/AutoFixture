@@ -70,23 +70,17 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy2
                 throw new ArgumentNullException("context");
 
             if (!this.fakeableSpecification.IsSatisfiedBy(request))
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             var type = request as Type;
             if (type == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             var fakeType = typeof(Fake<>).MakeGenericType(type);
 
             var fake = context.Resolve(fakeType) as IHideObjectMembers;
             if (fake == null)
-#pragma warning disable 618
-                return new NoSpecimen(request);
-#pragma warning restore 618
+                return new NoSpecimen();
 
             return fake.GetType().GetProperty("FakedObject").GetValue(fake, null);
         }
@@ -96,7 +90,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy2
             public bool IsSatisfiedBy(object request)
             {
                 var t = request as Type;
-                return (t != null) && ((t.IsAbstract) || (t.IsInterface));
+                return (t != null) && (t.IsAbstract || t.IsInterface);
             }
         }
     }

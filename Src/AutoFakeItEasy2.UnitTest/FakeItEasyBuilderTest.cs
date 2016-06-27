@@ -58,9 +58,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy2.UnitTest
             var dummyContext = A.Fake<ISpecimenContext>();
             var result = sut.Create(request, dummyContext);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -97,9 +95,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy2.UnitTest
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -119,9 +115,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy2.UnitTest
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
@@ -140,9 +134,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy2.UnitTest
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome
-#pragma warning disable 618
-            var expectedResult = new NoSpecimen(request);
-#pragma warning restore 618
+            var expectedResult = new NoSpecimen();
             Assert.Equal(expectedResult, result);
             // Teardown
         }
