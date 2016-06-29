@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -43,7 +45,7 @@ namespace Ploeh.AutoFixture
         /// that will be satisfied by the frozen specimen.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="targetType"/> or<paramref name="matcher"/> is null.
+        /// <paramref name="targetType"/> or <paramref name="matcher"/> is null.
         /// </exception>
         public FreezeOnMatchCustomization(
             Type targetType,
@@ -62,6 +64,44 @@ namespace Ploeh.AutoFixture
             this.TargetType = targetType;
             this.Matcher = matcher;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FreezeOnMatchCustomization"/> class.
+        /// </summary>
+        /// <param name="parameter">
+        /// The <see cref="ParameterInfo"/> used to freeze specimens decorated with advanced
+        /// attributes (e.g. <see cref="StringLengthAttribute"/>).
+        /// </param>
+        /// <param name="matcher">
+        /// The <see cref="IRequestSpecification"/> used to match the requests
+        /// that will be satisfied by the frozen specimen.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="parameter"/> or <paramref name="matcher"/> is null.
+        /// </exception>
+        public FreezeOnMatchCustomization(
+            ParameterInfo parameter,
+            IRequestSpecification matcher)
+        {
+            if (parameter == null)
+            {
+                throw new ArgumentNullException(nameof(parameter));
+            }
+
+            if (matcher == null)
+            {
+                throw new ArgumentNullException(nameof(matcher));
+            }
+
+            this.ParameterInfo = parameter;
+            this.TargetType = parameter.ParameterType;
+            this.Matcher = matcher;
+        }
+
+        /// <summary>
+        /// The <see cref="ParameterInfo"/> describing the specimen to freeze.
+        /// </summary>
+        public ParameterInfo ParameterInfo { get; }
 
         /// <summary>
         /// The <see cref="Type"/> of the frozen specimen.

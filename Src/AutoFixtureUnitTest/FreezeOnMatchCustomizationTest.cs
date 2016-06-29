@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
@@ -29,7 +31,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new FreezeOnMatchCustomization(null, new FalseRequestSpecification()));
+                new FreezeOnMatchCustomization((Type)null, new FalseRequestSpecification()));
             // Teardown
         }
 
@@ -75,6 +77,53 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new FreezeOnMatchCustomization(typeof(object), matcher);
             // Verify outcome
             Assert.Equal(matcher, sut.Matcher);
+        }
+
+        [Fact]
+        public void InitializeWithNullParameterInfoShouldThrowArgumentNullException()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new FreezeOnMatchCustomization((ParameterInfo)null, new FalseRequestSpecification()));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithParameterInfoAndNullMatcherShouldThrowArgumentNullException()
+        {
+            // Fixture setup
+            var parameter = typeof(UnguardedMethodHost).GetMethod("ConsumeUnguardedString").GetParameters().First();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new FreezeOnMatchCustomization(parameter, null));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithParameterInfoAndMatcherShouldSetCorrespondingProperties()
+        {
+            // Fixture setup
+            var parameter = typeof(UnguardedMethodHost).GetMethod("ConsumeUnguardedString").GetParameters().First();
+            var matcher = new TrueRequestSpecification();
+            // Exercise system
+            var sut = new FreezeOnMatchCustomization(parameter, matcher);
+            // Verify outcome
+            Assert.Equal(parameter, sut.ParameterInfo);
+            Assert.Equal(matcher, sut.Matcher);
+        }
+
+        [Fact]
+        public void InitializeWithParameterInfoShouldSetTargetTypeProperty()
+        {
+            // Fixture setup
+            var parameter = typeof(UnguardedMethodHost).GetMethod("ConsumeUnguardedString").GetParameters().First();
+            var matcher = new TrueRequestSpecification();
+            var expected = typeof(string);
+            // Exercise system
+            var sut = new FreezeOnMatchCustomization(parameter, matcher);
+            // Verify outcome
+            Assert.Equal(expected, sut.TargetType);
         }
 
         [Fact]
