@@ -5154,6 +5154,18 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void CreateSortedDictionaryReturnsCorrectResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var result = fixture.Create<SortedDictionary<string,object>>();
+            // Verify outcome
+            Assert.NotEmpty(result);
+            // Teardown
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
