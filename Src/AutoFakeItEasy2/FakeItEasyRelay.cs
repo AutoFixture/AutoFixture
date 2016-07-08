@@ -78,9 +78,11 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy2
 
             var fakeType = typeof(Fake<>).MakeGenericType(type);
 
-            var fake = context.Resolve(fakeType) as IHideObjectMembers;
-            if (fake == null)
+            var fake = context.Resolve(fakeType);
+            if (!fakeType.IsInstanceOfType(fake))
+            {
                 return new NoSpecimen();
+            }
 
             return fake.GetType().GetProperty("FakedObject").GetValue(fake, null);
         }
