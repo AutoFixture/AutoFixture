@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
 
         internal static Type GetFakedType(this Type type)
         {
-            return type.GetGenericArguments().Single();
+            return type.GetTypeInfo().GetGenericArguments().Single();
         }
     }
 }

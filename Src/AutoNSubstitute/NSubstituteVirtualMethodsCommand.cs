@@ -123,7 +123,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                     return string.Empty;
 
                 return string.Format(CultureInfo.CurrentCulture, "<{0}>",
-                    string.Join(", ", methodInfo.GetGenericArguments().Select(a => a.ToString())));
+                    string.Join(", ", methodInfo.GetTypeInfo().GetGenericArguments().Select(a => a.ToString())));
             }
 
             private static string GetFriendlyName(Type type)
@@ -132,7 +132,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                     return string.Format(CultureInfo.CurrentCulture,
                         "{0}<{1}>",
                         type.Name.Split('`')[0],
-                        string.Join(", ", type.GetGenericArguments().Select(GetFriendlyName)));
+                        string.Join(", ", type.GetTypeInfo().GetGenericArguments().Select(GetFriendlyName)));
 
                 return type.Name;
             }

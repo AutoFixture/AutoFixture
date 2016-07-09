@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture
 
         private static object CreateGenericTask(Type taskType, ISpecimenContext context)
         {
-            var resultType = taskType.GetGenericArguments().Single();
+            var resultType = taskType.GetTypeInfo().GetGenericArguments().Single();
             var result = context.Resolve(resultType);
             return CreateTask(resultType, result);
         }

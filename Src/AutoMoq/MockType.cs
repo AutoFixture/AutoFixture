@@ -71,7 +71,7 @@ namespace Ploeh.AutoFixture.AutoMoq
 
         internal static Type GetMockedType(this Type type)
         {
-            return type.GetGenericArguments().Single();
+            return type.GetTypeInfo().GetGenericArguments().Single();
         }
 
         internal static IReturnsResult<TMock> ReturnsUsingContext<TMock, TResult>(this IReturns<TMock, TResult> setup,

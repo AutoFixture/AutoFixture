@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture.Kernel
                     GetFriendlyName(methodInfo.ReturnType),
                     methodInfo.DeclaringType.FullName,
                     methodInfo.Name,
-                    string.Join(", ", methodInfo.GetGenericArguments().Select(a => a.ToString())),
+                    string.Join(", ", methodInfo.GetTypeInfo().GetGenericArguments().Select(a => a.ToString())),
                     string.Join(", ", methodInfo.GetParameters().Select(p => GetFriendlyName(p.ParameterType)))
                     ))
         {
@@ -90,7 +90,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return string.Format(CultureInfo.CurrentCulture, 
                     "{0}<{1}>", 
                     type.Name.Split('`')[0], 
-                    string.Join(", ", type.GetGenericArguments().Select(GetFriendlyName)));
+                    string.Join(", ", type.GetTypeInfo().GetGenericArguments().Select(GetFriendlyName)));
 
             return type.Name;
         }

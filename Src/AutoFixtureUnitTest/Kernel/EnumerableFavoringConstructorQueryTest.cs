@@ -79,7 +79,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = sut.SelectMethods(type);
             // Verify outcome
-            var genericParameterType = type.GetGenericArguments().Single();
+            var genericParameterType = type.GetTypeInfo().GetGenericArguments().Single();
             Assert.True(result.First().Parameters.Any(p => typeof(IEnumerable<>).MakeGenericType(genericParameterType).IsAssignableFrom(p.ParameterType)));
             // Teardown
         }

@@ -87,7 +87,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void InvokeWithSingleParameterReturnsCorrectResult(Type targetType, object parameter)
         {
             // Fixture setup
-            var ctor = targetType.GetConstructor(targetType.GetGenericArguments().ToArray());
+            var ctor = targetType.GetConstructor(targetType.GetTypeInfo().GetGenericArguments().ToArray());
             var sut = new ConstructorMethod(ctor);
             // Exercise system
             var result = sut.Invoke(new[] { parameter });
@@ -103,7 +103,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void InvokeWithTwoParametersReturnsCorrectResult(Type targetType, object parameter1, object parameter2)
         {
             // Fixture setup
-            var ctor = targetType.GetConstructor(targetType.GetGenericArguments().ToArray());
+            var ctor = targetType.GetConstructor(targetType.GetTypeInfo().GetGenericArguments().ToArray());
             var sut = new ConstructorMethod(ctor);
             // Exercise system
             var result = sut.Invoke(new[] { parameter1, parameter2 });

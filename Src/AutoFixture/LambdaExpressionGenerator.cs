@@ -43,8 +43,8 @@
                 return new NoSpecimen();
             }
 
-            var delegateType = requestType.GetGenericArguments().Single();
-            var genericArguments = delegateType.GetGenericArguments().Select(Expression.Parameter).ToList();
+            var delegateType = requestType.GetTypeInfo().GetGenericArguments().Single();
+            var genericArguments = delegateType.GetTypeInfo().GetGenericArguments().Select(Expression.Parameter).ToList();
 
             if (delegateType == typeof(Action))
             {
@@ -56,7 +56,7 @@
                 return Expression.Lambda(Expression.Empty(), genericArguments);
             }
 
-            var body = context.Resolve(delegateType.GetGenericArguments().Last());
+            var body = context.Resolve(delegateType.GetTypeInfo().GetGenericArguments().Last());
             var parameters = genericArguments.Except(new[] { genericArguments.Last() });
 
             return Expression.Lambda(Expression.Constant(body), parameters);

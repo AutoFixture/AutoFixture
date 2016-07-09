@@ -75,7 +75,7 @@ namespace Ploeh.AutoFixture.Kernel
 
             if (returnValue is OmitSpecimen)
                 return Array.CreateInstance(
-                    pi.ParameterType.GetGenericArguments().Single(),
+                    pi.ParameterType.GetTypeInfo().GetGenericArguments().Single(),
                     0);
 
             return returnValue;
