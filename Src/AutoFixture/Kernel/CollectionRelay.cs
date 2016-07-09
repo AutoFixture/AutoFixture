@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture.Kernel
             // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
             var type = request as Type;
             if (type == null) return new NoSpecimen();
-            var typeArguments = type.GetGenericArguments();
+            var typeArguments = type.GetTypeInfo().GetGenericArguments();
             if (typeArguments.Length != 1) return new NoSpecimen();
             var gtd = type.GetGenericTypeDefinition();
             if (gtd != typeof (ICollection<>)) return new NoSpecimen();

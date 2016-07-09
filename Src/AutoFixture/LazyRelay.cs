@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture
 
             var builder = (ILazyBuilder)Activator
                 .CreateInstance(typeof(LazyBuilder<>)
-                .MakeGenericType(t.GetGenericArguments()));
+                .MakeGenericType(t.GetTypeInfo().GetGenericArguments()));
             return builder.Create(context);
         }
 

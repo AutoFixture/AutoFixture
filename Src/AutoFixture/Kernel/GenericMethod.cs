@@ -75,7 +75,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return type.HasElementType ?
                 new[] { type.GetElementType() } :
-                type.GetGenericArguments();
+                type.GetTypeInfo().GetGenericArguments();
         }
 
         private static MethodInfo InferMethodInfo(MethodInfo methodInfo, IEnumerable<object> arguments)
