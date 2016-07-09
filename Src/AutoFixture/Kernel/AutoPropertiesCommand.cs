@@ -218,7 +218,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         private IEnumerable<FieldInfo> GetFields(object specimen)
         {
-            return from fi in this.GetSpecimenType(specimen).GetFields(BindingFlags.Public | BindingFlags.Instance)
+            return from fi in this.GetSpecimenType(specimen).GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance)
                    where !fi.IsInitOnly
                    && this.specification.IsSatisfiedBy(fi)
                    select fi;
@@ -226,7 +226,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         private IEnumerable<PropertyInfo> GetProperties(object specimen)
         {
-            return from pi in this.GetSpecimenType(specimen).GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            return from pi in this.GetSpecimenType(specimen).GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance)
                    where pi.GetSetMethod() != null
                    && pi.GetIndexParameters().Length == 0
                    && this.specification.IsSatisfiedBy(pi)

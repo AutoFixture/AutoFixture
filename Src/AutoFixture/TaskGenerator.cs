@@ -66,7 +66,7 @@ namespace Ploeh.AutoFixture
             taskSourceType.GetMethod("SetResult")
                           .Invoke(taskSource, new[] {result});
 
-            var task = taskSourceType.GetProperty("Task")
+            var task = taskSourceType.GetTypeInfo().GetProperty("Task")
                                      .GetValue(taskSource, null);
 
             return task;
