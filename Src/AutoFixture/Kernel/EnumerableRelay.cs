@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixture.Kernel
 
             return typeof (ConvertedEnumerable<>)
                 .MakeGenericType(typeArgs)
-                .GetConstructor(new[] {typeof (IEnumerable<object>)})
+                .GetTypeInfo().GetConstructor(new[] {typeof (IEnumerable<object>)})
                 .Invoke(new[] {enumerable});
         }
 
