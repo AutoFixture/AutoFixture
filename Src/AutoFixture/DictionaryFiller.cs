@@ -49,7 +49,7 @@ namespace Ploeh.AutoFixture
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            var typeArguments = specimen.GetType().GetGenericArguments();
+            var typeArguments = specimen.GetType().GetTypeInfo().GetGenericArguments();
             if (typeArguments.Length != 2)
                 throw new ArgumentException("The specimen must be an instance of IDictionary<TKey, TValue>.", nameof(specimen));
 
