@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(type));
             }
 
-            return from ci in type.GetConstructors()
+            return from ci in type.GetTypeInfo().GetConstructors()
                    let score = new ParameterScore(type, typeof(IEnumerable<>), ci.GetParameters())
                    orderby score descending
                    select new ConstructorMethod(ci) as IMethod;
