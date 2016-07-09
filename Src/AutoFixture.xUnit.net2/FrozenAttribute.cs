@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Ploeh.Albedo;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Xunit2
@@ -110,7 +111,8 @@ namespace Ploeh.AutoFixture.Xunit2
                 .Or(ByParameterName(type, name))
                 .Or(ByFieldName(type, name));
 
-            return new FreezeOnMatchCustomization(parameter, filter);
+            var reflectionElement = new ParameterInfoElement(parameter);
+            return new FreezeOnMatchCustomization(reflectionElement, filter);
         }
 
         private static IRequestSpecification ByEqual(object target)

@@ -1,6 +1,5 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
+using Ploeh.Albedo;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -68,24 +67,23 @@ namespace Ploeh.AutoFixture
         /// <summary>
         /// Initializes a new instance of the <see cref="FreezeOnMatchCustomization"/> class.
         /// </summary>
-        /// <param name="parameter">
-        /// The <see cref="ParameterInfo"/> used to freeze specimens decorated with advanced
-        /// attributes (e.g. <see cref="StringLengthAttribute"/>).
+        /// <param name="reflectionElement">
+        /// The <see cref="IReflectionElement"/> used to create specimens to freeze.
         /// </param>
         /// <param name="matcher">
         /// The <see cref="IRequestSpecification"/> used to match the requests
         /// that will be satisfied by the frozen specimen.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="parameter"/> or <paramref name="matcher"/> is null.
+        /// <paramref name="reflectionElement"/> or <paramref name="matcher"/> is null.
         /// </exception>
         public FreezeOnMatchCustomization(
-            ParameterInfo parameter,
+            IReflectionElement reflectionElement,
             IRequestSpecification matcher)
         {
-            if (parameter == null)
+            if (reflectionElement == null)
             {
-                throw new ArgumentNullException(nameof(parameter));
+                throw new ArgumentNullException(nameof(reflectionElement));
             }
 
             if (matcher == null)
@@ -93,15 +91,14 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(matcher));
             }
 
-            this.ParameterInfo = parameter;
-            this.TargetType = parameter.ParameterType;
+            this.ReflectionElement = reflectionElement;
             this.Matcher = matcher;
         }
 
         /// <summary>
-        /// The <see cref="ParameterInfo"/> describing the specimen to freeze.
+        /// The <see cref="ReflectionElement"/> describing the specimen to freeze.
         /// </summary>
-        public ParameterInfo ParameterInfo { get; }
+        public IReflectionElement ReflectionElement { get; }
 
         /// <summary>
         /// The <see cref="Type"/> of the frozen specimen.
@@ -140,7 +137,7 @@ namespace Ploeh.AutoFixture
         private ISpecimenBuilder FreezeTargetType(IFixture fixture)
         {
             var context = new SpecimenContext(fixture);
-            var request = (object)this.ParameterInfo ?? this.TargetType;
+            var request = (object)this.ReflectionElement ?? this.TargetType;
             var specimen = context.Resolve(request);
             return new FixedBuilder(specimen);
         }
