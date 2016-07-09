@@ -114,7 +114,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         private bool Compare(Type parameterType, Type templateParameterType)
         {
-            if (parameterType.IsAssignableFrom(templateParameterType))
+            if (parameterType.GetTypeInfo().IsAssignableFrom(templateParameterType))
                 return true;
 
             if (parameterType.IsGenericParameter)
@@ -182,8 +182,8 @@ namespace Ploeh.AutoFixture.Kernel
                 var hierarchy = GetHierarchy(templateParameterType).ToList();
                 
                 var matches = methodParameterType.IsClass() ? 
-                    hierarchy.Count(t => t.IsAssignableFrom(methodParameterType)) : 
-                    hierarchy.Count(t => t.GetInterfaces().Any(i => i.IsAssignableFrom(methodParameterType)));
+                    hierarchy.Count(t => t.GetTypeInfo().IsAssignableFrom(methodParameterType)) : 
+                    hierarchy.Count(t => t.GetInterfaces().Any(i => i.GetTypeInfo().IsAssignableFrom(methodParameterType)));
 
                 var score = 50 * -(hierarchy.Count - matches);
 

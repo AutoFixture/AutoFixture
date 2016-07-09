@@ -66,7 +66,7 @@ namespace Ploeh.AutoFixture
 
         private static bool IsNotDateTimeRequest(object request)
         {
-            return !typeof(DateTime).IsAssignableFrom(request as Type);
+            return !typeof(DateTime).GetTypeInfo().IsAssignableFrom(request as Type);
         }
 
         private object CreateRandomDate(ISpecimenContext context)

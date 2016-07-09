@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(registeredType));
             }
 
-            if (!registeredType.IsAssignableFrom(targetType))
+            if (!registeredType.GetTypeInfo().IsAssignableFrom(targetType))
             {
                 var message = String.Format(
                     CultureInfo.CurrentCulture,

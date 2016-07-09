@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (requestType == null) return false;
             if (!requestType.IsGenericType()) return false;
             var gtd = requestType.GetGenericTypeDefinition();
-            if (!typeof(Nullable<>).IsAssignableFrom(gtd)) return false;
+            if (!typeof(Nullable<>).GetTypeInfo().IsAssignableFrom(gtd)) return false;
             var ga = requestType.GetGenericArguments();
             return ga.Length == 1 && ga[0].IsEnum();
         }

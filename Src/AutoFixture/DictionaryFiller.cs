@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixture
             if (typeArguments.Length != 2)
                 throw new ArgumentException("The specimen must be an instance of IDictionary<TKey, TValue>.", nameof(specimen));
 
-            if (!typeof(IDictionary<,>).MakeGenericType(typeArguments).IsAssignableFrom(specimen.GetType()))
+            if (!typeof(IDictionary<,>).MakeGenericType(typeArguments).GetTypeInfo().IsAssignableFrom(specimen.GetType()))
                 throw new ArgumentException("The specimen must be an instance of IDictionary<TKey, TValue>.", nameof(specimen));
 
             var filler = (ISpecimenCommand)Activator.CreateInstance(

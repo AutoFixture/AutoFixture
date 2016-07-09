@@ -35,7 +35,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return new NoSpecimen();
             }
 
-            if (!typeof(Delegate).IsAssignableFrom(delegateType))
+            if (!typeof(Delegate).GetTypeInfo().IsAssignableFrom(delegateType))
             {
                 return new NoSpecimen();
             }

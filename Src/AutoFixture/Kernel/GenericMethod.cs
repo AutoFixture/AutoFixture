@@ -93,7 +93,7 @@ namespace Ploeh.AutoFixture.Kernel
                         if (!typeMap.Contains(x))
                             throw new TypeArgumentsCannotBeInferredException(methodInfo);
 
-                        return typeMap[x].Aggregate((t1, t2) => t1.IsAssignableFrom(t2) ? t2 : t1);
+                        return typeMap[x].Aggregate((t1, t2) => t1.GetTypeInfo().IsAssignableFrom(t2) ? t2 : t1);
                     });
 
                 return methodInfo.MakeGenericMethod(actuals.ToArray());
