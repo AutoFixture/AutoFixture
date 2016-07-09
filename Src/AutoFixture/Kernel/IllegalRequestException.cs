@@ -1,5 +1,7 @@
 ﻿using System;
+#if SYSTEM_RUNTIME_SERIALIZATION
 using System.Runtime.Serialization;
+#endif
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -13,7 +15,9 @@ namespace Ploeh.AutoFixture.Kernel
     /// </para>
     /// </remarks>
     /// <seealso cref="IntPtrGuard"/>
+#if SYSTEM_RUNTIME_SERIALIZATION
     [Serializable]
+#endif 
     public class IllegalRequestException : Exception
     {
         /// <summary>
@@ -46,6 +50,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
         }
 
+#if SYSTEM_RUNTIME_SERIALIZATION
         /// <summary>
         /// Initializes a new instance of the <see cref="IllegalRequestException"/> class.
         /// </summary>
@@ -67,5 +72,6 @@ namespace Ploeh.AutoFixture.Kernel
             : base(info, context)
         {
         }
+#endif
     }
 }
