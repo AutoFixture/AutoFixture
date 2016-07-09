@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture.Kernel
                     GetFriendlyName(methodInfo.ReturnType),
                     methodInfo.DeclaringType.FullName,
                     methodInfo.Name,
-                    string.Join(", ", methodInfo.GetTypeInfo().GetGenericArguments().Select(a => a.ToString())),
+                    string.Join(", ", methodInfo.GetGenericArguments().Select(a => a.ToString())),
                     string.Join(", ", methodInfo.GetParameters().Select(p => GetFriendlyName(p.ParameterType)))
                     ))
         {
@@ -68,7 +68,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </param>
         public TypeArgumentsCannotBeInferredException(string message, Exception innerException)
             : base(message, innerException)
-        {
+         {
         }
 
         /// <summary>

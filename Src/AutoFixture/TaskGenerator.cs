@@ -63,7 +63,7 @@ namespace Ploeh.AutoFixture
             var taskSourceType = typeof (TaskCompletionSource<>).MakeGenericType(resultType);
             var taskSource = Activator.CreateInstance(taskSourceType);
 
-            taskSourceType.GetMethod("SetResult")
+            taskSourceType.GetTypeInfo().GetMethod("SetResult")
                           .Invoke(taskSource, new[] {result});
 
             var task = taskSourceType.GetTypeInfo().GetProperty("Task")
