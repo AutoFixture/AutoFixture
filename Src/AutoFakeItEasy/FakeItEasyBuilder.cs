@@ -56,7 +56,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         /// The Create method checks whether a request is for an interface or abstract class. If so
         /// it delegates the call to the decorated <see cref="Builder"/>. When the specimen is
         /// returned from the decorated <see cref="ISpecimenBuilder"/> the method checks whether
-        /// the returned instance is a FakeItEasy instance.
+        /// the returned instance is a FakeItEasy Fake instance of the correct type.
         /// </para>
         /// <para>
         /// If all pre- and post-conditions are satisfied, the mock instance is returned; otherwise
@@ -71,14 +71,8 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
                 return new NoSpecimen();
             }
 
-            var fake = this.builder.Create(request, context) as FakeItEasy.Configuration.IHideObjectMembers;
-            if (fake == null)
-            {
-                return new NoSpecimen();
-            }
-
-            var fakeType = type.GetFakedType();
-            if (fake.GetType().GetFakedType() != fakeType)
+            var fake = this.builder.Create(request, context);
+            if (!type.IsInstanceOfType(fake))
             {
                 return new NoSpecimen();
             }
