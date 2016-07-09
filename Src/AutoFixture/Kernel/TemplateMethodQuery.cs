@@ -90,7 +90,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
-            return from method in type.GetMethods()
+            return from method in type.GetTypeInfo().GetMethods()
                    where method.Name == Template.Name && (Owner != null || method.IsStatic)
                    let methodParameters = method.GetParameters()
                    let templateParameters = Template.GetParameters()
