@@ -122,7 +122,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var actual = sut.Create(parameterInfo, context);
 
             var expected = Array.CreateInstance(
-                argumentType.GetTypeInfo().GetGenericArguments().Single(),
+                argumentType.GetGenericArguments().Single(),
                 0);
             Assert.Equal(expected, actual);
         }

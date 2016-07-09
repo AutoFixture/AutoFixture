@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy2.UnitTest
         public void SelectMethodsReturnsCorrectNumberOfConstructorsForTypesWithConstructors(Type t)
         {
             // Fixture setup
-            var fakeType = t.GetTypeInfo().GetGenericArguments().Single();
+            var fakeType = t.GetGenericArguments().Single();
             var expectedCount = fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length;
             var sut = new FakeItEasyMethodQuery();
             // Exercise system
@@ -64,7 +64,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy2.UnitTest
         public void MethodsDefineCorrectParameters(Type t)
         {
             // Fixture setup
-            var fakeType = t.GetTypeInfo().GetGenericArguments().Single();
+            var fakeType = t.GetGenericArguments().Single();
             var fakeTypeCtorArgs = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                                    select ci.GetParameters();
             var sut = new FakeItEasyMethodQuery();
@@ -85,7 +85,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy2.UnitTest
         public void MethodsAreReturnedInCorrectOrder(Type t)
         {
             // Fixture setup
-            var fakeType = t.GetTypeInfo().GetGenericArguments().Single();
+            var fakeType = t.GetGenericArguments().Single();
             var fakeTypeCtorArgCounts = from ci in fakeType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                                         let paramCount = ci.GetParameters().Length
                                         orderby paramCount ascending
