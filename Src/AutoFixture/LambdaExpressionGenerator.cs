@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Reflection;
     using Kernel;
 
     /// <summary>
@@ -38,7 +39,7 @@
                 return new NoSpecimen();
             }
 
-            if (requestType.BaseType != typeof(LambdaExpression))
+            if (requestType.BaseType() != typeof(LambdaExpression))
             {
                 return new NoSpecimen();
             }
