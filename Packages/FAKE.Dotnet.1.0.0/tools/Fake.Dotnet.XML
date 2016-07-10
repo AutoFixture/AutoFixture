@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>Fake.Dotnet</name></assembly>
+<members>
+<member name="P:Fake.Dnx.DnuPackParams.OutputPath">
+<summary>
+ Output path (--output)
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnuPackParams.Configuration">
+<summary>
+ Configuration (--configuration)
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnuPackParams.Runtime">
+<summary>
+ Dnvm runtime options
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnuPackParams.Default">
+<summary>
+ Default parameter values
+</summary>
+</member>
+<member name="T:Fake.Dnx.DnuPackParams">
+<summary>
+ Dnu pack command parameters
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnuPublishParams.IncludeSymbols">
+<summary>
+ Include symbols flag (--include-symbols)
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnuPublishParams.Quiet">
+<summary>
+ Quiet flag (--quiet)
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnuPublishParams.NoSource">
+<summary>
+ No source flag (--no-source)
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnuPublishParams.OutputPath">
+<summary>
+ Output path (--output)
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnuPublishParams.Configuration">
+<summary>
+ Configuration (--configuration)
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnuPublishParams.PublishRuntime">
+<summary>
+ Publish runtime (--runtime)
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnuPublishParams.Runtime">
+<summary>
+ Dnvm runtime options
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnuPublishParams.Default">
+<summary>
+ Default parameter values
+</summary>
+</member>
+<member name="T:Fake.Dnx.DnuPublishParams">
+<summary>
+ Dnu publish command parameters
+</summary>
+</member>
+<member name="T:Fake.Dnx.PublishRuntimeConfiguration">
+<summary>
+ Publish runtime configuration
+</summary>
+</member>
+<member name="T:Fake.Dnx.BuildConfiguration">
+<summary>
+ Build configuration
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnuRestoreParams.Runtime">
+<summary>
+ Dnvm runtime options
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnuRestoreParams.Default">
+<summary>
+ Default param values
+</summary>
+</member>
+<member name="T:Fake.Dnx.DnuRestoreParams">
+<summary>
+ dnu restore command options
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnvmRuntimeOptions.VersionOrAlias">
+<summary>
+ Runtime alias
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnvmRuntimeOptions.Dnvm">
+<summary>
+ Common tool options
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnvmRuntimeOptions.Default">
+<summary>
+ Default command options
+</summary>
+</member>
+<member name="T:Fake.Dnx.DnvmRuntimeOptions">
+<summary>
+ Common options for dnvm command over some specific sdk version
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnvmInstallParams.Architecture">
+<summary>
+ Architecture
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnvmInstallParams.VersionOrAlias">
+<summary>
+ Version to install
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnvmInstallParams.Dnvm">
+<summary>
+ Common tool options
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnvmInstallParams.Default">
+<summary>
+ Default command options
+</summary>
+</member>
+<member name="T:Fake.Dnx.DnvmInstallParams">
+<summary>
+ Common options for dnvm command over some specific sdk version
+</summary>
+</member>
+<member name="T:Fake.Dnx.RuntimeArchitecture">
+<summary>
+ Build configuration
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnvmOptions.AutoInstall">
+<summary>
+ Automatically install dnvm if needed
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnvmOptions.WorkingDirectory">
+<summary>
+ Command working directory
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnvmOptions.ToolPath">
+<summary>
+ Path to dnvm.cmd
+</summary>
+</member>
+<member name="P:Fake.Dnx.DnvmOptions.Default">
+<summary>
+ Default options values
+</summary>
+</member>
+<member name="T:Fake.Dnx.DnvmOptions">
+<summary>
+ dnvm command common options
+</summary>
+</member>
+<member name="M:Fake.Dnx.SetDnxVersionSuffix(System.String)">
+<summary>
+ set version suffix for 1.0.0-* format
+ ## Parameters
+
+ - &apos;version&apos; - version suffix to set
+</summary>
+</member>
+<member name="M:Fake.Dnx.GlobalJsonSdk(System.String)">
+<summary>
+ get sdk version from global.json
+ ## Parameters
+
+ - &apos;project&apos; - global.json path
+</summary>
+</member>
+<member name="M:Fake.Dnx.DnuPack(Microsoft.FSharp.Core.FSharpFunc{Fake.Dnx.DnuPackParams,Fake.Dnx.DnuPackParams},System.String)">
+<summary>
+ dnu pack command
+ ## Parameters
+
+ - &apos;setParams&apos; - set command options
+ - &apos;project&apos; - project to pack
+</summary>
+</member>
+<member name="M:Fake.Dnx.buildPackArgs(Fake.Dnx.DnuPackParams)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Dnx.DnuPublish(Microsoft.FSharp.Core.FSharpFunc{Fake.Dnx.DnuPublishParams,Fake.Dnx.DnuPublishParams},System.String)">
+<summary>
+ dnu publish command
+ ## Parameters
+
+ - &apos;setParams&apos; - set command options
+ - &apos;project&apos; - project to restore
+</summary>
+</member>
+<member name="M:Fake.Dnx.buildPublishArgs(Fake.Dnx.DnuPublishParams)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Dnx.DnuRestore(Microsoft.FSharp.Core.FSharpFunc{Fake.Dnx.DnuRestoreParams,Fake.Dnx.DnuRestoreParams},System.String)">
+<summary>
+ ## Parameters
+
+ - &apos;setParams&apos; - set command options
+ - &apos;project&apos; - project to restore
+</summary>
+</member>
+<member name="M:Fake.Dnx.argList2(System.String,System.Collections.Generic.IEnumerable{System.String})">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Dnx.Dnu(Microsoft.FSharp.Core.FSharpFunc{Fake.Dnx.DnvmRuntimeOptions,Fake.Dnx.DnvmRuntimeOptions},System.String)">
+<summary>
+ dnu command
+ ## Parameters
+
+ - &apos;setOptions&apos; - set command options
+ - &apos;command&apos; - command to execute
+</summary>
+</member>
+<member name="M:Fake.Dnx.DnvmExec(Microsoft.FSharp.Core.FSharpFunc{Fake.Dnx.DnvmRuntimeOptions,Fake.Dnx.DnvmRuntimeOptions},System.String)">
+<summary>
+ dnvm exec command
+ ## Parameters
+
+ - &apos;setOptions&apos; - set command options
+ - &apos;command&apos; - command to execute
+</summary>
+</member>
+<member name="M:Fake.Dnx.DnvmUpdateSelf(Microsoft.FSharp.Core.FSharpFunc{Fake.Dnx.DnvmOptions,Fake.Dnx.DnvmOptions})">
+<summary>
+ dnvm update-self command
+ ## Parameters
+
+ - &apos;setOptions&apos; - set command options
+</summary>
+</member>
+<member name="M:Fake.Dnx.DnvmUpgrade(Microsoft.FSharp.Core.FSharpFunc{Fake.Dnx.DnvmOptions,Fake.Dnx.DnvmOptions})">
+<summary>
+ dnvm upgrade command
+ ## Parameters
+
+ - &apos;setOptions&apos; - set command options
+</summary>
+</member>
+<member name="M:Fake.Dnx.DnvmInstall(Microsoft.FSharp.Core.FSharpFunc{Fake.Dnx.DnvmInstallParams,Fake.Dnx.DnvmInstallParams})">
+<summary>
+ dnvm install command
+ ## Parameters
+
+ - &apos;setOptions&apos; - set command options
+</summary>
+</member>
+<member name="M:Fake.Dnx.buildInstallArgs(Fake.Dnx.DnvmInstallParams)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Dnx.Dnvm(Microsoft.FSharp.Core.FSharpFunc{Fake.Dnx.DnvmOptions,Fake.Dnx.DnvmOptions},System.String)">
+<summary>
+ Execute generic dnvm command
+ ## Parameters
+
+ - &apos;setOptions&apos; - set command options
+ - &apos;args&apos; - command arguments
+</summary>
+</member>
+<member name="M:Fake.Dnx.DnvmToolInstall(System.Boolean)">
+<summary>
+ Install dnvm command if needed
+</summary>
+</member>
+<member name="P:Fake.Dnx.tempInstallerScript">
+<summary>
+ Temporary path of installer script
+</summary>
+</member>
+<member name="P:Fake.Dnx.dnvmPath">
+<summary>
+ Dnvm executable path
+</summary>
+</member>
+<member name="P:Fake.Dnx.dnxInstallDir">
+<summary>
+ Dnx install directory
+</summary>
+</member>
+<member name="P:Fake.Dnx.dnvmInstaller">
+<summary>
+ Dnvm installer script
+</summary>
+</member>
+<member name="T:Fake.Dnx">
+<summary>
+ DNX helpers
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetBuildOptions.Native">
+<summary>
+ Native flag (--native)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetBuildOptions.OutputPath">
+<summary>
+ Output path (--output)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetBuildOptions.BuildBasePath">
+<summary>
+ Build base path (--build-base-path)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetBuildOptions.Runtime">
+<summary>
+ Target runtime to publish for (--runtime)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetBuildOptions.Framework">
+<summary>
+ Target framework to compile for (--framework)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetBuildOptions.Configuration">
+<summary>
+ Pack configuration (--configuration)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetBuildOptions.Common">
+<summary>
+ Common tool options
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetBuildOptions.Default">
+<summary>
+ Parameter default values.
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotNetBuildOptions">
+<summary>
+ dotnet build command options
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPublishOptions.NoBuild">
+<summary>
+ No build flag (--no-build)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPublishOptions.VersionSuffix">
+<summary>
+ Defines what `*` should be replaced with in version field in project.json (--version-suffix)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPublishOptions.OutputPath">
+<summary>
+ Output path (--output)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPublishOptions.BuildBasePath">
+<summary>
+ Build base path (--build-base-path)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPublishOptions.Runtime">
+<summary>
+ Target runtime to publish for (--runtime)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPublishOptions.Framework">
+<summary>
+ Target framework to compile for (--framework)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPublishOptions.Configuration">
+<summary>
+ Pack configuration (--configuration)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPublishOptions.Common">
+<summary>
+ Common tool options
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPublishOptions.Default">
+<summary>
+ Parameter default values.
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotNetPublishOptions">
+<summary>
+ dotnet publish command options
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPackOptions.NoBuild">
+<summary>
+ No build flag (--no-build)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPackOptions.OutputPath">
+<summary>
+ Output path (--output)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPackOptions.BuildBasePath">
+<summary>
+ Build base path (--build-base-path)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPackOptions.VersionSuffix">
+<summary>
+ Version suffix to use
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPackOptions.Configuration">
+<summary>
+ Pack configuration (--configuration)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPackOptions.Common">
+<summary>
+ Common tool options
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetPackOptions.Default">
+<summary>
+ Parameter default values.
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotNetPackOptions">
+<summary>
+ dotnet pack command options
+</summary>
+</member>
+<member name="T:Fake.Dotnet.BuildConfiguration">
+<summary>
+ build configuration
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotnetRestoreOptions.DisableParallel">
+<summary>
+ Disables restoring multiple projects in parallel (--disable-parallel)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotnetRestoreOptions.IgnoreFailedSources">
+<summary>
+ Only warning failed sources if there are packages meeting version requirement (--ignore-failed-sources)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotnetRestoreOptions.Verbosity">
+<summary>
+ Restore logging verbosity (--verbosity)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotnetRestoreOptions.NoCache">
+<summary>
+ No cache flag (--no-cache)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotnetRestoreOptions.ConfigFile">
+<summary>
+ Path to the nuget configuration file (nuget.config).
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotnetRestoreOptions.Packages">
+<summary>
+ Directory to install packages in (--packages).
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotnetRestoreOptions.Sources">
+<summary>
+ Nuget feeds to search updates in. Use default if empty.
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotnetRestoreOptions.Common">
+<summary>
+ Common tool options
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotnetRestoreOptions.Default">
+<summary>
+ Parameter default values.
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotnetRestoreOptions">
+<summary>
+ dotnet restore command options
+</summary>
+</member>
+<member name="T:Fake.Dotnet.NugetRestoreVerbosity">
+<summary>
+ dotnet restore verbosity
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotnetOptions.CustomParams">
+<summary>
+ Custom parameters
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotnetOptions.WorkingDirectory">
+<summary>
+ Command working directory
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotnetOptions.DotnetCliPath">
+<summary>
+ Dotnet cli executable path
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotnetOptions">
+<summary>
+ dotnet cli command execution options
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetCliInstallOptions.NoPath">
+<summary>
+ Do not update path variable
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetCliInstallOptions.DryRun">
+<summary>
+ If set it will not perform installation but instead display what command line to use
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetCliInstallOptions.DebugSymbols">
+<summary>
+ Include symbols in the installation (Switch does not work yet. Symbols zip is not being uploaded yet) 
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetCliInstallOptions.Architecture">
+<summary>
+ Architecture
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetCliInstallOptions.CustomInstallDir">
+<summary>
+ Custom installation directory (for local build installation)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetCliInstallOptions.Version">
+<summary>
+ DotnetCli version
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetCliInstallOptions.Channel">
+<summary>
+ Distribution channel
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetCliInstallOptions.InstallerBranch">
+<summary>
+ Download installer from this github branch
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetCliInstallOptions.AlwaysDownload">
+<summary>
+ Always download install script (otherwise install script is cached in temporary folder)
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DotNetCliInstallOptions.Default">
+<summary>
+ Parameter default values.
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotNetCliInstallOptions">
+<summary>
+ dotnet cli install options
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotnetCliChannel.Channel">
+<summary>
+ Custom channel
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotnetCliChannel.Production">
+<summary>
+ Most stable releases
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotnetCliChannel.Future">
+<summary>
+ Possibly unstable, frequently changing, may contain new finished and unfinished features
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotnetCliChannel">
+<summary>
+ dotnet cli channel
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotnetCliVersion.Version">
+<summary>
+ 4-part version in a format A.B.C.D - represents specific version of build
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotnetCliVersion.Lkg">
+<summary>
+  last known good version on specific channel (Note: LKG work is in progress. Once the work is finished, this will become new default)
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotnetCliVersion.Latest">
+<summary>
+ most latest build on specific channel 
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotnetCliVersion">
+<summary>
+ dotnet cli version (used to specify version when installing dotnet cli)
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotnetCliArchitecture.Auto">
+<summary>
+ this value represents currently running OS architecture 
+</summary>
+</member>
+<member name="T:Fake.Dotnet.DotnetCliArchitecture">
+<summary>
+ dotnet cli architecture
+</summary>
+</member>
+<member name="M:Fake.Dotnet.GlobalJsonSdk(System.String)">
+<summary>
+ get sdk version from global.json
+ ## Parameters
+
+ - &apos;project&apos; - global.json path
+</summary>
+</member>
+<member name="M:Fake.Dotnet.DotnetCompile(Microsoft.FSharp.Core.FSharpFunc{Fake.Dotnet.DotNetBuildOptions,Fake.Dotnet.DotNetBuildOptions},System.String)">
+<summary>
+ Execute dotnet build command
+ ## Parameters
+
+ - &apos;setParams&apos; - set compile command parameters
+ - &apos;project&apos; - project to compile
+</summary>
+</member>
+<member name="M:Fake.Dotnet.buildBuildArgs(Fake.Dotnet.DotNetBuildOptions)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Dotnet.DotnetPublish(Microsoft.FSharp.Core.FSharpFunc{Fake.Dotnet.DotNetPublishOptions,Fake.Dotnet.DotNetPublishOptions},System.String)">
+<summary>
+ Execute dotnet publish command
+ ## Parameters
+
+ - &apos;setParams&apos; - set publish command parameters
+ - &apos;project&apos; - project to publish
+</summary>
+</member>
+<member name="M:Fake.Dotnet.buildPublishArgs(Fake.Dotnet.DotNetPublishOptions)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Dotnet.DotnetPack(Microsoft.FSharp.Core.FSharpFunc{Fake.Dotnet.DotNetPackOptions,Fake.Dotnet.DotNetPackOptions},System.String)">
+<summary>
+ Execute dotnet pack command
+ ## Parameters
+
+ - &apos;setParams&apos; - set pack command parameters
+ - &apos;project&apos; - project to pack
+</summary>
+</member>
+<member name="M:Fake.Dotnet.buildPackArgs(Fake.Dotnet.DotNetPackOptions)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Dotnet.buildConfigurationArg(Fake.Dotnet.BuildConfiguration)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Dotnet.DotnetRestore(Microsoft.FSharp.Core.FSharpFunc{Fake.Dotnet.DotnetRestoreOptions,Fake.Dotnet.DotnetRestoreOptions},System.String)">
+<summary>
+ Execute dotnet restore command
+ ## Parameters
+
+ - &apos;setParams&apos; - set restore command parameters
+ - &apos;project&apos; - project to restore packages
+</summary>
+</member>
+<member name="M:Fake.Dotnet.buildRestoreArgs(Fake.Dotnet.DotnetRestoreOptions)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Dotnet.argOption(System.String,System.Boolean)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Dotnet.argList2(System.String,System.Collections.Generic.IEnumerable{System.String})">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Dotnet.Dotnet(Fake.Dotnet.DotnetOptions,System.String)">
+<summary>
+ Execute raw dotnet cli command
+ ## Parameters
+
+ - &apos;options&apos; - common execution options
+ - &apos;args&apos; - command arguments
+</summary>
+</member>
+<member name="M:Fake.Dotnet.DotnetCliInstall(Microsoft.FSharp.Core.FSharpFunc{Fake.Dotnet.DotNetCliInstallOptions,Fake.Dotnet.DotNetCliInstallOptions})">
+<summary>
+ Install dotnet cli if required
+ ## Parameters
+
+ - &apos;setParams&apos; - set installation options
+</summary>
+</member>
+<member name="M:Fake.Dotnet.buildDotnetCliInstallArgs(Fake.Dotnet.DotNetCliInstallOptions)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Dotnet.boolToFlag(System.Boolean,System.String)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Dotnet.optionToParam``1(Microsoft.FSharp.Core.FSharpOption{``0},Microsoft.FSharp.Core.PrintfFormat{Microsoft.FSharp.Core.FSharpFunc{``0,System.String},Microsoft.FSharp.Core.Unit,System.String,System.String})">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Dotnet.dotnetCliPath(System.String)">
+<summary>
+ Get dotnet cli executable path
+ ## Parameters
+
+ - &apos;dotnetCliDir&apos; - dotnet cli install directory 
+</summary>
+</member>
+<member name="P:Fake.Dotnet.DefaultDotnetCliDir">
+<summary>
+ Dotnet cli default install directory (set to default localappdata dotnet dir). Update this to redirect all tool commands to different location. 
+</summary>
+</member>
+<member name="M:Fake.Dotnet.getDotnetCliInstallerUrl(System.String)">
+<summary>
+ Get dotnet cli download uri
+</summary>
+</member>
+<member name="T:Fake.Dotnet">
+<summary>
+ dotnet cli helpers
+</summary>
+</member>
+</members>
+</doc>
