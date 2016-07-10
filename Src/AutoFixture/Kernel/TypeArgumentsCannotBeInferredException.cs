@@ -72,7 +72,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </param>
         public TypeArgumentsCannotBeInferredException(string message, Exception innerException)
             : base(message, innerException)
-         {
+        {
         }
 
 #if SYSTEM_RUNTIME_SERIALIZATION
