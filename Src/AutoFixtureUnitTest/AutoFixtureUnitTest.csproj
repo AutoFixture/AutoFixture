@@ -192,6 +192,7 @@
     <Compile Include="RandomRangedNumberCustomizationTest.cs" />
     <Compile Include="RandomRangedNumberGeneratorTest.cs" />
     <Compile Include="RangedNumberGeneratorTest.cs" />
+    <Compile Include="ParameterInfoElementRelayTest.cs" />
     <Compile Include="RegularExpressionGeneratorTest.cs" />
     <Compile Include="SpecimenCommandTests.cs" />
     <Compile Include="SpecimenQueryTests.cs" />

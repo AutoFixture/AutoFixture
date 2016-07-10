@@ -203,6 +203,7 @@
     <Compile Include="RandomRangedNumberCustomization.cs" />
     <Compile Include="RandomRangedNumberGenerator.cs" />
     <Compile Include="RangedNumberGenerator.cs" />
+    <Compile Include="ParameterInfoElementRelay.cs" />
     <Compile Include="RegularExpressionGenerator.cs" />
     <Compile Include="ResidueCollectorNode.cs" />
     <Compile Include="SingletonSpecimenBuilderNodeStackAdapterCollection.cs" />

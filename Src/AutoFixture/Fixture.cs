@@ -120,6 +120,7 @@ namespace Ploeh.AutoFixture
                                 new RegularExpressionAttributeRelay(),
                                 new EnumGenerator(),
                                 new LambdaExpressionGenerator(),
+                                new ParameterInfoElementRelay(),
                                 CreateDefaultValueBuilder(CultureInfo.InvariantCulture),
                                 CreateDefaultValueBuilder(Encoding.UTF8),
                                 CreateDefaultValueBuilder(IPAddress.Loopback))),
