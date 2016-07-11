@@ -334,6 +334,7 @@
     <Compile Include="TracingBehaviorTest.cs" />
     <Compile Include="TrueComparer.cs" />
     <Compile Include="TypeBasedComparer.cs" />
+    <Compile Include="TypeElementRelayTest.cs" />
     <Compile Include="TypeGeneratorTest.cs" />
     <Compile Include="UInt16SequenceGeneratorTest.cs" />
     <Compile Include="UInt32SequenceGeneratorTest.cs" />

@@ -334,6 +334,7 @@
     <Compile Include="Kernel\ThrowingRecursionGuard.cs" />
     <Compile Include="DefaultRelays.cs" />
     <Compile Include="TracingBehavior.cs" />
+    <Compile Include="TypeElementRelay.cs" />
     <Compile Include="TypeFilter.cs" />
     <Compile Include="TypeGenerator.cs" />
     <Compile Include="UInt16SequenceGenerator.cs" />

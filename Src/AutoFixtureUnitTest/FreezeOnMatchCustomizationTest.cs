@@ -106,6 +106,14 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        public void InitializeWithTargetTypeShouldSetReflectionElementProperty()
+        {
+            var targetType = typeof(object);
+            var sut = new FreezeOnMatchCustomization(targetType);
+            Assert.IsType<TypeElement>(sut.ReflectionElement);
+        }
+
+        [Fact]
         public void CustomizeWithNullFixtureShouldThrowArgumentNullException()
         {
             // Fixture setup

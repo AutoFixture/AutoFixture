@@ -49,19 +49,9 @@ namespace Ploeh.AutoFixture
         public FreezeOnMatchCustomization(
             Type targetType,
             IRequestSpecification matcher)
+            : this(new TypeElement(targetType), matcher)
         {
-            if (targetType == null)
-            {
-                throw new ArgumentNullException(nameof(targetType));
-            }
-
-            if (matcher == null)
-            {
-                throw new ArgumentNullException(nameof(matcher));
-            }
-
             this.TargetType = targetType;
-            this.Matcher = matcher;
         }
 
         /// <summary>
@@ -137,8 +127,7 @@ namespace Ploeh.AutoFixture
         private ISpecimenBuilder FreezeTargetType(IFixture fixture)
         {
             var context = new SpecimenContext(fixture);
-            var request = (object)this.ReflectionElement ?? this.TargetType;
-            var specimen = context.Resolve(request);
+            var specimen = context.Resolve(this.ReflectionElement);
             return new FixedBuilder(specimen);
         }
     }
