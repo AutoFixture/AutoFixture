@@ -9,10 +9,11 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Ploeh.AutoFixture.Idioms.FsCheck</RootNamespace>
     <AssemblyName>Ploeh.AutoFixture.Idioms.FsCheck</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <SignAssembly>false</SignAssembly>
     <Name>Idioms.FsCheck</Name>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

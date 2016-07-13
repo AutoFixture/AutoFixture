@@ -1,0 +1,892 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>Unquote</name></assembly>
+<members>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Swensen.Unquote.AssertionFailedException">
+<summary>
+Exception used to signal assertion failure to be caught by any exception framework
+(used when not NUnit or xUnit.net or when compiled for Silverlight)
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Swensen.Unquote.EvaluationException">
+<summary>
+Exception used to distinguish an error in the quotation evaluation engine.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="M:Swensen.Unquote.Assertions.raisesWith``1(Microsoft.FSharp.Quotations.FSharpExpr,Microsoft.FSharp.Core.FSharpFunc`2{``0,Microsoft.FSharp.Quotations.FSharpExpr{System.Boolean}})">
+<summary>
+Test wether the given expr fails with the given expected exception (or a subclass thereof) when the additional assertion on the exception object holds.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Assertions.raises``1(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Test wether the given expr fails with the given expected exception (or a subclass thereof).
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Assertions.test(Microsoft.FSharp.Quotations.FSharpExpr{System.Boolean})">
+<summary>
+Evaluate the given boolean expression: if false output incremental eval steps using
+1) stdout if fsi mode
+2) framework fail methods if Xunit or Nunit present
+3) System.Exception if release mode.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Swensen.Unquote.Assertions.Internal">
+<summary>
+Functions and values public inline Operator functions rely on (and therefore must be public,
+even though we do not want to expose them publically).
+</summary>
+</member>
+<member name="T:Swensen.Unquote.Assertions">
+<summary>
+Operators on Expr and Expr&lt;&apos;a&gt; for performing unit test assertions.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Swensen.Unquote.Decompilation.CustomContext">
+
+</member>
+<member name="T:Swensen.Unquote.Decompilation">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="M:Swensen.Unquote.DynamicOperators.invokeExplicitOpDynamic(System.Type,System.Type,System.Object)">
+<summary>
+aty is the arg type, bty is the return type, x is the arg
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="M:Swensen.Unquote.DynamicOperators.invokeUnaryOpDynamic(System.String,System.Type,System.Object)">
+<summary>
+name is the name of the unary op method, aty is the arg type, x is the arg
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="M:Swensen.Unquote.DynamicOperators.invokeShiftBinOp(System.String,Microsoft.FSharp.Core.FSharpFunc`2{System.SByte,Microsoft.FSharp.Core.FSharpFunc`2{System.Int32,System.SByte}},Microsoft.FSharp.Core.FSharpFunc`2{System.Int16,Microsoft.FSharp.Core.FSharpFunc`2{System.Int32,System.Int16}},Microsoft.FSharp.Core.FSharpFunc`2{System.Int32,Microsoft.FSharp.Core.FSharpFunc`2{System.Int32,System.Int32}},Microsoft.FSharp.Core.FSharpFunc`2{System.Int64,Microsoft.FSharp.Core.FSharpFunc`2{System.Int32,System.Int64}},Microsoft.FSharp.Core.FSharpFunc`2{System.IntPtr,Microsoft.FSharp.Core.FSharpFunc`2{System.Int32,System.IntPtr}},Microsoft.FSharp.Core.FSharpFunc`2{System.Byte,Microsoft.FSharp.Core.FSharpFunc`2{System.Int32,System.Byte}},Microsoft.FSharp.Core.FSharpFunc`2{System.UInt16,Microsoft.FSharp.Core.FSharpFunc`2{System.Int32,System.UInt16}},Microsoft.FSharp.Core.FSharpFunc`2{System.UInt32,Microsoft.FSharp.Core.FSharpFunc`2{System.Int32,System.UInt32}},Microsoft.FSharp.Core.FSharpFunc`2{System.UInt64,Microsoft.FSharp.Core.FSharpFunc`2{System.Int32,System.UInt64}},Microsoft.FSharp.Core.FSharpFunc`2{System.UIntPtr,Microsoft.FSharp.Core.FSharpFunc`2{System.Int32,System.UIntPtr}},System.Type,System.Type,System.Type,System.Object,System.Object)">
+<summary>
+Binary ops of the form &apos;a-&gt;int-&gt;&apos;a
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="M:Swensen.Unquote.DynamicOperators.invokeBinOpDynamic(System.String,System.Type,System.Type,System.Object,System.Object)">
+<summary>
+name is the name of the method, aty is the type of the first arg, bty is the type of the second arg,
+x is the first arg, y is the second arg.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Swensen.Unquote.DynamicOperators.Checked">
+
+</member>
+<member name="T:Swensen.Unquote.DynamicOperators">
+<summary>
+The purpose of these operator implementations is two fold 1) many F# operators do not include dynamic impls,
+so we must give them. 2) even those operators which are given dynamic impls do not perform well since they
+need to be accessed via reflection, so we give &quot;native&quot; impls here.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="M:Swensen.Unquote.Evaluation.reraisePreserveStackTrace``1(System.Exception)">
+<summary>
+&quot;reraise&quot; the given exception, preserving the stacktrace (e.g. for InnerExceptions of TargetInvocation exceptions)
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Evaluation.stripTargetInvocationException(System.Exception)">
+<summary>
+Strip possibly nested target invocation exception
+</summary>
+</member>
+<member name="T:Swensen.Unquote.Evaluation">
+
+</member>
+<member name="M:Swensen.Unquote.Extensions.Type.get_FSharpName(System.Type)">
+<summary>
+The F#-style signature. Note: this property is out-of-place in this assembly and may be moved elsewhere in future versions.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Extensions.Expr.IsReduced(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Determine whether this expression is reduced.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Extensions.Expr.ReduceFully(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Convert the given expression to a list of all of its Reduce steps in order.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Extensions.Expr.ReduceFully(Microsoft.FSharp.Quotations.FSharpExpr,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Object})">
+<summary>
+Convert this expression with the given variable environment to a list of all of its Reduce steps in order.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Extensions.Expr.Reduce(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Reduce this expression by one step: convert each branch of the given expression to a Value expression of its 
+evaluation if each sub-branch of the branch is reduced.
+If this expression is already reduced, or cannot be reduced, returns itself.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Extensions.Expr.Reduce(Microsoft.FSharp.Quotations.FSharpExpr,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Object})">
+<summary>
+Reduce this expression by one step with the given variable environment: convert each branch of the given expression to a Value expression of its 
+evaluation if each sub-branch of the branch is reduced.
+If this expression is already reduced, or cannot be reduced, returns itself.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Extensions.Expr.Decompile(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Decompile this expression to its source code representation. Sub-expressions which are
+not currently supported will fallback on the default Expr.ToString() implementation.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Extensions.Expr.Eval``1(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Evaluate this untyped expression.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Extensions.Expr.Eval``1(Microsoft.FSharp.Quotations.FSharpExpr,Microsoft.FSharp.Collections.FSharpMap{System.String,System.Object})">
+<summary>
+Evaluate this untyped expression with the given variable environment.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Extensions.Expr`1.Eval``1(Microsoft.FSharp.Quotations.FSharpExpr{``0},Microsoft.FSharp.Collections.FSharpMap{System.String,System.Object})">
+<summary>
+Evaluate this typed expression with the given variable environment.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Extensions.Expr`1.Eval``1(Microsoft.FSharp.Quotations.FSharpExpr{``0})">
+<summary>
+Evaluate this typed expression.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="T:Swensen.Unquote.Extensions">
+<summary>
+Extensions methods on Expr and Expr&lt;&apos;a&gt; for decompiling, evaluating, and incrementally reducing quotation expressions. Also includes a bonus
+extension method on Type for getting the short, F#-style name of a type.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.ExtraPatterns.|NumericLiteral|_|(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Match Call(None, ...) patterns for NumericLiterals, returning the literal value as a string and suffix on success
+</summary>
+</member>
+<member name="M:Swensen.Unquote.ExtraPatterns.|RangeStep|_|(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Match a sequence, list, or array op_RangeStep expression, return (startToken, endToken, startExpression, stepExpression, endExpression). Must come before Call patterns.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.ExtraPatterns.|Range|_|(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Match a sequence, list, or array op_Range expression, return (startToken, endToken, startExpression, endExpression). Must come before Call patterns.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="M:Swensen.Unquote.ExtraPatterns.|IncompleteLambdaCall|_|(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Partial application and zero application of Lambda call (e.g. List.map (+), or id).
+Must come before Let and Lambdas patterns.
+Cases: 1) Let .. Lambdas .. Call
+       2) Lambdas .. Call
+</summary>
+</member>
+<member name="M:Swensen.Unquote.ExtraPatterns.|TupleLet|_|(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Test whether the given expression represents a tuple let binding: e.g. let x,y = 1,2.
+Must come before Let pattern and after IncompleteLambdaCall pattern.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.ExtraPatterns.isVarOfExpr(Microsoft.FSharp.Quotations.FSharpVar,Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Test whether the Expr is a Var and equals the given Var property-wise
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="M:Swensen.Unquote.ExtraPatterns.|InfixCallOrApplication|_|(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Match non-custom binary infix Call patterns.
+Must come before Call pattern.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.ExtraPatterns.|LambdaValue|_|(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Matches lambda values, returning the demanged (but not source) name of the lambda
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="T:Swensen.Unquote.ExtraPatterns">
+<summary>
+Extra Quoation patterns for sprinting and reducing Quotation Expressions
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="M:Swensen.Unquote.ExtraReflection.sprintGenericArgsIfNotInferable(System.Reflection.MethodInfo)">
+<summary>
+sprints the generic arguments of a call if definitely not inferable.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="M:Swensen.Unquote.ExtraReflection.genericArgsInferable(System.Reflection.MethodInfo)">
+<summary>
+Determine whether the generic args for a call are inferable
+</summary>
+</member>
+<member name="M:Swensen.Unquote.ExtraReflection.sprintSig(System.Type)">
+<summary>
+Sprint the F#-style type signature of the given Type.  Handles known type abbreviations,
+simple types, arbitrarily complex generic types (multiple parameters and nesting),
+lambdas, tuples, and arrays.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="M:Swensen.Unquote.ExtraReflection.sourceName(System.Reflection.MemberInfo)">
+<summary>
+get the source name for the Module or F# Function represented by the given MemberInfo
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="M:Swensen.Unquote.ExtraReflection.isFsiModule(System.Type)">
+<summary>
+is the top-level FSI module
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="M:Swensen.Unquote.ExtraReflection.SymbolicOps.tryMapAsFirstClassByName(System.String)">
+<summary>
+try to find the first class symbolic function representation of a &quot;op_&quot; function name
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Swensen.Unquote.ExtraReflection.SymbolicOps">
+
+</member>
+<member name="T:Swensen.Unquote.ExtraReflection">
+<summary>
+Extra reflection functions sprinting and reducing Quotation Expressions
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="P:Swensen.Unquote.OperatorPrecedence.OperatorPrecedence.Precedence">
+<summary>
+Precedence
+</summary>
+</member>
+<member name="P:Swensen.Unquote.OperatorPrecedence.OperatorPrecedence.Associativity">
+<summary>
+Associativity
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="T:Swensen.Unquote.OperatorPrecedence.OperatorPrecedence">
+<summary>
+Represents an operator&apos;s precedence. The lower the precedence value, the lower the binding.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Swensen.Unquote.OperatorPrecedence">
+
+</member>
+<member name="M:Swensen.Unquote.Operators.unquote(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Print the newline concated source code reduce steps of the given expression to stdout.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Operators.isReduced(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Determine whether the given expression is reduced.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Operators.reduceFullyWith(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Object},Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Convert the given expression with the given variable environment to a list of all of its Reduce steps in order.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Operators.reduceWith(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Object},Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Reduce the given expression by one step with the given variable environment: convert each branch of the given expression to a Value expression of its 
+evaluation if each sub-branch of the branch is reduced.
+If this expression is already reduced, or cannot be reduced, returns itself.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Operators.evalWith``1(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Object},Microsoft.FSharp.Quotations.FSharpExpr{``0})">
+<summary>
+Evaluate the given typed expression with the given variable environment.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Operators.evalRawWith``1(Microsoft.FSharp.Collections.FSharpMap{System.String,System.Object},Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Evaluate the given untyped expression with the given variable environment.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Operators.reduceFully(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Convert the given expression to a list of all of its Reduce steps in order.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Operators.reduce(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Reduce by one step: convert each branch of the given expression to a Value expression of its 
+evaluation if each sub-branch of the branch is reduced.
+If this expression is already reduced, or cannot be reduced, returns itself.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Operators.decompile(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Decompile given expression to its source code representation. Sub-expressions which are
+not currently supported will fallback on the default Expr.ToString() implementation.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Operators.eval``1(Microsoft.FSharp.Quotations.FSharpExpr{``0})">
+<summary>
+Evaluate the given typed expression.
+</summary>
+</member>
+<member name="M:Swensen.Unquote.Operators.evalRaw``1(Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Evaluate the given untyped expression.
+</summary>
+</member>
+<member name="T:Swensen.Unquote.Operators">
+<summary>
+Operators on Expr and Expr&lt;&apos;a&gt; for decompiling, evaluating, and incrementally reducing quotation expressions.
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="M:Swensen.Unquote.Reduction.evalValue(Microsoft.FSharp.Collections.FSharpList{Swensen.Unquote.Evaluation.EnvVar},Microsoft.FSharp.Quotations.FSharpExpr)">
+<summary>
+Construct a Value from an evaluated expression
+</summary>
+</member>
+<member name="">
+
+</member>
+<member name="">
+
+</member>
+<member name="T:Swensen.Unquote.Reduction">
+
+</member>
+</members>
+</doc>
