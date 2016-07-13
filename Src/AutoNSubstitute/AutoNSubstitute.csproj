@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ploeh.AutoFixture.AutoNSubstitute</RootNamespace>
     <AssemblyName>Ploeh.AutoFixture.AutoNSubstitute</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
     <TargetFrameworkProfile />
@@ -27,6 +27,7 @@
     <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Release\Ploeh.AutoFixture.AutoNSubstitute.XML</DocumentationFile>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,6 +38,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Ploeh.AutoFixture.AutoNSubstitute.XML</DocumentationFile>
     <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Verify|AnyCPU'">
     <OutputPath>bin\Verify\</OutputPath>
@@ -49,6 +51,7 @@
     <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NSubstitute, Version=1.5.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
