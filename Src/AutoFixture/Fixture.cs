@@ -123,6 +123,7 @@ namespace Ploeh.AutoFixture
                                     new NullableEnumRequestSpecification()),
                                 new RangeAttributeRelay(),
                                 new StringLengthAttributeRelay(),
+                                new MinLengthAttributeRelay(),
                                 new RegularExpressionAttributeRelay(),
                                 new EnumGenerator(),
                                 new LambdaExpressionGenerator(),
