@@ -28,6 +28,10 @@ namespace Ploeh.AutoFixture.Kernel
         /// In case of two factory methods with an equal number of parameters, the ordering is
         /// unspecified.
         /// </para>
+        /// <para>
+        /// Factory methods that contain parameters of the requested <paramref name="type"/> 
+        /// are skipped in order to avoid circular references.
+        /// </para>
         /// </remarks>
         public IEnumerable<IMethod> SelectMethods(Type type)
         {
@@ -39,6 +43,7 @@ namespace Ploeh.AutoFixture.Kernel
             return from mi in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
                    where mi.ReturnType == type
                    let parameters = mi.GetParameters()
+                   where mi.GetParameters().All(p => p.ParameterType != type)
                    orderby parameters.Length ascending
                    select new StaticMethod(mi) as IMethod;
         }

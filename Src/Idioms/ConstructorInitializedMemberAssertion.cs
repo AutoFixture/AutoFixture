@@ -391,14 +391,19 @@ namespace Ploeh.AutoFixture.Idioms
                 bool isReadOnly = memberAsPropertyInfo.CanRead &&
                     (setterMethod == null || setterMethod.IsPrivate || setterMethod.IsFamilyOrAssembly || setterMethod.IsFamilyAndAssembly);
 
-                return isReadOnly;
+                MethodInfo getterMethod = memberAsPropertyInfo.GetGetMethod();
+                bool isStatic = getterMethod.IsStatic;
+
+                return isReadOnly && !isStatic;
             }
 
             var memberAsFieldInfo = member as FieldInfo;
             if (memberAsFieldInfo != null)
             {
                 bool isReadOnly = memberAsFieldInfo.Attributes.HasFlag(FieldAttributes.InitOnly);
-                return isReadOnly;
+                bool isStatic = memberAsFieldInfo.Attributes.HasFlag(FieldAttributes.Static);
+
+                return isReadOnly && !isStatic;
             }
 
             return false;

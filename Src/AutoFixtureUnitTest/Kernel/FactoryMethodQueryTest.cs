@@ -65,5 +65,18 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.True(expectedMethods.SequenceEqual(result));
             // Teardown
         }
+
+        [Fact]
+        public void SelectMethodsFromTypeWithParameterOfSameTypeReturnsEmptyResult()
+        {
+            // Fixture setup
+            var type = typeof(TypeWithPseudoFactoryMethod);
+            var sut = new FactoryMethodQuery();
+            // Exercise system
+            var result = sut.SelectMethods(type);
+            // Verify outcome
+            Assert.False(result.Any());
+            // Teardown
+        }
     }
 }
