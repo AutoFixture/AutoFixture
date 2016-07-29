@@ -6,6 +6,9 @@
         <title>AutoFixture</title>
         <authors>Mark Seemann</authors>
         <owners>Mark Seemann</owners>
+        <dependencies>
+            <dependency id="Albedo" version="1.0.0" />
+        </dependencies>
         <description>AutoFixture makes it easier for developers to do Test-Driven Development by automating non-relevant Test Fixture Setup, allowing the Test Developer to focus on the essentials of each test case.</description>
         <projectUrl>https://github.com/AutoFixture/AutoFixture</projectUrl>
         <licenseUrl>https://github.com/AutoFixture/AutoFixture/blob/master/LICENCE.txt</licenseUrl>
