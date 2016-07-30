@@ -5,6 +5,7 @@ using FakeItEasy;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 
+#pragma warning disable 618
 namespace Ploeh.AutoFixture.AutoFakeItEasy2.UnitTest
 {
   public class FixtureIntegrationTest
@@ -121,3 +122,4 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy2.UnitTest
         }
     }
 }
+#pragma warning restore 618

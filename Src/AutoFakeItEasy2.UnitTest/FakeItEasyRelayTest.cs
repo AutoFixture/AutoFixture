@@ -5,6 +5,7 @@ using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
 
+#pragma warning disable 618
 namespace Ploeh.AutoFixture.AutoFakeItEasy2.UnitTest
 {
   public class FakeItEasyRelayTest
@@ -177,3 +178,4 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy2.UnitTest
         }
     }
 }
+#pragma warning restore 618
