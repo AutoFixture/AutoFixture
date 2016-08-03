@@ -153,7 +153,7 @@ namespace Ploeh.AutoFixture.Kernel
             "use Moq, you can customize AutoFixture like this:" +
             "{1}" +
             "{1}" +
-            "fixture.Customizations.Add(new AutoMoqCustomization());" +
+            "fixture.Customize(new AutoMoqCustomization());" +
             "{1}" +
             "{1}" +
             "See http://blog.ploeh.dk/2010/08/19/AutoFixtureasanauto-mockingcontainer " +
