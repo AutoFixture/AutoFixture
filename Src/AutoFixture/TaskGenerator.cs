@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture
 
         private static object CreateGenericTask(Type taskType, ISpecimenContext context)
         {
-            var resultType = taskType.GetGenericArguments().Single();
+            var resultType = taskType.GetTypeInfo().GetGenericArguments().Single();
             var result = context.Resolve(resultType);
             return CreateTask(resultType, result);
         }
@@ -63,10 +63,10 @@ namespace Ploeh.AutoFixture
             var taskSourceType = typeof (TaskCompletionSource<>).MakeGenericType(resultType);
             var taskSource = Activator.CreateInstance(taskSourceType);
 
-            taskSourceType.GetMethod("SetResult")
+            taskSourceType.GetTypeInfo().GetMethod("SetResult")
                           .Invoke(taskSource, new[] {result});
 
-            var task = taskSourceType.GetProperty("Task")
+            var task = taskSourceType.GetTypeInfo().GetProperty("Task")
                                      .GetValue(taskSource, null);
 
             return task;

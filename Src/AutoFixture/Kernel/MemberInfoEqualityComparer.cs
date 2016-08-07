@@ -127,8 +127,8 @@ namespace Ploeh.AutoFixture.Kernel
 
         private static bool AreTypesRelated(Type x, Type y)
         {
-            return x.IsAssignableFrom(y)
-                || (y.IsAssignableFrom(x));
+            return x.GetTypeInfo().IsAssignableFrom(y)
+                || (y.GetTypeInfo().IsAssignableFrom(x));
         }
     }
 }

@@ -74,6 +74,7 @@ namespace Ploeh.AutoFixture.Kernel
         private bool IsInterfaceImplementedByTargetType(object request)
         {
             return this.TargetType
+                       .GetTypeInfo()
                        .GetInterfaces()
                        .Contains((Type)request);
         }

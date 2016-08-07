@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (t == null)
                 return new NoSpecimen();
 
-            var typeArguments = t.GetGenericArguments();
+            var typeArguments = t.GetTypeInfo().GetGenericArguments();
             if (typeArguments.Length != 1 ||
                 typeof(IList<>) != t.GetGenericTypeDefinition())
                 return new NoSpecimen();

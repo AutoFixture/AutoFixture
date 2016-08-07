@@ -35,12 +35,12 @@ namespace Ploeh.AutoFixture.Kernel
                 return new NoSpecimen();
             }
 
-            if (!typeof(Delegate).IsAssignableFrom(delegateType))
+            if (!typeof(Delegate).GetTypeInfo().IsAssignableFrom(delegateType))
             {
                 return new NoSpecimen();
             }
 
-            var delegateMethod = delegateType.GetMethod("Invoke");
+            var delegateMethod = delegateType.GetTypeInfo().GetMethod("Invoke");
             var methodSpecimenParams = DelegateGenerator.CreateMethodSpecimenParameters(delegateMethod);
             var methodSpecimenBody = DelegateGenerator.CreateMethodSpecimenBody(delegateMethod, context);
 

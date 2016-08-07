@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(type));
             }
 
-            return from ci in type.GetConstructors()
+            return from ci in type.GetTypeInfo().GetConstructors()
                    let parameters = ci.GetParameters()
                    orderby parameters.Length descending
                    select new ConstructorMethod(ci) as IMethod;

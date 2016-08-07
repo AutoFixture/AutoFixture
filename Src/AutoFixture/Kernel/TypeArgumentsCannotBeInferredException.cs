@@ -2,7 +2,9 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+#if SYSTEM_RUNTIME_SERIALIZATION
 using System.Runtime.Serialization;
+#endif
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -10,7 +12,9 @@ namespace Ploeh.AutoFixture.Kernel
     /// The exception that is thrown when AutoFixture is unable to infer the type 
     /// parameters of a generic method from its arguments.
     /// </summary>
+#if SYSTEM_RUNTIME_SERIALIZATION
     [Serializable]
+#endif
     public class TypeArgumentsCannotBeInferredException : Exception
     {
         /// <summary>
@@ -71,6 +75,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
         }
 
+#if SYSTEM_RUNTIME_SERIALIZATION
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeArgumentsCannotBeInferredException"/> class with
         /// serialized data.
@@ -83,6 +88,7 @@ namespace Ploeh.AutoFixture.Kernel
             : base(info, context)
         {
         }
+#endif
 
         private static string GetFriendlyName(Type type)
         {
@@ -90,7 +96,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return string.Format(CultureInfo.CurrentCulture, 
                     "{0}<{1}>", 
                     type.Name.Split('`')[0], 
-                    string.Join(", ", type.GetGenericArguments().Select(GetFriendlyName)));
+                    string.Join(", ", type.GetTypeInfo().GetGenericArguments().Select(GetFriendlyName)));
 
             return type.Name;
         }

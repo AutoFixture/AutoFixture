@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
-            return from ci in type.GetConstructors()
+            return from ci in type.GetTypeInfo().GetConstructors()
                    let score = new ArrayParameterScore(ci.GetParameters())
                    orderby score descending
                    select new ConstructorMethod(ci) as IMethod;

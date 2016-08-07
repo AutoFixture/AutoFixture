@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture.Kernel
             var type = request as Type;
             if (type == null)
                 return new NoSpecimen();
-            var typeArgs = type.GetGenericArguments();
+            var typeArgs = type.GetTypeInfo().GetGenericArguments();
             if (typeArgs.Length != 1)
                 return new NoSpecimen();
             if (type.GetGenericTypeDefinition() != typeof(IEnumerable<>))
@@ -55,7 +55,7 @@ namespace Ploeh.AutoFixture.Kernel
 
             return typeof (ConvertedEnumerable<>)
                 .MakeGenericType(typeArgs)
-                .GetConstructor(new[] {typeof (IEnumerable<object>)})
+                .GetTypeInfo().GetConstructor(new[] {typeof (IEnumerable<object>)})
                 .Invoke(new[] {enumerable});
         }
 

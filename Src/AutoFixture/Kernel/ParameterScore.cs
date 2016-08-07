@@ -43,7 +43,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (exactMatchScore > 0)
                 return exactMatchScore;
 
-            var genericParameterTypes = parentType.GetGenericArguments();
+            var genericParameterTypes = parentType.GetTypeInfo().GetGenericArguments();
             if (genericParameterTypes.Length != 1)
                 return parameters.Count() * -1;
 
@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (!p.ParameterType.IsGenericType())
                 return false;
 
-            var genericParameterTypes = p.ParameterType.GetGenericArguments();
+            var genericParameterTypes = p.ParameterType.GetTypeInfo().GetGenericArguments();
             if (genericParameterTypes.Length != 1)
                 return false;
 

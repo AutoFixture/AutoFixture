@@ -90,7 +90,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
-            return from method in type.GetMethods()
+            return from method in type.GetTypeInfo().GetMethods()
                    where method.Name == Template.Name && (Owner != null || method.IsStatic)
                    let methodParameters = method.GetParameters()
                    let templateParameters = Template.GetParameters()
@@ -114,7 +114,7 @@ namespace Ploeh.AutoFixture.Kernel
 
         private bool Compare(Type parameterType, Type templateParameterType)
         {
-            if (parameterType.IsAssignableFrom(templateParameterType))
+            if (parameterType.GetTypeInfo().IsAssignableFrom(templateParameterType))
                 return true;
 
             if (parameterType.IsGenericParameter)
@@ -134,7 +134,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return type.HasElementType ?
                 new[] { type.GetElementType() } :
-                type.GetGenericArguments();
+                type.GetTypeInfo().GetGenericArguments();
         }
 
         private class LateBindingParameterScore : IComparable<LateBindingParameterScore>
@@ -182,8 +182,8 @@ namespace Ploeh.AutoFixture.Kernel
                 var hierarchy = GetHierarchy(templateParameterType).ToList();
                 
                 var matches = methodParameterType.IsClass() ? 
-                    hierarchy.Count(t => t.IsAssignableFrom(methodParameterType)) : 
-                    hierarchy.Count(t => t.GetInterfaces().Any(i => i.IsAssignableFrom(methodParameterType)));
+                    hierarchy.Count(t => t.GetTypeInfo().IsAssignableFrom(methodParameterType)) : 
+                    hierarchy.Count(t => t.GetTypeInfo().GetInterfaces().Any(i => i.GetTypeInfo().IsAssignableFrom(methodParameterType)));
 
                 var score = 50 * -(hierarchy.Count - matches);
 
@@ -202,7 +202,7 @@ namespace Ploeh.AutoFixture.Kernel
             private static IEnumerable<Type> GetHierarchy(Type type)
             {
                 if (!type.IsClass())
-                    foreach (var interfaceType in type.GetInterfaces())
+                    foreach (var interfaceType in type.GetTypeInfo().GetInterfaces())
                         yield return interfaceType;
 
                 while (type != null)

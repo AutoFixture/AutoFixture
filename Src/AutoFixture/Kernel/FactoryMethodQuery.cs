@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(type));
             }
 
-            return from mi in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
+            return from mi in type.GetTypeInfo().GetMethods(BindingFlags.Static | BindingFlags.Public)
                    where mi.ReturnType == type
                    let parameters = mi.GetParameters()
                    where mi.GetParameters().All(p => p.ParameterType != type)
