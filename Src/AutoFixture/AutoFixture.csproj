@@ -101,6 +101,7 @@
     <Compile Include="DomainNameGenerator.cs" />
     <Compile Include="ElementsBuilder.cs" />
     <Compile Include="Kernel\SortedDictionarySpecification.cs" />
+    <Compile Include="Kernel\SortedListSpecification.cs" />
     <Compile Include="Kernel\SortedSetSpecification.cs" />
     <Compile Include="LambdaExpressionGenerator.cs" />
     <Compile Include="FixtureRepeater.cs" />
