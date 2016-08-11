@@ -92,6 +92,12 @@ namespace Ploeh.AutoFixture
                                         new DictionaryFiller()),
                                     new SortedDictionarySpecification()),
                                 new FilteringSpecimenBuilder(
+                                    new Postprocessor(
+                                        new MethodInvoker(
+                                            new ModestConstructorQuery()),
+                                        new DictionaryFiller()),
+                                    new SortedListSpecification()),
+                                new FilteringSpecimenBuilder(
                                     new MethodInvoker(
                                         new EnumerableFavoringConstructorQuery()),
                                     new ObservableCollectionSpecification()),

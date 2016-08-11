@@ -8,7 +8,7 @@
         <owners>Mark Seemann</owners>
         <dependencies>
             <dependency id="AutoFixture" version="@build.number@" />
-            <dependency id="Albedo" version="1.0.1" />
+            <dependency id="Albedo" version="1.0.0" />
         </dependencies>
         <summary>Extension to AutoFixture that contains unit testing idioms.</summary>
         <description>Ubiquitous use of AutoFixture for unit testing has given rise to a number of idiomatic unit tests - unit tests that tend to follow common templates. The AutoFixture Idioms library encapsulates these idioms into reusable classes and methods.</description>
