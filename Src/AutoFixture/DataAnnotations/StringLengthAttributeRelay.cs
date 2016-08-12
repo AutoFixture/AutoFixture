@@ -49,7 +49,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
 #pragma warning restore 618
             }
 
-            return context.Resolve(new ConstrainedStringRequest(stringLengthAttribute.MaximumLength));
+            return context.Resolve(new ConstrainedStringRequest(stringLengthAttribute.MinimumLength, stringLengthAttribute.MaximumLength));
         }
     }
 }

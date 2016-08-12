@@ -16,23 +16,49 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system
-            var actual = fixture.Create<ClassWithLengthConstrainedConstructorArgument>();
+            var actual = fixture.Create<ClassWithShortStringLengthConstrainedConstructorArgument>();
             // Verify outcome
             Assert.True(
-                actual.ShortText.Length <= ClassWithLengthConstrainedConstructorArgument.ShortTextMaximumLength,
+                actual.ShortText.Length <= ClassWithShortStringLengthConstrainedConstructorArgument.ShortTextMaximumLength,
                 "AutoFixture should respect [StringLength] attribute on constructor arguments.");
             // Teardown
         }
 
-        private class ClassWithLengthConstrainedConstructorArgument
+        [Fact]
+        public void FixtureCorrectlyCreatesLongText()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var actual = fixture.Create<ClassWithLongStringLengthConstrainedConstructorArgument>();
+            // Verify outcome
+            Assert.Equal(
+                ClassWithLongStringLengthConstrainedConstructorArgument.LongTextLength,
+                actual.LongText.Length);
+            // Teardown
+        }
+
+        private class ClassWithShortStringLengthConstrainedConstructorArgument
         {
             public const int ShortTextMaximumLength = 3;
             public readonly string ShortText;
 
-            public ClassWithLengthConstrainedConstructorArgument(
+            public ClassWithShortStringLengthConstrainedConstructorArgument(
                 [StringLength(ShortTextMaximumLength)]string shortText)
             {
                 this.ShortText = shortText;
+            }
+        }
+
+        private class ClassWithLongStringLengthConstrainedConstructorArgument
+        {
+            public const int LongTextLength = 50;
+            public readonly string LongText;
+
+            public ClassWithLongStringLengthConstrainedConstructorArgument(
+                [StringLength(LongTextLength, MinimumLength = LongTextLength)]string longText)
+            {
+                this.LongText = longText;
             }
         }
     }
