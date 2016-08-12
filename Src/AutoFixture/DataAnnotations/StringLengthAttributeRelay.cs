@@ -38,7 +38,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 return new NoSpecimen();
             }
 
-            return context.Resolve(new ConstrainedStringRequest(stringLengthAttribute.MaximumLength));
+            return context.Resolve(new ConstrainedStringRequest(stringLengthAttribute.MinimumLength, stringLengthAttribute.MaximumLength));
         }
     }
 }

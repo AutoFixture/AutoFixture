@@ -106,5 +106,29 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
             Assert.Equal(expectedResult, result);
             // Teardown
         }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public void CreateWithStringRequestConstrainedbyMinimunLengthReturnsCorrectResult(int maximum)
+        {
+            // Fixture setup
+            var stringLengthAttribute = new StringLengthAttribute(maximum) { MinimumLength = 1 };
+            var providedAttribute = new ProvidedAttribute(stringLengthAttribute, true);
+            var request = new FakeMemberInfo(providedAttribute);
+            var expectedRequest = new ConstrainedStringRequest(stringLengthAttribute.MinimumLength, stringLengthAttribute.MaximumLength);
+            var expectedResult = new object();
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen()
+            };
+            var sut = new StringLengthAttributeRelay();
+            // Exercise system
+            var result = sut.Create(request, context);
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
     }
 }
