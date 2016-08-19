@@ -19,6 +19,9 @@ namespace Ploeh.AutoFixture.AutoMoq
             this IFixture fixture,
             Action<Mock<T>> setup) where T : class
         {
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (setup == null) throw new ArgumentNullException(nameof(setup));
+
             fixture.Customize<Mock<T>>(composer => composer
                 .Do(setup));
         }
@@ -35,6 +38,10 @@ namespace Ploeh.AutoFixture.AutoMoq
             Action<Mock<T>> setup1,
             Action<Mock<T>> setup2) where T : class
         {
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (setup1 == null) throw new ArgumentNullException(nameof(setup1));
+            if (setup2 == null) throw new ArgumentNullException(nameof(setup2));
+
             fixture.Customize<Mock<T>>(composer => composer
                 .Do(setup2)
                 .Do(setup2));
@@ -54,6 +61,11 @@ namespace Ploeh.AutoFixture.AutoMoq
             Action<Mock<T>> setup2,
             Action<Mock<T>> setup3) where T : class
         {
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (setup1 == null) throw new ArgumentNullException(nameof(setup1));
+            if (setup2 == null) throw new ArgumentNullException(nameof(setup2));
+            if (setup3 == null) throw new ArgumentNullException(nameof(setup3));
+
             fixture.Customize<Mock<T>>(composer => composer
                 .Do(setup2)
                 .Do(setup2)
@@ -76,6 +88,12 @@ namespace Ploeh.AutoFixture.AutoMoq
             Action<Mock<T>> setup3,
             Action<Mock<T>> setup4) where T : class
         {
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (setup1 == null) throw new ArgumentNullException(nameof(setup1));
+            if (setup2 == null) throw new ArgumentNullException(nameof(setup2));
+            if (setup3 == null) throw new ArgumentNullException(nameof(setup3));
+            if (setup4 == null) throw new ArgumentNullException(nameof(setup4));
+
             fixture.Customize<Mock<T>>(composer => composer
                 .Do(setup2)
                 .Do(setup2)
@@ -101,6 +119,13 @@ namespace Ploeh.AutoFixture.AutoMoq
             Action<Mock<T>> setup4,
             Action<Mock<T>> setup5) where T : class
         {
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (setup1 == null) throw new ArgumentNullException(nameof(setup1));
+            if (setup2 == null) throw new ArgumentNullException(nameof(setup2));
+            if (setup3 == null) throw new ArgumentNullException(nameof(setup3));
+            if (setup4 == null) throw new ArgumentNullException(nameof(setup4));
+            if (setup5 == null) throw new ArgumentNullException(nameof(setup5));
+
             fixture.Customize<Mock<T>>(composer => composer
                 .Do(setup2)
                 .Do(setup2)
@@ -129,6 +154,14 @@ namespace Ploeh.AutoFixture.AutoMoq
             Action<Mock<T>> setup5,
             Action<Mock<T>> setup6) where T : class
         {
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (setup1 == null) throw new ArgumentNullException(nameof(setup1));
+            if (setup2 == null) throw new ArgumentNullException(nameof(setup2));
+            if (setup3 == null) throw new ArgumentNullException(nameof(setup3));
+            if (setup4 == null) throw new ArgumentNullException(nameof(setup4));
+            if (setup5 == null) throw new ArgumentNullException(nameof(setup5));
+            if (setup6 == null) throw new ArgumentNullException(nameof(setup6));
+
             fixture.Customize<Mock<T>>(composer => composer
                 .Do(setup2)
                 .Do(setup2)
@@ -160,6 +193,15 @@ namespace Ploeh.AutoFixture.AutoMoq
             Action<Mock<T>> setup6,
             Action<Mock<T>> setup7) where T : class
         {
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (setup1 == null) throw new ArgumentNullException(nameof(setup1));
+            if (setup2 == null) throw new ArgumentNullException(nameof(setup2));
+            if (setup3 == null) throw new ArgumentNullException(nameof(setup3));
+            if (setup4 == null) throw new ArgumentNullException(nameof(setup4));
+            if (setup5 == null) throw new ArgumentNullException(nameof(setup5));
+            if (setup6 == null) throw new ArgumentNullException(nameof(setup6));
+            if (setup7 == null) throw new ArgumentNullException(nameof(setup7));
+
             fixture.Customize<Mock<T>>(composer => composer
                 .Do(setup2)
                 .Do(setup2)
@@ -183,6 +225,9 @@ namespace Ploeh.AutoFixture.AutoMoq
             this IFixture fixture,
             Action<Mock<T>> setup) where T : class
         {
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (setup == null) throw new ArgumentNullException(nameof(setup));
+
             return fixture.Freeze<Mock<T>>(composer => composer
                 .Do(setup));
         }
@@ -202,6 +247,10 @@ namespace Ploeh.AutoFixture.AutoMoq
             Action<Mock<T>> setup1,
             Action<Mock<T>> setup2) where T : class
         {
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (setup1 == null) throw new ArgumentNullException(nameof(setup1));
+            if (setup2 == null) throw new ArgumentNullException(nameof(setup2));
+
             return fixture.Freeze<Mock<T>>(composer => composer
                 .Do(setup1)
                 .Do(setup2));
@@ -224,6 +273,11 @@ namespace Ploeh.AutoFixture.AutoMoq
             Action<Mock<T>> setup2,
             Action<Mock<T>> setup3) where T : class
         {
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (setup1 == null) throw new ArgumentNullException(nameof(setup1));
+            if (setup2 == null) throw new ArgumentNullException(nameof(setup2));
+            if (setup3 == null) throw new ArgumentNullException(nameof(setup3));
+
             return fixture.Freeze<Mock<T>>(composer => composer
                 .Do(setup1)
                 .Do(setup2)
@@ -249,6 +303,12 @@ namespace Ploeh.AutoFixture.AutoMoq
             Action<Mock<T>> setup3,
             Action<Mock<T>> setup4) where T : class
         {
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (setup1 == null) throw new ArgumentNullException(nameof(setup1));
+            if (setup2 == null) throw new ArgumentNullException(nameof(setup2));
+            if (setup3 == null) throw new ArgumentNullException(nameof(setup3));
+            if (setup4 == null) throw new ArgumentNullException(nameof(setup4));
+
             return fixture.Freeze<Mock<T>>(composer => composer
                 .Do(setup1)
                 .Do(setup2)
@@ -277,6 +337,13 @@ namespace Ploeh.AutoFixture.AutoMoq
             Action<Mock<T>> setup4,
             Action<Mock<T>> setup5) where T : class
         {
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (setup1 == null) throw new ArgumentNullException(nameof(setup1));
+            if (setup2 == null) throw new ArgumentNullException(nameof(setup2));
+            if (setup3 == null) throw new ArgumentNullException(nameof(setup3));
+            if (setup4 == null) throw new ArgumentNullException(nameof(setup4));
+            if (setup5 == null) throw new ArgumentNullException(nameof(setup5));
+
             return fixture.Freeze<Mock<T>>(composer => composer
                 .Do(setup1)
                 .Do(setup2)
@@ -308,6 +375,14 @@ namespace Ploeh.AutoFixture.AutoMoq
             Action<Mock<T>> setup5,
             Action<Mock<T>> setup6) where T : class
         {
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (setup1 == null) throw new ArgumentNullException(nameof(setup1));
+            if (setup2 == null) throw new ArgumentNullException(nameof(setup2));
+            if (setup3 == null) throw new ArgumentNullException(nameof(setup3));
+            if (setup4 == null) throw new ArgumentNullException(nameof(setup4));
+            if (setup5 == null) throw new ArgumentNullException(nameof(setup5));
+            if (setup6 == null) throw new ArgumentNullException(nameof(setup6));
+
             return fixture.Freeze<Mock<T>>(composer => composer
                 .Do(setup1)
                 .Do(setup2)
@@ -342,6 +417,15 @@ namespace Ploeh.AutoFixture.AutoMoq
             Action<Mock<T>> setup6,
             Action<Mock<T>> setup7) where T : class
         {
+            if (fixture == null) throw new ArgumentNullException(nameof(fixture));
+            if (setup1 == null) throw new ArgumentNullException(nameof(setup1));
+            if (setup2 == null) throw new ArgumentNullException(nameof(setup2));
+            if (setup3 == null) throw new ArgumentNullException(nameof(setup3));
+            if (setup4 == null) throw new ArgumentNullException(nameof(setup4));
+            if (setup5 == null) throw new ArgumentNullException(nameof(setup5));
+            if (setup6 == null) throw new ArgumentNullException(nameof(setup6));
+            if (setup7 == null) throw new ArgumentNullException(nameof(setup7));
+
             return fixture.Freeze<Mock<T>>(composer => composer
                 .Do(setup1)
                 .Do(setup2)
