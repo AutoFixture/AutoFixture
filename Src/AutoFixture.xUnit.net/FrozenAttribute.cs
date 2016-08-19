@@ -110,7 +110,9 @@ namespace Ploeh.AutoFixture.Xunit
                 .Or(ByParameterName(type, name))
                 .Or(ByFieldName(type, name));
 
+#pragma warning disable 618
             return new FreezeOnMatchCustomization(type, filter);
+#pragma warning restore 618
         }
 
         private static IRequestSpecification ByEqual(object target)
