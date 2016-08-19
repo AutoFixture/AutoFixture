@@ -403,7 +403,7 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// <param name="setup4">The fourth setup method for a <see cref="Mock{T}"/> object.</param>
         /// <param name="setup5">The fifth setup method for a <see cref="Mock{T}"/> object.</param>
         /// <param name="setup6">The sixth setup method for a <see cref="Mock{T}"/> object.</param>
-        /// <param name="setup7">The sixth setup method for a <see cref="Mock{T}"/> object.</param>
+        /// <param name="setup7">The seventh setup method for a <see cref="Mock{T}"/> object.</param>
         /// <returns>
         /// The <see cref="Mock{T}"/> object that will subsequently always be created for <typeparamref name="T"/>.
         /// </returns>
