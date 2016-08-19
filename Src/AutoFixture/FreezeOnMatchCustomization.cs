@@ -29,6 +29,7 @@ namespace Ploeh.AutoFixture
         /// <exception cref="ArgumentNullException">
         /// <paramref name="targetType"/> is <see langword="null"/>.
         /// </exception>
+        [Obsolete("Please use FreezeOnMatchCustomization(object, IRequestSpecification) instead.")]
         public FreezeOnMatchCustomization(Type targetType)
             : this(targetType, new ExactTypeSpecification(targetType))
         {
@@ -45,6 +46,7 @@ namespace Ploeh.AutoFixture
         /// <exception cref="ArgumentNullException">
         /// <paramref name="targetType"/> or <paramref name="matcher"/> is null.
         /// </exception>
+        [Obsolete("Please use FreezeOnMatchCustomization(object, IRequestSpecification) instead.")]
         public FreezeOnMatchCustomization(
             Type targetType,
             IRequestSpecification matcher)
@@ -96,6 +98,7 @@ namespace Ploeh.AutoFixture
         /// <summary>
         /// The <see cref="Type"/> of the frozen specimen.
         /// </summary>
+        [Obsolete("Please use the Request property instead.")]
         public Type TargetType { get; }
 
         /// <summary>
