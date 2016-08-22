@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture
         /// <exception cref="ArgumentNullException">
         /// <paramref name="targetType"/> is <see langword="null"/>.
         /// </exception>
-        [Obsolete("Please use FreezeOnMatchCustomization(object, IRequestSpecification) instead.")]
+        [Obsolete("Please use FreezeOnMatchCustomization(object, IRequestSpecification) instead where the second parameter is a new instance of the ExactTypeSpecification class.")]
         public FreezeOnMatchCustomization(Type targetType)
             : this(targetType, new ExactTypeSpecification(targetType))
         {
