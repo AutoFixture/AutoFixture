@@ -203,7 +203,11 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 // otherwise, NSubstitute would not be able to set up the methods
                 // that return a circular reference.
                 // See discussion at https://github.com/AutoFixture/AutoFixture/pull/397
-                var task = Task.Factory.StartNew(() => Context.Resolve(type));
+                var task = new Task<object>(() => Context.Resolve(type));
+                
+                // Run task on default scheduler to prevent attach to the current scheduler.
+                // Otherwise, existing scheduler could cause task to be inlined.
+                task.Start(TaskScheduler.Default);
 
                 // It could happen that task above is inlined on the current thread.
                 // As result, the last NSubstitute call router could become empty.
