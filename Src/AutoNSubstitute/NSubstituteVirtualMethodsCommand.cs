@@ -82,8 +82,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
         private class SubstituteValueFactory
         {
-            private static readonly MethodInfo ReturnsUsingContextMethodInfo =
-                typeof(SubstituteValueFactory).GetMethod("ReturnsUsingContext");
             private static readonly IMethod ReturnsMethodInfo =
                 GetNSubstituteMethod("Returns");
 
@@ -244,8 +242,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 if (methodInfo.IsVoid())
                     return;
 
-                ReturnsUsingContextMethodInfo
-                    .Invoke(this, new object[] { methodInfo });
+                this.ReturnsUsingContext(methodInfo);
             }
 
             private static void SetRefValues(CallInfo callInfo, IEnumerable<Tuple<int, Lazy<object>>> values)
