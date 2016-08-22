@@ -167,6 +167,32 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             public void ReturnsUsingContext(MethodInfo methodInfo)
             {
+                // The workflow is following:
+                // 1. We setup callback that lazily configures return value.
+                // 2. When callback is executed for the first time, it sets up own call handlers.
+                //    Then we invoke method again to pass control to that handlers.
+                // 3. NoSetupCallbackHandler uses substitute state to check whether we already have result for the call.
+                //    That could happen if client already configured return value for particular property/method manually.
+                //    Also, that happens if we already configured return value for the call.
+                //      
+                //    If value is not already present:
+                //    3.1 Resolve result using the AutoFixture.
+                //    3.2 Configure NSubstitute to return that value using the `Returns()` method.
+                //    3.3 Invoke the method again. The points 1-3 will be repeated, 
+                //           but this time the NoSetupCallbackHandler will do nothing - we have a result.
+                //
+                // 
+                // Consider the following things during the code analysis:
+                //  - Each time consumer invokes property/method, we set our custom route and pass control to it.
+                //    We need that to access substitute state and check whether we already have a result for the call.
+                //
+                //  - Each time our route is executed, NSubstitute switches to default route.
+                //  - Our route is executed twice during inital setup. Second time it does nothing.
+                //  - The initial request (which comes from consumer) is in progress (on stack below) when we do all our configuration.
+                //    That is because Do() {} callback is executed before known return values are returned.
+                //    After our substitute is configured in When-Do, NSubstitute checks whether there is return value for current call.
+                //    Return value is, of course, present and it returns that value to the consumer.
+
                 Substitute
                     .WhenForAnyArgs(_ => InvokeMethod(methodInfo))
                     .Do(callInfo =>
