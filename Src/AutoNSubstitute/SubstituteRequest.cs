@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// </summary>
         public override string ToString()
         {
-            return $"NSubstituteRequest: {this.TargetType}";
+            return "NSubstituteRequest: " + this.TargetType;
         }
     }
 }

@@ -229,24 +229,24 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 // otherwise, NSubstitute would not be able to set up the methods
                 // that return a circular reference.
                 // See discussion at https://github.com/AutoFixture/AutoFixture/pull/397
-                var task = new Task<object>(() => Context.Resolve(type));
-                
-                // Run task on default scheduler to prevent attach to the current scheduler.
-                // Otherwise, existing scheduler could cause task to be inlined.
-                task.Start(TaskScheduler.Default);
 
-                // It could happen that task above is inlined on the current thread.
-                // As result, the last NSubstitute call router could become empty.
-                // Therefore, we pass cancellation token to the Wait() method to prevent task from being inlined.
-                // See more details: http://stackoverflow.com/a/12246045/2009373
-                // This fixes the following issue: https://github.com/AutoFixture/AutoFixture/issues/630
                 using (var cancelableTokenSource = new CancellationTokenSource())
                 {
                     var cancelableToken = cancelableTokenSource.Token;
-                    task.Wait(cancelableToken);
-                }
+                    // Run task on default scheduler to prevent attach to the context scheduler.
+                    // User could execute this code in context of its own scheduler that performs aggressive inling
+                    // and our task will be inlined by that scheduler.
+                    var task = Task.Factory.StartNew(() => Context.Resolve(type), cancelableToken,
+                        TaskCreationOptions.None, TaskScheduler.Default);
 
-                return task.Result;
+                    // It could happen that task above is inlined on the current thread.
+                    // As result, the last NSubstitute call router could become empty.
+                    // Therefore, we pass cancellation token to the Wait() method to prevent task from being inlined.
+                    // See more details: http://stackoverflow.com/a/12246045/2009373
+                    // This fixes the following issue: https://github.com/AutoFixture/AutoFixture/issues/630
+                    task.Wait(cancelableToken);
+                    return task.Result;
+                }
             }
 
             private void ReturnsFixedValue(MethodInfo methodInfo, object value)
