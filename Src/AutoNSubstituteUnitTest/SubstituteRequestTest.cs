@@ -28,5 +28,21 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             Assert.Equal("targetType", e.ParamName);
             // Teardown
         }
+
+        [Fact]
+        public void ToStringOutputContainsTypeName()
+        {
+            //arrange
+            var type = typeof(string);
+            var typeName = type.ToString();
+
+            var sut = new SubstituteRequest(type);
+
+            //act
+            var actualOutput = sut.ToString();
+
+            //assert
+            Assert.Contains(typeName, actualOutput);
+        }
     }
 }

@@ -449,7 +449,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public void PropertiesOmittingSpecimenReturnsCorrectResult()
         {
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
-            fixture.Customizations.Add(new Omitter(new ExactTypeSpecification(typeof (string))));
+            fixture.Customizations.Add(new Omitter(new ExactTypeSpecification(typeof(string))));
             var sut = fixture.Create<IInterfaceWithProperty>();
 
             var result = sut.Property;
@@ -541,14 +541,14 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void Issue630_DontFailIfAllTasksAreInlined()
+        public void Issue630_DontFailIfAllTasksAreInlinedInInlinePhase()
         {
             //Test for the following issue fix: https://github.com/AutoFixture/AutoFixture/issues/630
 
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var interfaceSource = fixture.Create<IInterfaceWithMethodSource>();
 
-            var scheduler = new AggressiveInliningTaskScheduler();
+            var scheduler = new TryingAlwaysSatisfyInlineTaskScheduler();
 
             /*
              * Simulate situation when tasks are always inlined on current thread.
@@ -565,6 +565,23 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 
             //This test should not fail. Assertion is dummy and to specify that we use instance.
             Assert.NotNull(instance);
+        }
+
+        [Fact]
+        public void DontFailIfAllTasksInlinedOnQueueByCurrentScheduler()
+        {
+            var task = new Task(() =>
+            {
+                //arrange
+                var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+                var interfaceSource = fixture.Create<IInterfaceWithMethodSource>();
+
+                //act & assert not throw
+                var result = interfaceSource.Get();
+            });
+            task.Start(new InlineOnQueueTaskScheduler());
+
+            task.Wait();
         }
 
 
@@ -586,9 +603,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             IInterfaceWithMethod Get();
         }
 
-        public class AggressiveInliningTaskScheduler : TaskScheduler
+        private class TryingAlwaysSatisfyInlineTaskScheduler : TaskScheduler
         {
-            private const int DELAY_MSEC = 200;
+            private const int DELAY_MSEC = 100;
             private readonly object _syncRoot = new object();
             private HashSet<Task> Tasks { get; } = new HashSet<Task>();
 
@@ -641,5 +658,23 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
                 }
             }
         }
+
+        private class InlineOnQueueTaskScheduler : TaskScheduler
+        {
+            protected override void QueueTask(Task task)
+            {
+                base.TryExecuteTask(task);
+            }
+
+            protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
+            {
+                throw new NotSupportedException("This method should be never reached.");
+            }
+
+            protected override IEnumerable<Task> GetScheduledTasks() => Enumerable.Empty<Task>();
+
+        }
+
+
     }
 }

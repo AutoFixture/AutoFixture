@@ -13,8 +13,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     /// </remarks>
     public class SubstituteRequest
     {
-        private readonly Type targetType;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SubstituteRequest"/> class.
         /// </summary>
@@ -22,21 +20,26 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// A <see cref="Type"/> for which a substitute is being requested.
         /// </param>
         public SubstituteRequest(Type targetType)
-        {      
+        {
             if (targetType == null)
             {
-                throw new ArgumentNullException("targetType");
+                throw new ArgumentNullException(nameof(targetType));
             }
 
-            this.targetType = targetType;
+            this.TargetType = targetType;
         }
 
         /// <summary>
         /// Gets the type for which a substitute is requested.
         /// </summary>
-        public Type TargetType 
+        public Type TargetType { get; }
+
+        /// <summary>
+        /// Add user friendly request message.
+        /// </summary>
+        public override string ToString()
         {
-            get { return this.targetType; }            
+            return "NSubstituteRequest: " + this.TargetType;
         }
     }
 }
