@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture.NUnit3
         {
             this.by = by;
         }
-
+        
         /// <summary>
         /// Gets the <see cref="Matching"/> criteria used to determine
         /// which requests will be satisfied by the frozen parameter value.
@@ -72,7 +72,7 @@ namespace Ploeh.AutoFixture.NUnit3
 
             return FreezeByCriteria(parameter);
         }
-
+        
         private ICustomization FreezeByCriteria(ParameterInfo parameter)
         {
             var type = parameter.ParameterType;
@@ -86,9 +86,7 @@ namespace Ploeh.AutoFixture.NUnit3
                 .Or(ByParameterName(type, name))
                 .Or(ByFieldName(type, name));
 
-#pragma warning disable 618
             return new FreezeOnMatchCustomization(type, filter);
-#pragma warning restore 618
         }
 
         private static IRequestSpecification ByEqual(object target)

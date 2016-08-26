@@ -17,9 +17,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             // Exercise system
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(typeof(object));
-#pragma warning restore 618
             // Verify outcome
             Assert.IsAssignableFrom<ICustomization>(sut);
             // Teardown
@@ -31,9 +29,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-#pragma warning disable 618
                 new FreezeOnMatchCustomization(null, new FalseRequestSpecification()));
-#pragma warning restore 618
             // Teardown
         }
 
@@ -43,9 +39,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-#pragma warning disable 618
                 new FreezeOnMatchCustomization(typeof(object), null));
-#pragma warning restore 618
             // Teardown
         }
 
@@ -55,9 +49,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var targetType = typeof(object);
             // Exercise system
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(typeof(object));
             // Verify outcome
+#pragma warning disable 618
             Assert.Equal(targetType, sut.TargetType);
 #pragma warning restore 618
         }
@@ -68,9 +62,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var targetType = typeof(object);
             // Exercise system
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(targetType);
-#pragma warning restore 618
             // Verify outcome
             var matcher = Assert.IsType<ExactTypeSpecification>(sut.Matcher);
             Assert.Equal(targetType, matcher.TargetType);
@@ -82,9 +74,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var matcher = new TrueRequestSpecification();
             // Exercise system
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(typeof(object), matcher);
-#pragma warning restore 618
             // Verify outcome
             Assert.Equal(matcher, sut.Matcher);
         }
@@ -150,9 +140,7 @@ namespace Ploeh.AutoFixtureUnitTest
         public void CustomizeWithNullFixtureShouldThrowArgumentNullException()
         {
             // Fixture setup
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(typeof(object));
-#pragma warning restore 618
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
                 sut.Customize(null));
@@ -173,11 +161,11 @@ namespace Ploeh.AutoFixtureUnitTest
                         ? new object()
 #pragma warning disable 618
                         : new NoSpecimen(request)
+#pragma warning restore 618
             };
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new ExactTypeSpecification(frozenType));
-#pragma warning restore 618
             // Exercise system
             fixture.Customizations.Add(competingBuilder);
             sut.Customize(fixture);
@@ -224,11 +212,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture();
             var context = new SpecimenContext(fixture);
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new ExactTypeSpecification(frozenType));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
@@ -252,11 +238,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture();
             var context = new SpecimenContext(fixture);
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new DirectBaseTypeSpecification(frozenType));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
@@ -277,11 +261,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture();
             var context = new SpecimenContext(fixture);
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new ImplementedInterfaceSpecification(frozenType));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
@@ -298,11 +280,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var frozenType = typeof(ConcreteType);
             var propertyName = "Property";
             var fixture = new Fixture();
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new PropertySpecification(frozenType, propertyName));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
@@ -319,11 +299,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var frozenType = typeof(ConcreteType);
             var propertyName = "Property";
             var fixture = new Fixture();
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new PropertySpecification(frozenType, propertyName));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
@@ -340,11 +318,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var frozenType = typeof(ConcreteType);
             var propertyName = "SomeOtherProperty";
             var fixture = new Fixture();
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new PropertySpecification(frozenType, propertyName));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
@@ -361,11 +337,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var frozenType = typeof(string);
             var propertyName = "Property";
             var fixture = new Fixture();
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new PropertySpecification(frozenType, propertyName));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
@@ -382,11 +356,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var frozenType = typeof(ConcreteType);
             var parameterName = "parameter";
             var fixture = new Fixture();
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new ParameterSpecification(frozenType, parameterName));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
@@ -403,11 +375,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var frozenType = typeof(ConcreteType);
             var parameterName = "parameter";
             var fixture = new Fixture();
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new ParameterSpecification(frozenType, parameterName));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
@@ -424,11 +394,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var frozenType = typeof(ConcreteType);
             var parameterName = "SomeOtherParameter";
             var fixture = new Fixture();
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new ParameterSpecification(frozenType, parameterName));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
@@ -445,11 +413,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var frozenType = typeof(string);
             var parameterName = "parameter";
             var fixture = new Fixture();
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new ParameterSpecification(frozenType, parameterName));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
@@ -466,11 +432,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var frozenType = typeof(ConcreteType);
             var fieldName = "Field";
             var fixture = new Fixture();
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new FieldSpecification(frozenType, fieldName));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
@@ -487,11 +451,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var frozenType = typeof(ConcreteType);
             var fieldName = "Field";
             var fixture = new Fixture();
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new FieldSpecification(frozenType, fieldName));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
@@ -508,11 +470,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var frozenType = typeof(ConcreteType);
             var fieldName = "SomeOtherField";
             var fixture = new Fixture();
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new FieldSpecification(frozenType, fieldName));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
@@ -529,11 +489,9 @@ namespace Ploeh.AutoFixtureUnitTest
             var frozenType = typeof(string);
             var fieldName = "Field";
             var fixture = new Fixture();
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new FieldSpecification(frozenType, fieldName));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
@@ -549,14 +507,12 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var frozenType = typeof(ConcreteType);
             var fixture = new Fixture();
-#pragma warning disable 618
             var sut = new FreezeOnMatchCustomization(
                 frozenType,
                 new OrRequestSpecification(
                     new ParameterSpecification(frozenType, "parameter"),
                     new PropertySpecification(frozenType, "Property"),
                     new FieldSpecification(frozenType, "Field")));
-#pragma warning restore 618
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
