@@ -20,46 +20,9 @@ namespace Ploeh.AutoFixture
         /// <summary>
         /// Initializes a new instance of the <see cref="FreezeOnMatchCustomization"/> class.
         /// </summary>
-        /// <remarks>
-        /// The constructed customization will use the frozen specimen
-        /// to satisfy requests for the exact same type.
-        /// This mimics the behavior of the <see cref="FreezingCustomization"/>.
-        /// </remarks>
-        /// <param name="targetType">The <see cref="Type"/> to freeze.</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="targetType"/> is <see langword="null"/>.
-        /// </exception>
-        [Obsolete("Please use FreezeOnMatchCustomization(object) instead.")]
-        public FreezeOnMatchCustomization(Type targetType)
-            : this((object)targetType)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FreezeOnMatchCustomization"/> class.
-        /// </summary>
-        /// <param name="targetType">The <see cref="Type"/> to freeze.</param>
-        /// <param name="matcher">
-        /// The <see cref="IRequestSpecification"/> used to match the requests
-        /// that will be satisfied by the frozen specimen.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="targetType"/> or <paramref name="matcher"/> is null.
-        /// </exception>
-        [Obsolete("Please use FreezeOnMatchCustomization(object, IRequestSpecification) instead.")]
-        public FreezeOnMatchCustomization(
-            Type targetType,
-            IRequestSpecification matcher)
-            : this((object)targetType, matcher)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FreezeOnMatchCustomization"/> class.
-        /// </summary>
         /// <param name="request">The request used to create a specimen to freeze.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="request"/> is null.
+        /// <paramref name="request"/> is <see langword="null"/>.
         /// </exception>
         public FreezeOnMatchCustomization(object request)
         {
@@ -69,6 +32,7 @@ namespace Ploeh.AutoFixture
             }
 
             this.Request = request;
+
             var targetType = request as Type;
             if (targetType != null)
             {
