@@ -81,6 +81,7 @@ namespace Ploeh.AutoFixture
             }
 
             this.Request = request;
+            this.Matcher = new TrueRequestSpecification();
         }
 
         /// <summary>
