@@ -38,16 +38,6 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void InitializeWithNullRequestShouldThrowArgumentNullException()
-        {
-            // Fixture setup
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                new FreezeOnMatchCustomization((object)null, new FalseRequestSpecification()));
-            // Teardown
-        }
-
-        [Fact]
         public void InitializeWithNullMatcherShouldThrowArgumentNullException()
         {
             // Fixture setup
@@ -56,16 +46,6 @@ namespace Ploeh.AutoFixtureUnitTest
 #pragma warning disable 618
                 new FreezeOnMatchCustomization(typeof(object), null));
 #pragma warning restore 618
-            // Teardown
-        }
-
-        [Fact]
-        public void InitializeWithRequestAndNullMatcherShouldThrowArgumentNullException()
-        {
-            // Fixture setup
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                new FreezeOnMatchCustomization(new object(), null));
             // Teardown
         }
 
@@ -109,26 +89,52 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.Equal(matcher, sut.Matcher);
         }
 
+
+        [Fact]
+        public void InitializeWithSingleNullRequestArgumentShouldThrowArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+                new FreezeOnMatchCustomization((object)null));
+        }
+
+        [Fact]
+        public void InitializeWithNullRequestShouldThrowArgumentNullException()
+        {
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+                new FreezeOnMatchCustomization((object)null, new FalseRequestSpecification()));
+            Assert.Equal("request", ex.ParamName);
+        }
+
+        [Fact]
+        public void InitializeWithRequestAndNullMatcherShouldThrowArgumentNullException()
+        {
+            var ex = Assert.Throws<ArgumentNullException>(() =>
+                  new FreezeOnMatchCustomization(new object(), null));
+            Assert.Equal("matcher", ex.ParamName);
+        }
+
+        [Fact]
+        public void InitializeWithSingleRequestShouldSetCorrespondingProperty()
+        {
+            var request = new object();
+            var sut = new FreezeOnMatchCustomization(request);
+            Assert.Same(request, sut.Request);
+        }
+
         [Fact]
         public void InitializeWithRequestShouldSetCorrespondingProperty()
         {
-            // Fixture setup
             var request = new object();
             var matcher = new TrueRequestSpecification();
-            // Exercise system
             var sut = new FreezeOnMatchCustomization(request, matcher);
-            // Verify outcome
             Assert.Same(request, sut.Request);
         }
 
         [Fact]
         public void InitializeWithRequestAndMatcherShouldSetCorrespondingProperty()
         {
-            // Fixture setup
             var matcher = new TrueRequestSpecification();
-            // Exercise system
             var sut = new FreezeOnMatchCustomization(new object(), matcher);
-            // Verify outcome
             Assert.Same(matcher, sut.Matcher);
         }
 

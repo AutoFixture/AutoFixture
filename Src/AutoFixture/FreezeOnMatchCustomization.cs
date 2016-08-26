@@ -70,6 +70,23 @@ namespace Ploeh.AutoFixture
         /// Initializes a new instance of the <see cref="FreezeOnMatchCustomization"/> class.
         /// </summary>
         /// <param name="request">The request used to create a specimen to freeze.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="request"/> is null.
+        /// </exception>
+        public FreezeOnMatchCustomization(object request)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            this.Request = request;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FreezeOnMatchCustomization"/> class.
+        /// </summary>
+        /// <param name="request">The request used to create a specimen to freeze.</param>
         /// <param name="matcher">
         /// The <see cref="IRequestSpecification"/> used to match the requests
         /// that will be satisfied by the frozen specimen.
