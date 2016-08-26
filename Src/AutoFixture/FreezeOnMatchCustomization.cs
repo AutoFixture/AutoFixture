@@ -29,9 +29,9 @@ namespace Ploeh.AutoFixture
         /// <exception cref="ArgumentNullException">
         /// <paramref name="targetType"/> is <see langword="null"/>.
         /// </exception>
-        [Obsolete("Please use FreezeOnMatchCustomization(object, IRequestSpecification) instead.")]
+        [Obsolete("Please use FreezeOnMatchCustomization(object) instead.")]
         public FreezeOnMatchCustomization(Type targetType)
-            : this(targetType, new ExactTypeSpecification(targetType))
+            : this((object)targetType)
         {
         }
 
@@ -50,20 +50,8 @@ namespace Ploeh.AutoFixture
         public FreezeOnMatchCustomization(
             Type targetType,
             IRequestSpecification matcher)
+            : this((object)targetType, matcher)
         {
-            if (targetType == null)
-            {
-                throw new ArgumentNullException(nameof(targetType));
-            }
-
-            if (matcher == null)
-            {
-                throw new ArgumentNullException(nameof(matcher));
-            }
-
-            this.TargetType = targetType;
-            this.Request = targetType;
-            this.Matcher = matcher;
         }
 
         /// <summary>
@@ -81,7 +69,18 @@ namespace Ploeh.AutoFixture
             }
 
             this.Request = request;
-            this.Matcher = new TrueRequestSpecification();
+            var targetType = request as Type;
+            if (targetType != null)
+            {
+                this.Matcher = new ExactTypeSpecification(targetType);
+#pragma warning disable 618
+                this.TargetType = targetType;
+#pragma warning restore 618
+            }
+            else
+            {
+                this.Matcher = new TrueRequestSpecification();
+            }
         }
 
         /// <summary>
