@@ -37,9 +37,6 @@ namespace Ploeh.AutoFixture
             if (targetType != null)
             {
                 this.Matcher = new ExactTypeSpecification(targetType);
-#pragma warning disable 618
-                this.TargetType = targetType;
-#pragma warning restore 618
             }
             else
             {
@@ -80,7 +77,7 @@ namespace Ploeh.AutoFixture
         /// The <see cref="Type"/> of the frozen specimen.
         /// </summary>
         [Obsolete("Please use the Request property instead.")]
-        public Type TargetType { get; }
+        public Type TargetType => this.Request as Type;
 
         /// <summary>
         /// The request used to resolve specimens. By default that is TargetType.
