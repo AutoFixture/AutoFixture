@@ -104,19 +104,19 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(fixture));
             }
 
-            FreezeTypeForMatchingRequests(fixture);
+            FreezeSpecimenForMatchingRequests(fixture);
         }
 
-        private void FreezeTypeForMatchingRequests(IFixture fixture)
+        private void FreezeSpecimenForMatchingRequests(IFixture fixture)
         {
             fixture.Customizations.Insert(
                 0,
                 new FilteringSpecimenBuilder(
-                    FreezeTargetType(fixture),
+                    FreezeSpecimen(fixture),
                     this.Matcher));
         }
 
-        private ISpecimenBuilder FreezeTargetType(IFixture fixture)
+        private ISpecimenBuilder FreezeSpecimen(IFixture fixture)
         {
             var context = new SpecimenContext(fixture);
             var specimen = context.Resolve(this.Request);
