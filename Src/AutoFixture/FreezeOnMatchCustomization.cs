@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture
             }
             else
             {
-                this.Matcher = new TrueRequestSpecification();
+                this.Matcher = new EqualRequestSpecification(request);
             }
         }
 
