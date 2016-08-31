@@ -127,7 +127,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             var request = new object();
             var sut = new FreezeOnMatchCustomization(request);
-            Assert.IsAssignableFrom<TrueRequestSpecification>(sut.Matcher);
+            Assert.IsAssignableFrom<EqualRequestSpecification>(sut.Matcher);
         }
 
         [Fact]
@@ -207,6 +207,44 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize(fixture);
             // Verify outcome
             Assert.Equal(context.Resolve(requestType), context.Resolve(requestType));
+        }
+
+        [Fact]
+        public void CustomizeWithEqualRequestsShouldFreezeSpecimen()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var context = new SpecimenContext(fixture);
+
+            var freezingRequest = typeof(ConcreteType).GetProperty("Property1");
+            var equalRequest = typeof(ConcreteType).GetProperty("Property1");
+
+            var sut = new FreezeOnMatchCustomization(freezingRequest);
+            // Exercise system
+            sut.Customize(fixture);
+            // Verify outcome
+            var frozen = context.Resolve(freezingRequest);
+            var requested = context.Resolve(equalRequest);
+            Assert.True(frozen.Equals(requested));
+        }
+
+        [Fact]
+        public void CustomizeWithNotEqualRequestsShouldNotFreezeSpecimen()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var context = new SpecimenContext(fixture);
+
+            var freezingRequest = typeof(ConcreteType).GetProperty("Property1");
+            var anotherRequest = typeof(ConcreteType).GetProperty("Property2");
+
+            var sut = new FreezeOnMatchCustomization(freezingRequest);
+            // Exercise system
+            sut.Customize(fixture);
+            // Verify outcome
+            var frozen = context.Resolve(freezingRequest);
+            var requested = context.Resolve(anotherRequest);
+            Assert.False(frozen.Equals(requested));
         }
 
         [Theory]
