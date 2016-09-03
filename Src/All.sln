@@ -67,6 +67,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Idioms.FsCheckUnitTest", "I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdiomsUnitTest", "IdiomsUnitTest\IdiomsUnitTest.csproj", "{730E1D38-BA80-48C7-B05C-E2BD29F38851}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFakeItEasy.FakeItEasy2UnitTest", "AutoFakeItEasy.FakeItEasy2UnitTest\AutoFakeItEasy.FakeItEasy2UnitTest.csproj", "{7F957CC0-79C3-48A1-9A3E-47BED7539248}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -266,6 +268,12 @@ Global
 		{730E1D38-BA80-48C7-B05C-E2BD29F38851}.Release|Any CPU.Build.0 = Release|Any CPU
 		{730E1D38-BA80-48C7-B05C-E2BD29F38851}.Verify|Any CPU.ActiveCfg = Release|Any CPU
 		{730E1D38-BA80-48C7-B05C-E2BD29F38851}.Verify|Any CPU.Build.0 = Release|Any CPU
+		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Verify|Any CPU.ActiveCfg = Release|Any CPU
+		{7F957CC0-79C3-48A1-9A3E-47BED7539248}.Verify|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
