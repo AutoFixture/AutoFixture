@@ -95,6 +95,7 @@
     <Compile Include="DomainNameGeneratorTest.cs" />
     <Compile Include="DomainNameTest.cs" />
     <Compile Include="ElementsBuilderTest.cs" />
+    <Compile Include="Kernel\QueryableRelayTest.cs" />
     <Compile Include="Kernel\SortedDictionarySpecificationTests.cs" />
     <Compile Include="Kernel\SortedListSpecificationTest.cs" />
     <Compile Include="Kernel\SortedSetSpecificationTest.cs" />

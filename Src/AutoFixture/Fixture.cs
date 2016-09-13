@@ -141,6 +141,7 @@ namespace Ploeh.AutoFixture
                                 new DictionaryRelay(),
                                 new CollectionRelay(),
                                 new ListRelay(),
+                                new QueryableRelay(),
                                 new EnumerableRelay(),
                                 new EnumeratorRelay())),
                         new FilteringSpecimenBuilder(
