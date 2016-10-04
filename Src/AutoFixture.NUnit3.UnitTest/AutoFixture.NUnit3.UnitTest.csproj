@@ -62,8 +62,12 @@
     <Compile Include="NoAutoPropertiesAttributeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenario.cs" />
+    <Compile Include="TestNameStrategiesFixture.cs" />
+    <Compile Include="TestNameStrategiesTest.cs" />
     <Compile Include="ThrowingStubFixture.cs" />
     <Compile Include="TypeWithCustomizationAttributes.cs" />
+    <Compile Include="FixedNameTestMethodBuilderTest.cs" />
+    <Compile Include="VolatileNameTestMethodBuilderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture.NUnit3\AutoFixture.NUnit3.csproj">
