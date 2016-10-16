@@ -1,0 +1,55 @@
+{
+    "version": "1.0.0-*",
+    "buildOptions": {
+        "debugType": "portable",
+        "compile": {
+            "include": "../**/*.cs",
+            "exclude": [
+                "../**/AssemblyInfo.cs", // dotnet cli generates this
+                "./**" // don't include files in *this* folder
+            ]
+        }
+    },
+    "configurations": {
+        "Release": {
+            "buildOptions": {
+                "define": [ "TRACE" ],
+                "optimize": true
+            }
+        },
+        "Debug": {
+            "buildOptions": {
+                "define": [ "DEBUG", "TRACE" ]
+            }
+        }
+    },
+    "dependencies": {},
+    "frameworks": {
+        "net40": {
+            "buildOptions": {
+                "define": [ "SYSTEM_NET_MAIL", "SYSTEM_RUNTIME_SERIALIZATION" ]
+            },
+            "frameworkAssemblies": {
+                "System.ComponentModel.DataAnnotations": ""
+            }
+        },
+        "net45": {
+            "buildOptions": {
+                "define": [ "SYSTEM_NET_MAIL", "SYSTEM_RUNTIME_SERIALIZATION" ]
+            },
+            "frameworkAssemblies": {
+                "System.ComponentModel.DataAnnotations": ""
+            }
+        },
+        "netstandard1.3": {
+            "buildOptions": {
+                "define": []
+            },
+            "dependencies": {
+                "NETStandard.Library": "1.6.0",
+                "System.Threading.Thread": "4.0.0",
+                "System.ComponentModel.Annotations": "4.1.0"
+            }
+        }
+    }
+}

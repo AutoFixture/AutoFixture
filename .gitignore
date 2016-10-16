@@ -29,3 +29,4 @@ AutoFixture character.design
 .fake/
 NUnit[23]TestResult.xml
 project.lock.json
+.vs/

@@ -36,5 +36,3 @@ using System.Resources;
 [assembly: AssemblyVersion("3.50.2.0")]
 [assembly: AssemblyFileVersion("3.50.2.0")]
 
-[assembly: CLSCompliant(true)]
-[assembly: NeutralResourcesLanguage("en")]

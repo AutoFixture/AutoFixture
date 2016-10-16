@@ -1,4 +1,5 @@
 ﻿#r @"packages/FAKE.4.19.0/tools/FakeLib.dll"
+#r @"packages/FAKE.Dotnet.1.0.0/tools/Fake.Dotnet.dll"
 
 open Fake
 open Fake.Testing
@@ -63,6 +64,14 @@ Target "TestOnly" (fun _ ->
 Target "BuildAndTestOnly" (fun _ -> ())
 Target "Build" (fun _ -> ())
 Target "Test"  (fun _ -> ())
+
+Target "ObtainDotnetCli" (fun _ -> 
+  Fake.Dotnet.DotnetCliInstall(fun p ->
+    { p with Version = Dotnet.Version("1.0.0-preview2-003121")
+             CustomInstallDir = Some "./.dotnetcli"
+             Channel = Dotnet.Channel("preview")
+             InstallerBranch = "rel/1.0.0-preview2" })
+)
 
 Target "CopyToReleaseFolder" (fun _ ->
     let buildOutput = [
@@ -140,6 +149,7 @@ Target "NuGetPack" (fun _ ->
 
 Target "CompleteBuild" (fun _ -> ())
 
+"ObtainDotnetCli" ==> "CleanAll"
 "CleanVerify"  ==> "CleanAll"
 "CleanRelease" ==> "CleanAll"
 
