@@ -50,11 +50,8 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Theory]
-        [InlineData(typeof(ListSpecification), typeof(EnumerableFavoringConstructorQuery))]
-        [InlineData(typeof(HashSetSpecification), typeof(EnumerableFavoringConstructorQuery))]
-        [InlineData(typeof(CollectionSpecification), typeof(ListFavoringConstructorQuery))]
-        public void CustomizeAddsBuilderForProperConcreteMultipleType(Type specificationType, Type queryType)
+        [Fact]
+        public void CustomizeAddsBuilderForConcreteCollectionType()
         {
             // Fixture setup
             var sut = new MultipleCustomization();
@@ -64,10 +61,13 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             Assert.True(fixture.Customizations
                 .OfType<FilteringSpecimenBuilder>()
-                .Where(b => specificationType.IsAssignableFrom(b.Specification.GetType()))
-                .Where(b => typeof(MethodInvoker).IsAssignableFrom(b.Builder.GetType()))
-                .Select(b => (MethodInvoker)b.Builder)
-                .Where(i => queryType.IsAssignableFrom(i.Query.GetType()))
+                .Where(b => typeof(CollectionSpecification).IsAssignableFrom(b.Specification.GetType()))
+                .Where(b => typeof(Postprocessor).IsAssignableFrom(b.Builder.GetType()))
+                .Select(b => (Postprocessor)b.Builder)
+                .Where(p => p.Command is CollectionFillerCommand)
+                .Where(p => typeof(MethodInvoker).IsAssignableFrom(p.Builder.GetType()))
+                .Select(p => (MethodInvoker)p.Builder)
+                .Where(i => typeof(ModestConstructorQuery).IsAssignableFrom(i.Query.GetType()))
                 .Any());
             // Teardown
         }

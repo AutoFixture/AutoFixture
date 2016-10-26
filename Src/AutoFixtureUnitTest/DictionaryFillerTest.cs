@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Ploeh.AutoFixture;
@@ -52,11 +53,16 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
-        public void AddManyFillsDictionary()
+        [Theory]
+        [InlineData(typeof(Dictionary<int, string>))]
+        [InlineData(typeof(SortedDictionary<int, string>))]
+        [InlineData(typeof(SortedList<int, string>))]
+        [InlineData(typeof(ConcurrentDictionary<int, string>))]
+        [InlineData(typeof(DerivedDictionary))]
+        public void AddManyFillsDictionary(Type dictionaryType)
         {
             // Fixture setup
-            var dictionary = new Dictionary<int, string>();
+            var dictionary = (IDictionary<int, string>)Activator.CreateInstance(dictionaryType);
 
             var expectedRequest = new MultipleRequest(typeof(KeyValuePair<int, string>));
             var expectedResult = Enumerable.Range(1, 3).Select(i => new KeyValuePair<int, string>(i, i.ToString()));
@@ -113,11 +119,16 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Fact]
-        public void ExecuteFillsDictionary()
+        [Theory]
+        [InlineData(typeof(Dictionary<int, string>))]
+        [InlineData(typeof(SortedDictionary<int, string>))]
+        [InlineData(typeof(SortedList<int, string>))]
+        [InlineData(typeof(ConcurrentDictionary<int, string>))]
+        [InlineData(typeof(DerivedDictionary))]
+        public void ExecuteFillsDictionary(Type dictionaryType)
         {
             // Fixture setup
-            var dictionary = new Dictionary<int, string>();
+            var dictionary = (IDictionary<int, string>)Activator.CreateInstance(dictionaryType);
 
             var expectedRequest = new MultipleRequest(typeof(KeyValuePair<int, string>));
             var expectedResult = Enumerable.Range(1, 3).Select(i => new KeyValuePair<int, string>(i, i.ToString()));
@@ -150,5 +161,8 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.DoesNotThrow(() => sut.Execute(dictionary, context));
             // Teardown
         }
+
+        private class DerivedDictionary : Dictionary<int, string>
+        { }
     }
 }

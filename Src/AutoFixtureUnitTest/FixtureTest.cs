@@ -4936,7 +4936,13 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
+            sut.Customizations.Add(
+                new FilteringSpecimenBuilder(
+                    new Postprocessor(
+                        new MethodInvoker(
+                            new ModestConstructorQuery()),
+                        new CollectionFillerCommand()),
+                    new CollectionSpecification()));
             sut.ResidueCollectors.Add(new EnumerableRelay());
             // Exercise system
             var result = sut.Create<List<string>>();
@@ -4950,7 +4956,13 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new HashSetSpecification()));
+            sut.Customizations.Add(
+                new FilteringSpecimenBuilder(
+                    new Postprocessor(
+                        new MethodInvoker(
+                            new ModestConstructorQuery()),
+                        new CollectionFillerCommand()),
+                    new CollectionSpecification()));
             sut.ResidueCollectors.Add(new EnumerableRelay());
             // Exercise system
             var result = sut.Create<HashSet<float>>();
@@ -4964,7 +4976,13 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
+            sut.Customizations.Add(
+                new FilteringSpecimenBuilder(
+                    new Postprocessor(
+                        new MethodInvoker(
+                            new ModestConstructorQuery()),
+                        new CollectionFillerCommand()),
+                    new CollectionSpecification()));
             sut.ResidueCollectors.Add(new EnumerableRelay());
             sut.ResidueCollectors.Add(new ListRelay());
             // Exercise system
@@ -4979,7 +4997,13 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
+            sut.Customizations.Add(
+                new FilteringSpecimenBuilder(
+                    new Postprocessor(
+                        new MethodInvoker(
+                            new ModestConstructorQuery()),
+                        new CollectionFillerCommand()),
+                    new CollectionSpecification()));
             sut.ResidueCollectors.Add(new EnumerableRelay());
             sut.ResidueCollectors.Add(new CollectionRelay());
             // Exercise system
@@ -4994,8 +5018,13 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new EnumerableFavoringConstructorQuery()), new ListSpecification()));
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new MethodInvoker(new ListFavoringConstructorQuery()), new CollectionSpecification()));
+            sut.Customizations.Add(
+                new FilteringSpecimenBuilder(
+                    new Postprocessor(
+                        new MethodInvoker(
+                            new ModestConstructorQuery()),
+                        new CollectionFillerCommand()),
+                    new CollectionSpecification()));
             sut.ResidueCollectors.Add(new EnumerableRelay());
             sut.ResidueCollectors.Add(new ListRelay());
             // Exercise system
@@ -5010,7 +5039,13 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new MethodInvoker(new ModestConstructorQuery()), new DictionaryFiller()), new DictionarySpecification()));
+            sut.Customizations.Add(
+                new FilteringSpecimenBuilder(
+                    new Postprocessor(
+                        new MethodInvoker(
+                            new ModestConstructorQuery()), 
+                        new DictionaryFiller()), 
+                    new DictionarySpecification()));
             // Exercise system
             var result = sut.Create<Dictionary<int, string>>();
             // Verify outcome
@@ -5023,7 +5058,13 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var sut = new Fixture();
-            sut.Customizations.Add(new FilteringSpecimenBuilder(new Postprocessor(new MethodInvoker(new ModestConstructorQuery()), new DictionaryFiller()), new DictionarySpecification()));
+            sut.Customizations.Add(
+                new FilteringSpecimenBuilder(
+                    new Postprocessor(
+                        new MethodInvoker(
+                            new ModestConstructorQuery()),
+                        new DictionaryFiller()),
+                    new DictionarySpecification()));
             sut.ResidueCollectors.Add(new DictionaryRelay());
             // Exercise system
             var result = sut.Create<IDictionary<TimeSpan, Version>>();
@@ -5218,22 +5259,19 @@ namespace Ploeh.AutoFixtureUnitTest
                 relayType.Name + " not found.");
         }
 
-        [Theory]
-        [InlineData(typeof(ListSpecification), typeof(EnumerableFavoringConstructorQuery))]
-        [InlineData(typeof(HashSetSpecification), typeof(EnumerableFavoringConstructorQuery))]
-        [InlineData(typeof(CollectionSpecification), typeof(ListFavoringConstructorQuery))]
-        [InlineData(typeof(ObservableCollectionSpecification), typeof(EnumerableFavoringConstructorQuery))]
-        public void CustomizationsContainBuilderForProperConcreteMultipleTypeByDefault(
-            Type specificationType,
-            Type queryType)
+        [Fact]
+        public void CustomizationsContainBuilderForConcreteCollectionTypeByDefault()
         {
             var sut = new Fixture();
             Assert.True(sut.Customizations
                 .OfType<FilteringSpecimenBuilder>()
-                .Where(b => specificationType.IsAssignableFrom(b.Specification.GetType()))
-                .Where(b => typeof(MethodInvoker).IsAssignableFrom(b.Builder.GetType()))
-                .Select(b => (MethodInvoker)b.Builder)
-                .Where(i => queryType.IsAssignableFrom(i.Query.GetType()))
+                .Where(b => typeof(CollectionSpecification).IsAssignableFrom(b.Specification.GetType()))
+                .Where(b => typeof(Postprocessor).IsAssignableFrom(b.Builder.GetType()))
+                .Select(b => (Postprocessor)b.Builder)
+                .Where(p => p.Command is CollectionFillerCommand)
+                .Where(p => typeof(MethodInvoker).IsAssignableFrom(p.Builder.GetType()))
+                .Select(p => (MethodInvoker)p.Builder)
+                .Where(i => typeof(ModestConstructorQuery).IsAssignableFrom(i.Query.GetType()))
                 .Any());
         }
 

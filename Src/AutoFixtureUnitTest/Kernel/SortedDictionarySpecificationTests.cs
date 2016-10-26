@@ -14,7 +14,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system
+#pragma warning disable 618
             var sut = new SortedDictionarySpecification();
+#pragma warning restore 618
             // Verify outcome
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
             // Teardown
@@ -39,7 +41,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void IsSatisfiedByNonSortedSetRequestReturnsCorrectResult(object request)
         {
             // Fixture setup.
+#pragma warning disable 618
             var sut = new SortedDictionarySpecification();
+#pragma warning restore 618
             // Exercise system
             var result = sut.IsSatisfiedBy(request);
             // Verify outcome
@@ -55,7 +59,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void IsSatisfiedBySortedSetRequestReturnsCorrectResult(object request)
         {
             // Fixture setup
+#pragma warning disable 618
             var sut = new SortedDictionarySpecification();
+#pragma warning restore 618
             // Exercise system
             var result = sut.IsSatisfiedBy(request);
             // Verify outcome

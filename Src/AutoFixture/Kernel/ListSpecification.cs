@@ -7,6 +7,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Encapsulates logic that determines whether a request is a request for a
     /// <see cref="List{T}"/>.
     /// </summary>
+    [Obsolete("Please move over to using CollectionSpecification as that class now generically handles the List functionality.")]
     public class ListSpecification : IRequestSpecification
     {
         /// <summary>

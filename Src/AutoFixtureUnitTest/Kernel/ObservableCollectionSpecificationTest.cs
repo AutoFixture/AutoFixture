@@ -14,7 +14,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system
+#pragma warning disable 618
             var sut = new ObservableCollectionSpecification();
+#pragma warning restore 618
             // Verify outcome
             Assert.IsAssignableFrom<IRequestSpecification>(sut);
             // Teardown
@@ -35,7 +37,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void IsSatisfiedByNonEnumerableRequestReturnsCorrectResult(object request)
         {
             // Fixture setup
+#pragma warning disable 618
             var sut = new ObservableCollectionSpecification();
+#pragma warning restore 618
             // Exercise system
             var result = sut.IsSatisfiedBy(request);
             // Verify outcome
@@ -51,7 +55,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void IsSatisfiedByEnumerableNonObservableRequestReturnsCorrectResult(Type request)
         {
             // Fixture setup
+#pragma warning disable 618
             var sut = new ObservableCollectionSpecification();
+#pragma warning restore 618
             // Exercise system
             var result = sut.IsSatisfiedBy(request);
             // Verify outcome
@@ -67,7 +73,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void IsSatisfiedByEnumerableRequestReturnsCorrectResult(Type request)
         {
             // Fixture setup
+#pragma warning disable 618
             var sut = new ObservableCollectionSpecification();
+#pragma warning restore 618
             // Exercise system
             var result = sut.IsSatisfiedBy(request);
             // Verify outcome
