@@ -1773,5 +1773,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                     throw new ArgumentNullException("arg1");
             }
         }
+
+        [Fact]
+        public void VerifyOnAbstractMethodDoesNotThrow()
+        {
+            var method = typeof(AbstractTypeWithAbstractMethod)
+                .GetMethod("Method");
+            var sut = new GuardClauseAssertion(new Fixture());
+            sut.Verify(method);
+        }
+
+        private abstract class AbstractTypeWithAbstractMethod
+        {
+            public abstract void Method(object arg);
+        }
     }
 }
