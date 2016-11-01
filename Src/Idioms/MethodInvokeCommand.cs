@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Globalization;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
@@ -80,7 +81,8 @@ namespace Ploeh.AutoFixture.Idioms
         /// </remarks>
         public void Execute(object value)
         {
-            this.method.Invoke(this.expansion.Expand(value));
+            var result = this.method.Invoke(this.expansion.Expand(value)) as IEnumerable;
+            result?.GetEnumerator().MoveNext();
         }
 
         /// <summary>

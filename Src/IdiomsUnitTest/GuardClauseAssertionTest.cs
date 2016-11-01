@@ -447,16 +447,14 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [InlineData(typeof(ClassWithDeferredNullGuard))]
         [InlineData(typeof(ClassWithDeferredGuidGuard))]
         [InlineData(typeof(ClassWithDeferredGuidGuardReturningEnumerator))]
-        public void VerifyMethodWithDeferredGuardThrowsExceptionWithExtraHelpfulMessage(
+        public void VerifyMethodWithDeferredGuardDoesNotThrow(
             Type type)
         {
             // Fixture setup
             var sut = new GuardClauseAssertion(new Fixture());
             var method = type.GetMethod("GetValues");
             // Exercise system and verify outcome
-            var e =
-                Assert.Throws<GuardClauseException>(() => sut.Verify(method));
-            Assert.Contains("deferred", e.Message);
+            Assert.DoesNotThrow(() => sut.Verify(method));
             // Teardown
         }
 
