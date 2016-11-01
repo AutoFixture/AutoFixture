@@ -446,7 +446,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Theory]
         [InlineData(typeof(ClassWithDeferredNullGuard))]
         [InlineData(typeof(ClassWithDeferredGuidGuard))]
-        [InlineData(typeof(ClassWithDeferredGuidGuardReturningEnumerator))]
         public void VerifyMethodWithDeferredGuardDoesNotThrow(
             Type type)
         {
@@ -484,6 +483,21 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 yield return someGuid;
                 yield return someGuid;
             }
+        }
+
+        [Theory]
+        [InlineData(typeof(ClassWithDeferredGuidGuardReturningEnumerator))]
+        public void VerifyMethodWithDeferredGuardThrowsExceptionWithExtraHelpfulMessage(
+            Type type)
+        {
+            // Fixture setup
+            var sut = new GuardClauseAssertion(new Fixture());
+            var method = type.GetMethod("GetValues");
+            // Exercise system and verify outcome
+            var e =
+                Assert.Throws<GuardClauseException>(() => sut.Verify(method));
+            Assert.Contains("deferred", e.Message);
+            // Teardown
         }
 
         private class ClassWithDeferredGuidGuardReturningEnumerator
@@ -654,7 +668,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             public Dictionary<string, string> GetValues(string someString)
             {
-                return new Dictionary<string, string> 
+                return new Dictionary<string, string>
                 {
                     { "uniqueKey1", someString },
                     { "uniqueKey2", someString }
@@ -990,7 +1004,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                     mockVerification = true;
                 }
             };
-            
+
             var sut = new GuardClauseAssertion(fixture, behaviorExpectation);
             var methodInfo = typeof(DynamicInstanceTestConstraint<>).GetMethod("Method");
             // Exercise system
@@ -1096,7 +1110,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
                 return System.Threading.Tasks.Task.Factory.StartNew(() => obj.ToString());
             }
-            
+
             public System.Threading.Tasks.Task TaskWithCorrectGuardClause(object obj)
             {
                 if (obj == null)
@@ -1698,7 +1712,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             public void Method<T2>(ref T2 argument) where T2 : class
             {
             }
-            
+
             public void Method(ref T1 argument1, int argument2)
             {
             }
