@@ -485,12 +485,11 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             }
         }
 
-        [Theory]
-        [InlineData(typeof(ClassWithDeferredGuidGuardReturningEnumerator))]
-        public void VerifyMethodWithDeferredGuardThrowsExceptionWithExtraHelpfulMessage(
-            Type type)
+        [Fact]
+        public void VerifyMethodWithDeferredGuardThrowsExceptionWithExtraHelpfulMessage()
         {
             // Fixture setup
+            var type = typeof (ClassWithDeferredGuidGuardReturningEnumerator);
             var sut = new GuardClauseAssertion(new Fixture());
             var method = type.GetMethod("GetValues");
             // Exercise system and verify outcome
