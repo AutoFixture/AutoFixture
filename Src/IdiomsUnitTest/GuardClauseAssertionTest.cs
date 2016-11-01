@@ -475,7 +475,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             public IEnumerable<Guid> GetValues(Guid someGuid)
             {
-                if (someGuid == null)
+                if (someGuid == Guid.Empty)
                     throw new ArgumentException(
                         "Guid.Empty not allowed.",
                         "someGuid");
@@ -490,7 +490,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             public IEnumerator<Guid> GetValues(Guid someGuid)
             {
-                if (someGuid == null)
+                if (someGuid == Guid.Empty)
                     throw new ArgumentException(
                         "Guid.Empty not allowed.",
                         "someGuid");
