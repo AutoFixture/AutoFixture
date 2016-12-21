@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         {
             callResult = null;
 
-            var result = CallResults.LastOrDefault(c => c.IsResultFor(call));
+            var result = CallResults.Reverse().FirstOrDefault(c => c.IsResultFor(call));
             if (result == null) return false;
 
             callResult = result.Result;

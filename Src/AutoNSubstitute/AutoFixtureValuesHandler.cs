@@ -75,7 +75,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             //Resolve ref/out parameter values.
             List<Tuple<int, object>> argumentValues = null;
 
-            var parameterInfos = call.GetParameterInfos();
+            var parameterInfos = call.GetMethodInfo().GetParameters();
             for (var i = 0; i < parameterInfos.Length; i++)
             {
                 var parameterInfo = parameterInfos[i];
@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 if (!parameterInfo.ParameterType.IsByRef) continue;
                 if (argumentValues == null) argumentValues = new List<Tuple<int, object>>();
 
-                //Unwrap parameter type, becase it is Type&
+                //Unwrap parameter type, because it is Type&
                 var value = SpecimenContext.Resolve(parameterInfo.ParameterType.GetElementType());
                 argumentValues.Add(Tuple.Create(i, value));
             }

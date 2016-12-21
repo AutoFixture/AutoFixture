@@ -150,7 +150,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void GenericMethodsAreIgnored()
+        public void GenericMethodsAreSetup()
         {
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
@@ -158,7 +158,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Exercise system and verify outcome
             var result = fixture.Create<IInterfaceWithGenericMethod>();
 
-            Assert.NotEqual(frozenString, result.GenericMethod<string>());
+            Assert.Equal(frozenString, result.GenericMethod<string>());
         }
 
         [Fact]
@@ -309,7 +309,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void VoidMethodsAreIgnored()
+        public void VoidMethodsAreSetup()
         {
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenInt = fixture.Freeze<int>();
@@ -318,7 +318,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             int result;
             substitute.Method(out result);
 
-            Assert.NotEqual(frozenInt, result);
+            Assert.Equal(frozenInt, result);
         }
 
         [Fact]
@@ -448,7 +448,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public void PropertiesOmittingSpecimenReturnsCorrectResult()
         {
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
-            fixture.Customizations.Add(new Omitter(new ExactTypeSpecification(typeof(string))));
+            fixture.Customizations.Add(new Omitter(new PropertySpecification(typeof(string), nameof(IInterfaceWithProperty.Property))));
             var sut = fixture.Create<IInterfaceWithProperty>();
 
             var result = sut.Property;
@@ -581,6 +581,27 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             task.Start(new InlineOnQueueTaskScheduler());
 
             task.Wait();
+        }
+
+        [Fact]
+        public void PropertiesAreResolvedUsingPropertyRequests()
+        {
+            //arrange
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var expectedResult = fixture.Create<string>();
+
+            fixture.Customizations.Insert(0,
+                new FilteringSpecimenBuilder(
+                    new FixedBuilder(expectedResult),
+                    new PropertySpecification(typeof(string), nameof(IInterfaceWithProperty.Property))));
+
+            var subs = fixture.Create<IInterfaceWithProperty>();
+
+            //act
+            var actualResult = subs.Property;
+
+            //assert
+            Assert.Equal(expectedResult, actualResult);
         }
 
 
