@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NSubstitute.Core;
-using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute
 {
@@ -12,19 +10,18 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     /// </summary>
     public class AutoFixtureValuesHandler : ICallHandler
     {
-        private static readonly Tuple<int, object>[] EmptyValues = new Tuple<int, object>[0];
-
-        private ICallSpecificationFactory CallSpecificationFactory { get; }
-        private IResultsCache ResultsCache { get; }
-        private ISpecimenContext SpecimenContext { get; }
+        public ICallSpecificationFactory CallSpecificationFactory { get; }
+        public IResultsCache ResultsCache { get; }
+        public ICallResultResolver ResultResolver { get; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="AutoFixtureValuesHandler"/> with
         /// related specimen context, results cache and specification factory.
         /// </summary>
-        public AutoFixtureValuesHandler(ISpecimenContext specimenContext, IResultsCache resultsCache, ICallSpecificationFactory callSpecificationFactory)
+        public AutoFixtureValuesHandler(ICallResultResolver resultResolver, IResultsCache resultsCache,
+            ICallSpecificationFactory callSpecificationFactory)
         {
-            SpecimenContext = specimenContext;
+            ResultResolver = resultResolver;
             ResultsCache = resultsCache;
             CallSpecificationFactory = callSpecificationFactory;
         }
@@ -35,11 +32,11 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         public RouteAction Handle(ICall call)
         {
             //Don't care about concurrency. If race condition happened, use the latest result only.
-            CachedCallResult cachedResult;
+            CallResultData cachedResult;
             if (!ResultsCache.TryGetResult(call, out cachedResult))
             {
-                cachedResult = ResolveResultForCall(call);
-                var callSpec  = CallSpecificationFactory.CreateFrom(call, MatchArgs.AsSpecifiedInCall);
+                cachedResult = ResultResolver.ResolveResult(call);
+                var callSpec = CallSpecificationFactory.CreateFrom(call, MatchArgs.AsSpecifiedInCall);
 
                 ResultsCache.AddResult(callSpec, cachedResult);
             }
@@ -52,57 +49,13 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 var resolvedValue = argumentValue.Item2;
 
                 //If ref/out value has been already modified (e.g. by When..Do), don't override that value.
-                if (ArgValueWasModified(callArguments[argIndex], originalArguments[argIndex])) continue;
-
-                if (!(resolvedValue is OmitSpecimen))
+                if (!ArgValueWasModified(callArguments[argIndex], originalArguments[argIndex]))
                 {
                     callArguments[argIndex] = resolvedValue;
                 }
             }
 
-            if (cachedResult.ReturnValue is OmitSpecimen)
-            {
-                return RouteAction.Continue();
-            }
-
-            return RouteAction.Return(cachedResult.ReturnValue);
-        }
-
-        private CachedCallResult ResolveResultForCall(ICall call)
-        {
-            var returnValue = ResolveReturnValue(call);
-
-            //Resolve ref/out parameter values.
-            List<Tuple<int, object>> argumentValues = null;
-
-            var parameterInfos = call.GetMethodInfo().GetParameters();
-            for (var i = 0; i < parameterInfos.Length; i++)
-            {
-                var parameterInfo = parameterInfos[i];
-
-                if (!parameterInfo.ParameterType.IsByRef) continue;
-                if (argumentValues == null) argumentValues = new List<Tuple<int, object>>();
-
-                //Unwrap parameter type, because it is Type&
-                var value = SpecimenContext.Resolve(parameterInfo.ParameterType.GetElementType());
-                argumentValues.Add(Tuple.Create(i, value));
-            }
-
-            return new CachedCallResult(returnValue, argumentValues?.ToArray() ?? EmptyValues);
-        }
-
-        private object ResolveReturnValue(ICall call)
-        {
-            if (call.GetReturnType() == typeof(void)) return null;
-
-            //If this is a call to property getter, we resolve PropertyInfo rather than Type.
-            var propertyInfo = call.GetMethodInfo().GetPropertyFromGetterCallOrNull();
-            if (propertyInfo != null)
-            {
-                return SpecimenContext.Resolve(propertyInfo);
-            }
-
-            return SpecimenContext.Resolve(call.GetReturnType());
+            return cachedResult.ReturnValue.Fold(RouteAction.Continue, RouteAction.Return);
         }
 
         private static bool ArgValueWasModified(object current, object original)

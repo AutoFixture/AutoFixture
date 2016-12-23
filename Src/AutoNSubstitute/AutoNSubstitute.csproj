@@ -68,7 +68,9 @@
     <Compile Include="AutoConfiguredNSubstituteCustomization.cs" />
     <Compile Include="AutoFixtureValuesHandler.cs" />
     <Compile Include="AutoNSubstituteCustomization.cs" />
-    <Compile Include="CachedCallResult.cs" />
+    <Compile Include="CallResultData.cs" />
+    <Compile Include="CallResultResolver.cs" />
+    <Compile Include="ICallResultResolver.cs" />
     <Compile Include="IResultsCache.cs" />
     <Compile Include="NSubstituteSealedPropertiesCommand.cs" />
     <Compile Include="Extensions\MethodInfoExtensions.cs" />

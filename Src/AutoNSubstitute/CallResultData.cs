@@ -1,16 +1,17 @@
 ﻿using System;
+using NSubstitute.Core;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute
 {
     /// <summary>
     /// Storage for a single resolved call result.
     /// </summary>
-    public class CachedCallResult
+    public class CallResultData
     {
         /// <summary>
         /// Initializes instance of the <see cref="CachedCallResult"/>
         /// </summary>
-        public CachedCallResult(object returnValue, Tuple<int, object>[] argumentValues)
+        public CallResultData(Maybe<object> returnValue, Tuple<int, object>[] argumentValues)
         {
             ReturnValue = returnValue;
             ArgumentValues = argumentValues;
@@ -19,7 +20,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// <summary>
         /// Value that should be returned.
         /// </summary>
-        public object ReturnValue { get; }
+        public Maybe<object> ReturnValue { get; }
 
         /// <summary>
         /// Ref/Out argument values. Each tuple store argument index and resolved value.

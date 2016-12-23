@@ -9,12 +9,12 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     {
         private ConcurrentQueue<ResultForCallSpec> CallResults { get; } = new ConcurrentQueue<ResultForCallSpec>();
 
-        public void AddResult(ICallSpecification callSpecification, CachedCallResult result)
+        public void AddResult(ICallSpecification callSpecification, CallResultData result)
         {
             CallResults.Enqueue(new ResultForCallSpec(callSpecification, result));
         }
 
-        public bool TryGetResult(ICall call, out CachedCallResult callResult)
+        public bool TryGetResult(ICall call, out CallResultData callResult)
         {
             callResult = null;
 
@@ -28,9 +28,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         private class ResultForCallSpec
         {
             private readonly ICallSpecification _callSpecification;
-            public CachedCallResult Result { get; }
+            public CallResultData Result { get; }
 
-            public ResultForCallSpec(ICallSpecification callSpecification, CachedCallResult result)
+            public ResultForCallSpec(ICallSpecification callSpecification, CallResultData result)
             {
                 _callSpecification = callSpecification;
                 Result = result;

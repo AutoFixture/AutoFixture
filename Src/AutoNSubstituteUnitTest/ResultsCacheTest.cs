@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         {
             //arrange
             var sut = new ResultsCache();
-            var cachedResult = new CachedCallResult(null, null);
+            var cachedResult = new CallResultData(Maybe.Nothing<object>(), null);
 
             var call = Substitute.For<ICall>();
             var callSpec = Substitute.For<ICallSpecification>();
@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             //act
             sut.AddResult(callSpec, cachedResult);
 
-            CachedCallResult retrievedResult;
+            CallResultData retrievedResult;
             var hasResult = sut.TryGetResult(call, out retrievedResult);
 
             //assert
@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         {
             //arrange
             var sut = new ResultsCache();
-            var cachedResult = new CachedCallResult(null, null);
+            var cachedResult = new CallResultData(Maybe.Nothing<object>(), null);
 
             var call = Substitute.For<ICall>();
             var callSpec1 = Substitute.For<ICallSpecification>();
@@ -43,10 +43,10 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             callSpec2.IsSatisfiedBy(call).Returns(true);
 
             //act
-            sut.AddResult(callSpec1, new CachedCallResult(null, null));
+            sut.AddResult(callSpec1, new CallResultData(Maybe.Nothing<object>(), null));
             sut.AddResult(callSpec2, cachedResult);
 
-            CachedCallResult retrievedResult;
+            CallResultData retrievedResult;
             var hasResult = sut.TryGetResult(call, out retrievedResult);
 
             //assert
@@ -64,12 +64,12 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var callSpec = Substitute.For<ICallSpecification>();
             callSpec.IsSatisfiedBy(call).Returns(false);
 
-            var cachedResult = new CachedCallResult(null, null);
+            var cachedResult = new CallResultData(Maybe.Nothing<object>(), null);
 
             //act
             sut.AddResult(callSpec, cachedResult);
 
-            CachedCallResult retrievedResult;
+            CallResultData retrievedResult;
             var hasResult = sut.TryGetResult(call, out retrievedResult);
 
             //assert

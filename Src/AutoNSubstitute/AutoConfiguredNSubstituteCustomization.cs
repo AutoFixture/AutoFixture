@@ -1,4 +1,5 @@
 ﻿using System;
+using NSubstitute.Core;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute
@@ -42,11 +43,13 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         {
             if (fixture == null) throw new ArgumentNullException(nameof(fixture));
 
+            var substitutionContext = SubstitutionContext.Current;
+
             fixture.Customizations.Insert(0, 
                 new Postprocessor(
                     new SubstituteRequestHandler(new MethodInvoker(new NSubstituteMethodQuery())),
                     new CompositeSpecimenCommand(
-                        new NSubstituteRegisterCallHandlerCommand(),
+                        new NSubstituteRegisterCallHandlerCommand(substitutionContext),
                         new NSubstituteSealedPropertiesCommand())));
             fixture.Customizations.Insert(0, new SubstituteAttributeRelay());
             fixture.ResidueCollectors.Add(Builder);

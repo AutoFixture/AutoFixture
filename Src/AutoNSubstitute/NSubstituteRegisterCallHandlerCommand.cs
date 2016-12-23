@@ -24,6 +24,13 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     /// </remarks>
     public class NSubstituteRegisterCallHandlerCommand : ISpecimenCommand
     {
+        public ISubstitutionContext SubstitutionContext { get; }
+
+        public NSubstituteRegisterCallHandlerCommand(ISubstitutionContext substitutionContext)
+        {
+            SubstitutionContext = substitutionContext;
+        }
+
         public void Execute(object specimen, ISpecimenContext context)
         {
             if (specimen == null) throw new ArgumentNullException(nameof(specimen));
@@ -33,7 +40,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             try
             {
-                router = SubstitutionContext.Current.GetCallRouterFor(specimen);
+                router = SubstitutionContext.GetCallRouterFor(specimen);
             }
             catch (NotASubstituteException)
             {
@@ -41,11 +48,12 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             }
 
             var resultsCacheForSubstitution = new ResultsCache();
+            var callResultsResover = new CallResultResolver(context);
 
             router.RegisterCustomCallHandlerFactory(
                 substituteState =>
                     new AutoFixtureValuesHandler(
-                        context,
+                        callResultsResover,
                         resultsCacheForSubstitution,
                         substituteState.CallSpecificationFactory));
         }
