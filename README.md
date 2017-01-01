@@ -1,6 +1,6 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/xove2l9aj4d1rej5/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master)
 
-## Anouncement ##
+## Announcement ##
 
 [AutoFixture is getting a new governance model](https://github.com/AutoFixture/AutoFixture/issues/703). This most likely means that you can expect delays if you have questions, issues, or pull requests.
 
