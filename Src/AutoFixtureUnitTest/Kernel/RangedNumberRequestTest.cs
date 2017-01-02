@@ -114,6 +114,33 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.DoesNotThrow(() =>
                 new RangedNumberRequest(type, minimum, maximum));
             // Teardown
+        }        
+
+        [Theory]
+        [InlineData(0, 1)]
+        [InlineData(1, 1)]
+        [InlineData(-1, 0)]
+        [InlineData(4, 5)]
+        public void CreateWithOutOfRangeEnumValuesWillThrow(object minimum, object maximum)
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                new RangedNumberRequest(typeof(OneTwoThreeEnum), minimum, maximum));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(1, 3)]
+        [InlineData(1, 2)]
+        [InlineData(2, 3)]        
+        public void CreateWithInRangeEnumValuesDoesNotThrow(object minimum, object maximum)
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                new RangedNumberRequest(typeof(OneTwoThreeEnum), minimum, maximum));
+            // Teardown
         }
 
         [Fact]
@@ -290,6 +317,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             Assert.Equal(expectedHashCode, result);
             // Teardown
+        }
+
+        private enum OneTwoThreeEnum
+        {
+            First = 1,
+            Second = 2,
+            Third = 3
         }
     }
 }

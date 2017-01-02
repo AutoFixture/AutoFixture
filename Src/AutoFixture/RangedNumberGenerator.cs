@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixture
                     object target;
                     if (range.OperandType == typeof(byte) &&
                         Convert.ToInt32(
-                            this.rangedValue, 
+                            this.rangedValue,
                             CultureInfo.CurrentCulture) > byte.MaxValue ||
                         range.OperandType == typeof(short) &&
                         Convert.ToInt32(
@@ -94,11 +94,27 @@ namespace Ploeh.AutoFixture
                     else
                         target = this.rangedValue;
 
-                    this.rangedValue = Convert.ChangeType(target, range.OperandType, CultureInfo.CurrentCulture);
+                    this.rangedValue = range.OperandType.IsEnum 
+                        ? Enum.Parse(range.OperandType, target.ToString()) 
+                        : Convert.ChangeType(target, range.OperandType, CultureInfo.CurrentCulture);
                 }
 
-                if (this.rangedValue != null && (minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) > 0))
+                if (this.rangedValue != null && range.OperandType.IsEnum && !Enum.IsDefined(range.OperandType, this.rangedValue))
                 {
+                    this.rangedValue =
+                        Enum.Parse(
+                            range.OperandType,
+                            RangedNumberGenerator.Add(this.rangedValue, Enum.Parse(range.OperandType, "1")).ToString());
+
+                    if (maximum.CompareTo((int)this.rangedValue) < 0)
+                    {
+                        this.rangedValue = Enum.Parse(
+                            range.OperandType,
+                            maximum.ToString());
+                    }
+                }
+                else if (this.rangedValue != null && !range.OperandType.IsEnum && (minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) > 0))
+                {                 
                     this.rangedValue =
                         Convert.ChangeType(
                             RangedNumberGenerator.Add(
@@ -108,12 +124,12 @@ namespace Ploeh.AutoFixture
                                     range.OperandType,
                                     CultureInfo.CurrentCulture)),
                             range.OperandType,
-                            CultureInfo.CurrentCulture);
+                            CultureInfo.CurrentCulture);                    
 
                     if (maximum.CompareTo(this.rangedValue) < 0)
                     {
                         this.rangedValue = Convert.ChangeType(
-                            maximum, 
+                            maximum,
                             range.OperandType,
                             CultureInfo.CurrentCulture);
                     }
@@ -149,7 +165,16 @@ namespace Ploeh.AutoFixture
                     }
                 }
 
-                this.rangedValue = Convert.ChangeType(this.rangedValue, range.OperandType, CultureInfo.CurrentCulture);
+                if (range.OperandType.IsEnum)
+                {
+                    this.rangedValue = range.OperandType.IsEnum
+                        ? Enum.Parse(range.OperandType, rangedValue.ToString())
+                        : Convert.ChangeType(rangedValue, range.OperandType, CultureInfo.CurrentCulture);
+                }
+                else
+                {
+                    this.rangedValue = Convert.ChangeType(this.rangedValue, range.OperandType, CultureInfo.CurrentCulture);
+                }                
             }
         }
 
@@ -189,6 +214,7 @@ namespace Ploeh.AutoFixture
 
                 case TypeCode.Single:
                     return (float)a + (float)b;
+                
 
                 default:
                     throw new InvalidOperationException("The underlying type code of the specified types is not supported.");

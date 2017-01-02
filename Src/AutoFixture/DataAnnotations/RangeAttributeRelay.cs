@@ -81,11 +81,21 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 conversionType = underlyingType;
             }
 
-            return new RangedNumberRequest(
-                conversionType,
-                Convert.ChangeType(rangeAttribute.Minimum, conversionType, CultureInfo.CurrentCulture),
-                Convert.ChangeType(rangeAttribute.Maximum, conversionType, CultureInfo.CurrentCulture)
-                );
+            object minimum;
+            object maximum;
+
+            if (conversionType.IsEnum)
+            {
+                minimum = Enum.Parse(conversionType, rangeAttribute.Minimum.ToString());
+                maximum = Enum.Parse(conversionType, rangeAttribute.Maximum.ToString());
+            }
+            else
+            {
+                minimum = Convert.ChangeType(rangeAttribute.Minimum, conversionType, CultureInfo.CurrentCulture);
+                maximum = Convert.ChangeType(rangeAttribute.Maximum, conversionType, CultureInfo.CurrentCulture);
+            }
+
+            return new RangedNumberRequest(conversionType, minimum, maximum);
         }
     }
 }

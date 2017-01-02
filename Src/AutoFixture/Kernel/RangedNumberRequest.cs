@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -34,6 +35,21 @@ namespace Ploeh.AutoFixture.Kernel
             if (((IComparable)minimum).CompareTo((IComparable)maximum) >= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(minimum), "Minimum must be lower than Maximum.");
+            }
+
+            if (operandType.IsEnum)
+            {
+                if ((int)minimum < Enum.GetValues(operandType).Cast<int>().Min() 
+                    || (int)minimum > Enum.GetValues(operandType).Cast<int>().Max())
+                {
+                    throw new ArgumentOutOfRangeException(nameof(minimum), "Minimum must be within the range of enum values.");
+                }
+
+                if ((int)maximum < Enum.GetValues(operandType).Cast<int>().Min() 
+                    || (int)maximum > Enum.GetValues(operandType).Cast<int>().Max())
+                {
+                    throw new ArgumentOutOfRangeException(nameof(maximum), "Maximum must be within the range of enum values.");
+                }                
             }
 
             this.OperandType = operandType;

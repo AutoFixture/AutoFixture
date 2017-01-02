@@ -86,7 +86,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
 #pragma warning restore 618
             Assert.Equal(expectedResult, result);
             // Teardown
-        }
+        }                
 
         [Theory]
         [InlineData(typeof(int), 10, 20)]
@@ -96,7 +96,7 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         [InlineData(typeof(double), 10, 20)]
         [InlineData(typeof(double), -2, -1)]
         [InlineData(typeof(long), 10, 20)]
-        [InlineData(typeof(long), -2, -1)]
+        [InlineData(typeof(long), -2, -1)]        
         public void CreateWithRangeAttributeRequestReturnsCorrectResult(Type type, object minimum, object maximum)
         {
             // Fixture setup
@@ -125,6 +125,37 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
+        [InlineData(1, 3)]
+        [InlineData(1, 2)]
+        [InlineData(2, 3)]
+        public void CreateWithEnumRangeAttributeRequestReturnsCorrectResult(object minimum, object maximum)
+        {
+            // Fixture setup
+            var rangeAttribute = new RangeAttribute(typeof(RangeValidatedEnum), minimum.ToString(), maximum.ToString());
+            var providedAttribute = new ProvidedAttribute(rangeAttribute, true);
+            ICustomAttributeProvider request = new FakeCustomAttributeProvider(providedAttribute);
+            Type conversionType = rangeAttribute.OperandType;
+            var expectedRequest = new RangedNumberRequest(
+                conversionType,
+                Enum.Parse(conversionType, rangeAttribute.Minimum.ToString()),
+                Enum.Parse(conversionType, rangeAttribute.Maximum.ToString())
+                );
+            var expectedResult = new object();
+            var context = new DelegatingSpecimenContext
+            {
+#pragma warning disable 618
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen(r)
+#pragma warning restore 618
+            };
+            var sut = new RangeAttributeRelay();
+            // Exercise system
+            var result = sut.Create(request, context);
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }        
+
+        [Theory]
         [InlineData("Property", 10, 20)]
         [InlineData("Property", -2, -1)]
         [InlineData("Property", "10.1", "20.2")]
@@ -143,12 +174,12 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         [InlineData("NullableTypeProperty", -2, -1)]
         public void CreateWithPropertyDecoratedWithRangeAttributeReturnsCorrectResult(
             string name,
-            object attributeMinimum, 
+            object attributeMinimum,
             object attributeMaximum)
         {
             // Fixture setup
             var request = typeof(RangeValidatedType).GetProperty(name);
-            Type target = Nullable.GetUnderlyingType(request.PropertyType) 
+            Type target = Nullable.GetUnderlyingType(request.PropertyType)
                 ?? request.PropertyType;
 
             var expectedRequest = new RangedNumberRequest(
@@ -156,7 +187,51 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
                 Convert.ChangeType(RangeValidatedType.Minimum, target, CultureInfo.CurrentCulture),
                 Convert.ChangeType(RangeValidatedType.Maximum, target, CultureInfo.CurrentCulture)
                 );
-           
+
+            var expectedResult = new object();
+            var context = new DelegatingSpecimenContext
+            {
+#pragma warning disable 618
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen(r)
+#pragma warning restore 618
+            };
+            var sut = new RangeAttributeRelay();
+            // Exercise system
+            var result = sut.Create(request, context);
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData("EnumProperty", 1, 2)]
+        [InlineData("EnumProperty", 1, 3)]
+        [InlineData("EnumProperty", 2, 3)]
+        [InlineData("EnumProperty", "1", "2")]
+        [InlineData("EnumProperty", "1", "3")]
+        [InlineData("EnumProperty", "2", "3")]
+        [InlineData("NullableTypeEnumProperty", 1, 2)]
+        [InlineData("NullableTypeEnumProperty", 1, 3)]
+        [InlineData("NullableTypeEnumProperty", 2, 3)]
+        [InlineData("NullableTypeEnumProperty", "1", "2")]
+        [InlineData("NullableTypeEnumProperty", "1", "3")]
+        [InlineData("NullableTypeEnumProperty", "2", "3")]        
+        public void CreateWithEnumPropertyDecoratedWithRangeAttributeReturnsCorrectResult(
+            string name,
+            object attributeMinimum,
+            object attributeMaximum)
+        {
+            // Fixture setup
+            var request = typeof(RangeValidatedType).GetProperty(name);
+            Type target = Nullable.GetUnderlyingType(request.PropertyType)
+                ?? request.PropertyType;
+
+            var expectedRequest = new RangedNumberRequest(
+                target,                
+                Enum.Parse(target, RangeValidatedType.EnumMinimum.ToString()),
+                Enum.Parse(target, RangeValidatedType.EnumMaximum.ToString())
+                );
+
             var expectedResult = new object();
             var context = new DelegatingSpecimenContext
             {
@@ -203,6 +278,50 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
                 target,
                 Convert.ChangeType(RangeValidatedType.Minimum, target, CultureInfo.CurrentCulture),
                 Convert.ChangeType(RangeValidatedType.Maximum, target, CultureInfo.CurrentCulture)
+                );
+
+            var expectedResult = new object();
+            var context = new DelegatingSpecimenContext
+            {
+#pragma warning disable 618
+                OnResolve = r => expectedRequest.Equals(r) ? expectedResult : new NoSpecimen(r)
+#pragma warning restore 618
+            };
+            var sut = new RangeAttributeRelay();
+            // Exercise system
+            var result = sut.Create(request, context);
+            // Verify outcome
+            Assert.Equal(expectedResult, result);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData("EnumField", 1, 2)]
+        [InlineData("EnumField", 1, 3)]
+        [InlineData("EnumField", 2, 3)]
+        [InlineData("EnumField", "1", "2")]
+        [InlineData("EnumField", "1", "3")]
+        [InlineData("EnumField", "2", "3")]
+        [InlineData("NullableTypeEnumField", 1, 2)]
+        [InlineData("NullableTypeEnumField", 1, 3)]
+        [InlineData("NullableTypeEnumField", 2, 3)]
+        [InlineData("NullableTypeEnumField", "1", "2")]
+        [InlineData("NullableTypeEnumField", "1", "3")]
+        [InlineData("NullableTypeEnumField", "2", "3")]
+        public void CreateWithEnumFieldDecoratedWithRangeAttributeReturnsCorrectResult(
+            string name,
+            object attributeMinimum,
+            object attributeMaximum)
+        {
+            // Fixture setup
+            var request = typeof(RangeValidatedType).GetField(name);
+            Type target = Nullable.GetUnderlyingType(request.FieldType)
+                ?? request.FieldType;
+
+            var expectedRequest = new RangedNumberRequest(
+                target,
+                Enum.Parse(target, RangeValidatedType.EnumMinimum.ToString()),
+                Enum.Parse(target, RangeValidatedType.EnumMaximum.ToString())
                 );
 
             var expectedResult = new object();

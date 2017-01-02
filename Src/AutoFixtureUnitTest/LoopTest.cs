@@ -15,7 +15,18 @@ namespace Ploeh.AutoFixtureUnitTest
 
         public void Execute(int loopCount)
         {
-            Execute(loopCount, (TResult)Convert.ChangeType(loopCount, typeof(TResult)));
+            TResult expectedResult;
+
+            if (typeof(TResult).IsEnum)
+            {
+                expectedResult = (TResult)Enum.Parse(typeof(TResult), loopCount.ToString());
+            }
+            else
+            {
+                expectedResult = (TResult)Convert.ChangeType(loopCount, typeof(TResult));
+            }            
+
+            Execute(loopCount, expectedResult);
         }
 
         public void Execute(int loopCount, TResult expectedResult)
