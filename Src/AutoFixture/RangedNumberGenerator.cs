@@ -207,7 +207,7 @@ namespace Ploeh.AutoFixture
 
                 case TypeCode.Single:
                     return (float)a + (float)b;
-                
+
                 default:
                     throw new InvalidOperationException("The underlying type code of the specified types is not supported.");
             }
