@@ -84,7 +84,7 @@ namespace Ploeh.AutoFixture
                     object target;
                     if (range.OperandType == typeof(byte) &&
                         Convert.ToInt32(
-                            this.rangedValue,
+                            this.rangedValue, 
                             CultureInfo.CurrentCulture) > byte.MaxValue ||
                         range.OperandType == typeof(short) &&
                         Convert.ToInt32(
@@ -124,12 +124,12 @@ namespace Ploeh.AutoFixture
                                     range.OperandType,
                                     CultureInfo.CurrentCulture)),
                             range.OperandType,
-                            CultureInfo.CurrentCulture);                    
+                            CultureInfo.CurrentCulture);
 
                     if (maximum.CompareTo(this.rangedValue) < 0)
                     {
                         this.rangedValue = Convert.ChangeType(
-                            maximum,
+                            maximum, 
                             range.OperandType,
                             CultureInfo.CurrentCulture);
                     }
@@ -208,7 +208,6 @@ namespace Ploeh.AutoFixture
                 case TypeCode.Single:
                     return (float)a + (float)b;
                 
-
                 default:
                     throw new InvalidOperationException("The underlying type code of the specified types is not supported.");
             }
