@@ -113,7 +113,8 @@ namespace Ploeh.AutoFixture
                             maximum.ToString());
                     }
                 }
-                else if (this.rangedValue != null && !range.OperandType.IsEnum && (minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) > 0))
+                else if (this.rangedValue != null && !range.OperandType.IsEnum 
+                    && minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) > 0)
                 {                 
                     this.rangedValue =
                         Convert.ChangeType(

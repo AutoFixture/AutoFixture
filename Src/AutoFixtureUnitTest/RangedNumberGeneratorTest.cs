@@ -522,9 +522,12 @@ namespace Ploeh.AutoFixtureUnitTest
                     expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(ushort), 10, 20)));
 #pragma warning restore 618
 
-                yield return CreateTestCase(operandType: typeof(RangeValidatedEnum), minimum: 1, maximum: 3, contextValue: 1, expectedResult: RangeValidatedEnum.First);
-                yield return CreateTestCase(operandType: typeof(RangeValidatedEnum), minimum: 1, maximum: 3, contextValue: 2, expectedResult: RangeValidatedEnum.Second);
-                yield return CreateTestCase(operandType: typeof(RangeValidatedEnum), minimum: 1, maximum: 3, contextValue: 3, expectedResult: RangeValidatedEnum.Third);
+                yield return CreateTestCase(operandType: typeof(RangeValidatedEnum), minimum: 1, maximum: 3, contextValue: 1, 
+                    expectedResult: RangeValidatedEnum.First);
+                yield return CreateTestCase(operandType: typeof(RangeValidatedEnum), minimum: 1, maximum: 3, contextValue: 2, 
+                    expectedResult: RangeValidatedEnum.Second);
+                yield return CreateTestCase(operandType: typeof(RangeValidatedEnum), minimum: 1, maximum: 3, contextValue: 3, 
+                    expectedResult: RangeValidatedEnum.Third);
                 yield return CreateTestCase(operandType: typeof(RangeValidatedEnum), minimum: 1, maximum: 3, contextValue: new object(),
 #pragma warning disable 618
                     expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(RangeValidatedEnum), 1, 3)));
