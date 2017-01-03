@@ -1,5 +1,6 @@
 ﻿using System;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.AutoFixtureUnitTest.DataAnnotations;
 using Xunit;
 using Xunit.Extensions;
 
@@ -126,7 +127,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentOutOfRangeException>(() =>
-                new RangedNumberRequest(typeof(OneTwoThreeEnum), minimum, maximum));
+                new RangedNumberRequest(typeof(RangeValidatedEnum), minimum, maximum));
             // Teardown
         }
 
@@ -139,7 +140,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() =>
-                new RangedNumberRequest(typeof(OneTwoThreeEnum), minimum, maximum));
+                new RangedNumberRequest(typeof(RangeValidatedEnum), minimum, maximum));
             // Teardown
         }
 
@@ -317,13 +318,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             Assert.Equal(expectedHashCode, result);
             // Teardown
-        }
-
-        private enum OneTwoThreeEnum
-        {
-            First = 1,
-            Second = 2,
-            Third = 3
-        }
+        }        
     }
 }
