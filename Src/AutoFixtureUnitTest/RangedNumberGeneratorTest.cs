@@ -107,7 +107,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system and verify outcome
             loopTest.Execute(loopCount);
             // Teardown
-        }        
+        }
 
         [Theory]
         [InlineData(10.1, 20.2)]
