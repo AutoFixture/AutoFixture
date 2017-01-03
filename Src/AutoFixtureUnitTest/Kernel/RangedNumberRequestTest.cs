@@ -318,6 +318,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Verify outcome
             Assert.Equal(expectedHashCode, result);
             // Teardown
-        }        
+        }
     }
 }
