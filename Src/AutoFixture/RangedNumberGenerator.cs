@@ -103,10 +103,10 @@ namespace Ploeh.AutoFixture
                 {
                     this.rangedValue =
                         Enum.Parse(
-                            range.OperandType,
+                            range.OperandType,                            
                             RangedNumberGenerator.Add(this.rangedValue, Enum.Parse(range.OperandType, "1")).ToString());
 
-                    if (maximum.CompareTo((int)this.rangedValue) < 0)
+                    if (((int)maximum).CompareTo((int)this.rangedValue) < 0)
                     {
                         this.rangedValue = Enum.Parse(
                             range.OperandType,
