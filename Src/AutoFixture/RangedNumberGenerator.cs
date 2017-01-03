@@ -165,16 +165,9 @@ namespace Ploeh.AutoFixture
                     }
                 }
 
-                if (range.OperandType.IsEnum)
-                {
-                    this.rangedValue = range.OperandType.IsEnum
-                        ? Enum.Parse(range.OperandType, rangedValue.ToString())
-                        : Convert.ChangeType(rangedValue, range.OperandType, CultureInfo.CurrentCulture);
-                }
-                else
-                {
-                    this.rangedValue = Convert.ChangeType(this.rangedValue, range.OperandType, CultureInfo.CurrentCulture);
-                }                
+                this.rangedValue = range.OperandType.IsEnum
+                    ? Enum.Parse(range.OperandType, rangedValue.ToString())
+                    : Convert.ChangeType(rangedValue, range.OperandType, CultureInfo.CurrentCulture);                                
             }
         }
 
