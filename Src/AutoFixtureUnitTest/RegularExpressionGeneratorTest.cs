@@ -61,7 +61,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create(request, dummyContext);
             // Verify outcome
-            Assert.True(Regex.IsMatch(result.ToString(), pattern), string.Format("result: {0}", result));
+            Assert.True(Regex.IsMatch(result.ToString(), pattern, RegexOptions.Singleline), string.Format("result: {0}", result));
             // Teardown
         }
 
