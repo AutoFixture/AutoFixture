@@ -71,12 +71,12 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         {
             // Fixture setup
             var customizations = new List<ISpecimenBuilder>();
-            var fixtureStub = new Fake<IFixture>();
-            fixtureStub.CallsTo(c => c.Customizations).Returns(customizations);
+            var fixtureStub = A.Fake<IFixture>();
+            A.CallTo(() => fixtureStub.Customizations).Returns(customizations);
 
             var sut = new AutoFakeItEasyCustomization();
             // Exercise system
-            sut.Customize(fixtureStub.FakedObject);
+            sut.Customize(fixtureStub);
             // Verify outcome
             var postprocessor = customizations.OfType<FakeItEasyBuilder>().Single();
             var ctorInvoker = Assert.IsAssignableFrom<MethodInvoker>(postprocessor.Builder);
@@ -89,12 +89,12 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         {
             // Fixture setup
             var residueCollectors = new List<ISpecimenBuilder>();
-            var fixtureStub = new Fake<IFixture>();
-            fixtureStub.CallsTo(c => c.ResidueCollectors).Returns(residueCollectors);
-            
+            var fixtureStub = A.Fake<IFixture>();
+            A.CallTo(() => fixtureStub.ResidueCollectors).Returns(residueCollectors);
+
             var sut = new AutoFakeItEasyCustomization();
             // Exercise system
-            sut.Customize(fixtureStub.FakedObject);
+            sut.Customize(fixtureStub);
             // Verify outcome
             Assert.Contains(sut.Relay, residueCollectors);
             // Teardown

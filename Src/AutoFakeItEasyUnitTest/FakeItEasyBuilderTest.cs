@@ -1,5 +1,6 @@
 ﻿using System;
 using FakeItEasy;
+using FakeItEasy.ExtensionSyntax.Full;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
@@ -70,12 +71,12 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         {
             // Fixture setup
             var request = typeof(Fake<object>);
-            var context = new Fake<ISpecimenContext>().FakedObject;
+            var context = A.Fake<ISpecimenContext>();
 
-            var builderStub = new Fake<ISpecimenBuilder>();
+            var builderStub = A.Fake<ISpecimenBuilder>();
             builderStub.CallsTo(b => b.Create(request, context)).Returns(new Fake<object>());
 
-            var sut = new FakeItEasyBuilder(builderStub.FakedObject);
+            var sut = new FakeItEasyBuilder(builderStub);
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome
@@ -89,11 +90,11 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void CreateWithFakeRequestReturnsCorrectResultWhenContextReturnsNonFake(Type request, object contextValue)
         {
             // Fixture setup
-            var context = new Fake<ISpecimenContext>().FakedObject;
-            var builderStub = new Fake<ISpecimenBuilder>();
+            var context = A.Fake<ISpecimenContext>();
+            var builderStub = A.Fake<ISpecimenBuilder>();
             builderStub.CallsTo(b => b.Create(request, context))
                 .Returns(contextValue);
-            var sut = new FakeItEasyBuilder(builderStub.FakedObject);
+            var sut = new FakeItEasyBuilder(builderStub);
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome
@@ -110,12 +111,12 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         public void CreateFromFakeRequestWhenDecoratedBuilderReturnsNoFakeReturnsCorrectResult(object request, object innerResult)
         {
             // Fixture setup
-            var context = new Fake<ISpecimenContext>().FakedObject;
+            var context = A.Fake<ISpecimenContext>();
 
-            var builderStub = new Fake<ISpecimenBuilder>();
+            var builderStub = A.Fake<ISpecimenBuilder>();
             builderStub.CallsTo(b => b.Create(request, context)).Returns(innerResult);
 
-            var sut = new FakeItEasyBuilder(builderStub.FakedObject);
+            var sut = new FakeItEasyBuilder(builderStub);
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome
@@ -131,12 +132,12 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
         {
             // Fixture setup
             var request = typeof(Fake<IInterface>);
-            var context = new Fake<ISpecimenContext>().FakedObject;
+            var context = A.Fake<ISpecimenContext>();
 
-            var builderStub = new Fake<ISpecimenBuilder>();
-            builderStub.CallsTo(b => b.Create(request, context)).Returns(new Fake<AbstractType>());
+            var builderStub = A.Fake<ISpecimenBuilder>();
+            builderStub.CallsTo(b => b.Create(request, context)).Returns(A.Fake<AbstractType>());
 
-            var sut = new FakeItEasyBuilder(builderStub.FakedObject);
+            var sut = new FakeItEasyBuilder(builderStub);
             // Exercise system
             var result = sut.Create(request, context);
             // Verify outcome
