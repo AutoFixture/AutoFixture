@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -26,7 +27,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return false;
             }
             
-            return type.IsGenericType && typeof(SortedList<,>) == type.GetGenericTypeDefinition();
+            return type.IsGenericType() && typeof(SortedList<,>) == type.GetGenericTypeDefinition();
         }
     }
 }
