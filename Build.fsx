@@ -138,6 +138,40 @@ Target "NuGetPack" (fun _ ->
                                                    SymbolPackage = NugetSymbolPackage.Nuspec }) f)
 )
 
+let publishPackagesToNuGet apiFeed symbolFeed nugetKey =
+    let packages = !! (sprintf "%s/*.nupkg" nuGetOutputFolder)     
+
+    packages
+    |> Seq.map (fun p ->
+        let isSymbolPackage = p.EndsWith "symbols.nupkg"
+        let feed =
+            match isSymbolPackage with
+            | true -> symbolFeed
+            | false -> apiFeed
+
+        let meta = GetMetaDataFromPackageFile p
+        let version = 
+            match isSymbolPackage with
+            | true -> sprintf "%s.symbols" meta.Version
+            | false -> meta.Version
+
+        (meta.Id, version, feed))
+    |> Seq.iter (fun (id, version, feed) -> NuGetPublish (fun p -> { p with PublishUrl = feed
+                                                                            AccessKey = nugetKey
+                                                                            OutputPath = nuGetOutputFolder
+                                                                            Project = id
+                                                                            Version = version }))    
+
+Target "PublishNuGetPreRelease" (fun _ -> publishPackagesToNuGet 
+                                            "https://www.myget.org/F/autofixture/api/v2/package" 
+                                            "https://www.myget.org/F/autofixture/symbols/api/v2/package"
+                                            (getBuildParam "NuGetPreReleaseKey"))
+
+Target "PublishNuGetRelease" (fun _ -> publishPackagesToNuGet
+                                            "https://www.nuget.org/api/v2/package"
+                                            "https://nuget.smbsrc.net/"
+                                            (getBuildParam "NuGetReleaseKey"))
+
 Target "CompleteBuild" (fun _ -> ())
 
 "CleanVerify"  ==> "CleanAll"
@@ -161,6 +195,11 @@ Target "CompleteBuild" (fun _ -> ())
 
 "CleanNuGetPackages"  ==> "NuGetPack"
 "CopyToReleaseFolder" ==> "NuGetPack"
+
+"NuGetPack" ==> "PublishNuGetRelease"
+"NuGetPack" ==> "PublishNuGetPreRelease"
+
+"PublishNuGetPreRelease" ==> "PublishNuGetRelease"
 
 "NuGetPack" ==> "CompleteBuild"
 
