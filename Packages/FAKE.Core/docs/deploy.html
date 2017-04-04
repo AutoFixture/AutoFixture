@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- 
+      The Deployment using FAKE
+ parameters will be replaced with the 
+      document title extracted from the <h1> element or
+      file name, if there is no <h1> heading
+    -->
+    <title>Deployment using FAKE
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FAKE - F# Make">
+    <meta name="author" content="Steffen Forkmann, Mauricio Scheffer, Colin Bull">
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="content/style.css" />
+    <script src="content/tips.js" type="text/javascript"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/fsharp/FAKE">github page</a></li>
+        </ul>
+        <h3 class="muted">FAKE - F# Make</h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          <h1>Deployment using FAKE</h1>
+<p>This introduction assumes Fake.Deploy.exe is available in the current directory or path.</p>
+<h2>Introduction</h2>
+<p>The FAKE deployment tool allows users to deploy applications to remote computers and to run scripts on these remote agents. A typical scenario maybe as follows:</p>
+<ul>
+<li>Build an application -&gt; run tests -&gt; create artifacts and save on build server (Classical FAKE build workflow)</li>
+<li>Extract artifacts from build server and create a NuGet deployment package</li>
+<li>Push the NuGet package to the desired computer this will run the package's FAKE script on the remote machine</li>
+</ul>
+<h2>Installing Fake deployment services</h2>
+<p>In order to deploy application to a remote computer a deployment agent needs to be running on that server.</p>
+<p>The simplest way to install the agent on a remote server is to use the <a href="http://docs.nuget.org/consume/installing-nuget">Nuget command line tool</a> to download the FAKE nuget and extract the binaries into a <em>fake/tools</em> subfolder.  Once  <em>nuget.exe</em> is available on the path, use the following command in a command shell:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip"><code lang="batchfile">nuGet.exe Install FAKE -ExcludeVersion
+</code></pre></td></tr></table>
+<p>Adding the <em>.../fake/tools</em> folder to the path will simplify executing the Fake.Deploy.exe.</p>
+<p>To run an agent in a console, simply run:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Fake</span><span class="o">.</span><span class="i">Deploy</span>
+</code></pre></td>
+</tr>
+</table>
+<p>To install a windows service on that agent:</p>
+<ul>
+<li>Open a command prompt with Administrator Privilege</li>
+<li>Run Fake.Deploy /install</li>
+</ul>
+<p>By default the service starts a listener on port 8080. This can however be configured by editing the Fake.Deploy.exe.config file
+and changing</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="o">&lt;</span><span class="i">add</span> <span class="i">key</span><span class="o">=</span><span class="s">&quot;ServerName&quot;</span> <span class="i">value</span><span class="o">=</span><span class="s">&quot;localhost&quot;</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="i">add</span> <span class="i">key</span><span class="o">=</span><span class="s">&quot;Port&quot;</span> <span class="i">value</span><span class="o">=</span><span class="s">&quot;8080&quot;</span> <span class="o">/&gt;</span>
+</code></pre></td>
+</tr>
+</table>
+<p>to the desired value. If you use the asterisk as port no. then Fake.Deploy will assign the first open port behind of 8080.</p>
+<p>To ensure the service is running you can navigate to <a href="http://{computer}:{port}/fake/">http://{computer}:{port}/fake/</a> and you should be presented with a page giving the
+status if the service</p>
+<h2>Uninstalling Fake deployment services</h2>
+<p>To uninstall an agent</p>
+<ul>
+<li>Open a command prompt with Administrator Privilege</li>
+<li>Run Fake.Deploy /uninstall</li>
+</ul>
+<h2>Running a FAKE Deployment Package</h2>
+<h2>Getting help</h2>
+<p>If you want to learn about Fake.Deploy's command line switches then run:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Fake</span><span class="o">.</span><span class="i">Deploy</span> <span class="o">/</span><span class="i">help</span>
+</code></pre></td>
+</tr>
+</table>
+<h2>Creating a Deployment package</h2>
+<p>Since Fake.Deploy uses Nuget packages for deployment you only need to create one of those and include a .fsx file in the root folder of the package.</p>
+<p>Instructions for creating nuget packages can be found <a href="http://docs.nuget.org/docs/creating-packages/creating-and-publishing-a-package">at the NuGet document page</a></p>
+<h2>Running deployment</h2>
+<p>Fake deployment packages can be run manually on the current machine or they can be pushed to an agent on a remote machine.</p>
+<p>To run a package on the local machine located at C:\Appdev\MyDeployment.nupkg you would run the following command:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Fake</span><span class="o">.</span><span class="i">Deploy</span> <span class="o">/</span><span class="i">deploy</span> <span class="i">C</span><span class="o">:</span><span class="o">/</span><span class="i">Appdev</span><span class="o">/</span><span class="i">MyDeployment</span><span class="o">.</span><span class="i">nupkg</span>
+</code></pre></td>
+</tr>
+</table>
+<p>To run the same package on a remote computer (e.g. integration-1) you can run:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Fake</span><span class="o">.</span><span class="i">Deploy</span> <span class="o">/</span><span class="i">deployRemote</span> <span class="i">http</span><span class="o">:</span><span class="c">//integration-1:8080/fake C:/Appdev/MyDeployment.nupkg</span>
+</code></pre></td>
+</tr>
+</table>
+<p>It's also possible to just make a HTTP-POST with the package to <a href="http://integration-1:8080/fake">http://integration-1:8080/fake</a></p>
+<p>This will push the directory to the given url. It is worth noting that the port may well be different, as this depends on the configuration of the
+listening agent (see. Installing Fake deployment service)</p>
+<h2>Getting information about the deployments</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">The</span> <span class="i">following</span> <span class="i">assumes</span> <span class="i">you</span> <span class="i">have</span> <span class="i">Fake</span><span class="o">.</span><span class="i">Deploy</span> <span class="i">running</span><span class="o">.</span>
+</code></pre></td>
+</tr>
+</table>
+<p>It's easy to get information about the deployments. Just make a HTTP request to server with:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">fake</span><span class="o">/</span><span class="i">deployments</span><span class="o">/</span>                     <span class="k">-&gt;</span> <span class="i">gives</span> <span class="i">all</span> <span class="i">releases</span>
+<span class="i">fake</span><span class="o">/</span><span class="i">deployments</span><span class="o">?</span><span class="i">status</span><span class="o">=</span><span class="i">active</span>        <span class="k">-&gt;</span> <span class="i">gives</span> <span class="i">all</span> <span class="i">active</span> <span class="i">releases</span>
+<span class="i">fake</span><span class="o">/</span><span class="i">deployments</span><span class="o">/</span>{<span class="i">app</span>}                <span class="k">-&gt;</span> <span class="i">gives</span> <span class="i">all</span> <span class="i">releases</span> <span class="k">of</span> <span class="i">app</span>
+<span class="i">fake</span><span class="o">/</span><span class="i">deployments</span><span class="o">/</span>{<span class="i">app</span>}<span class="o">?</span><span class="i">status</span><span class="o">=</span><span class="i">active</span>  <span class="k">-&gt;</span> <span class="i">gives</span> <span class="i">the</span> <span class="i">active</span> <span class="i">release</span> <span class="k">of</span> <span class="i">the</span> <span class="i">app</span>
+</code></pre></td>
+</tr>
+</table>
+<h2>Rollback of releases</h2>
+<p>If you want to perform a rollback of a release so do a HTTP-PUT to:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">fake</span><span class="o">/</span><span class="i">deployments</span><span class="o">/</span>{<span class="i">app</span>}<span class="o">?</span><span class="i">version</span><span class="o">=</span>{<span class="i">version</span>} <span class="k">-&gt;</span> <span class="i">rolls</span> <span class="i">the</span> <span class="i">app</span> <span class="i">back</span> <span class="k">to</span> <span class="i">the</span> <span class="i">given</span> <span class="i">version</span>
+<span class="i">fake</span><span class="o">/</span><span class="i">deployments</span><span class="o">/</span>{<span class="i">app</span>}<span class="o">?</span><span class="i">version</span><span class="o">=</span><span class="i">HEAD</span><span class="k">~</span><span class="n">2</span>    <span class="k">-&gt;</span> <span class="i">relative</span> <span class="i">rollback</span> <span class="k">of</span> <span class="i">the</span> <span class="i">app</span> (<span class="i">two</span> <span class="i">versions</span> <span class="i">earlier</span>)
+</code></pre></td>
+</tr>
+</table>
+<h2>Security</h2>
+<p>To turn on authentication in Fake.Deploy set the configuration value for 'Authorization' to 'On' (default is 'Off') in fake.deploy.config.
+When you set this value to 'On' you must also set the configuration key 'AuthorizedKeysFile' to point to a file that that contains the mapping between keys and usernames.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="o">&lt;</span><span class="i">add</span> <span class="i">key</span><span class="o">=</span><span class="s">&quot;Authorization&quot;</span> <span class="i">value</span><span class="o">=</span><span class="s">&quot;On&quot;</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="i">add</span> <span class="i">key</span><span class="o">=</span><span class="s">&quot;AuthorizedKeysFile&quot;</span> <span class="i">value</span><span class="o">=</span><span class="s">&quot;c:\fake_deploy\authorized_keys&quot;</span> <span class="o">/&gt;</span>
+</code></pre></td>
+</tr>
+</table>
+<p>If you deploy from a fake buildscript you need to make a call to <code>FakeDeployAgentHelper.authenticate</code> before you perfrom any other call to the agent.
+<code>authenticate</code> takes 4 parameters, <code>server</code>, <code>userId</code>, <code>pathToPrivateKey</code> and the <code>password</code> for the private key</p>
+<h3>AuthorizedKeysFile</h3>
+<p>Is a rsa-pub key file where each line represents one user.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">ssh</span><span class="o">-</span><span class="i">rsa</span> <span class="i">AAAAB3NzaC1yc2EAAAABJ_some_parts_removed_E91p</span><span class="o">+</span><span class="n">8JLFCaF3tLc8Aw</span><span class="o">==</span> <span class="i">Test</span><span class="o">@</span><span class="i">Fake</span><span class="o">.</span><span class="i">org</span>
+</code></pre></td>
+</tr>
+</table>
+<p>Each row has 3 values separated by space</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="o">*</span> <span class="i">which</span> <span class="k">type</span> <span class="k">of</span> <span class="i">key</span> <span class="i">it</span> <span class="i">is</span>, <span class="i">it</span> <span class="i">must</span> <span class="i">be</span> <span class="o">&#39;</span><span class="i">ssh</span><span class="o">-</span><span class="i">rsa&#39;</span>
+<span class="o">*</span> <span class="k">public</span> <span class="i">key</span> <span class="k">in</span> <span class="i">base64</span> <span class="i">format</span>
+<span class="o">*</span> <span class="i">username</span> <span class="i">the</span> <span class="i">key</span> <span class="i">maps</span> <span class="k">to</span><span class="o">.</span>
+</code></pre></td>
+</tr>
+</table>
+<h3>How to authorize against Fake.Deploy</h3>
+<p>First you must perform a HTTP-GET to:
+fake/login/yourUserId</p>
+<p>From the response from this request, you take the body and base64 decode it, then you sign that value with your private key.
+Then you submit a HTTP-POST to
+/fake/login.
+There are 2 values you need to supply in the HTTP-POST.</p>
+<ol>
+<li><code>challenge</code> which should have the same base64 encoded value you received in the body of get fake/login/userId.</li>
+<li><code>signature</code> which should contain the signature you created using the <code>challenge</code> value and your private key.</li>
+</ol>
+<p>The body of the response from the HTTP-POST contains a guid, this guid should be passed in the header with the name <code>AuthToken</code>.
+To logout make a HTTP-GET to:
+fake/logout</p>
+<h3>How do I generate a key on Windows?</h3>
+<p>Get <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PuTTYgen</a>.
+Run it.
+Make sure the key is 'SSH-2 RSA' and number of bits is (at least) 2048.
+Click <code>Generate</code> and follow the instructions to genereate the key.
+When the key is generated, change <code>Key comment</code> to be your username and set a passphrase.
+Then save the public key, you need to put this into Fake.Deploy's authorized keys file.
+To save the private key, click <code>Conversions</code> menu option and then click <code>Export OpenSSH key</code></p>
+<h3>Linux</h3>
+<p>ssh-keygen -t rsa -b 2048 -N password</p>
+
+                    
+        </div>
+        <div class="span3">
+          <a href="index.html">
+            <img src="pics/logo.png" style="width:140px;height:140px;margin:10px 0px 0px 35px;border-style:none;" />
+          </a>
+          <ul class="nav nav-list" id="menu">
+            <li class="nav-header">FAKE - F# Make</li>
+              <li><a href="index.html">Home page</a></li>
+              <li class="divider"></li>              
+            <li><a href="https://nuget.org/packages/Fake">Get FAKE via NuGet</a></li>
+              <li><a href="https://github.com/fsharp/FAKE">Source Code on GitHub</a></li>              
+              <li><a href="https://github.com/fsharp/FAKE/blob/master/License.txt">License (Apache 2)</a></li>            
+              <li><a href="RELEASE_NOTES.html">Release Notes</a></li>
+              <li><a href="contributing.html">Contributing to FAKE</a></li>
+              <li><a href="users.html">Who is using FAKE?</a></li>
+              <li><a href="http://stackoverflow.com/questions/tagged/f%23-fake">Ask a question</a></li>
+            <li class="nav-header">Tutorials</li>
+              <li><a href="gettingstarted.html">Getting started</a></li>
+              <li><a href="cache.html">Build script caching</a></li>
+              <li class="divider"></li>
+              <li><a href="nuget.html">NuGet package restore</a></li>
+              <li><a href="fxcop.html">Using FxCop in a build</a></li>
+              <li><a href="assemblyinfo.html">Generating AssemblyInfo</a></li>
+              <li><a href="create-nuget-package.html">Create NuGet packages</a></li>
+              <li><a href="specifictargets.html">Running specific targets</a></li>
+              <li><a href="commandline.html">Running FAKE from command line</a></li>
+              <li><a href="parallel-build.html">Running targets in parallel</a></li>
+              <li><a href="fsc.html">Using the F# compiler from FAKE</a></li>
+              <li><a href="customtasks.html">Creating custom tasks</a></li>
+              <li><a href="soft-dependencies.html">Soft dependencies</a></li>
+              <li><a href="teamcity.html">TeamCity integration</a></li>
+              <li><a href="canopy.html">Running canopy tests</a></li>
+              <li><a href="octopusdeploy.html">Octopus Deploy</a></li>
+              <li><a href="typescript.html">TypeScript support</a></li>
+              <li><a href="azurewebjobs.html">Azure WebJobs support</a></li>
+              <li><a href="azurecloudservices.html">Azure Cloud Services support</a></li>
+              <li><a href="dacpac.html">SQL DACPAC support</a></li>
+              <li><a href="fluentmigrator.html">FluentMigrator support</a></li>
+              <li><a href="androidpublisher.html">Android publisher</a></li>
+              <li><a href="watch.html">File Watcher</a></li>
+              <li><a href="wix.html">WiX Setup Generation</a></li>
+              <li><a href="chocolatey.html">Using Chocolatey</a></li>
+              <li><a href="slacknotification.html">Using Slack</a></li>
+              <li><a href="sonarcube.html">Using SonarQube</a></li>
+              <li class="divider"></li>
+              <li><a href="deploy.html">Fake.Deploy</a></li>
+              <li><a href="iis.html">Fake.IIS</a></li>
+              <li class="nav-header">Reference</li>
+              <li><a href="apidocs/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/fsharp/FAKE"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+  </body>
+</html>

@@ -1,0 +1,2209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>WiXHelper - FAKE - F# Make</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Steffen Forkmann, Mauricio Scheffer, Colin Bull">
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+
+    <link type="text/css" rel="stylesheet" href="http://fsharp.github.io/FAKE/content/style.css" />
+    <script type="text/javascript" src="http://fsharp.github.io/FAKE/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="http://github.com/fsharp/fake">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="http://fsharp.github.io/FAKE/index.html">FAKE - F# Make</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>WiXHelper</h1>
+<div class="xmldoc">
+<p>Contains tasks to create msi installers using the <a href="http://wixtoolset.org/">WiX toolset</a></p>
+
+</div>
+
+<!-- Render nested types and modules, if there are any -->
+  <h2>Nested types and modules</h2>
+  <div>
+      <table class="table table-bordered type-list">
+    <thead>
+      <tr><td>Type</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-actionexecutionverb.html">ActionExecutionVerb</a>
+          </td>
+          <td class="xmldoc"><p>Used for specifying the point of time for action execution in WiXCustomActionExecution</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-architecture.html">Architecture</a>
+          </td>
+          <td class="xmldoc"></td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-customactionexecute.html">CustomActionExecute</a>
+          </td>
+          <td class="xmldoc"><p>Used in WiXCustomAction for determing when to run the custom action</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-customactionreturn.html">CustomActionReturn</a>
+          </td>
+          <td class="xmldoc"><p>Used in WiXCustomAction for determing the return type</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-errorcontrol.html">ErrorControl</a>
+          </td>
+          <td class="xmldoc"><p>Determines what action should be taken on an error.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-feature.html">Feature</a>
+          </td>
+          <td class="xmldoc"><p>Parameters for creating WiX Feature, use ToString for creating the string xml nodes</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-featuredisplay.html">FeatureDisplay</a>
+          </td>
+          <td class="xmldoc"><p>Used for determing whether the feature should be visible in the select features installer pane or not</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-heatparams.html">HeatParams</a>
+          </td>
+          <td class="xmldoc"></td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-installuninstall.html">InstallUninstall</a>
+          </td>
+          <td class="xmldoc"><p>Specifies whether an action occur on install, uninstall or both.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-majorupgradeschedule.html">MajorUpgradeSchedule</a>
+          </td>
+          <td class="xmldoc"><p>Used for determing when to run RemoveExistingProducts on major upgrade</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-programfilesfolder.html">ProgramFilesFolder</a>
+          </td>
+          <td class="xmldoc"><p>Type for defining, which program directory should be used for installation. ProgramFiles32 refers to 'Program Files (x86)', ProgramFiles64 refers to 'Program Files'</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-script.html">Script</a>
+          </td>
+          <td class="xmldoc"><p>Parameters for WiX Script properties, use ToString for creating the string xml nodes</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-servicefailureactiontype.html">ServiceFailureActionType</a>
+          </td>
+          <td class="xmldoc"><p>Determines the type of the service failure action.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-serviceinstallstart.html">ServiceInstallStart</a>
+          </td>
+          <td class="xmldoc"><p>Determines when the service should be started. The Windows Installer does not support boot or system.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-serviceinstalltype.html">ServiceInstallType</a>
+          </td>
+          <td class="xmldoc"><p>Determines the type of the service. The Windows Installer does not currently support kernelDriver or systemDriver.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixcomponent.html">WiXComponent</a>
+          </td>
+          <td class="xmldoc"><p>Component which wraps files into logical components and which allows to</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixcomponentref.html">WiXComponentRef</a>
+          </td>
+          <td class="xmldoc"><p>Reference to a component for including it in a feature</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixcustomaction.html">WiXCustomAction</a>
+          </td>
+          <td class="xmldoc"><p>Parameters for WiX custom action, use ToString for creating the string xml nodes</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixcustomactionexecution.html">WiXCustomActionExecution</a>
+          </td>
+          <td class="xmldoc"><p>Parameters for WiX Custom Action executions (In InstallExecuteSequence), use ToString for creating the string xml nodes</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixdir.html">WiXDir</a>
+          </td>
+          <td class="xmldoc"><p>WiX Directories define a logical directory which can include components and files</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixdirectorycomponent.html">WiXDirectoryComponent</a>
+          </td>
+          <td class="xmldoc"></td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixdirectoryref.html">WiXDirectoryRef</a>
+          </td>
+          <td class="xmldoc"><p>Reference to a component for including it in a feature</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixfeature.html">WiXFeature</a>
+          </td>
+          <td class="xmldoc"><p>Parameters for creating WiX Feature, use ToString for creating the string xml nodes</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixfile.html">WiXFile</a>
+          </td>
+          <td class="xmldoc"><p>WiX File Element</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixmajorupgrade.html">WiXMajorUpgrade</a>
+          </td>
+          <td class="xmldoc"><p>Parameters for WiX Major Upgrade</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixparams.html">WiXParams</a>
+          </td>
+          <td class="xmldoc"><p>WiX parameter type</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixregistrykey.html">WiXRegistryKey</a>
+          </td>
+          <td class="xmldoc"><p>Parameters for WiX RegistryKey</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixregistryroottype.html">WiXRegistryRootType</a>
+          </td>
+          <td class="xmldoc"><p>Represents the registry root under which this key should be written</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixregistryvalue.html">WiXRegistryValue</a>
+          </td>
+          <td class="xmldoc"><p>Parameters for WiX RegistryValue</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixregistryvalueaction.html">WiXRegistryValueAction</a>
+          </td>
+          <td class="xmldoc"><p>The action that will be taken for a registry value</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixregistryvaluetype.html">WiXRegistryValueType</a>
+          </td>
+          <td class="xmldoc"><p>The desired type of a registry key.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixscript.html">WiXScript</a>
+          </td>
+          <td class="xmldoc"><p>Parameters for WiX Script properties, use ToString for creating the string xml nodes</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixserviceconfig.html">WiXServiceConfig</a>
+          </td>
+          <td class="xmldoc"><p>Service configuration information for failure actions.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixservicecontrol.html">WiXServiceControl</a>
+          </td>
+          <td class="xmldoc"><p>Service Control Element. Can Start, Stop and Remove services</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixservicedependency.html">WiXServiceDependency</a>
+          </td>
+          <td class="xmldoc"><p>Service or group of services that must start before the parent service.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixserviceinstall.html">WiXServiceInstall</a>
+          </td>
+          <td class="xmldoc"><p>Adds services for parent Component. Use the ServiceControl element to remove services.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixuiref.html">WiXUIRef</a>
+          </td>
+          <td class="xmldoc"><p>Parameters for WiX UI Reference, use ToString for creating the string xml nodes</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixupgrade.html">WiXUpgrade</a>
+          </td>
+          <td class="xmldoc"><p>Parameters for WiX Upgrade</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixupgradeversion.html">WiXUpgradeVersion</a>
+          </td>
+          <td class="xmldoc"><p>Parameters for WiX Upgrade Version</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-wixvariable.html">WiXVariable</a>
+          </td>
+          <td class="xmldoc"><p>Parameters for WiX Variable, use ToString for creating the string xml nodes</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fake-wixhelper-yesorno.html">YesOrNo</a>
+          </td>
+          <td class="xmldoc"><p>These are used in many methods for generating WiX nodes, regard them as booleans</p>
+
+</td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+  <h3>Functions and values</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Function or value</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '920', 920)" onmouseover="showTip(event, '920', 920)">
+            attachServiceControlToComponent (...)
+          </code>
+          <div class="tip" id="920">
+            <strong>Signature:</strong> comp:WiXDirectoryComponent -&gt; fileFilter:(WiXComponent -&gt; bool) -&gt; serviceControls:seq&lt;WiXServiceControl&gt; -&gt; WiXDirectoryComponent<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L850-850" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '921', 921)" onmouseover="showTip(event, '921', 921)">
+            attachServiceControlToComponents (...)
+          </code>
+          <div class="tip" id="921">
+            <strong>Signature:</strong> components:seq&lt;WiXDirectoryComponent&gt; -&gt; fileFilter:(WiXComponent -&gt; bool) -&gt; serviceControls:seq&lt;WiXServiceControl&gt; -&gt; seq&lt;WiXDirectoryComponent&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L858-858" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '922', 922)" onmouseover="showTip(event, '922', 922)">
+            attachServiceInstallToComponent (...)
+          </code>
+          <div class="tip" id="922">
+            <strong>Signature:</strong> comp:WiXDirectoryComponent -&gt; fileFilter:(WiXComponent -&gt; bool) -&gt; serviceInstalls:seq&lt;WiXServiceInstall&gt; -&gt; WiXDirectoryComponent<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L863-863" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Use this to attach service installs to your components.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '923', 923)" onmouseover="showTip(event, '923', 923)">
+            attachServiceInstallToComponents (...)
+          </code>
+          <div class="tip" id="923">
+            <strong>Signature:</strong> components:seq&lt;WiXDirectoryComponent&gt; -&gt; fileFilter:(WiXComponent -&gt; bool) -&gt; serviceInstalls:seq&lt;WiXServiceInstall&gt; -&gt; seq&lt;WiXDirectoryComponent&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L871-871" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '924', 924)" onmouseover="showTip(event, '924', 924)">
+            bulkComponentCreation (...)
+          </code>
+          <div class="tip" id="924">
+            <strong>Signature:</strong> fileFilter:(FileInfo -&gt; bool) -&gt; directoryInfo:DirectoryInfo -&gt; architecture:Architecture -&gt; seq&lt;WiXDirectoryComponent&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L813-813" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Creates WiX component with directories and files from the given DirectoryInfo
+The function will create one component for each file <a href="https://support.microsoft.com/de-de/kb/290997/en-us">best practice</a>
+and set the GUID to "*", which will make WiX produce consistent Component Guids if the Component's target path doesn't change.
+This is vital for major upgrades, since windows installer needs a consistent component guid for tracking each of them.
+You can use the getComponentIdsFromWiXString function for getting all created component refs and adding them to features.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '925', 925)" onmouseover="showTip(event, '925', 925)">
+            bulkComponentCreationAsSubDir (...)
+          </code>
+          <div class="tip" id="925">
+            <strong>Signature:</strong> fileFilter:(FileInfo -&gt; bool) -&gt; directoryInfo:DirectoryInfo -&gt; architecture:Architecture -&gt; WiXDir<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L841-841" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Creates WiX component with directories and files from the given DirectoryInfo
+The function will create one component for each file <a href="https://support.microsoft.com/de-de/kb/290997/en-us">best practice</a>
+and set the GUID to "*", which will make WiX produce consistent Component Guids if the Component's target path doesn't change.
+This is vital for major upgrades, since windows installer needs a consistent component guid for tracking each of them.
+The components are embedded into the passed in root directory.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '926', 926)" onmouseover="showTip(event, '926', 926)">
+            bulkComponentTreeCreation (...)
+          </code>
+          <div class="tip" id="926">
+            <strong>Signature:</strong> fileFilter:(FileInfo -&gt; bool) -&gt; directoryFilter:(DirectoryInfo -&gt; bool) -&gt; directoryInfo:DirectoryInfo -&gt; architecture:Architecture -&gt; seq&lt;WiXDirectoryComponent&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L786-786" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Creates a WiX directory and component hierarchy from the given DirectoryInfo
+The function will create one component for each file <a href="https://support.microsoft.com/de-de/kb/290997/en-us">best practice</a>
+and set the GUID to "*", which will make WiX produce consistent Component Guids if the Component's target path doesn't change.
+This is vital for major upgrades, since windows installer needs a consistent component guid for tracking each of them.
+You can use the getComponentRefs function for getting all created component refs and adding them to features.
+You can use attachServiceControlToComponents or attachServiceInstallToComponents to attach ServiceControl or ServiceInstall to the directory component hierarchy</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '927', 927)" onmouseover="showTip(event, '927', 927)">
+            Candle parameters wixScript
+          </code>
+          <div class="tip" id="927">
+            <strong>Signature:</strong> parameters:WiXParams -&gt; wixScript:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1852-1852" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Runs the <a href="http://wixtoolset.org/documentation/manual/v3/overview/candle.html">Candle tool</a> on the given WiX script with the given parameters</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '928', 928)" onmouseover="showTip(event, '928', 928)">
+            compName comp
+          </code>
+          <div class="tip" id="928">
+            <strong>Signature:</strong> comp:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L39-39" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '929', 929)" onmouseover="showTip(event, '929', 929)">
+            compRefName compRef
+          </code>
+          <div class="tip" id="929">
+            <strong>Signature:</strong> compRef:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L28-28" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '930', 930)" onmouseover="showTip(event, '930', 930)">
+            dirName dir
+          </code>
+          <div class="tip" id="930">
+            <strong>Signature:</strong> dir:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L17-17" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '931', 931)" onmouseover="showTip(event, '931', 931)">
+            FeatureDefaults 
+          </code>
+          <div class="tip" id="931">
+            <strong>Signature:</strong> Feature<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1081-1081" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Default values for creating WiX Feature</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '932', 932)" onmouseover="showTip(event, '932', 932)">
+            FillInWixScript wiXPath setParams
+          </code>
+          <div class="tip" id="932">
+            <strong>Signature:</strong> wiXPath:string -&gt; setParams:(WiXScript -&gt; WiXScript) -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1630-1630" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Takes path where script files reside and sets all parameters as defined</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>wiXPath</code> - Pass path where your script is located at. Function will search for all Scripts in that location and fill in parameters</li>
+<li><code>setParams</code> - Function used to manipulate the WiX default parameters.</li>
+</ul>
+<h2>Sample</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">FillInWixScript</span> <span class="s">&quot;&quot;</span> (<span class="k">fun</span> <span class="i">f</span> <span class="k">-&gt;</span>
+                       {<span class="i">f</span> <span class="k">with</span>
+                           <span class="i">ProductCode</span> <span class="o">=</span> <span class="i">WiXProductCode</span>
+                           <span class="i">ProductName</span> <span class="o">=</span> <span class="i">WiXProductName</span>
+                           <span class="i">Description</span> <span class="o">=</span> <span class="i">projectDescription</span>
+                           <span class="i">ProductLanguage</span> <span class="o">=</span> <span class="i">WiXProductLanguage</span>
+                           <span class="i">ProductVersion</span> <span class="o">=</span> <span class="i">WiXProductVersion</span>
+                           <span class="i">ProductPublisher</span> <span class="o">=</span> <span class="i">WixProductPublisher</span>
+                           <span class="i">UpgradeGuid</span> <span class="o">=</span> <span class="i">WixProductUpgradeGuid</span>
+                           <span class="i">UIRefs</span> <span class="o">=</span> <span class="i">uiRef1</span><span class="o">.</span><span class="i">ToString</span>() <span class="o">+</span> <span class="i">uiRef2</span><span class="o">.</span><span class="i">ToString</span>()
+                           <span class="i">WiXVariables</span> <span class="o">=</span> <span class="i">wiXLicense</span><span class="o">.</span><span class="i">ToString</span>()
+                           <span class="i">Directories</span> <span class="o">=</span> <span class="i">directories</span>
+                           <span class="i">BuildNumber</span> <span class="o">=</span> <span class="s">&quot;1.0.0&quot;</span>
+                           <span class="i">Features</span> <span class="o">=</span> <span class="i">rootFeature</span><span class="o">.</span><span class="i">ToString</span>()
+                           <span class="i">CustomActions</span> <span class="o">=</span> <span class="i">action1</span><span class="o">.</span><span class="i">ToString</span>() <span class="o">+</span> <span class="i">action2</span><span class="o">.</span><span class="i">ToString</span>()
+                           <span class="i">ActionSequences</span> <span class="o">=</span> <span class="i">actionExecution1</span><span class="o">.</span><span class="i">ToString</span>() <span class="o">+</span> <span class="i">actionExecution2</span><span class="o">.</span><span class="i">ToString</span>()
+                       })
+</code></pre></td>
+</tr>
+</table>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '933', 933)" onmouseover="showTip(event, '933', 933)">
+            FillInWiXTemplate wiXPath setParams
+          </code>
+          <div class="tip" id="933">
+            <strong>Signature:</strong> wiXPath:string -&gt; setParams:(Script -&gt; Script) -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1679-1679" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Takes path where script files reside and sets all parameters as defined</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>wiXPath</code> - Pass path where your script is located at. Function will search for all Scripts in that location and fill in parameters</li>
+<li><code>setParams</code> - Function used to manipulate the WiX default parameters.</li>
+</ul>
+<h2>Sample</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">FillInWixScript</span> <span class="s">&quot;&quot;</span> (<span class="k">fun</span> <span class="i">f</span> <span class="k">-&gt;</span>
+                       {<span class="i">f</span> <span class="k">with</span>
+                           <span class="i">ProductCode</span> <span class="o">=</span> <span class="i">WiXProductCode</span>
+                           <span class="i">ProductName</span> <span class="o">=</span> <span class="i">WiXProductName</span>
+                           <span class="i">Description</span> <span class="o">=</span> <span class="i">projectDescription</span>
+                           <span class="i">ProductLanguage</span> <span class="o">=</span> <span class="i">WiXProductLanguage</span>
+                           <span class="i">ProductVersion</span> <span class="o">=</span> <span class="i">WiXProductVersion</span>
+                           <span class="i">ProductPublisher</span> <span class="o">=</span> <span class="i">WixProductPublisher</span>
+                           <span class="i">UpgradeGuid</span> <span class="o">=</span> <span class="i">WixProductUpgradeGuid</span>
+                           <span class="i">UIRefs</span> <span class="o">=</span> <span class="i">uiRef1</span><span class="o">.</span><span class="i">ToString</span>() <span class="o">+</span> <span class="i">uiRef2</span><span class="o">.</span><span class="i">ToString</span>()
+                           <span class="i">WiXVariables</span> <span class="o">=</span> <span class="i">wiXLicense</span><span class="o">.</span><span class="i">ToString</span>()
+                           <span class="i">Directories</span> <span class="o">=</span> <span class="i">directories</span>
+                           <span class="i">DirectoryRefs</span> <span class="o">=</span> <span class="i">directoryrefs</span>
+                           <span class="i">BuildNumber</span> <span class="o">=</span> <span class="s">&quot;1.0.0&quot;</span>
+                           <span class="i">Features</span> <span class="o">=</span> <span class="i">rootFeature</span><span class="o">.</span><span class="i">ToString</span>()
+                           <span class="i">CustomActions</span> <span class="o">=</span> <span class="i">action1</span><span class="o">.</span><span class="i">ToString</span>() <span class="o">+</span> <span class="i">action2</span><span class="o">.</span><span class="i">ToString</span>()
+                           <span class="i">ActionSequences</span> <span class="o">=</span> <span class="i">actionExecution1</span><span class="o">.</span><span class="i">ToString</span>() <span class="o">+</span> <span class="i">actionExecution2</span><span class="o">.</span><span class="i">ToString</span>()
+                       })
+</code></pre></td>
+</tr>
+</table>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '934', 934)" onmouseover="showTip(event, '934', 934)">
+            generateComponent setParams
+          </code>
+          <div class="tip" id="934">
+            <strong>Signature:</strong> setParams:(WiXComponent -&gt; WiXComponent) -&gt; WiXComponent<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L716-716" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Use this for generating single components</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '935', 935)" onmouseover="showTip(event, '935', 935)">
+            generateComponentRef setParams
+          </code>
+          <div class="tip" id="935">
+            <strong>Signature:</strong> setParams:(WiXComponentRef -&gt; WiXComponentRef) -&gt; WiXComponentRef option<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L603-603" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Use this for generating component refs</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '936', 936)" onmouseover="showTip(event, '936', 936)">
+            generateCustomAction setParams
+          </code>
+          <div class="tip" id="936">
+            <strong>Signature:</strong> setParams:(WiXCustomAction -&gt; WiXCustomAction) -&gt; WiXCustomAction<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1767-1767" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates a customAction based on the given parameters, use toString on it when embedding it
+Be careful to make Id unique. FileKey is a reference to a file Id which you added by using wixDir or wixFile
+Set impersonate to no if your action needs elevated privileges, you should then also set execute as "deferred"
+ExeCommand are the parameters passed to your executable</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>setParams</code> - Function used to manipulate the WiX default parameters.</li>
+</ul>
+<h2>Sample</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+<span class="l">9: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">action</span> <span class="o">=</span> <span class="i">generateCustomAction</span> (<span class="k">fun</span> <span class="i">f</span> <span class="k">-&gt;</span>
+                                       {<span class="i">f</span> <span class="k">with</span>
+                                           <span class="i">Id</span> <span class="o">=</span> <span class="s">&quot;UniqueActionId&quot;</span>
+                                           <span class="i">FileKey</span> <span class="o">=</span> <span class="s">&quot;fi_5&quot;</span>
+                                           <span class="i">Execute</span> <span class="o">=</span> <span class="s">&quot;deferred&quot;</span>
+                                           <span class="i">Impersonate</span> <span class="o">=</span> <span class="s">&quot;no&quot;</span>
+                                           <span class="i">ExeCommand</span> <span class="o">=</span> <span class="s">&quot;install&quot;</span>
+                                           <span class="i">Return</span> <span class="o">=</span> <span class="s">&quot;check&quot;</span>
+                                       })
+</code></pre></td>
+</tr>
+</table>
+<div class="tip" id="fs1">val action : obj<br /><br />Full name: docs.action</div>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '937', 937)" onmouseover="showTip(event, '937', 937)">
+            generateCustomActionExecution setParams
+          </code>
+          <div class="tip" id="937">
+            <strong>Signature:</strong> setParams:(WiXCustomActionExecution -&gt; WiXCustomActionExecution) -&gt; WiXCustomActionExecution<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1786-1786" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates a custom action execution based on the given parameters, use toString on it when embedding it
+Condition in sample makes execute only on install</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>setParams</code> - Function used to manipulate the WiX default parameters.</li>
+</ul>
+<h2>Sample</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">actionExecution</span> <span class="o">=</span> <span class="i">generateCustomActionExecution</span> (<span class="k">fun</span> <span class="i">f</span> <span class="k">-&gt;</span>
+                                                           {<span class="i">f</span> <span class="k">with</span> 
+                                                               <span class="i">ActionId</span> <span class="o">=</span> <span class="i">action</span><span class="o">.</span><span class="i">Id</span>
+                                                               <span class="i">Verb</span> <span class="o">=</span> <span class="s">&quot;After&quot;</span>
+                                                               <span class="i">Target</span> <span class="o">=</span> <span class="s">&quot;InstallFiles&quot;</span>                                                                        
+                                                               <span class="i">Condition</span> <span class="o">=</span> <span class="s">&quot;&lt;![CDATA[(&amp;&quot;</span> <span class="o">+</span> <span class="i">feature</span><span class="o">.</span><span class="i">Id</span> <span class="o">+</span> <span class="s">&quot; = 3) AND NOT (!&quot;</span> <span class="o">+</span> <span class="i">feature</span><span class="o">.</span><span class="i">Id</span> <span class="o">+</span> <span class="s">&quot; = 3)]]&gt;&quot;</span>
+                                                           })
+</code></pre></td>
+</tr>
+</table>
+<div class="tip" id="fs1">val actionExecution : obj<br /><br />Full name: docs.actionExecution</div>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '938', 938)" onmouseover="showTip(event, '938', 938)">
+            generateDirectory setParams
+          </code>
+          <div class="tip" id="938">
+            <strong>Signature:</strong> setParams:(WiXDir -&gt; WiXDir) -&gt; WiXDir<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L732-732" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Use this for generating directories</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '939', 939)" onmouseover="showTip(event, '939', 939)">
+            generateDirectoryRef setParams
+          </code>
+          <div class="tip" id="939">
+            <strong>Signature:</strong> setParams:(WiXDirectoryRef -&gt; WiXDirectoryRef) -&gt; WiXDirectoryRef<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L678-678" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Use this for generating component refs</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '940', 940)" onmouseover="showTip(event, '940', 940)">
+            generateFeature setParams
+          </code>
+          <div class="tip" id="940">
+            <strong>Signature:</strong> setParams:(WiXFeature -&gt; WiXFeature) -&gt; WiXFeature<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1723-1723" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates a feature based on the given parameters, use toString on it when embedding it
+You can pass other features into InnerContent for making a hierarchy</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>setParams</code> - Function used to manipulate the WiX default parameters.</li>
+</ul>
+<h2>Sample</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+<span class="l">9: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">feature</span> <span class="o">=</span> <span class="i">generateFeature</span> (<span class="k">fun</span> <span class="i">f</span> <span class="k">-&gt;</span> 
+                                   {<span class="i">f</span> <span class="k">with</span>  
+                                       <span class="i">Id</span> <span class="o">=</span> <span class="s">&quot;UniqueName&quot;</span>
+                                       <span class="i">Title</span> <span class="o">=</span> <span class="s">&quot;Title which is shown&quot;</span>
+                                       <span class="i">Level</span> <span class="o">=</span> <span class="n">1</span> 
+                                       <span class="i">Description</span> <span class="o">=</span> <span class="s">&quot;Somewhat longer description&quot;</span> 
+                                       <span class="i">Display</span> <span class="o">=</span> <span class="s">&quot;expand&quot;</span> 
+                                       <span class="i">InnerContent</span> <span class="o">=</span> <span class="i">otherFeature</span><span class="o">.</span><span class="i">ToString</span>()
+                                   })
+</code></pre></td>
+</tr>
+</table>
+<div class="tip" id="fs1">val feature : obj<br /><br />Full name: docs.feature</div>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '941', 941)" onmouseover="showTip(event, '941', 941)">
+            generateFeatureElement setParams
+          </code>
+          <div class="tip" id="941">
+            <strong>Signature:</strong> setParams:(Feature -&gt; Feature) -&gt; Feature<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1744-1744" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates a feature based on the given parameters, use toString on it when embedding it
+You can pass other features into InnerContent for making a hierarchy</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>setParams</code> - Function used to manipulate the WiX default parameters.</li>
+</ul>
+<h2>Sample</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+<span class="l">9: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">feature</span> <span class="o">=</span> <span class="i">generateFeature</span> (<span class="k">fun</span> <span class="i">f</span> <span class="k">-&gt;</span> 
+                                   {<span class="i">f</span> <span class="k">with</span>  
+                                       <span class="i">Id</span> <span class="o">=</span> <span class="s">&quot;UniqueName&quot;</span>
+                                       <span class="i">Title</span> <span class="o">=</span> <span class="s">&quot;Title which is shown&quot;</span>
+                                       <span class="i">Level</span> <span class="o">=</span> <span class="n">1</span> 
+                                       <span class="i">Description</span> <span class="o">=</span> <span class="s">&quot;Somewhat longer description&quot;</span> 
+                                       <span class="i">Display</span> <span class="o">=</span> <span class="s">&quot;expand&quot;</span> 
+                                       <span class="i">InnerContent</span> <span class="o">=</span> [<span class="i">otherFeature1</span>; <span class="i">otherFeature2</span>]
+                                   })
+</code></pre></td>
+</tr>
+</table>
+<div class="tip" id="fs1">val feature : obj<br /><br />Full name: docs.feature</div>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '942', 942)" onmouseover="showTip(event, '942', 942)">
+            generateMajorUpgradeVersion setParams
+          </code>
+          <div class="tip" id="942">
+            <strong>Signature:</strong> setParams:(WiXMajorUpgrade -&gt; WiXMajorUpgrade) -&gt; WiXMajorUpgrade<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1847-1847" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates a major upgrade based on the given parameters, use toString on it when embedding it</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>setParams</code> - Function used to manipulate the WiX default parameters.</li>
+</ul>
+<h2>Sample</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">majorUpgradeVersion</span> <span class="o">=</span> <span class="i">generateMajorUpgradeVersion</span>(<span class="k">fun</span> <span class="i">f</span> <span class="k">-&gt;</span>
+                                                {<span class="i">f</span> <span class="k">with</span> 
+                                                    <span class="i">DowngradeErrorMessage</span> <span class="o">=</span> <span class="s">&quot;A later version is already installed, exiting.&quot;</span>
+                                                })
+</code></pre></td>
+</tr>
+</table>
+<div class="tip" id="fs1">val majorUpgradeVersion : obj<br /><br />Full name: docs.majorUpgradeVersion</div>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '943', 943)" onmouseover="showTip(event, '943', 943)">
+            generateRegistryKey setParams
+          </code>
+          <div class="tip" id="943">
+            <strong>Signature:</strong> setParams:(WiXRegistryKey -&gt; WiXRegistryKey) -&gt; WiXRegistryKey<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L585-585" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates a registry key based on the given parameters, use toString on it when embedding it
+You can pass other registry keys and values into RegistryKeys or RegistryValues for making a hierarchy</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>setParams</code> - Function used to manipulate the WiX default parameters.</li>
+</ul>
+<h2>Sample</h2>
+<p>let key = generateRegistryKey(fun k -&gt;
+{k with
+Id = "KeyId"
+Key = "SomeKey"
+Root = Some WiXRegistryRootType.HKCR
+ForceCreateOnInstall = YesOrNo.Yes
+ForceDeleteOnUninstall = YesOrNo.No
+Keys = someChildKeys
+Values = someChildValues
+})</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '944', 944)" onmouseover="showTip(event, '944', 944)">
+            generateRegistryValue setParams
+          </code>
+          <div class="tip" id="944">
+            <strong>Signature:</strong> setParams:(WiXRegistryValue -&gt; WiXRegistryValue) -&gt; WiXRegistryValue<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L517-517" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates a registry value based on the given parameters, use toString on it when embedding it</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>setParams</code> - Function used to manipulate the WiX default parameters.</li>
+</ul>
+<h2>Sample</h2>
+<p>let registryValue = generateRegistryValue(fun v -&gt;
+{v with
+Id = "asdasd"
+Name = "Something"
+Key = "Somewhere"
+Root = Some WiXRegistryRootType.HKU
+Type = WiXRegistryValueType.Integer
+KeyPath = YesOrNo.No
+Value = "2"
+})</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '945', 945)" onmouseover="showTip(event, '945', 945)">
+            generateServiceConfig setParams
+          </code>
+          <div class="tip" id="945">
+            <strong>Signature:</strong> setParams:(WiXServiceConfig -&gt; WiXServiceConfig) -&gt; WiXServiceConfig<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L277-277" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Use this for generating service configs</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '946', 946)" onmouseover="showTip(event, '946', 946)">
+            generateServiceControl setParams
+          </code>
+          <div class="tip" id="946">
+            <strong>Signature:</strong> setParams:(WiXServiceControl -&gt; WiXServiceControl) -&gt; WiXServiceControl<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L155-155" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Use this for generating service controls</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '947', 947)" onmouseover="showTip(event, '947', 947)">
+            generateServiceDependency setParams
+          </code>
+          <div class="tip" id="947">
+            <strong>Signature:</strong> setParams:(WiXServiceDependency -&gt; WiXServiceDependency) -&gt; WiXServiceDependency<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L307-307" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Use this for generating service dependencies</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '948', 948)" onmouseover="showTip(event, '948', 948)">
+            generateServiceInstall setParams
+          </code>
+          <div class="tip" id="948">
+            <strong>Signature:</strong> setParams:(WiXServiceInstall -&gt; WiXServiceInstall) -&gt; WiXServiceInstall<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L394-394" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Use this for generating service installs</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '949', 949)" onmouseover="showTip(event, '949', 949)">
+            generateUIRef setParams
+          </code>
+          <div class="tip" id="949">
+            <strong>Signature:</strong> setParams:(WiXUIRef -&gt; WiXUIRef) -&gt; WiXUIRef<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1801-1801" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates a ui ref based on the given parameters, use toString on it when embedding it</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>setParams</code> - Function used to manipulate the WiX default parameters.</li>
+</ul>
+<h2>Sample</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">UIRef</span> <span class="o">=</span> <span class="i">generateUIRef</span> (<span class="k">fun</span> <span class="i">f</span> <span class="k">-&gt;</span>
+                               {<span class="i">f</span> <span class="k">with</span>
+                                   <span class="i">Id</span> <span class="o">=</span> <span class="s">&quot;WixUI_Mondo&quot;</span>
+                               })
+</code></pre></td>
+</tr>
+</table>
+<div class="tip" id="fs1">val UIRef : obj<br /><br />Full name: docs.UIRef</div>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '950', 950)" onmouseover="showTip(event, '950', 950)">
+            generateUpgrade setParams
+          </code>
+          <div class="tip" id="950">
+            <strong>Signature:</strong> setParams:(WiXUpgrade -&gt; WiXUpgrade) -&gt; WiXUpgrade<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1817-1817" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates an upgrade based on the given parameters, use toString on it when embedding it</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>setParams</code> - Function used to manipulate the WiX default parameters.</li>
+</ul>
+<h2>Sample</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">upgrade</span> <span class="o">=</span> <span class="i">generateUpgrade</span> (<span class="k">fun</span> <span class="i">f</span> <span class="k">-&gt;</span>
+                                  {<span class="i">f</span> <span class="k">with</span>
+                                     <span class="i">Id</span> <span class="o">=</span> <span class="i">productUpgradeCode</span>
+                                  })
+</code></pre></td>
+</tr>
+</table>
+<div class="tip" id="fs1">val upgrade : obj<br /><br />Full name: docs.upgrade</div>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '951', 951)" onmouseover="showTip(event, '951', 951)">
+            generateUpgradeVersion setParams
+          </code>
+          <div class="tip" id="951">
+            <strong>Signature:</strong> setParams:(WiXUpgradeVersion -&gt; WiXUpgradeVersion) -&gt; WiXUpgradeVersion<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1833-1833" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates an upgrade version based on the given parameters, use toString on it when embedding it</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>setParams</code> - Function used to manipulate the WiX default parameters.</li>
+</ul>
+<h2>Sample</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">upgradeVersion</span> <span class="o">=</span> <span class="i">generateUpgradeVersion</span> (<span class="k">fun</span> <span class="i">f</span> <span class="k">-&gt;</span>
+                                                {<span class="i">f</span> <span class="k">with</span>
+                                                   <span class="i">Minimum</span> <span class="o">=</span> <span class="i">productVersion</span>
+                                                   <span class="i">OnlyDetect</span> <span class="o">=</span> <span class="s">&quot;yes&quot;</span>
+                                                })
+</code></pre></td>
+</tr>
+</table>
+<div class="tip" id="fs1">val upgradeVersion : obj<br /><br />Full name: docs.upgradeVersion</div>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '952', 952)" onmouseover="showTip(event, '952', 952)">
+            generateWiXScript fileName
+          </code>
+          <div class="tip" id="952">
+            <strong>Signature:</strong> fileName:string -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1543-1543" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates WiX Template with specified file name (you can prepend location too)
+You need to run this once every build an then use FillInWiXScript to replace placeholders</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>fileName</code> - Pass desired fileName for your wiXScript file</li>
+</ul>
+<h2>Sample</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">generateWiXScript</span> <span class="s">&quot;Setup.wxs&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '953', 953)" onmouseover="showTip(event, '953', 953)">
+            getComponentIdsFromWiXString wiXString
+          </code>
+          <div class="tip" id="953">
+            <strong>Signature:</strong> wiXString:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L932-932" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Retrieves all component ids from given WiX directory string</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>wiXString</code> - The directory string which was generated by wixDir</li>
+</ul>
+<h2>Sample</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">directoryString</span> <span class="o">=</span> <span class="i">wixDir</span> (<span class="k">fun</span> <span class="i">file</span> <span class="k">-&gt;</span> <span class="k">true</span>) <span class="k">true</span> (<span class="i">DirectoryInfo</span> <span class="i">directoryWithFilesForSetup</span>)
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">componentIds</span> <span class="o">=</span> <span class="i">getComponentIdsFromWiXString</span> <span onmouseout="hideTip(event, 'fs1', 3)" onmouseover="showTip(event, 'fs1', 3)" class="i">directoryString</span>
+</code></pre></td>
+</tr>
+</table>
+<div class="tip" id="fs1">val directoryString : obj<br /><br />Full name: docs.directoryString</div>
+<div class="tip" id="fs2">val componentIds : obj<br /><br />Full name: docs.componentIds</div>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '954', 954)" onmouseover="showTip(event, '954', 954)">
+            getComponentRefs elements
+          </code>
+          <div class="tip" id="954">
+            <strong>Signature:</strong> elements:seq&lt;WiXDirectoryComponent&gt; -&gt; seq&lt;WiXComponentRef option&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L685-685" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>get component refs from a directory component hierarchy</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '955', 955)" onmouseover="showTip(event, '955', 955)">
+            getFileIdFromWiXString (...)
+          </code>
+          <div class="tip" id="955">
+            <strong>Signature:</strong> wiXString:string -&gt; fileRegex:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L914-914" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Retrieves the file id of the first file in WiXString, which name matches fileRegex</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>wiXString</code> - The directory string which was generated by wixDir</li>
+<li><code>fileRegex</code> - Regex which matches the file name</li>
+</ul>
+<h2>Sample</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">directoryString</span> <span class="o">=</span> <span class="i">wixDir</span> (<span class="k">fun</span> <span class="i">file</span> <span class="k">-&gt;</span> <span class="k">true</span>) <span class="k">true</span> (<span class="i">DirectoryInfo</span> <span class="i">directoryWithFilesForSetup</span>)
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">executableFileId</span> <span class="o">=</span> <span class="i">getFileIdFromWiXString</span> <span onmouseout="hideTip(event, 'fs1', 3)" onmouseover="showTip(event, 'fs1', 3)" class="i">directoryString</span> <span class="s">&quot;\S*.exe&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<div class="tip" id="fs1">val directoryString : obj<br /><br />Full name: docs.directoryString</div>
+<div class="tip" id="fs2">val executableFileId : obj<br /><br />Full name: docs.executableFileId</div>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '956', 956)" onmouseover="showTip(event, '956', 956)">
+            getFilesAsWiXString files
+          </code>
+          <div class="tip" id="956">
+            <strong>Signature:</strong> files:seq&lt;string&gt; -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L54-54" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Creates WiX File tags from the given files</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '957', 957)" onmouseover="showTip(event, '957', 957)">
+            HarvestDirectory (...)
+          </code>
+          <div class="tip" id="957">
+            <strong>Signature:</strong> setParams:(HeatParams -&gt; HeatParams) -&gt; directory:string -&gt; outputFile:string -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1971-1971" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Harvests the contents of a Directory for use with Wix using the <a href="http://wixtoolset.org/documentation/manual/v3/overview/heat.html">Heat</a> tool.</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>setParams</code> - Function used to manipulate the Heat default parameters.</li>
+<li><code>directory</code> - The path to the directory that will be harvested by Heat.</li>
+<li><code>outputFile</code> - The output file path given to Heat.</li>
+</ul>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '958', 958)" onmouseover="showTip(event, '958', 958)">
+            HeatDefaulParams 
+          </code>
+          <div class="tip" id="958">
+            <strong>Signature:</strong> HeatParams<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1948-1948" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Default values for the Heat harvesting</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '959', 959)" onmouseover="showTip(event, '959', 959)">
+            Light parameters outputFile wixObj
+          </code>
+          <div class="tip" id="959">
+            <strong>Signature:</strong> parameters:WiXParams -&gt; outputFile:string -&gt; wixObj:string -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1868-1868" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Runs the <a href="http://wixtoolset.org/documentation/manual/v3/overview/light.html">Light tool</a> on the given WiX script with the given parameters</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '960', 960)" onmouseover="showTip(event, '960', 960)">
+            ScriptDefaults 
+          </code>
+          <div class="tip" id="960">
+            <strong>Signature:</strong> Script<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1511-1511" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Default values for WiX Script properties</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '961', 961)" onmouseover="showTip(event, '961', 961)">
+            setComponentsNeverOverwrite components
+          </code>
+          <div class="tip" id="961">
+            <strong>Signature:</strong> components:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L954-954" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Take a component string and set "neverOverwrite" Tag
+This is useful for config files, since they are not replaced on upgrade like that</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '962', 962)" onmouseover="showTip(event, '962', 962)">
+            WiX setParams outputFile wixScript
+          </code>
+          <div class="tip" id="962">
+            <strong>Signature:</strong> setParams:(WiXParams -&gt; WiXParams) -&gt; outputFile:string -&gt; wixScript:string -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1912-1912" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Uses the WiX tools <a href="http://wixtoolset.org/documentation/manual/v3/overview/candle.html">Candle</a> and <a href="http://wixtoolset.org/documentation/manual/v3/overview/light.html">Light</a> to create an msi.</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>setParams</code> - Function used to manipulate the WiX default parameters.</li>
+<li><code>outputFile</code> - The msi output file path (given to Light).</li>
+<li><code>wixScript</code> - The path to a WiX script that will be used with Candle.</li>
+</ul>
+<h2>Sample</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Target</span> <span class="s">&quot;BuildSetup&quot;</span> (<span class="k">fun</span> _ <span class="k">-&gt;</span>
+    <span class="c">// Copy all important files to the deploy directory</span>
+    <span class="o">!!</span> (<span class="i">buildDir</span> <span class="o">+</span> <span class="s">&quot;/**/*.dll&quot;</span>)
+      <span class="o">++</span> (<span class="i">buildDir</span> <span class="o">+</span> <span class="s">&quot;/**/*.exe&quot;</span>)
+      <span class="o">++</span> (<span class="i">buildDir</span> <span class="o">+</span> <span class="s">&quot;/**/*.config&quot;</span>)
+      <span class="o">|&gt;</span> <span class="i">Copy</span> <span class="i">deployPrepDir</span> 
+
+    <span class="c">// replace tags in a template file in order to generate a WiX script</span>
+    <span class="k">let</span> <span class="i">ALLFILES</span> <span class="o">=</span> <span class="k">fun</span> _ <span class="k">-&gt;</span> <span class="k">true</span>
+
+    <span class="k">let</span> <span class="i">replacements</span> <span class="o">=</span> [
+        <span class="s">&quot;@build.number@&quot;</span>,<span class="k">if</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">not</span> <span class="i">isLocalBuild</span> <span class="k">then</span> <span class="i">buildVersion</span> <span class="k">else</span> <span class="s">&quot;0.1.0.0&quot;</span>
+        <span class="s">&quot;@product.productcode@&quot;</span>,<span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">System</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">Guid</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="i">NewGuid</span>()<span class="o">.</span><span class="i">ToString</span>()
+        <span class="s">&quot;@HelpFiles@&quot;</span>,<span class="i">getFilesAsWiXString</span> <span class="i">helpFiles</span>
+        <span class="s">&quot;@ScriptFiles@&quot;</span>,<span class="i">getFilesAsWiXString</span> <span class="i">scriptFiles</span>
+        <span class="s">&quot;@icons@&quot;</span>,<span class="i">wixDir</span> <span class="i">ALLFILES</span> <span class="k">true</span> (<span class="i">directoryInfo</span>(<span class="i">bundledDir</span> <span class="o">@@</span> <span class="s">&quot;icons&quot;</span>))]
+
+    <span class="i">processTemplates</span> <span class="i">replacements</span> <span class="i">setupFiles</span>
+
+    <span class="c">// run the WiX tools</span>
+    <span class="i">WiX</span> (<span class="k">fun</span> <span class="i">p</span> <span class="k">-&gt;</span> {<span class="i">p</span> <span class="k">with</span> <span class="i">ToolDirectory</span> <span class="o">=</span> <span class="i">WiXPath</span>}) 
+        <span class="i">setupFileName</span>
+        (<span class="i">setupBuildDir</span> <span class="o">+</span> <span class="s">&quot;Setup.wxs.template&quot;</span>)
+)
+</code></pre></td>
+</tr>
+</table>
+<div class="tip" id="fs1">val not : value:bool -&gt; bool<br /><br />Full name: Microsoft.FSharp.Core.Operators.not</div>
+<div class="tip" id="fs2">namespace System</div>
+<div class="tip" id="fs3">Multiple items<br />type Guid =<br />&#160;&#160;struct<br />&#160;&#160;&#160;&#160;new : b:byte[] -&gt; Guid + 4 overloads<br />&#160;&#160;&#160;&#160;member CompareTo : value:obj -&gt; int + 1 overload<br />&#160;&#160;&#160;&#160;member Equals : o:obj -&gt; bool + 1 overload<br />&#160;&#160;&#160;&#160;member GetHashCode : unit -&gt; int<br />&#160;&#160;&#160;&#160;member ToByteArray : unit -&gt; byte[]<br />&#160;&#160;&#160;&#160;member ToString : unit -&gt; string + 2 overloads<br />&#160;&#160;&#160;&#160;static val Empty : Guid<br />&#160;&#160;&#160;&#160;static member NewGuid : unit -&gt; Guid<br />&#160;&#160;&#160;&#160;static member Parse : input:string -&gt; Guid<br />&#160;&#160;&#160;&#160;static member ParseExact : input:string * format:string -&gt; Guid<br />&#160;&#160;&#160;&#160;...<br />&#160;&#160;end<br /><br />Full name: System.Guid<br /><br />--------------------<br />System.Guid()<br />System.Guid(b: byte []) : unit<br />System.Guid(g: string) : unit<br />System.Guid(a: int, b: int16, c: int16, d: byte []) : unit<br />System.Guid(a: uint32, b: uint16, c: uint16, d: byte, e: byte, f: byte, g: byte, h: byte, i: byte, j: byte, k: byte) : unit<br />System.Guid(a: int, b: int16, c: int16, d: byte, e: byte, f: byte, g: byte, h: byte, i: byte, j: byte, k: byte) : unit</div>
+<div class="tip" id="fs4">System.Guid.NewGuid() : System.Guid</div>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '963', 963)" onmouseover="showTip(event, '963', 963)">
+            WiXComponentDefaults 
+          </code>
+          <div class="tip" id="963">
+            <strong>Signature:</strong> WiXComponent<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L703-703" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Defaults for component</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '964', 964)" onmouseover="showTip(event, '964', 964)">
+            WiXComponentRefDefaults 
+          </code>
+          <div class="tip" id="964">
+            <strong>Signature:</strong> WiXComponentRef<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L597-597" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Defaults for component ref</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '965', 965)" onmouseover="showTip(event, '965', 965)">
+            wixComponentRefs directoryInfo
+          </code>
+          <div class="tip" id="965">
+            <strong>Signature:</strong> directoryInfo:DirectoryInfo -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L942-942" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Creates WiX ComponentRef tags from the given DirectoryInfo</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '966', 966)" onmouseover="showTip(event, '966', 966)">
+            WiXCustomActionDefaults 
+          </code>
+          <div class="tip" id="966">
+            <strong>Signature:</strong> WiXCustomAction<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1257-1257" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Default values for WiX custom actions</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '967', 967)" onmouseover="showTip(event, '967', 967)">
+            WixCustomActionExecutionDefaults 
+          </code>
+          <div class="tip" id="967">
+            <strong>Signature:</strong> WiXCustomActionExecution<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1293-1293" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Default values for WiX custom action executions</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '968', 968)" onmouseover="showTip(event, '968', 968)">
+            WiXDefaults 
+          </code>
+          <div class="tip" id="968">
+            <strong>Signature:</strong> WiXParams<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L968-968" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Contains the WiX default parameters</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '969', 969)" onmouseover="showTip(event, '969', 969)">
+            wixDir fileFilter asSubDir directoryInfo
+          </code>
+          <div class="tip" id="969">
+            <strong>Signature:</strong> fileFilter:(FileInfo -&gt; bool) -&gt; asSubDir:bool -&gt; directoryInfo:DirectoryInfo -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L880-880" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Creates recursive WiX directory and file tags from the given DirectoryInfo
+The function will create one component for each file <a href="https://support.microsoft.com/de-de/kb/290997/en-us">best practice</a>
+and set the GUID to "*", which will make WiX produce consistent Component Guids if the Component's target path doesn't change.
+This is vital for major upgrades, since windows installer needs a consistent component guid for tracking each of them.
+You can use the getComponentIdsFromWiXString function for getting all created component refs and adding them to features.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '970', 970)" onmouseover="showTip(event, '970', 970)">
+            WiXDirDefaults 
+          </code>
+          <div class="tip" id="970">
+            <strong>Signature:</strong> WiXDir<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L723-723" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Defaults for directories</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '971', 971)" onmouseover="showTip(event, '971', 971)">
+            WiXDirectoryRefDefaults 
+          </code>
+          <div class="tip" id="971">
+            <strong>Signature:</strong> WiXDirectoryRef<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L671-671" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Defaults for component ref</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '972', 972)" onmouseover="showTip(event, '972', 972)">
+            WiXFeatureDefaults 
+          </code>
+          <div class="tip" id="972">
+            <strong>Signature:</strong> WiXFeature<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1026-1026" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Default values for creating WiX Feature</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '973', 973)" onmouseover="showTip(event, '973', 973)">
+            wixFile fileInfo
+          </code>
+          <div class="tip" id="973">
+            <strong>Signature:</strong> fileInfo:FileInfo -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L49-49" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Creates a WiX File tag from the given FileInfo</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '974', 974)" onmouseover="showTip(event, '974', 974)">
+            WiXFileDefaults 
+          </code>
+          <div class="tip" id="974">
+            <strong>Signature:</strong> WiXFile<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L83-83" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Defaults for WiX file</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '975', 975)" onmouseover="showTip(event, '975', 975)">
+            WiXMajorUpgradeDefaults 
+          </code>
+          <div class="tip" id="975">
+            <strong>Signature:</strong> WiXMajorUpgrade<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1415-1415" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Default value for WiX Major Upgrade</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '976', 976)" onmouseover="showTip(event, '976', 976)">
+            wixRegistryKeyDefaults 
+          </code>
+          <div class="tip" id="976">
+            <strong>Signature:</strong> WiXRegistryKey<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L558-558" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '977', 977)" onmouseover="showTip(event, '977', 977)">
+            wixRegistryValueDefaults 
+          </code>
+          <div class="tip" id="977">
+            <strong>Signature:</strong> WiXRegistryValue<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L489-489" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '978', 978)" onmouseover="showTip(event, '978', 978)">
+            WiXScriptDefaults 
+          </code>
+          <div class="tip" id="978">
+            <strong>Signature:</strong> WiXScript<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1162-1162" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Default values for WiX Script properties</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '979', 979)" onmouseover="showTip(event, '979', 979)">
+            WiXServiceConfigDefaults 
+          </code>
+          <div class="tip" id="979">
+            <strong>Signature:</strong> WiXServiceConfig<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L264-264" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '980', 980)" onmouseover="showTip(event, '980', 980)">
+            WiXServiceControlDefaults 
+          </code>
+          <div class="tip" id="980">
+            <strong>Signature:</strong> WiXServiceControl<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L144-144" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Defaults for service control element</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '981', 981)" onmouseover="showTip(event, '981', 981)">
+            WiXServiceDependencyDefaults 
+          </code>
+          <div class="tip" id="981">
+            <strong>Signature:</strong> WiXServiceDependency<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L300-300" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '982', 982)" onmouseover="showTip(event, '982', 982)">
+            WiXServiceInstallDefaults 
+          </code>
+          <div class="tip" id="982">
+            <strong>Signature:</strong> WiXServiceInstall<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L373-373" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Defaults for service install element</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '983', 983)" onmouseover="showTip(event, '983', 983)">
+            WiXUIRefDefaults 
+          </code>
+          <div class="tip" id="983">
+            <strong>Signature:</strong> WiXUIRef<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1310-1310" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Default value for WiX UI Reference (WixUI_Minimal)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '984', 984)" onmouseover="showTip(event, '984', 984)">
+            WiXUpgradeDefaults 
+          </code>
+          <div class="tip" id="984">
+            <strong>Signature:</strong> WiXUpgrade<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1326-1326" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Default value for WiX Upgrade</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '985', 985)" onmouseover="showTip(event, '985', 985)">
+            WiXUpgradeVersionDefaults 
+          </code>
+          <div class="tip" id="985">
+            <strong>Signature:</strong> WiXUpgradeVersion<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1356-1356" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Default value for WiX Upgrade</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '986', 986)" onmouseover="showTip(event, '986', 986)">
+            WiXVariableDefaults 
+          </code>
+          <div class="tip" id="986">
+            <strong>Signature:</strong> WiXVariable<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/WiXHelper.fs#L1436-1436" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Default value for WiX Variable</p>
+
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <a href="http://fsharp.github.io/FAKE/index.html">
+            <img src="http://fsharp.github.io/FAKE/pics/logo.png" style="width:140px;height:140px;margin:10px 0px 0px 35px;border-style:none;" />
+          </a>
+
+          <ul class="nav nav-list" id="menu">
+
+            <li class="nav-header">FAKE - F# Make</li>
+
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/index.html">Home page</a></li>
+            <li class="divider"></li>
+
+            <li><a href="https://www.nuget.org/packages/FAKE">Get FAKE - F# Make via NuGet</a></li>
+            <li><a href="http://github.com/fsharp/fake">Source Code on GitHub</a></li>
+            <li><a href="http://github.com/fsharp/fake/blob/master/License.txt">License (Apache 2)</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/RELEASE_NOTES.html">Release Notes</a></li>
+            <li><a href="http://fsharp.github.io/FAKE//contributing.html">Contributing to FAKE - F# Make</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/users.html">Who is using FAKE?</a></li>
+            <li><a href="http://stackoverflow.com/questions/tagged/f%23-fake">Ask a question</a></li>
+            <li class="nav-header">Tutorials</li>
+            <li><a href="http://fsharp.github.io/FAKE/gettingstarted.html">Getting started</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/cache.html">Build script caching</a></li>
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/nuget.html">NuGet package restore</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fxcop.html">Using FxCop in a build</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/assemblyinfo.html">Generating AssemblyInfo</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/create-nuget-package.html">Create NuGet packages</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/specifictargets.html">Running specific targets</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/commandline.html">Running FAKE from command line</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/parallel-build.html">Running targets in parallel</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fsc.html">Using the F# compiler from FAKE</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/customtasks.html">Creating custom tasks</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/soft-dependencies.html">Soft dependencies</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/teamcity.html">TeamCity integration</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/teamcityadvanced.html">TeamCity integration (Advanced)</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/canopy.html">Running canopy tests</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/octopusdeploy.html">Octopus Deploy</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/typescript.html">TypeScript support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/azurewebjobs.html">Azure WebJobs support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/azurecloudservices.html">Azure Cloud Services support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fluentmigrator.html">FluentMigrator support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/androidpublisher.html">Android publisher</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/watch.html">File Watcher</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/wix.html">WiX Setup Generation</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/chocolatey.html">Using Chocolatey</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/slacknotification.html">Using Slack</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/sonarcube.html">Using SonarQube</a></li>
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/deploy.html">Fake.Deploy</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/iis.html">Fake.IIS</a></li>
+            <li class="nav-header">Reference</li>
+
+            <li><a href="http://fsharp.github.io/FAKE/apidocs/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="http://github.com/fsharp/fake"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+  </body>
+  </html>

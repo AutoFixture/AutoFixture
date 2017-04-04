@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- 
+      The How to use Vagrant and quickly setup a reproducible development environment for FAKE
+ parameters will be replaced with the 
+      document title extracted from the <h1> element or
+      file name, if there is no <h1> heading
+    -->
+    <title>How to use Vagrant and quickly setup a reproducible development environment for FAKE
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FAKE - F# Make">
+    <meta name="author" content="Steffen Forkmann, Mauricio Scheffer, Colin Bull">
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="content/style.css" />
+    <script src="content/tips.js" type="text/javascript"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/fsharp/FAKE">github page</a></li>
+        </ul>
+        <h3 class="muted">FAKE - F# Make</h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          <h1>How to use Vagrant and quickly setup a reproducible development environment for FAKE</h1>
+<p>Since <a href="https://github.com/fsharp/FAKE/pull/711">#711</a>, it is possible to deploy an fresh Ubuntu
+Linux virtual machine with one simple command thanks to <a href="https://www.vagrantup.com/">Vagrant</a>. Here
+is how to proceed...</p>
+<h1>Install the system-wide prerequisites</h1>
+<h2>VirtualBox and its Extension Pack</h2>
+<blockquote>
+<p>VirtualBox is a powerful x86 and AMD64/Intel64 virtualization product for enterprise as well as
+home use. Not only is VirtualBox an extremely feature rich, high performance product for
+enterprise customers, it is also the only professional solution that is freely available as Open
+Source Software under the terms of the GNU General Public License (GPL) version 2.</p>
+</blockquote>
+<p>You can install VirtualBox and the VirtualBox Extension Pack from <a href="https://www.virtualbox.org/wiki/Downloads">www.virtualbox.org/wiki/Downloads</a>
+or with your package manager.</p>
+<h2>Vagrant</h2>
+<blockquote>
+<p>Vagrant is a tool for building complete development environments. With an easy-to-use workflow
+and focus on automation, Vagrant lowers development environment setup time, increases
+development/production parity, and makes the "works on my machine" excuse a relic of the past.</p>
+</blockquote>
+<p>You can install Vagrant from <a href="https://www.vagrantup.com/downloads.html">www.vagrantup.com/downloads.html</a>
+or with your package manager.</p>
+<h1>Start a new VM</h1>
+<p>Simply <code>cd</code> to the root directory of the FAKE source code and run <code>vagrant up</code>.</p>
+<p>The VM will be automatically downloaded, imported into VirtualBox, configured and started. The FAKE
+source directory is automatically shared with the VM under the <code>/vagrant</code> directory.</p>
+<p>Run <code>vagrant ssh</code> to directly connect via SSH to the VM and start working.</p>
+<p>Alternately, you can directly execute any command with <code>vagrant ssh -c "&lt;command&gt;"</code>.
+As example, you can directly invoke the <code>build.sh</code> script with the
+<code>vagrant ssh -c "cd /vagrant &amp;&amp; bash ./build.sh"</code> command.</p>
+<p>Once you have finished, you can either:</p>
+<ul>
+<li>Run <code>vagrant suspend</code> to pause the VM.</li>
+<li>Run <code>vagrant halt</code> to shutdown the VM.</li>
+<li>Run <code>vagrant destroy</code> to delete the imported VM.</li>
+<li>Run <code>vagrant box remove ubuntu/trusty64</code> to remove the base box from your computer.</li>
+<li>Re-run <code>vagrant up</code> to reload the VM.</li>
+</ul>
+<p>The full command line documentation is available at <a href="https://docs.vagrantup.com/">docs.vagrantup.com</a>.</p>
+<h1>Further information</h1>
+<ul>
+<li><a href="https://docs.vagrantup.com/v2/">Vagrant Documentation</a></li>
+<li><a href="https://github.com/mitchellh/vagrant">Vagrant on GitHub</a></li>
+<li><a href="http://24ways.org/2014/what-is-vagrant-and-why-should-i-care/">What is Vagrant and why should I care</a></li>
+<li><a href="https://www.packer.io/">Packer</a> (used to create base boxes).</li>
+</ul>
+
+                    
+        </div>
+        <div class="span3">
+          <a href="index.html">
+            <img src="pics/logo.png" style="width:140px;height:140px;margin:10px 0px 0px 35px;border-style:none;" />
+          </a>
+          <ul class="nav nav-list" id="menu">
+            <li class="nav-header">FAKE - F# Make</li>
+              <li><a href="index.html">Home page</a></li>
+              <li class="divider"></li>              
+            <li><a href="https://nuget.org/packages/Fake">Get FAKE via NuGet</a></li>
+              <li><a href="https://github.com/fsharp/FAKE">Source Code on GitHub</a></li>              
+              <li><a href="https://github.com/fsharp/FAKE/blob/master/License.txt">License (Apache 2)</a></li>            
+              <li><a href="RELEASE_NOTES.html">Release Notes</a></li>
+              <li><a href="contributing.html">Contributing to FAKE</a></li>
+              <li><a href="users.html">Who is using FAKE?</a></li>
+              <li><a href="http://stackoverflow.com/questions/tagged/f%23-fake">Ask a question</a></li>
+            <li class="nav-header">Tutorials</li>
+              <li><a href="gettingstarted.html">Getting started</a></li>
+              <li><a href="cache.html">Build script caching</a></li>
+              <li class="divider"></li>
+              <li><a href="nuget.html">NuGet package restore</a></li>
+              <li><a href="fxcop.html">Using FxCop in a build</a></li>
+              <li><a href="assemblyinfo.html">Generating AssemblyInfo</a></li>
+              <li><a href="create-nuget-package.html">Create NuGet packages</a></li>
+              <li><a href="specifictargets.html">Running specific targets</a></li>
+              <li><a href="commandline.html">Running FAKE from command line</a></li>
+              <li><a href="parallel-build.html">Running targets in parallel</a></li>
+              <li><a href="fsc.html">Using the F# compiler from FAKE</a></li>
+              <li><a href="customtasks.html">Creating custom tasks</a></li>
+              <li><a href="soft-dependencies.html">Soft dependencies</a></li>
+              <li><a href="teamcity.html">TeamCity integration</a></li>
+              <li><a href="canopy.html">Running canopy tests</a></li>
+              <li><a href="octopusdeploy.html">Octopus Deploy</a></li>
+              <li><a href="typescript.html">TypeScript support</a></li>
+              <li><a href="azurewebjobs.html">Azure WebJobs support</a></li>
+              <li><a href="azurecloudservices.html">Azure Cloud Services support</a></li>
+              <li><a href="dacpac.html">SQL DACPAC support</a></li>
+              <li><a href="fluentmigrator.html">FluentMigrator support</a></li>
+              <li><a href="androidpublisher.html">Android publisher</a></li>
+              <li><a href="watch.html">File Watcher</a></li>
+              <li><a href="wix.html">WiX Setup Generation</a></li>
+              <li><a href="chocolatey.html">Using Chocolatey</a></li>
+              <li><a href="slacknotification.html">Using Slack</a></li>
+              <li><a href="sonarcube.html">Using SonarQube</a></li>
+              <li class="divider"></li>
+              <li><a href="deploy.html">Fake.Deploy</a></li>
+              <li><a href="iis.html">Fake.IIS</a></li>
+              <li class="nav-header">Reference</li>
+              <li><a href="apidocs/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/fsharp/FAKE"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+  </body>
+</html>

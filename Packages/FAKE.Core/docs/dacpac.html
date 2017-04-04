@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- 
+      The Packaging and Deploying SQL Databases
+ parameters will be replaced with the 
+      document title extracted from the <h1> element or
+      file name, if there is no <h1> heading
+    -->
+    <title>Packaging and Deploying SQL Databases
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FAKE - F# Make">
+    <meta name="author" content="Steffen Forkmann, Mauricio Scheffer, Colin Bull">
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="content/style.css" />
+    <script src="content/tips.js" type="text/javascript"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/fsharp/FAKE">github page</a></li>
+        </ul>
+        <h3 class="muted">FAKE - F# Make</h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          <h1>Packaging and Deploying SQL Databases</h1>
+<p>FAKE can be used to create a SQL DACPAC and also deploy it to a SQL Server using the MSDeploy executable. This is installed by default with Visual Studio and with the SQL Server Data Tools (SSDT) package.</p>
+<p>DACPACs automatically diff from the source to the destination and generate the SQL script dynamically.</p>
+<p>You can read up more on DACPac and MSDeploy arguments <a href="https://msdn.microsoft.com/en-us/library/hh550081%28v=vs.103%29.aspx">here</a>.</p>
+<h2>Sample usage</h2>
+<p>Ensure that you have already built your database project (you can do this with standard MSBuild). Then, use the <code>deployDb</code> command to deploy the <code>dbProject.dacpac</code> to the <code>myDatabase</code>.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span class="i">Fake</span><span class="o">.</span><span class="i">Sql</span><span class="o">.</span><span class="i">DacPac</span>
+
+<span class="c">/// the database for local development + compile</span>
+<span class="i">Target</span> <span class="s">&quot;DeployLocalDb&quot;</span> (<span class="k">fun</span> _ <span class="k">-&gt;</span>
+    <span class="k">let</span> <span class="i">connectionString</span> <span class="o">=</span> <span class="s">&quot;Data Source=(localdb)\MSSQLLocalDB;Integrated Security=True;Database=MyDatabase;Pooling=False&quot;</span>
+    <span class="k">let</span> <span class="i">dacPacPath</span> <span class="o">=</span> <span class="s">&quot;path/to/dbProject.dacpac&quot;</span>
+    <span class="i">deployDb</span> (<span class="k">fun</span> <span class="i">args</span> <span class="k">-&gt;</span> { <span class="i">args</span> <span class="k">with</span> <span class="i">Source</span> <span class="o">=</span> <span class="i">dacPacPath</span>; <span class="i">Destination</span> <span class="o">=</span> <span class="i">localDbConnectionString</span> }) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">ignore</span>)
+</code></pre></td>
+</tr>
+</table>
+<h2>Deployment Options</h2>
+<p>You can optionally specify the type of command to use (again, refer to the documentation above for more detail): -</p>
+<ul>
+<li>Deploy - full deploy to destination</li>
+<li>Script - SQL script</li>
+<li>Report - XML report of diff</li>
+</ul>
+<p>In addition, you can also elect to deploy to Dacpac files rather than SQL databases - simply pass in the pass to the dacpac that you wish to generate.</p>
+
+          <div class="tip" id="fs1">val ignore : value:&#39;T -&gt; unit<br /><br />Full name: Microsoft.FSharp.Core.Operators.ignore</div>
+          
+        </div>
+        <div class="span3">
+          <a href="index.html">
+            <img src="pics/logo.png" style="width:140px;height:140px;margin:10px 0px 0px 35px;border-style:none;" />
+          </a>
+          <ul class="nav nav-list" id="menu">
+            <li class="nav-header">FAKE - F# Make</li>
+              <li><a href="index.html">Home page</a></li>
+              <li class="divider"></li>              
+            <li><a href="https://nuget.org/packages/Fake">Get FAKE via NuGet</a></li>
+              <li><a href="https://github.com/fsharp/FAKE">Source Code on GitHub</a></li>              
+              <li><a href="https://github.com/fsharp/FAKE/blob/master/License.txt">License (Apache 2)</a></li>            
+              <li><a href="RELEASE_NOTES.html">Release Notes</a></li>
+              <li><a href="contributing.html">Contributing to FAKE</a></li>
+              <li><a href="users.html">Who is using FAKE?</a></li>
+              <li><a href="http://stackoverflow.com/questions/tagged/f%23-fake">Ask a question</a></li>
+            <li class="nav-header">Tutorials</li>
+              <li><a href="gettingstarted.html">Getting started</a></li>
+              <li><a href="cache.html">Build script caching</a></li>
+              <li class="divider"></li>
+              <li><a href="nuget.html">NuGet package restore</a></li>
+              <li><a href="fxcop.html">Using FxCop in a build</a></li>
+              <li><a href="assemblyinfo.html">Generating AssemblyInfo</a></li>
+              <li><a href="create-nuget-package.html">Create NuGet packages</a></li>
+              <li><a href="specifictargets.html">Running specific targets</a></li>
+              <li><a href="commandline.html">Running FAKE from command line</a></li>
+              <li><a href="parallel-build.html">Running targets in parallel</a></li>
+              <li><a href="fsc.html">Using the F# compiler from FAKE</a></li>
+              <li><a href="customtasks.html">Creating custom tasks</a></li>
+              <li><a href="soft-dependencies.html">Soft dependencies</a></li>
+              <li><a href="teamcity.html">TeamCity integration</a></li>
+              <li><a href="canopy.html">Running canopy tests</a></li>
+              <li><a href="octopusdeploy.html">Octopus Deploy</a></li>
+              <li><a href="typescript.html">TypeScript support</a></li>
+              <li><a href="azurewebjobs.html">Azure WebJobs support</a></li>
+              <li><a href="azurecloudservices.html">Azure Cloud Services support</a></li>
+              <li><a href="dacpac.html">SQL DACPAC support</a></li>
+              <li><a href="fluentmigrator.html">FluentMigrator support</a></li>
+              <li><a href="androidpublisher.html">Android publisher</a></li>
+              <li><a href="watch.html">File Watcher</a></li>
+              <li><a href="wix.html">WiX Setup Generation</a></li>
+              <li><a href="chocolatey.html">Using Chocolatey</a></li>
+              <li><a href="slacknotification.html">Using Slack</a></li>
+              <li><a href="sonarcube.html">Using SonarQube</a></li>
+              <li class="divider"></li>
+              <li><a href="deploy.html">Fake.Deploy</a></li>
+              <li><a href="iis.html">Fake.IIS</a></li>
+              <li class="nav-header">Reference</li>
+              <li><a href="apidocs/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/fsharp/FAKE"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+  </body>
+</html>

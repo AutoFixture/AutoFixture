@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>FtpHelper - FAKE - F# Make</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Steffen Forkmann, Mauricio Scheffer, Colin Bull">
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+
+    <link type="text/css" rel="stylesheet" href="http://fsharp.github.io/FAKE/content/style.css" />
+    <script type="text/javascript" src="http://fsharp.github.io/FAKE/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="http://github.com/fsharp/fake">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="http://fsharp.github.io/FAKE/index.html">FAKE - F# Make</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>FtpHelper</h1>
+<div class="xmldoc">
+<p>Contains helpers which allow to upload a whole folder/specific file into a FTP Server.
+Uses <code>Passive Mode</code> FTP and handles all files as binary (and not ASCII).
+Assumes direct network connectivity to destination FTP server (not via a proxy).
+Does not support FTPS and SFTP.</p>
+
+</div>
+
+<!-- Render nested types and modules, if there are any -->
+  <h2>Nested types and modules</h2>
+  <div>
+      <table class="table table-bordered type-list">
+    <thead>
+      <tr><td>Type</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="type-name">
+            <a href="fake-ftphelper-ftpserverinfo.html">FtpServerInfo</a>
+          </td>
+          <td class="xmldoc"></td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+  <h3>Functions and values</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Function or value</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '434', 434)" onmouseover="showTip(event, '434', 434)">
+            createAFolder server user pwd destPath
+          </code>
+          <div class="tip" id="434">
+            <strong>Signature:</strong> server:string -&gt; user:string -&gt; pwd:string -&gt; destPath:string -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/FtpHelper.fs#L114-114" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Creates a matching folder in FTP folder, if not already present.</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>destPath</code> - The full name of folder which needs to be created, including all its parent folders</li>
+<li><code>server</code> - FTP Server name (ex: "ftp://10.100.200.300:21/")</li>
+<li><code>user</code> - FTP Server login name (ex: "joebloggs")</li>
+<li><code>pwd</code> - FTP Server login password (ex: "J0Eblogg5")</li>
+</ul>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '435', 435)" onmouseover="showTip(event, '435', 435)">
+            deleteAFile server user pwd destPath
+          </code>
+          <div class="tip" id="435">
+            <strong>Signature:</strong> server:string -&gt; user:string -&gt; pwd:string -&gt; destPath:string -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/FtpHelper.fs#L151-151" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Deletes a single file from remote FTP folder.</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>destPath</code> - The full path to the file which needs to be deleted, including all its parent folders</li>
+<li><code>server</code> - FTP Server name (ex: "ftp://10.100.200.300:21/")</li>
+<li><code>user</code> - FTP Server login name (ex: "joebloggs")</li>
+<li><code>pwd</code> - FTP Server login password (ex: "J0Eblogg5")</li>
+</ul>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '436', 436)" onmouseover="showTip(event, '436', 436)">
+            deleteAFolder server user pwd destPath
+          </code>
+          <div class="tip" id="436">
+            <strong>Signature:</strong> server:string -&gt; user:string -&gt; pwd:string -&gt; destPath:string -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/FtpHelper.fs#L180-180" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Deletes a single folder from remote FTP folder.</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>destPath</code> - The full path to the folder which needs to be deleted, including all its parent folders</li>
+<li><code>server</code> - FTP Server name (ex: "ftp://10.100.200.300:21/")</li>
+<li><code>user</code> - FTP Server login name (ex: "joebloggs")</li>
+<li><code>pwd</code> - FTP Server login password (ex: "J0Eblogg5")</li>
+</ul>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '437', 437)" onmouseover="showTip(event, '437', 437)">
+            getFtpDirContents (...)
+          </code>
+          <div class="tip" id="437">
+            <strong>Signature:</strong> server:string -&gt; user:string -&gt; pwd:string -&gt; dirPath:string -&gt; string<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/FtpHelper.fs#L55-55" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Gets the contents/listing of files and folders in a given FTP server folder</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>dirPath</code> - The full name of folder whose content need to be listed</li>
+<li><code>server</code> - FTP Server name (ex: "ftp://10.100.200.300:21/")</li>
+<li><code>user</code> - FTP Server login name (ex: "joebloggs")</li>
+<li><code>pwd</code> - FTP Server login password (ex: "J0Eblogg5")</li>
+</ul>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '438', 438)" onmouseover="showTip(event, '438', 438)">
+            getServerInfo (...)
+          </code>
+          <div class="tip" id="438">
+            <strong>Signature:</strong> serverNameIp:string -&gt; user:string -&gt; password:string -&gt; ftpMethod:string -&gt; FtpServerInfo<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/FtpHelper.fs#L17-17" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Gets a connection to the FTP server</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '439', 439)" onmouseover="showTip(event, '439', 439)">
+            isFolderPresent server user pwd destPath
+          </code>
+          <div class="tip" id="439">
+            <strong>Signature:</strong> server:string -&gt; user:string -&gt; pwd:string -&gt; destPath:string -&gt; bool<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/FtpHelper.fs#L102-102" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Given a folder path, will check if that folder is present at a given root directory of a FTP server.</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>destPath</code> - The full name of folder which needs to be checked for existance, including all its parent folders</li>
+<li><code>server</code> - FTP Server name (ex: "ftp://10.100.200.300:21/")</li>
+<li><code>user</code> - FTP Server login name (ex: "joebloggs")</li>
+<li><code>pwd</code> - FTP Server login password (ex: "J0Eblogg5")</li>
+</ul>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '440', 440)" onmouseover="showTip(event, '440', 440)">
+            regexCheck fname ftpContents
+          </code>
+          <div class="tip" id="440">
+            <strong>Signature:</strong> fname:string -&gt; ftpContents:string -&gt; bool<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/FtpHelper.fs#L47-47" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Checks to see if the <code>ftp content</code> string containts the string <code>Given_Folder_Name</code></p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '441', 441)" onmouseover="showTip(event, '441', 441)">
+            uploadAFile (...)
+          </code>
+          <div class="tip" id="441">
+            <strong>Signature:</strong> server:string -&gt; user:string -&gt; pwd:string -&gt; destPath:string -&gt; srcPath:string -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/FtpHelper.fs#L72-72" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Uploads a single file from local directory into remote FTP folder.</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>destPath</code> - The full local file path that needs to be uploaded</li>
+<li><code>srcPath</code> - The full path to file which needs to be created, including all its parent folders</li>
+<li><code>server</code> - FTP Server name (ex: "ftp://10.100.200.300:21/")</li>
+<li><code>user</code> - FTP Server login name (ex: "joebloggs")</li>
+<li><code>pwd</code> - FTP Server login password (ex: "J0Eblogg5")</li>
+</ul>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '442', 442)" onmouseover="showTip(event, '442', 442)">
+            uploadAFolder (...)
+          </code>
+          <div class="tip" id="442">
+            <strong>Signature:</strong> server:string -&gt; user:string -&gt; pwd:string -&gt; srcPath:string -&gt; rootDir:string -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/fsharp/FAKE/blob/master/src/app/FakeLib/FtpHelper.fs#L130-130" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Uploads a given local folder to a given root dir on a FTP server.</p>
+<h2>Parameters</h2>
+<ul>
+<li><code>srcPath</code> - The local server path from which files need to be uploaded</li>
+<li><code>rootDir</code> - The remote root dir where files need to be uploaded, leave this as empty, if files need to be uploaded to root dir of FTP server</li>
+<li><code>server</code> - FTP Server name (ex: "ftp://10.100.200.300:21/")</li>
+<li><code>user</code> - FTP Server login name (ex: "joebloggs")</li>
+<li><code>pwd</code> - FTP Server login password (ex: "J0Eblogg5")</li>
+</ul>
+
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <a href="http://fsharp.github.io/FAKE/index.html">
+            <img src="http://fsharp.github.io/FAKE/pics/logo.png" style="width:140px;height:140px;margin:10px 0px 0px 35px;border-style:none;" />
+          </a>
+
+          <ul class="nav nav-list" id="menu">
+
+            <li class="nav-header">FAKE - F# Make</li>
+
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/index.html">Home page</a></li>
+            <li class="divider"></li>
+
+            <li><a href="https://www.nuget.org/packages/FAKE">Get FAKE - F# Make via NuGet</a></li>
+            <li><a href="http://github.com/fsharp/fake">Source Code on GitHub</a></li>
+            <li><a href="http://github.com/fsharp/fake/blob/master/License.txt">License (Apache 2)</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/RELEASE_NOTES.html">Release Notes</a></li>
+            <li><a href="http://fsharp.github.io/FAKE//contributing.html">Contributing to FAKE - F# Make</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/users.html">Who is using FAKE?</a></li>
+            <li><a href="http://stackoverflow.com/questions/tagged/f%23-fake">Ask a question</a></li>
+            <li class="nav-header">Tutorials</li>
+            <li><a href="http://fsharp.github.io/FAKE/gettingstarted.html">Getting started</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/cache.html">Build script caching</a></li>
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/nuget.html">NuGet package restore</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fxcop.html">Using FxCop in a build</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/assemblyinfo.html">Generating AssemblyInfo</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/create-nuget-package.html">Create NuGet packages</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/specifictargets.html">Running specific targets</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/commandline.html">Running FAKE from command line</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/parallel-build.html">Running targets in parallel</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fsc.html">Using the F# compiler from FAKE</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/customtasks.html">Creating custom tasks</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/soft-dependencies.html">Soft dependencies</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/teamcity.html">TeamCity integration</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/teamcityadvanced.html">TeamCity integration (Advanced)</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/canopy.html">Running canopy tests</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/octopusdeploy.html">Octopus Deploy</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/typescript.html">TypeScript support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/azurewebjobs.html">Azure WebJobs support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/azurecloudservices.html">Azure Cloud Services support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/fluentmigrator.html">FluentMigrator support</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/androidpublisher.html">Android publisher</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/watch.html">File Watcher</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/wix.html">WiX Setup Generation</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/chocolatey.html">Using Chocolatey</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/slacknotification.html">Using Slack</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/sonarcube.html">Using SonarQube</a></li>
+            <li class="divider"></li>
+            <li><a href="http://fsharp.github.io/FAKE/deploy.html">Fake.Deploy</a></li>
+            <li><a href="http://fsharp.github.io/FAKE/iis.html">Fake.IIS</a></li>
+            <li class="nav-header">Reference</li>
+
+            <li><a href="http://fsharp.github.io/FAKE/apidocs/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="http://github.com/fsharp/fake"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+  </body>
+  </html>

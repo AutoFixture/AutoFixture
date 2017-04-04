@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- 
+      The Integrating a FAKE build script into TeamCity
+ parameters will be replaced with the 
+      document title extracted from the <h1> element or
+      file name, if there is no <h1> heading
+    -->
+    <title>Integrating a FAKE build script into TeamCity
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FAKE - F# Make">
+    <meta name="author" content="Steffen Forkmann, Mauricio Scheffer, Colin Bull">
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="content/style.css" />
+    <script src="content/tips.js" type="text/javascript"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/fsharp/FAKE">github page</a></li>
+        </ul>
+        <h3 class="muted">FAKE - F# Make</h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          <h1>Integrating a FAKE build script into TeamCity</h1>
+<p>Easy <a href="http://www.jetbrains.com/teamcity/">TeamCity</a> integration was one of the major goals for the FAKE build system.</p>
+<p>In this article you will learn how to set up a FAKE build script in TeamCity. We will use the CalculatorSample which you can build from the <a href="gettingstarted.html">getting started guide</a>.</p>
+<h2>Installing TeamCity</h2>
+<p>You can download the free professional edition of TeamCity from <a href="http://www.jetbrains.com/teamcity/"><a href="http://www.jetbrains.com/teamcity/">http://www.jetbrains.com/teamcity/</a></a>. After the installation process you should be ready to configure your first build.</p>
+<h2>Creating a FAKE project on TeamCity</h2>
+<p>Now create a new project and add a build configuration:</p>
+<p><img src="pics/teamcity/createproject.png" alt="alt text" title="Creating a FAKE project on TeamCity" /></p>
+<p>You also need to set the artifacts paths:</p>
+<p><img src="pics/teamcity/generalsettings.png" alt="alt text" title="Set the settings" /></p>
+<h2>Attach a VCS root</h2>
+<p>The next step is to attach a VCS root. For this sample we will use the official FAKE repository at <a href="https://github.com/forki/FAKE/"><a href="https://github.com/forki/FAKE/">https://github.com/forki/FAKE/</a></a>.</p>
+<p><img src="pics/teamcity/vcsroot.png" alt="alt text" title="Set up the VCS root" />
+<img src="pics/teamcity/auth.png" alt="alt text" title="Set up the VCS root authentication" />
+<img src="pics/teamcity/checkoutrules.png" alt="alt text" title="Set up the VCS root checkout rules" /></p>
+<h2>Creating the build step</h2>
+<p>Now is the time to create two build steps. The first one downloads FAKE via Nuget and the second one runs the build script:</p>
+<p><img src="pics/teamcity/buildstep1.png" alt="alt text" title="Download FAKE" />
+<img src="pics/teamcity/buildstep2.png" alt="alt text" title="Run FAKE script" /></p>
+<p>If you want you could also add a build trigger to your build script:</p>
+<p><img src="pics/teamcity/trigger.png" alt="alt text" title="Set up the build trigger" /></p>
+<h2>Running the build</h2>
+<p>Now if everything is configured correctly, you can run your build and the output should look like:</p>
+<p><img src="pics/teamcity/output.png" alt="alt text" title="Build output" /></p>
+<p>You can also inspect the NUnit results:</p>
+<p><img src="pics/teamcity/nunit.png" alt="alt text" title="NUnit results" /></p>
+
+                    
+        </div>
+        <div class="span3">
+          <a href="index.html">
+            <img src="pics/logo.png" style="width:140px;height:140px;margin:10px 0px 0px 35px;border-style:none;" />
+          </a>
+          <ul class="nav nav-list" id="menu">
+            <li class="nav-header">FAKE - F# Make</li>
+              <li><a href="index.html">Home page</a></li>
+              <li class="divider"></li>              
+            <li><a href="https://nuget.org/packages/Fake">Get FAKE via NuGet</a></li>
+              <li><a href="https://github.com/fsharp/FAKE">Source Code on GitHub</a></li>              
+              <li><a href="https://github.com/fsharp/FAKE/blob/master/License.txt">License (Apache 2)</a></li>            
+              <li><a href="RELEASE_NOTES.html">Release Notes</a></li>
+              <li><a href="contributing.html">Contributing to FAKE</a></li>
+              <li><a href="users.html">Who is using FAKE?</a></li>
+              <li><a href="http://stackoverflow.com/questions/tagged/f%23-fake">Ask a question</a></li>
+            <li class="nav-header">Tutorials</li>
+              <li><a href="gettingstarted.html">Getting started</a></li>
+              <li><a href="cache.html">Build script caching</a></li>
+              <li class="divider"></li>
+              <li><a href="nuget.html">NuGet package restore</a></li>
+              <li><a href="fxcop.html">Using FxCop in a build</a></li>
+              <li><a href="assemblyinfo.html">Generating AssemblyInfo</a></li>
+              <li><a href="create-nuget-package.html">Create NuGet packages</a></li>
+              <li><a href="specifictargets.html">Running specific targets</a></li>
+              <li><a href="commandline.html">Running FAKE from command line</a></li>
+              <li><a href="parallel-build.html">Running targets in parallel</a></li>
+              <li><a href="fsc.html">Using the F# compiler from FAKE</a></li>
+              <li><a href="customtasks.html">Creating custom tasks</a></li>
+              <li><a href="soft-dependencies.html">Soft dependencies</a></li>
+              <li><a href="teamcity.html">TeamCity integration</a></li>
+              <li><a href="canopy.html">Running canopy tests</a></li>
+              <li><a href="octopusdeploy.html">Octopus Deploy</a></li>
+              <li><a href="typescript.html">TypeScript support</a></li>
+              <li><a href="azurewebjobs.html">Azure WebJobs support</a></li>
+              <li><a href="azurecloudservices.html">Azure Cloud Services support</a></li>
+              <li><a href="dacpac.html">SQL DACPAC support</a></li>
+              <li><a href="fluentmigrator.html">FluentMigrator support</a></li>
+              <li><a href="androidpublisher.html">Android publisher</a></li>
+              <li><a href="watch.html">File Watcher</a></li>
+              <li><a href="wix.html">WiX Setup Generation</a></li>
+              <li><a href="chocolatey.html">Using Chocolatey</a></li>
+              <li><a href="slacknotification.html">Using Slack</a></li>
+              <li><a href="sonarcube.html">Using SonarQube</a></li>
+              <li class="divider"></li>
+              <li><a href="deploy.html">Fake.Deploy</a></li>
+              <li><a href="iis.html">Fake.IIS</a></li>
+              <li class="nav-header">Reference</li>
+              <li><a href="apidocs/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/fsharp/FAKE"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+  </body>
+</html>

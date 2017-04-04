@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- 
+      The Creating NuGet packages
+ parameters will be replaced with the 
+      document title extracted from the <h1> element or
+      file name, if there is no <h1> heading
+    -->
+    <title>Creating NuGet packages
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FAKE - F# Make">
+    <meta name="author" content="Steffen Forkmann, Mauricio Scheffer, Colin Bull">
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="content/style.css" />
+    <script src="content/tips.js" type="text/javascript"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/fsharp/FAKE">github page</a></li>
+        </ul>
+        <h3 class="muted">FAKE - F# Make</h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          <h1>Creating NuGet packages</h1>
+<h2>Creating a .nuspec template</h2>
+<p>The basic idea to create nuget packages is to create a .nuspec template and let FAKE fill out the missing parts.
+The following code shows such .nuspec file from the <a href="https://github.com/octokit/octokit.net">OctoKit</a> project.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="xml"><span class="prep">&lt;?</span>xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span><span class="prep">?&gt;</span>
+<span class="k">&lt;</span><span class="i">package</span> <span class="o">xmlns:xsi</span><span class="k">="http://www.w3.org/2001/XMLSchema-instance"</span> <span class="o">xmlns:xsd</span><span class="k">="http://www.w3.org/2001/XMLSchema"</span><span class="k">&gt;</span>
+  <span class="k">&lt;</span><span class="i">metadata</span> <span class="o">xmlns</span><span class="k">="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"</span><span class="k">&gt;</span>    
+  <span class="k">&lt;</span><span class="i">id</span><span class="k">&gt;</span>@project@<span class="k">&lt;/</span><span class="i">id</span><span class="k">&gt;</span>
+  <span class="k">&lt;</span><span class="i">version</span><span class="k">&gt;</span>@build.number@<span class="k">&lt;/</span><span class="i">version</span><span class="k">&gt;</span>
+  <span class="k">&lt;</span><span class="i">authors</span><span class="k">&gt;</span>@authors@<span class="k">&lt;/</span><span class="i">authors</span><span class="k">&gt;</span>
+  <span class="k">&lt;</span><span class="i">owners</span><span class="k">&gt;</span>@authors@<span class="k">&lt;/</span><span class="i">owners</span><span class="k">&gt;</span>
+  <span class="k">&lt;</span><span class="i">summary</span><span class="k">&gt;</span>@summary@<span class="k">&lt;/</span><span class="i">summary</span><span class="k">&gt;</span>
+  <span class="k">&lt;</span><span class="i">licenseUrl</span><span class="k">&gt;</span>https://github.com/octokit/octokit.net/blob/master/LICENSE.txt<span class="k">&lt;/</span><span class="i">licenseUrl</span><span class="k">&gt;</span>
+  <span class="k">&lt;</span><span class="i">projectUrl</span><span class="k">&gt;</span>https://github.com/octokit/octokit.net<span class="k">&lt;/</span><span class="i">projectUrl</span><span class="k">&gt;</span>
+  <span class="k">&lt;</span><span class="i">iconUrl</span><span class="k">&gt;</span>https://github.com/octokit/octokit.net/icon.png<span class="k">&lt;/</span><span class="i">iconUrl</span><span class="k">&gt;</span>
+  <span class="k">&lt;</span><span class="i">requireLicenseAcceptance</span><span class="k">&gt;</span>false<span class="k">&lt;/</span><span class="i">requireLicenseAcceptance</span><span class="k">&gt;</span>
+  <span class="k">&lt;</span><span class="i">description</span><span class="k">&gt;</span>@description@<span class="k">&lt;/</span><span class="i">description</span><span class="k">&gt;</span>
+  <span class="k">&lt;</span><span class="i">releaseNotes</span><span class="k">&gt;</span>@releaseNotes@<span class="k">&lt;/</span><span class="i">releaseNotes</span><span class="k">&gt;</span>
+  <span class="k">&lt;</span><span class="i">copyright</span><span class="k">&gt;</span>Copyright GitHub 2013<span class="k">&lt;/</span><span class="i">copyright</span><span class="k">&gt;</span>    
+  <span class="k">&lt;</span><span class="i">tags</span><span class="k">&gt;</span>GitHub API Octokit<span class="k">&lt;/</span><span class="i">tags</span><span class="k">&gt;</span>
+  @dependencies@
+  @references@
+  <span class="k">&lt;/</span><span class="i">metadata</span><span class="k">&gt;</span>
+  @files@
+<span class="k">&lt;/</span><span class="i">package</span><span class="k">&gt;</span>
+</code></pre></td></tr></table>
+<p>The .nuspec template contains some placeholders like <code>@build.number@</code> which can be replaced later by the build script.
+It also contains some specific information like the copyright which is not handled by FAKE.</p>
+<p>The following table gives the correspondence between the placeholders and the fields of the record type used by the NuGet task.</p>
+<table>
+<thead>
+<tr class="header">
+<th><p>Placeholder</p></th>
+<th><p>replaced by (<code>NuGetParams</code> record field)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p><code>@build.number@</code></p></td>
+<td><p><code>Version</code></p></td>
+</tr>
+<tr class="even">
+<td><p><code>@authors@</code></p></td>
+<td><p><code>Authors</code></p></td>
+</tr>
+<tr class="odd">
+<td><p><code>@project@</code></p></td>
+<td><p><code>Project</code></p></td>
+</tr>
+<tr class="even">
+<td><p><code>@summary@</code></p></td>
+<td><p><code>Summary</code></p></td>
+</tr>
+<tr class="odd">
+<td><p><code>@description@</code></p></td>
+<td><p><code>Description</code></p></td>
+</tr>
+<tr class="even">
+<td><p><code>@tags@</code></p></td>
+<td><p><code>Tags</code></p></td>
+</tr>
+<tr class="odd">
+<td><p><code>@releaseNotes@</code></p></td>
+<td><p><code>ReleaseNotes</code></p></td>
+</tr>
+<tr class="even">
+<td><p><code>@copyright@</code></p></td>
+<td><p><code>Copyright</code></p></td>
+</tr>
+<tr class="odd">
+<td><p><code>@dependencies@</code></p></td>
+<td><p>a combination of <code>Dependencies</code> and <code>DependenciesByFramework</code></p></td>
+</tr>
+<tr class="even">
+<td><p><code>@references@</code></p></td>
+<td><p>a combination of <code>References</code> and <code>ReferencesByFramework</code></p></td>
+</tr>
+<tr class="odd">
+<td><p><code>@files@</code></p></td>
+<td><p>a list of source, target, and exclude strings for files to be included in the nuget package</p></td>
+</tr>
+</tbody>
+</table>
+
+<h2>Setting up the build script</h2>
+<p>In the build script you need to create a target which executes the <a href="apidocs/fake-nugethelper.html">NuGet task</a>:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Target</span> <span class="s">&quot;CreatePackage&quot;</span> (<span class="k">fun</span> _ <span class="k">-&gt;</span>
+    <span class="c">// Copy all the package files into a package folder</span>
+	<span class="i">CopyFiles</span> <span class="i">packagingDir</span> <span class="i">allPackageFiles</span>
+
+	<span class="i">NuGet</span> (<span class="k">fun</span> <span class="i">p</span> <span class="k">-&gt;</span> 
+		{<span class="i">p</span> <span class="k">with</span>
+			<span class="i">Authors</span> <span class="o">=</span> <span class="i">authors</span>
+			<span class="i">Project</span> <span class="o">=</span> <span class="i">projectName</span>
+			<span class="i">Description</span> <span class="o">=</span> <span class="i">projectDescription</span>                               
+			<span class="i">OutputPath</span> <span class="o">=</span> <span class="i">packagingRoot</span>
+			<span class="i">Summary</span> <span class="o">=</span> <span class="i">projectSummary</span>
+			<span class="i">WorkingDir</span> <span class="o">=</span> <span class="i">packagingDir</span>
+			<span class="i">Version</span> <span class="o">=</span> <span class="i">buildVersion</span>
+			<span class="i">AccessKey</span> <span class="o">=</span> <span class="i">myAccesskey</span>
+			<span class="i">Publish</span> <span class="o">=</span> <span class="k">true</span> }) 
+			<span class="s">&quot;myProject.nuspec&quot;</span>
+)
+</code></pre></td>
+</tr>
+</table>
+<p>There are a couple of interesting things happening here. In this sample FAKE created:</p>
+<ul>
+<li>a copy of the .nuspec file</li>
+<li>filled in all the specified parameters</li>
+<li>created the NuGet package</li>
+<li>pushed it to <a href="http://www.nuget.org">nuget.org</a> using the given <code>myAccessKey</code>.</li>
+</ul>
+<h2>Handling package dependencies</h2>
+<p>If your project dependends on other projects it is possible to specify these dependencies in the .nuspec definition (see also <a href="http://docs.nuget.org/docs/reference/nuspec-reference#Specifying_Dependencies_in_version_2.0_and_above">Nuget docs</a>).
+Here is a small sample which sets up dependencies for different framework versions:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">    <span class="i">NuGet</span> (<span class="k">fun</span> <span class="i">p</span> <span class="k">-&gt;</span> 
+            {<span class="i">p</span> <span class="k">with</span>
+                    <span class="i">Authors</span> <span class="o">=</span> <span class="i">authors</span>
+                    <span class="c">// ...</span>
+                    <span class="i">Dependencies</span> <span class="o">=</span>  <span class="c">// fallback - for all unspecified frameworks</span>
+				[<span class="s">&quot;Octokit&quot;</span>, <span class="s">&quot;0.1&quot;</span>
+				<span class="s">&quot;Rx-Main&quot;</span>, <span class="i">GetPackageVersion</span> <span class="s">&quot;./packages/&quot;</span> <span class="s">&quot;Rx-Main&quot;</span>]
+                    <span class="i">DependenciesByFramework</span> <span class="o">=</span>
+                                    [{ <span class="i">FrameworkVersion</span>  <span class="o">=</span> <span class="s">&quot;net40&quot;</span>
+                                    <span class="i">Dependencies</span> <span class="o">=</span> 
+                                            [<span class="s">&quot;Octokit&quot;</span>, <span class="s">&quot;0.1&quot;</span>
+                                             <span class="s">&quot;Rx-Main&quot;</span>, <span class="i">GetPackageVersion</span> <span class="s">&quot;./packages/&quot;</span> <span class="s">&quot;Rx-Main&quot;</span>
+                                             <span class="s">&quot;SignalR&quot;</span>, <span class="i">GetPackageVersion</span> <span class="s">&quot;./packages/&quot;</span> <span class="s">&quot;SignalR&quot;</span>]}
+                                    { <span class="i">FrameworkVersion</span>  <span class="o">=</span> <span class="s">&quot;net45&quot;</span>
+                                    <span class="i">Dependencies</span> <span class="o">=</span> 
+                                            [<span class="s">&quot;Octokit&quot;</span>, <span class="s">&quot;0.1&quot;</span>
+                                             <span class="s">&quot;SignalR&quot;</span>, <span class="i">GetPackageVersion</span> <span class="s">&quot;./packages/&quot;</span> <span class="s">&quot;SignalR&quot;</span>]}]
+                    <span class="c">// ...</span>
+                    <span class="i">Publish</span> <span class="o">=</span> <span class="k">true</span> }) 
+                    <span class="s">&quot;myProject.nuspec&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2>Explicit assembly references</h2>
+<p>If you want to have auxiliary assemblies next to the ones that get referenced by the target project, you can place  all the needed files in the <code>lib</code> directory and explicitly specify which of them should be referenced (see <a href="http://docs.nuget.org/docs/reference/nuspec-reference#Specifying_Explicit_Assembly_References_in_version_2.5_and_above">Nuget docs</a>) via the <code>References</code> and <code>ReferencesByFramework</code> fields.
+Here is a code snippet showing how to use these:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">NuGet</span> (<span class="k">fun</span> <span class="i">p</span> <span class="k">-&gt;</span> 
+    {<span class="i">p</span> <span class="k">with</span>
+        <span class="i">Authors</span> <span class="o">=</span> <span class="i">authors</span>
+        <span class="c">// ...</span>
+        <span class="i">References</span> <span class="o">=</span> [<span class="s">&quot;a.dll&quot;</span>]
+        <span class="i">ReferencesByFramework</span> <span class="o">=</span>
+            [{ <span class="i">FrameworkVersion</span>  <span class="o">=</span> <span class="s">&quot;net40&quot;</span>; <span class="i">References</span> <span class="o">=</span> [<span class="s">&quot;b.dll&quot;</span>]}
+             { <span class="i">FrameworkVersion</span>  <span class="o">=</span> <span class="s">&quot;net45&quot;</span>; <span class="i">References</span> <span class="o">=</span> [<span class="s">&quot;c.dll&quot;</span>]}]
+        <span class="c">// ...</span>
+        <span class="i">Publish</span> <span class="o">=</span> <span class="k">false</span> })
+        <span class="s">&quot;template.nuspec&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2>Explicit file specifications</h2>
+<p>If you want to specify exactly what files are packaged and where they are placed in the resulting NuGet package you can specify the Files property directly.  This is exactly like having the Files element of a nuspec filled out ahead of time.
+Here is a code snippet showing how to use this:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// Here we are specifically only taking the js and css folders from our project and placing them in matching target folder in the resulting nuspec.</span>
+<span class="c">// Note that the include paths are relative to the location of the .nuspec file</span>
+<span class="c">// See [Nuget docs](http://docs.nuget.org/docs/reference/nuspec-reference#Specifying_Files_to_Include_in_the_Package) for more detailed examples of how to specify file includes, as this follows the same syntax.</span>
+<span class="i">NuGet</span> (<span class="k">fun</span> <span class="i">p</span> <span class="k">-&gt;</span>
+	{<span class="i">p</span> <span class="k">with</span>
+		<span class="c">// ...</span>
+		<span class="i">Files</span> <span class="o">=</span> [
+			(<span class="s">@&quot;tools\**\*.*&quot;</span>, <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">None</span>, <span onmouseout="hideTip(event, 'fs1', 2)" onmouseover="showTip(event, 'fs1', 2)" class="i">None</span>)
+			(<span class="s">@&quot;bin\Debug\*.dll&quot;</span>, <span onmouseout="hideTip(event, 'fs2', 3)" onmouseover="showTip(event, 'fs2', 3)" class="i">Some</span> <span class="s">&quot;lib&quot;</span>, <span onmouseout="hideTip(event, 'fs2', 4)" onmouseover="showTip(event, 'fs2', 4)" class="i">Some</span> <span class="s">&quot;badfile.css;otherbadfile.css&quot;</span>)
+		]
+		<span class="c">// ...</span>
+	})
+	<span class="s">&quot;template.nuspec&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+
+          <div class="tip" id="fs1">union case Option.None: Option&lt;&#39;T&gt;</div>
+<div class="tip" id="fs2">union case Option.Some: Value: &#39;T -&gt; Option&lt;&#39;T&gt;</div>
+          
+        </div>
+        <div class="span3">
+          <a href="index.html">
+            <img src="pics/logo.png" style="width:140px;height:140px;margin:10px 0px 0px 35px;border-style:none;" />
+          </a>
+          <ul class="nav nav-list" id="menu">
+            <li class="nav-header">FAKE - F# Make</li>
+              <li><a href="index.html">Home page</a></li>
+              <li class="divider"></li>              
+            <li><a href="https://nuget.org/packages/Fake">Get FAKE via NuGet</a></li>
+              <li><a href="https://github.com/fsharp/FAKE">Source Code on GitHub</a></li>              
+              <li><a href="https://github.com/fsharp/FAKE/blob/master/License.txt">License (Apache 2)</a></li>            
+              <li><a href="RELEASE_NOTES.html">Release Notes</a></li>
+              <li><a href="contributing.html">Contributing to FAKE</a></li>
+              <li><a href="users.html">Who is using FAKE?</a></li>
+              <li><a href="http://stackoverflow.com/questions/tagged/f%23-fake">Ask a question</a></li>
+            <li class="nav-header">Tutorials</li>
+              <li><a href="gettingstarted.html">Getting started</a></li>
+              <li><a href="cache.html">Build script caching</a></li>
+              <li class="divider"></li>
+              <li><a href="nuget.html">NuGet package restore</a></li>
+              <li><a href="fxcop.html">Using FxCop in a build</a></li>
+              <li><a href="assemblyinfo.html">Generating AssemblyInfo</a></li>
+              <li><a href="create-nuget-package.html">Create NuGet packages</a></li>
+              <li><a href="specifictargets.html">Running specific targets</a></li>
+              <li><a href="commandline.html">Running FAKE from command line</a></li>
+              <li><a href="parallel-build.html">Running targets in parallel</a></li>
+              <li><a href="fsc.html">Using the F# compiler from FAKE</a></li>
+              <li><a href="customtasks.html">Creating custom tasks</a></li>
+              <li><a href="soft-dependencies.html">Soft dependencies</a></li>
+              <li><a href="teamcity.html">TeamCity integration</a></li>
+              <li><a href="canopy.html">Running canopy tests</a></li>
+              <li><a href="octopusdeploy.html">Octopus Deploy</a></li>
+              <li><a href="typescript.html">TypeScript support</a></li>
+              <li><a href="azurewebjobs.html">Azure WebJobs support</a></li>
+              <li><a href="azurecloudservices.html">Azure Cloud Services support</a></li>
+              <li><a href="dacpac.html">SQL DACPAC support</a></li>
+              <li><a href="fluentmigrator.html">FluentMigrator support</a></li>
+              <li><a href="androidpublisher.html">Android publisher</a></li>
+              <li><a href="watch.html">File Watcher</a></li>
+              <li><a href="wix.html">WiX Setup Generation</a></li>
+              <li><a href="chocolatey.html">Using Chocolatey</a></li>
+              <li><a href="slacknotification.html">Using Slack</a></li>
+              <li><a href="sonarcube.html">Using SonarQube</a></li>
+              <li class="divider"></li>
+              <li><a href="deploy.html">Fake.Deploy</a></li>
+              <li><a href="iis.html">Fake.IIS</a></li>
+              <li class="nav-header">Reference</li>
+              <li><a href="apidocs/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/fsharp/FAKE"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+  </body>
+</html>

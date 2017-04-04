@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- 
+      The Literate sample
+ parameters will be replaced with the 
+      document title extracted from the <h1> element or
+      file name, if there is no <h1> heading
+    -->
+    <title>Literate sample
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FAKE - F# Make">
+    <meta name="author" content="Steffen Forkmann, Mauricio Scheffer, Colin Bull">
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="content/style.css" />
+    <script src="content/tips.js" type="text/javascript"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/fsharp/FAKE">github page</a></li>
+        </ul>
+        <h3 class="muted">FAKE - F# Make</h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          <h1>Literate sample</h1>
+<p>This file demonstrates how to write literate F# script
+files (<code>*.fsx</code>) that can be transformed into nice HTML
+using the <code>literate.fsx</code> script from the <a href="http://tpetricek.github.com/FSharp.Formatting">F# Formatting
+package</a>.</p>
+<p>As you can see, a comment starting with double asterisk
+is treated as part of the document and is transformed
+using Markdown, which means that you can use:</p>
+<ul>
+<li>Unordered or ordered lists</li>
+<li>Text formatting including <strong>bold</strong> and <em>emphasis</em></li>
+</ul>
+<p>And numerous other <a href="http://daringfireball.net/projects/markdown">Markdown</a> features.</p>
+<h2>Writing F# code</h2>
+<p>Code that is not inside comment will be formatted as
+a sample snippet (which also means that you can
+run it in Visual Studio or MonoDevelop).</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">/// The Hello World of functional languages!</span>
+<span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="f">factorial</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">x</span> <span class="o">=</span> 
+  <span class="k">if</span> <span onmouseout="hideTip(event, 'fs2', 3)" onmouseover="showTip(event, 'fs2', 3)" class="i">x</span> <span class="o">=</span> <span class="n">0</span> <span class="k">then</span> <span class="n">1</span> 
+  <span class="k">else</span> <span onmouseout="hideTip(event, 'fs2', 4)" onmouseover="showTip(event, 'fs2', 4)" class="i">x</span> <span class="o">*</span> (<span onmouseout="hideTip(event, 'fs1', 5)" onmouseover="showTip(event, 'fs1', 5)" class="f">factorial</span> (<span onmouseout="hideTip(event, 'fs2', 6)" onmouseover="showTip(event, 'fs2', 6)" class="i">x</span> <span class="o">-</span> <span class="n">1</span>))
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 7)" onmouseover="showTip(event, 'fs3', 7)" class="i">f10</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs1', 8)" onmouseover="showTip(event, 'fs1', 8)" class="f">factorial</span> <span class="n">10</span>
+</code></pre></td>
+</tr>
+</table>
+<h2>Hiding code</h2>
+<p>If you want to include some code in the source code,
+but omit it from the output, you can use the <code>hide</code>
+command.</p>
+<p>The value will be deffined in the F# code and so you
+can use it from other (visible) code and get correct
+tool tips:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 10)" onmouseover="showTip(event, 'fs5', 10)" class="i">answer</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 11)" onmouseover="showTip(event, 'fs4', 11)" class="i">hidden</span>
+</code></pre></td>
+</tr>
+</table>
+<h2>Moving code around</h2>
+<p>Sometimes, it is useful to first explain some code that
+has to be located at the end of the snippet (perhaps
+because it uses some definitions discussed in the middle).
+This can be done using <code>include</code> and <code>define</code> commands.</p>
+<p>The following snippet gets correct tool tips, even though
+it uses <code>laterFunction</code>:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs7', 13)" onmouseover="showTip(event, 'fs7', 13)" class="i">sample</span> <span class="o">=</span> 
+  <span onmouseout="hideTip(event, 'fs6', 14)" onmouseover="showTip(event, 'fs6', 14)" class="f">laterFunction</span>()
+  <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 15)" onmouseover="showTip(event, 'fs8', 15)" class="f">printfn</span> <span class="s">&quot;Got: </span><span class="pf">%s</span><span class="s">&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<p>Then we can explain how <code>laterFunction</code> is defined:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 12)" onmouseover="showTip(event, 'fs6', 12)" class="f">laterFunction</span>() <span class="o">=</span> 
+  <span class="s">&quot;Not very difficult, is it?&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<p>This example covers pretty much all features that are
+currently implemented in <code>literate.fsx</code>, but feel free
+to <a href="https://github.com/tpetricek/FSharp.Formatting">fork the project on GitHub</a> and add more
+features or report bugs!</p>
+<h2>Other features</h2>
+<p>The tool-tips also work for double-backtick identifiers.
+This might be useful to generate nice documents from tests:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs9', 16)" onmouseover="showTip(event, 'fs9', 16)" class="f">``1 + 1 should be equal to 2``</span>() <span class="o">=</span>
+  <span class="n">1</span> <span class="o">+</span> <span class="n">1</span> <span class="o">=</span> <span class="n">2</span>
+</code></pre></td>
+</tr>
+</table>
+<p>Others examples follow here.</p>
+
+          <div class="tip" id="fs1">val factorial : x:int -&gt; int<br /><br />Full name: Demo.factorial<br /><em><br /><br />&#160;The Hello World of functional languages!</em></div>
+<div class="tip" id="fs2">val x : int</div>
+<div class="tip" id="fs3">val f10 : int<br /><br />Full name: Demo.f10</div>
+<div class="tip" id="fs4">val hidden : int<br /><br />Full name: Demo.hidden<br /><em><br /><br />&#160;This is a hidden answer</em></div>
+<div class="tip" id="fs5">val answer : int<br /><br />Full name: Demo.answer</div>
+<div class="tip" id="fs6">val laterFunction : unit -&gt; string<br /><br />Full name: Demo.laterFunction</div>
+<div class="tip" id="fs7">val sample : unit<br /><br />Full name: Demo.sample</div>
+<div class="tip" id="fs8">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printfn</div>
+<div class="tip" id="fs9">val ( 1 + 1 should be equal to 2 ) : unit -&gt; bool<br /><br />Full name: Demo.( 1 + 1 should be equal to 2 )</div>
+          
+        </div>
+        <div class="span3">
+          <a href="index.html">
+            <img src="pics/logo.png" style="width:140px;height:140px;margin:10px 0px 0px 35px;border-style:none;" />
+          </a>
+          <ul class="nav nav-list" id="menu">
+            <li class="nav-header">FAKE - F# Make</li>
+              <li><a href="index.html">Home page</a></li>
+              <li class="divider"></li>              
+            <li><a href="https://nuget.org/packages/Fake">Get FAKE via NuGet</a></li>
+              <li><a href="https://github.com/fsharp/FAKE">Source Code on GitHub</a></li>              
+              <li><a href="https://github.com/fsharp/FAKE/blob/master/License.txt">License (Apache 2)</a></li>            
+              <li><a href="RELEASE_NOTES.html">Release Notes</a></li>
+              <li><a href="contributing.html">Contributing to FAKE</a></li>
+              <li><a href="users.html">Who is using FAKE?</a></li>
+              <li><a href="http://stackoverflow.com/questions/tagged/f%23-fake">Ask a question</a></li>
+            <li class="nav-header">Tutorials</li>
+              <li><a href="gettingstarted.html">Getting started</a></li>
+              <li><a href="cache.html">Build script caching</a></li>
+              <li class="divider"></li>
+              <li><a href="nuget.html">NuGet package restore</a></li>
+              <li><a href="fxcop.html">Using FxCop in a build</a></li>
+              <li><a href="assemblyinfo.html">Generating AssemblyInfo</a></li>
+              <li><a href="create-nuget-package.html">Create NuGet packages</a></li>
+              <li><a href="specifictargets.html">Running specific targets</a></li>
+              <li><a href="commandline.html">Running FAKE from command line</a></li>
+              <li><a href="parallel-build.html">Running targets in parallel</a></li>
+              <li><a href="fsc.html">Using the F# compiler from FAKE</a></li>
+              <li><a href="customtasks.html">Creating custom tasks</a></li>
+              <li><a href="soft-dependencies.html">Soft dependencies</a></li>
+              <li><a href="teamcity.html">TeamCity integration</a></li>
+              <li><a href="canopy.html">Running canopy tests</a></li>
+              <li><a href="octopusdeploy.html">Octopus Deploy</a></li>
+              <li><a href="typescript.html">TypeScript support</a></li>
+              <li><a href="azurewebjobs.html">Azure WebJobs support</a></li>
+              <li><a href="azurecloudservices.html">Azure Cloud Services support</a></li>
+              <li><a href="dacpac.html">SQL DACPAC support</a></li>
+              <li><a href="fluentmigrator.html">FluentMigrator support</a></li>
+              <li><a href="androidpublisher.html">Android publisher</a></li>
+              <li><a href="watch.html">File Watcher</a></li>
+              <li><a href="wix.html">WiX Setup Generation</a></li>
+              <li><a href="chocolatey.html">Using Chocolatey</a></li>
+              <li><a href="slacknotification.html">Using Slack</a></li>
+              <li><a href="sonarcube.html">Using SonarQube</a></li>
+              <li class="divider"></li>
+              <li><a href="deploy.html">Fake.Deploy</a></li>
+              <li><a href="iis.html">Fake.IIS</a></li>
+              <li class="nav-header">Reference</li>
+              <li><a href="apidocs/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/fsharp/FAKE"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+  </body>
+</html>

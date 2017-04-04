@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- 
+      The Running database migrations with FluentMigrator
+ parameters will be replaced with the 
+      document title extracted from the <h1> element or
+      file name, if there is no <h1> heading
+    -->
+    <title>Running database migrations with FluentMigrator
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FAKE - F# Make">
+    <meta name="author" content="Steffen Forkmann, Mauricio Scheffer, Colin Bull">
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="content/style.css" />
+    <script src="content/tips.js" type="text/javascript"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/fsharp/FAKE">github page</a></li>
+        </ul>
+        <h3 class="muted">FAKE - F# Make</h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          <h1>Running database migrations with FluentMigrator</h1>
+<p><a href="https://github.com/schambers/fluentmigrator/">FluentMigrator</a> is a .NET library which helps to version database schema using incremental migrations which are described in C#.
+The basic idea of the FAKE helper is to run FluentMigrator over the existing database using compiled assembly with migrations.</p>
+<h2>Migrating your database to the latest version</h2>
+<p>FAKE's support for FluentMigrator ships with a separate NuGet package called <a href="http://www.nuget.org/packages/FAKE.FluentMigrator">FAKE.FluentMigrator</a>.
+Usually your FAKE setup will look as follows:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// Reference required dlls</span>
+<span class="prep">#r</span> <span class="s">@&quot;packages/FAKE/tools/FakeLib.dll&quot;</span>
+<span class="prep">#r</span> <span class="s">@&quot;packages/FAKE/tools/Fake.FluentMigrator.dll&quot;</span>
+
+<span class="k">open</span> <span class="i">Fake</span>
+<span class="k">open</span> <span class="i">Fake</span><span class="o">.</span><span class="i">FluentMigratorHelper</span>
+
+<span class="c">// Assemblies with migrations</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">assembly</span> <span class="o">=</span> <span class="s">&quot;Migrations.dll&quot;</span>
+
+<span class="c">// Using SQL Server 2014 LocalDB</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">connection</span> <span class="o">=</span> 
+  <span class="i">ConnectionString</span>(
+      <span class="s">@&quot;Data Source=(localdb)\MSSQLLocalDb;Initial Catalog=MyDB;Integrated Security=True&quot;</span>, 
+      <span class="i">SqlServer</span>(<span class="i">V2014</span>))
+      
+<span class="c">// Specify additional options or just use the defaults</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">options</span> <span class="o">=</span> {<span class="i">DefaultMigrationOptions</span> <span class="k">with</span> <span class="i">Profile</span><span class="o">=</span><span class="s">&quot;Staging&quot;</span>; <span class="i">Tags</span> <span class="o">=</span> [<span class="s">&quot;US&quot;</span>; <span class="s">&quot;Canada&quot;</span>]}
+
+<span class="i">Target</span> <span class="s">&quot;Build&quot;</span> (<span class="k">fun</span> _ <span class="k">-&gt;</span>
+    <span class="c">// Build your Migrations.dll assembly using MSBuild or whatever</span>
+)
+
+<span class="i">Target</span> <span class="s">&quot;MigrateDatabase&quot;</span> (<span class="k">fun</span> _ <span class="k">-&gt;</span>
+    <span class="i">MigrateToLatest</span> <span onmouseout="hideTip(event, 'fs2', 4)" onmouseover="showTip(event, 'fs2', 4)" class="i">connection</span> [<span onmouseout="hideTip(event, 'fs1', 5)" onmouseover="showTip(event, 'fs1', 5)" class="i">assembly</span>] <span onmouseout="hideTip(event, 'fs3', 6)" onmouseover="showTip(event, 'fs3', 6)" class="i">options</span>
+)
+
+<span class="s">&quot;Build&quot;</span> <span class="o">==&gt;</span> <span class="s">&quot;MigrateDatabase&quot;</span>
+
+<span class="i">RunTargetOrDefault</span> <span class="s">&quot;MigrateDatabase&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2>ConnectionStrings</h2>
+<p>Specify connection string in build script:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 7)" onmouseover="showTip(event, 'fs2', 7)" class="i">connection</span> <span class="o">=</span> <span class="i">ConnectionString</span>(<span class="s">&quot;Server=.;Database=TestDb;User Id=admin;Password=pss;&quot;</span>, <span class="i">SqlServer</span>(<span class="i">V2008</span>))
+</code></pre></td>
+</tr>
+</table>
+<p>Use connection string from config file:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 8)" onmouseover="showTip(event, 'fs2', 8)" class="i">connection</span> <span class="o">=</span> <span class="i">ConnectionStringFromConfig</span>(<span class="s">&quot;ConnectionStringKey&quot;</span>, <span class="s">&quot;Project</span><span class="e">\\</span><span class="s">Web.config&quot;</span>, <span class="i">SqlServer</span>(<span class="i">V2012</span>))
+</code></pre></td>
+</tr>
+</table>
+<h2>Providers / drivers / SQL dialects</h2>
+<p>The following drivers are supported:</p>
+<ul>
+<li>SqlServer (SqlServerVersion.Default, V2000, V2005, V2008, V2012, V2014)</li>
+<li>SqlServer (CE)</li>
+<li>Oracle (OracleVersion.Default, Managed, DotConnect)</li>
+<li>DB2</li>
+<li>Firebird</li>
+<li>HANA</li>
+<li>Jet</li>
+<li>MySql</li>
+<li>PostgreSQL</li>
+<li>SQLite</li>
+</ul>
+<h2>Available commands</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// Migrate to the latest available version</span>
+<span class="i">MigrateToLatest</span> <span onmouseout="hideTip(event, 'fs2', 9)" onmouseover="showTip(event, 'fs2', 9)" class="i">connection</span> <span class="i">assemblies</span> <span onmouseout="hideTip(event, 'fs3', 10)" onmouseover="showTip(event, 'fs3', 10)" class="i">options</span>
+
+<span class="c">// Migrate to the specified version</span>
+<span class="i">MigrateUp</span> <span class="i">version</span> <span onmouseout="hideTip(event, 'fs2', 11)" onmouseover="showTip(event, 'fs2', 11)" class="i">connection</span> <span class="i">assemblies</span> <span onmouseout="hideTip(event, 'fs3', 12)" onmouseover="showTip(event, 'fs3', 12)" class="i">options</span>
+
+<span class="c">// Rollback to the specified version</span>
+<span class="i">MigrateDown</span> <span class="i">version</span> <span onmouseout="hideTip(event, 'fs2', 13)" onmouseover="showTip(event, 'fs2', 13)" class="i">connection</span> <span class="i">assemblies</span> <span onmouseout="hideTip(event, 'fs3', 14)" onmouseover="showTip(event, 'fs3', 14)" class="i">options</span>
+
+<span class="c">// Rollback N migrations</span>
+<span class="i">Rollback</span> <span class="i">N</span> <span onmouseout="hideTip(event, 'fs2', 15)" onmouseover="showTip(event, 'fs2', 15)" class="i">connection</span> <span class="i">assemblies</span> <span onmouseout="hideTip(event, 'fs3', 16)" onmouseover="showTip(event, 'fs3', 16)" class="i">options</span>
+
+<span class="c">// Rollback N migrations</span>
+<span class="i">Rollback</span> <span class="i">N</span> <span onmouseout="hideTip(event, 'fs2', 17)" onmouseover="showTip(event, 'fs2', 17)" class="i">connection</span> <span class="i">assemblies</span> <span onmouseout="hideTip(event, 'fs3', 18)" onmouseover="showTip(event, 'fs3', 18)" class="i">options</span>
+
+<span class="c">// List applied migrations</span>
+<span class="i">ListAppliedMigrations</span> <span onmouseout="hideTip(event, 'fs2', 19)" onmouseover="showTip(event, 'fs2', 19)" class="i">connection</span> <span class="i">assemblies</span>
+</code></pre></td>
+</tr>
+</table>
+<h2>Advanced usage</h2>
+<p>For advanced usage see the <a href="https://github.com/fsharp/FAKE/blob/master/src/app/Fake.FluentMigrator/FluentMigratorHelper.fs">source code</a>.</p>
+
+          <div class="tip" id="fs1">val assembly : string<br /><br />Full name: fluentmigrator.assembly</div>
+<div class="tip" id="fs2">val connection : obj<br /><br />Full name: fluentmigrator.connection</div>
+<div class="tip" id="fs3">val options : obj<br /><br />Full name: fluentmigrator.options</div>
+          
+        </div>
+        <div class="span3">
+          <a href="index.html">
+            <img src="pics/logo.png" style="width:140px;height:140px;margin:10px 0px 0px 35px;border-style:none;" />
+          </a>
+          <ul class="nav nav-list" id="menu">
+            <li class="nav-header">FAKE - F# Make</li>
+              <li><a href="index.html">Home page</a></li>
+              <li class="divider"></li>              
+            <li><a href="https://nuget.org/packages/Fake">Get FAKE via NuGet</a></li>
+              <li><a href="https://github.com/fsharp/FAKE">Source Code on GitHub</a></li>              
+              <li><a href="https://github.com/fsharp/FAKE/blob/master/License.txt">License (Apache 2)</a></li>            
+              <li><a href="RELEASE_NOTES.html">Release Notes</a></li>
+              <li><a href="contributing.html">Contributing to FAKE</a></li>
+              <li><a href="users.html">Who is using FAKE?</a></li>
+              <li><a href="http://stackoverflow.com/questions/tagged/f%23-fake">Ask a question</a></li>
+            <li class="nav-header">Tutorials</li>
+              <li><a href="gettingstarted.html">Getting started</a></li>
+              <li><a href="cache.html">Build script caching</a></li>
+              <li class="divider"></li>
+              <li><a href="nuget.html">NuGet package restore</a></li>
+              <li><a href="fxcop.html">Using FxCop in a build</a></li>
+              <li><a href="assemblyinfo.html">Generating AssemblyInfo</a></li>
+              <li><a href="create-nuget-package.html">Create NuGet packages</a></li>
+              <li><a href="specifictargets.html">Running specific targets</a></li>
+              <li><a href="commandline.html">Running FAKE from command line</a></li>
+              <li><a href="parallel-build.html">Running targets in parallel</a></li>
+              <li><a href="fsc.html">Using the F# compiler from FAKE</a></li>
+              <li><a href="customtasks.html">Creating custom tasks</a></li>
+              <li><a href="soft-dependencies.html">Soft dependencies</a></li>
+              <li><a href="teamcity.html">TeamCity integration</a></li>
+              <li><a href="canopy.html">Running canopy tests</a></li>
+              <li><a href="octopusdeploy.html">Octopus Deploy</a></li>
+              <li><a href="typescript.html">TypeScript support</a></li>
+              <li><a href="azurewebjobs.html">Azure WebJobs support</a></li>
+              <li><a href="azurecloudservices.html">Azure Cloud Services support</a></li>
+              <li><a href="dacpac.html">SQL DACPAC support</a></li>
+              <li><a href="fluentmigrator.html">FluentMigrator support</a></li>
+              <li><a href="androidpublisher.html">Android publisher</a></li>
+              <li><a href="watch.html">File Watcher</a></li>
+              <li><a href="wix.html">WiX Setup Generation</a></li>
+              <li><a href="chocolatey.html">Using Chocolatey</a></li>
+              <li><a href="slacknotification.html">Using Slack</a></li>
+              <li><a href="sonarcube.html">Using SonarQube</a></li>
+              <li class="divider"></li>
+              <li><a href="deploy.html">Fake.Deploy</a></li>
+              <li><a href="iis.html">Fake.IIS</a></li>
+              <li class="nav-header">Reference</li>
+              <li><a href="apidocs/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/fsharp/FAKE"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+  </body>
+</html>

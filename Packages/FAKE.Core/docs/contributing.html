@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- 
+      The Contributing to FAKE
+ parameters will be replaced with the 
+      document title extracted from the <h1> element or
+      file name, if there is no <h1> heading
+    -->
+    <title>Contributing to FAKE
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FAKE - F# Make">
+    <meta name="author" content="Steffen Forkmann, Mauricio Scheffer, Colin Bull">
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="content/style.css" />
+    <script src="content/tips.js" type="text/javascript"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/fsharp/FAKE">github page</a></li>
+        </ul>
+        <h3 class="muted">FAKE - F# Make</h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          <h1>Contributing to FAKE</h1>
+<p>This page should provide you with some basic information if you're thinking about contributing to FAKE.</p>
+<ul>
+<li><p>This page can be edited by sending a pull request to the FAKE project on GitHub, so if you learn something when playing with FAKE please record your <a href="https://github.com/fsharp/FAKE/blob/master/help/contributing.md">findings here</a>!</p></li>
+<li><p>If you want to discuss a feature (a good idea!), or if you want to look at suggestions how you might contribute, check out the <a href="https://github.com/fsharp/FAKE/issues">Issue list</a> on GitHub or send an email to the <a href="http://groups.google.com/group/fsharpMake">FAKE mailing list</a>.</p></li>
+<li>
+<p>Unless you explicitly state otherwise, any contribution intentionally
+submitted for inclusion in the Project shall be under the terms and
+conditions of the Apache 2.0 license. See License.txt for details.</p>
+</li>
+</ul>
+<h2>Documentation</h2>
+<p>The documentation for FAKE is automatically generated using the amazing <a href="https://github.com/tpetricek/FSharp.Formatting">F# Formatting</a> library.
+It turns <code>*.md</code> (Markdown with embedded code snippets) and <code>*.fsx</code> files (F# script file with embedded Markdown documentation) into a nice HTML documentation.</p>
+<ul>
+<li><p>The code for all the documents can be found in the <code>help</code> directory <a href="https://github.com/fsharp/FAKE/tree/master/help">on GitHub</a>. If you find a bug or add a new feature, make sure you document it!</p></li>
+<li><p>If you want to build the documentation, simply run the build script (<a href="https://github.com/fsharp/FAKE/blob/master/build.fsx">GitHub link</a>) which builds the documentation.</p></li>
+</ul>
+<h2>Creating pull requests</h2>
+<h3>Prerequisites</h3>
+<h4>Git / GitHub</h4>
+<ul>
+<li><p>Fork the <a href="https://github.com/fsharp/FAKE">FAKE repo on GitHub</a>.</p></li>
+<li>Clone your personal fork locally.</li>
+<li>
+<p>Add a new git remote in order to retrieve upstream changes.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">  <span class="i">git</span> <span class="i">remote</span> <span class="i">add</span> <span class="i">upstream</span> <span class="i">https</span><span class="o">:</span><span class="c">//github.com/fsharp/FAKE.git</span>
+</code></pre></td>
+</tr>
+</table>
+</li>
+</ul>
+<h4>Build tools</h4>
+<ul>
+<li>
+<p>Windows users can install Visual Studio 2013 (the <a href="https://www.visualstudio.com/products/visual-studio-community-vs">Community Edition</a>
+is freely available for open-source projects).</p>
+</li>
+<li>
+<p>Linux and Mac users can read "<a href="http://fsharp.org/guides/mac-linux-cross-platform/">Guide - Cross-Platform Development with F#</a>"
+to find out the required tools.</p>
+</li>
+<li>
+<p>Alternately, you can use <a href="https://www.vagrantup.com/">Vagrant</a> in-pair with <a href="https://www.virtualbox.org/">VirtualBox</a>
+to automatically deploy a preconfigured virtual machine. See the <a href="vagrant.html">Vagrant docs</a> to get in touch with the tool.</p>
+</li>
+</ul>
+<h3>Programming</h3>
+<ul>
+<li><p>Checkout the <code>master</code> branch.</p></li>
+<li>
+<p>Run the build in order to check if everything works.</p>
+<ul>
+<li><p>On Mono run <code>build.sh</code></p></li>
+<li><p>On Windows run <code>build.cmd</code></p></li>
+</ul>
+</li>
+<li>
+<p>Create a new feature branch.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">  <span class="i">git</span> <span class="i">checkout</span> <span class="o">-</span><span class="i">b</span> <span class="i">myfeature</span>
+</code></pre></td>
+</tr>
+</table>
+</li>
+<li>Implement your bugfix/feature.</li>
+<li>Add a bit of documentation (see above).</li>
+<li>Run the build script again, to confirm that all tests pass.</li>
+<li>Commit and push to your fork.</li>
+<li>
+<p>Use GitHub's UI to create a pull request.
+Write "WIP" into the pull request description if it's not completely ready</p>
+</li>
+<li>
+<p>If you need to rebase you can do:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">  <span class="i">git</span> <span class="i">fetch</span> <span class="i">upstream</span>
+  <span class="i">git</span> <span class="i">rebase</span> <span class="i">upstream</span><span class="o">/</span><span class="i">master</span>
+  <span class="i">git</span> <span class="i">push</span> <span class="i">origin</span> <span class="i">myfeature</span> <span class="o">-</span><span class="i">f</span>
+</code></pre></td>
+</tr>
+</table>
+</li>
+<li>The pull request will be updated automatically.</li>
+</ul>
+<h4>Text editor / Code style</h4>
+<ul>
+<li><p>Install the <a href="http://editorconfig.org/">EditorConfig</a> extension in your text editor(s). List available <a href="http://editorconfig.org/#download">here</a>.</p></li>
+<li><p>Visual Studio users can also install the <a href="http://www.codemaid.net/">CodeMaid</a> extension.</p></li>
+<li><p>Read the <a href="http://fsharp.org/specs/component-design-guidelines/">F# component design guidelines</a>.</p></li>
+</ul>
+
+                    
+        </div>
+        <div class="span3">
+          <a href="index.html">
+            <img src="pics/logo.png" style="width:140px;height:140px;margin:10px 0px 0px 35px;border-style:none;" />
+          </a>
+          <ul class="nav nav-list" id="menu">
+            <li class="nav-header">FAKE - F# Make</li>
+              <li><a href="index.html">Home page</a></li>
+              <li class="divider"></li>              
+            <li><a href="https://nuget.org/packages/Fake">Get FAKE via NuGet</a></li>
+              <li><a href="https://github.com/fsharp/FAKE">Source Code on GitHub</a></li>              
+              <li><a href="https://github.com/fsharp/FAKE/blob/master/License.txt">License (Apache 2)</a></li>            
+              <li><a href="RELEASE_NOTES.html">Release Notes</a></li>
+              <li><a href="contributing.html">Contributing to FAKE</a></li>
+              <li><a href="users.html">Who is using FAKE?</a></li>
+              <li><a href="http://stackoverflow.com/questions/tagged/f%23-fake">Ask a question</a></li>
+            <li class="nav-header">Tutorials</li>
+              <li><a href="gettingstarted.html">Getting started</a></li>
+              <li><a href="cache.html">Build script caching</a></li>
+              <li class="divider"></li>
+              <li><a href="nuget.html">NuGet package restore</a></li>
+              <li><a href="fxcop.html">Using FxCop in a build</a></li>
+              <li><a href="assemblyinfo.html">Generating AssemblyInfo</a></li>
+              <li><a href="create-nuget-package.html">Create NuGet packages</a></li>
+              <li><a href="specifictargets.html">Running specific targets</a></li>
+              <li><a href="commandline.html">Running FAKE from command line</a></li>
+              <li><a href="parallel-build.html">Running targets in parallel</a></li>
+              <li><a href="fsc.html">Using the F# compiler from FAKE</a></li>
+              <li><a href="customtasks.html">Creating custom tasks</a></li>
+              <li><a href="soft-dependencies.html">Soft dependencies</a></li>
+              <li><a href="teamcity.html">TeamCity integration</a></li>
+              <li><a href="canopy.html">Running canopy tests</a></li>
+              <li><a href="octopusdeploy.html">Octopus Deploy</a></li>
+              <li><a href="typescript.html">TypeScript support</a></li>
+              <li><a href="azurewebjobs.html">Azure WebJobs support</a></li>
+              <li><a href="azurecloudservices.html">Azure Cloud Services support</a></li>
+              <li><a href="dacpac.html">SQL DACPAC support</a></li>
+              <li><a href="fluentmigrator.html">FluentMigrator support</a></li>
+              <li><a href="androidpublisher.html">Android publisher</a></li>
+              <li><a href="watch.html">File Watcher</a></li>
+              <li><a href="wix.html">WiX Setup Generation</a></li>
+              <li><a href="chocolatey.html">Using Chocolatey</a></li>
+              <li><a href="slacknotification.html">Using Slack</a></li>
+              <li><a href="sonarcube.html">Using SonarQube</a></li>
+              <li class="divider"></li>
+              <li><a href="deploy.html">Fake.Deploy</a></li>
+              <li><a href="iis.html">Fake.IIS</a></li>
+              <li class="nav-header">Reference</li>
+              <li><a href="apidocs/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/fsharp/FAKE"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+  </body>
+</html>

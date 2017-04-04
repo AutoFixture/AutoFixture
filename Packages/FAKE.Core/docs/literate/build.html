@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- 
+      The build parameters will be replaced with the 
+      document title extracted from the <h1> element or
+      file name, if there is no <h1> heading
+    -->
+    <title>build</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FAKE - F# Make">
+    <meta name="author" content="Steffen Forkmann, Mauricio Scheffer, Colin Bull">
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="content/style.css" />
+    <script src="content/tips.js" type="text/javascript"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/fsharp/FAKE">github page</a></li>
+        </ul>
+        <h3 class="muted">FAKE - F# Make</h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+<span class="l">33: </span>
+<span class="l">34: </span>
+<span class="l">35: </span>
+<span class="l">36: </span>
+<span class="l">37: </span>
+<span class="l">38: </span>
+<span class="l">39: </span>
+<span class="l">40: </span>
+<span class="l">41: </span>
+<span class="l">42: </span>
+<span class="l">43: </span>
+<span class="l">44: </span>
+<span class="l">45: </span>
+<span class="l">46: </span>
+<span class="l">47: </span>
+<span class="l">48: </span>
+<span class="l">49: </span>
+<span class="l">50: </span>
+<span class="l">51: </span>
+<span class="l">52: </span>
+<span class="l">53: </span>
+<span class="l">54: </span>
+<span class="l">55: </span>
+<span class="l">56: </span>
+<span class="l">57: </span>
+<span class="l">58: </span>
+<span class="l">59: </span>
+<span class="l">60: </span>
+<span class="l">61: </span>
+<span class="l">62: </span>
+<span class="l">63: </span>
+<span class="l">64: </span>
+<span class="l">65: </span>
+<span class="l">66: </span>
+<span class="l">67: </span>
+<span class="l">68: </span>
+<span class="l">69: </span>
+<span class="l">70: </span>
+<span class="l">71: </span>
+<span class="l">72: </span>
+<span class="l">73: </span>
+<span class="l">74: </span>
+<span class="l">75: </span>
+<span class="l">76: </span>
+<span class="l">77: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// Given a typical setup (with &#39;FSharp.Formatting&#39; referenced using NuGet),</span>
+<span class="c">// the following will include binaries and load the literate script</span>
+<span class="prep">#I</span> <span class="s">&quot;../lib/net40/&quot;</span>
+<span class="prep">#r</span> <span class="s">&quot;FSharp.Literate.dll&quot;</span>
+<span class="prep">#r</span> <span class="s">&quot;FSharp.CodeFormat.dll&quot;</span>
+<span class="prep">#r</span> <span class="s">&quot;FSharp.MetadataFormat.dll&quot;</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">System</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">IO</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">FSharp</span><span class="o">.</span><span class="i">Literate</span>
+
+<span class="c">// ----------------------------------------------------------------------------</span>
+<span class="c">// SETUP</span>
+<span class="c">// ----------------------------------------------------------------------------</span>
+
+<span class="c">/// Return path relative to the current file location</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="f">relative</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="i">subdir</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="t">Path</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="f">Combine</span>(<span class="k">__SOURCE_DIRECTORY__</span>, <span onmouseout="hideTip(event, 'fs5', 8)" onmouseover="showTip(event, 'fs5', 8)" class="i">subdir</span>)
+
+<span class="c">// Create output directories &amp; copy content files there</span>
+<span class="c">// (We have two sets of samples in &quot;output&quot; and &quot;output-all&quot; directories,</span>
+<span class="c">//  for simplicitly, this just creates them &amp; copies content there)</span>
+<span class="k">if</span> <span onmouseout="hideTip(event, 'fs8', 9)" onmouseover="showTip(event, 'fs8', 9)" class="f">not</span> (<span onmouseout="hideTip(event, 'fs9', 10)" onmouseover="showTip(event, 'fs9', 10)" class="t">Directory</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs10', 11)" onmouseover="showTip(event, 'fs10', 11)" class="f">Exists</span>(<span onmouseout="hideTip(event, 'fs4', 12)" onmouseover="showTip(event, 'fs4', 12)" class="f">relative</span> <span class="s">&quot;/output&quot;</span>)) <span class="k">then</span>
+  <span onmouseout="hideTip(event, 'fs9', 13)" onmouseover="showTip(event, 'fs9', 13)" class="t">Directory</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 14)" onmouseover="showTip(event, 'fs11', 14)" class="f">CreateDirectory</span>(<span onmouseout="hideTip(event, 'fs4', 15)" onmouseover="showTip(event, 'fs4', 15)" class="f">relative</span> <span class="s">&quot;/output&quot;</span>) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 16)" onmouseover="showTip(event, 'fs12', 16)" class="f">ignore</span>
+  <span onmouseout="hideTip(event, 'fs9', 17)" onmouseover="showTip(event, 'fs9', 17)" class="t">Directory</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 18)" onmouseover="showTip(event, 'fs11', 18)" class="f">CreateDirectory</span> (<span onmouseout="hideTip(event, 'fs4', 19)" onmouseover="showTip(event, 'fs4', 19)" class="f">relative</span> <span class="s">&quot;/output/content&quot;</span>) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 20)" onmouseover="showTip(event, 'fs12', 20)" class="f">ignore</span>
+<span class="k">if</span> <span onmouseout="hideTip(event, 'fs8', 21)" onmouseover="showTip(event, 'fs8', 21)" class="f">not</span> (<span onmouseout="hideTip(event, 'fs9', 22)" onmouseover="showTip(event, 'fs9', 22)" class="t">Directory</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs10', 23)" onmouseover="showTip(event, 'fs10', 23)" class="f">Exists</span>(<span onmouseout="hideTip(event, 'fs4', 24)" onmouseover="showTip(event, 'fs4', 24)" class="f">relative</span> <span class="s">&quot;/output-all&quot;</span>)) <span class="k">then</span>
+  <span onmouseout="hideTip(event, 'fs9', 25)" onmouseover="showTip(event, 'fs9', 25)" class="t">Directory</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 26)" onmouseover="showTip(event, 'fs11', 26)" class="f">CreateDirectory</span>(<span onmouseout="hideTip(event, 'fs4', 27)" onmouseover="showTip(event, 'fs4', 27)" class="f">relative</span> <span class="s">&quot;/output-all&quot;</span>) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 28)" onmouseover="showTip(event, 'fs12', 28)" class="f">ignore</span>
+  <span onmouseout="hideTip(event, 'fs9', 29)" onmouseover="showTip(event, 'fs9', 29)" class="t">Directory</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 30)" onmouseover="showTip(event, 'fs11', 30)" class="f">CreateDirectory</span> (<span onmouseout="hideTip(event, 'fs4', 31)" onmouseover="showTip(event, 'fs4', 31)" class="f">relative</span> <span class="s">&quot;/output-all/content&quot;</span>) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 32)" onmouseover="showTip(event, 'fs12', 32)" class="f">ignore</span>
+
+<span class="k">for</span> <span onmouseout="hideTip(event, 'fs13', 33)" onmouseover="showTip(event, 'fs13', 33)" class="i">fileInfo</span> <span class="k">in</span> <span onmouseout="hideTip(event, 'fs14', 34)" onmouseover="showTip(event, 'fs14', 34)" class="t">DirectoryInfo</span>(<span onmouseout="hideTip(event, 'fs4', 35)" onmouseover="showTip(event, 'fs4', 35)" class="f">relative</span> <span class="s">&quot;/../content&quot;</span>)<span class="o">.</span><span class="f">EnumerateFiles</span>() <span class="k">do</span>
+  <span onmouseout="hideTip(event, 'fs13', 36)" onmouseover="showTip(event, 'fs13', 36)" class="i">fileInfo</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs15', 37)" onmouseover="showTip(event, 'fs15', 37)" class="f">CopyTo</span>(<span onmouseout="hideTip(event, 'fs6', 38)" onmouseover="showTip(event, 'fs6', 38)" class="t">Path</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs7', 39)" onmouseover="showTip(event, 'fs7', 39)" class="f">Combine</span>(<span onmouseout="hideTip(event, 'fs4', 40)" onmouseover="showTip(event, 'fs4', 40)" class="f">relative</span> <span class="s">&quot;/output/content&quot;</span>, <span onmouseout="hideTip(event, 'fs13', 41)" onmouseover="showTip(event, 'fs13', 41)" class="i">fileInfo</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs16', 42)" onmouseover="showTip(event, 'fs16', 42)" class="i">Name</span>)) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 43)" onmouseover="showTip(event, 'fs12', 43)" class="f">ignore</span>
+  <span onmouseout="hideTip(event, 'fs13', 44)" onmouseover="showTip(event, 'fs13', 44)" class="i">fileInfo</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs15', 45)" onmouseover="showTip(event, 'fs15', 45)" class="f">CopyTo</span>(<span onmouseout="hideTip(event, 'fs6', 46)" onmouseover="showTip(event, 'fs6', 46)" class="t">Path</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs7', 47)" onmouseover="showTip(event, 'fs7', 47)" class="f">Combine</span>(<span onmouseout="hideTip(event, 'fs4', 48)" onmouseover="showTip(event, 'fs4', 48)" class="f">relative</span> <span class="s">&quot;/output-all/content&quot;</span>, <span onmouseout="hideTip(event, 'fs13', 49)" onmouseover="showTip(event, 'fs13', 49)" class="i">fileInfo</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs16', 50)" onmouseover="showTip(event, 'fs16', 50)" class="i">Name</span>)) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 51)" onmouseover="showTip(event, 'fs12', 51)" class="f">ignore</span>
+
+<span class="c">// ----------------------------------------------------------------------------</span>
+<span class="c">// EXAMPLES</span>
+<span class="c">// ----------------------------------------------------------------------------</span>
+
+<span class="c">/// Processes a single F# Script file and produce HTML output</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 52)" onmouseover="showTip(event, 'fs17', 52)" class="f">processScriptAsHtml</span> () <span class="o">=</span>
+  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 53)" onmouseover="showTip(event, 'fs18', 53)" class="i">file</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 54)" onmouseover="showTip(event, 'fs4', 54)" class="f">relative</span> <span class="s">&quot;/demo.fsx&quot;</span>
+  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 55)" onmouseover="showTip(event, 'fs19', 55)" class="i">output</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 56)" onmouseover="showTip(event, 'fs4', 56)" class="f">relative</span> <span class="s">&quot;/output/demo-script.html&quot;</span>
+  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 57)" onmouseover="showTip(event, 'fs20', 57)" class="i">template</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 58)" onmouseover="showTip(event, 'fs4', 58)" class="f">relative</span> <span class="s">&quot;/templates/template-file.html&quot;</span>
+  <span class="i">Literate</span><span class="o">.</span><span class="i">ProcessScriptFile</span>(<span onmouseout="hideTip(event, 'fs18', 59)" onmouseover="showTip(event, 'fs18', 59)" class="i">file</span>, <span onmouseout="hideTip(event, 'fs20', 60)" onmouseover="showTip(event, 'fs20', 60)" class="i">template</span>, <span onmouseout="hideTip(event, 'fs19', 61)" onmouseover="showTip(event, 'fs19', 61)" class="i">output</span>)
+
+<span class="c">/// Processes a single F# Script file and produce LaTeX output</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 62)" onmouseover="showTip(event, 'fs21', 62)" class="f">processScriptAsHtml</span> () <span class="o">=</span>
+  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 63)" onmouseover="showTip(event, 'fs18', 63)" class="i">file</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 64)" onmouseover="showTip(event, 'fs4', 64)" class="f">relative</span> <span class="s">&quot;/demo.fsx&quot;</span>
+  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 65)" onmouseover="showTip(event, 'fs19', 65)" class="i">output</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 66)" onmouseover="showTip(event, 'fs4', 66)" class="f">relative</span> <span class="s">&quot;/output/demo-script.html&quot;</span>
+  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 67)" onmouseover="showTip(event, 'fs20', 67)" class="i">template</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 68)" onmouseover="showTip(event, 'fs4', 68)" class="f">relative</span> <span class="s">&quot;/templates/template-color.tex&quot;</span>
+  <span class="i">Literate</span><span class="o">.</span><span class="i">ProcessScriptFile</span>(<span onmouseout="hideTip(event, 'fs18', 69)" onmouseover="showTip(event, 'fs18', 69)" class="i">file</span>, <span onmouseout="hideTip(event, 'fs20', 70)" onmouseover="showTip(event, 'fs20', 70)" class="i">template</span>, <span onmouseout="hideTip(event, 'fs19', 71)" onmouseover="showTip(event, 'fs19', 71)" class="i">output</span>, <span class="i">format</span> <span class="o">=</span> <span class="i">OutputKind</span><span class="o">.</span><span class="i">Latex</span>)
+
+
+<span class="c">/// Processes a single Markdown document and produce HTML output</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs22', 72)" onmouseover="showTip(event, 'fs22', 72)" class="f">processDocument</span> <span onmouseout="hideTip(event, 'fs23', 73)" onmouseover="showTip(event, 'fs23', 73)" class="i">templateFile</span> <span onmouseout="hideTip(event, 'fs24', 74)" onmouseover="showTip(event, 'fs24', 74)" class="i">outputKind</span> <span class="o">=</span>
+  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 75)" onmouseover="showTip(event, 'fs18', 75)" class="i">file</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 76)" onmouseover="showTip(event, 'fs4', 76)" class="f">relative</span> <span class="s">&quot;/demo.md&quot;</span>
+  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 77)" onmouseover="showTip(event, 'fs19', 77)" class="i">output</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 78)" onmouseover="showTip(event, 'fs4', 78)" class="f">relative</span> <span class="s">&quot;/output/demo-markdown.html&quot;</span>
+  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 79)" onmouseover="showTip(event, 'fs20', 79)" class="i">template</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 80)" onmouseover="showTip(event, 'fs4', 80)" class="f">relative</span> <span class="s">&quot;/templates/template-file.html&quot;</span>
+  <span class="i">Literate</span><span class="o">.</span><span class="i">ProcessMarkdown</span>(<span onmouseout="hideTip(event, 'fs18', 81)" onmouseover="showTip(event, 'fs18', 81)" class="i">file</span>, <span onmouseout="hideTip(event, 'fs20', 82)" onmouseover="showTip(event, 'fs20', 82)" class="i">template</span>, <span onmouseout="hideTip(event, 'fs19', 83)" onmouseover="showTip(event, 'fs19', 83)" class="i">output</span>)
+
+<span class="c">/// Processes a single Markdown document and produce LaTeX output</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 84)" onmouseover="showTip(event, 'fs25', 84)" class="f">processDocument</span> <span onmouseout="hideTip(event, 'fs23', 85)" onmouseover="showTip(event, 'fs23', 85)" class="i">templateFile</span> <span onmouseout="hideTip(event, 'fs24', 86)" onmouseover="showTip(event, 'fs24', 86)" class="i">outputKind</span> <span class="o">=</span>
+  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 87)" onmouseover="showTip(event, 'fs18', 87)" class="i">file</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 88)" onmouseover="showTip(event, 'fs4', 88)" class="f">relative</span> <span class="s">&quot;/demo.md&quot;</span>
+  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 89)" onmouseover="showTip(event, 'fs19', 89)" class="i">output</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 90)" onmouseover="showTip(event, 'fs4', 90)" class="f">relative</span> <span class="s">&quot;/output/demo-markdown.tex&quot;</span>
+  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 91)" onmouseover="showTip(event, 'fs20', 91)" class="i">template</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 92)" onmouseover="showTip(event, 'fs4', 92)" class="f">relative</span> <span class="s">&quot;/templates/template-color.tex&quot;</span>
+  <span class="i">Literate</span><span class="o">.</span><span class="i">ProcessMarkdown</span>(<span onmouseout="hideTip(event, 'fs18', 93)" onmouseover="showTip(event, 'fs18', 93)" class="i">file</span>, <span onmouseout="hideTip(event, 'fs20', 94)" onmouseover="showTip(event, 'fs20', 94)" class="i">template</span>, <span onmouseout="hideTip(event, 'fs19', 95)" onmouseover="showTip(event, 'fs19', 95)" class="i">output</span>, <span class="i">format</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 96)" onmouseover="showTip(event, 'fs24', 96)" class="i">outputKind</span>)
+
+
+<span class="c">/// Processes an entire directory containing multiple script files </span>
+<span class="c">/// (*.fsx) and Markdown documents (*.md) and it specifies additional </span>
+<span class="c">/// replacements for the template file</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 97)" onmouseover="showTip(event, 'fs26', 97)" class="f">processDirectory</span>() <span class="o">=</span>
+  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 98)" onmouseover="showTip(event, 'fs20', 98)" class="i">template</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 99)" onmouseover="showTip(event, 'fs4', 99)" class="f">relative</span> <span class="s">&quot;/templates/template-project.html&quot;</span>
+  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs27', 100)" onmouseover="showTip(event, 'fs27', 100)" class="i">projInfo</span> <span class="o">=</span>
+    [ <span class="s">&quot;page-description&quot;</span>, <span class="s">&quot;F# Literate Programming&quot;</span>
+      <span class="s">&quot;page-author&quot;</span>, <span class="s">&quot;Tomas Petricek&quot;</span>
+      <span class="s">&quot;github-link&quot;</span>, <span class="s">&quot;https://github.com/tpetricek/FSharp.Formatting&quot;</span>
+      <span class="s">&quot;project-name&quot;</span>, <span class="s">&quot;F# Formatting&quot;</span> ]
+  <span class="i">Literate</span><span class="o">.</span><span class="i">ProcessDirectory</span>
+    ( <span class="k">__SOURCE_DIRECTORY__</span>, <span onmouseout="hideTip(event, 'fs20', 101)" onmouseover="showTip(event, 'fs20', 101)" class="i">template</span>, <span class="i">dir</span> <span class="o">+</span> <span class="s">&quot;/output-all&quot;</span>, 
+      <span class="i">OutputKind</span><span class="o">.</span><span class="i">Html</span>, <span class="i">replacements</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs27', 102)" onmouseover="showTip(event, 'fs27', 102)" class="i">projInfo</span>)
+</code></pre></td>
+</tr>
+</table>
+
+          <div class="tip" id="fs1">namespace System</div>
+<div class="tip" id="fs2">namespace System.IO</div>
+<div class="tip" id="fs3">namespace Microsoft.FSharp</div>
+<div class="tip" id="fs4">val relative : subdir:string -&gt; string<br /><br />Full name: Build.relative<br /><em><br /><br />&#160;Return path relative to the current file location</em></div>
+<div class="tip" id="fs5">val subdir : string</div>
+<div class="tip" id="fs6">type Path =<br />&#160;&#160;static val DirectorySeparatorChar : char<br />&#160;&#160;static val AltDirectorySeparatorChar : char<br />&#160;&#160;static val VolumeSeparatorChar : char<br />&#160;&#160;static val InvalidPathChars : char[]<br />&#160;&#160;static val PathSeparator : char<br />&#160;&#160;static member ChangeExtension : path:string * extension:string -&gt; string<br />&#160;&#160;static member Combine : [&lt;ParamArray&gt;] paths:string[] -&gt; string + 3 overloads<br />&#160;&#160;static member GetDirectoryName : path:string -&gt; string<br />&#160;&#160;static member GetExtension : path:string -&gt; string<br />&#160;&#160;static member GetFileName : path:string -&gt; string<br />&#160;&#160;...<br /><br />Full name: System.IO.Path</div>
+<div class="tip" id="fs7">Path.Combine([&lt;System.ParamArray&gt;] paths: string []) : string<br />Path.Combine(path1: string, path2: string) : string<br />Path.Combine(path1: string, path2: string, path3: string) : string<br />Path.Combine(path1: string, path2: string, path3: string, path4: string) : string</div>
+<div class="tip" id="fs8">val not : value:bool -&gt; bool<br /><br />Full name: Microsoft.FSharp.Core.Operators.not</div>
+<div class="tip" id="fs9">type Directory =<br />&#160;&#160;static member CreateDirectory : path:string -&gt; DirectoryInfo + 1 overload<br />&#160;&#160;static member Delete : path:string -&gt; unit + 1 overload<br />&#160;&#160;static member EnumerateDirectories : path:string -&gt; IEnumerable&lt;string&gt; + 2 overloads<br />&#160;&#160;static member EnumerateFileSystemEntries : path:string -&gt; IEnumerable&lt;string&gt; + 2 overloads<br />&#160;&#160;static member EnumerateFiles : path:string -&gt; IEnumerable&lt;string&gt; + 2 overloads<br />&#160;&#160;static member Exists : path:string -&gt; bool<br />&#160;&#160;static member GetAccessControl : path:string -&gt; DirectorySecurity + 1 overload<br />&#160;&#160;static member GetCreationTime : path:string -&gt; DateTime<br />&#160;&#160;static member GetCreationTimeUtc : path:string -&gt; DateTime<br />&#160;&#160;static member GetCurrentDirectory : unit -&gt; string<br />&#160;&#160;...<br /><br />Full name: System.IO.Directory</div>
+<div class="tip" id="fs10">Directory.Exists(path: string) : bool</div>
+<div class="tip" id="fs11">Directory.CreateDirectory(path: string) : DirectoryInfo<br />Directory.CreateDirectory(path: string, directorySecurity: System.Security.AccessControl.DirectorySecurity) : DirectoryInfo</div>
+<div class="tip" id="fs12">val ignore : value:&#39;T -&gt; unit<br /><br />Full name: Microsoft.FSharp.Core.Operators.ignore</div>
+<div class="tip" id="fs13">val fileInfo : FileInfo</div>
+<div class="tip" id="fs14">Multiple items<br />type DirectoryInfo =<br />&#160;&#160;inherit FileSystemInfo<br />&#160;&#160;new : path:string -&gt; DirectoryInfo<br />&#160;&#160;member Create : unit -&gt; unit + 1 overload<br />&#160;&#160;member CreateSubdirectory : path:string -&gt; DirectoryInfo + 1 overload<br />&#160;&#160;member Delete : unit -&gt; unit + 1 overload<br />&#160;&#160;member EnumerateDirectories : unit -&gt; IEnumerable&lt;DirectoryInfo&gt; + 2 overloads<br />&#160;&#160;member EnumerateFileSystemInfos : unit -&gt; IEnumerable&lt;FileSystemInfo&gt; + 2 overloads<br />&#160;&#160;member EnumerateFiles : unit -&gt; IEnumerable&lt;FileInfo&gt; + 2 overloads<br />&#160;&#160;member Exists : bool<br />&#160;&#160;member GetAccessControl : unit -&gt; DirectorySecurity + 1 overload<br />&#160;&#160;member GetDirectories : unit -&gt; DirectoryInfo[] + 2 overloads<br />&#160;&#160;...<br /><br />Full name: System.IO.DirectoryInfo<br /><br />--------------------<br />DirectoryInfo(path: string) : unit</div>
+<div class="tip" id="fs15">FileInfo.CopyTo(destFileName: string) : FileInfo<br />FileInfo.CopyTo(destFileName: string, overwrite: bool) : FileInfo</div>
+<div class="tip" id="fs16">property FileInfo.Name: string</div>
+<div class="tip" id="fs17">val processScriptAsHtml : unit -&gt; &#39;a<br /><br />Full name: Build.processScriptAsHtml<br /><em><br /><br />&#160;Processes a single F# Script file and produce HTML output</em></div>
+<div class="tip" id="fs18">val file : string</div>
+<div class="tip" id="fs19">val output : string</div>
+<div class="tip" id="fs20">val template : string</div>
+<div class="tip" id="fs21">val processScriptAsHtml : unit -&gt; &#39;a<br /><br />Full name: Build.processScriptAsHtml<br /><em><br /><br />&#160;Processes a single F# Script file and produce LaTeX output</em></div>
+<div class="tip" id="fs22">val processDocument : templateFile:&#39;a -&gt; outputKind:&#39;b -&gt; &#39;c<br /><br />Full name: Build.processDocument<br /><em><br /><br />&#160;Processes a single Markdown document and produce HTML output</em></div>
+<div class="tip" id="fs23">val templateFile : &#39;a</div>
+<div class="tip" id="fs24">val outputKind : &#39;b</div>
+<div class="tip" id="fs25">val processDocument : templateFile:&#39;a -&gt; outputKind:&#39;b -&gt; &#39;c<br /><br />Full name: Build.processDocument<br /><em><br /><br />&#160;Processes a single Markdown document and produce LaTeX output</em></div>
+<div class="tip" id="fs26">val processDirectory : unit -&gt; &#39;a<br /><br />Full name: Build.processDirectory<br /><em><br /><br />&#160;Processes an entire directory containing multiple script files <br />&#160;(*.fsx) and Markdown documents (*.md) and it specifies additional <br />&#160;replacements for the template file</em></div>
+<div class="tip" id="fs27">val projInfo : (string * string) list</div>
+          
+        </div>
+        <div class="span3">
+          <a href="index.html">
+            <img src="pics/logo.png" style="width:140px;height:140px;margin:10px 0px 0px 35px;border-style:none;" />
+          </a>
+          <ul class="nav nav-list" id="menu">
+            <li class="nav-header">FAKE - F# Make</li>
+              <li><a href="index.html">Home page</a></li>
+              <li class="divider"></li>              
+            <li><a href="https://nuget.org/packages/Fake">Get FAKE via NuGet</a></li>
+              <li><a href="https://github.com/fsharp/FAKE">Source Code on GitHub</a></li>              
+              <li><a href="https://github.com/fsharp/FAKE/blob/master/License.txt">License (Apache 2)</a></li>            
+              <li><a href="RELEASE_NOTES.html">Release Notes</a></li>
+              <li><a href="contributing.html">Contributing to FAKE</a></li>
+              <li><a href="users.html">Who is using FAKE?</a></li>
+              <li><a href="http://stackoverflow.com/questions/tagged/f%23-fake">Ask a question</a></li>
+            <li class="nav-header">Tutorials</li>
+              <li><a href="gettingstarted.html">Getting started</a></li>
+              <li><a href="cache.html">Build script caching</a></li>
+              <li class="divider"></li>
+              <li><a href="nuget.html">NuGet package restore</a></li>
+              <li><a href="fxcop.html">Using FxCop in a build</a></li>
+              <li><a href="assemblyinfo.html">Generating AssemblyInfo</a></li>
+              <li><a href="create-nuget-package.html">Create NuGet packages</a></li>
+              <li><a href="specifictargets.html">Running specific targets</a></li>
+              <li><a href="commandline.html">Running FAKE from command line</a></li>
+              <li><a href="parallel-build.html">Running targets in parallel</a></li>
+              <li><a href="fsc.html">Using the F# compiler from FAKE</a></li>
+              <li><a href="customtasks.html">Creating custom tasks</a></li>
+              <li><a href="soft-dependencies.html">Soft dependencies</a></li>
+              <li><a href="teamcity.html">TeamCity integration</a></li>
+              <li><a href="canopy.html">Running canopy tests</a></li>
+              <li><a href="octopusdeploy.html">Octopus Deploy</a></li>
+              <li><a href="typescript.html">TypeScript support</a></li>
+              <li><a href="azurewebjobs.html">Azure WebJobs support</a></li>
+              <li><a href="azurecloudservices.html">Azure Cloud Services support</a></li>
+              <li><a href="dacpac.html">SQL DACPAC support</a></li>
+              <li><a href="fluentmigrator.html">FluentMigrator support</a></li>
+              <li><a href="androidpublisher.html">Android publisher</a></li>
+              <li><a href="watch.html">File Watcher</a></li>
+              <li><a href="wix.html">WiX Setup Generation</a></li>
+              <li><a href="chocolatey.html">Using Chocolatey</a></li>
+              <li><a href="slacknotification.html">Using Slack</a></li>
+              <li><a href="sonarcube.html">Using SonarQube</a></li>
+              <li class="divider"></li>
+              <li><a href="deploy.html">Fake.Deploy</a></li>
+              <li><a href="iis.html">Fake.IIS</a></li>
+              <li class="nav-header">Reference</li>
+              <li><a href="apidocs/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/fsharp/FAKE"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+  </body>
+</html>
