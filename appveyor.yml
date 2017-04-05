@@ -13,25 +13,25 @@ build_script:
     $isTagBuild = $Env:APPVEYOR_REPO_TAG
     $branchName = $Env:APPVEYOR_REPO_BRANCH
 
-    Write-Host "Build context: is PR: $isPullRequest, is tag: $isTagBuild, branch name: '$branchName'"
+    Write-Host "[BUILD CONTEXT INFO] Is PR: $isPullRequest, is tag: $isTagBuild, branch name: '$branchName'"
     
     if($isTagBuild)
     {
-      & build.cmd PublishNuGetAll NuGetPreReleaseKey="$($Env:MYGET_API_KEY)" NuGetReleaseKey="$($Env:NUGET_API_KEY)"
+      & .\build.cmd PublishNuGetAll NuGetPreReleaseKey="$($Env:MYGET_API_KEY)" NuGetReleaseKey="$($Env:NUGET_API_KEY)"
     }
     #Should be checked _before_ branch name, because branch name is set to "base" branch for Pull Requests
     elseif($isPullRequest -eq $true) 
     {
-      & build.cmd CompleteBuild
+      & .\build.cmd CompleteBuild
     } 
     elseif(($branchName -eq "master_playground") -or ($branchName -eq "v4")) 
     {
-      & build.cmd PublishNuGetPreRelease NuGetPreReleaseKey="$($Env:MYGET_API_KEY)"
+      & .\build.cmd PublishNuGetPreRelease NuGetPreReleaseKey="$($Env:MYGET_API_KEY)"
     }
     else
     {
       # If this is a custom branch - just build the code without publishing the artifacts somewhere.
-      & build.cmd CompleteBuild
+      & .\build.cmd CompleteBuild
     }
 
 deploy: off 
