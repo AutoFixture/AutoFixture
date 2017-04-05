@@ -8,18 +8,17 @@ let releaseFolder = "Release"
 let nunitToolsFolder = "Packages/NUnit.Runners.2.6.2/tools"
 let nuGetOutputFolder = "NuGetPackages"
 let solutionsToBuild = !! "Src/*.sln"
+let signKeyPath = FullName "Src/AutoFixture.snk"
 let processorArchitecture = environVar "PROCESSOR_ARCHITECTURE"
 
 let build target configuration =
-    let keyFile =
-        match getBuildParam "signkey" with
-        | "" -> []
-        | x  -> [ "AssemblyOriginatorKeyFile", FullName x ]
-
-    let properties = [ "Configuration", configuration ] @ keyFile
-
     solutionsToBuild
-    |> MSBuild "" target properties
+    |> Seq.iter (fun s -> build (fun p -> { p with Targets = [target]
+                                                   Properties = 
+                                                      [
+                                                          "Configuration", configuration
+                                                          "AssemblyOriginatorKeyFile", signKeyPath
+                                                      ] }) s)
     |> ignore
 
 let clean   = build "Clean"
