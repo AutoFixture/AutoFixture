@@ -1,0 +1,56 @@
+image: Visual Studio 2015
+
+environment:
+  MYGET_API_KEY:
+    secure: oKuy29bs8RnNdkz+EiK0I1SKZnGfmRJt7SfjaJy1KMeVja9gZ4xViXda1xXyvrkn
+  NUGET_API_KEY:
+    secure: WWioXypWJtu9D50SQndM9Q==
+
+before_build:
+
+build_script:
+- ps: |
+    # A trick to test if variable is defined. Number could never be null.
+    $isPullRequest = -not ($Env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
+    $isTagBuild = $Env:APPVEYOR_REPO_TAG
+    $branchName = $Env:APPVEYOR_REPO_BRANCH
+
+    Write-Host "Build context: is PR: $isPullRequest, is tag: $isTagBuild, branch name: '$branchName'"
+    
+    if($isTagBuild)
+    {
+      & build.cmd PublishNuGetAll NuGetPreReleaseKey="$($Env:MYGET_API_KEY)" NuGetReleaseKey="$($Env:NUGET_API_KEY)"
+    }
+    #Should be checked _before_ branch name, because branch name is set to "base" branch for Pull Requests
+    else if($isPullRequest -eq $true) 
+    {
+      & build.cmd CompleteBuild
+    } 
+    else if(($branchName -eq "master") -or ($branchName -eq "v4")) 
+    {
+      & build.cmd PublishNuGetPreRelease NuGetPreReleaseKey="$($Env:MYGET_API_KEY)"
+    }
+    else
+    {
+      # If this is a custom branch - just build the code without publishing the artifacts somewhere.
+      & build.cmd CompleteBuild
+    }
+
+test_script:
+- ps: |
+    function Publish-TestResults ($testRunner, $testResultsPath)
+    {
+        $client = New-Object System.Net.WebClient
+        $client.UploadFile("https://ci.appveyor.com/api/testresults/$testRunner/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $testResultsPath))
+    }
+
+    Publish-TestResults nunit NUnit2TestResult.xml
+    Publish-TestResults nunit NUnit3TestResult.xml
+
+artifacts:
+- path: NuGetPackages\*.nupkg
+  name: NuGet
+- path: Release\AutoFixture.zip
+  name: GitHub
+
+deploy: off

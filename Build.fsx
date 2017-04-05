@@ -173,6 +173,7 @@ Target "PublishNuGetRelease" (fun _ -> publishPackagesToNuGet
                                             (getBuildParam "NuGetReleaseKey"))
 
 Target "CompleteBuild" (fun _ -> ())
+Target "PublishNuGetAll" (fun _ -> ()) 
 
 "CleanVerify"  ==> "CleanAll"
 "CleanRelease" ==> "CleanAll"
@@ -196,11 +197,13 @@ Target "CompleteBuild" (fun _ -> ())
 "CleanNuGetPackages"  ==> "NuGetPack"
 "CopyToReleaseFolder" ==> "NuGetPack"
 
+"NuGetPack" ==> "CompleteBuild"
+
 "NuGetPack" ==> "PublishNuGetRelease"
 "NuGetPack" ==> "PublishNuGetPreRelease"
 
-"PublishNuGetPreRelease" ==> "PublishNuGetRelease"
-
-"NuGetPack" ==> "CompleteBuild"
+"PublishNuGetRelease"
+    ==> "PublishNuGetPreRelease"
+    ==> "PublishNuGetAll"
 
 RunTargetOrDefault "CompleteBuild"
