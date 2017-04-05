@@ -6,6 +6,9 @@ environment:
   NUGET_API_KEY:
     secure: eac1/C1kuedbtzIE7u3pLetjM0qowzJkEdIKC/fWDRE=
 
+pull_requests:
+  do_not_increment_build_number: true
+
 build_script:
 - ps: |
     # A trick to test if variable is defined. Number could never be null.
