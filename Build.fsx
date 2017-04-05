@@ -14,6 +14,7 @@ let nuGetPackages = !! (nuGetOutputFolder @@ "*.nupkg" )
                     -- (nuGetOutputFolder @@ "*.symbols.nupkg")
                     // Currently AutoFakeItEasy2 has been deprecated and is not being published to the feeds.
                     -- (nuGetOutputFolder @@ "AutoFixture.AutoFakeItEasy2.*" )
+let signKeyPath = FullName "Src/AutoFixture.snk"
 let solutionsToBuild = !! "Src/All.sln"
 let processorArchitecture = environVar "PROCESSOR_ARCHITECTURE"
 
@@ -76,15 +77,11 @@ Target "PatchAssemblyVersions" (fun _ ->
 )
 
 let build target configuration =
-    let keyFile =
-        match getBuildParam "signkey" with
-        | "" -> []
-        | x  -> [ "AssemblyOriginatorKeyFile", FullName x ]
-
-    let properties = keyFile @ [ "Configuration", configuration
-                                 "AssemblyVersion", buildVersion.assemblyVersion
-                                 "FileVersion", buildVersion.fileVersion
-                                 "InformationalVersion", buildVersion.infoVersion ]
+    let properties = [ "Configuration", configuration
+                       "AssemblyOriginatorKeyFile", signKeyPath
+                       "AssemblyVersion", buildVersion.assemblyVersion
+                       "FileVersion", buildVersion.fileVersion
+                       "InformationalVersion", buildVersion.infoVersion ]
 
     solutionsToBuild
     |> MSBuild "" target properties
