@@ -2,9 +2,9 @@ image: Visual Studio 2015
 
 environment:
   MYGET_API_KEY:
-    secure: oKuy29bs8RnNdkz+EiK0I1SKZnGfmRJt7SfjaJy1KMeVja9gZ4xViXda1xXyvrkn
+    secure: ZaKjBq7UeLV+5xRJqFNSGVC5p3upCHeLxu9zGPVV5c0=
   NUGET_API_KEY:
-    secure: WWioXypWJtu9D50SQndM9Q==
+    secure: eac1/C1kuedbtzIE7u3pLetjM0qowzJkEdIKC/fWDRE=
 
 before_build:
 
@@ -26,7 +26,7 @@ build_script:
     {
       & build.cmd CompleteBuild
     } 
-    else if(($branchName -eq "master") -or ($branchName -eq "v4")) 
+    else if(($branchName -eq "master_playground") -or ($branchName -eq "v4")) 
     {
       & build.cmd PublishNuGetPreRelease NuGetPreReleaseKey="$($Env:MYGET_API_KEY)"
     }

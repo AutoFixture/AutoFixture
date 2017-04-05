@@ -1,4 +1,2 @@
 @echo off
-cls
-
-packages\FAKE.Core\tools\FAKE.exe build.fsx %*
+ECHO BUILD EXECUTED!!!! Params: %1 %2 %3 %4 %5 %6
