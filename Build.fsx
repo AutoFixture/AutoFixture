@@ -9,7 +9,6 @@ let nunitToolsFolder = "Packages/NUnit.Runners.2.6.2/tools"
 let nuGetOutputFolder = "NuGetPackages"
 let solutionsToBuild = !! "Src/*.sln"
 let signKeyPath = FullName "Src/AutoFixture.snk"
-let processorArchitecture = environVar "PROCESSOR_ARCHITECTURE"
 
 let build target configuration =
     solutionsToBuild
