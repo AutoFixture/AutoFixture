@@ -34,21 +34,4 @@ build_script:
       & build.cmd CompleteBuild
     }
 
-test_script:
-- ps: |
-    function Publish-TestResults ($testRunner, $testResultsPath)
-    {
-        $client = New-Object System.Net.WebClient
-        $client.UploadFile("https://ci.appveyor.com/api/testresults/$testRunner/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $testResultsPath))
-    }
-
-    Publish-TestResults nunit NUnit2TestResult.xml
-    Publish-TestResults nunit NUnit3TestResult.xml
-
-artifacts:
-- path: NuGetPackages\*.nupkg
-  name: NuGet
-- path: Release\AutoFixture.zip
-  name: GitHub
-
 deploy: off
