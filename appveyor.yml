@@ -10,7 +10,7 @@ build_script:
 - ps: |
     # A trick to test if variable is defined. Number could never be null.
     $isPullRequest = -not ($Env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
-    $isTagBuild = $Env:APPVEYOR_REPO_TAG
+    $isTagBuild = $Env:APPVEYOR_REPO_TAG -eq "true"
     $branchName = $Env:APPVEYOR_REPO_BRANCH
 
     Write-Host "[BUILD CONTEXT INFO] Is PR: $isPullRequest, is tag: $isTagBuild, branch name: '$branchName'" -ForegroundColor Green
