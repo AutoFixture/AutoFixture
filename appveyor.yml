@@ -39,7 +39,7 @@ build_script:
 
 test_script:
 - ps: |
-    function Publish-TestResults ($testRunner, $testResultsPath)
+    <# function Publish-TestResults ($testRunner, $testResultsPath)
     {
         $client = New-Object System.Net.WebClient
         $client.UploadFile("https://ci.appveyor.com/api/testresults/$testRunner/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $testResultsPath))
@@ -47,9 +47,10 @@ test_script:
 
     Publish-TestResults nunit NUnit2TestResult.xml
     Publish-TestResults nunit NUnit3TestResult.xml
+    #>
 
 artifacts:
 - path: NuGetPackages\*.nupkg
   name: NuGet
 
-deploy: off 
+deploy: off
