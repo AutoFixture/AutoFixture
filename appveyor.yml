@@ -20,11 +20,11 @@ build_script:
       & build.cmd PublishNuGetAll NuGetPreReleaseKey="$($Env:MYGET_API_KEY)" NuGetReleaseKey="$($Env:NUGET_API_KEY)"
     }
     #Should be checked _before_ branch name, because branch name is set to "base" branch for Pull Requests
-    else if($isPullRequest -eq $true) 
+    elseif($isPullRequest -eq $true) 
     {
       & build.cmd CompleteBuild
     } 
-    else if(($branchName -eq "master_playground") -or ($branchName -eq "v4")) 
+    elseif(($branchName -eq "master_playground") -or ($branchName -eq "v4")) 
     {
       & build.cmd PublishNuGetPreRelease NuGetPreReleaseKey="$($Env:MYGET_API_KEY)"
     }
@@ -34,4 +34,4 @@ build_script:
       & build.cmd CompleteBuild
     }
 
-deploy: off
+deploy: off 
