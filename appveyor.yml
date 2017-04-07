@@ -2,9 +2,9 @@ image: Visual Studio 2015
 
 environment:
   MYGET_API_KEY:
-    secure: ZaKjBq7UeLV+5xRJqFNSGVC5p3upCHeLxu9zGPVV5c0=
+    secure: oKuy29bs8RnNdkz+EiK0I1SKZnGfmRJt7SfjaJy1KMeVja9gZ4xViXda1xXyvrkn
   NUGET_API_KEY:
-    secure: eac1/C1kuedbtzIE7u3pLetjM0qowzJkEdIKC/fWDRE=
+    secure: zxujHqRFYGczwiUa99mf5XJBrweOrK/A3sHOBIbBkWIlzA3x+5vg00k1CB3G3gbP
 
 pull_requests:
   do_not_increment_build_number: true
