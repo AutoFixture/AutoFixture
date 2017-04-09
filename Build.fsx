@@ -9,7 +9,7 @@ open System.Text.RegularExpressions
 let releaseFolder = "Release"
 let nunitToolsFolder = "Packages/NUnit.Runners.2.6.2/tools"
 let nuGetOutputFolder = "NuGetPackages"
-let solutionsToBuild = !! "Src/*.sln"
+let solutionsToBuild = !! "Src/All.sln"
 let processorArchitecture = environVar "PROCESSOR_ARCHITECTURE"
 
 type BuildVersionInfo = { assemblyVersion:string; fileVersion:string; infoVersion:string; nugetVersion:string }
