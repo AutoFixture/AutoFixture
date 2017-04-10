@@ -1,6 +1,7 @@
 ﻿#r @"packages/FAKE.Core/tools/FakeLib.dll"
 
 open Fake
+open Fake.AppVeyor
 open Fake.Testing
 open System
 open System.Diagnostics;
@@ -115,14 +116,14 @@ Target "TestOnly" (fun _ ->
     let nunit2TestAssemblies = !! (sprintf "Src/AutoFixture.NUnit2.*Test/bin/%s/*Test.dll" configuration)
 
     nunit2TestAssemblies
-    |> NUnit (fun p -> { p with StopOnError = false
-                                OutputFile = "NUnit2TestResult.xml" })
+    |> NUnitSequential.NUnit (fun p -> { p with StopOnError = false
+                                                OutputFile = "NUnit2TestResult.xml" })
 
     let nunit3TestAssemblies = !! (sprintf "Src/AutoFixture.NUnit3.UnitTest/bin/%s/Ploeh.AutoFixture.NUnit3.UnitTest.dll" configuration)
 
     nunit3TestAssemblies
-    |> NUnit3 (fun p -> { p with StopOnError = false
-                                 ResultSpecs = ["NUnit3TestResult.xml;format=nunit2"] })
+    |> Testing.NUnit3.NUnit3 (fun p -> { p with StopOnError = false
+                                                ResultSpecs = ["NUnit3TestResult.xml;format=nunit2"] })
 )
 
 Target "BuildAndTestOnly" (fun _ -> ())
@@ -265,4 +266,44 @@ Target "PublishNuGetAll" DoNothing
 "PublishNuGetPublic"  ==> "PublishNuGetAll"
 "PublishNuGetPrivate" ==> "PublishNuGetAll"
 
+// ==============================================
+// ================== AppVeyor ==================
+// ==============================================
+
+// Add helper to identify whether current trigger is PR
+type AppVeyorEnvironment with
+    static member IsPullRequest = isNotNullOrEmpty AppVeyorEnvironment.PullRequestNumber
+
+type AppVeyorTrigger = SemVerTag | CustomTag | PR | Unknown
+let anAppVeyorTrigger =
+    let tag = if AppVeyorEnvironment.RepoTag then Some AppVeyorEnvironment.RepoTagName else None
+    let isPR = AppVeyorEnvironment.IsPullRequest
+
+    match tag, isPR with
+    | Some t, _ when "v\d+.*" >** t -> SemVerTag
+    | Some _, _                     -> CustomTag
+    | _, true                       -> PR
+    | _                             -> Unknown
+
+// Print state info at the very beginning
+if buildServer = BuildServer.AppVeyor 
+   then logfn "[AppVeyor state] Is tag: %b, tag name: '%s', is PR: %b, branch name: '%s', trigger: %A"
+              AppVeyorEnvironment.RepoTag 
+              AppVeyorEnvironment.RepoTagName 
+              AppVeyorEnvironment.IsPullRequest
+              AppVeyorEnvironment.RepoBranch
+              anAppVeyorTrigger
+
+Target "AppVeyor" (fun _ ->
+    //Artifacts might be deployable, so we update build version to find them later by file version
+    if not AppVeyorEnvironment.IsPullRequest then UpdateBuildVersion buildVersion.fileVersion
+)
+
+// Add logic to resolve action based on current trigger info
+dependency "AppVeyor" <| match anAppVeyorTrigger with
+                         | SemVerTag                -> "PublishNuGetPublic"
+                         | PR | CustomTag | Unknown -> "CompleteBuild"
+
+
+// ========= ENTRY POINT =========
 RunTargetOrDefault "CompleteBuild"
