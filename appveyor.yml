@@ -1,11 +1,45 @@
 image: Visual Studio 2015
 
+environment:
+  MYGET_API_KEY:
+    secure: ZaKjBq7UeLV+5xRJqFNSGVC5p3upCHeLxu9zGPVV5c0=
+  NUGET_API_KEY:
+    secure: eac1/C1kuedbtzIE7u3pLetjM0qowzJkEdIKC/fWDRE=
+
 pull_requests:
   do_not_increment_build_number: true
 
 build_script:
 - ps: |
-    & .\build.cmd CompleteBuild
+    # A trick to test if variable is defined. Number could never be null.
+    $isPullRequest = -not ($Env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
+    $isTagBuild = $Env:APPVEYOR_REPO_TAG -eq "true"
+    $branchName = $Env:APPVEYOR_REPO_BRANCH
+
+    Write-Host "[BUILD CONTEXT INFO] Is PR: $isPullRequest, is tag: $isTagBuild, branch name: '$branchName'" -ForegroundColor Green
+    
+    if($isTagBuild)
+    {
+      Write-Host "Trigger tag build & push to all feeds" -ForegroundColor Green
+      & .\build.cmd PublishNuGetAll NuGetPreReleaseKey="$($Env:MYGET_API_KEY)" NuGetReleaseKey="$($Env:NUGET_API_KEY)"
+    }
+    #Should be checked _before_ branch name, because branch name is set to "base" branch for Pull Requests
+    elseif($isPullRequest -eq $true)
+    {
+      Write-Host "Trigger PR verification build" -ForegroundColor Green
+      & .\build.cmd CompleteBuild
+    } 
+    elseif(($branchName -eq "master") -or ($branchName -eq "v4")) 
+    {
+      Write-Host "Trigger full build & push to pre-release feed" -ForegroundColor Green
+      & .\build.cmd PublishNuGetPreRelease NuGetPreReleaseKey="$($Env:MYGET_API_KEY)"
+    }
+    else
+    {
+      # If this is a custom branch - just build the code without publishing the artifacts somewhere.
+      Write-Host "Trigger build for a custom branch" -ForegroundColor Green
+      & .\build.cmd CompleteBuild
+    }
 
 test_script:
 - ps: |
