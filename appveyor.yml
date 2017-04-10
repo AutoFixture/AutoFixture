@@ -1,0 +1,25 @@
+image: Visual Studio 2015
+
+pull_requests:
+  do_not_increment_build_number: true
+
+build_script:
+- ps: |
+    & .\build.cmd CompleteBuild
+
+test_script:
+- ps: |
+    function Publish-TestResults ($testRunner, $testResultsPath)
+    {
+        $client = New-Object System.Net.WebClient
+        $client.UploadFile("https://ci.appveyor.com/api/testresults/$testRunner/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $testResultsPath))
+    }
+
+    Publish-TestResults nunit NUnit2TestResult.xml
+    Publish-TestResults nunit NUnit3TestResult.xml
+
+artifacts:
+- path: NuGetPackages\*.nupkg
+  name: NuGet
+
+deploy: off
