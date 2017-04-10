@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/xove2l9aj4d1rej5/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master)
 
 ## Announcement ##
 
