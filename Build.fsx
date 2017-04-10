@@ -22,7 +22,13 @@ let getGitVersion =
     
     let assemblyVer = sprintf "%s.%s.%s" (getMatch "maj") (getMatch "min") (getMatch "rev")    
     let apiVer = sprintf "%s.0" assemblyVer
-    let nugetVer = sprintf "%s%s%s" assemblyVer (getMatch "pre") (match getMatch "num" with "0" -> "" | commitsSinceTag -> "." + commitsSinceTag)
+
+    let formatCommitsSinceLastTag pattern = 
+        match getMatch "num" |> int with
+        | 0 -> ""
+        | commits -> sprintf pattern commits
+
+    let nugetVer = sprintf "%s%s" assemblyVer (match (getMatch "pre") with "" -> formatCommitsSinceLastTag ".%d" | p -> p + (formatCommitsSinceLastTag ".%04d"))
     
     { apiVersion = apiVer ; nugetVersion = nugetVer }
 
