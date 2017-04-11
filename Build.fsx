@@ -76,7 +76,10 @@ let build target configuration =
         | "" -> []
         | x  -> [ "AssemblyOriginatorKeyFile", FullName x ]
 
-    let properties = [ "Configuration", configuration ] @ keyFile
+    let properties = keyFile @ [ "Configuration", configuration
+                                 "AssemblyVersion", buildVersion.assemblyVersion
+                                 "FileVersion", buildVersion.fileVersion
+                                 "InformationalVersion", buildVersion.infoVersion ]
 
     solutionsToBuild
     |> MSBuild "" target properties
