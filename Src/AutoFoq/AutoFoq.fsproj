@@ -14,6 +14,7 @@
     <Name>AutoFoq</Name>
     <SignAssembly>false</SignAssembly>
     <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
+    <NoWarn>2003</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
