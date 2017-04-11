@@ -9,6 +9,11 @@ open System.Text.RegularExpressions
 let releaseFolder = "Release"
 let nunitToolsFolder = "Packages/NUnit.Runners.2.6.2/tools"
 let nuGetOutputFolder = "NuGetPackages"
+let nuGetPackages = !! (nuGetOutputFolder @@ "*.nupkg" )
+                    // Skip symbol packages because NuGet publish symbols automatically when package is published
+                    -- (nuGetOutputFolder @@ "*.symbols.nupkg")
+                    // Currently AutoFakeItEasy2 has been deprecated and is not being published to the feeds.
+                    -- (nuGetOutputFolder @@ "AutoFixture.AutoFakeItEasy2.*" )
 let solutionsToBuild = !! "Src/All.sln"
 let processorArchitecture = environVar "PROCESSOR_ARCHITECTURE"
 
@@ -198,7 +203,38 @@ Target "NuGetPack" (fun _ ->
                                                    SymbolPackage = NugetSymbolPackage.Nuspec }) f)
 )
 
-Target "CompleteBuild" (fun _ -> ())
+let publishPackagesWithSymbols packageFeed symbolFeed accessKey =
+    nuGetPackages
+    |> Seq.map (fun pkg ->
+        let meta = GetMetaDataFromPackageFile pkg
+        meta.Id, meta.Version
+    )
+    |> Seq.iter (fun (id, version) -> NuGetPublish (fun p -> { p with Project = id
+                                                                      Version = version
+                                                                      OutputPath = nuGetOutputFolder
+                                                                      PublishUrl = packageFeed
+                                                                      AccessKey = accessKey
+                                                                      SymbolPublishUrl = symbolFeed
+                                                                      SymbolAccessKey = accessKey
+                                                                      WorkingDir = releaseFolder }))
+
+Target "PublishNuGetPublic" (fun _ ->
+    let feed = "https://www.nuget.org/api/v2/package"
+    let key = getBuildParam "NuGetPublicKey"
+
+    publishPackagesWithSymbols feed "" key
+)
+
+Target "PublishNuGetPrivate" (fun _ ->
+    let packageFeed = "https://www.myget.org/F/autofixture/api/v2/package"
+    let symbolFeed = "https://www.myget.org/F/autofixture/symbols/api/v2/package"
+    let key = getBuildParam "NuGetPrivateKey"
+
+    publishPackagesWithSymbols packageFeed symbolFeed key
+)
+
+Target "CompleteBuild"   DoNothing
+Target "PublishNuGetAll" DoNothing
 
 "CleanVerify"  ==> "CleanAll"
 "CleanRelease" ==> "CleanAll"
@@ -224,5 +260,12 @@ Target "CompleteBuild" (fun _ -> ())
 "CopyToReleaseFolder" ==> "NuGetPack"
 
 "NuGetPack" ==> "CompleteBuild"
+
+"NuGetPack" ==> "PublishNuGetPublic"
+
+"NuGetPack" ==> "PublishNuGetPrivate"
+
+"PublishNuGetPublic"  ==> "PublishNuGetAll"
+"PublishNuGetPrivate" ==> "PublishNuGetAll"
 
 RunTargetOrDefault "CompleteBuild"
