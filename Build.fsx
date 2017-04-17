@@ -1,25 +1,57 @@
 ﻿#r @"packages/FAKE.Core/tools/FakeLib.dll"
 
 open Fake
+open Fake.AssemblyInfoFile
 open Fake.Testing
 open System
+open System.Diagnostics;
+open System.Text.RegularExpressions
 
 let releaseFolder = "Release"
 let nunitToolsFolder = "Packages/NUnit.Runners.2.6.2/tools"
 let nuGetOutputFolder = "NuGetPackages"
 let solutionsToBuild = !! "Src/*.sln"
-let processorArchitecture = environVar "PROCESSOR_ARCHITECTURE"
+let signKeyPath = FullName "Src/AutoFixture.snk"
+
+type GitVersion = { apiVersion:string; nugetVersion:string }
+let getGitVersion = 
+    let desc = Git.CommandHelper.runSimpleGitCommand "" "describe --tags --long --match=v*"
+    // Example for regular: v3.50.2-288-g64fd5c5b, for prerelease: v3.50.2-alpha1-288-g64fd5c5b
+    let result = Regex.Match(desc, @"^v(?<maj>\d+)\.(?<min>\d+)\.(?<rev>\d+)(?<pre>-\w+\d*)?-(?<num>\d+)-g(?<sha>[a-z0-9]+)$", RegexOptions.IgnoreCase).Groups
+    let getMatch (name:string) = result.[name].Value
+    
+    let assemblyVer = sprintf "%s.%s.%s" (getMatch "maj") (getMatch "min") (getMatch "rev")    
+    let apiVer = sprintf "%s.0" assemblyVer
+
+    let formatCommitsSinceLastTag pattern = 
+        match getMatch "num" |> int with
+        | 0 -> ""
+        | commits -> sprintf pattern commits
+
+    let nugetVer = sprintf "%s%s" assemblyVer (match (getMatch "pre") with "" -> formatCommitsSinceLastTag ".%d" | p -> p + (formatCommitsSinceLastTag ".%04d"))
+    
+    { apiVersion = apiVer ; nugetVersion = nugetVer }
+
+Target "PatchAssemblyVersions" (fun _ ->
+    let version = 
+        match getBuildParamOrDefault "Version" "git" with
+        | "git"    -> getGitVersion
+        | custom -> { apiVersion = custom; nugetVersion = match getBuildParam "NugetVersion" with "" -> custom | v -> v }
+
+    !! "Src/*/Properties/AssemblyInfo.*"
+    |> Seq.iter (fun f -> UpdateAttributes f [ Attribute.Version              version.apiVersion
+                                               Attribute.FileVersion          version.apiVersion
+                                               Attribute.InformationalVersion version.nugetVersion ])
+)
 
 let build target configuration =
-    let keyFile =
-        match getBuildParam "signkey" with
-        | "" -> []
-        | x  -> [ "AssemblyOriginatorKeyFile", FullName x ]
-
-    let properties = [ "Configuration", configuration ] @ keyFile
-
     solutionsToBuild
-    |> MSBuild "" target properties
+    |> Seq.iter (fun s -> build (fun p -> { p with Targets = [target]
+                                                   Properties = 
+                                                      [
+                                                          "Configuration", configuration
+                                                          "AssemblyOriginatorKeyFile", signKeyPath
+                                                      ] }) s)
     |> ignore
 
 let clean   = build "Clean"
@@ -125,9 +157,7 @@ Target "CleanNuGetPackages" (fun _ ->
 )
 
 Target "NuGetPack" (fun _ ->
-    let version = "Src/AutoFixture/bin/Release/Ploeh.AutoFixture.dll"
-                  |> GetAssemblyVersion
-                  |> (fun v -> sprintf "%i.%i.%i" v.Major v.Minor v.Build)
+    let version = FileVersionInfo.GetVersionInfo("Src/AutoFixture/bin/Release/Ploeh.AutoFixture.dll").ProductVersion
 
     let nuSpecFiles = !! "NuGet/*.nuspec"
 
@@ -138,24 +168,59 @@ Target "NuGetPack" (fun _ ->
                                                    SymbolPackage = NugetSymbolPackage.Nuspec }) f)
 )
 
+let publishPackagesToNuGet apiFeed symbolFeed nugetKey =
+    let packages = !! (sprintf "%s/*.nupkg" nuGetOutputFolder)     
+
+    packages
+    |> Seq.map (fun p ->
+        let isSymbolPackage = p.EndsWith "symbols.nupkg"
+        let feed =
+            match isSymbolPackage with
+            | true -> symbolFeed
+            | false -> apiFeed
+
+        let meta = GetMetaDataFromPackageFile p
+        let version = 
+            match isSymbolPackage with
+            | true -> sprintf "%s.symbols" meta.Version
+            | false -> meta.Version
+
+        (meta.Id, version, feed))
+    |> Seq.iter (fun (id, version, feed) -> NuGetPublish (fun p -> { p with PublishUrl = feed
+                                                                            AccessKey = nugetKey
+                                                                            OutputPath = nuGetOutputFolder
+                                                                            Project = id
+                                                                            Version = version }))    
+
+Target "PublishNuGetPreRelease" (fun _ -> publishPackagesToNuGet 
+                                            "https://www.myget.org/F/autofixture/api/v2/package" 
+                                            "https://www.myget.org/F/autofixture/symbols/api/v2/package"
+                                            (getBuildParam "NuGetPreReleaseKey"))
+
+Target "PublishNuGetRelease" (fun _ -> publishPackagesToNuGet
+                                            "https://www.nuget.org/api/v2/package"
+                                            "https://nuget.smbsrc.net/"
+                                            (getBuildParam "NuGetReleaseKey"))
+
 Target "CompleteBuild" (fun _ -> ())
+Target "PublishNuGetAll" (fun _ -> ()) 
 
 "CleanVerify"  ==> "CleanAll"
 "CleanRelease" ==> "CleanAll"
 
-"CleanReleaseFolder" ==> "Verify"
-"CleanAll"           ==> "Verify"
+"CleanReleaseFolder"    ==> "Verify"
+"CleanAll"              ==> "Verify"
 
-"Verify"    ==> "Build"
-"BuildOnly" ==> "Build"
+"Verify"                ==> "Build"
+"PatchAssemblyVersions" ==> "Build"
+"BuildOnly"             ==> "Build"
 
 "Build"    ==> "Test"
 "TestOnly" ==> "Test"
 
-"BuildOnly" ==> "TestOnly"
-
-"BuildOnly" ==> "BuildAndTestOnly"
-"TestOnly"  ==> "BuildAndTestOnly"
+"BuildOnly" 
+    ==> "TestOnly"
+    ==> "BuildAndTestOnly"
 
 "Test" ==> "CopyToReleaseFolder"
 
@@ -163,5 +228,13 @@ Target "CompleteBuild" (fun _ -> ())
 "CopyToReleaseFolder" ==> "NuGetPack"
 
 "NuGetPack" ==> "CompleteBuild"
+
+"NuGetPack" ==> "PublishNuGetRelease"
+"NuGetPack" ==> "PublishNuGetPreRelease"
+
+"PublishNuGetRelease"    ==> "PublishNuGetAll"
+"PublishNuGetPreRelease" ==> "PublishNuGetAll"
+
+
 
 RunTargetOrDefault "CompleteBuild"

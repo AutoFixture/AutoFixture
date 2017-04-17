@@ -1,11 +1,63 @@
 image: Visual Studio 2015
 
+environment:
+  MYGET_API_KEY:
+    secure: oKuy29bs8RnNdkz+EiK0I1SKZnGfmRJt7SfjaJy1KMeVja9gZ4xViXda1xXyvrkn
+  NUGET_API_KEY:
+    secure: zxujHqRFYGczwiUa99mf5XJBrweOrK/A3sHOBIbBkWIlzA3x+5vg00k1CB3G3gbP
+
 pull_requests:
   do_not_increment_build_number: true
 
 build_script:
 - ps: |
-    & .\build.cmd CompleteBuild
+    # A trick to test if variable is defined. Number could never be null.
+    $isPullRequest = -not ($Env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
+    $isTagBuild = $Env:APPVEYOR_REPO_TAG -eq "true"
+    $branchName = $Env:APPVEYOR_REPO_BRANCH
+
+    Write-Host "[BUILD CONTEXT INFO] Is PR: $isPullRequest, is tag: $isTagBuild, branch name: '$branchName'" -ForegroundColor Green
+    
+    if($isTagBuild)
+    {
+      $tagName = $Env:APPVEYOR_REPO_TAG_NAME
+      # Check if this is release tag or RC
+      $publishToProd = $tagName -match '^v(\d+)(\.\d+)+(-rc[\d\.]+)?$'
+      $isSemVerTag = $tagName -match '^v.*'
+
+      if($publishToProd)
+      {
+        Write-Host "Trigger tag build & push to all feeds. Tag name: $tagName" -ForegroundColor Green
+        & .\build.cmd PublishNuGetAll NuGetPreReleaseKey="$($Env:MYGET_API_KEY)" NuGetReleaseKey="$($Env:NUGET_API_KEY)" Version=git
+      }
+      elseif ($isSemVerTag)
+      {
+        Write-Host "Trigger tag build & push to pre-prod feed only. Tag name: $tagName" -ForegroundColor Green
+        & .\build.cmd PublishNuGetPreRelease NuGetPreReleaseKey="$($Env:MYGET_API_KEY)" Version=git
+      }
+      else
+      {
+        Write-Host "Trigger tag build only - this is not a SemVer tag. Tag name: $tagName" -ForegroundColor Green
+        & .\build.cmd CompleteBuild Version=git
+      }
+    }
+    #Should be checked _before_ branch name, because branch name is set to "base" branch for Pull Requests
+    elseif($isPullRequest -eq $true)
+    {
+      Write-Host "Trigger PR verification build" -ForegroundColor Green
+      & .\build.cmd CompleteBuild Version=git
+    } 
+    elseif(($branchName -eq "master") -or ($branchName -eq "v4")) 
+    {
+      Write-Host "Trigger full build & push to pre-release feed" -ForegroundColor Green
+      & .\build.cmd PublishNuGetPreRelease NuGetPreReleaseKey="$($Env:MYGET_API_KEY)" Version=git
+    }
+    else
+    {
+      # If this is a custom branch - just build the code without publishing the artifacts somewhere.
+      Write-Host "Trigger build for a custom branch" -ForegroundColor Green
+      & .\build.cmd CompleteBuild Version=git
+    }
 
 test_script:
 - ps: |
