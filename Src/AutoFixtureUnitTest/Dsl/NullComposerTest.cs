@@ -235,5 +235,17 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             Assert.Same(sut, result);
             // Teardown
         }
+
+        [Fact]
+        public void MatchReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new NullComposer<object>();
+            // Exercise system
+            var result = sut.Match();
+            // Verify outcome
+            Assert.IsAssignableFrom<NullMatchComposer<object>>(result);
+            // Teardown
+        }
     }
 }

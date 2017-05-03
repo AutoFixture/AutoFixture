@@ -108,5 +108,6 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         internal Func<IPostprocessComposer<T>> OnWithAutoProperties { get; set; }
         internal Func<object, IPostprocessComposer<T>> OnWithout { get; set; }
         internal Func<object, ISpecimenContext, object> OnCreate { get; set; }
+        internal Func<IMatchComposer<T>> OnMatch { get; set; }
     }
 }
