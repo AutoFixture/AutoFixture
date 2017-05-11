@@ -2,7 +2,7 @@ SRCSRV: ini ------------------------------------------------
 VERSION=2
 SRCSRV: variables ------------------------------------------
 SRCSRVVERCTRL=https
-SRCSRVTRG=https://raw.github.com/fsharp/FAKE/e2c3867743c483423e6176da8bc2b1410db3ba13/%var2%
+SRCSRVTRG=https://raw.github.com/fsharp/FAKE/369a1e88f942f328f28e62de77b778234242f704/%var2%
 SRCSRV: source files ---------------------------------------
 C:\code\fake\src\app\FakeLib\UserInputHelper.fs*src/app/FakeLib/UserInputHelper.fs
 C:\code\fake\src\app\FakeLib\CSharpHelper.fs*src/app/FakeLib/CSharpHelper.fs
@@ -23,7 +23,6 @@ C:\code\fake\src\app\FakeLib\ServiceControllerHelper.fs*src/app/FakeLib/ServiceC
 C:\code\fake\src\app\FakeLib\GuardedAwaitObservable.fs*src/app/FakeLib/GuardedAwaitObservable.fs
 C:\code\fake\src\app\FakeLib\ProcessHelper.fs*src/app/FakeLib/ProcessHelper.fs
 C:\code\fake\src\app\FakeLib\PsExecHelper.fs*src/app/FakeLib/PsExecHelper.fs
-C:\code\fake\src\app\FakeLib\NpmHelper.fs*src/app/FakeLib/NpmHelper.fs
 C:\code\fake\src\app\FakeLib\BowerHelper.fs*src/app/FakeLib/BowerHelper.fs
 C:\code\fake\src\app\FakeLib\YarnHelper.fs*src/app/FakeLib/YarnHelper.fs
 C:\code\fake\src\app\FakeLib\AppVeyor.fs*src/app/FakeLib/AppVeyor.fs
@@ -58,6 +57,7 @@ C:\code\fake\src\app\FakeLib\NCoverHelper.fs*src/app/FakeLib/NCoverHelper.fs
 C:\code\fake\src\app\FakeLib\NDependHelper.fs*src/app/FakeLib/NDependHelper.fs
 C:\code\fake\src\app\FakeLib\MsBuildLogger.fs*src/app/FakeLib/MsBuildLogger.fs
 C:\code\fake\src\app\FakeLib\MSBuildHelper.fs*src/app/FakeLib/MSBuildHelper.fs
+C:\code\fake\src\app\FakeLib\NpmHelper.fs*src/app/FakeLib/NpmHelper.fs
 C:\code\fake\src\app\FakeLib\ArchiveHelper.fs*src/app/FakeLib/ArchiveHelper.fs
 C:\code\fake\src\app\FakeLib\ZipHelper.fs*src/app/FakeLib/ZipHelper.fs
 C:\code\fake\src\app\FakeLib\StrongNamingHelper.fs*src/app/FakeLib/StrongNamingHelper.fs
@@ -152,4 +152,6 @@ C:\code\fake\src\app\FakeLib\DocFxHelper.fs*src/app/FakeLib/DocFxHelper.fs
 C:\code\fake\src\app\FakeLib\GitVersionHelper.fs*src/app/FakeLib/GitVersionHelper.fs
 C:\code\fake\src\app\FakeLib\Checksum.fs*src/app/FakeLib/Checksum.fs
 C:\code\fake\src\app\FakeLib\ChangeLogHelper.fs*src/app/FakeLib/ChangeLogHelper.fs
+C:\code\fake\src\app\FakeLib\Office365ConnectorHelper.fs*src/app/FakeLib/Office365ConnectorHelper.fs
+C:\code\fake\src\app\FakeLib\StyleCopHelper.fs*src/app/FakeLib/StyleCopHelper.fs
 SRCSRV: end ------------------------------------------------

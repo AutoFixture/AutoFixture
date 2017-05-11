@@ -245,13 +245,18 @@
 </member>
 <member name="M:Fake.EnvironmentHelper.getNewestTool``1(System.Collections.Generic.IEnumerable{``0})">
 <summary>
- Helper function to help find framework or sdk tools from the 
+ Helper function to help find framework or sdk tools from the
  newest toolkit available
 </summary>
 </member>
 <member name="P:Fake.EnvironmentHelper.sdkBasePath">
 <summary>
- Base path for getting tools from windows SDKs
+ Base path for getting tools from Windows SDKs
+</summary>
+</member>
+<member name="P:Fake.EnvironmentHelper.msSdkBasePath">
+<summary>
+ Base path for getting tools from Microsoft SDKs
 </summary>
 </member>
 <member name="P:Fake.EnvironmentHelper.TargetPlatformPrefix">
@@ -267,6 +272,12 @@
 <member name="P:Fake.EnvironmentHelper.monoArguments">
 <summary>
  Arguments on the Mono executable
+</summary>
+</member>
+<member name="P:Fake.EnvironmentHelper.monoVersion">
+<summary>
+ required sometimes to workaround mono crashes
+ http://stackoverflow.com/a/8414517/1269722
 </summary>
 </member>
 <member name="P:Fake.EnvironmentHelper.isMono">
@@ -303,7 +314,7 @@
 <member name="P:Fake.EnvironmentHelper.ProgramFilesX86">
 <summary>
  The path of Program Files (x86)
- It seems this covers all cases where PROCESSOR\_ARCHITECTURE may misreport and the case where the other variable 
+ It seems this covers all cases where PROCESSOR\_ARCHITECTURE may misreport and the case where the other variable
  PROCESSOR\_ARCHITEW6432 can be null
 </summary>
 </member>
@@ -404,7 +415,7 @@
 </member>
 <member name="M:Fake.EnvironmentHelper.op_AtAt(System.String,System.String)">
 <summary>
- Combines two path strings using Path.Combine
+ Combines two path strings using Path.Combine after removing leading slashes from the second path
 </summary>
 </member>
 <member name="M:Fake.EnvironmentHelper.combinePathsNoTrim(System.String,System.String)">
@@ -414,7 +425,7 @@
 </member>
 <member name="M:Fake.EnvironmentHelper.combinePaths(System.String,System.String)">
 <summary>
- Combines two path strings using Path.Combine
+ Combines two path strings using Path.Combine after removing leading slashes from the second path
 </summary>
 </member>
 <member name="M:Fake.EnvironmentHelper.environVar(System.String)">
@@ -469,22 +480,22 @@
 </member>
 <member name="M:Fake.RegistryHelper.getRegistryValue64(Fake.RegistryHelper.RegistryBaseKey,System.String,System.String)">
 <summary>
- Gets a registy value as string
+ Gets a registry value as string
 </summary>
 </member>
 <member name="M:Fake.RegistryHelper.getRegistryValue(Fake.RegistryHelper.RegistryBaseKey,System.String,System.String)">
 <summary>
- Gets a registy value as string
+ Gets a registry value as string
 </summary>
 </member>
 <member name="M:Fake.RegistryHelper.getRegistryKey(Fake.RegistryHelper.RegistryBaseKey,System.String,System.Boolean)">
 <summary>
- Gets a registy key and falls back to 32 bit if the 64bit key is not there
+ Gets a registry key and falls back to 32 bit if the 64bit key is not there
 </summary>
 </member>
 <member name="M:Fake.RegistryHelper.getRegistryKey64(Fake.RegistryHelper.RegistryBaseKey,System.String,System.Boolean)">
 <summary>
- Gets a 64-bit registy key
+ Gets a 64-bit registry key
 </summary>
 </member>
 <member name="M:Fake.RegistryHelper.get32BitKey(Fake.RegistryHelper.RegistryBaseKey)">
@@ -2570,65 +2581,6 @@
  Contains functions for working with Sysinternals PsExec
 </summary>
 </member>
-<member name="T:Fake.NpmHelper.NpmParams">
-<summary>
- The Npm parameter type
-</summary>
-</member>
-<member name="T:Fake.NpmHelper.NpmCommand">
-<summary>
- The list of supported Npm commands. The `Custom` alternative
- can be used for other commands not in the list until they are
- implemented
-</summary>
-</member>
-<member name="T:Fake.NpmHelper.InstallArgs">
-<summary>
- Arguments for the Npm install command
-</summary>
-</member>
-<member name="M:Fake.NpmHelper.Npm(Microsoft.FSharp.Core.FSharpFunc{Fake.NpmHelper.NpmParams,Fake.NpmHelper.NpmParams})">
-<summary>
- Runs npm with the given modification function. Make sure to have npm installed,
- you can install npm with nuget or a regular install. To change which `Npm` executable
- to use you can set the `NpmFilePath` parameter with the `setParams` function.
-
- ## Parameters
-
-  - `setParams` - Function used to overwrite the Npm default parameters.
-
- ## Sample
-
-        Target &quot;Web&quot; (fun _ -&gt;
-            Npm (fun p -&gt;
-                   { p with
-                       Command = Install Standard
-                       WorkingDirectory = &quot;./src/FAKESimple.Web/&quot;
-                   })
-
-            Npm (fun p -&gt;
-                   { p with
-                       Command = (Run &quot;build&quot;)
-                       WorkingDirectory = &quot;./src/FAKESimple.Web/&quot;
-                   })
-        )
-</summary>
-</member>
-<member name="P:Fake.NpmHelper.defaultNpmParams">
-<summary>
- Npm default parameters
-</summary>
-</member>
-<member name="P:Fake.NpmHelper.npmFileName">
-<summary>
- Default paths to Npm
-</summary>
-</member>
-<member name="T:Fake.NpmHelper">
-<summary>
- Contains function to run npm tasks
-</summary>
-</member>
 <member name="T:Fake.BowerHelper.BowerParams">
 <summary>
  The Bower parameter type
@@ -2827,6 +2779,11 @@
  Union type representing the available test result formats accepted by AppVeyor.
 </summary>
 </member>
+<member name="P:Fake.AppVeyor.AppVeyorEnvironment.RepositoryShallowCloneTimeout">
+<summary>
+ Timeout in seconds to download repository (GitHub, Bitbucket or VSTS) as zip file (shallow clone). Default is 1800 (30 minutes)
+</summary>
+</member>
 <member name="P:Fake.AppVeyor.AppVeyorEnvironment.RepoTagName">
 <summary>
  contains tag name for builds started by tag
@@ -2917,6 +2874,11 @@
  Platform name set on Build tab of project settings (or through platform parameter in appveyor.yml).
 </summary>
 </member>
+<member name="P:Fake.AppVeyor.AppVeyorEnvironment.JobNumber">
+<summary>
+ The Job Number
+</summary>
+</member>
 <member name="P:Fake.AppVeyor.AppVeyorEnvironment.JobName">
 <summary>
  The job name
@@ -2942,9 +2904,34 @@
  If the build has been started by the &quot;New Build&quot; button or from the same API
 </summary>
 </member>
+<member name="P:Fake.AppVeyor.AppVeyorEnvironment.FileDownloadTimeout">
+<summary>
+ Timeout in seconds to download arbirtary files using appveyor DownloadFile command. Default is 300 (5 minutes)
+</summary>
+</member>
 <member name="P:Fake.AppVeyor.AppVeyorEnvironment.Configuration">
 <summary>
- Configuration name set on Build tab of project settings (or through configuration parameter in appveyor.yml).  
+ Configuration name set on Build tab of project settings (or through configuration parameter in appveyor.yml).
+</summary>
+</member>
+<member name="P:Fake.AppVeyor.AppVeyorEnvironment.CacheSkipSave">
+<summary>
+ set to true to disable cache update
+</summary>
+</member>
+<member name="P:Fake.AppVeyor.AppVeyorEnvironment.CacheSkipRestore">
+<summary>
+ set to true to disable cache restore
+</summary>
+</member>
+<member name="P:Fake.AppVeyor.AppVeyorEnvironment.CacheEntryUploadDownloadTimeout">
+<summary>
+ Timeout in seconds to download or upload each cache entry. Default is 300 (5 minutes)
+</summary>
+</member>
+<member name="P:Fake.AppVeyor.AppVeyorEnvironment.BuildWorkerImage">
+<summary>
+ Current build worker image the build is running on, e.g. Visual Studio 2015
 </summary>
 </member>
 <member name="P:Fake.AppVeyor.AppVeyorEnvironment.BuildVersion">
@@ -2965,6 +2952,11 @@
 <member name="P:Fake.AppVeyor.AppVeyorEnvironment.BuildFolder">
 <summary>
  Path to clone directory
+</summary>
+</member>
+<member name="P:Fake.AppVeyor.AppVeyorEnvironment.ArtifactUploadTimeout">
+<summary>
+ Artifact upload timeout in seconds. Default is 600 (10 minutes)
 </summary>
 </member>
 <member name="P:Fake.AppVeyor.AppVeyorEnvironment.ApiUrl">
@@ -3034,7 +3026,7 @@
 </member>
 <member name="M:Fake.AppVeyor.IgnoreTestCase``1(System.String,System.String,``0)">
 <summary>
- Ignores the test case.      
+ Ignores the test case.
 </summary>
 </member>
 <member name="M:Fake.AppVeyor.TestFailed(System.String,System.String,System.String,System.String)">
@@ -4164,6 +4156,16 @@
  Contains tasks to run [expecto](https://github.com/haf/expecto) v2 unit tests.
 </summary>
 </member>
+<member name="P:Fake.Testing.NUnit3.NUnit3Params.Params">
+<summary>
+ A test parameter specified in the form name=value. Multiple parameters may be specified, separated by semicolons
+</summary>
+</member>
+<member name="P:Fake.Testing.NUnit3.NUnit3Params.TraceLevel">
+<summary>
+ Controls the trace logs NUnit3 will output, defaults to Off
+</summary>
+</member>
 <member name="P:Fake.Testing.NUnit3.NUnit3Params.ErrorLevel">
 <summary>
  Default: [TestRunnerErrorLevel](fake-unittestcommon-testrunnererrorlevel.html).Error
@@ -4268,8 +4270,8 @@
 </member>
 <member name="P:Fake.Testing.NUnit3.NUnit3Params.Where">
 <summary>
- An expression indicating which tests to run. It may specify test names, classes, methods, 
- catgories or properties comparing them to actual values with the operators ==, !=, =~ and !~. 
+ An expression indicating which tests to run. It may specify test names, classes, methods,
+ catgories or properties comparing them to actual values with the operators ==, !=, =~ and !~.
  See [NUnit documentation](https://github.com/nunit/docs/wiki/Test-Selection-Language) for a full description of the syntax.
 </summary>
 </member>
@@ -4293,6 +4295,11 @@
 <member name="T:Fake.Testing.NUnit3.LabelsLevel">
 <summary>
  The --labels option in NUnit3 console runner. Specify whether to write test case names to the output.
+</summary>
+</member>
+<member name="T:Fake.Testing.NUnit3.NUnit3TraceLevel">
+<summary>
+ The --trace option in NUnit3 console runner. Specifies the internal nunit runner log level.
 </summary>
 </member>
 <member name="T:Fake.Testing.NUnit3.NUnit3ErrorLevel">
@@ -4324,7 +4331,7 @@
 <summary>
  The --framework option in running NUnit 3. There are three kinds - VXY, which means either .NET framework or Mono, NetXY (use .NET framework with given version)
  and MonoXY (Mono framework with given version). You can use Net or Mono to let NUnit select the version.
- You can pass any value using Other. 
+ You can pass any value using Other.
 </summary>
 </member>
 <member name="T:Fake.Testing.NUnit3.NUnit3DomainModel.MultipleDomainModel">
@@ -4372,7 +4379,7 @@
  - `Where` - `&quot;&quot;`
  - `Config` - `&quot;&quot;`
  - `ProcessModel` - `DefaultProcessModel`
- - `Agents` - `None` 
+ - `Agents` - `None`
  - `Domain` - `DefaultDomainModel`
  - `Framework` - `&quot;&quot;`
  - `Force32bit` - `false`
@@ -4388,6 +4395,8 @@
  - `ShadowCopy` - `false`
  - `TeamCity` - `false`
  - `ErrorLevel` - `Error`
+ - `TraceLevel` - `Default` (By default NUnit3 sets this to off internally)
+ - `Params` - `&quot;&quot;`
  ## Defaults
 </summary>
 </member>
@@ -5877,13 +5886,23 @@
  Tries to detect the right version of MSBuild.
    - On all OS&apos;s, we check a `MSBuild` environment variable which is either
      * a direct path to a file to use, or
-     * a directory that contains a file called `msbuild` on non-Windows systems, or `MSBuild.exe` on Windows systems
+     * a directory that contains a file called 
+         * `msbuild` on non-Windows systems with mono &gt;= 5.0.0.0, or
+         * `xbuild` on non-Windows systems with mono &lt; 5.0.0.0,
+         * `MSBuild.exe` on Windows systems, or
+     * a tool that exists on the current PATH
    - In addition, on non-Windows systems we check the current PATH for the following binaries, in this order:
-     * `msbuild`
-     * `xbuild`
+     * Mono &gt;= 5.0.0.0: `msbuild`, `xbuild`
+     * Mono &lt; 5.0.0.0: `xbuild`, `msbuild`
+     * This is due to several known issues in the Mono &lt; 5.0 implementation of MSBuild.
    - In addition, on Windows systems we
      * try to read the MSBuild tool location from the AppSettings file using a parameter named `MSBuild`, and finally
      * if a `VisualStudioVersion` environment variable is specified, we try to use the specific MSBuild version, matching that Visual Studio version.
+</summary>
+</member>
+<member name="P:Fake.MSBuildHelper.monoVersionToUseMSBuildOn">
+<summary>
+ Versions of Mono prior to this one have faulty implementations of MSBuild
 </summary>
 </member>
 <member name="T:Fake.MSBuildHelper.BuildException">
@@ -5894,6 +5913,98 @@
 <member name="T:Fake.MSBuildHelper">
 <summary>
  Contains tasks which allow to use MSBuild (or xBuild on Linux/Unix) to build .NET project files or solution files.
+</summary>
+</member>
+<member name="T:Fake.NpmHelper.NpmParams">
+<summary>
+ The Npm parameter type
+</summary>
+</member>
+<member name="T:Fake.NpmHelper.NpmCommand.Custom">
+<summary>
+ Run `npm &lt;string&gt;`. Can be used for running not implemented commands.
+</summary>
+</member>
+<member name="T:Fake.NpmHelper.NpmCommand.Test">
+<summary>
+ Run `npm test --silent`. Suppresses npm error output and will raise an FailedTestsException exception after the script execution instead of failing, useful for CI. See [npm:8821](https://github.com/npm/npm/issues/8821).
+</summary>
+</member>
+<member name="T:Fake.NpmHelper.NpmCommand.RunTest">
+<summary>
+ Run `npm run --silent &lt;string&gt;`. Suppresses npm error output and will raise an FailedTestsException exception after the script execution instead of failing, useful for CI. See [npm:8821](https://github.com/npm/npm/issues/8821).
+</summary>
+</member>
+<member name="T:Fake.NpmHelper.NpmCommand.RunSilent">
+<summary>
+ Run `npm run --silent &lt;string&gt;`. Suppresses npm error output. See [npm:8821](https://github.com/npm/npm/issues/8821).
+</summary>
+</member>
+<member name="T:Fake.NpmHelper.NpmCommand.Run">
+<summary>
+ Run `npm run &lt;string&gt;`
+</summary>
+</member>
+<member name="T:Fake.NpmHelper.NpmCommand.Install">
+<summary>
+ Run `npm install`
+</summary>
+</member>
+<member name="T:Fake.NpmHelper.NpmCommand">
+<summary>
+ The list of supported Npm commands.
+</summary>
+</member>
+<member name="T:Fake.NpmHelper.InstallArgs">
+<summary>
+ Arguments for the Npm install command
+</summary>
+</member>
+<member name="M:Fake.NpmHelper.Npm(Microsoft.FSharp.Core.FSharpFunc{Fake.NpmHelper.NpmParams,Fake.NpmHelper.NpmParams})">
+<summary>
+ Runs npm with the given modification function. Make sure to have npm installed,
+ you can install npm with nuget or a regular install. To change which `Npm` executable
+ to use you can set the `NpmFilePath` parameter with the `setParams` function.
+
+ ## Parameters
+
+  - `setParams` - Function used to overwrite the Npm default parameters.
+
+ ## Sample
+
+        Target &quot;Web&quot; (fun _ -&gt;
+            Npm (fun p -&gt;
+                   { p with
+                       Command = Install Standard
+                       WorkingDirectory = &quot;./src/FAKESimple.Web/&quot;
+                   })
+
+            Npm (fun p -&gt;
+                   { p with
+                       Command = (Run &quot;build&quot;)
+                       WorkingDirectory = &quot;./src/FAKESimple.Web/&quot;
+                   })
+        )
+</summary>
+</member>
+<member name="M:Fake.NpmHelper.run(Fake.NpmHelper.NpmParams)">
+<summary>
+ Runs the given process and returns the process result.
+</summary>
+</member>
+<member name="P:Fake.NpmHelper.defaultNpmParams">
+<summary>
+ Npm default parameters
+</summary>
+</member>
+<member name="P:Fake.NpmHelper.npmFileName">
+<summary>
+ Default paths to Npm
+</summary>
+</member>
+<member name="T:Fake.NpmHelper">
+<summary>
+ Contains function to run npm tasks
 </summary>
 </member>
 <member name="T:Fake.ArchiveHelper.ArchiveFileSpec">
@@ -10443,7 +10554,7 @@ get component refs from a directory component hierarchy
  Runs a single target without its dependencies
 </summary>
 </member>
-<member name="M:Fake.TargetHelper.determineBuildOrder(System.String)">
+<member name="M:Fake.TargetHelper.determineBuildOrder(System.String,System.Int32)">
 <summary>
  Determines a parallel build order for the given set of targets
 </summary>
@@ -11669,6 +11780,11 @@ get component refs from a directory component hierarchy
  Folder to store packages in. Default `./packages`.
 </summary>
 </member>
+<member name="P:Fake.NuGet.Update.NugetUpdateParams.Version">
+<summary>
+ Version to update to. Default `None`. Used to upgrade/downgrade to a explicit version of a package.
+</summary>
+</member>
 <member name="P:Fake.NuGet.Update.NugetUpdateParams.Ids">
 <summary>
  Packages to update. Update all if empty.
@@ -12181,6 +12297,11 @@ get component refs from a directory component hierarchy
 <member name="T:Fake.DotNetCli.CommandParams">
 <summary>
  DotNet parameters
+</summary>
+</member>
+<member name="M:Fake.DotNetCli.InstallDotNetSDK(System.String)">
+<summary>
+ Installs the DotNet SDK locally to the given path
 </summary>
 </member>
 <member name="M:Fake.DotNetCli.SetVersionInProjectJson(System.String,System.String)">
@@ -12785,7 +12906,7 @@ get component refs from a directory component hierarchy
 </member>
 <member name="P:Fake.AzureHelper.AzureEmulatorDefaults">
 <summary>
- The default parameter of emulator
+ The default parameters for Azure emulators
 </summary>
 </member>
 <member name="T:Fake.AzureHelper">
@@ -16951,6 +17072,342 @@ Partial validation for folder name, based on http://msdn.microsoft.com/en-us/lib
              |&gt; ChangeLogHelper.PromoteUnreleased newVersion
              |&gt; ChangeLogHelper.SavceChangeLog changeLogFile
      )
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.ConnectorCard.PotentialActions">
+<summary>
+ This array of ViewAction objects will power the action links found at the bottom of the card
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.ConnectorCard.Sections">
+<summary>
+ Contains a list of sections to display in the card
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.ConnectorCard.ThemeColor">
+<summary>
+ (Optional) Accent color used for branding or indicating status in the card
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.ConnectorCard.Text">
+<summary>
+ The main text of the card. This will be rendered below the sender information and optional title, and above any sections or actions present.
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.ConnectorCard.Title">
+<summary>
+ (Optional) A title for the Connector message. Shown at the top of the message.
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.ConnectorCard.Summary">
+<summary>
+ (Required, if the text property is not populated) A string used for summarizing card content. This will be shown as the message subject.
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.ConnectorCard.AsJson">
+<summary>
+ Converts the connector card to a JSON string
+</summary>
+</member>
+<member name="T:Fake.Office365ConnectorHelper.ConnectorCard">
+<summary>
+ This is the base data, which will be sent to the Office 365 webhook connector
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.Section.PotentialActions">
+<summary>
+ This list of ViewAction objects will power the action links found at the bottom of the section
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.Section.IsMarkdown">
+<summary>
+ (Optional) Set this to false to disable markdown parsing on this section&apos;s content. Markdown parsing is enabled by default.
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.Section.Text">
+<summary>
+ (Optional) A text that will appear before the activity.
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.Section.Images">
+<summary>
+ A list of images that will be displayed at the bottom of the section.
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.Section.Facts">
+<summary>
+ A list of facts, displayed as key-value pairs.
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.Section.ActivityText">
+<summary>
+ (Optional) A full description of the action.
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.Section.ActivityImage">
+<summary>
+ (Optional) An image representing the action. Often this is an avatar of the &quot;actor&quot; of the activity.
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.Section.ActivitySubtitle">
+<summary>
+ (Optional) A subtitle describing the event or action. Often this will be a summary of the action.
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.Section.ActivityTitle">
+<summary>
+ (Optional) Title of the event or action. Often this will be the name of the &quot;actor&quot;.
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.Section.Title">
+<summary>
+ (Optional) The title of the section
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.Section.WriteJson(Newtonsoft.Json.JsonWriter)">
+<summary>
+ Writes the Section to a JSON writer
+</summary>
+</member>
+<member name="T:Fake.Office365ConnectorHelper.Section">
+<summary>
+ A section in a ConnectorCard
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.Image.Image">
+<summary>
+ (Required) A URL to the image file or a data URI with the base64-encoded image inline
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.Image.Title">
+<summary>
+ (Optional) Alt-text for the image
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.Image.WriteJson(Newtonsoft.Json.JsonWriter)">
+<summary>
+ Writes the Image to a JSON writer
+</summary>
+</member>
+<member name="T:Fake.Office365ConnectorHelper.Image">
+<summary>
+ Represents a described image object
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.Fact.Value">
+<summary>
+ (Required) Value of the fact
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.Fact.Name">
+<summary>
+ (Required) Name of the fact
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.Fact.WriteJson(Newtonsoft.Json.JsonWriter)">
+<summary>
+ Writes the fact to a JSON writer
+</summary>
+</member>
+<member name="T:Fake.Office365ConnectorHelper.Fact">
+<summary>
+ A simple key/value pair
+</summary>
+</member>
+<member name="T:Fake.Office365ConnectorHelper.ImageUri.DataUri">
+<summary>
+ A Data uri of the image encoded as Base64 data
+</summary>
+</member>
+<member name="T:Fake.Office365ConnectorHelper.ImageUri.ImageUrl">
+<summary>
+ A simple URI of the image
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.ImageUri.WriteJson(Newtonsoft.Json.JsonWriter)">
+<summary>
+ Writes the image uri to a JSON writer
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.ImageUri.FromUrl(System.String)">
+<summary>
+ Creates a new ImageUrl from a given url string
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.ImageUri.FromFile(System.String)">
+<summary>
+ Creates a new DataUri from a given file
+ png, gif, jpg and bmp files are supported
+</summary>
+</member>
+<member name="T:Fake.Office365ConnectorHelper.ImageUri">
+<summary>
+ Represents the URI to an image (either a normal URI or a DataUri)
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.ViewAction.Target">
+<summary>
+ (Required) The Url of the link for the button
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.ViewAction.Name">
+<summary>
+ (Required) The name of the Action (appears on the button).
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.ViewAction.WriteJson(Newtonsoft.Json.JsonWriter)">
+<summary>
+ Writes the action to a JSON writer
+</summary>
+</member>
+<member name="T:Fake.Office365ConnectorHelper.ViewAction">
+<summary>
+ Represents an action button
+</summary>
+</member>
+<member name="T:Fake.Office365ConnectorHelper.ColorHexValue">
+<summary>
+ This type alias gives you a hint where you have to use a Hex color value (e.g. #AAFF77)
+</summary>
+</member>
+<member name="T:Fake.Office365ConnectorHelper.SimpleString">
+<summary>
+ This type alias for string gives you a hint where you **can&apos;t** use markdown
+</summary>
+</member>
+<member name="T:Fake.Office365ConnectorHelper.MarkdownString">
+<summary>
+ This type alias for string gives you a hint where you can use markdown
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.Office365Notification(System.String,Microsoft.FSharp.Core.FSharpFunc{Fake.Office365ConnectorHelper.ConnectorCard,Fake.Office365ConnectorHelper.ConnectorCard})">
+<summary>
+ Sends a notification to an Office 365 Connector
+ ## Parameters
+  - `webhookURL` - The Office 365 webhook connector URL
+  - `setParams` - Function used to override the default notification parameters
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.validateParams(System.String,Fake.Office365ConnectorHelper.ConnectorCard)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.ConnectorCardDefaults">
+<summary>
+ Default values for a ConnectorCard (everything is empty here)
+</summary>
+</member>
+<member name="P:Fake.Office365ConnectorHelper.SectionDefaults">
+<summary>
+ Default values for a Section in a ConnectorCard (everything is empty here)
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.asObject(Microsoft.FSharp.Core.FSharpFunc{Newtonsoft.Json.JsonWriter,Newtonsoft.Json.JsonWriter},Newtonsoft.Json.JsonWriter)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.asList(System.String,Microsoft.FSharp.Core.FSharpFunc{Newtonsoft.Json.JsonWriter,Newtonsoft.Json.JsonWriter},Newtonsoft.Json.JsonWriter)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.writeNonEmptyValue(System.String,Microsoft.FSharp.Core.FSharpOption{System.String},Newtonsoft.Json.JsonWriter)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.writeNamedString(System.String,System.String,Newtonsoft.Json.JsonWriter)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.writeString(System.String,Newtonsoft.Json.JsonWriter)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.writePropertyName(System.String,Newtonsoft.Json.JsonWriter)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="M:Fake.Office365ConnectorHelper.writeJson``1(Newtonsoft.Json.JsonWriter,``0)">
+<summary>
+ [omit]
+</summary>
+</member>
+<member name="T:Fake.Office365ConnectorHelper">
+<summary>
+ Contains a task to send notification messages to a [Office 356 Connector](https://dev.outlook.com/connectors/reference) webhook
+ 
+ ## Sample
+
+     let imageUrl = sprintf &quot;https://connectorsdemo.azurewebsites.net/images/%s&quot; 
+     
+     let notification p =
+         { p with
+             Summary = Some &quot;Max Muster ran a build&quot;
+             Title = Some &quot;Sample Project&quot;
+             Sections =
+                [ { SectionDefaults with 
+                      ActivityTitle = Some &quot;Max Muster&quot;
+                      ActivitySubtitle = Some &quot;on Sample Project&quot; 
+                      ActivityImage = 
+                         imageUrl &quot;MSC12_Oscar_002.jpg&quot; 
+                         |&gt; ImageUri.FromUrl
+                         |&gt; Some 
+                  }
+                  { SectionDefaults with
+                      Title = Some &quot;Details&quot;
+                      Facts = [ { Name = &quot;Labels&quot;; Value = &quot;FOO, BAR&quot; }
+                                { Name = &quot;Version&quot;; Value = &quot;1.0.0&quot; }
+                                { Name = &quot;Trello Id&quot;; Value = &quot;1101&quot; } ]
+                  } 
+                ]
+             PotentialActions =
+                [
+                  {
+                    Name = &quot;View in Trello&quot;
+                    Target = System.Uri(&quot;https://trello.com/c/1101/&quot;)
+                  }
+                ]
+         }
+     
+     let webhookURL = &quot;&lt;YOUR WEBHOOK URL&gt;&quot;
+     
+     Office365Notification webhookURL notification |&gt; ignore
+
+</summary>
+</member>
+<member name="T:Fake.StyleCopHelper.StyleCopParams">
+<summary>
+ Parameter type for the StyleCop tool
+</summary>
+</member>
+<member name="T:Fake.StyleCopHelper.StyleCopErrorLevel">
+<summary>
+ Type to define the behavior of how StyleCop must react on violations
+</summary>
+</member>
+<member name="M:Fake.StyleCopHelper.StyleCop(Microsoft.FSharp.Core.FSharpFunc{Fake.StyleCopHelper.StyleCopParams,Fake.StyleCopHelper.StyleCopParams})">
+<summary>
+ Runs the StyleCop tool, using the listed source, project and solution files.
+
+ ## Parameters
+
+  - `setParams` - Function used to overwrite the StyleCop default parameters.
+
+ ## Sample
+
+     StyleCop (fun p -&gt; { p with 
+                     SolutionFiles = [ artifactsDir @@ &quot;MySolution.sln&quot; ] }) 
+</summary>
+</member>
+<member name="P:Fake.StyleCopHelper.StyleCopDefaults">
+<summary>
+ StyleCop default parameters
 </summary>
 </member>
 </members>
