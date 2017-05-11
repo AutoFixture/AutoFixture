@@ -1,5 +1,36 @@
-#### 4.57.4 - 29.03.2017
+#### 4.61.2 - 11.05.2017
+* Allow to specify the default NuGet source - https://github.com/fsharp/FAKE/pull/1551
+
+#### 4.61.1 - 04.05.2017
+* BUGFIX: Stop AzureHelper throwing exceptions unnecessarily - https://github.com/fsharp/FAKE/pull/1542
+
+#### 4.61.0 - 02.05.2017
+* BUGFIX: msbuild is no longer being used on mono < 5.0.0.0 instead of xbuild - https://github.com/fsharp/FAKE/pull/1540
+
+#### 4.60.0 - 27.04.2017
+* Add support for NUnit3 --params parameter - https://github.com/fsharp/FAKE/pull/1532
+* New StyleCode helper - https://github.com/fsharp/FAKE/pull/1526
+* BUGFIX: Fixed FtpHelper.isFolderPresent - https://github.com/fsharp/FAKE/pull/1529
+* BUGFIX: Fixed NuGet key leak if publish fails - https://github.com/fsharp/FAKE/pull/1530
+* BUGFIX: Disable caching for now - mono 5 bug - https://github.com/fsharp/FAKE/pull/1535, https://github.com/fsharp/FAKE/pull/1536
+
+#### 4.59.0 - 27.04.2017
+* BUGFIX: Upgraded FSharp.Core and FSharp.Compiler.Service to support mono 5 - https://github.com/fsharp/FAKE/pull/1534
+* BUGFIX: Fixed Expecto TeamCity adapter - https://github.com/fsharp/FAKE/pull/1520
+* Added installer for dotnet SDK
+* Revert single thread build order change - https://github.com/fsharp/FAKE/pull/1516
+
+#### 4.58.0 - 09.04.2017
+* Added helper for Office 365 / MS Teams Notifications - https://github.com/fsharp/FAKE/pull/1501
+* Added options for better TC reporting of npm tasks - https://github.com/fsharp/FAKE/pull/1510
+* Added a way to set the --trace parameter on the NUnit3 command line - https://github.com/fsharp/FAKE/pull/1513
+* Add version-option to NugetUpdate in order to support explicit versions - https://github.com/fsharp/FAKE/pull/1514
 * Make exit code accessible - https://github.com/fsharp/FAKE/pull/1502
+* Additional Environment Vars for Appveyor - https://github.com/fsharp/FAKE/pull/1497
+* BUGFIX: TeamCityHelper report build status incorrect string - https://github.com/fsharp/FAKE/pull/1503
+* BUGFIX: Fixed Azure Storage Emulator path and arguments - https://github.com/fsharp/FAKE/pull/1499
+* USABILITY: Improved log integration with AppVeyor - https://github.com/fsharp/FAKE/pull/1490
+* USABILITY: Report target name if duplicate target is detected - https://github.com/fsharp/FAKE/pull/1506
 
 #### 4.57.3 - 29.03.2017
 * Run parallel targets just in time - https://github.com/fsharp/FAKE/pull/1396
