@@ -244,13 +244,12 @@ Target "PublishNuGetAll" DoNothing
 "PatchAssemblyVersions" ==> "Build"
 "BuildOnly"             ==> "Build"
 
+"BuildOnly" 
+    ==> "TestOnly"
+    ==> "BuildAndTestOnly"
+
 "Build"    ==> "Test"
 "TestOnly" ==> "Test"
-
-"BuildOnly" ==> "TestOnly"
-
-"BuildOnly" ==> "BuildAndTestOnly"
-"TestOnly"  ==> "BuildAndTestOnly"
 
 "Test" ==> "CopyToReleaseFolder"
 
