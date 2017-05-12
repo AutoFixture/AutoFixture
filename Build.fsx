@@ -91,7 +91,7 @@ let build target configuration =
 let clean   = build "Clean"
 let rebuild = build "Rebuild"
 
-Target "CleanAll"           (fun _ -> ())
+Target "CleanAll"           DoNothing 
 Target "CleanVerify"        (fun _ -> clean "Verify")
 Target "CleanRelease"       (fun _ -> clean "Release")
 Target "CleanReleaseFolder" (fun _ -> CleanDir releaseFolder)
@@ -126,9 +126,9 @@ Target "TestOnly" (fun _ ->
                                                 ResultSpecs = ["NUnit3TestResult.xml;format=nunit2"] })
 )
 
-Target "BuildAndTestOnly" (fun _ -> ())
-Target "Build" (fun _ -> ())
-Target "Test"  (fun _ -> ())
+Target "BuildAndTestOnly" DoNothing
+Target "Build" DoNothing
+Target "Test"  DoNothing
 
 Target "CopyToReleaseFolder" (fun _ ->
     let buildOutput = [
