@@ -17,7 +17,6 @@ let nuGetPackages = !! (nuGetOutputFolder @@ "*.nupkg" )
                     -- (nuGetOutputFolder @@ "AutoFixture.AutoFakeItEasy2.*" )
 let signKeyPath = FullName "Src/AutoFixture.snk"
 let solutionsToBuild = !! "Src/All.sln"
-let processorArchitecture = environVar "PROCESSOR_ARCHITECTURE"
 
 type BuildVersionInfo = { assemblyVersion:string; fileVersion:string; infoVersion:string; nugetVersion:string }
 let calculateVersionFromGit buildNumber =
