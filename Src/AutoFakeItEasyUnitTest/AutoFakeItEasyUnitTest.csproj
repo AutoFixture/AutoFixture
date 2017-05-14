@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{CDEB7E7C-85A0-40F1-80F9-34A9511491F1}</ProjectGuid>
+    <ProjectGuid>{E5CAB3E1-10DD-4081-A5FF-ED8A11F3C2CB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ploeh.AutoFixture.AutoFakeItEasy.UnitTest</RootNamespace>

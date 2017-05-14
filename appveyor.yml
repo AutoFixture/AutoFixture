@@ -1,0 +1,31 @@
+image: Visual Studio 2015
+
+environment:
+  NUGET_API_KEY:
+    secure: W941OI14bL4QfY/T4fQ1SGPg8tlk63nE8MwBiisTizp97vjBd+Fnt+jDKhJoJ/Ss
+  MYGET_API_KEY:
+    secure: hA4Ut1N2lrrdEtAN24Bty/FNiU0d/Ur/dLYSqpr8jKHOvoO7MU4jD+KwzUvATh+E
+
+pull_requests:
+  do_not_increment_build_number: true
+
+build_script:
+- ps: |
+    & .\build.cmd AppVeyor NuGetPublicKey="$($Env:NUGET_API_KEY)" NuGetPrivateKey="$($Env:MYGET_API_KEY)" BuildVersion=git BuildNumber=$($Env:APPVEYOR_BUILD_NUMBER)
+
+test_script:
+- ps: |
+    function Publish-TestResults ($testRunner, $testResultsPath)
+    {
+        $client = New-Object System.Net.WebClient
+        $client.UploadFile("https://ci.appveyor.com/api/testresults/$testRunner/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $testResultsPath))
+    }
+
+    Publish-TestResults nunit NUnit2TestResult.xml
+    Publish-TestResults nunit NUnit3TestResult.xml
+
+artifacts:
+- path: NuGetPackages\*.nupkg
+  name: NuGet
+
+deploy: off

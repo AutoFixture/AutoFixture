@@ -1,8 +1,0 @@
-SRCSRV: ini ------------------------------------------------
-VERSION=2
-SRCSRV: variables ------------------------------------------
-SRCSRVVERCTRL=https
-SRCSRVTRG=https://raw.github.com/fsharp/FAKE/390b51abd00f125a6161263c2febbd7481c6b4e7/%var2%
-SRCSRV: source files ---------------------------------------
-C:\code\fake\src\app\Fake.Experimental\ComputationExpressions.fs*src/app/Fake.Experimental/ComputationExpressions.fs
-SRCSRV: end ------------------------------------------------

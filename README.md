@@ -1,4 +1,8 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/xove2l9aj4d1rej5/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master)
+
+## Announcement ##
+
+[AutoFixture is getting a new governance model](https://github.com/AutoFixture/AutoFixture/issues/703). This most likely means that you can expect delays if you have questions, issues, or pull requests.
 
 ## Project Description ##
 
@@ -90,6 +94,17 @@ AutoFixture is available via NuGet:
 ## Versioning
 
 AutoFixture follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html).
+
+## Build
+
+AutoFixture uses [FAKE](http://fsharp.github.io/FAKE/) as a build engine. If you would like to build the AutoFixture locally, run the `Build.cmd` file and wait for the result.
+
+The repository state (the last tag name and number of commits since the last tag) is used to determine the build version. If you would like to override the auto-generated AutoFixture version, pass the `BuildVersion` parameter to the `Build.cmd` file. For example:
+```
+Build.cmd BuildVersion=3.52.0
+```
+
+Refer to the [Build.fsx](Build.fsx) file to get information about all the supported build keys.
 
 ## Documentation ##
 

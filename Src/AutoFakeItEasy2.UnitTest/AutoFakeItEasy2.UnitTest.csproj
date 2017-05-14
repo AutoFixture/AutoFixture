@@ -64,7 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutoFakeItEasy2\AutoFakeItEasy2.csproj">
-      <Project>{b6b79e32-ee90-4ae1-bd32-f50b5a0c2b40}</Project>
+      <Project>{68A3F347-7D9D-4020-A3D5-F127234DD429}</Project>
       <Name>AutoFakeItEasy2</Name>
     </ProjectReference>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
