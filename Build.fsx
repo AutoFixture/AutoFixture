@@ -21,8 +21,9 @@ let bakFileExt = ".orig"
 type BuildVersionCalculationSource = { major: int; minor: int; revision: int; preSuffix: string; 
                                        commitsNum: int; sha: string; buildNumber: int }
 let getVersionSourceFromGit buildNumber =
+    // The --fist-parent flag is required to correctly work for vNext branch.
     // Example of output for a release tag: v3.50.2-288-g64fd5c5b, for a prerelease tag: v3.50.2-alpha1-288-g64fd5c5b
-    let desc = Git.CommandHelper.runSimpleGitCommand "" "describe --tags --long --match=v*"
+    let desc = Git.CommandHelper.runSimpleGitCommand "" "describe --tags --long --first-parent --match=v*"
 
     let result = Regex.Match(desc,
                              @"^v(?<maj>\d+)\.(?<min>\d+)\.(?<rev>\d+)(?<pre>-\w+\d*)?-(?<num>\d+)-g(?<sha>[a-z0-9]+)$",
@@ -79,6 +80,24 @@ let mutable buildVersion = match getBuildParamOrDefault "BuildVersion" "git" wit
                                               infoVersion = getBuildParamOrDefault "BuildInfoVersion" assemblyVer
                                               nugetVersion = getBuildParamOrDefault "BuildNugetVersion" assemblyVer
                                               source = None }
+
+let setVNextBranchVersion vNextVersion =
+    buildVersion <-
+        match buildVersion.source with
+        // Don't update version if it was explicitly specified
+        | None                                -> buildVersion
+        // Don't update version if tag with current major version is already present (e.g. rc is released)
+        | Some s when s.major >= vNextVersion -> buildVersion
+        | Some source                         -> 
+            // The trick is the "git describe" command contains the --first-parent flag.
+            // Because of that git matched the last release tag before the fork was created and calculated number
+            // of commits since that release. We are perfectly fine, as this number will constantly increase only.
+            // Set version to X.0.0-alpha.NUM, where X - major version, NUM - commits since last release before fork
+            { source with major = vNextVersion
+                          minor = 0
+                          revision = 0
+                          preSuffix = "-alpha" }
+            |> calculateVersion
 
 let addBakExt path = sprintf "%s%s" path bakFileExt
 
