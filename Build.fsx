@@ -17,7 +17,6 @@ let nuGetPackages = !! (nuGetOutputFolder @@ "*.nupkg" )
                     -- (nuGetOutputFolder @@ "AutoFixture.AutoFakeItEasy2.*" )
 let signKeyPath = FullName "Src/AutoFixture.snk"
 let solutionsToBuild = !! "Src/All.sln"
-let processorArchitecture = environVar "PROCESSOR_ARCHITECTURE"
 
 type BuildVersionInfo = { assemblyVersion:string; fileVersion:string; infoVersion:string; nugetVersion:string }
 let calculateVersionFromGit buildNumber =
@@ -91,7 +90,7 @@ let build target configuration =
 let clean   = build "Clean"
 let rebuild = build "Rebuild"
 
-Target "CleanAll"           (fun _ -> ())
+Target "CleanAll"           DoNothing 
 Target "CleanVerify"        (fun _ -> clean "Verify")
 Target "CleanRelease"       (fun _ -> clean "Release")
 Target "CleanReleaseFolder" (fun _ -> CleanDir releaseFolder)
@@ -126,9 +125,9 @@ Target "TestOnly" (fun _ ->
                                                 ResultSpecs = ["NUnit3TestResult.xml;format=nunit2"] })
 )
 
-Target "BuildAndTestOnly" (fun _ -> ())
-Target "Build" (fun _ -> ())
-Target "Test"  (fun _ -> ())
+Target "BuildAndTestOnly" DoNothing
+Target "Build" DoNothing
+Target "Test"  DoNothing
 
 Target "CopyToReleaseFolder" (fun _ ->
     let buildOutput = [
@@ -244,13 +243,12 @@ Target "PublishNuGetAll" DoNothing
 "PatchAssemblyVersions" ==> "Build"
 "BuildOnly"             ==> "Build"
 
+"BuildOnly" 
+    ==> "TestOnly"
+    ==> "BuildAndTestOnly"
+
 "Build"    ==> "Test"
 "TestOnly" ==> "Test"
-
-"BuildOnly" ==> "TestOnly"
-
-"BuildOnly" ==> "BuildAndTestOnly"
-"TestOnly"  ==> "BuildAndTestOnly"
 
 "Test" ==> "CopyToReleaseFolder"
 
