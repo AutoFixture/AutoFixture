@@ -30,9 +30,44 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\..\Packages\NUnit3TestAdapter.3.4.0\lib\Mono.Cecil.dll</HintPath>
+      <Private>True</Private>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>..\..\Packages\NUnit3TestAdapter.3.4.0\lib\Mono.Cecil.Mdb.dll</HintPath>
+      <Private>True</Private>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>..\..\Packages\NUnit3TestAdapter.3.4.0\lib\Mono.Cecil.Pdb.dll</HintPath>
+      <Private>True</Private>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>..\..\Packages\NUnit3TestAdapter.3.4.0\lib\Mono.Cecil.Rocks.dll</HintPath>
+      <Private>True</Private>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.engine">
+      <HintPath>..\..\Packages\NUnit3TestAdapter.3.4.0\lib\nunit.engine.dll</HintPath>
+      <Private>True</Private>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.engine.api">
+      <HintPath>..\..\Packages\NUnit3TestAdapter.3.4.0\lib\nunit.engine.api.dll</HintPath>
+      <Private>True</Private>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.0.5797.27539, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\..\Packages\NUnit.3.0.0\lib\net40\nunit.framework.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="NUnit3.TestAdapter">
+      <HintPath>..\..\Packages\NUnit3TestAdapter.3.4.0\lib\NUnit3.TestAdapter.dll</HintPath>
+      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -83,6 +118,9 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
