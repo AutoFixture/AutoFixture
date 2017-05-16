@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Ploeh.TestTypeFoundation;
 using Xunit;
@@ -415,6 +416,12 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
             FieldHolder<string> p2)
         {
             Assert.NotEqual(p1, p2.Field);
+        }
+
+        [Theory, AutoData]
+        public void FreezeParameterWithStringLengthConstraint([Frozen][StringLength(3)]string p)
+        {
+            Assert.True(p.Length == 3);
         }
     }
 }

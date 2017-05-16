@@ -1,4 +1,5 @@
 using System;
+using Ploeh.Albedo;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -43,15 +44,36 @@ namespace Ploeh.AutoFixture
         /// that will be satisfied by the frozen specimen.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="targetType"/> or<paramref name="matcher"/> is null.
+        /// <paramref name="targetType"/> or <paramref name="matcher"/> is null.
         /// </exception>
         public FreezeOnMatchCustomization(
             Type targetType,
             IRequestSpecification matcher)
+            : this(new TypeElement(targetType), matcher)
         {
-            if (targetType == null)
+            this.TargetType = targetType;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FreezeOnMatchCustomization"/> class.
+        /// </summary>
+        /// <param name="reflectionElement">
+        /// The <see cref="IReflectionElement"/> used to create specimens to freeze.
+        /// </param>
+        /// <param name="matcher">
+        /// The <see cref="IRequestSpecification"/> used to match the requests
+        /// that will be satisfied by the frozen specimen.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="reflectionElement"/> or <paramref name="matcher"/> is null.
+        /// </exception>
+        public FreezeOnMatchCustomization(
+            IReflectionElement reflectionElement,
+            IRequestSpecification matcher)
+        {
+            if (reflectionElement == null)
             {
-                throw new ArgumentNullException(nameof(targetType));
+                throw new ArgumentNullException(nameof(reflectionElement));
             }
 
             if (matcher == null)
@@ -59,9 +81,14 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(matcher));
             }
 
-            this.TargetType = targetType;
+            this.ReflectionElement = reflectionElement;
             this.Matcher = matcher;
         }
+
+        /// <summary>
+        /// The <see cref="ReflectionElement"/> describing the specimen to freeze.
+        /// </summary>
+        public IReflectionElement ReflectionElement { get; }
 
         /// <summary>
         /// The <see cref="Type"/> of the frozen specimen.
@@ -100,7 +127,7 @@ namespace Ploeh.AutoFixture
         private ISpecimenBuilder FreezeTargetType(IFixture fixture)
         {
             var context = new SpecimenContext(fixture);
-            var specimen = context.Resolve(this.TargetType);
+            var specimen = context.Resolve(this.ReflectionElement);
             return new FixedBuilder(specimen);
         }
     }

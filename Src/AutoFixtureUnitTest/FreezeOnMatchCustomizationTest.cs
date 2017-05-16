@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Ploeh.Albedo;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
@@ -29,7 +30,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             // Exercise system and verify outcome
             Assert.Throws<ArgumentNullException>(() =>
-                new FreezeOnMatchCustomization(null, new FalseRequestSpecification()));
+                new FreezeOnMatchCustomization((Type)null, new FalseRequestSpecification()));
             // Teardown
         }
 
@@ -75,6 +76,41 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new FreezeOnMatchCustomization(typeof(object), matcher);
             // Verify outcome
             Assert.Equal(matcher, sut.Matcher);
+        }
+
+        [Fact]
+        public void InitializeWithNullReflectionElementShouldThrowArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+                new FreezeOnMatchCustomization((IReflectionElement)null, new FalseRequestSpecification()));
+        }
+
+        [Fact]
+        public void InitializeWithReflectionElementAndNullMatcherShouldThrowArgumentNullException()
+        {
+            var reflectionElement = new NullReflectionElement();
+            Assert.Throws<ArgumentNullException>(() =>
+                new FreezeOnMatchCustomization(reflectionElement, null));
+        }
+
+        [Fact]
+        public void InitializeWithReflectionElementAndMatcherShouldSetCorrespondingProperties()
+        {
+            var reflectionElement = new NullReflectionElement();
+            var matcher = new TrueRequestSpecification();
+
+            var sut = new FreezeOnMatchCustomization(reflectionElement, matcher);
+
+            Assert.Equal(reflectionElement, sut.ReflectionElement);
+            Assert.Equal(matcher, sut.Matcher);
+        }
+
+        [Fact]
+        public void InitializeWithTargetTypeShouldSetReflectionElementProperty()
+        {
+            var targetType = typeof(object);
+            var sut = new FreezeOnMatchCustomization(targetType);
+            Assert.IsType<TypeElement>(sut.ReflectionElement);
         }
 
         [Fact]

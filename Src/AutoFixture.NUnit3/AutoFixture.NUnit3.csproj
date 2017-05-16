@@ -61,6 +61,10 @@
       <HintPath>..\..\Packages\NUnit.3.0.0\lib\net40\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ploeh.Albedo">
+      <HintPath>..\..\Packages\Albedo.1.0.0\lib\net35\Ploeh.Albedo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

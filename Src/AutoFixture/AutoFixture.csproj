@@ -88,6 +88,10 @@
     <CodeAnalysisRuleSet>..\AutoFixture.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ploeh.Albedo">
+      <HintPath>..\..\Packages\Albedo.1.0.0\lib\net35\Ploeh.Albedo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core">
@@ -200,6 +204,7 @@
     <Compile Include="RandomRangedNumberCustomization.cs" />
     <Compile Include="RandomRangedNumberGenerator.cs" />
     <Compile Include="RangedNumberGenerator.cs" />
+    <Compile Include="ParameterInfoElementRelay.cs" />
     <Compile Include="RegularExpressionGenerator.cs" />
     <Compile Include="ResidueCollectorNode.cs" />
     <Compile Include="SingletonSpecimenBuilderNodeStackAdapterCollection.cs" />
@@ -330,6 +335,7 @@
     <Compile Include="Kernel\ThrowingRecursionGuard.cs" />
     <Compile Include="DefaultRelays.cs" />
     <Compile Include="TracingBehavior.cs" />
+    <Compile Include="TypeElementRelay.cs" />
     <Compile Include="TypeFilter.cs" />
     <Compile Include="TypeGenerator.cs" />
     <Compile Include="UInt16SequenceGenerator.cs" />
@@ -362,6 +368,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
