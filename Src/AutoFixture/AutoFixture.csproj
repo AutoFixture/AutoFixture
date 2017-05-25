@@ -97,6 +97,7 @@
   <ItemGroup>
     <Compile Include="AutoPropertiesTarget.cs" />
     <Compile Include="BehaviorRoot.cs" />
+    <Compile Include="CustomizeAttribute.cs" />
     <Compile Include="DomainName.cs" />
     <Compile Include="DomainNameGenerator.cs" />
     <Compile Include="ElementsBuilder.cs" />

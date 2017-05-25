@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.Xunit
     /// or more <see cref="IList{T}" /> arguments, if applicable.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class FavorListsAttribute : CustomizeAttribute
+    public sealed class FavorListsAttribute : AutoFixture.CustomizeAttribute
     {
         /// <summary>
         /// Gets a customization that associates a <see cref="ListFavoringConstructorQuery"/> with

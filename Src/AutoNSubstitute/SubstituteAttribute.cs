@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute
 {
@@ -13,9 +14,25 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     /// the test conventions attribute from the <code>AutoDataAttribute</code> supplied by the AutoFixture for xUnit.net.
     /// </remarks>
     [AttributeUsage(
-        AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Field, 
+        AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Field,
         AllowMultiple = false)]
-    public sealed class SubstituteAttribute : Attribute
+    public sealed class SubstituteAttribute : CustomizeAttribute
     {
+        /// <summary>
+        /// Gets a <see cref="ConcreteClassNSubstituteCustomization"/> configured
+        /// to match requests based on the <see cref="Type"/>.
+        /// </summary>
+        /// <param name="parameter">The parameter for which the customization is requested.</param>
+        /// <returns>The instance of the <see cref="ConcreteClassNSubstituteCustomization"/> class.</returns>
+        public override ICustomization GetCustomization(ParameterInfo parameter)
+        {
+            if (parameter == null)
+            {
+                throw new ArgumentNullException(nameof(parameter));
+            }
+
+            var type = parameter.ParameterType;
+            return new ConcreteClassNSubstituteCustomization(type);
+        }
     }
 }

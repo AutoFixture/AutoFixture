@@ -55,6 +55,7 @@
     <Compile Include="AutoNSubstituteCustomizationTest.cs" />
     <Compile Include="AutoConfiguredNSubstituteCustomizationTest.cs" />
     <Compile Include="AutoConfiguredFixtureIntegrationTest.cs" />
+    <Compile Include="ConcreteClassNSubstituteCustomizationTest.cs" />
     <Compile Include="NSubstituteSealedPropertiesCommandTest.cs" />
     <Compile Include="FixtureIntegrationTest.cs" />
     <Compile Include="NSubstituteVirtualMethodsCommandTest.cs" />

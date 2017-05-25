@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.Xunit
     /// or more array arguments, if applicable.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class FavorArraysAttribute : CustomizeAttribute
+    public sealed class FavorArraysAttribute : AutoFixture.CustomizeAttribute
     {
         /// <summary>
         /// Gets a customization that associates a <see cref="ArrayFavoringConstructorQuery"/> with

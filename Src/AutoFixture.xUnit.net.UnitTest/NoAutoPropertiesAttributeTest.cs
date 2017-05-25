@@ -1,6 +1,5 @@
 ﻿
 using Xunit;
-using Ploeh.AutoFixture.Xunit;
 using System;
 using Ploeh.TestTypeFoundation;
 using System.Linq;
@@ -16,7 +15,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             // Exercise system
             var sut = new NoAutoPropertiesAttribute();
             // Verify outcome
-            Assert.IsAssignableFrom<CustomizeAttribute>(sut);
+            Assert.IsAssignableFrom<AutoFixture.CustomizeAttribute>(sut);
         }
 
         [Fact]

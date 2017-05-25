@@ -10,7 +10,7 @@ namespace Ploeh.AutoFixture.Xunit
     /// constructor that can be satisfied by an <see cref="IFixture"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class ModestAttribute : CustomizeAttribute
+    public sealed class ModestAttribute : AutoFixture.CustomizeAttribute
     {
         /// <summary>
         /// Gets a customization that associates a <see cref="ModestConstructorQuery"/> with the

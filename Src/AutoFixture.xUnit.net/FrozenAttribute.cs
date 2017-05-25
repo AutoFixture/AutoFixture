@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.Xunit
     /// returned every time the <see cref="IFixture"/> creates an instance of that type.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class FrozenAttribute : CustomizeAttribute
+    public sealed class FrozenAttribute : AutoFixture.CustomizeAttribute
     {
         private readonly Matching by;
 
