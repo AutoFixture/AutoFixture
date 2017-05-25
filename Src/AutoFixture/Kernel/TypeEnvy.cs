@@ -8,6 +8,19 @@
 
     internal static class TypeEnvy
     {
+        private static readonly Type[] NumericTypes = new[]
+        {
+            typeof(int), typeof(double), typeof(decimal),
+            typeof(long), typeof(short), typeof(sbyte),
+            typeof(byte), typeof(ulong), typeof(ushort),
+            typeof(uint), typeof(float)
+        };
+
+        public static bool IsNumeric(this Type type)
+        {
+            return NumericTypes.Contains(type);
+        }
+
         public static TAttribute GetAttribute<TAttribute>(object candidate)
             where TAttribute : Attribute
         {

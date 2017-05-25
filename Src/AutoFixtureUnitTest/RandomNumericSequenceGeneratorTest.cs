@@ -30,7 +30,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var expectedResult = new long[]
             {
                 1,
-                Byte.MaxValue,
+                SByte.MaxValue,
                 Int16.MaxValue,
                 Int32.MaxValue
             };
