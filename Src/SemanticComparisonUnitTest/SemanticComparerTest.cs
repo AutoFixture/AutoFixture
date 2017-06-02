@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Ploeh.SemanticComparison.UnitTest.TestTypes;
+using Ploeh.TestTypeFoundation;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.SemanticComparison.UnitTest.TestTypes;
-using Ploeh.TestTypeFoundation;
+using System.Reflection;
 using Xunit;
 using Xunit.Extensions;
 
@@ -496,11 +497,11 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Fixture setup
             var expected = new[]
             {
-                new MemberComparer(new SemanticComparer<TimeSpan, TimeSpan>())
+                new SemanticComparer() 
             };
             var sut = new SemanticComparer<TimeSpan>();
             // Exercise system
-            var result = sut.Comparers.Cast<MemberComparer>();
+            var result = sut.Comparers;
             // Verify outcome
             Assert.True(expected.SequenceEqual(result, new MemberComparerComparer()));
             // Teardown
@@ -734,7 +735,664 @@ namespace Ploeh.SemanticComparison.UnitTest
             Assert.Equal(expected, result.All(b => b));
             // Teardown
         }
-        
+
+        [Fact]
+        public void SutIsMemberComparer()
+        {
+            // Fixture setup
+            var sut = new SemanticComparer();
+            // Exercise system and verify outcome
+            Assert.IsAssignableFrom<IMemberComparer>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void SutIsEqualityComparerOfObject()
+        {
+            // Fixture setup
+            var sut = new SemanticComparer();
+            // Exercise system and verify outcome
+            Assert.IsAssignableFrom<IEqualityComparer<object>>(sut);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingAnonymousObjectReturnsCorrectResult()
+        {
+            // Fixture setup
+            object anonymousObject = new object();
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(new ConcreteType(), anonymousObject);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingAnonymousObjectSequenceReturnsCorrectResult()
+        {
+            // Fixture setup
+            var anonymousObject = new object();
+            var anonymousObjects = new object[]
+            { 
+                anonymousObject,
+                anonymousObject,
+                anonymousObject 
+            };
+
+            var concreteType = new ConcreteType();
+            var concreteTypes = new ConcreteType[]
+            {
+                concreteType,
+                concreteType, 
+                concreteType
+            };
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = concreteTypes.SequenceEqual(anonymousObjects, sut);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingIdenticalStrongTypeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var ticks = 8293247;
+
+            var value = TimeSpan.FromTicks(ticks);
+            var other = TimeSpan.FromTicks(ticks);
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingIdenticalStrongTypeSequenceReturnsCorrectResylt()
+        {
+            // Fixture setup
+            var ticks = 8293247;
+
+            var value = TimeSpan.FromTicks(ticks);
+            var values = new object[] { value, value, value };
+
+            var other = TimeSpan.FromTicks(ticks);
+            var others = new object[] { other, other, other };
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = values.SequenceEqual(others, sut);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingIdenticalWeakTypeReturnsCorrectResult()
+        {
+            // Fixture setup
+            var ticks = 8293247;
+
+            var value = TimeSpan.FromTicks(ticks);
+            object other = TimeSpan.FromTicks(ticks);
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingIdenticalWeakTypeSequenceReturnsCorrectResult()
+        {
+            // Fixture setup
+            var ticks = 8293247;
+
+            var value = TimeSpan.FromTicks(ticks);
+            var values = new object[] { value, value, value };
+
+            object other = TimeSpan.FromTicks(ticks);
+            object[] others = new object[] { other, other, other };
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = values.SequenceEqual(others, sut);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingStringPropertyHolderSemanticallyToRealStringPropertyHolderWillIndicateEquality()
+        {
+            // Fixture setup
+            var anonymousText = "Anonymous text";
+
+            var value = new PropertyHolder<string>();
+            value.Property = anonymousText;
+
+            var other = new PropertyHolder<string>();
+            other.Property = anonymousText;
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingStringPropertyHoldersWithDifferentValuesWillIndicateDifference()
+        {
+            // Fixture setup
+            var anonymousText1 = "Anonymous text";
+            var anonymousText2 = "Some other text";
+
+            var value = new PropertyHolder<string>();
+            value.Property = anonymousText1;
+
+            var other = new PropertyHolder<string>();
+            other.Property = anonymousText2;
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingStringFieldHolderSemanticallyToRealStringFieldHolderWillIndicateEquality()
+        {
+            // Fixture setup
+            var anonymousText = "Anonymous text";
+
+            var value = new FieldHolder<string>();
+            value.Field = anonymousText;
+
+            var other = new FieldHolder<string>();
+            other.Field = anonymousText;
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingStringFieldHoldersWithDifferentValuesWillIndicateDifference()
+        {
+            // Fixture setup
+            var anonymousText1 = "Anonymous text";
+            var anonymousText2 = "Some other text";
+
+            var value = new FieldHolder<string>();
+            value.Field = anonymousText1;
+
+            var other = new FieldHolder<string>();
+            other.Field = anonymousText2;
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingAnonymousTypeToStringFieldHolderWillIndicateEqualityWhenValuesAreEqual()
+        {
+            // Fixture setup
+            var anonymousText = "Anonymou text";
+
+            var value = new
+            {
+                Field = anonymousText
+            };
+
+            var other = new FieldHolder<string>();
+            other.Field = anonymousText;
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingAnonymousTypeToStringPropertyHolderWillIndicateDifferenceWhenValuesAreDifferent()
+        {
+            // Fixture setup
+            var anonymousText1 = "Anonymous text";
+            var anonymousText2 = "Some other text";
+
+            var value = new
+            {
+                Field = anonymousText1
+            };
+
+            var other = new FieldHolder<string>();
+            other.Field = anonymousText2;
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingObjectsWithNullPropertiesWillIndicateEquality()
+        {
+            // Fixture setup
+            var value = new PropertyHolder<object>();
+            value.Property = null;
+
+            var other = new PropertyHolder<object>();
+            other.Property = null;
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingAnObjectWithNullPropertyToObjectWithValuedPropertyWillIndicateDifference()
+        {
+            // Fixture setup
+            var value = new PropertyHolder<object>();
+            value.Property = null;
+
+            var other = new PropertyHolder<object>();
+            other.Property = new object();
+            
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingAnObjectWithValuePropertyWillNotBeEqualToObjectWithNullProperty()
+        {
+            // Fixture setup
+            var value = new PropertyHolder<object>();
+            value.Property = new object();
+            
+            var other = new PropertyHolder<object>();
+            other.Property = null;
+            
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingAnObjectWithPropertyWillNotBeEqualToPropertyWithDifferentProperty()
+        {
+            // Fixture setup
+            var value = new { SomeOtherProperty = new object() };
+            
+            var other = new PropertyHolder<object>();
+            other.Property = new object();
+            
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingAnObjectWithOverloadedMembersWillNotThrow()
+        {
+            // Fixture setup
+            var value = new object();
+            var other = new TypeWithOverloadedMembers();
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingAnObjectWithIndexerWillNotThrow()
+        {
+            // Fixture setup
+            var value = new object();
+            var other = new TypeWithIndexer();
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingDataErrorInfoWillNotThrow()
+        {
+            // Fixture setup
+            var value = new DataErrorInfo();
+            var other = new DataErrorInfo();
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingAbstractTypeDoesNotEqualConcreteInstanceWhenPropertyDiffers()
+        {
+            // Fixture setup
+            var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            value.Property4 = "Ploeh";
+
+            var other = new ConcreteType();
+            other.Property1 = value.Property1;
+            other.Property2 = value.Property2;
+            other.Property3 = value.Property3;
+            other.Property4 = "Fnaah";
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingWithSemanticEqualityWillReturnTrue()
+        {
+            // Fixture setup
+            var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            
+            var other = new DoublePropertyHolder<object, object>();
+            other.Property1 = value.Property1;
+            other.Property2 = value.Property2;
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingEqualsWhenOverriddenSourcePropertyEqualsReturnsTrueWillReturnTrue()
+        {
+            // Fixture setup
+            var equalityResponse = true;
+            
+            var value = new PropertyHolder<EqualityResponder>();
+            value.Property = new EqualityResponder(equalityResponse);
+            
+            var other = new PropertyHolder<object>();
+            other.Property = new object();
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.Equal(equalityResponse, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingEqualsWhenOverriddenSourcePropertyEqualsReturnsFalseWillReturnFalse()
+        {
+            // Fixture setup
+            var equalityResponse = false;
+            
+            var value = new PropertyHolder<EqualityResponder>();
+            value.Property = new EqualityResponder(equalityResponse);
+            
+            var other = new PropertyHolder<object>();
+            other.Property = new object();
+            
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.Equal(equalityResponse, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingEqualsOfIdenticalObjectsReturnsTrue()
+        {
+            // Fixture setup
+            var value = new QuadrupleParameterType<string, string, string, string>(
+                "Lorem", "ipsum", "dolor", "sit");
+
+            var other = new QuadrupleParameterType<string, string, string, string>(
+                "Lorem", "ipsum", "dolor", "sit");
+
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingEqualsOfDifferentObjectsReturnFalse()
+        {
+            // Fixture setup
+            var value = new QuadrupleParameterType<string, string, string, string>(
+                "Lorem", "ipsum", "dolor", "sit");
+
+            var other = new QuadrupleParameterType<string, string, string, string>(
+                "amet", "consectetur", "adipisicing", "elit");
+            
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.Equals(value, other);
+            // Verify outcome
+            Assert.False(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingEqualsIsSummetricWithSemanticallyEqualObjects()
+        {
+            // Fixture setup
+            var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            
+            var other = new DoublePropertyHolder<object, object>();
+            other.Property1 = value.Property1;
+            other.Property2 = value.Property2;
+            
+            var sut = new SemanticComparer();
+            // Exercise system and verify outcome
+            Assert.True(sut.Equals(value, other) && sut.Equals(other, value));
+            // Teardown
+        }
+
+        [Fact]
+        public void SemanticallyComparingEqualsIsSummetricWithSemanticallyUnequalObjects()
+        {
+            // Fixture setup
+            var value = new ConcreteType("Lorem", "ipsum", "dolor", "sit");
+            
+            var other = new DoublePropertyHolder<object, object>();
+            other.Property1 = value.Property1;
+            other.Property2 = "abc";
+
+            var sut = new SemanticComparer();
+            // Exercise system and verify outcome
+            Assert.False(sut.Equals(value, other) && sut.Equals(other, value));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithDefaultConstructorDoesNotThrow()
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() => new SemanticComparer());
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullPropertySpecificationThrows()
+        {
+            // Fixture setup
+            var dummySpecification = new DelegatingSpecification<FieldInfo>();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new SemanticComparer(null, dummySpecification));
+            // Teardown
+        }
+
+        [Fact]
+        public void InitializeWithNullFieldSpecificationThrows()
+        {
+            // Fixture setup
+            var dummySpecification = new DelegatingSpecification<PropertyInfo>();
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() =>
+                new SemanticComparer(dummySpecification, null));
+            // Teardown
+        }
+
+        [Fact]
+        public void PropertySpecificationIsCorrect()
+        {
+            // Fixture setup
+            var expected = new DelegatingSpecification<PropertyInfo>();
+            var dummySpecification = new DelegatingSpecification<FieldInfo>();
+
+            var sut = new SemanticComparer(expected, dummySpecification);
+            // Exercise system
+            var result = sut.PropertySpecification;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void FieldSpecificationIsCorrect()
+        {
+            // Fixture setup
+            var expected = new DelegatingSpecification<FieldInfo>();
+            var dummySpecification = new DelegatingSpecification<PropertyInfo>();
+
+            var sut = new SemanticComparer(dummySpecification, expected);
+            // Exercise system
+            var result = sut.FieldSpecification;
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void IsSatisfiedByWithDefaultSpecificationForPropertyReturnsCorrectResult()
+        {
+            // Fixture setup
+            var property = typeof(PropertyHolder<int>).GetProperty("Property");
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.IsSatisfiedBy(property);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [Fact]
+        public void IsSatisfiedByWithDefaultSpecificationForFieldReturnsCorrectResult()
+        {
+            // Fixture setup
+            var field = typeof(FieldHolder<int>).GetProperty("Field");
+            var sut = new SemanticComparer();
+            // Exercise system
+            var result = sut.IsSatisfiedBy(field);
+            // Verify outcome
+            Assert.True(result);
+            // Teardown
+        }
+
+        [InlineData(true)]
+        [InlineData(false)]
+        public void IsSatisfiedByForPropertyReturnsCorrectResult(bool expected)
+        {
+            // Fixture setup
+            var property = typeof(PropertyHolder<int>).GetProperty("Property");
+            var dummySpecification = new DelegatingSpecification<FieldInfo>();
+
+            var propertySpecificationStub =
+                new DelegatingSpecification<PropertyInfo>
+                {
+                    OnIsSatisfiedBy = x => expected
+                };
+
+            var sut = new SemanticComparer(
+                propertySpecificationStub,
+                dummySpecification);
+            // Exercise system
+            var result = sut.IsSatisfiedBy(property);
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
+        [InlineData(true)]
+        [InlineData(false)]
+        public void IsSatisfiedByForFieldReturnsCorrectResult(bool expected)
+        {
+            // Fixture setup
+            var field = typeof(FieldHolder<int>).GetField("Field");
+            var dummySpecification = new DelegatingSpecification<PropertyInfo>();
+
+            var fieldSpecificationStub =
+                new DelegatingSpecification<FieldInfo>
+                {
+                    OnIsSatisfiedBy = x => expected
+                };
+
+            var sut = new SemanticComparer(
+                dummySpecification,
+                fieldSpecificationStub);
+            // Exercise system
+            var result = sut.IsSatisfiedBy(field);
+            // Verify outcome
+            Assert.Equal(expected, result);
+            // Teardown
+        }
+
         private static void CompareSemantically<TSource, TDestination>(TSource likenObject, TDestination comparee, bool expectedResult)
         {
             // Fixture setup
@@ -752,14 +1410,14 @@ namespace Ploeh.SemanticComparison.UnitTest
             yield return ((IEqualityComparer)sut).Equals(x, y);
         }
 
-        private class MemberComparerComparer : IEqualityComparer<MemberComparer>
+        private class MemberComparerComparer : IEqualityComparer<IMemberComparer>
         {
-            public bool Equals(MemberComparer x, MemberComparer y)
+            public bool Equals(IMemberComparer x, IMemberComparer y)
             {
-                return x.Comparer.GetType() == y.Comparer.GetType();
+                return x.GetType() == y.GetType();
             }
 
-            public int GetHashCode(MemberComparer obj)
+            public int GetHashCode(IMemberComparer obj)
             {
                 return obj.GetHashCode();
             }

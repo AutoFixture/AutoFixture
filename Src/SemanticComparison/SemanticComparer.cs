@@ -170,7 +170,7 @@ namespace Ploeh.SemanticComparison
         /// class.
         /// </summary>
         public SemanticComparer()
-            : this(new MemberComparer(new SemanticComparer<T, T>()))
+            : this(new SemanticComparer())
         {
         }
 
@@ -294,6 +294,230 @@ namespace Ploeh.SemanticComparison
         int IEqualityComparer.GetHashCode(object obj)
         {
             return 0;
+        }
+    }
+
+    /// <summary>
+    /// Provides a class which implements the <see cref="IEqualityComparer&lt;Object&gt;"/>
+    /// interface for convention-based object equality comparison for use when 
+    /// comparing two semantically equivalent objects.
+    /// </summary>
+    public class SemanticComparer : IMemberComparer, IEqualityComparer<object>
+    {
+        private readonly ISpecification<PropertyInfo> propertySpecification;
+        private readonly ISpecification<FieldInfo> fieldSpecification;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SemanticComparer"/>
+        /// class.
+        /// </summary>
+        public SemanticComparer()
+            : this(
+                new TrueSpecification<PropertyInfo>(),
+                new TrueSpecification<FieldInfo>())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SemanticComparer"/> 
+        /// class with the supplied <see cref="ISpecification&lt;PropertyInfo&gt;" />
+        /// and <see cref="ISpecification&lt;FieldInfo&gt;" />.
+        /// </summary>
+        /// <param name="propertySpecification">
+        /// The supplied Specification used to control whether or not a property
+        /// should be compared.
+        /// </param>
+        /// <param name="fieldSpecification">
+        /// The supplied Specification used to control whether or not a field 
+        /// should be compared.
+        /// </param>
+        public SemanticComparer(
+            ISpecification<PropertyInfo> propertySpecification,
+            ISpecification<FieldInfo> fieldSpecification)
+        {
+            if (propertySpecification == null)
+                throw new ArgumentNullException("propertySpecification");
+
+            if (fieldSpecification == null)
+                throw new ArgumentNullException("fieldSpecification");
+
+            this.propertySpecification = propertySpecification;
+            this.fieldSpecification = fieldSpecification;
+        }
+
+        /// <summary>
+        /// Gets the supplied Specification used to control whether or not a property
+        /// should be compared.
+        /// </summary>
+        /// <value>
+        /// The supplied Specification used to control whether or not a property should
+        /// be compared.
+        /// </value>
+        public ISpecification<PropertyInfo> PropertySpecification
+        {
+            get { return this.propertySpecification; }
+        }
+
+        /// <summary>
+        /// Gets the supplied Specification used to control whether or not a 
+        /// field should be compared.
+        /// </summary>
+        /// <value>
+        /// The supplied Specification used to control whether or not a 
+        /// field should be compared.
+        /// </value>
+        public ISpecification<FieldInfo> FieldSpecification
+        {
+            get { return this.fieldSpecification; }
+        }
+
+        /// <summary>
+        /// Evaluates a request for comparison of a property.
+        /// </summary>
+        /// <param name="request">
+        /// The request for comparison of a property.
+        /// </param>
+        public bool IsSatisfiedBy(PropertyInfo request)
+        {
+            return this.propertySpecification.IsSatisfiedBy(request);
+        }
+
+        /// <summary>
+        /// Evaluates a request for comparison of a field.
+        /// </summary>
+        /// <param name="request">
+        /// The request for comparison of a field.
+        /// </param>
+        public bool IsSatisfiedBy(FieldInfo request)
+        {
+            return this.fieldSpecification.IsSatisfiedBy(request);
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object" /> is 
+        /// equal to this instance.
+        /// </summary>
+        /// <param name="x">The <see cref="System.Object" /> to compare with
+        /// this instance.</param>
+        /// <param name="y">The y.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object" /> is 
+        ///   equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public new bool Equals(object x, object y)
+        {
+            if (x == null && y == null)
+                return true;
+
+            if (x == null || y == null)
+                return false;
+
+            if (x.Equals(y))
+                return true;
+
+            return this.Compare(x, y);
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <param name="obj">The obj.</param>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing 
+        /// algorithms and data structures 
+        /// like a hash table. 
+        /// </returns>
+        /// <exception cref="T:System.ArgumentNullException">
+        /// The type of <paramref name="obj"/> is a reference type and
+        /// <paramref name="obj"/> is null.
+        ///   </exception>
+        public int GetHashCode(object obj)
+        {
+            return obj == null ? 0 : obj.GetHashCode();
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object"/> is 
+        /// equal to this instance.
+        /// </summary>
+        /// <param name="x">The source value (against which the destination 
+        /// value will be compared for
+        /// equality).</param>
+        /// <param name="y">The destination value which will be compared for 
+        /// equality against the 
+        /// source value.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal
+        ///   to this instance; 
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        bool IEqualityComparer.Equals(object x, object y)
+        {
+            return this.Equals(x, y);
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <param name="obj">The obj.</param>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing 
+        /// algorithms and data structures 
+        /// like a hash table. 
+        /// </returns>
+        /// <exception cref="T:System.ArgumentNullException">
+        /// The type of <paramref name="obj"/> is a reference type and
+        /// <paramref name="obj"/> is null.
+        ///   </exception>
+        int IEqualityComparer.GetHashCode(object obj)
+        {
+            return this.GetHashCode(obj);
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Microsoft.Performance", 
+            "CA1811:AvoidUncalledPrivateCode", 
+            Justification = "This method is invoked using Reflection.")]
+        private static bool Compare<TSource, TDestination>(object x, object y)
+        {
+            var semantic  = 
+                SemanticComparer.SemanticEquals<TSource, TDestination>(x, y);
+            var symmetric =
+                SemanticComparer.SemanticEquals<TDestination, TSource>(y, x);
+
+            return 
+                x.GetType() != typeof(object) && 
+                y.GetType() != typeof(object)
+                    ? semantic || symmetric
+                    : semantic == symmetric;
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Microsoft.Performance", 
+            "CA1811:AvoidUncalledPrivateCode",
+            Justification = "This method is invoked using Reflection.")]
+        private static bool SemanticEquals<TSource, TDestination>(
+            object x, 
+            object y)
+        {
+            return
+                typeof(TDestination)
+                    .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                    .Concat(typeof(TDestination)
+                        .GetFields(BindingFlags.Public | BindingFlags.Instance)
+                        .Cast<MemberInfo>())
+                    .Select(mi => mi.ToEvaluator<TSource, TDestination>())
+                    .All(me => me.Evaluator((TSource)x, (TDestination)y));
+        }
+
+        private bool Compare(object x, object y)
+        {
+            return (bool)
+                this.GetType()
+                    .GetMethods(BindingFlags.Static | BindingFlags.NonPublic)
+                    .Single(mi => mi.Name == "Compare")
+                    .MakeGenericMethod(x.GetType(), y.GetType())
+                    .Invoke(this, new[] { x, y });
         }
     }
 }
