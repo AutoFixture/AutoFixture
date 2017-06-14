@@ -17,6 +17,7 @@ let nuGetPackages = !! (nuGetOutputFolder @@ "*.nupkg" )
                     -- (nuGetOutputFolder @@ "AutoFixture.AutoFakeItEasy2.*" )
 let signKeyPath = FullName "Src/AutoFixture.snk"
 let solutionsToBuild = !! "Src/All.sln"
+let bakFileExt = ".orig"
 
 type BuildVersionInfo = { assemblyVersion:string; fileVersion:string; infoVersion:string; nugetVersion:string }
 let calculateVersionFromGit buildNumber =
@@ -60,7 +61,7 @@ let buildVersion = match getBuildParamOrDefault "BuildVersion" "git" with
                                       infoVersion = getBuildParamOrDefault "BuildInfoVersion" assemblyVer
                                       nugetVersion = getBuildParamOrDefault "BuildNugetVersion" assemblyVer }
 
-
+let addBakExt path = sprintf "%s%s" path bakFileExt
 
 Target "PatchAssemblyVersions" (fun _ ->
     printfn 
@@ -70,10 +71,33 @@ Target "PatchAssemblyVersions" (fun _ ->
         buildVersion.infoVersion
 
     let filesToPatch = !! "Src/*/Properties/AssemblyInfo.*"
+                       -- addBakExt "Src/*/Properties/*"
+    
+    // Backup the original file versions
+    filesToPatch
+    |> Seq.iter (fun f ->
+        let bakFilePath = addBakExt f
+        CopyFile bakFilePath f
+
+        printfn "Backed up %s to %s" f bakFilePath
+    )
+
     ReplaceAssemblyInfoVersionsBulk filesToPatch 
                                     (fun f -> { f with AssemblyVersion              = buildVersion.assemblyVersion
                                                        AssemblyFileVersion          = buildVersion.fileVersion
                                                        AssemblyInformationalVersion = buildVersion.infoVersion })
+)
+
+Target "RestorePatchedAssemblyVersionFiles" (fun _ ->
+    !! (addBakExt "Src/*/Properties/AssemblyInfo.*")
+    |> Seq.iter (fun bakFile ->
+        let originalPath = bakFile.Substring(0, bakFile.Length - bakFileExt.Length)
+
+        DeleteFile originalPath
+        Rename originalPath bakFile
+
+        printfn "Restored %s to %s" bakFile originalPath
+    )
 )
 
 let build target configuration =
@@ -239,9 +263,12 @@ Target "PublishNuGetAll" DoNothing
 "CleanReleaseFolder" ==> "Verify"
 "CleanAll"           ==> "Verify"
 
-"Verify"                ==> "Build"
-"PatchAssemblyVersions" ==> "Build"
-"BuildOnly"             ==> "Build"
+"Verify"                             ==> "Build"
+"PatchAssemblyVersions"              ==> "Build"
+"BuildOnly"                          ==> "Build"
+"RestorePatchedAssemblyVersionFiles" ==> "Build"
+
+"BuildOnly" ?=> "RestorePatchedAssemblyVersionFiles"
 
 "BuildOnly" 
     ==> "TestOnly"
