@@ -34,7 +34,7 @@ let calculateVersionFromGit buildNumber =
         getMatch "maj" |> int, getMatch "min" |> int, getMatch "rev" |> int, getMatch "pre", getMatch "num" |> int, getMatch "sha"
 
     
-    let assemblyVersion = sprintf "%d.%d.%d.0" major minor revision
+    let assemblyVersion = sprintf "%d.%d.0.0" major minor
     let fileVersion = sprintf "%d.%d.%d.%d" major minor revision buildNumber
     
     // If number of commits since last tag is greater than zero, we append another identifier with number of commits.
