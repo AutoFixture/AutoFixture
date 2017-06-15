@@ -3,9 +3,9 @@ if test "$OS" = "Windows_NT"
 then
   # use .Net
 
-  packages/FAKE.Core/tools/FAKE.exe $@ --fsiargs build.fsx
+  tools/FAKE.Core/tools/FAKE.exe $@ --fsiargs build.fsx
 else
   # use mono
 
-  mono packages/FAKE.Core/tools/FAKE.exe $@ --fsiargs -d:MONO build.fsx
+  mono tools/FAKE.Core/tools/FAKE.exe $@ --fsiargs -d:MONO build.fsx
 fi
