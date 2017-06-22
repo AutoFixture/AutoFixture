@@ -136,9 +136,9 @@ Target "Test"  DoNothing
 
 Target "CopyToReleaseFolder" (fun _ ->
     let buildOutput = [
-      "Src/AutoFixture/bin/Release/Ploeh.AutoFixture.dll";
-      "Src/AutoFixture/bin/Release/Ploeh.AutoFixture.pdb";
-      "Src/AutoFixture/bin/Release/Ploeh.AutoFixture.XML";
+      "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.dll";
+      "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.pdb";
+      "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.XML";
       "Src/SemanticComparison/bin/Release/Ploeh.SemanticComparison.dll";
       "Src/SemanticComparison/bin/Release/Ploeh.SemanticComparison.pdb";
       "Src/SemanticComparison/bin/Release/Ploeh.SemanticComparison.XML";
