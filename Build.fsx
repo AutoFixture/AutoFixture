@@ -175,9 +175,9 @@ Target "CopyToReleaseFolder" (fun _ ->
       "Src/AutoFixture.NUnit3/bin/Release/Ploeh.AutoFixture.NUnit3.dll";
       "Src/AutoFixture.NUnit3/bin/Release/Ploeh.AutoFixture.NUnit3.pdb";
       "Src/AutoFixture.NUnit3/bin/Release/Ploeh.AutoFixture.NUnit3.XML";
-      "Src/Idioms/bin/Release/Ploeh.AutoFixture.Idioms.dll";
-      "Src/Idioms/bin/Release/Ploeh.AutoFixture.Idioms.pdb";
-      "Src/Idioms/bin/Release/Ploeh.AutoFixture.Idioms.XML";
+      "Src/Idioms/bin/Release/net45/Ploeh.AutoFixture.Idioms.dll";
+      "Src/Idioms/bin/Release/net45/Ploeh.AutoFixture.Idioms.pdb";
+      "Src/Idioms/bin/Release/net45/Ploeh.AutoFixture.Idioms.XML";
       "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.dll";
       "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.pdb";
       "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.XML";
