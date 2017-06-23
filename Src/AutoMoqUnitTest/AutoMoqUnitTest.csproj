@@ -1,167 +1,33 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\CommonProperties.props" />
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C50B2B1F-AF13-4DAB-8F56-788155017318}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ploeh.AutoFixture.AutoMoq.UnitTest</RootNamespace>
+    <TargetFramework>net45</TargetFramework>
+    <AssemblyTitle>AutoMoqUnitTest</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.AutoMoq.UnitTest</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
-    <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
+    <RootNamespace>Ploeh.AutoFixture.AutoMoq.UnitTest</RootNamespace>
+
+    <SignAssembly>False</SignAssembly>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Moq, Version=4.1.1308.2120, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\..\Packages\Moq.4.1.1308.2120\lib\net40\Moq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="xunit">
-      <HintPath>..\..\Packages\xunit.1.8.0.1549\lib\xunit.dll</HintPath>
-    </Reference>
-    <Reference Include="xunit.extensions">
-      <HintPath>..\..\Packages\xunit.extensions.1.8.0.1549\lib\xunit.extensions.dll</HintPath>
-    </Reference>
+    <PackageReference Include="xunit" Version="1.9.2" />
+    <PackageReference Include="xunit.extensions" Version="1.8.0.1549" />
+
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="AutoConfiguredMoqCustomizationTest.cs" />
-    <Compile Include="AutoMockPropertiesCommandTest.cs" />
-    <Compile Include="AutoMoqCustomizationTest.cs" />
-    <Compile Include="FixtureIntegrationWithAutoConfiguredMoqCustomizationTest.cs" />
-    <Compile Include="GreedyMockConstructorQueryTest.cs" />
-    <Compile Include="DependencyConstraints.cs" />
-    <Compile Include="FixtureIntegrationWithAutoMoqCustomizationTest.cs" />
-    <Compile Include="MockConstructorQueryTest.cs" />
-    <Compile Include="MockPostprocessorTest.cs" />
-    <Compile Include="MockRelayTest.cs" />
-    <Compile Include="MockTypeTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MockSealedPropertiesCommandTest.cs" />
-    <Compile Include="MockVirtualMethodsCommandTest.cs" />
-    <Compile Include="StubPropertiesCommandTest.cs" />
-    <Compile Include="TestTypes\IDerivedInterface.cs" />
-    <Compile Include="TestTypes\IInterfaceWithGenericMethod.cs" />
-    <Compile Include="TestTypes\IInterfaceWithIndexer.cs" />
-    <Compile Include="TestTypes\IInterfaceWithMethod.cs" />
-    <Compile Include="TestTypes\IInterfaceWithMethodWithOutParameterOfReferenceType.cs" />
-    <Compile Include="TestTypes\IInterfaceWithNewMethod.cs" />
-    <Compile Include="TestTypes\IInterfaceWithNonNullableValueTypeProperty.cs" />
-    <Compile Include="TestTypes\IInterfaceWithNullableValueTypeProperty.cs" />
-    <Compile Include="TestTypes\IInterfaceWithoutMembers.cs" />
-    <Compile Include="TestTypes\IInterfaceWithOutMethod.cs" />
-    <Compile Include="TestTypes\IInterfaceWithParameterlessMethod.cs" />
-    <Compile Include="TestTypes\IInterfaceWithProperty.cs" />
-    <Compile Include="TestTypes\IInterfaceWithPropertyWithCircularDependency.cs" />
-    <Compile Include="TestTypes\IInterfaceWithRefMethod.cs" />
-    <Compile Include="TestTypes\IInterfaceWithVoidMethod.cs" />
-    <Compile Include="TestTypes\TypeWithConstField.cs" />
-    <Compile Include="TestTypes\TypeWithGetOnlyProperty.cs" />
-    <Compile Include="TestTypes\TypeWithIndexer.cs" />
-    <Compile Include="TestTypes\TypeWithPrivateField.cs" />
-    <Compile Include="TestTypes\TypeWithPrivateProperty.cs" />
-    <Compile Include="TestTypes\TypeWithPropertyWithPrivateSetter.cs" />
-    <Compile Include="TestTypes\TypeWithPublicField.cs" />
-    <Compile Include="TestTypes\TypeWithReadonlyField.cs" />
-    <Compile Include="TestTypes\TypeWithSealedMembers.cs" />
-    <Compile Include="TestTypes\TypeWithStaticField.cs" />
-    <Compile Include="TestTypes\TypeWithStaticMethod.cs" />
-    <Compile Include="TestTypes\TypeWithStaticProperty.cs" />
-    <Compile Include="TestTypes\TypeWithVirtualMembers.cs" />
-    <Compile Include="ValidNonMockSpecimens.cs" />
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+    <ProjectReference Include="..\AutoMoq\AutoMoq.csproj" />
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
-      <Project>{400AC174-9A4A-4C7D-815B-F2A21130A0D1}</Project>
-      <Name>AutoFixture</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AutoMoq\AutoMoq.csproj">
-      <Project>{5DCEC2BD-40A3-458A-BEBC-C2FC0D4D451B}</Project>
-      <Name>AutoMoq</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj">
-      <Project>{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}</Project>
-      <Name>TestTypeFoundation</Name>
-    </ProjectReference>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
