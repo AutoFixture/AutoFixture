@@ -8,7 +8,6 @@ open System.Diagnostics;
 open System.Text.RegularExpressions
 
 let releaseFolder = "Release"
-let nunitToolsFolder = "Packages/NUnit.Runners.2.6.2/tools"
 let nuGetOutputFolder = "NuGetPackages"
 let nuGetPackages = !! (nuGetOutputFolder @@ "*.nupkg" )
                     // Skip symbol packages because NuGet publish symbols automatically when package is published
@@ -172,6 +171,7 @@ Target "CopyToReleaseFolder" (fun _ ->
       "Src/AutoFixture.NUnit2/bin/Release/Ploeh.AutoFixture.NUnit2.Addins.dll";
       "Src/AutoFixture.NUnit2/bin/Release/Ploeh.AutoFixture.NUnit2.Addins.pdb";
       "Src/AutoFixture.NUnit2/bin/Release/Ploeh.AutoFixture.NUnit2.Addins.XML";
+      "Src/AutoFixture.NUnit2/bin/Release/nunit.core.interfaces.dll"
       "Src/AutoFixture.NUnit3/bin/Release/Ploeh.AutoFixture.NUnit3.dll";
       "Src/AutoFixture.NUnit3/bin/Release/Ploeh.AutoFixture.NUnit3.pdb";
       "Src/AutoFixture.NUnit3/bin/Release/Ploeh.AutoFixture.NUnit3.XML";
@@ -181,7 +181,6 @@ Target "CopyToReleaseFolder" (fun _ ->
       "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.dll";
       "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.pdb";
       "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.XML";
-      nunitToolsFolder @@ "lib/nunit.core.interfaces.dll"
     ]
     let nuGetPackageScripts = !! "NuGet/*.ps1" ++ "NuGet/*.txt" ++ "NuGet/*.pp" |> List.ofSeq
     let releaseFiles = buildOutput @ nuGetPackageScripts
