@@ -116,7 +116,7 @@ Target "TestOnly" (fun _ ->
     |> xUnit2 (fun p -> { p with Parallel = parallelMode
                                  MaxThreads = maxThreads })
 
-    let nunit2TestAssemblies = !! (sprintf "Src/AutoFixture.NUnit2.*Test/bin/%s/*Test.dll" configuration)
+    let nunit2TestAssemblies = !! (sprintf "Src/AutoFixture.NUnit2.*Test/bin/%s/**/*Test.dll" configuration)
 
     nunit2TestAssemblies
     |> NUnitSequential.NUnit (fun p -> { p with StopOnError = false
