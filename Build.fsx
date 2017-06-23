@@ -165,13 +165,13 @@ Target "CopyToReleaseFolder" (fun _ ->
       "Src/AutoFixture.xUnit.net2/bin/Release/net45/Ploeh.AutoFixture.Xunit2.dll";
       "Src/AutoFixture.xUnit.net2/bin/Release/net45/Ploeh.AutoFixture.Xunit2.pdb";
       "Src/AutoFixture.xUnit.net2/bin/Release/net45/Ploeh.AutoFixture.Xunit2.XML";
-      "Src/AutoFixture.NUnit2/bin/Release/Ploeh.AutoFixture.NUnit2.dll";
-      "Src/AutoFixture.NUnit2/bin/Release/Ploeh.AutoFixture.NUnit2.pdb";
-      "Src/AutoFixture.NUnit2/bin/Release/Ploeh.AutoFixture.NUnit2.XML";
-      "Src/AutoFixture.NUnit2/bin/Release/Ploeh.AutoFixture.NUnit2.Addins.dll";
-      "Src/AutoFixture.NUnit2/bin/Release/Ploeh.AutoFixture.NUnit2.Addins.pdb";
-      "Src/AutoFixture.NUnit2/bin/Release/Ploeh.AutoFixture.NUnit2.Addins.XML";
-      "Src/AutoFixture.NUnit2/bin/Release/nunit.core.interfaces.dll"
+      "Src/AutoFixture.NUnit2/bin/Release/net45/Ploeh.AutoFixture.NUnit2.dll";
+      "Src/AutoFixture.NUnit2/bin/Release/net45/Ploeh.AutoFixture.NUnit2.pdb";
+      "Src/AutoFixture.NUnit2/bin/Release/net45/Ploeh.AutoFixture.NUnit2.XML";
+      "Src/AutoFixture.NUnit2/bin/Release/net45/Ploeh.AutoFixture.NUnit2.Addins.dll";
+      "Src/AutoFixture.NUnit2/bin/Release/net45/Ploeh.AutoFixture.NUnit2.Addins.pdb";
+      "Src/AutoFixture.NUnit2/bin/Release/net45/Ploeh.AutoFixture.NUnit2.Addins.XML";
+      "Src/AutoFixture.NUnit2/bin/Release/net45/nunit.core.interfaces.dll"
       "Src/AutoFixture.NUnit3/bin/Release/Ploeh.AutoFixture.NUnit3.dll";
       "Src/AutoFixture.NUnit3/bin/Release/Ploeh.AutoFixture.NUnit3.pdb";
       "Src/AutoFixture.NUnit3/bin/Release/Ploeh.AutoFixture.NUnit3.XML";
