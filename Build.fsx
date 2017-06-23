@@ -154,9 +154,9 @@ Target "CopyToReleaseFolder" (fun _ ->
       "Src/AutoFakeItEasy2/bin/Release/Ploeh.AutoFixture.AutoFakeItEasy2.dll";
       "Src/AutoFakeItEasy2/bin/Release/Ploeh.AutoFixture.AutoFakeItEasy2.pdb";
       "Src/AutoFakeItEasy2/bin/Release/Ploeh.AutoFixture.AutoFakeItEasy2.XML";
-      "Src/AutoNSubstitute/bin/Release/Ploeh.AutoFixture.AutoNSubstitute.dll";
-      "Src/AutoNSubstitute/bin/Release/Ploeh.AutoFixture.AutoNSubstitute.pdb";
-      "Src/AutoNSubstitute/bin/Release/Ploeh.AutoFixture.AutoNSubstitute.XML";
+      "Src/AutoNSubstitute/bin/Release/net45/Ploeh.AutoFixture.AutoNSubstitute.dll";
+      "Src/AutoNSubstitute/bin/Release/net45/Ploeh.AutoFixture.AutoNSubstitute.pdb";
+      "Src/AutoNSubstitute/bin/Release/net45/Ploeh.AutoFixture.AutoNSubstitute.XML";
       "Src/AutoFoq/bin/Release/Ploeh.AutoFixture.AutoFoq.dll";
       "Src/AutoFoq/bin/Release/Ploeh.AutoFixture.AutoFoq.pdb";
       "Src/AutoFoq/bin/Release/Ploeh.AutoFixture.AutoFoq.XML";
