@@ -1,166 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\CommonProperties.props" />
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{53F3A7F8-B4CA-4500-B493-FBE59D2619A7}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ploeh.AutoFixtureDocumentationTest</RootNamespace>
+    <TargetFramework>net45</TargetFramework>
+    <AssemblyTitle>AutoFixtureDocumentationTest</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixtureDocumentationTest</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
-    <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
+    <RootNamespace>Ploeh.AutoFixtureDocumentationTest</RootNamespace>
+
+    <SignAssembly>False</SignAssembly>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="xunit">
-      <HintPath>..\..\Packages\xunit.1.8.0.1549\lib\xunit.dll</HintPath>
-    </Reference>
-    <Reference Include="xunit.extensions">
-      <HintPath>..\..\Packages\xunit.extensions.1.8.0.1549\lib\xunit.extensions.dll</HintPath>
-    </Reference>
+    <PackageReference Include="xunit" Version="1.9.2" />
+    <PackageReference Include="xunit.extensions" Version="1.8.0.1549" />
+
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Array\MyClassA.cs" />
-    <Compile Include="Array\MyClassATest.cs" />
-    <Compile Include="Array\MyClassB.cs" />
-    <Compile Include="Array\MyClassC.cs" />
-    <Compile Include="Array\MyClassD.cs" />
-    <Compile Include="DependencyConstraints.cs" />
-    <Compile Include="Commerce\Address.cs" />
-    <Compile Include="Commerce\Order.cs" />
-    <Compile Include="Commerce\OrderLine.cs" />
-    <Compile Include="Commerce\Product.cs" />
-    <Compile Include="Contact\Parsing\Contact.cs" />
-    <Compile Include="Contact\Parsing\ContactTest.cs" />
-    <Compile Include="Contact\ValidatingValueObject\Contact.cs" />
-    <Compile Include="Contact\ValidatingValueObject\ContactTest.cs" />
-    <Compile Include="Contact\ValidatingValueObject\DanishPhoneNumber.cs" />
-    <Compile Include="Contact\ValueObject\Contact.cs" />
-    <Compile Include="Contact\ValueObject\ContactTest.cs" />
-    <Compile Include="Contact\ValueObject\DanishPhoneNumber.cs" />
-    <Compile Include="Extension\Constraints\ConstrainedStringGenerator.cs" />
-    <Compile Include="Extension\Constraints\ConstrainedStringGeneratorTest.cs" />
-    <Compile Include="Extension\Constraints\MyClass.cs" />
-    <Compile Include="Extension\Constraints\ObjectBuilderExtension.cs" />
-    <Compile Include="Extension\Constraints\ObjectBuilderExtensionTest.cs" />
-    <Compile Include="Greedy\Bastard.cs" />
-    <Compile Include="Greedy\DefaultFoo.cs" />
-    <Compile Include="Greedy\DummyFoo.cs" />
-    <Compile Include="Greedy\IFoo.cs" />
-    <Compile Include="Greedy\Scenario.cs" />
-    <Compile Include="Intermediate\IMyInterface.cs" />
-    <Compile Include="Intermediate\MyClass.cs" />
-    <Compile Include="Intermediate\FakeMyInterface.cs" />
-    <Compile Include="Intermediate\MyClassFixture.cs" />
-    <Compile Include="Intermediate\MyClassTest.cs" />
-    <Compile Include="Intermediate\Person.cs" />
-    <Compile Include="Intermediate\PersonTest.cs" />
-    <Compile Include="Intermediate\Thing.cs" />
-    <Compile Include="Commerce\OrderTest.cs" />
-    <Compile Include="Multiple\General\Scenario.cs" />
-    <Compile Include="Multiple\General\StableFiniteSequenceCustomization.cs" />
-    <Compile Include="Multiple\General\StableMultipeCustomization.cs" />
-    <Compile Include="Multiple\Specific\Scenario.cs" />
-    <Compile Include="Simple\MyViewModelTest.cs" />
-    <Compile Include="Simple\ComplexChild.cs" />
-    <Compile Include="Simple\ComplexParent.cs" />
-    <Compile Include="Simple\DocumentationExample.cs" />
-    <Compile Include="Intermediate\RegisterExample.cs" />
-    <Compile Include="Simple\Filter.cs" />
-    <Compile Include="Simple\IBadDesign.cs" />
-    <Compile Include="Simple\MyClass.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Simple\MyViewModel.cs" />
-    <Compile Include="Simple\SomeImp.cs" />
-    <Compile Include="Simple\TestConsole.cs" />
-    <Compile Include="Simple\Vehicle.cs" />
-    <Compile Include="Simple\VehicleTest.cs" />
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
-      <Project>{400AC174-9A4A-4C7D-815B-F2A21130A0D1}</Project>
-      <Name>AutoFixture</Name>
-    </ProjectReference>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Commerce\CommerceClassDiagram.cd" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
