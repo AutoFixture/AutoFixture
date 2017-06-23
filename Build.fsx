@@ -110,8 +110,8 @@ Target "TestOnly" (fun _ ->
     let parallelMode = if parallelizeTests then ParallelMode.All else ParallelMode.NoParallelization
     let maxThreads = if maxParallelThreads = 0 then CollectionConcurrencyMode.Default else CollectionConcurrencyMode.MaxThreads(maxParallelThreads)
 
-    let testAssemblies = !! (sprintf "Src/*Test/bin/%s/*Test.dll" configuration)
-                         -- (sprintf "Src/AutoFixture.NUnit*.*Test/bin/%s/*Test.dll" configuration)
+    let testAssemblies = !! (sprintf "Src/*Test/bin/%s/**/*Test.dll" configuration)
+                         -- (sprintf "Src/AutoFixture.NUnit*.*Test/bin/%s/**/*Test.dll" configuration)
 
     testAssemblies
     |> xUnit2 (fun p -> { p with Parallel = parallelMode
