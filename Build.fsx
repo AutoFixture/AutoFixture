@@ -145,9 +145,9 @@ Target "CopyToReleaseFolder" (fun _ ->
       "Src/AutoMoq/bin/Release/net45/Ploeh.AutoFixture.AutoMoq.dll";
       "Src/AutoMoq/bin/Release/net45/Ploeh.AutoFixture.AutoMoq.pdb";
       "Src/AutoMoq/bin/Release/net45/Ploeh.AutoFixture.AutoMoq.XML";
-      "Src/AutoRhinoMock/bin/Release/Ploeh.AutoFixture.AutoRhinoMock.dll";
-      "Src/AutoRhinoMock/bin/Release/Ploeh.AutoFixture.AutoRhinoMock.pdb";
-      "Src/AutoRhinoMock/bin/Release/Ploeh.AutoFixture.AutoRhinoMock.XML";
+      "Src/AutoRhinoMock/bin/Release/net45/Ploeh.AutoFixture.AutoRhinoMock.dll";
+      "Src/AutoRhinoMock/bin/Release/net45/Ploeh.AutoFixture.AutoRhinoMock.pdb";
+      "Src/AutoRhinoMock/bin/Release/net45/Ploeh.AutoFixture.AutoRhinoMock.XML";
       "Src/AutoFakeItEasy/bin/Release/Ploeh.AutoFixture.AutoFakeItEasy.dll";
       "Src/AutoFakeItEasy/bin/Release/Ploeh.AutoFixture.AutoFakeItEasy.pdb";
       "Src/AutoFakeItEasy/bin/Release/Ploeh.AutoFixture.AutoFakeItEasy.XML";
