@@ -122,7 +122,7 @@ Target "TestOnly" (fun _ ->
     |> NUnitSequential.NUnit (fun p -> { p with StopOnError = false
                                                 OutputFile = "NUnit2TestResult.xml" })
 
-    let nunit3TestAssemblies = !! (sprintf "Src/AutoFixture.NUnit3.UnitTest/bin/%s/Ploeh.AutoFixture.NUnit3.UnitTest.dll" configuration)
+    let nunit3TestAssemblies = !! (sprintf "Src/AutoFixture.NUnit3.*Test/bin/%s/**/*Test.dll" configuration)
 
     nunit3TestAssemblies
     |> Testing.NUnit3.NUnit3 (fun p -> { p with StopOnError = false
