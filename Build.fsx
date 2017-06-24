@@ -1,4 +1,4 @@
-﻿#r @"packages/FAKE.Core/tools/FakeLib.dll"
+﻿#r @"tools/FAKE.Core/tools/FakeLib.dll"
 
 open Fake
 open Fake.AppVeyor
@@ -94,6 +94,11 @@ Target "CleanAll"           DoNothing
 Target "CleanVerify"        (fun _ -> clean "Verify")
 Target "CleanRelease"       (fun _ -> clean "Release")
 Target "CleanReleaseFolder" (fun _ -> CleanDir releaseFolder)
+
+Target "RestoreNuGetPackages" (fun _ ->
+    solutionsToBuild
+    |> Seq.iter (RestoreMSSolutionPackages (fun p -> { p with OutputPath = "Packages" }))
+)
 
 Target "Verify" (fun _ -> rebuild "Verify")
 
@@ -236,8 +241,9 @@ Target "PublishNuGetAll" DoNothing
 "CleanVerify"  ==> "CleanAll"
 "CleanRelease" ==> "CleanAll"
 
-"CleanReleaseFolder" ==> "Verify"
-"CleanAll"           ==> "Verify"
+"CleanReleaseFolder"   ==> "Verify"
+"CleanAll"             ==> "Verify"
+"RestoreNuGetPackages" ==> "Verify"
 
 "Verify"                ==> "Build"
 "PatchAssemblyVersions" ==> "Build"
