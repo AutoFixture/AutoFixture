@@ -95,6 +95,7 @@
     <Compile Include="AbstractRecursionIssue\ItemBase.cs" />
     <Compile Include="AbstractRecursionIssue\ItemLocation.cs" />
     <Compile Include="AbstractRecursionIssue\Repro.cs" />
+    <Compile Include="DataAnnotations\MinLengthAttributeRelayTest.cs" />
     <Compile Include="DomainNameGeneratorTest.cs" />
     <Compile Include="DomainNameTest.cs" />
     <Compile Include="ElementsBuilderTest.cs" />
