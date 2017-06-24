@@ -1,16 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\CommonProperties.props" />
+  <Import Project="..\CommonTestProperties.props" />
 
   <PropertyGroup>
     <TargetFramework>net45</TargetFramework>
     <AssemblyTitle>AutoFixture.xUnit.net.UnitTest</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.Xunit.UnitTest</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.Xunit.UnitTest</RootNamespace>
-
-    <SignAssembly>False</SignAssembly>
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,9 +21,5 @@
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
     <ProjectReference Include="..\AutoFixture.xUnit.net\AutoFixture.xUnit.net.csproj" />
     <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
 </Project>
