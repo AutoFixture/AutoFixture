@@ -13,22 +13,24 @@
     <AssemblyOriginatorKeyFile>$(SolutionDir)AutoFixture.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <DefineConstants>TRACE;RELEASE</DefineConstants>
-    <DebugType>pdbonly</DebugType>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Verify'">
-    <DefineConstants>CODE_ANALYSIS</DefineConstants>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <ErrorReport>prompt</ErrorReport>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
+  <Choose>
+    <When Condition=" '$(Configuration)'=='Release' ">
+      <PropertyGroup>
+        <DebugType>pdbonly</DebugType>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+      </PropertyGroup>
+    </When>
+    <When Condition=" '$(Configuration)'=='Verify' ">
+      <PropertyGroup>
+        <DefineConstants>$(DefineConstants);CODE_ANALYSIS</DefineConstants>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Optimize>true</Optimize>
+        <DebugType>pdbonly</DebugType>
+        <RunCodeAnalysis>true</RunCodeAnalysis>
+        <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+        <ErrorReport>prompt</ErrorReport>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+      </PropertyGroup>
+    </When>
+  </Choose>
 </Project>
