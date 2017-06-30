@@ -14,6 +14,24 @@
   </PropertyGroup>
 
   <Choose>
+    <When Condition="$(TargetFramework.StartsWith('netstandard'))">
+      <PropertyGroup>
+        <IsFullFramework>false</IsFullFramework>
+        <IsNetStandard>true</IsNetStandard>
+        <DefineConstants>$(DefineConstants);NETSTANDARD</DefineConstants>
+      </PropertyGroup>
+    </When>
+
+    <Otherwise>
+      <PropertyGroup>
+        <IsFullFramework>true</IsFullFramework>
+        <IsNetStandard>false</IsNetStandard>
+        <DefineConstants>$(DefineConstants);NETFULL;SYSTEM_NET_MAIL;SYSTEM_RUNTIME_SERIALIZATION</DefineConstants>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+  <Choose>
     <When Condition=" '$(Configuration)'=='Release' ">
       <PropertyGroup>
         <DebugType>pdbonly</DebugType>
