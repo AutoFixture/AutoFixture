@@ -16,6 +16,7 @@ let nuGetPackages = !! (nuGetOutputFolder @@ "*.nupkg" )
                     -- (nuGetOutputFolder @@ "AutoFixture.AutoFakeItEasy2.*" )
 let signKeyPath = FullName "Src/AutoFixture.snk"
 let solutionsToBuild = !! "Src/All.sln"
+let bakFileExt = ".orig"
 
 type BuildVersionInfo = { assemblyVersion:string; fileVersion:string; infoVersion:string; nugetVersion:string }
 let calculateVersionFromGit buildNumber =
@@ -32,7 +33,7 @@ let calculateVersionFromGit buildNumber =
         getMatch "maj" |> int, getMatch "min" |> int, getMatch "rev" |> int, getMatch "pre", getMatch "num" |> int, getMatch "sha"
 
     
-    let assemblyVersion = sprintf "%d.%d.%d.0" major minor revision
+    let assemblyVersion = sprintf "%d.%d.0.0" major minor
     let fileVersion = sprintf "%d.%d.%d.%d" major minor revision buildNumber
     
     // If number of commits since last tag is greater than zero, we append another identifier with number of commits.
@@ -59,7 +60,7 @@ let buildVersion = match getBuildParamOrDefault "BuildVersion" "git" with
                                       infoVersion = getBuildParamOrDefault "BuildInfoVersion" assemblyVer
                                       nugetVersion = getBuildParamOrDefault "BuildNugetVersion" assemblyVer }
 
-
+let addBakExt path = sprintf "%s%s" path bakFileExt
 
 Target "PatchAssemblyVersions" (fun _ ->
     printfn 
@@ -69,10 +70,33 @@ Target "PatchAssemblyVersions" (fun _ ->
         buildVersion.infoVersion
 
     let filesToPatch = !! "Src/*/Properties/AssemblyInfo.*"
+                       -- addBakExt "Src/*/Properties/*"
+    
+    // Backup the original file versions
+    filesToPatch
+    |> Seq.iter (fun f ->
+        let bakFilePath = addBakExt f
+        CopyFile bakFilePath f
+
+        printfn "Backed up %s to %s" f bakFilePath
+    )
+
     ReplaceAssemblyInfoVersionsBulk filesToPatch 
                                     (fun f -> { f with AssemblyVersion              = buildVersion.assemblyVersion
                                                        AssemblyFileVersion          = buildVersion.fileVersion
                                                        AssemblyInformationalVersion = buildVersion.infoVersion })
+)
+
+Target "RestorePatchedAssemblyVersionFiles" (fun _ ->
+    !! (addBakExt "Src/*/Properties/AssemblyInfo.*")
+    |> Seq.iter (fun bakFile ->
+        let originalPath = bakFile.Substring(0, bakFile.Length - bakFileExt.Length)
+
+        DeleteFile originalPath
+        Rename originalPath bakFile
+
+        printfn "Restored %s to %s" bakFile originalPath
+    )
 )
 
 let build target configuration =
@@ -244,9 +268,12 @@ Target "PublishNuGetAll" DoNothing
 "CleanAll"             ==> "Verify"
 "RestoreNuGetPackages" ==> "Verify"
 
-"Verify"                ==> "Build"
-"PatchAssemblyVersions" ==> "Build"
-"BuildOnly"             ==> "Build"
+"Verify"                             ==> "Build"
+"PatchAssemblyVersions"              ==> "Build"
+"BuildOnly"                          ==> "Build"
+"RestorePatchedAssemblyVersionFiles" ==> "Build"
+
+"BuildOnly" ?=> "RestorePatchedAssemblyVersionFiles"
 
 "BuildOnly" 
     ==> "TestOnly"
