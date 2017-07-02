@@ -21,7 +21,6 @@
         <DefineConstants>$(DefineConstants);NETSTANDARD</DefineConstants>
       </PropertyGroup>
     </When>
-
     <Otherwise>
       <PropertyGroup>
         <IsFullFramework>true</IsFullFramework>
@@ -34,8 +33,10 @@
   <Choose>
     <When Condition=" '$(Configuration)'=='Release' ">
       <PropertyGroup>
-        <DebugType>pdbonly</DebugType>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <!-- Ensure that we create Windows PDB for Full framework and Portable PDB for NET Core -->
+        <DebugType Condition=" '$(IsFullFramework)'=='true' ">pdbonly</DebugType>
+        <DebugType Condition=" '$(IsFullFramework)'=='false' ">portable</DebugType>
       </PropertyGroup>
     </When>
     <When Condition=" '$(Configuration)'=='Verify' ">
