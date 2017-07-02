@@ -1,114 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\Packages\xunit.core.2.0.0\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.props" Condition="Exists('..\..\Packages\xunit.core.2.0.0\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\CommonProperties.props" />
+  <Import Project="..\CommonTestProperties.props" />
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{67D81234-8589-4E11-85BC-C0C49399A289}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ploeh.AutoFixture.Xunit2.UnitTest</RootNamespace>
+    <TargetFramework>net45</TargetFramework>
+    <AssemblyTitle>AutoFixture.xUnit.net2.UnitTest</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.Xunit2.UnitTest</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>d7acbfbf</NuGetPackageImportStamp>
+    <RootNamespace>Ploeh.AutoFixture.Xunit2.UnitTest</RootNamespace>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\Packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit.assert, Version=2.0.0.2929, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\Packages\xunit.assert.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.assert.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit.core, Version=2.0.0.2929, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\Packages\xunit.extensibility.core.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <PackageReference Include="xunit" Version="2.0.0" />
+
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="AutoDataAttributeTest.cs" />
-    <Compile Include="ComposerWithoutADefaultConstructor.cs" />
-    <Compile Include="ClassDataAttribute.cs" />
-    <Compile Include="CompositeDataAttributeSufficientDataTest.cs" />
-    <Compile Include="CompositeDataAttributeTest.cs" />
-    <Compile Include="CustomizeAttributeTest.cs" />
-    <Compile Include="CustomizedFixture.cs" />
-    <Compile Include="DelegatingCustomization.cs" />
-    <Compile Include="DelegatingCustomizeAttribute.cs" />
-    <Compile Include="DelegatingFixture.cs" />
-    <Compile Include="DelegatingSpecimenBuilder.cs" />
-    <Compile Include="DependencyConstraints.cs" />
-    <Compile Include="FrozenAttributeTest.cs" />
-    <Compile Include="GreedyAttributeTest.cs" />
-    <Compile Include="ModestAttributeTest.cs" />
-    <Compile Include="MyClass.cs" />
-    <Compile Include="NoAutoPropertiesAttributeTest.cs" />
-    <Compile Include="FavorArraysAttributeTest.cs" />
-    <Compile Include="FavorEnumerablesAttributeTest.cs" />
-    <Compile Include="FavorListsAttributeTest.cs" />
-    <Compile Include="FakeDataAttribute.cs" />
-    <Compile Include="InlineAutoDataAttributeTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scenario.cs" />
-    <Compile Include="TypeWithCustomizationAttributes.cs" />
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+    <ProjectReference Include="..\AutoFixture.xUnit.net2\AutoFixture.xUnit.net2.csproj" />
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AutoFixture.xUnit.net2\AutoFixture.xUnit.net2.csproj">
-      <Project>{240605c0-84dc-4b01-a79e-1123d20bb25d}</Project>
-      <Name>AutoFixture.xUnit.net2</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
-      <Project>{400ac174-9a4a-4c7d-815b-f2a21130a0d1}</Project>
-      <Name>AutoFixture</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj">
-      <Project>{7ff65787-f462-4204-bb9d-60b0d1bb6cc1}</Project>
-      <Name>TestTypeFoundation</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\Packages\xunit.core.2.0.0\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\Packages\xunit.core.2.0.0\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.props'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

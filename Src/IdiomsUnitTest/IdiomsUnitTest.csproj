@@ -1,152 +1,25 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\CommonProperties.props" />
+  <Import Project="..\CommonTestProperties.props" />
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{730E1D38-BA80-48C7-B05C-E2BD29F38851}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ploeh.AutoFixture.IdiomsUnitTest</RootNamespace>
+    <TargetFramework>net45</TargetFramework>
+    <AssemblyTitle>IdiomsUnitTest</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.IdiomsUnitTest</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
-    <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
+    <RootNamespace>Ploeh.AutoFixture.IdiomsUnitTest</RootNamespace>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Ploeh.Albedo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=179ef6dd03497bbd, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Packages\Albedo.1.0.0\lib\net35\Ploeh.Albedo.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="xunit">
-      <HintPath>..\..\Packages\xunit.1.8.0.1549\lib\xunit.dll</HintPath>
-    </Reference>
-    <Reference Include="xunit.extensions">
-      <HintPath>..\..\Packages\xunit.extensions.1.8.0.1549\lib\xunit.extensions.dll</HintPath>
-    </Reference>
+    <PackageReference Include="xunit" Version="1.9.2" />
+    <PackageReference Include="xunit.extensions" Version="1.8.0.1549" />
+
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="CompositeBehaviorExpectationTest.cs" />
-    <Compile Include="CompositeIdiomaticAssertionTest.cs" />
-    <Compile Include="CopyAndUpdateAssertionTest.cs" />
-    <Compile Include="DelegatingExpansion.cs" />
-    <Compile Include="EmptyGuidBehaviorExpectationTest.cs" />
-    <Compile Include="EnumerableComparison.cs" />
-    <Compile Include="GetHashCodeSuccessiveAssertionTest.cs" />
-    <Compile Include="IndexedReplacementTest.cs" />
-    <Compile Include="MethodInvokeCommandTest.cs" />
-    <Compile Include="DelegatingMethod.cs" />
-    <Compile Include="GuardClauseExceptionTest.cs" />
-    <Compile Include="NullReferenceBehaviorExpectationTest.cs" />
-    <Compile Include="DelegatingBehaviorExpectation.cs" />
-    <Compile Include="DelegatingGuardClauseCommand.cs" />
-    <Compile Include="PropertySetCommandTest.cs" />
-    <Compile Include="DelegatingIdiomaticAssertion.cs" />
-    <Compile Include="DependencyConstraints.cs" />
-    <Compile Include="GuardClauseAssertionTest.cs" />
-    <Compile Include="IdiomaticAssertionTest.cs" />
-    <Compile Include="ConstructorInitializedMemberAssertionTest.cs" />
-    <Compile Include="ReflectionExceptionUnwrappingCommandTest.cs" />
-    <Compile Include="Scenario.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WritablePropertyAssertionTest.cs" />
-    <Compile Include="WritablePropertyExceptionTest.cs" />
-    <Compile Include="EqualsSuccessiveAssertionTest.cs" />
-    <Compile Include="EqualsNullAssertionTest.cs" />
-    <Compile Include="EqualsNewObjectAssertionTest.cs" />
-    <Compile Include="EqualsSelfAssertionTest.cs" />
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+    <ProjectReference Include="..\Idioms\Idioms.csproj" />
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj">
-      <Project>{400AC174-9A4A-4C7D-815B-F2A21130A0D1}</Project>
-      <Name>AutoFixture</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Idioms\Idioms.csproj">
-      <Project>{35DE0E35-4E3A-46D7-B175-80CA10276BE7}</Project>
-      <Name>Idioms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj">
-      <Project>{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}</Project>
-      <Name>TestTypeFoundation</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

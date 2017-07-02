@@ -1,0 +1,36 @@
+<Project>
+  <PropertyGroup>
+    <Product>AutoFixture</Product>
+    <Company>AutoFixture</Company>
+    <Copyright>Copyright © AutoFixture 2011</Copyright>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+
+    <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
+    <CodeAnalysisRuleSet>$(SolutionDir)AutoFixture.ruleset</CodeAnalysisRuleSet>
+
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)AutoFixture.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition=" '$(Configuration)'=='Release' ">
+      <PropertyGroup>
+        <DebugType>pdbonly</DebugType>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+      </PropertyGroup>
+    </When>
+    <When Condition=" '$(Configuration)'=='Verify' ">
+      <PropertyGroup>
+        <DefineConstants>$(DefineConstants);CODE_ANALYSIS</DefineConstants>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Optimize>true</Optimize>
+        <DebugType>pdbonly</DebugType>
+        <RunCodeAnalysis>true</RunCodeAnalysis>
+        <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+        <ErrorReport>prompt</ErrorReport>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+      </PropertyGroup>
+    </When>
+  </Choose>
+</Project>
