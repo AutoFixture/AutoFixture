@@ -45,7 +45,8 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Optimize>true</Optimize>
         <DebugType>pdbonly</DebugType>
-        <RunCodeAnalysis>true</RunCodeAnalysis>
+        <!-- Temporarily disable code analysis for the .NET Standard as it fails due to unknown framework version. -->
+        <RunCodeAnalysis Condition=" '$(IsFullFramework)'=='true' " >true</RunCodeAnalysis>
         <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
         <ErrorReport>prompt</ErrorReport>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
