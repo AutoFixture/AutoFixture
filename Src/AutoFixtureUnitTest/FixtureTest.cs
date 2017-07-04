@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Grean.Exude;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
@@ -5763,20 +5762,20 @@ namespace Ploeh.AutoFixtureUnitTest
             }
         }
 
-        [FirstClassTests]
-        public IEnumerable<ITestCase> CreateComplexArrayTypeReturnsCorrectResult()
+        public static IEnumerable<object[]> CreateComplexArrayTypeReturnsCorrectResult_Data =>
+            new[]
+                {
+                    typeof(string[][,,][]),
+                    typeof(object[,,][][,])
+                }
+                .Select(x => new object[] {x});
+
+        [Theory, PropertyData(nameof(CreateComplexArrayTypeReturnsCorrectResult_Data))]
+        public void CreateComplexArrayTypeReturnsCorrectResult(object request)
         {
-            var requests = new[]
-            {
-                typeof(string[][,,][]),
-                typeof(object[,,][][,])
-            };
-            return requests.Select(r => new TestCase(() =>
-            {
-                var sut = new Fixture();
-                var context = new SpecimenContext(sut);
-                Assert.NotNull(context.Resolve(r));
-            }));
+            var sut = new Fixture();
+            var context = new SpecimenContext(sut);
+            Assert.NotNull(context.Resolve(request));
         }
 
         [Theory]

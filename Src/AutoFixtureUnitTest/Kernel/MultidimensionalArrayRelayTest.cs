@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Grean.Exude;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -24,244 +24,244 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Throws<ArgumentNullException>(() => sut.Create(dummyRequest, null));
         }
 
-        [FirstClassTests]
-        public static IEnumerable<ITestCase> CreateWithInvalidRequestReturnsNoSpecimen()
-        {
-            var invalidRequests = new[]
-            {
-                null,
-                new object(),
-                string.Empty,
-                123,
-                typeof(int),
-                typeof(object[]),
-                typeof(string[][])
-            };
-            return invalidRequests.Select(r => new TestCase(() =>
-            {
-                var sut = new MultidimensionalArrayRelay();
-                var dummyContext = new DelegatingSpecimenContext();
-                var expected = new NoSpecimen();
-
-                var actual = sut.Create(r, dummyContext);
-
-                Assert.Equal(expected, actual);
-            }));
-        }
-
-        [FirstClassTests]
-        public static IEnumerable<ITestCase> Create2DimensionalArrayReturnsCorrectResult()
-        {
-            var testCase = new[]
-            {
-                new // 2 dimension - 0 length
+        public static IEnumerable<object[]> CreateWithInvalidRequestReturnsNoSpecimen_InvalidRequests =>
+            new[]
                 {
-                    Jagged = new[]
-                    {
-                        new int[0]
-                    },
-                    Expected = new int[,]
-                    {
-                    }
-                },
-                new // 2 dimension - 1 length
-                {
-                    Jagged = new[]
-                    {
-                        new[] { 1 }
-                    },
-                    Expected = new[,]
-                    {
-                        { 1 }
-                    }
-                },
-                new // 2 dimension - 2 length
-                {
-                    Jagged = new[]
-                    {
-                        new[] { 1, 2 },
-                        new[] { 3, 4 }
-                    },
-                    Expected = new[,]
-                    {
-                        { 1, 2 },
-                        { 3, 4 }
-                    }
-                },
-                new // 2 dimension - 3 length
-                {
-                    Jagged = new[]
-                    {
-                        new[] { 1, 2, 3 },
-                        new[] { 11, 12, 13 },
-                        new[] { 211, 212, 213 }
-                    },
-                    Expected = new[,]
-                    {
-                        { 1, 2, 3 },
-                        { 11, 12, 13 },
-                        { 211, 212, 213 }
-                    }
-                },
-                new // 2 dimension - 4 length
-                {
-                    Jagged = new[]
-                    {
-                        new[] { 1, 2, 3, 4 },
-                        new[] { 11, 12, 13, 34 },
-                        new[] { 211, 212, 213, 23 },
-                        new[] { 3, 4, 5, 6 }
-                    },
-                    Expected = new[,]
-                    {
-                        { 1, 2, 3, 4 },
-                        { 11, 12, 13, 34 },
-                        { 211, 212, 213, 23 },
-                        { 3, 4, 5, 6 }
-                    }
+                    null,
+                    new object(),
+                    string.Empty,
+                    123,
+                    typeof(int),
+                    typeof(object[]),
+                    typeof(string[][])
                 }
-            };
-            return testCase.Select(c => new TestCase(() =>
-            {
-                var sut = new MultidimensionalArrayRelay();
-                var context = new DelegatingSpecimenContext
-                {
-                    OnResolve = r =>
-                    {
-                        Assert.Equal(c.Jagged.GetType(), r);
-                        return c.Jagged;
-                    }
-                };
+                .Select(x => new[] { x });
 
-                var actual = sut.Create(typeof(int[,]), context);
+        [Theory, PropertyData(nameof(CreateWithInvalidRequestReturnsNoSpecimen_InvalidRequests))]
+        public void CreateWithInvalidRequestReturnsNoSpecimen(object invalidRequest)
+        {
+            var sut = new MultidimensionalArrayRelay();
+            var dummyContext = new DelegatingSpecimenContext();
+            var expected = new NoSpecimen();
 
-                Assert.Equal(c.Expected, actual);
-            }));
+            var actual = sut.Create(invalidRequest, dummyContext);
+
+            Assert.Equal(expected, actual);
         }
 
-        [FirstClassTests]
-        public static IEnumerable<ITestCase> Create3DimensionalArrayReturnsCorrectResult()
-        {
-            var testCase = new[]
-            {
-                new // 3 dimension - 0 length
+        public static IEnumerable<object[]> Create2DimensionalArrayReturnsCorrectResult_Data =>
+            new[]
                 {
-                    Jagged = new[]
+                    new // 2 dimension - 0 length
                     {
-                        new[]
+                        Jagged = new[]
                         {
                             new int[0]
+                        },
+                        Expected = new int[,]
+                        {
                         }
                     },
-                    Expected = new int[,,]
+                    new // 2 dimension - 1 length
                     {
-                    }
-                },
-                new // 3 dimension - 1 length
-                {
-                    Jagged = new[]
-                    {
-                        new[]
+                        Jagged = new[]
                         {
-                            new[]
-                            {
-                                12
-                            }
+                            new[] { 1 }
+                        },
+                        Expected = new[,]
+                        {
+                            { 1 }
                         }
                     },
-                    Expected = new[,,]
+                    new // 2 dimension - 2 length
                     {
-                        {
-                            { 12 }
-                        }
-                    }
-                },
-                new // 3 dimension - 2 length
-                {
-                    Jagged = new[]
-                    {
-                        new[]
+                        Jagged = new[]
                         {
                             new[] { 1, 2 },
                             new[] { 3, 4 }
                         },
-                        new[]
-                        {
-                            new[] { 31, 32 },
-                            new[] { 33, 34 }
-                        }
-                    },
-                    Expected = new[,,]
-                    {
+                        Expected = new[,]
                         {
                             { 1, 2 },
                             { 3, 4 }
-                        },
-                        {
-                            { 31, 32 },
-                            { 33, 34 }
-                        }
-                    }
-                },
-                new // 3 dimension - 3 length
-                {
-                    Jagged = new[]
-                    {
-                        new[]
-                        {
-                            new[] { 1, 2, 4 },
-                            new[] { 2, 4, 6 },
-                            new[] { 3, 5, 7 }
-                        },
-                        new[]
-                        {
-                            new[] { 31, 32, 2 },
-                            new[] { 33, 34, 4 },
-                            new[] { 45, 34, 342 }
-                        },
-                        new[]
-                        {
-                            new[] { 1, 2, 3 },
-                            new[] { 4, 5, 6 },
-                            new[] { 7, 8, 9 }
                         }
                     },
-                    Expected = new[,,]
+                    new // 2 dimension - 3 length
                     {
+                        Jagged = new[]
                         {
-                            { 1, 2, 4 },
-                            { 2, 4, 6 },
-                            { 3, 5, 7 }
+                            new[] { 1, 2, 3 },
+                            new[] { 11, 12, 13 },
+                            new[] { 211, 212, 213 }
                         },
-                        {
-                            { 31, 32, 2 },
-                            { 33, 34, 4 },
-                            { 45, 34, 342 }
-                        },
+                        Expected = new[,]
                         {
                             { 1, 2, 3 },
-                            { 4, 5, 6 },
-                            { 7, 8, 9 }
+                            { 11, 12, 13 },
+                            { 211, 212, 213 }
+                        }
+                    },
+                    new // 2 dimension - 4 length
+                        {
+                            Jagged = new[]
+                            {
+                                new[] { 1, 2, 3, 4 },
+                                new[] { 11, 12, 13, 34 },
+                                new[] { 211, 212, 213, 23 },
+                                new[] { 3, 4, 5, 6 }
+                            },
+                            Expected = new[,]
+                            {
+                                { 1, 2, 3, 4 },
+                                { 11, 12, 13, 34 },
+                                { 211, 212, 213, 23 },
+                                { 3, 4, 5, 6 }
+                            }
+                        }
+                }
+            .Select(x => new object[] { x.Jagged, x.Expected });
+
+        [Theory, PropertyData(nameof(Create2DimensionalArrayReturnsCorrectResult_Data))]
+        public void Create2DimensionalArrayReturnsCorrectResult(int[][] jagged, int[,] expected)
+        {
+            var sut = new MultidimensionalArrayRelay();
+            var context = new DelegatingSpecimenContext
+            {
+                OnResolve = r =>
+                {
+                    Assert.Equal(jagged.GetType(), r);
+                    return jagged;
+                }
+            };
+
+            var actual = sut.Create(typeof(int[,]), context);
+
+            Assert.Equal(expected, actual);
+        }
+
+        public static IEnumerable<object[]> Create3DimensionalArrayReturnsCorrectResult_Data =>
+            new[]
+                {
+                    new // 3 dimension - 0 length
+                    {
+                        Jagged = new[]
+                        {
+                            new[]
+                            {
+                                new int[0]
+                            }
+                        },
+                        Expected = new int[,,]
+                        {
+                        }
+                    },
+                    new // 3 dimension - 1 length
+                    {
+                        Jagged = new[]
+                        {
+                            new[]
+                            {
+                                new[]
+                                {
+                                    12
+                                }
+                            }
+                        },
+                        Expected = new[,,]
+                        {
+                            {
+                                {12}
+                            }
+                        }
+                    },
+                    new // 3 dimension - 2 length
+                    {
+                        Jagged = new[]
+                        {
+                            new[]
+                            {
+                                new[] {1, 2},
+                                new[] {3, 4}
+                            },
+                            new[]
+                            {
+                                new[] {31, 32},
+                                new[] {33, 34}
+                            }
+                        },
+                        Expected = new[,,]
+                        {
+                            {
+                                {1, 2},
+                                {3, 4}
+                            },
+                            {
+                                {31, 32},
+                                {33, 34}
+                            }
+                        }
+                    },
+                    new // 3 dimension - 3 length
+                    {
+                        Jagged = new[]
+                        {
+                            new[]
+                            {
+                                new[] {1, 2, 4},
+                                new[] {2, 4, 6},
+                                new[] {3, 5, 7}
+                            },
+                            new[]
+                            {
+                                new[] {31, 32, 2},
+                                new[] {33, 34, 4},
+                                new[] {45, 34, 342}
+                            },
+                            new[]
+                            {
+                                new[] {1, 2, 3},
+                                new[] {4, 5, 6},
+                                new[] {7, 8, 9}
+                            }
+                        },
+                        Expected = new[,,]
+                        {
+                            {
+                                {1, 2, 4},
+                                {2, 4, 6},
+                                {3, 5, 7}
+                            },
+                            {
+                                {31, 32, 2},
+                                {33, 34, 4},
+                                {45, 34, 342}
+                            },
+                            {
+                                {1, 2, 3},
+                                {4, 5, 6},
+                                {7, 8, 9}
+                            }
                         }
                     }
                 }
-            };
-            return testCase.Select(c => new TestCase(() =>
+                .Select(x => new object[] { x.Jagged, x.Expected });
+
+        [Theory, PropertyData(nameof(Create3DimensionalArrayReturnsCorrectResult_Data))]
+        public void Create3DimensionalArrayReturnsCorrectResult(int[][][] jagged, int[,,] expected)
+        {
+            var sut = new MultidimensionalArrayRelay();
+            var context = new DelegatingSpecimenContext
             {
-                var sut = new MultidimensionalArrayRelay();
-                var context = new DelegatingSpecimenContext
+                OnResolve = r =>
                 {
-                    OnResolve = r =>
-                    {
-                        Assert.Equal(c.Jagged.GetType(), r);
-                        return c.Jagged;
-                    }
-                };
+                    Assert.Equal(jagged.GetType(), r);
+                    return jagged;
+                }
+            };
 
-                var actual = sut.Create(typeof(int[,,]), context);
+            var actual = sut.Create(typeof(int[,,]), context);
 
-                Assert.Equal(c.Expected, actual);
-            }));
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -298,7 +298,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 }
             };
 
-            var expected = new[,,,]
+            var expected = new[, , ,]
             {
                 {
                     {
