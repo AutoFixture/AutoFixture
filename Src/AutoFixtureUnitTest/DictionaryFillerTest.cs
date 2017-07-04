@@ -143,7 +143,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
             var sut = new DictionaryFiller();
             // Exercise system & Verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(dictionary, context));
+            AssertEx.DoesNotThrow(() => sut.Execute(dictionary, context));
             // Teardown
         }
     }

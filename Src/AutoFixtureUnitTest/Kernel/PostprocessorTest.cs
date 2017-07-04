@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyBuilder = new DelegatingSpecimenBuilder();
             Action<object, ISpecimenContext> dummyAction = (s, c) => { };
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => new Postprocessor(dummyBuilder, dummyAction));
+            AssertEx.DoesNotThrow(() => new Postprocessor(dummyBuilder, dummyAction));
             // Teardown
         }
 

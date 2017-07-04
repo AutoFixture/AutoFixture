@@ -16,7 +16,6 @@ using Ploeh.AutoFixtureUnitTest.DataAnnotations;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -1173,7 +1172,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create<PropertyHolder<Action>>();
             // Verify outcome
-            Assert.DoesNotThrow(() => ((Action)result.Property).Invoke());
+            AssertEx.DoesNotThrow(() => ((Action)result.Property).Invoke());
             // Teardown
         }
 
@@ -5314,7 +5313,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<decimal>());
+            AssertEx.DoesNotThrow(() => fixture.Create<decimal>());
             // Teardown
         }
 
@@ -5770,7 +5769,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 }
                 .Select(x => new object[] {x});
 
-        [Theory, PropertyData(nameof(CreateComplexArrayTypeReturnsCorrectResult_Data))]
+        [Theory, MemberData(nameof(CreateComplexArrayTypeReturnsCorrectResult_Data))]
         public void CreateComplexArrayTypeReturnsCorrectResult(object request)
         {
             var sut = new Fixture();
@@ -5859,7 +5858,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             // Exercise system and verify outcome
             IEnumerator<int> result = null;
-            Assert.DoesNotThrow(() => result = fixture.Create<IEnumerator<int>>());
+            AssertEx.DoesNotThrow(() => result = fixture.Create<IEnumerator<int>>());
             Assert.NotNull(result);
             // Teardown
         }
@@ -5917,7 +5916,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             fixture.Customize<string>(x => x.FromFactory(() => null));
 
-            Assert.DoesNotThrow(() => fixture.Create<string>());
+            AssertEx.DoesNotThrow(() => fixture.Create<string>());
         }
 
         [Theory]
@@ -6001,7 +6000,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             var fixture = new Fixture();
             var actual = fixture.Create<Expression<Action<string, int>>>();
-            Assert.DoesNotThrow(() => actual.Compile()("foo", 42));
+            AssertEx.DoesNotThrow(() => actual.Compile()("foo", 42));
         }
 
         [Fact]

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -37,7 +36,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 }
                 .Select(x => new[] { x });
 
-        [Theory, PropertyData(nameof(CreateWithInvalidRequestReturnsNoSpecimen_InvalidRequests))]
+        [Theory, MemberData(nameof(CreateWithInvalidRequestReturnsNoSpecimen_InvalidRequests))]
         public void CreateWithInvalidRequestReturnsNoSpecimen(object invalidRequest)
         {
             var sut = new MultidimensionalArrayRelay();
@@ -121,7 +120,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 }
             .Select(x => new object[] { x.Jagged, x.Expected });
 
-        [Theory, PropertyData(nameof(Create2DimensionalArrayReturnsCorrectResult_Data))]
+        [Theory, MemberData(nameof(Create2DimensionalArrayReturnsCorrectResult_Data))]
         public void Create2DimensionalArrayReturnsCorrectResult(int[][] jagged, int[,] expected)
         {
             var sut = new MultidimensionalArrayRelay();
@@ -246,7 +245,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 }
                 .Select(x => new object[] { x.Jagged, x.Expected });
 
-        [Theory, PropertyData(nameof(Create3DimensionalArrayReturnsCorrectResult_Data))]
+        [Theory, MemberData(nameof(Create3DimensionalArrayReturnsCorrectResult_Data))]
         public void Create3DimensionalArrayReturnsCorrectResult(int[][][] jagged, int[,,] expected)
         {
             var sut = new MultidimensionalArrayRelay();

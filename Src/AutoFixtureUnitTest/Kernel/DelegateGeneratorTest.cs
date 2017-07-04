@@ -136,7 +136,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(delegateRequest, dummyContainer);
             // Verify outcome
-            Assert.DoesNotThrow(() => ((Action)result).Invoke());
+            AssertEx.DoesNotThrow(() => ((Action)result).Invoke());
             // Teardown
         }
 

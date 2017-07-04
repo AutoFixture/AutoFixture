@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => new RandomNumericSequenceGenerator());
+            AssertEx.DoesNotThrow(() => new RandomNumericSequenceGenerator());
             // Teardown
         }
 
@@ -149,7 +149,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyRequest = typeof(byte);
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(
+            AssertEx.DoesNotThrow(
                 () => sut.Create(dummyRequest, null));
             // Teardown
         }

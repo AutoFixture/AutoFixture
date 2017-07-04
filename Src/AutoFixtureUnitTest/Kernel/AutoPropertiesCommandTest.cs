@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var specimen = new IndexedPropertyHolder<object>();
             var container = new DelegatingSpecimenContext { OnResolve = r => new object() };
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
+            AssertEx.DoesNotThrow(() =>
                 sut.Execute(specimen, container));
             // Teardown
         }

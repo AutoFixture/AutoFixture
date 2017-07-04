@@ -232,7 +232,7 @@ namespace Ploeh.AutoFixtureUnitTest
             };
             var sut = new RangedNumberGenerator();
             // Exercise system and verify outcome
-            Array.ForEach(request, r => Assert.DoesNotThrow(() => sut.Create(r, context)));
+            Array.ForEach(request, r => AssertEx.DoesNotThrow(() => sut.Create(r, context)));
             // Teardown
         }
 
@@ -280,7 +280,7 @@ namespace Ploeh.AutoFixtureUnitTest
             Func<int, object> actual = i =>
                 sut.Create(testCases[i].request, testCases[i].contextStub);
 
-            Assert.DoesNotThrow(() =>
+            AssertEx.DoesNotThrow(() =>
                 Enumerable.Range(0, testCases.Length).Select(actual).ToList());
         }
 
@@ -328,7 +328,7 @@ namespace Ploeh.AutoFixtureUnitTest
             Func<int, object> actual = i =>
                 sut.Create(testCases[i].request, testCases[i].contextStub);
 
-            Assert.DoesNotThrow(() =>
+            AssertEx.DoesNotThrow(() =>
                 Enumerable.Range(0, testCases.Length).Select(actual).ToList());
         }
 

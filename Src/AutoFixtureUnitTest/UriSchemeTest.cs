@@ -12,7 +12,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => new UriScheme());
+            AssertEx.DoesNotThrow(() => new UriScheme());
             // Teardown
         }
 

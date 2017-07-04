@@ -26,7 +26,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyDepth = 0;
             var dummySpecimen = new object();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => new SpecimenCreatedEventArgs(null, dummySpecimen, dummyDepth));
+            AssertEx.DoesNotThrow(() => new SpecimenCreatedEventArgs(null, dummySpecimen, dummyDepth));
             // Teardown
         }
 
@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyRequest = new object();
             var dummyDepth = 0;
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => new SpecimenCreatedEventArgs(dummyRequest, null, dummyDepth));
+            AssertEx.DoesNotThrow(() => new SpecimenCreatedEventArgs(dummyRequest, null, dummyDepth));
             // Teardown
         }
 

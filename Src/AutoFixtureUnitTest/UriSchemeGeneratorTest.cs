@@ -38,7 +38,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new UriSchemeGenerator();
             var dummyRequest = new object();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Create(dummyRequest, null));
+            AssertEx.DoesNotThrow(() => sut.Create(dummyRequest, null));
             // Teardown
         }
 

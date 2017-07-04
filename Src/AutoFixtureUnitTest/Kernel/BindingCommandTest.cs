@@ -148,7 +148,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => 
+            AssertEx.DoesNotThrow(() => 
                 new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, (object)null));
             // Teardown
         }

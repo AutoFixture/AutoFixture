@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new NumericSequenceGenerator();
             // Exercise system and verify outcome
             var dummyRequest = new object();
-            Assert.DoesNotThrow(() => sut.Create(dummyRequest, null));
+            AssertEx.DoesNotThrow(() => sut.Create(dummyRequest, null));
             // Teardown
         }
 

@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
             fixture.Behaviors.Add(new NullRecursionBehavior());
             fixture.Register<ItemBase>(fixture.Create<FunkyItem>);
 
-            Assert.DoesNotThrow(() => fixture.Create<FunkyItem>());
+            AssertEx.DoesNotThrow(() => fixture.Create<FunkyItem>());
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
                     typeof(ItemBase),
                     typeof(FunkyItem)));
 
-            Assert.DoesNotThrow(() => fixture.Create<FunkyItem>());
+            AssertEx.DoesNotThrow(() => fixture.Create<FunkyItem>());
         }
     }
 }
