@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <PackageReference Include="Exude" Version="0.2.0" />
-    <PackageReference Include="Albedo" Version="1.0.0" />
     <PackageReference Include="xunit" Version="1.9.2" />
     <PackageReference Include="xunit.extensions" Version="1.8.0.1549" />
 

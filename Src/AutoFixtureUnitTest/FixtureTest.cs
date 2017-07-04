@@ -10,7 +10,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Grean.Exude;
-using Ploeh.Albedo;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
@@ -300,6 +299,20 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
 
             // Exercise system
+            IEnumerable<object> GetPropertyAndFieldValues(object obj, BindingFlags flags)
+            {
+                var type = obj.GetType();
+                foreach (var fieldInfo in type.GetFields(flags))
+                {
+                    yield return fieldInfo.GetValue(obj);
+                }
+
+                foreach (var propertyInfo in type.GetProperties(flags))
+                {
+                    yield return propertyInfo.GetValue(obj);
+                }
+            }
+
             var specimensByThread = Enumerable.Range(0, threadCount)
                 .AsParallel()
                     .WithDegreeOfParallelism(threadCount)
@@ -311,10 +324,7 @@ namespace Ploeh.AutoFixtureUnitTest
                     {
                         Specimen = s,
                         threadNumber,
-                        ValuesNotPopulated = s.GetType()
-                            .GetPropertiesAndFields(BindingFlags.Public | BindingFlags.Instance)
-                            .Accept(new ValueCollectingVisitor(s))
-                            .Value
+                        ValuesNotPopulated = GetPropertyAndFieldValues(s, BindingFlags.Public | BindingFlags.Instance)
                             .Where(v => v == null || 0.Equals(v))
                             .ToArray()
                     })
