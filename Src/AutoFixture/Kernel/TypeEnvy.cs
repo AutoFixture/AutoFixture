@@ -11,17 +11,12 @@
         public static TAttribute GetAttribute<TAttribute>(object candidate)
             where TAttribute : Attribute
         {
-            var member = candidate as MemberInfo;
-            if(member != null)
-            {
-                return member.GetCustomAttribute<TAttribute>();
-            }
-            var parameter = candidate as ParameterInfo;
-            if(parameter != null)
-            {
-                return parameter.GetCustomAttribute<TAttribute>();
-            }
-            return null;
+            var attributeProvider = candidate as ICustomAttributeProvider;
+
+            return attributeProvider?
+                .GetCustomAttributes(typeof(TAttribute), true)
+                .Cast<TAttribute>()
+                .SingleOrDefault();
         }
 
         public static Assembly Assembly(this Type type)
