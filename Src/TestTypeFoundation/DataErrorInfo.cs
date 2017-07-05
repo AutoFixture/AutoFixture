@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿#if NETFULL
+using System.ComponentModel;
 
 namespace Ploeh.TestTypeFoundation
 {
@@ -15,3 +16,4 @@ namespace Ploeh.TestTypeFoundation
         }
     }
 }
+#endif

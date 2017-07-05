@@ -2,11 +2,12 @@
   <Import Project="..\CommonProperties.props" />
 
   <PropertyGroup>
-    <TargetFramework>net40</TargetFramework>
+    <TargetFrameworks>net40;netstandard1.2</TargetFrameworks>
     <AssemblyTitle>TestTypeFoundation</AssemblyTitle>
     <AssemblyName>Ploeh.TestTypeFoundation</AssemblyName>
     <RootNamespace>Ploeh.TestTypeFoundation</RootNamespace>
 
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
+ 
 </Project>
