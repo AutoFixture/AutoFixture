@@ -1,5 +1,6 @@
 ﻿using System;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
 
@@ -73,7 +74,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var sut = new RegularExpressionRequest("[0-9]");
-            object anonymousObject = new FileStyleUriParser();
+            object anonymousObject = new ConcreteType();
             // Exercise system
             var result = sut.Equals(anonymousObject);
             // Verify outcome

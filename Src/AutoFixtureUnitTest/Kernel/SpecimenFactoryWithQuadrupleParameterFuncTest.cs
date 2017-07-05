@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
@@ -33,10 +34,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void FactoryIsCorrect()
         {
             // Fixture setup
-            Func<LdapStyleUriParser, TimeZone, StringBuilder, DateTime, ConsoleColor> expectedFactory = (x, y, z, æ) => ConsoleColor.Black;
-            var sut = new SpecimenFactory<LdapStyleUriParser, TimeZone, StringBuilder, DateTime, ConsoleColor>(expectedFactory);
+            Func<ConcreteType, TimeZoneInfo, StringBuilder, DateTime, ConsoleColor> expectedFactory = (x, y, z, æ) => ConsoleColor.Black;
+            var sut = new SpecimenFactory<ConcreteType, TimeZoneInfo, StringBuilder, DateTime, ConsoleColor>(expectedFactory);
             // Exercise system
-            Func<LdapStyleUriParser, TimeZone, StringBuilder, DateTime, ConsoleColor> result = sut.Factory;
+            Func<ConcreteType, TimeZoneInfo, StringBuilder, DateTime, ConsoleColor> result = sut.Factory;
             // Verify outcome
             Assert.Equal(expectedFactory, result);
             // Teardown

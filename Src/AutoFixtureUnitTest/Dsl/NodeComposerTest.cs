@@ -239,7 +239,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void ComposeReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = SpecimenBuilderNodeFactory.CreateComposer<GenericUriParser>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<ConcreteType>();
             // Exercise system
             var expectedBuilders = new[]
             {
@@ -249,7 +249,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             };
             var actual = sut.Compose(expectedBuilders);
             // Verify outcome
-            var nc = Assert.IsAssignableFrom<NodeComposer<GenericUriParser>>(actual);
+            var nc = Assert.IsAssignableFrom<NodeComposer<ConcreteType>>(actual);
             var composite = Assert.IsAssignableFrom<CompositeSpecimenBuilder>(nc.Builder);
             Assert.True(expectedBuilders.SequenceEqual(composite));
             // Teardown
@@ -259,12 +259,12 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void ComposeSingleItemReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = SpecimenBuilderNodeFactory.CreateComposer<GenericUriParser>();
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<ConcreteType>();
             var expected = new DelegatingSpecimenBuilder();
             // Exercise system
             var actual = sut.Compose(new[] { expected });
             // Verify outcome
-            var f = Assert.IsAssignableFrom<NodeComposer<GenericUriParser>>(actual);
+            var f = Assert.IsAssignableFrom<NodeComposer<ConcreteType>>(actual);
             Assert.Equal(expected, f.Builder);
             // Teardown
         }
@@ -273,26 +273,26 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         public void DoReturnsCorrectResult()
         {
             // Fixture setup
-            var sut = SpecimenBuilderNodeFactory.CreateComposer<AppDomainSetup>();
-            Action<AppDomainSetup> a = ads => ads.DisallowApplicationBaseProbing = false;
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<ConcreteType>();
+            Action<ConcreteType> a = ads => ads.Property1 = 42;
             // Exercise system
             var actual = sut.Do(a);
             // Verify outcome
-            var expected = new NodeComposer<AppDomainSetup>(
+            var expected = new NodeComposer<ConcreteType>(
                 new FilteringSpecimenBuilder(
                     new CompositeSpecimenBuilder(
-                        new Postprocessor<AppDomainSetup>(
+                        new Postprocessor<ConcreteType>(
                             new NoSpecimenOutputGuard(
                                 new MethodInvoker(
                                     new ModestConstructorQuery()),
                                 new InverseRequestSpecification(
                                     new SeedRequestSpecification(
-                                        typeof(AppDomainSetup)))),
-                            new ActionSpecimenCommand<AppDomainSetup>(a)),
+                                        typeof(ConcreteType)))),
+                            new ActionSpecimenCommand<ConcreteType>(a)),
                         new SeedIgnoringRelay()),
                     new OrRequestSpecification(
-                        new SeedRequestSpecification(typeof(AppDomainSetup)),
-                        new ExactTypeSpecification(typeof(AppDomainSetup)))));
+                        new SeedRequestSpecification(typeof(ConcreteType)),
+                        new ExactTypeSpecification(typeof(ConcreteType)))));
 
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));
