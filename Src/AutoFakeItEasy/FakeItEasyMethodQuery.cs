@@ -74,8 +74,46 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
 
             public object Invoke(IEnumerable<object> parameters)
             {
-                return new Fake<T>(
-                    b => b.WithArgumentsForConstructor(parameters));
+                var genericFakeType = typeof (Fake<>).MakeGenericType(typeof (T));
+
+                foreach (var constructor in genericFakeType.GetConstructors())
+                {
+                    var constructorParameterInfos = constructor.GetParameters();
+                    if (constructorParameterInfos.Length != 1)
+                    {
+                        continue;
+                    }
+
+                    var parameterType = constructorParameterInfos[0].ParameterType;
+                    if (!parameterType.IsGenericType ||
+                        parameterType.GetGenericTypeDefinition() != typeof (Action<>))
+                    {
+                        continue;
+                    }
+
+                    // The parameter is an action of type
+                    // Action<IFakeOptionsBuilder<T>> (FakeItEasy 1.x) or
+                    // Action<IFakeOptions<T>> (FakeItEasy 2.0+).
+                    // Each of the options-type interfaces contains a WithArgumentsForConstructor method
+                    // that we'll use to pass arguments to the fake object's constructor.
+                    var fakeOptionsType = parameterType.GetGenericArguments()[0];
+
+                    var withArgumentsForConstructorMethod = fakeOptionsType.GetMethod(
+                        "WithArgumentsForConstructor",
+                        new[] {typeof (object[])});
+
+                    if (withArgumentsForConstructorMethod == null)
+                    {
+                        continue;
+                    }
+
+                    Action<object> addConstructorArgumentsToOptionsAction =
+                        options => withArgumentsForConstructorMethod.Invoke(options, new object[] {parameters});
+
+                    return constructor.Invoke(new object[] {addConstructorArgumentsToOptionsAction});
+                }
+
+                return null;
             }
         }
     }
