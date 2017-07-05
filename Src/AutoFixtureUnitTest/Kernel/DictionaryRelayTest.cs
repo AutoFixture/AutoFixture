@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
 
@@ -69,7 +70,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(typeof(IDictionary<object, object>), typeof(object), typeof(object))]
         [InlineData(typeof(IDictionary<int, string>), typeof(int), typeof(string))]
         [InlineData(typeof(IDictionary<string, int>), typeof(string), typeof(int))]
-        [InlineData(typeof(IDictionary<Version, OperatingSystem>), typeof(Version), typeof(OperatingSystem))]
+        [InlineData(typeof(IDictionary<Version, ConcreteType>), typeof(Version), typeof(ConcreteType))]
         public void CreateWithListRequestReturnsCorrectResult(Type request, Type keyType, Type itemType)
         {
             // Fixture setup

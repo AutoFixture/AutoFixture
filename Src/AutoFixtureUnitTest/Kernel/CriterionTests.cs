@@ -94,9 +94,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(typeof(Version))]
         public void SutDoesNotEqualAnyObject(object other)
         {
-            var sut = new Criterion<PlatformID>(
-                PlatformID.Unix,
-                new DelegatingEqualityComparer<PlatformID>());
+            var sut = new Criterion<ConsoleColor>(
+                ConsoleColor.Cyan,
+                new DelegatingEqualityComparer<ConsoleColor>());
             var actual = sut.Equals(other);
             Assert.False(actual, "SUT should not equal object of other type.");
         }

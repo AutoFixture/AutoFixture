@@ -211,7 +211,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var request = typeof(ConcreteType);
-            var seed = new OperatingSystem(PlatformID.WinCE, new Version());
+            var seed = new TypeWithConcreteParameterMethod();
             var sut = new SeededRequest(request, seed);
             object other = new SeededRequest(request, seed);
             // Exercise system
@@ -226,7 +226,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var request = typeof(ConcreteType);
-            var seed = new OperatingSystem(PlatformID.WinCE, new Version());
+            var seed = new TypeWithConcreteParameterMethod();
             var sut = new SeededRequest(request, seed);
             var other = new SeededRequest(request, seed);
             // Exercise system

@@ -51,7 +51,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(typeof(SortedDictionary<string,int>))]
         [InlineData(typeof(SortedDictionary<int,string>))]
         [InlineData(typeof(SortedDictionary<object,object>))]
-        [InlineData(typeof(SortedDictionary<Version, OperatingSystem>))]
+        [InlineData(typeof(SortedDictionary<Version, ConcreteType>))]
         public void IsSatisfiedBySortedSetRequestReturnsCorrectResult(object request)
         {
             // Fixture setup

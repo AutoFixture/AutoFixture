@@ -2366,15 +2366,15 @@ namespace Ploeh.AutoFixtureUnitTest
         public void DoOnCommandWithFourParametersWillInvokeMethodWithCorrectFourthParameter()
         {
             // Fixture setup
-            var expectedOS = new OperatingSystem(PlatformID.Win32NT, new Version(5, 0));
+            var expectedObj = new ConcreteType();
 
             var sut = new Fixture();
-            sut.Register<OperatingSystem>(() => expectedOS);
+            sut.Register<ConcreteType>(() => expectedObj);
 
-            var mock = new CommandMock<int?, DateTime, TimeSpan, OperatingSystem>();
-            mock.OnCommand = (x1, x2, x3, x4) => Assert.Equal<OperatingSystem>(expectedOS, x4);
+            var mock = new CommandMock<int?, DateTime, TimeSpan, ConcreteType>();
+            mock.OnCommand = (x1, x2, x3, x4) => Assert.Equal<ConcreteType>(expectedObj, x4);
             // Exercise system
-            sut.Do((int? x1, DateTime x2, TimeSpan x3, OperatingSystem x4) => mock.Command(x1, x2, x3, x4));
+            sut.Do((int? x1, DateTime x2, TimeSpan x3, ConcreteType x4) => mock.Command(x1, x2, x3, x4));
             // Verify outcome (done by mock)
             // Teardown
         }
@@ -2680,8 +2680,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             sut.Register<DayOfWeek>(() => expectedDayOfWeek);
 
-            var mock = new QueryMock<int, float, DayOfWeek, string, LoaderOptimization>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<DayOfWeek>(expectedDayOfWeek, x3); return LoaderOptimization.MultiDomain; };
+            var mock = new QueryMock<int, float, DayOfWeek, string, ConsoleColor>();
+            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<DayOfWeek>(expectedDayOfWeek, x3); return ConsoleColor.Black; };
             // Exercise system
             sut.Get((int x1, float x2, DayOfWeek x3, string x4) => mock.Query(x1, x2, x3, x4));
             // Verify outcome (done by mock)
@@ -2697,8 +2697,8 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new Fixture();
             sut.Register<int>(() => expectedNumber);
 
-            var mock = new QueryMock<Version, ushort, string, int, PlatformID>();
-            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<int>(expectedNumber, x4); return PlatformID.WinCE; };
+            var mock = new QueryMock<Version, ushort, string, int, ConsoleColor>();
+            mock.OnQuery = (x1, x2, x3, x4) => { Assert.Equal<int>(expectedNumber, x4); return ConsoleColor.Cyan; };
             // Exercise system
             sut.Get((Version x1, ushort x2, string x3, int x4) => mock.Query(x1, x2, x3, x4));
             // Verify outcome (done by mock)
@@ -3533,11 +3533,11 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             var fixture = new Fixture();
-            var seed = new Version();
+            var seed = new ConcreteType();
             // Exercise system
-            fixture.Customize<Version>(c => c.FromSeed(s => seed));
+            fixture.Customize<ConcreteType>(c => c.FromSeed(s => seed));
             // Verify outcome
-            Assert.Equal(seed, fixture.Create<PropertyHolder<Version>>().Property);
+            Assert.Equal(seed, fixture.Create<PropertyHolder<ConcreteType>>().Property);
         }
 
         [Fact]
@@ -4995,7 +4995,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.ResidueCollectors.Add(new EnumerableRelay());
             sut.ResidueCollectors.Add(new ListRelay());
             // Exercise system
-            var result = sut.Create<Collection<OperatingSystem>>();
+            var result = sut.Create<Collection<ConcreteType>>();
             // Verify outcome
             Assert.True(result.Any());
             // Teardown

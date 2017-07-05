@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
 
@@ -175,7 +176,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new MultipleCustomization());
             // Exercise system
-            var result = fixture.Create<Dictionary<string, OperatingSystem>>();
+            var result = fixture.Create<Dictionary<string, ConcreteType>>();
             // Verify outcome
             Assert.True(result.Any());
             // Teardown
