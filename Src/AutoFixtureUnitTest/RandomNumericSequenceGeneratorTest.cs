@@ -315,6 +315,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = Enumerable
                 .Range(0, repeatCount)
                 .Select(i => sut.Create(typeof(int), dummyContext))
+                .ToArray()
                 .Skip(lowerBounds)
                 .Cast<int>();
             // Verify outcome

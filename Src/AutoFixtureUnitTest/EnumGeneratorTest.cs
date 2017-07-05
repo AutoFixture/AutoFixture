@@ -56,7 +56,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new EnumGenerator();
             // Exercise system
             var dummyContext = new DelegatingSpecimenContext();
-            var result = Enumerable.Repeat<Func<object>>(() => sut.Create(enumType, dummyContext), requestCount).Select(f => f()).Last();
+            var result = Enumerable.Repeat<Func<object>>(() => sut.Create(enumType, dummyContext), requestCount).Select(f => f()).ToArray().Last();
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
@@ -103,7 +103,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new EnumGenerator();
             // Exercise system
             var dummyContext = new DelegatingSpecimenContext();
-            var result = Enumerable.Repeat<Func<object>>(() => sut.Create(enumType, dummyContext), requestCount).Select(f => f()).Last();
+            var result = Enumerable.Repeat<Func<object>>(() => sut.Create(enumType, dummyContext), requestCount).Select(f => f()).ToArray().Last();
             // Verify outcome
             Assert.Equal(expectedResult, result);
             // Teardown
