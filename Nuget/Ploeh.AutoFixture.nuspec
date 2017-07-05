@@ -11,12 +11,23 @@
         <licenseUrl>https://github.com/AutoFixture/AutoFixture/blob/master/LICENCE.txt</licenseUrl>
         <iconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/master/AutoFixtureLogo200x200.png</iconUrl>
         <language>en-US</language>
+
+        <dependencies>
+          <group targetFramework=".NETFramework4.5" />
+          <group targetFramework=".NETStandard1.5">
+            <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
+            <dependency id="System.ComponentModel.Annotations" version="4.3.0" exclude="Build,Analyzers" />
+            <dependency id="System.Threading.Thread" version="4.3.0" exclude="Build,Analyzers" />
+          </group>
+        </dependencies>
     </metadata>
     <files>
-        <file src="Ploeh.AutoFixture.dll" target="lib\net40" />
-        <file src="Ploeh.AutoFixture.pdb" target="lib\net40" />
-        <file src="Ploeh.AutoFixture.XML" target="lib\net40" />
+        <file src="netfull\Ploeh.AutoFixture.dll" target="lib\net45" />
+        <file src="netfull\Ploeh.AutoFixture.pdb" target="lib\net45" />
+        <file src="netfull\Ploeh.AutoFixture.XML" target="lib\net45" />
+        <file src="netstandard\Ploeh.AutoFixture.dll" target="lib\netstandard1.5" />
+        <file src="netstandard\Ploeh.AutoFixture.pdb" target="lib\netstandard1.5" />
+        <file src="netstandard\Ploeh.AutoFixture.XML" target="lib\netstandard1.5" />
         <file src="..\Src\AutoFixture\**\*.cs" target="src" />
-        <file src="Install.ps1" target="tools" />
     </files>
 </package>

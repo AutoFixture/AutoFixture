@@ -200,9 +200,6 @@ Target "Test"  DoNothing
 
 Target "CopyToReleaseFolder" (fun _ ->
     let buildOutput = [
-      "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.dll";
-      "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.pdb";
-      "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.XML";
       "Src/SemanticComparison/bin/Release/net40/Ploeh.SemanticComparison.dll";
       "Src/SemanticComparison/bin/Release/net40/Ploeh.SemanticComparison.pdb";
       "Src/SemanticComparison/bin/Release/net40/Ploeh.SemanticComparison.XML";
@@ -249,6 +246,22 @@ Target "CopyToReleaseFolder" (fun _ ->
 
     releaseFiles
     |> CopyFiles releaseFolder
+
+    let releaseFilesPerFramework = [
+        ( "netfull", [
+            "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.dll"
+            "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.pdb"
+            "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.XML" 
+        ])
+        ( "netstandard", [
+            "Src/AutoFixture/bin/Release/netstandard1.5/Ploeh.AutoFixture.dll"
+            "Src/AutoFixture/bin/Release/netstandard1.5/Ploeh.AutoFixture.pdb"
+            "Src/AutoFixture/bin/Release/netstandard1.5/Ploeh.AutoFixture.XML" 
+        ])
+    ]
+    
+    releaseFilesPerFramework
+    |> Seq.iter (fun (framework, files) -> CopyFiles (releaseFolder @@ framework) files)
 )
 
 Target "CleanNuGetPackages" (fun _ ->
