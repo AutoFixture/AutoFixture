@@ -22,6 +22,10 @@ namespace Ploeh.AutoFixtureUnitTest
 
         private class NullWriter : TextWriter
         {
+            public override void Write(char value)
+            {
+            }
+
             public override Encoding Encoding
             {
                 get { return Encoding.Unicode; }

@@ -30,17 +30,26 @@ namespace Ploeh.AutoFixtureUnitTest
 
         public override void Before(MethodInfo methodUnderTest)
         {
-            originalCulture = Thread.CurrentThread.CurrentCulture;
-            originalUiCulture = Thread.CurrentThread.CurrentUICulture;
+            originalCulture = CultureInfo.CurrentCulture;
+            originalUiCulture = CultureInfo.CurrentCulture;
 
-            Thread.CurrentThread.CurrentCulture = this.culture;
-            Thread.CurrentThread.CurrentUICulture = this.uiCulture;
+            SetCurrentCulture(culture, uiCulture);
         }
 
         public override void After(MethodInfo methodUnderTest)
         {
-            Thread.CurrentThread.CurrentCulture = originalCulture;
-            Thread.CurrentThread.CurrentUICulture = originalUiCulture;
+            SetCurrentCulture(originalCulture, originalUiCulture);
+        }
+
+        private static void SetCurrentCulture(CultureInfo culture, CultureInfo uiCulture)
+        {
+#if NETFULL
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = uiCulture;
+#else
+            CultureInfo.CurrentCulture = culture;
+            CultureInfo.CurrentUICulture = uiCulture;
+#endif
         }
     }
 }

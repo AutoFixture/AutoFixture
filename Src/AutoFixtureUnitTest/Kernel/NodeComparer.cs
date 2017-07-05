@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Ploeh.AutoFixture.Dsl;
 using Ploeh.AutoFixture.Kernel;
@@ -175,7 +176,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             public static object CreateFromTemplate(object obj)
             {
                 var t = obj.GetType();
-                if (!t.IsGenericType)
+                if (!t.GetTypeInfo().IsGenericType)
                     return new object();
 
                 if (equatables.TryGetValue(t.GetGenericTypeDefinition(), out Type equatableType))

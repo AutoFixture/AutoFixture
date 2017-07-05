@@ -14,17 +14,17 @@
   </PropertyGroup>
 
   <Choose>
-    <When Condition="$(TargetFramework.StartsWith('netstandard'))">
+    <When Condition="$(TargetFramework.StartsWith('netstandard')) Or $(TargetFramework.StartsWith('netcoreapp'))">
       <PropertyGroup>
         <IsFullFramework>false</IsFullFramework>
-        <IsNetStandard>true</IsNetStandard>
-        <DefineConstants>$(DefineConstants);NETSTANDARD</DefineConstants>
+        <IsNetCore>true</IsNetCore>
+        <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
       </PropertyGroup>
     </When>
     <Otherwise>
       <PropertyGroup>
         <IsFullFramework>true</IsFullFramework>
-        <IsNetStandard>false</IsNetStandard>
+        <IsNetCore>false</IsNetCore>
         <DefineConstants>$(DefineConstants);NETFULL;SYSTEM_NET_MAIL;SYSTEM_RUNTIME_SERIALIZATION</DefineConstants>
       </PropertyGroup>
     </Otherwise>

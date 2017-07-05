@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
 using Xunit.Extensions;
@@ -73,7 +74,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedRequest = typeof(Dictionary<,>).MakeGenericType(keyType, itemType);
-            object contextResult = typeof(Dictionary<,>).MakeGenericType(keyType, itemType).GetConstructor(Type.EmptyTypes).Invoke(new object[0]);
+            object contextResult = typeof(Dictionary<,>).MakeGenericType(keyType, itemType).GetTypeInfo().GetConstructor(Type.EmptyTypes).Invoke(new object[0]);
             var context = new DelegatingSpecimenContext { OnResolve = r => expectedRequest.Equals(r) ? contextResult : new NoSpecimen() };
 
             var sut = new DictionaryRelay();

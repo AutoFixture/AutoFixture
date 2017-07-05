@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Reflection;
 using Ploeh.AutoFixture;
 using Xunit;
 using Xunit.Extensions;
@@ -16,7 +17,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             // Exercise system
-            var references = typeof(Fixture).Assembly.GetReferencedAssemblies();
+            var references = typeof(Fixture).GetTypeInfo().Assembly.GetReferencedAssemblies();
             // Verify outcome
             Assert.False(references.Any(an => an.Name == assemblyName));
             // Teardown
@@ -29,7 +30,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             // Exercise system
-            var references = this.GetType().Assembly.GetReferencedAssemblies();
+            var references = this.GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
             // Verify outcome
             Assert.False(references.Any(an => an.Name == assemblyName));
             // Teardown

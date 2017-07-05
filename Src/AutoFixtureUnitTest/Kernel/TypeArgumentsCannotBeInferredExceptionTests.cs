@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void MessageWillBeDefineWhenInitializedWithMethodInfo()
         {
             Action dummy = delegate { };
-            var sut = new TypeArgumentsCannotBeInferredException(dummy.Method);
+            var sut = new TypeArgumentsCannotBeInferredException(dummy.GetMethodInfo());
 
             var result = sut.Message;
 

@@ -135,7 +135,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new MemberInfoEqualityComparer();
             var pi = typeof(ConcreteType).GetProperty("Property4");
-            var t = typeof(object);
+            var t = typeof(object).GetTypeInfo();
             // Exercise system
             var actual = sut.Equals(pi, t);
             // Verify outcome

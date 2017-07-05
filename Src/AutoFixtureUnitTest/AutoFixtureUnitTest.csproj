@@ -3,7 +3,7 @@
   <Import Project="..\CommonTestProperties.props" />
 
   <PropertyGroup>
-    <TargetFramework>net452</TargetFramework>
+    <TargetFrameworks>net452</TargetFrameworks>
     <AssemblyTitle>AutoFixtureUnitTest</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixtureUnitTest</AssemblyName>
     <RootNamespace>Ploeh.AutoFixtureUnitTest</RootNamespace>
@@ -34,7 +34,12 @@
     <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition=" '$(IsFullFramework)'=='true' ">
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
+
+  <ItemGroup Condition=" '$(IsNetCore)'=='true' ">
+    <PackageReference Include="System.Linq.Parallel" Version="4.3.0" />
+  </ItemGroup>
 </Project>
+

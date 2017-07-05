@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net.Mail;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -1826,18 +1825,6 @@ namespace Ploeh.AutoFixtureUnitTest
                 out result);
             // Verify outcome
             Assert.True(succeed && result != null);
-            // Teardown
-        }
-
-        [Fact]
-        public void CreateAnonymousWithMailAddressReturnsValidResult()
-        {
-            // Fixture setup
-            var fixture = new Fixture();
-            // Exercise system
-            var mailAddress = fixture.Create<MailAddress>();
-            // Verify outcome
-            Assert.True(mailAddress != null);
             // Teardown
         }
 
@@ -6010,5 +5997,19 @@ namespace Ploeh.AutoFixtureUnitTest
             var actual = fixture.Create<Expression<Func<object>>>();
             Assert.NotNull(actual.Compile()());
         }
+
+#if SYSTEM_NET_MAIL
+        [Fact]
+        public void CreateAnonymousWithMailAddressReturnsValidResult()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            // Exercise system
+            var mailAddress = fixture.Create<System.Net.Mail.MailAddress>();
+            // Verify outcome
+            Assert.True(mailAddress != null);
+            // Teardown
+        }
+#endif
     }
 }

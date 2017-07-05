@@ -232,7 +232,11 @@ namespace Ploeh.AutoFixtureUnitTest
             };
             var sut = new RangedNumberGenerator();
             // Exercise system and verify outcome
-            Array.ForEach(request, r => AssertEx.DoesNotThrow(() => sut.Create(r, context)));
+            foreach (var r in request)
+            {
+                AssertEx.DoesNotThrow(() => sut.Create(r, context));
+            }
+            
             // Teardown
         }
 

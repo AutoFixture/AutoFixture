@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
@@ -64,7 +65,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void CreateFromParameterRequestWillReturnNullWhenContainerCannotSatisfyRequest()
         {
             // Fixture setup
-            var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
+            var parameterInfo = typeof(SingleParameterType<string>).GetTypeInfo().GetConstructors().First().GetParameters().First();
             var container = new DelegatingSpecimenContext { OnResolve = r => new NoSpecimen() };
             var sut = new ParameterRequestRelay();
             // Exercise system
@@ -80,7 +81,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var expectedSpecimen = new object();
-            var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
+            var parameterInfo = typeof(SingleParameterType<string>).GetTypeInfo().GetConstructors().First().GetParameters().First();
             var container = new DelegatingSpecimenContext { OnResolve = r => expectedSpecimen };
             var sut = new ParameterRequestRelay();
             // Exercise system
@@ -95,7 +96,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var sut = new ParameterRequestRelay();
-            var parameterInfo = typeof(SingleParameterType<string>).GetConstructors().First().GetParameters().First();
+            var parameterInfo = typeof(SingleParameterType<string>).GetTypeInfo().GetConstructors().First().GetParameters().First();
             var expectedRequest = new SeededRequest(parameterInfo.ParameterType, parameterInfo.Name);
 
             var mockVerified = false;

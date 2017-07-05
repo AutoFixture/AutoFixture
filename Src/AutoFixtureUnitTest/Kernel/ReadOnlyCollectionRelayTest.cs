@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
 using Xunit.Extensions;

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if SYSTEM_NET_MAIL
+
+using System;
 using System.Net.Mail;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
@@ -170,3 +172,5 @@ namespace Ploeh.AutoFixtureUnitTest
         }
     }
 }
+
+#endif
