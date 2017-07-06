@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
             // Exercise system
             var result = sut.CreateaAnonymous(seed);
             // Verify outcome
-            Assert.True(result.StartsWith(seed));
+            Assert.StartsWith(seed, result);
             // Teardown
         }
 

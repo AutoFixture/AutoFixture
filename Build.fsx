@@ -177,6 +177,7 @@ Target "TestOnly" (fun _ ->
 
     let netCoreXunitProjects = [
         "AutoFixtureUnitTest"
+        "AutoFixtureDocumentationTest"
     ]
 
     let testAssemblies = !! (sprintf "Src/*Test/bin/%s/**/*Test.dll" configuration)
