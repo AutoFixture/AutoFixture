@@ -7,10 +7,10 @@
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
 
     <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
-    <CodeAnalysisRuleSet>$(SolutionDir)AutoFixture.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\AutoFixture.ruleset</CodeAnalysisRuleSet>
 
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(SolutionDir)AutoFixture.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)\AutoFixture.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <Choose>
