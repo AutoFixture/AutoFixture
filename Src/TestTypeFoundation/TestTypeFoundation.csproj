@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\CommonProperties.props" />
+  <Import Project="..\CommonTestProperties.props" />
 
   <PropertyGroup>
     <TargetFrameworks>net40;netstandard1.2</TargetFrameworks>
     <AssemblyTitle>TestTypeFoundation</AssemblyTitle>
     <AssemblyName>Ploeh.TestTypeFoundation</AssemblyName>
     <RootNamespace>Ploeh.TestTypeFoundation</RootNamespace>
-
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
  
 </Project>
