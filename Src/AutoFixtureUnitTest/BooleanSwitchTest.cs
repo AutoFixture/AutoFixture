@@ -175,7 +175,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyContainer = new DelegatingSpecimenContext();
             var result = sut.Create(booleanRequest, dummyContainer);
             // Verify outcome
-            Assert.Equal(true, result);
+            Assert.True((bool)result);
             // Teardown
         }
 
@@ -190,7 +190,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Create(booleanRequest, dummyContainer);
             var result = sut.Create(booleanRequest, dummyContainer);
             // Verify outcome
-            Assert.Equal(false, result);
+            Assert.False((bool)result);
             // Teardown
         }
 
@@ -206,7 +206,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Create(booleanRequest, dummyContainer);
             var result = sut.Create(booleanRequest, dummyContainer);
             // Verify outcome
-            Assert.Equal(true, result);
+            Assert.True((bool)result);
             // Teardown
         }
 
@@ -223,7 +223,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Create(booleanRequest, dummyContainer);
             var result = sut.Create(booleanRequest, dummyContainer);
             // Verify outcome
-            Assert.Equal(false, result);
+            Assert.False((bool)result);
             // Teardown
         }
     }

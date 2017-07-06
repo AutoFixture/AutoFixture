@@ -419,7 +419,7 @@ namespace Ploeh.AutoFixtureUnitTest
             string result = sut.Create(expectedText);
             // Verify outcome
             string actualText = new TextGuidRegex().GetText(result);
-            Assert.Equal<string>(expectedText, actualText);
+            Assert.Equal(expectedText, actualText);
             // Teardown
         }
 
@@ -461,7 +461,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             string propertyValue = result.Property;
             string text = new TextGuidRegex().GetText(propertyValue);
-            Assert.Equal<string>(expectedName, text);
+            Assert.Equal(expectedName, text);
             // Teardown
         }
 
@@ -1783,7 +1783,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             var result = fixture.Create<RegularExpressionValidatedType>();
             // Verify outcome
-            Assert.True(Regex.IsMatch(result.Property, RegularExpressionValidatedType.Pattern));
+            Assert.Matches(result.Property, RegularExpressionValidatedType.Pattern);
             // Teardown
         }
 
@@ -1906,7 +1906,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize<string>(c => c.FromSeed(s => expectedText));
             // Verify outcome
             string result = sut.Create<string>();
-            Assert.Equal<string>(expectedText, result);
+            Assert.Equal(expectedText, result);
             // Teardown
         }
 
@@ -2071,7 +2071,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Customize<PropertyHolder<string>>(f => f.With(ph => ph.Property, expectedValue));
             PropertyHolder<string> result = sut.Create<PropertyHolder<string>>();
             // Verify outcome
-            Assert.Equal<string>(expectedValue, result.Property);
+            Assert.Equal(expectedValue, result.Property);
             // Teardown
         }
 
@@ -2277,7 +2277,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<string>(() => expectedText);
 
             var mock = new CommandMock<double, uint, string>();
-            mock.OnCommand = (x1, x2, x3) => Assert.Equal<string>(expectedText, x3);
+            mock.OnCommand = (x1, x2, x3) => Assert.Equal(expectedText, x3);
             // Exercise system
             sut.Do((double x1, uint x2, string x3) => mock.Command(x1, x2, x3));
             // Verify outcome (done by mock)
@@ -2587,7 +2587,7 @@ namespace Ploeh.AutoFixtureUnitTest
             sut.Register<string>(() => expectedText);
 
             var mock = new QueryMock<long, short, string, decimal?>();
-            mock.OnQuery = (x1, x2, x3) => { Assert.Equal<string>(expectedText, x3); return 111.11m; };
+            mock.OnQuery = (x1, x2, x3) => { Assert.Equal(expectedText, x3); return 111.11m; };
             // Exercise system
             sut.Get((long x1, short x2, string x3) => mock.Query(x1, x2, x3));
             // Verify outcome (done by mock)
@@ -2734,7 +2734,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2750,7 +2750,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .Create();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2767,7 +2767,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph, object dummy) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2783,7 +2783,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph, object dummy) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .Create();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2800,7 +2800,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2816,7 +2816,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .Create();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2833,7 +2833,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2, object dummy3) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .CreateAnonymous();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2849,7 +2849,7 @@ namespace Ploeh.AutoFixtureUnitTest
                 .FromFactory((PropertyHolder<string> ph, object dummy1, object dummy2, object dummy3) => new SingleParameterType<PropertyHolder<string>>(ph))
                 .Create();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter.Property);
+            Assert.Equal(expectedText, result.Parameter.Property);
             // Teardown
         }
 
@@ -2863,7 +2863,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create<SingleParameterType<string>>();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Parameter);
+            Assert.Equal(expectedText, result.Parameter);
             // Teardown
         }
 
@@ -3017,7 +3017,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Create("Something else");
             // Verify outcome
-            Assert.Equal<string>(expectedResult, result);
+            Assert.Equal(expectedResult, result);
             // Teardown
         }
 
@@ -3658,7 +3658,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<string> result = sut.Build<PropertyHolder<string>>().With(ph => ph.Property, expectedText).CreateAnonymous();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Property);
+            Assert.Equal(expectedText, result.Property);
             // Teardown
         }
 
@@ -3671,7 +3671,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             PropertyHolder<string> result = sut.Build<PropertyHolder<string>>().With(ph => ph.Property, expectedText).Create();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Property);
+            Assert.Equal(expectedText, result.Property);
             // Teardown
         }
 
@@ -3685,7 +3685,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             FieldHolder<string> result = fixture.Build<FieldHolder<string>>().With(fh => fh.Field, expectedText).CreateAnonymous();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Field);
+            Assert.Equal(expectedText, result.Field);
             // Teardown
         }
 
@@ -3698,7 +3698,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             FieldHolder<string> result = fixture.Build<FieldHolder<string>>().With(fh => fh.Field, expectedText).Create();
             // Verify outcome
-            Assert.Equal<string>(expectedText, result.Field);
+            Assert.Equal(expectedText, result.Field);
             // Teardown
         }
 
@@ -5273,7 +5273,6 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = fixture.Create<MutableValueType>();
             // Verify outcome
-            Assert.NotNull(result);
             Assert.NotNull(result.Property1);
             Assert.NotNull(result.Property2);
             Assert.NotNull(result.Property3);
@@ -5314,7 +5313,6 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system and verify outcome
             var result = fixture.Create<MutableValueTypeWithoutConstructor>();
             // Verify outcome
-            Assert.NotNull(result);
             Assert.NotNull(result.Property1);
             Assert.NotNull(result.Property2);
             // Teardown

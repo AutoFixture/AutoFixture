@@ -93,7 +93,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new ConstrainedStringGenerator();
             // Exercise system and verify outcome
             var result = (string)sut.Create(request, context);
-            Assert.True(expectedValue.ToString().Contains(result));
+            Assert.Contains(result, expectedValue.ToString());
             // Teardown
         }
 

@@ -128,7 +128,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 .Select(m => m.Invoke(new[] { new Func<string>(() => string.Empty) }));
 
             var result = Assert.Single(results);
-            Assert.Equal(true, result);
+            Assert.True((bool)result);
         }
 
         [Theory]

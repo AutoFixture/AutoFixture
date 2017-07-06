@@ -55,6 +55,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+#pragma warning disable xUnit1010 // Value is not convertiable to the MemberInfo - it's wrong and test doesn't fail during execution.
         [Theory]
         [InlineData(null, null, true)]
         [InlineData(null, typeof(object), false)]
@@ -62,6 +63,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [InlineData(typeof(object), typeof(object), true)]
         [InlineData(typeof(string), typeof(object), false)]
         [InlineData(typeof(string), typeof(string), true)]
+#pragma warning restore xUnit1010 // Value is not convertiable to the MemberInfo
         public void StronglyTypedEqualsReturnsCorrectResult(MemberInfo x, MemberInfo y, bool expectedResult)
         {
             // Fixture setup
