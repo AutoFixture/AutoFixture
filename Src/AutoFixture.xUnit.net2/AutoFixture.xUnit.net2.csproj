@@ -7,6 +7,11 @@
     <AssemblyName>Ploeh.AutoFixture.Xunit2</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.Xunit2</RootNamespace>
     <Copyright>Copyright © Ploeh 2011</Copyright>
+
+    <!-- NuGet options -->
+    <PackageId>AutoFixture.Xunit2</PackageId>
+    <Title>AutoFixture with xUnit.net v2 data theories</Title>
+    <Description>By leveraging the data theory feature of xUnit.net, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="xunit.extensibility.core" Version="2.0.0" />
+    <PackageReference Include="xunit.core" Version="[2.0.0,3.0.0)" />
   </ItemGroup>
 
   <ItemGroup>
