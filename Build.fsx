@@ -219,9 +219,6 @@ Target "Test"  DoNothing
 
 Target "CopyToReleaseFolder" (fun _ ->
     let buildOutput = [
-      "Src/SemanticComparison/bin/Release/net40/Ploeh.SemanticComparison.dll";
-      "Src/SemanticComparison/bin/Release/net40/Ploeh.SemanticComparison.pdb";
-      "Src/SemanticComparison/bin/Release/net40/Ploeh.SemanticComparison.XML";
       "Src/AutoMoq/bin/Release/net45/Ploeh.AutoFixture.AutoMoq.dll";
       "Src/AutoMoq/bin/Release/net45/Ploeh.AutoFixture.AutoMoq.pdb";
       "Src/AutoMoq/bin/Release/net45/Ploeh.AutoFixture.AutoMoq.XML";
