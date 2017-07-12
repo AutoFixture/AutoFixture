@@ -23,6 +23,5 @@
         <file src="Ploeh.AutoFixture.Idioms.FsCheck.pdb" target="lib\net45" />
         <file src="Ploeh.AutoFixture.Idioms.FsCheck.XML" target="lib\net45" />
         <file src="..\Src\Idioms.FsCheck\**\*.fs" target="src" />
-        <file src="Install.ps1" target="tools" />
     </files>
 </package>
