@@ -7,6 +7,12 @@
     <AssemblyName>Ploeh.AutoFixture.AutoNSubstitute</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.AutoNSubstitute</RootNamespace>
     <Copyright>Copyright © Ploeh 2011</Copyright>
+
+    <!-- NuGet options -->
+    <PackageId>AutoFixture.AutoNSubstitute</PackageId>
+    <Title>AutoFixture with Auto Mocking using NSubstitute</Title>
+    <Description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by NSubstitute. To use it, add the AutoNSubstituteCustomization to your Fixture instance.</Description>
+    <Authors>Daniel Hilgarth,AutoFixture</Authors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NSubstitute" Version="1.5.0.0" />
+    <PackageReference Include="NSubstitute" Version="1.5.0" />
   </ItemGroup>
 
   <ItemGroup>
