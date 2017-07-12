@@ -9,6 +9,7 @@ open System.Diagnostics;
 open System.Text.RegularExpressions
 
 let releaseFolder = "Release"
+let nuGetRestoreFolder = "Packages"
 let nuGetOutputFolder = "NuGetPackages"
 let nuGetPackages = !! (nuGetOutputFolder @@ "*.nupkg" )
                     // Skip symbol packages because NuGet publish symbols automatically when package is published
@@ -164,7 +165,7 @@ Target "CleanReleaseFolder" (fun _ -> CleanDir releaseFolder)
 
 Target "RestoreNuGetPackages" (fun _ ->
     solutionsToBuild
-    |> Seq.iter (RestoreMSSolutionPackages (fun p -> { p with OutputPath = "Packages" }))
+    |> Seq.iter (RestoreMSSolutionPackages (fun p -> { p with OutputPath = nuGetRestoreFolder }))
 )
 
 Target "Verify" (fun _ -> rebuild "Verify")
@@ -269,7 +270,11 @@ Target "CleanNuGetPackages" (fun _ ->
 )
 
 Target "NuGetPack" (fun _ ->
-    // Pack using MSBuild and later build leftovers using legacy pack
+    // We have an issue that each ProjectReference is set to 1.0.0 in the produced NuGet package.
+    // We apply a workaround for the issue: https://github.com/NuGet/Home/issues/4337.
+    build "Restore" "Release" [ "RestorePackagesPath", FullName nuGetRestoreFolder ]
+
+    // Pack most projects using MSBuild and later perform a NuGet pack for leftovers.
     build "Pack" "Release" [ "IncludeSource", "true"
                              "IncludeSymbols", "true"
                              "PackageOutputPath", FullName nuGetOutputFolder
