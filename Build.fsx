@@ -220,9 +220,6 @@ Target "Test"  DoNothing
 
 Target "CopyToReleaseFolder" (fun _ ->
     let buildOutput = [
-      "Src/AutoRhinoMock/bin/Release/net45/Ploeh.AutoFixture.AutoRhinoMock.dll";
-      "Src/AutoRhinoMock/bin/Release/net45/Ploeh.AutoFixture.AutoRhinoMock.pdb";
-      "Src/AutoRhinoMock/bin/Release/net45/Ploeh.AutoFixture.AutoRhinoMock.XML";
       "Src/AutoFoq/bin/Release/Ploeh.AutoFixture.AutoFoq.dll";
       "Src/AutoFoq/bin/Release/Ploeh.AutoFixture.AutoFoq.pdb";
       "Src/AutoFoq/bin/Release/Ploeh.AutoFixture.AutoFoq.XML";
