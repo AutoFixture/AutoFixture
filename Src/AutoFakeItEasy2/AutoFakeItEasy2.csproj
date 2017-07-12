@@ -6,6 +6,12 @@
     <AssemblyTitle>AutoFakeItEasy</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.AutoFakeItEasy2</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.AutoFakeItEasy2</RootNamespace>
+
+    <!-- NuGet options -->
+    <PackageId>AutoFixture.AutoFakeItEasy2</PackageId>
+    <Title>AutoFixture with Auto Mocking using FakeItEasy 2.x</Title>
+    <Description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by FakeItEasy 2.x. To use it, add the AutoFakeItEasyCustomization to your Fixture instance.</Description>
+    <Authors>Christopher Loggins,AutoFixture</Authors>
   </PropertyGroup>
 
   <ItemGroup>

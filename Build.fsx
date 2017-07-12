@@ -226,9 +226,6 @@ Target "CopyToReleaseFolder" (fun _ ->
       "Src/AutoRhinoMock/bin/Release/net45/Ploeh.AutoFixture.AutoRhinoMock.dll";
       "Src/AutoRhinoMock/bin/Release/net45/Ploeh.AutoFixture.AutoRhinoMock.pdb";
       "Src/AutoRhinoMock/bin/Release/net45/Ploeh.AutoFixture.AutoRhinoMock.XML";
-      "Src/AutoFakeItEasy2/bin/Release/net45/Ploeh.AutoFixture.AutoFakeItEasy2.dll";
-      "Src/AutoFakeItEasy2/bin/Release/net45/Ploeh.AutoFixture.AutoFakeItEasy2.pdb";
-      "Src/AutoFakeItEasy2/bin/Release/net45/Ploeh.AutoFixture.AutoFakeItEasy2.XML";
       "Src/AutoNSubstitute/bin/Release/net45/Ploeh.AutoFixture.AutoNSubstitute.dll";
       "Src/AutoNSubstitute/bin/Release/net45/Ploeh.AutoFixture.AutoNSubstitute.pdb";
       "Src/AutoNSubstitute/bin/Release/net45/Ploeh.AutoFixture.AutoNSubstitute.XML";
