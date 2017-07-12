@@ -141,19 +141,21 @@ Target "RestorePatchedAssemblyVersionFiles" (fun _ ->
     )
 )
 
-let build target configuration =
+let build target configuration additionalProperties =
     let properties = [ "Configuration", configuration
                        "AssemblyOriginatorKeyFile", signKeyPath
                        "AssemblyVersion", buildVersion.assemblyVersion
                        "FileVersion", buildVersion.fileVersion
-                       "InformationalVersion", buildVersion.infoVersion ]
+                       "InformationalVersion", buildVersion.infoVersion 
+                       "PackageVersion", buildVersion.nugetVersion ]
+                     @ additionalProperties
 
     solutionsToBuild
     |> MSBuild "" target properties
     |> ignore
 
-let clean   = build "Clean"
-let rebuild = build "Rebuild"
+let clean configuration   = build "Clean" configuration []
+let rebuild configuration = build "Rebuild" configuration []
 
 Target "CleanAll"           DoNothing 
 Target "CleanVerify"        (fun _ -> clean "Verify")
@@ -286,6 +288,12 @@ Target "CleanNuGetPackages" (fun _ ->
 )
 
 Target "NuGetPack" (fun _ ->
+    // Pack using MSBuild and later build leftovers using legacy pack
+    build "Pack" "Release" [ "IncludeSource", "true"
+                             "IncludeSymbols", "true"
+                             "PackageOutputPath", FullName nuGetOutputFolder
+                             "NoBuild", "true" ]
+
     let version = buildVersion.nugetVersion
     let nuSpecFiles = !! "NuGet/*.nuspec"
 
