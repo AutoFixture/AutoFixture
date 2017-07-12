@@ -7,6 +7,12 @@
     <AssemblyName>Ploeh.AutoFixture.NUnit3</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.NUnit3</RootNamespace>
     <Copyright>Copyright © Ploeh 2016</Copyright>
+
+    <!-- NuGet options -->
+    <PackageId>AutoFixture.NUnit3</PackageId>
+    <Title>AutoFixture with NUnit3</Title>
+    <Description>By leveraging some features of NUnit3, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</Description>
+    <Authors>Hackle Wayne,AutoFixture</Authors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +20,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.0.0" />
+    <PackageReference Include="NUnit" Version="3.0.1" />
   </ItemGroup>
 
   <ItemGroup>
