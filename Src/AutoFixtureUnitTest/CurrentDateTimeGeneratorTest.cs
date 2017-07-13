@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new CurrentDateTimeGenerator();
             // Exercise system and verify outcome
             var dummyRequest = new object();
-            AssertEx.DoesNotThrow(() => sut.Create(dummyRequest, null));
+            Assert.Null(Record.Exception(() => sut.Create(dummyRequest, null)));
             // Teardown
         }
 

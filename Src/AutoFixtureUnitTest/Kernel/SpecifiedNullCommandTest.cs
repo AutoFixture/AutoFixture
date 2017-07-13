@@ -79,7 +79,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new SpecifiedNullCommand<PropertyHolder<object>, object>(ph => ph.Property);
             // Exercise system and verify outcome
-            AssertEx.DoesNotThrow(() => sut.Execute(null, null));
+            Assert.Null(Record.Exception(() => sut.Execute(null, null)));
             // Teardown
         }
 

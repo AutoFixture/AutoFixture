@@ -256,8 +256,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new TerminatingWithPathSpecimenBuilder(builder);
             var container = new SpecimenContext(sut);
             // Exercise system and verify outcome
-            AssertEx.DoesNotThrow(() => sut.Create(requests[0], container));
-            AssertEx.DoesNotThrow(() => sut.Create(requests[1], container));
+            Assert.Null(Record.Exception(() => sut.Create(requests[0], container)));
+            Assert.Null(Record.Exception(() => sut.Create(requests[1], container)));
             Assert.Throws<ObjectCreationException>(() => sut.Create(requests[2], container));
             // Teardown
         }

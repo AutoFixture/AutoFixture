@@ -112,8 +112,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system and verify outcome
-            AssertEx.DoesNotThrow(() =>
-                new RangedNumberRequest(type, minimum, maximum));
+            Assert.Null(Record.Exception(() =>
+                new RangedNumberRequest(type, minimum, maximum)));
             // Teardown
         }
 

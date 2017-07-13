@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyRequest = new object();
             
             // Verify outcome (no exception indicates success)
-            AssertEx.DoesNotThrow(() => sut.Create(dummyRequest, null));
+            Assert.Null(Record.Exception(() => sut.Create(dummyRequest, null)));
             // Teardown
         }
 
