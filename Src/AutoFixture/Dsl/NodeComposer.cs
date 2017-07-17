@@ -382,14 +382,10 @@ namespace Ploeh.AutoFixture.Dsl
         public IPostprocessComposer<T> Without<TProperty>(
             Expression<Func<T, TProperty>> propertyPicker)
         {
-            var m = propertyPicker.GetWritableMember().Member;
-            if (m.DeclaringType != typeof(T))
-            {
-                m = typeof(T).GetTypeInfo().GetProperty(m.Name) ?? (MemberInfo) typeof(T).GetTypeInfo().GetField(m.Name);
-            }
-
+            var member = propertyPicker.GetWritableMember().Member;
             var graphWithAutoPropertiesNode = GetGraphWithAutoPropertiesNode();
-            return (NodeComposer<T>) ExcludeMemberFromAutoProperties(m, graphWithAutoPropertiesNode);
+
+            return (NodeComposer<T>) ExcludeMemberFromAutoProperties(member, graphWithAutoPropertiesNode);
         }
 
         /// <summary>
