@@ -86,6 +86,11 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     ox.Specifications.SequenceEqual(oy.Specifications, this))
                     return true;
 
+                if (x is AndRequestSpecification ax &&
+                    y is AndRequestSpecification ay &&
+                    ax.Specifications.SequenceEqual(ay.Specifications, this))
+                    return true;
+
                 if (x is SeedRequestSpecification sx &&
                     y is SeedRequestSpecification sy &&
                     sx.TargetType == sy.TargetType)
@@ -97,6 +102,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     return true;
                 
                 if (x is TrueRequestSpecification && y is TrueRequestSpecification)
+                    return true;
+
+                if (x is FalseRequestSpecification && y is FalseRequestSpecification)
                     return true;
 
                 if (x is EqualRequestSpecification eqx &&
