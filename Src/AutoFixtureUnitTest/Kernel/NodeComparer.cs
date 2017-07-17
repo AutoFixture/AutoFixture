@@ -21,48 +21,36 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
         public bool Equals(ISpecimenBuilder x, ISpecimenBuilder y)
         {
-            var fx = x as FilteringSpecimenBuilder;
-            var fy = y as FilteringSpecimenBuilder;
-            if (fx != null &&
-                fy != null &&
+            if (x is FilteringSpecimenBuilder fx &&
+                y is FilteringSpecimenBuilder fy &&
                 this.specificationComparer.Equals(fx.Specification, fy.Specification))
                 return true;
 
             if (x is CompositeSpecimenBuilder && y is CompositeSpecimenBuilder)
                 return true;
 
-            var gx = x as NoSpecimenOutputGuard;
-            var gy = y as NoSpecimenOutputGuard;
-            if (gx != null &&
-                gy != null &&
+            if (x is NoSpecimenOutputGuard gx &&
+                y is NoSpecimenOutputGuard gy &&
                 this.specificationComparer.Equals(gx.Specification, gy.Specification))
                 return true;
 
-            var sirx = x as SeedIgnoringRelay;
-            var siry = y as SeedIgnoringRelay;
-            if (sirx != null && siry != null)
+            if (x is SeedIgnoringRelay && y is SeedIgnoringRelay)
             {
                 return true;
             }
 
-            var mix = x as MethodInvoker;
-            var miy = y as MethodInvoker;
-            if (mix != null &&
-                miy != null &&
+            if (x is MethodInvoker mix &&
+                y is MethodInvoker miy &&
                 this.queryComparer.Equals(mix.Query, miy.Query))
                 return true;
 
-            var omx = x as Omitter;
-            var omy = y as Omitter;
-            if (omx != null &&
-                omy != null &&
+            if (x is Omitter omx &&
+                y is Omitter omy &&
                 this.specificationComparer.Equals(omx.Specification, omy.Specification))
                 return true;
 
-            var dx = x as DelegatingSpecimenBuilder;
-            var dy = y as DelegatingSpecimenBuilder;
-            if (dx != null &&
-                dy != null &&
+            if (x is DelegatingSpecimenBuilder dx &&
+                y is DelegatingSpecimenBuilder dy &&
                 object.Equals(dx.OnCreate, dy.OnCreate))
                 return true;
 
@@ -88,45 +76,31 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             public bool Equals(IRequestSpecification x, IRequestSpecification y)
             {
-                var invx = x as InverseRequestSpecification;
-                var invy = y as InverseRequestSpecification;
-                if (invx != null &&
-                    invy != null &&
+                if (x is InverseRequestSpecification invx &&
+                    y is InverseRequestSpecification invy &&
                     this.Equals(invx.Specification, invy.Specification))
                     return true;
 
-                var ox = x as OrRequestSpecification;
-                var oy = y as OrRequestSpecification;
-                if (ox != null &&
-                    oy != null &&
+                if (x is OrRequestSpecification ox &&
+                    y is OrRequestSpecification oy &&
                     ox.Specifications.SequenceEqual(oy.Specifications, this))
                     return true;
 
-                var sx = x as SeedRequestSpecification;
-                var sy = y as SeedRequestSpecification;
-                if (sx != null && sy != null)
-                {
-                    if (sx.TargetType == sy.TargetType)
-                        return true;
-                }
-
-                var ex = x as ExactTypeSpecification;
-                var ey = y as ExactTypeSpecification;
-                if (ex != null && ey != null)
-                {
-                    if (ex.TargetType == ey.TargetType)
-                        return true;
-                }
-
-                var tx = x as TrueRequestSpecification;
-                var ty = x as TrueRequestSpecification;
-                if (tx != null && ty != null)
+                if (x is SeedRequestSpecification sx &&
+                    y is SeedRequestSpecification sy &&
+                    sx.TargetType == sy.TargetType)
                     return true;
 
-                var eqx = x as EqualRequestSpecification;
-                var eqy = y as EqualRequestSpecification;
-                if (eqx != null &&
-                    eqy != null &&
+                if (x is ExactTypeSpecification ex && 
+                    y is ExactTypeSpecification ey &&
+                    ex.TargetType == ey.TargetType)
+                    return true;
+                
+                if (x is TrueRequestSpecification && y is TrueRequestSpecification)
+                    return true;
+
+                if (x is EqualRequestSpecification eqx &&
+                    y is EqualRequestSpecification eqy &&
                     object.Equals(eqx.Target, eqy.Target) &&
                     this.comparerComparer.Equals(eqx.Comparer, eqy.Comparer))
                     return true;
@@ -143,10 +117,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             {
                 public bool Equals(IEqualityComparer x, IEqualityComparer y)
                 {
-                    var micx = x as MemberInfoEqualityComparer;
-                    var micy = y as MemberInfoEqualityComparer;
-                    if (micx != null &&
-                        micy != null)
+                    if (x is MemberInfoEqualityComparer &&
+                        y is MemberInfoEqualityComparer)
                         return true;
 
                     return EqualityComparer<IEqualityComparer>.Default.Equals(x, y);
@@ -163,10 +135,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             public bool Equals(IMethodQuery x, IMethodQuery y)
             {
-                var mqx = x as ModestConstructorQuery;
-                var mqy = y as ModestConstructorQuery;
-                if (mqx != null &&
-                    mqy != null)
+                if (x is ModestConstructorQuery &&
+                    y is ModestConstructorQuery)
                     return true;
 
                 return EqualityComparer<IMethodQuery>.Default.Equals(x, y);
@@ -200,9 +170,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 if (!t.IsGenericType)
                     return new object();
 
-                Type equatableType;
-                if (equatables.TryGetValue(t.GetGenericTypeDefinition(),
-                    out equatableType))
+                if (equatables.TryGetValue(t.GetGenericTypeDefinition(), out Type equatableType))
                 {
                     var typeArguments = t.GetGenericArguments();
                     return equatableType.MakeGenericType(typeArguments)
@@ -226,7 +194,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             protected override bool EqualsInstance(Postprocessor<T> other)
             {
-                return this.Item.Command.GetType().Equals(other.Command.GetType())
+                return this.Item.Command.GetType() == other.Command.GetType()
                     && this.specificationComparer.Equals(this.Item.Specification, other.Specification);                
             }
         }
@@ -347,8 +315,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             public override bool Equals(object obj)
             {
-                var other = obj as T;
-                if (other != null)
+                if (obj is T other)
                     return this.Equals(other);
                 return base.Equals(obj);
             }
