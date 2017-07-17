@@ -194,8 +194,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             protected override bool EqualsInstance(Postprocessor<T> other)
             {
-                return this.Item.Command.GetType() == other.Command.GetType()
+                return CommandsAreEqual(this.Item.Command, other.Command)
                     && this.specificationComparer.Equals(this.Item.Specification, other.Specification);                
+            }
+
+            private bool CommandsAreEqual(ISpecimenCommand x, ISpecimenCommand y)
+            {
+                if (x is AutoPropertiesCommand<T> apx &&
+                    y is AutoPropertiesCommand<T> apy)
+                {
+                    return this.specificationComparer.Equals(apx.Specification, apy.Specification);
+                }
+
+                return x.GetType() == y.GetType();
             }
         }
 

@@ -103,7 +103,10 @@ namespace Ploeh.AutoFixture.Kernel
     public class AutoPropertiesCommand<T> : ISpecifiedSpecimenCommand<T>, ISpecimenCommand
 #pragma warning restore 618
     {
-        private readonly IRequestSpecification specification;
+        /// <summary>
+        /// Specification that filters properties and files that should be populated.
+        /// </summary>
+        public IRequestSpecification Specification { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoPropertiesCommand{T}"/> class.
@@ -133,7 +136,7 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(specification));
             }
 
-            this.specification = specification;
+            this.Specification = specification;
         }
 
         /// <summary>
@@ -220,7 +223,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return from fi in this.GetSpecimenType(specimen).GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance)
                    where !fi.IsInitOnly
-                   && this.specification.IsSatisfiedBy(fi)
+                   && this.Specification.IsSatisfiedBy(fi)
                    select fi;
         }
 
@@ -229,7 +232,7 @@ namespace Ploeh.AutoFixture.Kernel
             return from pi in this.GetSpecimenType(specimen).GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance)
                    where pi.GetSetMethod() != null
                    && pi.GetIndexParameters().Length == 0
-                   && this.specification.IsSatisfiedBy(pi)
+                   && this.Specification.IsSatisfiedBy(pi)
                    select pi;
         }
 
