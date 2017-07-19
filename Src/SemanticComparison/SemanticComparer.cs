@@ -143,8 +143,10 @@ namespace Ploeh.SemanticComparison
             internal static IEnumerable<MemberInfo> Generate<T>()
             {
                 return typeof(T)
+                    .GetTypeInfo()
                     .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                     .Concat(typeof(T)
+                        .GetTypeInfo()
                         .GetFields(BindingFlags.Public | BindingFlags.Instance)
                         .Cast<MemberInfo>());
             }
@@ -238,6 +240,7 @@ namespace Ploeh.SemanticComparison
 
             var bindingAttributes = BindingFlags.Public | BindingFlags.Instance;
             return typeof(T)
+                .GetTypeInfo()
                 .GetProperties(bindingAttributes)
                 .Select(property => this.Comparers
                     .Where(c => c.IsSatisfiedBy(property))
@@ -245,6 +248,7 @@ namespace Ploeh.SemanticComparison
                         property.GetValue(x, null),
                         property.GetValue(y, null))))
                 .Concat(typeof(T)
+                    .GetTypeInfo()
                     .GetFields(bindingAttributes)
                     .Select(field => this.Comparers
                         .Where(c => c.IsSatisfiedBy(field))
