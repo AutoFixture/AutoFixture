@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.15
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture", "AutoFixture\AutoFixture.csproj", "{400AC174-9A4A-4C7D-815B-F2A21130A0D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture.NUnit2", "AutoFixture.NUnit2\AutoFixture.NUnit2.csproj", "{786AFDB3-B705-49DD-A565-34F44A4A2DAD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture.NUnit2.Addins", "AutoFixture.NUnit2.Addins\AutoFixture.NUnit2.Addins.csproj", "{79D2A714-BEF4-40E2-B1E6-90FEB060093A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture.NUnit2.Addins.UnitTest", "AutoFixture.NUnit2.Addins.UnitTest\AutoFixture.NUnit2.Addins.UnitTest.csproj", "{690D5964-19D0-4B53-AFF7-3BB721A805BB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture.NUnit2.UnitTest", "AutoFixture.NUnit2.UnitTest\AutoFixture.NUnit2.UnitTest.csproj", "{5CACC229-A5EF-4683-A846-D59230284D66}"
 EndProject
@@ -34,18 +32,6 @@ Global
 		{786AFDB3-B705-49DD-A565-34F44A4A2DAD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{786AFDB3-B705-49DD-A565-34F44A4A2DAD}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
 		{786AFDB3-B705-49DD-A565-34F44A4A2DAD}.Verify|Any CPU.Build.0 = Verify|Any CPU
-		{79D2A714-BEF4-40E2-B1E6-90FEB060093A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79D2A714-BEF4-40E2-B1E6-90FEB060093A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79D2A714-BEF4-40E2-B1E6-90FEB060093A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79D2A714-BEF4-40E2-B1E6-90FEB060093A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79D2A714-BEF4-40E2-B1E6-90FEB060093A}.Verify|Any CPU.ActiveCfg = Release|Any CPU
-		{79D2A714-BEF4-40E2-B1E6-90FEB060093A}.Verify|Any CPU.Build.0 = Release|Any CPU
-		{690D5964-19D0-4B53-AFF7-3BB721A805BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{690D5964-19D0-4B53-AFF7-3BB721A805BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{690D5964-19D0-4B53-AFF7-3BB721A805BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{690D5964-19D0-4B53-AFF7-3BB721A805BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{690D5964-19D0-4B53-AFF7-3BB721A805BB}.Verify|Any CPU.ActiveCfg = Release|Any CPU
-		{690D5964-19D0-4B53-AFF7-3BB721A805BB}.Verify|Any CPU.Build.0 = Release|Any CPU
 		{5CACC229-A5EF-4683-A846-D59230284D66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5CACC229-A5EF-4683-A846-D59230284D66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CACC229-A5EF-4683-A846-D59230284D66}.Release|Any CPU.ActiveCfg = Release|Any CPU

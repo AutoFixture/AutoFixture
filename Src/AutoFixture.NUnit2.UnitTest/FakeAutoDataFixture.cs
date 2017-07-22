@@ -1,6 +1,4 @@
-using Ploeh.AutoFixture.NUnit2;
-
-namespace Ploeh.AutoFixture.NUnit2.Addins.UnitTest
+namespace Ploeh.AutoFixture.NUnit2.UnitTest
 {
     public class FakeAutoDataFixture
     {
