@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Resources;
@@ -18,3 +19,15 @@ using System.Resources;
 
 [assembly: CLSCompliant(true)]
 [assembly: NeutralResourcesLanguage("en")]
+
+[assembly:
+    SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", 
+        Scope = "namespace",
+        Target = "Ploeh.AutoFixture.NUnit2.Addins",
+        Justification = "It has been ported from other project and I don't want to introduce the breaking changes.")]
+[assembly:
+    SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", 
+        Scope = "namespace",
+        Target = "Ploeh.AutoFixture.NUnit2.Addins.Builders",
+        Justification = "It has been ported from other project and I don't want to introduce the breaking changes.")]
+        
