@@ -123,7 +123,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void InitializeWithObjectRequestShouldSetTrueRequestSpecificationMatcher()
+        public void InitializeWithObjectRequestShouldSetEqualRequestSpecificationMatcher()
         {
             var request = new object();
             var sut = new FreezeOnMatchCustomization(request);
