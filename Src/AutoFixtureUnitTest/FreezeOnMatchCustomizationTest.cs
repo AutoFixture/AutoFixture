@@ -215,8 +215,10 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             var context = new SpecimenContext(fixture);
 
-            var freezingRequest = typeof(ConcreteType).GetProperty("Property1");
-            var equalRequest = typeof(ConcreteType).GetProperty("Property1");
+            var freezingRequest = typeof(ConcreteType).GetProperty(
+                nameof(ConcreteType.Property1));
+            var equalRequest = typeof(ConcreteType).GetProperty(
+                nameof(ConcreteType.Property1));
 
             var sut = new FreezeOnMatchCustomization(freezingRequest);
             // Exercise system
@@ -234,8 +236,10 @@ namespace Ploeh.AutoFixtureUnitTest
             var fixture = new Fixture();
             var context = new SpecimenContext(fixture);
 
-            var freezingRequest = typeof(ConcreteType).GetProperty("Property1");
-            var anotherRequest = typeof(ConcreteType).GetProperty("Property2");
+            var freezingRequest = typeof(ConcreteType).GetProperty(
+                nameof(ConcreteType.Property1));
+            var anotherRequest = typeof(ConcreteType).GetProperty(
+                nameof(ConcreteType.Property2));
 
             var sut = new FreezeOnMatchCustomization(freezingRequest);
             // Exercise system
