@@ -65,7 +65,7 @@ namespace Ploeh.AutoFixture
 
             this.graph =
                 new BehaviorRoot(
-                    new TerminatingWithPathSpecimenBuilder(new TracingBuilder(new CompositeSpecimenBuilder(
+                    new TerminatingWithPathSpecimenBuilder(new CompositeSpecimenBuilder(
                         new CustomizationNode(
                             new CompositeSpecimenBuilder(
                                 new FilteringSpecimenBuilder(
@@ -147,7 +147,7 @@ namespace Ploeh.AutoFixture
                             new MutableValueTypeWarningThrower(),
                             new AndRequestSpecification(
                                 new ValueTypeSpecification(),
-                                new NoConstructorsSpecification()))))));
+                                new NoConstructorsSpecification())))));
 
             this.UpdateCustomizer();
             this.UpdateResidueCollector();
