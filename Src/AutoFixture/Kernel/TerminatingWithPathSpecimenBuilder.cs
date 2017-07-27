@@ -10,8 +10,8 @@ namespace Ploeh.AutoFixture.Kernel
 {
     /// <summary>
     /// Decorates an <see cref="ISpecimenBuilder"/> with a node which tracks specimen requests, and
-    /// when <see cref="NoSpecimen"/> is detected, throws an <see cref="ObjectCreationException"/>, which
-    /// includes a description of the request path.
+    /// when <see cref="NoSpecimen"/> is detected or creation fails with exception, throws an 
+    /// <see cref="ObjectCreationException"/>, which  includes a description of the request path.
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix",
         Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
@@ -63,7 +63,7 @@ namespace Ploeh.AutoFixture.Kernel
                 {
                     throw new ObjectCreationException(string.Format(
                         CultureInfo.CurrentCulture,
-                        BuildCoreMessageTemplate(request),
+                        BuildCoreMessageTemplate(request, null),
                         request,
                         Environment.NewLine,
                         BuildRequestPathText(this.SpecimenRequests)));
@@ -71,14 +71,39 @@ namespace Ploeh.AutoFixture.Kernel
 
                 return result;
             }
+            catch (ObjectCreationException)
+            {
+                // Do not modify exception thrown before as it already contains the full requests path. 
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ObjectCreationException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        BuildCoreMessageTemplate(request, ex),
+                        request,
+                        Environment.NewLine,
+                        BuildRequestPathText(this.SpecimenRequests)),
+                    ex);
+            }
             finally
             {
                 this.GetPathForCurrentThread().Pop();
             }
         }
-       
-        private static string BuildCoreMessageTemplate(object request)
+
+        private static string BuildCoreMessageTemplate(object request, Exception innerException)
         {
+            if (innerException != null)
+                return
+                    "AutoFixture was unable to create an instance from {0} " +
+                    "because creation unexpectedly failed with exception. " +
+                    "Please refer to the inner exception to investigate the root cause of the failure." +
+                    "{1}" +
+                    "{1}" +
+                    "Request path:{1}{2}{1}{1}";
+
             var t = request as Type;
 
             if (t != null && t.IsInterface())

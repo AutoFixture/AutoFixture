@@ -318,5 +318,87 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.True(specimens.All(s => s == 99));
             // Teardown
         }
+
+        [Fact]
+        public void ObjectCreationExceptionIsThrownIfCreationFails()
+        {
+            // Fixture setup
+            var request = new object();
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => throw new Exception()
+            };
+
+            var sut = new TerminatingWithPathSpecimenBuilder(builder);
+            var context = new DelegatingSpecimenContext();
+
+            // Exercise system and verify outcome
+            Assert.Throws<ObjectCreationException>(() => sut.Create(request, context));
+            // Teardown
+        }
+
+        [Fact]
+        public void ExceptionWithCorrectMessageIsThrownIfCreationFails()
+        {
+            // Fixture setup
+            var request = new object();
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => throw new Exception()
+            };
+
+            var sut = new TerminatingWithPathSpecimenBuilder(builder);
+            var context = new DelegatingSpecimenContext();
+
+            // Exercise system and verify outcome
+            var actualException = Assert.Throws<ObjectCreationException>(() => sut.Create(request, context));
+            Assert.Contains("failed with exception", actualException.Message);
+            // Teardown
+        }
+
+        [Fact]
+        public void InnerBuilderExceptionIsWrappedByCreationException()
+        {
+            // Fixture setup
+            var request = new object();
+            var exception = new Exception();
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => throw exception
+            };
+
+            var sut = new TerminatingWithPathSpecimenBuilder(builder);
+            var context = new DelegatingSpecimenContext();
+
+            // Exercise system and verify outcome
+            var actualEx = Assert.Throws<ObjectCreationException>(() => sut.Create(request, context));
+            Assert.Same(exception, actualEx.InnerException);
+            // Teardown
+        }
+
+        [Fact]
+        public void NestedExceptionIsWrappedForOneTimeOnly()
+        {
+            // Fixture setup
+            var requests = new[] {new object(), new object(), new object()};
+            var requestQueue = new Queue<object>(requests);
+            var firstRequest = requestQueue.Dequeue();
+
+            var builder = new DelegatingSpecimenBuilder
+            {
+                OnCreate = (r, c) => requestQueue.Count > 0
+                    ? c.Resolve(requestQueue.Dequeue())
+                    : throw new InvalidOperationException()
+            };
+
+            var sut = new TerminatingWithPathSpecimenBuilder(builder);
+            // Cause sut to be executed recursively for multiple times.
+            var context = new SpecimenContext(sut);
+
+            // Exercise system and verify outcome
+            var actualEx = Assert.Throws<ObjectCreationException>(() => sut.Create(firstRequest, context));
+            Assert.IsAssignableFrom<InvalidOperationException>(actualEx.InnerException);
+            // Teardown
+        }
     }
 }
