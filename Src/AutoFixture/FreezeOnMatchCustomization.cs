@@ -32,16 +32,7 @@ namespace Ploeh.AutoFixture
             }
 
             this.Request = request;
-
-            var targetType = request as Type;
-            if (targetType != null)
-            {
-                this.Matcher = new ExactTypeSpecification(targetType);
-            }
-            else
-            {
-                this.Matcher = new EqualRequestSpecification(request);
-            }
+            this.Matcher = new EqualRequestSpecification(request);
         }
 
         /// <summary>

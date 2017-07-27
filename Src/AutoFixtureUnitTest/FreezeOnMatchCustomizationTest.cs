@@ -75,8 +75,8 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var sut = new FreezeOnMatchCustomization(targetType);
             // Verify outcome
-            var matcher = Assert.IsType<ExactTypeSpecification>(sut.Matcher);
-            Assert.Equal(targetType, matcher.TargetType);
+            var matcher = Assert.IsType<EqualRequestSpecification>(sut.Matcher);
+            Assert.Equal(targetType, matcher.Target);
         }
 
         [Fact]
