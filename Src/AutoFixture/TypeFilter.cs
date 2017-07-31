@@ -1,6 +1,6 @@
 ﻿using System;
 using Ploeh.AutoFixture.Kernel;
-#if NETFULL
+#if SYSTEM_TYPE_FULL
 using DocTypeInfo = System.Type;
 #else
 using DocTypeInfo = System.Reflection.TypeInfo;

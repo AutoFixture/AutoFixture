@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Ploeh.AutoFixture
 {
-#if NETFULL
+#if SYSTEM_NET_MAIL
     /// <summary>
     /// Represents the local part of the email address, defined as everything up to, but not including, the @ sign.  
     /// Since EmailAddressLocalPart is used in constructing MailAddress, enforcement of rules on a valid email address

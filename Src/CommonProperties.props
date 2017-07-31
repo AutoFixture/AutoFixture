@@ -19,14 +19,14 @@
       <PropertyGroup>
         <IsFullFramework>false</IsFullFramework>
         <IsNetCore>true</IsNetCore>
-        <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
+        <DefineConstants>$(DefineConstants);SYSTEM_GLOBALIZATION_CULTUREINFO_CULTURESETTERS</DefineConstants>
       </PropertyGroup>
     </When>
     <Otherwise>
       <PropertyGroup>
         <IsFullFramework>true</IsFullFramework>
         <IsNetCore>false</IsNetCore>
-        <DefineConstants>$(DefineConstants);NETFULL;SYSTEM_NET_MAIL;SYSTEM_RUNTIME_SERIALIZATION</DefineConstants>
+        <DefineConstants>$(DefineConstants);SYSTEM_NET_MAIL;SYSTEM_RUNTIME_SERIALIZATION;SYSTEM_THREADING_THREAD_CULTURESETTERS;SYSTEM_COMPONENTSETTINGS_DATAERRORINFO;SYSTEM_TYPE_FULL</DefineConstants>
       </PropertyGroup>
     </Otherwise>
   </Choose>

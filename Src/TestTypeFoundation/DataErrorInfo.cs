@@ -1,4 +1,4 @@
-﻿#if NETFULL
+﻿#if SYSTEM_COMPONENTSETTINGS_DATAERRORINFO
 using System.ComponentModel;
 
 namespace Ploeh.TestTypeFoundation

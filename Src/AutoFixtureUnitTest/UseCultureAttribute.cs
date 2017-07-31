@@ -43,12 +43,14 @@ namespace Ploeh.AutoFixtureUnitTest
 
         private static void SetCurrentCulture(CultureInfo culture, CultureInfo uiCulture)
         {
-#if NETFULL
+#if SYSTEM_THREADING_THREAD_CULTURESETTERS
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = uiCulture;
-#else
+#elif SYSTEM_GLOBALIZATION_CULTUREINFO_CULTURESETTERS
             CultureInfo.CurrentCulture = culture;
             CultureInfo.CurrentUICulture = uiCulture;
+#else
+#error No culture setter is defined.
 #endif
         }
     }
