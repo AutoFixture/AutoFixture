@@ -24,7 +24,8 @@ namespace Ploeh.AutoFixture.AutoMoq
     /// 
     /// Notes:
     /// - Due to a limitation in Moq, methods with "ref" parameters are skipped.
-    /// - Automatic mocking of generic methods isn't feasible either - we'd have to antecipate any type parameters that this method could be called with. 
+    /// - Automatic mocking of generic methods isn't feasible either - we'd have to antecipate any type parameters that this method could be called with.
+    /// - To not interfere with other post-processors in the chain we skip getters for properties that have both getters and setters.
     /// </remarks>
     public class MockVirtualMethodsCommand : ISpecimenCommand
     {
@@ -114,6 +115,14 @@ namespace Ploeh.AutoFixture.AutoMoq
             var methods = type.IsInterface
                               ? type.GetInterfaceMethods()
                               : type.GetMethods();
+
+            // Skip properties that have both getters and setters to not interfere
+            // with other post-processors in the chain that initialize them later.
+            var getMethods = type.GetProperties()
+                                    .Where(p => p.GetGetMethod() != null &&
+                                                p.GetSetMethod() != null)
+                                    .Select(p => p.GetGetMethod());
+            methods = methods.Except(getMethods);
 
             return methods.Where(CanBeConfigured);
         }
