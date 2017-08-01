@@ -76,6 +76,19 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
         }
 
         [Fact]
+        public void GetOnlyPropertiesReturnValueFromFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
+            var frozenString = fixture.Freeze<string>();
+            // Exercise system
+            var result = fixture.Create<IInterfaceWithGetOnlyProperty>();
+            // Verify outcome
+            Assert.Same(frozenString, result.GetOnlyProperty);
+            // Teardown
+        }
+
+        [Fact]
         public void IndexersReturnValueFromFixture()
         {
             // Fixture setup
@@ -97,6 +110,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             var result = fixture.Create<Mock<TypeWithVirtualMembers>>();
             // Verify outcome
+            Assert.Equal(frozenString, result.Object.VirtualGetOnlyProperty);
             Assert.Equal(frozenString, result.Object.VirtualMethod());
             Assert.Equal(frozenString, result.Object.VirtualProperty);
             // Teardown

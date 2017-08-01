@@ -129,13 +129,30 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
-            var mock = new Mock<IInterfaceWithProperty>();
+            var mock = new Mock<IInterfaceWithGetOnlyProperty>();
 
             var sut = new MockVirtualMethodsCommand();
             // Exercise system
             sut.Execute(mock, new SpecimenContext(fixture));
             // Verify outcome
-            var result = mock.Object.Property;
+            var result = mock.Object.GetOnlyProperty;
+            Assert.Equal(frozenString, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void SetsUpVirtualPropertyGetters_ToRetrieveReturnValueFromContext()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var frozenString = fixture.Freeze<string>();
+            var mock = new Mock<TypeWithVirtualMembers>();
+
+            var sut = new MockVirtualMethodsCommand();
+            // Exercise system
+            sut.Execute(mock, new SpecimenContext(fixture));
+            // Verify outcome
+            var result = mock.Object.VirtualGetOnlyProperty;
             Assert.Equal(frozenString, result);
             // Teardown
         }
@@ -285,6 +302,36 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var sut = new MockVirtualMethodsCommand();
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() => sut.Execute(specimen, context.Object));
+        }
+
+        [Fact]
+        public void IgnoresPropertiesWithGettersAndSetters()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var mock = new Mock<IInterfaceWithProperty>();
+
+            var sut = new MockVirtualMethodsCommand();
+            // Exercise system
+            sut.Execute(mock, new SpecimenContext(fixture));
+            // Verify outcome
+            var result = mock.Object;
+            Assert.Null(result.Property);
+        }
+
+        [Fact]
+        public void IgnoresVirtualPropertiesWithGettersAndSetters()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            var mock = new Mock<TypeWithVirtualMembers>();
+
+            var sut = new MockVirtualMethodsCommand();
+            // Exercise system
+            sut.Execute(mock, new SpecimenContext(fixture));
+            // Verify outcome
+            var result = mock.Object;
+            Assert.Null(result.VirtualProperty);
         }
 
         [Fact]
