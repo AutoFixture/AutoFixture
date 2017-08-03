@@ -7,3 +7,10 @@ indent_style = space
 [*.{sln,csproj,fsproj,config,xml}]
 indent_size = 2
 indent_style = space
+
+[*.cs]
+# Require "this." keyword qualification in code
+dotnet_style_qualification_for_field = true:suggestion
+dotnet_style_qualification_for_property = true:suggestion
+dotnet_style_qualification_for_method = true:suggestion
+dotnet_style_qualification_for_event = true:suggestion
