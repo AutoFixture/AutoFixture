@@ -227,10 +227,8 @@ Target "CopyToReleaseFolder" (fun _ ->
       "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.pdb";
       "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.XML";
     ]
-    let nuGetPackageScripts = !! "NuGet/*.ps1" ++ "NuGet/*.txt" ++ "NuGet/*.pp" |> List.ofSeq
-    let releaseFiles = buildOutput @ nuGetPackageScripts
 
-    releaseFiles
+    buildOutput
     |> CopyFiles releaseFolder
 )
 
