@@ -15,6 +15,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
-    <ProjectReference Include="..\AutoFixture.NUnit2.Addins\AutoFixture.NUnit2.Addins.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="nunit.core">
+      <HintPath>..\..\References\NUnit.2.6.2\nunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core.interfaces">
+      <HintPath>..\..\References\NUnit.2.6.2\nunit.core.interfaces.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

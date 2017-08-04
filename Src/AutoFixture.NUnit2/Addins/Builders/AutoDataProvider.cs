@@ -48,9 +48,9 @@ namespace Ploeh.AutoFixture.NUnit2.Addins.Builders
         /// running a parameterized test.
         /// </summary>
         /// <param name="method"></param>
-        /// <param name="parentSuite"></param>
+        /// <param name="suite"></param>
         /// <returns></returns>
-        public IEnumerable GetTestCasesFor(MethodInfo method, Test parentSuite)
+        public IEnumerable GetTestCasesFor(MethodInfo method, Test suite)
         {
             ArrayList parameterList = new ArrayList();
 
