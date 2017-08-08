@@ -281,6 +281,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
+        [Fact]
+        public void ExecuteWillSetCorrectPropertyOnSpecimenWhenValueCreatorIsSupplied()
+        {
+            // Fixture setup
+            var expectedValue = new object();
+            var expectedContainer = new DelegatingSpecimenContext();
+
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, () => expectedValue);
+            var specimen = new PropertyHolder<object>();
+            // Exercise system
+            sut.Execute(specimen, expectedContainer);
+            // Verify outcome
+            Assert.Equal(expectedValue, specimen.Property);
+            // Teardown
+        }
+
 #pragma warning disable 618
         [Fact]
         public void SutIsSpecifiedSpecimenCommand()
@@ -461,6 +477,22 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var dummyContext = new DelegatingSpecimenContext();
             sut.Execute((object)specimen, dummyContext);
+            // Verify outcome
+            Assert.Equal(expectedValue, specimen.Property);
+            // Teardown
+        }
+
+        [Fact]
+        public void ExecuteSetsCorrectPropertyOnSpecimenWhenValueCreatorIsSupplied()
+        {
+            // Fixture setup
+            var expectedValue = new object();
+            var expectedContext = new DelegatingSpecimenContext();
+
+            var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, () => expectedValue);
+            var specimen = new PropertyHolder<object>();
+            // Exercise system
+            sut.Execute((object)specimen, expectedContext);
             // Verify outcome
             Assert.Equal(expectedValue, specimen.Property);
             // Teardown

@@ -323,9 +323,34 @@ namespace Ploeh.AutoFixture.Dsl
         public IPostprocessComposer<T> With<TProperty>(
             Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
+            return With(propertyPicker, () => value);
+        }
+
+        /// <summary>
+        /// Registers that a writable property or field should be assigned a
+        /// value from the supplied factory method as part of specimen post-processing.
+        /// </summary>
+        /// <typeparam name="TProperty">
+        /// The type of the property of field.
+        /// </typeparam>
+        /// <param name="propertyPicker">
+        /// An expression that identifies the property or field that will have
+        /// <paramref name="value"/> assigned.
+        /// </param>
+        /// <param name="valueCreator">
+        /// A Func that will be called in order to assign to the property or field identified by
+        /// <paramref name="propertyPicker"/>.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
+        public IPostprocessComposer<T> With<TProperty>(
+            Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> valueCreator)
+        {
             return (CompositeNodeComposer<T>)this.ReplaceNodes(
                 with: n =>
-                    (NodeComposer<T>)((NodeComposer<T>)n).With(propertyPicker, value),
+                    (NodeComposer<T>)((NodeComposer<T>)n).With(propertyPicker, valueCreator),
                 when: n => n is NodeComposer<T>);
         }
 

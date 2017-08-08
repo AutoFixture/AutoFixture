@@ -66,6 +66,8 @@ namespace Ploeh.AutoFixture.Dsl
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "With", Justification = "Renaming would be a breaking change.")]
         IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value);
 
+        IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> valueCreator);
+
         /// <summary>
         /// Enables auto-properties for a type of specimen.
         /// </summary>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
@@ -486,6 +485,106 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var actual = sut
                 .With(x => x.Property1, value1)
                 .With(x => x.Property2, value2);
+            // Verify outcome
+            var expected = new NodeComposer<DoublePropertyHolder<string, int>>(
+                new CompositeSpecimenBuilder(
+                    new Omitter(
+                        new EqualRequestSpecification(
+                            pi2,
+                            new MemberInfoEqualityComparer())),
+                    new CompositeSpecimenBuilder(
+                        new Omitter(
+                            new EqualRequestSpecification(
+                                pi1,
+                                new MemberInfoEqualityComparer())),
+                        new FilteringSpecimenBuilder(
+                            new CompositeSpecimenBuilder(
+                                new Postprocessor<DoublePropertyHolder<string, int>>(
+                                    new Postprocessor<DoublePropertyHolder<string, int>>(
+                                        new NoSpecimenOutputGuard(
+                                            new MethodInvoker(
+                                                new ModestConstructorQuery()),
+                                            new InverseRequestSpecification(
+                                                new SeedRequestSpecification(
+                                                    typeof(DoublePropertyHolder<string, int>)))),
+                                        new BindingCommand<DoublePropertyHolder<string, int>, string>(x => x.Property1, value1),
+                                        new OrRequestSpecification(
+                                            new SeedRequestSpecification(typeof(DoublePropertyHolder<string, int>)),
+                                            new ExactTypeSpecification(typeof(DoublePropertyHolder<string, int>)))),
+                                    new BindingCommand<DoublePropertyHolder<string, int>, int>(x => x.Property2, value2),
+                                    new OrRequestSpecification(
+                                        new SeedRequestSpecification(typeof(DoublePropertyHolder<string, int>)),
+                                        new ExactTypeSpecification(typeof(DoublePropertyHolder<string, int>)))),
+                                new SeedIgnoringRelay()),
+                            new OrRequestSpecification(
+                                new SeedRequestSpecification(typeof(DoublePropertyHolder<string, int>)),
+                                new ExactTypeSpecification(typeof(DoublePropertyHolder<string, int>)))))));
+
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("foo")]
+        [InlineData("bar")]
+        public void WithValueCreatorReturnsCorrectResult(string value)
+        {
+            // Fixture setup
+            var sut = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>();
+            var pi = typeof(PropertyHolder<string>).GetProperty("Property");
+            // Exercise system
+            var actual = sut.With(x => x.Property, () => value);
+            // Verify outcome
+            var expected = new NodeComposer<PropertyHolder<string>>(
+                new CompositeSpecimenBuilder(
+                    new Omitter(
+                        new EqualRequestSpecification(
+                            pi,
+                            new MemberInfoEqualityComparer())),
+                    new FilteringSpecimenBuilder(
+                        new CompositeSpecimenBuilder(
+                            new Postprocessor<PropertyHolder<string>>(
+                                new NoSpecimenOutputGuard(
+                                    new MethodInvoker(
+                                        new ModestConstructorQuery()),
+                                    new InverseRequestSpecification(
+                                        new SeedRequestSpecification(
+                                            typeof(PropertyHolder<string>)))),
+                                new BindingCommand<PropertyHolder<string>, string>(x => x.Property, value),
+                                new OrRequestSpecification(
+                                    new SeedRequestSpecification(typeof(PropertyHolder<string>)),
+                                    new ExactTypeSpecification(typeof(PropertyHolder<string>)))),
+                            new SeedIgnoringRelay()),
+                        new OrRequestSpecification(
+                            new SeedRequestSpecification(typeof(PropertyHolder<string>)),
+                            new ExactTypeSpecification(typeof(PropertyHolder<string>))))));
+
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData("", 1)]
+        [InlineData("bar", 0)]
+        [InlineData("foo", 42)]
+        [InlineData("bar", -1)]
+        public void SuccessiveWithValueCreatorReturnsCorrectResult(
+            string value1,
+            int value2)
+        {
+            // Fixture setup
+            var sut =
+                SpecimenBuilderNodeFactory.CreateComposer<DoublePropertyHolder<string, int>>();
+            var pi1 = typeof(DoublePropertyHolder<string, int>).GetProperty("Property1");
+            var pi2 = typeof(DoublePropertyHolder<string, int>).GetProperty("Property2");
+
+            // Exercise system
+            var actual = sut
+                .With(x => x.Property1, () => value1)
+                .With(x => x.Property2, () => value2);
             // Verify outcome
             var expected = new NodeComposer<DoublePropertyHolder<string, int>>(
                 new CompositeSpecimenBuilder(

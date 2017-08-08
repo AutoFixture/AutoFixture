@@ -82,6 +82,11 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             return this.OnWith(propertyPicker, value);
         }
 
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> valueCreator)
+        {
+            return this.OnWith(propertyPicker, valueCreator);
+        }
+
         public IPostprocessComposer<T> WithAutoProperties()
         {
             return this.OnWithAutoProperties();
