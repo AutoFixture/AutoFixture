@@ -148,6 +148,28 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
+        public void WithFactoryReturnsCorrectResult()
+        {
+            // Fixture setup
+            Expression<Func<PropertyHolder<object>, object>> expectedExpression = x => x.Property;
+            Func<object> factory = () => new object();
+
+            var expectedComposers = Enumerable.Range(1, 3).Select(i => new DelegatingComposer<PropertyHolder<object>>()).ToArray();
+            var initialComposers = (from c in expectedComposers
+                                    select new DelegatingComposer<PropertyHolder<object>>
+                                    {
+                                        OnWithFactory = (f, fac) => f == expectedExpression && fac == factory ? c : new DelegatingComposer<PropertyHolder<object>>()
+                                    }).ToArray();
+            var sut = new CompositePostprocessComposer<PropertyHolder<object>>(initialComposers);
+            // Exercise system
+            var result = sut.With(expectedExpression, factory);
+            // Verify outcome
+            var composite = Assert.IsAssignableFrom<CompositePostprocessComposer<PropertyHolder<object>>>(result);
+            Assert.True(expectedComposers.SequenceEqual(composite.Composers));
+            // Teardown
+        }
+
+        [Fact]
         public void WithAutoPropertiesReturnsCorrectResult()
         {
             // Fixture setup
