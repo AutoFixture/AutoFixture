@@ -177,9 +177,9 @@ namespace Ploeh.AutoFixture.Dsl
         /// Does nothing
         /// </summary>
         /// <param name="propertyPicker">Ignored.</param>
-        /// <param name="valueCreator">Ignored.</param>
+        /// <param name="factory">Ignored.</param>
         /// <returns>The current instance.</returns>
-        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> valueCreator)
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> factory)
         {
             return this;
         }

@@ -120,7 +120,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// An expression that identifies the property or field that will have
         /// <paramref name="value"/> assigned.
         /// </param>
-        /// <param name="valueCreator">
+        /// <param name="factory">
         /// A function that will be called in order to assign to the property or field identified by
         /// <paramref name="propertyPicker"/>.
         /// </param>
@@ -128,10 +128,10 @@ namespace Ploeh.AutoFixture.Dsl
         /// An <see cref="IPostprocessComposer{T}"/> which can be used to further customize the
         /// post-processing of created specimens.
         /// </returns>
-        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> valueCreator)
+        public IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> factory)
         {
             return new CompositePostprocessComposer<T>(from c in this.Composers
-                                                       select c.With(propertyPicker, valueCreator));
+                                                       select c.With(propertyPicker, factory));
         }
 
         /// <summary>

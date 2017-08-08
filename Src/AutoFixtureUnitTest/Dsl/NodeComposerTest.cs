@@ -529,7 +529,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         [InlineData("")]
         [InlineData("foo")]
         [InlineData("bar")]
-        public void WithValueCreatorReturnsCorrectResult(string value)
+        public void WithFactoryReturnsCorrectResult(string value)
         {
             // Fixture setup
             var sut = SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>();
@@ -571,7 +571,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         [InlineData("bar", 0)]
         [InlineData("foo", 42)]
         [InlineData("bar", -1)]
-        public void SuccessiveWithValueCreatorReturnsCorrectResult(
+        public void SuccessiveWithFactoryReturnsCorrectResult(
             string value1,
             int value2)
         {

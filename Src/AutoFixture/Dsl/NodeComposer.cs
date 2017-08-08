@@ -377,7 +377,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// An expression that identifies the property or field that will have
         /// <paramref name="value"/> assigned.
         /// </param>
-        /// <param name="valueCreator">
+        /// <param name="factory">
         /// The function called in order to assign to the property or field identified by
         /// <paramref name="propertyPicker"/>.
         /// </param>
@@ -386,7 +386,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// further customize the post-processing of created specimens.
         /// </returns>
         public IPostprocessComposer<T> With<TProperty>(
-            Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> valueCreator)
+            Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> factory)
         {
             var graphWithoutSeedIgnoringRelay =
                 this.WithoutSeedIgnoringRelay();
@@ -399,7 +399,7 @@ namespace Ploeh.AutoFixture.Dsl
                     {
                         new Postprocessor<T>(
                             CompositeSpecimenBuilder.ComposeIfMultiple(n),
-                            new BindingCommand<T, TProperty>(propertyPicker, valueCreator),
+                            new BindingCommand<T, TProperty>(propertyPicker, factory),
                             CreateSpecification()),
                         new SeedIgnoringRelay()
                     }),
