@@ -182,20 +182,41 @@ namespace Ploeh.AutoFixture.Kernel
             }
         }
 
-        internal static IEnumerable<ISpecimenBuilderNode> SelectNodes(
-            this ISpecimenBuilderNode graph,
-            Func<ISpecimenBuilderNode, bool> predicate)
+        /// <summary>
+        /// Finds the first node in the passed graph that matches the specified predicate.
+        /// If nothing is found - null is returned.
+        /// </summary>
+        internal static ISpecimenBuilderNode FindFirstNodeOrDefault(this ISpecimenBuilderNode graph, Func<ISpecimenBuilderNode, bool> predicate)
         {
-            if (predicate(graph))
-                yield return graph;
+            if (predicate.Invoke(graph))
+                return graph;
 
-            foreach (var b in graph)
+            foreach (var builder in graph)
             {
-                var n = b as ISpecimenBuilderNode;
-                if (n != null)
-                    foreach (var n1 in n.SelectNodes(predicate))
-                        yield return n1;
+                var builderNode = builder as ISpecimenBuilderNode;
+                if (builderNode != null)
+                {
+                    var result = FindFirstNodeOrDefault(builderNode, predicate);
+                    if (result != null) return result;
+                }
             }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the first node in the graph that matches the specified predicate.
+        /// If no node is present - fails with exception.
+        /// </summary>
+        internal static ISpecimenBuilderNode FindFirstNode(this ISpecimenBuilderNode graph, Func<ISpecimenBuilderNode, bool> predicate)
+        {
+            var result = graph.FindFirstNodeOrDefault(predicate);
+            if (result == null)
+            {
+                throw new InvalidOperationException("Unable to find node matching the specified predicate.");
+            }
+
+            return result;
         }
     }
 }
