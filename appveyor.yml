@@ -1,4 +1,4 @@
-image: Visual Studio 2015
+image: Visual Studio 2017
 
 environment:
   NUGET_API_KEY:
@@ -29,3 +29,4 @@ artifacts:
   name: NuGet
 
 deploy: off
+
