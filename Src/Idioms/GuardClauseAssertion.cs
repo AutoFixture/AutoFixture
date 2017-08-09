@@ -120,7 +120,8 @@ namespace Ploeh.AutoFixture.Idioms
             if (methodInfo.IsEqualsMethod() ||
                 methodInfo.IsGetHashCodeMethod() ||
                 methodInfo.IsToString() ||
-                methodInfo.IsGetType())
+                methodInfo.IsGetType() ||
+                methodInfo.IsAbstract)
                 return;
 
             methodInfo = this.ResolveUnclosedGenericType(methodInfo);

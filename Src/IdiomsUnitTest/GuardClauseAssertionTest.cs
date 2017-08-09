@@ -1849,5 +1849,19 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 yield return argument;
             }
         }
+
+        [Fact]
+        public void VerifyOnAbstractMethodDoesNotThrow()
+        {
+            var method = typeof(AbstractTypeWithAbstractMethod)
+                .GetMethod("Method");
+            var sut = new GuardClauseAssertion(new Fixture());
+            sut.Verify(method);
+        }
+
+        private abstract class AbstractTypeWithAbstractMethod
+        {
+            public abstract void Method(object arg);
+        }
     }
 }

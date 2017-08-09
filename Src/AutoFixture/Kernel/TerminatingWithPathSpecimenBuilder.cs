@@ -168,15 +168,6 @@ namespace Ploeh.AutoFixture.Kernel
                 .Aggregate((s1, s2) => s1 + " --> " + Environment.NewLine + s2);
         }
 
-        internal static ISpecimenBuilder ComposeIfMultiple(IEnumerable<ISpecimenBuilder> builders)
-        {
-            var isSingle = builders.Take(2).Count() == 1;
-            if (isSingle)
-                return builders.Single();
-
-            return new CompositeSpecimenBuilder(builders);
-        }
-
         /// <summary>Composes the supplied builders.</summary>
         /// <param name="builders">The builders to compose.</param>
         /// <returns>
@@ -185,7 +176,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </returns>
         public virtual ISpecimenBuilderNode Compose(IEnumerable<ISpecimenBuilder> builders)
         {
-            var builder = ComposeIfMultiple(builders);
+            var builder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             return new TerminatingWithPathSpecimenBuilder(new TracingBuilder(builder));
         }
 
