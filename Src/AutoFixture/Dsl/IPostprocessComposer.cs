@@ -83,6 +83,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// An <see cref="IPostprocessComposer{T}"/> which can be used to further customize the
         /// post-processing of created specimens.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "With", Justification = "Renaming would be a breaking change.")]
         IPostprocessComposer<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> factory);
 
         /// <summary>
