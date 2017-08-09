@@ -323,7 +323,10 @@ namespace Ploeh.AutoFixture.Dsl
         public IPostprocessComposer<T> With<TProperty>(
             Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
-            return With(propertyPicker, () => value);
+            return (CompositeNodeComposer<T>)this.ReplaceNodes(
+                with: n =>
+                        (NodeComposer<T>)((NodeComposer<T>)n).With(propertyPicker, value),
+                when: n => n is NodeComposer<T>);
         }
 
         /// <summary>

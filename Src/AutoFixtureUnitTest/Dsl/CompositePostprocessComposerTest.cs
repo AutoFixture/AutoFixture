@@ -158,7 +158,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var initialComposers = (from c in expectedComposers
                                     select new DelegatingComposer<PropertyHolder<object>>
                                     {
-                                        OnWithFactory = (f, fac) => f == expectedExpression && fac == factory ? c : new DelegatingComposer<PropertyHolder<object>>()
+                                        OnWithFactory = (f, fac) => f == expectedExpression && (fac as Func<object>) == factory ? c : new DelegatingComposer<PropertyHolder<object>>()
                                     }).ToArray();
             var sut = new CompositePostprocessComposer<PropertyHolder<object>>(initialComposers);
             // Exercise system
