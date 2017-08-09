@@ -337,8 +337,8 @@ namespace Ploeh.AutoFixture.Dsl
         /// The type of the property of field.
         /// </typeparam>
         /// <param name="propertyPicker">
-        /// An expression that identifies the property or field that will have
-        /// <paramref name="value"/> assigned.
+        /// An expression that identifies the property or field that will be populated when
+        /// <paramref name="factory"/> is called.
         /// </param>
         /// <param name="factory">
         /// A Func that will be called in order to assign to the property or field identified by
