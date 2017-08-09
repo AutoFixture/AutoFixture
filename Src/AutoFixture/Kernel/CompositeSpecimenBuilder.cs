@@ -103,11 +103,49 @@ namespace Ploeh.AutoFixture.Kernel
 
         internal static ISpecimenBuilder ComposeIfMultiple(IEnumerable<ISpecimenBuilder> builders)
         {
-            var isSingle = builders.Take(2).Count() == 1;
-            if (isSingle)
-                return builders.Single();
+            // This code is called very frequently during graph mutation (e.g. customization).
+            // It's optimized to not perform unnecessary allocations and do not enumerate builders more than once.
+            // Code is written expecting that single builder is the most common case.
+            // See more detail here: https://github.com/AutoFixture/AutoFixture/pull/793
+            
+            ISpecimenBuilder singleItem = null;
+            List<ISpecimenBuilder> multipleItems = null;
+            bool hasItems = false;
 
-            return new CompositeSpecimenBuilder(builders);
+            using (var enumerator = builders.GetEnumerator())
+            {
+                if (enumerator.MoveNext())
+                {
+                    singleItem = enumerator.Current;
+                    hasItems = true;
+
+                    while (enumerator.MoveNext())
+                    {
+                        // We are here only if more than one item is present.
+                        // When we create collection for multiple items, we add the already enumerated one as well.
+                        if (multipleItems == null)
+                        {
+                            multipleItems = new List<ISpecimenBuilder> {singleItem};
+                        }
+                        
+                        multipleItems.Add(enumerator.Current);
+                    }
+                }
+            }
+
+            if (!hasItems)
+            {
+                //It's very rare case and it does't make sense to optimize it
+                return new CompositeSpecimenBuilder();
+            }
+
+            //Single item is present only, so we return it.
+            if (multipleItems == null)
+            {
+                return singleItem;
+            }
+
+            return new CompositeSpecimenBuilder(multipleItems);
         }
 
         internal static ISpecimenBuilderNode UnwrapIfSingle(ISpecimenBuilderNode node)
@@ -115,10 +153,10 @@ namespace Ploeh.AutoFixture.Kernel
             var c = node as CompositeSpecimenBuilder;
             if (c == null)
                 return node;
-            var isSingle = c.composedBuilders.Take(2).Count() == 1;
+            var isSingle = c.composedBuilders.Length == 1;
             if (isSingle)
             {
-                var n = c.composedBuilders.Single() as ISpecimenBuilderNode;
+                var n = c.composedBuilders[0] as ISpecimenBuilderNode;
                 if (n != null)
                     return n;
             }

@@ -234,9 +234,7 @@ namespace Ploeh.AutoFixture.Dsl
         private static ISpecimenBuilderNode FindAutoPropertiesNode(
             ISpecimenBuilderNode graph)
         {
-            return graph
-                .SelectNodes(IsAutoPropertyNode)
-                .FirstOrDefault();
+            return graph.FindFirstNodeOrDefault(IsAutoPropertyNode);
         }
 
         private static bool IsAutoPropertyNode(ISpecimenBuilderNode n)
@@ -302,9 +300,7 @@ namespace Ploeh.AutoFixture.Dsl
         public IPostprocessComposer<T> With<TProperty>(
             Expression<Func<T, TProperty>> propertyPicker)
         {
-            var targetToDecorate = this
-                .SelectNodes(n => n is NoSpecimenOutputGuard)
-                .First();
+            var targetToDecorate = this.FindFirstNode(n => n is NoSpecimenOutputGuard);
 
             return (NodeComposer<T>)this.ReplaceNodes(
                 with: n => new Postprocessor<T>(
@@ -535,13 +531,9 @@ namespace Ploeh.AutoFixture.Dsl
             return g;
         }
 
-        private static ISpecimenBuilderNode FindContainer(
-            ISpecimenBuilderNode graph)
+        private static ISpecimenBuilderNode FindContainer(ISpecimenBuilderNode graph)
         {
-            var container = graph
-                .SelectNodes(n => n is FilteringSpecimenBuilder)
-                .First();
-            return container;
+            return graph.FindFirstNode(n => n is FilteringSpecimenBuilder);
         }
     }
 }

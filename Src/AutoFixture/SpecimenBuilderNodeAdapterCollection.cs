@@ -52,8 +52,7 @@ namespace Ploeh.AutoFixture
         {
             this.Graph = graph;
             this.isAdaptedBuilder = adaptedBuilderPredicate;
-            this.adaptedBuilders = 
-                this.Graph.SelectNodes(this.TargetMemo.IsSpecifiedBy).First();
+            this.adaptedBuilders = this.Graph.FindFirstNode(this.TargetMemo.IsSpecifiedBy);
         }
 
         /// <summary>
@@ -419,8 +418,7 @@ namespace Ploeh.AutoFixture
             this.Graph = this.Graph.ReplaceNodes(
                 with: builders,
                 when: this.TargetMemo.IsSpecifiedBy);
-            this.adaptedBuilders = 
-                this.Graph.SelectNodes(this.TargetMemo.IsSpecifiedBy).First();
+            this.adaptedBuilders = this.Graph.FindFirstNode(this.TargetMemo.IsSpecifiedBy);
 
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.Graph));
         }
@@ -429,8 +427,7 @@ namespace Ploeh.AutoFixture
         {
             get
             {
-                var markerNode =
-                    this.Graph.SelectNodes(this.isAdaptedBuilder).First();
+                var markerNode = this.Graph.FindFirstNode(this.isAdaptedBuilder);
                 var target = (ISpecimenBuilderNode)markerNode.First();
                 return new TargetSpecification(target);
             }
