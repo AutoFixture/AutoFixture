@@ -10,19 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="CompositeSpecimenBuilderTest.cs" />
-    <Compile Remove="DefaultSpecimenContainerTest.cs" />
-    <Compile Remove="DelegatingSpecimenBuilder.cs" />
-    <Compile Remove="DelegatingSpecimenContainer.cs" />
-    <Compile Remove="InstanceGeneratorTest.cs" />
-    <Compile Remove="ModestConstructorInvokerTest.cs" />
-    <Compile Remove="ParameterRequestTranslatorTest.cs" />
-    <Compile Remove="SeededRequestTest.cs" />
-    <Compile Remove="SeedTest.cs" />
-    <Compile Remove="ValueIgnoringSeedUnwrapperTest.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="xunit" Version="1.9.2" />
     <PackageReference Include="xunit.extensions" Version="1.8.0.1549" />
 
@@ -34,8 +21,5 @@
     <ProjectReference Include="..\SemanticComparison\SemanticComparison.csproj" />
     <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-  </ItemGroup>
+  
 </Project>
