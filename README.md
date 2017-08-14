@@ -1,9 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master)
 
-## Announcement ##
-
-[AutoFixture is getting a new governance model](https://github.com/AutoFixture/AutoFixture/issues/703). This most likely means that you can expect delays if you have questions, issues, or pull requests.
-
 ## Project Description ##
 
 Write maintainable unit tests, faster.
