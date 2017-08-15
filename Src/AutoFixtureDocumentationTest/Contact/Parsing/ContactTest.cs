@@ -16,7 +16,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Contact.Parsing
             // Fixture setup
             Fixture fixture = new Fixture();
             // Exercise system and verify outcome
-            Assert.Throws<TargetInvocationException>(() =>
+            Assert.Throws<ObjectCreationException>(() =>
                 fixture.Create<Contact>());
             // Teardown
         }

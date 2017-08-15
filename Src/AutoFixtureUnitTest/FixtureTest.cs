@@ -4854,8 +4854,9 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new Fixture();
             // Exercise system and verify outcome
-            Assert.Throws<IllegalRequestException>(() =>
+           var creationEx = Assert.Throws<ObjectCreationException>(() =>
                 sut.Create<IntPtr>());
+            Assert.IsAssignableFrom<IllegalRequestException>(creationEx.InnerException);
             // Teardown
         }
 
