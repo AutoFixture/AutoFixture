@@ -5604,7 +5604,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void CustomizationOfChildADoesNotAffectChildB()
+        public void CustomizationOfOverriddenPropOfChildADoesNotAffectChildB()
         {
             // Fixture setup
             var fixture = new Fixture();
@@ -5614,6 +5614,80 @@ namespace Ploeh.AutoFixtureUnitTest
             // Verify outcome
             Assert.NotEqual(default(int), actual.Value);
             // Teardown
+        }
+        
+        /// <summary>
+        /// Checks the scenario: https://github.com/AutoFixture/AutoFixture/issues/531
+        /// </summary>
+        [Fact]
+        public void CustomizationOfBasePropOfChildADoesNotAffectChildB()
+        {
+            // arrange
+            var sut = new Fixture();
+            sut.Customize<AcwaacpChildA>(c => c.With(x => x.Text, "foo"));
+            
+            // act
+            var actual = sut.Create<AcwaacpChildB>();
+            
+            // assert
+            Assert.NotNull(actual.Text);
+            Assert.NotEqual("foo", actual.Text);
+        }
+
+        /// <summary>
+        /// Checks the scenario reported in https://github.com/AutoFixture/AutoFixture/issues/772
+        /// </summary>
+        [Fact]
+        public void CustomizatonOfSamePropertyIsIgnoredDuringTheBuild()
+        {
+            //arrange
+            var sut = new Fixture();
+            sut.Customize<DoublePropertyHolder<string, int>>(c => c.With(x => x.Property1, "foo"));
+            
+            //act
+            var result = sut
+                .Build<DoublePropertyHolder<string, int>>()
+                .With(x => x.Property2, 42)
+                .Create();
+            
+            //assert
+            Assert.NotEqual("foo", result.Property1);
+            Assert.Equal(42, result.Property2);
+        }
+
+        /// <summary>
+        /// Scenario from https://github.com/AutoFixture/AutoFixture/issues/321 
+        /// </summary>
+        [Fact]
+        public void CustomizationOfIntPropertyDoesntThrowInBuild()
+        {
+            //arrange
+            var sut = new Fixture();
+            sut.Customize<PropertyHolder<long>>(c => c.Without(x => x.Property));
+            
+            //act
+            var result = sut.Build<PropertyHolder<long>>().With(x => x.Property).Create();
+            
+            //assert
+            Assert.NotEqual(0L, result.Property);
+        }
+
+        [Fact]
+        public void EnableDisableAutoPropertiesDoesntBreakCustomization()
+        {
+            //arrange
+            var sut = new Fixture();
+            sut.Customize<PropertyHolder<string>>(c =>
+                c
+                    .Without(x => x.Property)
+                    .OmitAutoProperties()
+                    .WithAutoProperties());
+            
+            //act
+            var result = sut.Create<PropertyHolder<string>>();
+            
+            //assert
+            Assert.Null(result.Property);
         }
 
         private abstract class AbstractClassWithAbstractAndConcreteProperties
