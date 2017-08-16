@@ -499,6 +499,36 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Teardown
         }
 
+        [Theory]
+        [InlineData("")]
+        [InlineData("foo")]
+        [InlineData("bar")]
+        public void WithFactoryReturnsCorrectResult(string value)
+        {
+            // Fixture setup
+            var node = new CompositeSpecimenBuilder(
+                new DelegatingSpecimenBuilder(),
+                SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>(),
+                SpecimenBuilderNodeFactory.CreateComposer<Version>(),
+                SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>(),
+                new DelegatingSpecimenBuilder());
+            Func<string> factory = () => value;
+            var sut = new CompositeNodeComposer<PropertyHolder<string>>(node);
+            // Exercise system
+            var actual = sut.With(x => x.Property, factory);
+            // Verify outcome
+            var expected = new CompositeNodeComposer<PropertyHolder<string>>(
+                new CompositeSpecimenBuilder(
+                    new DelegatingSpecimenBuilder(),
+                    SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>().With(x => x.Property, factory),
+                    SpecimenBuilderNodeFactory.CreateComposer<Version>(),
+                    SpecimenBuilderNodeFactory.CreateComposer<PropertyHolder<string>>().With(x => x.Property, factory),
+                    new DelegatingSpecimenBuilder()));
+            var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
+            Assert.True(expected.GraphEquals(n, new NodeComparer()));
+            // Teardown
+        }
+
         [Fact]
         public void WithoutReturnsCorrectResult()
         {

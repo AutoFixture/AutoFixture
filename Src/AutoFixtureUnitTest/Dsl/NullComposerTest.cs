@@ -141,7 +141,7 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
         }
 
         [Fact]
-        public void FromTripeParameterFactoryReturnsCorrectResult()
+        public void FromTripleParameterFactoryReturnsCorrectResult()
         {
             // Fixture setup
             var sut = new NullComposer<object>();
@@ -207,6 +207,18 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             var sut = new NullComposer<PropertyHolder<object>>();
             // Exercise system
             var result = sut.With(x => x.Property, new object());
+            // Verify outcome
+            Assert.Same(sut, result);
+            // Teardown
+        }
+
+        [Fact]
+        public void WithFactoryReturnsCorrectResult()
+        {
+            // Fixture setup
+            var sut = new NullComposer<PropertyHolder<object>>();
+            // Exercise system
+            var result = sut.With(x => x.Property, () => new object());
             // Verify outcome
             Assert.Same(sut, result);
             // Teardown

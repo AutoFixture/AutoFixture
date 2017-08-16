@@ -333,10 +333,10 @@ namespace Ploeh.AutoFixture.Dsl
             Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
             var graphWithoutSeedIgnoringRelay =
-                this.WithoutSeedIgnoringRelay();
+               this.WithoutSeedIgnoringRelay();
 
             var container = FindContainer(graphWithoutSeedIgnoringRelay);
-         
+
             var graphWithProperty = graphWithoutSeedIgnoringRelay.ReplaceNodes(
                 with: n => n.Compose(
                     new ISpecimenBuilder[]
@@ -351,7 +351,59 @@ namespace Ploeh.AutoFixture.Dsl
 
             return (NodeComposer<T>)graphWithProperty.ReplaceNodes(
                 with: n => n.Compose(
-                    new []
+                    new[]
+                    {
+                        new Omitter(
+                            new EqualRequestSpecification(
+                                propertyPicker.GetWritableMember().Member,
+                                new MemberInfoEqualityComparer()))
+                    }
+                    .Concat(n)),
+                when: n => n is NodeComposer<T>);
+        }
+
+        /// <summary>
+        /// Registers that a writable property or field should be assigned a
+        /// value from the supplied factory method as part of specimen post-processing.
+        /// </summary>
+        /// <typeparam name="TProperty">
+        /// The type of the property of field.
+        /// </typeparam>
+        /// <param name="propertyPicker">
+        /// An expression that identifies the property or field that will be populated when
+        /// <paramref name="factory"/> is called.
+        /// </param>
+        /// <param name="factory">
+        /// The function called in order to assign to the property or field identified by
+        /// <paramref name="propertyPicker"/>.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IPostprocessComposer{T}"/> which can be used to
+        /// further customize the post-processing of created specimens.
+        /// </returns>
+        public IPostprocessComposer<T> With<TProperty>(
+            Expression<Func<T, TProperty>> propertyPicker, Func<TProperty> factory)
+        {
+            var graphWithoutSeedIgnoringRelay =
+                this.WithoutSeedIgnoringRelay();
+
+            var container = FindContainer(graphWithoutSeedIgnoringRelay);
+
+            var graphWithProperty = graphWithoutSeedIgnoringRelay.ReplaceNodes(
+                with: n => n.Compose(
+                    new ISpecimenBuilder[]
+                    {
+                        new Postprocessor<T>(
+                            CompositeSpecimenBuilder.ComposeIfMultiple(n),
+                            new BindingCommand<T, TProperty>(propertyPicker, factory),
+                            CreateSpecification()),
+                        new SeedIgnoringRelay()
+                    }),
+                when: container.Equals);
+
+            return (NodeComposer<T>)graphWithProperty.ReplaceNodes(
+                with: n => n.Compose(
+                    new[]
                     {
                         new Omitter(
                             new EqualRequestSpecification(
