@@ -133,11 +133,11 @@ namespace Ploeh.AutoFixture.Kernel
 
             if (!hasItems)
             {
-                //It's very rare case and it does't make sense to optimize it
+                // It's very rare case and it does't make sense to optimize it.
                 return new CompositeSpecimenBuilder();
             }
 
-            //Single item is present only, so we return it.
+            // Single item is present only, so we return it.
             if (multipleItems == null)
             {
                 return singleItem;
