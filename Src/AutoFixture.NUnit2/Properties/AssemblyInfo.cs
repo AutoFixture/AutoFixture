@@ -30,4 +30,3 @@ using System.Resources;
         Scope = "namespace",
         Target = "Ploeh.AutoFixture.NUnit2.Addins.Builders",
         Justification = "It has been ported from other project and I don't want to introduce the breaking changes.")]
-        
