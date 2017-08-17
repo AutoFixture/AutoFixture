@@ -62,4 +62,20 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.3.0-beta1" ExcludeAssets="all" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="SourceLink.Create.GitHub" Version="2.4.0" PrivateAssets="All" />
+    <DotNetCliToolReference Include="dotnet-sourcelink-git" Version="2.4.0" />
+  </ItemGroup>
+  <PropertyGroup>
+    <SourceLinkNotInGit>error</SourceLinkNotInGit>
+    <SourceLinkHashMismatch>error</SourceLinkHashMismatch>
+    <SourceLinkNoAutoLF>true</SourceLinkNoAutoLF>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludePDBsInPackage</TargetsForTfmSpecificContentInPackage>
+  </PropertyGroup>
+  <Target Name="IncludePDBsInPackage" Condition=" '$(IncludeBuildOutput)'!='false' ">
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="$(OutputPath)\$(AssemblyName).pdb" PackagePath="lib\$(TargetFramework)" />
+    </ItemGroup>
+  </Target>
 </Project>
