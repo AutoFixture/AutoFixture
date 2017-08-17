@@ -29,6 +29,7 @@ AutoFixture character.design
 .fake/
 NUnit[23]TestResult.xml
 .idea/
+.vs/
 project.lock.json
 
 # package files can be ignored because of the NuGet restore
