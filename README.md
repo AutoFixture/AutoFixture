@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master) [![NuGet version](https://img.shields.io/nuget/v/AutoFixture.svg)](https://www.nuget.org/packages/AutoFixture)
 
 ## Project Description ##
 
