@@ -92,7 +92,7 @@ The artifacts of the next major version are published to the MyGet feed:
 - `https://www.myget.org/F/autofixture/api/v3/index.json` (Visual Studio 2015+)
 - `https://www.myget.org/F/autofixture/api/v2` (Visual Studio 2012+)
 
-You can use this feed to early access and test the next major version of the product.
+You can use this feed to early access and test the next major version of the AutoFixture.
 
 __Notice__, this feed exists for the _preview purpose_ only, so use it with caution:
 - new versions of packages might contain breaking changes and API could change drastically from package to package. By other words, we don't follow the SemVer policy for the packages in this feed;
