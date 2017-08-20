@@ -68,18 +68,6 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void InitializeWithTargetTypeShouldSetMatcherToMatchThatExactType()
-        {
-            // Fixture setup
-            var targetType = typeof(object);
-            // Exercise system
-            var sut = new FreezeOnMatchCustomization(targetType);
-            // Verify outcome
-            var matcher = Assert.IsType<EqualRequestSpecification>(sut.Matcher);
-            Assert.Equal(targetType, matcher.Target);
-        }
-
-        [Fact]
         public void InitializeWithMatcherShouldSetCorrespondingProperty()
         {
             // Fixture setup
