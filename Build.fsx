@@ -25,8 +25,10 @@ let getVersionSourceFromGit buildNumber =
     // Example of output for a release tag: v3.50.2-288-g64fd5c5b, for a prerelease tag: v3.50.2-alpha1-288-g64fd5c5b
     let desc = Git.CommandHelper.runSimpleGitCommand "" "describe --tags --long --first-parent --match=v*"
 
+    // Previously repository contained a few broken tags like "v.3.21.1". They were removed, but could still exist
+    // in forks. We handle them as well to not fail on such repositories.
     let result = Regex.Match(desc,
-                             @"^v(?<maj>\d+)\.(?<min>\d+)\.(?<rev>\d+)(?<pre>-\w+\d*)?-(?<num>\d+)-g(?<sha>[a-z0-9]+)$",
+                             @"^v(\.)?(?<maj>\d+)\.(?<min>\d+)\.(?<rev>\d+)(?<pre>-\w+\d*)?-(?<num>\d+)-g(?<sha>[a-z0-9]+)$",
                              RegexOptions.IgnoreCase)
                       .Groups
 
