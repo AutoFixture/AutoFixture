@@ -9,11 +9,11 @@
     <Copyright>Copyright © Ploeh 2011</Copyright>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(IsFullFramework)' == 'true' ">
+  <ItemGroup Condition=" '$(TargetFramework)'=='net45' ">
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(IsNetCore)'=='true' ">
+  <ItemGroup Condition=" '$(TargetFramework)'=='netstandard1.5' ">
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
     <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
   </ItemGroup>

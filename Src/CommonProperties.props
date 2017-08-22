@@ -17,15 +17,12 @@
   <Choose>
     <When Condition="$(TargetFramework.StartsWith('netstandard')) Or $(TargetFramework.StartsWith('netcoreapp'))">
       <PropertyGroup>
-        <IsFullFramework>false</IsFullFramework>
-        <IsNetCore>true</IsNetCore>
         <DefineConstants>$(DefineConstants);SYSTEM_GLOBALIZATION_CULTUREINFO_CULTURESETTERS</DefineConstants>
       </PropertyGroup>
     </When>
     <Otherwise>
       <PropertyGroup>
-        <IsFullFramework>true</IsFullFramework>
-        <IsNetCore>false</IsNetCore>
+        <_IsFullFramework>true</_IsFullFramework>
         <DefineConstants>$(DefineConstants);SYSTEM_NET_MAIL;SYSTEM_RUNTIME_SERIALIZATION;SYSTEM_THREADING_THREAD_CULTURESETTERS;SYSTEM_COMPONENTSETTINGS_DATAERRORINFO;SYSTEM_TYPE_FULL</DefineConstants>
       </PropertyGroup>
     </Otherwise>
@@ -36,8 +33,8 @@
       <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <!-- Ensure that we create Windows PDB for Full framework and Portable PDB for NET Core -->
-        <DebugType Condition=" '$(IsFullFramework)'=='true' ">pdbonly</DebugType>
-        <DebugType Condition=" '$(IsFullFramework)'=='false' ">portable</DebugType>
+        <DebugType Condition=" '$(_IsFullFramework)'=='true' ">pdbonly</DebugType>
+        <DebugType Condition=" '$(_IsFullFramework)'!='true' ">portable</DebugType>
       </PropertyGroup>
     </When>
     <When Condition=" '$(Configuration)'=='Verify' ">
@@ -46,7 +43,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <DebugType>pdbonly</DebugType>
         <!-- Temporarily disable code analysis for the .NET Standard as it fails due to unknown framework version. -->
-        <RunCodeAnalysis Condition=" '$(IsFullFramework)'=='true' " >true</RunCodeAnalysis>
+        <RunCodeAnalysis Condition=" '$(_IsFullFramework)'=='true' " >true</RunCodeAnalysis>
         <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
         <Optimize>true</Optimize>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>

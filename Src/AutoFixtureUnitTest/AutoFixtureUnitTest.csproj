@@ -35,11 +35,11 @@
     <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(IsFullFramework)'=='true' ">
+  <ItemGroup Condition=" '$(TargetFramework)'=='net452' ">
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(IsNetCore)'=='true' ">
+  <ItemGroup Condition=" '$(TargetFramework)'=='netcoreapp1.1' ">
     <PackageReference Include="System.Linq.Parallel" Version="4.3.0" />
   </ItemGroup>
 </Project>
