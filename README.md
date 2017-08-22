@@ -88,7 +88,7 @@ AutoFixture is available via NuGet:
 * [SemanticComparison](http://nuget.org/packages/SemanticComparison)
 
 ### vNext feed
-The artifacts of the next major version are published to the MyGet feed:
+The artifacts of the next major version are published to [the MyGet feed](https://www.myget.org/gallery/autofixture):
 - `https://www.myget.org/F/autofixture/api/v3/index.json` (Visual Studio 2015+)
 - `https://www.myget.org/F/autofixture/api/v2` (Visual Studio 2012+)
 
