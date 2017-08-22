@@ -9,6 +9,7 @@ open System.Diagnostics;
 open System.Text.RegularExpressions
 
 let releaseFolder = "Release"
+let nuGetRestoreFolder = "Packages"
 let nuGetOutputFolder = "NuGetPackages"
 let nuGetPackages = !! (nuGetOutputFolder @@ "*.nupkg" )
                     // Skip symbol packages because NuGet publish symbols automatically when package is published
@@ -141,19 +142,21 @@ Target "RestorePatchedAssemblyVersionFiles" (fun _ ->
     )
 )
 
-let build target configuration =
+let build target configuration additionalProperties =
     let properties = [ "Configuration", configuration
                        "AssemblyOriginatorKeyFile", signKeyPath
                        "AssemblyVersion", buildVersion.assemblyVersion
                        "FileVersion", buildVersion.fileVersion
-                       "InformationalVersion", buildVersion.infoVersion ]
+                       "InformationalVersion", buildVersion.infoVersion 
+                       "PackageVersion", buildVersion.nugetVersion ]
+                     @ additionalProperties
 
     solutionsToBuild
     |> MSBuild "" target properties
     |> ignore
 
-let clean   = build "Clean"
-let rebuild = build "Rebuild"
+let clean configuration   = build "Clean" configuration []
+let rebuild configuration = build "Rebuild" configuration []
 
 Target "CleanAll"           DoNothing 
 Target "CleanVerify"        (fun _ -> clean "Verify")
@@ -162,7 +165,7 @@ Target "CleanReleaseFolder" (fun _ -> CleanDir releaseFolder)
 
 Target "RestoreNuGetPackages" (fun _ ->
     solutionsToBuild
-    |> Seq.iter (RestoreMSSolutionPackages (fun p -> { p with OutputPath = "Packages" }))
+    |> Seq.iter (RestoreMSSolutionPackages (fun p -> { p with OutputPath = nuGetRestoreFolder }))
 )
 
 Target "Verify" (fun _ -> rebuild "Verify")
@@ -217,68 +220,16 @@ Target "Test"  DoNothing
 
 Target "CopyToReleaseFolder" (fun _ ->
     let buildOutput = [
-      "Src/SemanticComparison/bin/Release/net40/Ploeh.SemanticComparison.dll";
-      "Src/SemanticComparison/bin/Release/net40/Ploeh.SemanticComparison.pdb";
-      "Src/SemanticComparison/bin/Release/net40/Ploeh.SemanticComparison.XML";
-      "Src/AutoMoq/bin/Release/net45/Ploeh.AutoFixture.AutoMoq.dll";
-      "Src/AutoMoq/bin/Release/net45/Ploeh.AutoFixture.AutoMoq.pdb";
-      "Src/AutoMoq/bin/Release/net45/Ploeh.AutoFixture.AutoMoq.XML";
-      "Src/AutoRhinoMock/bin/Release/net45/Ploeh.AutoFixture.AutoRhinoMock.dll";
-      "Src/AutoRhinoMock/bin/Release/net45/Ploeh.AutoFixture.AutoRhinoMock.pdb";
-      "Src/AutoRhinoMock/bin/Release/net45/Ploeh.AutoFixture.AutoRhinoMock.XML";
-      "Src/AutoFakeItEasy/bin/Release/net45/Ploeh.AutoFixture.AutoFakeItEasy.dll";
-      "Src/AutoFakeItEasy/bin/Release/net45/Ploeh.AutoFixture.AutoFakeItEasy.pdb";
-      "Src/AutoFakeItEasy/bin/Release/net45/Ploeh.AutoFixture.AutoFakeItEasy.XML";
-      "Src/AutoFakeItEasy2/bin/Release/net45/Ploeh.AutoFixture.AutoFakeItEasy2.dll";
-      "Src/AutoFakeItEasy2/bin/Release/net45/Ploeh.AutoFixture.AutoFakeItEasy2.pdb";
-      "Src/AutoFakeItEasy2/bin/Release/net45/Ploeh.AutoFixture.AutoFakeItEasy2.XML";
-      "Src/AutoNSubstitute/bin/Release/net45/Ploeh.AutoFixture.AutoNSubstitute.dll";
-      "Src/AutoNSubstitute/bin/Release/net45/Ploeh.AutoFixture.AutoNSubstitute.pdb";
-      "Src/AutoNSubstitute/bin/Release/net45/Ploeh.AutoFixture.AutoNSubstitute.XML";
       "Src/AutoFoq/bin/Release/Ploeh.AutoFixture.AutoFoq.dll";
       "Src/AutoFoq/bin/Release/Ploeh.AutoFixture.AutoFoq.pdb";
       "Src/AutoFoq/bin/Release/Ploeh.AutoFixture.AutoFoq.XML";
-      "Src/AutoFixture.xUnit.net/bin/Release/net45/Ploeh.AutoFixture.Xunit.dll";
-      "Src/AutoFixture.xUnit.net/bin/Release/net45/Ploeh.AutoFixture.Xunit.pdb";
-      "Src/AutoFixture.xUnit.net/bin/Release/net45/Ploeh.AutoFixture.Xunit.XML";
-      "Src/AutoFixture.xUnit.net2/bin/Release/net45/Ploeh.AutoFixture.Xunit2.dll";
-      "Src/AutoFixture.xUnit.net2/bin/Release/net45/Ploeh.AutoFixture.Xunit2.pdb";
-      "Src/AutoFixture.xUnit.net2/bin/Release/net45/Ploeh.AutoFixture.Xunit2.XML";
-      "Src/AutoFixture.NUnit2/bin/Release/net45/Ploeh.AutoFixture.NUnit2.dll";
-      "Src/AutoFixture.NUnit2/bin/Release/net45/Ploeh.AutoFixture.NUnit2.pdb";
-      "Src/AutoFixture.NUnit2/bin/Release/net45/Ploeh.AutoFixture.NUnit2.XML";
-      "Src/AutoFixture.NUnit2/bin/Release/net45/nunit.core.interfaces.dll"
-      "Src/AutoFixture.NUnit3/bin/Release/net45/Ploeh.AutoFixture.NUnit3.dll";
-      "Src/AutoFixture.NUnit3/bin/Release/net45/Ploeh.AutoFixture.NUnit3.pdb";
-      "Src/AutoFixture.NUnit3/bin/Release/net45/Ploeh.AutoFixture.NUnit3.XML";
-      "Src/Idioms/bin/Release/net45/Ploeh.AutoFixture.Idioms.dll";
-      "Src/Idioms/bin/Release/net45/Ploeh.AutoFixture.Idioms.pdb";
-      "Src/Idioms/bin/Release/net45/Ploeh.AutoFixture.Idioms.XML";
       "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.dll";
       "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.pdb";
       "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.XML";
     ]
-    let nuGetPackageScripts = !! "NuGet/*.ps1" ++ "NuGet/*.txt" ++ "NuGet/*.pp" |> List.ofSeq
-    let releaseFiles = buildOutput @ nuGetPackageScripts
 
-    releaseFiles
+    buildOutput
     |> CopyFiles releaseFolder
-
-    let releaseFilesPerFramework = [
-        ( "netfull", [
-            "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.dll"
-            "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.pdb"
-            "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.XML" 
-        ])
-        ( "netstandard", [
-            "Src/AutoFixture/bin/Release/netstandard1.5/Ploeh.AutoFixture.dll"
-            "Src/AutoFixture/bin/Release/netstandard1.5/Ploeh.AutoFixture.pdb"
-            "Src/AutoFixture/bin/Release/netstandard1.5/Ploeh.AutoFixture.XML" 
-        ])
-    ]
-    
-    releaseFilesPerFramework
-    |> Seq.iter (fun (framework, files) -> CopyFiles (releaseFolder @@ framework) files)
 )
 
 Target "CleanNuGetPackages" (fun _ ->
@@ -286,6 +237,16 @@ Target "CleanNuGetPackages" (fun _ ->
 )
 
 Target "NuGetPack" (fun _ ->
+    // We have an issue that each ProjectReference is set to 1.0.0 in the produced NuGet package.
+    // We apply a workaround for the issue: https://github.com/NuGet/Home/issues/4337.
+    build "Restore" "Release" [ "RestorePackagesPath", FullName nuGetRestoreFolder ]
+
+    // Pack most projects using MSBuild and later perform a NuGet pack for leftovers.
+    build "Pack" "Release" [ "IncludeSource", "true"
+                             "IncludeSymbols", "true"
+                             "PackageOutputPath", FullName nuGetOutputFolder
+                             "NoBuild", "true" ]
+
     let version = buildVersion.nugetVersion
     let nuSpecFiles = !! "NuGet/*.nuspec"
 

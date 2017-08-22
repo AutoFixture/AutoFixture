@@ -7,6 +7,11 @@
     <AssemblyName>Ploeh.AutoFixture.Idioms</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.Idioms</RootNamespace>
     <Copyright>Copyright © Ploeh 2011</Copyright>
+    
+    <!-- NuGet options -->
+    <PackageId>AutoFixture.Idioms</PackageId>
+    <Title>AutoFixture Idioms</Title>
+    <Description>Ubiquitous use of AutoFixture for unit testing has given rise to a number of idiomatic unit tests - unit tests that tend to follow common templates. The AutoFixture Idioms library encapsulates these idioms into reusable classes and methods.</Description>
   </PropertyGroup>
 
   <ItemGroup>

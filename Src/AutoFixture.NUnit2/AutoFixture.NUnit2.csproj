@@ -7,6 +7,12 @@
     <AssemblyName>Ploeh.AutoFixture.NUnit2</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.NUnit2</RootNamespace>
     <Copyright>Copyright © Ploeh 2011</Copyright>
+
+    <!-- NuGet options -->
+    <PackageId>AutoFixture.NUnit2</PackageId>
+    <Title>AutoFixture with NUnit2</Title>
+    <Description>By leveraging the some features of NUnit, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</Description>
+    <Authors>Gert Jansen van Rensburg,AutoFixture</Authors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,5 +30,24 @@
     <Reference Include="nunit.core.interfaces">
       <HintPath>..\..\References\NUnit.2.6.2\nunit.core.interfaces.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <!-- Include additional files to NuGet package -->
+  <ItemGroup>
+    <Content Include="Readme.txt">
+      <Pack>true</Pack>
+      <PackagePath>readme.txt</PackagePath>
+    </Content>
+
+    <Content Include="LocalAddin.cs.pp">
+      <Pack>true</Pack>
+      <PackagePath>content</PackagePath>
+    </Content>
+
+    <!-- A bit hacky (but working) way to include the referenced assembly to the package. -->
+    <Content Include="$(TargetDir)nunit.core.interfaces.dll">
+      <Pack>true</Pack>
+      <PackagePath>lib\$(TargetFramework)</PackagePath>
+    </Content>
   </ItemGroup>
 </Project>

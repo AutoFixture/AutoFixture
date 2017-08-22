@@ -7,6 +7,11 @@
     <AssemblyName>Ploeh.SemanticComparison</AssemblyName>
     <RootNamespace>Ploeh.SemanticComparison</RootNamespace>
     <Copyright>Copyright © Ploeh 2011</Copyright>
+
+    <!-- NuGet options -->
+    <PackageId>SemanticComparison</PackageId>
+    <Title>SemanticComparison</Title>
+    <Description>SemanticComparison makes it easier to compare instances of various objects to each other. Instead of performing a normal equality comparison, SemanticComparison compares objects that look semantically similar - even if they are of different types. Various fine-tuning options exist.</Description>
   </PropertyGroup>
 
   <ItemGroup>

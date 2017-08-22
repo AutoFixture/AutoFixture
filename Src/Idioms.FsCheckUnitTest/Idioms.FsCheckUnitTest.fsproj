@@ -50,7 +50,7 @@
       </PropertyGroup>
     </Otherwise>
   </Choose>
-  <Import Project="$(FSharpTargetsPath)" />
+  <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="app.config" />
@@ -105,4 +105,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="Pack" />
 </Project>

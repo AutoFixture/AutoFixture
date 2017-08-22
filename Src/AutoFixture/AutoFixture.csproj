@@ -7,6 +7,11 @@
     <AssemblyName>Ploeh.AutoFixture</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture</RootNamespace>
     <Copyright>Copyright © Ploeh 2011</Copyright>
+    
+    <!-- NuGet options -->
+    <PackageId>AutoFixture</PackageId>
+    <Title>AutoFixture</Title>
+    <Description>AutoFixture makes it easier for developers to do Test-Driven Development by automating non-relevant Test Fixture Setup, allowing the Test Developer to focus on the essentials of each test case.</Description>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)'=='net45' ">

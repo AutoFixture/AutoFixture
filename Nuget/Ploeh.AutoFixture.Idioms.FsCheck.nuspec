@@ -19,10 +19,9 @@
         <iconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/master/AutoFixtureLogo200x200.png</iconUrl>
     </metadata>
     <files>
-        <file src="Ploeh.AutoFixture.Idioms.FsCheck.dll" target="lib\net40" />
-        <file src="Ploeh.AutoFixture.Idioms.FsCheck.pdb" target="lib\net40" />
-        <file src="Ploeh.AutoFixture.Idioms.FsCheck.XML" target="lib\net40" />
+        <file src="Ploeh.AutoFixture.Idioms.FsCheck.dll" target="lib\net45" />
+        <file src="Ploeh.AutoFixture.Idioms.FsCheck.pdb" target="lib\net45" />
+        <file src="Ploeh.AutoFixture.Idioms.FsCheck.XML" target="lib\net45" />
         <file src="..\Src\Idioms.FsCheck\**\*.fs" target="src" />
-        <file src="Install.ps1" target="tools" />
     </files>
 </package>
