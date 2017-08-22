@@ -8,6 +8,7 @@
     <RootNamespace>Ploeh.AutoFixture.AutoFoq</RootNamespace>
     <Copyright>Copyright © Ploeh 2013</Copyright>
     <SignAssembly>False</SignAssembly>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

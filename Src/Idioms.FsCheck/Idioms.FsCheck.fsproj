@@ -8,6 +8,7 @@
     <RootNamespace>Ploeh.AutoFixture.Idioms.FsCheck</RootNamespace>
     <Copyright>Copyright © Ploeh 2014</Copyright>
     <SignAssembly>False</SignAssembly>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
