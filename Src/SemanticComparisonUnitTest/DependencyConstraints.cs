@@ -1,6 +1,6 @@
 ﻿using System.Linq;
+using System.Reflection;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.SemanticComparison.UnitTest
 {
@@ -16,7 +16,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var references = typeof(Likeness<object, object>).Assembly.GetReferencedAssemblies();
+            var references = typeof(Likeness<object, object>).GetTypeInfo().Assembly.GetReferencedAssemblies();
             // Verify outcome
             Assert.False(references.Any(an => an.Name == assemblyName));
             // Teardown
@@ -30,7 +30,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var references = this.GetType().Assembly.GetReferencedAssemblies();
+            var references = this.GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
             // Verify outcome
             Assert.False(references.Any(an => an.Name == assemblyName));
             // Teardown

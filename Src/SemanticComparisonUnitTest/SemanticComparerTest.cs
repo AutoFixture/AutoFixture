@@ -5,7 +5,6 @@ using System.Linq;
 using Ploeh.SemanticComparison.UnitTest.TestTypes;
 using Ploeh.TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.SemanticComparison.UnitTest
 {
@@ -310,6 +309,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             SemanticComparerTest.CompareSemantically(likenObject, comparee, true);
         }
 
+#if SYSTEM_COMPONENTSETTINGS_DATAERRORINFO
         /// <summary>
         /// This test reproduces a bug.
         /// </summary>
@@ -329,8 +329,9 @@ namespace Ploeh.SemanticComparison.UnitTest
             var comparee = new DataErrorInfo();
 
             // The rest of the test
-            SemanticComparerTest.CompareSemantically(likenObject, comparee, true);
+            CompareSemantically(likenObject, comparee, true);
         }
+#endif
 
         [Fact]
         public void SutOfAbstractTypeEqualsConcreteInstancesThatDifferOnlyOnMemberNotDefinedByAbstraction()
@@ -682,7 +683,7 @@ namespace Ploeh.SemanticComparison.UnitTest
                         x.PropertyType == typeof(string),
 
                     OnEquals = (x, y) => 
-                        StringComparer.OrdinalIgnoreCase.Equals(x, y)
+                        StringComparer.OrdinalIgnoreCase.Equals(x as string, y as string)
                 }
             };
             var sut = new SemanticComparer<TypeWithDifferentParameterTypesAndProperties>(comparerStubs);

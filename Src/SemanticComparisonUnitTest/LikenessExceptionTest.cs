@@ -21,8 +21,9 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                new LikenessException());
+            Assert.Null(Record.Exception(() =>
+                new LikenessException()
+            ));
             // Teardown
         }
 

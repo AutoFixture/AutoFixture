@@ -3,18 +3,20 @@
   <Import Project="..\CommonTestProperties.props" />
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFrameworks>net452;netcoreapp1.1</TargetFrameworks>
     <AssemblyTitle>SemanticComparisonUnitTest</AssemblyTitle>
     <AssemblyName>Ploeh.SemanticComparison.UnitTest</AssemblyName>
     <RootNamespace>Ploeh.SemanticComparison.UnitTest</RootNamespace>
+    
+    <DefineConstants Condition=" '$(TargetFramework)'=='net452' ">$(DefineConstants);SYSTEM_OPERATINGSYSTEM</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="xunit" Version="1.9.2" />
-    <PackageReference Include="xunit.extensions" Version="1.8.0.1549" />
+    <PackageReference Include="xunit" Version="2.3.0-beta3-build3705" />
 
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-beta3-build3705" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.0-beta3-build3705" />
   </ItemGroup>
 
   <ItemGroup>
