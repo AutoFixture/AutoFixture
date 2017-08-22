@@ -2,6 +2,7 @@
 
 open Fake
 open Fake.AppVeyor
+open Fake.DotNetCli
 open Fake.Testing
 open System
 open System.Diagnostics;
@@ -174,12 +175,28 @@ Target "TestOnly" (fun _ ->
     let parallelMode = if parallelizeTests then ParallelMode.All else ParallelMode.NoParallelization
     let maxThreads = if maxParallelThreads = 0 then CollectionConcurrencyMode.Default else CollectionConcurrencyMode.MaxThreads(maxParallelThreads)
 
+    let netCoreXunitProjects = [
+        "AutoFixtureUnitTest"
+        "AutoFixtureDocumentationTest"
+    ]
+
     let testAssemblies = !! (sprintf "Src/*Test/bin/%s/**/*Test.dll" configuration)
                          -- (sprintf "Src/AutoFixture.NUnit*.*Test/bin/%s/**/*Test.dll" configuration)
 
-    testAssemblies
+    let xUnitConsoleAssemblies = 
+        netCoreXunitProjects
+        |> Seq.fold (fun result proj ->  result -- (sprintf "Src/%s/bin/%s/**/*.dll" proj configuration))
+                    testAssemblies
+
+    xUnitConsoleAssemblies
     |> xUnit2 (fun p -> { p with Parallel = parallelMode
                                  MaxThreads = maxThreads })
+    netCoreXunitProjects
+    |> Seq.map (fun p -> sprintf "Src/%s" p)
+    |> Seq.iter (fun projDir -> 
+        DotNetCli.RunCommand (fun p -> { p with WorkingDir = projDir })
+                             (sprintf "xunit -nobuild -configuration %s" configuration)
+    )
 
     let nunit2TestAssemblies = !! (sprintf "Src/AutoFixture.NUnit2.*Test/bin/%s/**/*Test.dll" configuration)
 
@@ -200,9 +217,6 @@ Target "Test"  DoNothing
 
 Target "CopyToReleaseFolder" (fun _ ->
     let buildOutput = [
-      "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.dll";
-      "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.pdb";
-      "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.XML";
       "Src/SemanticComparison/bin/Release/net40/Ploeh.SemanticComparison.dll";
       "Src/SemanticComparison/bin/Release/net40/Ploeh.SemanticComparison.pdb";
       "Src/SemanticComparison/bin/Release/net40/Ploeh.SemanticComparison.XML";
@@ -249,6 +263,22 @@ Target "CopyToReleaseFolder" (fun _ ->
 
     releaseFiles
     |> CopyFiles releaseFolder
+
+    let releaseFilesPerFramework = [
+        ( "netfull", [
+            "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.dll"
+            "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.pdb"
+            "Src/AutoFixture/bin/Release/net45/Ploeh.AutoFixture.XML" 
+        ])
+        ( "netstandard", [
+            "Src/AutoFixture/bin/Release/netstandard1.5/Ploeh.AutoFixture.dll"
+            "Src/AutoFixture/bin/Release/netstandard1.5/Ploeh.AutoFixture.pdb"
+            "Src/AutoFixture/bin/Release/netstandard1.5/Ploeh.AutoFixture.XML" 
+        ])
+    ]
+    
+    releaseFilesPerFramework
+    |> Seq.iter (fun (framework, files) -> CopyFiles (releaseFolder @@ framework) files)
 )
 
 Target "CleanNuGetPackages" (fun _ ->

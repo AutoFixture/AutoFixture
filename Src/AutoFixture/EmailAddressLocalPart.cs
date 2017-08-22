@@ -6,11 +6,19 @@ using System.Text.RegularExpressions;
 
 namespace Ploeh.AutoFixture
 {
+#if SYSTEM_NET_MAIL
     /// <summary>
     /// Represents the local part of the email address, defined as everything up to, but not including, the @ sign.  
     /// Since EmailAddressLocalPart is used in constructing MailAddress, enforcement of rules on a valid email address
     /// is performed by <see cref="System.Net.Mail.MailAddress"/> and not EmailAddressLocalPart other than as noted. 
     /// </summary>
+#else
+    /// <summary>
+    /// Represents the local part of the email address, defined as everything up to, but not including, the @ sign.  
+    /// Since EmailAddressLocalPart is used in constructing MailAddress, enforcement of rules on a valid email address
+    /// is performed by System.Net.Mail.MailAddress and not EmailAddressLocalPart other than as noted. 
+    /// </summary>
+#endif
     public class EmailAddressLocalPart
     {
         /// <summary>

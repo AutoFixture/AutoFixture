@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = sut.Create(typeof(DomainName), null);
             // Verify outcome
             var actualDomainName = Assert.IsAssignableFrom<DomainName>(result);
-            Assert.True(Regex.IsMatch(actualDomainName.Domain, @"example\.(com|org|net)"));
+            Assert.Matches(@"example\.(com|org|net)", actualDomainName.Domain);
             // Teardown
         }
 

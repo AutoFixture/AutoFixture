@@ -1,19 +1,26 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixture", "AutoFixture\AutoFixture.csproj", "{400AC174-9A4A-4C7D-815B-F2A21130A0D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture", "AutoFixture\AutoFixture.csproj", "{400AC174-9A4A-4C7D-815B-F2A21130A0D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixtureUnitTest", "AutoFixtureUnitTest\AutoFixtureUnitTest.csproj", "{01C86B79-C79F-4EC4-B32E-DA5467DBBD31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixtureUnitTest", "AutoFixtureUnitTest\AutoFixtureUnitTest.csproj", "{01C86B79-C79F-4EC4-B32E-DA5467DBBD31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixtureDocumentationTest", "AutoFixtureDocumentationTest\AutoFixtureDocumentationTest.csproj", "{53F3A7F8-B4CA-4500-B493-FBE59D2619A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixtureDocumentationTest", "AutoFixtureDocumentationTest\AutoFixtureDocumentationTest.csproj", "{53F3A7F8-B4CA-4500-B493-FBE59D2619A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticComparisonUnitTest", "SemanticComparisonUnitTest\SemanticComparisonUnitTest.csproj", "{E10289EF-D37F-4048-83B4-0A3D0BC29927}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemanticComparisonUnitTest", "SemanticComparisonUnitTest\SemanticComparisonUnitTest.csproj", "{E10289EF-D37F-4048-83B4-0A3D0BC29927}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticComparison", "SemanticComparison\SemanticComparison.csproj", "{C5C40C06-264D-4551-AF9E-310BF007F7D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemanticComparison", "SemanticComparison\SemanticComparison.csproj", "{C5C40C06-264D-4551-AF9E-310BF007F7D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTypeFoundation", "TestTypeFoundation\TestTypeFoundation.csproj", "{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTypeFoundation", "TestTypeFoundation\TestTypeFoundation.csproj", "{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7B662CDF-7317-47CF-B392-3B6582572521}"
+	ProjectSection(SolutionItems) = preProject
+		AutoFixture.ruleset = AutoFixture.ruleset
+		CommonProperties.props = CommonProperties.props
+		CommonTestProperties.props = CommonTestProperties.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

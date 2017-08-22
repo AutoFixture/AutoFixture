@@ -1,5 +1,6 @@
 ﻿using System;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
 
@@ -111,8 +112,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                new RangedNumberRequest(type, minimum, maximum));
+            Assert.Null(Record.Exception(() =>
+                new RangedNumberRequest(type, minimum, maximum)));
             // Teardown
         }
 
@@ -158,7 +159,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var sut = new RangedNumberRequest(typeof(int), 1, 3);
-            object anonymousObject = new FileStyleUriParser();
+            object anonymousObject = new ConcreteType();
             // Exercise system
             var result = sut.Equals(anonymousObject);
             // Verify outcome

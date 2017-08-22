@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var dummyDepth = 0;
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => new RequestTraceEventArgs(null, dummyDepth));
+            Assert.Null(Record.Exception(() => new RequestTraceEventArgs(null, dummyDepth)));
             // Teardown
         }
 

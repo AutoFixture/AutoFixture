@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             Action dummy = delegate { };
             var anonymousFactory = new DelegatingMethodFactory();
-            var sut = new GenericMethod(dummy.Method, anonymousFactory);
+            var sut = new GenericMethod(dummy.GetMethodInfo(), anonymousFactory);
             Assert.IsAssignableFrom<IMethod>(sut);
         }
 
@@ -35,13 +35,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Action dummy = delegate { };
             
             Assert.Throws<ArgumentNullException>(() =>
-                new GenericMethod(dummy.Method, null));
+                new GenericMethod(dummy.GetMethodInfo(), null));
         }
 
         [Fact]
         public void MethodIsCorrect()
         {
-            var expectedMethod = ((Action)delegate { }).Method;
+            var expectedMethod = ((Action)delegate { }).GetMethodInfo();
             var anonymousFactory = new DelegatingMethodFactory();
             var sut = new GenericMethod(expectedMethod, anonymousFactory);
 
@@ -53,7 +53,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         [Fact]
         public void FactoryIsCorrect()
         {
-            var anonymousMethod = ((Action)delegate { }).Method;
+            var anonymousMethod = ((Action)delegate { }).GetMethodInfo();
             var expectedFactory = new DelegatingMethodFactory();
             var sut = new GenericMethod(anonymousMethod, expectedFactory);
 
@@ -67,8 +67,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             Action<int, double> dummy = delegate { };
             var anonymousFactory = new DelegatingMethodFactory();
-            var expectedParameters = dummy.Method.GetParameters();
-            var sut = new GenericMethod(dummy.Method, anonymousFactory);
+            var expectedParameters = dummy.GetMethodInfo().GetParameters();
+            var sut = new GenericMethod(dummy.GetMethodInfo(), anonymousFactory);
 
             var result = sut.Parameters;
 

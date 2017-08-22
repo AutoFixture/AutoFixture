@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixtureUnitTest
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => new RandomNumericSequenceGenerator());
+            Assert.Null(Record.Exception(() => new RandomNumericSequenceGenerator()));
             // Teardown
         }
 
@@ -149,8 +149,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var dummyRequest = typeof(byte);
             var sut = new RandomNumericSequenceGenerator();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(
-                () => sut.Create(dummyRequest, null));
+            Assert.Null(Record.Exception(() => sut.Create(dummyRequest, null)));
             // Teardown
         }
 
@@ -315,6 +314,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var result = Enumerable
                 .Range(0, repeatCount)
                 .Select(i => sut.Create(typeof(int), dummyContext))
+                .ToArray()
                 .Skip(lowerBounds)
                 .Cast<int>();
             // Verify outcome

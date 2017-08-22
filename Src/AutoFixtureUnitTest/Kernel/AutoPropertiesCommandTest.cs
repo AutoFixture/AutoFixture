@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
@@ -99,8 +100,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var specimen = new IndexedPropertyHolder<object>();
             var container = new DelegatingSpecimenContext { OnResolve = r => new object() };
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Execute(specimen, container));
+            Assert.Null(Record.Exception(() =>
+                sut.Execute(specimen, container)));
             // Teardown
         }
 

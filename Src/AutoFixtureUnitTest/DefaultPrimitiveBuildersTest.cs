@@ -43,7 +43,9 @@ namespace Ploeh.AutoFixtureUnitTest
                     typeof(DelegateGenerator),
                     typeof(TaskGenerator),
                     typeof(IntPtrGuard),
+#if SYSTEM_NET_MAIL
                     typeof(MailAddressGenerator),
+#endif
                     typeof(EmailAddressLocalPartGenerator),
                     typeof(DomainNameGenerator)
                  };

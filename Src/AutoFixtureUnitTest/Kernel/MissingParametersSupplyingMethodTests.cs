@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
 using Xunit.Extensions;
@@ -38,7 +39,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void ParametersIsCorrect()
         {
             Action<int, double> dummy = delegate { };
-            var expectedParameters = dummy.Method.GetParameters();
+            var expectedParameters = dummy.GetMethodInfo().GetParameters();
             var method = new DelegatingMethod {OnParameters = () => expectedParameters};
             var sut = new MissingParametersSupplyingMethod(method);
 
@@ -54,7 +55,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var expected = new object();
             Action<object, object> dummy = delegate { };
             var method = new DelegatingMethod();
-            method.OnParameters = () => dummy.Method.GetParameters();
+            method.OnParameters = () => dummy.GetMethodInfo().GetParameters();
             method.OnInvoke = args => arguments.SequenceEqual(args) ? expected : null;
             var sut = new MissingParametersSupplyingMethod(method);
 

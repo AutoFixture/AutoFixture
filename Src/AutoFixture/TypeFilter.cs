@@ -1,5 +1,10 @@
 ﻿using System;
 using Ploeh.AutoFixture.Kernel;
+#if SYSTEM_TYPE_FULL
+using DocTypeInfo = System.Type;
+#else
+using DocTypeInfo = System.Reflection.TypeInfo;
+#endif
 
 namespace Ploeh.AutoFixture
 {
@@ -9,7 +14,7 @@ namespace Ploeh.AutoFixture
     internal static class TypeFilter
     {
         /// <summary>
-        /// Checks if type is a struct. This will exclude primitive types (int, char etc.) considered as <see cref="Type.IsPrimitive"/> as well as enums
+        /// Checks if type is a struct. This will exclude primitive types (int, char etc.) considered as <see cref="DocTypeInfo.IsPrimitive"/> as well as enums
         /// but not .net structs. 
         /// </summary>
         /// <param name="type">Type that needs to be checked.</param>

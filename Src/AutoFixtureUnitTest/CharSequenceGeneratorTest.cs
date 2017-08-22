@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixtureUnitTest
             var sut = new CharSequenceGenerator();
             var dummyRequest = new object();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Create(dummyRequest, null));
+            Assert.Null(Record.Exception(() => sut.Create(dummyRequest, null)));
             // Teardown
         }
 

@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Message;
             // Verify outcome
-            Assert.Equal<string>(expectedMessage, result);
+            Assert.Equal(expectedMessage, result);
             // Teardown
         }
 

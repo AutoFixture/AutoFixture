@@ -1,27 +1,25 @@
-﻿namespace Ploeh.AutoFixture.Kernel
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Reflection.Emit;
+﻿using System;
+using System.Globalization;
+using System.Reflection;
 
+namespace Ploeh.AutoFixture.Kernel
+{
     internal static class TypeEnvy
     {
         public static TAttribute GetAttribute<TAttribute>(object candidate)
             where TAttribute : Attribute
         {
-            var member = candidate as MemberInfo;
-            if(member != null)
-            {
-                return member.GetCustomAttribute<TAttribute>();
-            }
-            var parameter = candidate as ParameterInfo;
-            if(parameter != null)
-            {
-                return parameter.GetCustomAttribute<TAttribute>();
-            }
-            return null;
+            // This is performance critical code and Linq isn't being used intentionally.
+            var attributeProvider = candidate as ICustomAttributeProvider;
+            if (attributeProvider == null) return null;
+
+            var attributes = attributeProvider.GetCustomAttributes(typeof(TAttribute), true);
+
+            if (attributes.Length == 0) return null;
+            if (attributes.Length == 1) return (TAttribute) attributes[0];
+
+            throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
+                "Member '{0}' contains more than one attribute of type '{1}'", candidate, typeof(TAttribute)));
         }
 
         public static Assembly Assembly(this Type type)

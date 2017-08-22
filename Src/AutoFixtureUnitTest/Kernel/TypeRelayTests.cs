@@ -6,6 +6,7 @@ using Xunit;
 using Ploeh.AutoFixture.Kernel;
 using Xunit.Extensions;
 using Ploeh.AutoFixture;
+using Ploeh.TestTypeFoundation;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -41,7 +42,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             object request)
         {
             // Fixture setup
-            var from = typeof(OperatingSystem);
+            var from = typeof(ConcreteType);
             var dummyTo = typeof(object);
             var sut = new TypeRelay(from, dummyTo);
             // Exercise system

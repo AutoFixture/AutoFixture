@@ -232,7 +232,11 @@ namespace Ploeh.AutoFixtureUnitTest
             };
             var sut = new RangedNumberGenerator();
             // Exercise system and verify outcome
-            Array.ForEach(request, r => Assert.DoesNotThrow(() => sut.Create(r, context)));
+            foreach (var r in request)
+            {
+                Assert.Null(Record.Exception(() => sut.Create(r, context)));
+            }
+            
             // Teardown
         }
 
@@ -280,8 +284,8 @@ namespace Ploeh.AutoFixtureUnitTest
             Func<int, object> actual = i =>
                 sut.Create(testCases[i].request, testCases[i].contextStub);
 
-            Assert.DoesNotThrow(() =>
-                Enumerable.Range(0, testCases.Length).Select(actual).ToList());
+            Assert.Null(Record.Exception(() =>
+                Enumerable.Range(0, testCases.Length).Select(actual).ToList()));
         }
 
         [Fact]
@@ -328,8 +332,8 @@ namespace Ploeh.AutoFixtureUnitTest
             Func<int, object> actual = i =>
                 sut.Create(testCases[i].request, testCases[i].contextStub);
 
-            Assert.DoesNotThrow(() =>
-                Enumerable.Range(0, testCases.Length).Select(actual).ToList());
+            Assert.Null(Record.Exception(() =>
+                Enumerable.Range(0, testCases.Length).Select(actual).ToList()));
         }
 
         private sealed class RangedNumberRequestTestCases : IEnumerable<object[]>

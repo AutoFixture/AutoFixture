@@ -132,7 +132,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             string result = fixture.Create<string>();
             // Verify outcome
-            Assert.Equal<string>("ploeh", result);
+            Assert.Equal("ploeh", result);
             // Teardown
         }
 
@@ -145,7 +145,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             // Exercise system
             string result = fixture.Create<string>();
             // Verify outcome
-            Assert.Equal<string>("fnaah", result);
+            Assert.Equal("fnaah", result);
             // Teardown
         }
 
@@ -312,7 +312,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             mc.MyText = "Ploeh";
             // Verify outcome
             string result = mc.MyText;
-            Assert.Equal<string>("Ploeh", result);
+            Assert.Equal("Ploeh", result);
             // Teardown
         }
 
@@ -327,7 +327,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
                 .Create();
             // Verify outcome
             string result = mc.MyText;
-            Assert.Equal<string>("Ploeh", result);
+            Assert.Equal("Ploeh", result);
             // Teardown
         }
 
@@ -381,7 +381,7 @@ namespace Ploeh.AutoFixtureDocumentationTest.Simple
             something.Initialize(new MyClass());
             something.Message = "Ploeh";
             // Verify outcome
-            Assert.Equal<string>("Ploeh", something.Message);
+            Assert.Equal("Ploeh", something.Message);
             // Teardown
         }
 

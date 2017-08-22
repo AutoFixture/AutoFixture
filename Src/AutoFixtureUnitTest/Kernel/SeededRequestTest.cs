@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
@@ -85,7 +86,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var sut = new SeededRequest(new object(), "Anonymous value");
-            object anonymousObject = new FileStyleUriParser();
+            object anonymousObject = new ConcreteType();
             // Exercise system
             var result = sut.Equals(anonymousObject);
             // Verify outcome
@@ -182,7 +183,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var anonymousRequest = typeof(Buffer);
-            var sut = new SeededRequest(anonymousRequest, new GopherStyleUriParser());
+            var sut = new SeededRequest(anonymousRequest, new ConcreteType());
             object other = new SeededRequest(anonymousRequest, null);
             // Exercise system
             var result = sut.Equals(other);
@@ -196,7 +197,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         {
             // Fixture setup
             var anonymousRequest = typeof(Buffer);
-            var sut = new SeededRequest(anonymousRequest, new GopherStyleUriParser());
+            var sut = new SeededRequest(anonymousRequest, new ConcreteType());
             var other = new SeededRequest(anonymousRequest, null);
             // Exercise system
             var result = sut.Equals(other);
@@ -209,8 +210,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutEqualsOtherObjectWhenRequestAndSeedEquals()
         {
             // Fixture setup
-            var request = typeof(HttpStyleUriParser);
-            var seed = new OperatingSystem(PlatformID.WinCE, new Version());
+            var request = typeof(ConcreteType);
+            var seed = new TypeWithConcreteParameterMethod();
             var sut = new SeededRequest(request, seed);
             object other = new SeededRequest(request, seed);
             // Exercise system
@@ -224,8 +225,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void SutEqualsOtherSutWhenRequestsAndSeedEquals()
         {
             // Fixture setup
-            var request = typeof(HttpStyleUriParser);
-            var seed = new OperatingSystem(PlatformID.WinCE, new Version());
+            var request = typeof(ConcreteType);
+            var seed = new TypeWithConcreteParameterMethod();
             var sut = new SeededRequest(request, seed);
             var other = new SeededRequest(request, seed);
             // Exercise system
@@ -281,7 +282,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void GetHashCodeWillReturnCorrectResult()
         {
             // Fixture setup
-            var request = typeof(NetPipeStyleUriParser);
+            var request = typeof(ConcreteType);
             var value = Missing.Value;
             var sut = new SeededRequest(request, value);
             var expectedHashCode = request.GetHashCode() ^ value.GetHashCode();

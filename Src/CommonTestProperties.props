@@ -4,6 +4,7 @@
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\Empty.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>

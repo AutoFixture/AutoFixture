@@ -78,7 +78,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(1, result.Parameter1.Parameter1);
             Assert.NotEqual(default(Guid), result.Parameter1.Parameter2);
             Assert.Equal(1m, result.Parameter2.Parameter1);
-            Assert.Equal(true, result.Parameter2.Parameter2);
+            Assert.True(result.Parameter2.Parameter2);
             // Teardown
         }
 

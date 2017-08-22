@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xunit;
 using System.Reflection;
 using System.Globalization;
 using System.Threading;
+using Xunit.Sdk;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
@@ -33,17 +30,28 @@ namespace Ploeh.AutoFixtureUnitTest
 
         public override void Before(MethodInfo methodUnderTest)
         {
-            originalCulture = Thread.CurrentThread.CurrentCulture;
-            originalUiCulture = Thread.CurrentThread.CurrentUICulture;
+            originalCulture = CultureInfo.CurrentCulture;
+            originalUiCulture = CultureInfo.CurrentCulture;
 
-            Thread.CurrentThread.CurrentCulture = this.culture;
-            Thread.CurrentThread.CurrentUICulture = this.uiCulture;
+            SetCurrentCulture(culture, uiCulture);
         }
 
         public override void After(MethodInfo methodUnderTest)
         {
-            Thread.CurrentThread.CurrentCulture = originalCulture;
-            Thread.CurrentThread.CurrentUICulture = originalUiCulture;
+            SetCurrentCulture(originalCulture, originalUiCulture);
+        }
+
+        private static void SetCurrentCulture(CultureInfo culture, CultureInfo uiCulture)
+        {
+#if SYSTEM_THREADING_THREAD_CULTURESETTERS
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = uiCulture;
+#elif SYSTEM_GLOBALIZATION_CULTUREINFO_CULTURESETTERS
+            CultureInfo.CurrentCulture = culture;
+            CultureInfo.CurrentUICulture = uiCulture;
+#else
+#error No culture setter is defined.
+#endif
         }
     }
 }

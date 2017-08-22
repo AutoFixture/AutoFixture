@@ -342,22 +342,22 @@ namespace Ploeh.AutoFixtureUnitTest.Dsl
             // Fixture setup
             var node = new CompositeSpecimenBuilder(
                 new DelegatingSpecimenBuilder(),
-                SpecimenBuilderNodeFactory.CreateComposer<AppDomainSetup>(),
+                SpecimenBuilderNodeFactory.CreateComposer<ConcreteType>(),
                 SpecimenBuilderNodeFactory.CreateComposer<bool>(),
-                SpecimenBuilderNodeFactory.CreateComposer<AppDomainSetup>(),
+                SpecimenBuilderNodeFactory.CreateComposer<ConcreteType>(),
                 new DelegatingSpecimenBuilder());
-            var sut = new CompositeNodeComposer<AppDomainSetup>(node);
-            Action<AppDomainSetup> a =
-                ads => ads.DisallowApplicationBaseProbing = false;
+            var sut = new CompositeNodeComposer<ConcreteType>(node);
+            Action<ConcreteType> a =
+                ads => ads.Property1 = null;
             // Exercise system
             var actual = sut.Do(a);
             // Verify outcome
-            var expected = new CompositeNodeComposer<AppDomainSetup>(
+            var expected = new CompositeNodeComposer<ConcreteType>(
                 new CompositeSpecimenBuilder(
                     new DelegatingSpecimenBuilder(),
-                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<AppDomainSetup>().Do(a),
+                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<ConcreteType>().Do(a),
                     SpecimenBuilderNodeFactory.CreateComposer<bool>(),
-                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<AppDomainSetup>().Do(a),
+                    (ISpecimenBuilder)SpecimenBuilderNodeFactory.CreateComposer<ConcreteType>().Do(a),
                     new DelegatingSpecimenBuilder()));
             var n = Assert.IsAssignableFrom<ISpecimenBuilderNode>(actual);
             Assert.True(expected.GraphEquals(n, new NodeComparer()));

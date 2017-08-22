@@ -1,5 +1,6 @@
 ﻿using System;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.TestTypeFoundation;
 using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
@@ -31,10 +32,10 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void FactoryIsCorrect()
         {
             // Fixture setup
-            Func<OperatingSystem> expectedFactory = () => new OperatingSystem(PlatformID.WinCE, new Version(10, 8));
-            var sut = new SpecimenFactory<OperatingSystem>(expectedFactory);
+            Func<ConcreteType> expectedFactory = () => new ConcreteType(42, "42");
+            var sut = new SpecimenFactory<ConcreteType>(expectedFactory);
             // Exercise system
-            Func<OperatingSystem> result = sut.Factory;
+            Func<ConcreteType> result = sut.Factory;
             // Verify outcome
             Assert.Equal(expectedFactory, result);
             // Teardown
