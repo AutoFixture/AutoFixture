@@ -13,6 +13,8 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)\AutoFixture.snk</AssemblyOriginatorKeyFile>
 
+    <Configurations>Debug;Release;Verify</Configurations>
+
     <!-- NuGet options -->
     <Authors>Mark Seemann,AutoFixture</Authors>
     <PackageProjectUrl>https://github.com/AutoFixture/AutoFixture</PackageProjectUrl>
