@@ -8,7 +8,12 @@
     <RootNamespace>Ploeh.AutoFixture.AutoFoq</RootNamespace>
     <Copyright>Copyright © Ploeh 2013</Copyright>
     <SignAssembly>False</SignAssembly>
-    <IsPackable>false</IsPackable>
+
+    <!-- NuGet options -->
+    <PackageId>AutoFixture.AutoFoq</PackageId>
+    <Title>AutoFixture with Auto Mocking using Foq</Title>
+    <Description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by Foq. To use it, add the AutoFoqCustomization to your Fixture instance.</Description>
+    <Authors>Nikos Baxevanis,AutoFixture</Authors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FSharp.Core" Version="3.0.2" />
+    <PackageReference Include="FSharp.Core" Version="3.0.2" PrivateAssets="All" />
     <PackageReference Include="Foq" Version="1.5.1" />
     <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
   </ItemGroup>
