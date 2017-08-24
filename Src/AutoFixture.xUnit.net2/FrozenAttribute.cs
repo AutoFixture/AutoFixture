@@ -232,7 +232,7 @@ namespace Ploeh.AutoFixture.Xunit2
                     return true;
                 if (y == null)
                     return false;
-                return y.IsAssignableFrom(x);
+                return y.GetTypeInfo().IsAssignableFrom(x);
             }
 
             public int GetHashCode(Type obj)

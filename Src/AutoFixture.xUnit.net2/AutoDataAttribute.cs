@@ -133,7 +133,7 @@ namespace Ploeh.AutoFixture.Xunit2
                 throw new ArgumentNullException("type");
             }
 
-            if (!typeof(IFixture).IsAssignableFrom(type))
+            if (!typeof(IFixture).GetTypeInfo().IsAssignableFrom(type))
             {
                 throw new ArgumentException(
                     string.Format(
@@ -143,7 +143,7 @@ namespace Ploeh.AutoFixture.Xunit2
                     "type");
             }
 
-            var ctor = type.GetConstructor(Type.EmptyTypes);
+            var ctor = type.GetTypeInfo().GetConstructor(Type.EmptyTypes);
             if (ctor == null)
             {
                 throw new ArgumentException(
