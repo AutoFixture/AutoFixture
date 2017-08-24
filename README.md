@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master) [![NuGet version](https://img.shields.io/nuget/v/AutoFixture.svg)](https://www.nuget.org/packages/AutoFixture)
 
 ## Project Description ##
 
@@ -87,9 +87,20 @@ AutoFixture is available via NuGet:
 * [AutoFixture.Idioms](http://nuget.org/packages/AutoFixture.Idioms)
 * [SemanticComparison](http://nuget.org/packages/SemanticComparison)
 
+### vNext feed
+The artifacts of the next major version are published to [the MyGet feed](https://www.myget.org/gallery/autofixture):
+- `https://www.myget.org/F/autofixture/api/v3/index.json` (Visual Studio 2015+)
+- `https://www.myget.org/F/autofixture/api/v2` (Visual Studio 2012+)
+
+You can use this feed to early access and test the next major version of the AutoFixture.
+
+__Notice__, this feed exists for the _preview purpose_ only, so use it with caution:
+- new versions of packages might contain breaking changes and API could change drastically from package to package. By other words, we don't follow the SemVer policy for the packages in this feed;
+- packages might be cleaned up over time (MyGet has storage limits), so don't consider this feed for the permanent usage (or at least ensure to make a copy of the used packages somewhere else).
+
 ## Versioning
 
-AutoFixture follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html).
+AutoFixture follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html) for the public releases (published to the [nuget.org](https://www.nuget.org/)).
 
 ## Build
 
