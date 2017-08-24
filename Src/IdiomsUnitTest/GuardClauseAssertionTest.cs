@@ -446,17 +446,14 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Theory]
         [InlineData(typeof(ClassWithDeferredNullGuard))]
         [InlineData(typeof(ClassWithDeferredGuidGuard))]
-        [InlineData(typeof(ClassWithDeferredGuidGuardReturningEnumerator))]
-        public void VerifyMethodWithDeferredGuardThrowsExceptionWithExtraHelpfulMessage(
+        public void VerifyMethodWithDeferredGuardDoesNotThrow(
             Type type)
         {
             // Fixture setup
             var sut = new GuardClauseAssertion(new Fixture());
             var method = type.GetMethod("GetValues");
             // Exercise system and verify outcome
-            var e =
-                Assert.Throws<GuardClauseException>(() => sut.Verify(method));
-            Assert.Contains("deferred", e.Message);
+            Assert.DoesNotThrow(() => sut.Verify(method));
             // Teardown
         }
 
@@ -477,7 +474,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             public IEnumerable<Guid> GetValues(Guid someGuid)
             {
-                if (someGuid == null)
+                if (someGuid == Guid.Empty)
                     throw new ArgumentException(
                         "Guid.Empty not allowed.",
                         "someGuid");
@@ -488,11 +485,25 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             }
         }
 
+        [Fact]
+        public void VerifyMethodWithDeferredGuardThrowsExceptionWithExtraHelpfulMessage()
+        {
+            // Fixture setup
+            var type = typeof (ClassWithDeferredGuidGuardReturningEnumerator);
+            var sut = new GuardClauseAssertion(new Fixture());
+            var method = type.GetMethod("GetValues");
+            // Exercise system and verify outcome
+            var e =
+                Assert.Throws<GuardClauseException>(() => sut.Verify(method));
+            Assert.Contains("deferred", e.Message);
+            // Teardown
+        }
+
         private class ClassWithDeferredGuidGuardReturningEnumerator
         {
             public IEnumerator<Guid> GetValues(Guid someGuid)
             {
-                if (someGuid == null)
+                if (someGuid == Guid.Empty)
                     throw new ArgumentException(
                         "Guid.Empty not allowed.",
                         "someGuid");
@@ -656,7 +667,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         {
             public Dictionary<string, string> GetValues(string someString)
             {
-                return new Dictionary<string, string> 
+                return new Dictionary<string, string>
                 {
                     { "uniqueKey1", someString },
                     { "uniqueKey2", someString }
@@ -992,7 +1003,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                     mockVerification = true;
                 }
             };
-            
+
             var sut = new GuardClauseAssertion(fixture, behaviorExpectation);
             var methodInfo = typeof(DynamicInstanceTestConstraint<>).GetMethod("Method");
             // Exercise system
@@ -1098,7 +1109,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
                 return System.Threading.Tasks.Task.Factory.StartNew(() => obj.ToString());
             }
-            
+
             public System.Threading.Tasks.Task TaskWithCorrectGuardClause(object obj)
             {
                 if (obj == null)
@@ -1700,7 +1711,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             public void Method<T2>(ref T2 argument) where T2 : class
             {
             }
-            
+
             public void Method(ref T1 argument1, int argument2)
             {
             }
