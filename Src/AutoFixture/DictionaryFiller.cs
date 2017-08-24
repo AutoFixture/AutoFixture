@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            var typeArguments = specimen.GetType().GetGenericArguments();
+            var typeArguments = GetInheritedDictionaryGenericArguments(specimen.GetType());
             if (typeArguments.Length != 2)
                 throw new ArgumentException("The specimen must be an instance of IDictionary<TKey, TValue>.", nameof(specimen));
 
@@ -58,6 +58,19 @@ namespace Ploeh.AutoFixture
             var filler = (ISpecimenCommand)Activator.CreateInstance(
                 typeof(Filler<,>).MakeGenericType(typeArguments));
             filler.Execute(specimen, context);
+        }
+
+        private static Type[] GetInheritedDictionaryGenericArguments(Type type)
+        {
+            var dictionaryInterfaces =
+                from i in type.GetInterfaces()
+                where i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IDictionary<,>)
+                select i;
+
+            var dictionaryInterface = dictionaryInterfaces.FirstOrDefault();
+            return dictionaryInterface == null
+                ? new Type[0]
+                : dictionaryInterface.GetGenericArguments();
         }
 
         private class Filler<TKey, TValue> : ISpecimenCommand

@@ -89,34 +89,8 @@ namespace Ploeh.AutoFixture
                                     new Postprocessor(
                                         new MethodInvoker(
                                             new ModestConstructorQuery()),
-                                        new DictionaryFiller()),
-                                    new SortedDictionarySpecification()),
-                                new FilteringSpecimenBuilder(
-                                    new Postprocessor(
-                                        new MethodInvoker(
-                                            new ModestConstructorQuery()),
-                                        new DictionaryFiller()),
-                                    new SortedListSpecification()),
-                                new FilteringSpecimenBuilder(
-                                    new MethodInvoker(
-                                        new EnumerableFavoringConstructorQuery()),
-                                    new ObservableCollectionSpecification()),
-                                new FilteringSpecimenBuilder(
-                                    new MethodInvoker(
-                                        new ListFavoringConstructorQuery()),
+                                        new CollectionFillerCommand()),
                                     new CollectionSpecification()),
-                                new FilteringSpecimenBuilder(
-                                    new MethodInvoker(
-                                        new EnumerableFavoringConstructorQuery()),
-                                    new HashSetSpecification()),
-                                new FilteringSpecimenBuilder(
-                                    new MethodInvoker(
-                                        new EnumerableFavoringConstructorQuery()),
-                                    new SortedSetSpecification()),
-                                new FilteringSpecimenBuilder(
-                                    new MethodInvoker(
-                                        new EnumerableFavoringConstructorQuery()),
-                                    new ListSpecification()),
                                 new FilteringSpecimenBuilder(
                                     new MethodInvoker(
                                         new ModestConstructorQuery()),

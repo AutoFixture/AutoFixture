@@ -7,6 +7,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Encapsulates logic that determines whether a request is a request for a
     /// <see cref="SortedDictionary{TKey, TValue}"/>.
     /// </summary>
+    [Obsolete("Please move over to using DictionarySpecification as that class now generically handles the SortedDictionary functionality.")]
     public class SortedDictionarySpecification : IRequestSpecification
     {
         /// <summary>

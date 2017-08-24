@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -15,7 +16,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="request">The specimen request.</param>
         /// <returns>
         /// <see langword="true"/> if <paramref name="request"/> is a request for a
-        /// <see cref="Dictionary{TKey, TValue}" />; otherwise, <see langword="false"/>.
+        /// <see cref="IDictionary{TKey, TValue}" />; otherwise, <see langword="false"/>.
         /// </returns>
         public bool IsSatisfiedBy(object request)
         {
@@ -25,8 +26,19 @@ namespace Ploeh.AutoFixture.Kernel
                 return false;
             }
 
-            return type.IsGenericType
-                && typeof(Dictionary<,>) == type.GetGenericTypeDefinition();
+            if (!type.GetConstructors().Any())
+            {
+                return false;
+            }
+
+            // TODO: After updating to .Net 4.5, check for IReadOnlyDictionary<,>
+
+            var dictionaryInterfaces =
+                from i in type.GetInterfaces()
+                where i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IDictionary<,>)
+                select i;
+
+            return dictionaryInterfaces.Any();
         }
     }
 }
