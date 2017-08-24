@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 {
@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public void AttributeCanBeAppliedToCodeElementsSupportedBySubstituteAttributeRelay(AttributeTargets expectedTarget)
         {
             // Fixture setup
-            var attributeUsage = typeof(SubstituteAttribute).GetCustomAttributes(false)
+            var attributeUsage = typeof(SubstituteAttribute).GetTypeInfo().GetCustomAttributes(false)
                 .OfType<AttributeUsageAttribute>().Single();
             // Exercise system
             Assert.Equal(expectedTarget, attributeUsage.ValidOn & expectedTarget);
@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public void AttributeCanBeAppliedOnlyOnceBecauseDefiningMultipleSubstitutesForSingleArgumentIsMeaningless()
         {
             // Fixture setup
-            var attributeUsage = typeof(SubstituteAttribute).GetCustomAttributes(false)
+            var attributeUsage = typeof(SubstituteAttribute).GetTypeInfo().GetCustomAttributes(false)
                 .OfType<AttributeUsageAttribute>().Single();
             // Exercise system
             Assert.False(attributeUsage.AllowMultiple);

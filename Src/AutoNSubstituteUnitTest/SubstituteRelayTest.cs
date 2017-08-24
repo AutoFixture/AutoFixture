@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Reflection;
 using NSubstitute;
 using NSubstitute.Exceptions;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 {
