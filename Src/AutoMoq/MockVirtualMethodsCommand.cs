@@ -112,7 +112,7 @@ namespace Ploeh.AutoFixture.AutoMoq
         {
             // If "type" is an interface, "GetMethods" does not return methods declared on other interfaces extended by "type".
             // In these cases, we use the "GetInterfaceMethods" extension method instead.
-            var methods = type.IsInterface
+            var methods = type.GetTypeInfo().IsInterface
                               ? type.GetInterfaceMethods()
                               : type.GetMethods();
 

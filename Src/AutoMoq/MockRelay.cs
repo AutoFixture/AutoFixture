@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Moq;
 using Ploeh.AutoFixture.Kernel;
 
@@ -106,8 +107,7 @@ namespace Ploeh.AutoFixture.AutoMoq
                 if (t == null)
                     return false;
 
-                return (t != null)
-                    && ((t.IsAbstract) || (t.IsInterface));
+                return t.GetTypeInfo().IsAbstract || t.GetTypeInfo().IsInterface;
             }
         }
     }

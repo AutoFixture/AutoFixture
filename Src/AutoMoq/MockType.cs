@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using Moq;
 using Moq.Language;
@@ -38,7 +37,7 @@ namespace Ploeh.AutoFixture.AutoMoq
         internal static bool IsMock(this Type type)
         {
             return (type != null
-                && type.IsGenericType
+                && type.GetTypeInfo().IsGenericType
                 && typeof(Mock<>).IsAssignableFrom(type.GetGenericTypeDefinition())
                 && !type.GetMockedType().IsGenericParameter);
         }
@@ -50,7 +49,7 @@ namespace Ploeh.AutoFixture.AutoMoq
              * and MulticaseDelegate] are merged and that only 
              * MulticastDelegate exists."
              * http://blogs.msdn.com/b/brada/archive/2004/02/05/68415.aspx */
-            return typeof(MulticastDelegate).IsAssignableFrom(type.BaseType);
+            return typeof(MulticastDelegate).IsAssignableFrom(type.GetTypeInfo().BaseType);
         }
 
         internal static ConstructorInfo GetDefaultConstructor(this Type type)
