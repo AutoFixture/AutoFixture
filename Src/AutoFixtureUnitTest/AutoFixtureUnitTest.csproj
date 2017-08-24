@@ -187,6 +187,7 @@
     <Compile Include="MarkerNode.cs" />
     <Compile Include="ProvidedAttribute.cs" />
     <Compile Include="RandomCharSequenceGeneratorTest.cs" />
+    <Compile Include="RandomDateTimeOffsetSequenceGeneratorTest.cs" />
     <Compile Include="RandomDateTimeSequenceGeneratorTest.cs" />
     <Compile Include="RandomBooleanSequenceCustomizationTest.cs" />
     <Compile Include="RandomNumericSequenceCustomizationTest.cs" />
