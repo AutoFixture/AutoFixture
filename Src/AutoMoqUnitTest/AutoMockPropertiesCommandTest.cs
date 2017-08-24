@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var specimen = new Mock<IInterfaceWithoutMembers>();
             var proxyField = specimen.Object.GetType().GetField(proxyFieldName);
-            var initialProxyFieldValue = proxyField.GetValue(specimen.Object);
+            var initialProxyFieldValue = proxyField?.GetValue(specimen.Object);
 
             var contextStub = new Mock<ISpecimenContext>();
             contextStub.Setup(ctx => ctx.Resolve(It.IsAny<FieldInfo>()))
@@ -95,7 +95,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             sut.Execute(specimen, contextStub.Object);
             // Verify outcome
-            var finalProxyFieldValue = proxyField.GetValue(specimen.Object);
+            var finalProxyFieldValue = proxyField?.GetValue(specimen.Object);
             Assert.Same(initialProxyFieldValue, finalProxyFieldValue);
         }
     }
