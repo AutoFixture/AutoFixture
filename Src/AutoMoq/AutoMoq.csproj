@@ -12,6 +12,10 @@
     <PackageId>AutoFixture.AutoMoq</PackageId>
     <Title>AutoFixture with Auto Mocking using Moq</Title>
     <Description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by Moq. To use it, add the AutoMoqCustomization to your Fixture instance. Read more at http://blog.ploeh.dk/2010/08/19/AutoFixtureAsAnAutomockingContainer.aspx</Description>
+
+    <!--  Suppress warning about invalid dependency version in Castle.Core.
+          That is Moq dependency and we cannot fix that somehow. -->
+    <NoWarn>$(NoWarn);NU1603</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

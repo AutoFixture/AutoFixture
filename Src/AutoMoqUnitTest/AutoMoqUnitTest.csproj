@@ -7,6 +7,10 @@
     <AssemblyTitle>AutoMoqUnitTest</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.AutoMoq.UnitTest</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.AutoMoq.UnitTest</RootNamespace>
+
+    <!--  Suppress warning about invalid dependency version in Castle.Core.
+          That is Moq dependency and we cannot fix that somehow. -->
+    <NoWarn>$(NoWarn);NU1603</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
