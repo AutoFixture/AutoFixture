@@ -1,5 +1,6 @@
 ﻿using System;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.AutoFixtureUnitTest.DataAnnotations;
 using Xunit;
 using Xunit.Extensions;
 
@@ -113,6 +114,33 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system and verify outcome
             Assert.DoesNotThrow(() =>
                 new RangedNumberRequest(type, minimum, maximum));
+            // Teardown
+        }        
+
+        [Theory]
+        [InlineData(0, 1)]
+        [InlineData(1, 1)]
+        [InlineData(-1, 0)]
+        [InlineData(4, 5)]
+        public void CreateWithOutOfRangeEnumValuesWillThrow(object minimum, object maximum)
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                new RangedNumberRequest(typeof(RangeValidatedEnum), minimum, maximum));
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(1, 3)]
+        [InlineData(1, 2)]
+        [InlineData(2, 3)]        
+        public void CreateWithInRangeEnumValuesDoesNotThrow(object minimum, object maximum)
+        {
+            // Fixture setup
+            // Exercise system and verify outcome
+            Assert.DoesNotThrow(() =>
+                new RangedNumberRequest(typeof(RangeValidatedEnum), minimum, maximum));
             // Teardown
         }
 

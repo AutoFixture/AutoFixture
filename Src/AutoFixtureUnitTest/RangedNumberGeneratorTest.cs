@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.Kernel;
+using Ploeh.AutoFixtureUnitTest.DataAnnotations;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Xunit;
 using Xunit.Extensions;
@@ -519,6 +520,17 @@ namespace Ploeh.AutoFixtureUnitTest
                 yield return CreateTestCase(operandType: typeof(ushort), minimum: 10, maximum: 20, contextValue: new object(),
 #pragma warning disable 618
                     expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(ushort), 10, 20)));
+#pragma warning restore 618
+
+                yield return CreateTestCase(operandType: typeof(RangeValidatedEnum), minimum: 1, maximum: 3, contextValue: 1, 
+                    expectedResult: RangeValidatedEnum.First);
+                yield return CreateTestCase(operandType: typeof(RangeValidatedEnum), minimum: 1, maximum: 3, contextValue: 2, 
+                    expectedResult: RangeValidatedEnum.Second);
+                yield return CreateTestCase(operandType: typeof(RangeValidatedEnum), minimum: 1, maximum: 3, contextValue: 3, 
+                    expectedResult: RangeValidatedEnum.Third);
+                yield return CreateTestCase(operandType: typeof(RangeValidatedEnum), minimum: 1, maximum: 3, contextValue: new object(),
+#pragma warning disable 618
+                    expectedResult: new NoSpecimen(new RangedNumberRequest(typeof(RangeValidatedEnum), 1, 3)));
 #pragma warning restore 618
             }
 

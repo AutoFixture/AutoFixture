@@ -13,8 +13,14 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         public const string StringMinimum = "10.1";
         public const string StringMaximum = "20.2";
 
+        public const int EnumMinimum = 1;
+        public const int EnumMaximum = 3;
+
         [Range(Minimum, Maximum)]
         public decimal Field;
+
+        [Range(EnumMinimum, EnumMaximum)]
+        public RangeValidatedEnum EnumField;
 
         [Range(Minimum, Maximum)]
         public decimal Property { get; set; }
@@ -52,6 +58,9 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         [Range(Minimum, Maximum)]
         public decimal? NullableTypeField;
 
+        [Range(EnumMinimum, EnumMaximum)]
+        public RangeValidatedEnum? NullableTypeEnumField;
+
         [Range(Minimum, Maximum)]
         public decimal? NullableTypeProperty { get; set; }
 
@@ -66,5 +75,11 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
 
         [Range(Minimum, float.MaxValue)]
         public float PropertyWithMaximumFloatMaxValue { get; set; }
+
+        [Range(EnumMinimum, EnumMaximum)]
+        public RangeValidatedEnum EnumProperty { get; set; }
+
+        [Range(EnumMinimum, EnumMaximum)]
+        public RangeValidatedEnum? NullableTypeEnumProperty { get; set; }
     }
 }

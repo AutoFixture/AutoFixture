@@ -94,11 +94,28 @@ namespace Ploeh.AutoFixture
                     else
                         target = this.rangedValue;
 
-                    this.rangedValue = Convert.ChangeType(target, range.OperandType, CultureInfo.CurrentCulture);
+                    this.rangedValue = range.OperandType.IsEnum 
+                        ? Enum.Parse(range.OperandType, target.ToString()) 
+                        : Convert.ChangeType(target, range.OperandType, CultureInfo.CurrentCulture);
                 }
 
-                if (this.rangedValue != null && (minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) > 0))
+                if (this.rangedValue != null && range.OperandType.IsEnum && !Enum.IsDefined(range.OperandType, this.rangedValue))
                 {
+                    this.rangedValue =
+                        Enum.Parse(
+                            range.OperandType,                            
+                            RangedNumberGenerator.Add(this.rangedValue, Enum.Parse(range.OperandType, "1")).ToString());
+
+                    if (((int)maximum).CompareTo((int)this.rangedValue) < 0)
+                    {
+                        this.rangedValue = Enum.Parse(
+                            range.OperandType,
+                            maximum.ToString());
+                    }
+                }
+                else if (this.rangedValue != null && !range.OperandType.IsEnum 
+                    && minimum.CompareTo(this.rangedValue) <= 0 && maximum.CompareTo(this.rangedValue) > 0)
+                {                 
                     this.rangedValue =
                         Convert.ChangeType(
                             RangedNumberGenerator.Add(
@@ -149,7 +166,9 @@ namespace Ploeh.AutoFixture
                     }
                 }
 
-                this.rangedValue = Convert.ChangeType(this.rangedValue, range.OperandType, CultureInfo.CurrentCulture);
+                this.rangedValue = range.OperandType.IsEnum
+                    ? Enum.Parse(range.OperandType, rangedValue.ToString())
+                    : Convert.ChangeType(rangedValue, range.OperandType, CultureInfo.CurrentCulture);                                
             }
         }
 
