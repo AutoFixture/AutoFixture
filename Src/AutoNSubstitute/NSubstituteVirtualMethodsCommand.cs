@@ -126,7 +126,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             private static string GetFriendlyName(Type type)
             {
-                if (type.IsGenericType)
+                if (type.GetTypeInfo().IsGenericType)
                     return string.Format(CultureInfo.CurrentCulture,
                         "{0}<{1}>",
                         type.Name.Split('`')[0],
@@ -298,7 +298,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             private static object[] GetDefaultParameters(MethodInfo methodInfo)
             {
                 return methodInfo.GetParameters()
-                    .Select(p => p.ParameterType.IsValueType ? Activator.CreateInstance(p.ParameterType) : null)
+                    .Select(p => p.ParameterType.GetTypeInfo().IsValueType ? Activator.CreateInstance(p.ParameterType) : null)
                     .ToArray();
             }
         }
