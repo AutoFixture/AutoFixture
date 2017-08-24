@@ -222,9 +222,6 @@ Target "Test"  DoNothing
 
 Target "CopyToReleaseFolder" (fun _ ->
     let buildOutput = [
-      "Src/Idioms.FsCheck/bin/Release/net45/Ploeh.AutoFixture.Idioms.FsCheck.dll";
-      "Src/Idioms.FsCheck/bin/Release/net45/Ploeh.AutoFixture.Idioms.FsCheck.pdb";
-      "Src/Idioms.FsCheck/bin/Release/net45/Ploeh.AutoFixture.Idioms.FsCheck.XML";
     ]
 
     buildOutput
