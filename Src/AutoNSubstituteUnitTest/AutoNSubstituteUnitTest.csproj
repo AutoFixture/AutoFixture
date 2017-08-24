@@ -7,6 +7,10 @@
     <AssemblyTitle>AutoNSubstituteUnitTest</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.AutoNSubstitute.UnitTest</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.AutoNSubstitute.UnitTest</RootNamespace>
+
+    <!--  Suppress warning about invalid dependency version in Castle.Core.
+          That is NSubstitute dependency and we cannot fix that somehow. -->
+    <NoWarn>$(NoWarn);NU1603</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
