@@ -8,10 +8,10 @@ open System.Runtime.InteropServices
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[<assembly: AssemblyTitle("AutoFoq")>]
+[<assembly: AssemblyTitle("AutoFixture.AutoFoq")>]
 [<assembly: AssemblyDescription("")>]
 [<assembly: AssemblyConfiguration("")>]
-[<assembly: AssemblyCompany("Ploeh")>]
+[<assembly: AssemblyCompany("AutoFixture")>]
 [<assembly: AssemblyProduct("AutoFixture")>]
 [<assembly: AssemblyCopyright("Copyright © Ploeh 2013")>]
 [<assembly: AssemblyTrademark("")>]

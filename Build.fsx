@@ -112,7 +112,9 @@ Target "PatchAssemblyVersions" (fun _ ->
         buildVersion.fileVersion
         buildVersion.infoVersion
 
-    let filesToPatch = !! "Src/*/Properties/AssemblyInfo.*"
+    // .NET Core SDK creates attributes for C# automatically, therefore only F# files should be updated.
+    // Patching and backup restore should be completely deleted after F# supports auto-generated attributes.
+    let filesToPatch = !! "Src/*/Properties/AssemblyInfo.fs"
                        -- addBakExt "Src/*/Properties/*"
     
     // Backup the original file versions
@@ -131,7 +133,7 @@ Target "PatchAssemblyVersions" (fun _ ->
 )
 
 Target "RestorePatchedAssemblyVersionFiles" (fun _ ->
-    !! (addBakExt "Src/*/Properties/AssemblyInfo.*")
+    !! (addBakExt "Src/*/Properties/AssemblyInfo.fs")
     |> Seq.iter (fun bakFile ->
         let originalPath = bakFile.Substring(0, bakFile.Length - bakFileExt.Length)
 
@@ -220,12 +222,12 @@ Target "Test"  DoNothing
 
 Target "CopyToReleaseFolder" (fun _ ->
     let buildOutput = [
-      "Src/AutoFoq/bin/Release/Ploeh.AutoFixture.AutoFoq.dll";
-      "Src/AutoFoq/bin/Release/Ploeh.AutoFixture.AutoFoq.pdb";
-      "Src/AutoFoq/bin/Release/Ploeh.AutoFixture.AutoFoq.XML";
-      "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.dll";
-      "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.pdb";
-      "Src/Idioms.FsCheck/bin/Release/Ploeh.AutoFixture.Idioms.FsCheck.XML";
+      "Src/AutoFoq/bin/Release/net45/Ploeh.AutoFixture.AutoFoq.dll";
+      "Src/AutoFoq/bin/Release/net45/Ploeh.AutoFixture.AutoFoq.pdb";
+      "Src/AutoFoq/bin/Release/net45/Ploeh.AutoFixture.AutoFoq.XML";
+      "Src/Idioms.FsCheck/bin/Release/net45/Ploeh.AutoFixture.Idioms.FsCheck.dll";
+      "Src/Idioms.FsCheck/bin/Release/net45/Ploeh.AutoFixture.Idioms.FsCheck.pdb";
+      "Src/Idioms.FsCheck/bin/Release/net45/Ploeh.AutoFixture.Idioms.FsCheck.XML";
     ]
 
     buildOutput
