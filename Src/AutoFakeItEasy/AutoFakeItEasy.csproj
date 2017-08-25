@@ -2,7 +2,7 @@
   <Import Project="..\CommonProperties.props" />
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
     <AssemblyTitle>AutoFakeItEasy</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.AutoFakeItEasy</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.AutoFakeItEasy</RootNamespace>
@@ -15,15 +15,19 @@
     <Authors>Nikos Baxevanis,AutoFixture</Authors>
   </PropertyGroup>
 
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
+  <ItemGroup Condition=" '$(TargetFramework)'=='net45' ">
+    <PackageReference Include="FakeItEasy" Version="1.7.4109.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="FakeItEasy" Version="1.7.4109.1" />
+  <ItemGroup Condition=" '$(TargetFramework)'=='netstandard1.6' ">
+    <PackageReference Include="FakeItEasy" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
   </ItemGroup>
 </Project>

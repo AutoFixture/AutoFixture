@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             }
 
             var fakeType = type.GetFakedType();
-            if (fakeType.IsInterface)
+            if (fakeType.GetTypeInfo().IsInterface)
             {
                 return new[] { new ConstructorMethod(type.GetDefaultConstructor()) };
             }
@@ -85,7 +85,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
                     }
 
                     var parameterType = constructorParameterInfos[0].ParameterType;
-                    if (!parameterType.IsGenericType ||
+                    if (!parameterType.GetTypeInfo().IsGenericType ||
                         parameterType.GetGenericTypeDefinition() != typeof (Action<>))
                     {
                         continue;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using FakeItEasy;
 using Ploeh.AutoFixture.Kernel;
 
@@ -92,7 +93,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
             public bool IsSatisfiedBy(object request)
             {
                 var t = request as Type;
-                return (t != null) && ((t.IsAbstract) || (t.IsInterface));
+                return (t != null) && ((t.GetTypeInfo().IsAbstract) || (t.GetTypeInfo().IsInterface));
             }
         }
     }
