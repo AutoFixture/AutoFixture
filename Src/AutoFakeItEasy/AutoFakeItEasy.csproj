@@ -13,6 +13,10 @@
     <Title>AutoFixture with Auto Mocking using FakeItEasy</Title>
     <Description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by FakeItEasy. To use it, add the AutoFakeItEasyCustomization to your Fixture instance.</Description>
     <Authors>Nikos Baxevanis,AutoFixture</Authors>
+
+    <!--  Suppress warning about invalid dependency version in Castle.Core.
+          That is FakeItEasy dependency and we cannot fix that somehow. -->
+    <NoWarn>$(NoWarn);NU1603</NoWarn>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)'=='net45' ">
