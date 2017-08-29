@@ -21,8 +21,8 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                new ProxyCreationException());
+            Assert.Null(Record.Exception(() =>
+                new ProxyCreationException()));
             // Teardown
         }
 

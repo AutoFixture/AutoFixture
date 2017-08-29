@@ -6,7 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.SemanticComparison.UnitTest
 {
@@ -417,6 +416,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             LikenessTest.CompareLikenessToObject(likenObject, comparee, true);
         }
 
+#if SYSTEM_COMPONENTSETTINGS_DATAERRORINFO
         /// <summary>
         /// This test reproduces a bug.
         /// </summary>
@@ -436,8 +436,9 @@ namespace Ploeh.SemanticComparison.UnitTest
             var comparee = new DataErrorInfo();
 
             // The rest of the test
-            LikenessTest.CompareLikenessToObject(likenObject, comparee, true);
+            CompareLikenessToObject(likenObject, comparee, true);
         }
+#endif
 
         [Fact]
         public void LikenessAgainstObjectWithHidingPropertyWillNotThrow()
@@ -784,8 +785,8 @@ namespace Ploeh.SemanticComparison.UnitTest
             var destination = new object();
             var sut = new Likeness<object, object>(source);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.ShouldEqual(destination));
+            Assert.Null(Record.Exception(() =>
+                sut.ShouldEqual(destination)));
             // Teardown
         }
 
@@ -795,8 +796,8 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Fixture setup
             var sut = new Likeness<object, object>(null);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.ShouldEqual(null));
+            Assert.Null(Record.Exception(() =>
+                sut.ShouldEqual(null)));
             // Teardown
         }
 
@@ -999,8 +1000,8 @@ namespace Ploeh.SemanticComparison.UnitTest
         {
             // Fixture setup
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(
-                () => new { }.AsSource().OfLikeness<AbstractType>().CreateProxy());
+            Assert.Null(Record.Exception(
+                () => new { }.AsSource().OfLikeness<AbstractType>().CreateProxy()));
             // Teardown
         }
 
@@ -1022,7 +1023,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             value.Property = "Foo";
             var sut = value.AsSource().OfLikeness<AbstractTypeWithNonDefaultConstructor<string>>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.CreateProxy());
+            Assert.Null(Record.Exception(() => sut.CreateProxy()));
             // Teardown
         }
 
@@ -1034,7 +1035,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             value.Property = "Foo";
             var sut = value.AsSource().OfLikeness<TypeWithPrivateDefaultCtorAndOtherCtor<string>>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.CreateProxy());
+            Assert.Null(Record.Exception(() => sut.CreateProxy()));
             // Teardown
         }
         [Fact]
@@ -1239,7 +1240,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             var sut = new TripleParameterType<long, long, long>(1, 2, 3)
                 .AsSource().OfLikeness<TripleParameterType<long, long, long>>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.CreateProxy());
+            Assert.Null(Record.Exception(() => sut.CreateProxy()));
             // Teardown
         }
 
@@ -1250,7 +1251,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             var sut = new TypeWithIdenticalParameterTypesAndProperties(1, 2, 3)
                 .AsSource().OfLikeness<TypeWithIdenticalParameterTypesAndProperties>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.CreateProxy());
+            Assert.Null(Record.Exception(() => sut.CreateProxy()));
             // Teardown
         }
 
@@ -1261,7 +1262,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             var sut = new TypeWithDifferentParameterTypesAndProperties(1, "2", 3)
                 .AsSource().OfLikeness<TypeWithDifferentParameterTypesAndProperties>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.CreateProxy());
+            Assert.Null(Record.Exception(() => sut.CreateProxy()));
             // Teardown
         }
 
@@ -2049,7 +2050,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             Assert.NotNull(proxy);
             Assert.Null(proxy.Property1);
             Assert.Null(proxy.Property2);
-            Assert.NotNull(proxy.Property3);
+            Assert.NotEqual(0, proxy.Property3);
             Assert.Equal(obj.Property3, proxy.Property3);
             // Teardown
         }
@@ -2070,7 +2071,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             Assert.NotNull(proxy);
             Assert.NotNull(proxy.Property1);
             Assert.Null(proxy.Property2);
-            Assert.NotNull(proxy.Property3);
+            Assert.NotEqual(0, proxy.Property3);
             Assert.Equal(obj.Property1, proxy.Property1);
             Assert.Equal(obj.Property3, proxy.Property3);
             // Teardown
@@ -2091,7 +2092,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             Assert.NotNull(proxy);
             Assert.NotNull(proxy.Property1);
             Assert.NotNull(proxy.Property2);
-            Assert.NotNull(proxy.Property3);
+            Assert.NotEqual(0, property3);
             Assert.Equal(obj.Property1, proxy.Property1);
             Assert.Equal(obj.Property2, proxy.Property2);
             Assert.Equal(obj.Property3, proxy.Property3);

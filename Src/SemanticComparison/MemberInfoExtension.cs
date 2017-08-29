@@ -6,7 +6,7 @@ namespace Ploeh.SemanticComparison
 {
     internal static class MemberInfoExtension
     {
-        private readonly static MethodInfo equalsMember = typeof(object).GetMethod("Equals", BindingFlags.Public | BindingFlags.Static);
+        private readonly static MethodInfo equalsMember = typeof(object).GetTypeInfo().GetMethod("Equals", BindingFlags.Public | BindingFlags.Static);
 
         internal static MemberEvaluator<TSource, TDestination> ToEvaluator<TSource, TDestination>(this MemberInfo member)
         {

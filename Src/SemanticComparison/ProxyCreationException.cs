@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Ploeh.SemanticComparison
 {
     /// <summary>
     /// Represents an error during the dynamic proxy creation.
     /// </summary>
+#if SYSTEM_RUNTIME_SERIALIZATION
     [Serializable]
+#endif
     public class ProxyCreationException : Exception
     {
         /// <summary>
@@ -35,6 +36,7 @@ namespace Ploeh.SemanticComparison
         {
         }
 
+#if SYSTEM_RUNTIME_SERIALIZATION
         /// <summary>
         /// Initializes a new instance of the <see cref="Ploeh.SemanticComparison.ProxyCreationException"/> class.
         /// </summary>
@@ -52,9 +54,10 @@ namespace Ploeh.SemanticComparison
         /// <exception cref="T:System.Runtime.Serialization.SerializationException">
         /// The class name is null or <see cref="P:System.Exception.HResult"/> is zero (0).
         /// </exception>
-        protected ProxyCreationException(SerializationInfo info, StreamingContext context)
+        protected ProxyCreationException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
         {
         }
+#endif
     }
 }

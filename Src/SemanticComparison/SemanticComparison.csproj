@@ -2,7 +2,7 @@
   <Import Project="..\CommonProperties.props" />
 
   <PropertyGroup>
-    <TargetFramework>net40</TargetFramework>
+    <TargetFrameworks>net45;netstandard1.5</TargetFrameworks>
     <AssemblyTitle>SemanticComparison</AssemblyTitle>
     <AssemblyName>Ploeh.SemanticComparison</AssemblyName>
     <RootNamespace>Ploeh.SemanticComparison</RootNamespace>
@@ -13,6 +13,10 @@
     <Title>SemanticComparison</Title>
     <Description>SemanticComparison makes it easier to compare instances of various objects to each other. Instead of performing a normal equality comparison, SemanticComparison compares objects that look semantically similar - even if they are of different types. Various fine-tuning options exist.</Description>
   </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)'=='netstandard1.5' ">
+    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />

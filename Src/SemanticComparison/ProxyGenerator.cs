@@ -21,10 +21,8 @@ namespace Ploeh.SemanticComparison
             ProxyGenerator.BuildMethodEquals(builder, BuildFieldEqualsHasBeenCalled(builder), equals);
             ProxyGenerator.BuildMethodGetHashCode<TDestination>(builder);
 
-            Type proxy = builder.CreateType();
-
             var destination = (TDestination)Activator.CreateInstance(
-                proxy, 
+                builder.CreateTypeInfo().AsType(), 
                 proxyType.Parameters.Concat(new[] { comparer }).ToArray());
 
             ProxyGenerator.Map(source, destination);
@@ -35,8 +33,10 @@ namespace Ploeh.SemanticComparison
         internal static T CreateLikenessResemblance<T>(Likeness<T> likeness)
         {
             var members = typeof(T)
+                .GetTypeInfo()
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Concat(typeof(T)
+                    .GetTypeInfo()
                     .GetFields(BindingFlags.Public | BindingFlags.Instance)
                     .Cast<MemberInfo>())
                 .ToArray();
@@ -63,20 +63,30 @@ namespace Ploeh.SemanticComparison
             ProxyGenerator.BuildMethodGetHashCode<T>(builder);
 
             return (T)Activator.CreateInstance(
-                builder.CreateType(),
+                builder.CreateTypeInfo().AsType(),
                 proxyType.Parameters.Concat(
                     new[] { likeness }).ToArray());
         }
 
         private static AssemblyBuilder BuildAssembly(string name)
         {
-            var an = new AssemblyName(name) { Version = Assembly.GetExecutingAssembly().GetName().Version };
-            return AppDomain.CurrentDomain.DefineDynamicAssembly(an, AssemblyBuilderAccess.RunAndSave);
+            var an = new AssemblyName(name) { Version = typeof(ProxyGenerator).GetTypeInfo().Assembly.GetName().Version };
+
+#if SYSTEM_REFLECTION_EMIT_DYNAMICASSEMBLY_SAVE
+            var access = AssemblyBuilderAccess.RunAndSave;
+#else
+            var access = AssemblyBuilderAccess.Run;
+#endif
+            return AssemblyBuilder.DefineDynamicAssembly(an, access);
         }
 
         private static ModuleBuilder BuildModule(AssemblyBuilder ab)
         {
+#if SYSTEM_REFLECTION_EMIT_DYNAMICASSEMBLY_SAVE
             return ab.DefineDynamicModule(assemblyName, assemblyName + ".dll");
+#else
+            return ab.DefineDynamicModule(assemblyName);
+#endif
         }
 
         private static TypeBuilder BuildType<TDestination>(ModuleBuilder mb)
@@ -173,13 +183,10 @@ namespace Ploeh.SemanticComparison
             method.SetReturnType(typeof(int));
 
             int derivedGetHashCode = 135;
-            MethodInfo getHashCode = typeof(TDestination).GetMethod(
+            MethodInfo getHashCode = typeof(TDestination).GetTypeInfo().GetMethod(
                 "GetHashCode",
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                null,
-                new Type[] { },
-                null
-                );
+                Type.EmptyTypes
+            );
 
             ILGenerator gen = method.GetILGenerator();
             gen.DeclareLocal(typeof(int));
@@ -203,21 +210,15 @@ namespace Ploeh.SemanticComparison
             var methodAttributes = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig;
             MethodBuilder method = type.DefineMethod("Equals", methodAttributes);
 
-            MethodInfo objectEquals = typeof(object).GetMethod(
+            MethodInfo objectEquals = typeof(object).GetTypeInfo().GetMethod(
                 "Equals",
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                null,
-                new[] { typeof(object) },
-                null
-                );
+                new[] {typeof(object)}
+            );
 
-            MethodInfo equalityComparerEquals = typeof(IEqualityComparer).GetMethod(
+            MethodInfo equalityComparerEquals = typeof(IEqualityComparer).GetTypeInfo().GetMethod(
                 "Equals",
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                null,
-                new[] { typeof(object), typeof(object) },
-                null
-                );
+                new[] {typeof(object), typeof(object)}
+            );
             
             method.SetReturnType(typeof(bool));
             method.SetParameters(typeof(object));
@@ -268,13 +269,10 @@ namespace Ploeh.SemanticComparison
             var methodAttributes = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig;
             MethodBuilder method = type.DefineMethod("Equals", methodAttributes);
 
-            MethodInfo equals = typeof(object).GetMethod(
+            MethodInfo equals = typeof(object).GetTypeInfo().GetMethod(
                 "Equals",
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                null,
-                new[] { typeof(object) },
-                null
-                );
+                new[] {typeof(object)}
+            );
 
             method.SetReturnType(typeof(bool));
             method.SetParameters(typeof(object));
@@ -326,7 +324,7 @@ namespace Ploeh.SemanticComparison
         private static IEnumerable<ConstructorInfo> GetPublicAndProtectedConstructors(
             this Type type)
         {
-            return type.GetConstructors(
+            return type.GetTypeInfo().GetConstructors(
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(x => x.IsPublic || x.IsFamily);
         }
 
@@ -359,20 +357,22 @@ namespace Ploeh.SemanticComparison
 
         private static bool Matches(this List<Type> types, Type type)
         {
+            var typeInfo = type.GetTypeInfo();
+
             return types.Contains(type)
-                || types.Any(t => t.IsAssignableFrom(type)
-                    || type.IsAssignableFrom(t));
+                || types.Select(t => t.GetTypeInfo()).Any(t => t.IsAssignableFrom(typeInfo)
+                    || typeInfo.IsAssignableFrom(t));
         }
 
         private static PropertyInfo MatchProperty(this Type type, string name)
         {
-            return type.GetProperty(name) ?? type.FindCompatibleProperty(name);
+            return type.GetTypeInfo().GetProperty(name) ?? type.FindCompatibleProperty(name);
         }
 
         private static PropertyInfo FindCompatibleProperty(this Type type, 
             string name)
         {
-            return type.GetProperties(
+            return type.GetTypeInfo().GetProperties(
                     BindingFlags.Public | BindingFlags.Instance)
                        .First(x => x.Name.StartsWith(
                             name, StringComparison.OrdinalIgnoreCase));
@@ -382,6 +382,7 @@ namespace Ploeh.SemanticComparison
         private static IEnumerable<SourceTypeValuePair> GetSourceTypeValuePairs(this object source)
         {
             return source.GetType()
+                    .GetTypeInfo()
                     .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                     .Select(a => new SourceTypeValuePair(a.PropertyType, a.GetValue(source, null)));            
         }       
@@ -396,14 +397,14 @@ namespace Ploeh.SemanticComparison
          IEnumerable<Type> types)
         {
             return from t in types
-                   select sequence.First(x => x.Type.IsAssignableFrom(t));
+                   select sequence.First(x => x.Type.GetTypeInfo().IsAssignableFrom(t));
         }
 
 
         private static void Map(object source, object target)
         {
             ISet<FieldInfo> sourceFields = source.GetType().FindAllFields();
-            ISet<FieldInfo> targetFields = target.GetType().BaseType.FindAllFields();
+            ISet<FieldInfo> targetFields = target.GetType().GetTypeInfo().BaseType.FindAllFields();
 
             var matchedTargetFields =
                 (from s in sourceFields
@@ -434,7 +435,7 @@ namespace Ploeh.SemanticComparison
             while (type != null)
             {
                 var fields =
-                    type.GetFields(
+                    type.GetTypeInfo().GetFields(
                         BindingFlags.Public |
                         BindingFlags.Instance |
                         BindingFlags.NonPublic);
@@ -443,7 +444,7 @@ namespace Ploeh.SemanticComparison
                     if (!allFields.Contains(field))
                         allFields.Add(field);
 
-                type = type.BaseType;
+                type = type.GetTypeInfo().BaseType;
             }
 
             return allFields;

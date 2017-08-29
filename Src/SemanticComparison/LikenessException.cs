@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Ploeh.SemanticComparison
 {
@@ -7,7 +6,10 @@ namespace Ploeh.SemanticComparison
     /// Represents an error where two semantically comparable instances were expected to match, but
     /// didn't.
     /// </summary>
+
+#if SYSTEM_RUNTIME_SERIALIZATION
     [Serializable]
+#endif
     public class LikenessException : Exception
     {
         /// <summary>
@@ -36,6 +38,7 @@ namespace Ploeh.SemanticComparison
         {
         }
 
+#if SYSTEM_RUNTIME_SERIALIZATION
         /// <summary>
         /// Initializes a new instance of the <see cref="LikenessException"/> class.
         /// </summary>
@@ -53,9 +56,10 @@ namespace Ploeh.SemanticComparison
         /// <exception cref="T:System.Runtime.Serialization.SerializationException">
         /// The class name is null or <see cref="P:System.Exception.HResult"/> is zero (0).
         /// </exception>
-        protected LikenessException(SerializationInfo info, StreamingContext context)
+        protected LikenessException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
         {
         }
+#endif
     }
 }
