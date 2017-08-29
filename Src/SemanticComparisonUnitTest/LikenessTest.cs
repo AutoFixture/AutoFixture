@@ -2050,7 +2050,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             Assert.NotNull(proxy);
             Assert.Null(proxy.Property1);
             Assert.Null(proxy.Property2);
-            Assert.NotNull(proxy.Property3);
+            Assert.NotEqual(0, proxy.Property3);
             Assert.Equal(obj.Property3, proxy.Property3);
             // Teardown
         }
@@ -2071,7 +2071,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             Assert.NotNull(proxy);
             Assert.NotNull(proxy.Property1);
             Assert.Null(proxy.Property2);
-            Assert.NotNull(proxy.Property3);
+            Assert.NotEqual(0, proxy.Property3);
             Assert.Equal(obj.Property1, proxy.Property1);
             Assert.Equal(obj.Property3, proxy.Property3);
             // Teardown
@@ -2092,7 +2092,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             Assert.NotNull(proxy);
             Assert.NotNull(proxy.Property1);
             Assert.NotNull(proxy.Property2);
-            Assert.NotNull(proxy.Property3);
+            Assert.NotEqual(0, property3);
             Assert.Equal(obj.Property1, proxy.Property1);
             Assert.Equal(obj.Property2, proxy.Property2);
             Assert.Equal(obj.Property3, proxy.Property3);
