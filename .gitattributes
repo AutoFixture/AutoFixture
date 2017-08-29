@@ -1,0 +1,37 @@
+# Enable automatic line ending conversion for text files on checkout and commit.
+# For all extensions that are not being explicitly defined below git will try to guess
+# whether file contains text and if so, will convert the line endings.
+* text=auto
+
+# Define all the file extensions for which we should always apply line ending covnersion
+*.cs      text diff=csharp
+*.fs      text
+*.fsx     text
+*.config  text
+*.xml     text
+
+*.sln     text
+*.csproj  text
+*.fsproj  text
+*.props   text
+*.ruleset text
+
+*.md      text
+*.txt     text
+*.yml     text
+*.pp      text
+*.nuspec  text
+
+*.bat     text
+*.cmd     text
+*.sh      text
+
+# Define all the binary files that should not be touched
+*.dll     binary
+*.exe     binary
+*.pdb     binary
+*.png     binary
+*.snk     binary
+*.sigdata binary
+*.optdata binary
+
