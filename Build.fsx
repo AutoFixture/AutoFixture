@@ -8,6 +8,7 @@ open System
 open System.Diagnostics;
 open System.Text.RegularExpressions
 
+let testResultsFolder = "TestResults"
 let nuGetOutputFolder = "NuGetPackages"
 let nuGetPackages = !! (nuGetOutputFolder @@ "*.nupkg" )
                     // Skip symbol packages because NuGet publish symbols automatically when package is published
@@ -158,9 +159,10 @@ let build target configuration additionalProperties =
 let clean configuration   = build "Clean" configuration []
 let rebuild configuration = build "Rebuild" configuration []
 
-Target "CleanAll"           DoNothing 
-Target "CleanVerify"        (fun _ -> clean "Verify")
-Target "CleanRelease"       (fun _ -> clean "Release")
+Target "CleanAll"               DoNothing 
+Target "CleanVerify"            (fun _ -> clean "Verify")
+Target "CleanRelease"           (fun _ -> clean "Release")
+Target "CleanTestResultsFolder" (fun _ -> CleanDir testResultsFolder)
 
 // Configuration doesn't matter for restore and is ignored by MSBuild.
 let restoreNugetPackages() = build "Restore" "Release" []
@@ -211,13 +213,22 @@ Target "TestOnly" (fun _ ->
 
     nunit2TestAssemblies
     |> NUnitSequential.NUnit (fun p -> { p with StopOnError = false
-                                                OutputFile = "NUnit2TestResult.xml" })
+                                                OutputFile  = testResultsFolder </> "NUnit2TestResult.xml" })
 
-    let nunit3TestAssemblies = !! (sprintf "Src/AutoFixture.NUnit3.*Test/bin/%s/**/*Test.dll" configuration)
+    let nUnit3TestProjects = [ "AutoFixture.NUnit3.UnitTest" ]
 
-    nunit3TestAssemblies
-    |> Testing.NUnit3.NUnit3 (fun p -> { p with StopOnError = false
-                                                ResultSpecs = ["NUnit3TestResult.xml;format=nunit2"] })
+    // Save test results in MSTest format in the test results folder.
+    // In future NUnit test runner should support AppVeyor directly.
+    // See more detail: http://help.appveyor.com/discussions/questions/7805-nunit-test-results-on-net-core
+    nUnit3TestProjects
+    |> Seq.map (fun p -> sprintf "Src/%s" p)
+    |> Seq.iter (fun projPath ->
+        DotNetCli.RunCommand (fun p -> { p with WorkingDir = projPath })
+                             (sprintf 
+                                 "test --no-build --configuration %s --logger:trx --results-directory \"%s\""
+                                 configuration
+                                 (testResultsFolder |> FullName))
+    )
 )
 
 Target "BuildAndTestOnly" DoNothing
@@ -287,9 +298,10 @@ Target "PublishNuGetAll" DoNothing
 
 "BuildOnly" ?=> "RestorePatchedAssemblyVersionFiles"
 
-"BuildOnly" 
-    ==> "TestOnly"
-    ==> "BuildAndTestOnly"
+"BuildOnly"              ==> "TestOnly"
+"CleanTestResultsFolder" ==> "TestOnly"
+
+"TestOnly" ==> "BuildAndTestOnly"
 
 "Build"    ==> "Test"
 "TestOnly" ==> "Test"
