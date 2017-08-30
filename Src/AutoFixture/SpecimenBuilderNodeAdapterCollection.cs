@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
@@ -23,6 +22,28 @@ namespace Ploeh.AutoFixture
     {
         private readonly Func<ISpecimenBuilderNode, bool> isAdaptedBuilder;
         private IEnumerable<ISpecimenBuilder> adaptedBuilders;
+
+        private IEnumerable<ISpecimenBuilder> AdaptedBuilders
+        {
+            get
+            {
+                // We evaluate this value lazily for the performance reasons.
+                // Usually during the Fixture construction it's customized a lot of times.
+                // Some of the collections are not even touched after the construction and are immediately
+                // recreated again after a subsequent customization.
+                // To cover such scenarios we evaluate value on demand only saving the initialization time. 
+                if (this.adaptedBuilders != null) return this.adaptedBuilders;
+
+                // The intermediate "result" variable is needed to ensure that null value can be never returned
+                // in case of concurrency (we set field to null). While current collection implementation doesn't 
+                // seem to support concurrency, the additional guard adds more safety.
+                var result = this.adaptedBuilders = Graph.FindFirstNode(TargetMemo.IsSpecifiedBy);
+                return result;
+            }
+        }
+
+        private void InvalidateCachedAdaptedBuilders() => this.adaptedBuilders = null;
+
 
         /// <summary>
         /// Initializes a new instance of the
@@ -52,7 +73,6 @@ namespace Ploeh.AutoFixture
         {
             this.Graph = graph;
             this.isAdaptedBuilder = adaptedBuilderPredicate;
-            this.adaptedBuilders = this.Graph.FindFirstNode(this.TargetMemo.IsSpecifiedBy);
         }
 
         /// <summary>
@@ -90,7 +110,7 @@ namespace Ploeh.AutoFixture
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
         public int IndexOf(ISpecimenBuilder item)
         {
-            return this.adaptedBuilders.IndexOf(item);
+            return this.AdaptedBuilders.IndexOf(item);
         }
 
         /// <summary>
@@ -119,7 +139,7 @@ namespace Ploeh.AutoFixture
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
         public void Insert(int index, ISpecimenBuilder item)
         {
-            this.Mutate(this.adaptedBuilders.Insert(index, item));
+            this.Mutate(this.AdaptedBuilders.Insert(index, item));
         }
 
         /// <summary>
@@ -144,7 +164,7 @@ namespace Ploeh.AutoFixture
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
         public void RemoveAt(int index)
         {
-            this.Mutate(this.adaptedBuilders.RemoveAt(index));
+            this.Mutate(this.AdaptedBuilders.RemoveAt(index));
         }
 
         /// <summary>
@@ -168,11 +188,11 @@ namespace Ploeh.AutoFixture
         {
             get
             {
-                return this.adaptedBuilders.ElementAt(index);
+                return this.AdaptedBuilders.ElementAt(index);
             }
             set
             {
-                this.Mutate(this.adaptedBuilders.SetItem(index, value));
+                this.Mutate(this.AdaptedBuilders.SetItem(index, value));
             }
         }
 
@@ -196,7 +216,7 @@ namespace Ploeh.AutoFixture
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
         public void Add(ISpecimenBuilder item)
         {
-            this.Mutate(this.adaptedBuilders.Concat(new[] { item }));
+            this.Mutate(this.AdaptedBuilders.Concat(new[] { item }));
         }
 
         /// <summary>
@@ -241,7 +261,7 @@ namespace Ploeh.AutoFixture
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
         public bool Contains(ISpecimenBuilder item)
         {
-            return this.adaptedBuilders.Contains(item);
+            return this.AdaptedBuilders.Contains(item);
         }
 
         /// <summary>Copies the elements of the collection to an
@@ -267,7 +287,7 @@ namespace Ploeh.AutoFixture
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
         public void CopyTo(ISpecimenBuilder[] array, int arrayIndex)
         {
-            this.adaptedBuilders.ToArray().CopyTo(array, arrayIndex);
+            this.AdaptedBuilders.ToArray().CopyTo(array, arrayIndex);
         }
 
         /// <summary>
@@ -286,7 +306,7 @@ namespace Ploeh.AutoFixture
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
         public int Count
         {
-            get { return this.adaptedBuilders.Count(); }
+            get { return this.AdaptedBuilders.Count(); }
         }
 
         /// <summary>
@@ -358,7 +378,7 @@ namespace Ploeh.AutoFixture
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
         public IEnumerator<ISpecimenBuilder> GetEnumerator()
         {
-            return this.adaptedBuilders.GetEnumerator();
+            return this.AdaptedBuilders.GetEnumerator();
         }
 
         /// <summary>
@@ -418,7 +438,8 @@ namespace Ploeh.AutoFixture
             this.Graph = this.Graph.ReplaceNodes(
                 with: builders,
                 when: this.TargetMemo.IsSpecifiedBy);
-            this.adaptedBuilders = this.Graph.FindFirstNode(this.TargetMemo.IsSpecifiedBy);
+            
+            this.InvalidateCachedAdaptedBuilders();
 
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.Graph));
         }
