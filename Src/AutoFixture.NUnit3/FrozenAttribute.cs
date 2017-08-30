@@ -1,7 +1,6 @@
 ﻿using Ploeh.AutoFixture.Kernel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace Ploeh.AutoFixture.NUnit3
@@ -208,7 +207,7 @@ namespace Ploeh.AutoFixture.NUnit3
                     return true;
                 if (y == null)
                     return false;
-                return y.IsAssignableFrom(x);
+                return y.GetTypeInfo().IsAssignableFrom(x);
             }
 
             public int GetHashCode(Type obj)
