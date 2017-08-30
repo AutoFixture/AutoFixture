@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixture
                 // The intermediate "result" variable is needed to ensure that null value can be never returned
                 // in case of concurrency (we set field to null). While current collection implementation doesn't 
                 // seem to support concurrency, the additional guard adds more safety.
-                var result = this.adaptedBuilders = Graph.FindFirstNode(TargetMemo.IsSpecifiedBy);
+                var result = this.adaptedBuilders = FindAdaptedBuilderNode();
                 return result;
             }
         }
@@ -435,38 +435,21 @@ namespace Ploeh.AutoFixture
 
         private void Mutate(IEnumerable<ISpecimenBuilder> builders)
         {
+            var adaptedBuilder = FindAdaptedBuilderNode();
+            
             this.Graph = this.Graph.ReplaceNodes(
                 with: builders,
-                when: this.TargetMemo.IsSpecifiedBy);
+                when: adaptedBuilder.Equals);
             
             this.InvalidateCachedAdaptedBuilders();
 
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.Graph));
         }
 
-        private TargetSpecification TargetMemo
+        private ISpecimenBuilderNode FindAdaptedBuilderNode()
         {
-            get
-            {
-                var markerNode = this.Graph.FindFirstNode(this.isAdaptedBuilder);
-                var target = (ISpecimenBuilderNode)markerNode.First();
-                return new TargetSpecification(target);
-            }
-        }
-
-        private class TargetSpecification
-        {
-            private readonly ISpecimenBuilderNode target;
-
-            public TargetSpecification(ISpecimenBuilderNode target)
-            {
-                this.target = target;
-            }
-
-            public bool IsSpecifiedBy(ISpecimenBuilderNode n)
-            {
-                return object.Equals(this.target, n);
-            }
+            var markerNode = this.Graph.FindFirstNode(this.isAdaptedBuilder);
+            return (ISpecimenBuilderNode) markerNode.First();
         }
     }
 }
