@@ -21,10 +21,10 @@ namespace Ploeh.AutoFixture
     public class SpecimenBuilderNodeAdapterCollection : IList<ISpecimenBuilder>
     {
         private readonly Func<ISpecimenBuilderNode, bool> isAdaptedBuilder;
-        private IEnumerable<ISpecimenBuilder> adaptedBuilders;
+        private ISpecimenBuilderNode adaptedBuilderNode;
         private ISpecimenBuilderNode graph;
 
-        private IEnumerable<ISpecimenBuilder> AdaptedBuilders
+        private ISpecimenBuilderNode AdaptedBuilderNode
         {
             get
             {
@@ -33,17 +33,21 @@ namespace Ploeh.AutoFixture
                 // Some of the collections are not even touched after the construction and are immediately
                 // recreated again after a subsequent customization.
                 // To cover such scenarios we evaluate value on demand only saving the initialization time. 
-                if (this.adaptedBuilders != null) return this.adaptedBuilders;
+                if (this.adaptedBuilderNode != null) return this.adaptedBuilderNode;
+
+                var markerNode = this.Graph.FindFirstNode(this.isAdaptedBuilder);
 
                 // The intermediate "result" variable is needed to ensure that null value can be never returned
                 // in case of concurrency (we set field to null). While current collection implementation doesn't 
                 // seem to support concurrency, the additional guard adds more safety.
-                var result = this.adaptedBuilders = FindAdaptedBuilderNode();
+                var result = this.adaptedBuilderNode = (ISpecimenBuilderNode)markerNode.First();
                 return result;
             }
         }
 
-        private void InvalidateCachedAdaptedBuilders() => this.adaptedBuilders = null;
+        private void InvalidateCachedAdaptedBuilderNode() => this.adaptedBuilderNode = null;
+
+        private IEnumerable<ISpecimenBuilder> AdaptedBuilders => this.AdaptedBuilderNode;
 
 
         /// <summary>
@@ -426,7 +430,7 @@ namespace Ploeh.AutoFixture
             private set
             {
                 this.graph = value;
-                this.InvalidateCachedAdaptedBuilders();
+                this.InvalidateCachedAdaptedBuilderNode();
             }
         }
 
@@ -444,19 +448,13 @@ namespace Ploeh.AutoFixture
 
         private void Mutate(IEnumerable<ISpecimenBuilder> builders)
         {
-            var adaptedBuilder = FindAdaptedBuilderNode();
+            var adaptedNode = this.AdaptedBuilderNode;
             
             this.Graph = this.Graph.ReplaceNodes(
                 with: builders,
-                when: adaptedBuilder.Equals);
+                when: adaptedNode.Equals);
 
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.Graph));
-        }
-
-        private ISpecimenBuilderNode FindAdaptedBuilderNode()
-        {
-            var markerNode = this.Graph.FindFirstNode(this.isAdaptedBuilder);
-            return (ISpecimenBuilderNode) markerNode.First();
         }
     }
 }
