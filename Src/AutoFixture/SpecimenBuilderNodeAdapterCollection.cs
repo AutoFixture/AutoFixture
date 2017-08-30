@@ -22,6 +22,7 @@ namespace Ploeh.AutoFixture
     {
         private readonly Func<ISpecimenBuilderNode, bool> isAdaptedBuilder;
         private IEnumerable<ISpecimenBuilder> adaptedBuilders;
+        private ISpecimenBuilderNode graph;
 
         private IEnumerable<ISpecimenBuilder> AdaptedBuilders
         {
@@ -419,7 +420,15 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection" />
         /// <seealso cref="SpecimenBuilderNodeAdapterCollection(ISpecimenBuilderNode, Func{ISpecimenBuilderNode, bool})" />
-        public ISpecimenBuilderNode Graph { get; private set; }
+        public ISpecimenBuilderNode Graph
+        {
+            get => this.graph;
+            private set
+            {
+                this.graph = value;
+                this.InvalidateCachedAdaptedBuilders();
+            }
+        }
 
         /// <summary>Raises the <see cref="E:GraphChanged" /> event.</summary>
         /// <param name="e">
@@ -440,8 +449,6 @@ namespace Ploeh.AutoFixture
             this.Graph = this.Graph.ReplaceNodes(
                 with: builders,
                 when: adaptedBuilder.Equals);
-            
-            this.InvalidateCachedAdaptedBuilders();
 
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.Graph));
         }
