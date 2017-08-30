@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         }
 
         [Test, AutoData]
-        public void AutoTestCaseProvidesMultipleObjects(PropertyHolder<Version> ph, SingleParameterType<OperatingSystem> spt)
+        public void AutoTestCaseProvidesMultipleObjects(PropertyHolder<Version> ph, SingleParameterType<ConcreteType> spt)
         {
             Assert.NotNull(ph);
             Assert.NotNull(ph.Property);

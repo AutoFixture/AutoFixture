@@ -2,6 +2,7 @@
 using Ploeh.TestTypeFoundation;
 using System;
 using System.Linq;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.NUnit3.UnitTest
 {

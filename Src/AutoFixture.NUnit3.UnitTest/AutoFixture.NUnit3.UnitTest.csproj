@@ -3,14 +3,18 @@
   <Import Project="..\CommonTestProperties.props" />
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFrameworks>net452;netcoreapp1.1</TargetFrameworks>
     <AssemblyTitle>Ploeh.AutoFixture.NUnit3.UnitTest</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.NUnit3.UnitTest</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.NUnit3.UnitTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.0.1" />
+    <PackageReference Include="NUnit" Version="3.7.0" Condition=" '$(TargetFramework)'=='netcoreapp1.1' " />
+    <PackageReference Include="NUnit" Version="3.0.1" Condition=" '$(TargetFramework)'=='net452' " />
+    
+    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
   </ItemGroup>
 
   <ItemGroup>
