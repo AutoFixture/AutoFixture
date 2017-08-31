@@ -8,7 +8,6 @@ open System
 open System.Diagnostics;
 open System.Text.RegularExpressions
 
-let releaseFolder = "Release"
 let nuGetRestoreFolder = "Packages"
 let nuGetOutputFolder = "NuGetPackages"
 let nuGetPackages = !! (nuGetOutputFolder @@ "*.nupkg" )
@@ -163,7 +162,6 @@ let rebuild configuration = build "Rebuild" configuration []
 Target "CleanAll"           DoNothing 
 Target "CleanVerify"        (fun _ -> clean "Verify")
 Target "CleanRelease"       (fun _ -> clean "Release")
-Target "CleanReleaseFolder" (fun _ -> CleanDir releaseFolder)
 
 Target "RestoreNuGetPackages" (fun _ ->
     solutionsToBuild
@@ -221,20 +219,6 @@ Target "BuildAndTestOnly" DoNothing
 Target "Build" DoNothing
 Target "Test"  DoNothing
 
-Target "CopyToReleaseFolder" (fun _ ->
-    let buildOutput = [
-      "Src/AutoFoq/bin/Release/net45/Ploeh.AutoFixture.AutoFoq.dll";
-      "Src/AutoFoq/bin/Release/net45/Ploeh.AutoFixture.AutoFoq.pdb";
-      "Src/AutoFoq/bin/Release/net45/Ploeh.AutoFixture.AutoFoq.XML";
-      "Src/Idioms.FsCheck/bin/Release/net45/Ploeh.AutoFixture.Idioms.FsCheck.dll";
-      "Src/Idioms.FsCheck/bin/Release/net45/Ploeh.AutoFixture.Idioms.FsCheck.pdb";
-      "Src/Idioms.FsCheck/bin/Release/net45/Ploeh.AutoFixture.Idioms.FsCheck.XML";
-    ]
-
-    buildOutput
-    |> CopyFiles releaseFolder
-)
-
 Target "CleanNuGetPackages" (fun _ ->
     CleanDir nuGetOutputFolder
 )
@@ -244,20 +228,11 @@ Target "NuGetPack" (fun _ ->
     // We apply a workaround for the issue: https://github.com/NuGet/Home/issues/4337.
     build "Restore" "Release" [ "RestorePackagesPath", FullName nuGetRestoreFolder ]
 
-    // Pack most projects using MSBuild and later perform a NuGet pack for leftovers.
+    // Pack projects using MSBuild
     build "Pack" "Release" [ "IncludeSource", "true"
                              "IncludeSymbols", "true"
                              "PackageOutputPath", FullName nuGetOutputFolder
                              "NoBuild", "true" ]
-
-    let version = buildVersion.nugetVersion
-    let nuSpecFiles = !! "NuGet/*.nuspec"
-
-    nuSpecFiles
-    |> Seq.iter (fun f -> NuGet (fun p -> { p with Version = version
-                                                   WorkingDir = releaseFolder
-                                                   OutputPath = nuGetOutputFolder
-                                                   SymbolPackage = NugetSymbolPackage.Nuspec }) f)
 )
 
 let publishPackagesWithSymbols packageFeed symbolFeed accessKey =
@@ -273,7 +248,7 @@ let publishPackagesWithSymbols packageFeed symbolFeed accessKey =
                                                                       AccessKey = accessKey
                                                                       SymbolPublishUrl = symbolFeed
                                                                       SymbolAccessKey = accessKey
-                                                                      WorkingDir = releaseFolder }))
+                                                                      WorkingDir = nuGetOutputFolder }))
 
 Target "PublishNuGetPublic" (fun _ ->
     let feed = "https://www.nuget.org/api/v2/package"
@@ -296,7 +271,6 @@ Target "PublishNuGetAll" DoNothing
 "CleanVerify"  ==> "CleanAll"
 "CleanRelease" ==> "CleanAll"
 
-"CleanReleaseFolder"   ==> "Verify"
 "CleanAll"             ==> "Verify"
 "RestoreNuGetPackages" ==> "Verify"
 
@@ -314,10 +288,8 @@ Target "PublishNuGetAll" DoNothing
 "Build"    ==> "Test"
 "TestOnly" ==> "Test"
 
-"Test" ==> "CopyToReleaseFolder"
-
-"CleanNuGetPackages"  ==> "NuGetPack"
-"CopyToReleaseFolder" ==> "NuGetPack"
+"CleanNuGetPackages" ==> "NuGetPack"
+"Test"               ==> "NuGetPack"
 
 "NuGetPack" ==> "CompleteBuild"
 
