@@ -8,7 +8,6 @@ open System
 open System.Diagnostics;
 open System.Text.RegularExpressions
 
-let nuGetRestoreFolder = "Packages"
 let nuGetOutputFolder = "NuGetPackages"
 let nuGetPackages = !! (nuGetOutputFolder @@ "*.nupkg" )
                     // Skip symbol packages because NuGet publish symbols automatically when package is published
@@ -164,7 +163,7 @@ Target "CleanVerify"        (fun _ -> clean "Verify")
 Target "CleanRelease"       (fun _ -> clean "Release")
 
 // Configuration doesn't matter for restore and is ignored by MSBuild.
-let restoreNugetPackages() = build "Restore" "Release" [ "RestorePackagesPath", FullName nuGetRestoreFolder ]
+let restoreNugetPackages() = build "Restore" "Release" []
 
 Target "RestoreNuGetPackages" (fun _ -> restoreNugetPackages())
 
