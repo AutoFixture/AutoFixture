@@ -169,7 +169,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<TypeWithStaticMethod>());
+            Assert.Null(Record.Exception(() => fixture.Create<TypeWithStaticMethod>()));
             Assert.NotEqual(frozenString, TypeWithStaticMethod.StaticMethod());
         }
 
@@ -180,7 +180,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<TypeWithStaticProperty>());
+            Assert.Null(Record.Exception(() => fixture.Create<TypeWithStaticProperty>()));
             Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
         }
 
@@ -215,7 +215,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<TypeWithConstField>());
+            Assert.Null(Record.Exception(() => fixture.Create<TypeWithConstField>()));
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
         }
 
@@ -226,7 +226,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<TypeWithStaticField>());
+            Assert.Null(Record.Exception(() => fixture.Create<TypeWithStaticField>()));
             Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
         }
 
@@ -236,7 +236,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => fixture.Create<IInterfaceWithCircularDependency>());
+            Assert.Null(Record.Exception(() => fixture.Create<IInterfaceWithCircularDependency>()));
         }
 
         [Fact]

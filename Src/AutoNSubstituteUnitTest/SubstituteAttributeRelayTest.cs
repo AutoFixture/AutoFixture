@@ -123,9 +123,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         {
             // Fixture setup
             var sut = new SubstituteAttributeRelay();
-            var request = Substitute.For<EventInfo>();
+            var request = Substitute.For<ICustomAttributeProvider>();
             var attribute = new SubstituteAttribute();
-            request.GetCustomAttributes(Arg.Any<Type>(), Arg.Any<bool>()).Returns(new[] { attribute });
+            request.GetCustomAttributes(Arg.Any<Type>(), Arg.Any<bool>()).Returns(new object[] { attribute });
             var context = Substitute.For<ISpecimenContext>();
             // Exercise system
             var e = Assert.Throws<NotSupportedException>(() => sut.Create(request, context));

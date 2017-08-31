@@ -182,6 +182,7 @@ Target "TestOnly" (fun _ ->
         "AutoFixtureUnitTest"
         "AutoFixtureDocumentationTest"
         "SemanticComparisonUnitTest"
+        "AutoNSubstituteUnitTest"
     ]
 
     let testAssemblies = !! (sprintf "Src/*Test/bin/%s/**/*Test.dll" configuration)

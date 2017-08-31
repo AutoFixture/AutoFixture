@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             if (type == null)
                 throw new ArgumentNullException("type");
 
-            if (type.IsInterface)
+            if (type.GetTypeInfo().IsInterface)
                 return new[] { SubstituteMethod.Create(type) };
 
             return from ci in type.GetPublicAndProtectedConstructors()

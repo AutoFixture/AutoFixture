@@ -188,7 +188,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substitute = Substitute.For<TypeWithSealedMembers>();
             var sut = new NSubstituteVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, substitute.ImplicitlySealedMethod());
             Assert.NotEqual(frozenString, substitute.ExplicitlySealedMethod());
@@ -202,7 +202,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substitute = Substitute.For<IInterfaceWithVoidMethod>();
             var sut = new NSubstituteVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
         }
 
         [Fact]
@@ -213,7 +213,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substitute = Substitute.For<IInterfaceWithParameterVoidMethod>();
             var sut = new NSubstituteVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
         }
 
         [Fact]
@@ -225,7 +225,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substitute = Substitute.For<IInterfaceWithGenericMethod>();
             var sut = new NSubstituteVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, substitute.GenericMethod<string>());
         }
@@ -238,7 +238,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substitute = Substitute.For<TypeWithStaticMethod>();
             var sut = new NSubstituteVirtualMethodsCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
         }
 
         [Fact]
@@ -248,7 +248,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var specimen = new ConcreteTypeWithVirtualMembers();
             var sut = new NSubstituteVirtualMethodsCommand();
 
-            Assert.DoesNotThrow(() => sut.Execute(specimen, context));
+            Assert.Null(Record.Exception(() => sut.Execute(specimen, context)));
             context.DidNotReceiveWithAnyArgs().Resolve(null);
         }
 

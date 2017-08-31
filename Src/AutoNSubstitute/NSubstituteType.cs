@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             return type.GetInterfaces()
                 .Where(i => !interfaces.Contains(i))
-                .Concat(new[] {type.BaseType});
+                .Concat(new[] {type.GetTypeInfo().BaseType});
         }
     }
 }

@@ -73,7 +73,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substitute = Substitute.For<TypeWithGetOnlyProperty>();
             var sut = new NSubstituteSealedPropertiesCommand();
             //Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, substitute.GetOnlyProperty);
         }
@@ -87,7 +87,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substitute = Substitute.For<TypeWithVirtualMembers>();
             var sut = new NSubstituteSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, substitute.VirtualProperty);
         }
@@ -101,7 +101,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substitute = Substitute.For<TypeWithPropertyWithPrivateSetter>();
             var sut = new NSubstituteSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, substitute.PropertyWithPrivateSetter);
         }
@@ -113,13 +113,11 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var fixture = new Fixture();
             var frozenString = fixture.Freeze<string>();
             var substitute = Substitute.For<TypeWithPrivateProperty>();
-            var privateProperty = typeof(TypeWithPrivateProperty)
-                .GetProperty("PrivateProperty",
-                             BindingFlags.Instance | BindingFlags.NonPublic);
+            var privateProperty = typeof(TypeWithPrivateProperty).GetProperty("PrivateProperty", BindingFlags.Instance | BindingFlags.NonPublic);
 
             var sut = new NSubstituteSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, privateProperty.GetValue(substitute, null));
         }
@@ -133,7 +131,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substitute = Substitute.For<IInterfaceWithProperty>();
             var sut = new NSubstituteSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, substitute.Property);
         }
@@ -147,7 +145,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substitute = Substitute.For<TypeWithStaticProperty>();
             var sut = new NSubstituteSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, TypeWithStaticProperty.Property);
         }
@@ -161,7 +159,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substitute = Substitute.For<TypeWithIndexer>();
             var sut = new NSubstituteSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenInt, substitute[2]);
         }
@@ -175,7 +173,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substitute = Substitute.For<TypeWithPrivateField>();
             var sut = new NSubstituteSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, substitute.GetPrivateField());
         }
@@ -189,7 +187,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substitute = Substitute.For<TypeWithReadonlyField>();
             var sut = new NSubstituteSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, substitute.ReadonlyField);
         }
@@ -203,7 +201,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substitute = Substitute.For<TypeWithConstField>();
             var sut = new NSubstituteSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, TypeWithConstField.ConstField);
         }
@@ -217,7 +215,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var substitute = Substitute.For<TypeWithStaticField>();
             var sut = new NSubstituteSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(substitute, new SpecimenContext(fixture)));
+            Assert.Null(Record.Exception(() => sut.Execute(substitute, new SpecimenContext(fixture))));
 
             Assert.NotEqual(frozenString, TypeWithStaticField.StaticField);
         }
@@ -230,7 +228,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             var specimen = new ConcreteTypeWithSealedMembers();
             var sut = new NSubstituteSealedPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(specimen, context));
+            Assert.Null(Record.Exception(() => sut.Execute(specimen, context)));
 
             context.DidNotReceiveWithAnyArgs().Resolve(null);
         }

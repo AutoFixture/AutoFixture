@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Reflection;
 using NSubstitute.Core;
 using NSubstitute.Exceptions;
 using Ploeh.AutoFixture.Kernel;
@@ -36,7 +37,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             }
 
             var requestedType = request as Type;
-            if (requestedType == null || !requestedType.IsAbstract)
+            if (requestedType == null || !requestedType.GetTypeInfo().IsAbstract)
             {
                 return new NoSpecimen();
             }
