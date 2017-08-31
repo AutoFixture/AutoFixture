@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Xunit;
 using Xunit.Sdk;
 
@@ -34,7 +35,7 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         {
             // Fixture setup
             Action a = delegate { };
-            var method = a.Method;
+            var method = a.GetMethodInfo();
 
             var attributes = new[]
             {
@@ -66,7 +67,7 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         {
             // Fixture setup
             Action a = delegate { };
-            var method = a.Method;
+            var method = a.GetMethodInfo();
 
             var attributes = new[]
             {
@@ -99,7 +100,7 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         {
             // Fixture setup
             Action a = delegate { };
-            var method = a.Method;
+            var method = a.GetMethodInfo();
             var parameters = method.GetParameters();
             var parameterTypes = (from pi in parameters
                                   select pi.ParameterType).ToArray();
@@ -111,8 +112,8 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
                );
 
             // Exercise system and verify outcome
-            var result = sut.GetData(a.Method);
-            Array.ForEach(result.ToArray(), Assert.Empty);
+            var result = sut.GetData(a.GetMethodInfo());
+            result.ToList().ForEach(Assert.Empty);
             // Teardown
         }
     }
