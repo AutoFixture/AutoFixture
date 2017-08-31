@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using Moq;
 using Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 {
@@ -21,7 +17,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var context = new Mock<ISpecimenContext>().Object;
             var sut = new AutoMockPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(validNonMockSpecimen, context));
+            Assert.Null(Record.Exception(() => sut.Execute(validNonMockSpecimen, context)));
         }
 
         [Fact]
@@ -42,7 +38,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var context = new Mock<ISpecimenContext>().Object;
             var sut = new AutoMockPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(specimen, context));
+            Assert.Null(Record.Exception(() => sut.Execute(specimen, context)));
         }
 
         [Fact]
@@ -87,7 +83,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Fixture setup
             var specimen = new Mock<IInterfaceWithoutMembers>();
             var proxyField = specimen.Object.GetType().GetField(proxyFieldName);
-            var initialProxyFieldValue = proxyField.GetValue(specimen.Object);
+            var initialProxyFieldValue = proxyField?.GetValue(specimen.Object);
 
             var contextStub = new Mock<ISpecimenContext>();
             contextStub.Setup(ctx => ctx.Resolve(It.IsAny<FieldInfo>()))
@@ -99,7 +95,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             sut.Execute(specimen, contextStub.Object);
             // Verify outcome
-            var finalProxyFieldValue = proxyField.GetValue(specimen.Object);
+            var finalProxyFieldValue = proxyField?.GetValue(specimen.Object);
             Assert.Same(initialProxyFieldValue, finalProxyFieldValue);
         }
     }

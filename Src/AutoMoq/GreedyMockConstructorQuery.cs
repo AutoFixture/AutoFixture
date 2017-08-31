@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoMoq
@@ -41,7 +42,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             }
 
             var mockType = type.GetMockedType();
-            if (mockType.IsInterface)
+            if (mockType.GetTypeInfo().IsInterface)
             {
                 return new[] { new ConstructorMethod(type.GetDefaultConstructor()) };
             }

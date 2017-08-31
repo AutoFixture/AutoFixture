@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Moq;
 using Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoMoq.UnitTest
 {
@@ -21,7 +16,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var context = new Mock<ISpecimenContext>().Object;
             var sut = new StubPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(validNonMockSpecimen, context));
+            Assert.Null(Record.Exception(() => sut.Execute(validNonMockSpecimen, context)));
         }
 
         [Fact]
@@ -32,7 +27,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var context = new Mock<ISpecimenContext>().Object;
             var sut = new StubPropertiesCommand();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() => sut.Execute(request, context));
+            Assert.Null(Record.Exception(() => sut.Execute(request, context)));
         }
 
         [Fact]

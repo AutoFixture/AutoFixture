@@ -183,6 +183,7 @@ Target "TestOnly" (fun _ ->
         "AutoFixtureDocumentationTest"
         "SemanticComparisonUnitTest"
         "AutoNSubstituteUnitTest"
+        "AutoMoqUnitTest"
         "AutoFixture.xUnit.net2.UnitTest"
     ]
 

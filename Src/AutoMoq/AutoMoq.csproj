@@ -2,7 +2,7 @@
   <Import Project="..\CommonProperties.props" />
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFrameworks>net45;netstandard1.5</TargetFrameworks>
     <AssemblyTitle>AutoMoq</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.AutoMoq</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.AutoMoq</RootNamespace>
@@ -12,14 +12,22 @@
     <PackageId>AutoFixture.AutoMoq</PackageId>
     <Title>AutoFixture with Auto Mocking using Moq</Title>
     <Description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by Moq. To use it, add the AutoMoqCustomization to your Fixture instance. Read more at http://blog.ploeh.dk/2010/08/19/AutoFixtureAsAnAutomockingContainer.aspx</Description>
+
+    <!--  Suppress warning about invalid dependency version in Castle.Core.
+          That is Moq dependency and we cannot fix that somehow. -->
+    <NoWarn>$(NoWarn);NU1603</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)'=='net45' ">
     <PackageReference Include="Moq" Version="4.1.1308.2120" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)'=='netstandard1.5' ">
+    <PackageReference Include="Moq" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
