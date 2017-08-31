@@ -6,7 +6,6 @@ using Ploeh.AutoFixture.DataAnnotations;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.AutoFixtureUnitTest.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
 {
@@ -125,16 +124,12 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         [InlineData("Property", "-2.2", "-1.1")]
         [InlineData("Property", 10.0, 20.0)]
         [InlineData("Property", -2.0, -1.0)]
-        [InlineData("Property", 10, 20)]
-        [InlineData("Property", -2, -1)]
         [InlineData("NullableTypeProperty", 10, 20)]
         [InlineData("NullableTypeProperty", -2, -1)]
         [InlineData("NullableTypeProperty", "10.1", "20.2")]
         [InlineData("NullableTypeProperty", "-2.2", "-1.1")]
         [InlineData("NullableTypeProperty", 10.0, 20.0)]
         [InlineData("NullableTypeProperty", -2.0, -1.0)]
-        [InlineData("NullableTypeProperty", 10, 20)]
-        [InlineData("NullableTypeProperty", -2, -1)]
         public void CreateWithPropertyDecoratedWithRangeAttributeReturnsCorrectResult(
             string name,
             object attributeMinimum, 
@@ -171,16 +166,12 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         [InlineData("Field", "-2.2", "-1.1")]
         [InlineData("Field", 10.0, 20.0)]
         [InlineData("Field", -2.0, -1.0)]
-        [InlineData("Field", 10, 20)]
-        [InlineData("Field", -2, -1)]
         [InlineData("NullableTypeField", 10, 20)]
         [InlineData("NullableTypeField", -2, -1)]
         [InlineData("NullableTypeField", "10.1", "20.2")]
         [InlineData("NullableTypeField", "-2.2", "-1.1")]
         [InlineData("NullableTypeField", 10.0, 20.0)]
         [InlineData("NullableTypeField", -2.0, -1.0)]
-        [InlineData("NullableTypeField", 10, 20)]
-        [InlineData("NullableTypeField", -2, -1)]
         public void CreateWithFieldDecoratedWithRangeAttributeReturnsCorrectResult(
             string name,
             object attributeMinimum,
