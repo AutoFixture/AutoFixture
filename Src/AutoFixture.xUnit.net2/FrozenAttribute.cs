@@ -110,7 +110,7 @@ namespace Ploeh.AutoFixture.Xunit2
                 .Or(ByParameterName(type, name))
                 .Or(ByFieldName(type, name));
 
-            return new FreezeOnMatchCustomization(type, filter);
+            return new FreezeOnMatchCustomization(parameter, filter);
         }
 
         private static IRequestSpecification ByEqual(object target)
