@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using FakeItEasy;
 using Ploeh.AutoFixture.Kernel;
 using Ploeh.TestTypeFoundation;

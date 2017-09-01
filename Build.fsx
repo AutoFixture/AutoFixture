@@ -184,6 +184,9 @@ Target "TestOnly" (fun _ ->
         "SemanticComparisonUnitTest"
         "AutoNSubstituteUnitTest"
         "AutoMoqUnitTest"
+        "AutoFakeItEasyUnitTest"
+        "AutoFakeItEasy.FakeItEasy2UnitTest"
+        "AutoFakeItEasy.FakeItEasy3UnitTest"
         "AutoFixture.xUnit.net2.UnitTest"
     ]
 

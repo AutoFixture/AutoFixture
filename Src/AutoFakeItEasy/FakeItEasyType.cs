@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy
         internal static bool IsFake(this Type type)
         {
             return (type != null
-                && type.IsGenericType
+                && type.GetTypeInfo().IsGenericType
                 && typeof(Fake<>).IsAssignableFrom(type.GetGenericTypeDefinition())
                 && !type.GetFakedType().IsGenericParameter);
         }

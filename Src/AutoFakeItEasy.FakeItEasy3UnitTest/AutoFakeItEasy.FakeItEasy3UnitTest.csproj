@@ -3,10 +3,14 @@
   <Import Project="..\CommonTestProperties.props" />
 
   <PropertyGroup>
-    <TargetFramework>net452</TargetFramework>
-    <AssemblyTitle>AutoFakeItEasy.FakeItEasy2.UnitTest</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.AutoFakeItEasy.FakeItEasy2UnitTest</AssemblyName>
+    <TargetFrameworks>net452;netcoreapp1.1</TargetFrameworks>
+    <AssemblyTitle>AutoFakeItEasy.FakeItEasy3.UnitTest</AssemblyTitle>
+    <AssemblyName>Ploeh.AutoFixture.AutoFakeItEasy.FakeItEasy3UnitTest</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.AutoFakeItEasy.UnitTest</RootNamespace>
+
+    <!--  Suppress warning about invalid dependency version in Castle.Core.
+          That is FakeItEasy dependency and we cannot fix that somehow. -->
+    <NoWarn>$(NoWarn);NU1603</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +20,7 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-beta3-build3705" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.0-beta3-build3705" />
 
-    <PackageReference Include="FakeItEasy" Version="2.0.0" />
+    <PackageReference Include="FakeItEasy" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
