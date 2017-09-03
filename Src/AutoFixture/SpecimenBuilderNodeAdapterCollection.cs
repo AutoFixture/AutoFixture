@@ -33,14 +33,13 @@ namespace Ploeh.AutoFixture
                 // Some of the collections are not even touched after the construction and are immediately
                 // recreated again after a subsequent customization.
                 // To cover such scenarios we evaluate value on demand only saving the initialization time. 
-                if (this.adaptedBuilderNode != null) return this.adaptedBuilderNode;
-
-                var markerNode = this.Graph.FindFirstNode(this.isAdaptedBuilder);
+                if (this.adaptedBuilderNode != null)
+                    return this.adaptedBuilderNode;
 
                 // The intermediate "result" variable is needed to ensure that null value can be never returned
-                // in case of concurrency (we set field to null). While current collection implementation doesn't 
+                // in case of concurrency (we can set field to null). While current collection implementation doesn't 
                 // seem to support concurrency, the additional guard adds more safety.
-                var result = this.adaptedBuilderNode = (ISpecimenBuilderNode)markerNode.First();
+                var result = this.adaptedBuilderNode = this.FindAdaptedSpecimenBuilderNode();
                 return result;
             }
         }
@@ -455,6 +454,12 @@ namespace Ploeh.AutoFixture
                 when: adaptedNode.Equals);
 
             this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.Graph));
+        }
+
+        private ISpecimenBuilderNode FindAdaptedSpecimenBuilderNode()
+        {
+            var markerNode = this.Graph.FindFirstNode(this.isAdaptedBuilder);
+            return (ISpecimenBuilderNode) markerNode.First();
         }
     }
 }
