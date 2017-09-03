@@ -769,6 +769,82 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             task.Wait();
         }
 
+        [Fact]
+        public void Issue653_ResolvesPropertyValueViaPropertyRequest()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var subsitute = fixture.Create<IInterfaceWithProperty>();
+
+            var expected = fixture.Create<string>();
+            fixture.Customizations.Insert(0, 
+                new FilteringSpecimenBuilder(
+                    new FixedBuilder(expected),
+                    new PropertySpecification(typeof(string), nameof(IInterfaceWithProperty.Property))
+                ));
+
+            // Exercise system
+            var result = subsitute.Property;
+
+            // Verify outcome
+            Assert.Equal(expected, result);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Issue707_CanConfigureOutMethodParameters()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithParameterAndOutMethod>();
+
+            var parameter = fixture.Create<string>();
+            var result = fixture.Create<int>();
+
+            // Exercise system
+            substitute.Method(parameter, out int dummy).Returns(c => { c[1] = result; return true; });
+
+            int actualResult;
+            substitute.Method(parameter, out actualResult);
+
+            // Verify outcome
+            Assert.Equal(result, actualResult);
+
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(32), InlineData(64), InlineData(128), InlineData(256)]
+        public async Task Issue592_ShouldNotFailForConcurrency(int degreeOfParallelism)
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithMethodSource>();
+
+            var start = new SemaphoreSlim(0, degreeOfParallelism);
+            var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
+
+            var tasks = Enumerable
+                .Range(0, degreeOfParallelism)
+                .Select(_ => Task.Run
+                (async () =>
+                    {
+                        await start.WaitAsync(cts.Token).ConfigureAwait(false);
+                        substitute.Get();
+                    },
+                    cts.Token));
+
+
+            // Exercise system
+            start.Release(degreeOfParallelism);
+            await Task.WhenAll(tasks).ConfigureAwait(false);
+
+            // Verify outcome
+            substitute.Received(degreeOfParallelism).Get();
+
+            // Teardown
+        }
 
         public interface IMyList<out T> : IEnumerable<T>
         {
