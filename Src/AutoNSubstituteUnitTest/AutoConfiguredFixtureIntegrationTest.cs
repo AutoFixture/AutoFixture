@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
@@ -581,6 +580,150 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             Assert.Equal(expected, result);
         }
 
+        [Fact]
+        public void GenericMethodsWithRefReturnValueFromFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var expectedInt = fixture.Freeze<int>();
+            var expectedStr = fixture.Freeze<string>();
+            var substitute = fixture.Create<IInterfaceWithGenericRefMethod>();
+
+            // Exercise system
+            string refValue = "dummy";
+            int retValue = substitute.GenericMethod<string>(ref refValue);
+
+            // Verify outcome
+            Assert.Equal(expectedInt, retValue);
+            Assert.Equal(expectedStr, refValue);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void GenericMethodsWithOutReturnValueFromFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var expectedInt = fixture.Freeze<int>();
+            var expectedStr = fixture.Freeze<string>();
+            var substitute = fixture.Create<IInterfaceWithGenericOutMethod>();
+
+            // Exercise system
+            string outvalue;
+            int retValue = substitute.GenericMethod<string>(out outvalue);
+
+            // Verify outcome
+            Assert.Equal(expectedInt, retValue);
+            Assert.Equal(expectedStr, outvalue);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void VoidGenericMethodsWithRefReturnValueFromFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var expected = fixture.Freeze<string>();
+            var substitute = fixture.Create<IInterfaceWithGenericRefVoidMethod>();
+
+            // Exercise system
+            string refValue = "dummy";
+            substitute.GenericMethod<string>(ref refValue);
+
+            // Verify outcome
+            Assert.Equal(expected, refValue);
+            // Teardown
+        }
+
+        [Fact]
+        public void VoidGenericMethodsWithOutReturnValueFromFixture()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var expected = fixture.Freeze<string>();
+            var substitute = fixture.Create<IInterfaceWithGenericOutVoidMethod>();
+
+            // Exercise system
+            string outValue;
+            substitute.GenericMethod<string>(out outValue);
+
+            // Verify outcome
+            Assert.Equal(expected, outValue);
+            // Teardown
+        }
+
+        [Fact]
+        public void ReturnValueIsSameForSameArgumentForGenerics()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithGenericParameterMethod>();
+
+            var inputValue = 42;
+
+            // Exercise system
+            var result1 = substitute.GenericMethod<int>(inputValue);
+            var result2 = substitute.GenericMethod<int>(inputValue);
+
+            // Verify outcome
+            Assert.Equal(result1, result2);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void ReturnValueIsDifferentForDifferentArgumentForGenerics()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithGenericParameterMethod>();
+
+            // Exercise system
+            var result1 = substitute.GenericMethod<int>(42);
+            var result2 = substitute.GenericMethod<int>(10);
+
+            // Verify outcome
+            Assert.NotEqual(result1, result2);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void ResultIsDifferentForDifferentGeneticInstantiations()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithGenericMethod>();
+
+            // Exercise system
+            var intResult = substitute.GenericMethod<int>();
+            var longResult = substitute.GenericMethod<long>();
+
+            // Verify outcome
+            Assert.NotEqual(intResult, longResult);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void CachedResultIsMatchedByOtherInterfaceSubstituteForGenerics()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithGenericParameterMethod>();
+            var arg = fixture.Create<IInterfaceWithMethod>();
+
+            // Exercise system
+            int result1 = substitute.GenericMethod<IInterfaceWithMethod>(arg);
+            int result2 = substitute.GenericMethod<IInterfaceWithMethod>(arg);
+
+            // Verify outcome
+            Assert.Equal(result1, result2);
+
+            // Teardown
+        }
 
         [Fact]
         public void Issue630_DontFailIfAllTasksAreInlinedInInlinePhase()
