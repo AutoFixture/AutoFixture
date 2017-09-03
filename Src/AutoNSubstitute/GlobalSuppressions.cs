@@ -17,3 +17,6 @@ using System.Diagnostics.CodeAnalysis;
     SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames", 
         Justification = "AutoFixture itself currently doesn't have a strong name.")]
 
+[assembly:
+    SuppressMessage("Microsoft.Design", "CA1014:MarkAssembliesWithClsCompliant",
+        Justification = "NSubstitute contains non-CLS compliant types and they are used, so lib is not CLS compliant.")]
