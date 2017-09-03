@@ -151,15 +151,17 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void GenericMethodsAreIgnored()
+        public void GenericMethodsReturnValueFromFixture()
         {
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenString = fixture.Freeze<string>();
-            // Exercise system and verify outcome
-            var result = fixture.Create<IInterfaceWithGenericMethod>();
+            // Exercise system
+            var obj = fixture.Create<IInterfaceWithGenericMethod>();
+            var result = obj.GenericMethod<string>();
 
-            Assert.NotEqual(frozenString, result.GenericMethod<string>());
+            // Verify outcome
+            Assert.Equal(frozenString, result);
         }
 
         [Fact]
@@ -310,7 +312,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         }
 
         [Fact]
-        public void VoidMethodsAreIgnored()
+        public void VoidMethodsWithOutParameterIsFilled()
         {
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var frozenInt = fixture.Freeze<int>();
@@ -319,11 +321,29 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             int result;
             substitute.Method(out result);
 
-            Assert.NotEqual(frozenInt, result);
+            Assert.Equal(frozenInt, result);
         }
 
         [Fact]
-        public void VoidMethodsReturnValuesSetup()
+        public void VoidMethodsWithRefParameterIsFilled()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var frozenInt = fixture.Freeze<int>();
+            var substitute = fixture.Create<IInterfaceWithRefVoidMethod>();
+
+            // Exercise system
+            int result = 0;
+            substitute.Method(ref result);
+
+            // Verify outcome
+            Assert.Equal(frozenInt, result);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void VoidOutMethodsReturnValuesSetup()
         {
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
             var substitute = fixture.Create<IInterfaceWithOutVoidMethod>();
@@ -334,6 +354,27 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             substitute.Method(out result);
 
             Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void VoidRefMethodsReturnValuesSetup()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var subsitute = fixture.Create<IInterfaceWithRefVoidMethod>();
+            var expected = fixture.Create<int>();
+
+            int origIntValue = 10;
+            subsitute.When(x => x.Method(ref origIntValue)).Do(x => x[0] = expected);
+
+            // Exercise system
+            int result = 10;
+            subsitute.Method(ref result);
+
+            // Verify outcome
+            Assert.Equal(expected, result);
+
+            // Teardown
         }
 
         [Fact]
@@ -449,7 +490,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public void PropertiesOmittingSpecimenReturnsCorrectResult()
         {
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
-            fixture.Customizations.Add(new Omitter(new ExactTypeSpecification(typeof(string))));
+            fixture.Customizations.Add(new Omitter(new PropertySpecification(typeof(string), nameof(IInterfaceWithProperty.Property))));
             var sut = fixture.Create<IInterfaceWithProperty>();
 
             var result = sut.Property;
@@ -539,6 +580,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 
             Assert.Equal(expected, result);
         }
+
 
         [Fact]
         public void Issue630_DontFailIfAllTasksAreInlinedInInlinePhase()
