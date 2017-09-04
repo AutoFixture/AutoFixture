@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
+using NSubstitute.ClearExtensions;
 using Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
@@ -725,13 +726,72 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             // Teardown
         }
 
+        /// <summary>
+        /// Subsitute clear is used to reset manually configured user returns.
+        /// The values configured by AutoFixture are not being manually-configured.
+        /// 
+        /// If user needs that, it could easily override the auto-generated value using the
+        /// substitute.Method(...).Returns(...); 
+        /// </summary>
+        [Theory]
+        [InlineData(ClearOptions.CallActions)]
+        [InlineData(ClearOptions.ReceivedCalls)]
+        [InlineData(ClearOptions.ReturnValues)]
+        [InlineData(ClearOptions.All)]
+        public void ShouldNotResetCachedValuesOnSubsituteClear(ClearOptions options)
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithMethod>();
+            string arg = "argValue";
+
+            // Exercise system
+            var resultBefore = substitute.Method(arg);
+            substitute.ClearSubstitute(options);
+            var resultAfter = substitute.Method(arg);
+
+            // Verify outcome
+            Assert.Equal(resultBefore, resultAfter);
+
+            // Teardown
+        }
+
+        /// <summary>
+        /// Current implementation of NSubsitute doesn't call custom handlers for the Received.InOrder() scope (which
+        /// we use for our integration with NSubstitute). That shouldsn't cause any usability issues for users.
+        ///  
+        /// Asserting that behavior via test to get a notification when that behavior changes, so we can make a decision
+        /// whether we need to alter something in AF or not to respect that change.
+        /// </summary>
+        [Fact]
+        public void IsNotExpectedToReturnValueInReceivedInOrderBlock()
+        {
+            // Fixture setup
+            var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
+            var substitute = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
+
+            var actualResult = substitute.Method();
+
+            // Exercise system
+            IInterfaceWithMethod capturedResult = null;
+            Received.InOrder(() =>
+            {
+                capturedResult = substitute.Method();
+            });
+
+            // Verify outcome
+            Assert.NotEqual(actualResult, capturedResult);
+
+            // Teardown
+        }
+
         [Fact]
         public void Issue630_DontFailIfAllTasksAreInlinedInInlinePhase()
         {
             //Test for the following issue fix: https://github.com/AutoFixture/AutoFixture/issues/630
 
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
-            var interfaceSource = fixture.Create<IInterfaceWithMethodSource>();
+            var interfaceSource = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
 
             var scheduler = new TryingAlwaysSatisfyInlineTaskScheduler();
 
@@ -743,7 +803,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
              * Schedulers are propagated to the nested tasks, so we are resolving IInterfaceWithMethod inside the task.
              * All the tasks created during that resolve will be inlined, if that is possible.
              */
-            var task = new Task<IInterfaceWithMethod>(() => interfaceSource.Get());
+            var task = new Task<IInterfaceWithMethod>(() => interfaceSource.Method());
             task.Start(scheduler);
 
             var instance = task.Result;
@@ -759,10 +819,10 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             {
                 //arrange
                 var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
-                var interfaceSource = fixture.Create<IInterfaceWithMethodSource>();
+                var interfaceSource = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
 
                 //act & assert not throw
-                var result = interfaceSource.Get();
+                var result = interfaceSource.Method();
             });
             task.Start(new InlineOnQueueTaskScheduler());
 
@@ -820,7 +880,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         {
             // Fixture setup
             var fixture = new Fixture().Customize(new AutoConfiguredNSubstituteCustomization());
-            var substitute = fixture.Create<IInterfaceWithMethodSource>();
+            var substitute = fixture.Create<IInterfaceWithMethodReturningOtherInterface>();
 
             var start = new SemaphoreSlim(0, degreeOfParallelism);
             var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
@@ -831,7 +891,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
                 (async () =>
                     {
                         await start.WaitAsync(cts.Token).ConfigureAwait(false);
-                        substitute.Get();
+                        substitute.Method();
                     },
                     cts.Token));
 
@@ -841,7 +901,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
             await Task.WhenAll(tasks).ConfigureAwait(false);
 
             // Verify outcome
-            substitute.Received(degreeOfParallelism).Get();
+            substitute.Received(degreeOfParallelism).Method();
 
             // Teardown
         }
@@ -857,11 +917,6 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
         public interface IInterfaceImplementingAnother : IInterface
         {
             int Method();
-        }
-
-        public interface IInterfaceWithMethodSource
-        {
-            IInterfaceWithMethod Get();
         }
 
         private class TryingAlwaysSatisfyInlineTaskScheduler : TaskScheduler
