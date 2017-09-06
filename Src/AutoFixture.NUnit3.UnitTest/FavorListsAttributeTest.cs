@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
 using Ploeh.TestTypeFoundation;
 using Ploeh.AutoFixture.Kernel;

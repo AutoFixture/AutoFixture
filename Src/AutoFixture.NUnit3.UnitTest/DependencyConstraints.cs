@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Linq;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.NUnit3.UnitTest
 {
@@ -18,7 +19,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var references = typeof(AutoDataAttribute).Assembly.GetReferencedAssemblies();
+            var references = typeof(AutoDataAttribute).GetTypeInfo().Assembly.GetReferencedAssemblies();
             // Verify outcome
             Assert.False(references.Any(an => an.Name == assemblyName));
             // Teardown
@@ -38,7 +39,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         {
             // Fixture setup
             // Exercise system
-            var references = this.GetType().Assembly.GetReferencedAssemblies();
+            var references = this.GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
             // Verify outcome
             Assert.False(references.Any(an => an.Name == assemblyName));
             // Teardown

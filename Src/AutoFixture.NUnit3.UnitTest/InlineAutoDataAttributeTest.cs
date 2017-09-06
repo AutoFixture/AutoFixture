@@ -3,6 +3,7 @@ using System.Linq;
 using NUnit.Framework.Internal;
 using NUnit.Framework.Interfaces;
 using System;
+using System.Reflection;
 
 namespace Ploeh.AutoFixture.NUnit3.UnitTest
 {

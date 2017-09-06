@@ -21,8 +21,8 @@ test_script:
         $client.UploadFile("https://ci.appveyor.com/api/testresults/$testRunner/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $testResultsPath))
     }
 
-    Publish-TestResults nunit NUnit2TestResult.xml
-    Publish-TestResults nunit NUnit3TestResult.xml
+    Publish-TestResults nunit "TestResults\\NUnit2TestResult.xml"
+    Get-ChildItem TestResults -Filter *.trx | Foreach-Object { Publish-TestResults mstest $_.FullName }
 
 artifacts:
 - path: NuGetPackages\*.nupkg
