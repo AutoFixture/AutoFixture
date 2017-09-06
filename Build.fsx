@@ -10,11 +10,11 @@ open System.Text.RegularExpressions
 
 let testResultsFolder = "TestResults"
 let nuGetOutputFolder = "NuGetPackages"
-let nuGetPackages = !! (nuGetOutputFolder @@ "*.nupkg" )
+let nuGetPackages = !! (nuGetOutputFolder </> "*.nupkg" )
                     // Skip symbol packages because NuGet publish symbols automatically when package is published
-                    -- (nuGetOutputFolder @@ "*.symbols.nupkg")
+                    -- (nuGetOutputFolder </> "*.symbols.nupkg")
                     // Currently AutoFakeItEasy2 has been deprecated and is not being published to the feeds.
-                    -- (nuGetOutputFolder @@ "AutoFixture.AutoFakeItEasy2.*" )
+                    -- (nuGetOutputFolder </> "AutoFixture.AutoFakeItEasy2.*" )
 let signKeyPath = FullName "Src/AutoFixture.snk"
 let solutionToBuild = "Src/All.sln"
 let configuration = getBuildParamOrDefault "BuildConfiguration" "Release"
@@ -243,7 +243,6 @@ Target "TestOnly" (fun _ ->
     )
 )
 
-Target "BuildAndTestOnly" DoNothing
 Target "Build" DoNothing
 Target "Test"  DoNothing
 
@@ -312,8 +311,6 @@ Target "PublishNuGetAll" DoNothing
 
 "BuildOnly"              ==> "TestOnly"
 "CleanTestResultsFolder" ==> "TestOnly"
-
-"TestOnly" ==> "BuildAndTestOnly"
 
 "Build"    ==> "Test"
 "TestOnly" ==> "Test"
