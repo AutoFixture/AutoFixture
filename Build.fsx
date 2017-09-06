@@ -16,7 +16,8 @@ let nuGetPackages = !! (nuGetOutputFolder @@ "*.nupkg" )
                     // Currently AutoFakeItEasy2 has been deprecated and is not being published to the feeds.
                     -- (nuGetOutputFolder @@ "AutoFixture.AutoFakeItEasy2.*" )
 let signKeyPath = FullName "Src/AutoFixture.snk"
-let solutionsToBuild = !! "Src/All.sln"
+let solutionToBuild = "Src/All.sln"
+let configuration = getBuildParamOrDefault "BuildConfiguration" "Release"
 let bakFileExt = ".orig"
 
 type BuildVersionCalculationSource = { major: int; minor: int; revision: int; preSuffix: string; 
@@ -143,37 +144,48 @@ Target "RestorePatchedAssemblyVersionFiles" (fun _ ->
     )
 )
 
-let build target configuration additionalProperties =
-    let properties = [ "Configuration", configuration
-                       "AssemblyOriginatorKeyFile", signKeyPath
-                       "AssemblyVersion", buildVersion.assemblyVersion
-                       "FileVersion", buildVersion.fileVersion
-                       "InformationalVersion", buildVersion.infoVersion 
-                       "PackageVersion", buildVersion.nugetVersion ]
-                     @ additionalProperties
+let runMsBuild target configuration properties =
+    let verbosity = match getBuildParam "BuildVerbosity" |> toLower with
+                    | "quiet" | "q"         -> Quiet
+                    | "minimal" | "m"       -> Minimal
+                    | "normal" | "n"        -> Normal
+                    | "detailed" | "d"      -> Detailed
+                    | "diagnostic" | "diag" -> Diagnostic
+                    | _ -> Normal
 
-    solutionsToBuild
-    |> MSBuild "" target properties
-    |> ignore
+    let configProperty = match configuration with
+                         | Some c -> [ "Configuration", c ]
+                         | _ -> []
 
-let clean configuration   = build "Clean" configuration []
-let rebuild configuration = build "Rebuild" configuration []
+    let properties = configProperty @ properties
+                     @ [ "AssemblyOriginatorKeyFile", signKeyPath
+                         "AssemblyVersion", buildVersion.assemblyVersion
+                         "FileVersion", buildVersion.fileVersion
+                         "InformationalVersion", buildVersion.infoVersion 
+                         "PackageVersion", buildVersion.nugetVersion ]
+
+    solutionToBuild
+    |> build (fun p -> { p with MaxCpuCount = Some None
+                                Verbosity = Some verbosity
+                                Targets = [ target ]
+                                Properties = properties })
+
+let cleanBuild configuration = runMsBuild "Clean" (Some configuration) []
+let rebuild configuration = runMsBuild "Rebuild" (Some configuration) []
 
 Target "CleanAll"               DoNothing 
-Target "CleanVerify"            (fun _ -> clean "Verify")
-Target "CleanRelease"           (fun _ -> clean "Release")
+Target "CleanVerify"            (fun _ -> cleanBuild "Verify")
+Target "CleanRelease"           (fun _ -> cleanBuild configuration)
 Target "CleanTestResultsFolder" (fun _ -> CleanDir testResultsFolder)
 
-// Configuration doesn't matter for restore and is ignored by MSBuild.
-let restoreNugetPackages() = build "Restore" "Release" []
+let restoreNugetPackages() = runMsBuild "Restore" None []
 
 Target "RestoreNuGetPackages" (fun _ -> restoreNugetPackages())
 
 Target "Verify" (fun _ -> rebuild "Verify")
 
-Target "BuildOnly" (fun _ -> rebuild "Release")
+Target "BuildOnly" (fun _ -> rebuild configuration)
 Target "TestOnly" (fun _ ->
-    let configuration = getBuildParamOrDefault "Configuration" "Release"
     let parallelizeTests = getBuildParamOrDefault "ParallelizeTests" "False" |> Convert.ToBoolean
     let maxParallelThreads = getBuildParamOrDefault "MaxParallelThreads" "0" |> Convert.ToInt32
     let parallelMode = if parallelizeTests then ParallelMode.All else ParallelMode.NoParallelization
@@ -246,10 +258,10 @@ Target "NuGetPack" (fun _ ->
     restoreNugetPackages()
 
     // Pack projects using MSBuild
-    build "Pack" "Release" [ "IncludeSource", "true"
-                             "IncludeSymbols", "true"
-                             "PackageOutputPath", FullName nuGetOutputFolder
-                             "NoBuild", "true" ]
+    runMsBuild "Pack" (Some configuration) [ "IncludeSource", "true"
+                                             "IncludeSymbols", "true"
+                                             "PackageOutputPath", FullName nuGetOutputFolder
+                                             "NoBuild", "true" ]
 )
 
 let publishPackagesWithSymbols packageFeed symbolFeed accessKey =
