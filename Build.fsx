@@ -243,7 +243,6 @@ Target "TestOnly" (fun _ ->
     )
 )
 
-Target "BuildAndTestOnly" DoNothing
 Target "Build" DoNothing
 Target "Test"  DoNothing
 
@@ -312,8 +311,6 @@ Target "PublishNuGetAll" DoNothing
 
 "BuildOnly"              ==> "TestOnly"
 "CleanTestResultsFolder" ==> "TestOnly"
-
-"TestOnly" ==> "BuildAndTestOnly"
 
 "Build"    ==> "Test"
 "TestOnly" ==> "Test"
