@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 
 namespace Ploeh.AutoFixture.Kernel
@@ -11,16 +10,16 @@ namespace Ploeh.AutoFixture.Kernel
     /// Base class for recursion handling. Tracks requests and reacts when a recursion point in the
     /// specimen creation process is detected.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", 
+        Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
+    [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable",
+        Justification = "Fixture doesn't support disposal, so we cannot dispose current builder somehow.")]
     public class RecursionGuard : ISpecimenBuilderNode
     {
-        private readonly ConcurrentDictionary<Thread, Stack<object>>
-            _requestsByThread = new ConcurrentDictionary<Thread, Stack<object>>();
+        private readonly ThreadLocal<Stack<object>> _requestsByThread
+            = new ThreadLocal<Stack<object>>(() => new Stack<object>());
 
-        private Stack<object> GetMonitoredRequestsForCurrentThread()
-        {
-            return _requestsByThread.GetOrAdd(Thread.CurrentThread, _ => new Stack<object>());
-        }
+        private Stack<object> GetMonitoredRequestsForCurrentThread() => _requestsByThread.Value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.

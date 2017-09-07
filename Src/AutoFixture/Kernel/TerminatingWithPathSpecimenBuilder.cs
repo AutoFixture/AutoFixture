@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -15,15 +14,14 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix",
         Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
+    [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable",
+        Justification = "Fixture doesn't support disposal, so we cannot dispose current builder somehow.")]
     public class TerminatingWithPathSpecimenBuilder : ISpecimenBuilderNode
     {
-        private readonly ConcurrentDictionary<Thread, Stack<object>>
-            _requestPathsByThread = new ConcurrentDictionary<Thread, Stack<object>>();
+        private readonly ThreadLocal<Stack<object>> _requestsByThread
+            = new ThreadLocal<Stack<object>>(() => new Stack<object>());
 
-        private Stack<object> GetPathForCurrentThread()
-        {
-            return _requestPathsByThread.GetOrAdd(Thread.CurrentThread, _ => new Stack<object>());
-        }
+        private Stack<object> GetPathForCurrentThread() => _requestsByThread.Value;
 
         /// <summary>
         /// Creates a new <see cref="TerminatingWithPathSpecimenBuilder"/> instance.
