@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         [Theory, AutoData]
         public void AutoDataProvidesCorrectString(string text)
         {
-            Assert.True(text.StartsWith("text"));
+            Assert.StartsWith("text", text);
         }
 
         [Theory, AutoData]
