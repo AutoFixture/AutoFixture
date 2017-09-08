@@ -75,7 +75,7 @@ namespace Ploeh.AutoFixture
             ISpecimenBuilderNode graph,
             Func<ISpecimenBuilderNode, bool> adaptedBuilderPredicate)
         {
-            this.Graph = graph;
+            this.graph = graph;
             this.isAdaptedBuilder = adaptedBuilderPredicate;
         }
 
@@ -430,6 +430,7 @@ namespace Ploeh.AutoFixture
             {
                 this.graph = value;
                 this.InvalidateCachedAdaptedBuilderNode();
+                this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(value));
             }
         }
 
@@ -440,9 +441,7 @@ namespace Ploeh.AutoFixture
         /// </param>
         protected virtual void OnGraphChanged(SpecimenBuilderNodeEventArgs e)
         {
-            var handler = this.GraphChanged;
-            if (handler != null)
-                handler(this, e);
+            this.GraphChanged?.Invoke(this, e);
         }
 
         private void Mutate(IEnumerable<ISpecimenBuilder> builders)
@@ -452,8 +451,6 @@ namespace Ploeh.AutoFixture
             this.Graph = this.Graph.ReplaceNodes(
                 with: builders,
                 when: adaptedNode.Equals);
-
-            this.OnGraphChanged(new SpecimenBuilderNodeEventArgs(this.Graph));
         }
 
         private ISpecimenBuilderNode FindAdaptedSpecimenBuilderNode()
