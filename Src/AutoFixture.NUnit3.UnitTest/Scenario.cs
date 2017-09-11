@@ -2,6 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using Ploeh.TestTypeFoundation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ploeh.AutoFixture.NUnit3.UnitTest
 {
@@ -386,6 +387,13 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
             Assert.That(ph1.Property, Is.EqualTo(default(object)));
             Assert.That(ph2.Property, Is.EqualTo(default(string)));
             Assert.That(ph3.Property, Is.EqualTo(default(int)));
+        }
+
+        [Theory, AutoData]
+        public void FreezeParameterWithStringLengthConstraintShouldCreateConstrainedSpecimen(
+            [Frozen, StringLength(3)]string p)
+        {
+            Assert.True(p.Length == 3);
         }
     }
 }
