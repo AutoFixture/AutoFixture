@@ -23,6 +23,7 @@
     <Reference Include="nunit.core.interfaces">
       <HintPath>..\..\References\NUnit.2.6.2\nunit.core.interfaces.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
 
   <ItemGroup>

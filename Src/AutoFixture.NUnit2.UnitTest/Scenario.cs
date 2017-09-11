@@ -2,6 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using Ploeh.TestTypeFoundation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ploeh.AutoFixture.NUnit2.UnitTest
 {
@@ -349,6 +350,13 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             FieldHolder<string> p2)
         {
             Assert.AreNotEqual(p1, p2.Field);
+        }
+
+        [Theory, AutoData]
+        public void FreezeParameterWithStringLengthConstraintShouldCreateConstrainedSpecimen(
+            [Frozen, StringLength(3)]string p)
+        {
+            Assert.True(p.Length == 3);
         }
     }
 }
