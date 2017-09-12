@@ -5996,6 +5996,21 @@ namespace Ploeh.AutoFixtureUnitTest
             Assert.NotNull(actual.Compile()());
         }
 
+        [Fact]
+        public void Issue691_DontUseCastOperatorsToCreateSpecimen()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+
+            // Exercise system and verify outcome
+            var ex = Assert.Throws<ObjectCreationException>(() =>
+                fixture.Create<TypeWithCastOperatorsWithoutPublicConstructor>());
+
+            Assert.Contains("most likely because it has no public constructor", ex.Message);
+
+            // Teardown
+        }
+
 #if SYSTEM_NET_MAIL
         [Fact]
         public void CreateAnonymousWithMailAddressReturnsValidResult()

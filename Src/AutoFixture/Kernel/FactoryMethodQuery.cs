@@ -41,7 +41,9 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return from mi in type.GetTypeInfo().GetMethods(BindingFlags.Static | BindingFlags.Public)
-                   where mi.ReturnType == type
+                   where mi.ReturnType == type &&
+                         !string.Equals(mi.Name, "op_Implicit", StringComparison.Ordinal) &&
+                         !string.Equals(mi.Name, "op_Explicit", StringComparison.Ordinal)
                    let parameters = mi.GetParameters()
                    where mi.GetParameters().All(p => p.ParameterType != type)
                    orderby parameters.Length ascending
