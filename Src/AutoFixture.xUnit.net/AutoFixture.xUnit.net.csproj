@@ -20,6 +20,9 @@
 
   <ItemGroup>
     <PackageReference Include="xunit.extensions" Version="[1.8.0.1549,2.0.0)" />
+    <!-- Isn't actually needed by this library, but is present as a NuGet guard to prevent installation of this package 
+     together with xUnit2 and higher. -->
+    <PackageReference Include="xunit" Version="[1.8.0.1549,2.0.0)" />
   </ItemGroup>
 
   <ItemGroup>
