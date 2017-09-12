@@ -3,7 +3,7 @@
   <Import Project="..\CommonTestProperties.props" />
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>AutoRhinoMockUnitTest</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.AutoRhinoMock.UnitTest</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.AutoRhinoMock.UnitTest</RootNamespace>

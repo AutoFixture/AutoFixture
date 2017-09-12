@@ -2,7 +2,7 @@
   <Import Project="..\CommonProperties.props" />
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>AutoFixture.AutoRhinoMock</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.AutoRhinoMock</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.AutoRhinoMock</RootNamespace>

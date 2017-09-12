@@ -3,7 +3,7 @@
   <Import Project="..\CommonTestProperties.props" />
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>AutoFixture.xUnit.net.UnitTest</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.Xunit.UnitTest</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.Xunit.UnitTest</RootNamespace>

@@ -2,7 +2,7 @@
   <Import Project="..\CommonProperties.props" />
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>AutoFixture.Idioms</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.Idioms</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.Idioms</RootNamespace>
