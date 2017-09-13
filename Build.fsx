@@ -151,7 +151,7 @@ let runMsBuild target configuration properties =
                     | "normal" | "n"        -> Normal
                     | "detailed" | "d"      -> Detailed
                     | "diagnostic" | "diag" -> Diagnostic
-                    | _ -> Normal
+                    | _ -> Minimal
 
     let configProperty = match configuration with
                          | Some c -> [ "Configuration", c ]
