@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
