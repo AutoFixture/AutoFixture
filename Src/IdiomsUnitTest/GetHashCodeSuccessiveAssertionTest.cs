@@ -62,8 +62,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var dummyComposer = new Fixture();
             var sut = new GetHashCodeSuccessiveAssertion(dummyComposer);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(typeof(ClassThatDoesNotOverrideObjectGetHashCode)));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(typeof(ClassThatDoesNotOverrideObjectGetHashCode))));
             // Teardown
         }
 
@@ -74,8 +74,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var dummyComposer = new Fixture();
             var sut = new GetHashCodeSuccessiveAssertion(dummyComposer);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(typeof(WellBehavedGetHashCodeSelfObjectOverride)));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(typeof(WellBehavedGetHashCodeSelfObjectOverride))));
             // Teardown            
         }
 

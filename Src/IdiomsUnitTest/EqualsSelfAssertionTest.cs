@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
@@ -65,8 +62,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var dummyComposer = new Fixture();
             var sut = new EqualsSelfAssertion(dummyComposer);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(typeof(ClassThatDoesNotOverrideObjectEquals)));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(typeof(ClassThatDoesNotOverrideObjectEquals))));
             // Teardown
         }
 
@@ -77,8 +74,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var dummyComposer = new Fixture();
             var sut = new EqualsSelfAssertion(dummyComposer);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(typeof(WellBehavedEqualsSelfObjectOverride)));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(typeof(WellBehavedEqualsSelfObjectOverride))));
             // Teardown            
         }
 

@@ -5,7 +5,6 @@ using System.Reflection;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -413,8 +412,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var ctor = type.GetConstructors().First();
             var sut = new DelegatingIdiomaticAssertion();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(ctor));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(ctor)));
             // Teardown
         }
 
@@ -470,8 +469,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var field = type.GetFields().First();
             var sut = new DelegatingIdiomaticAssertion();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(field));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(field)));
             // Teardown
         }
 
@@ -533,8 +532,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var method = type.GetMethods().Except(type.GetProperties().SelectMany(p => p.GetAccessors())).First();
             var sut = new DelegatingIdiomaticAssertion();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(method));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(method)));
             // Teardown
         }
 
@@ -590,8 +589,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var property = type.GetProperties().First();
             var sut = new DelegatingIdiomaticAssertion();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(property));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(property)));
             // Teardown
         }
     }

@@ -72,7 +72,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Exercise system
             var result = sut.Message;
             // Verify outcome
-            Assert.Equal<string>(expected, result);
+            Assert.Equal(expected, result);
             // Teardown
         }
 
