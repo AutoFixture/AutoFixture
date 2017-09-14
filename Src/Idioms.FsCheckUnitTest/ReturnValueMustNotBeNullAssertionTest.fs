@@ -1,6 +1,5 @@
 ﻿namespace Ploeh.AutoFixture.Idioms.FsCheckUnitTest
 
-open Grean.Exude
 open FsCheck
 open Ploeh.AutoFixture
 open Ploeh.AutoFixture.Idioms
@@ -44,87 +43,74 @@ type ReturnValueMustNotBeNullAssertionTest () =
         let sut = ReturnValueMustNotBeNullAssertion(dummyBuilder)
         raises<ArgumentNullException> <@ sut.Verify(null :> MethodInfo) @>
 
-    [<FirstClassTests>]
-    let VerifyWriteOnlyPropertiesDoesNotThrow () =
+    [<Theory>]
+    [<InlineData(typeof<AClass>)>]
+    [<InlineData(typeof<AStaticClass>)>]
+    let VerifyWriteOnlyPropertiesDoesNotThrow (t: Type) =
         let sut = ReturnValueMustNotBeNullAssertion(Fixture())
-        [   
-            typeof<AClass>.GetProperty("WriteOnlyProperty")
-            typeof<AStaticClass>.GetProperty("WriteOnlyProperty")
-        ]
-        |> Seq.map (fun element -> TestCase (fun () -> sut.Verify(element)))
+        let prop = t.GetProperty("WriteOnlyProperty")
+        sut.Verify(prop)
 
-    [<FirstClassTests>]
-    let VerifyVoidMethodsDoesNotThrow () =
+    [<Theory>]
+    [<InlineData(typeof<AClass>)>]
+    [<InlineData(typeof<AStaticClass>)>]
+    let VerifyVoidMethodsDoesNotThrow (t: Type) =
         let sut = ReturnValueMustNotBeNullAssertion(Fixture())
-        [   
-            typeof<AClass>.GetMethod("VoidMethod")
-            typeof<AStaticClass>.GetMethod("VoidMethod")
-        ]
-        |> Seq.map (fun element -> TestCase (fun () -> sut.Verify(element)))
+        let method = t.GetMethod("VoidMethod")
+        sut.Verify(method)
 
-    [<FirstClassTests>]
-    let VerifyPropertiesWithReturnValueDoesNotThrow () =
+    [<Theory>]
+    [<InlineData(typeof<AClass>)>]
+    [<InlineData(typeof<AStaticClass>)>]
+    let VerifyPropertiesWithReturnValueDoesNotThrow (t: Type) =
         let sut = ReturnValueMustNotBeNullAssertion(Fixture())
-        [   
-            typeof<AClass>.GetProperty("ReadOnlyProperty")
-            typeof<AStaticClass>.GetProperty("ReadOnlyProperty")
-        ]
-        |> Seq.map (fun element -> TestCase (fun () -> sut.Verify(element)))
+        let prop = t.GetProperty("ReadOnlyProperty")
+        sut.Verify(prop)
 
-    [<FirstClassTests>]
-    let VerifyMethodsWithReturnValueDoesNotThrow () =
+    [<Theory>]
+    [<InlineData(typeof<AClass>)>]
+    [<InlineData(typeof<AStaticClass>)>]
+    let VerifyMethodsWithReturnValueDoesNotThrow (t: Type) =
         let sut = ReturnValueMustNotBeNullAssertion(Fixture())
-        [
-            typeof<AClass>.GetMethod("MethodWithReturnValue")
-            typeof<AStaticClass>.GetMethod("MethodWithReturnValue")
-        ]
-        |> Seq.map (fun element -> TestCase (fun () -> sut.Verify(element)))
+        let method = t.GetMethod("MethodWithReturnValue")
+        sut.Verify(method)
 
-    [<FirstClassTests>]
-    let VerifyPropertiesWithNullReturnValueThrows () =
+    [<Theory>]
+    [<InlineData(typeof<AClass>)>]
+    [<InlineData(typeof<AStaticClass>)>]
+    let VerifyPropertiesWithNullReturnValueThrows (t: Type) =
         let sut = ReturnValueMustNotBeNullAssertion(Fixture())
-        [
-            typeof<AClass>.GetProperty("NullReturnValueProperty")
-            typeof<AStaticClass>.GetProperty("NullReturnValueProperty")
-        ]
-        |> Seq.map (fun element -> TestCase (fun () ->
-            raises<ReturnValueMustNotBeNullException> <@ sut.Verify(element) @>))
+        let prop = t.GetProperty("NullReturnValueProperty")
+        raises<ReturnValueMustNotBeNullException> <@ sut.Verify(prop) @>
 
-    [<FirstClassTests>]
-    let VerifyMethodsWithNullReturnValueThrows () =
+    [<Theory>]
+    [<InlineData(typeof<AClass>, "NullReturnValueMethod")>]
+    [<InlineData(typeof<AClass>, "NullReturnValueMethodWithParameters")>]
+    [<InlineData(typeof<AClass>, "NullReturnValueMethodWithManyParameters")>]
+    [<InlineData(typeof<AClass>, "NullReturnValueMethodWithParametersAndBranching")>]
+    [<InlineData(typeof<AStaticClass>, "NullReturnValueMethod")>]
+    [<InlineData(typeof<AStaticClass>, "NullReturnValueMethodWithParameters")>]
+    [<InlineData(typeof<AStaticClass>, "NullReturnValueMethodWithManyParameters")>]
+    [<InlineData(typeof<AStaticClass>, "NullReturnValueMethodWithParametersAndBranching")>]
+    let VerifyMethodsWithNullReturnValueThrows (t: Type, mName) =
         let sut = ReturnValueMustNotBeNullAssertion(Fixture())
-        [
-            typeof<AClass>.GetMethod("NullReturnValueMethod")
-            typeof<AClass>.GetMethod("NullReturnValueMethodWithParameters")
-            typeof<AClass>.GetMethod("NullReturnValueMethodWithManyParameters")
-            typeof<AClass>.GetMethod("NullReturnValueMethodWithParametersAndBranching")
+        let method = t.GetMethod(mName)
+        raises<ReturnValueMustNotBeNullException> <@ sut.Verify(method) @>
 
-            typeof<AStaticClass>.GetMethod("NullReturnValueMethod")
-            typeof<AStaticClass>.GetMethod("NullReturnValueMethodWithParameters")
-            typeof<AStaticClass>.GetMethod("NullReturnValueMethodWithManyParameters")
-            typeof<AStaticClass>.GetMethod("NullReturnValueMethodWithParametersAndBranching")
-        ]
-        |> Seq.map (fun element -> TestCase (fun () ->
-            raises<ReturnValueMustNotBeNullException> <@ sut.Verify(element) @>))
-
-    [<FirstClassTests>]
-    let VerifyMethodsWithComplexParametersDoesNotThrow () =
+    [<Theory>]
+    [<InlineData(typeof<AClass>)>]
+    [<InlineData(typeof<AStaticClass>)>]
+    let VerifyMethodsWithComplexParametersDoesNotThrow (t: Type) =
         let sut = ReturnValueMustNotBeNullAssertion(Fixture())
-        [
-            typeof<AClass>.GetMethod("MethodWithComplexParameters")
-            typeof<AStaticClass>.GetMethod("MethodWithComplexParameters")
-        ]
-        |> Seq.map (fun element -> TestCase (fun () ->
-            Arb.register<Generators>() |> ignore
-            sut.Verify(element)))
+        let method = t.GetMethod("MethodWithComplexParameters")
+        Arb.register<Generators>() |> ignore
+        sut.Verify(method)
 
-    [<FirstClassTests>]
-    let VerifyMethodsWithComplexParametersAndNullReturnValueThrows () =
+    [<Theory>]
+    [<InlineData(typeof<AClass>, "NullReturnValueMethodWithComplexParameters")>]
+    [<InlineData(typeof<AStaticClass>, "NullReturnValueMethodWithComplexParameters")>]
+    let VerifyMethodsWithComplexParametersAndNullReturnValueThrows (t: Type, mName) =
         let sut = ReturnValueMustNotBeNullAssertion(Fixture())
-        [
-            typeof<AClass>.GetMethod("NullReturnValueMethodWithComplexParameters")
-            typeof<AStaticClass>.GetMethod("NullReturnValueMethodWithComplexParameters")
-        ]
-        |> Seq.map (fun element -> TestCase (fun () ->
-            Arb.register<Generators>() |> ignore
-            raises<ReturnValueMustNotBeNullException> <@ sut.Verify(element) @>))
+        let method = t.GetMethod(mName)
+        Arb.register<Generators>() |> ignore
+        raises<ReturnValueMustNotBeNullException> <@ sut.Verify(method) @>
