@@ -8,7 +8,6 @@ open System
 open System.Reflection
 open Swensen.Unquote.Assertions
 open Xunit
-open Xunit.Extensions
 
 let dummyBuilder =
     { new ISpecimenBuilder with
@@ -50,7 +49,7 @@ let SelectMethodReturnsMethodWithoutParametersForInterface() =
     // Verify outcome
     verify <@ result |> Seq.isEmpty @>
 
-[<Theory>][<PropertyData("TypesWithConstructors")>]
+[<Theory>][<MemberData("TypesWithConstructors")>]
 let MethodsAreReturnedInCorrectOrder (request: Type) =
     // Fixture setup
     let expected = 
@@ -69,7 +68,7 @@ let MethodsAreReturnedInCorrectOrder (request: Type) =
     verify <@ (expected, result) ||> Seq.forall2 (=) @>
     // Teardown   
 
-[<Theory>][<PropertyData("TypesWithConstructors")>]
+[<Theory>][<MemberData("TypesWithConstructors")>]
 let SelectMethodsDefineCorrectParameters (request: Type) =
     // Fixture setup
     let expected =
