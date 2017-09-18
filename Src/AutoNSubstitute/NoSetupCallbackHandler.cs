@@ -3,6 +3,8 @@ using NSubstitute.Core;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute
 {
+    [Obsolete("This class belongs to the legacy integration approach. " +
+              "Use the NSubstituteRegisterCallHandlerCommand class and its dependencies instead.")]
     internal class NoSetupCallbackHandler : ICallHandler
     {
         private readonly ISubstituteState state;

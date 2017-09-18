@@ -4,6 +4,9 @@ using Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
+// This class tests the obsolete component, so disable the warning.
+#pragma warning disable 618
+
 namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 {
     public class NSubstituteVirtualMethodsCommandTest

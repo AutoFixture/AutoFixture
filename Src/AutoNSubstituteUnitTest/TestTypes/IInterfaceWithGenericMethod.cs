@@ -2,6 +2,6 @@
 {
     public interface IInterfaceWithGenericMethod
     {
-        string GenericMethod<T>();
+        T GenericMethod<T>();
     }
 }

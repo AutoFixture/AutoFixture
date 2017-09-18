@@ -15,6 +15,7 @@ using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.AutoNSubstitute
 {
+
     /// <summary>
     /// Sets up a substitute object's methods so that the return values will be retrieved from a fixture,
     /// instead of being created directly by NSubstitute.
@@ -35,6 +36,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
     /// - Methods inherited from <see cref="Object" /> are not set up due to a limitation in NSubstitute
     ///     (http://stackoverflow.com/a/21787891)
     /// </remarks>
+    [Obsolete("This class belongs to the legacy integration approach. " +
+              "Use the NSubstituteRegisterCallHandlerCommand class and its dependencies instead.")]
     public class NSubstituteVirtualMethodsCommand : ISpecimenCommand
     {
         private static readonly MethodInfo[] ObjectMethods = typeof(object).GetMethods();

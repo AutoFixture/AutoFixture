@@ -19,11 +19,7 @@
     <NoWarn>$(NoWarn);NU1603</NoWarn>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)'=='net45' ">
-    <PackageReference Include="NSubstitute" Version="1.5.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)'=='netstandard1.5' ">
+  <ItemGroup>
     <PackageReference Include="NSubstitute" Version="2.0.3" />
   </ItemGroup>
 
