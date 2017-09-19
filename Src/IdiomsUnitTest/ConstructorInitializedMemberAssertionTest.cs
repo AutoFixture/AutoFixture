@@ -341,15 +341,15 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         }
 
         [Fact]
-        public void VerifyWhenPropertyTypeIsAssignableFromParameterTypeDoesNotThrow()
+        public void VerifyWhenPropertyTypeIsAssignableFromParameterTypeShouldThrow()
         {
             // Fixture setup
             var dummyComposer = new Fixture();
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             var ctor = typeof(PropertyIsAssignableFromConstructorArgumentType).GetConstructors().First();
             // Exercise system and verify outcome
-            Assert.Null(Record.Exception(() =>
-                sut.Verify(ctor)));
+            Assert.Throws<ConstructorInitializedMemberException>(() =>
+                sut.Verify(ctor));
             // Teardown
         }
 
