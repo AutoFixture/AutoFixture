@@ -2,7 +2,7 @@
   <Import Project="..\CommonProperties.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard1.5</TargetFrameworks>
+    <TargetFrameworks>net452;netstandard1.5</TargetFrameworks>
     <AssemblyTitle>AutoMoq</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.AutoMoq</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.AutoMoq</RootNamespace>
@@ -22,7 +22,7 @@
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)'=='net45' ">
+  <ItemGroup Condition=" '$(TargetFramework)'=='net452' ">
     <PackageReference Include="Moq" Version="4.1.1308.2120" />
   </ItemGroup>
 

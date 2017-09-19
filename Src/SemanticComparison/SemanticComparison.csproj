@@ -2,7 +2,7 @@
   <Import Project="..\CommonProperties.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard1.5</TargetFrameworks>
+    <TargetFrameworks>net452;netstandard1.5</TargetFrameworks>
     <AssemblyTitle>SemanticComparison</AssemblyTitle>
     <AssemblyName>Ploeh.SemanticComparison</AssemblyName>
     <RootNamespace>Ploeh.SemanticComparison</RootNamespace>

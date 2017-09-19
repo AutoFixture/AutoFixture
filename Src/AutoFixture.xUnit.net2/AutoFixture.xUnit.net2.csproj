@@ -2,7 +2,7 @@
   <Import Project="..\CommonProperties.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard1.5</TargetFrameworks>
+    <TargetFrameworks>net452;netstandard1.5</TargetFrameworks>
     <AssemblyTitle>AutoFixture.xUnit.net2</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.Xunit2</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.Xunit2</RootNamespace>
@@ -14,7 +14,7 @@
     <Description>By leveraging the data theory feature of xUnit.net, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</Description>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)'=='net45' ">
+  <ItemGroup Condition=" '$(TargetFramework)'=='net452' ">
     <PackageReference Include="xunit.core" Version="[2.0.0,3.0.0)" />
   </ItemGroup>
 

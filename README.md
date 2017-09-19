@@ -72,21 +72,21 @@ Using AutoFixture is as easy as referencing the library and creating a new insta
 
 ## .NET platforms compatibility table
 
-| Product            | .NET Framework           | .NET Standard            |
-| ------------------ | ------------------------ | ------------------------ |
-| AutoFixture        | :heavy_check_mark: 4.5   | :heavy_check_mark: 1.5   |
-| AutoFixture.xUnit  | :heavy_check_mark: 4.5   | :heavy_minus_sign:       |
-| AutoFixture.xUnit2 | :heavy_check_mark: 4.5   | :heavy_check_mark: 1.5   |
-| AutoFixture.NUnit2 | :heavy_check_mark: 4.5   | :heavy_minus_sign:       |
-| AutoFixture.NUnit3 | :heavy_check_mark: 4.5   | :heavy_check_mark: 1.5   |
-| AutoFakeItEasy     | :heavy_check_mark: 4.5   | :heavy_check_mark: 1.6   |
-| AutoFoq            | :heavy_check_mark: 4.5   | :heavy_minus_sign:       |
-| AutoMoq            | :heavy_check_mark: 4.5   | :heavy_check_mark: 1.5   |
-| AutoNSubstitute    | :heavy_check_mark: 4.5   | :heavy_check_mark: 1.5   |
-| AutoRhinoMock      | :heavy_check_mark: 4.5   | :heavy_minus_sign:       |
-| Idioms             | :heavy_check_mark: 4.5   | :heavy_minus_sign:       |
-| Idioms.FsCheck     | :heavy_check_mark: 4.5   | :heavy_minus_sign:       |
-| SemanticComparison | :heavy_check_mark: 4.5   | :heavy_check_mark: 1.5   |
+| Product            | .NET Framework            | .NET Standard            |
+| ------------------ | ------------------------  | ------------------------ |
+| AutoFixture        | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
+| AutoFixture.xUnit  | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
+| AutoFixture.xUnit2 | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
+| AutoFixture.NUnit2 | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
+| AutoFixture.NUnit3 | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
+| AutoFakeItEasy     | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.6   |
+| AutoFoq            | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
+| AutoMoq            | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
+| AutoNSubstitute    | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
+| AutoRhinoMock      | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
+| Idioms             | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
+| Idioms.FsCheck     | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
+| SemanticComparison | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
 
 ## Downloads
 

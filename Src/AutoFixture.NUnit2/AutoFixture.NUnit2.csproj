@@ -2,7 +2,7 @@
   <Import Project="..\CommonProperties.props" />
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>AutoFixture.NUnit2</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.NUnit2</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.NUnit2</RootNamespace>

@@ -2,7 +2,7 @@
   <Import Project="..\CommonProperties.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard1.5</TargetFrameworks>
+    <TargetFrameworks>net452;netstandard1.5</TargetFrameworks>
     <AssemblyTitle>AutoFixture.NUnit3</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.NUnit3</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.NUnit3</RootNamespace>
@@ -19,7 +19,7 @@
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)'=='net45' ">
+  <ItemGroup Condition=" '$(TargetFramework)'=='net452' ">
     <PackageReference Include="NUnit" Version="3.0.1" />
   </ItemGroup>
 
