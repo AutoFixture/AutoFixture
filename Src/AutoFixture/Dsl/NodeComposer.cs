@@ -292,6 +292,8 @@ namespace Ploeh.AutoFixture.Dsl
         public IPostprocessComposer<T> With<TProperty>(
             Expression<Func<T, TProperty>> propertyPicker)
         {
+            ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker);
+            
             var targetToDecorate = this.FindFirstNode(n => n is NoSpecimenOutputGuard);
 
             return (NodeComposer<T>)this.ReplaceNodes(
@@ -324,6 +326,8 @@ namespace Ploeh.AutoFixture.Dsl
         public IPostprocessComposer<T> With<TProperty>(
             Expression<Func<T, TProperty>> propertyPicker, TProperty value)
         {
+            ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker);
+            
             var graphWithAutoPropertiesNode = this.GetGraphWithAutoPropertiesNode();
             var graphWithoutSeedIgnoringRelay = WithoutSeedIgnoringRelay(graphWithAutoPropertiesNode);
 
@@ -382,6 +386,8 @@ namespace Ploeh.AutoFixture.Dsl
         public IPostprocessComposer<T> Without<TProperty>(
             Expression<Func<T, TProperty>> propertyPicker)
         {
+            ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker);
+            
             var member = propertyPicker.GetWritableMember().Member;
             var graphWithAutoPropertiesNode = GetGraphWithAutoPropertiesNode();
 
