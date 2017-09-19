@@ -31,6 +31,12 @@
       <HintPath>..\..\References\NUnit.2.6.2\nunit.core.interfaces.dll</HintPath>
     </Reference>
   </ItemGroup>
+  
+  <ItemGroup>
+    <!-- Isn't actually needed by this library, but is present as a NuGet guard to prevent installation of this package 
+     together with NUnit3 and higher. -->
+    <PackageReference Include="NUnit" Version="[2.6.2,3.0.0)" />
+  </ItemGroup>
 
   <!-- Include additional files to NuGet package -->
   <ItemGroup>
