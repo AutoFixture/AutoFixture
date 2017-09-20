@@ -1,30 +1,26 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+using System.Globalization;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture
 {
-    
-     /// <summary>
-     /// Creates a random sequence for a given type within a given range without repeating in the range until 
-     /// all values are exhausted. Once exhausted, will automatically reset the set and continue choosing randomly 
-     /// within the range.  Multiple requests (whether the same or different object) for the same
-     /// operand type, minimum, and maximum are treated as being drawn from the same set. 
-     /// </summary>
+    /// <summary>
+    /// Creates a random sequence for a given type within a given range without repeating in the range until 
+    /// all values are exhausted. Once exhausted, will automatically reset the set and continue choosing randomly 
+    /// within the range.  Multiple requests (whether the same or different object) for the same
+    /// operand type, minimum, and maximum are treated as being drawn from the same set. 
+    /// </summary>
     public class RandomRangedNumberGenerator : ISpecimenBuilder
-    {        
-        private readonly ConcurrentDictionary<RangedNumberRequest, RandomNumericSequenceGenerator> generatorMap;
+    {
+        private readonly ConcurrentDictionary<RangedNumberRequest, ISpecimenBuilder> generatorMap;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomRangedNumberGenerator" /> class       
         /// </summary>
         public RandomRangedNumberGenerator()
-        {           
-            this.generatorMap = new ConcurrentDictionary<RangedNumberRequest, RandomNumericSequenceGenerator>();                  
+        {
+            this.generatorMap = new ConcurrentDictionary<RangedNumberRequest, ISpecimenBuilder>();
         }
 
         /// <summary>
@@ -46,7 +42,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(context));
 
             var rangedNumberRequest = request as RangedNumberRequest;
-            
+
             if (rangedNumberRequest == null)
                 return new NoSpecimen();
 
@@ -67,15 +63,12 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        private RandomNumericSequenceGenerator SelectGenerator(RangedNumberRequest request)
-        {  
-            return this.generatorMap.GetOrAdd(request, _ => 
-                {                    
-                    return new RandomNumericSequenceGenerator(ConvertLimits(request.Minimum, request.Maximum));
-                });
+        private ISpecimenBuilder SelectGenerator(RangedNumberRequest request)
+        {
+            return this.generatorMap.GetOrAdd(request, CreateRandomGenerator);
         }
 
-       
+
         /// <summary>
         /// Converts provided minimum and maximum into a long array of size 2.  Throws ArgumentException
         /// if either value is non-numeric or otherwise fails conversion. 
@@ -84,8 +77,8 @@ namespace Ploeh.AutoFixture
         /// <param name="maximum"></param>
         /// <returns></returns>
         private static long[] ConvertLimits(object minimum, object maximum)
-        {            
-            return new long[] { ConvertLimit(minimum), ConvertLimit(maximum) };           
+        {
+            return new long[] {ConvertLimit(minimum), ConvertLimit(maximum)};
         }
 
         /// <summary>
@@ -95,7 +88,7 @@ namespace Ploeh.AutoFixture
         /// <returns></returns>
         private static long ConvertLimit(object limit)
         {
-            switch (GetTypeCode(limit))
+            switch (Convert.GetTypeCode(limit))
             {
                 case TypeCode.Byte:                   
                         return (long)(byte)limit;
@@ -131,16 +124,106 @@ namespace Ploeh.AutoFixture
                         return (long)(ulong)limit;
             }
 
-            throw new ArgumentException("Limit parameter is non-numeric ", nameof(limit));         
+            throw new ArgumentException("Limit parameter is non-numeric ", nameof(limit));
         }
 
-        private static TypeCode GetTypeCode(object request)
+        private static ISpecimenBuilder CreateRandomGenerator(RangedNumberRequest request)
         {
-            var convertible = request as IConvertible;
-            if (convertible == null)
-                return TypeCode.Object;
+            var typeCode = Type.GetTypeCode(request.OperandType);
 
-            return convertible.GetTypeCode();
+            switch (typeCode)
+            {
+                // Can be safely converted to long without overflow.
+                case TypeCode.Byte:
+                case TypeCode.SByte:
+                case TypeCode.Int16:
+                case TypeCode.Int32:
+                case TypeCode.Int64:
+                case TypeCode.UInt16:
+                case TypeCode.UInt32:
+                    var convertedLimits = ConvertLimits(request.Minimum, request.Maximum);
+                    return new RandomNumericSequenceGenerator(convertedLimits);
+
+                case TypeCode.Single:
+                case TypeCode.Double:
+                    return new FloatingPointRangedGenerator(request.Minimum, request.Maximum, typeCode);
+
+                case TypeCode.UInt64:
+                case TypeCode.Decimal:
+                    return new HighPrecisionRangedGenerator(request.Minimum, request.Maximum, typeCode);
+
+                default:
+                    throw new ArgumentException($"Request of '{typeCode}' type is not supported.", nameof(request));
+            }
+        }
+
+
+        private class FloatingPointRangedGenerator : ISpecimenBuilder
+        {
+            private const long RandomValueRange = int.MaxValue;
+
+            private readonly double factor;
+            private readonly double minimum;
+            private readonly double maximum;
+            private readonly TypeCode resultTypeCode;
+            private readonly RandomNumericSequenceGenerator generator;
+
+            public FloatingPointRangedGenerator(object minimum, object maximum, TypeCode resultTypeCode)
+            {
+                this.minimum = Convert.ToDouble(minimum, CultureInfo.CurrentCulture);
+                this.maximum = Convert.ToDouble(maximum, CultureInfo.CurrentCulture);
+                this.resultTypeCode = resultTypeCode;
+                this.generator = new RandomNumericSequenceGenerator(0, RandomValueRange);
+
+                // (max - min) could lead to overflow, so we divide each part on range individually.
+                this.factor = Math.Abs(this.maximum / RandomValueRange - this.minimum / RandomValueRange);
+            }
+
+            public object Create(object request, ISpecimenContext context)
+            {
+                var randomValue = this.generator.Create(typeof(double), context);
+                if (randomValue is NoSpecimen) return new NoSpecimen();
+
+                // Half offset is needed to avoid overflow - full offset might be larger than double range.
+                double halfOffset = (this.factor / 2) * (double) randomValue;
+                double result = Math.Min(this.minimum + halfOffset + halfOffset, this.maximum);
+
+                return Convert.ChangeType(result, this.resultTypeCode, CultureInfo.CurrentCulture);
+            }
+        }
+
+        private class HighPrecisionRangedGenerator : ISpecimenBuilder
+        {
+            private const long RandomValueRange = int.MaxValue;
+
+            private readonly decimal factor;
+            private readonly decimal minimum;
+            private readonly decimal maximum;
+            private readonly TypeCode resultTypeCode;
+            private readonly RandomNumericSequenceGenerator generator;
+
+            public HighPrecisionRangedGenerator(object minimum, object maximum, TypeCode resultTypeCode)
+            {
+                this.minimum = Convert.ToDecimal(minimum, CultureInfo.CurrentCulture);
+                this.maximum = Convert.ToDecimal(maximum, CultureInfo.CurrentCulture);
+                this.resultTypeCode = resultTypeCode;
+                this.generator = new RandomNumericSequenceGenerator(0, RandomValueRange);
+
+                // (max - min) could lead to overflow, so we divide each part on range individually.
+                this.factor = Math.Abs(this.maximum / RandomValueRange - this.minimum / RandomValueRange);
+            }
+
+            public object Create(object request, ISpecimenContext context)
+            {
+                var randomValue = this.generator.Create(typeof(decimal), context);
+                if (randomValue is NoSpecimen) return new NoSpecimen();
+
+                // Half offset is needed to avoid overflow - full offset might be larger than decimal range.
+                var halfOffset = (this.factor / 2) * (decimal) randomValue;
+
+                decimal result = Math.Min(this.minimum + halfOffset + halfOffset, this.maximum);
+                return Convert.ChangeType(result, this.resultTypeCode, CultureInfo.CurrentCulture);
+            }
         }
     }
 }
