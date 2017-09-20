@@ -68,65 +68,6 @@ namespace Ploeh.AutoFixture
             return this.generatorMap.GetOrAdd(request, CreateRandomGenerator);
         }
 
-
-        /// <summary>
-        /// Converts provided minimum and maximum into a long array of size 2.  Throws ArgumentException
-        /// if either value is non-numeric or otherwise fails conversion. 
-        /// </summary>
-        /// <param name="minimum"></param>
-        /// <param name="maximum"></param>
-        /// <returns></returns>
-        private static long[] ConvertLimits(object minimum, object maximum)
-        {
-            return new long[] {ConvertLimit(minimum), ConvertLimit(maximum)};
-        }
-
-        /// <summary>
-        /// Converts the provided limit into an Int64.  Throws ArgumentException if limit is a non-numeric type.
-        /// </summary>
-        /// <param name="limit"></param>
-        /// <returns></returns>
-        private static long ConvertLimit(object limit)
-        {
-            switch (Convert.GetTypeCode(limit))
-            {
-                case TypeCode.Byte:                   
-                        return (long)(byte)limit;
-
-                case TypeCode.Decimal:
-                        return (long)(decimal)limit;
-
-                case TypeCode.Double:
-                        return (long)(double)limit;
-
-                case TypeCode.Int16:
-                        return (long)(short)limit;
-
-                case TypeCode.Int32:
-                        return (long)(int)limit;
-
-                case TypeCode.Int64:
-                        return (long)limit;
-
-                case TypeCode.SByte:
-                        return (long)(sbyte)limit;
-
-                case TypeCode.Single:
-                        return (long)(float)limit;
-
-                case TypeCode.UInt16:
-                        return (long)(ushort)limit;
-
-                case TypeCode.UInt32:
-                        return (long)(uint)limit;
-
-                case TypeCode.UInt64:
-                        return (long)(ulong)limit;
-            }
-
-            throw new ArgumentException("Limit parameter is non-numeric ", nameof(limit));
-        }
-
         private static ISpecimenBuilder CreateRandomGenerator(RangedNumberRequest request)
         {
             var typeCode = Type.GetTypeCode(request.OperandType);
@@ -141,8 +82,9 @@ namespace Ploeh.AutoFixture
                 case TypeCode.Int64:
                 case TypeCode.UInt16:
                 case TypeCode.UInt32:
-                    var convertedLimits = ConvertLimits(request.Minimum, request.Maximum);
-                    return new RandomNumericSequenceGenerator(convertedLimits);
+                    return new RandomNumericSequenceGenerator(
+                        Convert.ToInt64(request.Minimum, CultureInfo.CurrentCulture),
+                        Convert.ToInt64(request.Maximum, CultureInfo.CurrentCulture));
 
                 case TypeCode.Single:
                 case TypeCode.Double:
