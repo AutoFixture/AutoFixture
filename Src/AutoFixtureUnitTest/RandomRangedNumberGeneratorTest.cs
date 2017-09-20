@@ -263,6 +263,103 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Theory]
+        [MemberData(nameof(MinLimitToMaxLimitRequests))]
+        public void CreationOnFullRangeShouldntFail(Type type, object minimum, object maximum)
+        {
+            // Fixture setup
+            var request = new RangedNumberRequest(type, minimum, maximum);
+            var sut = new RandomRangedNumberGenerator();
+            var dummyContext = new DelegatingSpecimenContext();
+
+            // Excercise System And Verify
+            Assert.Null(Record.Exception(() => sut.Create(request, dummyContext)));
+
+            // Teardown
+        }
+
+        [Theory]
+        [MemberData(nameof(MinLimitToMaxLimitRequests))]
+        public void CreationOnFullRangeShouldReturnValue(Type type, object minimum, object maximum)
+        {
+            // Fixture setup
+            var request = new RangedNumberRequest(type, minimum, maximum);
+            var sut = new RandomRangedNumberGenerator();
+            var dummyContext = new DelegatingSpecimenContext();
+
+            // Excercise System
+            var result = sut.Create(request, dummyContext);
+
+            // Verify
+            Assert.IsType(type, result);
+
+            // Teardown
+        }
+
+        [Theory]
+        [MemberData(nameof(RequestsWithLimitsToZeroRange))]
+        public void CreationWithLimitsInBoundariesShouldReturnValueInRange(Type type, object minimum, object maximum)
+        {
+            // Fixture setup
+            var request = new RangedNumberRequest(type, minimum, maximum);
+            var sut = new RandomRangedNumberGenerator();
+            var dummyContext = new DelegatingSpecimenContext();
+
+            // Excercise System
+            var result = (IComparable) sut.Create(request, dummyContext);
+
+            // Verify
+            Assert.InRange(result, (IComparable) minimum, (IComparable) maximum);
+
+            // Teardown
+        }
+
+
+        public static IEnumerable<object[]> MinLimitToMaxLimitRequests =>
+            new[]
+            {
+                new object[] {typeof(float), float.MinValue, float.MaxValue},
+                new object[] {typeof(double), double.MinValue, double.MaxValue},
+                new object[] {typeof(decimal), decimal.MinValue, decimal.MaxValue},
+                new object[] {typeof(sbyte), sbyte.MinValue, sbyte.MaxValue},
+                new object[] {typeof(byte), byte.MinValue, byte.MaxValue},
+                new object[] {typeof(short), short.MinValue, short.MaxValue},
+                new object[] {typeof(ushort), ushort.MinValue, ushort.MaxValue},
+                new object[] {typeof(int), int.MinValue, int.MaxValue},
+                new object[] {typeof(uint), uint.MinValue, uint.MaxValue},
+                new object[] {typeof(long), long.MinValue, long.MaxValue},
+                new object[] {typeof(ulong), ulong.MinValue, ulong.MaxValue}
+            };
+
+        public static IEnumerable<object[]> RequestsWithLimitsToZeroRange =>
+            new[]
+            {
+                new object[] {typeof(float), float.MinValue, (float) 0},
+                new object[] {typeof(float), (float) 0, float.MaxValue},
+
+                new object[] {typeof(double), double.MinValue, (double) 0},
+                new object[] {typeof(double), (double) 0, double.MaxValue},
+
+                new object[] {typeof(decimal), decimal.MinValue, (decimal) 0},
+                new object[] {typeof(decimal), (decimal) 0, decimal.MaxValue},
+
+                new object[] {typeof(sbyte), sbyte.MinValue, (sbyte) 0},
+                new object[] {typeof(sbyte), (sbyte) 0, sbyte.MaxValue},
+                new object[] {typeof(byte), (byte) 0, byte.MaxValue},
+
+                new object[] {typeof(short), short.MinValue, (short) 0},
+                new object[] {typeof(short), (short) 0, short.MaxValue},
+                new object[] {typeof(ushort), (ushort) 0, ushort.MaxValue},
+
+                new object[] {typeof(int), int.MinValue, (int) 0},
+                new object[] {typeof(int), (int) 0, int.MaxValue},
+                new object[] {typeof(uint), (uint) 0, uint.MaxValue},
+
+                new object[] {typeof(long), long.MinValue, (long) 0},
+                new object[] {typeof(long), (long) 0, long.MaxValue},
+                new object[] {typeof(ulong), (ulong) 0, ulong.MaxValue}
+            };
+
         private sealed class RandomRangedNumberGeneratorTestCases : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
