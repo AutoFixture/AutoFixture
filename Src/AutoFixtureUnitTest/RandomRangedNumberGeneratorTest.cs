@@ -199,7 +199,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
 
         [Theory]
-        [ClassData(typeof(RandomRangedNumberGeneratorTestCases))]
+        [MemberData(nameof(PairsOfDifferentIntegerTypes))]
         public void CreateReturnsValuesFromCorrectSetForRequestsWithDifferentTypesAndSameLimits(
                                                                       Type primaryRequestType, Type otherRequestType)
         {
@@ -362,59 +362,51 @@ namespace Ploeh.AutoFixtureUnitTest
                 new object[] {typeof(ulong), (ulong) 0, ulong.MaxValue}
             };
 
-        private sealed class RandomRangedNumberGeneratorTestCases : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
+        public static IEnumerable<object[]> PairsOfDifferentIntegerTypes =>
+            new[]
             {
-                yield return new object[] { typeof(double), typeof(int) };
-                yield return new object[] { typeof(double), typeof(byte) };
-                yield return new object[] { typeof(double), typeof(short) };
-                yield return new object[] { typeof(double), typeof(long) };
-                yield return new object[] { typeof(double), typeof(float) };
-                yield return new object[] { typeof(double), typeof(decimal) };
+                new object[] {typeof(sbyte), typeof(int)},
+                new object[] {typeof(sbyte), typeof(byte)},
+                new object[] {typeof(sbyte), typeof(short)},
+                new object[] {typeof(sbyte), typeof(long)},
+                new object[] {typeof(sbyte), typeof(ulong)},
+                new object[] {typeof(sbyte), typeof(ushort)},
 
-                yield return new object[] { typeof(float), typeof(int) };
-                yield return new object[] { typeof(float), typeof(byte) };
-                yield return new object[] { typeof(float), typeof(short) };
-                yield return new object[] { typeof(float), typeof(long) };
-                yield return new object[] { typeof(float), typeof(double) };
-                yield return new object[] { typeof(float), typeof(decimal) };
+                new object[] {typeof(long), typeof(int)},
+                new object[] {typeof(long), typeof(byte)},
+                new object[] {typeof(long), typeof(short)},
+                new object[] {typeof(long), typeof(sbyte)},
+                new object[] {typeof(long), typeof(ushort)},
+                new object[] {typeof(long), typeof(uint)},
 
 
-                yield return new object[] { typeof(int), typeof(float) };
-                yield return new object[] { typeof(int), typeof(byte) };
-                yield return new object[] { typeof(int), typeof(short) };
-                yield return new object[] { typeof(int), typeof(long) };
-                yield return new object[] { typeof(int), typeof(double) };
-                yield return new object[] { typeof(int), typeof(decimal) };
+                new object[] {typeof(int), typeof(ulong)},
+                new object[] {typeof(int), typeof(byte)},
+                new object[] {typeof(int), typeof(short)},
+                new object[] {typeof(int), typeof(long)},
+                new object[] {typeof(int), typeof(ushort)},
+                new object[] {typeof(int), typeof(sbyte)},
 
-                yield return new object[] { typeof(short), typeof(int) };
-                yield return new object[] { typeof(short), typeof(byte) };
-                yield return new object[] { typeof(short), typeof(float) };
-                yield return new object[] { typeof(short), typeof(long) };
-                yield return new object[] { typeof(short), typeof(double) };
-                yield return new object[] { typeof(short), typeof(decimal) };
+                new object[] {typeof(short), typeof(int)},
+                new object[] {typeof(short), typeof(byte)},
+                new object[] {typeof(short), typeof(ushort)},
+                new object[] {typeof(short), typeof(long)},
+                new object[] {typeof(short), typeof(sbyte)},
+                new object[] {typeof(short), typeof(ulong)},
 
-                yield return new object[] { typeof(byte), typeof(int) };
-                yield return new object[] { typeof(byte), typeof(short) };
-                yield return new object[] { typeof(byte), typeof(float) };
-                yield return new object[] { typeof(byte), typeof(long) };
-                yield return new object[] { typeof(byte), typeof(double) };
-                yield return new object[] { typeof(byte), typeof(decimal) };
+                new object[] {typeof(byte), typeof(int)},
+                new object[] {typeof(byte), typeof(short)},
+                new object[] {typeof(byte), typeof(sbyte)},
+                new object[] {typeof(byte), typeof(long)},
+                new object[] {typeof(byte), typeof(ushort)},
+                new object[] {typeof(byte), typeof(ulong)},
 
-                yield return new object[] { typeof(decimal), typeof(int) };
-                yield return new object[] { typeof(decimal), typeof(short) };
-                yield return new object[] { typeof(decimal), typeof(float) };
-                yield return new object[] { typeof(decimal), typeof(long) };
-                yield return new object[] { typeof(decimal), typeof(double) };
-                yield return new object[] { typeof(decimal), typeof(byte) };               
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
-        }     
-
+                new object[] {typeof(uint), typeof(int)},
+                new object[] {typeof(uint), typeof(short)},
+                new object[] {typeof(uint), typeof(sbyte)},
+                new object[] {typeof(uint), typeof(long)},
+                new object[] {typeof(uint), typeof(ulong)},
+                new object[] {typeof(uint), typeof(byte)},
+            };
     }
 }
