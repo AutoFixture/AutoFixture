@@ -67,6 +67,8 @@ namespace Ploeh.AutoFixtureUnitTest
         [Theory]
         [InlineData(typeof(int), "a", "b")]
         [InlineData(typeof(long), 'd', 'e')]
+        [InlineData(typeof(double), 'f', 'g')]
+        [InlineData(typeof(decimal), 'h', 'j')]
         public void CreateWithNonnumericLimitsReturnsNoSpecimen(Type operandType, object minimum, object maximum)
         {
             // Fixture setup

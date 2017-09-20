@@ -68,9 +68,36 @@ namespace Ploeh.AutoFixture
             return this.generatorMap.GetOrAdd(request, CreateRandomGenerator);
         }
 
+        private static bool IsNumericType(object value)
+        {
+            var typeCode = Convert.GetTypeCode(value);
+            switch (typeCode)
+            {
+                case TypeCode.Byte:
+                case TypeCode.SByte:
+                case TypeCode.Int16:
+                case TypeCode.UInt16:
+                case TypeCode.Int32:
+                case TypeCode.UInt32:
+                case TypeCode.Int64:
+                case TypeCode.UInt64:
+                case TypeCode.Single:
+                case TypeCode.Double:
+                case TypeCode.Decimal:
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
         private static ISpecimenBuilder CreateRandomGenerator(RangedNumberRequest request)
         {
             var typeCode = Type.GetTypeCode(request.OperandType);
+            if (!IsNumericType(request.Minimum) || !IsNumericType(request.Maximum))
+            {
+                throw new ArgumentException("Limit values should be of numeric type.", nameof(request));
+            }
 
             switch (typeCode)
             {
