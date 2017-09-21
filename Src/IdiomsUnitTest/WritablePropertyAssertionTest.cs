@@ -94,8 +94,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new WritablePropertyAssertion(dummyComposer);
             var propertyInfo = typeof(ReadOnlyPropertyHolder<object>).GetProperty("Property");
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(propertyInfo));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(propertyInfo)));
             // Teardown
         }
 
@@ -108,8 +108,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             var propertyInfo = typeof(PropertyHolder<object>).GetProperty("Property");
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(propertyInfo));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(propertyInfo)));
             // Teardown
         }
     }

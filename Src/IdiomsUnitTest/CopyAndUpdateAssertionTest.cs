@@ -4,12 +4,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Ploeh.Albedo;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -128,8 +126,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new CopyAndUpdateAssertion(dummyComposer);
             var method = typeWithCopyUpdateMethod.GetMethod(copyUpdateMethodName);
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(method));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(method)));
             // Teardown
         }
 

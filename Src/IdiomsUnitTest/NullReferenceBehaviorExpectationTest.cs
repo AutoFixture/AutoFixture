@@ -2,7 +2,6 @@
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {
@@ -84,8 +83,8 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var cmd = new DelegatingGuardClauseCommand { OnExecute = v => { throw new ArgumentNullException(); } };
             var sut = new NullReferenceBehaviorExpectation();
             // Exercise system and verify outcome
-            Assert.DoesNotThrow(() =>
-                sut.Verify(cmd));
+            Assert.Null(Record.Exception(() =>
+                sut.Verify(cmd)));
             // Teardown
         }
 

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Ploeh.AutoFixture.Idioms;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.IdiomsUnitTest
 {

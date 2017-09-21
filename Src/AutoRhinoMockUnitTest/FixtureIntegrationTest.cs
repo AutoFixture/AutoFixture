@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Exercise system
             var result = (IMockedObject)fixture.Create<IInterface>();
             // Verify outcome
-            Assert.DoesNotThrow(() => { var repo = result.Repository; });
+            Assert.Null(Record.Exception(() => { var repo = result.Repository; }));
             // Teardown
         }
 

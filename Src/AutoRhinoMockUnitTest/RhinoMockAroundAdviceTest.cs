@@ -2,7 +2,6 @@
 using Ploeh.AutoFixture.Kernel;
 using Rhino.Mocks;
 using Xunit;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
 {
