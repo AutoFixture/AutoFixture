@@ -933,12 +933,18 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             sut.Verify(methodInfo);
             sut.Verify(methodInfo);
             // Verify outcome
+            // Xunit test runner might load non-unique assemblies, but it doesn't matter for our test.
+            var allAssemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(a => !a.GetName().Name.StartsWith("xunit.", StringComparison.OrdinalIgnoreCase))
+                .ToArray();
+
             var uniqueAssemblies = new HashSet<string>();
             Array.ForEach(
-                AppDomain.CurrentDomain.GetAssemblies(),
+                allAssemblies,
                 assembly => uniqueAssemblies.Add(assembly.GetName().Name));
+
             Assert.True(
-                uniqueAssemblies.Count == AppDomain.CurrentDomain.GetAssemblies().Length,
+                uniqueAssemblies.Count == allAssemblies.Length,
                 "Should load only unique assemblies.");
         }
 
