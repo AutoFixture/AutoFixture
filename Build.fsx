@@ -8,7 +8,7 @@ open System
 open System.Diagnostics;
 open System.Text.RegularExpressions
 
-let testResultsFolder = "TestResults"
+let testResultsFolder = "TestResults" |> FullName
 let nuGetOutputFolder = "NuGetPackages"
 let nuGetPackages = !! (nuGetOutputFolder </> "*.nupkg" )
                     // Skip symbol packages because NuGet publish symbols automatically when package is published
@@ -186,60 +186,44 @@ Target "Verify" (fun _ -> rebuild "Verify")
 
 Target "BuildOnly" (fun _ -> rebuild configuration)
 Target "TestOnly" (fun _ ->
-    let parallelizeTests = getBuildParamOrDefault "ParallelizeTests" "False" |> Convert.ToBoolean
-    let maxParallelThreads = getBuildParamOrDefault "MaxParallelThreads" "0" |> Convert.ToInt32
-    let parallelMode = if parallelizeTests then ParallelMode.All else ParallelMode.NoParallelization
-    let maxThreads = if maxParallelThreads = 0 then CollectionConcurrencyMode.Default else CollectionConcurrencyMode.MaxThreads(maxParallelThreads)
+    let findTestProjects pattern = System.IO.Directory.GetDirectories("Src", pattern)
+    let getTestAssemblies projDir = !! (sprintf "bin/%s/**/*Test.dll" configuration)
+                                    |> SetBaseDir projDir
 
-    let netCoreXunitProjects = [
-        "AutoFixtureUnitTest"
-        "AutoFixtureDocumentationTest"
-        "SemanticComparisonUnitTest"
-        "AutoNSubstituteUnitTest"
-        "AutoMoqUnitTest"
-        "AutoFakeItEasyUnitTest"
-        "AutoFakeItEasy.FakeItEasy2UnitTest"
-        "AutoFakeItEasy.FakeItEasy3UnitTest"
-        "AutoFixture.xUnit.net2.UnitTest"
-    ]
+    let nUnit2TestProjects = findTestProjects "AutoFixture.NUnit2.*Test"
+    let nUnit3TestProjects = findTestProjects "AutoFixture.NUnit3.*Test"
+    let xUnit1TestProjects = findTestProjects "AutoFixture.xUnit.net.UnitTest"
+    let xUnit2TestProjects = findTestProjects "*Test" 
+                             |> Seq.except (Seq.concat [nUnit2TestProjects; nUnit3TestProjects; xUnit1TestProjects])
 
-    let testAssemblies = !! (sprintf "Src/*Test/bin/%s/**/*Test.dll" configuration)
-                         -- (sprintf "Src/AutoFixture.NUnit*.*Test/bin/%s/**/*Test.dll" configuration)
-
-    let xUnitConsoleAssemblies = 
-        netCoreXunitProjects
-        |> Seq.fold (fun result proj ->  result -- (sprintf "Src/%s/bin/%s/**/*.dll" proj configuration))
-                    testAssemblies
-
-    xUnitConsoleAssemblies
-    |> xUnit2 (fun p -> { p with Parallel = parallelMode
-                                 MaxThreads = maxThreads })
-    netCoreXunitProjects
-    |> Seq.map (fun p -> sprintf "Src/%s" p)
-    |> Seq.iter (fun projDir -> 
+    xUnit1TestProjects
+    |> Seq.iter (fun projDir ->
         DotNetCli.RunCommand (fun p -> { p with WorkingDir = projDir })
-                             (sprintf "xunit -nobuild -configuration %s" configuration)
+                             (sprintf "test --no-build --configuration %s" configuration)
     )
 
-    let nunit2TestAssemblies = !! (sprintf "Src/AutoFixture.NUnit2.*Test/bin/%s/**/*Test.dll" configuration)
+    xUnit2TestProjects
+    |> Seq.iter (fun projDir ->
+        DotNetCli.RunCommand (fun p -> { p with WorkingDir = projDir })
+                             (sprintf "xunit --no-build --configuration %s" configuration)
+    )
 
-    nunit2TestAssemblies
+    nUnit2TestProjects
+    |> Seq.map getTestAssemblies
+    |> Seq.collect id
     |> NUnitSequential.NUnit (fun p -> { p with StopOnError = false
                                                 OutputFile  = testResultsFolder </> "NUnit2TestResult.xml" })
-
-    let nUnit3TestProjects = [ "AutoFixture.NUnit3.UnitTest" ]
 
     // Save test results in MSTest format in the test results folder.
     // In future NUnit test runner should support AppVeyor directly.
     // See more detail: http://help.appveyor.com/discussions/questions/7805-nunit-test-results-on-net-core
     nUnit3TestProjects
-    |> Seq.map (fun p -> sprintf "Src/%s" p)
     |> Seq.iter (fun projPath ->
         DotNetCli.RunCommand (fun p -> { p with WorkingDir = projPath })
                              (sprintf 
                                  "test --no-build --configuration %s --logger:trx --results-directory \"%s\""
                                  configuration
-                                 (testResultsFolder |> FullName))
+                                 testResultsFolder)
     )
 )
 
