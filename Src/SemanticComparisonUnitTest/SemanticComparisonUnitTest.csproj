@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\CommonProperties.props" />
-  <Import Project="..\CommonTestProperties.props" />
+  <Import Project="..\Common.props" />
+  <Import Project="..\Common.Test.props" />
 
   <PropertyGroup>
     <TargetFrameworks>net452;netcoreapp1.1</TargetFrameworks>

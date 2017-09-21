@@ -64,8 +64,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F0A01F00-72C7-4CE4-8BA4-9EB178B72329}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
-		CommonProperties.props = CommonProperties.props
-		CommonTestProperties.props = CommonTestProperties.props
+		Common.props = Common.props
+		Common.Test.props = Common.Test.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFakeItEasy.FakeItEasy2UnitTest", "AutoFakeItEasy.FakeItEasy2UnitTest\AutoFakeItEasy.FakeItEasy2UnitTest.csproj", "{7F957CC0-79C3-48A1-9A3E-47BED7539248}"
