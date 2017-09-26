@@ -6011,6 +6011,109 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaBuildWithValue()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            
+            // Excercise system and verify outcome
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                return fixture
+                    .Build<PropertyHolder<ConcreteType>>()
+                    .With(x => x.Property.Property1, "Dummy");
+            });
+            Assert.Contains("nested property or field", ex.Message);
+
+            // Teardown
+        }
+        
+        [Fact]
+        public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaBuildWith()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            
+            // Excercise system and verify outcome
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                return fixture
+                    .Build<PropertyHolder<ConcreteType>>()
+                    .With(x => x.Property.Property1);
+            });
+            Assert.Contains("nested property or field", ex.Message);
+
+            // Teardown
+        }
+        
+        
+        [Fact]
+        public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaBuildWithout()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            
+            // Excercise system and verify outcome
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                return fixture
+                    .Build<PropertyHolder<ConcreteType>>()
+                    .Without(x => x.Property.Property1);
+            });
+            Assert.Contains("nested property or field", ex.Message);
+
+            // Teardown
+        }
+        
+        [Fact]
+        public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaCustomizeWithValue()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            
+            // Excercise system and verify outcome
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                fixture.Customize<PropertyHolder<ConcreteType>>(c => c.With(x => x.Property.Property1, "dummy"));
+            });
+            Assert.Contains("nested property or field", ex.Message);
+
+            // Teardown
+        }
+        
+        [Fact]
+        public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaCustomizeWith()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            
+            // Excercise system and verify outcome
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                fixture.Customize<PropertyHolder<ConcreteType>>(c => c.With(x => x.Property.Property1));
+            });
+            Assert.Contains("nested property or field", ex.Message);
+
+            // Teardown
+        }
+        
+        [Fact]
+        public void Issue724_ShouldFailWithMeaningfulException_WhenNestedPropertyConfiguredViaCustomizeWithout()
+        {
+            // Fixture setup
+            var fixture = new Fixture();
+            
+            // Excercise system and verify outcome
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                fixture.Customize<PropertyHolder<ConcreteType>>(c => c.Without(x => x.Property.Property1));
+            });
+            Assert.Contains("nested property or field", ex.Message);
+
+            // Teardown
+        }
+
 #if SYSTEM_NET_MAIL
         [Fact]
         public void CreateAnonymousWithMailAddressReturnsValidResult()

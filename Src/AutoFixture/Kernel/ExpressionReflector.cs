@@ -23,6 +23,16 @@ namespace Ploeh.AutoFixture.Kernel
             return me;
         }
 
+        internal static void VerifyIsNonNestedWritableMemberExpression(LambdaExpression expression)
+        {
+            var me = expression.GetWritableMember();
+            if (!(me.Expression is ParameterExpression))
+                throw new ArgumentException(
+                    "The expression contains access to a nested property or field. " +
+                    "Configuration API doesn't support this feature, therefore please rewrite the expression to avoid nested fields or properties.",
+                    nameof(expression));
+        }
+
         /// <summary>
         /// Attempt to unwrap a member access expression from within a
         /// conversion expression.
