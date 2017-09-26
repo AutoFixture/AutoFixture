@@ -26,8 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Foq" Version="[1.5.1,2.0.0)" />
     <PackageReference Include="FSharp.Core" Version="3.0.2" PrivateAssets="All" />
-    <PackageReference Include="Foq" Version="1.5.1" />
     <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
   </ItemGroup>
 
