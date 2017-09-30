@@ -17,6 +17,10 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Idioms.FsCheck", "Idioms.Fs
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Idioms.FsCheckUnitTest", "Idioms.FsCheckUnitTest\Idioms.FsCheckUnitTest.fsproj", "{B3CE0FC0-BB92-47F3-B43E-92B87F7956B8}"
 EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Idioms.FsCheck.FsCheck1UnitTest", "Idioms.FsCheck.FsCheck1UnitTest\Idioms.FsCheck.FsCheck1UnitTest.fsproj", "{7D094E6B-4C40-47CB-91B4-A6C47DAE7366}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Idioms.FsCheck.FsCheck2UnitTest", "Idioms.FsCheck.FsCheck2UnitTest\Idioms.FsCheck.FsCheck2UnitTest.fsproj", "{BC4451C6-EAD4-43E6-A1EC-CAA88CCABD4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +70,18 @@ Global
 		{B3CE0FC0-BB92-47F3-B43E-92B87F7956B8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B3CE0FC0-BB92-47F3-B43E-92B87F7956B8}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
 		{B3CE0FC0-BB92-47F3-B43E-92B87F7956B8}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{7D094E6B-4C40-47CB-91B4-A6C47DAE7366}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D094E6B-4C40-47CB-91B4-A6C47DAE7366}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D094E6B-4C40-47CB-91B4-A6C47DAE7366}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D094E6B-4C40-47CB-91B4-A6C47DAE7366}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D094E6B-4C40-47CB-91B4-A6C47DAE7366}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{7D094E6B-4C40-47CB-91B4-A6C47DAE7366}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{BC4451C6-EAD4-43E6-A1EC-CAA88CCABD4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC4451C6-EAD4-43E6-A1EC-CAA88CCABD4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC4451C6-EAD4-43E6-A1EC-CAA88CCABD4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC4451C6-EAD4-43E6-A1EC-CAA88CCABD4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC4451C6-EAD4-43E6-A1EC-CAA88CCABD4A}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{BC4451C6-EAD4-43E6-A1EC-CAA88CCABD4A}.Verify|Any CPU.Build.0 = Verify|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
