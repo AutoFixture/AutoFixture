@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Fixture setup
             var sut = new CurrentDateTimeCustomization();
             // Exercise system and verify outcome
-            Assert.Throws(typeof(ArgumentNullException), () => sut.Customize(null));
+            Assert.Throws<ArgumentNullException>(() => sut.Customize(null));
             // Teardown
         }
 

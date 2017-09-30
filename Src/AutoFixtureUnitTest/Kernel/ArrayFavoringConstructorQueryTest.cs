@@ -77,7 +77,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = sut.SelectMethods(type);
             // Verify outcome
-            Assert.True(result.First().Parameters.Any(p => p.ParameterType.IsArray));
+            Assert.Contains(result.First().Parameters, p => p.ParameterType.IsArray);
             // Teardown
         }
 

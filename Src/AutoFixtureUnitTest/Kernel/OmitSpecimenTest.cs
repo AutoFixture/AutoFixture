@@ -24,7 +24,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var actual = BothEquals(sut, null);
             // Verify outcome
-            Assert.False(actual.Any(b => b));
+            Assert.DoesNotContain(actual, b => b);
             // Teardown
         }
 

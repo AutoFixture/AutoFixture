@@ -1536,7 +1536,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var actual = BothEquals(sut, (object)null);
             // Verify outcome
-            Assert.False(actual.Any(b => b));
+            Assert.DoesNotContain(actual, b => b);
             // Teardown
         }
 
@@ -1549,7 +1549,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var actual = BothEquals(sut, nullValue);
             // Verify outcome
-            Assert.True(actual.Any(b => b));
+            Assert.Contains(actual, b => b);
             // Teardown
         }
 
@@ -1562,7 +1562,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var actual = BothEquals(sut, nullValue);
             // Verify outcome
-            Assert.False(actual.Any(b => b));
+            Assert.DoesNotContain(actual, b => b);
             // Teardown
         }
 
@@ -1641,7 +1641,7 @@ namespace Ploeh.SemanticComparison.UnitTest
             // Exercise system
             var actual = BothEquals(sut, other);
             // Verify outcome
-            Assert.True(actual.Any(b => b));
+            Assert.Contains(actual, b => b);
             // Teardown
         }
 

@@ -75,7 +75,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             var callResult = sut.ResolveResult(call);
 
             // Verify outcome
-            Assert.Equal(1, callResult.ArgumentValues.Count());
+            Assert.Single(callResult.ArgumentValues);
             Assert.Equal(1, callResult.ArgumentValues.First().Index);
             Assert.Equal(42, callResult.ArgumentValues.First().Value);
 
@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
             var callResult = sut.ResolveResult(call);
 
             // Verify outcome
-            Assert.Equal(1, callResult.ArgumentValues.Count());
+            Assert.Single(callResult.ArgumentValues);
             Assert.Equal(0, callResult.ArgumentValues.First().Index);
             Assert.Equal(42, callResult.ArgumentValues.First().Value);
 

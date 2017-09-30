@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             sut.Customize(fixture);
             // Verify outcome
-            Assert.True(fixture.ResidueCollectors.Any(b => relayType.IsAssignableFrom(b.GetType())));
+            Assert.Contains(fixture.ResidueCollectors, relayType.IsInstanceOfType);
             // Teardown
         }
 

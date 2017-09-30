@@ -150,7 +150,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new ConstructorInitializedMemberAssertion(dummyComposer);
             // Exercise system and verify outcome
             var constructorWithNoParameters = typeof (PropertyHolder<object>).GetConstructors().First();
-            Assert.Equal(0, constructorWithNoParameters.GetParameters().Length);
+            Assert.Empty(constructorWithNoParameters.GetParameters());
             Assert.Null(Record.Exception(() =>
                 sut.Verify(constructorWithNoParameters)));
             // Teardown
@@ -583,7 +583,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Theory]
         [InlineData(typeof(ReadOnlyFieldInitializedViaConstructor<TestDefaultOnlyEnum>))]
         [InlineData(typeof(ReadOnlyPropertyInitializedViaConstructor<TestDefaultOnlyEnum>))]
-        [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestDefaultOnlyEnum>))]
         [InlineData(typeof(ReadOnlyPropertyIncorrectlyInitializedViaConstructor<TestDefaultOnlyEnum>))]
         public void VerifyDefaultOnlyEnumDoesThrowBecauseOfPotentialFalsePositive(Type type)
         {

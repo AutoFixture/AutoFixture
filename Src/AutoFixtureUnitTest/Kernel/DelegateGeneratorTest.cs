@@ -37,7 +37,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var dummyRequest = new object();
             var sut = new DelegateGenerator();
             // Exercise system and verify outcome
-            Assert.Throws(typeof(ArgumentNullException), () => sut.Create(dummyRequest, null));
+            Assert.Throws<ArgumentNullException>(() => sut.Create(dummyRequest, null));
             // Teardown
         }
 

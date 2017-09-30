@@ -125,7 +125,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             this.sut.RemoveAt(index);
             // Verify outcome
-            Assert.False(this.sut.Contains(itemToBeRemoved));
+            Assert.DoesNotContain(itemToBeRemoved, this.sut);
             // Teardown
         }
 
@@ -177,7 +177,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             this.sut[index] = new DelegatingSpecimenBuilder();
             // Verify outcome
-            Assert.False(this.sut.Contains(itemToReplace));
+            Assert.DoesNotContain(itemToReplace, this.sut);
             // Teardown
         }
 
@@ -269,7 +269,7 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             this.sut.Remove(item);
             // Verify outcome
-            Assert.False(this.sut.Contains(item));
+            Assert.DoesNotContain(item, this.sut);
             // Teardown
         }
 

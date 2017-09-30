@@ -59,7 +59,7 @@ namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
             // Exercise system
             var result = sut.SelectMethods(t);
             // Verify outcome
-            Assert.Equal(1, result.Count());
+            Assert.Single(result);
             // Teardown
         }
 

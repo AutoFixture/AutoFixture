@@ -118,22 +118,9 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData("Property", 10, 20)]
-        [InlineData("Property", -2, -1)]
-        [InlineData("Property", "10.1", "20.2")]
-        [InlineData("Property", "-2.2", "-1.1")]
-        [InlineData("Property", 10.0, 20.0)]
-        [InlineData("Property", -2.0, -1.0)]
-        [InlineData("NullableTypeProperty", 10, 20)]
-        [InlineData("NullableTypeProperty", -2, -1)]
-        [InlineData("NullableTypeProperty", "10.1", "20.2")]
-        [InlineData("NullableTypeProperty", "-2.2", "-1.1")]
-        [InlineData("NullableTypeProperty", 10.0, 20.0)]
-        [InlineData("NullableTypeProperty", -2.0, -1.0)]
-        public void CreateWithPropertyDecoratedWithRangeAttributeReturnsCorrectResult(
-            string name,
-            object attributeMinimum, 
-            object attributeMaximum)
+        [InlineData("Property")]
+        [InlineData("NullableTypeProperty")]
+        public void CreateWithPropertyDecoratedWithRangeAttributeReturnsCorrectResult(string name)
         {
             // Fixture setup
             var request = typeof(RangeValidatedType).GetProperty(name);
@@ -160,22 +147,9 @@ namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
         }
 
         [Theory]
-        [InlineData("Field", 10, 20)]
-        [InlineData("Field", -2, -1)]
-        [InlineData("Field", "10.1", "20.2")]
-        [InlineData("Field", "-2.2", "-1.1")]
-        [InlineData("Field", 10.0, 20.0)]
-        [InlineData("Field", -2.0, -1.0)]
-        [InlineData("NullableTypeField", 10, 20)]
-        [InlineData("NullableTypeField", -2, -1)]
-        [InlineData("NullableTypeField", "10.1", "20.2")]
-        [InlineData("NullableTypeField", "-2.2", "-1.1")]
-        [InlineData("NullableTypeField", 10.0, 20.0)]
-        [InlineData("NullableTypeField", -2.0, -1.0)]
-        public void CreateWithFieldDecoratedWithRangeAttributeReturnsCorrectResult(
-            string name,
-            object attributeMinimum,
-            object attributeMaximum)
+        [InlineData("Field")]
+        [InlineData("NullableTypeField")]
+        public void CreateWithFieldDecoratedWithRangeAttributeReturnsCorrectResult(string name)
         {
             // Fixture setup
             var request = typeof(RangeValidatedType).GetField(name);
