@@ -144,7 +144,7 @@ namespace Ploeh.AutoFixture.Idioms
             IEqualityComparer<IReflectionElement> matcher =
                 this.parameterMemberMatcher is DefaultParameterMemberMatcher
                     ? new DefaultParameterMemberMatcher(
-                        new DefaultParameterMemberMatcher.NameIgnoreCaseAndTypeAssignableComparer())
+                        new DefaultParameterMemberMatcher.NameIgnoreCaseAndTypeEqualComparer())
                     : this.parameterMemberMatcher;
 
             var firstParameterNotExposed = parameters.FirstOrDefault(
@@ -411,14 +411,14 @@ namespace Ploeh.AutoFixture.Idioms
 
         private class DefaultParameterMemberMatcher : ReflectionVisitorElementComparer<NameAndType>
         {
-            public class NameIgnoreCaseAndTypeAssignableComparer : IEqualityComparer<NameAndType>
+            public class NameIgnoreCaseAndTypeEqualComparer : IEqualityComparer<NameAndType>
             {
                 public bool Equals(NameAndType x, NameAndType y)
                 {
                     if (x == null) throw new ArgumentNullException("x");
                     if (y == null) throw new ArgumentNullException("y");
                     return x.Name.Equals(y.Name, StringComparison.CurrentCultureIgnoreCase)
-                           && (x.Type.IsAssignableFrom(y.Type) || y.Type.IsAssignableFrom(x.Type));
+                           && x.Type == y.Type;
                 }
 
                 public int GetHashCode(NameAndType obj)
