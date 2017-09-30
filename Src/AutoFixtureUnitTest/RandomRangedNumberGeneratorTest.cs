@@ -67,6 +67,8 @@ namespace Ploeh.AutoFixtureUnitTest
         [Theory]
         [InlineData(typeof(int), "a", "b")]
         [InlineData(typeof(long), 'd', 'e')]
+        [InlineData(typeof(double), 'f', 'g')]
+        [InlineData(typeof(decimal), 'h', 'j')]
         public void CreateWithNonnumericLimitsReturnsNoSpecimen(Type operandType, object minimum, object maximum)
         {
             // Fixture setup
@@ -197,7 +199,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
 
         [Theory]
-        [ClassData(typeof(RandomRangedNumberGeneratorTestCases))]
+        [MemberData(nameof(PairsOfDifferentIntegerTypes))]
         public void CreateReturnsValuesFromCorrectSetForRequestsWithDifferentTypesAndSameLimits(
                                                                       Type primaryRequestType, Type otherRequestType)
         {
@@ -263,59 +265,148 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        private sealed class RandomRangedNumberGeneratorTestCases : IEnumerable<object[]>
+        [Theory]
+        [MemberData(nameof(MinLimitToMaxLimitRequests))]
+        public void CreationOnFullRangeShouldntFail(Type type, object minimum, object maximum)
         {
-            public IEnumerator<object[]> GetEnumerator()
+            // Fixture setup
+            var request = new RangedNumberRequest(type, minimum, maximum);
+            var sut = new RandomRangedNumberGenerator();
+            var dummyContext = new DelegatingSpecimenContext();
+
+            // Excercise System And Verify
+            Assert.Null(Record.Exception(() => sut.Create(request, dummyContext)));
+
+            // Teardown
+        }
+
+        [Theory]
+        [MemberData(nameof(MinLimitToMaxLimitRequests))]
+        public void CreationOnFullRangeShouldReturnValue(Type type, object minimum, object maximum)
+        {
+            // Fixture setup
+            var request = new RangedNumberRequest(type, minimum, maximum);
+            var sut = new RandomRangedNumberGenerator();
+            var dummyContext = new DelegatingSpecimenContext();
+
+            // Excercise System
+            var result = sut.Create(request, dummyContext);
+
+            // Verify
+            Assert.IsType(type, result);
+
+            // Teardown
+        }
+
+        [Theory]
+        [MemberData(nameof(RequestsWithLimitsToZeroRange))]
+        public void CreationWithLimitsInBoundariesShouldReturnValueInRange(Type type, object minimum, object maximum)
+        {
+            // Fixture setup
+            var request = new RangedNumberRequest(type, minimum, maximum);
+            var sut = new RandomRangedNumberGenerator();
+            var dummyContext = new DelegatingSpecimenContext();
+
+            // Excercise System
+            var result = (IComparable) sut.Create(request, dummyContext);
+
+            // Verify
+            Assert.InRange(result, (IComparable) minimum, (IComparable) maximum);
+
+            // Teardown
+        }
+
+
+        public static IEnumerable<object[]> MinLimitToMaxLimitRequests =>
+            new[]
             {
-                yield return new object[] { typeof(double), typeof(int) };
-                yield return new object[] { typeof(double), typeof(byte) };
-                yield return new object[] { typeof(double), typeof(short) };
-                yield return new object[] { typeof(double), typeof(long) };
-                yield return new object[] { typeof(double), typeof(float) };
-                yield return new object[] { typeof(double), typeof(decimal) };
+                new object[] {typeof(float), float.MinValue, float.MaxValue},
+                new object[] {typeof(double), double.MinValue, double.MaxValue},
+                new object[] {typeof(decimal), decimal.MinValue, decimal.MaxValue},
+                new object[] {typeof(sbyte), sbyte.MinValue, sbyte.MaxValue},
+                new object[] {typeof(byte), byte.MinValue, byte.MaxValue},
+                new object[] {typeof(short), short.MinValue, short.MaxValue},
+                new object[] {typeof(ushort), ushort.MinValue, ushort.MaxValue},
+                new object[] {typeof(int), int.MinValue, int.MaxValue},
+                new object[] {typeof(uint), uint.MinValue, uint.MaxValue},
+                new object[] {typeof(long), long.MinValue, long.MaxValue},
+                new object[] {typeof(ulong), ulong.MinValue, ulong.MaxValue}
+            };
 
-                yield return new object[] { typeof(float), typeof(int) };
-                yield return new object[] { typeof(float), typeof(byte) };
-                yield return new object[] { typeof(float), typeof(short) };
-                yield return new object[] { typeof(float), typeof(long) };
-                yield return new object[] { typeof(float), typeof(double) };
-                yield return new object[] { typeof(float), typeof(decimal) };
-
-
-                yield return new object[] { typeof(int), typeof(float) };
-                yield return new object[] { typeof(int), typeof(byte) };
-                yield return new object[] { typeof(int), typeof(short) };
-                yield return new object[] { typeof(int), typeof(long) };
-                yield return new object[] { typeof(int), typeof(double) };
-                yield return new object[] { typeof(int), typeof(decimal) };
-
-                yield return new object[] { typeof(short), typeof(int) };
-                yield return new object[] { typeof(short), typeof(byte) };
-                yield return new object[] { typeof(short), typeof(float) };
-                yield return new object[] { typeof(short), typeof(long) };
-                yield return new object[] { typeof(short), typeof(double) };
-                yield return new object[] { typeof(short), typeof(decimal) };
-
-                yield return new object[] { typeof(byte), typeof(int) };
-                yield return new object[] { typeof(byte), typeof(short) };
-                yield return new object[] { typeof(byte), typeof(float) };
-                yield return new object[] { typeof(byte), typeof(long) };
-                yield return new object[] { typeof(byte), typeof(double) };
-                yield return new object[] { typeof(byte), typeof(decimal) };
-
-                yield return new object[] { typeof(decimal), typeof(int) };
-                yield return new object[] { typeof(decimal), typeof(short) };
-                yield return new object[] { typeof(decimal), typeof(float) };
-                yield return new object[] { typeof(decimal), typeof(long) };
-                yield return new object[] { typeof(decimal), typeof(double) };
-                yield return new object[] { typeof(decimal), typeof(byte) };               
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
+        public static IEnumerable<object[]> RequestsWithLimitsToZeroRange =>
+            new[]
             {
-                return GetEnumerator();
-            }
-        }     
+                new object[] {typeof(float), float.MinValue, (float) 0},
+                new object[] {typeof(float), (float) 0, float.MaxValue},
 
+                new object[] {typeof(double), double.MinValue, (double) 0},
+                new object[] {typeof(double), (double) 0, double.MaxValue},
+
+                new object[] {typeof(decimal), decimal.MinValue, (decimal) 0},
+                new object[] {typeof(decimal), (decimal) 0, decimal.MaxValue},
+
+                new object[] {typeof(sbyte), sbyte.MinValue, (sbyte) 0},
+                new object[] {typeof(sbyte), (sbyte) 0, sbyte.MaxValue},
+                new object[] {typeof(byte), (byte) 0, byte.MaxValue},
+
+                new object[] {typeof(short), short.MinValue, (short) 0},
+                new object[] {typeof(short), (short) 0, short.MaxValue},
+                new object[] {typeof(ushort), (ushort) 0, ushort.MaxValue},
+
+                new object[] {typeof(int), int.MinValue, (int) 0},
+                new object[] {typeof(int), (int) 0, int.MaxValue},
+                new object[] {typeof(uint), (uint) 0, uint.MaxValue},
+
+                new object[] {typeof(long), long.MinValue, (long) 0},
+                new object[] {typeof(long), (long) 0, long.MaxValue},
+                new object[] {typeof(ulong), (ulong) 0, ulong.MaxValue}
+            };
+
+        public static IEnumerable<object[]> PairsOfDifferentIntegerTypes =>
+            new[]
+            {
+                new object[] {typeof(sbyte), typeof(int)},
+                new object[] {typeof(sbyte), typeof(byte)},
+                new object[] {typeof(sbyte), typeof(short)},
+                new object[] {typeof(sbyte), typeof(long)},
+                new object[] {typeof(sbyte), typeof(ulong)},
+                new object[] {typeof(sbyte), typeof(ushort)},
+
+                new object[] {typeof(long), typeof(int)},
+                new object[] {typeof(long), typeof(byte)},
+                new object[] {typeof(long), typeof(short)},
+                new object[] {typeof(long), typeof(sbyte)},
+                new object[] {typeof(long), typeof(ushort)},
+                new object[] {typeof(long), typeof(uint)},
+
+
+                new object[] {typeof(int), typeof(ulong)},
+                new object[] {typeof(int), typeof(byte)},
+                new object[] {typeof(int), typeof(short)},
+                new object[] {typeof(int), typeof(long)},
+                new object[] {typeof(int), typeof(ushort)},
+                new object[] {typeof(int), typeof(sbyte)},
+
+                new object[] {typeof(short), typeof(int)},
+                new object[] {typeof(short), typeof(byte)},
+                new object[] {typeof(short), typeof(ushort)},
+                new object[] {typeof(short), typeof(long)},
+                new object[] {typeof(short), typeof(sbyte)},
+                new object[] {typeof(short), typeof(ulong)},
+
+                new object[] {typeof(byte), typeof(int)},
+                new object[] {typeof(byte), typeof(short)},
+                new object[] {typeof(byte), typeof(sbyte)},
+                new object[] {typeof(byte), typeof(long)},
+                new object[] {typeof(byte), typeof(ushort)},
+                new object[] {typeof(byte), typeof(ulong)},
+
+                new object[] {typeof(uint), typeof(int)},
+                new object[] {typeof(uint), typeof(short)},
+                new object[] {typeof(uint), typeof(sbyte)},
+                new object[] {typeof(uint), typeof(long)},
+                new object[] {typeof(uint), typeof(ulong)},
+                new object[] {typeof(uint), typeof(byte)},
+            };
     }
 }
