@@ -11,7 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.fs" />
     <Compile Include="TestDsl.fs" />
     <Compile Include="FoqMethodQueryTest.fs" />
     <Compile Include="AutoFoqCustomizationTest.fs" />
