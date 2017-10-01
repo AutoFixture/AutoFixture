@@ -68,6 +68,7 @@
     <DotNetCliToolReference Include="dotnet-sourcelink-git" Version="2.4.0" />
   </ItemGroup>
   <PropertyGroup>
+    <SourceLinkCreate Condition=" '$(SourceLinkCreateOverride)'!='' ">$(SourceLinkCreateOverride)</SourceLinkCreate>
     <SourceLinkNotInGit>error</SourceLinkNotInGit>
     <SourceLinkHashMismatch>error</SourceLinkHashMismatch>
     <SourceLinkNoAutoLF>true</SourceLinkNoAutoLF>
