@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture
         /// <paramref name="specimen"/> is not an instance of <see cref="IDictionary{TKey, TValue}" />.
         /// </exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Use the instance method Execute instead.")]
+        [Obsolete("Use the instance method Execute instead.", true)]
         public static void AddMany(object specimen, ISpecimenContext context)
         {
             new DictionaryFiller().Execute(specimen, context);

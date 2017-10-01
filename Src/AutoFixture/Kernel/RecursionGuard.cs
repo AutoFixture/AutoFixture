@@ -25,7 +25,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
         /// </summary>
         /// <param name="builder">The intercepted builder to decorate.</param>
-        [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler) instead.")]
+        [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler) instead.", true)]
         public RecursionGuard(ISpecimenBuilder builder)
             : this(builder, EqualityComparer<object>.Default)
         {
@@ -81,7 +81,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="comparer">
         /// An IEqualityComparer implementation to use when comparing requests to determine recursion.
         /// </param>
-        [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer, int) instead.")]
+        [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer, int) instead.", true)]
         public RecursionGuard(ISpecimenBuilder builder, IEqualityComparer comparer)
         {
             if (builder == null)
@@ -118,7 +118,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// or
         /// comparer
         /// </exception>
-        [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer, int) instead.")]
+        [Obsolete("This constructor overload is obsolete and will be removed in a future version of AutoFixture. Please use RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer, int) instead.", true)]
         public RecursionGuard(
             ISpecimenBuilder builder,
             IRecursionHandler recursionHandler,
@@ -179,8 +179,6 @@ namespace Ploeh.AutoFixture.Kernel
         /// <summary>
         /// Gets the decorated builder supplied via the constructor.
         /// </summary>
-        /// <seealso cref="RecursionGuard(ISpecimenBuilder)"/>
-        /// <seealso cref="RecursionGuard(ISpecimenBuilder, IEqualityComparer)" />
         public ISpecimenBuilder Builder { get; }
 
         /// <summary>
@@ -191,7 +189,6 @@ namespace Ploeh.AutoFixture.Kernel
         /// The recursion handler used to handle recursion situations.
         /// </value>
         /// <seealso cref="RecursionGuard(ISpecimenBuilder, IRecursionHandler)" />
-        /// <seealso cref="RecursionGuard(ISpecimenBuilder, IRecursionHandler, IEqualityComparer)" />
         public IRecursionHandler RecursionHandler { get; }
 
         /// <summary>
@@ -201,7 +198,6 @@ namespace Ploeh.AutoFixture.Kernel
         public int RecursionDepth { get; }
 
         /// <summary>Gets the comparer supplied via the constructor.</summary>
-        /// <seealso cref="RecursionGuard(ISpecimenBuilder, IEqualityComparer)" />
         public IEqualityComparer Comparer { get; }
 
         /// <summary>
@@ -217,7 +213,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="request">The recursion causing request.</param>
         /// <returns>The specimen to return.</returns>
-        [Obsolete("This method will be removed in a future version of AutoFixture. Use IRecursionHandler.HandleRecursiveRequest instead.")]
+        [Obsolete("This method will be removed in a future version of AutoFixture. Use IRecursionHandler.HandleRecursiveRequest instead.", true)]
         public virtual object HandleRecursiveRequest(object request)
         {
             return this.RecursionHandler.HandleRecursiveRequest(
@@ -259,7 +255,7 @@ namespace Ploeh.AutoFixture.Kernel
                     if (numRequestsSameAsThisOne >= this.RecursionDepth)
                     {
 #pragma warning disable 618
-                        return this.HandleRecursiveRequest(request);
+                        return ObsoletedMemberShims.RecursionGuard_HandleRecursiveRequest(this, request);
 #pragma warning restore 618
                     }
                 }

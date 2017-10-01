@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture
         /// </summary>
         /// <returns>The next number in a consecutive sequence.</returns>
         /// <remarks>Obsolete: Please move over to using <see cref="Create()">Create()</see> as this method will be removed in the next release</remarks>
-        [Obsolete("Please move over to using Create() as this method will be removed in the next release")]
+        [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
         public float CreateAnonymous()
         {
             return Create();

@@ -56,6 +56,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Fact]
+        [Obsolete]
         public void InitializeWithNullTypeThrows()
         {
             // Fixture setup
@@ -68,6 +69,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Fact]
+        [Obsolete]
         public void InitializeWithNonComposerTypeThrows()
         {
             // Fixture setup
@@ -80,6 +82,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Fact]
+        [Obsolete]
         public void InitializeWithComposerTypeWithoutDefaultConstructorThrows()
         {
             // Fixture setup
@@ -92,6 +95,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Fact]
+        [Obsolete]
         public void InitializedWithCorrectComposerTypeHasCorrectComposer()
         {
             // Fixture setup
@@ -107,6 +111,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         }
 
         [Fact]
+        [Obsolete]
         public void FixtureTypeIsCorrect()
         {
             // Fixture setup

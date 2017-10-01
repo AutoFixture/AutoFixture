@@ -7,6 +7,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
     public class NoSpecimenTest
     {
         [Fact]
+        [Obsolete]
         public void DefaultConstructorWillSetRequestToNull()
         {
             // Fixture setup
@@ -21,6 +22,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void CreateWithNullRequestWillSetCorrectRequest()
         {
             // Fixture setup
@@ -34,6 +36,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void RequestWillMatchConstructorArgument()
         {
             // Fixture setup

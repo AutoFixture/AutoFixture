@@ -186,7 +186,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new BindingCommand<PropertyHolder<string>, string>(ph => ph.Property);
             // Exercise system and verify outcome
             var dummyContainer = new DelegatingSpecimenContext();
-            Assert.Throws<ArgumentNullException>(() => sut.Execute(null, dummyContainer));
+            Assert.Throws<ArgumentNullException>(() => sut.Execute((object)null, dummyContainer));
             // Teardown
         }
 
@@ -197,7 +197,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new BindingCommand<PropertyHolder<string>, string>(ph => ph.Property);
             // Exercise system and verify outcome
             var dummySpecimen = new PropertyHolder<string>();
+#pragma warning disable 618
             Assert.Throws<ArgumentNullException>(() => sut.Execute(dummySpecimen, null));
+#pragma warning restore 618
             // Teardown
         }
 
@@ -212,7 +214,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
             var specimen = new PropertyHolder<object>();
             // Exercise system
+#pragma warning disable 618
             sut.Execute(specimen, container);
+#pragma warning restore 618
             // Verify outcome
             Assert.Equal(expectedValue, specimen.Property);
             // Teardown
@@ -229,7 +233,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new BindingCommand<FieldHolder<object>, object>(ph => ph.Field);
             var specimen = new FieldHolder<object>();
             // Exercise system
+#pragma warning disable 618
             sut.Execute(specimen, container);
+#pragma warning restore 618
             // Verify outcome
             Assert.Equal(expectedValue, specimen.Field);
             // Teardown
@@ -245,7 +251,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new BindingCommand<PropertyHolder<int>, int>(ph => ph.Property);
             // Exercise system and verify outcome
             var dummySpecimen = new PropertyHolder<int>();
-            Assert.Throws<InvalidOperationException>(() => sut.Execute(dummySpecimen, container));
+#pragma warning disable 618
+            Assert.Throws<InvalidOperationException>(testCode: () => sut.Execute(dummySpecimen, container));
+#pragma warning restore 618
             // Teardown
         }
 
@@ -259,7 +267,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property, c => expectedContainer == c ? expectedValue : new NoSpecimen());
             var specimen = new PropertyHolder<object>();
             // Exercise system
+#pragma warning disable 618
             sut.Execute(specimen, expectedContainer);
+#pragma warning restore 618
             // Verify outcome
             Assert.Equal(expectedValue, specimen.Property);
             // Teardown
@@ -275,14 +285,16 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var specimen = new PropertyHolder<object>();
             // Exercise system
             var dummyContainer = new DelegatingSpecimenContext();
+#pragma warning disable 618
             sut.Execute(specimen, dummyContainer);
+#pragma warning restore 618
             // Verify outcome
             Assert.Equal(expectedValue, specimen.Property);
             // Teardown
         }
 
-#pragma warning disable 618
         [Fact]
+        [Obsolete]
         public void SutIsSpecifiedSpecimenCommand()
         {
             // Fixture setup
@@ -292,7 +304,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.IsAssignableFrom<ISpecifiedSpecimenCommand<FieldHolder<DateTimeOffset>>>(sut);
             // Teardown
         }
-#pragma warning restore 618
 
         [Fact]
         public void IsSatisfiedByNullThrows()
@@ -300,7 +311,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
             // Exercise system and verify outcome
+#pragma warning disable 618
             Assert.Throws<ArgumentNullException>(() => sut.IsSatisfiedBy(null));
+#pragma warning restore 618
             // Teardown
         }
 
@@ -311,7 +324,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var request = new object();
             var sut = new BindingCommand<PropertyHolder<object>, object>(ph => ph.Property);
             // Exercise system
+#pragma warning disable 618
             bool result = sut.IsSatisfiedBy(request);
+#pragma warning restore 618
             // Verify outcome
             Assert.False(result);
             // Teardown
@@ -324,7 +339,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var request = typeof(DoublePropertyHolder<object, object>).GetProperty("Property1");
             var sut = new BindingCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property2);
             // Exercise system
+#pragma warning disable 618
             bool result = sut.IsSatisfiedBy(request);
+#pragma warning restore 618
             // Verify outcome
             Assert.False(result);
             // Teardown
@@ -337,7 +354,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var request = typeof(DoublePropertyHolder<object, object>).GetProperty("Property1");
             var sut = new BindingCommand<DoublePropertyHolder<object, object>, object>(ph => ph.Property1);
             // Exercise system
+#pragma warning disable 618
             bool result = sut.IsSatisfiedBy(request);
+#pragma warning restore 618
             // Verify outcome
             Assert.True(result);
             // Teardown
@@ -350,7 +369,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var request = typeof(ConcreteType).GetProperty("Property1");
             var sut = new BindingCommand<AbstractType, object>(x => x.Property1);
             // Exercise system
+#pragma warning disable 618
             var result = sut.IsSatisfiedBy(request);
+#pragma warning restore 618
             // Verify outcome
             Assert.True(result);
             // Teardown

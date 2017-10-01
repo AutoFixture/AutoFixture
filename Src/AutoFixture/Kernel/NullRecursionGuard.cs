@@ -9,7 +9,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// Recursion handler that returns null at recursion points.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
-    [Obsolete("This class will be removed in a future version of AutoFixture. Instead, use an instance of RecursionGuard, composed with an instance of NullRecursionHandler.")]
+    [Obsolete("This class will be removed in a future version of AutoFixture. Instead, use an instance of RecursionGuard, composed with an instance of NullRecursionHandler.", true)]
     public class NullRecursionGuard : RecursionGuard
     {
         /// <summary>
@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         /// <param name="request">The recursion causing request.</param>
         /// <returns>Always null.</returns>
-        [Obsolete("This class will be removed in a future version of AutoFixture. Instead, use an instance of RecursionGuard, composed with an instance of NullRecursionHandler.")]
+        [Obsolete("This class will be removed in a future version of AutoFixture. Instead, use an instance of RecursionGuard, composed with an instance of NullRecursionHandler.", true)]
         public override object HandleRecursiveRequest(object request)
         {
             return null;

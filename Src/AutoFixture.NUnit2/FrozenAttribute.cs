@@ -14,6 +14,8 @@ namespace Ploeh.AutoFixture.NUnit2
     public sealed class FrozenAttribute : CustomizeAttribute
     {
         private readonly Matching by;
+        [Obsolete("The As property is deprecated.")]
+        private Type _as;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FrozenAttribute"/> class.
@@ -44,8 +46,12 @@ namespace Ploeh.AutoFixture.NUnit2
         /// Gets or sets the <see cref="Type"/> that the frozen parameter value
         /// should be mapped to in the <see cref="IFixture"/>.
         /// </summary>
-        [Obsolete("The ability to map a frozen object to a specific type is deprecated and will likely be removed in the future. If you wish to map a frozen type to its implemented interfaces, use [Frozen(Matching.ImplementedInterfaces)]. If you instead wish to map it to its direct base type, use [Frozen(Matching.DirectBaseType)].")]
-        public Type As { get; set; }
+        [Obsolete("The ability to map a frozen object to a specific type is deprecated and will likely be removed in the future. If you wish to map a frozen type to its implemented interfaces, use [Frozen(Matching.ImplementedInterfaces)]. If you instead wish to map it to its direct base type, use [Frozen(Matching.DirectBaseType)].", true)]
+        public Type As
+        {
+            get => _as;
+            set => _as = value;
+        }
 
         /// <summary>
         /// Gets the <see cref="Matching"/> criteria used to determine
@@ -83,18 +89,18 @@ namespace Ploeh.AutoFixture.NUnit2
 
         private bool ShouldMatchBySpecificType()
         {
-#pragma warning disable 0618
-            return this.As != null;
-#pragma warning restore 0618
+#pragma warning disable 618
+            return this._as != null;
+#pragma warning restore 618
         }
 
         private ICustomization FreezeAsType(Type type)
         {
             return new FreezingCustomization(
                 type,
-#pragma warning disable 0618
-                this.As ?? type);
-#pragma warning restore 0618
+#pragma warning disable 618
+                this._as ?? type);
+#pragma warning restore 618
         }
 
         private ICustomization FreezeByCriteria(ParameterInfo parameter)

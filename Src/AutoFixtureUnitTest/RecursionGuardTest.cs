@@ -412,6 +412,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [Obsolete]
         public void ConstructWithBuilderSetsRecursionDepthCorrectly()
         {
             // Fixture setup
@@ -438,6 +439,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [Obsolete]
         public void ConstructWithBuilderAndHandlerAndComparerHasCorrectBuilder()
         {
             // Fixture setup
@@ -455,6 +457,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [Obsolete]
         public void ConstructWithBuilderAndHandlerAndComparerHasCorrectHandler()
         {
             // Fixture setup
@@ -472,6 +475,7 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
+        [Obsolete]
         public void ConstructWithBuilderAndHandlerAndComparerHasCorrectComparer()
         {
             // Fixture setup

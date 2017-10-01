@@ -38,14 +38,6 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             Assert.NotNull(spt.Parameter);
         }
 
-#pragma warning disable 618
-        [Theory, AutoData(typeof(CustomizedFixture))]
-#pragma warning restore 618
-        public void AutoDataProvidesCustomizedObject(PropertyHolder<string> ph)
-        {
-            Assert.Equal("Ploeh", ph.Property);
-        }
-
         [Theory]
         [InlineAutoData("foo")]
         [InlineAutoData("foo", "bar")]
@@ -167,24 +159,36 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             Assert.True(numbers.SequenceEqual(container.Items));
         }
 
-        [Theory, AutoData]
-        public void FreezeFirstParameterAsBaseTypeAssignsSameInstanceToSecondParameterOfThatBaseType(
-#pragma warning disable 0618
-            [Frozen(As = typeof(AbstractType))]ConcreteType p1,
-#pragma warning restore 0618
-            AbstractType p2)
+        [Obsolete]
+        public class Obsoleted
         {
-            Assert.Equal(p1, p2);
-        }
+#pragma warning disable 618
+            [Theory, AutoData(typeof(CustomizedFixture))]
+#pragma warning restore 618
+            public void AutoDataProvidesCustomizedObject(PropertyHolder<string> ph)
+            {
+                Assert.Equal("Ploeh", ph.Property);
+            }
 
-        [Theory, AutoData]
-        public void FreezeFirstParameterAsNullTypeAssignsSameInstanceToSecondParameterOfSameType(
+            [Theory, AutoData]
+            public void FreezeFirstParameterAsBaseTypeAssignsSameInstanceToSecondParameterOfThatBaseType(
 #pragma warning disable 0618
-            [Frozen(As = null)]ConcreteType p1,
+                [Frozen(As = typeof(AbstractType))] ConcreteType p1,
 #pragma warning restore 0618
-            ConcreteType p2)
-        {
-            Assert.Equal(p1, p2);
+                AbstractType p2)
+            {
+                Assert.Equal(p1, p2);
+            }
+
+            [Theory, AutoData]
+            public void FreezeFirstParameterAsNullTypeAssignsSameInstanceToSecondParameterOfSameType(
+#pragma warning disable 0618
+                [Frozen(As = null)] ConcreteType p1,
+#pragma warning restore 0618
+                ConcreteType p2)
+            {
+                Assert.Equal(p1, p2);
+            }
         }
 
         [Theory, AutoData]

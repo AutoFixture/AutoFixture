@@ -22,6 +22,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void InitializeWithParameterNameShouldSetCorrespondingProperty()
         {
             // Fixture setup

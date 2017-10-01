@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-#pragma warning disable 618
+    [Obsolete]
     public class ThrowingRecursionGuardTest
     {
         [Fact]
@@ -98,5 +98,4 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
     }
-#pragma warning restore 618
 }

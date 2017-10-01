@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest
 {
+        [Obsolete]
     public class Utf8EncodingGeneratorTest
     {
         [Fact]
