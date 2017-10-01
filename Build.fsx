@@ -25,7 +25,7 @@ type BuildVersionCalculationSource = { major: int; minor: int; revision: int; pr
 let getVersionSourceFromGit buildNumber =
     // The --fist-parent flag is required to correctly work for vNext branch.
     // Example of output for a release tag: v3.50.2-288-g64fd5c5b, for a prerelease tag: v3.50.2-alpha1-288-g64fd5c5b
-    let desc = Git.CommandHelper.runSimpleGitCommand "" "describe --tags --long --first-parent --match=v*"
+    let desc = Git.CommandHelper.runSimpleGitCommand "" "describe --tags --long --abbrev=40 --first-parent --match=v*"
 
     // Previously repository contained a few broken tags like "v.3.21.1". They were removed, but could still exist
     // in forks. We handle them as well to not fail on such repositories.
