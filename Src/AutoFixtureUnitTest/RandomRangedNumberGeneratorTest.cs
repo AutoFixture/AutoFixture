@@ -317,96 +317,96 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
 
-        public static IEnumerable<object[]> MinLimitToMaxLimitRequests =>
-            new[]
+        public static TheoryData<Type, IConvertible, IConvertible> MinLimitToMaxLimitRequests =>
+            new TheoryData<Type, IConvertible, IConvertible>
             {
-                new object[] {typeof(float), float.MinValue, float.MaxValue},
-                new object[] {typeof(double), double.MinValue, double.MaxValue},
-                new object[] {typeof(decimal), decimal.MinValue, decimal.MaxValue},
-                new object[] {typeof(sbyte), sbyte.MinValue, sbyte.MaxValue},
-                new object[] {typeof(byte), byte.MinValue, byte.MaxValue},
-                new object[] {typeof(short), short.MinValue, short.MaxValue},
-                new object[] {typeof(ushort), ushort.MinValue, ushort.MaxValue},
-                new object[] {typeof(int), int.MinValue, int.MaxValue},
-                new object[] {typeof(uint), uint.MinValue, uint.MaxValue},
-                new object[] {typeof(long), long.MinValue, long.MaxValue},
-                new object[] {typeof(ulong), ulong.MinValue, ulong.MaxValue}
+                {typeof(float), float.MinValue, float.MaxValue},
+                {typeof(double), double.MinValue, double.MaxValue},
+                {typeof(decimal), decimal.MinValue, decimal.MaxValue},
+                {typeof(sbyte), sbyte.MinValue, sbyte.MaxValue},
+                {typeof(byte), byte.MinValue, byte.MaxValue},
+                {typeof(short), short.MinValue, short.MaxValue},
+                {typeof(ushort), ushort.MinValue, ushort.MaxValue},
+                {typeof(int), int.MinValue, int.MaxValue},
+                {typeof(uint), uint.MinValue, uint.MaxValue},
+                {typeof(long), long.MinValue, long.MaxValue},
+                {typeof(ulong), ulong.MinValue, ulong.MaxValue}
             };
 
-        public static IEnumerable<object[]> RequestsWithLimitsToZeroRange =>
-            new[]
+        public static TheoryData<Type, IConvertible, IConvertible> RequestsWithLimitsToZeroRange =>
+            new TheoryData<Type, IConvertible, IConvertible>
             {
-                new object[] {typeof(float), float.MinValue, (float) 0},
-                new object[] {typeof(float), (float) 0, float.MaxValue},
+                {typeof(float), float.MinValue, (float) 0},
+                {typeof(float), (float) 0, float.MaxValue},
 
-                new object[] {typeof(double), double.MinValue, (double) 0},
-                new object[] {typeof(double), (double) 0, double.MaxValue},
+                {typeof(double), double.MinValue, (double) 0},
+                {typeof(double), (double) 0, double.MaxValue},
 
-                new object[] {typeof(decimal), decimal.MinValue, (decimal) 0},
-                new object[] {typeof(decimal), (decimal) 0, decimal.MaxValue},
+                {typeof(decimal), decimal.MinValue, (decimal) 0},
+                {typeof(decimal), (decimal) 0, decimal.MaxValue},
 
-                new object[] {typeof(sbyte), sbyte.MinValue, (sbyte) 0},
-                new object[] {typeof(sbyte), (sbyte) 0, sbyte.MaxValue},
-                new object[] {typeof(byte), (byte) 0, byte.MaxValue},
+                {typeof(sbyte), sbyte.MinValue, (sbyte) 0},
+                {typeof(sbyte), (sbyte) 0, sbyte.MaxValue},
+                {typeof(byte), (byte) 0, byte.MaxValue},
 
-                new object[] {typeof(short), short.MinValue, (short) 0},
-                new object[] {typeof(short), (short) 0, short.MaxValue},
-                new object[] {typeof(ushort), (ushort) 0, ushort.MaxValue},
+                {typeof(short), short.MinValue, (short) 0},
+                {typeof(short), (short) 0, short.MaxValue},
+                {typeof(ushort), (ushort) 0, ushort.MaxValue},
 
-                new object[] {typeof(int), int.MinValue, (int) 0},
-                new object[] {typeof(int), (int) 0, int.MaxValue},
-                new object[] {typeof(uint), (uint) 0, uint.MaxValue},
+                {typeof(int), int.MinValue, (int) 0},
+                {typeof(int), (int) 0, int.MaxValue},
+                {typeof(uint), (uint) 0, uint.MaxValue},
 
-                new object[] {typeof(long), long.MinValue, (long) 0},
-                new object[] {typeof(long), (long) 0, long.MaxValue},
-                new object[] {typeof(ulong), (ulong) 0, ulong.MaxValue}
+                {typeof(long), long.MinValue, (long) 0},
+                {typeof(long), (long) 0, long.MaxValue},
+                {typeof(ulong), (ulong) 0, ulong.MaxValue}
             };
 
-        public static IEnumerable<object[]> PairsOfDifferentIntegerTypes =>
-            new[]
+        public static TheoryData<Type, Type> PairsOfDifferentIntegerTypes =>
+            new TheoryData<Type, Type>
             {
-                new object[] {typeof(sbyte), typeof(int)},
-                new object[] {typeof(sbyte), typeof(byte)},
-                new object[] {typeof(sbyte), typeof(short)},
-                new object[] {typeof(sbyte), typeof(long)},
-                new object[] {typeof(sbyte), typeof(ulong)},
-                new object[] {typeof(sbyte), typeof(ushort)},
+                {typeof(sbyte), typeof(int)},
+                {typeof(sbyte), typeof(byte)},
+                {typeof(sbyte), typeof(short)},
+                {typeof(sbyte), typeof(long)},
+                {typeof(sbyte), typeof(ulong)},
+                {typeof(sbyte), typeof(ushort)},
 
-                new object[] {typeof(long), typeof(int)},
-                new object[] {typeof(long), typeof(byte)},
-                new object[] {typeof(long), typeof(short)},
-                new object[] {typeof(long), typeof(sbyte)},
-                new object[] {typeof(long), typeof(ushort)},
-                new object[] {typeof(long), typeof(uint)},
+                {typeof(long), typeof(int)},
+                {typeof(long), typeof(byte)},
+                {typeof(long), typeof(short)},
+                {typeof(long), typeof(sbyte)},
+                {typeof(long), typeof(ushort)},
+                {typeof(long), typeof(uint)},
 
 
-                new object[] {typeof(int), typeof(ulong)},
-                new object[] {typeof(int), typeof(byte)},
-                new object[] {typeof(int), typeof(short)},
-                new object[] {typeof(int), typeof(long)},
-                new object[] {typeof(int), typeof(ushort)},
-                new object[] {typeof(int), typeof(sbyte)},
+                {typeof(int), typeof(ulong)},
+                {typeof(int), typeof(byte)},
+                {typeof(int), typeof(short)},
+                {typeof(int), typeof(long)},
+                {typeof(int), typeof(ushort)},
+                {typeof(int), typeof(sbyte)},
 
-                new object[] {typeof(short), typeof(int)},
-                new object[] {typeof(short), typeof(byte)},
-                new object[] {typeof(short), typeof(ushort)},
-                new object[] {typeof(short), typeof(long)},
-                new object[] {typeof(short), typeof(sbyte)},
-                new object[] {typeof(short), typeof(ulong)},
+                {typeof(short), typeof(int)},
+                {typeof(short), typeof(byte)},
+                {typeof(short), typeof(ushort)},
+                {typeof(short), typeof(long)},
+                {typeof(short), typeof(sbyte)},
+                {typeof(short), typeof(ulong)},
 
-                new object[] {typeof(byte), typeof(int)},
-                new object[] {typeof(byte), typeof(short)},
-                new object[] {typeof(byte), typeof(sbyte)},
-                new object[] {typeof(byte), typeof(long)},
-                new object[] {typeof(byte), typeof(ushort)},
-                new object[] {typeof(byte), typeof(ulong)},
+                {typeof(byte), typeof(int)},
+                {typeof(byte), typeof(short)},
+                {typeof(byte), typeof(sbyte)},
+                {typeof(byte), typeof(long)},
+                {typeof(byte), typeof(ushort)},
+                {typeof(byte), typeof(ulong)},
 
-                new object[] {typeof(uint), typeof(int)},
-                new object[] {typeof(uint), typeof(short)},
-                new object[] {typeof(uint), typeof(sbyte)},
-                new object[] {typeof(uint), typeof(long)},
-                new object[] {typeof(uint), typeof(ulong)},
-                new object[] {typeof(uint), typeof(byte)},
+                {typeof(uint), typeof(int)},
+                {typeof(uint), typeof(short)},
+                {typeof(uint), typeof(sbyte)},
+                {typeof(uint), typeof(long)},
+                {typeof(uint), typeof(ulong)},
+                {typeof(uint), typeof(byte)}
             };
     }
 }

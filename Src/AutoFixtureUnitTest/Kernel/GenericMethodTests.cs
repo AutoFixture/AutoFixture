@@ -133,7 +133,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [ClassData(typeof(GenericMethodTestCase))]
+        [MemberData(nameof(GenericMethodTestCases))]
         public void InvokeWithGenericMethodReturnsCorrectResult(Type targetType, int index, object values)
         {
             var method = (from mi in targetType
@@ -168,23 +168,16 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 () => sut.Invoke((object[])values));
             Assert.Contains(method.Name, exception.Message);
         }
-    }
 
-    public class GenericMethodTestCase : IEnumerable<object[]>
-    {
-        public IEnumerator<object[]> GetEnumerator()
-        {
-            yield return new object[] { typeof(TypeWithGenericMethod), 0, new object[] { "abc" } };
-            yield return new object[] { typeof(TypeWithGenericMethod), 1, new object[] { new string[] { "ab", "c" } } };
-            yield return new object[] { typeof(TypeWithGenericMethod), 2, new object[] { "ab", 2 } };
-            yield return new object[] { typeof(TypeWithGenericMethod), 3, new object[] { "ab", new Func<string, int>(x => x.Length) } };
-            yield return new object[] { typeof(TypeWithGenericMethod), 4, new object[] { new int[] { 1, 2 }, new string[] { "ab", "c" } } };
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public static TheoryData<Type, int, object> GenericMethodTestCases =>
+            new TheoryData<Type, int, object>
+            {
+                {typeof(TypeWithGenericMethod), 0, new object[] {"abc"}},
+                {typeof(TypeWithGenericMethod), 1, new object[] {new string[] {"ab", "c"}}},
+                {typeof(TypeWithGenericMethod), 2, new object[] {"ab", 2}},
+                {typeof(TypeWithGenericMethod), 3, new object[] {"ab", new Func<string, int>(x => x.Length)}},
+                {typeof(TypeWithGenericMethod), 4, new object[] {new int[] {1, 2}, new string[] {"ab", "c"}}}
+            };
     }
 
     public class TypeWithGenericMethod

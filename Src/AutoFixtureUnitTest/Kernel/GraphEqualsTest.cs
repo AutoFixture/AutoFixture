@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xunit;
 using Ploeh.AutoFixture.Kernel;
-using Xunit.Extensions;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
@@ -72,7 +68,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        [Theory, ClassData(typeof(IdenticallyShapedGraphs))]
+        [Theory]
+        [MemberData(nameof(IdenticallyShapedGraphs))]
         public void NodesWithIdenticalShapesAreEqualWhenComparerIsAlwaysTrue(
             ISpecimenBuilderNode first,
             ISpecimenBuilderNode second)
@@ -86,7 +83,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        [Theory, ClassData(typeof(DifferentlyShapedGraphs))]
+        [Theory]
+        [MemberData(nameof(DifferentlyShapedGraphs))]
         public void NodesWithDifferentShapesAreNotEqualEvenWhenComparerIsAlwaysTrue(
             ISpecimenBuilderNode first,
             ISpecimenBuilderNode second)
@@ -100,7 +98,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        [Theory, ClassData(typeof(SameGraphs))]
+        [Theory]
+        [MemberData(nameof(SameGraphs))]
         public void IdenticalNodesAreEqual(
             ISpecimenBuilderNode first,
             ISpecimenBuilderNode second)
@@ -114,8 +113,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [ClassData(typeof(DifferentlyShapedGraphs))]
-        [ClassData(typeof(IdenticallyShapedGraphs))]
+        [MemberData(nameof(DifferentlyShapedGraphs))]
+        [MemberData(nameof(IdenticallyShapedGraphs))]
         public void DifferentNodesAreNotEqualWhenComparerIsOmitted(
             ISpecimenBuilderNode first,
             ISpecimenBuilderNode second)
@@ -129,7 +128,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [ClassData(typeof(SimilarTaggedGraphs))]
+        [MemberData(nameof(SimilarTaggedGraphs))]
         public void SimilarNodesAreEqualAccordingToTags(
             ISpecimenBuilderNode first,
             ISpecimenBuilderNode second)
@@ -143,7 +142,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Theory]
-        [ClassData(typeof(DifferentTaggedGraphs))]
+        [MemberData(nameof(DifferentTaggedGraphs))]
         public void DifferentNodesAreNotEqualAccordingToTags(
             ISpecimenBuilderNode first,
             ISpecimenBuilderNode second)
@@ -156,23 +155,19 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-        private class IdenticallyShapedGraphs : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
+        public static TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode> IdenticallyShapedGraphs =>
+            new TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode>
             {
-                yield return new object[] 
                 {
                     new CompositeSpecimenBuilder(),
                     new CompositeSpecimenBuilder()
-                };
-                yield return new object[]
+                },
                 {
                     new CompositeSpecimenBuilder(
                         new DelegatingSpecimenBuilder()),
                     new CompositeSpecimenBuilder(
-                        new[] { new CompositeSpecimenBuilder() })
-                };
-                yield return new object[]
+                        new[] {new CompositeSpecimenBuilder()})
+                },
                 {
                     new CompositeSpecimenBuilder(
                         new DelegatingSpecimenBuilder(),
@@ -180,34 +175,27 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     new CompositeSpecimenBuilder(
                         new DelegatingSpecimenBuilder(),
                         new CompositeSpecimenBuilder())
-                };
-            }
+                }
+            };
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
+        public static TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode> DifferentlyShapedGraphs =>
+            new TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode>
 
-        private class DifferentlyShapedGraphs : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[]
                 {
                     new CompositeSpecimenBuilder(),
                     new CompositeSpecimenBuilder(
                         new DelegatingSpecimenBuilder())
-                };
-                yield return new object[]
+                },
                 {
                     new CompositeSpecimenBuilder(
                         new DelegatingSpecimenBuilder()),
-                    new CompositeSpecimenBuilder(new []{
+                    new CompositeSpecimenBuilder(new[]
+                    {
                         new CompositeSpecimenBuilder(
-                            new DelegatingSpecimenBuilder())})
-                };
-                yield return new object[]
+                            new DelegatingSpecimenBuilder())
+                    })
+                },
                 {
                     new CompositeSpecimenBuilder(
                         new DelegatingSpecimenBuilder(),
@@ -216,8 +204,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     new CompositeSpecimenBuilder(
                         new DelegatingSpecimenBuilder(),
                         new CompositeSpecimenBuilder())
-                };
-                yield return new object[]
+                },
                 {
                     new CompositeSpecimenBuilder(
                         new DelegatingSpecimenBuilder(),
@@ -226,8 +213,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     new CompositeSpecimenBuilder(
                         new DelegatingSpecimenBuilder(),
                         new DelegatingSpecimenBuilder())
-                };
-                yield return new object[]
+                },
                 {
                     new CompositeSpecimenBuilder(
                         new DelegatingSpecimenBuilder(),
@@ -236,97 +222,80 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                         new DelegatingSpecimenBuilder(),
                         new DelegatingSpecimenBuilder(),
                         new DelegatingSpecimenBuilder())
-                };
-            }
+                }
+            };
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
-
-        private class SameGraphs : IEnumerable<object[]>
+        public static TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode> SameGraphs
         {
-            public IEnumerator<object[]> GetEnumerator()
+            get
             {
                 var g1 = new CompositeSpecimenBuilder();
-                yield return new object[] { g1, g1 };
-
                 var g2 = new CompositeSpecimenBuilder(
                     new DelegatingSpecimenBuilder());
-                yield return new object[] { g2, g2 };
-            }
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
+                return new TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode>
+                {
+                    {g1, g1},
+                    {g2, g2}
+                };
             }
         }
 
-        private class SimilarTaggedGraphs : IEnumerable<object[]>
+        public static TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode> SimilarTaggedGraphs
         {
-            public IEnumerator<object[]> GetEnumerator()
+            get
             {
                 var leaf = new DelegatingSpecimenBuilder();
 
-                yield return new object[]
+                return new TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode>
                 {
-                    new TaggedNode(1),
-                    new TaggedNode(1)
+                    {
+                        new TaggedNode(1),
+                        new TaggedNode(1)
+                    },
+                    {
+                        new TaggedNode(1,
+                            new TaggedNode(2),
+                            new TaggedNode(3)),
+                        new TaggedNode(1,
+                            new TaggedNode(2),
+                            new TaggedNode(3))
+                    },
+                    {
+                        new TaggedNode(1, leaf),
+                        new TaggedNode(1, leaf)
+                    },
+                    {
+                        new TaggedNode(1,
+                            new TaggedNode(2,
+                                leaf,
+                                leaf,
+                                leaf),
+                            new TaggedNode(3,
+                                leaf,
+                                leaf,
+                                leaf)),
+                        new TaggedNode(1,
+                            new TaggedNode(2,
+                                leaf,
+                                leaf,
+                                leaf),
+                            new TaggedNode(3,
+                                leaf,
+                                leaf,
+                                leaf))
+                    }
                 };
-                yield return new object[]
-                {
-                    new TaggedNode(1,
-                        new TaggedNode(2),
-                        new TaggedNode(3)),
-                    new TaggedNode(1,
-                        new TaggedNode(2),
-                        new TaggedNode(3))
-                };
-                yield return new object[]
-                {
-                    new TaggedNode(1, leaf),
-                    new TaggedNode(1, leaf)
-                };
-                yield return new object[]
-                {
-                    new TaggedNode(1,
-                        new TaggedNode(2,
-                            leaf,
-                            leaf,
-                            leaf),
-                        new TaggedNode(3,
-                            leaf,
-                            leaf,
-                            leaf)),
-                    new TaggedNode(1,
-                        new TaggedNode(2,
-                            leaf,
-                            leaf,
-                            leaf),
-                        new TaggedNode(3,
-                            leaf,
-                            leaf,
-                            leaf))
-                };
-            }
-
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
             }
         }
 
-        private class DifferentTaggedGraphs : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
+        public static TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode> DifferentTaggedGraphs =>
+            new TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode>
             {
-                yield return new object[]
                 {
                     new TaggedNode(1),
                     new TaggedNode("A")
-                };
-                yield return new object[]
+                },
                 {
                     new TaggedNode(1,
                         new TaggedNode(2),
@@ -334,20 +303,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                     new TaggedNode(1,
                         new TaggedNode(2),
                         new TaggedNode("A"))
-                };
-                yield return new object[]
+                },
                 {
                     new TaggedNode(1,
                         new DelegatingSpecimenBuilder()),
                     new TaggedNode(1,
                         new DelegatingSpecimenBuilder())
-                };
-            }
-
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
+                }
+            };
     }
 }
