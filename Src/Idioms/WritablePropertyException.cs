@@ -15,6 +15,7 @@ namespace Ploeh.AutoFixture.Idioms
     [Serializable]
     public class WritablePropertyException : Exception
     {
+        [NonSerialized]
         private readonly PropertyInfo propertyInfo;
 
         /// <summary>

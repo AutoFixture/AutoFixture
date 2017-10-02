@@ -15,7 +15,9 @@ namespace Ploeh.AutoFixture.Idioms
     [Serializable]
     public class ConstructorInitializedMemberException : Exception
     {
+        [NonSerialized]
         private readonly MemberInfo memberInfo;
+        [NonSerialized]
         private readonly ParameterInfo missingParameter;
 
         /// <summary>
