@@ -485,6 +485,7 @@ namespace Ploeh.SemanticComparison
                 this.Value = value;
             }
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1721:Property names should not match get methods", Justification = "It's fine to have the 'Type' property and we cannot re-use the GetType() method intead.")]
             public Type Type { get; }
             public object Value { get; }
         }
