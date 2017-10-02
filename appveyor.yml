@@ -9,6 +9,11 @@ environment:
 pull_requests:
   do_not_increment_build_number: true
 
+# Is required by SourceLink to have valid file hashes.
+# See more detail here: https://github.com/ctaggart/SourceLink/wiki/Line-Endings
+init:
+  - git config --global core.autocrlf input
+
 build_script:
 - ps: |
     & .\build.cmd AppVeyor NuGetPublicKey="$($Env:NUGET_API_KEY)" NuGetPrivateKey="$($Env:MYGET_API_KEY)" BuildVersion=git BuildNumber=$($Env:APPVEYOR_BUILD_NUMBER)

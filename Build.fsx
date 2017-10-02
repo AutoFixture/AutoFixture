@@ -19,6 +19,8 @@ let signKeyPath = FullName "Src/AutoFixture.snk"
 let solutionToBuild = "Src/All.sln"
 let configuration = getBuildParamOrDefault "BuildConfiguration" "Release"
 let bakFileExt = ".orig"
+let repositoryUrlOnGitHubSsh = "git@github.com:AutoFixture/AutoFixture.git"
+let repositoryUrlOnGitHubHttps = "https://github.com/AutoFixture/AutoFixture.git"
 
 type BuildVersionCalculationSource = { major: int; minor: int; revision: int; preSuffix: string; 
                                        commitsNum: int; sha: string; buildNumber: int }
@@ -144,6 +146,8 @@ Target "RestorePatchedAssemblyVersionFiles" (fun _ ->
     )
 )
 
+let mutable enableSourceLink = false
+
 let runMsBuild target configuration properties =
     let verbosity = match getBuildParam "BuildVerbosity" |> toLower with
                     | "quiet" | "q"         -> Quiet
@@ -157,12 +161,17 @@ let runMsBuild target configuration properties =
                          | Some c -> [ "Configuration", c ]
                          | _ -> []
 
+    let sourceLinkCreatePropertyValue = match enableSourceLink with
+                                        | true  -> "true"
+                                        | false -> "false"
+
     let properties = configProperty @ properties
                      @ [ "AssemblyOriginatorKeyFile", signKeyPath
                          "AssemblyVersion", buildVersion.assemblyVersion
                          "FileVersion", buildVersion.fileVersion
-                         "InformationalVersion", buildVersion.infoVersion 
-                         "PackageVersion", buildVersion.nugetVersion ]
+                         "InformationalVersion", buildVersion.infoVersion
+                         "PackageVersion", buildVersion.nugetVersion
+                         "SourceLinkCreateOverride", sourceLinkCreatePropertyValue ]
 
     solutionToBuild
     |> build (fun p -> { p with MaxCpuCount = Some None
@@ -181,6 +190,25 @@ Target "CleanTestResultsFolder" (fun _ -> CleanDir testResultsFolder)
 let restoreNugetPackages() = runMsBuild "Restore" None []
 
 Target "RestoreNuGetPackages" (fun _ -> restoreNugetPackages())
+
+Target "EnableSourceLinkGeneration" (fun _ ->
+    let areNotEqual a b = String.Equals(a, b, StringComparison.OrdinalIgnoreCase) |> not
+
+    // A set of sanity checks to fail with meaningful errors.
+    let originUrl = Git.CommandHelper.runSimpleGitCommand "" "config --get remote.origin.url"
+    if ((areNotEqual originUrl repositoryUrlOnGitHubSsh) && (areNotEqual originUrl repositoryUrlOnGitHubHttps)) then
+        failwithf 
+            "Current repository has invalid git origin URL and will produce correct SourceLink info. Expected: '%s' or '%s'. Current: '%s'."
+            repositoryUrlOnGitHubSsh
+            repositoryUrlOnGitHubHttps
+            originUrl
+    
+    let lineEndingConversion = Git.CommandHelper.runSimpleGitCommand "" "config --get core.autocrlf"
+    if(areNotEqual lineEndingConversion "input") then
+        failwithf "For correct SourceLink work git line conversion should be set to 'input'. Current: '%s'." lineEndingConversion
+
+    enableSourceLink <- true
+)
 
 Target "Verify" (fun _ -> rebuild "Verify")
 
@@ -283,8 +311,9 @@ Target "PublishNuGetAll" DoNothing
 "CleanVerify"  ==> "CleanAll"
 "CleanRelease" ==> "CleanAll"
 
-"CleanAll"             ==> "Verify"
-"RestoreNuGetPackages" ==> "Verify"
+"CleanAll"                   ==> "Verify"
+"RestoreNuGetPackages"       ==> "Verify"
+"EnableSourceLinkGeneration" ?=> "Verify"
 
 "Verify"                             ==> "Build"
 "PatchAssemblyVersions"              ==> "Build"
@@ -304,9 +333,11 @@ Target "PublishNuGetAll" DoNothing
 
 "NuGetPack" ==> "CompleteBuild"
 
-"NuGetPack" ==> "PublishNuGetPublic"
+"NuGetPack"                  ==> "PublishNuGetPublic"
+"EnableSourceLinkGeneration" ==> "PublishNuGetPublic"
 
-"NuGetPack" ==> "PublishNuGetPrivate"
+"NuGetPack"                  ==> "PublishNuGetPrivate"
+"EnableSourceLinkGeneration" ==> "PublishNuGetPrivate"
 
 "PublishNuGetPublic"  ==> "PublishNuGetAll"
 "PublishNuGetPrivate" ==> "PublishNuGetAll"
@@ -361,7 +392,7 @@ dependency "AppVeyor" <| match anAppVeyorTrigger with
                          | SemVerTag                -> "PublishNuGetPublic"
                          | VNextBranch              -> "PublishNuGetPrivate"
                          | PR | CustomTag | Unknown -> "CompleteBuild"
-
+"EnableSourceLinkGeneration" ==> "AppVeyor"
 
 // ========= ENTRY POINT =========
 RunTargetOrDefault "CompleteBuild"

@@ -8,6 +8,8 @@
     <RootNamespace>Ploeh.AutoFixture.Idioms.FsCheck</RootNamespace>
     <Copyright>Copyright © Ploeh 2014</Copyright>
     <SignAssembly>False</SignAssembly>
+    <!-- Disable source link support for F# projects as they don't support this feature. -->
+    <SourceLinkCreate>false</SourceLinkCreate>
 
     <!-- NuGet options -->
     <PackageId>AutoFixture.Idioms.FsCheck</PackageId>
