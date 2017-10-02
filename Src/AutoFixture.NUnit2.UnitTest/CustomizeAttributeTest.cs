@@ -27,5 +27,16 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             Assert.IsInstanceOf<Attribute>(sut);
             // Teardown
         }
+        
+        [Test]
+        public void SutImplementsIParameterCustomizationSource()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new DelegatingCustomizeAttribute();
+            // Verify outcome
+            Assert.IsInstanceOf<IParameterCustomizationSource>(sut);
+            // Teardown
+        }
     }
 }

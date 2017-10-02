@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Ploeh.AutoFixture.NUnit2.Addins;
 using NUnit.Framework;
 using Ploeh.TestTypeFoundation;
@@ -202,6 +203,51 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
             // Verify outcome
             Assert.False(customizationLog[0] is FreezeOnMatchCustomization);
             Assert.True(customizationLog[1] is FreezeOnMatchCustomization);
+            // Teardown
+        }
+        
+        private class TypeWithIParameterCustomizationSourceUsage
+        {
+            public void DecoratedMethod([CustomizationSourceAttribute] int arg)
+            {
+            }
+
+            public class CustomizationSourceAttribute : Attribute, IParameterCustomizationSource
+            {
+                public ICustomization GetCustomization(ParameterInfo parameter)
+                {
+                    return new Customization();
+                }
+            }
+            
+            public class Customization: ICustomization
+            {
+                public void Customize(IFixture fixture)
+                {
+                }
+            }
+        }
+
+        [Test]
+        public void ShouldRecognizeAttributesImplementingIParameterCustomizationSource()
+        {
+            // Fixture setup
+            var method = typeof(TypeWithIParameterCustomizationSourceUsage)
+                .GetMethod(nameof(TypeWithIParameterCustomizationSourceUsage.DecoratedMethod));
+
+            var customizationLog = new List<ICustomization>();
+            var fixture = new DelegatingFixture();
+            fixture.OnCustomize = c =>
+            {
+                customizationLog.Add(c);
+                return fixture;
+            };
+            var sut = new DerivedAutoDataAttribute(fixture);
+            
+            // Exercise system
+            sut.GetData(method);
+            // Verify outcome
+            Assert.True(customizationLog[0] is TypeWithIParameterCustomizationSourceUsage.Customization);
             // Teardown
         }
     }
