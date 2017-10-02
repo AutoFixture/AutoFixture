@@ -102,6 +102,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void SutDoesNotEqualOtherObjectWhenSutRequestIsNull()
         {
             // Fixture setup
@@ -117,6 +118,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void SutDoesNotEqualOtherSutWhenSutRequestIsNull()
         {
             // Fixture setup
@@ -132,6 +134,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void SutDoesNotEqualOtherObjectWhenOtherRequestIsNull()
         {
             // Fixture setup
@@ -147,6 +150,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void SutDoesNotEqualOtherSutWhenOtherRequestIsNull()
         {
             // Fixture setup
@@ -162,6 +166,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void SutDoesNotEqualOtherObjectWhenRequestsDiffer()
         {
             // Fixture setup
@@ -177,6 +182,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void SutDoesNotEqualOtherSutWhenRequestsDiffer()
         {
             // Fixture setup
@@ -218,6 +224,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void SutEqualsOtherObjectWhenRequestsAreEqual()
         {
             // Fixture setup
@@ -234,6 +241,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void SutEqualsOtherSutWhenRequestsAreEqual()
         {
             // Fixture setup
@@ -262,6 +270,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void GetHashCodeWhenRequestIsNotNullWillReturnCorrectResult()
         {
             // Fixture setup
