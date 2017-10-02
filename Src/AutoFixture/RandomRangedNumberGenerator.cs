@@ -122,7 +122,9 @@ namespace Ploeh.AutoFixture
                     return new HighPrecisionRangedGenerator(request.Minimum, request.Maximum, typeCode);
 
                 default:
-                    throw new ArgumentException($"Request of '{typeCode}' type is not supported.", nameof(request));
+                    throw new ArgumentException(
+                        string.Format(CultureInfo.InvariantCulture, "Request of '{0}' type is not supported.", typeCode),
+                        nameof(request));
             }
         }
 
@@ -154,7 +156,7 @@ namespace Ploeh.AutoFixture
                 if (randomValue is NoSpecimen) return new NoSpecimen();
 
                 // Half offset is needed to avoid overflow - full offset might be larger than double range.
-                double halfOffset = (this.factor / 2) * (double) randomValue;
+                double halfOffset = (this.factor / 2) * (double)randomValue;
                 double result = Math.Min(this.minimum + halfOffset + halfOffset, this.maximum);
 
                 return Convert.ChangeType(result, this.resultTypeCode, CultureInfo.CurrentCulture);
@@ -188,7 +190,7 @@ namespace Ploeh.AutoFixture
                 if (randomValue is NoSpecimen) return new NoSpecimen();
 
                 // Half offset is needed to avoid overflow - full offset might be larger than decimal range.
-                var halfOffset = (this.factor / 2) * (decimal) randomValue;
+                var halfOffset = (this.factor / 2) * (decimal)randomValue;
 
                 decimal result = Math.Min(this.minimum + halfOffset + halfOffset, this.maximum);
                 return Convert.ChangeType(result, this.resultTypeCode, CultureInfo.CurrentCulture);
