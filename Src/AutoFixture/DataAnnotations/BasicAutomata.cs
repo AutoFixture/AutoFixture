@@ -38,6 +38,12 @@ using System.Text;
 
 namespace Ploeh.AutoFixture.DataAnnotations
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider",
+        Justification = "This code has been copied from another project and is used as-is.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1309:Use ordinal stringcomparison",
+        Justification = "This code has been copied from another project and is used as-is.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1307:Specify StringComparison",
+        Justification = "This code has been copied from another project and is used as-is.")]
     internal static class BasicAutomata
     {
         /// <summary>

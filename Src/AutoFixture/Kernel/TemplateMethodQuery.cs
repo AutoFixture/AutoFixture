@@ -91,9 +91,9 @@ namespace Ploeh.AutoFixture.Kernel
                 throw new ArgumentNullException(nameof(type));
 
             return from method in type.GetTypeInfo().GetMethods()
-                   where method.Name == Template.Name && (Owner != null || method.IsStatic)
+                   where string.Equals(method.Name, this.Template.Name, StringComparison.Ordinal) && (this.Owner != null || method.IsStatic)
                    let methodParameters = method.GetParameters()
-                   let templateParameters = Template.GetParameters()
+                   let templateParameters = this.Template.GetParameters()
                    where methodParameters.Length >= templateParameters.Length
                    let score = new LateBindingParameterScore(methodParameters, templateParameters)
                    orderby score descending
@@ -109,7 +109,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (method.IsStatic)
                 return new MissingParametersSupplyingStaticMethodFactory();
 
-            return new MissingParametersSupplyingMethodFactory(Owner);
+            return new MissingParametersSupplyingMethodFactory(this.Owner);
         }
 
         private bool Compare(Type parameterType, Type templateParameterType)

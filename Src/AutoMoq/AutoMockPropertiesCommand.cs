@@ -50,7 +50,8 @@ namespace Ploeh.AutoFixture.AutoMoq
 
             private static bool IsProxyMember(FieldInfo fi)
             {
-                return fi.Name == "__interceptors" || fi.Name == "__target";
+                return string.Equals(fi.Name, "__interceptors", StringComparison.Ordinal) ||
+                       string.Equals(fi.Name, "__target", StringComparison.Ordinal);
             }
         }
     }

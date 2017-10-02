@@ -202,10 +202,10 @@ namespace Ploeh.AutoFixture.Idioms
 
         private static bool IsMatched(MethodBase resolved, MethodBase method, AutoGenericType autoGenericType)
         {
-            return resolved.Name == method.Name &&
-                resolved.GetParameters()
-                    .Select(pi => pi.ParameterType)
-                    .SequenceEqual(autoGenericType.ResolveUnclosedParameterTypes(method.GetParameters()));
+            return string.Equals(resolved.Name, method.Name, StringComparison.Ordinal) &&
+                   resolved.GetParameters()
+                       .Select(pi => pi.ParameterType)
+                       .SequenceEqual(autoGenericType.ResolveUnclosedParameterTypes(method.GetParameters()));
         }
 
         private IMethod CreateMethod(MethodInfo methodInfo)
@@ -335,7 +335,7 @@ namespace Ploeh.AutoFixture.Idioms
                 ? new AutoGenericType(this.Builder, propertyInfo.ReflectedType)
                     .Value
                     .GetProperties()
-                    .Single(pi => pi.Name == propertyInfo.Name)
+                    .Single(pi => string.Equals(pi.Name, propertyInfo.Name, StringComparison.Ordinal))
                 : propertyInfo;
         }
 

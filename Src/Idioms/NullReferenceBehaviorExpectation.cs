@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixture.Idioms
             }
             catch (ArgumentNullException e)
             {
-                if (e.ParamName == command.RequestedParameterName)
+                if (string.Equals(e.ParamName, command.RequestedParameterName, StringComparison.Ordinal))
                     return;
                 throw command.CreateException("null", e);
             }

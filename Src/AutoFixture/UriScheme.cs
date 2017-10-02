@@ -104,7 +104,7 @@ namespace Ploeh.AutoFixture
                 return false;
             }
 
-            return this.Scheme.Equals(other.Scheme, StringComparison.CurrentCulture);
+            return this.Scheme.Equals(other.Scheme, StringComparison.Ordinal);
         }
 
         private static bool IsValid(string scheme)

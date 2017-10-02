@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixture
 
             if (other != null)
             {
-                return this.Domain.Equals(other.Domain);
+                return this.Domain.Equals(other.Domain, StringComparison.Ordinal);
             }
             return base.Equals(obj);
         }

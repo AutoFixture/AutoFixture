@@ -72,7 +72,7 @@ namespace Ploeh.AutoFixture.Kernel
                 return false;
             }
 
-            return this.Pattern == other.Pattern;
+            return string.Equals(this.Pattern, other.Pattern, StringComparison.Ordinal);
         }
     }
 }

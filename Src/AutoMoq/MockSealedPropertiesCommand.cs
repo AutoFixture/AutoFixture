@@ -62,7 +62,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             /// </summary>
             private static bool IsDynamicProxyMember(FieldInfo fi)
             {
-                return fi.Name == "__interceptors";
+                return string.Equals(fi.Name, "__interceptors", StringComparison.Ordinal);
             }
         }
     }

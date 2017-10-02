@@ -68,11 +68,11 @@
     <Rule Id="CA1302" Action="Warning" />
     <Rule Id="CA1303" Action="Warning" />
     <Rule Id="CA1304" Action="Warning" />
-    <Rule Id="CA1305" Action="Info" />
+    <Rule Id="CA1305" Action="Warning" />
     <Rule Id="CA1306" Action="Warning" />
-    <Rule Id="CA1307" Action="Info" />
+    <Rule Id="CA1307" Action="Warning" />
     <Rule Id="CA1308" Action="Warning" />
-    <Rule Id="CA1309" Action="Info" />
+    <Rule Id="CA1309" Action="Warning" />
     <Rule Id="CA1400" Action="Warning" />
     <Rule Id="CA1401" Action="Warning" />
     <Rule Id="CA1402" Action="Warning" />

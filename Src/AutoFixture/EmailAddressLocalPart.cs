@@ -63,7 +63,7 @@ namespace Ploeh.AutoFixture
             var other = obj as EmailAddressLocalPart;
             if (other != null)
             {
-                return this.LocalPart.Equals(other.LocalPart);
+                return this.LocalPart.Equals(other.LocalPart, StringComparison.Ordinal);
             }
 
             return base.Equals(obj);

@@ -416,7 +416,7 @@ namespace Ploeh.SemanticComparison
             foreach (FieldInfo fi in matchedTargetFields)
             {
                 var sourceField = sourceFields
-                    .Where(s => s.Name.Equals(fi.Name))
+                    .Where(s => s.Name.Equals(fi.Name, StringComparison.Ordinal))
                         .Concat(sourceFields
                             .Where(s => s.Match(fi)))
                     .FirstOrDefault();
