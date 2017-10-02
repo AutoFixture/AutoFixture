@@ -97,7 +97,9 @@ namespace Ploeh.AutoFixture.Kernel
         {
             var composedBuilder = CompositeSpecimenBuilder.ComposeIfMultiple(builders);
             var pp = new Postprocessor(composedBuilder, this.Command, this.Specification);
-            pp.action = this.action;
+#pragma warning disable 618
+            pp.Action = this.Action;
+#pragma warning restore 618
             return pp;
         }
     }
@@ -109,7 +111,7 @@ namespace Ploeh.AutoFixture.Kernel
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "The main responsibility of this class isn't to be a 'collection' (which, by the way, it isn't - it's just an Iterator).")]
     public class Postprocessor<T> : ISpecimenBuilderNode
     {
-        internal Action<T, ISpecimenContext> action;
+        private Action<T, ISpecimenContext> action;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Postprocessor{T}"/> class with the
@@ -223,7 +225,8 @@ namespace Ploeh.AutoFixture.Kernel
         [Obsolete("Use the Command property instead.")]
         public Action<T, ISpecimenContext> Action
         {
-            get { return this.action; }
+            get => this.action;
+            internal set => this.action = value;
         }
 
         /// <summary>
