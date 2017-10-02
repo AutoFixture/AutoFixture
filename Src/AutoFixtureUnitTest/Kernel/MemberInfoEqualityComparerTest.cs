@@ -204,13 +204,13 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
-        public void StronglyTypedGetHashCodeWithNullSutThrows()
+        public void StronglyTypedGetHashCodeWithNullShouldNotThrowAsExceptionIsNotExpectedThere()
         {
             // Fixture setup
             var sut = new MemberInfoEqualityComparer();
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.GetHashCode(null));
+            Assert.Null(Record.Exception(() =>
+                sut.GetHashCode(null)));
             // Teardown
         }
     }

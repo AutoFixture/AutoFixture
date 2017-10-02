@@ -33,10 +33,7 @@ namespace Ploeh.SemanticComparison
         /// </returns>
         public int GetHashCode(MemberInfo obj)
         {
-            if (obj == null)
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
+            if (obj == null) return 0;
 
             return obj.Name.GetHashCode();
         }

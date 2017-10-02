@@ -75,13 +75,13 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Fact]
-        public void GetHashCodeOfNullSutThrows()
+        public void GetHashCodeOfNullSutShouldNotThrowAsExceptionIsNotExpectedThere()
         {
             // Fixture setup
             var sut = new MemberInfoNameComparer();
             // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                sut.GetHashCode(null));
+            Assert.Null(Record.Exception(() =>
+                sut.GetHashCode(null)));
             // Teardown
         }
     }
