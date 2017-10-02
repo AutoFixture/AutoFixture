@@ -3,6 +3,7 @@ using System.Linq;
 using NUnit.Framework.Internal;
 using NUnit.Framework.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Ploeh.AutoFixture.NUnit3.UnitTest
@@ -31,7 +32,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
 
             var fixtureType = this.GetType();
 
-            var methodWrapper = new MethodWrapper(fixtureType, fixtureType.GetMethod("DummyTestMethod"));
+            var methodWrapper = new MethodWrapper(fixtureType, fixtureType.GetMethod(nameof(DummyTestMethod)));
             var testSuite = new TestSuite(fixtureType);
 
             // Act
@@ -62,6 +63,52 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         /// </summary>
         public void DummyTestMethod(int anyInt, double anyDouble)
         {
+        }
+
+        private class TypeWithIParameterCustomizationSourceUsage
+        {
+            public void DecoratedMethod(int dummy, [CustomizationSourceAttribute] int customizedArg)
+            {
+            }
+
+            public class CustomizationSourceAttribute : Attribute, IParameterCustomizationSource
+            {
+                public ICustomization GetCustomization(ParameterInfo parameter)
+                {
+                    return new Customization();
+                }
+            }
+
+            public class Customization : ICustomization
+            {
+                public void Customize(IFixture fixture)
+                {
+                }
+            }
+        }
+
+        [Test]
+        public void ShouldRecognizeAttributesImplementingIParameterCustomizationSource()
+        {
+            // Fixture setup
+            var method = new MethodWrapper(
+                typeof(TypeWithIParameterCustomizationSourceUsage),
+                nameof(TypeWithIParameterCustomizationSourceUsage.DecoratedMethod));
+
+            var customizationLog = new List<ICustomization>();
+            var fixture = new DelegatingFixture();
+            fixture.OnCustomize = c =>
+            {
+                customizationLog.Add(c);
+                return fixture;
+            };
+            var sut = new InlineAutoDataAttributeStub(fixture, new[] {42});
+
+            // Exercise system
+            sut.BuildFrom(method, new TestSuite(this.GetType())).ToArray();
+            // Verify outcome
+            Assert.True(customizationLog[0] is TypeWithIParameterCustomizationSourceUsage.Customization);
+            // Teardown
         }
     }
 }
