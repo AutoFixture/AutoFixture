@@ -236,7 +236,7 @@
     <Rule Id="CA5122" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="System.Runtime.Analyzers" RuleNamespace="System.Runtime.Analyzers">
-    <Rule Id="CA1825" Action="Info" />
+    <Rule Id="CA1825" Action="None" />
   </Rules>
   <Rules AnalyzerId="System.Threading.Tasks.Analyzers" RuleNamespace="System.Threading.Tasks.Analyzers">
     <Rule Id="RS0018" Action="Info" />
