@@ -67,7 +67,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException">
+        /// <exception cref="System.ArgumentNullException">
         /// The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.
         ///   </exception>
         public int GetHashCode(List<T> obj)
@@ -90,17 +90,17 @@ namespace Ploeh.AutoFixture.DataAnnotations
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current
-        ///  <see cref="T:System.Object"/>.
+        /// Determines whether the specified <see cref="System.Object"/> is equal to the current
+        ///  <see cref="System.Object"/>.
         /// </summary>
         /// <returns>
-        /// true if the specified <see cref="T:System.Object"/> is equal to the current 
-        /// <see cref="T:System.Object"/>; otherwise, false.
+        /// true if the specified <see cref="System.Object"/> is equal to the current 
+        /// <see cref="System.Object"/>; otherwise, false.
         /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current 
-        /// <see cref="T:System.Object"/>. 
+        /// <param name="obj">The <see cref="System.Object"/> to compare with the current 
+        /// <see cref="System.Object"/>. 
         /// </param>
-        /// <exception cref="T:System.NullReferenceException">
+        /// <exception cref="System.NullReferenceException">
         /// The <paramref name="obj"/> parameter is null.
         /// </exception><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
@@ -127,7 +127,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         /// Serves as a hash function for a particular type. 
         /// </summary>
         /// <returns>
-        /// A hash code for the current <see cref="T:System.Object"/>.
+        /// A hash code for the current <see cref="System.Object"/>.
         /// </returns>
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()

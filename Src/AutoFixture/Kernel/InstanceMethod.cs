@@ -63,7 +63,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <see langword="true"/> if the specified <see cref="System.Object"/> is equal to this
         /// instance; otherwise, <see langword="false"/>.
         /// </returns>
-        /// <exception cref="T:System.NullReferenceException">
+        /// <exception cref="System.NullReferenceException">
         /// The <paramref name="obj"/> parameter is null.
         /// </exception>
         public override bool Equals(object obj)

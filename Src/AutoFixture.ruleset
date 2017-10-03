@@ -242,6 +242,6 @@
     <Rule Id="RS0018" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="XmlDocumentationComments.Analyzers" RuleNamespace="XmlDocumentationComments.Analyzers">
-    <Rule Id="RS0010" Action="Info" />
+    <Rule Id="RS0010" Action="Warning" />
   </Rules>
 </RuleSet>
