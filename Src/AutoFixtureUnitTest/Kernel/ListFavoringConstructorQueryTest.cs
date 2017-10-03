@@ -79,7 +79,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var result = sut.SelectMethods(type);
             // Verify outcome
             var genericParameterType = type.GetGenericArguments().Single();
-            Assert.True(result.First().Parameters.Any(p => typeof(IList<>).MakeGenericType(genericParameterType).IsAssignableFrom(p.ParameterType)));
+            Assert.Contains(result.First().Parameters, p => typeof(IList<>).MakeGenericType(genericParameterType).IsAssignableFrom(p.ParameterType));
             // Teardown
         }
 
@@ -114,7 +114,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var result = sut.SelectMethods(type);
             // Verify outcome
-            Assert.True(result.First().Parameters.Any(p => typeof(IList<object>) == p.ParameterType));
+            Assert.Contains(result.First().Parameters, p => typeof(IList<object>) == p.ParameterType);
             // Teardown
         }
     }

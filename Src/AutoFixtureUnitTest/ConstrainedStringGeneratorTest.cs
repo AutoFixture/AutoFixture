@@ -116,7 +116,9 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Theory, ClassData(typeof(MinimumLengthMaximumLengthTestCases))]
+#pragma warning disable xUnit1026 // Theory methods should use all of their parameters - the minLength is needed to access the maxLenght.
         public void CreateReturnsStringWithCorrectLengthMultipleCall(int minimumLength, int maximumLength)
+#pragma warning restore xUnit1026 // Theory methods should use all of their parameters
         {
             // Fixture setup
             var request = new ConstrainedStringRequest(maximumLength);

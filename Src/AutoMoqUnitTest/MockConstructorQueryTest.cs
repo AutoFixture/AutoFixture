@@ -112,7 +112,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             // Exercise system
             var result = sut.SelectMethods(typeof(Mock<ConcreteTypeWithPrivateParameterlessConstructor>));
             // Verify outcome
-            Assert.Equal(1, result.Count());
+            Assert.Single(result);
             // Teardown
         }
     }

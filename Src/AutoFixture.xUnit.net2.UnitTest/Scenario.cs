@@ -81,7 +81,9 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         [MyCustomInlineAutoData(1337)]
         [MyCustomInlineAutoData(1337, 7)]
         [MyCustomInlineAutoData(1337, 7, 42)]
+#pragma warning disable xUnit1026 // Theory methods should use all of their parameters - it's required by the test logic.
         public void CustomInlineDataSuppliesExtraValues(int x, int y, int z)
+#pragma warning restore xUnit1026 // Theory methods should use all of their parameters
         {
             Assert.Equal(1337, x);
             // y can vary, so we can't express any meaningful assertion for it.
@@ -156,6 +158,7 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
         [Theory, AutoData]
         public void BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter([Frozen][Greedy]MultiUnorderedConstructorType p1, MultiUnorderedConstructorType p2)
         {
+            Assert.NotNull(p1);
             Assert.False(string.IsNullOrEmpty(p2.Text));
             Assert.NotEqual(0, p2.Number);
         }
