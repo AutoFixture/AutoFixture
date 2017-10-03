@@ -35,7 +35,7 @@
     <Rule Id="CA1033" Action="Warning" />
     <Rule Id="CA1034" Action="Warning" />
     <Rule Id="CA1035" Action="Warning" />
-    <Rule Id="CA1036" Action="Info" />
+    <Rule Id="CA1036" Action="Warning" />
     <Rule Id="CA1038" Action="Warning" />
     <Rule Id="CA1039" Action="Warning" />
     <Rule Id="CA1040" Action="Warning" />

@@ -41,6 +41,8 @@ namespace Ploeh.AutoFixture.DataAnnotations
     /// <summary>
     /// <tt>Automaton</tt> state.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1036:Override methods on comparable types",
+        Justification = "This code has been copied from another project and is used as-is.")]
     internal sealed class State : IEquatable<State>, IComparable<State>
     {
         private static int nextId;
