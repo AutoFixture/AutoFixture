@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixture.Idioms
             constructorInfo = this.ResolveUnclosedGenericType(constructorInfo);
 
             var method = new ConstructorMethod(constructorInfo);
-            this.Verify(method, false, false);
+            this.DoVerify(method, false, false);
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Ploeh.AutoFixture.Idioms
             var isReturnValueTask =
                 typeof(System.Threading.Tasks.Task).IsAssignableFrom(methodInfo.ReturnType);
 
-            this.Verify(method, isReturnValueDeferable, isReturnValueTask);
+            this.DoVerify(method, isReturnValueDeferable, isReturnValueTask);
         }
 
         private static bool IsNonDeferredEnumerable(Type t)
@@ -244,7 +244,7 @@ namespace Ploeh.AutoFixture.Idioms
             }
         }
 
-        private void Verify(IMethod method, bool isReturnValueDeferable, bool isReturnValueTask)
+        private void DoVerify(IMethod method, bool isReturnValueDeferable, bool isReturnValueTask)
         {
             if (isReturnValueDeferable)
                 VerifyDeferrableIterator(method);
