@@ -121,7 +121,7 @@
     <Rule Id="CA1725" Action="Warning" />
     <Rule Id="CA1726" Action="Warning" />
     <Rule Id="CA1800" Action="Warning" />
-    <Rule Id="CA1801" Action="Info" />
+    <Rule Id="CA1801" Action="Warning" />
     <Rule Id="CA1802" Action="Warning" />
     <Rule Id="CA1804" Action="Warning" />
     <Rule Id="CA1806" Action="Warning" />
