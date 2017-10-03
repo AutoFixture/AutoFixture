@@ -2078,7 +2078,7 @@ namespace Ploeh.SemanticComparison.UnitTest
         }
 
         [Theory]
-        [ClassData(typeof(PropertiesThatHaveNullValues))]
+        [MemberData(nameof(PropertiesThatHaveNullValues))]
         public void CreateProxyReturnsCorrectForSourceTypeWithNonNullPropertiesThatHaveNullProperties
                                                     (ConcreteType property1, AbstractType property2, byte property3)
         {
@@ -2152,39 +2152,41 @@ namespace Ploeh.SemanticComparison.UnitTest
             }
         }
 
-        private sealed class PropertiesThatHaveNullValues : IEnumerable<object[]>
+        public static TheoryData<ConcreteType, AbstractType, byte> PropertiesThatHaveNullValues
         {
-
-            public IEnumerator<object[]> GetEnumerator()
+            get
             {
-                yield return new object[] {  
-                    new ConcreteType(null,null),  
-                    new ConcreteType(null, null, null), (byte)12 };
+                string RandomString()
+                {
+                    return Guid.NewGuid().ToString();
+                }
 
-                yield return new object[] {  
-                    new ConcreteType(null, Guid.NewGuid().ToString()),  
-                    new ConcreteType(null, 2, RandomString()), (byte)12 };
-
-                yield return new object[] {  
-                    new ConcreteType(Guid.NewGuid().ToString(), null),  
-                    new ConcreteType(null, 2, RandomString()), (byte)12 };
-
-                yield return new object[] {  
-                    new ConcreteType(Guid.NewGuid().ToString(), null),  
-                    new CompositeType(null, 
-                                        new ConcreteType(null, null), 
-                                        new ConcreteType(RandomString(), null),
-                                        new ConcreteType(null, null)), (byte)12 };
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
-
-            private string RandomString()
-            {
-                return Guid.NewGuid().ToString();
+                return new TheoryData<ConcreteType, AbstractType, byte>
+                {
+                    {
+                        new ConcreteType(null, null),
+                        new ConcreteType(null, null, null),
+                        12
+                    },
+                    {
+                        new ConcreteType(null, Guid.NewGuid().ToString()),
+                        new ConcreteType(null, 2, RandomString()),
+                        12
+                    },
+                    {
+                        new ConcreteType(Guid.NewGuid().ToString(), null),
+                        new ConcreteType(null, 2, RandomString()),
+                        12
+                    },
+                    {
+                        new ConcreteType(Guid.NewGuid().ToString(), null),
+                        new CompositeType(null,
+                            new ConcreteType(null, null),
+                            new ConcreteType(RandomString(), null),
+                            new ConcreteType(null, null)),
+                        12
+                    }
+                };
             }
         }
     }

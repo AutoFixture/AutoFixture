@@ -5746,16 +5746,10 @@ namespace Ploeh.AutoFixtureUnitTest
             }
         }
 
-        public static IEnumerable<object[]> CreateComplexArrayTypeReturnsCorrectResult_Data =>
-            new[]
-                {
-                    typeof(string[][,,][]),
-                    typeof(object[,,][][,])
-                }
-                .Select(x => new object[] {x});
-
-        [Theory, MemberData(nameof(CreateComplexArrayTypeReturnsCorrectResult_Data))]
-        public void CreateComplexArrayTypeReturnsCorrectResult(object request)
+        [Theory]
+        [InlineData(typeof(string[][,,][]))]
+        [InlineData(typeof(object[,,][][,]))]
+        public void CreateComplexArrayTypeReturnsCorrectResult(Type request)
         {
             var sut = new Fixture();
             var context = new SpecimenContext(sut);

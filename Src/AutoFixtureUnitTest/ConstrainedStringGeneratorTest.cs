@@ -97,7 +97,8 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Theory, ClassData(typeof(MinimumLengthMaximumLengthTestCases))]
+        [Theory]
+        [MemberData(nameof(MinimumLengthMaximumLengthTestCases))]
         public void CreateReturnsStringWithCorrectLength(int expectedMinimumLength, int expectedMaximumLength)
         {
             // Fixture setup
@@ -115,7 +116,8 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        [Theory, ClassData(typeof(MinimumLengthMaximumLengthTestCases))]
+        [Theory]
+        [MemberData(nameof(MinimumLengthMaximumLengthTestCases))]
 #pragma warning disable xUnit1026 // Theory methods should use all of their parameters - the minLength is needed to access the maxLenght.
         public void CreateReturnsStringWithCorrectLengthMultipleCall(int minimumLength, int maximumLength)
 #pragma warning restore xUnit1026 // Theory methods should use all of their parameters
@@ -137,33 +139,26 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
-        private sealed class MinimumLengthMaximumLengthTestCases : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
+        public static TheoryData<int, int> MinimumLengthMaximumLengthTestCases =>
+            new TheoryData<int, int>
             {
-                yield return new object[] {   0,   3 };
-                yield return new object[] {   0,  10 };
-                yield return new object[] {   0,  20 };
-                yield return new object[] {   0,  30 };
-                yield return new object[] {   0,  60 };
-                yield return new object[] {   0,  90 };
-                yield return new object[] {   3,  90 };
-                yield return new object[] {  10, 100 };
-                yield return new object[] {  20, 120 };
-                yield return new object[] {  30, 130 };
-                yield return new object[] {  60, 160 };
-                yield return new object[] {  90, 190 };
-                yield return new object[] { 100, 200 };
-                yield return new object[] { 120, 210 };
-                yield return new object[] { 130, 220 };
-                yield return new object[] { 160, 230 };
-                yield return new object[] { 190, 240 };
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-        }
+                {0, 3},
+                {0, 10},
+                {0, 20},
+                {0, 30},
+                {0, 60},
+                {0, 90},
+                {3, 90},
+                {10, 100},
+                {20, 120},
+                {30, 130},
+                {60, 160},
+                {90, 190},
+                {100, 200},
+                {120, 210},
+                {130, 220},
+                {160, 230},
+                {190, 240},
+            };
     }
 }
