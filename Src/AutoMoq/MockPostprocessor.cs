@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Moq;
 using Ploeh.AutoFixture.Kernel;
 
@@ -76,6 +77,8 @@ namespace Ploeh.AutoFixture.AutoMoq
             return m;
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+            Justification = "It's activated via reflection.")]
         private class MockConfigurator<T> : IMockConfigurator where T : class
         {
             public void Configure(Mock mock)

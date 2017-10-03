@@ -12,7 +12,7 @@ namespace Ploeh.AutoFixture.Idioms
     /// then comparing them using
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal class ReflectionVisitorElementComparer<T> : IEqualityComparer<IReflectionElement>
+    internal abstract class ReflectionVisitorElementComparer<T> : IEqualityComparer<IReflectionElement>
     {
         private readonly IReflectionVisitor<IEnumerable<T>> visitor;
         private readonly IEqualityComparer<T> comparer;

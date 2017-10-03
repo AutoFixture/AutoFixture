@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using NSubstitute;
@@ -46,6 +47,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             }
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", 
+            Justification = "It's activated via reflection.")]
         private class SubstituteMethod<T> : IMethod where T : class
         {
             private readonly IEnumerable<ParameterInfo> parameterInfos;
