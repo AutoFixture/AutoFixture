@@ -239,7 +239,7 @@
     <Rule Id="CA1825" Action="None" />
   </Rules>
   <Rules AnalyzerId="System.Threading.Tasks.Analyzers" RuleNamespace="System.Threading.Tasks.Analyzers">
-    <Rule Id="RS0018" Action="Info" />
+    <Rule Id="RS0018" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="XmlDocumentationComments.Analyzers" RuleNamespace="XmlDocumentationComments.Analyzers">
     <Rule Id="RS0010" Action="Info" />
