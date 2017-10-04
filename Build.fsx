@@ -15,7 +15,6 @@ let nuGetPackages = !! (nuGetOutputFolder </> "*.nupkg" )
                     -- (nuGetOutputFolder </> "*.symbols.nupkg")
                     // Currently AutoFakeItEasy2 has been deprecated and is not being published to the feeds.
                     -- (nuGetOutputFolder </> "AutoFixture.AutoFakeItEasy2.*" )
-let signKeyPath = FullName "Src/AutoFixture.snk"
 let solutionToBuild = "Src/All.sln"
 let configuration = getBuildParamOrDefault "BuildConfiguration" "Release"
 let bakFileExt = ".orig"
@@ -166,8 +165,7 @@ let runMsBuild target configuration properties =
                                         | false -> "false"
 
     let properties = configProperty @ properties
-                     @ [ "AssemblyOriginatorKeyFile", signKeyPath
-                         "AssemblyVersion", buildVersion.assemblyVersion
+                     @ [ "AssemblyVersion", buildVersion.assemblyVersion
                          "FileVersion", buildVersion.fileVersion
                          "InformationalVersion", buildVersion.infoVersion
                          "PackageVersion", buildVersion.nugetVersion
