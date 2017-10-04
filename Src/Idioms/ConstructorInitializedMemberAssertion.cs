@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Ploeh.Albedo;
-using Ploeh.Albedo.Refraction;
+using Albedo;
+using Albedo.Refraction;
 using Ploeh.AutoFixture.Kernel;
 
 namespace Ploeh.AutoFixture.Idioms

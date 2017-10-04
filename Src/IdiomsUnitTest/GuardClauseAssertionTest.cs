@@ -1040,7 +1040,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new GuardClauseAssertion(new Fixture());
             var asyncMethodHost = new AsyncHost();
 
-            var theMethod = from m in new Ploeh.Albedo.Methods<AsyncHost>()
+            var theMethod = from m in new Albedo.Methods<AsyncHost>()
                             select m.TaskWithInnerGuardClause(null);
             // Exercise system
             var e = Assert.Throws<GuardClauseException>(() => sut.Verify(theMethod));
@@ -1056,7 +1056,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new GuardClauseAssertion(new Fixture());
             var asyncMethodHost = new AsyncHost();
 
-            var theMethod = from m in new Ploeh.Albedo.Methods<AsyncHost>()
+            var theMethod = from m in new Albedo.Methods<AsyncHost>()
                             select m.TaskOfTWithInnerGuardClause(null);
 
             // Exercise system
@@ -1073,7 +1073,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new GuardClauseAssertion(new Fixture());
             var asyncMethodHost = new AsyncHost();
 
-            var theMethod = from m in new Ploeh.Albedo.Methods<AsyncHost>()
+            var theMethod = from m in new Albedo.Methods<AsyncHost>()
                             select m.TaskWithCorrectGuardClause(null);
 
             // Exercise system and verify outcome
@@ -1087,7 +1087,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new GuardClauseAssertion(new Fixture());
             var asyncMethodHost = new AsyncHost();
 
-            var theMethod = from m in new Ploeh.Albedo.Methods<AsyncHost>()
+            var theMethod = from m in new Albedo.Methods<AsyncHost>()
                             select m.TaskOfTWithCorrectGuardClause(null);
 
             // Exercise system and verify outcome
