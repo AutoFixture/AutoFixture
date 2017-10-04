@@ -167,6 +167,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             }
         }
 
+#if SERIALIZABLE_MEMBERINFO
         [Fact]
         public void PropertyInfosSerializesCorrectly()
         {
@@ -189,5 +190,6 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 // Teardown
             }
         }
+#endif
     }
 }

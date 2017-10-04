@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Security;
-using System.Security.Permissions;
 
 namespace Ploeh.AutoFixture.Idioms
 {
@@ -71,11 +70,16 @@ namespace Ploeh.AutoFixture.Idioms
         protected WritablePropertyException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
+#if SERIALIZABLE_MEMBERINFO
             this.propertyInfo = (PropertyInfo)info.GetValue("PropertyInfo", typeof(PropertyInfo));
+#endif
         }
 
         /// <summary>
         /// Gets the property supplied via the constructor.
+        /// <remarks>
+        /// Notice, value might null after deserialization on platforms that don't support <see cref="PropertyInfo"/> serialization.
+        /// </remarks> 
         /// </summary>
         public PropertyInfo PropertyInfo
         {
@@ -99,7 +103,9 @@ namespace Ploeh.AutoFixture.Idioms
         {
             base.GetObjectData(info, context);
 
+#if SERIALIZABLE_MEMBERINFO
             info.AddValue("PropertyInfo", this.propertyInfo);
+#endif
         }
 
         private static string FormatDefaultMessage(PropertyInfo propertyInfo)

@@ -226,7 +226,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
         [Theory]
         [InlineData(typeof(string))]
         [InlineData(typeof(int))]
-        [InlineData(typeof(System.Runtime.Remoting.Messaging.Header))]
+        [InlineData(typeof(TypeWithFields))]
         public void VerifyTypeCorrectlyInvokesFieldsVerify(Type type)
         {
             // Fixture setup
@@ -343,7 +343,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         [Theory]
         [InlineData(typeof(string))]
-        [InlineData(typeof(System.Runtime.Remoting.Messaging.Header))]
+        [InlineData(typeof(TypeWithFields))]
         public void VerifyMemberInfoCorrectlyInvokesFieldInfoVerify(Type type)
         {
             // Fixture setup
@@ -430,7 +430,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         [Theory]
         [InlineData(typeof(string))]
-        [InlineData(typeof(System.Runtime.Remoting.Messaging.Header))]
+        [InlineData(typeof(TypeWithFields))]
         public void VerifyFieldInfoArrayCorrectlyInvokesNextVerify(Type type)
         {
             // Fixture setup
@@ -446,7 +446,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         [Theory]
         [InlineData(typeof(string))]
-        [InlineData(typeof(System.Runtime.Remoting.Messaging.Header))]
+        [InlineData(typeof(TypeWithFields))]
         public void VerifyFieldInfosCorrectlyInvokesNextVerify(Type type)
         {
             // Fixture setup
@@ -462,7 +462,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
         [Theory]
         [InlineData(typeof(string))]
-        [InlineData(typeof(System.Runtime.Remoting.Messaging.Header))]
+        [InlineData(typeof(TypeWithFields))]
         public void VerifyFieldInfoDoesNotThrow(Type type)
         {
             // Fixture setup
@@ -592,6 +592,14 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             Assert.Null(Record.Exception(() =>
                 sut.Verify(property)));
             // Teardown
+        }
+
+        public class TypeWithFields
+        {
+            public string StrField1;
+            public int IntField;
+            public bool BoolField;
+            public List<string> ListField;
         }
     }
 }
