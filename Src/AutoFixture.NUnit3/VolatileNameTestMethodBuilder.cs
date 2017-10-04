@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
@@ -12,28 +13,27 @@ namespace Ploeh.AutoFixture.NUnit3
     public class VolatileNameTestMethodBuilder : ITestMethodBuilder
     {
         /// <inheritdoc />
-        public TestMethod Build(IMethodInfo method, Test suite, Func<object[]> argsFactory, int autoDataStartIndex)
+        public TestMethod Build(IMethodInfo method, Test suite, IEnumerable<object> parameterValues, int autoDataStartIndex)
         {
             if (method == null)
             {
                 throw new ArgumentNullException(nameof(method));
             }
 
-            if (argsFactory == null)
+            if (parameterValues == null)
             {
-                throw new ArgumentNullException(nameof(argsFactory));
+                throw new ArgumentNullException(nameof(parameterValues));
             }
 
-            return new NUnitTestCaseBuilder().BuildTestMethod(method, suite, GetParametersForMethod(argsFactory));
+            return new NUnitTestCaseBuilder().BuildTestMethod(method, suite, GetParametersForMethod(parameterValues));
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", 
             Justification = "This method is always expected to return an instance of the TestCaseParameters class.")]
-        private static TestCaseParameters GetParametersForMethod(Func<object[]> argsFactory)
+        private static TestCaseParameters GetParametersForMethod(IEnumerable<object> parameterValues)
         {
             try
             {
-                var parameterValues = argsFactory.Invoke();
                 return GetParametersForMethod(parameterValues.ToArray());
             }
             catch (Exception ex)

@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
-using System;
+using System.Collections.Generic;
 
 namespace Ploeh.AutoFixture.NUnit3
 {
@@ -14,8 +14,8 @@ namespace Ploeh.AutoFixture.NUnit3
         /// </summary>
         /// <param name="method">The <see cref="IMethodInfo"/> for which tests are to be constructed.</param>
         /// <param name="suite">The suite to which the tests will be added.</param>
-        /// <param name="argsFactory">The argument values generated for the test case.</param>
+        /// <param name="parameterValues">The argument values generated for the test case.</param>
         /// <param name="autoDataStartIndex">Index at which the automatically generated values start.</param>
-        TestMethod Build(IMethodInfo method, Test suite, Func<object[]> argsFactory, int autoDataStartIndex);
+        TestMethod Build(IMethodInfo method, Test suite, IEnumerable<object> parameterValues, int autoDataStartIndex);
     }
 }

@@ -61,7 +61,7 @@ namespace Ploeh.AutoFixture.NUnit3
         /// <returns>One or more TestMethods</returns>
         public IEnumerable<TestMethod> BuildFrom(IMethodInfo method, Test suite)
         {
-            var test = this.TestMethodBuilder.Build(method, suite, () => GetParameterValues(method).ToArray(), 0);
+            var test = this.TestMethodBuilder.Build(method, suite, GetParameterValues(method), 0);
 
             yield return test;
         }

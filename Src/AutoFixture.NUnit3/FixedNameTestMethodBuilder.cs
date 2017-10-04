@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
@@ -15,28 +16,30 @@ namespace Ploeh.AutoFixture.NUnit3
     public class FixedNameTestMethodBuilder : ITestMethodBuilder
     {
         /// <inheritdoc />
-        public virtual TestMethod Build(IMethodInfo method, Test suite, Func<object[]> argsFactory, int autoDataStartIndex)
+        public virtual TestMethod Build(
+            IMethodInfo method, Test suite, IEnumerable<object> parameterValues, int autoDataStartIndex)
         {
             if (method == null)
             {
                 throw new ArgumentNullException(nameof(method));
             }
 
-            if (argsFactory == null)
+            if (parameterValues == null)
             {
-                throw new ArgumentNullException(nameof(argsFactory));
+                throw new ArgumentNullException(nameof(parameterValues));
             }
 
-            return new NUnitTestCaseBuilder().BuildTestMethod(method, suite, GetParametersForMethod(method, argsFactory, autoDataStartIndex));
+            return new NUnitTestCaseBuilder()
+                .BuildTestMethod(method, suite, GetParametersForMethod(method, parameterValues, autoDataStartIndex));
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "This method is always expected to return an instance of the TestCaseParameters class.")]
-        private static TestCaseParameters GetParametersForMethod(IMethodInfo method, Func<object[]> argFactory, int autoDataStartIndex)
+        private static TestCaseParameters GetParametersForMethod(
+            IMethodInfo method, IEnumerable<object> parameterValues, int autoDataStartIndex)
         {
             try
             {
-                var parameterValues = argFactory();
                 return GetParametersForMethod(method, parameterValues.ToArray(), autoDataStartIndex);
             }
             catch (Exception ex)
