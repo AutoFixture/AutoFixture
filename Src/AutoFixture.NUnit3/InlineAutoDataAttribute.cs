@@ -20,6 +20,17 @@ namespace Ploeh.AutoFixture.NUnit3
         private readonly object[] _existingParameterValues;
         private readonly IFixture _fixture;
 
+        private ITestMethodBuilder _testMethodBuilder = new VolatileNameTestMethodBuilder();
+        
+        /// <summary>
+        /// Gets or sets the current <see cref="ITestMethodBuilder"/> strategy.
+        /// </summary>
+        public ITestMethodBuilder TestMethodBuilder
+        {
+            get => _testMethodBuilder;
+            set => _testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
         /// <summary>
         /// Construct a <see cref="InlineAutoDataAttribute"/>
         /// with parameter values for test method
@@ -66,33 +77,18 @@ namespace Ploeh.AutoFixture.NUnit3
         /// <returns>One or more TestMethods</returns>
         public IEnumerable<TestMethod> BuildFrom(IMethodInfo method, Test suite)
         {
-            var test = new NUnitTestCaseBuilder().BuildTestMethod(method, suite, this.GetParametersForMethod(method));
+            var test = this.TestMethodBuilder.Build(
+                method, suite, () => GetParameterValues(method).ToArray(), this._existingParameterValues.Length);
 
             yield return test;
-        }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "This method is always expected to return an instance of the TestCaseParameters class.")]
-        private TestCaseParameters GetParametersForMethod(IMethodInfo method)
-        {
-            try
-            {
-                var parameters = method.GetParameters();
-
-                var parameterValues = this.GetParameterValues(parameters);
-
-                return new TestCaseParameters(parameterValues.ToArray());
-            }
-            catch (Exception ex)
-            {
-                return new TestCaseParameters(ex);
-            }
         }
 
         /// <summary>
         /// Get values for a collection of <see cref="IParameterInfo"/>
         /// </summary>
-        private IEnumerable<object> GetParameterValues(IEnumerable<IParameterInfo> parameters)
+        private IEnumerable<object> GetParameterValues(IMethodInfo method)
         {
+            var parameters = method.GetParameters();
             return this._existingParameterValues.Concat(this.GetMissingValues(parameters));
         }
 

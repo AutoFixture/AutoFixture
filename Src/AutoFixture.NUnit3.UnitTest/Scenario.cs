@@ -378,7 +378,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
 
         [Theory, AutoData]
         public void NoAutoPropertiesAttributeLeavesPropertiesUnset(
-            [NoAutoProperties]PropertyHolder<object> ph1, 
+            [NoAutoProperties]PropertyHolder<object> ph1,
             [NoAutoProperties]PropertyHolder<string> ph2,
             [NoAutoProperties]PropertyHolder<int> ph3
             )
