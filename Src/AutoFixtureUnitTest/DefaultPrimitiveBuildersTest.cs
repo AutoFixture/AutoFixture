@@ -45,7 +45,8 @@ namespace Ploeh.AutoFixtureUnitTest
                     typeof(IntPtrGuard),
                     typeof(MailAddressGenerator),
                     typeof(EmailAddressLocalPartGenerator),
-                    typeof(DomainNameGenerator)
+                    typeof(DomainNameGenerator),
+                    typeof(RandomDateTimeOffsetSequenceGenerator)
                  };
             // Exercise system
             var sut = new DefaultPrimitiveBuilders();
