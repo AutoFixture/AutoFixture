@@ -113,8 +113,9 @@ namespace Ploeh.AutoFixture.NUnit3
         private void CustomizeFixtureByParameter(IParameterInfo parameter)
         {
             var customizeAttributes = parameter.GetCustomAttributes<Attribute>(false)
-                .OfType<IParameterCustomizationSource>();
-            
+                .OfType<IParameterCustomizationSource>()
+                .OrderBy(x => x, new CustomizeAttributeComparer());
+
             foreach (var ca in customizeAttributes)
             {
                 var customization = ca.GetCustomization(parameter.ParameterInfo);
