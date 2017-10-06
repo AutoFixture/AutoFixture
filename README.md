@@ -70,9 +70,6 @@ Notice how we can reduce unit tests to state only the relevant parts of the test
 
 Using AutoFixture is as easy as referencing the library and creating a new instance of the Fixture class!
 
-#### NUnit3 Known Issue
-You might need to change the test name strategy for compatibility with specific test runners. Read more about that [on our wiki](https://github.com/AutoFixture/AutoFixture/wiki/Known-Issues#test-name-strategies-for-nunit3).
-
 ## .NET platforms compatibility table
 
 | Product            | .NET Framework            | .NET Standard            |
