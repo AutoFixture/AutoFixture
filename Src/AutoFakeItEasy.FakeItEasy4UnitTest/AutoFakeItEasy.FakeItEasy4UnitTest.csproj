@@ -5,8 +5,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>net452;netcoreapp1.1</TargetFrameworks>
-    <AssemblyTitle>AutoFakeItEasy.FakeItEasy3.UnitTest</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.AutoFakeItEasy.FakeItEasy3UnitTest</AssemblyName>
+    <AssemblyTitle>AutoFakeItEasy.FakeItEasy4.UnitTest</AssemblyTitle>
+    <AssemblyName>Ploeh.AutoFixture.AutoFakeItEasy.FakeItEasy4UnitTest</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.AutoFakeItEasy.UnitTest</RootNamespace>
 
     <!--  Suppress warning about invalid dependency version in Castle.Core.
@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FakeItEasy" Version="[3.0.0]" />
+    <PackageReference Include="FakeItEasy" Version="[4.0.0]" />
   </ItemGroup>
 
   <ItemGroup>

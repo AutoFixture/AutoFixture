@@ -22,12 +22,9 @@
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)'=='net452' ">
-    <PackageReference Include="Moq" Version="4.1.1308.2120" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)'=='netstandard1.5' ">
-    <PackageReference Include="Moq" Version="4.7.0" />
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="[4.1.1308.2120,5.0.0)" Condition=" '$(TargetFramework)'=='net452' " />
+    <PackageReference Include="Moq" Version="[4.7.0,5.0.0)" Condition=" '$(TargetFramework)'=='netstandard1.5' " />
   </ItemGroup>
 
   <ItemGroup>

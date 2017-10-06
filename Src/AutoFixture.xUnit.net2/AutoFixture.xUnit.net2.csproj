@@ -14,12 +14,9 @@
     <Description>By leveraging the data theory feature of xUnit.net, this extension turns AutoFixture into a declarative framework for writing unit tests. In many ways it becomes a unit testing DSL (Domain Specific Language).</Description>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)'=='net452' ">
-    <PackageReference Include="xunit.core" Version="[2.0.0,3.0.0)" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)'=='netstandard1.5' ">
-    <PackageReference Include="xunit.core" Version="[2.2.0,3.0.0)" />
+  <ItemGroup>
+    <PackageReference Include="xunit.core" Version="[2.0.0,3.0.0)" Condition=" '$(TargetFramework)'=='net452' " />
+    <PackageReference Include="xunit.core" Version="[2.2.0,3.0.0)" Condition=" '$(TargetFramework)'=='netstandard1.5' " />
   </ItemGroup>
 
   <ItemGroup>

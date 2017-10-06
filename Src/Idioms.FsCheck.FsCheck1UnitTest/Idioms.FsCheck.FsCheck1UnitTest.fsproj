@@ -1,0 +1,36 @@
+﻿<Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
+  <Import Project="..\Common.props" />
+  <Import Project="..\Common.Test.props" />
+  <Import Project="..\Common.Test.xUnit.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net452</TargetFramework>
+    <AssemblyTitle>Idioms.FsCheck.FsCheck1UnitTest</AssemblyTitle>
+    <AssemblyName>Ploeh.Idioms.FsCheck.FsCheck1UnitTest</AssemblyName>
+    <RootNamespace>Idioms.FsCheckUnitTest</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Idioms.FsCheckUnitTest\TestDsl.fs" Link="TestDsl.fs" />
+    <Compile Include="..\Idioms.FsCheckUnitTest\TestTypes.fs" Link="TestTypes.fs" />
+    <Compile Include="..\Idioms.FsCheckUnitTest\ReturnValueMustNotBeNullAssertionTest.fs" Link="ReturnValueMustNotBeNullAssertionTest.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FsCheck" Version="[1.0.0]" />
+
+    <PackageReference Include="Unquote" Version="3.1.0" />
+    <PackageReference Include="FSharp.Core" Version="3.1.2" PrivateAssets="All" />
+    <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+    <ProjectReference Include="..\Idioms\Idioms.csproj" />
+    <ProjectReference Include="..\Idioms.FsCheck\Idioms.FsCheck.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+</Project>
