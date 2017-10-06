@@ -18,7 +18,6 @@ Packages.dgml
 *.docstates
 *.[Rr]e[Ss]harper*
 *.dotCover
-*.DotSettings
 *.ncrunchsolution
 *.ncrunchproject
 *.crunchsolution.local.xml

@@ -408,9 +408,9 @@ namespace Ploeh.AutoFixtureUnitTest
         public static TheoryData<long[]> LimitSequenceTestCases =>
             new TheoryData<long[]>
             {
-                new long[] {2, 5, 9, 30, 255},
-                new long[] {2, 5, 9, 30, 255, 512},
-                new long[] {-30, -9, -5, 2, 5, 9, 30}
+                new long[] { 2, 5, 9, 30, 255 },
+                new long[] { 2, 5, 9, 30, 255, 512 },
+                new long[] { -30, -9, -5, 2, 5, 9, 30 }
             };
 
     }
