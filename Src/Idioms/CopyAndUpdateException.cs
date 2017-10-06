@@ -13,6 +13,15 @@ namespace Ploeh.AutoFixture.Idioms
     [Serializable]
     public class CopyAndUpdateException : Exception
     {
+        [NonSerialized]
+        private readonly MethodInfo methodInfo;
+
+        [NonSerialized]
+        private readonly MemberInfo memberWithInvalidValue;
+
+        [NonSerialized]
+        private ParameterInfo argumentWithNoMatchingPublicMember;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CopyAndUpdateException"/> class.
         /// </summary>
@@ -29,7 +38,7 @@ namespace Ploeh.AutoFixture.Idioms
         public CopyAndUpdateException(string message, MethodInfo methodInfo)
             : this(message)
         {
-            this.MethodInfo = methodInfo;
+            this.methodInfo = methodInfo;
         }
 
         /// <summary>
@@ -40,7 +49,7 @@ namespace Ploeh.AutoFixture.Idioms
         public CopyAndUpdateException(MethodInfo methodInfo, MemberInfo memberWithInvalidValue)
             : this(FormatMessageForMethodAndMember(methodInfo, memberWithInvalidValue), methodInfo)
         {
-            this.MemberWithInvalidValue = memberWithInvalidValue;
+            this.memberWithInvalidValue = memberWithInvalidValue;
         }
 
         /// <summary>
@@ -83,11 +92,11 @@ namespace Ploeh.AutoFixture.Idioms
         /// Initializes a new instance of the <see cref="CopyAndUpdateException"/> class.
         /// </summary>
         /// <param name="info">
-        /// The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the
+        /// The <see cref="System.Runtime.Serialization.SerializationInfo"/> that holds the
         /// serialized object data about the exception being thrown.
         /// </param>
         /// <param name="context">
-        /// The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains
+        /// The <see cref="System.Runtime.Serialization.StreamingContext"/> that contains
         /// contextual information about the source or destination.
         /// </param>
         protected CopyAndUpdateException(SerializationInfo info, StreamingContext context)
@@ -98,29 +107,33 @@ namespace Ploeh.AutoFixture.Idioms
         /// <summary>
         /// Gets the 'copy and update' method which is ill-behaved.
         /// </summary>
-        public MethodInfo MethodInfo { get; private set; }
+        public MethodInfo MethodInfo => this.methodInfo;
 
         /// <summary>
         /// Gets the member which was found to have an incorrect value.
         /// </summary>
-        public MemberInfo MemberWithInvalidValue { get; private set; }
+        public MemberInfo MemberWithInvalidValue => this.memberWithInvalidValue;
 
         /// <summary>
         /// Gets the argument of the 'copy and update' method for which no matching public
         /// member could be found.
         /// </summary>
-        public ParameterInfo ArgumentWithNoMatchingPublicMember { get; set; }
+        public ParameterInfo ArgumentWithNoMatchingPublicMember
+        {
+            get { return this.argumentWithNoMatchingPublicMember; }
+            set { this.argumentWithNoMatchingPublicMember = value; }
+        }
 
         /// <summary>
         /// Adds <see cref="PropertyInfo" /> to a
-        /// <see cref="T:System.Runtime.Serialization.SerializationInfo"/>.
+        /// <see cref="System.Runtime.Serialization.SerializationInfo"/>.
         /// </summary>
         /// <param name="info">
-        /// The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the
+        /// The <see cref="System.Runtime.Serialization.SerializationInfo"/> that holds the
         /// serialized object data about the exception being thrown.
         /// </param>
         /// <param name="context">
-        /// The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains
+        /// The <see cref="System.Runtime.Serialization.StreamingContext"/> that contains
         /// contextual information about the source or destination.
         /// </param>
         [SecurityCritical]

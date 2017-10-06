@@ -399,7 +399,7 @@ namespace Ploeh.AutoFixture
 
         /// <summary>Returns an enumerator that iterates through a collection.</summary>
         /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+        /// An <see cref="IEnumerator{T}" /> object that can be used to iterate through the collection.
         /// </returns>
         /// <seealso cref="GetEnumerator()" />
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Ploeh.AutoFixture.Kernel
 {
@@ -54,6 +55,8 @@ namespace Ploeh.AutoFixture.Kernel
         }
     }
 
+    [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", 
+        Justification = "It's activated via reflection.")]
     internal class EnumeratorRelay<T> : ISpecimenBuilder
     {
         public object Create(object request, ISpecimenContext context)

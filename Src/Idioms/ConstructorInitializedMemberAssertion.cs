@@ -417,7 +417,7 @@ namespace Ploeh.AutoFixture.Idioms
                 {
                     if (x == null) throw new ArgumentNullException("x");
                     if (y == null) throw new ArgumentNullException("y");
-                    return x.Name.Equals(y.Name, StringComparison.CurrentCultureIgnoreCase)
+                    return x.Name.Equals(y.Name, StringComparison.OrdinalIgnoreCase)
                            && x.Type == y.Type;
                 }
 

@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Ploeh.AutoFixture.Kernel;
 using System.Linq;
 
@@ -61,6 +62,8 @@ namespace Ploeh.AutoFixture
             filler.Execute(specimen, context);
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+            Justification = "It's activated via reflection.")]
         private class Filler<TKey, TValue> : ISpecimenCommand
         {
             public void Execute(object specimen, ISpecimenContext context)

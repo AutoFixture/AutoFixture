@@ -15,6 +15,7 @@ namespace Ploeh.AutoFixture.Idioms
     [Serializable]
     public class WritablePropertyException : Exception
     {
+        [NonSerialized]
         private readonly PropertyInfo propertyInfo;
 
         /// <summary>
@@ -60,11 +61,11 @@ namespace Ploeh.AutoFixture.Idioms
         /// serialized data.
         /// </summary>
         /// <param name="info">
-        /// The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the
+        /// The <see cref="System.Runtime.Serialization.SerializationInfo"/> that holds the
         /// serialized object data about the exception being thrown.
         /// </param>
         /// <param name="context">
-        /// The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains
+        /// The <see cref="System.Runtime.Serialization.StreamingContext"/> that contains
         /// contextual information about the source or destination.
         /// </param>
         protected WritablePropertyException(SerializationInfo info, StreamingContext context)
@@ -83,14 +84,14 @@ namespace Ploeh.AutoFixture.Idioms
 
         /// <summary>
         /// Adds <see cref="PropertyInfo" /> to a
-        /// <see cref="T:System.Runtime.Serialization.SerializationInfo"/>.
+        /// <see cref="System.Runtime.Serialization.SerializationInfo"/>.
         /// </summary>
         /// <param name="info">
-        /// The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the
+        /// The <see cref="System.Runtime.Serialization.SerializationInfo"/> that holds the
         /// serialized object data about the exception being thrown.
         /// </param>
         /// <param name="context">
-        /// The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains
+        /// The <see cref="System.Runtime.Serialization.StreamingContext"/> that contains
         /// contextual information about the source or destination.
         /// </param>
         [SecurityCritical]

@@ -43,6 +43,8 @@ namespace Ploeh.AutoFixture.DataAnnotations
     ///    and a destination state.
     ///  </p>
     ///</summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Documentation", "RS0010: Avoid using cref tags with a prefix",
+        Justification = "This code has been copied from another project and is used as-is.")]
     internal sealed class Transition : IEquatable<Transition>
     {
         /// <summary>

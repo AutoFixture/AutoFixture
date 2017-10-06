@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Ploeh.AutoFixture.Kernel
@@ -59,6 +60,8 @@ namespace Ploeh.AutoFixture.Kernel
                 .Invoke(new[] {enumerable});
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+            Justification = "It's activated via reflection.")]
         private class ConvertedEnumerable<T> : IEnumerable<T>
         {
             private readonly IEnumerable<object> enumerable;

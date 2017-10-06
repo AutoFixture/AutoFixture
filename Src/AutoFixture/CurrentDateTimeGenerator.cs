@@ -4,7 +4,7 @@ using Ploeh.AutoFixture.Kernel;
 namespace Ploeh.AutoFixture
 {
     /// <summary>
-    /// Creates new <see cref="DateTime"/> specimens based on the current <see cref="P:DateTime.Now"/> value.
+    /// Creates new <see cref="DateTime"/> specimens based on the current <see cref="DateTime.Now"/> value.
     /// </summary>
     public class CurrentDateTimeGenerator : ISpecimenBuilder
     {

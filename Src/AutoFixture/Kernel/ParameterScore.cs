@@ -5,6 +5,8 @@ using System.Reflection;
 
 namespace Ploeh.AutoFixture.Kernel
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1036:Override methods on comparable types",
+        Justification = "This type implements IComparable to be sortable. It's used in limited number of places, so operators overload is not needed.")]
     internal class ParameterScore : IComparable<ParameterScore>
     {
         private readonly int score;
@@ -35,6 +37,16 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return this.score.CompareTo(other.score);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.CompareTo(obj as ParameterScore) == 0;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.score.GetHashCode();
         }
 
         private static int CalculateScore(Type parentType, Type targetType, IEnumerable<ParameterInfo> parameters)

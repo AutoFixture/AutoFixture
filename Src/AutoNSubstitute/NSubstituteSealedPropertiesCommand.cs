@@ -64,8 +64,8 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             /// </summary>
             private static bool IsDynamicProxyMember(FieldInfo fi)
             {
-                return fi.Name == "__interceptors" || 
-                    fi.Name == "__mixin_NSubstitute_Core_ICallRouter";
+                return string.Equals(fi.Name, "__interceptors", StringComparison.Ordinal) ||
+                       string.Equals(fi.Name, "__mixin_NSubstitute_Core_ICallRouter", StringComparison.Ordinal);
             }
         }
     }

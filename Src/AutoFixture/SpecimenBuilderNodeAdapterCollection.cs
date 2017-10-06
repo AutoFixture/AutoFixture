@@ -389,7 +389,7 @@ namespace Ploeh.AutoFixture
         /// Returns an enumerator that iterates through a collection.
         /// </summary>
         /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator" /> object that can
+        /// An <see cref="System.Collections.IEnumerator" /> object that can
         /// be used to iterate through the collection.
         /// </returns>
         /// <remarks>
@@ -434,7 +434,7 @@ namespace Ploeh.AutoFixture
             }
         }
 
-        /// <summary>Raises the <see cref="E:GraphChanged" /> event.</summary>
+        /// <summary>Raises the <see cref="GraphChanged" /> event.</summary>
         /// <param name="e">
         /// The <see cref="SpecimenBuilderNodeEventArgs" /> instance containing
         /// the event data.

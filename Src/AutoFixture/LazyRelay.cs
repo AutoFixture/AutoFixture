@@ -1,9 +1,7 @@
 ﻿using Ploeh.AutoFixture.Kernel;
 using System;
 using System.Reflection;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Ploeh.AutoFixture
 {
@@ -52,6 +50,8 @@ namespace Ploeh.AutoFixture
             return builder.Create(context);
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+            Justification = "It's activated via reflection.")]
         private class LazyBuilder<T> : ILazyBuilder
         {
             public object Create(ISpecimenContext context)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using FakeItEasy;
@@ -59,6 +60,8 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy2
             }
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses",
+            Justification = "It's activated via reflection.")]
         private class FakeMethod<T> : IMethod
         {
             private readonly IEnumerable<ParameterInfo> parameterInfos;

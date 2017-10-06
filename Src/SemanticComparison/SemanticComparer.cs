@@ -89,7 +89,7 @@ namespace Ploeh.SemanticComparison
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures 
         /// like a hash table. 
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.
         ///   </exception>
         public int GetHashCode(object obj)
@@ -121,7 +121,7 @@ namespace Ploeh.SemanticComparison
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures 
         /// like a hash table. 
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.
         ///   </exception>
         int IEqualityComparer.GetHashCode(object obj)

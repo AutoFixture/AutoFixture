@@ -176,7 +176,7 @@ namespace Ploeh.AutoFixture
             this.UpdateGraph();
         }
 
-        /// <summary>Raises the <see cref="E:GraphChanged" /> event.</summary>
+        /// <summary>Raises the <see cref="GraphChanged" /> event.</summary>
         /// <param name="e">
         /// The <see cref="SpecimenBuilderNodeEventArgs" /> instance containing
         /// the event data.

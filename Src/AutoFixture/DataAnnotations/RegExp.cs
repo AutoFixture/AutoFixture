@@ -42,6 +42,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
     /// <summary>
     /// Regular Expression extension to Automaton.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "This method has been ported as-is.")]
     internal sealed class RegExp
     {
         private readonly string b;

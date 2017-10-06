@@ -83,7 +83,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (methodInfo.ContainsGenericParameters)
             {
                 var typeMap = arguments.Zip(methodInfo.GetParameters(),
-                (argument, parameter) => ResolveGenericType(GetType(argument), parameter.ParameterType))
+                (argument, parameter) => ResolveGenericType(GetArgumentTypeOrObjectType(argument), parameter.ParameterType))
                 .SelectMany(x => x)
                 .ToLookup(x => x.Item1, x => x.Item2);
 
@@ -102,7 +102,7 @@ namespace Ploeh.AutoFixture.Kernel
             return methodInfo;
         }
 
-        private static Type GetType(object argument)
+        private static Type GetArgumentTypeOrObjectType(object argument)
         {
             return argument == null ? typeof(object) : argument.GetType();
         }

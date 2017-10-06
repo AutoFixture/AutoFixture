@@ -21,7 +21,7 @@ namespace Ploeh.AutoFixture.Xunit2
         /// <remarks>
         /// The <see cref="Matching"/> criteria used to determine
         /// which requests will be satisfied by the frozen parameter value
-        /// is <see cref="F:Matching.ExactType"/>.
+        /// is <see cref="Matching.ExactType"/>.
         /// </remarks>
         public FrozenAttribute()
             : this(Matching.ExactType)

@@ -58,7 +58,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return MemberInfoEqualityComparer.AreTypesRelated(x.DeclaringType, y.DeclaringType)
-                && x.Name == y.Name;
+                && string.Equals(x.Name, y.Name, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -69,16 +69,13 @@ namespace Ploeh.AutoFixture.Kernel
         /// A hash code for the supplied instance, suitable for use in hashing algorithms and data
         /// structures like a hash table. 
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException">
+        /// <exception cref="System.ArgumentNullException">
         /// The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is
         /// null.
         /// </exception>
         public int GetHashCode(MemberInfo obj)
         {
-            if (obj == null)
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
+            if (obj == null) return 0;
 
             if (obj.DeclaringType == null)
             {

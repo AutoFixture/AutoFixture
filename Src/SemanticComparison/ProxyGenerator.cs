@@ -416,7 +416,7 @@ namespace Ploeh.SemanticComparison
             foreach (FieldInfo fi in matchedTargetFields)
             {
                 var sourceField = sourceFields
-                    .Where(s => s.Name.Equals(fi.Name))
+                    .Where(s => s.Name.Equals(fi.Name, StringComparison.Ordinal))
                         .Concat(sourceFields
                             .Where(s => s.Match(fi)))
                     .FirstOrDefault();
@@ -485,6 +485,7 @@ namespace Ploeh.SemanticComparison
                 this.Value = value;
             }
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1721:Property names should not match get methods", Justification = "It's fine to have the 'Type' property and we cannot re-use the GetType() method intead.")]
             public Type Type { get; }
             public object Value { get; }
         }

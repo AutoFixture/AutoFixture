@@ -3,12 +3,12 @@
 namespace Ploeh.AutoFixture
 {
     /// <summary>
-    /// A customization that enables DateTime specimens to be based on the current <see cref="P:DateTime.Now"/> value.
+    /// A customization that enables DateTime specimens to be based on the current <see cref="DateTime.Now"/> value.
     /// </summary>
     /// <remarks>
     /// <para>
     /// When this customization is added to an <see cref="IFixture"/> instance, requests for DateTime specimens
-    /// will be satisfied by returning the current <see cref="P:DateTime.Now"/> value.
+    /// will be satisfied by returning the current <see cref="DateTime.Now"/> value.
     /// </para>
     /// <para>
     /// This customization reproduces the generation strategy for DateTime specimens used in AutoFixture up to version 2.1.
