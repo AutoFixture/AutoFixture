@@ -235,8 +235,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
                 return new TheoryData<ISpecimenBuilderNode, ISpecimenBuilderNode>
                 {
-                    {g1, g1},
-                    {g2, g2}
+                    { g1, g1 },
+                    { g2, g2 }
                 };
             }
         }
