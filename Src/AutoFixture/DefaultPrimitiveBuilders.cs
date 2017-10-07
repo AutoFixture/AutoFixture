@@ -28,7 +28,7 @@ namespace Ploeh.AutoFixture
             yield return new RandomCharSequenceGenerator();
             yield return new UriGenerator();
             yield return new UriSchemeGenerator();
-            yield return new RangedNumberGenerator();
+            yield return new RandomRangedNumberGenerator();
             yield return new RegularExpressionGenerator();
             yield return new RandomDateTimeSequenceGenerator();
             yield return new BooleanSwitch();
