@@ -5,13 +5,13 @@ using System.Collections.Generic;
 namespace Ploeh.AutoFixture
 {
     /// <summary>
-    /// Decorates a <see cref="ISpecimenBuilder"/> with a <see cref="ThrowingRecursionGuard"/>.
+    /// Decorates a <see cref="ISpecimenBuilder"/> with a <see cref="RecursionGuard"/> with <see cref="ThrowingRecursionHandler"/>.
     /// </summary>
     public class ThrowingRecursionBehavior : ISpecimenBuilderTransformation
     {
         /// <summary>
         /// Decorates the supplied <see cref="ISpecimenBuilder"/> with a
-        /// <see cref="ThrowingRecursionGuard"/>.
+        /// <see cref="RecursionGuard"/> with <see cref="ThrowingRecursionHandler"/>.
         /// </summary>
         /// <param name="builder">The builder to decorate.</param>
         /// <returns>

@@ -8,8 +8,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
     public class AutoPropertiesCommandTest : IDisposable
     {
-#pragma warning disable 618
         [Fact]
+        [Obsolete]
         public void SutIsSpecifiedSpecimenCommand()
         {
             // Fixture setup
@@ -19,7 +19,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.IsAssignableFrom<ISpecifiedSpecimenCommand<string>>(sut);
             // Teardown
         }
-#pragma warning restore 618
 
         [Fact]
         public void ExecuteWithNullSpecimenThrows()
@@ -54,7 +53,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var specimen = new FieldHolder<object>();
             // Exercise system
-            sut.Execute(specimen, container);
+            sut.Execute((object)specimen, container);
             // Verify outcome
             Assert.Equal(expectedFieldValue, specimen.Field);
             // Teardown
@@ -71,7 +70,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             var specimen = new PropertyHolder<object>();
             // Exercise system
-            sut.Execute(specimen, container);
+            sut.Execute((object)specimen, container);
             // Verify outcome
             Assert.Equal(expectedPropertyValue, specimen.Property);
             // Teardown
@@ -86,7 +85,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var unexpectedValue = new object();
             var container = new DelegatingSpecimenContext { OnResolve = r => unexpectedValue };
             // Exercise system
-            sut.Execute(specimen, container);
+            sut.Execute((object)specimen, container);
             // Verify outcome
             Assert.NotEqual(unexpectedValue, specimen.Parameter);
             // Teardown
@@ -101,7 +100,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var container = new DelegatingSpecimenContext { OnResolve = r => new object() };
             // Exercise system and verify outcome
             Assert.Null(Record.Exception(() =>
-                sut.Execute(specimen, container)));
+                sut.Execute((object)specimen, container)));
             // Teardown
         }
 
@@ -113,7 +112,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var specimen = new StaticPropertyHolder<object>();
             var container = new DelegatingSpecimenContext { OnResolve = r => new object() };
             // Exercise system
-            sut.Execute(specimen, container);
+            sut.Execute((object)specimen, container);
             // Verify outcome
             Assert.Null(StaticPropertyHolder<object>.Property);
             // Teardown
@@ -127,7 +126,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var specimen = new StaticFieldHolder<object>();
             var container = new DelegatingSpecimenContext { OnResolve = r => new object() };
             // Exercise system
-            sut.Execute(specimen, container);
+            sut.Execute((object)specimen, container);
             // Verify outcome
             Assert.Null(StaticFieldHolder<object>.Field);
             // Teardown
@@ -142,7 +141,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var unexpectedValue = new object();
             var container = new DelegatingSpecimenContext { OnResolve = r => unexpectedValue };
             // Exercise system
-            sut.Execute(specimen, container);
+            sut.Execute((object)specimen, container);
             // Verify outcome
             Assert.NotEqual(unexpectedValue, specimen.Field);
             // Teardown
@@ -166,7 +165,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var specimen = new PropertyHolder<object>();
             var container = new DelegatingSpecimenContext { OnResolve = r => new object() };
             // Exercise system
-            sut.Execute(specimen, container);
+            sut.Execute((object)specimen, container);
             // Verify outcome
             Assert.Null(specimen.Property);
             // Teardown
@@ -183,7 +182,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var specimen = new PropertyHolder<string>();
             var dummyContainer = new DelegatingSpecimenContext();
-            sut.Execute(specimen, dummyContainer);
+            sut.Execute((object)specimen, dummyContainer);
             // Verify outcome
             Assert.True(verified, "Mock verified");
             // Teardown
@@ -200,7 +199,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 OnResolve = r => new OmitSpecimen()
             };
             // Exercise system
-            sut.Execute(specimen, context);
+            sut.Execute((object)specimen, context);
             // Verify outcome
             Assert.Null(specimen.Property);
             // Teardown
@@ -215,7 +214,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var specimen = new FieldHolder<object>();
             var container = new DelegatingSpecimenContext { OnResolve = r => new object() };
             // Exercise system
-            sut.Execute(specimen, container);
+            sut.Execute((object)specimen, container);
             // Verify outcome
             Assert.Null(specimen.Field);
             // Teardown
@@ -232,7 +231,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Exercise system
             var specimen = new FieldHolder<string>();
             var dummyContainer = new DelegatingSpecimenContext();
-            sut.Execute(specimen, dummyContainer);
+            sut.Execute((object)specimen, dummyContainer);
             // Verify outcome
             Assert.True(verified, "Mock verified");
             // Teardown
@@ -249,7 +248,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
                 OnResolve = r => new OmitSpecimen()
             };
             // Exercise system
-            sut.Execute(specimen, context);
+            sut.Execute((object)specimen, context);
             // Verify outcome
             Assert.Null(specimen.Field);
             // Teardown
@@ -261,7 +260,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Fixture setup
             var sut = new AutoPropertiesCommand<object>();
             // Exercise system and verify outcome
+#pragma warning disable 618
             Assert.Throws<ArgumentNullException>(() => sut.IsSatisfiedBy(null));
+#pragma warning restore 618
             // Teardown
         }
 
@@ -272,7 +273,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new AutoPropertiesCommand<PropertyHolder<object>>();
             var anonymousRequest = new object();
             // Exercise system
+#pragma warning disable 618
             var result = sut.IsSatisfiedBy(anonymousRequest);
+#pragma warning restore 618
             // Verify outcome
             Assert.False(result);
             // Teardown
@@ -285,7 +288,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var request = typeof(PropertyHolder<object>).GetProperty("Property");
             var sut = new AutoPropertiesCommand<PropertyHolder<object>>();
             // Exercise system
+#pragma warning disable 618
             var result = sut.IsSatisfiedBy(request);
+#pragma warning restore 618
             // Verify outcome
             Assert.True(result);
             // Teardown
@@ -298,7 +303,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var request = typeof(SingleParameterType<object>).GetProperty("Parameter");
             var sut = new AutoPropertiesCommand<SingleParameterType<object>>();
             // Exercise system
+#pragma warning disable 618
             var result = sut.IsSatisfiedBy(request);
+#pragma warning restore 618
             // Verify outcome
             Assert.False(result);
             // Teardown
@@ -311,7 +318,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var request = typeof(IndexedPropertyHolder<string>).GetProperty("Item");
             var sut = new AutoPropertiesCommand<IndexedPropertyHolder<string>>();
             // Exercise system
+#pragma warning disable 618
             var result = sut.IsSatisfiedBy(request);
+#pragma warning restore 618
             // Verify outcome
             Assert.False(result);
             // Teardown
@@ -325,7 +334,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new AutoPropertiesCommand<PropertyHolder<object>>(spec);
             var request = typeof(PropertyHolder<object>).GetProperty("Property");
             // Exercise system
+#pragma warning disable 618
             var result = sut.IsSatisfiedBy(request);
+#pragma warning restore 618
             // Verify outcome
             Assert.False(result);
             // Teardown
@@ -340,7 +351,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var specMock = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => verified = expectedRequest.Equals(r) };
             var sut = new AutoPropertiesCommand<PropertyHolder<object>>(specMock);
             // Exercise system
+#pragma warning disable 618
             sut.IsSatisfiedBy(expectedRequest);
+#pragma warning restore 618
             // Verify outcome
             Assert.True(verified, "Mock verified");
             // Teardown
@@ -353,7 +366,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var request = typeof(FieldHolder<object>).GetField("Field");
             var sut = new AutoPropertiesCommand<FieldHolder<object>>();
             // Exercise system
+#pragma warning disable 618
             var result = sut.IsSatisfiedBy(request);
+#pragma warning restore 618
             // Verify outcome
             Assert.True(result);
             // Teardown
@@ -367,7 +382,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var sut = new AutoPropertiesCommand<FieldHolder<object>>(spec);
             var request = typeof(FieldHolder<object>).GetField("Field");
             // Exercise system
+#pragma warning disable 618
             var result = sut.IsSatisfiedBy(request);
+#pragma warning restore 618
             // Verify outcome
             Assert.False(result);
             // Teardown
@@ -382,7 +399,9 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             var specMock = new DelegatingRequestSpecification { OnIsSatisfiedBy = r => verified = expectedRequest.Equals(r) };
             var sut = new AutoPropertiesCommand<FieldHolder<object>>(specMock);
             // Exercise system
+#pragma warning disable 618
             sut.IsSatisfiedBy(expectedRequest);
+#pragma warning restore 618
             // Verify outcome
             Assert.True(verified, "Mock verified");
             // Teardown

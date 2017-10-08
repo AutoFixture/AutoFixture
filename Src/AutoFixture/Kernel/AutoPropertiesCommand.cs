@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// </summary>
     /// <typeparam name="T">The specimen type on which properties are assigned.</typeparam>
 #pragma warning disable 618
-    public class AutoPropertiesCommand<T> : ISpecifiedSpecimenCommand<T>, ISpecimenCommand
+    public class AutoPropertiesCommand<T> : ISpecimenCommand, ObsoletedMemberShims.ISpecifiedSpecimenCommand<T>
 #pragma warning restore 618
     {
         /// <summary>
@@ -148,6 +148,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="context">
         /// An <see cref="ISpecimenContext"/> that is used to create property and field values.
         /// </param>
+        [Obsolete("This method is no longer used and will be removed in future versions. Please use the Execute(object, ISpecimenContext) overload instead.")]
         public void Execute(T specimen, ISpecimenContext context)
         {
             if (specimen == null)
@@ -183,6 +184,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// or <see cref="FieldInfo"/> that identifies a property or field affected by this
         /// <see cref="AutoPropertiesCommand{T}"/>; otherwise, <see langword="false"/>.
         /// </returns>
+        [Obsolete("This method is no longer used and will be removed in future versions. Please use the this.Specification.IsSpecifiedBy(request) method instead.")]
         public bool IsSatisfiedBy(object request)
         {
             if (request == null)

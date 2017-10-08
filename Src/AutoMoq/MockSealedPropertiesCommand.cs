@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixture.AutoMoq
     /// If the type of the object being mocked contains any fields and/or non-virtual/sealed settable properties,
     /// this initializer will resolve them from a given context.
     /// </summary>
-    [Obsolete("This class will be removed in a future version of AutoFixture. Use AutoMockPropertiesCommand instead, which will populate both sealed and overridable properties.")]
+    [Obsolete("This class will be removed in a future version of AutoFixture. Use AutoMockPropertiesCommand instead, which will populate both sealed and overridable properties.", true)]
     public class MockSealedPropertiesCommand : ISpecimenCommand
     {
         private readonly ISpecimenCommand autoPropertiesCommand =

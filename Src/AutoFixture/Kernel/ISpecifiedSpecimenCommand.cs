@@ -6,7 +6,7 @@ namespace Ploeh.AutoFixture.Kernel
     /// given request.
     /// </summary>
     /// <typeparam name="T">The type of specimen on which the command acts.</typeparam>
-    [Obsolete("Use ISpecimenCommand instead of Execute, and IRequestSpecification for the IsSatisfiedBy functionality.")]
+    [Obsolete("Use ISpecimenCommand instead of Execute, and IRequestSpecification for the IsSatisfiedBy functionality.", true)]
     public interface ISpecifiedSpecimenCommand<T> : IRequestSpecification
     {
         /// <summary>

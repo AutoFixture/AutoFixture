@@ -8,7 +8,7 @@ namespace Ploeh.AutoFixture
     /// Handles creation requests for <see cref="CultureInfo"/> instances, 
     /// returning always the same <see cref="CultureInfo.InvariantCulture"/>.
     /// </summary>
-    [Obsolete("Please use a 'Ploeh.AutoFixture.Kernel.FilteringSpecimenBuilder' instead.", false)]
+    [Obsolete("Please use a 'Ploeh.AutoFixture.Kernel.FilteringSpecimenBuilder' instead.", true)]
     public class InvariantCultureGenerator : ISpecimenBuilder
     {
         private readonly ExactTypeSpecification cultureTypeSpecification 

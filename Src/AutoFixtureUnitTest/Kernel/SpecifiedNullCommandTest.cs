@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Ploeh.AutoFixtureUnitTest.Kernel
 {
-#pragma warning disable 618
+    [Obsolete]
     public class SpecifiedNullCommandTest
     {
         [Fact]
@@ -145,5 +145,4 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
     }
-#pragma warning restore 618
 }

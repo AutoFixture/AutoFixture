@@ -33,6 +33,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         }
 
         [Test]
+        [Obsolete]
         public void GetCustomizationWithSpecificRegisteredTypeReturnsCorrectResult()
         {
             // Fixture setup
@@ -54,6 +55,7 @@ namespace Ploeh.AutoFixture.NUnit2.UnitTest
         }
 
         [Test]
+        [Obsolete]
         public void GetCustomizationWithIncompatibleRegisteredTypeThrowsArgumentException()
         {
             // Fixture setup

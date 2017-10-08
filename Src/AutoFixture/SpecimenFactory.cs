@@ -36,7 +36,7 @@ namespace Ploeh.AutoFixture
         /// <param name="context">The context used to resolve the type request.</param>
         /// <returns>An anonymous object of type <typeparamref name="T"/>.</returns>
         /// <remarks>Obsolete: Please move over to using <see cref="Create{T}(Ploeh.AutoFixture.Kernel.ISpecimenContext)">Create&lt;T&gt;()</see> as this method will be removed in the next release</remarks>
-        [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release")]
+        [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release", true)]
          public static T CreateAnonymous<T>(this ISpecimenContext context)
         {
             return Create<T>(context);
@@ -52,7 +52,7 @@ namespace Ploeh.AutoFixture
         /// <returns>
         /// An anonymous object of type <typeparamref name="T"/>.
         /// </returns>
-        [Obsolete("For compatibility to AutoFixture version 2. This method will be removed, please move to using Create<T>()")]
+        [Obsolete("For compatibility to AutoFixture version 2. This method will be removed, please move to using Create<T>()", true)]
         public static T CreateAnonymous<T>(this IFixture fixture)
         {
             return fixture.Create<T>();
@@ -99,7 +99,7 @@ namespace Ploeh.AutoFixture
         /// <remarks>Obsolete: "Please move over to using <see cref="Create{T}(Ploeh.AutoFixture.Kernel.ISpecimenContext)">Create{T}</see> as this method will be removed in the next release
         /// </remarks>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Supports type inferencing.")]
-        [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release")]
+        [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release", true)]
         public static T CreateAnonymous<T>(this IPostprocessComposer<T> composer)
         {
             return Create<T>(composer);
@@ -136,7 +136,7 @@ namespace Ploeh.AutoFixture
         /// <param name="context">The context used to resolve the type request.</param>
         /// <returns>An anonymous object.</returns>
         /// <remarks>Obsolete: Please move over to using <see cref="Create{T}(Ploeh.AutoFixture.Kernel.ISpecimenContext)">Create{T}()</see> as this method will be removed in the next release</remarks>
-        [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release")]
+        [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release", true)]
         public static T CreateAnonymous<T>(this ISpecimenContext context, T seed)
         {
             return Create<T>(context, seed);

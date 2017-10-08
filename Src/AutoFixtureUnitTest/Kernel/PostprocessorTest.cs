@@ -33,8 +33,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-#pragma warning disable 618
         [Fact]
+        [Obsolete]
         public void SutCanBeInitializedWithDoubleAction()
         {
             // Fixture setup
@@ -46,6 +46,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void InitializeWithNullBuilderThrows()
         {
             // Fixture setup
@@ -56,6 +57,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void InitializeWithNullActionThrows()
         {
             // Fixture setup
@@ -66,6 +68,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void InitializeWithNullSpecificationThrows()
         {
             // Fixture setup
@@ -77,6 +80,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void BuilderIsCorrect()
         {
             // Fixture setup
@@ -92,6 +96,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void ActionIsCorrect()
         {
             // Fixture setup
@@ -107,6 +112,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         }
 
         [Fact]
+        [Obsolete]
         public void SpecificationIsCorrect()
         {
             // Fixture setup
@@ -121,7 +127,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(expectedSpec, result);
             // Teardown
         }
-#pragma warning restore 618
 
         [Fact]
         public void BuilderIsCorrectWhenConstructedMinimallyNonGenerically()
@@ -298,8 +303,8 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             // Teardown
         }
 
-#pragma warning disable 618
         [Fact]
+        [Obsolete]
         public void ComposePreservesAction()
         {
             // Fixture setup
@@ -313,7 +318,6 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
             Assert.Equal(expected, pp.Action);
             // Teardown
         }
-#pragma warning restore 618
 
         [Fact]
         public void ComposePreservesCommand()
