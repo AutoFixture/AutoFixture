@@ -6108,6 +6108,32 @@ namespace Ploeh.AutoFixtureUnitTest
             // Teardown
         }
 
+        [Fact]
+        public void Issue871_FailsWithArgumentExceptionForNullRequest()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var specimenContext = new DelegatingSpecimenContext();
+
+            // Exercise system and Verify outcome
+            Assert.Throws<ArgumentNullException>(() => sut.Create(null, specimenContext));
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Issue871_FailsWithArgumentExceptionForNullRequestContext()
+        {
+            // Fixture setup
+            var sut = new Fixture();
+            var request = new object();
+
+            // Exercise system and Verify outcome
+            Assert.Throws<ArgumentNullException>(() => sut.Create(request, null));
+
+            // Teardown
+        }
+
 #if SYSTEM_NET_MAIL
         [Fact]
         public void CreateAnonymousWithMailAddressReturnsValidResult()
