@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoNSubstituteUnitTest", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoNSubstitute", "AutoNSubstitute\AutoNSubstitute.csproj", "{189C9474-B406-4356-A367-FBC882E9BA4B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoNSubstitute.NSubstitute3UnitTest", "AutoNSubstitute.NSubstitute3UnitTest\AutoNSubstitute.NSubstitute3UnitTest.csproj", "{7F1F4B6D-0BE8-4F2D-AD11-9DFB44DB2A89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,12 @@ Global
 		{189C9474-B406-4356-A367-FBC882E9BA4B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{189C9474-B406-4356-A367-FBC882E9BA4B}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
 		{189C9474-B406-4356-A367-FBC882E9BA4B}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{7F1F4B6D-0BE8-4F2D-AD11-9DFB44DB2A89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F1F4B6D-0BE8-4F2D-AD11-9DFB44DB2A89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F1F4B6D-0BE8-4F2D-AD11-9DFB44DB2A89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F1F4B6D-0BE8-4F2D-AD11-9DFB44DB2A89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F1F4B6D-0BE8-4F2D-AD11-9DFB44DB2A89}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{7F1F4B6D-0BE8-4F2D-AD11-9DFB44DB2A89}.Verify|Any CPU.Build.0 = Verify|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
