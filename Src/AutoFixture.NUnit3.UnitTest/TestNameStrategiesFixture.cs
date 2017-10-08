@@ -21,7 +21,7 @@
 
         public class AutoDataVolatileNameAttribute : AutoDataAttribute
         {
-            public AutoDataVolatileNameAttribute() : base(CreateFixtureWithInjectedValues())
+            public AutoDataVolatileNameAttribute() : base(CreateFixtureWithInjectedValues)
             {
                 TestMethodBuilder = new VolatileNameTestMethodBuilder();
             }
@@ -39,7 +39,7 @@
         public class InlineAutoDataVolatileNameAttribute : InlineAutoDataAttribute
         {
             public InlineAutoDataVolatileNameAttribute(params object[] arguments) 
-                : base(CreateFixtureWithInjectedValues(), arguments)
+                : base(CreateFixtureWithInjectedValues, arguments)
             {
                 TestMethodBuilder = new VolatileNameTestMethodBuilder();
             }
