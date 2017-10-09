@@ -74,6 +74,7 @@ namespace Ploeh.AutoFixture.Xunit
         /// <summary>
         /// Gets the type of <see cref="Fixture"/>.
         /// </summary>
+        [Obsolete("This property is deprecated and will be removed in a future version of AutoFixture. Please use Fixture.GetType() instead.")]
         public Type FixtureType
         {
             get { return this.Fixture.GetType(); }
