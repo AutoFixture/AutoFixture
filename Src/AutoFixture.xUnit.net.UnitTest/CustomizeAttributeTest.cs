@@ -26,5 +26,16 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             Assert.IsAssignableFrom<Attribute>(sut);
             // Teardown
         }
+
+        [Fact]
+        public void SutImplementsIParameterCustomizationSource()
+        {
+            // Fixture setup
+            // Exercise system
+            var sut = new DelegatingCustomizeAttribute();
+            // Verify outcome
+            Assert.IsAssignableFrom<IParameterCustomizationSource>(sut);
+            // Teardown
+        }
     }
 }

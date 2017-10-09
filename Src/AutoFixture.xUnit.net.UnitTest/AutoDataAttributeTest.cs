@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Ploeh.TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
@@ -210,6 +211,55 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             // Verify outcome
             Assert.False(customizationLog[0] is FreezeOnMatchCustomization);
             Assert.True(customizationLog[1] is FreezeOnMatchCustomization);
+            // Teardown
+        }
+        
+
+        private class TypeWithIParameterCustomizationSourceUsage
+        {
+            public void DecoratedMethod([CustomizationSourceAttribute] int arg)
+            {
+            }
+
+            public class CustomizationSourceAttribute : Attribute, IParameterCustomizationSource
+            {
+                public ICustomization GetCustomization(ParameterInfo parameter)
+                {
+                    return new Customization();
+                }
+            }
+
+            public class Customization : ICustomization
+            {
+                public void Customize(IFixture fixture)
+                {
+                }
+            }
+        }
+
+        [Fact]
+        public void ShouldRecognizeAttributesImplementingIParameterCustomizationSource()
+        {
+            // Fixture setup
+            var method = typeof(TypeWithIParameterCustomizationSourceUsage)
+                .GetMethod(nameof(TypeWithIParameterCustomizationSourceUsage.DecoratedMethod));
+
+            var parameters = method.GetParameters();
+            var parameterTypes = parameters.Select(p => p.ParameterType).ToArray();
+            
+            var customizationLog = new List<ICustomization>();
+            var fixture = new DelegatingFixture();
+            fixture.OnCustomize = c =>
+            {
+                customizationLog.Add(c);
+                return fixture;
+            };
+            var sut = new DerivedAutoDataAttribute(fixture);
+            
+            // Exercise system
+            sut.GetData(method, parameterTypes);
+            // Verify outcome
+            Assert.True(customizationLog[0] is TypeWithIParameterCustomizationSourceUsage.Customization);
             // Teardown
         }
     }

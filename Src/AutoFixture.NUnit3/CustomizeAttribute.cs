@@ -11,7 +11,7 @@ namespace Ploeh.AutoFixture.NUnit3
     /// <see cref="AutoDataAttribute"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
-    public abstract class CustomizeAttribute : Attribute
+    public abstract class CustomizeAttribute : Attribute, IParameterCustomizationSource
     {
         /// <summary>
         /// Gets a customization for a parameter.
