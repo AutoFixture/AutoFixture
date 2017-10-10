@@ -58,7 +58,7 @@
 
             var result = sut.Create(expressionRequest, dummyContainer);
 
-            Assert.IsType<Expression<Func<object>>>(result);
+            Assert.IsAssignableFrom<Expression<Func<object>>>(result);
         }
 
         [Theory]
@@ -77,7 +77,7 @@
 
             var result = sut.Create(expressionRequest, context);
 
-            Assert.IsType(expected, result);
+            Assert.IsAssignableFrom(expected, result);
         }
     }
 }

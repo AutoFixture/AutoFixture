@@ -22,5 +22,9 @@ IF NOT EXIST "%TOOLS_DIR%\NUnit.Runners.2.6.2\" (
   %NUGET_PATH% install "NUnit.Runners" -Version 2.6.2 -OutputDirectory %TOOLS_DIR% 
 )
 
+IF NOT EXIST "%TOOLS_DIR%\xunit.runner.console\" (
+  %NUGET_PATH% install "xunit.runner.console" -Version 2.3.0 -OutputDirectory %TOOLS_DIR% -ExcludeVersion 
+)
+
 echo Running FAKE Build...
 %TOOLS_DIR%\FAKE.Core\tools\Fake.exe build.fsx %* -BuildDir=%BUILD_DIR%

@@ -57,7 +57,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest
             var sut = new StubPropertiesCommand();
             // Exercise system
             var task = Task.Factory.StartNew(() => sut.Execute(request, context));
-            bool ranToCompletion = task.Wait(1000) && task.Status == TaskStatus.RanToCompletion;
+            bool ranToCompletion = task.Wait(5000) && task.Status == TaskStatus.RanToCompletion;
             // Verify outcome
             Assert.True(ranToCompletion);
         }

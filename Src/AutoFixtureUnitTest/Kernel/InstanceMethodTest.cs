@@ -111,7 +111,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
         public void InvokeParameterlessMethodReturnsCorrectResult(object owner)
         {
             // Fixture setup
-            var method = owner.GetType().GetMethod("GetHashCode");
+            var method = owner.GetType().GetMethod("GetHashCode", Type.EmptyTypes);
             var sut = new InstanceMethod(method, owner);
             // Exercise system
             var result = sut.Invoke(Enumerable.Empty<object>());
