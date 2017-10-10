@@ -252,6 +252,7 @@ Target "TestOnly" (fun _ ->
     nUnit2TestProjects
     |> getTestAssemblies "*"
     |> NUnitSequential.NUnit (fun p -> { p with StopOnError = false
+                                                ShowLabels = false
                                                 OutputFile  = testResultsFolder </> "NUnit2TestResult.xml"
                                                 ToolPath = buildToolsDir </> "NUnit.Runners.2.6.2" </> "tools" })
 
