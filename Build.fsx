@@ -396,13 +396,19 @@ Target "AppVeyor_SetVNextVersion" (fun _ ->
 
 Target "AppVeyor_UploadTestReports" (fun _ ->
     let uploadResults pattern format =
-        !! pattern
-        |> SetBaseDir testResultsFolder
-        |> Seq.iter (fun file -> AppVeyor.UploadTestResultsFile format file)
+        async {
+            !! pattern
+            |> SetBaseDir testResultsFolder
+            |> Seq.iter (fun file -> AppVeyor.UploadTestResultsFile format file)
+        }
 
-    uploadResults "xunit-*" Xunit
-    uploadResults "NUnit2TestResult.xml" NUnit
-    uploadResults "*.trx" MsTest
+    [ uploadResults "xunit-desktop.xml" Xunit;
+      uploadResults "xunit-netcore.xml" Xunit;
+      uploadResults "NUnit2TestResult.xml" NUnit;
+      uploadResults "*.trx" MsTest ]
+    |> Async.Parallel
+    |> Async.RunSynchronously
+    |> ignore
 )
 
 Target "AppVeyor" (fun _ ->
