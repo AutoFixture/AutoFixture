@@ -215,30 +215,38 @@ Target "Verify" (fun _ -> rebuild "Verify")
 Target "BuildOnly" (fun _ -> rebuild configuration)
 Target "TestOnly" (fun _ ->
     let findTestProjects pattern = System.IO.Directory.GetDirectories("Src", pattern)
-    let getTestAssemblies projDir = !! (sprintf "bin/%s/**/*Test.dll" configuration)
-                                    |> SetBaseDir projDir
+    let getTestAssemblies framework projDirs =
+        projDirs
+        |> Seq.map (fun proj -> !! (sprintf "bin/%s/%s/*Test.dll" configuration framework)
+                                |> SetBaseDir proj)
+        |> Seq.collect id
 
     let nUnit2TestProjects = findTestProjects "AutoFixture.NUnit2.*Test"
     let nUnit3TestProjects = findTestProjects "AutoFixture.NUnit3.*Test"
-    let xUnit1TestProjects = findTestProjects "AutoFixture.xUnit.net.UnitTest"
-    let xUnit2TestProjects = findTestProjects "*Test" 
-                             |> Seq.except (Seq.concat [nUnit2TestProjects; nUnit3TestProjects; xUnit1TestProjects])
+    let xUnitTestProjects = findTestProjects "*Test" 
+                             |> Seq.except (Seq.concat [nUnit2TestProjects; nUnit3TestProjects])
 
-    xUnit1TestProjects
-    |> Seq.iter (fun projDir ->
-        DotNetCli.RunCommand (fun p -> { p with WorkingDir = projDir })
-                             (sprintf "test --no-build --configuration %s" configuration)
-    )
+    let xUnitCoreAppAssemblies = xUnitTestProjects
+                                 |> getTestAssemblies "netcoreapp*"
+                                  
+    let xUnitDesktopFrameworkAssemblies = xUnitTestProjects
+                                          |> getTestAssemblies "*"
+                                          |> Seq.except xUnitCoreAppAssemblies
 
-    xUnit2TestProjects
-    |> Seq.iter (fun projDir ->
-        DotNetCli.RunCommand (fun p -> { p with WorkingDir = projDir })
-                             (sprintf "xunit --no-build --configuration %s" configuration)
-    )
+    // Run xUnit desktop tests
+    xUnitDesktopFrameworkAssemblies
+    |> xUnit2 (fun p -> { p with ToolPath = buildToolsDir </> "xunit.runner.console/tools/net452/xunit.console.exe"
+                                 Parallel = Collections })
+
+    // Run xUnit .NET Core tests
+    DotNetCli.RunCommand id 
+                         (sprintf "exec \"%s\" %s" 
+                                  (buildToolsDir </> "xunit.runner.console/tools/netcoreapp2.0/xunit.console.dll")
+                                  (separated " " xUnitCoreAppAssemblies)
+                         )
 
     nUnit2TestProjects
-    |> Seq.map getTestAssemblies
-    |> Seq.collect id
+    |> getTestAssemblies "*"
     |> NUnitSequential.NUnit (fun p -> { p with StopOnError = false
                                                 OutputFile  = testResultsFolder </> "NUnit2TestResult.xml"
                                                 ToolPath = buildToolsDir </> "NUnit.Runners.2.6.2" </> "tools" })
