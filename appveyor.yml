@@ -18,16 +18,7 @@ build_script:
 - ps: |
     & .\build.cmd AppVeyor NuGetPublicKey="$($Env:NUGET_API_KEY)" NuGetPrivateKey="$($Env:MYGET_API_KEY)" BuildVersion=git BuildNumber=$($Env:APPVEYOR_BUILD_NUMBER)
 
-test_script:
-- ps: |
-    function Publish-TestResults ($testRunner, $testResultsPath)
-    {
-        $client = New-Object System.Net.WebClient
-        $client.UploadFile("https://ci.appveyor.com/api/testresults/$testRunner/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $testResultsPath))
-    }
-
-    Publish-TestResults nunit "build\\TestResults\\NUnit2TestResult.xml"
-    Get-ChildItem "build\\TestResults" -Filter *.trx | Foreach-Object { Publish-TestResults mstest $_.FullName }
+test: off
 
 artifacts:
 - path: build\NuGetPackages\*.nupkg

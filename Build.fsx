@@ -235,14 +235,18 @@ Target "TestOnly" (fun _ ->
 
     // Run xUnit desktop tests
     xUnitDesktopFrameworkAssemblies
+    // A bit hacky way to pass custom parameter to xUnit, but it works.
+    |> (fun s -> Seq.append s [ "-noautoreporters" ])
     |> xUnit2 (fun p -> { p with ToolPath = buildToolsDir </> "xunit.runner.console/tools/net452/xunit.console.exe"
+                                 XmlOutputPath = testResultsFolder </> "xunit-desktop.xml" |> FullName |> Some
                                  Parallel = Collections })
 
     // Run xUnit .NET Core tests
     DotNetCli.RunCommand id 
-                         (sprintf "exec \"%s\" %s" 
+                         (sprintf "exec \"%s\" %s -xml \"%s\" -noautoreporters"
                                   (buildToolsDir </> "xunit.runner.console/tools/netcoreapp2.0/xunit.console.dll")
                                   (separated " " xUnitCoreAppAssemblies)
+                                  (testResultsFolder </> "xunit-netcore.xml" |> FullName)
                          )
 
     nUnit2TestProjects
@@ -390,6 +394,17 @@ Target "AppVeyor_SetVNextVersion" (fun _ ->
     |> setVNextBranchVersion
 )
 
+Target "AppVeyor_UploadTestReports" (fun _ ->
+    let uploadResults pattern format =
+        !! pattern
+        |> SetBaseDir testResultsFolder
+        |> Seq.iter (fun file -> AppVeyor.UploadTestResultsFile format file)
+
+    uploadResults "xunit-*" Xunit
+    uploadResults "NUnit2TestResult.xml" NUnit
+    uploadResults "*.trx" MsTest
+)
+
 Target "AppVeyor" (fun _ ->
     //Artifacts might be deployable, so we update build version to find them later by file version
     if not AppVeyorEnvironment.IsPullRequest then UpdateBuildVersion buildVersion.fileVersion
@@ -397,12 +412,17 @@ Target "AppVeyor" (fun _ ->
 
 "AppVeyor_SetVNextVersion" =?> ("PatchAssemblyVersions", anAppVeyorTrigger = VNextBranch)
 
+"TestOnly" ==> "AppVeyor_UploadTestReports"
+
+"AppVeyor_UploadTestReports" ?=> "Test"
+
 // Add logic to resolve action based on current trigger info
 dependency "AppVeyor" <| match anAppVeyorTrigger with
                          | SemVerTag                -> "PublishNuGetPublic"
                          | VNextBranch              -> "PublishNuGetPrivate"
                          | PR | CustomTag | Unknown -> "CompleteBuild"
 "EnableSourceLinkGeneration" ==> "AppVeyor"
+"AppVeyor_UploadTestReports" ==> "AppVeyor"
 
 // ========= ENTRY POINT =========
 RunTargetOrDefault "CompleteBuild"
