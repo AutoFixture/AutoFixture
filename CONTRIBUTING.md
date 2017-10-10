@@ -5,11 +5,11 @@ AutoFixture is currently being developed in C# on .NET 4 using Visual Studio 201
 ## Dependencies
 
 All the external dependencies are restored during the build and don't need to be committed to the repository.
-If you would like to work with project offline, ensure to trigger a build while you are still online so dependencies are cached. To trigger a build run the `build.cmd` or `build.sh` file located in the root directory of the repo.
+If you would like to work with project offline, ensure to trigger a build while you are still online so dependencies are cached. To trigger a build run the `build.cmd` file located in the root directory of the repo.
 
 ## Verification
 
-There are several different targeted solutions to be found under the \Src folder, but be aware that the final verification step before pushing to the repository is to successfully run all the unit tests in the `build.sh` file (if you don't have a Bash shell, you can use the `build.cmd` script).
+There are several different targeted solutions to be found under the \Src folder, but be aware that the final verification step before pushing to the repository is to successfully run all the unit tests in the `build.cmd` file.
 
 As part of the verification build, Visual Studio Code Analysis is executed in a configuration that treats warnings as errors. No CA warnings should be suppressed unless the documented conditions for suppression are satisfied. Otherwise, a documented agreement between at least two active developers of the project should be reached to allow a suppression of a non-suppressible warning.
 

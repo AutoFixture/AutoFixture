@@ -32,3 +32,5 @@ project.lock.json
 # package files can be ignored because of the NuGet restore
 **/packages/*
 
+# Temp build artifacts and tools
+/build/

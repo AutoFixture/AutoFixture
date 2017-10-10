@@ -1,4 +1,4 @@
-﻿#r @"tools/FAKE.Core/tools/FakeLib.dll"
+﻿#r @"build/tools/FAKE.Core/tools/FakeLib.dll"
 
 open Fake
 open Fake.AppVeyor
@@ -8,8 +8,10 @@ open System
 open System.Diagnostics;
 open System.Text.RegularExpressions
 
-let testResultsFolder = "TestResults" |> FullName
-let nuGetOutputFolder = "NuGetPackages"
+let buildDir = getBuildParamOrDefault "BuildDir" "build"
+let buildToolsDir = buildDir </> "tools"
+let testResultsFolder = buildDir </> "TestResults" |> FullName
+let nuGetOutputFolder = buildDir </> "NuGetPackages"
 let nuGetPackages = !! (nuGetOutputFolder </> "*.nupkg" )
                     // Skip symbol packages because NuGet publish symbols automatically when package is published
                     -- (nuGetOutputFolder </> "*.symbols.nupkg")
@@ -238,7 +240,8 @@ Target "TestOnly" (fun _ ->
     |> Seq.map getTestAssemblies
     |> Seq.collect id
     |> NUnitSequential.NUnit (fun p -> { p with StopOnError = false
-                                                OutputFile  = testResultsFolder </> "NUnit2TestResult.xml" })
+                                                OutputFile  = testResultsFolder </> "NUnit2TestResult.xml"
+                                                ToolPath = buildToolsDir </> "NUnit.Runners.2.6.2" </> "tools" })
 
     // Save test results in MSTest format in the test results folder.
     // In future NUnit test runner should support AppVeyor directly.
@@ -286,7 +289,8 @@ let publishPackagesWithSymbols packageFeed symbolFeed accessKey =
                                                                       AccessKey = accessKey
                                                                       SymbolPublishUrl = symbolFeed
                                                                       SymbolAccessKey = accessKey
-                                                                      WorkingDir = nuGetOutputFolder }))
+                                                                      WorkingDir = nuGetOutputFolder
+                                                                      ToolPath = buildToolsDir </> "nuget.exe" }))
 
 Target "PublishNuGetPublic" (fun _ ->
     let feed = "https://www.nuget.org/api/v2/package"
