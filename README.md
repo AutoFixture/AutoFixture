@@ -89,7 +89,6 @@ You might need to change the test name strategy for compatibility with specific 
 | AutoRhinoMock      | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
 | Idioms             | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 2.0   |
 | Idioms.FsCheck     | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
-| SemanticComparison | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
 
 ## Downloads
 
@@ -106,7 +105,6 @@ AutoFixture is available via NuGet:
 * [AutoFixture.NUnit2](http://nuget.org/packages/AutoFixture.NUnit2)
 * [AutoFixture.NUnit3](http://nuget.org/packages/AutoFixture.NUnit3)
 * [AutoFixture.Idioms](http://nuget.org/packages/AutoFixture.Idioms)
-* [SemanticComparison](http://nuget.org/packages/SemanticComparison)
 
 ### vNext feed
 The artifacts of the next major version are published to [the MyGet feed](https://www.myget.org/gallery/autofixture):
