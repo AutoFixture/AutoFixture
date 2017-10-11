@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\Common.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net452;netstandard1.5</TargetFrameworks>
+    <AssemblyTitle>AutoFixture.SeedExtensions</AssemblyTitle>
+    <AssemblyName>AutoFixture.SeedExtensions</AssemblyName>
+    <RootNamespace>AutoFixture</RootNamespace>
+
+    <!-- NuGet options -->
+    <PackageId>AutoFixture.SeedExtensions</PackageId>
+    <Title>AutoFixture.SeedExtensions</Title>
+    <Description>Extensions for the most common AutoFixture operations to provide overloads with a seed.</Description>
+    <Authors>AutoFixture</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
+  </ItemGroup>
+</Project>

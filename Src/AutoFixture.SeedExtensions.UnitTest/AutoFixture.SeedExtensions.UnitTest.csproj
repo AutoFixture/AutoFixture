@@ -5,17 +5,17 @@
 
   <PropertyGroup>
     <TargetFrameworks>net452;netcoreapp1.1</TargetFrameworks>
-    <AssemblyTitle>AutoFixtureDocumentationTest</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixtureDocumentationTest</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixtureDocumentationTest</RootNamespace>
+    <AssemblyTitle>AutoFixture.SeedExtensions.UnitTest</AssemblyTitle>
+    <AssemblyName>AutoFixture.SeedExtensions.UnitTest</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />
     <ProjectReference Include="..\AutoFixture.SeedExtensions\AutoFixture.SeedExtensions.csproj" />
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
 </Project>
+
