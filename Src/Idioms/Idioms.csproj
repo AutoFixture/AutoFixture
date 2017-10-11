@@ -2,12 +2,12 @@
   <Import Project="..\Common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net452</TargetFramework>
+    <TargetFrameworks>net452;netstandard2.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.Idioms</AssemblyTitle>
     <AssemblyName>Ploeh.AutoFixture.Idioms</AssemblyName>
     <RootNamespace>Ploeh.AutoFixture.Idioms</RootNamespace>
     <Copyright>Copyright © Ploeh 2011</Copyright>
-    
+
     <!-- NuGet options -->
     <PackageId>AutoFixture.Idioms</PackageId>
     <Title>AutoFixture Idioms</Title>
@@ -19,7 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Albedo" Version="[1.0.0,2.0.0)" />
+    <PackageReference Include="Albedo" Version="[2.0.0,3.0.0)" />
+
+    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" Condition=" '$(TargetFramework)'=='netstandard2.0' " />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ploeh.Albedo;
+using Albedo;
 using Ploeh.AutoFixture.Idioms;
 using Ploeh.TestTypeFoundation;
 using Xunit;

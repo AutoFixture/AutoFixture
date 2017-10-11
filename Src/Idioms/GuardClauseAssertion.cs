@@ -661,7 +661,7 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
             private const string specimenBuilderFieldName = "specimenBuilder";
 
             private static readonly AssemblyBuilder assemblyBuilder =
-                AppDomain.CurrentDomain.DefineDynamicAssembly(
+                AssemblyBuilder.DefineDynamicAssembly(
                     new AssemblyName("AutoFixture.DynamicProxyAssembly"),
                     AssemblyBuilderAccess.Run);
 
@@ -696,7 +696,7 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
                     this.ImplementDefaultConstructor();
                     this.ImplementAbstractMethods();
                     this.ImplementInterfaceMethods();
-                    var dummyType = this.typeBuilder.CreateType();
+                    var dummyType = this.typeBuilder.CreateTypeInfo();
                     this.SetStaticSpecimenBuilderField(dummyType);
                     return dummyType;
                 }

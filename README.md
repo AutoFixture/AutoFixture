@@ -87,7 +87,7 @@ You might need to change the test name strategy for compatibility with specific 
 | AutoMoq            | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
 | AutoNSubstitute    | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
 | AutoRhinoMock      | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
-| Idioms             | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
+| Idioms             | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 2.0   |
 | Idioms.FsCheck     | :heavy_check_mark: 4.5.2  | :heavy_minus_sign:       |
 | SemanticComparison | :heavy_check_mark: 4.5.2  | :heavy_check_mark: 1.5   |
 
