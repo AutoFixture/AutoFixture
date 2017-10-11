@@ -928,24 +928,18 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             // Fixture setup
             var sut = new GuardClauseAssertion(new Fixture());
             MethodInfo methodInfo = typeof(NoContraint<>).GetMethod("Method");
+
+            var assembliesBefore = AppDomain.CurrentDomain.GetAssemblies();
+
             // Exercise system
             sut.Verify(methodInfo);
             sut.Verify(methodInfo);
             sut.Verify(methodInfo);
             // Verify outcome
-            // Xunit test runner might load non-unique assemblies, but it doesn't matter for our test.
-            var allAssemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(a => !a.GetName().Name.StartsWith("xunit.", StringComparison.OrdinalIgnoreCase))
-                .ToArray();
 
-            var uniqueAssemblies = new HashSet<string>();
-            Array.ForEach(
-                allAssemblies,
-                assembly => uniqueAssemblies.Add(assembly.GetName().Name));
+            var assembliesAfter = AppDomain.CurrentDomain.GetAssemblies();
 
-            Assert.True(
-                uniqueAssemblies.Count == allAssemblies.Length,
-                "Should load only unique assemblies.");
+            Assert.Equal(assembliesBefore, assembliesAfter);
         }
 
         [Fact]
