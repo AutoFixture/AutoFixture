@@ -17,7 +17,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
             var sut = new AutoDataAttribute();
             // Verify outcome
             Assert.That(sut.TestMethodBuilder,
-                Is.TypeOf<VolatileNameTestMethodBuilder>());
+                Is.TypeOf<FixedNameTestMethodBuilder>());
             // Teardown
         }
 
@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
             var sut = new InlineAutoDataAttribute();
             // Verify outcome
             Assert.That(sut.TestMethodBuilder,
-                Is.TypeOf<VolatileNameTestMethodBuilder>());
+                Is.TypeOf<FixedNameTestMethodBuilder>());
             // Teardown
         }
 

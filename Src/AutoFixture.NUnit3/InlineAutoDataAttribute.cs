@@ -20,7 +20,7 @@ namespace Ploeh.AutoFixture.NUnit3
         private readonly object[] _existingParameterValues;
         private readonly IFixture _fixture;
 
-        private ITestMethodBuilder _testMethodBuilder = new VolatileNameTestMethodBuilder();
+        private ITestMethodBuilder _testMethodBuilder = new FixedNameTestMethodBuilder();
         
         /// <summary>
         /// Gets or sets the current <see cref="ITestMethodBuilder"/> strategy.
