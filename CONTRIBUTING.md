@@ -1,6 +1,6 @@
 # How to contribute to AutoFixture
 
-AutoFixture is currently being developed in C# on .NET 4 using Visual Studio 2010/2/3/5 with [xUnit.net](http://xunit.codeplex.com/) as the unit testing framework. So far, all development has been done with TDD, so there's a pretty high degree of code coverage, and the aim is to to keep it that way.
+AutoFixture is currently being developed in C# on .NET 4.5.2 and .NET Standard using Visual Studio 2017 Update 3 or later with [xUnit.net](http://xunit.codeplex.com/) as the unit testing framework. So far, all development has been done with TDD, so there's a pretty high degree of code coverage, and the aim is to to keep it that way.
 
 ## Dependencies
 
@@ -9,9 +9,9 @@ If you would like to work with project offline, ensure to trigger a build while 
 
 ## Verification
 
-There are several different targeted solutions to be found under the \Src folder, but be aware that the final verification step before pushing to the repository is to successfully run all the unit tests in the `build.cmd` file.
+There are several different targeted solutions to be found under the `\Src` folder, but be aware that the final verification step before pushing to the repository is to successfully run all the unit tests in the `build.cmd` file.
 
-As part of the verification build, Visual Studio Code Analysis is executed in a configuration that treats warnings as errors. No CA warnings should be suppressed unless the documented conditions for suppression are satisfied. Otherwise, a documented agreement between at least two active developers of the project should be reached to allow a suppression of a non-suppressible warning.
+As part of the verification build, Visual Studio Code Analysis is executed in a configuration that treats warnings as errors. For unit test projects code most of the rules are suppressed so only missing warnings are expected. No CA warnings should be suppressed unless the documented conditions for suppression are satisfied. Otherwise, a documented agreement between at least two active developers of the project should be reached to allow a suppression of a non-suppressible warning.
 
 ## Pull requests ##
 
@@ -36,7 +36,7 @@ AutoFixture has been set up for Continuous Integration. The build is hosted on [
 The build process is implemented in the [`Build.fsx`](https://github.com/AutoFixture/AutoFixture/blob/master/Build.fsx) file using [FAKE](http://fsharp.github.io/FAKE/) and consists of four main steps:
 
 1. Compile all projects
-2. Run static analysis on all projects using [FxCop](https://en.wikipedia.org/wiki/FxCop)
+2. Run static analysis on all projects using [FxCop](https://en.wikipedia.org/wiki/FxCop) and [Roslyn Analyzers package](https://www.nuget.org/packages/Microsoft.CodeAnalysis.FxCopAnalyzers). 
 3. Run [all tests](https://ci.appveyor.com/project/AutoFixture/autofixture/build/tests)
 4. Create [NuGet packages](https://ci.appveyor.com/project/AutoFixture/autofixture/build/artifacts)
 
