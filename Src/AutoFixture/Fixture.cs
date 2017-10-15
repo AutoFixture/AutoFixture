@@ -381,6 +381,9 @@ namespace Ploeh.AutoFixture
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
+            if (context == null) throw new ArgumentNullException(nameof(context));
+
             return this.graph.Create(request, context);
         }
 
