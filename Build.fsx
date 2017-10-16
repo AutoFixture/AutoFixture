@@ -15,8 +15,6 @@ let nuGetOutputFolder = buildDir </> "NuGetPackages"
 let nuGetPackages = !! (nuGetOutputFolder </> "*.nupkg" )
                     // Skip symbol packages because NuGet publish symbols automatically when package is published
                     -- (nuGetOutputFolder </> "*.symbols.nupkg")
-                    // Currently AutoFakeItEasy2 has been deprecated and is not being published to the feeds.
-                    -- (nuGetOutputFolder </> "AutoFixture.AutoFakeItEasy2.*" )
 let solutionToBuild = "Src/All.sln"
 let configuration = getBuildParamOrDefault "BuildConfiguration" "Release"
 let bakFileExt = ".orig"
