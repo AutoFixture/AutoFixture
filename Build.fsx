@@ -18,8 +18,8 @@ let nuGetPackages = !! (nuGetOutputFolder </> "*.nupkg" )
 let solutionToBuild = "Src/All.sln"
 let configuration = getBuildParamOrDefault "BuildConfiguration" "Release"
 let bakFileExt = ".orig"
-let repositoryUrlOnGitHubSsh = "git@github.com:AutoFixture/AutoFixture.git"
-let repositoryUrlOnGitHubHttps = "https://github.com/AutoFixture/AutoFixture.git"
+let repositoryUrlsOnGitHub = [ "git@github.com:AutoFixture/AutoFixture.git"
+                               "https://github.com/AutoFixture/AutoFixture.git" ]
 
 type BuildVersionCalculationSource = { major: int; minor: int; revision: int; preSuffix: string; 
                                        commitsNum: int; sha: string; buildNumber: int }
@@ -190,19 +190,18 @@ let restoreNugetPackages() = runMsBuild "Restore" None []
 Target "RestoreNuGetPackages" (fun _ -> restoreNugetPackages())
 
 Target "EnableSourceLinkGeneration" (fun _ ->
-    let areNotEqual a b = String.Equals(a, b, StringComparison.OrdinalIgnoreCase) |> not
+    let areEqual a b = String.Equals(a, b, StringComparison.OrdinalIgnoreCase)
 
     // A set of sanity checks to fail with meaningful errors.
     let originUrl = Git.CommandHelper.runSimpleGitCommand "" "config --get remote.origin.url"
-    if ((areNotEqual originUrl repositoryUrlOnGitHubSsh) && (areNotEqual originUrl repositoryUrlOnGitHubHttps)) then
+    if (repositoryUrlsOnGitHub |> Seq.exists (areEqual originUrl) |> not) then
         failwithf 
-            "Current repository has invalid git origin URL and will produce correct SourceLink info. Expected: '%s' or '%s'. Current: '%s'."
-            repositoryUrlOnGitHubSsh
-            repositoryUrlOnGitHubHttps
+            "Current repository has invalid git origin URL and will produce incorrect SourceLink info. Current: '%s'. Expected any of: '[%s]'."
             originUrl
-    
+            (separated ", " repositoryUrlsOnGitHub)
+ 
     let lineEndingConversion = Git.CommandHelper.runSimpleGitCommand "" "config --get core.autocrlf"
-    if(areNotEqual lineEndingConversion "input") then
+    if(areEqual lineEndingConversion "input" |> not) then
         failwithf "For correct SourceLink work git line conversion should be set to 'input'. Current: '%s'." lineEndingConversion
 
     enableSourceLink <- true
