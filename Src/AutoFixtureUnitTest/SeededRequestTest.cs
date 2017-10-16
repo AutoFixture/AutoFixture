@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
+using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
-    [TestClass]
     public class SeededRequestTest
     {
-        [TestMethod]
+        [Fact]
         public void SeedIsCorrect()
         {
             // Fixture setup
@@ -17,22 +17,21 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Seed;
             // Verify outcome
-            Assert.AreEqual(expectedSeed, result, "Seed");
+            Assert.Equal(expectedSeed, result);
             // Teardown
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
+        [Fact]
         public void CreateWithNullRequestWillThrow()
         {
             // Fixture setup
-            // Exercise system
-            new SeededRequest(null, new object());
+            // Exercise system and verify outcome
+            Assert.Throws<ArgumentNullException>(() => new SeededRequest(null, new object()));
             // Verify outcome (expected exception)
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void RequestIsCorrect()
         {
             // Fixture setup
@@ -41,22 +40,22 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Request;
             // Verify outcome
-            Assert.AreEqual(expectedRequest, result, "Request");
+            Assert.Equal(expectedRequest, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutIsEquatable()
         {
             // Fixture setup
             // Exercise system
             var sut = new SeededRequest(typeof(decimal), 1);
             // Verify outcome
-            Assert.IsInstanceOfType(sut, typeof(IEquatable<SeededRequest>));
+            Assert.IsAssignableFrom<IEquatable<SeededRequest>>(sut);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualNullObject()
         {
             // Fixture setup
@@ -65,11 +64,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualNullSut()
         {
             // Fixture setup
@@ -78,24 +77,24 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualAnonymousObject()
         {
             // Fixture setup
             var sut = new SeededRequest(new object(), "Anonymous value");
-            object anonymousObject = new FileStyleUriParser();
+            object anonymousObject = new int[0];
             // Exercise system
             var result = sut.Equals(anonymousObject);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualOtherObjectWhenRequestsDiffer()
         {
             // Fixture setup
@@ -105,11 +104,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualOtherSutWhenRequestsDiffer()
         {
             // Fixture setup
@@ -119,11 +118,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualOtherObjectWhenSeedsDiffer()
         {
             // Fixture setup
@@ -133,11 +132,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualOtherSutWhenSeedsDiffer()
         {
             // Fixture setup
@@ -147,11 +146,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualOtherObjectWhenSutSeedIsNull()
         {
             // Fixture setup
@@ -161,11 +160,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualOtherSutWhenSutSeedIsNull()
         {
             // Fixture setup
@@ -175,69 +174,69 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualOtherObjectWhenOtherSeedIsNull()
         {
             // Fixture setup
             var anonymousRequest = typeof(Buffer);
-            var sut = new SeededRequest(anonymousRequest, new GopherStyleUriParser());
+            var sut = new SeededRequest(anonymousRequest, new object());
             object other = new SeededRequest(anonymousRequest, null);
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutDoesNotEqualOtherSutWhenOtherSeedIsNull()
         {
             // Fixture setup
             var anonymousRequest = typeof(Buffer);
-            var sut = new SeededRequest(anonymousRequest, new GopherStyleUriParser());
+            var sut = new SeededRequest(anonymousRequest, new object());
             var other = new SeededRequest(anonymousRequest, null);
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsFalse(result, "Equals");
+            Assert.False(result, "Equals");
             // Teardown
         }
 
-        [TestMethod]
-        public void SutEqualsOtherObjectWhenRequestAndSeedEquals()
+        [Fact]
+        public void SutEqualsOtherSutWhenRequestAndSeedEquals()
         {
             // Fixture setup
-            var request = typeof(HttpStyleUriParser);
-            var seed = new OperatingSystem(PlatformID.WinCE, new Version());
+            var request = typeof(object);
+            var seed = new ConcreteType();
             var sut = new SeededRequest(request, seed);
             object other = new SeededRequest(request, seed);
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutEqualsOtherSutWhenRequestsAndSeedEquals()
         {
             // Fixture setup
-            var request = typeof(HttpStyleUriParser);
-            var seed = new OperatingSystem(PlatformID.WinCE, new Version());
+            var request = typeof(object);
+            var seed = new ConcreteType();
             var sut = new SeededRequest(request, seed);
             var other = new SeededRequest(request, seed);
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutEqualsOtherObjectWhenRequestsAreEqualAndSeedsAreNull()
         {
             // Fixture setup
@@ -247,11 +246,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void SutEqualsOtherSutWhenRequestsAreEqualAndSeedsAreNull()
         {
             // Fixture setup
@@ -261,11 +260,11 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.Equals(other);
             // Verify outcome
-            Assert.IsTrue(result, "Equals");
+            Assert.True(result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetHashCodeWillReturnCorrectResultWhenSeedIsNull()
         {
             // Fixture setup
@@ -275,22 +274,22 @@ namespace Ploeh.AutoFixtureUnitTest
             // Exercise system
             var result = sut.GetHashCode();
             // Verify outcome
-            Assert.AreEqual(expectedHashCode, result, "GetHashCode");
+            Assert.Equal(expectedHashCode, result);
             // Teardown
         }
 
-        [TestMethod]
+        [Fact]
         public void GetHashCodeWillReturnCorrectResult()
         {
             // Fixture setup
-            var request = typeof(NetPipeStyleUriParser);
+            var request = typeof(object);
             var value = Missing.Value;
             var sut = new SeededRequest(request, value);
             var expectedHashCode = request.GetHashCode() ^ value.GetHashCode();
             // Exercise system
             var result = sut.GetHashCode();
             // Verify outcome
-            Assert.AreEqual(expectedHashCode, result, "GetHashCode");
+            Assert.Equal(expectedHashCode, result);
             // Teardown
         }
     }
