@@ -13,7 +13,7 @@ let buildToolsDir = buildDir </> "tools"
 let testResultsFolder = buildDir </> "TestResults" |> FullName
 let nuGetOutputFolder = buildDir </> "NuGetPackages"
 let nuGetPackages = !! (nuGetOutputFolder </> "*.nupkg" )
-                    // Skip symbol packages because NuGet publish symbols automatically when package is published
+                    // Skip symbol packages because NuGet publish symbols automatically when package is published.
                     -- (nuGetOutputFolder </> "*.symbols.nupkg")
 let solutionToBuild = "Src/All.sln"
 let configuration = getBuildParamOrDefault "BuildConfiguration" "Release"
@@ -25,7 +25,7 @@ type BuildVersionCalculationSource = { major: int; minor: int; revision: int; pr
                                        commitsNum: int; sha: string; buildNumber: int }
 let getVersionSourceFromGit buildNumber =
     // The --fist-parent flag is required to correctly work for vNext branch.
-    // Example of output for a release tag: v3.50.2-288-g64fd5c5b, for a prerelease tag: v3.50.2-alpha1-288-g64fd5c5b
+    // Example of output for a release tag: v3.50.2-288-g64fd5c5b, for a prerelease tag: v3.50.2-alpha1-288-g64fd5c5b.
     let desc = Git.CommandHelper.runSimpleGitCommand "" "describe --tags --long --abbrev=40 --first-parent --match=v*"
 
     // Previously repository contained a few broken tags like "v.3.21.1". They were removed, but could still exist
@@ -89,15 +89,15 @@ let mutable buildVersion = match getBuildParamOrDefault "BuildVersion" "git" wit
 let setVNextBranchVersion vNextVersion =
     buildVersion <-
         match buildVersion.source with
-        // Don't update version if it was explicitly specified
+        // Don't update version if it was explicitly specified.
         | None                                -> buildVersion
-        // Don't update version if tag with current major version is already present (e.g. rc is released)
+        // Don't update version if tag with current major version is already present (e.g. rc is released).
         | Some s when s.major >= vNextVersion -> buildVersion
         | Some source                         -> 
             // The trick is the "git describe" command contains the --first-parent flag.
             // Because of that git matched the last release tag before the fork was created and calculated number
             // of commits since that release. We are perfectly fine, as this number will constantly increase only.
-            // Set version to X.0.0-alpha.NUM, where X - major version, NUM - commits since last release before fork
+            // Set version to X.0.0-alpha.NUM, where X - major version, NUM - commits since last release before fork.
             { source with major = vNextVersion
                           minor = 0
                           revision = 0
@@ -118,7 +118,7 @@ Target "PatchAssemblyVersions" (fun _ ->
     let filesToPatch = !! "Src/*/Properties/AssemblyInfo.fs"
                        -- addBakExt "Src/*/Properties/*"
     
-    // Backup the original file versions
+    // Backup the original file versions.
     filesToPatch
     |> Seq.iter (fun f ->
         let bakFilePath = addBakExt f
@@ -230,7 +230,7 @@ Target "TestOnly" (fun _ ->
                                           |> getTestAssemblies "*"
                                           |> Seq.except xUnitCoreAppAssemblies
 
-    // Run xUnit desktop tests
+    // Run xUnit desktop tests.
     xUnitDesktopFrameworkAssemblies
     // A bit hacky way to pass custom parameter to xUnit, but it works.
     |> (fun s -> Seq.append s [ "-noautoreporters" ])
@@ -238,7 +238,7 @@ Target "TestOnly" (fun _ ->
                                  XmlOutputPath = testResultsFolder </> "xunit-desktop.xml" |> FullName |> Some
                                  Parallel = Collections })
 
-    // Run xUnit .NET Core tests
+    // Run xUnit .NET Core tests.
     DotNetCli.RunCommand id 
                          (sprintf "exec \"%s\" %s -xml \"%s\" -noautoreporters"
                                   (buildToolsDir </> "xunit.runner.console/tools/netcoreapp2.0/xunit.console.dll")
@@ -279,7 +279,7 @@ Target "NuGetPack" (fun _ ->
     // Restore again immediately before the pack to ensure that version is correct for sure.
     restoreNugetPackages()
 
-    // Pack projects using MSBuild
+    // Pack projects using MSBuild.
     runMsBuild "Pack" (Some configuration) [ "IncludeSource", "true"
                                              "IncludeSymbols", "true"
                                              "PackageOutputPath", FullName nuGetOutputFolder
@@ -358,7 +358,7 @@ Target "PublishNuGetAll" DoNothing
 // ================== AppVeyor ==================
 // ==============================================
 
-// Add helper to identify whether current trigger is PR
+// Add a helper to identify whether current trigger is PR.
 type AppVeyorEnvironment with
     static member IsPullRequest = isNotNullOrEmpty AppVeyorEnvironment.PullRequestNumber
 
@@ -376,7 +376,7 @@ let anAppVeyorTrigger =
     | _, _, Some br when "v\d+" >** br -> VNextBranch
     | _                                -> Unknown
 
-// Print state info at the very beginning
+// Print state info at the very beginning.
 if buildServer = BuildServer.AppVeyor 
    then logfn "[AppVeyor state] Is tag: %b, tag name: '%s', is PR: %b, branch name: '%s', trigger: %A"
               AppVeyorEnvironment.RepoTag 
@@ -386,7 +386,7 @@ if buildServer = BuildServer.AppVeyor
               anAppVeyorTrigger
 
 Target "AppVeyor_SetVNextVersion" (fun _ ->
-    // vNext branch has the following name: "vX", where X is the next version
+    // vNext branch has the following name: "vX", where X is the next version.
     AppVeyorEnvironment.RepoBranch.Substring(1) 
     |> int
     |> setVNextBranchVersion
@@ -410,7 +410,7 @@ Target "AppVeyor_UploadTestReports" (fun _ ->
 )
 
 Target "AppVeyor" (fun _ ->
-    //Artifacts might be deployable, so we update build version to find them later by file version
+    // Artifacts might be deployable, so we update build version to find them later by file version.
     if not AppVeyorEnvironment.IsPullRequest then UpdateBuildVersion buildVersion.fileVersion
 )
 
@@ -420,7 +420,7 @@ Target "AppVeyor" (fun _ ->
 
 "AppVeyor_UploadTestReports" ?=> "Test"
 
-// Add logic to resolve action based on current trigger info
+// Add logic to resolve action based on current trigger info.
 dependency "AppVeyor" <| match anAppVeyorTrigger with
                          | SemVerTag                -> "PublishNuGetPublic"
                          | VNextBranch              -> "PublishNuGetPrivate"
