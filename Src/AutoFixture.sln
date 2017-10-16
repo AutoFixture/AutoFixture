@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixtureDocumentationTes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTypeFoundation", "TestTypeFoundation\TestTypeFoundation.csproj", "{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.SeedExtensions", "AutoFixture.SeedExtensions\AutoFixture.SeedExtensions.csproj", "{6DE9882E-2F70-4890-9F87-0E17124FD677}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixture.SeedExtensions.UnitTest", "AutoFixture.SeedExtensions.UnitTest\AutoFixture.SeedExtensions.UnitTest.csproj", "{87AF9B70-8F59-44F3-90C2-EC41D93469EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +46,18 @@ Global
 		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
 		{7FF65787-F462-4204-BB9D-60B0D1BB6CC1}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{6DE9882E-2F70-4890-9F87-0E17124FD677}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DE9882E-2F70-4890-9F87-0E17124FD677}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DE9882E-2F70-4890-9F87-0E17124FD677}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DE9882E-2F70-4890-9F87-0E17124FD677}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DE9882E-2F70-4890-9F87-0E17124FD677}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{6DE9882E-2F70-4890-9F87-0E17124FD677}.Verify|Any CPU.Build.0 = Verify|Any CPU
+		{87AF9B70-8F59-44F3-90C2-EC41D93469EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87AF9B70-8F59-44F3-90C2-EC41D93469EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87AF9B70-8F59-44F3-90C2-EC41D93469EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87AF9B70-8F59-44F3-90C2-EC41D93469EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87AF9B70-8F59-44F3-90C2-EC41D93469EA}.Verify|Any CPU.ActiveCfg = Verify|Any CPU
+		{87AF9B70-8F59-44F3-90C2-EC41D93469EA}.Verify|Any CPU.Build.0 = Verify|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

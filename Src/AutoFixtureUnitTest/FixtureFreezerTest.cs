@@ -25,17 +25,6 @@ namespace Ploeh.AutoFixtureUnitTest
         }
 
         [Fact]
-        public void FreezeSeededWithNullFixtureThrows()
-        {
-            // Fixture setup
-            var dummySeed = new object();
-            // Exercise system and verify outcome
-            Assert.Throws<ArgumentNullException>(() =>
-                FixtureFreezer.Freeze<object>(null, dummySeed));
-            // Teardown
-        }
-
-        [Fact]
         public void FreezeCustomWithNullFixtureThrows()
         {
             // Fixture setup
