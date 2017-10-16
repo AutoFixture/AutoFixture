@@ -1,7 +1,7 @@
-﻿using Ploeh.AutoFixture;
+﻿using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
+namespace AutoFixtureDocumentationTest.Extension.Constraints
 {
     public class ObjectBuilderExtensionTest
     {

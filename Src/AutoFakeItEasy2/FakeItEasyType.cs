@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using FakeItEasy;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy2
+namespace AutoFixture.AutoFakeItEasy2
 {
     internal static class FakeItEasyType
     {

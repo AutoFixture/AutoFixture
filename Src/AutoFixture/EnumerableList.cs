@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     internal static class EnumerableList
     {

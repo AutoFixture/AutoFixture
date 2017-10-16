@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.NUnit2.Addins
+namespace AutoFixture.NUnit2.Addins
 {
     /// <summary>
     /// Abstract attribute which represents a testcase provider for a testcase.

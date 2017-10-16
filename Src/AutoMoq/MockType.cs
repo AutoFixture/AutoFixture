@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using AutoFixture.Kernel;
 using Moq;
 using Moq.Language;
 using Moq.Language.Flow;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoMoq
+namespace AutoFixture.AutoMoq
 {
     /// <summary>
     /// Contains extension methods to manipulate/setup instances of <see cref="Mock{T}"/>.

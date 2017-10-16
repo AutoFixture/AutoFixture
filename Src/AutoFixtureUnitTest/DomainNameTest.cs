@@ -1,8 +1,8 @@
-﻿using Ploeh.AutoFixture;
-using System;
+﻿using System;
+using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class DomainNameTest
     {

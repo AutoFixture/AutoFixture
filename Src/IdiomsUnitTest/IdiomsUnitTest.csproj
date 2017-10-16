@@ -6,8 +6,8 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netcoreapp2.0</TargetFrameworks>
     <AssemblyTitle>IdiomsUnitTest</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.IdiomsUnitTest</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.IdiomsUnitTest</RootNamespace>
+    <AssemblyName>AutoFixture.IdiomsUnitTest</AssemblyName>
+    <RootNamespace>AutoFixture.IdiomsUnitTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,10 +1,10 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using NUnit.Framework;
-using Ploeh.TestTypeFoundation;
-using System.ComponentModel.DataAnnotations;
+using TestTypeFoundation;
 
-namespace Ploeh.AutoFixture.NUnit2.UnitTest
+namespace AutoFixture.NUnit2.UnitTest
 {
     [TestFixture]
     public class Scenario

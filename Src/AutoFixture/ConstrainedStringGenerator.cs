@@ -1,8 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
 using System.Text;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates a constrained string.

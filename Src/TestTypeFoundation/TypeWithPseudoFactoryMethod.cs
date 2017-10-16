@@ -1,4 +1,4 @@
-﻿namespace Ploeh.TestTypeFoundation
+﻿namespace TestTypeFoundation
 {
     /// <summary>
     /// This type contains a method that returns an instance of the same type 

@@ -4,8 +4,8 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard1.6</TargetFrameworks>
     <AssemblyTitle>AutoFakeItEasy</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.AutoFakeItEasy</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.AutoFakeItEasy</RootNamespace>
+    <AssemblyName>AutoFixture.AutoFakeItEasy</AssemblyName>
+    <RootNamespace>AutoFixture.AutoFakeItEasy</RootNamespace>
     <Copyright>Copyright © Ploeh 2011</Copyright>
 
     <!-- NuGet options -->

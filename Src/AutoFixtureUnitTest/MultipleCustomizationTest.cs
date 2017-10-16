@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class MultipleCustomizationTest
     {

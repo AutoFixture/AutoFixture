@@ -32,7 +32,7 @@
 
 using System.Collections.Generic;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     internal sealed class TransitionComparer : IComparer<Transition>
     {

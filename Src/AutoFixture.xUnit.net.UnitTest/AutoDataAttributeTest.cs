@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.Xunit.UnitTest
+namespace AutoFixture.Xunit.UnitTest
 {
     public class AutoDataAttributeTest
     {
@@ -262,7 +262,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
 
         private class TypeWithIParameterCustomizationSourceUsage
         {
-            public void DecoratedMethod([CustomizationSourceAttribute] int arg)
+            public void DecoratedMethod([CustomizationSource] int arg)
             {
             }
 

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reflection;
-using Ploeh.AutoFixture.Idioms;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Idioms;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class EqualsSuccessiveAssertionTest
     {
@@ -106,7 +106,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
 
             public override bool Equals(object obj)
             {
-                return (++equalsCallCount % 2 == 0);
+                return (++this.equalsCallCount % 2 == 0);
             }
         }
 #pragma warning restore 659

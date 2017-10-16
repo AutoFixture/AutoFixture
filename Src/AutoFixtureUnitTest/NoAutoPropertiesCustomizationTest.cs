@@ -1,10 +1,9 @@
-﻿
+﻿using System;
+using AutoFixture;
+using TestTypeFoundation;
 using Xunit;
-using Ploeh.AutoFixture;
-using System;
-using Ploeh.TestTypeFoundation;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class NoAutoPropertiesCustomizationTest
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Selects public static methods that has the same parameters of another method,
@@ -100,8 +100,8 @@ namespace Ploeh.AutoFixture.Kernel
                    where methodParameters.All(p =>
                        p.Position >= templateParameters.Length ?
                            p.IsOptional || p.IsDefined(typeof(ParamArrayAttribute), true) :
-                           Compare(p.ParameterType, templateParameters[p.Position].ParameterType))
-                   select new GenericMethod(method, GetMethodFactory(method));
+                           this.Compare(p.ParameterType, templateParameters[p.Position].ParameterType))
+                   select new GenericMethod(method, this.GetMethodFactory(method));
         }
 
         private IMethodFactory GetMethodFactory(MethodInfo method)
@@ -127,7 +127,7 @@ namespace Ploeh.AutoFixture.Kernel
             if (genericArguments.Length == 0 || genericArguments.Length != templateGenericArguments.Length)
                 return false;
 
-            return genericArguments.Zip(templateGenericArguments, Compare).All(x => x);
+            return genericArguments.Zip(templateGenericArguments, this.Compare).All(x => x);
         }
 
         private static Type[] GetTypeArguments(Type type)

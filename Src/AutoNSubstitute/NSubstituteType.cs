@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using NSubstitute;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     internal static class NSubstituteType
     {

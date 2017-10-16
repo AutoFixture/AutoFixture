@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
+namespace AutoFixtureDocumentationTest.Extension.Constraints
 {
     public class ConstrainedStringGeneratorTest
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace Ploeh.AutoFixture.Xunit.UnitTest
+namespace AutoFixture.Xunit.UnitTest
 {
     public class CustomizeAttributeTest
     {

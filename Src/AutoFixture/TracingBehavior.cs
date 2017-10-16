@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Decorates an <see cref="ISpecimenBuilder"/> with a <see cref="TraceWriter"/> to enable

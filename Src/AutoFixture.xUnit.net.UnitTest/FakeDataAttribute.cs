@@ -5,7 +5,7 @@ using System.Reflection;
 using Xunit;
 using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.Xunit.UnitTest
+namespace AutoFixture.Xunit.UnitTest
 {
     public class FakeDataAttribute : DataAttribute
     {

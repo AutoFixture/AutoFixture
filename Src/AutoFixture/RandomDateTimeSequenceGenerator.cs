@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates random <see cref="DateTime"/> specimens.

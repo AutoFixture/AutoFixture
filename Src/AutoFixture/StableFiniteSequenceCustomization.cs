@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// A customization that makes sequences (i.e. <see cref="IEnumerable{T}" /> stable instead of

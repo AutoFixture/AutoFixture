@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.Idioms.FsCheckUnitTest
+﻿namespace AutoFixture.Idioms.FsCheckUnitTest
 
 open System
 

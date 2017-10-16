@@ -1,10 +1,10 @@
-﻿namespace Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
 {
     public class TypeWithPropertyWithPrivateSetter
     {
         public TypeWithPropertyWithPrivateSetter()
         {
-            PropertyWithPrivateSetter = "Awesome string";
+            this.PropertyWithPrivateSetter = "Awesome string";
         }
 
         public string PropertyWithPrivateSetter { get; private set; }

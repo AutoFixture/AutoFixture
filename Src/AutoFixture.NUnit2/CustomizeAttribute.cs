@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.NUnit2
+namespace AutoFixture.NUnit2
 {
     /// <summary>
     /// Base class for customizing parameters in methods decorated with

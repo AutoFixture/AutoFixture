@@ -1,4 +1,4 @@
-﻿namespace Ploeh.TestTypeFoundation
+﻿namespace TestTypeFoundation
 {
     public class TripleParameterType<T1, T2, T3>
     {

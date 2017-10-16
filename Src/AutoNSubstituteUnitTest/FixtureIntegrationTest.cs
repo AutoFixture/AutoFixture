@@ -2,12 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AutoFixture.Kernel;
 using NSubstitute;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
+namespace AutoFixture.AutoNSubstitute.UnitTest
 {
     public class FixtureIntegrationTest
     {

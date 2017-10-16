@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Assigns a value to a property.

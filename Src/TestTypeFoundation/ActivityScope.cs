@@ -1,6 +1,6 @@
 using System;
 
-namespace Ploeh.TestTypeFoundation
+namespace TestTypeFoundation
 {
     [Flags]
     public enum ActivityScope : long

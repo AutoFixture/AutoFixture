@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.AutoNSubstitute.CustomCallHandler
+﻿namespace AutoFixture.AutoNSubstitute.CustomCallHandler
 {
     /// <inheritdoc />
     public class CallResultCacheFactory : ICallResultCacheFactory

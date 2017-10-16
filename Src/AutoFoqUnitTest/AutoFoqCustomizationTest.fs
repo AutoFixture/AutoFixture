@@ -1,10 +1,10 @@
-﻿module Ploeh.AutoFixture.AutoFoq.UnitTest.AutoFoqCustomizationTest
+﻿module AutoFixture.AutoFoq.UnitTest.AutoFoqCustomizationTest
 
 open Foq
-open Ploeh.AutoFixture
-open Ploeh.AutoFixture.AutoFoq
-open Ploeh.AutoFixture.AutoFoq.UnitTest.TestDsl
-open Ploeh.AutoFixture.Kernel
+open AutoFixture
+open AutoFixture.AutoFoq
+open AutoFixture.AutoFoq.UnitTest.TestDsl
+open AutoFixture.Kernel
 open Swensen.Unquote.Assertions
 open Xunit
 open System

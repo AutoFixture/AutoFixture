@@ -1,9 +1,9 @@
-﻿using Ploeh.AutoFixture.Kernel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.NUnit3
+namespace AutoFixture.NUnit3
 {
     /// <summary>
     /// An attribute that can be applied to parameters in an <see cref="AutoDataAttribute"/>-driven
@@ -46,7 +46,7 @@ namespace Ploeh.AutoFixture.NUnit3
         /// </summary>
         public Matching By
         {
-            get { return by; }
+            get { return this.@by; }
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Ploeh.AutoFixture.NUnit3
                 throw new ArgumentNullException("parameter");
             }
 
-            return FreezeByCriteria(parameter);
+            return this.FreezeByCriteria(parameter);
         }
 
         private ICustomization FreezeByCriteria(ParameterInfo parameter)
@@ -78,12 +78,12 @@ namespace Ploeh.AutoFixture.NUnit3
             var name = parameter.Name;
 
             var filter = new Filter(ByEqual(parameter))
-                .Or(ByExactType(type))
-                .Or(ByBaseType(type))
-                .Or(ByImplementedInterfaces(type))
-                .Or(ByPropertyName(type, name))
-                .Or(ByParameterName(type, name))
-                .Or(ByFieldName(type, name));
+                .Or(this.ByExactType(type))
+                .Or(this.ByBaseType(type))
+                .Or(this.ByImplementedInterfaces(type))
+                .Or(this.ByPropertyName(type, name))
+                .Or(this.ByParameterName(type, name))
+                .Or(this.ByFieldName(type, name));
 
             return new FreezeOnMatchCustomization(parameter, filter);
         }
@@ -95,7 +95,7 @@ namespace Ploeh.AutoFixture.NUnit3
 
         private IRequestSpecification ByExactType(Type type)
         {
-            return ShouldMatchBy(Matching.ExactType)
+            return this.ShouldMatchBy(Matching.ExactType)
                 ? new OrRequestSpecification(
                     new ExactTypeSpecification(type),
                     new SeedRequestSpecification(type))
@@ -104,7 +104,7 @@ namespace Ploeh.AutoFixture.NUnit3
 
         private IRequestSpecification ByBaseType(Type type)
         {
-            return ShouldMatchBy(Matching.DirectBaseType)
+            return this.ShouldMatchBy(Matching.DirectBaseType)
                 ? new AndRequestSpecification(
                     new InverseRequestSpecification(
                         new ExactTypeSpecification(type)),
@@ -114,7 +114,7 @@ namespace Ploeh.AutoFixture.NUnit3
 
         private IRequestSpecification ByImplementedInterfaces(Type type)
         {
-            return ShouldMatchBy(Matching.ImplementedInterfaces)
+            return this.ShouldMatchBy(Matching.ImplementedInterfaces)
                 ? new AndRequestSpecification(
                     new InverseRequestSpecification(
                         new ExactTypeSpecification(type)),
@@ -124,7 +124,7 @@ namespace Ploeh.AutoFixture.NUnit3
 
         private IRequestSpecification ByParameterName(Type type, string name)
         {
-            return ShouldMatchBy(Matching.ParameterName)
+            return this.ShouldMatchBy(Matching.ParameterName)
                 ? new ParameterSpecification(
                     new ParameterTypeAndNameCriterion(
                         DerivesFrom(type),
@@ -134,7 +134,7 @@ namespace Ploeh.AutoFixture.NUnit3
 
         private IRequestSpecification ByPropertyName(Type type, string name)
         {
-            return ShouldMatchBy(Matching.PropertyName)
+            return this.ShouldMatchBy(Matching.PropertyName)
                 ? new PropertySpecification(
                     new PropertyTypeAndNameCriterion(
                         DerivesFrom(type),
@@ -144,7 +144,7 @@ namespace Ploeh.AutoFixture.NUnit3
 
         private IRequestSpecification ByFieldName(Type type, string name)
         {
-            return ShouldMatchBy(Matching.FieldName)
+            return this.ShouldMatchBy(Matching.FieldName)
                 ? new FieldSpecification(
                     new FieldTypeAndNameCriterion(
                         DerivesFrom(type),

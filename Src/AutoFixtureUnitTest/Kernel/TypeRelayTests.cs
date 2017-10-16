@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using AutoFixture;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Ploeh.AutoFixture.Kernel;
-using Xunit.Extensions;
-using Ploeh.AutoFixture;
-using Ploeh.TestTypeFoundation;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class TypeRelayTests
     {

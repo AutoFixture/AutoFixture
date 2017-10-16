@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Ploeh.AutoFixture.Dsl;
+using AutoFixture.Dsl;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Extension.Constraints
+namespace AutoFixtureDocumentationTest.Extension.Constraints
 {
     public static class ObjectBuilderExtension
     {

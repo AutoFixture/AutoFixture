@@ -5,9 +5,7 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard1.2</TargetFrameworks>
     <AssemblyTitle>TestTypeFoundation</AssemblyTitle>
-    <AssemblyName>Ploeh.TestTypeFoundation</AssemblyName>
-    <RootNamespace>Ploeh.TestTypeFoundation</RootNamespace>
-    <IsPackable>false</IsPackable>
+    <AssemblyName>TestTypeFoundation</AssemblyName>
   </PropertyGroup>
  
 </Project>

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.NUnit2.Addins;
+using AutoFixture.NUnit2.Addins;
 
-namespace Ploeh.AutoFixture.NUnit2
+namespace AutoFixture.NUnit2
 {
     /// <summary>
     /// An implementation of TestCaseDataAttribute that composes other TestCaseDataAttribute instances.
@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture.NUnit2
                 throw new ArgumentNullException("attributes");
             }
 
-            _attributes = attributes;
+            this._attributes = attributes;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixture.NUnit2
         /// </summary>
         public IEnumerable<DataAttribute> Attributes
         {
-            get { return _attributes; }
+            get { return this._attributes; }
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Ploeh.AutoFixture.NUnit2
 
             do
             {
-                foreach (var attribute in _attributes)
+                foreach (var attribute in this._attributes)
                 {
                     var attributeData = attribute.GetData(method).ToArray();
 

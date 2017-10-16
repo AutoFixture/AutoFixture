@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Reflection;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Relays a request for <see cref="IEnumerator{T}" /> to 

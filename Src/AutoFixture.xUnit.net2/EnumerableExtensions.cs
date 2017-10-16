@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ploeh.AutoFixture.Xunit2
+namespace AutoFixture.Xunit2
 {
     internal static class EnumerableExtensions
     {

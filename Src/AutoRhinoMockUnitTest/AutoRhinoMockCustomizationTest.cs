@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Rhino.Mocks;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
+namespace AutoFixture.AutoRhinoMock.UnitTest
 {
     public class AutoRhinoMockCustomizationTest
     {

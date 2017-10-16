@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
 {
     public class TypeWithPrivateField
     {
@@ -11,7 +6,7 @@ namespace Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes
 
         public string GetPrivateField()
         {
-            return field;
+            return this.field;
         }
     }
 }

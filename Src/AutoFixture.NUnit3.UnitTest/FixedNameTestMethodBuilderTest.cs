@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
-using NUnit.Framework.Internal;
-using System;
+﻿using System;
 using System.Linq;
+using NUnit.Framework;
+using NUnit.Framework.Internal;
 
-namespace Ploeh.AutoFixture.NUnit3.UnitTest
+namespace AutoFixture.NUnit3.UnitTest
 {
     public class FixedNameTestMethodBuilderTest
     {

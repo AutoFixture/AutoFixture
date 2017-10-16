@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates new <see langword="struct"/>.
@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixture
         /// </summary>
         public MutableValueTypeGenerator()
         {
-            valueTypeWithoutConstructorsSpecification = new AndRequestSpecification(new ValueTypeSpecification(),
+            this.valueTypeWithoutConstructorsSpecification = new AndRequestSpecification(new ValueTypeSpecification(),
                                                                                     new NoConstructorsSpecification());
 
         }
@@ -31,7 +31,7 @@ namespace Ploeh.AutoFixture
         public object Create(object request, ISpecimenContext context)
         {
             Type type = request as Type;
-            if (type == null || !valueTypeWithoutConstructorsSpecification.IsSatisfiedBy(type))
+            if (type == null || !this.valueTypeWithoutConstructorsSpecification.IsSatisfiedBy(type))
             {
                 return new NoSpecimen();
             }

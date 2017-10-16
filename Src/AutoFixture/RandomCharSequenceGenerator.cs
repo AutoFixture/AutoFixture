@@ -1,8 +1,8 @@
-﻿using Ploeh.AutoFixture.Kernel;
-using System;
+﻿using System;
 using System.Globalization;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates a sequence of random printable ASCII characters (Dec 33-126).

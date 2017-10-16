@@ -1,10 +1,7 @@
-﻿using Ploeh.AutoFixture.Kernel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates new <see cref="EmailAddressLocalPart"/> instances.

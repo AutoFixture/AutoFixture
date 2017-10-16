@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Ploeh.AutoFixture.Xunit;
-using Ploeh.TestTypeFoundation;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Xunit.UnitTest
+namespace AutoFixture.Xunit.UnitTest
 {
     public class FavorListsAttributeTest
     {

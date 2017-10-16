@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.Idioms.FsCheck
+﻿namespace AutoFixture.Idioms.FsCheck
 
 open FsCheck
 open FsCheck.Fluent
@@ -35,7 +35,7 @@ module internal FsCheckInvoker =
         try
             Assembly
                 .GetExecutingAssembly()
-                .GetType("Ploeh.AutoFixture.Idioms.FsCheck.FsCheckInvoker")
+                .GetType("AutoFixture.Idioms.FsCheck.FsCheckInvoker")
                 .GetMethod(
                     "Invoke",
                     BindingFlags.Static ||| BindingFlags.NonPublic)

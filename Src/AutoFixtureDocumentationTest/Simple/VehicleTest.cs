@@ -1,7 +1,7 @@
-﻿using Ploeh.AutoFixture;
+﻿using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Simple
+namespace AutoFixtureDocumentationTest.Simple
 {
     public class VehicleTest
     {

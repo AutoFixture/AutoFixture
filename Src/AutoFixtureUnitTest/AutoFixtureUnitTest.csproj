@@ -6,22 +6,8 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netcoreapp1.1</TargetFrameworks>
     <AssemblyTitle>AutoFixtureUnitTest</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixtureUnitTest</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixtureUnitTest</RootNamespace>
+    <AssemblyName>AutoFixtureUnitTest</AssemblyName>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="CompositeSpecimenBuilderTest.cs" />
-    <Compile Remove="DefaultSpecimenContainerTest.cs" />
-    <Compile Remove="DelegatingSpecimenBuilder.cs" />
-    <Compile Remove="DelegatingSpecimenContainer.cs" />
-    <Compile Remove="InstanceGeneratorTest.cs" />
-    <Compile Remove="ModestConstructorInvokerTest.cs" />
-    <Compile Remove="ParameterRequestTranslatorTest.cs" />
-    <Compile Remove="SeededRequestTest.cs" />
-    <Compile Remove="SeedTest.cs" />
-    <Compile Remove="ValueIgnoringSeedUnwrapperTest.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AutoFixture\AutoFixture.csproj" />

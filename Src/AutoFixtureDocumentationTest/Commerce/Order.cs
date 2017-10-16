@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Commerce
+namespace AutoFixtureDocumentationTest.Commerce
 {
     public class Order
     {

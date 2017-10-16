@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates a strictly increasing sequence of ranged numbers, starting at range minimum.  

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Represents a domain name.

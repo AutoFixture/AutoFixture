@@ -32,7 +32,7 @@
 
 using System;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// Pair of states.
@@ -127,7 +127,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 return true;
             }
 
-            return object.Equals(other.S, S)
+            return object.Equals(other.S, this.S)
                 && object.Equals(other.FirstState, this.FirstState)
                 && object.Equals(other.SecondState, this.SecondState);
         }
@@ -176,7 +176,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         {
             unchecked
             {
-                int result = (S != null ? S.GetHashCode() : 0);
+                int result = (this.S != null ? this.S.GetHashCode() : 0);
                 result = (result * 397) ^ (this.FirstState != null ? this.FirstState.GetHashCode() : 0);
                 result = (result * 397) ^ (this.SecondState != null ? this.SecondState.GetHashCode() : 0);
                 return result;

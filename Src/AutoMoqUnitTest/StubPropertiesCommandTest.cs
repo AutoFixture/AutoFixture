@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
+using AutoFixture.AutoMoq.UnitTest.TestTypes;
+using AutoFixture.Kernel;
 using Moq;
-using Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes;
-using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoMoq.UnitTest
+namespace AutoFixture.AutoMoq.UnitTest
 {
     public class StubPropertiesCommandTest
     {

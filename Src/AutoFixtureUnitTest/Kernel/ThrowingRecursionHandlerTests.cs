@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using AutoFixture;
+using AutoFixture.Kernel;
 using Xunit;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixture;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class ThrowingRecursionHandlerTests
     {

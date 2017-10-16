@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.Xunit
+namespace AutoFixture.Xunit
 {
     /// <summary>
     /// Provides a data source for a data theory, with the data coming from inline

@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
+using AutoFixture.Kernel;
 using NSubstitute.Core;
 using NSubstitute.Exceptions;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>
     /// Relays a request for an interface or an abstract class to a request for a substitute of that type.

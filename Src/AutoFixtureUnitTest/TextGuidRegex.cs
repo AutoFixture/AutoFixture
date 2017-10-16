@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     internal class TextGuidRegex : Regex
     {

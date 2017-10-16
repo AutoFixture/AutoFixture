@@ -6,8 +6,8 @@
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>Idioms.FsCheck.FsCheck1UnitTest</AssemblyTitle>
-    <AssemblyName>Ploeh.Idioms.FsCheck.FsCheck1UnitTest</AssemblyName>
-    <RootNamespace>Idioms.FsCheckUnitTest</RootNamespace>
+    <AssemblyName>Idioms.FsCheck.FsCheck1UnitTest</AssemblyName>
+    <RootNamespace>AutoFixture.Idioms.FsCheckUnitTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

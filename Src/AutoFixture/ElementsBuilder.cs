@@ -1,9 +1,9 @@
-﻿using Ploeh.AutoFixture.Kernel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Draws a random element from the given collection

@@ -6,8 +6,8 @@
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>AutoFixture.AutoFoq.UnitTest</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.AutoFoq.UnitTest</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.AutoFoq.UnitTest</RootNamespace>
+    <AssemblyName>AutoFixture.AutoFoq.UnitTest</AssemblyName>
+    <RootNamespace>AutoFixture.AutoFoq.UnitTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

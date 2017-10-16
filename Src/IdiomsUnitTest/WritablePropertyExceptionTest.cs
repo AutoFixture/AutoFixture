@@ -3,10 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
-using Ploeh.AutoFixture.Idioms;
+using AutoFixture.Idioms;
 using Xunit;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class WritablePropertyExceptionTest
     {

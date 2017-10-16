@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoNSubstitute.UnitTest.TestTypes
 {
     public abstract class TypeWithIndexer
     {
@@ -6,8 +6,8 @@
 
         public int this[int index]
         {
-            get { return array[index]; }
-            set { array[index] = value; }
+            get { return this.array[index]; }
+            set { this.array[index] = value; }
         }
     }
 }

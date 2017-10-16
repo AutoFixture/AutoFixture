@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
-using Ploeh.AutoFixture.Idioms;
+using AutoFixture.Idioms;
 using Xunit;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class ReflectionExceptionUnwrappingCommandTest
     {

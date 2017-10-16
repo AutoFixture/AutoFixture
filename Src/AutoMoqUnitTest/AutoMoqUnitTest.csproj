@@ -6,8 +6,8 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netcoreapp1.1</TargetFrameworks>
     <AssemblyTitle>AutoMoqUnitTest</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.AutoMoq.UnitTest</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.AutoMoq.UnitTest</RootNamespace>
+    <AssemblyName>AutoFixture.AutoMoq.UnitTest</AssemblyName>
+    <RootNamespace>AutoFixture.AutoMoq.UnitTest</RootNamespace>
 
     <!--  Suppress warning about invalid dependency version in Castle.Core.
           That is Moq dependency and we cannot fix that somehow. -->

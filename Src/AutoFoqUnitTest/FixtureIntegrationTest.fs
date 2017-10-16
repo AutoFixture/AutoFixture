@@ -1,10 +1,10 @@
-﻿module Ploeh.AutoFixture.AutoFoq.UnitTest.FixtureIntegrationTest
+﻿module AutoFixture.AutoFoq.UnitTest.FixtureIntegrationTest
 
-open Ploeh.AutoFixture
-open Ploeh.AutoFixture.AutoFoq
-open Ploeh.AutoFixture.AutoFoq.UnitTest.TestDsl
-open Ploeh.AutoFixture.Kernel
-open Ploeh.TestTypeFoundation
+open AutoFixture
+open AutoFixture.AutoFoq
+open AutoFixture.AutoFoq.UnitTest.TestDsl
+open AutoFixture.Kernel
+open TestTypeFoundation
 open System
 open System.Collections.Generic
 open Xunit

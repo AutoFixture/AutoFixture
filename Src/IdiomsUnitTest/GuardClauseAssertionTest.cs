@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.Idioms;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Idioms;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using System.Collections.ObjectModel;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class GuardClauseAssertionTest
     {
@@ -1011,7 +1011,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var e = Assert.Throws<ArgumentException>(() => sut.Verify(constructorInfo));
             Assert.Equal(
                 "Cannot create a dummy type because the base type " +
-                "'Ploeh.AutoFixture.IdiomsUnitTest.GuardClauseAssertionTest+NoAccessibleConstructorTestType' " +
+                "'AutoFixture.IdiomsUnitTest.GuardClauseAssertionTest+NoAccessibleConstructorTestType' " +
                 "does not have any accessible constructor.",
                 e.Message);
         }

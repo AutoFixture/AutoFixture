@@ -1,4 +1,4 @@
-﻿module internal Ploeh.AutoFixture.AutoFoq.FoqType
+﻿module internal AutoFixture.AutoFoq.FoqType
 
 open System
 open System.Reflection

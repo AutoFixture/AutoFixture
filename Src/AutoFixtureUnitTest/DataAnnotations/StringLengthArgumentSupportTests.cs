@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using Ploeh.AutoFixture;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
+namespace AutoFixtureUnitTest.DataAnnotations
 {
     public class StringLengthArgumentSupportTests
     {

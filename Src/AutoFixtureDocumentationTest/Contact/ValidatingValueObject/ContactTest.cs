@@ -1,7 +1,7 @@
-﻿using Ploeh.AutoFixture;
+﻿using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Contact.ValidatingValueObject
+namespace AutoFixtureDocumentationTest.Contact.ValidatingValueObject
 {
     public class ContactTest
     {

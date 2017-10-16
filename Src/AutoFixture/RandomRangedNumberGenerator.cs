@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Globalization;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates a random sequence for a given type within a given range without repeating in the range until 
@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture
 
             try
             {
-                return SelectGenerator(rangedNumberRequest).Create(rangedNumberRequest.OperandType, context);
+                return this.SelectGenerator(rangedNumberRequest).Create(rangedNumberRequest.OperandType, context);
             }
             catch (ArgumentException)
             {

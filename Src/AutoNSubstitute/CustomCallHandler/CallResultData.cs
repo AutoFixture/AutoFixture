@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NSubstitute.Core;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.CustomCallHandler
+namespace AutoFixture.AutoNSubstitute.CustomCallHandler
 {
     /// <summary>
     /// Storage for a single resolved call result.

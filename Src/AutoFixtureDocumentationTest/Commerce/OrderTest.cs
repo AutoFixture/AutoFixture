@@ -1,7 +1,7 @@
-﻿using Ploeh.AutoFixture;
+﻿using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Commerce
+namespace AutoFixtureDocumentationTest.Commerce
 {
     public class OrderTest
     {

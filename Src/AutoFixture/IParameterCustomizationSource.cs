@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     ///     Source of the <see cref="ICustomization" /> instances specific for the particular

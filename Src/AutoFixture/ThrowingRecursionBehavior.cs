@@ -1,8 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
-using System.Collections.Generic;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Decorates a <see cref="ISpecimenBuilder"/> with a <see cref="RecursionGuard"/> with <see cref="ThrowingRecursionHandler"/>.

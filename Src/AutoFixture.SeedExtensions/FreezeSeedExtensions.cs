@@ -1,8 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Dsl;
-using Ploeh.AutoFixture.Kernel;
 
 namespace AutoFixture
 {
@@ -39,7 +36,7 @@ namespace AutoFixture
         /// </para>
         /// </remarks>
         /// <seealso cref="FixtureFreezer.Freeze{T}(IFixture)"/>
-        /// <seealso cref="FixtureFreezer.Freeze{T}(IFixture, Func{ICustomizationComposer{T}, ISpecimenBuilder})"/>
+        /// <seealso cref="FixtureFreezer.Freeze{T}(AutoFixture.IFixture,System.Func{AutoFixture.Dsl.ICustomizationComposer{T},AutoFixture.Kernel.ISpecimenBuilder})"/>
         /// <seealso cref="FixtureRegistrar.Inject{T}" />
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static T Freeze<T>(this IFixture fixture, T seed)

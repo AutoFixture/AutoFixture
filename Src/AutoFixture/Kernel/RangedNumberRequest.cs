@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Encapsulates a range for values of a given type.

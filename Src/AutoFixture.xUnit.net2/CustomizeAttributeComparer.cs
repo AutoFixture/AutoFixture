@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Ploeh.AutoFixture.Xunit2
+namespace AutoFixture.Xunit2
 {
     internal class CustomizeAttributeComparer : Comparer<IParameterCustomizationSource>
     {

@@ -1,11 +1,11 @@
-﻿namespace Ploeh.AutoFixture
-{
-    using System;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using Kernel;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using AutoFixture.Kernel;
 
+namespace AutoFixture
+{
     /// <summary>
     /// Creates new lambda expressions represented by the <see cref="Expression{TDelegate}"/> type.
     /// </summary>

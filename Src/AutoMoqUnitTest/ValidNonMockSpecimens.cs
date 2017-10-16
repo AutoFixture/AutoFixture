@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoMoq.UnitTest
+namespace AutoFixture.AutoMoq.UnitTest
 {
     internal class ValidNonMockSpecimens : IEnumerable<object[]>
     {

@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Moq;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
-using System;
 
-namespace Ploeh.AutoFixture.AutoMoq.UnitTest
+namespace AutoFixture.AutoMoq.UnitTest
 {
     public class FixtureIntegrationWithAutoMoqCustomizationTest
     {

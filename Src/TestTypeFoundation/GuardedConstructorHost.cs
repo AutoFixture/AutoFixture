@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.TestTypeFoundation
+namespace TestTypeFoundation
 {
     public class GuardedConstructorHost<T> where T : class
     {

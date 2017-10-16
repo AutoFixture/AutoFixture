@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.Xunit2.UnitTest
+﻿namespace AutoFixture.Xunit2.UnitTest
 {
     public class MyClass
     {

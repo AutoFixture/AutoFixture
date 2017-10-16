@@ -1,9 +1,9 @@
-﻿using Ploeh.AutoFixture;
-using System;
+﻿using System;
 using System.Linq;
+using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class RandomNumericSequenceCustomizationTest
     {

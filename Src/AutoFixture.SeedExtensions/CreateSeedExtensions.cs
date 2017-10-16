@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
 namespace AutoFixture
 {
@@ -23,7 +22,7 @@ namespace AutoFixture
         /// </param>
         /// <param name="context">The context used to resolve the type request.</param>
         /// <returns>An anonymous object.</returns>
-        /// <remarks>Obsolete: Please move over to using <see cref="SpecimenFactory.Create{T}(Ploeh.AutoFixture.Kernel.ISpecimenContext)">Create{T}()</see> as this method will be removed in the next release</remarks>
+        /// <remarks>Obsolete: Please move over to using <see cref="SpecimenFactory.Create{T}(AutoFixture.Kernel.ISpecimenContext)">Create{T}()</see> as this method will be removed in the next release</remarks>
         [Obsolete("Please move over to using Create<T>() as this method will be removed in the next release", true)]
         public static T CreateAnonymous<T>(this ISpecimenContext context, T seed)
         {

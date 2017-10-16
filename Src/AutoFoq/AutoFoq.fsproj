@@ -4,8 +4,8 @@
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>AutoFixture.AutoFoq</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.AutoFoq</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.AutoFoq</RootNamespace>
+    <AssemblyName>AutoFixture.AutoFoq</AssemblyName>
+    <RootNamespace>AutoFixture.AutoFoq</RootNamespace>
     <Copyright>Copyright © Ploeh 2013</Copyright>
     <SignAssembly>False</SignAssembly>
     <!-- Disable source link support for F# projects as they don't support this feature. -->

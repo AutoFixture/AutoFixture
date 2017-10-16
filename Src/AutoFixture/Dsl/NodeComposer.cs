@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Ploeh.AutoFixture.Kernel;
 using System.Linq.Expressions;
+using System.Reflection;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Dsl
+namespace AutoFixture.Dsl
 {
     /// <summary>
     /// Enables composition customization of a single type of specimen.
@@ -358,7 +357,7 @@ namespace Ploeh.AutoFixture.Dsl
         /// </returns>
         public IPostprocessComposer<T> WithAutoProperties()
         {
-            var g = GetGraphWithAutoPropertiesNode();
+            var g = this.GetGraphWithAutoPropertiesNode();
             var autoProperties = FindAutoPropertiesNode(g);
 
             return (NodeComposer<T>) g.ReplaceNodes(
@@ -389,7 +388,7 @@ namespace Ploeh.AutoFixture.Dsl
             ExpressionReflector.VerifyIsNonNestedWritableMemberExpression(propertyPicker);
             
             var member = propertyPicker.GetWritableMember().Member;
-            var graphWithAutoPropertiesNode = GetGraphWithAutoPropertiesNode();
+            var graphWithAutoPropertiesNode = this.GetGraphWithAutoPropertiesNode();
 
             return (NodeComposer<T>) ExcludeMemberFromAutoProperties(member, graphWithAutoPropertiesNode);
         }

@@ -1,6 +1,6 @@
-﻿using Ploeh.AutoFixture.Kernel;
+﻿using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.CustomCallHandler
+namespace AutoFixture.AutoNSubstitute.CustomCallHandler
 {
     /// <summary>
     /// Factory to create <see cref="ICallResultResolver"/>.

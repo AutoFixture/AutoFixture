@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixtureDocumentationTest.Greedy
+﻿namespace AutoFixtureDocumentationTest.Greedy
 {
     public class DummyFoo : IFoo
     {

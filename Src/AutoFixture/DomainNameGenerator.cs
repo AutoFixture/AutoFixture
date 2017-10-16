@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates new <see cref="DomainName"/> instances.
@@ -32,8 +32,8 @@ namespace Ploeh.AutoFixture
                 return new NoSpecimen();
             }
 
-            var index = random.Next(0, fictitiousDomains.Length);
-            return new DomainName(fictitiousDomains[index]);
+            var index = this.random.Next(0, this.fictitiousDomains.Length);
+            return new DomainName(this.fictitiousDomains[index]);
         }
     }
 }

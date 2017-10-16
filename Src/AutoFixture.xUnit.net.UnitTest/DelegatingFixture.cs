@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Xunit.UnitTest
+namespace AutoFixture.Xunit.UnitTest
 {
     internal class DelegatingFixture : IFixture
     {
@@ -50,7 +51,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             throw new NotImplementedException();
         }
 
-        public Ploeh.AutoFixture.Dsl.ICustomizationComposer<T> Build<T>()
+        public ICustomizationComposer<T> Build<T>()
         {
             throw new NotImplementedException();
         }
@@ -60,7 +61,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             return this.OnCustomize(customization);
         }
 
-        public void Customize<T>(Func<Ploeh.AutoFixture.Dsl.ICustomizationComposer<T>, ISpecimenBuilder> composerTransformation)
+        public void Customize<T>(Func<ICustomizationComposer<T>, ISpecimenBuilder> composerTransformation)
         {
             throw new NotImplementedException();
         }

@@ -1,9 +1,9 @@
-﻿using Ploeh.AutoFixture.Kernel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates a sequence of random, unique, numbers starting at 1.
@@ -202,7 +202,7 @@ namespace Ploeh.AutoFixture
             }
             else
             {
-                this.lower = limits[0];
+                this.lower = this.limits[0];
                 this.upper = this.GetUpperRangeFromLimits();
             }
 
@@ -218,9 +218,9 @@ namespace Ploeh.AutoFixture
         /// <returns></returns>
         private long GetUpperRangeFromLimits()
         {
-            return limits[1] >= Int32.MaxValue
-                    ? limits[1]
-                    : limits[1] + 1;
+            return this.limits[1] >= Int32.MaxValue
+                    ? this.limits[1]
+                    : this.limits[1] + 1;
         }
 
         private long GetNextInt64InRange()

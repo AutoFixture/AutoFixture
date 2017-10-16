@@ -5,15 +5,15 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoFixture.AutoNSubstitute.Extensions;
+using AutoFixture.Kernel;
 using NSubstitute;
 using NSubstitute.Core;
 using NSubstitute.Exceptions;
 using NSubstitute.Routing;
 using NSubstitute.Routing.Handlers;
-using Ploeh.AutoFixture.AutoNSubstitute.Extensions;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
 
     /// <summary>
@@ -155,12 +155,12 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             public object Substitute
             {
-                get { return substitute; }
+                get { return this.substitute; }
             }
 
             public ISpecimenContext Context
             {
-                get { return context; }
+                get { return this.context; }
             }
 
             public static void Returns<T>(T value, Func<CallInfo, T> returnThis)
@@ -196,29 +196,29 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                 //    After our substitute is configured in When-Do, NSubstitute checks whether there is return value for current call.
                 //    Return value is, of course, present and it returns that value to the consumer.
 
-                Substitute
-                    .WhenForAnyArgs(_ => InvokeMethod(methodInfo))
+                this.Substitute
+                    .WhenForAnyArgs(_ => this.InvokeMethod(methodInfo))
                     .Do(callInfo =>
                     {
                         var arguments = callInfo.Args();
 
                         var callRouter =
-                            SubstitutionContext.Current.GetCallRouterFor(Substitute);
+                            SubstitutionContext.Current.GetCallRouterFor(this.Substitute);
 
                         callRouter.SetRoute(state => new Route(
                             new ICallHandler[] {
                                 new NoSetupCallbackHandler(state, () => {
-                                    var value = Resolve(methodInfo.ReturnType);
+                                    var value = this.Resolve(methodInfo.ReturnType);
                                     if (value is OmitSpecimen)
                                         return;
 
-                                    ReturnsFixedValue(methodInfo, value);
-                                    InvokeMethod(methodInfo, arguments);
+                                    this.ReturnsFixedValue(methodInfo, value);
+                                    this.InvokeMethod(methodInfo, arguments);
                                 }),
                                 new ReturnDefaultForReturnTypeHandler(
                                     new DefaultForType())
                             }));
-                        InvokeMethod(methodInfo, arguments);
+                        this.InvokeMethod(methodInfo, arguments);
                     });
             }
 
@@ -240,7 +240,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
                     // Run task on default scheduler to prevent attach to the context scheduler.
                     // User could execute this code in context of its own scheduler that performs aggressive inling
                     // and our task will be inlined by that scheduler.
-                    var task = Task.Factory.StartNew(() => Context.Resolve(type), cancelableToken,
+                    var task = Task.Factory.StartNew(() => this.Context.Resolve(type), cancelableToken,
                         TaskCreationOptions.None, TaskScheduler.Default);
 
                     // It could happen that task above is inlined on the current thread.
@@ -255,7 +255,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             private void ReturnsFixedValue(MethodInfo methodInfo, object value)
             {
-                var refValues = GetFixedRefValues(methodInfo);
+                var refValues = this.GetFixedRefValues(methodInfo);
                 Returns(null, x =>
                 {
                     SetRefValues(x, refValues);
@@ -267,7 +267,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
             {
                 return GetRefParameters(methodInfo)
                     .Select(t => Tuple.Create(t.Item1,
-                        new Lazy<object>(() => Context.Resolve(t.Item2.ParameterType.GetElementType()))))
+                        new Lazy<object>(() => this.Context.Resolve(t.Item2.ParameterType.GetElementType()))))
                     .ToList();
             }
 
@@ -295,7 +295,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
 
             private void InvokeMethod(MethodInfo methodInfo, object[] parameters = null)
             {
-                methodInfo.Invoke(Substitute, parameters ?? GetDefaultParameters(methodInfo));
+                methodInfo.Invoke(this.Substitute, parameters ?? GetDefaultParameters(methodInfo));
             }
 
             private static object[] GetDefaultParameters(MethodInfo methodInfo)

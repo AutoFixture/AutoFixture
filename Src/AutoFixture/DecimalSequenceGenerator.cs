@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates a sequence of consecutive numbers, starting at 1.
@@ -39,7 +39,7 @@ namespace Ploeh.AutoFixture
         [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
         public decimal CreateAnonymous()
         {
-            return Create();
+            return this.Create();
         }
 
 

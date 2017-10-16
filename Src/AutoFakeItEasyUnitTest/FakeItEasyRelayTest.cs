@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Reflection;
+using AutoFixture.Kernel;
 using FakeItEasy;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
+namespace AutoFixture.AutoFakeItEasy.UnitTest
 {
     public class FakeItEasyRelayTest
     {

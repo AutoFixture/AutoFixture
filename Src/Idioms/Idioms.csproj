@@ -4,8 +4,8 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard2.0</TargetFrameworks>
     <AssemblyTitle>AutoFixture.Idioms</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.Idioms</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.Idioms</RootNamespace>
+    <AssemblyName>AutoFixture.Idioms</AssemblyName>
+    <RootNamespace>AutoFixture.Idioms</RootNamespace>
     <Copyright>Copyright © Ploeh 2011</Copyright>
 
     <!-- NuGet options -->

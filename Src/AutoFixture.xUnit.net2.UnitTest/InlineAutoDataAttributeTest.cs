@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Xunit;
 using Xunit.Sdk;
 
-namespace Ploeh.AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest
 {
     public class InlineAutoDataAttributeTest
     {
@@ -141,6 +142,30 @@ namespace Ploeh.AutoFixture.Xunit2.UnitTest
 
             // Verify outcome
             Assert.False(wasInvoked);
+            // Teardown
+        }
+        
+        
+        [Fact]
+        public void PreDiscoveryShouldBeDisabled()
+        {
+            // Fixture setup
+            var expectedDiscovererType = typeof(NoPreDiscoveryDataDiscoverer).GetTypeInfo();
+            var discovererAttr = typeof(InlineAutoDataAttribute).GetTypeInfo()
+                .CustomAttributes
+                .Single(x => x.AttributeType == typeof(DataDiscovererAttribute));
+
+            var expectedType = expectedDiscovererType.FullName;
+            var expectedAssembly = expectedDiscovererType.Assembly.GetName().Name;
+
+            // Exercise system
+            var actualType = (string) discovererAttr.ConstructorArguments[0].Value;
+            var actualAssembly = (string) discovererAttr.ConstructorArguments[1].Value;
+
+            // Verify outcome
+            Assert.Equal(expectedType, actualType);
+            Assert.Equal(expectedAssembly, actualAssembly);
+
             // Teardown
         }
 

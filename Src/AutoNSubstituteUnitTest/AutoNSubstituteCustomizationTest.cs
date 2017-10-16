@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoFixture.Kernel;
 using NSubstitute;
-using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
+namespace AutoFixture.AutoNSubstitute.UnitTest
 {
     public class AutoNSubstituteCustomizationTest
     {

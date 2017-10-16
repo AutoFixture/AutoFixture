@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoNSubstitute.UnitTest.TestTypes
 {
     public abstract class TypeWithStaticMethod
     {

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.Idioms;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Idioms;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class IdiomaticAssertionTest
     {

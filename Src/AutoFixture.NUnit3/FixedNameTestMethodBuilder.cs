@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using NUnit.Framework.Internal.Builders;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
-namespace Ploeh.AutoFixture.NUnit3
+namespace AutoFixture.NUnit3
 {
     /// <summary>
     /// Builder that generates <see cref="TestMethod"/> with fixed names.

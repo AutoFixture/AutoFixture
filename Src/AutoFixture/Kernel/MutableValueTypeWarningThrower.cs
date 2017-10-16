@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Throws an <see cref="ObjectCreationException"/> when one tries to create Structure without explicit parametrized constructor.

@@ -1,8 +1,8 @@
-﻿using NSubstitute.Core;
-using Ploeh.AutoFixture.AutoNSubstitute.CustomCallHandler;
+﻿using AutoFixture.AutoNSubstitute.CustomCallHandler;
+using NSubstitute.Core;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
+namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 {
     public class CallResultDataTest
     {

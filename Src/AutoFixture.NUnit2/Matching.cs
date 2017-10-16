@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.NUnit2
+namespace AutoFixture.NUnit2
 {
     /// <summary>
     /// The criteria used to determine which requests will be satisfied

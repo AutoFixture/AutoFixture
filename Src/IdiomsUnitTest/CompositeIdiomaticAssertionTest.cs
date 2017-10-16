@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture.Idioms;
-using Xunit;
 using System.Reflection;
-using System;
+using AutoFixture.Idioms;
+using TestTypeFoundation;
+using Xunit;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class CompositeIdiomaticAssertionTest
     {
@@ -67,7 +68,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 new DelegatingIdiomaticAssertion {OnConstructorInfoVerify = observedConstructors.Add}, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
-            Type typeWithConstructor = typeof (Ploeh.TestTypeFoundation.UnguardedConstructorHost<object>);
+            Type typeWithConstructor = typeof (UnguardedConstructorHost<object>);
             ConstructorInfo ctor = typeWithConstructor.GetConstructors().First();
             // Exercise system
             sut.Verify(ctor);
@@ -85,7 +86,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 new DelegatingIdiomaticAssertion {OnMethodInfoVerify = observedMethods.Add}, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
-            Type typeWithMethod = typeof (Ploeh.TestTypeFoundation.TypeWithConcreteParameterMethod);
+            Type typeWithMethod = typeof (TypeWithConcreteParameterMethod);
             MethodInfo method = typeWithMethod.GetMethods().First();
             // Exercise system
             sut.Verify(method);
@@ -103,7 +104,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 new DelegatingIdiomaticAssertion {OnPropertyInfoVerify = observedProperties.Add}, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
-            Type typeWithMethod = typeof (Ploeh.TestTypeFoundation.PropertyHolder<object>);
+            Type typeWithMethod = typeof (PropertyHolder<object>);
             PropertyInfo property = typeWithMethod.GetProperties().First();
             // Exercise system
             sut.Verify(property);
@@ -121,7 +122,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 new DelegatingIdiomaticAssertion {OnFieldInfoVerify = observedFields.Add}, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
-            Type typeWithField = typeof (Ploeh.TestTypeFoundation.FieldHolder<object>);
+            Type typeWithField = typeof (FieldHolder<object>);
             FieldInfo field = typeWithField.GetFields().First();
             // Exercise system
             sut.Verify(field);
@@ -139,7 +140,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 new DelegatingIdiomaticAssertion {OnAssemblyVerify = observedAssemblies.Add}, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
-            Assembly assembly = typeof (Ploeh.TestTypeFoundation.AbstractType).Assembly;
+            Assembly assembly = typeof (AbstractType).Assembly;
             // Exercise system
             sut.Verify(assembly);
             // Verify outcome
@@ -156,7 +157,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
                 new DelegatingIdiomaticAssertion {OnTypeVerify = observedTypes.Add}, 3).ToArray();
 
             var sut = new CompositeIdiomaticAssertion(expectations);
-            Type type = typeof (Ploeh.TestTypeFoundation.AbstractType);
+            Type type = typeof (AbstractType);
             // Exercise system
             sut.Verify(type);
             // Verify outcome
@@ -176,7 +177,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             var assemblies = new Assembly[]
             {
-                typeof (Ploeh.TestTypeFoundation.AbstractType).Assembly,
+                typeof (AbstractType).Assembly,
                 typeof (System.String).Assembly,
             };
 
@@ -199,7 +200,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             var assemblies = new[]
             {
-                typeof (Ploeh.TestTypeFoundation.AbstractType).Assembly,
+                typeof (AbstractType).Assembly,
                 typeof (System.String).Assembly,
             }
                 .AsEnumerable();
@@ -223,7 +224,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             var types = new[]
             {
-                typeof (Ploeh.TestTypeFoundation.AbstractType),
+                typeof (AbstractType),
                 typeof (System.String),
             };
 
@@ -246,7 +247,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             var assemblies = new[]
             {
-                typeof (Ploeh.TestTypeFoundation.AbstractType),
+                typeof (AbstractType),
                 typeof (System.String),
             }
                 .AsEnumerable();
@@ -270,7 +271,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             var members = new[]
             {
-                typeof (Ploeh.TestTypeFoundation.AbstractType).GetMembers().First(),
+                typeof (AbstractType).GetMembers().First(),
                 typeof (System.String).GetMembers().First(),
             };
 
@@ -293,7 +294,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             IEnumerable<MemberInfo> members = new[]
             {
-                typeof (Ploeh.TestTypeFoundation.AbstractType).GetMembers().First(),
+                typeof (AbstractType).GetMembers().First(),
                 typeof (System.String).GetMembers().First(),
             }
                 .AsEnumerable();
@@ -317,7 +318,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             IEnumerable<ConstructorInfo> ctors = new[]
             {
-                typeof (Ploeh.TestTypeFoundation.ConcreteType).GetConstructors().First(),
+                typeof (ConcreteType).GetConstructors().First(),
                 typeof (System.String).GetConstructors().First(),
             }
                 .AsEnumerable();
@@ -341,7 +342,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             IEnumerable<MethodInfo> methods = new[]
             {
-                typeof (Ploeh.TestTypeFoundation.AbstractType).GetMethods().First(),
+                typeof (AbstractType).GetMethods().First(),
                 typeof (System.String).GetMethods().First(),
             }
                 .AsEnumerable();
@@ -365,7 +366,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             var properties = new[]
             {
-                typeof (Ploeh.TestTypeFoundation.AbstractType).GetProperties().First(),
+                typeof (AbstractType).GetProperties().First(),
                 typeof (System.String).GetProperties().First(),
             };
 
@@ -388,7 +389,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             IEnumerable<PropertyInfo> properties = new[]
             {
-                typeof (Ploeh.TestTypeFoundation.AbstractType).GetProperties().First(),
+                typeof (AbstractType).GetProperties().First(),
                 typeof (System.String).GetProperties().First(),
             }
                 .AsEnumerable();
@@ -412,7 +413,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             var fields = new[]
             {
-                typeof (Ploeh.TestTypeFoundation.FieldHolder<object>).GetFields().First(),
+                typeof (FieldHolder<object>).GetFields().First(),
                 typeof (System.String).GetFields().First(),
             };
 
@@ -435,7 +436,7 @@ namespace Ploeh.AutoFixture.IdiomsUnitTest
             var sut = new CompositeIdiomaticAssertion(expectations);
             IEnumerable<FieldInfo> fields = new[]
             {
-                typeof (Ploeh.TestTypeFoundation.FieldHolder<object>).GetFields().First(),
+                typeof (FieldHolder<object>).GetFields().First(),
                 typeof (System.String).GetFields().First(),
             }
                 .AsEnumerable();

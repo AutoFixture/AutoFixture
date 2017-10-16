@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {    
     /// <summary>
     /// Creates a new Method from a <see cref="MethodInfo"/>.

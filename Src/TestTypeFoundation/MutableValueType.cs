@@ -1,12 +1,12 @@
-﻿namespace Ploeh.TestTypeFoundation
+﻿namespace TestTypeFoundation
 {
     public struct MutableValueType
     {
         public MutableValueType(object property1, object property2, object property3): this()
         {
-            Property1 = property1;
-            Property2 = property2;
-            Property3 = property3;
+            this.Property1 = property1;
+            this.Property2 = property2;
+            this.Property3 = property3;
         }
 
         public object Property1 { get; set; }

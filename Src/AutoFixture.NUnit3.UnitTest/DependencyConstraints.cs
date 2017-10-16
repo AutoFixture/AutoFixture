@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
+using NUnit.Framework;
 
-namespace Ploeh.AutoFixture.NUnit3.UnitTest
+namespace AutoFixture.NUnit3.UnitTest
 {
     public class DependencyConstraints
     {

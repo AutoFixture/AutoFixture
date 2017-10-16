@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.TestTypeFoundation
+namespace TestTypeFoundation
 {
     public class GuardedConstructorHostHoldingStaticReadOnlyProperty<TItem, TStaticProperty> where TItem : class
     {

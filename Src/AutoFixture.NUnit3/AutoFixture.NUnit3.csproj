@@ -4,8 +4,8 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard1.5</TargetFrameworks>
     <AssemblyTitle>AutoFixture.NUnit3</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.NUnit3</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.NUnit3</RootNamespace>
+    <AssemblyName>AutoFixture.NUnit3</AssemblyName>
+    <RootNamespace>AutoFixture.NUnit3</RootNamespace>
     <Copyright>Copyright © Ploeh 2016</Copyright>
 
     <!-- NuGet options -->

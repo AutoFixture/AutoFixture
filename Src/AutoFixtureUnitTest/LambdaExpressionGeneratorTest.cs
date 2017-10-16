@@ -1,13 +1,12 @@
-﻿namespace Ploeh.AutoFixtureUnitTest
-{
-    using System;
-    using System.Linq.Expressions;
-    using AutoFixture;
-    using AutoFixture.Kernel;
-    using Kernel;
-    using Xunit;
-    using Xunit.Extensions;
+﻿using System;
+using System.Linq.Expressions;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
+using Xunit;
 
+namespace AutoFixtureUnitTest
+{
     public class LambdaExpressionGeneratorTest
     {
         [Fact]

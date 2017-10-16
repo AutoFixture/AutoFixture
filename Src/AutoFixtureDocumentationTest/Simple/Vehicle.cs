@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixtureDocumentationTest.Simple
+﻿namespace AutoFixtureDocumentationTest.Simple
 {
     public class Vehicle
     {

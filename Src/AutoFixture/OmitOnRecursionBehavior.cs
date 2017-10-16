@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Decorates an <see cref="ISpecimenBuilder" /> with a
@@ -49,7 +46,7 @@ namespace Ploeh.AutoFixture
             if (builder == null)
                 throw new ArgumentNullException(nameof(builder));
 
-            return new RecursionGuard(builder, new OmitOnRecursionHandler(), recursionDepth);
+            return new RecursionGuard(builder, new OmitOnRecursionHandler(), this.recursionDepth);
         }
     }
 }

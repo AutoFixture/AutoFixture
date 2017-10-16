@@ -1,9 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class UriSchemeTest
     {

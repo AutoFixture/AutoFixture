@@ -1,11 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
-using System.ComponentModel.DataAnnotations;
 
-namespace Ploeh.AutoFixture.Xunit.UnitTest
+namespace AutoFixture.Xunit.UnitTest
 {
     public class Scenario
     {

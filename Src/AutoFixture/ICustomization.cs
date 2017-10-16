@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture
+﻿namespace AutoFixture
 {
     /// <summary>
     /// Encapsulates a customization of an <see cref="IFixture"/>.

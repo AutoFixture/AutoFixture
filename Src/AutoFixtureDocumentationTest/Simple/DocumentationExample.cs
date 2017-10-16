@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Ploeh.AutoFixture;
-using Xunit;
 using AutoFixture;
+using Xunit;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Simple
+namespace AutoFixtureDocumentationTest.Simple
 {
     /// <summary>
     /// This class contains code snippets written for documentation

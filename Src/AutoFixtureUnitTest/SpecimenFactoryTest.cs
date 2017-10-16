@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Dsl;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Dsl;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class SpecimenFactoryTest
     {

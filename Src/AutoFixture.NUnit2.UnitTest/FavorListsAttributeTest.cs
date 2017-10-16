@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
+using AutoFixture.Kernel;
 using NUnit.Framework;
-using Ploeh.TestTypeFoundation;
-using Ploeh.AutoFixture.Kernel;
+using TestTypeFoundation;
 
-namespace Ploeh.AutoFixture.NUnit2.UnitTest
+namespace AutoFixture.NUnit2.UnitTest
 {
     [TestFixture]
     public class FavorListsAttributeTest

@@ -1,9 +1,10 @@
 ﻿using NUnit.Core.Extensibility;
+using Addin = AutoFixture.NUnit2.Addins.Addin;
 
-namespace Ploeh.AutoFixture.NUnit2.UnitTest
+namespace AutoFixture.NUnit2.UnitTest
 {
     [NUnitAddin]
-    public class LocalAddin : Ploeh.AutoFixture.NUnit2.Addins.Addin
+    public class LocalAddin : Addin
     {   
     }
 }

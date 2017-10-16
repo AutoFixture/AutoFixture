@@ -1,10 +1,10 @@
-﻿namespace Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
 {
     public class TypeWithPrivateProperty
     {
         public TypeWithPrivateProperty()
         {
-            PrivateProperty = "Awesome string";
+            this.PrivateProperty = "Awesome string";
         }
 
         // ReSharper disable UnusedAutoPropertyAccessor.Local

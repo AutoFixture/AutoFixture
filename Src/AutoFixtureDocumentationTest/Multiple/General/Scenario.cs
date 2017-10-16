@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
+namespace AutoFixtureDocumentationTest.Multiple.General
 {
     public class Scenario
     {

@@ -1,8 +1,8 @@
 using System;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class DelegatingMethodFactory : IMethodFactory
     {
@@ -13,7 +13,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
         public IMethod Create(MethodInfo methodInfo)
         {
-            return OnCreate(methodInfo);
+            return this.OnCreate(methodInfo);
         }
 
         internal Func<MethodInfo, IMethod> OnCreate { get; set; }

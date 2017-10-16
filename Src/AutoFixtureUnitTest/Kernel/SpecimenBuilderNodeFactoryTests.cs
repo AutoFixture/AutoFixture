@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
 using Xunit;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixture.Dsl;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class SpecimenBuilderNodeFactoryTests
     {

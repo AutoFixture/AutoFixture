@@ -1,11 +1,10 @@
-﻿using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class SortedDictionarySpecificationTests
     {

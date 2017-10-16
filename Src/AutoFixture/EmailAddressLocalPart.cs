@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
 #if SYSTEM_NET_MAIL
     /// <summary>

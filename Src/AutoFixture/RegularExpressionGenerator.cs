@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Ploeh.AutoFixture.DataAnnotations;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.DataAnnotations;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates a string that is guaranteed to match a RegularExpressionRequest.

@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixtureDocumentationTest.Contact.ValidatingValueObject
+﻿namespace AutoFixtureDocumentationTest.Contact.ValidatingValueObject
 {
     public class Contact
     {

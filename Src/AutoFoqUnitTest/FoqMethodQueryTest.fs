@@ -1,9 +1,9 @@
-﻿module Ploeh.AutoFixture.AutoFoq.UnitTest.FoqMethodQueryTest
+﻿module AutoFixture.AutoFoq.UnitTest.FoqMethodQueryTest
 
-open Ploeh.AutoFixture.Kernel
-open Ploeh.AutoFixture.AutoFoq
-open Ploeh.AutoFixture.AutoFoq.UnitTest.TestDsl
-open Ploeh.TestTypeFoundation
+open AutoFixture.Kernel
+open AutoFixture.AutoFoq
+open AutoFixture.AutoFoq.UnitTest.TestDsl
+open TestTypeFoundation
 open System
 open System.Reflection
 open Swensen.Unquote.Assertions

@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoRhinoMock
+namespace AutoFixture.AutoRhinoMock
 {
     /// <summary>
     /// Enables IFixture auto-mocking of abstract classes and interfaces using RhinoMocks.

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using AutoFixture.Kernel;
 using NUnit.Framework;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 
-namespace Ploeh.AutoFixture.NUnit3.UnitTest
+namespace AutoFixture.NUnit3.UnitTest
 {
     [TestFixture]
     public class GreedyAttributeTest

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.Idioms;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Idioms;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class MethodInvokeCommandTest
     {

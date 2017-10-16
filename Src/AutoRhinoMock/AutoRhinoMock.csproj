@@ -4,8 +4,8 @@
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>AutoFixture.AutoRhinoMock</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.AutoRhinoMock</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.AutoRhinoMock</RootNamespace>
+    <AssemblyName>AutoFixture.AutoRhinoMock</AssemblyName>
+    <RootNamespace>AutoFixture.AutoRhinoMock</RootNamespace>
     <Copyright>Copyright © Ploeh 2011</Copyright>
     
     <!-- NuGet options -->

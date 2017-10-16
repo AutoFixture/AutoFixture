@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoNSubstitute.UnitTest.TestTypes
 {
     public abstract class TypeWithPrivateField
     {
@@ -6,7 +6,7 @@
 
         public string GetPrivateField()
         {
-            return field;
+            return this.field;
         }
     }
 }

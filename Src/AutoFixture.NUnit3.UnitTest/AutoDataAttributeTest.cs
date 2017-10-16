@@ -6,7 +6,7 @@ using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 
-namespace Ploeh.AutoFixture.NUnit3.UnitTest
+namespace AutoFixture.NUnit3.UnitTest
 {
     [TestFixture]
     public class AutoDataAttributeTest
@@ -184,7 +184,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
 
         private class TypeWithIParameterCustomizationSourceUsage
         {
-            public void DecoratedMethod([CustomizationSourceAttribute] int arg)
+            public void DecoratedMethod([CustomizationSource] int arg)
             {
             }
 

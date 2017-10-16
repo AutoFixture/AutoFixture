@@ -1,8 +1,8 @@
 ﻿using System;
+using AutoFixture.Kernel;
 using Xunit;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class GraphEqualsTest
     {

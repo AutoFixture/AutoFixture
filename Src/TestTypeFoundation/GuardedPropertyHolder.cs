@@ -1,6 +1,6 @@
 using System;
 
-namespace Ploeh.TestTypeFoundation
+namespace TestTypeFoundation
 {
     public class GuardedPropertyHolder<T> where T : class
     {

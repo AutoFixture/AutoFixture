@@ -6,8 +6,8 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netcoreapp1.1</TargetFrameworks>
     <AssemblyTitle>AutoNSubstituteUnitTest</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.AutoNSubstitute.UnitTest</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.AutoNSubstitute.UnitTest</RootNamespace>
+    <AssemblyName>AutoFixture.AutoNSubstitute.UnitTest</AssemblyName>
+    <RootNamespace>AutoFixture.AutoNSubstitute.UnitTest</RootNamespace>
 
     <!--  Suppress warning about invalid dependency version in Castle.Core.
           That is NSubstitute dependency and we cannot fix that somehow. -->

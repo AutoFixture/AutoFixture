@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using NUnit.Framework;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 
-namespace Ploeh.AutoFixture.NUnit2.UnitTest
+namespace AutoFixture.NUnit2.UnitTest
 {
     [TestFixture]
     public class FrozenAttributeTest

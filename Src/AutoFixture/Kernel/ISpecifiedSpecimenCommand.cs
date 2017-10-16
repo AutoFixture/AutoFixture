@@ -1,5 +1,6 @@
 ﻿using System;
-namespace Ploeh.AutoFixture.Kernel
+
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// A Command that performs an action on a specimen and knows whether that action matches a

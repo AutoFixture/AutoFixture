@@ -36,7 +36,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// <tt>Automaton</tt> state.
@@ -54,7 +54,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         internal State()
         {
             this.ResetTransitions();
-            Id = Interlocked.Increment(ref nextId);
+            this.Id = Interlocked.Increment(ref nextId);
         }
 
         /// <summary>
@@ -147,9 +147,9 @@ namespace Ploeh.AutoFixture.DataAnnotations
         {
             unchecked
             {
-                int result = Id;
-                result = (result * 397) ^ Accept.GetHashCode();
-                result = (result * 397) ^ Number;
+                int result = this.Id;
+                result = (result * 397) ^ this.Accept.GetHashCode();
+                result = (result * 397) ^ this.Number;
                 return result;
             }
         }
@@ -174,9 +174,9 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 return true;
             }
 
-            return other.Id == Id 
-                && other.Accept.Equals(Accept)
-                && other.Number == Number;
+            return other.Id == this.Id 
+                && other.Accept.Equals(this.Accept)
+                && other.Number == this.Number;
         }
 
         /// <summary>

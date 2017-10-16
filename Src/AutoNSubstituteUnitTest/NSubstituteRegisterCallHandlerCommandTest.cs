@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoFixture.AutoNSubstitute.CustomCallHandler;
+using AutoFixture.Kernel;
 using NSubstitute;
 using NSubstitute.Core;
 using NSubstitute.Exceptions;
 using NSubstitute.Routing;
-using Ploeh.AutoFixture.AutoNSubstitute.CustomCallHandler;
-using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
+namespace AutoFixture.AutoNSubstitute.UnitTest
 {
     public class NSubstituteRegisterCallHandlerCommandTest
     {

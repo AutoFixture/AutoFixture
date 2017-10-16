@@ -3,9 +3,9 @@
 using System;
 using System.Globalization;
 using System.Net.Mail;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates new <see cref="MailAddress"/> instances.

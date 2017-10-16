@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixtureDocumentationTest.Array
+﻿namespace AutoFixtureDocumentationTest.Array
 {
     public class MyClassA
     {

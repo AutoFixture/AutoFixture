@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     internal class ProvidedAttribute
     {

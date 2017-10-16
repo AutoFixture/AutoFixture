@@ -1,10 +1,10 @@
 ﻿using System;
+using AutoFixture.Kernel;
 using Moq;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoMoq.UnitTest
+namespace AutoFixture.AutoMoq.UnitTest
 {
     public class MockPostprocessorTest
     {

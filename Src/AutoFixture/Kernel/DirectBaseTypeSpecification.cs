@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// A specification that determines whether the request is a request
@@ -50,7 +50,7 @@ namespace Ploeh.AutoFixture.Kernel
             }
 
             return IsRequestForType(request) &&
-                   IsTargetTypeOrItsDirectBase(request);
+                   this.IsTargetTypeOrItsDirectBase(request);
         }
 
         private static bool IsRequestForType(object request)
@@ -60,8 +60,8 @@ namespace Ploeh.AutoFixture.Kernel
 
         private bool IsTargetTypeOrItsDirectBase(object request)
         {
-            return IsSameAsTargetType(request) ||
-                   IsDirectBaseOfTargetType(request);
+            return this.IsSameAsTargetType(request) ||
+                   this.IsDirectBaseOfTargetType(request);
         }
 
         private bool IsSameAsTargetType(object request)

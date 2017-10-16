@@ -33,7 +33,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     internal static class MinimizationOperations
     {
@@ -576,8 +576,8 @@ namespace Ploeh.AutoFixture.DataAnnotations
         {
             internal StateListNode(State q, StateList sl)
             {
-                State = q;
-                StateList = sl;
+                this.State = q;
+                this.StateList = sl;
                 if (sl.Size++ == 0)
                 {
                     sl.First = sl.Last = this;
@@ -585,7 +585,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 else
                 {
                     sl.Last.Next = this;
-                    Prev = sl.Last;
+                    this.Prev = sl.Last;
                     sl.Last = this;
                 }
             }
@@ -600,23 +600,23 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
             internal void Remove()
             {
-                StateList.Size--;
-                if (StateList.First == this)
+                this.StateList.Size--;
+                if (this.StateList.First == this)
                 {
-                    StateList.First = Next;
+                    this.StateList.First = this.Next;
                 }
                 else
                 {
-                    Prev.Next = Next;
+                    this.Prev.Next = this.Next;
                 }
 
-                if (StateList.Last == this)
+                if (this.StateList.Last == this)
                 {
-                    StateList.Last = Prev;
+                    this.StateList.Last = this.Prev;
                 }
                 else
                 {
-                    Next.Prev = Prev;
+                    this.Next.Prev = this.Prev;
                 }
             }
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// A customization that changes how <see cref="Boolean"/> are generated. Uses <see cref="RandomBooleanSequenceGenerator"/>.
