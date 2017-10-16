@@ -302,5 +302,28 @@ namespace AutoFixture.Xunit2.UnitTest
             Assert.True(customizationLog[0] is TypeWithIParameterCustomizationSourceUsage.Customization);
             // Teardown
         }
+
+        [Fact]
+        public void PreDiscoveryShouldBeDisabled()
+        {
+            // Fixture setup
+            var expectedDiscovererType = typeof(NoPreDiscoveryDataDiscoverer).GetTypeInfo();
+            var discovererAttr = typeof(AutoDataAttribute).GetTypeInfo()
+                .CustomAttributes
+                .Single(x => x.AttributeType == typeof(DataDiscovererAttribute));
+
+            var expectedType = expectedDiscovererType.FullName;
+            var expectedAssembly = expectedDiscovererType.Assembly.GetName().Name;
+
+            // Exercise system
+            var actualType = (string) discovererAttr.ConstructorArguments[0].Value;
+            var actualAssembly = (string) discovererAttr.ConstructorArguments[1].Value;
+
+            // Verify outcome
+            Assert.Equal(expectedType, actualType);
+            Assert.Equal(expectedAssembly, actualAssembly);
+
+            // Teardown
+        }
     }
 }

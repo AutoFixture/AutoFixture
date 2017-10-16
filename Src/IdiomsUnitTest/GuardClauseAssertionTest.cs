@@ -1011,7 +1011,7 @@ namespace AutoFixture.IdiomsUnitTest
             var e = Assert.Throws<ArgumentException>(() => sut.Verify(constructorInfo));
             Assert.Equal(
                 "Cannot create a dummy type because the base type " +
-                "'Ploeh.AutoFixture.IdiomsUnitTest.GuardClauseAssertionTest+NoAccessibleConstructorTestType' " +
+                "'AutoFixture.IdiomsUnitTest.GuardClauseAssertionTest+NoAccessibleConstructorTestType' " +
                 "does not have any accessible constructor.",
                 e.Message);
         }

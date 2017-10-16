@@ -14,8 +14,8 @@ namespace AutoFixture.Xunit2
     /// xUnit.net's Theory attribute.
     /// </summary>
     [DataDiscoverer(
-        typeName: "Ploeh.AutoFixture.Xunit2.NoPreDiscoveryDataDiscoverer",
-        assemblyName: "Ploeh.AutoFixture.Xunit2")]
+        typeName: "AutoFixture.Xunit2.NoPreDiscoveryDataDiscoverer",
+        assemblyName: "AutoFixture.Xunit2")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     [CLSCompliant(false)]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]

@@ -8,11 +8,11 @@
         /// <summary>
         /// The name by which the AutoFixture NUnit2 extension is identified.
         /// </summary>
-        public const string AutoDataExtension = "Ploeh.AutoFixture.NUnit2.AutoDataExtension";
+        public const string AutoDataExtension = "AutoFixture.NUnit2.AutoDataExtension";
 
         /// <summary>
         /// The name by which the AutoFixture NUnit2 AutoDataAttribute is identified by.
         /// </summary>
-        public const string AutoDataAttribute = "Ploeh.AutoFixture.NUnit2.AutoDataAttribute";
+        public const string AutoDataAttribute = "AutoFixture.NUnit2.AutoDataAttribute";
     }
 }
