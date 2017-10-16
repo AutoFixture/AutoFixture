@@ -11,7 +11,7 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly:
-    SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "Ploeh.AutoFixture.AutoNSubstitute", 
+    SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "AutoFixture.AutoNSubstitute", 
         Justification = "This is the root namespace of the project. There is no other namespace those types could be merged with.")]
 [assembly:
     SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames", 
@@ -23,7 +23,7 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly:
     SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible", Scope = "type",
-        Target = "Ploeh.AutoFixture.AutoNSubstitute.CustomCallHandler.CallResultData+ArgumentValue",
+        Target = "AutoFixture.AutoNSubstitute.CustomCallHandler.CallResultData+ArgumentValue",
         Justification =
             "It's defined as a sub-class because it's very tiny and it's just a way to group data together." +
             "It's never used without its parent and doesn't bring any value without parent.")]

@@ -8,4 +8,6 @@
 // "In Project Suppression File". 
 // You do not need to add suppressions to this file manually. 
 
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "Ploeh.AutoFixture.AutoRhinoMock", Justification = "False positive. There's only one namespace in this assembly.")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", 
+    Scope = "namespace", Target = "AutoFixture.AutoRhinoMock", 
+    Justification = "False positive. There's only one namespace in this assembly.")]
