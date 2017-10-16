@@ -1,3 +1,5 @@
+using System;
+
 namespace Ploeh.AutoFixture.NUnit3.UnitTest
 {
     /// <summary>
@@ -5,8 +7,14 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
     /// </summary>
     public class AutoDataAttributeStub : AutoDataAttribute
     {
+        [Obsolete]
         public AutoDataAttributeStub(IFixture fixture)
             : base(fixture)
+        {
+        }
+
+        public AutoDataAttributeStub(Func<IFixture> fixtureFactory)
+            : base(fixtureFactory)
         {
         }
     }

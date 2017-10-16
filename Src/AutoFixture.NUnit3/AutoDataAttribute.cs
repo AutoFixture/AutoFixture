@@ -6,6 +6,7 @@ using NUnit.Framework.Internal;
 using NUnit.Framework.Internal.Builders;
 using Ploeh.AutoFixture.Kernel;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 
 namespace Ploeh.AutoFixture.NUnit3
 {
@@ -18,7 +19,8 @@ namespace Ploeh.AutoFixture.NUnit3
     [AttributeUsage(AttributeTargets.Method)]
     public class AutoDataAttribute : Attribute, ITestBuilder
     {
-        private readonly IFixture _fixture;
+        private readonly Lazy<IFixture> fixtureLazy;
+        private IFixture Fixture => this.fixtureLazy.Value;
 
         private ITestMethodBuilder _testMethodBuilder = new FixedNameTestMethodBuilder();
         /// <summary>
@@ -34,7 +36,7 @@ namespace Ploeh.AutoFixture.NUnit3
         /// Construct a <see cref="AutoDataAttribute"/>
         /// </summary>
         public AutoDataAttribute()
-            : this(new Fixture())
+            : this(() => new Fixture())
         {
         }
 
@@ -42,6 +44,8 @@ namespace Ploeh.AutoFixture.NUnit3
         /// Construct a <see cref="AutoDataAttribute"/> with an <see cref="IFixture"/> 
         /// </summary>
         /// <param name="fixture"></param>
+        [Obsolete("This constructor overload is deprecated as it ins't performance efficient and will be removed in a future version. " +
+                  "Please use the AutoDataAttribute(Func<IFixture> fixtureFactory) overload, so fixture will be constructed only if needed.")]
         protected AutoDataAttribute(IFixture fixture)
         {
             if (null == fixture)
@@ -49,7 +53,20 @@ namespace Ploeh.AutoFixture.NUnit3
                 throw new ArgumentNullException(nameof(fixture));
             }
 
-            _fixture = fixture;
+            this.fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoDataAttribute"/> class
+        /// with the supplised <paramref name="fixtureFactory"/>. Fixture will be created
+        /// on demand using the provided factory.
+        /// </summary>
+        /// <param name="fixtureFactory">The fixture factory used to construct the fixture.</param>
+        protected AutoDataAttribute(Func<IFixture> fixtureFactory)
+        {
+            if (fixtureFactory == null) throw new ArgumentNullException(nameof(fixtureFactory));
+
+            this.fixtureLazy = new Lazy<IFixture>(fixtureFactory, LazyThreadSafetyMode.PublicationOnly);
         }
 
         /// <summary>
@@ -75,7 +92,7 @@ namespace Ploeh.AutoFixture.NUnit3
         {
             CustomizeFixtureByParameter(parameterInfo);
 
-            return new SpecimenContext(this._fixture)
+            return new SpecimenContext(this.Fixture)
                 .Resolve(parameterInfo.ParameterInfo);
         }
 
@@ -88,7 +105,7 @@ namespace Ploeh.AutoFixture.NUnit3
             foreach (var ca in customizeAttributes)
             {
                 var customization = ca.GetCustomization(parameter.ParameterInfo);
-                this._fixture.Customize(customization);
+                this.Fixture.Customize(customization);
             }
         }
     }

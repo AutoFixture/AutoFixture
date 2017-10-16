@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using Xunit.Extensions;
@@ -123,12 +124,39 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
             // Teardown
         }
 
+        [Fact]
+        public void DoesntActivateFixtureImmediately()
+        {
+            // Fixture setup
+            bool wasInvoked = false;
+            var autoData = new DerivedAutoDataAttribute(() =>
+            {
+                wasInvoked = true;
+                return null;
+            });
+
+            // Exercise system
+            var sut = new DerivedInlineAutoDataAttribute(autoData);
+
+            // Verify outcome
+            Assert.False(wasInvoked);
+            // Teardown
+        }
+
         private class DerivedInlineAutoDataAttribute : InlineAutoDataAttribute
         {
             public DerivedInlineAutoDataAttribute(
                 AutoDataAttribute autoDataAttribute,
                 params object[] values)
                 : base(autoDataAttribute, values)
+            {
+            }
+        }
+
+        private class DerivedAutoDataAttribute : AutoDataAttribute
+        {
+            public DerivedAutoDataAttribute(Func<IFixture> fixtureFactory)
+                : base(fixtureFactory)
             {
             }
         }

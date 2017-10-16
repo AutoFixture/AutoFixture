@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using Ploeh.AutoFixture.Kernel;
 using Xunit.Extensions;
 
@@ -17,7 +18,7 @@ namespace Ploeh.AutoFixture.Xunit
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class AutoDataAttribute : DataAttribute
     {
-        private readonly IFixture fixture;
+        private readonly Lazy<IFixture> fixtureLazy;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoDataAttribute"/> class.
@@ -29,7 +30,7 @@ namespace Ploeh.AutoFixture.Xunit
         /// </para>
         /// </remarks>
         public AutoDataAttribute()
-            : this(new Fixture())
+            : this(() => new Fixture())
         {
         }
 
@@ -53,6 +54,8 @@ namespace Ploeh.AutoFixture.Xunit
         /// supplied <see cref="IFixture"/>.
         /// </summary>
         /// <param name="fixture">The fixture.</param>
+        [Obsolete("This constructor overload is deprecated as it ins't performance efficient and will be removed in a future version. " +
+                  "Please use the AutoDataAttribute(Func<IFixture> fixtureFactory) overload, so fixture will be constructed only if needed.")]
         protected AutoDataAttribute(IFixture fixture)
         {
             if (fixture == null)
@@ -60,15 +63,30 @@ namespace Ploeh.AutoFixture.Xunit
                 throw new ArgumentNullException("fixture");
             }
 
-            this.fixture = fixture;
+            this.fixtureLazy = new Lazy<IFixture>(() => fixture, LazyThreadSafetyMode.None);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoDataAttribute"/> class
+        /// with the supplised <paramref name="fixtureFactory"/>. Fixture will be created
+        /// on demand using the provided factory.
+        /// </summary>
+        /// <param name="fixtureFactory">The fixture factory used to construct the fixture.</param>
+        protected AutoDataAttribute(Func<IFixture> fixtureFactory)
+        {
+            if (fixtureFactory == null) throw new ArgumentNullException(nameof(fixtureFactory));
+            
+            this.fixtureLazy = new Lazy<IFixture>(fixtureFactory, LazyThreadSafetyMode.PublicationOnly);
         }
 
         /// <summary>
         /// Gets the fixture used by <see cref="GetData"/> to create specimens.
         /// </summary>
+        [Obsolete("Fixture is created lazily for the performance efficiency, so this property is deprecated as it activates the fixture immediately. " +
+                  "If you need to customize the fixture, do that in the factory method passed to the constructor.")]
         public IFixture Fixture
         {
-            get { return this.fixture; }
+            get { return this.fixtureLazy.Value; }
         }
 
         /// <summary>
@@ -77,7 +95,9 @@ namespace Ploeh.AutoFixture.Xunit
         [Obsolete("This property is deprecated and will be removed in a future version of AutoFixture. Please use Fixture.GetType() instead.")]
         public Type FixtureType
         {
+#pragma warning disable 618
             get { return this.Fixture.GetType(); }
+#pragma warning restore 618
         }
 
         /// <summary>
@@ -114,13 +134,17 @@ namespace Ploeh.AutoFixture.Xunit
             foreach (var ca in customizeAttributes)
             {
                 var c = ca.GetCustomization(p);
+#pragma warning disable 618
                 this.Fixture.Customize(c);
+#pragma warning restore 618
             }
         }
 
         private object Resolve(ParameterInfo p)
         {
+#pragma warning disable 618
             var context = new SpecimenContext(this.Fixture);
+#pragma warning restore 618
             return context.Resolve(p);
         }
 
