@@ -20,7 +20,7 @@
 using System;
 using System.Text;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// An object that will generate text from a regular expression. In a way, 
@@ -71,7 +71,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
         internal string Generate()
         {
             var builder = new StringBuilder();
-            this.Generate(builder, automaton.Initial);
+            this.Generate(builder, this.automaton.Initial);
             return builder.ToString().TrimStart('^').TrimEnd('$');
         }
 
@@ -103,7 +103,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             }
 
             int nroptions = state.Accept ? transitions.Count : transitions.Count - 1;
-            int option = Xeger.GetRandomInt(0, nroptions, random);
+            int option = Xeger.GetRandomInt(0, nroptions, this.random);
             if (state.Accept && option == 0)
             {
                 // 0 is considered stop.
@@ -113,12 +113,12 @@ namespace Ploeh.AutoFixture.DataAnnotations
             // Moving on to next transition.
             Transition transition = transitions[option - (state.Accept ? 1 : 0)];
             this.AppendChoice(builder, transition);
-            Generate(builder, transition.To);
+            this.Generate(builder, transition.To);
         }
 
         private void AppendChoice(StringBuilder builder, Transition transition)
         {
-            var c = (char)Xeger.GetRandomInt(transition.Min, transition.Max, random);
+            var c = (char)Xeger.GetRandomInt(transition.Min, transition.Max, this.random);
             builder.Append(c);
         }
     }

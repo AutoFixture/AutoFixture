@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ploeh.TestTypeFoundation
+namespace TestTypeFoundation
 {
     public class CompositeType : AbstractType
     {

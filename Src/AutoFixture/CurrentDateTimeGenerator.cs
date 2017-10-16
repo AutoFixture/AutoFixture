@@ -1,7 +1,7 @@
-﻿﻿using System;
-using Ploeh.AutoFixture.Kernel;
+﻿using System;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates new <see cref="DateTime"/> specimens based on the current <see cref="DateTime.Now"/> value.

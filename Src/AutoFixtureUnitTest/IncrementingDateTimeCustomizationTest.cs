@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class IncrementingDateTimeCustomizationTest
     {

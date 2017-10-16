@@ -1,8 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Rhino.Mocks.Interfaces;
 
-namespace Ploeh.AutoFixture.AutoRhinoMock
+namespace AutoFixture.AutoRhinoMock
 {
     /// <summary>
     /// Provides pre- and post-condition checks for requests for mock instances.

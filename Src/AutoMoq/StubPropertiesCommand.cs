@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
+using AutoFixture.Kernel;
 using Moq;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoMoq
+namespace AutoFixture.AutoMoq
 {
     /// <summary>
     /// Stubs a mocked object's properties, giving them "property behavior".

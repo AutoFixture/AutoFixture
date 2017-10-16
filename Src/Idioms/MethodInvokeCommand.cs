@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Invokes a method.

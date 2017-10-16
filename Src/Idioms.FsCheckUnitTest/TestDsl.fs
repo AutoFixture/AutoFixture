@@ -1,5 +1,5 @@
 ﻿[<AutoOpen>]
-module Ploeh.AutoFixture.Idioms.FsCheckUnitTest.TestDsl
+module AutoFixture.Idioms.FsCheckUnitTest.TestDsl
 
 open FsCheck
 open System

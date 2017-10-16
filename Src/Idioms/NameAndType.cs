@@ -1,6 +1,6 @@
 using System;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Holds a name and type. Instances are equal when the names are the

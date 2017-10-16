@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy
+namespace AutoFixture.AutoFakeItEasy
 {
     /// <summary>
     /// Enables auto-mocking with FakeItEasy.

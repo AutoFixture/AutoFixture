@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1036:Override methods on comparable types",
         Justification = "This type implements IComparable to be sortable. It's used in limited number of places, so operators overload is not needed.")]

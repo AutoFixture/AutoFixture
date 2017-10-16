@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// Relays a request for a constrained string to a <see cref="ConstrainedStringRequest"/>.

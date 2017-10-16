@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Globalization;
 using System.Collections.Generic;
+using System.Globalization;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Prevents a decorated <see cref="ISpecimenBuilder"/> from returning a

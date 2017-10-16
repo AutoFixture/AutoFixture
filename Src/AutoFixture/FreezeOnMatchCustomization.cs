@@ -1,7 +1,7 @@
 using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// A customization that freezes specimens of a specific <see cref="Type"/>
@@ -92,7 +92,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(fixture));
             }
 
-            FreezeSpecimenForMatchingRequests(fixture);
+            this.FreezeSpecimenForMatchingRequests(fixture);
         }
 
         private void FreezeSpecimenForMatchingRequests(IFixture fixture)
@@ -100,7 +100,7 @@ namespace Ploeh.AutoFixture
             fixture.Customizations.Insert(
                 0,
                 new FilteringSpecimenBuilder(
-                    FreezeSpecimen(fixture),
+                    this.FreezeSpecimen(fixture),
                     this.Matcher));
         }
 

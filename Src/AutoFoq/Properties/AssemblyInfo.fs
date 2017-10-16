@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.AutoFoq
+﻿namespace AutoFixture.AutoFoq
 
 open System
 open System.Reflection

@@ -1,6 +1,6 @@
 using System;
 
-namespace Ploeh.AutoFixture.NUnit3.UnitTest
+namespace AutoFixture.NUnit3.UnitTest
 {
     /// <summary>
     /// A stub of <see cref="InlineAutoDataAttribute"/> for the benefit of unit testing

@@ -5,8 +5,8 @@
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>AutoFixture.NUnit2.UnitTest</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.NUnit2.UnitTest</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.NUnit2.UnitTest</RootNamespace>
+    <AssemblyName>AutoFixture.NUnit2.UnitTest</AssemblyName>
+    <RootNamespace>AutoFixture.NUnit2.UnitTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

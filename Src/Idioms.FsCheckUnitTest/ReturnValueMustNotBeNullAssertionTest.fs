@@ -1,10 +1,10 @@
-﻿namespace Ploeh.AutoFixture.Idioms.FsCheckUnitTest
+﻿namespace AutoFixture.Idioms.FsCheckUnitTest
 
 open FsCheck
-open Ploeh.AutoFixture
-open Ploeh.AutoFixture.Idioms
-open Ploeh.AutoFixture.Idioms.FsCheck
-open Ploeh.AutoFixture.Kernel
+open AutoFixture
+open AutoFixture.Idioms
+open AutoFixture.Idioms.FsCheck
+open AutoFixture.Kernel
 open Swensen.Unquote
 open System
 open System.Reflection

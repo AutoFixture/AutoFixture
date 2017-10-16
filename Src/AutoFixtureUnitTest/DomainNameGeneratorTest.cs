@@ -1,10 +1,9 @@
 ﻿using System.Linq;
-using System.Text.RegularExpressions;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class DomainNameGeneratorTest
     {

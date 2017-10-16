@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.Xunit
+namespace AutoFixture.Xunit
 {
     /// <summary>
     /// An implementation of DataAttribute that composes other DataAttribute instances.

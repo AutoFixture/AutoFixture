@@ -3,7 +3,7 @@ using System.Reflection;
 using NUnit.Core;
 using NUnit.Core.Extensibility;
 
-namespace Ploeh.AutoFixture.NUnit2.Addins.Builders
+namespace AutoFixture.NUnit2.Addins.Builders
 {
     /// <summary>
     /// AutoTestCaseProvider provides data for methods
@@ -29,7 +29,7 @@ namespace Ploeh.AutoFixture.NUnit2.Addins.Builders
         /// <returns></returns>
         public IEnumerable GetTestCasesFor(MethodInfo method)
         {
-            return GetTestCasesFor(method, null);
+            return this.GetTestCasesFor(method, null);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture.NUnit2.Addins.Builders
         /// <returns>True if any cases are available, otherwise false.</returns>
         public bool HasTestCasesFor(MethodInfo method, Test suite)
         {
-            return HasTestCasesFor(method);
+            return this.HasTestCasesFor(method);
         }
 
         /// <summary>

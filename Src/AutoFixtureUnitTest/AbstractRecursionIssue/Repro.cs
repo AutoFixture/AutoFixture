@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
+using AutoFixture;
+using AutoFixture.Kernel;
 using Xunit;
-using Ploeh.AutoFixture;
-using System.Collections;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixtureUnitTest.AbstractRecursionIssue
+namespace AutoFixtureUnitTest.AbstractRecursionIssue
 {
     public class Repro
     {

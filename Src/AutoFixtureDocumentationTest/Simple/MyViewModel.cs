@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Simple
+namespace AutoFixtureDocumentationTest.Simple
 {
     public class MyViewModel
     {

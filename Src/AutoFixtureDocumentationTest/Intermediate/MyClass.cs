@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
+namespace AutoFixtureDocumentationTest.Intermediate
 {
     public class MyClass
     {

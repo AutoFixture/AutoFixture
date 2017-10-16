@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
+using AutoFixture.Kernel;
 using FakeItEasy;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy
+namespace AutoFixture.AutoFakeItEasy
 {
     /// <summary>
     /// Relays a request for an interface or an abstract class to a request for a

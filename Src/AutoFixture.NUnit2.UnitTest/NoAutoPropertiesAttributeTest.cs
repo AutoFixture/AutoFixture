@@ -1,9 +1,9 @@
 ﻿using System;
-using NUnit.Framework;
-using Ploeh.TestTypeFoundation;
 using System.Linq;
+using NUnit.Framework;
+using TestTypeFoundation;
 
-namespace Ploeh.AutoFixture.NUnit2.UnitTest
+namespace AutoFixture.NUnit2.UnitTest
 {
     [TestFixture]
     public class NoAutoPropertiesAttributeTest

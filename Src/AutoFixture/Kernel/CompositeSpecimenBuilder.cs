@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Creates specimens by returning the first specimen created by its children.
@@ -55,9 +55,9 @@ namespace Ploeh.AutoFixture.Kernel
         {
             // This is performance-sensitive code when used repeatedly over many requests.
             // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
-            for (int i = 0; i < composedBuilders.Length; i++)
+            for (int i = 0; i < this.composedBuilders.Length; i++)
             {
-                var result = composedBuilders[i].Create(request, context);
+                var result = this.composedBuilders[i].Create(request, context);
                 if (!(result is NoSpecimen)) return result;
             }
             

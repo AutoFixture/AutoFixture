@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// Special automata operations.

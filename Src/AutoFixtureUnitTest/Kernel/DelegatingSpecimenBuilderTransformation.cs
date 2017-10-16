@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class DelegatingSpecimenBuilderTransformation : ISpecimenBuilderTransformation
     {

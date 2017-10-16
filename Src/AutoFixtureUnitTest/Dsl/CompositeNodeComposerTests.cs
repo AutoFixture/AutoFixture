@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixture.Dsl;
-using Ploeh.TestTypeFoundation;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Dsl
+namespace AutoFixtureUnitTest.Dsl
 {
     public class CompositeNodeComposerTests
     {

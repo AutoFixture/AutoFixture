@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Base class for recursion handling. Tracks requests and reacts when a recursion point in the
@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixture.Kernel
         private readonly ThreadLocal<Stack<object>> _requestsByThread
             = new ThreadLocal<Stack<object>>(() => new Stack<object>());
 
-        private Stack<object> GetMonitoredRequestsForCurrentThread() => _requestsByThread.Value;
+        private Stack<object> GetMonitoredRequestsForCurrentThread() => this._requestsByThread.Value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecursionGuard"/> class.
@@ -205,7 +205,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         protected IEnumerable RecordedRequests
         {
-            get { return GetMonitoredRequestsForCurrentThread(); }
+            get { return this.GetMonitoredRequestsForCurrentThread(); }
         }
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             return this.RecursionHandler.HandleRecursiveRequest(
                 request,
-                GetMonitoredRequestsForCurrentThread());
+                this.GetMonitoredRequestsForCurrentThread());
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            var requestsForCurrentThread = GetMonitoredRequestsForCurrentThread();
+            var requestsForCurrentThread = this.GetMonitoredRequestsForCurrentThread();
             if (requestsForCurrentThread.Count > 0)
             {
                 // This is performance-sensitive code when used repeatedly over many requests.

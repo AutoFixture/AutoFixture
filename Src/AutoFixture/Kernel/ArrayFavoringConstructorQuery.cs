@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Selects public constructors ordered so that any constructor with array arguments are

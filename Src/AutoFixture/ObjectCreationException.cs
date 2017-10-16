@@ -1,9 +1,10 @@
 ﻿using System;
+
 #if SYSTEM_RUNTIME_SERIALIZATION
 using System.Runtime.Serialization;
 #endif
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// The exception that is thrown when AutoFixture is unable to create an object.

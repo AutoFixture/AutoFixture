@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.NUnit3.UnitTest
+﻿namespace AutoFixture.NUnit3.UnitTest
 {
     public class TestNameStrategiesFixture
     {
@@ -15,7 +15,7 @@
         {
             public AutoDataFixedNameAttribute()
             {
-                TestMethodBuilder = new FixedNameTestMethodBuilder();
+                this.TestMethodBuilder = new FixedNameTestMethodBuilder();
             }
         }
 
@@ -23,7 +23,7 @@
         {
             public AutoDataVolatileNameAttribute() : base(CreateFixtureWithInjectedValues)
             {
-                TestMethodBuilder = new VolatileNameTestMethodBuilder();
+                this.TestMethodBuilder = new VolatileNameTestMethodBuilder();
             }
         }
 
@@ -32,7 +32,7 @@
             public InlineAutoDataFixedNameAttribute(params object[] arguments) 
                 : base(arguments)
             {
-                TestMethodBuilder = new FixedNameTestMethodBuilder();
+                this.TestMethodBuilder = new FixedNameTestMethodBuilder();
             }
         }
 
@@ -41,7 +41,7 @@
             public InlineAutoDataVolatileNameAttribute(params object[] arguments) 
                 : base(CreateFixtureWithInjectedValues, arguments)
             {
-                TestMethodBuilder = new VolatileNameTestMethodBuilder();
+                this.TestMethodBuilder = new VolatileNameTestMethodBuilder();
             }
         }
 
@@ -60,7 +60,7 @@
         {
         }
 
-        [InlineAutoDataVolatileNameAttribute("alpha", "beta")]
+        [InlineAutoDataVolatileName("alpha", "beta")]
         public void InlineVolatileNameDecoratedMethod(string p1, string p2, string p3)
         {
         }

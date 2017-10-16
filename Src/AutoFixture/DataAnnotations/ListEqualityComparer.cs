@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     internal sealed class ListEqualityComparer<T>  : IEqualityComparer<List<T>>, IEquatable<ListEqualityComparer<T>>
     {

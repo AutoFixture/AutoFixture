@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ploeh.AutoFixture.Dsl;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Provides anonymous object creation services.

@@ -5,18 +5,17 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Dsl;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.DataAnnotations;
-using Ploeh.AutoFixtureUnitTest.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.DataAnnotations;
+using AutoFixtureUnitTest.Kernel;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class FixtureTest
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using Xunit;
 using Xunit.Sdk;
 
-namespace Ploeh.AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest
 {
     public class InlineAutoDataAttributeTest
     {

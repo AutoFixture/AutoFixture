@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xunit;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixture;
 using System.Collections.ObjectModel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
-using Xunit.Extensions;
+using System.Linq;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
+using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class SingletonSpecimenBuilderNodeStackAdapterCollectionTest
     {

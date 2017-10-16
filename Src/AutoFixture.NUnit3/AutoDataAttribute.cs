@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading;
+using AutoFixture.Kernel;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
-using NUnit.Framework.Internal.Builders;
-using Ploeh.AutoFixture.Kernel;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
 
-namespace Ploeh.AutoFixture.NUnit3
+namespace AutoFixture.NUnit3
 {
     /// <summary>
     /// This attribute uses AutoFixture to generate values for unit test parameters. 
@@ -28,8 +27,8 @@ namespace Ploeh.AutoFixture.NUnit3
         /// </summary>
         public ITestMethodBuilder TestMethodBuilder
         {
-            get { return _testMethodBuilder; }
-            set { _testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value)); }
+            get { return this._testMethodBuilder; }
+            set { this._testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value)); }
         }
 
         /// <summary>
@@ -78,19 +77,19 @@ namespace Ploeh.AutoFixture.NUnit3
         /// <returns>One or more TestMethods</returns>
         public IEnumerable<TestMethod> BuildFrom(IMethodInfo method, Test suite)
         {
-            var test = this.TestMethodBuilder.Build(method, suite, GetParameterValues(method), 0);
+            var test = this.TestMethodBuilder.Build(method, suite, this.GetParameterValues(method), 0);
 
             yield return test;
         }
 
         private IEnumerable<object> GetParameterValues(IMethodInfo method)
         {
-            return method.GetParameters().Select(Resolve);
+            return method.GetParameters().Select(this.Resolve);
         }
 
         private object Resolve(IParameterInfo parameterInfo)
         {
-            CustomizeFixtureByParameter(parameterInfo);
+            this.CustomizeFixtureByParameter(parameterInfo);
 
             return new SpecimenContext(this.Fixture)
                 .Resolve(parameterInfo.ParameterInfo);

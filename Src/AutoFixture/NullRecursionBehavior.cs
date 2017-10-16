@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Decorates a <see cref="ISpecimenBuilder"/> with a <see cref="RecursionGuard"/> with <see cref="NullRecursionHandler"/>.
@@ -44,7 +44,7 @@ namespace Ploeh.AutoFixture
                 throw new ArgumentNullException(nameof(builder));
             }
 
-            return new RecursionGuard(builder, new NullRecursionHandler(), recursionDepth);
+            return new RecursionGuard(builder, new NullRecursionHandler(), this.recursionDepth);
         }
     }
 }

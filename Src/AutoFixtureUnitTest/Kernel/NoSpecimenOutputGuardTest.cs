@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class NoSpecimenOutputGuardTest
     {

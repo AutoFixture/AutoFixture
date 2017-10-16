@@ -4,8 +4,8 @@
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>AutoFixture.xUnit.net</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.Xunit</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.Xunit</RootNamespace>
+    <AssemblyName>AutoFixture.Xunit</AssemblyName>
+    <RootNamespace>AutoFixture.Xunit</RootNamespace>
     <Copyright>Copyright © Ploeh 2011</Copyright>
 
     <!-- NuGet options -->

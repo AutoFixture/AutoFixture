@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class EnumGeneratorTest
     {

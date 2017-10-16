@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.Xunit.UnitTest
+namespace AutoFixture.Xunit.UnitTest
 {
     public class DependencyConstraints
     {

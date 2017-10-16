@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Dsl
+namespace AutoFixture.Dsl
 {
     /// <summary>
     /// An <see cref="ICustomizationComposer{T}"/> that does not customize anything, but can still

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
+using AutoFixture.AutoMoq.Extensions;
+using AutoFixture.Kernel;
 using Moq;
-using Ploeh.AutoFixture.AutoMoq.Extensions;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoMoq
+namespace AutoFixture.AutoMoq
 {
     /// <summary>
     /// If the type of the object being mocked contains any fields and/or non-virtual/sealed settable properties,
@@ -34,7 +31,7 @@ namespace Ploeh.AutoFixture.AutoMoq
             if (mock == null)
                 return;
 
-            autoPropertiesCommand.Execute(mock.Object, context);
+            this.autoPropertiesCommand.Execute(mock.Object, context);
         }
 
         private class MockSealedPropertySpecification : IRequestSpecification

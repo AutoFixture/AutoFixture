@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Albedo;
 using Albedo.Refraction;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Encapsulates a unit test which verifies a method correctly makes a copy of an
@@ -137,7 +136,7 @@ namespace Ploeh.AutoFixture.Idioms
         /// </remarks>
         public IEqualityComparer<IReflectionElement> ParameterMemberMatcher
         {
-            get { return parameterMemberMatcher; }
+            get { return this.parameterMemberMatcher; }
         }
 
         /// <summary>
@@ -156,7 +155,7 @@ namespace Ploeh.AutoFixture.Idioms
                 select new
                 {
                     Parameter = parameter,
-                    Member = publicMembers.FirstOrDefault(m => IsMatchingParameterAndMember(parameter, m)),
+                    Member = publicMembers.FirstOrDefault(m => this.IsMatchingParameterAndMember(parameter, m)),
                     Value = this.builder.CreateAnonymous(parameter)
                 })
                 .ToArray();
@@ -196,7 +195,7 @@ namespace Ploeh.AutoFixture.Idioms
             // Verify each member without a matching update parameter, remained unchanged
             var firstNonEqualMemberExpectedToBeEqual = publicMembers
                 .Except(parameters.Select(p => p.Member))
-                .FirstOrDefault(m => !AreMemberValuesEqual(specimen, copiedAndUpdatedSpecimen, m));
+                .FirstOrDefault(m => !this.AreMemberValuesEqual(specimen, copiedAndUpdatedSpecimen, m));
 
             if (firstNonEqualMemberExpectedToBeEqual != null)
             {

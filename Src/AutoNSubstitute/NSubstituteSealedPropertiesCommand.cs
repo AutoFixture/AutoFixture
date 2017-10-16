@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Reflection;
+using AutoFixture.AutoNSubstitute.Extensions;
+using AutoFixture.Kernel;
 using NSubstitute.Core;
 using NSubstitute.Exceptions;
-using Ploeh.AutoFixture.AutoNSubstitute.Extensions;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>
     /// If the type of the object being substituted contains any fields and/or non-virtual/sealed

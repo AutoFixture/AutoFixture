@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Idioms;
+using AutoFixture.Idioms;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class DelegatingGuardClauseCommand : IGuardClauseCommand
     {

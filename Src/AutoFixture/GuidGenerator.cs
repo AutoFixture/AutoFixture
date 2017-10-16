@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates new <see cref="Guid"/> instances.

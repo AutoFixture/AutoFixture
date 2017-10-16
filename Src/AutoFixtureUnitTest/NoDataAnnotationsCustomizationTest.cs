@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.DataAnnotations;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture;
+using AutoFixture.DataAnnotations;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class NoDataAnnotationsCustomizationTest
     {

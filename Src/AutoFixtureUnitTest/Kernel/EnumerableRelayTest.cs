@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class EnumerableRelayTest
     {

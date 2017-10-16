@@ -1,4 +1,4 @@
-﻿namespace Ploeh.TestTypeFoundation
+﻿namespace TestTypeFoundation
 {
     public static class UnguardedStaticMethodOnStaticTypeHost
     {

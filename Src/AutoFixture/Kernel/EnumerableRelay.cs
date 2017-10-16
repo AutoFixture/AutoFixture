@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Relays a request for <see cref="IEnumerable{T}" /> to a <see cref="MultipleRequest"/> and

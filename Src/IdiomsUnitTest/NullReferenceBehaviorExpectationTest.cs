@@ -1,9 +1,9 @@
 ﻿using System;
-using Ploeh.AutoFixture.Idioms;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Idioms;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixture.IdiomsUnitTest
+namespace AutoFixture.IdiomsUnitTest
 {
     public class NullReferenceBehaviorExpectationTest
     {

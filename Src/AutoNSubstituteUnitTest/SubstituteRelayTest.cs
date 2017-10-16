@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Reflection;
+using AutoFixture.Kernel;
 using NSubstitute;
 using NSubstitute.Exceptions;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
+namespace AutoFixture.AutoNSubstitute.UnitTest
 {
     public class SubstituteRelayTest
     {

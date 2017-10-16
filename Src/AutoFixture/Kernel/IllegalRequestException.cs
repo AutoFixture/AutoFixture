@@ -1,9 +1,10 @@
 ﻿using System;
+
 #if SYSTEM_RUNTIME_SERIALIZATION
 using System.Runtime.Serialization;
 #endif
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Indicates that an illegal request was detected.

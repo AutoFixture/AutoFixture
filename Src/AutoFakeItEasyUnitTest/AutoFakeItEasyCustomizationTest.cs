@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoFixture.Kernel;
 using FakeItEasy;
-using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
+namespace AutoFixture.AutoFakeItEasy.UnitTest
 {
     public class AutoFakeItEasyCustomizationTest
     {

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
+using AutoFixture;
 using Xunit;
-using Ploeh.AutoFixture;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     /* This class contains regression tests against this bug:
      * http://autofixture.codeplex.com/workitem/4256 */

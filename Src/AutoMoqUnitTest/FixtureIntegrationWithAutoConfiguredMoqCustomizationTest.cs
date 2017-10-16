@@ -1,8 +1,8 @@
-﻿using Moq;
-using Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes;
+﻿using AutoFixture.AutoMoq.UnitTest.TestTypes;
+using Moq;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoMoq.UnitTest
+namespace AutoFixture.AutoMoq.UnitTest
 {
     public class FixtureIntegrationWithAutoConfiguredMoqCustomizationTest
     {

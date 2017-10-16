@@ -4,8 +4,8 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard1.5</TargetFrameworks>
     <AssemblyTitle>AutoNSubstitute</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.AutoNSubstitute</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.AutoNSubstitute</RootNamespace>
+    <AssemblyName>AutoFixture.AutoNSubstitute</AssemblyName>
+    <RootNamespace>AutoFixture.AutoNSubstitute</RootNamespace>
     <Copyright>Copyright © Ploeh 2011</Copyright>
 
     <!-- NuGet options -->

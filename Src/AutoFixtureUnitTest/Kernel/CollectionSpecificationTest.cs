@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class CollectionSpecificationTest
     {

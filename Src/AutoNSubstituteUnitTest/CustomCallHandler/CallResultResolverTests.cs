@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using System.Reflection;
+using AutoFixture.AutoNSubstitute.CustomCallHandler;
+using AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
+using AutoFixture.Kernel;
 using NSubstitute;
-using Ploeh.AutoFixture.AutoNSubstitute.CustomCallHandler;
-using Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
-using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
+namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 {
     public class CallResultResolverTest
     {

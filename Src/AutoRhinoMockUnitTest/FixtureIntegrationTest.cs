@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ploeh.TestTypeFoundation;
 using Rhino.Mocks;
 using Rhino.Mocks.Interfaces;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
+namespace AutoFixture.AutoRhinoMock.UnitTest
 {
     public class FixtureIntegrationTest
     {

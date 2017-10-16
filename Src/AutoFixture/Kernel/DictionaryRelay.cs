@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Reflection;
 using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Relays a request for an <see cref="IDictionary{TKey, TValue}" /> to a request for a

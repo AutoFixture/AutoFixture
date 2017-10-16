@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     internal class LoopTest<TSut, TResult>
         where TSut : new()
@@ -15,7 +15,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
         public void Execute(int loopCount)
         {
-            Execute(loopCount, (TResult)Convert.ChangeType(loopCount, typeof(TResult)));
+            this.Execute(loopCount, (TResult)Convert.ChangeType(loopCount, typeof(TResult)));
         }
 
         public void Execute(int loopCount, TResult expectedResult)

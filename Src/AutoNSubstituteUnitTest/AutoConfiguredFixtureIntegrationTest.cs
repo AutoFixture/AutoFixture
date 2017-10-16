@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
+using AutoFixture.Kernel;
 using NSubstitute;
 using NSubstitute.ClearExtensions;
-using Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
-using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
+namespace AutoFixture.AutoNSubstitute.UnitTest
 {
     public class AutoConfiguredFixtureIntegrationTest
     {
@@ -927,9 +927,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 
             protected override void QueueTask(Task task)
             {
-                lock (_syncRoot)
+                lock (this._syncRoot)
                 {
-                    Tasks.Add(task);
+                    this.Tasks.Add(task);
                 }
 
                 ThreadPool.QueueUserWorkItem(delegate
@@ -946,9 +946,9 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 
             protected override bool TryDequeue(Task task)
             {
-                lock (_syncRoot)
+                lock (this._syncRoot)
                 {
-                    return Tasks.Remove(task);
+                    return this.Tasks.Remove(task);
                 }
             }
 
@@ -967,10 +967,10 @@ namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
 
             protected override IEnumerable<Task> GetScheduledTasks()
             {
-                lock (_syncRoot)
+                lock (this._syncRoot)
                 {
                     //Create copy to ensure that it's not modified during enumeration
-                    return Tasks.ToArray();
+                    return this.Tasks.ToArray();
                 }
             }
         }

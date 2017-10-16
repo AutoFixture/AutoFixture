@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
+using AutoFixture.Kernel;
 using Moq;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoMoq
+namespace AutoFixture.AutoMoq
 {
     /// <summary>
     /// Relays a request for an interface or an abstract class to a request for a

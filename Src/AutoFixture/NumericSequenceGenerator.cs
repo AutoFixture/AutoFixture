@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates a sequence of consecutive numbers, starting at 1.

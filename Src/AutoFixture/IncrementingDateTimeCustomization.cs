@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// A customization that enables <see cref="DateTime"/> specimens

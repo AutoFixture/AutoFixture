@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.AutoFoq
+﻿namespace AutoFixture.AutoFoq
 
 // This file is used by Code Analysis to maintain SuppressMessage 
 // attributes that are applied to this project. 

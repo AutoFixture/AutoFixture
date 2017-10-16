@@ -1,12 +1,12 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 #if SYSTEM_TYPE_FULL
 using DocTypeInfo = System.Type;
 #else
 using DocTypeInfo = System.Reflection.TypeInfo;
 #endif
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Contains extension methods for <see cref="System.Type"/> class.

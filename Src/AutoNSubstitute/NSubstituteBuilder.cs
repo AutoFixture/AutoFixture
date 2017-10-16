@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>Provides pre- and post-condition checks for requests for substituted instances.</summary>
     /// <seealso cref="Create(object, ISpecimenContext)"/>
@@ -47,7 +47,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// <seealso cref="NSubstituteBuilder(ISpecimenBuilder)"/>
         public ISpecimenBuilder Builder
         {
-            get { return builder; }
+            get { return this.builder; }
         }
 
         /// <summary>Gets a specification that determines whether a substitute should be created for a given request.</summary>
@@ -61,7 +61,7 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// <seealso cref="NSubstituteBuilder(ISpecimenBuilder, IRequestSpecification)"/>
         public IRequestSpecification SubstitutionSpecification
         {
-            get { return substitutionSpecification; }
+            get { return this.substitutionSpecification; }
         }
 
         /// <summary>Creates a new specimen based on a request.</summary>
@@ -74,10 +74,10 @@ namespace Ploeh.AutoFixture.AutoNSubstitute
         /// </remarks>
         public object Create(object request, ISpecimenContext context)
         {
-            if (!SubstitutionSpecification.IsSatisfiedBy(request))
+            if (!this.SubstitutionSpecification.IsSatisfiedBy(request))
                 return new NoSpecimen();
 
-            var substitute = Builder.Create(request, context);
+            var substitute = this.Builder.Create(request, context);
             if (substitute == null)
                 return new NoSpecimen();
 

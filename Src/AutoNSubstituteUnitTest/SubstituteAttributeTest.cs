@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
+namespace AutoFixture.AutoNSubstitute.UnitTest
 {
     public class SubstituteAttributeTest
     {

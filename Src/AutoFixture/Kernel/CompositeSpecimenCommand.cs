@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Aggregates a set of <see cref="ISpecimenCommand"/>.
@@ -38,7 +37,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// </summary>
         public IEnumerable<ISpecimenCommand> Commands
         {
-            get { return commands; }
+            get { return this.commands; }
         }
 
         /// <summary>
@@ -48,7 +47,7 @@ namespace Ploeh.AutoFixture.Kernel
         /// <param name="context">The context of <paramref name="specimen"/>.</param>
         public void Execute(object specimen, ISpecimenContext context)
         {
-            foreach (var command in commands)
+            foreach (var command in this.commands)
                 command.Execute(specimen, context);
         }
     }

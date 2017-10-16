@@ -3,9 +3,8 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Security;
-using System.Security.Permissions;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Represents a verification error when testing whether a read-only property is correctly

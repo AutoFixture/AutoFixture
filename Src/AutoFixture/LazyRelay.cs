@@ -1,9 +1,9 @@
-﻿using Ploeh.AutoFixture.Kernel;
-using System;
-using System.Reflection;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Relays a request for an <see cref="Func{T}" /> to a request for a

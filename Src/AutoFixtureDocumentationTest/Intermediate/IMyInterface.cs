@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
+namespace AutoFixtureDocumentationTest.Intermediate
 {
     public interface IMyInterface
     {

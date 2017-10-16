@@ -1,7 +1,7 @@
-﻿namespace Ploeh.AutoFixture.AutoFoq
+﻿namespace AutoFixture.AutoFoq
 
 open Foq
-open Ploeh.AutoFixture.Kernel
+open AutoFixture.Kernel
 open System
 open System.Reflection
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Encapsulates expectations about the behavior of a method or constructor when it's invoked

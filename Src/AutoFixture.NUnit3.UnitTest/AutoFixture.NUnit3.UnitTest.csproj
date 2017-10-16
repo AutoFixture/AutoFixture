@@ -4,9 +4,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>net452;netcoreapp1.1</TargetFrameworks>
-    <AssemblyTitle>Ploeh.AutoFixture.NUnit3.UnitTest</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.NUnit3.UnitTest</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.NUnit3.UnitTest</RootNamespace>
+    <AssemblyTitle>AutoFixture.NUnit3.UnitTest</AssemblyTitle>
+    <AssemblyName>AutoFixture.NUnit3.UnitTest</AssemblyName>
+    <RootNamespace>AutoFixture.NUnit3.UnitTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

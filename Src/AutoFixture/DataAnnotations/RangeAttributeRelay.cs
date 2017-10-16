@@ -1,12 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
-using TypeEnvy = Ploeh.AutoFixture.Kernel.TypeEnvy;
+using AutoFixture.Kernel;
+using TypeEnvy = AutoFixture.Kernel.TypeEnvy;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// Relays a request for a range number to a <see cref="RangedNumberRequest"/>.

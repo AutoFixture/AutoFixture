@@ -1,11 +1,11 @@
 ﻿using System.Linq;
+using AutoFixture.AutoNSubstitute.CustomCallHandler;
+using AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
 using NSubstitute;
 using NSubstitute.Core;
-using Ploeh.AutoFixture.AutoNSubstitute.CustomCallHandler;
-using Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
+namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 {
     public class AutoFixtureValuesHandlerTest
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates new <see cref="DateTime"/> specimens based on a incremental sequence of days.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Represents an action which can be invoked to verify whether or not an expectation about

@@ -1,11 +1,10 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
-using Xunit;
-using Xunit.Extensions;
 using System.Reflection;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
+using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class PropertySpecificationTest
     {

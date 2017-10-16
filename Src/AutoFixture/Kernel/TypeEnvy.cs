@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     internal static class TypeEnvy
     {

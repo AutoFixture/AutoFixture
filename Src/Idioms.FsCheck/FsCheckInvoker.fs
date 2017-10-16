@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.Idioms.FsCheck
+﻿namespace AutoFixture.Idioms.FsCheck
 
 open FsCheck
 open FsCheck.Fluent

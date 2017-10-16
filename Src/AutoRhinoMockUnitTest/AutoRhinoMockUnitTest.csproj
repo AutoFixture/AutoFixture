@@ -6,8 +6,8 @@
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>AutoRhinoMockUnitTest</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.AutoRhinoMock.UnitTest</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.AutoRhinoMock.UnitTest</RootNamespace>
+    <AssemblyName>AutoFixture.AutoRhinoMock.UnitTest</AssemblyName>
+    <RootNamespace>AutoFixture.AutoRhinoMock.UnitTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

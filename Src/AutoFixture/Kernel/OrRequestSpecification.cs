@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// A boolean 'Or' Composite <see cref="IRequestSpecification"/>.
@@ -56,7 +56,7 @@ namespace Ploeh.AutoFixture.Kernel
         {
             // This is performance-sensitive code when used repeatedly over many requests.
             // See discussion at https://github.com/AutoFixture/AutoFixture/pull/218
-            if (specifications.Length == 0) return true;
+            if (this.specifications.Length == 0) return true;
             for (int i = 0; i < this.specifications.Length; i++)
             {
                 var satisfied = this.specifications[i].IsSatisfiedBy(request);

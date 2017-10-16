@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Reflection;
-using System.Linq;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// A specification that evaluates whether a request is a request for a nullable enum.

@@ -1,8 +1,8 @@
 ﻿using System;
+using AutoFixture.Kernel;
 using NSubstitute.Core;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>
     /// Enables auto-mocking and auto-setup with NSubstitute.

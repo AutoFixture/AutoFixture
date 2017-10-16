@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using Xunit;
+﻿using Xunit;
 
-namespace Ploeh.AutoFixture.AutoRhinoMock.UnitTest
+namespace AutoFixture.AutoRhinoMock.UnitTest
 {
     public class DependencyConstraints
     {

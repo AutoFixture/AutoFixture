@@ -1,7 +1,7 @@
-﻿using Ploeh.AutoFixture.AutoNSubstitute.CustomCallHandler;
+﻿using AutoFixture.AutoNSubstitute.CustomCallHandler;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
+namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 {
     public class CallResultCacheFactoryTest
     {

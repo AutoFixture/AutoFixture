@@ -2,11 +2,12 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+
 #if SYSTEM_RUNTIME_SERIALIZATION
 using System.Runtime.Serialization;
 #endif
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// The exception that is thrown when AutoFixture is unable to infer the type 

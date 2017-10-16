@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Reflection;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates instances of <see cref="Task"/> and <see cref="Task{TResult}"/>.

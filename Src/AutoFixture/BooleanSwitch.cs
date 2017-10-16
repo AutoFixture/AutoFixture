@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates an alternating sequence of <see langword="true"/> and <see langword="false"/>,
@@ -48,7 +48,7 @@ namespace Ploeh.AutoFixture
         [Obsolete("Please move over to using Create() as this method will be removed in the next release", true)]
         public bool CreateAnonymous()
         {
-            return Create();
+            return this.Create();
         }
 
         /// <summary>

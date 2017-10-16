@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ploeh.AutoFixture.Kernel;
 using System.Collections.ObjectModel;
+using System.Linq;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// A collection of <see cref="ISpecimenBuilderTransformation" />

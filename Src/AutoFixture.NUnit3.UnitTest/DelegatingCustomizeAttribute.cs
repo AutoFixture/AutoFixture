@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.NUnit3.UnitTest
+namespace AutoFixture.NUnit3.UnitTest
 {
     internal class DelegatingCustomizeAttribute : CustomizeAttribute
     {

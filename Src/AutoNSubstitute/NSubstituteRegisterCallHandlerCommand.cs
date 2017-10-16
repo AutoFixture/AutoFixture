@@ -1,10 +1,10 @@
 ﻿using System;
+using AutoFixture.AutoNSubstitute.CustomCallHandler;
+using AutoFixture.Kernel;
 using NSubstitute.Core;
 using NSubstitute.Exceptions;
-using Ploeh.AutoFixture.AutoNSubstitute.CustomCallHandler;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>
     /// Sets up a substitute object's methods so that the return values will be retrieved from a fixture,

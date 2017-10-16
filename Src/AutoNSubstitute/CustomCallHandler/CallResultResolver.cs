@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoFixture.Kernel;
 using NSubstitute.Core;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.CustomCallHandler
+namespace AutoFixture.AutoNSubstitute.CustomCallHandler
 {
     /// <inheritdoc />
     public class CallResultResolver : ICallResultResolver

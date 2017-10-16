@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class RangedNumberGeneratorTest
     {
@@ -498,7 +496,7 @@ namespace Ploeh.AutoFixtureUnitTest
 
             IEnumerator IEnumerable.GetEnumerator()
             {
-                return GetEnumerator();
+                return this.GetEnumerator();
             }
 
             private static object[] CreateTestCase(Type operandType, object minimum, object maximum, object contextValue, object expectedResult)

@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>
     /// Creates a substitute in response to the <see cref="SubstituteRequest"/>.

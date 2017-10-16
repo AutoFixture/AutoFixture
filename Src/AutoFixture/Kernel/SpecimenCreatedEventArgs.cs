@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.Kernel
+﻿namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Event arguments about a created specimen.

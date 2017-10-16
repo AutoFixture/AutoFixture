@@ -3,11 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using Ploeh.AutoFixture.Dsl;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     internal class NodeComparer : IEqualityComparer<ISpecimenBuilder>
     {
@@ -203,7 +202,7 @@ namespace Ploeh.AutoFixtureUnitTest.Kernel
 
             protected override bool EqualsInstance(Postprocessor<T> other)
             {
-                return CommandsAreEqual(this.Item.Command, other.Command)
+                return this.CommandsAreEqual(this.Item.Command, other.Command)
                     && this.specificationComparer.Equals(this.Item.Specification, other.Specification);                
             }
 

@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Creates a sequence of consecutive numbers, starting at 1.
@@ -41,7 +41,7 @@ namespace Ploeh.AutoFixture
         [CLSCompliant(false)]
         public sbyte CreateAnonymous()
         {
-            return Create();
+            return this.Create();
         }
 
         /// <summary>

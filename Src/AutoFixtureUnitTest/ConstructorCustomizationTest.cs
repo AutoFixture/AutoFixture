@@ -1,11 +1,11 @@
 ﻿using System;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class ConstructorCustomizationTest
     {

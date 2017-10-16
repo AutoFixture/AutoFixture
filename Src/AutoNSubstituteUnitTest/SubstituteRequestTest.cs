@@ -1,8 +1,8 @@
 ﻿using System;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
+namespace AutoFixture.AutoNSubstitute.UnitTest
 {
     public class SubstituteRequestTest
     {

@@ -5,9 +5,9 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Encapsulates a unit test that verifies that a method or constructor has appropriate Guard
@@ -247,16 +247,16 @@ namespace Ploeh.AutoFixture.Idioms
         private void DoVerify(IMethod method, bool isReturnValueDeferable, bool isReturnValueTask)
         {
             if (isReturnValueDeferable)
-                VerifyDeferrableIterator(method);
+                this.VerifyDeferrableIterator(method);
             else if (isReturnValueTask)
-                VerifyDeferrableTask(method);
+                this.VerifyDeferrableTask(method);
             else
-                VerifyNormal(method);
+                this.VerifyNormal(method);
         }
 
         private void VerifyDeferrableIterator(IMethod method)
         {
-            foreach (var command in GetParameterGuardCommands(method))
+            foreach (var command in this.GetParameterGuardCommands(method))
             {
                 this.BehaviorExpectation.Verify(new IteratorMethodInvokeCommand(command));
             }
@@ -264,7 +264,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         private void VerifyDeferrableTask(IMethod method)
         {
-            foreach (var command in GetParameterGuardCommands(method))
+            foreach (var command in this.GetParameterGuardCommands(method))
             {
                 this.BehaviorExpectation.Verify(new TaskReturnMethodInvokeCommand(command));
             }
@@ -272,7 +272,7 @@ namespace Ploeh.AutoFixture.Idioms
 
         private void VerifyNormal(IMethod method)
         {
-            foreach (var command in GetParameterGuardCommands(method))
+            foreach (var command in this.GetParameterGuardCommands(method))
             {
                 this.BehaviorExpectation.Verify(command);
             }
@@ -489,17 +489,17 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
             private Type ResolveUnclosedParameterType(Type parameterType)
             {
                 if (parameterType.IsArray)
-                    return ResolveNestedArrayParameterType(parameterType);
+                    return this.ResolveNestedArrayParameterType(parameterType);
 
                 if (parameterType.IsGenericType)
-                    return ReosolveNestedGenericParameterType(parameterType);
+                    return this.ReosolveNestedGenericParameterType(parameterType);
 
-                return ResolveGenericParameter(parameterType);
+                return this.ResolveGenericParameter(parameterType);
             }
 
             private Type ResolveNestedArrayParameterType(Type parameterType)
             {
-                var elementType = ResolveUnclosedParameterType(parameterType.GetElementType());
+                var elementType = this.ResolveUnclosedParameterType(parameterType.GetElementType());
                 var rank = parameterType.GetArrayRank();
                 return rank == 1 ? elementType.MakeArrayType() : elementType.MakeArrayType(rank);
             }
@@ -507,7 +507,7 @@ See e.g. http://codeblog.jonskeet.uk/2008/03/02/c-4-idea-iterator-blocks-and-par
             private Type ReosolveNestedGenericParameterType(Type parameterType)
             {
                 var genericArguments = parameterType.GetGenericArguments();
-                var typeArguments = genericArguments.Select(ResolveUnclosedParameterType).ToArray();
+                var typeArguments = genericArguments.Select(this.ResolveUnclosedParameterType).ToArray();
                 return parameterType.GetGenericTypeDefinition().MakeGenericType(typeArguments);
             }
 

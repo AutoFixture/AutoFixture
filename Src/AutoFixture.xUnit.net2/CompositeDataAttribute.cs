@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Xunit.Sdk;
 
-namespace Ploeh.AutoFixture.Xunit2
+namespace AutoFixture.Xunit2
 {
     /// <summary>
     /// An implementation of DataAttribute that composes other DataAttribute instances.

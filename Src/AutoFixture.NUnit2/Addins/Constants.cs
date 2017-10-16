@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.NUnit2.Addins
+﻿namespace AutoFixture.NUnit2.Addins
 {
     /// <summary>
     /// Class to contains all static string constants

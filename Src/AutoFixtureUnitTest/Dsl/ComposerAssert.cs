@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Dsl
+namespace AutoFixtureUnitTest.Dsl
 {
     internal static class ComposerAssert
     {

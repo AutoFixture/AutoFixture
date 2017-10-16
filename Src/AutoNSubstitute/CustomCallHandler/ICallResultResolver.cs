@@ -1,6 +1,6 @@
 ﻿using NSubstitute.Core;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.CustomCallHandler
+namespace AutoFixture.AutoNSubstitute.CustomCallHandler
 {
     /// <summary>
     /// Resolves result for the calls using AutoFixture context.

@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy2
+namespace AutoFixture.AutoFakeItEasy2
 {
     /// <summary>
     /// Provides pre- and post-condition checks for requests for fake instances.
@@ -40,7 +40,7 @@ namespace Ploeh.AutoFixture.AutoFakeItEasy2
         /// <seealso cref="FakeItEasyBuilder(ISpecimenBuilder)" />
         public ISpecimenBuilder Builder
         {
-            get { return builder; }
+            get { return this.builder; }
         }
 
         /// <summary>

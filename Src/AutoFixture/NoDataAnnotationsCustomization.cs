@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Ploeh.AutoFixture.DataAnnotations;
+using AutoFixture.DataAnnotations;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// A customization that removes support for generating values that are customized

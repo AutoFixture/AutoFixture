@@ -6,8 +6,8 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netcoreapp1.1</TargetFrameworks>
     <AssemblyTitle>AutoFixtureDocumentationTest</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixtureDocumentationTest</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixtureDocumentationTest</RootNamespace>
+    <AssemblyName>AutoFixtureDocumentationTest</AssemblyName>
+    <RootNamespace>AutoFixtureDocumentationTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

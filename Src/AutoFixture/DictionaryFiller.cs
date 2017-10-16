@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using Ploeh.AutoFixture.Kernel;
 using System.Linq;
+using System.Reflection;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Contains methods for populating dictionaries with specimens.

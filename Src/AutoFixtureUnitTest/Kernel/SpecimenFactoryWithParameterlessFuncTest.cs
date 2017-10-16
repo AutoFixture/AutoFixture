@@ -1,9 +1,9 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class SpecimenFactoryWithParameterlessFuncTest
     {

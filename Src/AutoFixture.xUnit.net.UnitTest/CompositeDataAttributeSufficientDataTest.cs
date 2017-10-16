@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
 using Xunit.Extensions;
 
-namespace Ploeh.AutoFixture.Xunit.UnitTest
+namespace AutoFixture.Xunit.UnitTest
 {
     public class CompositeDataAttributeSufficientDataTest : IEnumerable<object[]>
     {
@@ -18,7 +18,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
         {
             this.method = typeof(TypeWithOverloadedMembers)
                 .GetMethod("DoSomething", new[] { typeof(object), typeof(object), typeof(object) });
-            var parameters = method.GetParameters();
+            var parameters = this.method.GetParameters();
             this.parameterTypes = (from pi in parameters
                                    select pi.ParameterType).ToArray();
         }
@@ -211,7 +211,7 @@ namespace Ploeh.AutoFixture.Xunit.UnitTest
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return this.GetEnumerator();
         }
 
         private static object[] CreateTestCase(object[] data, object[] expected)

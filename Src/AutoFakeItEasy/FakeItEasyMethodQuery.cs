@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using AutoFixture.Kernel;
 using FakeItEasy;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy
+namespace AutoFixture.AutoFakeItEasy
 {
     /// <summary>
     /// Selects appropriate methods to create <see cref="FakeItEasy.Fake{T}"/> instances.

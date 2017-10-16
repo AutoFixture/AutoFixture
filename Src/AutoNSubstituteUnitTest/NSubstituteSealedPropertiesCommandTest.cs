@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Reflection;
+using AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
+using AutoFixture.Kernel;
 using NSubstitute;
-using Ploeh.AutoFixture.AutoNSubstitute.UnitTest.TestTypes;
-using Ploeh.AutoFixture.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest
+namespace AutoFixture.AutoNSubstitute.UnitTest
 {
     public class NSubstituteSealedPropertiesCommandTest
     {

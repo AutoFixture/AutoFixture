@@ -1,11 +1,11 @@
 ﻿using System;
-using Ploeh.AutoFixture.Dsl;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.Dsl
+namespace AutoFixtureUnitTest.Dsl
 {
     public class NullComposerTest
     {

@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using NSubstitute.Core;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.CustomCallHandler
+namespace AutoFixture.AutoNSubstitute.CustomCallHandler
 {
     /// <inheritdoc />
     public class CallResultCache : ICallResultCache

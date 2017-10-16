@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Ploeh.AutoFixture;
+using AutoFixture;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Intermediate
+namespace AutoFixtureDocumentationTest.Intermediate
 {
     internal class MyClassFixture : Fixture
     {

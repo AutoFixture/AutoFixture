@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
+using AutoFixture.AutoMoq.Extensions;
+using AutoFixture.Kernel;
 using Moq;
-using Ploeh.AutoFixture.AutoMoq.Extensions;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoMoq
+namespace AutoFixture.AutoMoq
 {
     /// <summary>
     /// Sets up a mocked object's methods so that the return values will be retrieved from a fixture,

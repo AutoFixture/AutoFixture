@@ -1,12 +1,12 @@
-﻿using NUnit.Framework;
-using System.Linq;
-using NUnit.Framework.Internal;
-using NUnit.Framework.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using NUnit.Framework;
+using NUnit.Framework.Interfaces;
+using NUnit.Framework.Internal;
 
-namespace Ploeh.AutoFixture.NUnit3.UnitTest
+namespace AutoFixture.NUnit3.UnitTest
 {
     [TestFixture]
     public class InlineAutoDataAttributeTest
@@ -64,7 +64,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
 
             var fixtureType = this.GetType();
 
-            var methodWrapper = new MethodWrapper(fixtureType, fixtureType.GetMethod(nameof(DummyTestMethod)));
+            var methodWrapper = new MethodWrapper(fixtureType, fixtureType.GetMethod(nameof(this.DummyTestMethod)));
             var testSuite = new TestSuite(fixtureType);
 
             // Act
@@ -164,7 +164,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
 
         private class TypeWithIParameterCustomizationSourceUsage
         {
-            public void DecoratedMethod(int dummy, [CustomizationSourceAttribute] int customizedArg)
+            public void DecoratedMethod(int dummy, [CustomizationSource] int customizedArg)
             {
             }
 

@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.Kernel
+﻿namespace AutoFixture.Kernel
 {
     /// <summary>
     /// A <see cref="IRequestSpecification"/> that is always <see langword="true"/>.

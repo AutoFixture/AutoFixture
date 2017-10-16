@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class GenericMethodTests
     {

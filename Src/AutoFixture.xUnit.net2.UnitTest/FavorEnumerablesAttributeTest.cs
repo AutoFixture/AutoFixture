@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.TestTypeFoundation;
+using AutoFixture.Kernel;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest
 {
     public class FavorEnumerablesAttributeTest
     {

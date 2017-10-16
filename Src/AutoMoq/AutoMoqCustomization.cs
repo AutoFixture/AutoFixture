@@ -1,7 +1,7 @@
 ﻿using System;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoMoq
+namespace AutoFixture.AutoMoq
 {
     /// <summary>
     /// Enables auto-mocking with Moq.

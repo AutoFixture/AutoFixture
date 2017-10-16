@@ -1,5 +1,4 @@
 ﻿using System;
-using Ploeh.AutoFixture;
 using Xunit;
 
 namespace AutoFixture.SeedExtensions.UnitTest

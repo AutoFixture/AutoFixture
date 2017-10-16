@@ -4,8 +4,8 @@
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>AutoFakeItEasy</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.AutoFakeItEasy2</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.AutoFakeItEasy2</RootNamespace>
+    <AssemblyName>AutoFixture.AutoFakeItEasy2</AssemblyName>
+    <RootNamespace>AutoFixture.AutoFakeItEasy2</RootNamespace>
 
     <!-- NuGet options -->
     <PackageId>AutoFixture.AutoFakeItEasy2</PackageId>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Encapsulates a generic method, inferring the type parameters bases on invocation arguments.
@@ -115,7 +115,7 @@ namespace Ploeh.AutoFixture.Kernel
         public object Invoke(IEnumerable<object> parameters)
         {
             var arguments = parameters.ToArray();
-            return Factory.Create(InferMethodInfo(Method, arguments))
+            return this.Factory.Create(InferMethodInfo(this.Method, arguments))
                 .Invoke(arguments);
         }
     }

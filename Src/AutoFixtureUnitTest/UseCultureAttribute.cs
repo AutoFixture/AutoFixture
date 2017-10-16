@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Reflection;
 using System.Globalization;
+using System.Reflection;
 using System.Threading;
 using Xunit.Sdk;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     public class UseCultureAttribute : BeforeAfterTestAttribute
     {
@@ -33,7 +33,7 @@ namespace Ploeh.AutoFixtureUnitTest
             originalCulture = CultureInfo.CurrentCulture;
             originalUiCulture = CultureInfo.CurrentCulture;
 
-            SetCurrentCulture(culture, uiCulture);
+            SetCurrentCulture(this.culture, this.uiCulture);
         }
 
         public override void After(MethodInfo methodUnderTest)

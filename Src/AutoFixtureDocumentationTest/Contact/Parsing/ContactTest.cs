@@ -1,8 +1,7 @@
-﻿using System.Reflection;
-using Ploeh.AutoFixture;
+﻿using AutoFixture;
 using Xunit;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Contact.Parsing
+namespace AutoFixtureDocumentationTest.Contact.Parsing
 {
     public class ContactTest
     {

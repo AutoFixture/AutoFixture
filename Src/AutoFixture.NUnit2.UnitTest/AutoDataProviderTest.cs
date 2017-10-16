@@ -1,8 +1,8 @@
 using System.Reflection;
+using AutoFixture.NUnit2.Addins.Builders;
 using NUnit.Framework;
-using Ploeh.AutoFixture.NUnit2.Addins.Builders;
 
-namespace Ploeh.AutoFixture.NUnit2.UnitTest
+namespace AutoFixture.NUnit2.UnitTest
 {
     [TestFixture]
     public class AutoDataProviderTest

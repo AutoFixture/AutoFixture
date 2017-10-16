@@ -4,8 +4,8 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard1.5</TargetFrameworks>
     <AssemblyTitle>AutoFixture</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture</RootNamespace>
+    <AssemblyName>AutoFixture</AssemblyName>
+    <RootNamespace>AutoFixture</RootNamespace>
     <Copyright>Copyright © Ploeh 2011</Copyright>
     
     <!-- NuGet options -->

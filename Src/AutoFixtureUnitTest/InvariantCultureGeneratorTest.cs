@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Globalization;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     [Obsolete]
     public class InvariantCultureGeneratorTest

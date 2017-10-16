@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.AutoMoq.UnitTest.TestTypes
+﻿namespace AutoFixture.AutoMoq.UnitTest.TestTypes
 {
     public interface IInterfaceWithOutMethod
     {

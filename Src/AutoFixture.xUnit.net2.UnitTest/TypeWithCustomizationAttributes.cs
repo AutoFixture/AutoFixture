@@ -1,6 +1,6 @@
-﻿using Ploeh.TestTypeFoundation;
+﻿using TestTypeFoundation;
 
-namespace Ploeh.AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest
 {
     internal class TypeWithCustomizationAttributes
     {

@@ -1,12 +1,8 @@
-﻿using Ploeh.AutoFixture.Kernel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using AutoFixture.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.Kernel
+namespace AutoFixtureUnitTest.Kernel
 {
     public class CriterionTests
     {

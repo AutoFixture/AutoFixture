@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Represents a request for many (an unspecified number) of specimens.

@@ -4,8 +4,8 @@
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <AssemblyTitle>AutoFixture.Idioms.FsCheck</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.Idioms.FsCheck</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.Idioms.FsCheck</RootNamespace>
+    <AssemblyName>AutoFixture.Idioms.FsCheck</AssemblyName>
+    <RootNamespace>AutoFixture.Idioms.FsCheck</RootNamespace>
     <Copyright>Copyright © Ploeh 2014</Copyright>
     <SignAssembly>False</SignAssembly>
     <!-- Disable source link support for F# projects as they don't support this feature. -->

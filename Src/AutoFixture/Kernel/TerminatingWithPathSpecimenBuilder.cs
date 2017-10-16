@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Decorates an <see cref="ISpecimenBuilder"/> with a node which tracks specimen requests, and
@@ -21,7 +21,7 @@ namespace Ploeh.AutoFixture.Kernel
         private readonly ThreadLocal<Stack<object>> _requestsByThread
             = new ThreadLocal<Stack<object>>(() => new Stack<object>());
 
-        private Stack<object> GetPathForCurrentThread() => _requestsByThread.Value;
+        private Stack<object> GetPathForCurrentThread() => this._requestsByThread.Value;
 
         /// <summary>
         /// Creates a new <see cref="TerminatingWithPathSpecimenBuilder"/> instance.

@@ -37,7 +37,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// Regular Expression extension to Automaton.
@@ -96,7 +96,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             else
             {
                 e = this.ParseUnionExp();
-                if (this.pos < b.Length)
+                if (this.pos < this.b.Length)
                 {
                     throw new ArgumentException("end-of-string expected at position " + this.pos);
                 }
@@ -440,52 +440,52 @@ namespace Ploeh.AutoFixture.DataAnnotations
         {
             IList<Automaton> list;
             Automaton a = null;
-            switch (kind)
+            switch (this.kind)
             {
                 case Kind.RegexpUnion:
                     list = new List<Automaton>();
-                    this.FindLeaves(exp1, Kind.RegexpUnion, list, automata, automatonProvider, minimize);
-                    this.FindLeaves(exp2, Kind.RegexpUnion, list, automata, automatonProvider, minimize);
+                    this.FindLeaves(this.exp1, Kind.RegexpUnion, list, automata, automatonProvider, minimize);
+                    this.FindLeaves(this.exp2, Kind.RegexpUnion, list, automata, automatonProvider, minimize);
                     a = BasicOperations.Union(list);
                     a.Minimize();
                     break;
                 case Kind.RegexpConcatenation:
                     list = new List<Automaton>();
-                    this.FindLeaves(exp1, Kind.RegexpConcatenation, list, automata, automatonProvider, minimize);
-                    this.FindLeaves(exp2, Kind.RegexpConcatenation, list, automata, automatonProvider, minimize);
+                    this.FindLeaves(this.exp1, Kind.RegexpConcatenation, list, automata, automatonProvider, minimize);
+                    this.FindLeaves(this.exp2, Kind.RegexpConcatenation, list, automata, automatonProvider, minimize);
                     a = BasicOperations.Concatenate(list);
                     a.Minimize();
                     break;
                 case Kind.RegexpIntersection:
-                    a = exp1.ToAutomaton(automata, automatonProvider, minimize)
-                        .Intersection(exp2.ToAutomaton(automata, automatonProvider, minimize));
+                    a = this.exp1.ToAutomaton(automata, automatonProvider, minimize)
+                        .Intersection(this.exp2.ToAutomaton(automata, automatonProvider, minimize));
                     a.Minimize();
                     break;
                 case Kind.RegexpOptional:
-                    a = exp1.ToAutomaton(automata, automatonProvider, minimize).Optional();
+                    a = this.exp1.ToAutomaton(automata, automatonProvider, minimize).Optional();
                     a.Minimize();
                     break;
                 case Kind.RegexpRepeat:
-                    a = exp1.ToAutomaton(automata, automatonProvider, minimize).Repeat();
+                    a = this.exp1.ToAutomaton(automata, automatonProvider, minimize).Repeat();
                     a.Minimize();
                     break;
                 case Kind.RegexpRepeatMin:
-                    a = exp1.ToAutomaton(automata, automatonProvider, minimize).Repeat(min);
+                    a = this.exp1.ToAutomaton(automata, automatonProvider, minimize).Repeat(this.min);
                     a.Minimize();
                     break;
                 case Kind.RegexpRepeatMinMax:
-                    a = exp1.ToAutomaton(automata, automatonProvider, minimize).Repeat(min, max);
+                    a = this.exp1.ToAutomaton(automata, automatonProvider, minimize).Repeat(this.min, this.max);
                     a.Minimize();
                     break;
                 case Kind.RegexpComplement:
-                    a = exp1.ToAutomaton(automata, automatonProvider, minimize).Complement();
+                    a = this.exp1.ToAutomaton(automata, automatonProvider, minimize).Complement();
                     a.Minimize();
                     break;
                 case Kind.RegexpChar:
-                    a = BasicAutomata.MakeChar(c);
+                    a = BasicAutomata.MakeChar(this.c);
                     break;
                 case Kind.RegexpCharRange:
-                    a = BasicAutomata.MakeCharRange(from, to);
+                    a = BasicAutomata.MakeCharRange(this.@from, this.to);
                     break;
                 case Kind.RegexpAnyChar:
                     a = BasicAutomata.MakeAnyChar();
@@ -494,7 +494,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                     a = BasicAutomata.MakeEmpty();
                     break;
                 case Kind.RegexpString:
-                    a = BasicAutomata.MakeString(s);
+                    a = BasicAutomata.MakeString(this.s);
                     break;
                 case Kind.RegexpAnyString:
                     a = BasicAutomata.MakeAnyString();
@@ -503,14 +503,14 @@ namespace Ploeh.AutoFixture.DataAnnotations
                     Automaton aa = null;
                     if (automata != null)
                     {
-                        automata.TryGetValue(s, out aa);
+                        automata.TryGetValue(this.s, out aa);
                     }
 
                     if (aa == null && automatonProvider != null)
                     {
                         try
                         {
-                            aa = automatonProvider.GetAutomaton(s);
+                            aa = automatonProvider.GetAutomaton(this.s);
                         }
                         catch (IOException e)
                         {
@@ -520,13 +520,13 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
                     if (aa == null)
                     {
-                        throw new ArgumentException("'" + s + "' not found");
+                        throw new ArgumentException("'" + this.s + "' not found");
                     }
 
                     a = aa.Clone(); // Always clone here (ignore allowMutate).
                     break;
                 case Kind.RegexpInterval:
-                    a = BasicAutomata.MakeInterval(min, max, digits);
+                    a = BasicAutomata.MakeInterval(this.min, this.max, this.digits);
                     break;
             }
 
@@ -554,56 +554,56 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
         private StringBuilder ToStringBuilder(StringBuilder sb)
         {
-            switch (kind)
+            switch (this.kind)
             {
                 case Kind.RegexpUnion:
                     sb.Append("(");
-                    exp1.ToStringBuilder(sb);
+                    this.exp1.ToStringBuilder(sb);
                     sb.Append("|");
-                    exp2.ToStringBuilder(sb);
+                    this.exp2.ToStringBuilder(sb);
                     sb.Append(")");
                     break;
                 case Kind.RegexpConcatenation:
-                    exp1.ToStringBuilder(sb);
-                    exp2.ToStringBuilder(sb);
+                    this.exp1.ToStringBuilder(sb);
+                    this.exp2.ToStringBuilder(sb);
                     break;
                 case Kind.RegexpIntersection:
                     sb.Append("(");
-                    exp1.ToStringBuilder(sb);
+                    this.exp1.ToStringBuilder(sb);
                     sb.Append("&");
-                    exp2.ToStringBuilder(sb);
+                    this.exp2.ToStringBuilder(sb);
                     sb.Append(")");
                     break;
                 case Kind.RegexpOptional:
                     sb.Append("(");
-                    exp1.ToStringBuilder(sb);
+                    this.exp1.ToStringBuilder(sb);
                     sb.Append(")?");
                     break;
                 case Kind.RegexpRepeat:
                     sb.Append("(");
-                    exp1.ToStringBuilder(sb);
+                    this.exp1.ToStringBuilder(sb);
                     sb.Append(")*");
                     break;
                 case Kind.RegexpRepeatMin:
                     sb.Append("(");
-                    exp1.ToStringBuilder(sb);
-                    sb.Append("){").Append(min).Append(",}");
+                    this.exp1.ToStringBuilder(sb);
+                    sb.Append("){").Append(this.min).Append(",}");
                     break;
                 case Kind.RegexpRepeatMinMax:
                     sb.Append("(");
-                    exp1.ToStringBuilder(sb);
-                    sb.Append("){").Append(min).Append(",").Append(max).Append("}");
+                    this.exp1.ToStringBuilder(sb);
+                    sb.Append("){").Append(this.min).Append(",").Append(this.max).Append("}");
                     break;
                 case Kind.RegexpComplement:
                     sb.Append("~(");
-                    exp1.ToStringBuilder(sb);
+                    this.exp1.ToStringBuilder(sb);
                     sb.Append(")");
                     break;
                 case Kind.RegexpChar:
-                    sb.Append("\\").Append(c);
+                    sb.Append("\\").Append(this.c);
                     break;
                 case Kind.RegexpCharRange:
-                    sb.Append("[\\").Append(from).Append("-\\").Append(to).Append("]");
+                    sb.Append("[\\").Append(this.@from).Append("-\\").Append(this.to).Append("]");
                     break;
                 case Kind.RegexpAnyChar:
                     sb.Append(".");
@@ -612,30 +612,30 @@ namespace Ploeh.AutoFixture.DataAnnotations
                     sb.Append("#");
                     break;
                 case Kind.RegexpString:
-                    sb.Append("\"").Append(s).Append("\"");
+                    sb.Append("\"").Append(this.s).Append("\"");
                     break;
                 case Kind.RegexpAnyString:
                     sb.Append("@");
                     break;
                 case Kind.RegexpAutomaton:
-                    sb.Append("<").Append(s).Append(">");
+                    sb.Append("<").Append(this.s).Append(">");
                     break;
                 case Kind.RegexpInterval:
-                    string s1 = Convert.ToDecimal(min).ToString(CultureInfo.CurrentCulture);
-                    string s2 = Convert.ToDecimal(max).ToString(CultureInfo.CurrentCulture);
+                    string s1 = Convert.ToDecimal(this.min).ToString(CultureInfo.CurrentCulture);
+                    string s2 = Convert.ToDecimal(this.max).ToString(CultureInfo.CurrentCulture);
                     sb.Append("<");
-                    if (digits > 0)
+                    if (this.digits > 0)
                     {
-                        for (int i = s1.Length; i < digits; i++)
+                        for (int i = s1.Length; i < this.digits; i++)
                         {
                             sb.Append('0');
                         }
                     }
 
                     sb.Append(s1).Append("-");
-                    if (digits > 0)
+                    if (this.digits > 0)
                     {
-                        for (int i = s2.Length; i < digits; i++)
+                        for (int i = s2.Length; i < this.digits; i++)
                         {
                             sb.Append('0');
                         }
@@ -651,23 +651,23 @@ namespace Ploeh.AutoFixture.DataAnnotations
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "This method has been ported as-is.")]
         private void GetIdentifiers(HashSet<string> set)
         {
-            switch (kind)
+            switch (this.kind)
             {
                 case Kind.RegexpUnion:
                 case Kind.RegexpConcatenation:
                 case Kind.RegexpIntersection:
-                    exp1.GetIdentifiers(set);
-                    exp2.GetIdentifiers(set);
+                    this.exp1.GetIdentifiers(set);
+                    this.exp2.GetIdentifiers(set);
                     break;
                 case Kind.RegexpOptional:
                 case Kind.RegexpRepeat:
                 case Kind.RegexpRepeatMin:
                 case Kind.RegexpRepeatMinMax:
                 case Kind.RegexpComplement:
-                    exp1.GetIdentifiers(set);
+                    this.exp1.GetIdentifiers(set);
                     break;
                 case Kind.RegexpAutomaton:
-                    set.Add(s);
+                    set.Add(this.s);
                     break;
             }
         }
@@ -685,14 +685,14 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
         private bool Match(char @char)
         {
-            if (pos >= b.Length)
+            if (this.pos >= this.b.Length)
             {
                 return false;
             }
 
-            if (b[pos] == @char)
+            if (this.b[this.pos] == @char)
             {
-                pos++;
+                this.pos++;
                 return true;
             }
 
@@ -712,7 +712,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
         private bool Check(RegExpSyntaxOptions flag)
         {
-            return (flags & flag) != 0;
+            return (this.flags & flag) != 0;
         }
 
         private RegExp ParseConcatExp()
@@ -728,12 +728,12 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
         private bool More()
         {
-            return pos < b.Length;
+            return this.pos < this.b.Length;
         }
 
         private bool Peek(string @string)
         {
-            return this.More() && @string.IndexOf(b[pos]) != -1;
+            return this.More() && @string.IndexOf(this.b[this.pos]) != -1;
         }
 
         private RegExp ParseRepeatExp()
@@ -755,30 +755,30 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 }
                 else if (this.Match('{'))
                 {
-                    int start = pos;
+                    int start = this.pos;
                     while (this.Peek("0123456789"))
                     {
                         this.Next();
                     }
 
-                    if (start == pos)
+                    if (start == this.pos)
                     {
-                        throw new ArgumentException("integer expected at position " + pos);
+                        throw new ArgumentException("integer expected at position " + this.pos);
                     }
 
-                    int n = int.Parse(b.Substring(start, pos - start), CultureInfo.CurrentCulture);
+                    int n = int.Parse(this.b.Substring(start, this.pos - start), CultureInfo.CurrentCulture);
                     int m = -1;
                     if (this.Match(','))
                     {
-                        start = pos;
+                        start = this.pos;
                         while (this.Peek("0123456789"))
                         {
                             this.Next();
                         }
 
-                        if (start != pos)
+                        if (start != this.pos)
                         {
-                            m = int.Parse(b.Substring(start, pos - start), CultureInfo.CurrentCulture);
+                            m = int.Parse(this.b.Substring(start, this.pos - start), CultureInfo.CurrentCulture);
                         }
                     }
                     else
@@ -788,7 +788,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
                     if (!this.Match('}'))
                     {
-                        throw new ArgumentException("expected '}' at position " + pos);
+                        throw new ArgumentException("expected '}' at position " + this.pos);
                     }
 
                     e = m == -1 ? RegExp.MakeRepeat(e, n) : RegExp.MakeRepeat(e, n, m);
@@ -805,7 +805,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 throw new InvalidOperationException("unexpected end-of-string");
             }
 
-            return b[pos++];
+            return this.b[this.pos++];
         }
 
         private RegExp ParseComplExp()
@@ -836,7 +836,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
                 if (!this.Match(']'))
                 {
-                    throw new ArgumentException("expected ']' at position " + pos);
+                    throw new ArgumentException("expected ']' at position " + this.pos);
                 }
 
                 return e;
@@ -865,7 +865,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
             if (this.Match('"'))
             {
-                int start = pos;
+                int start = this.pos;
                 while (this.More() && !this.Peek("\""))
                 {
                     this.Next();
@@ -873,10 +873,10 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
                 if (!this.Match('"'))
                 {
-                    throw new ArgumentException("expected '\"' at position " + pos);
+                    throw new ArgumentException("expected '\"' at position " + this.pos);
                 }
 
-                return RegExp.MakeString(b.Substring(start, ((pos - 1) - start)));
+                return RegExp.MakeString(this.b.Substring(start, ((this.pos - 1) - start)));
             }
 
             if (this.Match('('))
@@ -894,7 +894,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 RegExp e = this.ParseUnionExp();
                 if (!this.Match(')'))
                 {
-                    throw new ArgumentException("expected ')' at position " + pos);
+                    throw new ArgumentException("expected ')' at position " + this.pos);
                 }
 
                 return e;
@@ -902,7 +902,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
             if ((this.Check(RegExpSyntaxOptions.Automaton) || this.Check(RegExpSyntaxOptions.Interval)) && this.Match('<'))
             {
-                int start = pos;
+                int start = this.pos;
                 while (this.More() && !this.Peek(">"))
                 {
                     this.Next();
@@ -910,16 +910,16 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
                 if (!this.Match('>'))
                 {
-                    throw new ArgumentException("expected '>' at position " + pos);
+                    throw new ArgumentException("expected '>' at position " + this.pos);
                 }
 
-                string str = b.Substring(start, ((pos - 1) - start));
+                string str = this.b.Substring(start, ((this.pos - 1) - start));
                 int i = str.IndexOf('-');
                 if (i == -1)
                 {
                     if (!this.Check(RegExpSyntaxOptions.Automaton))
                     {
-                        throw new ArgumentException("interval syntax error at position " + (pos - 1));
+                        throw new ArgumentException("interval syntax error at position " + (this.pos - 1));
                     }
 
                     return RegExp.MakeAutomaton(str);
@@ -927,7 +927,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
 
                 if (!this.Check(RegExpSyntaxOptions.Interval))
                 {
-                    throw new ArgumentException("illegal identifier at position " + (pos - 1));
+                    throw new ArgumentException("illegal identifier at position " + (this.pos - 1));
                 }
 
                 try
@@ -953,7 +953,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
                 }
                 catch (FormatException)
                 {
-                    throw new ArgumentException("interval syntax error at position " + (pos - 1));
+                    throw new ArgumentException("interval syntax error at position " + (this.pos - 1));
                 }
             }
 

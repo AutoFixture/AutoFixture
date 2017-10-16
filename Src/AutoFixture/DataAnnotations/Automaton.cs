@@ -34,7 +34,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ploeh.AutoFixture.DataAnnotations
+namespace AutoFixture.DataAnnotations
 {
     /// <summary>
     /// Finite-state automaton with regular expression operations.
@@ -476,7 +476,7 @@ namespace Ploeh.AutoFixture.DataAnnotations
             if (this.IsSingleton)
             {
                 var p = new State();
-                initial = p;
+                this.initial = p;
                 foreach (char t in this.Singleton)
                 {
                     var q = new State();
@@ -654,9 +654,9 @@ namespace Ploeh.AutoFixture.DataAnnotations
         internal void RecomputeHashCode()
         {
             this.hashCode = (this.NumberOfStates * 3) + (this.NumberOfTransitions * 2);
-            if (hashCode == 0)
+            if (this.hashCode == 0)
             {
-                hashCode = 1;
+                this.hashCode = 1;
             }
         }
 

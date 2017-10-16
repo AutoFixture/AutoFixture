@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NSubstitute.Core;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.CustomCallHandler
+namespace AutoFixture.AutoNSubstitute.CustomCallHandler
 {
     /// <summary>
     /// CallHandler for NSubstitute to provide auto-values from AutoFixture.

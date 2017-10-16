@@ -1,8 +1,8 @@
 ﻿using System;
-using Ploeh.AutoFixture.Dsl;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// Contains extension methods for freezing specimens in <see cref="IFixture"/> instances.
@@ -19,7 +19,7 @@ namespace Ploeh.AutoFixture
         /// </returns>
         /// <remarks>
         /// <para>
-        /// The <see cref="Freeze{T}(Ploeh.AutoFixture.IFixture)"/> method freezes the type to always return the same
+        /// The <see cref="Freeze{T}(AutoFixture.IFixture)"/> method freezes the type to always return the same
         /// instance whenever an instance of the type is requested either directly, or indirectly as a
         /// nested value of other types.
         /// </para>

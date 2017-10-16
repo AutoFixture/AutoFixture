@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoFixture.Dsl;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.NUnit3.UnitTest
+namespace AutoFixture.NUnit3.UnitTest
 {
     /// <summary>
     /// A <see cref="IFixture"/> for the benefit of creating stubs of <see cref="AutoDataAttribute"/> 
@@ -9,12 +11,12 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
     /// </summary>
     public class ThrowingStubFixture : IFixture
     {
-        public IList<Kernel.ISpecimenBuilderTransformation> Behaviors
+        public IList<ISpecimenBuilderTransformation> Behaviors
         {
             get { throw new NotImplementedException(); }
         }
 
-        public IList<Kernel.ISpecimenBuilder> Customizations
+        public IList<ISpecimenBuilder> Customizations
         {
             get { throw new NotImplementedException(); }
         }
@@ -43,12 +45,12 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
             }
         }
 
-        public IList<Kernel.ISpecimenBuilder> ResidueCollectors
+        public IList<ISpecimenBuilder> ResidueCollectors
         {
             get { throw new NotImplementedException(); }
         }
 
-        public Dsl.ICustomizationComposer<T> Build<T>()
+        public ICustomizationComposer<T> Build<T>()
         {
             throw new NotImplementedException();
         }
@@ -58,7 +60,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
             throw new NotImplementedException();
         }
 
-        public void Customize<T>(Func<Dsl.ICustomizationComposer<T>, Kernel.ISpecimenBuilder> composerTransformation)
+        public void Customize<T>(Func<ICustomizationComposer<T>, ISpecimenBuilder> composerTransformation)
         {
             throw new NotImplementedException();
         }
@@ -69,7 +71,7 @@ namespace Ploeh.AutoFixture.NUnit3.UnitTest
         /// <param name="request"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        public object Create(object request, Kernel.ISpecimenContext context)
+        public object Create(object request, ISpecimenContext context)
         {
             throw new DummyException();
         }

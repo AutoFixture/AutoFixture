@@ -2,12 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Reflection;
-using Ploeh.AutoFixture.DataAnnotations;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture.DataAnnotations;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
 
-namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
+namespace AutoFixtureUnitTest.DataAnnotations
 {
     public class RangeAttributeRelayTest
     {

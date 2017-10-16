@@ -5,7 +5,7 @@ using System.Reflection;
 using NSubstitute;
 using NSubstitute.Core;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
+namespace AutoFixture.AutoNSubstitute.UnitTest.CustomCallHandler
 {
     public static class CallHelper
     {

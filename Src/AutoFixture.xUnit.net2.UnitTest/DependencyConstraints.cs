@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using Xunit;
 
-namespace Ploeh.AutoFixture.Xunit2.UnitTest
+namespace AutoFixture.Xunit2.UnitTest
 {
     public class DependencyConstraints
     {

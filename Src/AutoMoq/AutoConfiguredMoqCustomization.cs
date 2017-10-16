@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoMoq
+namespace AutoFixture.AutoMoq
 {
     /// <summary>
     /// Enables auto-mocking and auto-setup with Moq.
@@ -40,7 +37,7 @@ namespace Ploeh.AutoFixture.AutoMoq
         /// </summary>
         public ISpecimenBuilder Relay
         {
-            get { return relay; }
+            get { return this.relay; }
         }
 
         /// <summary>
@@ -62,7 +59,7 @@ namespace Ploeh.AutoFixture.AutoMoq
                                 new MockVirtualMethodsCommand(),
                                 new AutoMockPropertiesCommand())));
 
-            fixture.ResidueCollectors.Add(Relay);
+            fixture.ResidueCollectors.Add(this.Relay);
         }
     }
 }

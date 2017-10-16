@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Ploeh.AutoFixture.Kernel
+namespace AutoFixture.Kernel
 {
     /// <summary>
     /// Relays a request for a multidimensional array to a jagged array and converts the result

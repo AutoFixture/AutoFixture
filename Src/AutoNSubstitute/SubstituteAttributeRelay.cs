@@ -2,9 +2,9 @@
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Ploeh.AutoFixture.Kernel;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>
     /// Relays a request for a code element marked with the <see cref="SubstituteAttribute"/> to a 

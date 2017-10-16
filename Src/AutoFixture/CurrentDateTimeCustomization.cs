@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture
+namespace AutoFixture
 {
     /// <summary>
     /// A customization that enables DateTime specimens to be based on the current <see cref="DateTime.Now"/> value.

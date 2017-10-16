@@ -1,8 +1,6 @@
 ﻿//#define ALLOWCONSOLE
 
-using System;
-
-namespace Ploeh.AutoFixtureDocumentationTest.Simple
+namespace AutoFixtureDocumentationTest.Simple
 {
     internal static class TestConsole
     {

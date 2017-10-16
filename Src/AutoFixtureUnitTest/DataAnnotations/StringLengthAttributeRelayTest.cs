@@ -1,13 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using Ploeh.AutoFixture.DataAnnotations;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixtureUnitTest.Kernel;
+using AutoFixture.DataAnnotations;
+using AutoFixture.Kernel;
+using AutoFixtureUnitTest.Kernel;
 using Xunit;
-using Xunit.Extensions;
 
-namespace Ploeh.AutoFixtureUnitTest.DataAnnotations
+namespace AutoFixtureUnitTest.DataAnnotations
 {
     public class StringLengthAttributeRelayTest
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using AutoFixture.Kernel;
 using NSubstitute;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.AutoNSubstitute
+namespace AutoFixture.AutoNSubstitute
 {
     /// <summary>Selects appropriate methods to create substitutes.</summary>
     public class NSubstituteMethodQuery : IMethodQuery

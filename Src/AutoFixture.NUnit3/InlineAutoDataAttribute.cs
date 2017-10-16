@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using AutoFixture.Kernel;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
-using NUnit.Framework.Internal.Builders;
-using Ploeh.AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixture.NUnit3
+namespace AutoFixture.NUnit3
 {
     /// <summary>
     /// This attribute acts as a TestCaseAttribute but allow incomplete parameter values, 
@@ -29,8 +28,8 @@ namespace Ploeh.AutoFixture.NUnit3
         /// </summary>
         public ITestMethodBuilder TestMethodBuilder
         {
-            get { return _testMethodBuilder; }
-            set { _testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value)); }
+            get { return this._testMethodBuilder; }
+            set { this._testMethodBuilder = value ?? throw new ArgumentNullException(nameof(value)); }
         }
 
         /// <summary>
@@ -103,7 +102,7 @@ namespace Ploeh.AutoFixture.NUnit3
         public IEnumerable<TestMethod> BuildFrom(IMethodInfo method, Test suite)
         {
             var test = this.TestMethodBuilder.Build(
-                method, suite, GetParameterValues(method), this._existingParameterValues.Length);
+                method, suite, this.GetParameterValues(method), this._existingParameterValues.Length);
 
             yield return test;
         }
@@ -129,7 +128,7 @@ namespace Ploeh.AutoFixture.NUnit3
         /// </summary>
         private object GetValueForParameter(IParameterInfo parameterInfo)
         {
-            CustomizeFixtureByParameter(parameterInfo);
+            this.CustomizeFixtureByParameter(parameterInfo);
 
             return new SpecimenContext(this.Fixture)
                 .Resolve(parameterInfo.ParameterInfo);

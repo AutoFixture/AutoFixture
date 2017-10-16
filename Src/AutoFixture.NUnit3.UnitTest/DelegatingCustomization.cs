@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture.NUnit3.UnitTest
+namespace AutoFixture.NUnit3.UnitTest
 {
     internal class DelegatingCustomization : ICustomization
     {

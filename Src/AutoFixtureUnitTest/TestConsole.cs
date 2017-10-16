@@ -1,10 +1,9 @@
 ﻿//#define ALLOWCONSOLE
 
-using System;
 using System.IO;
 using System.Text;
 
-namespace Ploeh.AutoFixtureUnitTest
+namespace AutoFixtureUnitTest
 {
     internal static class TestConsole
     {

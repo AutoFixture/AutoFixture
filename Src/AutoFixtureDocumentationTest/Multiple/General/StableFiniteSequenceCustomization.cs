@@ -1,7 +1,7 @@
-﻿using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
+﻿using AutoFixture;
+using AutoFixture.Kernel;
 
-namespace Ploeh.AutoFixtureDocumentationTest.Multiple.General
+namespace AutoFixtureDocumentationTest.Multiple.General
 {
     public class StableFiniteSequenceCustomization :
         ICustomization

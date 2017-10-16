@@ -4,8 +4,8 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard1.5</TargetFrameworks>
     <AssemblyTitle>AutoMoq</AssemblyTitle>
-    <AssemblyName>Ploeh.AutoFixture.AutoMoq</AssemblyName>
-    <RootNamespace>Ploeh.AutoFixture.AutoMoq</RootNamespace>
+    <AssemblyName>AutoFixture.AutoMoq</AssemblyName>
+    <RootNamespace>AutoFixture.AutoMoq</RootNamespace>
     <Copyright>Copyright © Ploeh 2011</Copyright>
 
     <!-- NuGet options -->

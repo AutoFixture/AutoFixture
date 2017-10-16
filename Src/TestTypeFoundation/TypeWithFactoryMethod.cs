@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-namespace Ploeh.TestTypeFoundation
+
+namespace TestTypeFoundation
 {
     public class TypeWithFactoryMethod
     {

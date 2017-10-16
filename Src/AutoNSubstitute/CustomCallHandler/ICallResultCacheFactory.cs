@@ -1,4 +1,4 @@
-﻿namespace Ploeh.AutoFixture.AutoNSubstitute.CustomCallHandler
+﻿namespace AutoFixture.AutoNSubstitute.CustomCallHandler
 {
     /// <summary>
     ///  Factory to create an instance of the cache used later to store resolved call results. 

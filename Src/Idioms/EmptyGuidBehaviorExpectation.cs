@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ploeh.AutoFixture.Idioms
+namespace AutoFixture.Idioms
 {
     /// <summary>
     /// Encapsulates the expected behavior when an <see cref="IGuardClauseCommand" /> (typically

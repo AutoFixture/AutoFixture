@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
-using Ploeh.TestTypeFoundation;
+using TestTypeFoundation;
 using Xunit;
 
-namespace Ploeh.AutoFixture.AutoFakeItEasy.UnitTest
+namespace AutoFixture.AutoFakeItEasy.UnitTest
 {
     public class FixtureIntegrationTest
     {
