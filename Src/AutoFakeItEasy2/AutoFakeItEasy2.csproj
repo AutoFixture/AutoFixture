@@ -8,6 +8,8 @@
     <RootNamespace>AutoFixture.AutoFakeItEasy2</RootNamespace>
 
     <!-- NuGet options -->
+    <!-- This package was completely deprecated, so we don't pack it more. -->
+    <IsPackable>false</IsPackable>
     <PackageId>AutoFixture.AutoFakeItEasy2</PackageId>
     <Title>AutoFixture with Auto Mocking using FakeItEasy 2.x</Title>
     <Description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by FakeItEasy 2.x. To use it, add the AutoFakeItEasyCustomization to your Fixture instance.</Description>
