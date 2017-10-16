@@ -364,11 +364,11 @@ namespace AutoFixture.AutoNSubstitute.UnitTest
             var subsitute = fixture.Create<IInterfaceWithRefVoidMethod>();
             var expected = fixture.Create<int>();
 
-            int origIntValue = 10;
+            int origIntValue = -10;
             subsitute.When(x => x.Method(ref origIntValue)).Do(x => x[0] = expected);
 
             // Exercise system
-            int result = 10;
+            int result = -10;
             subsitute.Method(ref result);
 
             // Verify outcome
