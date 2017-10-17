@@ -1,6 +1,6 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master) [![NuGet version](https://img.shields.io/nuget/v/AutoFixture.svg)](https://www.nuget.org/packages/AutoFixture)
 
-## Announcement - v4 was released
+## Announcement - v4 was released 🎈
 
 Refer to the [v4 Release Notes](https://github.com/AutoFixture/AutoFixture/wiki/v4.0-Release-Notes) for information about the breaking changes, new features, enhancements and fixes.
 
