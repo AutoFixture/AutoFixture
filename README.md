@@ -1,5 +1,11 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/qlmobf6rt05pmt7e/branch/master?svg=true)](https://ci.appveyor.com/project/AutoFixture/autofixture/branch/master) [![NuGet version](https://img.shields.io/nuget/v/AutoFixture.svg)](https://www.nuget.org/packages/AutoFixture)
 
+## Announcement - v4 was released 🎈
+
+Refer to the [v4 Release Notes](https://github.com/AutoFixture/AutoFixture/wiki/v4.0-Release-Notes) for information about the breaking changes, new features, enhancements and fixes.
+
+❗️❗️❗️ Notice, the default namespace prefix has been changed from `Phoeh.AutoFixture` to `AutoFixture`. Please use the text replace feature of your IDE to quickly fix all the namespace imports in your code. See more detail [here](https://github.com/AutoFixture/AutoFixture/wiki/v4.0-Release-Notes#%EF%B8%8F%EF%B8%8F-removed-the-phoeh-namespace-and-assembly-name-prefix).
+
 ## Project Description ##
 
 Write maintainable unit tests, faster.
