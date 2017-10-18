@@ -12,7 +12,7 @@
     <PackageId>AutoFixture.AutoNSubstitute</PackageId>
     <Title>AutoFixture with Auto Mocking using NSubstitute</Title>
     <Description>This extension turns AutoFixture into an Auto-Mocking Container. The mock instances are created by NSubstitute. To use it, add the AutoNSubstituteCustomization to your Fixture instance.</Description>
-    <Authors>Daniel Hilgarth,AutoFixture</Authors>
+    <Authors>Daniel Hilgarth,Alex Povar,AutoFixture</Authors>
 
     <!--  Suppress warning about invalid dependency version in Castle.Core.
           That is NSubstitute dependency and we cannot fix that somehow. -->
